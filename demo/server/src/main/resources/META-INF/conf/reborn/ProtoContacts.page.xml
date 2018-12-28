@@ -1,0 +1,34 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Контакты">
+    <form query-id="ProtoContacts">
+        <fields>
+            <input-select id="individual" query-id="ProtoPatient" label-field-id="fullName"/>
+            <row>
+                <input-select id="type" label="Тип контакта" label-field-id="name">
+                    <options>
+                        <option id="2" name="Моб. телефон"/>
+                        <option id="4" name="Эл. почта"/>
+                        <option id="7" name="Факс"/>
+                    </options>
+                </input-select>
+                <col>
+                    <masked-input mask="+7 (999) 999-99-99" id="phone" label="Номер телефона"
+                                  placeholder="+7 (___) ___-__-__">
+                        <dependencies>
+                            <visibility on="type">type.id == 2</visibility>
+                        </dependencies>
+                    </masked-input>
+                    <input-text id="email" label="Электронная почта">
+                        <dependencies>
+                            <visibility on="type">type.id == 4</visibility>
+                        </dependencies>
+                    </input-text>
+                </col>
+            </row>
+            <input-text id="note" label="Примечание">
+                <dependencies>
+                    <enabling on="type">type.id == 2</enabling>
+                </dependencies>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>

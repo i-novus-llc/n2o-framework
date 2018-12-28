@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>n2o</artifactId>
+    <version>7.0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>n2o</name>
+
+    <parent>
+        <groupId>net.n2oapp.framework</groupId>
+        <artifactId>backend</artifactId>
+        <version>7.0.2-SNAPSHOT</version>
+    </parent>
+
+    <modules>
+        <module>n2o-api</module>
+        <module>n2o-config</module>
+        <module>n2o-config-ehcache</module>
+        <module>n2o-config-hazelcast</module>
+        <module>n2o-mvc</module>
+        <module>n2o-engine</module>
+        <module>n2o-engine-rest</module>
+        <module>n2o-engine-sql</module>
+        <module>n2o-engine-sqlt</module>
+        <module>n2o-engine-ejb</module>
+        <module>n2o-rest</module>
+        <module>n2o-header</module>
+        <module>n2o-access</module>
+        <module>n2o-context</module>
+        <module>n2o-config-audit</module>
+        <module>n2o-test</module>
+        <module>n2o-spring-boot-starter</module>
+        <module>n2o-export</module>
+    </modules>
+
+    <properties>
+        <project.build>${maven.build.timestamp}</project.build>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.n2oapp.security</groupId>
+                <artifactId>security-auth</artifactId>
+                <version>${project.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>net.n2oapp.filters</groupId>
+                <artifactId>filters-reducer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.n2oapp.context</groupId>
+                <artifactId>static-context</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.n2oapp.enginefactory</groupId>
+                <artifactId>engine-factory</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.n2oapp.register</groupId>
+                <artifactId>register</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.n2oapp.routing</groupId>
+                <artifactId>routing-datasource</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.n2oapp.cache</groupId>
+                <artifactId>cache-template</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--xml-->
+            <dependency>
+                <groupId>xmlunit</groupId>
+                <artifactId>xmlunit</artifactId>
+                <version>1.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mozilla</groupId>
+                <artifactId>rhino</artifactId>
+                <version>1.7R5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jdom</groupId>
+                <artifactId>jdom</artifactId>
+                <version>1.1</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <reporting>
+        <excludeDefaults>true</excludeDefaults>
+        <plugins>
+            <plugin>
+                <groupId>ru.yandex.qatools.allure</groupId>
+                <artifactId>allure-maven-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <outputDirectory>target/allure-report</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <profiles>
+        <profile>
+            <id>frontend</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
+</project>

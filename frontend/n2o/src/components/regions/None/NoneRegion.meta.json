@@ -1,0 +1,9 @@
+{
+  "src": "NoneRegion",
+  "items": [
+    {
+      "widgetId": "Page_Html",
+      "label": "HTML"
+    }
+  ]
+}

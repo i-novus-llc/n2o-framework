@@ -1,0 +1,5 @@
+// Объедение перменныз и стилей. На выходе получаем файл стилей для N2O
+@import "variables";
+@import "bootstrap";
+@import "n2o/styles";
+@import "theme/custom";

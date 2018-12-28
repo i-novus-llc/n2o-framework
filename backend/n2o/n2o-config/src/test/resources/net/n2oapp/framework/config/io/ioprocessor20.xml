@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<test>
+    <children>
+        <value>1</value>
+        <value>test2</value>
+    </children>
+</test>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-3.0"
+       xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0">
+    <name>Контактные данные</name>
+    <object-id>ProtoContacts</object-id>
+    <execution>
+        <n2o:sql>
+            <n2o:items-query>select :select
+                from pim_indiv_contact ic
+                join pim_individual i on i.id = ic.indiv_id
+                join pim_party_contact_type c on c.id = ic.type_id
+                where :filters
+                order by :order</n2o:items-query>
+            <n2o:count-query>select count(*)
+                from pim_indiv_contact ic
+                join pim_individual i on i.id = ic.indiv_id
+                join pim_party_contact_type c on c.id = ic.type_id
+                where :filters</n2o:count-query>
+            <n2o:alias>i</n2o:alias>
+        </n2o:sql>
+    </execution>
+    <fields>
+        <field>
+            <id>id</id>
+            <domain>Integer</domain>
+            <display>ic.id</display>
+            <filters>
+                <filter type="eq" filter-field="id">ic.id = :id</filter>
+            </filters>
+        </field>
+        <field>
+            <id>individualId</id>
+            <domain>Integer</domain>
+            <filters>
+                <filter type="eq" filter-field="individualId">ic.indiv_id = :individualId</filter>
+            </filters>
+        </field>
+        <field>
+            <id>individual.id</id>
+            <domain>Integer</domain>
+            <display>ic.indiv_id</display>
+            <filters>
+                <filter type="eq" filter-field="individual.id">ic.indiv_id = :individualId</filter>
+            </filters>
+        </field>
+        <field>
+            <id>individual.fullName</id>
+            <domain>string</domain>
+            <display>i.surname||' '||i.name</display>
+        </field>
+        <field>
+            <id>value</id>
+            <domain>String</domain>
+            <display>ic.value</display>
+            <filters>
+                <filter type="eq" filter-field="value">ic.value like :value||'%'</filter>
+            </filters>
+            <name>Значение</name>
+            <sorting>ic.value</sorting>
+        </field>
+        <field>
+            <id>email</id>
+            <domain>String</domain>
+            <display>ic.value</display>
+            <name>Электронная почта</name>
+        </field>
+        <field>
+            <id>phone</id>
+            <domain>String</domain>
+            <display>ic.value</display>
+            <name>Мобильный телефон</name>
+        </field>
+        <field>
+            <id>typeId</id>
+            <domain>Integer</domain>
+            <display>c.name</display>
+            <filters>
+                <filter type="eq" filter-field="typeId">ic.type_id = :typeId</filter>
+            </filters>
+            <name>Тип</name>
+        </field>
+        <field>
+            <id>type.id</id>
+            <domain>Integer</domain>
+            <expression>c.id</expression>
+            <display/>
+            <filters>
+                <filter type="eq" filter-field="type.id">ic.type_id = :type.id</filter>
+            </filters>
+        </field>
+        <field>
+            <id>type.name</id>
+            <domain>string</domain>
+            <name>Тип</name>
+            <expression>c.name</expression>
+            <display/>
+        </field>
+    </fields>
+</query>

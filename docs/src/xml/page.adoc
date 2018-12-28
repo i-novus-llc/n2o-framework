@@ -1,0 +1,491 @@
+== Страницы
+
+Тип метаданных:: `page`
+Библиотека компонентов::
+```
+http://n2oapp.net/framework/config/schema/page-2.0
+```
+=== <simple-page>
+Страница с единственным виджетом.
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница">
+    <form>...</form>
+</simple-page>
+----
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|name
+|Строка
+|Наименование страницы
+|Берётся из виджета
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|===
+
+Тело::
+link:#_Виджеты[Виджет]
+
+=== <page>
+
+Страница с регионами.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|name
+|Строка
+|Наименование страницы
+|
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|object-id
+|Ссылка на link:#_Объект_object[объект]
+|Главный объект страницы
+|
+
+|layout
+|React компонент
+|Вёрстка шаблона страницы
+|
+
+|===
+
+Тело::
+Список link:#_Регионы[регионов]
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница"
+    object-id="myObject"
+    layout="LeftRightLayout">
+    <regions>...</regions>
+    <actions>...</actions>
+    <toolbar>...</toolbar>
+</page>
+----
+
+==== <regions>
+Регионы страницы.
+
+Тело::
+Список link:#_Регионы[регионов]
+
+Пример::
+[source,xml]
+----
+<regions>
+  <tabs>...</tabs>
+  <line>...</line>
+  <panel>...</panel>
+</regions>
+----
+
+==== <actions>
+Действия страницы.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|generate
+|crud, submit, close
+|Генерация стандартных действий
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<actions generate="save, close">
+  <action>...</action>
+  <action>...</action>
+  <action>...</action>
+</actions>
+----
+
+===== <action>
+Действие над страницей.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор действия
+|
+
+|name
+|Строка
+|Наименование
+|Вычисляется по операции объекта
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка действия
+|Вычисляется, если `id` действия из списка стандартных действий.
+
+|hotkey
+|Сочетание клавиш
+|Горячая клавиша вызова
+|Вычисляется, если `id` действия из списка стандартных действий.
+Например, для `save` горячая клавиша `Enter`.
+
+|visible
+|true false
+|Видимость действия
+|true
+
+|enabled
+|true false
+|Доступность действия
+|true
+
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<action
+  id="save">
+  <invoke
+    operation-id="update"
+    model="edit"
+    confirm="false"/>
+</action>
+----
+
+==== <toolbar>
+Меню управляющих кнопок страницы.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|place
+|topLeft, topRight, bottomLeft, bottomRight
+|Место расположения меню
+|topLeft
+
+|generate
+|crud, submit, close
+|Генерация стандартных кнопок
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<toolbar place="topLeft" generate="submit, close">
+  <group>...</group>
+  <button>...</button>
+  <sub-menu>...</sub-menu>
+</toolbar>
+----
+
+===== <button>
+Кнопка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор кнопки
+|Вычисляется из `action-id`
+
+|action-id
+|Ссылка на link:#__action[действие страницы]
+|Действие страницы, которое будет вызвано при нажатии на кнопку
+|
+
+|label
+|Строка
+|Заголовок кнопки
+|Вычисляется из `action-id`
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка
+|Вычисляется из `action-id`
+
+|type
+|text, icon, textAndIcon
+|Кнопка с иконкой или без
+|Если задан `icon`, то `iconAndText`, иначе `text`
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Стиль кнопки
+|
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<button action-id="create"/>
+----
+
+[source,xml]
+----
+<button
+  label="Добавить в реестр"
+  icon="fa-plus"
+  type="textAndIcon">
+  <open-page page-id="register" action-id="create"/>
+</button>
+----
+
+===== <sub-menu>
+Кнопка с выпадающим меню.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|label
+|Строка
+|Заголовок кнопки
+|Вычисляется из действия кнопки
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка
+|
+
+|type
+|text, icon, textAndIcon
+|Кнопка с иконкой или без
+|Если задан `icon`, то `iconAndText`, иначе `text`
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Стиль кнопки
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<sub-menu>
+  <menu-item>...<menu-item>
+  <menu-item>...<menu-item>
+  <menu-item>...<menu-item>
+</sub-menu>
+----
+
+====== <menu-item>
+Пункт выпадающего меню.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|action-id
+|Ссылка на link:#__action[действие виджета]
+|Действие виджета, которое будет вызвано при нажатии на кнопку
+|
+
+|label
+|Строка
+|Заголовок пункта меню
+|Вычисляется из `action-id`
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка пункта меню
+|Вычисляется из `action-id`
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Стиль пункта меню
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<menu-item action-id="create"/>
+----
+[source,xml]
+----
+<menu-item label="Удалить запись" icon="fa-trash">
+  <invoke operations-id="delete"/>
+</menu-item>
+----
+
+===== <group>
+Группа кнопок.
+
+Тело::
+Список link:#__button[кнопок] или link:#__sub_menu[кнопок с выпадающим меню]
+
+Пример::
+[source,xml]
+----
+<group>
+    <button>...</button>
+    <sub-menu>...</sub-menu>
+</group>
+----
+
+
+
+== Регионы
+
+Библиотека компонентов::
+```
+http://n2oapp.net/framework/config/schema/region-1.0
+```
+=== Базовые свойства
+
+Атрибуты::
+[cols="2,1,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор региона
+|Месторастоположение региона на странице + порядковый номер
+
+|place
+|Строка
+|Местоположение региона на странице
+|
+
+|src
+|React компонент
+|Реализация региона
+|Для каждого вида региона своё значение по умолчанию
+
+|===
+
+
+Тело::
+Список link:#_Виджеты[виджетов]
+
+=== <tabs>
+Регион в виде вкладок.
+
+Пример::
+[source,xml]
+----
+<tabs>
+  <table>...</table> <!-- Первая вкладка -->
+  <form>...</form>   <!-- Вторая вкладка -->
+</tabs>
+----
+
+=== <line>
+Регион с горизонтальным делителем.
+
+Атрибуты::
+[cols="2,1,4"]
+|===
+|Наименование|Тип|Описание
+
+|collapsible
+|true false
+|Возможность раскрытия и сворачивания виджетов
+
+|===
+
+Пример::
+[source,xml]
+----
+<line collapsible="true">
+  <table>...</table>
+</line>
+----
+
+=== <panel>
+Регион в виде панелей.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|collapsible
+|true false
+|Возможность раскрытия и сворачивания виджетов
+|true
+
+|class
+|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
+|Стиль панели
+|
+
+|header
+|true false
+|С заголовком?
+|true
+
+|title
+|Строка
+|Заголовок
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<panel collapsible="true" class="bg-primary">
+  <table>...</table>
+</panel>
+----
+
+=== <none>
+Регион без вёрстки.
+
+
+Пример::
+[source,xml]
+----
+<none>
+  <table>...</table>
+</none>
+----

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false" monitoring="off"
+         dynamicConfig="true"
+         name="n2o.config">
+
+    <cacheManagerPeerProviderFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+            properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1, multicastGroupPort=4447, timeToLive=32" />
+
+    <!--на разных стендах значение port должно быть разным-->
+    <cacheManagerPeerListenerFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+            properties="port=40001,socketTimeoutMillis=300000" />
+
+    <!-- мета информация о всех метаданных (нельзя выгружать из памяти!) -->
+    <cache name="n2o.metadata.info"
+           maxEntriesLocalHeap="1000000"
+           eternal="true">
+        <searchable values="false">
+            <searchAttribute name="id" expression="key.getId()"/>
+            <searchAttribute name="type" expression="key.getType()"/>
+        </searchable>
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false,
+             replicatePuts=true,
+             replicatePutsViaCopy=true,
+             replicateUpdates=true,
+             replicateUpdatesViaCopy=true,
+             replicateRemovals=true" />
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=false"/>
+    </cache>
+
+    <!-- кеш клиента для поддержки 304 status -->
+    <cache name="n2o.metadata.client"
+           maxEntriesLocalHeap="1000000">
+        <searchable values="false">
+            <searchAttribute name="contextId" expression="key.getContextId()"/>
+            <searchAttribute name="metadata" expression="key.getMetadata()"/>
+        </searchable>
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false,
+             replicatePuts=true,
+             replicatePutsViaCopy=true,
+             replicateUpdates=true,
+             replicateUpdatesViaCopy=true,
+             replicateRemovals=true" />
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=false"/>
+    </cache>
+
+    <!-- кеш шаблонов -->
+    <cache name="n2o.metadata.view"
+           maxBytesLocalHeap="50m">
+        <persistence strategy="localTempSwap"/>
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=true,
+             replicatePuts=true,
+             replicatePutsViaCopy=true,
+             replicateUpdates=true,
+             replicateUpdatesViaCopy=true" />
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=false"/>
+    </cache>
+
+    <!-- кеш json и html метаданных под сессию пользователя -->
+    <cache name="n2o.metadata.map"
+           maxEntriesLocalHeap="2000"
+            >
+        <searchable values="false">
+            <searchAttribute name="contextId" expression="key.getContextId()"/>
+            <searchAttribute name="metadata" expression="key.getMetadata()"/>
+        </searchable>
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false,
+             replicatePuts=true,
+             replicatePutsViaCopy=true,
+             replicateUpdates=true,
+             replicateUpdatesViaCopy=true,
+             replicateRemovals=true" />
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=false"/>
+    </cache>
+
+    <!-- кеш готовых метаданных под сессию пользователя -->
+    <cache name="n2o.metadata.session"
+           overflowToDisk="false"
+           maxEntriesLocalHeap="1000"
+           timeToLiveSeconds="300">
+        <searchable values="false">
+            <searchAttribute name="contextId" expression="key.getContextId()"/>
+            <searchAttribute name="metadata" expression="key.getMetadata()"/>
+        </searchable>
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false,
+             replicatePuts=true,
+             replicatePutsViaCopy=true,
+             replicateUpdates=true,
+             replicateUpdatesViaCopy=true,
+             replicateRemovals=true" />
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=false"/>
+    </cache>
+
+    <!-- кеш собранных метаданных -->
+    <cache name="n2o.metadata.local"
+           maxElementsInMemory="5000">
+    </cache>
+
+    <!-- кеш глобальных метаданных -->
+    <cache name="n2o.metadata.global"
+           maxElementsInMemory="10000">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false,
+             replicatePuts=true,
+             replicatePutsViaCopy=true,
+             replicateUpdates=true,
+             replicateUpdatesViaCopy=true,
+             replicateRemovals=true" />
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=false"/>
+    </cache>
+
+    <cache name="n2o.context"
+           maxElementsInMemory="100000"
+           timeToLiveSeconds="3600">
+        <cacheEventListenerFactory
+                class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false,
+             replicatePuts=true,
+             replicatePutsViaCopy=true,
+             replicateUpdates=true,
+             replicateUpdatesViaCopy=true,
+             replicateRemovals=true" />
+        <bootstrapCacheLoaderFactory class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" properties="bootstrapAsynchronously=false"/>
+    </cache>
+
+</ehcache>

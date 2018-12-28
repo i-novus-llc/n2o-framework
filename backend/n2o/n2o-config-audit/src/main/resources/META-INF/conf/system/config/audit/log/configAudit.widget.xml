@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-3.0"
+      xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0">
+    <size>30</size>
+    <query-id>configAudit</query-id>
+    <settings>
+        <filters submenu="false" visible="true"/>
+        <refresh submenu="false" visible="true"/>
+        <export visible="false"/>
+        <columns visible="false"/>
+        <size submenu="false" visible="false"/>
+        <word-wrap visible="false"/>
+    </settings>
+    <filters opened="true">
+        <ctrl:date-interval format="DD.MM.YYYY HH:mm" id="date" label="Период" css-class="n2o-control-8"/>
+        <ctrl:input-text id="message" label="Описание"/>
+        <ctrl:input-select id="changeType" type="multi" label="Изменение">
+            <ctrl:options>
+                <ctrl:option>{"id":"CREATE", "name":"Создан"}</ctrl:option>
+                <ctrl:option>{"id":"UPDATE", "name":"Изменен"}</ctrl:option>
+                <ctrl:option>{"id":"DELETE", "name":"Удален"}</ctrl:option>
+                <ctrl:option>{"id":"MERGE", "name":"Слияние"}</ctrl:option>
+                <ctrl:option>{"id":"COMMIT", "name":"Коммит"}</ctrl:option>
+                <ctrl:option>{"id":"UPDATE_SYSTEM", "name":"Обновление"}</ctrl:option>
+            </ctrl:options>
+        </ctrl:input-select>
+        <ctrl:input-text id="author" label="Автор"/>
+    </filters>
+    <columns>
+        <column name="Когда" column-field-id="date" tooltip-field-id="date" format="dateFromNow false" width="200px"/>
+        <dynamic-column column-field-id="message">
+            <switch value-field-id="conflict">
+                <case value="true">
+                    <badge text="Конфликт" position="inline">
+                        <switch value-field-id="conflict">
+                            <default>label label-important</default>
+                        </switch>
+                    </badge>
+                </case>
+                <default>
+                    <text/>
+                </default>
+            </switch>
+        </dynamic-column>
+        <column name="Изменение" column-field-id="changeType.name" width="100px">
+            <color>
+                <switch value-field-id="changeType.id">
+                    <case value="CREATE">label label-default</case>
+                    <case value="UPDATE">label label-default</case>
+                    <case value="DELETE">label label-default</case>
+                    <case value="RESTORE">label label-default</case>
+                    <case value="MERGE">label label-info</case>
+                    <case value="COMMIT">label label-warning</case>
+                    <case value="UPDATE_SYSTEM">label label-success</case>
+                </switch>
+            </color>
+        </column>
+        <column name="Автор" column-field-id="author" width="100px"/>
+    </columns>
+    <rows>
+        <color>
+            <switch value-field-id="state">
+                <case value="CHANGED">error</case>
+                <case value="COMMITED">warning</case>
+            </switch>
+        </color>
+    </rows>
+</table>

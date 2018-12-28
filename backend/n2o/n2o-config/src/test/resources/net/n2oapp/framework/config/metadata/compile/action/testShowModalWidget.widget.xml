@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="utBlank">
+    <toolbar >
+        <button id="update" label="Изменить" icon="icon-pencil">
+            <show-modal page-id="testShowModalPage" modal-size="sm" operation-id="update" focus-after-submit="true"
+                        close-after-submit="true"/>
+        </button>
+    </toolbar>
+</table>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="product" name="Список товаров">
+
+    <list result-mapping="['collection']" count-mapping="['count']">
+        <java class="net.n2oapp.tutorial.service.ProductService"
+              method="getCollectionPage">
+            <spring/>
+            <arguments>
+                <argument type="criteria"
+                          class="net.n2oapp.tutorial.util.ProductCriteria"/>
+            </arguments>
+        </java>
+    </list>
+
+    <unique filters="id" result-mapping="#this">
+        <java class="net.n2oapp.tutorial.service.ProductService"
+              method="getProductById">
+            <spring bean="productService"/>
+            <arguments>
+                <argument type="primitive" name="id" />
+            </arguments>
+        </java>
+    </unique>
+
+    <fields>
+        <field id="id" domain="long">
+            <select mapping="id"/>
+            <filters>
+                <eq filter-id="id" mapping="[0]"/>
+            </filters>
+        </field>
+
+        <field id="name" domain="string">
+            <select mapping="name"/>
+            <sorting/>
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
+        </field>
+
+        <field id="price" domain="long">
+            <select mapping="price"/>
+            <sorting/>
+            <filters>
+                <more filter-id="minPrice" mapping="minPrice"/>
+                <less filter-id="maxPrice" mapping="maxPrice"/>
+            </filters>
+            <sorting/>
+        </field>
+
+        <field id="description" domain="string">
+            <select mapping="description"/>
+            <sorting/>
+            <filters>
+                <eq filter-id="description"/>
+            </filters>
+        </field>
+
+        <field id="category.id" domain="long">
+            <select mapping="category?.id"/>
+            <filters>
+                <in filter-id="categories*.id" mapping="categoryId"/>
+            </filters>
+        </field>
+        <field id="category.name" domain="string">
+            <select mapping="category?.name"/>
+        </field>
+
+        <field id="shops" domain="object[]">
+            <select mapping="shops"/>
+        </field>
+
+
+    </fields>
+
+</query>

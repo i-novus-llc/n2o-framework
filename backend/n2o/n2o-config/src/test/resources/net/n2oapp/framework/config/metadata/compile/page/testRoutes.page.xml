@@ -1,0 +1,36 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      route="/page" layout="test">
+    <regions>
+        <none place="test">
+            <table src="Test" route="/master" id="master">
+                <columns>
+                    <column text-field-id="id"/>
+                </columns>
+            </table>
+        </none>
+        <none place="test2">
+            <form id="detail" src="Test" route="/detail" depends-on="master"
+                    detail-field-id="detail.id" master-field-id="id">
+                <fields>
+                    <input-text id="id"/>
+                </fields>
+            </form>
+        </none>
+        <none place="test3">
+            <form id="detail2" src="Test" depends-on="master"
+                  detail-field-id="id" master-field-id="id">
+                <fields>
+                    <input-text id="id"/>
+                </fields>
+            </form>
+        </none>
+        <none place="test4">
+            <form id="detail4" src="Test" depends-on="detail"
+                  detail-field-id="id" master-field-id="id">
+                <fields>
+                    <input-text id="id"/>
+                </fields>
+            </form>
+        </none>
+    </regions>
+</page>

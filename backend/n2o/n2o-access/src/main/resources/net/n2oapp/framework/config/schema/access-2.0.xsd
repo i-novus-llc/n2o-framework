@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/access-2.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ap="http://n2oapp.net/framework/config/schema/access-point-2.0">
+
+    <xs:element name="access" type="abstractAccessSchemaDefinition"/>
+
+    <xs:complexType name="abstractAccessSchemaDefinition">
+        <xs:sequence>
+            <xs:element name="permission" type="accessPointListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="role" type="accessPointListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="user" type="userAccessPointListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="authenticated" type="authenticatedAccessPointListDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="anonymous" type="anonymousAccessPointListDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="permit-all" type="permitAllAccessPointListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="accessPointListDefinition">
+        <xs:sequence minOccurs="1">
+            <xs:element name="object-access" type="ap:objectAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="url-access" type="ap:urlAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="page-access" type="ap:pageAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:any namespace="##other" processContents="strict" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" use="required" type="xs:string"/>
+        <xs:attribute name="name" use="optional" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="userAccessPointListDefinition">
+        <xs:sequence minOccurs="1">
+            <xs:element name="object-access" type="ap:objectAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="url-access" type="ap:urlAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="page-access" type="ap:pageAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:any namespace="##other" processContents="strict" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="username" use="required" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="authenticatedAccessPointListDefinition">
+        <xs:sequence minOccurs="1">
+            <xs:element name="object-access" type="ap:objectAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="url-access" type="ap:urlAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="page-access" type="ap:pageAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:any namespace="##other" processContents="strict" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="anonymousAccessPointListDefinition">
+        <xs:sequence minOccurs="1">
+            <xs:element name="object-access" type="ap:objectAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="url-access" type="ap:urlAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="page-access" type="ap:pageAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:any namespace="##other" processContents="strict" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="permitAllAccessPointListDefinition">
+        <xs:sequence minOccurs="1">
+            <xs:element name="object-access" type="ap:objectAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="url-access" type="ap:urlAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="page-access" type="ap:pageAccessDef" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:any namespace="##other" processContents="strict" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

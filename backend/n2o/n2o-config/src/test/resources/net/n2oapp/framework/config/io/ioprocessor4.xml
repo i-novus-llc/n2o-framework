@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<test>
+    <children>
+        <el1 attr1="1" enum1="en1"/>
+        <el2 attr1="2">test</el2>
+    </children>
+</test>

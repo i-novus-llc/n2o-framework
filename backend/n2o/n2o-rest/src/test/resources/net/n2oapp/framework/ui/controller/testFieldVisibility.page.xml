@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/testFieldVisibility">
+    <form object-id="testObject" route="/widget">
+        <fields>
+            <input-text id="id1"/>
+            <input-text id="id2" visible="false">
+                <validations>
+                    <mandatory id="id2" severity="danger" server-moment="before-operation" />
+                </validations>
+            </input-text>
+            <input-text id="id3">
+                <dependencies>
+                    <visibility on="id1">id1 != null</visibility>
+                </dependencies>
+                <validations>
+                    <mandatory id="id3" severity="danger" server-moment="before-operation"/>
+                </validations>
+            </input-text>
+            <input-text id="id4">
+                <dependencies >
+                    <visibility on="id1">id1 != null</visibility>
+                </dependencies>
+                <validations>
+                    <mandatory id="id4" severity="danger" server-moment="before-operation"/>
+                </validations>
+            </input-text>
+
+        </fields>
+        <toolbar>
+            <button id="create6">
+                <invoke operation-id="create6" route="/create6"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

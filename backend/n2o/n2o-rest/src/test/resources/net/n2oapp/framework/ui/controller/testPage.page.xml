@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page">
+    <form object-id="testObject" route="/widget">
+        <fields>
+            <input-text id="id1"/>
+            <input-text id="id2"/>
+            <input-text id="id3"/>
+            <input-text id="id4"/>
+            <input-text id="id5"/>
+            <input-text id="id6"/>
+            <input-text id="id7"/>
+            <input-text id="id8"/>
+            <input-text id="id9">
+                <validations>
+                    <mandatory id="id9IsRequired" severity="warning" server-moment="before-operation"/>
+                </validations>
+            </input-text>
+            <input-text id="id10">
+                <validations white-list="id10NotNull"/>
+            </input-text>
+            <input-text id="id11">
+                <validations white-list="id11NotNull">
+                    <mandatory id="id11IsRequired" severity="warning" server-moment="before-operation"/>
+                </validations>
+            </input-text>
+            <input-text id="id12" visible="false">
+                <validations>
+                    <mandatory id="id12IsRequired" severity="warning" server-moment="before-operation"/>
+                </validations>
+            </input-text>
+            <input-text id="id13"/>
+        </fields>
+        <toolbar>
+            <button id="create">
+                <invoke operation-id="create" route="/create"/>
+            </button>
+            <button id="create2">
+                <invoke operation-id="create2" route="/create2"/>
+            </button>
+            <button id="create3">
+                <invoke operation-id="create3" route="/create3"/>
+            </button>
+            <button id="create4">
+                <invoke operation-id="create4" route="/create4"/>
+            </button>
+            <button id="create5">
+                <invoke operation-id="create5" route="/create5"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

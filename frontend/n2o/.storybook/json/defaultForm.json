@@ -1,0 +1,30 @@
+{
+  "Page_Form": {
+    "src": "FormWidget",
+    "form": {
+      "fetchOnInit": false,
+      "fieldsets": [
+        {
+          "src": "StandardFieldset",
+          "rows": [
+            {
+              "cols": [
+                {
+                  "fields": [
+                    {
+                      "id": "testControl",
+                      "src": "StandardField",
+                      "label": "Компонент находится в форме",
+                      "dependency": [],
+                      "control": {}
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

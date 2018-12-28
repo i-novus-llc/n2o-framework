@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Exo+2');
+
+.table {
+  thead th {
+    border-bottom: $table-border-width solid $gray-400;
+  }
+}
+
+.page-link {
+  margin: 0 0.1rem;
+}
+
+.btn-secondary {
+  @include button-variant($white, $gray-400);
+  color: $dark;
+}
+
+.btn-outline-secondary {
+  @include button-outline-variant($gray-400);
+}
+
+.breadcrumb {
+  & > .breadcrumb-item:first-child:before {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\f015";
+    margin-right: 0.25rem;
+  }
+}
+
+.close {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";;
+}
+
+.badge {
+  line-height: 1rem;
+}
+
+.table th {
+  border-top: none;
+}

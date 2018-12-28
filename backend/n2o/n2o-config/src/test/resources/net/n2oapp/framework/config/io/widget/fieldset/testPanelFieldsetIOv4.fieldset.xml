@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<panel xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0" src="test"
+       label="test" icon="test" header="true">
+    <col class="test1" size="80">
+        <input-text id="test"/>
+    </col>
+    <col class="test2" size="100">
+        <set src="test">
+            <row>
+                <input-text id="test"/>
+            </row>
+        </set>
+    </col>
+</panel>

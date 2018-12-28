@@ -1,0 +1,11 @@
+.сheckbox-сell {
+  &.custom-control-inline {
+    display: flex;
+    margin-right: 0;
+    & > input {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+}

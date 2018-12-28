@@ -1,0 +1,361 @@
+== Иерархия UI компонентов
+Фреймворк N2O построена на компонентном подходе.
+В этом разделе рассказывается как использовать готовые наборы компонентов
+в структуре вашего WEB приложения.
+
+image::images\components-ca427.png[]
+
+Корнем иерархии компонентов является шаблон приложения.
+Шаблон разбивает окно браузера на хедер сверху, футер снизу и
+контент страницу по центру.
+
+Шаблон приложения можно через атрибут страницы `src`:
+
+[source,xml]
+----
+<page src="MyPageApp">...</page>
+----
+
+=== Хедер и футер
+
+Структуру и внешний вид хедера можно настроить с помощью файла конфигураций `[id].header.xml`.
+
+.Структура хедера
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
+  color="dark"
+  brand-name="MyApp">
+    <nav>
+      <!-- Структура меню -->
+    </nav>
+</header>
+----
+
+В приложении может быть несколько файлов хедера.
+Идентификатор основного хедера задается в настройке `n2o.header.id`.
+
+У стандартного футера нет файла определяющего его структуру.
+
+[TIP]
+Пример подключения хедера и футера https://git.i-novus.ru/framework/examples/tree/master/header-footer
+
+=== Меню навигации
+
+Навигацию по приложению можно настроить при помощи файла `[id].menu.xml`.
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<menu xmlns="http://n2oapp.net/framework/config/schema/menu-2.0">
+  <a label="Домашняя" href="https://n2oapp.net"/>
+  <page page-id="menu1" label="Первая страница"/>
+  <page page-id="menu2" label="Вторая страница"/>
+  <sub-menu label="Вложенное меню">
+      <page page-id="menu3" label="Третья страница"/>
+      <page page-id="menu4" label="Четвертая страница"/>
+  </sub-menu>
+</menu>
+----
+
+Меню навигации может встраиваться в хедер или в боковую панель.
+
+.Меню встроенное в хедер
+[source,xml]
+----
+<header>
+  <nav>
+    <a label="Домашняя" href="https://n2oapp.net"/>
+    <page page-id="menu1" label="Первая страница"/>
+    <page page-id="menu2" label="Вторая страница"/>
+    <sub-menu label="Вложенное меню">
+        <page page-id="menu3" label="Третья страница"/>
+        <page page-id="menu4" label="Четвертая страница"/>
+    </sub-menu>
+  </nav>
+</header>
+----
+
+[TIP]
+Пример подключения бокового меню https://git.i-novus.ru/framework/n2o-tutorial/tree/master/sidebar
+
+
+=== Страница
+
+Структура страницы N2O:
+
+image::images\components-08085.png[]
+
+Страница разбита на регионы. Расположение регионов на странице задается шаблоном.
+В регион вкладываются один или несколько виджетов. Виджет управляет данными одного объекта.
+Объект определяет структуру сущности в предметной области.
+Над объектом можно выполнять действия или получать различные срезы данных - выборки.
+
+Страницы N2O создаются с помощью файлов `[id].page.xml`.
+
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+  name="Моя страница">
+    <regions>
+        ...
+    </regions>
+</page>
+----
+
+Простые страницы с одним виджетом создаются более простой схемой:
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница">
+    <form>...</form>
+</simple-page>
+----
+
+[NOTE]
+См. link:../xml/index.html#_Страницы[Справочник страниц]
+
+=== Регионы
+
+Регион - это способ скомпоновать виджеты в определенной области `place` страницы. Например, с помощью вкладок:
+[source,xml]
+----
+<page>
+    <regions layout="left-right">
+      <tabs place="left">
+        <table>...</table>
+        <table>...</table>
+        ...
+      </tabs>
+      <tabs place="right">
+        <form>...</form>
+        <form>...</form>
+        ...
+      </tabs>
+    </regions>
+</page>
+----
+
+[NOTE]
+См. link:../xml/index.html#_Регионы[Справочник регионов]
+
+
+=== Виджеты
+Виджет - крупный визуальный компонент, управляющий данными одного объекта.
+
+Виджеты задаются с помощью файлов `[id].widget.xml`:
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
+    name="Моя таблица">
+    ...
+</table>
+----
+
+Или вкладываются в страницу:
+[source,xml]
+----
+<simple-page>
+  <table>
+      <name>Моя таблица</name>
+      ...
+  </table>
+</simple-page>
+----
+
+[NOTE]
+См. link:../xml/index.html#_Виджеты[Справочник виджетов]
+
+==== Таблица
+
+Таблица - стандартный виджет N2O, представляющий данные в виде таблицы с возможностью сортировки, фильтрации, паджинации, группировки и агрегации.
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
+  name="Моя таблица"
+  query-id="myQuery">
+  <columns>
+    <column column-field-id="firstName"/>
+    <column column-field-id="lastName"/>
+  </columns>
+</table>
+----
+
+[NOTE]
+См. link:../xml/index.html#__table[Справочник атрибутов таблицы]
+
+==== Форма
+
+Форма - стандартный виджет N2O, представляющий одну запись данных в виде формы с возможностью просмотра и редактирования.
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
+  name="Моя форма"
+  object-id="myObject">
+  <fields>
+    <input-text id="firstName"/>
+    <input-text id="lastName"/>
+  <fields>
+</form>
+----
+
+[NOTE]
+См. link:../xml/index.html#__form[Справочник атрибутов формы]
+
+=== Кнопки и действия
+
+В N2O можно вызывать различные действия над данными виджетов на странице: открытие страниц, ссылок, выполнение запросов на сервер и т.п.
+
+Кнопки с действиями виджета задаются элементом `<toolbar>`.
+[source,xml]
+----
+<table>
+  <toolbar>
+    <group>...</group>
+    <button>...</button>
+    <sub-menu>...</sub-menu>
+    ...
+  </toolbar>
+</table>
+----
+
+Аналогично задаются кнопки страницы:
+[source,xml]
+----
+<page>
+    <toolbar>...</toolbar>
+</page>
+----
+[NOTE]
+Отличие действий виджета от действий страницы в различии моделей данных. Действие страницы оперирует данными всех виджетов на странице, а действие виджета только со своими.
+
+Выбрать обработчик при нажатии на кнопку можно используя стандартную link:docs/xml/index.html#_Действия[библиотеку действий N2O].
+Обработчик задаётся либо в теле кнопки:
+
+.Обработчик действия в кнопке
+[source,xml]
+----
+<toolbar>
+  <button id="create" label="Создать">
+    <show-modal page-id="myForm" submit-operation-id="create"/>
+  </button>
+</toolbar>
+----
+
+Либо в действиях виджета:
+
+.Обработчик действия в действиях виджета
+[source,xml]
+----
+<actions>
+  <action id="create" label="Создать">
+    <show-modal page-id="myForm" submit-operation-id="create"/>
+  </action>
+<actions>
+----
+
+[TIP]
+Действия в `<actions>` удобно задавать,
+если на один и тот же обработчик действия ссылаются из разных кнопок виджета.
+
+.Ссылка на обработчик действия в кнопке
+[source,xml]
+----
+<button action-id="create"/>
+----
+
+[NOTE]
+См. link:../xml/index.html#__toolbar[Справочник кнопок и действий]
+
+=== Филдсеты
+Филдсеты группируют link:#_Поля_ввода[поля ввода]
+и другие филдсеты в наборы со своей вёрсткой и логикой.
+
+Филдсет можно задать внутри виджетов,
+внутри других филдсетов
+или отдельным файлом `[id].fieldset.xml`.
+
+.Филдсет отдельным файлом
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0">
+  ... <!-- Поля ввода -->
+</set>
+----
+
+.Филдсеты внутри формы
+[source,xml]
+----
+<form>
+  <fields>
+    <set>
+      ... <!-- Поля ввода -->
+    </set>
+    <set>
+      ... <!-- Поля ввода -->
+    </set>
+  </fields>
+</form>
+----
+
+.Филдсет в филдсете
+[source,xml]
+----
+<line> <!-- Филдсет с горизонтальным разделителем -->
+  ...
+  <panel> <!-- Филдсет в виде панели -->
+    ...
+    <set> <!-- Прозрачный филдсет -->
+      ...
+    </set>
+  </panel>
+</line>
+----
+
+Поля в филдсете можно расположить в строку или столбец
+с помощью элементов `<row>` и `<col>`.
+
+.Расположение полей в строку или столбец
+[source,xml]
+----
+<fields>
+  <set>
+    <row>
+      <!-- Первая строка с двумя столбцами -->
+      <col size="8">
+        ... <!-- Поля первого столбца -->
+      </col>
+      <col size="4">
+        ... <!-- Поля второго столбца -->
+      </col>
+    </row>
+    <row>
+      ... <!-- Втрорая строка -->
+    </row>
+  </set>
+</fields>
+----
+
+[TIP]
+Для задания ширины столбцов используется link:https://getbootstrap.com/docs/4.0/layout/grid/[сетка Bootstrap].
+
+[TIP]
+link:../xml/index.html#_Филдсеты[Справочник филдсетов]
+
+=== Поля ввода
+Поля ввода - это простейшие компоненты N2O, предназначенные для ввода или вывода различных данных.
+Поля могу содержать заголовок, дополнительные кнопки, сообщений валидации и другое.
+
+[source,xml]
+----
+<input-text id="name" label="Наименование" required="true"/>
+----
+Все поля имеют уникальный в рамках виджета идентификатор `id`. По нему происходит link:#_Связывание_с_данными[связывание с данными].
+
+link:../xml/index.html#_Поля_ввода[Справочник полей ввода]

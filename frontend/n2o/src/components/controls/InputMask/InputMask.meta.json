@@ -1,0 +1,11 @@
+{
+  "className": "n2o",
+  "preset": "phone",
+  "mask": "",
+  "placeholder": "Введите значение",
+  "placeholderChar": "_",
+  "dictionary": {},
+  "guide": true,
+  "keepCharPositions": false,
+  "resetOnNotValid": false
+}

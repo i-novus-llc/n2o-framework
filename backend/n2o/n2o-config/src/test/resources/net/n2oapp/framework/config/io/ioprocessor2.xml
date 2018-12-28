@@ -1,0 +1,3 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<test xmlns:ext="http://n2oapp.net/framework/ext-1.0"
+        ext:att1="v1" ext:att2="v2" att1="v"/>

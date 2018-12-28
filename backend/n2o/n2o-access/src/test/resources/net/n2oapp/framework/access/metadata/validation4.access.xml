@@ -1,0 +1,10 @@
+<access xmlns="http://n2oapp.net/framework/config/schema/access-schema-1.0">
+
+    <permission id="test">
+        <object-access object-id="atBlank" actions="create">
+            <filter field-id="test" type="eq"/><!-- не задано значение -->
+        </object-access>
+    </permission>
+
+
+</access>

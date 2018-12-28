@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+        table-name="pim_individual"
+        name="Пациент">
+    <fields>
+        <field id="id" domain="integer"/>
+        <field id="surname" domain="string"/>
+        <field id="name" domain="string"/>
+        <field id="patrName" domain="string"/>
+        <field id="birthday" domain="date"/>
+        <reference id="gender" object-id="gender"/>
+    </fields>
+
+    <operations>
+        <operation id="create" name="Создать" success-text="Пациент '{surname}' создан" fail-text="Не удалось создать пациента '{surname}'">
+            <invocation>
+                <sql>
+                    insert into pim_individual (surname, name, patr_name, birth_dt, gender_id, vip, nationality_id) values (:surname,:name, :patrName, :birthday, :genderId, :vip, :nationalityId);
+                </sql>
+            </invocation>
+            <in-parameters>
+                <param id="surname" mapping="['surname']"/>
+                <param id="name" mapping="['name']"/>
+                <param id="patrName" mapping="['patrName']"/>
+                <param id="birthday" mapping="['birthday']"/>
+                <param id="gender.id" mapping="['genderId']"/>
+                <param id="vip" mapping="['vip']"/>
+                <param id="nationality.id" mapping="['nationalityId']"/>
+            </in-parameters>
+            <out-parameters>
+                <param id="id" mapping="[0]"/>
+            </out-parameters>
+        </operation>
+
+        <operation id="update" name="Изменить" submit-label="Сохранить" success-text="Успешно обновлены данные пациента с фамилией {surname}">
+            <invocation>
+                <sql data-source="jdbc/test">
+                    update pim_individual set surname = :surname, name = :name, patr_name = :patrName, birth_dt = :birthday, gender_id = :genderId, nationality_id = :nationalityId, vip = :vip where id = :id;
+                </sql>
+            </invocation>
+            <in-parameters>
+                <param id="surname" mapping="['surname']"/>
+                <param id="name" mapping="['name']"/>
+                <param id="patrName" mapping="['patrName']"/>
+                <param id="birthday" mapping="['birthday']"/>
+                <param id="vip" mapping="['vip']"/>
+                <param id="gender.id" mapping="['genderId']"/>
+                <param id="nationality.id" mapping="['nationalityId']"/>
+                <param id="id" mapping="['id']"/>
+            </in-parameters>
+        </operation>
+        <operation id="delete" name="Удалить" confirm-text="Вы уверены, что хотите удалить пациента '{surname}'?" confirm="true"
+                   success-text="Пациент {surname} удален" fail-text="Не удалось удалить пациента '{surname}'">
+            <invocation>
+                <sql data-source="jdbc/test">
+                    <!--delete from pim_indiv_code where indiv_id = :id;-->
+                    <!--delete from pim_indiv_contact where indiv_id = :id;-->
+                    <!--delete from pim_workplace where indiv_id = :id;-->
+                    <!--delete from pim_individual where id = :id;-->
+                    delete from pim_individual where id = :id;
+                    <!--delete from pim_party where id = :id;-->
+                </sql>
+            </invocation>
+            <in-parameters>
+                <param id="id" mapping="['id']"/>
+            </in-parameters>
+        </operation>
+        <operation id="changeStatusVip">
+            <invocation>
+                <sql data-source="jdbc/test">
+                    update pim_individual set vip = :vip where id = :id
+                </sql>
+            </invocation>
+            <in-parameters>
+                <param id="vip" mapping="['vip']"/>
+                <param id="id" mapping="['id']"/>
+            </in-parameters>
+        </operation>
+
+        <operation id="toggleStatusVip" name="Смена статуса VIP">
+            <invocation>
+                <sql data-source="jdbc/test">
+                    update pim_individual set vip = NOT :vip where id = :id
+                </sql>
+            </invocation>
+            <in-parameters>
+                <param id="vip" mapping="['vip']"/>
+                <param id="id" mapping="['id']"/>
+            </in-parameters>
+        </operation>
+    </operations>
+
+    <validations>
+        <condition id="checkSurname" severity="warning" message="Женские фамилии чаще всего заканчиваются на 'а'" on="gender,surname">
+            <![CDATA[
+                (typeof gender == 'undefined') || (gender.id != 2) || (surname == '') ||(surname == null) || (surname.trim().charAt(surname.trim().length - 1) == 'а')
+            ]]>
+        </condition>
+        <condition id="checkIvanov" severity="danger" server-moment="before-operation" message="Нельзя изменять данные пациента с фамилией 'Иванов'">surname != 'Иванов'</condition>
+        <!--<condition id="checkAge" level="error">-->
+        <!--<message>Возрастная группа не соответствует дате рождения</message>-->
+        <!--<expression on="birthday,ageGroup"><![CDATA[-->
+        <!--(ageGroup == null) || (birthday == null)-->
+        <!--|| ((ageGroup.min <= new Date().getFullYear() - new Date(birthday.replace(/(\d{2})\.(\d{2})\.(\d{4})/,'$3-$2-$1')).getFullYear())-->
+        <!--&& (ageGroup.max > new Date().getFullYear() - new Date(birthday.replace(/(\d{2})\.(\d{2})\.(\d{4})/,'$3-$2-$1')).getFullYear()));-->
+        <!--]]>-->
+        <!--</expression>-->
+        <!--</condition>-->
+        <constraint id="checkUniqueName" severity="warning" result="[0][0][0] == 0"
+                    message="Пациент с таким именем и фамилией уже существует в системе">
+            <invocation>
+                <sql data-source="jdbc/test">
+                    select count(1) from pim_individual
+                    where upper(surname) = upper(:surname)
+                    and upper(name) = upper(:name)
+                    and (:id is null or id != :id)
+                </sql>
+            </invocation>
+            <in-parameters>
+                <param name="surname" mapping="['surname']"/>
+                <param name="name" mapping="['name']"/>
+                <param name="id" mapping="['id']"/>
+            </in-parameters>
+        </constraint>
+        <condition id="errorValid" severity="danger" message="Ошибка валидации">errorValid == null</condition>
+        <condition id="warningValid" severity="danger" message="Предупреждение валидации">warningValid == null</condition>
+    </validations>
+
+</object>

@@ -1,0 +1,5 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <output-text id="testId" icon="icon" type="iconAndText" position="left" format="number 0,0.00"/>
+    </fields>
+</form>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testActionContext">
+    <actions>
+        <action id="test" model="filter">
+            <invoke operation-id="create" close-after-success="false"/>
+        </action>
+    </actions>
+    <toolbar>
+        <button>
+            <invoke operation-id="update"/>
+        </button>
+    </toolbar>
+</table>

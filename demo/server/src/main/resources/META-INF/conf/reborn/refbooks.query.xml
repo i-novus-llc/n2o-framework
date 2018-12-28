@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" name="Справоники" object-id="refbook">
+    <list>
+        <sql>
+            select :select
+            from refbooks
+            where :filters
+            order by :sorting
+            limit :limit offset :offset
+        </sql>
+    </list>
+    <count>
+        <sql>
+            select count(*)
+            from refbooks
+            where :where
+        </sql>
+    </count>
+    <fields>
+        <field id="id" domain="string">
+            <select/>
+            <filters>
+                <eq filter-id="id">id = :id</eq>
+            </filters>
+        </field>
+        <field id="name" domain="string" name="Название">
+            <select/>
+            <filters>
+                <eq filter-id="name">name = :name</eq>
+            </filters>
+        </field>
+        <field id="table_name" domain="string" name="Название таблицы">
+            <select/>
+            <filters>
+                <eq filter-id="table_name">table_name = :table_name</eq>
+            </filters>
+        </field>
+        <field id="create_date" domain="date" name="Дата создания">
+            <select mapping="['create_dt']">create_dt</select>
+            <filters>
+                <eq filter-id="create_date">create_dt = :create_date</eq>
+            </filters>
+        </field>
+    </fields>
+</query>

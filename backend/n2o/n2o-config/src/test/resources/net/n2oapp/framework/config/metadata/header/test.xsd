@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/test"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:attribute name="attr1" type="xs:string"/>
+    <xs:attribute name="attr2" type="xs:string"/>
+    <xs:attribute name="attr3" type="xs:string"/>
+
+</xs:schema>

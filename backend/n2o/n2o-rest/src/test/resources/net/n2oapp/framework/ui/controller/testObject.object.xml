@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+
+    <operations>
+
+        <operation id="create">
+            <invocation>
+                <test operation="echo" file="net/n2oapp/framework/ui/controller/testData.json"/>
+            </invocation>
+            <validations white-list="id2NotNull,id4NotNull,id5NotNull">
+                <condition id="id1NotNull" severity="warning" field-id="id1" message="id1 is required" server-moment="before-operation" enabled="{id2 == null}" >id1 != null</condition>
+                <mandatory id="id5NotNull" severity="warning" field-id="id5" message="id5 is required" server-moment="before-operation"/>
+                <constraint id="checkCountIsNotOne" server-moment="before-operation" field-id="id6" severity="warning" result="#this != 1">
+                    <invocation>
+                        <test operation="count" file="net/n2oapp/framework/ui/controller/testData.json"/>
+                    </invocation>
+                </constraint>
+            </validations>
+        </operation>
+
+        <operation id="create2">
+            <invocation>
+                <test operation="echo" file="net/n2oapp/framework/ui/controller/testData.json"/>
+            </invocation>
+            <validations/>
+        </operation>
+
+        <operation id="create3">
+            <invocation>
+                <test operation="echo" file="net/n2oapp/framework/ui/controller/testData.json"/>
+            </invocation>
+            <validations black-list="">
+                <condition id="id7IsNotNull" severity="danger" field-id="id7" server-moment="after-success-operation">id7 != null</condition>
+            </validations>
+        </operation>
+
+        <operation id="create4">
+            <invocation>
+                <test operation="echo" file="net/n2oapp/framework/ui/controller/testData.json"/>
+            </invocation>
+            <validations black-list="id2NotNull,id3NotNull,id4NotNull,id5NotNull,id10NotNull"/>
+        </operation>
+
+        <operation id="create5">
+            <invocation>
+                <test operation="echo" file="net/n2oapp/framework/ui/controller/testData.json"/>
+            </invocation>
+            <in-parameters>
+                <param id="id13" required="true"/>
+            </in-parameters>
+        </operation>
+
+        <operation id="create6">
+            <invocation>
+                <test operation="echo" file="net/n2oapp/framework/ui/controller/testData.json"/>
+            </invocation>
+            <validations white-list="id2NotNull">
+                <mandatory id="id1Required" severity="danger" server-moment="before-operation" field-id="id1"/>
+                <mandatory id="id3Required" severity="danger" server-moment="before-operation" field-id="id3"/>
+            </validations>
+        </operation>
+
+        <operation id="create7">
+            <invocation>
+                <test operation="echo" file="net/n2oapp/framework/ui/controller/testData.json"/>
+            </invocation>
+        </operation>
+    </operations>
+
+    <validations>
+        <condition id="id2NotNull" severity="warning" server-moment="before-operation" message="id2 is required" field-id="id2" enabled="true">id2 != null</condition>
+        <condition id="id3NotNull" severity="warning" server-moment="before-operation" message="id3 is required" field-id="id3">id3 != null</condition>
+        <condition id="id4NotNull" severity="warning" server-moment="before-operation" message="id4 is required" field-id="id4" src="net/n2oapp/framework/ui/controller/testSrc.js"/>
+        <condition id="id5NotNull" severity="warning" server-moment="before-operation" message="id5 is required" field-id="id5" enabled="false">id5 != null</condition>
+        <condition id="id10NotNull" severity="warning" server-moment="before-operation" message="id10 is required" field-id="id10">id10 != null</condition>
+        <condition id="id11NotNull" severity="warning" server-moment="before-operation" message="id11 is required">id11 != null</condition>
+    </validations>
+
+</object>

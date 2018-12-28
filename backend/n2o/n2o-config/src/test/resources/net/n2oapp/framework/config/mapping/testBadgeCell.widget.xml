@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable">
+    <columns>
+        <column text-field-id="name">
+            <badge text="{gender.name}" position="right" color="info">
+                <switch value-field-id="status">
+                    <case value="1">success</case>
+                    <case value="2">danger</case>
+                    <default>primary</default>
+                </switch>
+            </badge>
+        </column>
+    </columns>
+</table>

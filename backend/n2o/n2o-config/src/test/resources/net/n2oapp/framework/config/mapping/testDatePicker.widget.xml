@@ -1,0 +1,5 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <date-time id="test" min="5/12/2012" max="15/12/2021" format="DD/MM/YYYY" placeholder="Введите дату"/>
+    </fields>
+</form>

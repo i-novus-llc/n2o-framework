@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" object-id="testJsonForm" upload="default">
+    <fields>
+        <row>
+            <input-text id="name" label="Поле №1 . Тип зависимости: блокировка" description="Введите 'test'"/>
+            <input-text id="surname" label="Зависимое поле" description="Зависит от поля №1. Тип зависимости: блокировка">
+                <dependencies>
+                    <enabling on="name">
+                        name == 'test'
+                    </enabling>
+                </dependencies>
+            </input-text>
+        </row>
+        <row>
+            <input-text id="email" label="Поле №2. Тип зависимости: видимость" description="Введите 'test'"/>
+            <input-text id="date" label="Зависимое поле" description="Зависит от поля №2. Тип зависимости: видимость">
+                <dependencies>
+                    <visibility on="email">email == 'test'</visibility>
+                </dependencies>
+            </input-text>
+        </row>
+        <row>
+            <input-text id="f3" label="Поле №3. Комбинированная зависимость" description="Введите 'test'. Это сделает зависимое поле видимым"/>
+            <input-text id="f4" label="Поле №4. Комбинированная зависимость" description="Введите 'test'. Это уберет блокировку"/>
+            <input-text id="depend3" label="Зависимое поле" description="Зависит от  полей № 3,4. Тип зависимости: комбинированная">
+                <dependencies>
+                    <visibility on="f3">f3 == 'test'</visibility>
+                    <enabling on="f4">f4 == 'test'</enabling>
+                </dependencies>
+            </input-text>
+        </row>
+        <row>
+            <input-text id="f9" label="Поле №9. Тип зависимости: Установка значения" description="Введите значение">
+            </input-text>
+            <input-text id="f10" label="Поле №10. Тип зависимости: Сброс значения" description="Введите 'test'. Это сбросит значение зависимого поля">
+            </input-text>
+            <input-text id="depend4" label="Зависимое поле" description="Зависит от полей №9, 10">
+                <dependencies>
+                    <set-value on="f9">
+                        return 'В поле №9 введено:  '+f9
+                    </set-value>
+                    <enabling>true</enabling>
+                </dependencies>
+            </input-text>
+        </row>
+    </fields>
+</form>

@@ -1,0 +1,12 @@
+{
+  "widgets": {
+    "Page_Html": {
+      "src": "HtmlWidget",
+      "html": {
+        "url": null,
+        "html": "<h1>Hello</h1>",
+        "fetchOnInit": false
+      }
+    }
+  }
+}

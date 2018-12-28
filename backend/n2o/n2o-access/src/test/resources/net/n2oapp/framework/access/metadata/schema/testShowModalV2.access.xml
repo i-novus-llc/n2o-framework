@@ -1,0 +1,23 @@
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
+    <user username="user">
+        <object-access object-id="testObjectAccessTransformer"/>
+        <object-access object-id="testToolbarAccessTransformer" operations="*"/>
+    </user>
+    <role id="role">
+        <object-access object-id="testObjectAccessTransformer" operations="*"/>
+    </role>
+    <role id="admin">
+        <page-access page-id="testToolbarAccessTransformer"/>
+        <object-access object-id="testToolbarAccessTransformer" operations="create, update"/>
+    </role>
+    <permission id="permission">
+        <object-access object-id="testObjectAccessTransformer" operations="create"/>
+        <object-access object-id="testToolbarAccessTransformer" operations="*"/>
+    </permission>
+    <permission id="permission2">
+        <object-access object-id="testObjectAccessTransformer" operations="*"/>
+    </permission>
+    <anonymous>
+        <object-access object-id="testObjectAccessTransformer" operations="*"/>
+    </anonymous>
+</access>

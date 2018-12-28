@@ -1,0 +1,43 @@
+{
+  "Page_Form": {
+    "src": "FormWidget",
+    "toolbar": {
+      "bottomLeft": [
+        {
+          "buttons": [
+            {
+              "id": "update",
+              "title": "Открыть МО",
+              "actionId": "showModal"
+            }
+          ]
+        }
+      ]
+    },
+    "actions": {
+      "showModal": {
+        "src": "perform",
+        "options": {
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "test",
+            "pageUrl": "/Uid",
+            "pathMapping": {
+            },
+            "modelLink": "models.resolve['Uid']",
+            "title": "`'Заголовок: ' + modalTitle`",
+            "size": "sm",
+            "visible": true,
+            "closeButton": true,
+            "pageId": "Uid"
+          }
+        }
+      }
+    },
+    "form": {
+      "fetchOnInit": false,
+      "fieldsets": [
+      ]
+    }
+  }
+}

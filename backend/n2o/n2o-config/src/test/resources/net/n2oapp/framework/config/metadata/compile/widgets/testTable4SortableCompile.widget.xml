@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable4SortableCompile"
+       object-id="utBlank">
+
+    <columns>
+        <column text-field-id="id"/>
+        <column id="col" text-field-id="col_id" label="col_label"/>
+        <column text-field-id="name" sorting-field-id="id"/>
+        <column text-field-id="comments" />
+        <column text-field-id="notInQuery" label="notInQueryLabel"/>
+    </columns>
+
+</table>

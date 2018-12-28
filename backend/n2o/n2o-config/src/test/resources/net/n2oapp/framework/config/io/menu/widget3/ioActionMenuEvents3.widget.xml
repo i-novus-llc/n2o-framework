@@ -1,0 +1,83 @@
+<custom src="test" xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-3.0"
+        xmlns:evt="http://n2oapp.net/framework/config/schema/n2o-event-1.0">
+    <query-id>stub</query-id>
+
+    <action-menu>
+        <menu-item id="invokeActionFull">
+            <event>
+                <evt:invoke-action action-id="test" confirmation="true"/>
+            </event>
+        </menu-item>
+        <menu-item id="invokeActionEmpty">
+            <event>
+                <evt:invoke-action action-id="test"/>
+            </event>
+        </menu-item>
+        <menu-item id="showModalFull">
+            <event>
+                <evt:show-modal page-id="test" action-id="test" container-id="test"
+                                detail-field-id="test" master-field-id="test"
+                                model="default" refresh-on-close="true"
+                                result-container-id="test" width="100%"
+                                page-name="test" create-more="true" focus-after-submit="true"
+                                max-width="100%" min-width="100%" refresh-after-submit="true">
+                    <evt:pre-filters>
+                        <evt:pre-filter field-id="test1" container-id="test" ref="test"/>
+                        <evt:pre-filter field-id="test2" container-id="test" value="test"/>
+                    </evt:pre-filters>
+                </evt:show-modal>
+            </event>
+        </menu-item>
+        <menu-item id="showModalEmpty">
+            <event>
+                <evt:show-modal page-id="test"/>
+            </event>
+        </menu-item>
+        <menu-item id="openPageFull">
+            <event>
+                <evt:open-page page-id="test" action-id="test" container-id="test"
+                               detail-field-id="test" master-field-id="test"
+                               model="default" refresh-on-close="true"
+                               result-container-id="test" width="100%"
+                               page-name="test" create-more="true" focus-after-submit="true"
+                               max-width="100%" min-width="100%" refresh-after-submit="true">
+                    <evt:pre-filters>
+                        <evt:pre-filter field-id="test1" container-id="test" ref="test"/>
+                        <evt:pre-filter field-id="test2" container-id="test" value="test"/>
+                    </evt:pre-filters>
+                </evt:open-page>
+            </event>
+        </menu-item>
+       <menu-item id="openPageEmpty">
+            <event>
+                <evt:open-page page-id="test"/>
+            </event>
+        </menu-item>
+        <menu-item id="aFull">
+            <event>
+                <evt:a href="test" target="newWindow"/>
+            </event>
+        </menu-item>
+        <menu-item id="aSmall">
+            <event>
+                <evt:a href="test"/>
+            </event>
+        </menu-item>
+
+        <menu-item id="customFull">
+            <event>
+                <evt:custom src="testSrc">
+                    <evt:properties>
+                        <evt:property key="key1" value="val1"/>
+                        <evt:property key="key2" value="val2"/>
+                    </evt:properties>
+                </evt:custom>
+            </event>
+        </menu-item>
+        <menu-item id="customSmall">
+            <event>
+                <evt:custom src="testSrc"/>
+            </event>
+        </menu-item>
+    </action-menu>
+</custom>

@@ -1,0 +1,9 @@
+<small>{{title}}</small>
+{{#message}}<b>{{message}}</b>{{/message}}
+
+Идентификатор метаданной    : {{metadataId}}
+Тип метаданной              : {{type}}
+<pre style='display: block;'>{{path}}</pre>
+
+<a href='#' onclick='$(this).next().toggle(); return false;'>Stacktrace</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>{{stackTraceAsString}}</pre>

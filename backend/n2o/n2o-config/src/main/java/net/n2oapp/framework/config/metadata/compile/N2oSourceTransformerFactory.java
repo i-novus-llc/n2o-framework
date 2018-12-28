@@ -1,0 +1,30 @@
+package net.n2oapp.framework.config.metadata.compile;
+
+import net.n2oapp.framework.api.metadata.compile.SourceTransformer;
+import net.n2oapp.framework.api.metadata.compile.SourceTransformerFactory;
+import net.n2oapp.framework.config.factory.BaseMetadataFactory;
+import net.n2oapp.framework.config.factory.FactoryPredicates;
+
+import java.util.List;
+import java.util.Map;
+
+public class N2oSourceTransformerFactory extends BaseMetadataFactory<SourceTransformer> implements SourceTransformerFactory {
+
+    public N2oSourceTransformerFactory() {
+    }
+
+    public N2oSourceTransformerFactory(Map<String, SourceTransformer> beans) {
+        super(beans);
+    }
+
+    @Override
+    public <S> S transform(S source) {
+        List<SourceTransformer> transformers = produceList(FactoryPredicates::isSourceAssignableFrom, source);
+        S result = source;
+        for (SourceTransformer transformer : transformers) {
+            result = (S) transformer.transform(result);
+        }
+        return result;
+    }
+
+}

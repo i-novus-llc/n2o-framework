@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0"
+       xmlns="http://n2oapp.net/framework/config/schema/query-3.0">
+    <object-id>metaData</object-id>
+    <name>Конфликт</name>
+    <execution>
+        <n2o:java-criteria bean-name="configAuditConflictService"
+                           criteria-class="net.n2oapp.framework.config.audit.service.conflict.MetaDataConflictCriteria"/>
+    </execution>
+    <fields>
+        <field>
+            <id>id</id>
+            <domain>string</domain>
+            <filters auto-generate="true"/>
+            <display/>
+        </field>
+        <field>
+            <id>code</id>
+            <domain>string</domain>
+            <filters auto-generate="true"/>
+            <display/>
+        </field>
+        <field>
+            <id>n2oClass</id>
+            <domain>string</domain>
+            <filters auto-generate="true"/>
+            <display/>
+        </field>
+        <field>
+            <id>localPath</id>
+            <domain>string</domain>
+            <filters auto-generate="true"/>
+            <display/>
+        </field>
+        <field>
+            <id>conflict.result</id>
+            <name>Исходная версия</name>
+            <domain>string</domain>
+            <filters auto-generate="true"/>
+            <display/>
+        </field>
+        <field>
+            <id>conflict.left</id>
+            <name>Системный</name>
+            <domain>string</domain>
+            <filters auto-generate="true"/>
+            <display/>
+        </field>
+        <field>
+            <id>conflict.right</id>
+            <name>Серверный</name>
+            <domain>string</domain>
+            <filters auto-generate="true"/>
+            <display/>
+        </field>
+    </fields>
+</query>

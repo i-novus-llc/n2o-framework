@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Localization</comment>
+
+
+    <entry key="n2o.audit.updateMerged">Обновление слито</entry>
+    <entry key="n2o.audit.switchOnServerBranch">Переключитесь на серверную ветку</entry>
+    <entry key="n2o.audit.couldNotGetGitTree">Не удалось получить дерево git.</entry>
+    <entry key="n2o.audit.repoWasCreatedInSpecifiedFolder">Создан репозиторий git в папке [{0}]</entry>
+    <entry key="n2o.audit.auditInitError">Ошибка инициализации аудита. Папка {0} должна быть пустой!</entry>
+    <entry key="n2o.audit.switchOnServerBranchWithParam">Переключитесь на серверную ветку: {0}</entry>
+    <entry key="n2o.audit.propertyIsNotConfigured">Не задана настройка {0}</entry>
+    <entry key="n2o.audit.wrongRepoPath">Путь для создания репозитория не должен содержать 'src/main/resources'</entry>
+    <entry key="n2o.audit.branchIsNotExists">"Ветки {0} не существует!"</entry>
+    <entry key="n2o.audit.cleanupRepo">Очистите репозиторий</entry>
+    <entry key="n2o.audit.systemConfigUpdateFailed">Не удалось обновить системные конфигурации в системной ветке</entry>
+    <entry key="n2o.audit.conflictInfoReceivingException">При получении информации о конфликте произошла ошибка.</entry>
+    <entry key="n2o.audit.changesUpdateFailed">Не удалось сохранить изменения из-за ошибок в аудите</entry>
+    <entry key="n2o.audit.pushFailed">Не удалось сделать push</entry>
+    <entry key="n2o.audit.commitMessageCouldNotBeEmpty">Сообщение коммита не должно быть пустым!</entry>
+    <entry key="n2o.audit.commitDirectoryIsNotSet">Директория коммита не задана!</entry>
+    <entry key="n2o.audit.repoInitFailed">Не удалось инициализировать репозиторий.</entry>
+    <entry key="n2o.audit.auditInitError.setPath">Ошибка инициализации аудита: не задан n2o.config.path</entry>
+    <entry key="n2o.audit.auditInitError.setRestoreMode">Ошибка инициализации аудита: необходимо установить значение настройки [n2o.config.restore.mode] в режим replace</entry>
+    <entry key="n2o.audit.auditInitError.setMonitoringDisabled">Ошибка инициализации аудита: необходимо выключить watchdir через настройку [n2o.config.monitoring.enabled]</entry>
+    <entry key="n2o.audit.repoRecoveryFailed">Произошла ошибка при восстановлении репозитория в рабочее состояние.</entry>
+    <entry key="n2o.audit.systemConfigNotFound">Нет обновлений системных конфигураций</entry>
+    <entry key="n2o.audit.pullFailed">Не удалось выполнить pull.</entry>
+    <entry key="n2o.audit.repoHasNonCommittedChanges">В репозитории есть незакомиченные изменения.</entry>
+    <entry key="n2o.audit.mergeError">Произошла ошибка при слитии ветки {0}</entry>
+    <entry key="n2o.audit.wrongCommand">Неверная команда</entry>
+    <entry key="n2o.audit.paramsNotFound">Не переданы параметры branchName и isOrigin, необходимые для мержа!</entry>
+    <entry key="n2o.audit.mergedSuccessfully">Слитие веток прошло успешно</entry>
+    <entry key="n2o.audit.mergeFailed">Слитие веток завершилось ошибкой:</entry>
+    <entry key="n2o.audit.updatedSuccessfully">Обновление системной ветки прошло успешно</entry>
+    <entry key="n2o.audit.updateFailed">Обновление системной ветки завершилось ошибкой:</entry>
+    <entry key="n2o.audit.pullSuccessfully">Команда pull выполнилась успешно</entry>
+    <entry key="n2o.audit.pullFailed">Команда pull завершилась ошибкой:</entry>
+    <entry key="n2o.audit.pushSuccessfully">Команда push выполнилась успешно</entry>
+    <entry key="n2o.audit.pushFailed">Команда push завершилась ошибкой:</entry>
+    <entry key="n2o.audit.auditIsNotStarted">Аудит конфигураций не запущен (.git репозиторий не создан)</entry>
+    <entry key="n2o.audit.auditIsNotEnabled">Аудит конфигураций не включен. Настройка n2o.config.audit.enabled=false</entry>
+
+</properties>

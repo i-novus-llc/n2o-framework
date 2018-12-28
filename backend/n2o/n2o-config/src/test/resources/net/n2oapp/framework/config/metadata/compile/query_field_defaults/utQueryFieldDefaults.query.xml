@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="utQueryFieldDefaults"
+       name="queryField">
+
+    <list>
+        <sql>select :select
+            from queryField a
+            where :filters
+            order by :sorting
+        </sql>
+    </list>
+    <count>
+        <sql>
+            select count(a)
+            from queryField a
+            where :filters
+        </sql>
+    </count>
+
+    <fields>
+
+        <!--по умолчанию-->
+        <field id="gender.id">
+            <select/>
+            <sorting/>
+            <filters>
+                <eq filter-id="gender.id"/>
+            </filters>
+        </field>
+
+        <!--по умолчанию с переопределением-->
+        <field id="name">
+            <expression>test</expression>
+            <select/>
+            <sorting/>
+            <filters>
+                <eq filter-id="filter"/>
+            </filters>
+        </field>
+
+        <!--по умолчанию из объекта-->
+        <field id="objectName">
+            <select/>
+            <sorting/>
+            <filters>
+                <eq filter-id="objectName"/>
+            </filters>
+        </field>
+
+    </fields>
+</query>

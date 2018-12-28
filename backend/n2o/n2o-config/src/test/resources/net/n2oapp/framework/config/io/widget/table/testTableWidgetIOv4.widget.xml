@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+       xmlns:ctr="http://n2oapp.net/framework/config/schema/control-2.0"
+       name="Моя таблица" query-id="stub" src="testSrc"
+       object-id="stub" icon="testIcon" class="testClass" route="testRoute">
+    <columns>
+        <column text-field-id="buttons" label="buttonsTest">
+            <toolbar generate="update,delete" src="test">
+                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true">
+                    <invoke operation-id="testId" route="route" src="src"
+                            redirect-url="/url" redirect-target="newWindow" close-after-success="true"/>
+                </button>
+                <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
+                    <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"
+                               validate="true" enabling-condition="test" visibility-condition="test"/>
+                </sub-menu>
+            </toolbar>
+        </column>
+        <column id="testId" label="labelTest" text-field-id="firstName" sorting-field-id="firstName"
+                sorting-direction="asc"
+                icon="iconTest" visible="true" tooltip-field-id="testTooltip" type="icon" width="200px">
+            <text src="srcTest" class="testClass"/>
+        </column>
+        <column text-field-id="test2">
+            <link src="srcTest" action-id="update">
+                <close src="test"/>
+            </link>
+        </column>
+        <column text-field-id="test3">
+            <icon src="test" icon="iconClass" text="textTest" type="icon" position="left">
+            </icon>
+        </column>
+        <column text-field-id="test4">
+            <checkbox src="test" enabled="true" action-id="update" class="classTest">
+                <close src="test"/>
+            </checkbox>
+        </column>
+        <column text-field-id="test5">
+            <progress src="test" value="firstName" class="classTest" active="false" size="large" striped="false" color="test"/>
+        </column>
+        <column text-field-id="test6">
+            <image src="test" url="testUrl" class="classTest" width="200px" action-id="actionTest" shape="circle">
+                <close src="test"/>
+            </image>
+        </column>
+        <column text-field-id="test7">
+            <edit src="test" invoke-action-id="update" type="inline">
+                <ctr:input-text id="test"/>
+            </edit>
+        </column>
+        <column text-field-id="test8">
+            <toolbar src="test">
+                <button label="labelTest" action-id="testActionId" class="testClass" icon="testIcon">
+                    <close src="test"/>
+                </button>
+            </toolbar>
+        </column>
+        <column text-field-id="test9">
+            <custom>
+                <close src="test"/>
+            </custom>
+        </column>
+        <column text-field-id="test10">
+            <badge position="left" text="test" src="test" color="test">
+                <switch value-field-id="gender.id">
+                    <case value="1">Мужской</case>
+                    <case value="2">Женский</case>
+                    <default>Неопределенный</default>
+                </switch>
+            </badge>
+        </column>
+        <column text-field-id="test11">
+            <list color="test" size="3">
+                <switch value-field-id="gender.id">
+                    <case value="1">Мужской</case>
+                    <case value="2">Женский</case>
+                    <default>Неопределенный</default>
+                </switch>
+            </list>
+        </column>
+    </columns>
+    <rows color-field-id="test">
+        <switch value-field-id="gender.id">
+            <case value="1">Мужской</case>
+            <case value="2">Женский</case>
+            <default>Неопределенный</default>
+        </switch>
+    </rows>
+    <pagination src="test" first="false" hide-single-page="false"
+                last="false" next="false" prev="false" show-count="false">
+    </pagination>
+    <filters place="left">
+        <input-text id="test"/>
+        <set src="test">
+            <input-text id="test"/>
+        </set>
+    </filters>
+    <actions>
+        <action id="test" default="false" enabled="false" hotkey="test" icon="test" name="test"
+                visible="false">
+            <close src="test"/>
+        </action>
+    </actions>
+    <pre-fields>
+        <contains field-id="test" values="test1,test2"/>
+    </pre-fields>
+    <pre-filters>
+        <contains field-id="test" values="test1,test2" value="test"/>
+    </pre-filters>
+    <toolbar place="bottomLeft">
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true">
+            <close src="test"/>
+        </button>
+        <button action-id="test2" class="test" icon="test" label="test" type="icon">
+            <close src="test"/>
+        </button>
+        <sub-menu>
+            <menu-item action-id="test1" icon="test" label="test" class="test" validate="true"/>
+            <menu-item action-id="test2" icon="test" label="test" class="test"/>
+            <menu-item action-id="test3" icon="test" label="test" class="test"/>
+        </sub-menu>
+        <group>
+            <button action-id="test3" class="test" icon="test" label="test" type="icon">
+                <close src="test"/>
+            </button>
+            <sub-menu>
+                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+            <sub-menu>
+                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+        </group>
+    </toolbar>
+
+    <toolbar place="topLeft">
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test"
+                visibility-condition="test">
+            <close src="test"/>
+        </button>
+        <button action-id="test2" class="test" icon="test" label="test" type="icon">
+            <close src="test"/>
+        </button>
+        <sub-menu>
+            <menu-item action-id="test1" icon="test" label="test" class="test" enabling-condition="test"
+                       visibility-condition="test"/>
+            <menu-item action-id="test2" icon="test" label="test" class="test"/>
+            <menu-item action-id="test3" icon="test" label="test" class="test"/>
+        </sub-menu>
+        <group>
+            <button action-id="test3" class="test" icon="test" label="test" type="icon">
+                <close src="test"/>
+            </button>
+            <sub-menu>
+                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+            <sub-menu>
+                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test3" icon="test" label="test" class="test"/>
+            </sub-menu>
+        </group>
+    </toolbar>
+</table>
+
+
+
+
+

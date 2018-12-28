@@ -1,0 +1,39 @@
+package net.n2oapp.framework.config.io.fieldset;
+
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
+import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.config.io.control.ControlIOv2;
+import org.jdom.Element;
+import org.jdom.Namespace;
+import org.springframework.stereotype.Component;
+
+/**
+ *
+ */
+@Component
+public class RowElementIO4 implements NamespaceIO<N2oFieldsetRow> {
+    private static final Namespace DEFAULT_NAMESPACE = FieldsetIOv4.NAMESPACE;
+    private static final Namespace controlDefaultNamespace = ControlIOv2.NAMESPACE;
+
+    @Override
+    public void io(Element e, N2oFieldsetRow row, IOProcessor p) {
+        p.attribute(e, "class", row::getClassRow, row::setClassRow);
+        p.anyChildren(e, null, row::getItems, row::setItems, p.anyOf(), DEFAULT_NAMESPACE, controlDefaultNamespace);
+    }
+
+    @Override
+    public String getElementName() {
+        return "row";
+    }
+
+    @Override
+    public String getNamespaceUri() {
+        return FieldsetIOv4.NAMESPACE.getURI();
+    }
+
+    @Override
+    public Class<N2oFieldsetRow> getElementClass() {
+        return N2oFieldsetRow.class;
+    }
+}

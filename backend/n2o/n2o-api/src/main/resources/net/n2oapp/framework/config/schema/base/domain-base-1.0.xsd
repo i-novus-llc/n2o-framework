@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           targetNamespace="http://n2oapp.net/framework/config/schema/base/domain-base-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="domainType">
+        <xs:union>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <!--simple types-->
+                    <xs:enumeration value="integer"/>
+                    <xs:enumeration value="string"/>
+                    <xs:enumeration value="boolean"/>
+                    <xs:enumeration value="date"/>
+                    <xs:enumeration value="localdate"/>
+                    <xs:enumeration value="localdatetime"/>
+                    <xs:enumeration value="object"/>
+                    <xs:enumeration value="numeric"/>
+                    <xs:enumeration value="long"/>
+                    <xs:enumeration value="short"/>
+                    <xs:enumeration value="byte"/>
+                    <!--arrays-->
+                    <xs:enumeration value="integer[]"/>
+                    <xs:enumeration value="string[]"/>
+                    <xs:enumeration value="boolean[]"/>
+                    <xs:enumeration value="date[]"/>
+                    <xs:enumeration value="object[]"/>
+                    <!--simple types-->
+                    <xs:enumeration value="interval{integer}"/>
+                    <xs:enumeration value="interval{date}"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:simpleType>
+                <xs:union memberTypes="xs:string"/>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+
+</xs:schema>

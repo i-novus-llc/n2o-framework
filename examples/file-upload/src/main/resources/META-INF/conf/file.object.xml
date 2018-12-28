@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+        name="Список файлов">
+
+    <fields>
+        <field id="id" domain="string"/>
+        <field id="fileName" domain="string"/>
+        <field id="url" domain="string"/>
+    </fields>
+
+    <operations>
+        <operation id="delete">
+            <invocation>
+                <java method="delete">
+                    <arguments>
+                        <argument name="id" type="class" class="java.lang.String"/>
+                    </arguments>
+                    <spring bean="fileStorageController"/>
+                </java>
+            </invocation>
+            <in-parameters>
+                <param id="id" domain="string"/>
+            </in-parameters>
+        </operation>
+
+        <operation id="submit">
+            <invocation>
+                <java method="submit">
+                    <arguments>
+                        <argument name="fileUpload.id" type="class" class="java.lang.String"/>
+                    </arguments>
+                    <spring bean="fileStorageController"/>
+                </java>
+            </invocation>
+            <in-parameters>
+                <param id="fileUpload*.id" mapping="[0]" domain="string[]"/>
+            </in-parameters>
+        </operation>
+
+    </operations>
+
+</object>

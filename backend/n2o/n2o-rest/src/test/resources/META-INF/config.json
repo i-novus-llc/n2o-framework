@@ -1,0 +1,14 @@
+{
+  "config": 1234,
+  "test": {
+    "inner-test": 4321
+  },
+  "user": {
+    "username": "#{username}",
+    "roles": #{roles},
+    "age": #{age},
+    "isActive": #{isActive}
+  },
+  "context": "#{testContext}",
+  "prop": "${testProp}"
+}

@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StandardField рендерится корректно 1`] = `
+<div
+  className="form-group test"
+  style={
+    Object {
+      "display": "block",
+    }
+  }
+>
+  <label
+    className="myLabelClass n2o-label"
+    htmlFor={undefined}
+    style={
+      Object {
+        "display": "block",
+        "flex": undefined,
+        "width": undefined,
+      }
+    }
+  >
+    Мое поле
+    <span
+      style={
+        Object {
+          "color": "#e53935",
+          "fontWeight": 900,
+          "marginLeft": 3,
+          "verticalAlign": "top",
+        }
+      }
+    >
+      *
+    </span>
+  </label>
+  <div
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "display": "flex",
+        }
+      }
+    >
+      <span
+        style={
+          Object {
+            "marginLeft": 5,
+          }
+        }
+      >
+        км
+      </span>
+      <div />
+    </div>
+    <div
+      style={
+        Object {
+          "fontSize": "0.8em",
+        }
+      }
+    >
+      Введите значение
+    </div>
+  </div>
+</div>
+`;

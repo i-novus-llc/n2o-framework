@@ -1,0 +1,19 @@
+{
+    "id": 1,
+    "name": "max",
+    "surname": "johnson",
+    "gender": {
+        "id": 1,
+        "name": "male"
+    },
+    "addresses": [1, 2, 3],
+    "parents": {
+        "mother": {
+            "id": 42
+        },
+        "father": {
+            "id": 43,
+            "name": "old man"
+        }
+    }
+}

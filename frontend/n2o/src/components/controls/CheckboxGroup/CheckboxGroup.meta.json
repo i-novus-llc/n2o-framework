@@ -1,0 +1,13 @@
+{
+  "value": [
+    "1"
+  ],
+  "checked": false,
+  "label": "Label",
+  "className": "n2o",
+  "style": {},
+  "inline": false,
+  "visible": true,
+  "valueFieldId": "id",
+  "labelFieldId": "name"
+}

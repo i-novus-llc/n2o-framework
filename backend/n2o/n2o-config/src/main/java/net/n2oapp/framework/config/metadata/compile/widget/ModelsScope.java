@@ -1,0 +1,44 @@
+package net.n2oapp.framework.config.metadata.compile.widget;
+
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.Models;
+
+import java.util.Map;
+
+/**
+ * Используется для передачи models в компиляцию fieldset и field
+ * а также модели и идентификатора виджета, который сейчас компилируется
+ */
+public class ModelsScope {
+
+    private ReduxModel model;
+    private String widgetId;
+    private Models models;
+
+    public ModelsScope(ReduxModel model, String widgetId, Models models) {
+        this.model = model;
+        this.widgetId = widgetId;
+        this.models = models;
+    }
+
+    public void add(String field, ModelLink link) {
+        models.add(model, widgetId, field, link);
+    }
+
+    public void addAll(Map<String, ModelLink> modelLinks) {
+        modelLinks.forEach((k, v) -> models.add(model, widgetId, k, v));
+    }
+
+    public String getWidgetId() {
+        return widgetId;
+    }
+
+    public ReduxModel getModel() {
+        return model;
+    }
+
+    public boolean hasModels() {
+        return models != null;
+    }
+}

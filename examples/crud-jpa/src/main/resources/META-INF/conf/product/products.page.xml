@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Товары" layout="LeftRightLayout" route="/">
+
+    <regions>
+        <panel place="left" id="main">
+            <table id="first" query-id="product" size="10" name="Товары">
+                <toolbar generate="crud" place="topLeft"/>
+                <columns>
+                    <column text-field-id="name" label="Имя товара"/>
+                    <column text-field-id="price" label="Цена"/>
+                    <column text-field-id="category.name" label="Категория"/>
+                </columns>
+
+                <filters place="left">
+                    <row>
+                        <input-text id="minPrice" label="Минимальная цена" domain="long" step="10" min="0"/>
+                        <input-text id="maxPrice" label="Максимальная цена" domain="long" step="10" min="0"/>
+                        <input-select id="categories" label="Категория товара" type="multi">
+                            <query query-id="category" label-field-id="name" value-field-id="id"/>
+                        </input-select>
+                    </row>
+                </filters>
+            </table>
+        </panel>
+        <panel place="right">
+            <table id="second" query-id="shop" name="Дополнительная информация" depends-on="first"
+                   master-field-id="id" detail-field-id="product.id">
+                <pre-filters/>
+                <columns>
+                    <column text-field-id="name" label="Магазин"/>
+                    <column text-field-id="address.location" label="Адрес"/>
+                </columns>
+            </table>
+        </panel>
+    </regions>
+
+</page>

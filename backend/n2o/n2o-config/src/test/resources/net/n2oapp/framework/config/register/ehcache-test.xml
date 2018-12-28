@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="n2o.config">
+    <cache name="n2o.metadata.info"
+           maxEntriesLocalHeap="1000000"
+           eternal="true">
+        <searchable values="false">
+            <searchAttribute name="type" expression="key.getType()"/>
+        </searchable>
+    </cache>
+</ehcache>

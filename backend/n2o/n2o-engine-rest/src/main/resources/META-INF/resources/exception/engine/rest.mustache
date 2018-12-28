@@ -1,0 +1,20 @@
+<small>{{title}}</small>
+{{#message}}<b>{{message}}</b>{{/message}}
+
+REST запрос:
+<pre style="display: block;">{{method}} {{url}}</pre>
+
+<a href='#' onclick='$(this).next().toggle(); return false;'>Параметры</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>
+{{#args}}
+{{.}}
+{{/args}}
+</pre>
+{{#response}}
+<a href='#' onclick='$(this).next().toggle(); return false;'>Ответ</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>
+{{response}}
+</pre>
+{{/response}}
+<a href='#' onclick='$(this).next().toggle(); return false;'>Stacktrace</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>{{stackTraceAsString}}</pre>

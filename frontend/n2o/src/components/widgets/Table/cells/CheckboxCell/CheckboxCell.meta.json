@@ -1,0 +1,11 @@
+{
+  "id": "checkBox",
+  "fieldKey": "checkBox",
+  "src": "CheckboxCell",
+  "readOnly": false,
+  "widgetId": "Page_Table",
+  "dataProvider": {
+    "url": "n2o/data",
+    "method": "POST"
+  }
+}

@@ -1,0 +1,13 @@
+<access xmlns="http://n2oapp.net/framework/config/schema/access-schema-1.0">
+    <user id="user">
+        <object-access object-id="testToolbarAccessTransformer" actions="*"/>
+    </user>
+    <role id="role">
+    </role>
+    <role id="admin">
+        <object-access object-id="testToolbarAccessTransformer" actions="create"/>
+    </role>
+    <permission id="permission">
+        <object-access object-id="testToolbarAccessTransformer" actions="*"/>
+    </permission>
+</access>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+    <operations>
+        <operation id="test">
+            <invocation>
+                <sql>test</sql>
+            </invocation>
+            <validations>
+                <mandatory id="id5Required1" severity="danger" field-id="id5"/>
+            </validations>
+        </operation>
+    </operations>
+    <validations>
+        <mandatory id="id5Required2" severity="danger" field-id="id4"/>
+    </validations>
+</object>

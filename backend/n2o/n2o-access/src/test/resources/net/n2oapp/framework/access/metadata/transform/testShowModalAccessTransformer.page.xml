@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" object-id="testToolbarAccessTransformer">
+    <toolbar>
+        <button id="update" widget-id="widgetId">
+            <show-modal page-id="testToolbarAccessTransformer" submit-operation-id="update" object-id="testToolbarAccessTransformer"/>
+        </button>
+    </toolbar>
+    <regions>
+        <panel place="topLeft">
+            <table id="widgetId" object-id="testObjectAccessTransformer">
+                <toolbar>
+                    <button id="create">
+                        <show-modal page-id="testToolbarAccessTransformer" submit-operation-id="create" object-id="testObjectAccessTransformer"/>
+                    </button>
+                </toolbar>
+            </table>
+        </panel>
+    </regions>
+
+</page>

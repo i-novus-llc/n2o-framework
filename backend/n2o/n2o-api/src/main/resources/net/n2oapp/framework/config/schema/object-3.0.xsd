@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/object-3.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0"
+            xmlns:dp="http://n2oapp.net/framework/config/schema/data-provider-1.0">
+
+
+    <xs:element name="object" type="objectDefinition"/>
+
+    <!--определение объекта-->
+    <xs:complexType name="objectDefinition">
+        <xs:sequence>
+            <xs:element name="fields" type="fieldsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="operations" type="operationListDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="validations" type="validationsDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string"/>
+        <xs:attribute name="table-name" type="xs:string"/>
+        <xs:attribute name="entity-class" type="xs:string"/>
+        <xs:attribute name="service-class" type="xs:string"/>
+        <xs:attribute name="service-name" type="xs:string"/>
+        <xs:attribute name="app-name" type="xs:string"/>
+        <xs:attribute name="module-name" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="fieldsDefinition">
+        <xs:sequence>
+            <xs:element name="field" type="fieldDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="reference" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="list" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="set" type="referenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="fieldDefinition" abstract="true">
+        <xs:attribute name="id" use="required"/>
+        <xs:attribute name="name" use="optional"/>
+        <xs:attribute name="default-value" type="xs:string" use="optional"/>
+        <xs:attribute name="domain" type="dmn:domainType" use="optional"/>
+        <xs:attribute name="normalize" type="xs:string" use="optional"/>
+        <xs:attribute name="mapper" type="mapperDefinition" use="optional"/>
+        <xs:attribute name="mapping" type="xs:string" use="optional"/>
+        <xs:attribute name="required" type="xs:boolean" use="optional" default="false"/>
+    </xs:complexType>
+
+    <xs:complexType name="referenceDefinition">
+        <xs:sequence>
+            <xs:element name="field" type="fieldDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" use="required"/>
+        <xs:attribute name="object-id"/>
+        <xs:attribute name="name" use="optional"/>
+        <xs:attribute name="entity-class" type="xs:string" use="optional"/>
+        <xs:attribute name="mapping" type="xs:string" use="optional"/>
+        <xs:attribute name="required" type="xs:boolean" use="optional" default="false"/>
+    </xs:complexType>
+
+    <!--список действий над объектом-->
+    <xs:complexType name="operationListDefinition">
+        <xs:sequence>
+            <xs:element name="operation" type="operationDefinition" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="mapperDefinition">
+        <xs:annotation>
+            <xs:documentation>Способ маппинга в параметры провайдера.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="dataset"/>
+            <xs:enumeration value="spel"/>
+            <xs:enumeration value="javascript"/>
+            <xs:enumeration value="groovy"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="inParametersDefinition" abstract="true">
+        <xs:attribute name="id" use="required"/>
+        <xs:attribute name="name" use="optional"/>
+        <xs:attribute name="default-value" type="xs:string" use="optional"/>
+        <xs:attribute name="domain" type="dmn:domainType" use="optional"/>
+        <xs:attribute name="normalize" type="xs:string" use="optional"/>
+        <xs:attribute name="mapper" type="mapperDefinition" use="optional"/>
+        <xs:attribute name="mapping" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="operationValidationListDefinition">
+        <xs:complexContent>
+            <xs:extension base="validationsDefinition">
+                <xs:attribute name="white-list" type="xs:string"/>
+                <xs:attribute name="black-list" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="operationDefinition">
+        <xs:sequence>
+            <xs:element name="invocation" type="operationInvocationDefinition"/>
+            <xs:element name="in-parameters" type="operationParameterListDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="out-parameters" type="operationParameterListDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="validations" type="operationValidationListDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="description" type="xs:string"/>
+        <xs:attribute name="success-text" type="xs:string"/>
+        <xs:attribute name="fail-text" type="xs:string"/>
+        <xs:attribute name="confirm" type="xs:boolean"/>
+        <xs:attribute name="confirm-text" type="xs:string"/>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="name" type="xs:string" use="optional"/>
+        <xs:attribute name="submit-label" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <!--общая составляющая всех способов реализаций действия-->
+    <xs:complexType name="operationInvocationDefinition" abstract="true">
+        <xs:sequence>
+            <xs:element name="sql" type="dp:sqlDefinition" minOccurs="0"/>
+            <xs:element name="rest" type="dp:restDefinition" minOccurs="0"/>
+            <xs:element name="java" type="dp:javaDefinition" minOccurs="0"/>
+            <xs:element name="test" type="dp:testDefinition" minOccurs="0"/>
+            <xs:any namespace="##other" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Провайдер данных.</xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+
+
+    <xs:complexType name="operationParameterListDefinition">
+        <xs:sequence>
+            <xs:element name="param" maxOccurs="unbounded" minOccurs="0">
+                <xs:complexType>
+                    <xs:attribute name="id" type="xs:string" use="required"/>
+                    <xs:attribute name="default-value" type="xs:string" />
+                    <xs:attribute name="domain" type="dmn:domainType" use="optional"/>
+                    <xs:attribute name="normalize" type="xs:string" use="optional"/>
+                    <xs:attribute name="mapper" type="mapperDefinition" use="optional"/>
+                    <xs:attribute name="mapping" type="xs:string" use="optional"/>
+                    <xs:attribute name="required" type="xs:boolean" use="optional"/>
+                    <xs:attribute name="mapping-condition" type="xs:string" use="optional"/>
+                    <xs:attribute name="entity-class" type="xs:string" use="optional"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="validationsDefinition">
+        <xs:sequence>
+            <xs:element name="condition" type="conditionDefinition" minOccurs="0"/>
+            <xs:element name="constraint" type="constraintDefinition" minOccurs="0"/>
+            <xs:element name="mandatory" type="requiredDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="conditionDefinition">
+        <xs:complexContent>
+            <xs:extension base="validationDefinition">
+                <xs:attribute name="on" type="xs:string"/>
+                <xs:attribute name="src" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="constraintDefinition">
+        <xs:complexContent>
+            <xs:extension base="validationDefinition">
+                <xs:sequence>
+                    <xs:element name="invocation" type="operationInvocationDefinition" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="in-parameters" type="operationParameterListDefinition" minOccurs="1"
+                                maxOccurs="1"/>
+                    <xs:element name="out-parameters" type="operationParameterListDefinition" minOccurs="0"
+                                maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="result" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="requiredDefinition">
+        <xs:complexContent>
+            <xs:extension base="validationDefinition">
+                <xs:attribute name="on" type="xs:string"/>
+                <xs:attribute name="src" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="validationDefinition">
+        <xs:attribute name="id" use="required"/>
+        <xs:attribute name="severity" type="severityDefinition" use="required"/>
+        <xs:attribute name="client-moment" type="clientMomentDefinition" use="optional"/>
+        <xs:attribute name="server-moment" type="serverMomentDefinition" use="optional"/>
+        <xs:attribute name="field-id" type="xs:string" use="optional"/>
+        <xs:attribute name="message" type="xs:string"/>
+        <xs:attribute name="enabled" type="xs:boolean" default="true"/>
+        <xs:attribute name="side" type="validationSideDefinition"/>
+    </xs:complexType>
+
+    <xs:simpleType name="validationSideDefinition">
+        <xs:restriction>
+            <xs:enumeration value="client"/>
+            <xs:enumeration value="server"/>
+            <xs:enumeration value="client,server"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="severityDefinition">
+        <xs:restriction>
+            <xs:enumeration value="danger"/>
+            <xs:enumeration value="warning"/>
+            <xs:enumeration value="info"/>
+            <xs:enumeration value="success"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="serverMomentDefinition">
+        <xs:restriction>
+            <xs:enumeration value="before-operation"/>
+            <xs:enumeration value="before-query"/>
+            <xs:enumeration value="after-success-query"/>
+            <xs:enumeration value="after-fail-query"/>
+            <xs:enumeration value="after-fail-operation"/>
+            <xs:enumeration value="after-success-operation"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="clientMomentDefinition">
+        <xs:restriction>
+            <xs:enumeration value="before-load"/>
+            <xs:enumeration value="after-load"/>
+            <xs:enumeration value="before-store"/>
+            <xs:enumeration value="after-store"/>
+            <xs:enumeration value="before-submit"/>
+            <xs:enumeration value="after-submit"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+</xs:schema>

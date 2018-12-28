@@ -1,0 +1,406 @@
+{
+  "template": "AppWithSideBar",
+  "widgets": {
+    "Page.Table": {
+      "src": "TableWidget",
+      "toolbar": {
+        "topLeft": [
+          {
+            "buttons": [
+              {
+                "id": "read",
+                "label": "Изменить",
+                "actionId": "update",
+                "hint": "Изменить данные"
+              },
+              {
+                "id": "delete",
+                "label": "Удалить",
+                "actionId": "delete",
+                "hint": "Удалить запись",
+                "confirm": true
+              }
+            ]
+          }
+        ],
+        "topRight": [
+          {
+            "buttons": [
+              {
+                "id": "filter",
+                "actionId": "toggleWidgetFilters",
+                "icon": "fa fa-filter",
+                "hint": "Фильтры"
+              },
+              {
+                "id": "toggleColumn",
+                "icon": "fa fa-table",
+                "actionId": "toggleColumn",
+                "dropdownSrc": "ToggleColumn",
+                "hint": "Видимость колонок"
+              }, {
+                "id": "refreshData",
+                "icon": "fa fa-refresh",
+                "actionId": "refreshData",
+                "hint": "Обновление данных"
+              },
+              {
+                "id": "changeDataSize",
+                "icon": "fa fa-bars",
+                "dropdownSrc": "ChangeSize",
+                "actionId": "changeDataSize",
+                "hint": "Измепить размер"
+              },
+              {
+                "id": "exportModal",
+                "icon": "fa fa-download",
+                "actionId": "exportModal",
+                "hint": "Экспортировать"
+              }
+
+            ]
+          }
+        ]
+      },
+      "actions": {
+        "update": {
+          "src": "showModal",
+          "pageId": "Test.Page",
+          "size": "large",
+          "title": "Изменить данные",
+          "closeButton": true
+        },
+        "delete": {
+          "src": "invoke",
+          "actionId": "Page.Table.delete",
+          "modelLink": "models.resolve['ProtoPage.patients']",
+          "confirm": true
+        },
+        "toggleWidgetFilters": {
+          "src": "toggleWidgetFilters",
+          "widgetId": "ProtoPage.patients"
+        },
+        "toggleColumn": {
+          "src": "toggleColumn",
+          "widgetId": "ProtoPage.patients"
+        },
+        "refreshData": {
+          "src": "refreshData",
+          "widgetId": "ProtoPage.patients"
+        },
+        "changeDataSize": {
+          "src": "changeSize",
+          "widgetId": "ProtoPage.patients",
+          "size": 5
+        },
+        "exportModal": {
+          "src": "showModal",
+          "content": {
+            "name": "test2",
+            "src": "ExportModal",
+            "title": "Экспортровать",
+            "size": "sm",
+            "visible": true,
+            "closeButton": false,
+            "actions": {
+              "export": {
+                "src": "exportTable",
+                "options": {
+                  "widgetId": "ProtoPage.patients"
+                }
+              },
+              "destroyModal": {
+                "src": "destroyModal",
+                "options": {
+                  "widgetId": "ProtoPage.patients"
+                }
+              }
+            },
+            "toolbar": [
+              {
+                "buttons": [
+                  {
+                    "id": "export",
+                    "title": "Загрузить",
+                    "actionId": "export",
+                    "className": "btn-primary",
+                    "icon": "fa fa-download"
+                  },
+                  {
+                    "id": "cancelExport",
+                    "title": "Отменить",
+                    "actionId": "destroyModal"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "paging": {
+        "prev": true,
+        "next": true
+      },
+      "filter":{
+        "fieldsets": [
+          {
+            "src": "StandardFieldset",
+            "rows": [
+              {
+                "cols": [
+                  {
+                    "fields": [
+                      {
+                        "id": "name",
+                        "label": "Имя",
+                        "control": "Input"
+                      }
+                    ]
+                  },
+                  {
+                    "fields": [
+                      {
+                        "id": "surname",
+                        "label": "Фамилия",
+                        "control": "Input"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "buttonId": "filter",
+        "blackResetList": []
+      },
+      "table": {
+        "size": 10,
+        "fetchOnInit": true,
+        "hasSelect": true,
+        "className": "n2o",
+        "colorFieldId": "",
+        "style": {},
+        "hasFocus": true,
+        "autoFocus": false,
+        "sorting": {
+          "birthday": "ASC"
+        },
+        "cells": [
+          {
+            "src": "TextCell",
+            "id": "name"
+          },
+          {
+            "src": "IconCell",
+            "id": "surname",
+            "icon": "fa fa-plus",
+            "type": "iconAndText",
+            "textPlace": "right"
+          },
+          {
+            "src": "TextCell",
+            "id": "birthday"
+          }
+        ],
+        "headers": [
+          {
+            "src": "TextTableHeader",
+            "id": "name",
+            "sortable": false,
+            "label": "Имя"
+          },
+          {
+            "src": "TextTableHeader",
+            "id": "surname",
+            "sortable": true,
+            "label": "Фамилия"
+          },
+          {
+            "src": "TextTableHeader",
+            "id": "birthday",
+            "sortable": true,
+            "label": "Дата рождения"
+          }
+        ]
+      }
+    },
+    "Page.Form": {
+      "src": "FormWidget",
+      "dependency": {
+        "fetch": [
+          {
+            "bindLink": "models.resolve['Page.Table']"
+          }
+        ]
+      },
+      "toolbar": {
+        "topLeft": [
+          {
+            "buttons": [
+              {
+                "id": "update",
+                "label": "Сохранить",
+                "actionId": "update"
+              }
+            ]
+          }
+        ]
+      },
+      "actions": {
+        "update": {
+          "src": "Invoke",
+          "actionId": "Page.Table.delete",
+          "modelLink": "models.resolve['ProtoPage.patients']",
+          "confirm": true
+        }
+      },
+      "form": {
+        "fetchOnInit": false,
+        "filterDefaultValues": {
+          "id": {
+            "bindLink": "models.resolve['Page.Table']",
+            "value": "`id`"
+          }
+        },
+        "validation": {
+          "name": [
+            {
+              "type": "required",
+              "severity": "danger",
+              "message": "Поле обязательное"
+            },
+            {
+              "type": "condition",
+              "expression": "(name === 'test')",
+              "severity": "warning",
+              "message": "Имя должно быть test"
+            }
+          ],
+          "surname": [
+            {
+              "type": "constrait",
+              "validationKey": "validCheckSurname",
+              "severity": "success",
+              "message": "Доступная фамилия"
+            }
+          ],
+          "email": [
+            {
+              "type": "email",
+              "message": "Некорректный e-mail"
+            }
+          ]
+        },
+        "size": 1,
+        "fieldsets": [
+          {
+            "src": "StandardFieldset",
+            "rows": [
+              {
+                "cols": [
+                  {
+                    "fields": [
+                      {
+                        "src": "StandardField",
+                        "id": "surname",
+                        "label": "Фамилия",
+                        "required": true,
+                        "control": {
+                          "src": "InputText",
+                          "readOnly": true,
+                          "length": 10
+                        }
+                      },
+                      {
+                        "src": "StandardField",
+                        "id": "name",
+                        "label": "Имя",
+                        "control": {
+                          "src": "InputText",
+                          "length": 10
+                        },
+                        "dependency": [
+                          {
+                            "type": "visible",
+                            "on": ["surname"],
+                            "expression": "surname == 'test'"
+                          }
+                        ]
+                      }
+                    ],
+                    "fieldsets": [
+                      {
+                        "src": "StandardFieldset",
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "fields": [
+                                  {
+                                    "src": "StandardField",
+                                    "id": "surname2",
+                                    "label": "Фамилия",
+                                    "control": {
+                                      "src": "InputText",
+                                      "length": 10
+                                    }
+                                  },
+                                  {
+                                    "src": "StandardField",
+                                    "id": "name2",
+                                    "label": "Имя",
+                                    "control": {
+                                      "src": "InputText",
+                                      "length": 10
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "layout": {
+    "src": "LeftRightLayout",
+    "label": "My Layout",
+    "regions": {
+      "left": [
+        {
+          "src": "PanelRegion",
+          "color": "red",
+          "tabs": true,
+          "panels": [
+            {
+              "widgetId": "Page.Table",
+              "icon": "fa fa-plus",
+              "opened": true
+            }
+          ]
+        }
+      ],
+      "right": [
+        {
+          "src": "ListRegion",
+          "items": [
+            {
+              "widgetId": "Page.Form",
+              "label": "Форма",
+              "opened": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

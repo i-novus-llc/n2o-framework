@@ -1,0 +1,85 @@
+package net.n2oapp.framework.api.ui;
+
+import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.exception.N2oValidationException;
+import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.exception.ValidationMessage;
+import org.springframework.context.support.MessageSourceAccessor;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+
+/**
+ * Сборка сообщения об ошибке в формате клиента
+ */
+public class ErrorMessageBuilder {
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    private MessageSourceAccessor messageSourceAccessor;
+
+    public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+        this.messageSourceAccessor = messageSourceAccessor;
+    }
+
+    public ResponseMessage build(Exception e) {
+        ResponseMessage resp = new ResponseMessage();
+        resp.setText(buildText(e));
+        resp.setStacktrace(getStackFrames(getStackTrace(e)));
+        if (e instanceof N2oException) {
+            resp.setChoice(((N2oException) e).getChoice());
+            resp.setSeverityType(((N2oException) e).getSeverity());
+            resp.setField(((N2oException) e).getField());
+        } else {
+            resp.setSeverityType(SeverityType.danger);
+        }
+        return resp;
+    }
+
+    public List<ResponseMessage> buildMessages(N2oValidationException e) {
+        List<ResponseMessage> messages = new ArrayList<>();
+        if (e.getMessages() != null) {
+            for (ValidationMessage message : e.getMessages()) {
+                ResponseMessage resp = new ResponseMessage();
+                resp.setChoice(e.getChoice());
+                resp.setSeverityType(e.getSeverity());
+                resp.setField(message.getFieldId());
+                resp.setText(message.getMessage());
+                resp.setStacktrace(getStackFrames(getStackTrace(e)));
+                messages.add(resp);
+            }
+        }
+        return messages;
+    }
+
+    private String getStackTrace(Throwable throwable) {
+        final StringWriter sw = new StringWriter();
+        final PrintWriter pw = new PrintWriter(sw, true);
+        throwable.printStackTrace(pw);
+        return sw.getBuffer().toString();
+    }
+
+    private List<String> getStackFrames(String stacktrace) {
+        StringTokenizer frames = new StringTokenizer(stacktrace, LINE_SEPARATOR);
+        List<String> list = new ArrayList<>();
+        while (frames.hasMoreTokens()) {
+            list.add(frames.nextToken());
+        }
+        return list;
+    }
+
+    private String buildText(Exception e) {
+        String message = "n2o.exceptions.error.message";
+        String userMessage = e instanceof N2oException ? ((N2oException) e).getUserMessage() : null;
+        message = userMessage != null ? userMessage : message;
+        String localizedMessage = messageSourceAccessor.getMessage(message, message);
+        if (e instanceof N2oException)
+            return StringUtils.resolveLinks(localizedMessage, ((N2oException) e).getData());
+        else
+            return localizedMessage;
+    }
+
+}

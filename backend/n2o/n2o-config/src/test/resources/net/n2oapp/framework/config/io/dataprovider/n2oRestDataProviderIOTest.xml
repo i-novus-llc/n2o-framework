@@ -1,0 +1,11 @@
+<rest xmlns="http://n2oapp.net/framework/config/schema/data-provider-1.0"
+      method="GET"
+      content-type="application/json"
+      filters-separator="&amp;"
+      sorting-separator="&amp;"
+      join-separator=","
+      select-separator=","
+      proxy-host="localhost"
+      proxy-port="8080">
+/api/service/test;select={select};join={join}?{filters}&amp;{sorting}
+</rest>

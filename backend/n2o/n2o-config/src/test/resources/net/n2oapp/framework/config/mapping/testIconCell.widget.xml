@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable">
+    <actions>
+        <action id="create">
+            <a href="/test"/>
+        </action>
+    </actions>
+    <columns>
+        <column text-field-id="name">
+            <icon type="iconAndText" position="left">
+                <switch value-field-id="type.id">
+                    <case value="1">fa fa-plus</case>
+                </switch>
+            </icon>
+        </column>
+        <column text-field-id="name">
+            <icon icon="fa fa-plus" type="iconAndText" position="left"/>
+        </column>
+    </columns>
+</table>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false" monitoring="autodetect"
+         dynamicConfig="true"
+         name="spring">
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <transactionManagerLookup class="net.sf.ehcache.transaction.manager.DefaultTransactionManagerLookup"
+                              properties="jndiName=java:/TransactionManager" propertySeparator=";"/>
+
+    <cacheManagerEventListenerFactory class="" properties=""/>
+
+
+    <cacheManagerPeerProviderFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+            properties="peerDiscovery=automatic,
+                        multicastGroupAddress=230.0.0.1,
+                        multicastGroupPort=4446, timeToLive=0"
+            propertySeparator=","
+            />
+
+
+    <cacheManagerPeerListenerFactory
+            class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"/>
+
+
+    <cache name="first"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="10"
+           timeToLiveSeconds="10"
+           overflowToDisk="false">
+    </cache>
+
+    <cache name="second"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="10"
+           timeToLiveSeconds="10"
+           overflowToDisk="false">
+    </cache>
+
+    <cache name="writeBehindCache"
+           maxElementsInMemory="1000"
+           eternal="false"
+           timeToIdleSeconds="10"
+           timeToLiveSeconds="10"
+           overflowToDisk="false">
+        <cacheWriter writeMode="write_behind" maxWriteDelay="2" rateLimitPerSecond="2"
+                     writeCoalescing="true" writeBatching="true" writeBatchSize="20"
+                     retryAttempts="2" retryAttemptDelaySeconds="2">
+            <cacheWriterFactory class="net.n2oapp.cache.template.TestCacheWriterFactory"/>
+        </cacheWriter>
+    </cache>
+
+
+</ehcache>

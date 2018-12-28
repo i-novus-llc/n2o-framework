@@ -1,0 +1,10191 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view class="n2o-form-container " style="" }
+
+
+
+<div class="messages-container"></div>
+
+
+
+
+
+
+<div class="form-inline">
+    <div class="btn-group confirm n2o-hidden" style="margin-bottom: 15px;">
+
+        <button type="button" class="btn btn-primary n2o-confirm"
+        {^$error}{@if cond="'{model.attributes.$model}' == 'query'"} {~s} disabled="disabled" title="{net.n2oapp.framework.ui.widget.form.button.confirm.change}" {~s} {/if} {/$error}>
+
+        </button>
+
+
+        <button type="button" class="btn n2o-cancel">
+            {net.n2oapp.framework.ui.widget.form.button.label.cancel}
+        </button>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+{#model}
+<form class="">
+<div class="n2o-form-body">
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div"}
+{@bind-scope}
+
+{@render src="n2o/controls/field.set/field.set"
+style=""
+cssClass="holdings"
+headerLabel=""
+fieldLabelLocation="left"
+header="none"
+checkboxFieldId=""}
+
+
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow holdingRowFirst"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.0.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.0.holding" readonly="false" visible="true" label="Препарат" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.0.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.0.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition0"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition0" readonly="false" visible="false" label="condition0" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition0" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[0].holding != 'undefined' && holdings[0].holding != null && typeof holdings[0].holding.id == 'number') true; else false" expression-on="holdings.0.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.0.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.0.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition0"
+instant="true"
+computed=" $condition0 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition0 = .:condition0" /}
+
+
+
+{@entry def="value = .:holdings.0.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition0" enabled-condition="condition0 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition0 == true) ||(typeof holdings.0.count != 'undefined' && checkDependsOn(holdings.0.count))" expression-on="condition0,holdings.0.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.0.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.0.count" readonly="false" visible="false" label="holdings.0.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.0.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[0].count != 'undefined' && holdings[0].count != null)
+typeof holdings[0].count == 'string' ? holdings[0].count.replace(',', '.') : holdings[0].count;
+
+" expression-on="holdings.0.holding.id,holdings.0.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.0.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.0.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible n2o-control-container-with-actions"}
+
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="n2o-links-action">
+
+
+            {@view tag="span"}
+                {@bind-scope}
+                    {@render }
+                        {@view tag="a" class="n2o-links-action_link pointer" title="+"}
+                            +
+                        {:bindings}
+                            {@bind def="as toggleClasses () 'n2o-disabled disabled'"
+                                entry="$enabled,$dependency$enabled"
+                                instant="true"
+                                computed="!( $enabled && (typeof $dependency$enabled === 'undefined' ? true : $dependency$enabled) ) " /}
+                            {@bind def=" $isInVisible as visible () "
+                                entry="$dependency$visible"
+                                instant="true"
+                                computed=" ( (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+                        {:config}
+                            {@option name="actionParams" /}
+                            {! Ð·Ð´ÐµÑÑ + Ð½Ð°Ð¼ Ð½ÑÐ¶Ð½Ð¾ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸!}
+                            {@option name="$dependency" /}
+                            {! Ð¸ ÐºÐ¾Ð½ÑÐµÐºÑÑÐ½Ð°Ñ Ð¼Ð¾Ð´ÐµÐ»Ñ !}
+                            {@optionSetModel var="model" /}
+                            {! Ð´Ð° ÐµÑÑ Ð¸ nameField !}
+                            {@option name="name" /}
+                        {/view}
+
+                    {/render}
+
+                {:entries}
+                    {@entry def="$enabled = $system:$enabled" /}
+                    {@assign var="actionParams" type="json" value="{\"label\":\"+\",\"onClick\":{\"src\":\"hospital/n2o/custom/prescription/form/prescriptionForm_holdings.js\",\"functionName\":\"addHolding\"},\"hasDependencies\":false}" /}
+
+                {/bind-scope}
+            {/view}
+
+
+            {@view tag="span"}
+                {@bind-scope}
+                    {@render }
+                        {@view tag="a" class="n2o-links-action_link pointer" title="-"}
+                            -
+                        {:bindings}
+                            {@bind def="as toggleClasses () 'n2o-disabled disabled'"
+                                entry="$enabled,$dependency$enabled"
+                                instant="true"
+                                computed="!( $enabled && (typeof $dependency$enabled === 'undefined' ? true : $dependency$enabled) ) " /}
+                            {@bind def=" $isInVisible as visible () "
+                                entry="$dependency$visible"
+                                instant="true"
+                                computed=" ( (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+                        {:config}
+                            {@option name="actionParams" /}
+                            {! Ð·Ð´ÐµÑÑ + Ð½Ð°Ð¼ Ð½ÑÐ¶Ð½Ð¾ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸!}
+                            {@option name="$dependency" /}
+                            {! Ð¸ ÐºÐ¾Ð½ÑÐµÐºÑÑÐ½Ð°Ñ Ð¼Ð¾Ð´ÐµÐ»Ñ !}
+                            {@optionSetModel var="model" /}
+                            {! Ð´Ð° ÐµÑÑ Ð¸ nameField !}
+                            {@option name="name" /}
+                        {/view}
+
+                    {/render}
+
+                {:entries}
+                    {@entry def="$enabled = $system:$enabled" /}
+                    {@assign var="actionParams" type="json" value="{\"label\":\"-\",\"onClick\":{\"src\":\"hospital/n2o/custom/prescription/form/prescriptionForm_holdings.js\",\"functionName\":\"removeHolding\"},\"hasDependencies\":false}" /}
+
+                {/bind-scope}
+            {/view}
+
+    </span>
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition0"
+instant="true"
+computed=" $condition0 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{@css src="n2o/controls/__containers/inputActions" /}
+{@js src="n2o/controls/__containers/inputActions" primary="true" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition0 = .:condition0" /}
+
+
+
+{@entry def="value = .:holdings.0.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition0" enabled-condition="condition0 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition0 == true) ||(typeof holdings.0.dose != 'undefined' && checkDependsOn(holdings.0.dose))" expression-on="condition0,holdings.0.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.0.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.0.dose" readonly="false" visible="false" label="holdings.0.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.0.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[0].dose != 'undefined' && holdings[0].dose != null)
+typeof holdings[0].dose == 'string' ? holdings[0].dose.replace(',', '.') : holdings[0].dose;
+
+" expression-on="holdings.0.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.0.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.0.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.0.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.0.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.0.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.0.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[0].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.0.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.0.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.0.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[0].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.1.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.1.holding" readonly="false" visible="true" label="Препарат 2" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.1.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 2 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.1.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition1"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition1" readonly="false" visible="false" label="condition1" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition1" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[1].holding != 'undefined' && holdings[1].holding != null && typeof holdings[1].holding.id == 'number') true; else false" expression-on="holdings.1.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.1.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.1.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition1"
+instant="true"
+computed=" $condition1 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition1 = .:condition1" /}
+
+
+
+{@entry def="value = .:holdings.1.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition1" enabled-condition="condition1 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition1 == true) ||(typeof holdings.1.count != 'undefined' && checkDependsOn(holdings.1.count))" expression-on="condition1,holdings.1.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.1.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.1.count" readonly="false" visible="false" label="holdings.1.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.1.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[1].count != 'undefined' && holdings[1].count != null)
+typeof holdings[1].count == 'string' ? holdings[1].count.replace(',', '.') : holdings[1].count;
+
+" expression-on="holdings.1.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.1.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.1.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition1"
+instant="true"
+computed=" $condition1 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition1 = .:condition1" /}
+
+
+
+{@entry def="value = .:holdings.1.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition1" enabled-condition="condition1 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition1 == true) ||(typeof holdings.1.dose != 'undefined' && checkDependsOn(holdings.1.dose))" expression-on="condition1,holdings.1.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.1.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.1.dose" readonly="false" visible="false" label="holdings.1.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.1.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[1].dose != 'undefined' && holdings[1].dose != null)
+typeof holdings[1].dose == 'string' ? holdings[1].dose.replace(',', '.') : holdings[1].dose;
+
+" expression-on="holdings.1.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.1.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.1.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.1.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.1.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.1.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.1.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[1].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.1.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.1.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.1.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[1].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.2.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.2.holding" readonly="false" visible="true" label="Препарат 3" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.2.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 3 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.2.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition2"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition2" readonly="false" visible="false" label="condition2" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition2" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[2].holding != 'undefined' && holdings[2].holding != null && typeof holdings[2].holding.id == 'number') true; else false" expression-on="holdings.2.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.2.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.2.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition2"
+instant="true"
+computed=" $condition2 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition2 = .:condition2" /}
+
+
+
+{@entry def="value = .:holdings.2.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition2" enabled-condition="condition2 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition2 == true) ||(typeof holdings.2.count != 'undefined' && checkDependsOn(holdings.2.count))" expression-on="condition2,holdings.2.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.2.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.2.count" readonly="false" visible="false" label="holdings.2.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.2.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[2].count != 'undefined' && holdings[2].count != null)
+typeof holdings[2].count == 'string' ? holdings[2].count.replace(',', '.') : holdings[2].count;
+
+" expression-on="holdings.2.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.2.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.2.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition2"
+instant="true"
+computed=" $condition2 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition2 = .:condition2" /}
+
+
+
+{@entry def="value = .:holdings.2.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition2" enabled-condition="condition2 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition2 == true) ||(typeof holdings.2.dose != 'undefined' && checkDependsOn(holdings.2.dose))" expression-on="condition2,holdings.2.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.2.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.2.dose" readonly="false" visible="false" label="holdings.2.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.2.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[2].dose != 'undefined' && holdings[2].dose != null)
+typeof holdings[2].dose == 'string' ? holdings[2].dose.replace(',', '.') : holdings[2].dose;
+
+" expression-on="holdings.2.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.2.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.2.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.2.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.2.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.2.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.2.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[2].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.2.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.2.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.2.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[2].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.3.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.3.holding" readonly="false" visible="true" label="Препарат 4" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.3.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 4 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.3.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition3"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition3" readonly="false" visible="false" label="condition3" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition3" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[3].holding != 'undefined' && holdings[3].holding != null && typeof holdings[3].holding.id == 'number') true; else false" expression-on="holdings.3.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.3.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.3.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition3"
+instant="true"
+computed=" $condition3 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition3 = .:condition3" /}
+
+
+
+{@entry def="value = .:holdings.3.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition3" enabled-condition="condition3 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition3 == true) ||(typeof holdings.3.count != 'undefined' && checkDependsOn(holdings.3.count))" expression-on="condition3,holdings.3.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.3.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.3.count" readonly="false" visible="false" label="holdings.3.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.3.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[3].count != 'undefined' && holdings[3].count != null)
+typeof holdings[3].count == 'string' ? holdings[3].count.replace(',', '.') : holdings[3].count;
+
+" expression-on="holdings.3.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.3.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.3.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition3"
+instant="true"
+computed=" $condition3 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition3 = .:condition3" /}
+
+
+
+{@entry def="value = .:holdings.3.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition3" enabled-condition="condition3 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition3 == true) ||(typeof holdings.3.dose != 'undefined' && checkDependsOn(holdings.3.dose))" expression-on="condition3,holdings.3.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.3.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.3.dose" readonly="false" visible="false" label="holdings.3.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.3.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[3].dose != 'undefined' && holdings[3].dose != null)
+typeof holdings[3].dose == 'string' ? holdings[3].dose.replace(',', '.') : holdings[3].dose;
+
+" expression-on="holdings.3.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.3.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.3.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.3.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.3.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.3.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.3.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[3].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.3.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.3.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.3.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[3].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.4.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.4.holding" readonly="false" visible="true" label="Препарат 5" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.4.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 5 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.4.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition4"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition4" readonly="false" visible="false" label="condition4" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition4" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[4].holding != 'undefined' && holdings[4].holding != null && typeof holdings[4].holding.id == 'number') true; else false" expression-on="holdings.4.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.4.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.4.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition4"
+instant="true"
+computed=" $condition4 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition4 = .:condition4" /}
+
+
+
+{@entry def="value = .:holdings.4.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition4" enabled-condition="condition4 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition4 == true) ||(typeof holdings.4.count != 'undefined' && checkDependsOn(holdings.4.count))" expression-on="condition4,holdings.4.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.4.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.4.count" readonly="false" visible="false" label="holdings.4.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.4.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[4].count != 'undefined' && holdings[4].count != null)
+typeof holdings[4].count == 'string' ? holdings[4].count.replace(',', '.') : holdings[4].count;
+
+" expression-on="holdings.4.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.4.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.4.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition4"
+instant="true"
+computed=" $condition4 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition4 = .:condition4" /}
+
+
+
+{@entry def="value = .:holdings.4.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition4" enabled-condition="condition4 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition4 == true) ||(typeof holdings.4.dose != 'undefined' && checkDependsOn(holdings.4.dose))" expression-on="condition4,holdings.4.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.4.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.4.dose" readonly="false" visible="false" label="holdings.4.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.4.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[4].dose != 'undefined' && holdings[4].dose != null)
+typeof holdings[4].dose == 'string' ? holdings[4].dose.replace(',', '.') : holdings[4].dose;
+
+" expression-on="holdings.4.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.4.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.4.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.4.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.4.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.4.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.4.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[4].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.4.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.4.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.4.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[4].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.5.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.5.holding" readonly="false" visible="true" label="Препарат 6" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.5.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 6 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.5.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition5"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition5" readonly="false" visible="false" label="condition5" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition5" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[5].holding != 'undefined' && holdings[5].holding != null && typeof holdings[5].holding.id == 'number') true; else false" expression-on="holdings.5.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.5.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.5.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition5"
+instant="true"
+computed=" $condition5 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition5 = .:condition5" /}
+
+
+
+{@entry def="value = .:holdings.5.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition5" enabled-condition="condition5 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition5 == true) ||(typeof holdings.5.count != 'undefined' && checkDependsOn(holdings.5.count))" expression-on="condition5,holdings.5.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.5.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.5.count" readonly="false" visible="false" label="holdings.5.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.5.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[5].count != 'undefined' && holdings[5].count != null)
+typeof holdings[5].count == 'string' ? holdings[5].count.replace(',', '.') : holdings[5].count;
+
+" expression-on="holdings.5.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.5.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.5.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition5"
+instant="true"
+computed=" $condition5 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition5 = .:condition5" /}
+
+
+
+{@entry def="value = .:holdings.5.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition5" enabled-condition="condition5 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition5 == true) ||(typeof holdings.5.dose != 'undefined' && checkDependsOn(holdings.5.dose))" expression-on="condition5,holdings.5.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.5.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.5.dose" readonly="false" visible="false" label="holdings.5.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.5.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[5].dose != 'undefined' && holdings[5].dose != null)
+typeof holdings[5].dose == 'string' ? holdings[5].dose.replace(',', '.') : holdings[5].dose;
+
+" expression-on="holdings.5.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.5.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.5.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.5.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.5.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.5.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.5.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[5].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.5.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.5.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.5.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[5].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.6.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.6.holding" readonly="false" visible="true" label="Препарат 7" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.6.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 7 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.6.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition6"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition6" readonly="false" visible="false" label="condition6" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition6" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[6].holding != 'undefined' && holdings[6].holding != null && typeof holdings[6].holding.id == 'number') true; else false" expression-on="holdings.6.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.6.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.6.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition6"
+instant="true"
+computed=" $condition6 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition6 = .:condition6" /}
+
+
+
+{@entry def="value = .:holdings.6.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition6" enabled-condition="condition6 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition6 == true) ||(typeof holdings.6.count != 'undefined' && checkDependsOn(holdings.6.count))" expression-on="condition6,holdings.6.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.6.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.6.count" readonly="false" visible="false" label="holdings.6.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.6.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[6].count != 'undefined' && holdings[6].count != null)
+typeof holdings[6].count == 'string' ? holdings[6].count.replace(',', '.') : holdings[6].count;
+
+" expression-on="holdings.6.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.6.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.6.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition6"
+instant="true"
+computed=" $condition6 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition6 = .:condition6" /}
+
+
+
+{@entry def="value = .:holdings.6.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition6" enabled-condition="condition6 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition6 == true) ||(typeof holdings.6.dose != 'undefined' && checkDependsOn(holdings.6.dose))" expression-on="condition6,holdings.6.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.6.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.6.dose" readonly="false" visible="false" label="holdings.6.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.6.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[6].dose != 'undefined' && holdings[6].dose != null)
+typeof holdings[6].dose == 'string' ? holdings[6].dose.replace(',', '.') : holdings[6].dose;
+
+" expression-on="holdings.6.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.6.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.6.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.6.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.6.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.6.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.6.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[6].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.6.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.6.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.6.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[6].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.7.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.7.holding" readonly="false" visible="true" label="Препарат 8" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.7.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 8 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.7.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition7"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition7" readonly="false" visible="false" label="condition7" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition7" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[7].holding != 'undefined' && holdings[7].holding != null && typeof holdings[7].holding.id == 'number') true; else false" expression-on="holdings.7.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.7.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.7.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition7"
+instant="true"
+computed=" $condition7 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition7 = .:condition7" /}
+
+
+
+{@entry def="value = .:holdings.7.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition7" enabled-condition="condition7 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition7 == true) ||(typeof holdings.7.count != 'undefined' && checkDependsOn(holdings.7.count))" expression-on="condition7,holdings.7.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.7.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.7.count" readonly="false" visible="false" label="holdings.7.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.7.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[7].count != 'undefined' && holdings[7].count != null)
+typeof holdings[7].count == 'string' ? holdings[7].count.replace(',', '.') : holdings[7].count;
+
+" expression-on="holdings.7.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.7.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.7.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition7"
+instant="true"
+computed=" $condition7 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition7 = .:condition7" /}
+
+
+
+{@entry def="value = .:holdings.7.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition7" enabled-condition="condition7 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition7 == true) ||(typeof holdings.7.dose != 'undefined' && checkDependsOn(holdings.7.dose))" expression-on="condition7,holdings.7.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.7.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.7.dose" readonly="false" visible="false" label="holdings.7.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.7.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[7].dose != 'undefined' && holdings[7].dose != null)
+typeof holdings[7].dose == 'string' ? holdings[7].dose.replace(',', '.') : holdings[7].dose;
+
+" expression-on="holdings.7.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.7.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.7.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.7.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.7.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.7.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.7.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[7].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.7.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.7.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.7.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[7].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.8.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.8.holding" readonly="false" visible="true" label="Препарат 9" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.8.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 9 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.8.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition8"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition8" readonly="false" visible="false" label="condition8" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition8" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[8].holding != 'undefined' && holdings[8].holding != null && typeof holdings[8].holding.id == 'number') true; else false" expression-on="holdings.8.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.8.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.8.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition8"
+instant="true"
+computed=" $condition8 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition8 = .:condition8" /}
+
+
+
+{@entry def="value = .:holdings.8.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition8" enabled-condition="condition8 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition8 == true) ||(typeof holdings.8.count != 'undefined' && checkDependsOn(holdings.8.count))" expression-on="condition8,holdings.8.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.8.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.8.count" readonly="false" visible="false" label="holdings.8.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.8.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[8].count != 'undefined' && holdings[8].count != null)
+typeof holdings[8].count == 'string' ? holdings[8].count.replace(',', '.') : holdings[8].count;
+
+" expression-on="holdings.8.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.8.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.8.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition8"
+instant="true"
+computed=" $condition8 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition8 = .:condition8" /}
+
+
+
+{@entry def="value = .:holdings.8.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition8" enabled-condition="condition8 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition8 == true) ||(typeof holdings.8.dose != 'undefined' && checkDependsOn(holdings.8.dose))" expression-on="condition8,holdings.8.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.8.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.8.dose" readonly="false" visible="false" label="holdings.8.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.8.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[8].dose != 'undefined' && holdings[8].dose != null)
+typeof holdings[8].dose == 'string' ? holdings[8].dose.replace(',', '.') : holdings[8].dose;
+
+" expression-on="holdings.8.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.8.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.8.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.8.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.8.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.8.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.8.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[8].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.8.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.8.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.8.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[8].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline holdingRow n2o-hidden"
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  holding-field" nameField="holdings.9.holding"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="holdings.9.holding" readonly="false" visible="true" label="Препарат 10" cache="false" classifierMode="advance" searchAreYouType="false" wordWrap="false" showModalPageId="Stress3.main.holdings.9.holding" showModalResultContainerId="main" valueFieldId="holding_id" labelFieldId="holding_full_name" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Препарат 10 </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.9.holding" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="department_id" ref="case.step.department.id" resetMode="on" /}
+
+{@dependency.filter field-id="org_id" ref="case.organization.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="condition9"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="condition9" readonly="false" visible="false" label="condition9" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:condition9" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(typeof holdings[9].holding != 'undefined' && holdings[9].holding != null && typeof holdings[9].holding.id == 'number') true; else false" expression-on="holdings.9.holding" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  count-field" nameField="holdings.9.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.9.count" readonly="false" visible="true" label="Количество" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition9"
+instant="true"
+computed=" $condition9 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition9 = .:condition9" /}
+
+
+
+{@entry def="value = .:holdings.9.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition9" enabled-condition="condition9 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition9 == true) ||(typeof holdings.9.count != 'undefined' && checkDependsOn(holdings.9.count))" expression-on="condition9,holdings.9.count" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.9.count"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.9.count" readonly="false" visible="false" label="holdings.9.count" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.9.count" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[9].count != 'undefined' && holdings[9].count != null)
+typeof holdings[9].count == 'string' ? holdings[9].count.replace(',', '.') : holdings[9].count;
+
+" expression-on="holdings.9.count" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dose-field" nameField="holdings.9.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="holdings.9.dose" readonly="false" visible="true" label="Доза" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Доза </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisibleRequiredStar as toggleClasses (.control-label) 'n2o-required-star' "
+entry="$condition9"
+instant="true"
+computed=" $condition9 == true " /}
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+
+{@entry def="$condition9 = .:condition9" /}
+
+
+
+{@entry def="value = .:holdings.9.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="condition9" enabled-condition="condition9 == true" /}
+
+
+
+
+
+
+
+
+
+
+{:validations}
+
+{@validate type="condition" expression="!(condition9 == true) ||(typeof holdings.9.dose != 'undefined' && checkDependsOn(holdings.9.dose))" expression-on="condition9,holdings.9.dose" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="holdings.9.dose"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="holdings.9.dose" readonly="false" visible="false" label="holdings.9.dose" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.9.dose" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof holdings[9].dose != 'undefined' && holdings[9].dose != null)
+typeof holdings[9].dose == 'string' ? holdings[9].dose.replace(',', '.') : holdings[9].dose;
+
+" expression-on="holdings.9.dose" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  patient-checkbox" nameField="holdings.9.is_patient_medicament"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="holdings.9.is_patient_medicament" readonly="false" visible="true" label="Препарат пациента" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.9.is_patient_medicament" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  mnei-output" nameField="holdings.9.holding.mnei_name"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.9.holding.mnei_name" readonly="false" visible="true" label="Осн.ед.изм. -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Осн.ед.изм. - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.9.holding.mnei_name" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[9].holding.mnei_name;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  dosage-output" nameField="holdings.9.holding.dose_with_measure"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/output-text/text" name="holdings.9.holding.dose_with_measure" readonly="false" visible="true" label="Дозировка -" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дозировка - </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:holdings.9.holding.dose_with_measure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="holdings[9].holding.dose_with_measure;" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/render}
+
+
+
+
+{:entries}
+{@entry def="checkboxValue = .:" /}
+{/bind-scope}
+{/view}
+
+
+
+
+
+
+
+
+{@view tag="div"}
+{@bind-scope}
+
+{@render src="n2o/controls/field.set/field.set"
+style=""
+cssClass=""
+headerLabel=""
+fieldLabelLocation="left"
+header="none"
+checkboxFieldId=""}
+
+
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="administrationRoute"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width: 700px;" controlSrc="n2o/controls/classifier/classifier" name="administrationRoute" readonly="false" visible="true" required="true" label="Способ введения" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" style="width: 130px;" >Способ введения </label>
+<div class="controls" style="width: 700px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:administrationRoute" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="formTypeId" ref="holdings.0.holding.form_type_id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="prescriptionPeriodicity"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width: 700px;" controlSrc="n2o/controls/classifier/classifier" name="prescriptionPeriodicity" readonly="false" visible="true" required="true" label="Периодичность" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" style="width: 130px;" >Периодичность </label>
+<div class="controls" style="width: 700px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:prescriptionPeriodicity" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="visitTerm"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width: 700px;" controlSrc="n2o/controls/classifier/classifier" name="visitTerm" readonly="false" visible="true" label="Условия" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width: 130px;" >Условия </label>
+<div class="controls" style="width: 700px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:visitTerm" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="periodBeginDt"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width:153px;" controlSrc="n2o/controls/date.picker/date.picker" name="periodBeginDt" readonly="false" visible="true" required="true" label="Период с" dateFormat="DD.MM.YYYY HH:mm" defaultTime="00:00" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" style="width: 130px;" >Период с </label>
+<div class="controls" style="width:153px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/date.picker/date.picker" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:periodBeginDt" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="periodEndDt"}
+{@bind-scope}
+{@render labelStyle="width:20px;" controlStyle="width:153px;" controlSrc="n2o/controls/date.picker/date.picker" name="periodEndDt" readonly="false" visible="true" required="true" label="по" dateFormat="DD.MM.YYYY HH:mm" defaultTime="now()" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" style="width:20px;" >по </label>
+<div class="controls" style="width:153px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/date.picker/date.picker" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:periodEndDt" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="note"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width: 700px;" controlSrc="n2o/controls/text/area" name="note" readonly="false" visible="true" label="Комментарий" rows="2" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width: 130px;" >Комментарий </label>
+<div class="controls" style="width: 700px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/area" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:note" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="dayAmount"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width:100px;" controlSrc="n2o/controls/output-text/text" name="dayAmount" readonly="false" visible="true" label="Количество дней:" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width: 130px;" >Количество дней: </label>
+<div class="controls" style="width:100px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:dayAmount" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+if(typeof periodBeginDt != 'undefined' && periodBeginDt != null &&
+typeof periodEndDt != 'undefined' && periodEndDt != null &&
+typeof prescriptionPeriodicity != 'undefined' && prescriptionPeriodicity != null && prescriptionPeriodicity.id != null)
+{
+
+var periodEnd = moment(periodEndDt, 'DD.MM.YYYY');
+var periodBegin = moment(periodBeginDt, 'DD.MM.YYYY');
+var days = periodEnd.diff(periodBegin, 'days') + 1;
+
+var interval = prescriptionPeriodicity.interval;
+if(interval != null && interval != 0)
+{
+var daysWithInterval = Math.ceil(days / interval);
+days = daysWithInterval;
+}
+dayAmount = days;
+}
+
+" expression-on="prescriptionPeriodicity.id,Math.ceil,periodEnd.diff,dayAmount,periodBeginDt,daysWithInterval,periodBegin,moment,prescriptionPeriodicity,days,interval,periodEndDt,prescriptionPeriodicity.interval,periodEnd" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="singleDoseWithMeasure"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width: 740px;" controlSrc="n2o/controls/output-text/text" name="singleDoseWithMeasure" readonly="false" visible="true" label="Разовая доза:" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width: 130px;" >Разовая доза: </label>
+<div class="controls" style="width: 740px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:singleDoseWithMeasure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+var singleDose;
+if (typeof holdings != 'undefined' && holdings != null) {
+var singleMap = new Map();
+for (var i = 0; i < 10; i++) {
+var h = new Object();
+h = holdings[i];
+if (typeof h != 'undefined' && h != null && typeof h.holding != 'undefined' && h.holding != null
+&& typeof h.dose != 'undefined' && h.dose != null && typeof h.count != 'undefined' && h.count != null
+&& h.dose != '' && h.count != '') {
+var doseMeasureId = h.holding.dose_measure_id;
+var doseAndMeasure = new Object();
+doseAndMeasure.dose = parseFloat(h.dose).toFixed(3) * 1;
+doseAndMeasure.measure = h.holding.dose_measure_name;
+if (singleMap.has(doseMeasureId)) {
+doseAndMeasure.dose = singleMap.get(doseMeasureId).dose + doseAndMeasure.dose;
+singleMap.set(doseMeasureId, doseAndMeasure);
+}
+else {
+singleMap.set(doseMeasureId, doseAndMeasure);
+}
+}
+}
+singleMap.forEach(function(value, key) {
+singleDose = (typeof singleDose != 'undefined' ? (singleDose + ' + ') : '') + parseFloat(value.dose).toFixed(3)*1 + ' ' +  value.measure;
+});
+singleDoseWithMeasure = typeof singleDose == 'undefined' ? null : singleDose;
+}
+
+" expression-on="holdings" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="dailyDoseWithMeasure"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width: 740px;" controlSrc="n2o/controls/output-text/text" name="dailyDoseWithMeasure" readonly="false" visible="true" label="Суточная доза:" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width: 130px;" >Суточная доза: </label>
+<div class="controls" style="width: 740px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:dailyDoseWithMeasure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+var dailyDose;
+if (typeof holdings != 'undefined' && holdings != null
+&& typeof prescriptionPeriodicity != 'undefined' && prescriptionPeriodicity != null
+&& typeof prescriptionPeriodicity.count != 'undefined' && prescriptionPeriodicity.count != null) {
+var singleMap = new Map();
+for (var i = 0; i < 10; i++) {
+var h = new Object();
+h = holdings[i];
+if (typeof h != 'undefined' && h != null && typeof h.holding != 'undefined' && h.holding != null
+&& typeof h.dose != 'undefined' && h.dose != null && typeof h.count != 'undefined' && h.count != null
+&& h.dose != '' && h.count != '') {
+var doseMeasureId = h.holding.dose_measure_id;
+var doseAndMeasure = new Object();
+doseAndMeasure.dose = parseFloat(h.dose).toFixed(3) * 1;
+doseAndMeasure.measure = h.holding.dose_measure_name;
+if (singleMap.has(doseMeasureId)) {
+doseAndMeasure.dose = singleMap.get(doseMeasureId).dose + doseAndMeasure.dose;
+singleMap.set(doseMeasureId, doseAndMeasure);
+}
+else {
+singleMap.set(doseMeasureId, doseAndMeasure);
+}
+}
+}
+singleMap.forEach(function(value, key) {
+dailyDose = (typeof dailyDose != 'undefined' ? (dailyDose + ' + ') : '') + parseFloat(value.dose * prescriptionPeriodicity.count).toFixed(3)*1 + ' ' +  value.measure;
+});
+}
+dailyDoseWithMeasure = typeof dailyDose == 'undefined' ? null : dailyDose;
+
+" expression-on="holdings,prescriptionPeriodicity" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="courseDoseWithMeasure"}
+{@bind-scope}
+{@render labelStyle="width: 130px;" controlStyle="width: 740px;" controlSrc="n2o/controls/output-text/text" name="courseDoseWithMeasure" readonly="false" visible="true" label="Курсовая доза:" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width: 130px;" >Курсовая доза: </label>
+<div class="controls" style="width: 740px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/output-text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:courseDoseWithMeasure" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+
+var courseDose;
+if(typeof holdings != 'undefined' && holdings != null &&
+typeof dayAmount != 'undefined' && dayAmount != null &&
+typeof dailyDoseWithMeasure != 'undefined' && dailyDoseWithMeasure != null &&
+typeof prescriptionPeriodicity != 'undefined' && prescriptionPeriodicity != null && prescriptionPeriodicity.id != null &&
+typeof singleDoseWithMeasure != 'undefined' && singleDoseWithMeasure != null &&
+typeof periodBeginDt != 'undefined' && periodBeginDt != null &&
+typeof periodEndDt != 'undefined' && periodEndDt != null) {
+var singleMap = new Map();
+for (var i = 0; i < 10; i++) {
+var h = new Object();
+h = holdings[i];
+if (typeof h != 'undefined' && h != null && typeof h.holding != 'undefined' && h.holding != null
+&& typeof h.dose != 'undefined' && h.dose != null && typeof h.count != 'undefined' && h.count != null
+&& h.dose != '' && h.count != '') {
+var doseMeasureId = h.holding.dose_measure_id;
+var doseAndMeasure = new Object();
+doseAndMeasure.dose = parseFloat(h.dose).toFixed(3) * 1;
+doseAndMeasure.measure = h.holding.dose_measure_name;
+if (singleMap.has(doseMeasureId)) {
+doseAndMeasure.dose = singleMap.get(doseMeasureId).dose + doseAndMeasure.dose;
+singleMap.set(doseMeasureId, doseAndMeasure);
+}
+else {
+singleMap.set(doseMeasureId, doseAndMeasure);
+}
+}
+}
+
+var missedTimes = 0;
+if(prescriptionPeriodicity.times != null) {
+var times = prescriptionPeriodicity.times.split(',');
+for(var i = 0; i < times.length; i++) {
+if (moment(times[i], 'HH:mm:ss').isBefore(moment(moment(periodBeginDt, 'DD.MM.YYYY HH:mm').format('HH:mm'),'HH:mm'))) {
+missedTimes = missedTimes + 1;
+}
+
+if (moment(times[i], 'HH:mm:ss').isAfter(moment(moment(periodEndDt, 'DD.MM.YYYY HH:mm').format('HH:mm'),'HH:mm'))) {
+missedTimes = missedTimes + 1;
+}
+}
+}
+
+singleMap.forEach(function(value, key) {
+var calculated = value.dose * prescriptionPeriodicity.count * dayAmount - value.dose * missedTimes;
+courseDose = (typeof courseDose != 'undefined' ? (courseDose + ' + ') : '') + parseFloat(calculated).toFixed(3)*1 + ' ' + value.measure;
+});
+}
+courseDoseWithMeasure = typeof courseDose == 'undefined' ? null : courseDose;
+
+" expression-on="holdings,prescriptionPeriodicity,dayAmount,periodBeginDt,periodEndDt" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="true"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/render}
+
+
+
+
+{:entries}
+{@entry def="checkboxValue = .:" /}
+{/bind-scope}
+{/view}
+
+
+
+
+
+</div>
+</form>
+{/model}
+
+
+
+
+{:resources}
+{@css src="n2o/widgets/form/form" /}
+{@css src="n2o/widgets/form/form" /}
+
+{/view}
+

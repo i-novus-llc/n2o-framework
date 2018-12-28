@@ -1,0 +1,16 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" object-id="utBlank" >
+    <actions>
+        <action id="testActionId1" name="name" icon="icon">
+            <invoke operation-id="invoke"/>
+        </action>
+    </actions>
+    <toolbar place="topLeft">
+        <button id="testId1" action-id="testActionId1"/>
+    </toolbar>
+    <toolbar place="bottomLeft" >
+        <button id="testId2" action-id="testActionId1" label="Label1" model="filter"/>
+        <button id="testId3">
+            <invoke operation-id="create"/>
+        </button>
+    </toolbar>
+</form>

@@ -1,0 +1,62 @@
+.n2o-alerts {
+  display: flex;
+  flex-direction: column;
+}
+
+.n2o-alert-header {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.n2o-alert-body {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.n2o-alert-body .details-label {
+  margin-left: 1rem;
+  border-bottom: 1px dashed rgba($dark, .55);
+  cursor: pointer;
+}
+
+.n2o-alert-body .details {
+  margin-top: 10px;
+  background-color: $gray-200;
+  padding: $input-padding;
+  color: $dark;
+  border: 1px solid $gray-400;
+  border-radius: $border-radius-base;
+}
+
+.alert-border-info {
+  border: 1px solid darken($info, 20%);
+}
+
+.alert-border-danger {
+  border: 1px solid darken($danger, 20%);
+}
+
+.alert-border-success {
+  border: 1px solid darken($success, 20%);
+}
+
+.alert-border-warning {
+  border: 1px solid darken($warning, 20%);
+}
+
+.n2o-global-alerts {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: $zindex-tooltip;
+
+  & > .alert {
+    flex-direction: row-reverse;
+  }
+
+  & .close {
+    margin-top: -5px;
+    margin-left: 10px;
+  }
+}

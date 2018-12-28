@@ -1,0 +1,13 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <file-upload id="test"
+                     multi="true"
+                     ajax="true"
+                     show-size="true"
+                     upload-url="/url"
+                     delete-url="/url"
+                     value-field-id="test"
+                     label-field-id="test"
+                     url-field-id="test"/>
+    </fields>
+</form>

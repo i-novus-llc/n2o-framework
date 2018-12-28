@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Вкладки">
+    <regions>
+        <tabs place="single" id="patients">
+            <table src="DataGrid" id="first" name="Таб #1" query-id="ProtoPatient" icon="fa fa-medkit">
+                <filters place="top">
+                    <row>
+                        <input-text id="surname"/>
+                        <input-text id="name"/>
+                    </row>
+                </filters>
+                <toolbar place="topRight">
+                    <button id="create" label="Создать" icon="fa fa-plus">
+                        <show-modal page-id="ProtoPatient" submit-operation-id="create" model="filter"
+                                    focus-after-submit="true" redirect-url-after-submit="../:id/update2"/>
+                    </button>
+                </toolbar>
+                <columns>
+                    <column text-field-id="id"/>
+                    <column text-field-id="surname"/>
+                    <column text-field-id="name"/>
+                    <column text-field-id="patrName"/>
+                    <column text-field-id="birthday"/>
+                    <column text-field-id="age"/>
+                    <column text-field-id="genderName"/>
+                    <column text-field-id="ethnicGroupName"/>
+                    <column text-field-id="socialGroupName"/>
+                    <column text-field-id="nationality.name"/>
+                </columns>
+            </table>
+            <table id="second" name="Таб #2" query-id="ProtoPatient" icon="fa fa-ambulance">
+                <pagination/>
+                <columns>
+                    <column text-field-id="fullName" label="Аватар">
+                        <custom src="AvatarCell" />
+                    </column>
+                    <column text-field-id="name"/>
+                    <column text-field-id="surname"/>
+                    <column text-field-id="patrName"/>
+                </columns>
+            </table>
+            <table id="third" name="Таб #3" query-id="ProtoPatient" icon="fa fa-heartbeat">
+                <pagination/>
+                <columns>
+                    <column text-field-id="name"/>
+                    <column text-field-id="surname"/>
+                    <column text-field-id="genderName">
+                        <badge/>
+                    </column>
+                    <column text-field-id="vip">
+                        <checkbox/>
+                    </column>
+                </columns>
+            </table>
+        </tabs>
+
+    </regions>
+
+</page>

@@ -1,0 +1,5570 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view class="n2o-form-container " style="" }
+
+
+
+<div class="messages-container"></div>
+
+
+
+
+
+
+
+
+
+
+<div class="btn-group" style="white-space: inherit;">
+
+<div class="btn-group actions n2o-actions-menu" style="margin-bottom: 15px; vertical-align: inherit;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@render actionId="createFirstHospitalRecord" label="Направить в отделение" enabled="true"
+defaultAction="false" type="text" keyMap="Alt+1"
+context="true" bulk="false" icon="" color=""
+visibilityConditions="true"}
+
+{@view tag="span" class="n2o-action-container_radius"}
+<button data-enabled="{enabled}" class="btn n2o-action {color} {@if cond="{visibilityConditions}"}n2o-hidden{/if}"
+
+{@if cond="{context}"}
+disabled{~s}
+{/if}
+
+{@if cond="'{keyMap}'"}
+title="{label} ({keyMap})" {~s}
+data-title="{label} ({keyMap})" {~s}
+{/if}
+
+data-action-id="{actionId}"
+
+{@if cond="{visibilityConditions}"}style="display: none;"{/if}>
+
+{?icon}
+<i class="{icon} {?color}icon-white{/color}"></i>{~s}
+{/icon}
+
+{@if cond="'{type}' !== 'icon'"}
+{@if cond="{defaultAction}"}
+<b>{label}</b>
+{:else}
+{label}
+{/if}
+{/if}
+
+</button>
+
+{:resources}
+{@js  src="n2o/controls/action/action" primary="true" /}
+{@css src="n2o/controls/action/n2o-action" /}
+
+{/view}
+
+
+{/render}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@render actionId="refusal" label="Отказ от госпитализации" enabled="true"
+defaultAction="false" type="text" keyMap="Alt+2"
+context="true" bulk="false" icon="" color=""
+visibilityConditions="true"}
+
+{@view tag="span" class="n2o-action-container_radius"}
+<button data-enabled="{enabled}" class="btn n2o-action {color} {@if cond="{visibilityConditions}"}n2o-hidden{/if}"
+
+{@if cond="{context}"}
+disabled{~s}
+{/if}
+
+{@if cond="'{keyMap}'"}
+title="{label} ({keyMap})" {~s}
+data-title="{label} ({keyMap})" {~s}
+{/if}
+
+data-action-id="{actionId}"
+
+{@if cond="{visibilityConditions}"}style="display: none;"{/if}>
+
+{?icon}
+<i class="{icon} {?color}icon-white{/color}"></i>{~s}
+{/icon}
+
+{@if cond="'{type}' !== 'icon'"}
+{@if cond="{defaultAction}"}
+<b>{label}</b>
+{:else}
+{label}
+{/if}
+{/if}
+
+</button>
+
+{:resources}
+{@js  src="n2o/controls/action/action" primary="true" /}
+{@css src="n2o/controls/action/n2o-action" /}
+
+{/view}
+
+
+{/render}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@render actionId="save" label="Изменить" enabled="true"
+defaultAction="false" type="text" keyMap="Alt+3"
+context="true" bulk="true" icon="" color=""
+visibilityConditions="false"}
+
+{@view tag="span" class="n2o-action-container_radius"}
+<button data-enabled="{enabled}" class="btn n2o-action-bulk-table {color} {@if cond="{visibilityConditions}"}n2o-hidden{/if}" {~s}
+
+{@if cond="{context}"}
+disabled{~s}
+{/if}
+
+{@if cond="'{keyMap}'"}
+title="{label} ({keyMap})" {~s}
+data-title="{label} ({keyMap})" {~s}
+{/if}
+
+data-action-id="{actionId}"
+
+{@if cond="{visibilityConditions}"}style="display: none;"{/if}>
+
+{?icon}
+<i class="{icon} {?color}icon-white{/color}"></i>{~s}
+{/icon}
+
+{@if cond="'{type}' !== 'icon'"}
+{@if cond="{defaultAction}"}
+<b>{label}</b>
+{:else}
+{label}
+{/if}
+{/if}
+</button>
+
+{:resources}
+{@js src="n2o/controls/action/action.bulk" primary="true" /}
+{@css src="n2o/controls/action/n2o-action" /}
+
+{/view}
+
+
+{/render}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@render actionId="removeClinicalHospitalRecord" label="Отменить направление" enabled="true"
+defaultAction="false" type="text" keyMap="Alt+4"
+context="true" bulk="true" icon="" color=""
+visibilityConditions="true"}
+
+{@view tag="span" class="n2o-action-container_radius"}
+<button data-enabled="{enabled}" class="btn n2o-action-bulk-table {color} {@if cond="{visibilityConditions}"}n2o-hidden{/if}" {~s}
+
+{@if cond="{context}"}
+disabled{~s}
+{/if}
+
+{@if cond="'{keyMap}'"}
+title="{label} ({keyMap})" {~s}
+data-title="{label} ({keyMap})" {~s}
+{/if}
+
+data-action-id="{actionId}"
+
+{@if cond="{visibilityConditions}"}style="display: none;"{/if}>
+
+{?icon}
+<i class="{icon} {?color}icon-white{/color}"></i>{~s}
+{/icon}
+
+{@if cond="'{type}' !== 'icon'"}
+{@if cond="{defaultAction}"}
+<b>{label}</b>
+{:else}
+{label}
+{/if}
+{/if}
+</button>
+
+{:resources}
+{@js src="n2o/controls/action/action.bulk" primary="true" /}
+{@css src="n2o/controls/action/n2o-action" /}
+
+{/view}
+
+
+{/render}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@render actionId="cancelRefusal" label="Отменить отказ" enabled="true"
+defaultAction="false" type="text" keyMap="Alt+5"
+context="true" bulk="true" icon="" color=""
+visibilityConditions="true"}
+
+{@view tag="span" class="n2o-action-container_radius"}
+<button data-enabled="{enabled}" class="btn n2o-action-bulk-table {color} {@if cond="{visibilityConditions}"}n2o-hidden{/if}" {~s}
+
+{@if cond="{context}"}
+disabled{~s}
+{/if}
+
+{@if cond="'{keyMap}'"}
+title="{label} ({keyMap})" {~s}
+data-title="{label} ({keyMap})" {~s}
+{/if}
+
+data-action-id="{actionId}"
+
+{@if cond="{visibilityConditions}"}style="display: none;"{/if}>
+
+{?icon}
+<i class="{icon} {?color}icon-white{/color}"></i>{~s}
+{/icon}
+
+{@if cond="'{type}' !== 'icon'"}
+{@if cond="{defaultAction}"}
+<b>{label}</b>
+{:else}
+{label}
+{/if}
+{/if}
+</button>
+
+{:resources}
+{@js src="n2o/controls/action/action.bulk" primary="true" /}
+{@css src="n2o/controls/action/n2o-action" /}
+
+{/view}
+
+
+{/render}
+
+
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="form-inline">
+    <div class="btn-group confirm n2o-hidden" style="margin-bottom: 15px;">
+
+        <button type="button" class="btn btn-primary n2o-confirm"
+        {^$error}{@if cond="'{model.attributes.$model}' == 'query'"} {~s} disabled="disabled" title="{net.n2oapp.framework.ui.widget.form.button.confirm.change}" {~s} {/if} {/$error}>
+        Сохранить
+        </button>
+
+
+        <button type="button" class="btn n2o-cancel">
+            {net.n2oapp.framework.ui.widget.form.button.label.cancel}
+        </button>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+{#model}
+<form class="">
+<div class="n2o-form-body">
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div"}
+{@bind-scope}
+
+{@render src="n2o/controls/field.set/field.set"
+style=""
+cssClass=""
+headerLabel="Направление"
+fieldLabelLocation="top"
+header="line"
+checkboxFieldId=""}
+
+
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="rreferral"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="rreferral" readonly="false" visible="true" label="Направление" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible n2o-control-container-with-actions"}
+
+
+
+
+<label class="   control-label" >Направление </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+    <span class="n2o-button-action">
+
+
+            {@view tag="span"}
+                {@bind-scope}
+                    {@render }
+                        {@view tag="button" class="n2o-links-action_link pointer btn" title="Ручное заполнение"}
+
+                                <i class='icon-pencil'></i>{~s}
+
+
+                        {:bindings}
+                            {@bind def="as toggleClasses () 'n2o-disabled disabled'"
+                                entry="$enabled,$dependency$enabled"
+                                instant="true"
+                                computed="!( $enabled && (typeof $dependency$enabled === 'undefined' ? true : $dependency$enabled) ) " /}
+                            {@bind def=" $isInVisible as visible () "
+                                entry="$dependency$visible"
+                                instant="true"
+                                computed=" ( (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+                        {:config}
+                            {@option name="actionParams" /}
+                            {! Ð·Ð´ÐµÑÑ + Ð½Ð°Ð¼ Ð½ÑÐ¶Ð½Ð¾ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸!}
+                            {@option name="$dependency" /}
+                            {! Ð¸ ÐºÐ¾Ð½ÑÐµÐºÑÑÐ½Ð°Ñ Ð¼Ð¾Ð´ÐµÐ»Ñ !}
+                            {@optionSetModel var="model" /}
+                            {! Ð´Ð° ÐµÑÑ Ð¸ nameField !}
+                            {@option name="name" /}
+                        {/view}
+
+                    {/render}
+                {:entries}
+                    {@entry def="$enabled = $system:$enabled" /}
+                    {@assign var="actionParams" type="json" value="{\"label\":\"Ручное заполнение\",\"onClick\":{\"src\":\"hospital/n2o/custom/handMade.js\",\"functionName\":\"setHandmade\"},\"icon\":\"icon-pencil\",\"type\":\"icon\",\"hasDependencies\":false}" /}
+
+                {/bind-scope}
+            {/view}
+
+    </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{@css src="n2o/controls/__containers/inputActions" /}
+{@js src="n2o/controls/__containers/inputActions" primary="true" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:rreferral" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="checkDependsOn,patient" enabled-condition="checkDependsOn(patient)" /}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="organizationId" ref="clinicId" resetMode="on" /}
+
+{@dependency.filter field-id="patientId" ref="patient.id" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="showReferralFields"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="showReferralFields" readonly="false" visible="false" label="Ручное заполнение" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:showReferralFields" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralOrganizationRole"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="referralOrganizationRole" readonly="false" visible="true" label="Тип организации" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Тип организации </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralOrganizationRole" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id,rreferral" visible-condition="showReferralFields == true && (typeof rreferral == 'undefined' || rreferral == null || rreferral.id == null)" /}
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="typeId" value="2" /}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+if(rreferral == null) null; else
+rreferral.referralOrganizationRole;
+" expression-on="rreferral.referralOrganizationRole,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralOrganizationRole"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="referralOrganizationRole" readonly="true" visible="true" label="Тип организации" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Тип организации </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralOrganizationRole" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id" visible-condition="showReferralFields == true && rreferral.id != null" /}
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="typeId" value="2" /}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+if(rreferral == null) null; else
+rreferral.referralOrganizationRole;
+" expression-on="rreferral.referralOrganizationRole,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralOrganization"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="referralOrganization" readonly="false" visible="true" required="true" label="Кем направлен" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Кем направлен </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralOrganization" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id,rreferral" visible-condition="showReferralFields == true && (typeof rreferral == 'undefined' || rreferral == null || rreferral.id == null)" /}
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="role.id" ref="referralOrganizationRole.id" resetMode="on" /}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) null; else
+rreferral.referralOrganization;
+" expression-on="rreferral.referralOrganization,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralOrganization"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="referralOrganization" readonly="true" visible="true" required="true" label="Кем направлен" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Кем направлен </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralOrganization" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id" visible-condition="showReferralFields == true && rreferral.id != null" /}
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="role.id" ref="referralOrganizationRole.id" resetMode="on" /}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) null; else
+rreferral.referralOrganization;
+" expression-on="rreferral.referralOrganization,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDepartment"}
+{@bind-scope}
+{@render labelStyle="width:200px;" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="referralDepartment" readonly="false" visible="true" label="Направившее подразделение" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width:200px;" >Направившее подразделение </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDepartment" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="checkDependsOn,referralOrganization" enabled-condition="checkDependsOn(referralOrganization)" /}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id,rreferral" visible-condition="showReferralFields == true && (typeof rreferral == 'undefined' || rreferral == null || rreferral.id == null)" /}
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="organizationId" ref="referralOrganization.id" resetMode="on" /}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) null; else
+rreferral.referralDepartment;
+" expression-on="rreferral,rreferral.referralDepartment" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDepartment"}
+{@bind-scope}
+{@render labelStyle="width:200px;" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="referralDepartment" readonly="true" visible="true" label="Направившее подразделение" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width:200px;" >Направившее подразделение </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDepartment" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+{@dependency type="disable" enabled-on-condition="checkDependsOn,referralOrganization" enabled-condition="checkDependsOn(referralOrganization)" /}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id" visible-condition="showReferralFields == true && rreferral.id != null" /}
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="organizationId" ref="referralOrganization.id" resetMode="on" /}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) null; else
+rreferral.referralDepartment;
+" expression-on="rreferral,rreferral.referralDepartment" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralNumber"}
+{@bind-scope}
+{@render labelStyle="margin-top: 5px" controlStyle="" controlSrc="n2o/controls/text/text" name="referralNumber" readonly="false" visible="true" label="Номер" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="margin-top: 5px" >Номер </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralNumber" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id,rreferral" visible-condition="showReferralFields == true && (typeof rreferral == 'undefined' || rreferral == null || rreferral.id == null)" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) ''; else rreferral.referralNumber;
+" expression-on="rreferral.referralNumber,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralNumber"}
+{@bind-scope}
+{@render labelStyle="margin-top: 5px" controlStyle="" controlSrc="n2o/controls/text/text" name="referralNumber" readonly="true" visible="true" label="Номер" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="margin-top: 5px" >Номер </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralNumber" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id" visible-condition="showReferralFields == true && rreferral.id != null" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) ''; else rreferral.referralNumber;
+" expression-on="rreferral.referralNumber,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDate"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/date.picker/date.picker" name="referralDate" readonly="false" visible="true" required="true" label="Дата" dateFormat="DD.MM.YYYY" defaultTime="00:00" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Дата </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/date.picker/date.picker" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDate" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id,rreferral" visible-condition="showReferralFields == true && (typeof rreferral == 'undefined' || rreferral == null || rreferral.id == null)" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) ''; else rreferral.referralDate;
+" expression-on="rreferral.referralDate,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDate"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/date.picker/date.picker" name="referralDate" readonly="true" visible="true" required="true" label="Дата" dateFormat="DD.MM.YYYY" defaultTime="00:00" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Дата </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/date.picker/date.picker" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDate" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id" visible-condition="showReferralFields == true && rreferral.id != null" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) ''; else rreferral.referralDate;
+" expression-on="rreferral.referralDate,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDiagnosis"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="referralDiagnosis" readonly="false" visible="true" label="Диагноз направления" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Диагноз направления </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDiagnosis" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id,rreferral" visible-condition="showReferralFields == true && (typeof rreferral == 'undefined' || rreferral == null || rreferral.id == null)" /}
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) null; else
+rreferral.referralDiagnosis;
+" expression-on="rreferral.referralDiagnosis,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDiagnosis"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="referralDiagnosis" readonly="true" visible="true" label="Диагноз направления" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Диагноз направления </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDiagnosis" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id" visible-condition="showReferralFields == true && rreferral.id != null" /}
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) null; else
+rreferral.referralDiagnosis;
+" expression-on="rreferral.referralDiagnosis,rreferral" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDiagnosisComment"}
+{@bind-scope}
+{@render labelStyle="margin-top: 5px" controlStyle="" controlSrc="n2o/controls/text/area" name="referralDiagnosisComment" readonly="false" visible="true" label="Дополнение" rows="1" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="margin-top: 5px" >Дополнение </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/area" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDiagnosisComment" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id,rreferral" visible-condition="showReferralFields == true && (typeof rreferral == 'undefined' || rreferral == null || rreferral.id == null)" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) ''; else
+rreferral.referralDiagnosisComment;
+" expression-on="rreferral,rreferral.referralDiagnosisComment" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="referralDiagnosisComment"}
+{@bind-scope}
+{@render labelStyle="margin-top: 5px" controlStyle="" controlSrc="n2o/controls/text/area" name="referralDiagnosisComment" readonly="true" visible="true" label="Дополнение" rows="1" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="margin-top: 5px" >Дополнение </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/area" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:referralDiagnosisComment" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="showReferralFields,rreferral.id" visible-condition="showReferralFields == true && rreferral.id != null" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(rreferral == null) ''; else
+rreferral.referralDiagnosisComment;
+" expression-on="rreferral,rreferral.referralDiagnosisComment" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/render}
+
+
+
+
+{:entries}
+{@entry def="checkboxValue = .:" /}
+{/bind-scope}
+{/view}
+
+
+
+
+
+
+
+
+{@view tag="div"}
+{@bind-scope}
+
+{@render src="n2o/controls/field.set/field.set"
+style=""
+cssClass=""
+headerLabel="Информация о госпитализации"
+fieldLabelLocation="top"
+header="line"
+checkboxFieldId=""}
+
+
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="careProvidingForm"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="careProvidingForm" readonly="false" visible="true" required="true" label="Тип госпитализации" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Тип госпитализации </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:careProvidingForm" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="financialType"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="financialType" readonly="false" visible="true" required="true" label="Вид финансирования" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Вид финансирования </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:financialType" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="organizationId" ref="clinicId" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="initGoal"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="initGoal" readonly="false" visible="true" required="true" label="Причина госпитализации" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Причина госпитализации </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:initGoal" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="hspCanal"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="hspCanal" readonly="false" visible="true" label="Кем доставлен" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Кем доставлен </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:hspCanal" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="careProvidingForm.id" visible-condition="careProvidingForm.id == 1" /}
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(careProvidingForm == null || careProvidingForm.id != 1) null; else hspCanal;" expression-on="careProvidingForm,hspCanal,careProvidingForm.id" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="whoDeliveredCode"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="whoDeliveredCode" readonly="false" visible="true" label="Код" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Код </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:whoDeliveredCode" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="careProvidingForm.id" visible-condition="careProvidingForm.id == 1" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(careProvidingForm == null || careProvidingForm.id != 1) null; else whoDeliveredCode;" expression-on="careProvidingForm,careProvidingForm.id,whoDeliveredCode" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="whoDeliveredTeamNumber"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/text/text" name="whoDeliveredTeamNumber" readonly="false" visible="true" label="Номер наряда" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Номер наряда </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:whoDeliveredTeamNumber" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="careProvidingForm.id" visible-condition="careProvidingForm.id == 1" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(careProvidingForm == null || careProvidingForm.id != 1) null; else whoDeliveredTeamNumber;" expression-on="whoDeliveredTeamNumber,careProvidingForm,careProvidingForm.id" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="drunkennessType"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="drunkennessType" readonly="false" visible="true" label="Состояние опьянения" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Состояние опьянения </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:drunkennessType" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="careProvidingForm.id" visible-condition="careProvidingForm.id == 1" /}
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(careProvidingForm == null || careProvidingForm.id != 1) null; else drunkennessType;" expression-on="careProvidingForm,drunkennessType,careProvidingForm.id" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="timeGone"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="timeGone" readonly="false" visible="true" label="Количество часов с начала заболевания" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Количество часов с начала заболевания </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:timeGone" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="careProvidingForm.id" visible-condition="careProvidingForm.id == 1" /}
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(careProvidingForm == null || careProvidingForm.id != 1) null; else timeGone;" expression-on="timeGone,careProvidingForm,careProvidingForm.id" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="notesToWork"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width: 450px;" controlSrc="n2o/controls/text/text" name="notesToWork" readonly="false" visible="true" label="Замечание к работе бригады" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Замечание к работе бригады </label>
+<div class="controls" style="width: 450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/text" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:notesToWork" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="careProvidingForm.id" visible-condition="careProvidingForm.id == 1" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(careProvidingForm == null || careProvidingForm.id != 1) null; else notesToWork;" expression-on="notesToWork,careProvidingForm,careProvidingForm.id" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="transportingType"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="transportingType" readonly="false" visible="true" required="true" label="Вид транспортировки" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Вид транспортировки </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:transportingType" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="repeatCount"}
+{@bind-scope}
+{@render labelStyle="width: 200px;" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="repeatCount" readonly="false" visible="true" required="true" label="Кратность госпитализации" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" style="width: 200px;" >Кратность госпитализации </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:repeatCount" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="admissionReason"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="width:450px;" controlSrc="n2o/controls/classifier/classifier" name="admissionReason" readonly="false" visible="true" label="Вид травмы" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Вид травмы </label>
+<div class="controls" style="width:450px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:admissionReason" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/render}
+
+
+
+
+{:entries}
+{@entry def="checkboxValue = .:" /}
+{/bind-scope}
+{/view}
+
+
+
+
+
+
+
+
+{@view tag="div"}
+{@bind-scope}
+
+{@render src="n2o/controls/field.set/field.set"
+style=""
+cssClass=""
+headerLabel="Приемное отделение"
+fieldLabelLocation="top"
+header="line"
+checkboxFieldId=""}
+
+
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="admissionDate"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/date.picker/date.picker" name="admissionDate" readonly="false" visible="true" required="true" label="Дата поступления" dateFormat="DD.MM.YYYY HH:mm" defaultTime="00:00" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Дата поступления </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/date.picker/date.picker" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:admissionDate" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="admissionDepartment"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="admissionDepartment" readonly="false" visible="true" required="true" label="Приемное отделение" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="  n2o-required-star   control-label" >Приемное отделение </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:admissionDepartment" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="organizationId" ref="clinicId" resetMode="on" /}
+
+{@dependency.filter field-id="date" ref="admissionDate" resetMode="off" /}
+
+{/dependency}
+
+
+
+
+
+
+{:validations}
+
+{@validate type="required" severity="error" message="Поле обязательно для заполнения" /}
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="doctor"}
+{@bind-scope}
+{@render labelStyle="width: 200px;" controlStyle="" controlSrc="n2o/controls/classifier/classifier" name="doctor" readonly="false" visible="true" label="Врач приемного отделения" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" style="width: 200px;" >Врач приемного отделения </label>
+<div class="controls" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:doctor" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{@dependency.filter field-id="organizationId" ref="clinicId" resetMode="on" /}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="admissionDiagnosis"}
+{@bind-scope}
+{@render labelStyle="width:200px;" controlStyle="width:411px" controlSrc="n2o/controls/classifier/classifier" name="admissionDiagnosis" readonly="false" visible="true" label="Диагноз приемного отделения" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible n2o-control-container-with-actions"}
+
+
+
+
+<label class="   control-label" style="width:200px;" >Диагноз приемного отделения </label>
+<div class="controls" style="width:411px" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/classifier/classifier" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+    <span class="n2o-button-action">
+
+
+            {@view tag="span"}
+                {@bind-scope}
+                    {@render }
+                        {@view tag="button" class="n2o-links-action_link pointer btn" title="Скопировать диагноз направления"}
+
+                                <i class='icomoon-undo2'></i>{~s}
+
+
+                        {:bindings}
+                            {@bind def="as toggleClasses () 'n2o-disabled disabled'"
+                                entry="$enabled,$dependency$enabled"
+                                instant="true"
+                                computed="!( $enabled && (typeof $dependency$enabled === 'undefined' ? true : $dependency$enabled) ) " /}
+                            {@bind def=" $isInVisible as visible () "
+                                entry="$dependency$visible"
+                                instant="true"
+                                computed=" ( (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+                        {:config}
+                            {@option name="actionParams" /}
+                            {! Ð·Ð´ÐµÑÑ + Ð½Ð°Ð¼ Ð½ÑÐ¶Ð½Ð¾ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸!}
+                            {@option name="$dependency" /}
+                            {! Ð¸ ÐºÐ¾Ð½ÑÐµÐºÑÑÐ½Ð°Ñ Ð¼Ð¾Ð´ÐµÐ»Ñ !}
+                            {@optionSetModel var="model" /}
+                            {! Ð´Ð° ÐµÑÑ Ð¸ nameField !}
+                            {@option name="name" /}
+                        {/view}
+
+                    {/render}
+                {:entries}
+                    {@entry def="$enabled = $system:$enabled" /}
+                    {@assign var="actionParams" type="json" value="{\"label\":\"Скопировать диагноз направления\",\"onClick\":{\"src\":\"hospital/n2o/custom/hospitalCaseCustom.js\",\"functionName\":\"copeFromReferral\"},\"icon\":\"icomoon-undo2\",\"type\":\"icon\",\"hasDependencies\":false}" /}
+
+                {/bind-scope}
+            {/view}
+
+    </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{@css src="n2o/controls/__containers/inputActions" /}
+{@js src="n2o/controls/__containers/inputActions" primary="true" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:admissionDiagnosis" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+{@dependency type="filter"}
+
+{/dependency}
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="stepDiagnosisNotice"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="margin-left: -10px;" controlSrc="n2o/controls/text/area" name="stepDiagnosisNotice" readonly="false" visible="true" label="Дополнение" rows="1" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible"}
+
+
+
+<label class="   control-label" >Дополнение </label>
+<div class="controls" style="margin-left: -10px;" >
+    <div style="display: inline-block; width: 100%;">
+        {@render src="n2o/controls/text/area" /}
+    </div>
+    <span class="help-block"></span>
+    <span class="n2o-desc-block"></span>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="spinner"></div>
+
+{:bindings}
+
+
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+
+
+{@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:stepDiagnosisNotice" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="admissionDiagnosis.id" visible-condition="admissionDiagnosis.id != null" /}
+
+
+
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+    {@view tag="div" class="n2o-control-container control-group  " nameField="attendantIndiv"}
+    {@bind-scope}
+    {@render labelStyle="" controlStyle="width:411px" controlSrc="n2o/controls/classifier/classifier" name="attendantIndiv" readonly="false" visible="true" label="Сопровождающее лицо" cache="false" queryId="blank" valueFieldId="id" labelFieldId="name" searchFieldId="name" updateModelParams="{\"preFilters\":[{\"fieldId\":\"id\",\"ref\":\"attendantIndiv.id\"}],\"queryId\":\"blank\",\"targetFieldId\":\"attendantIndiv\",\"target\":\"field\"}" classifierMode="quick" searchAreYouType="true" wordWrap="false" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {@view tag="div" class="n2o-control-container-visible n2o-control-container-with-actions"}
+
+
+
+
+    <label class="   control-label" >Сопровождающее лицо </label>
+    <div class="controls" style="width:411px" >
+        <div style="display: inline-block; width: 100%;">
+            {@render src="n2o/controls/classifier/classifier" /}
+        </div>
+        <span class="help-block"></span>
+        <span class="n2o-desc-block"></span>
+    </div>
+
+
+
+
+
+
+
+
+
+    <span class="n2o-button-action">
+
+
+            {@view tag="span"}
+                {@bind-scope}
+                    {@render }
+                        {@view tag="button" class="n2o-links-action_link pointer btn" title=""}
+
+                                <i class='icon-plus'></i>{~s}
+
+
+                        {:bindings}
+                            {@bind def="as toggleClasses () 'n2o-disabled disabled'"
+                                entry="$enabled,$dependency$enabled"
+                                instant="true"
+                                computed="!( $enabled && (typeof $dependency$enabled === 'undefined' ? true : $dependency$enabled) ) " /}
+                            {@bind def=" $isInVisible as visible () "
+                                entry="$dependency$visible"
+                                instant="true"
+                                computed=" ( (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+                        {:config}
+                            {@option name="actionParams" /}
+                            {! Ð·Ð´ÐµÑÑ + Ð½Ð°Ð¼ Ð½ÑÐ¶Ð½Ð¾ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑÐ¸!}
+                            {@option name="$dependency" /}
+                            {! Ð¸ ÐºÐ¾Ð½ÑÐµÐºÑÑÐ½Ð°Ñ Ð¼Ð¾Ð´ÐµÐ»Ñ !}
+                            {@optionSetModel var="model" /}
+                            {! Ð´Ð° ÐµÑÑ Ð¸ nameField !}
+                            {@option name="name" /}
+                        {/view}
+
+                    {/render}
+                {:entries}
+                    {@entry def="$enabled = $system:$enabled" /}
+                    {@assign var="actionParams" type="json" value="{\"showModal\":{\"masterFieldId\":\"patient.id\",\"detailFieldId\":\"patientId\",\"resultContainerId\":\"individualRelationContainer\",\"width\":\"35%\",\"pageId\":\"Stress2.main.attendantIndiv.control.action.N0\",\"pageName\":\"Добавление родственника - {main.uidForTitle} {main.patientName}\",\"edit\":{\"afterSubmit\":\"resolve\",\"invokeAction\":{\"actionId\":\"save\"},\"model\":\"default\",\"systemDynamicAction\":false,\"firstCreateThenUpdate\":false,\"dynamicAction\":false,\"event\":\"invokeAction\"},\"refreshOnClose\":false,\"targetFieldId\":\"attendantIndiv\",\"resolveModal\":true,\"actionId\":\"save\",\"modalId\":\"Stress2.main.attendantIndiv.control.action.N0\"},\"icon\":\"icon-plus\",\"type\":\"icon\",\"hasDependencies\":false}" /}
+
+                {/bind-scope}
+            {/view}
+
+    </span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="spinner"></div>
+
+    {:bindings}
+
+
+
+
+
+
+    {@bind def="$cleared as clearFieldMessage = value" /}
+
+
+
+    {@bind def="$updated as nothing | updateModel {updateModelParams|s} = value" /}
+
+
+    {:resources}
+    {@css src="n2o/views/css/control-container" /}
+
+    {@css src="n2o/controls/__containers/inputActions" /}
+    {@js src="n2o/controls/__containers/inputActions" primary="true" /}
+
+    {/view}
+
+
+
+    {:dependencies}
+    {@dependency resolve="true" /}
+
+
+    {/render}
+
+    {:entries}
+
+
+
+    {@entry def="value = .:attendantIndiv" /}
+    {@entry def="$enabled = $system:$enabled" /}
+
+
+
+    {:dependencies}
+
+
+
+
+
+    {@dependency type="filter"}
+
+    {@dependency.filter field-id="patientId" ref="patient.id" resetMode="on" /}
+
+    {/dependency}
+
+
+
+
+
+
+
+    {/bind-scope}
+
+    {/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/render}
+
+
+
+
+{:entries}
+{@entry def="checkboxValue = .:" /}
+{/bind-scope}
+{/view}
+
+
+
+
+
+
+
+
+{@view tag="div"}
+{@bind-scope}
+
+{@render src="n2o/controls/field.set/field.set"
+style=""
+cssClass=""
+headerLabel=""
+fieldLabelLocation="top"
+header="line"
+checkboxFieldId=""}
+
+
+
+
+
+
+
+
+
+
+
+<div class="n2o-form-block-inline "
+     style="">
+
+
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group n2o-hidden " nameField="mark"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/hidden/hidden" name="mark" readonly="false" visible="false" label="mark" }
+
+
+
+{! not visual display !}
+{@render src="n2o/controls/hidden/hidden" /}
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:mark" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="
+if(markMsg == true) {
+var value = 0;
+if(relatives == true) {
+value += 1;
+}
+if( institution == true) {
+value += 2;
+}
+}
+value == 0 ? null : value;
+" expression-on="relatives,institution" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="markMsg"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="markMsg" readonly="false" visible="true" label="Отметка о сообщении" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:markMsg" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if((typeof mark != 'undefined' && mark != null)) true; else false" expression-on="mark" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="relatives"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="relatives" readonly="false" visible="true" label="Родственникам" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:relatives" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="markMsg" visible-condition="(typeof markMsg != 'undefined' && markMsg == true)" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(mark == 1 || mark == 3) true; else false" expression-on="mark" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+
+
+{@view tag="div" class="n2o-control-container control-group  " nameField="institution"}
+{@bind-scope}
+{@render labelStyle="" controlStyle="" controlSrc="n2o/controls/checkbox/checkbox" name="institution" readonly="false" visible="true" label="Учреждению" }
+
+
+
+
+{@view tag="div" class="n2o-control-container-visible without-label"}
+
+<div class="control-group">
+    <label class="control-label" style=""></label>
+
+    <div class="controls"  >
+        {@render src="n2o/controls/checkbox/checkbox" /}
+    </div>
+    <div class="help-inline hide"></div>
+    <div class="spinner"></div>
+</div>
+
+{:bindings}
+
+
+{@bind def=" $isInVisible as visible ($parent) "
+entry="$dependency$visible"
+instant="true"
+computed=" (true && (typeof $dependency$visible === 'undefined' ? true : $dependency$visible) )" /}
+
+{:resources}
+{@css src="n2o/views/css/control-container" /}
+
+{/view}
+
+
+
+{:dependencies}
+{@dependency resolve="true" /}
+
+
+{/render}
+
+{:entries}
+
+
+
+{@entry def="value = .:institution" /}
+{@entry def="$enabled = $system:$enabled" /}
+
+
+
+{:dependencies}
+
+
+
+{@dependency type="visible" visible-on-condition="markMsg" visible-condition="(typeof markMsg != 'undefined' && markMsg == true)" /}
+
+
+
+
+{@dependency type="setValue"}
+
+
+{@dependency.setValue expression="if(mark == 2 || mark == 3) true; else false" expression-on="mark" expression-load="true" expression-non-empty="true" expression-visible="true" expression-enabled="true" expression-silent="false"/}
+
+{/dependency}
+
+
+
+
+
+
+{/bind-scope}
+
+{/view}
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+{/render}
+
+
+
+
+{:entries}
+{@entry def="checkboxValue = .:" /}
+{/bind-scope}
+{/view}
+
+
+
+
+
+</div>
+</form>
+{/model}
+
+
+
+
+{:resources}
+{@css src="n2o/widgets/form/form" /}
+{@css src="n2o/widgets/form/form" /}
+
+{/view}
+

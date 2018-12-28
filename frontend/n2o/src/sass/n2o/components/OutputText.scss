@@ -1,0 +1,27 @@
+.n2o-output-text{
+  display: flex;
+  align-items: center;
+  align-content: flex-start;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+
+  & > .text{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    order: 2
+  }
+
+  & > .icon {
+    margin-top: 2px;
+  }
+
+  &.right{
+    & > .icon{ order: 3 }
+  }
+
+  &.left{
+    & > .icon{ order: 1 }
+  }
+
+}

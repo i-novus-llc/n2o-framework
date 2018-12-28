@@ -1,0 +1,9 @@
+{
+  "min": "5/12/2012",
+  "max": "15/12/2021",
+  "dateFormat": "DD/MM/YYYY",
+  "outputFormat": "DD-MMM-YY HH:mm",
+  "disabled": false,
+  "placeholder": "Введите дату",
+  "locale": "ru"
+}

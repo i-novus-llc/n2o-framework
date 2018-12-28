@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://n2oapp.net/framework/config/schema/control-2.0"
+           xmlns:ctrv1="http://n2oapp.net/framework/config/schema/n2o-control-1.0"
+           xmlns:obj="http://n2oapp.net/framework/config/schema/object-3.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0"
+           xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
+
+
+    <xs:element name="hidden" type="controlHiddenDefinition"/>
+    <xs:element name="text-area" type="controlTextArea"/>
+    <xs:element name="text-editor" type="controlTextEditor"/>
+    <xs:element name="code-editor" type="controlCodeEditor"/>
+    <xs:element name="input-text" type="controlInputTextDefinition"/>
+    <xs:element name="output-text" type="controlOutputTextDefinition"/>
+    <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
+    <xs:element name="checkbox" type="controlSimpleFieldDefinition"/>
+    <xs:element name="password" type="controlPasswordDefinition"/>
+    <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
+    <xs:element name="date-time" type="controlDatePickerDefinition"/>
+    <xs:element name="file-upload" type="controlFileUploadDefinition"/>
+    <xs:element name="html" type="controlHtml"/>
+    <xs:element name="custom" type="controlCustom"/>
+    <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
+    <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
+    <xs:element name="select" type="controlSelectDefinition"/>
+    <xs:element name="select-tree" type="controlSelectTreeDefinition"/>
+    <xs:element name="input-select" type="controlInputSelectDefinition"/>
+    <xs:element name="input-select-tree" type="controlSelectTreeDefinition"/>
+
+    <xs:complexType name="controls">
+        <xs:sequence>
+            <xs:element name="hidden" type="controlHiddenDefinition" minOccurs="0"/>
+            <xs:element name="text-area" type="controlTextArea" minOccurs="0"/>
+            <xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>
+            <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
+            <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
+            <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
+            <xs:element name="masked-input" type="controlMaskedInputDefinition" minOccurs="0"/>
+            <xs:element name="checkbox" type="controlSimpleFieldDefinition" minOccurs="0"/>
+            <xs:element name="password" type="controlPasswordDefinition" minOccurs="0"/>
+            <xs:element name="date-interval" type="controlDateIntervalDefinition" minOccurs="0"/>
+            <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
+            <xs:element name="file-upload" type="controlFileUploadDefinition" minOccurs="0"/>
+            <xs:element name="html" type="controlHtml" minOccurs="0"/>
+            <xs:element name="field" type="controlCustom" minOccurs="0"/>
+            <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
+            <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
+            <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
+            <xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
+            <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
+            <xs:element name="input-select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
+            <xs:any namespace="##other" processContents="strict">
+                <xs:annotation>
+                    <xs:documentation>Подключаемый через библиотеку компонент.</xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="controlDefinition" abstract="true">
+        <xs:sequence>
+            <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
+            <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
+            <xs:element name="toolbar" type="controlToolbarDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="help" type="xs:string"/>
+        <xs:attribute name="label" type="xs:string"/>
+        <xs:attribute name="label-class" type="xs:string"/>
+        <xs:attribute name="src" type="xs:string"/>
+        <xs:attribute name="field-src" type="xs:string"/>
+        <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="placeholder" type="xs:string"/>
+        <xs:attribute name="required" type="xs:boolean" default="false"/>
+        <xs:attribute name="visible" type="xs:boolean" default="true"/>
+        <xs:attribute name="enabled" type="xs:boolean" default="true"/>
+        <xs:attribute name="description" type="xs:string"/>
+        <xs:attribute name="copied" type="xs:boolean" default="false"/>
+        <xs:attribute name="depends-on" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="controlSimpleFieldDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:attribute name="default-value" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlListFieldDefinition" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="default-value" minOccurs="0">
+                        <xs:complexType>
+                            <xs:attribute name="id" type="xs:string"/>
+                            <xs:attribute name="name" type="xs:string"/>
+                            <xs:anyAttribute namespace="##local" processContents="skip"/>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="options" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="option">
+                                    <xs:complexType>
+                                        <xs:attribute name="id" type="xs:string"/>
+                                        <xs:attribute name="name" type="xs:string"/>
+                                        <xs:anyAttribute namespace="##local" processContents="skip"/>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="pre-filters" type="act:preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="query-id" type="xs:string"/>
+                <xs:attribute name="format" type="xs:string"/>
+                <xs:attribute name="label-field-id" type="xs:string"/>
+                <xs:attribute name="search-field-id" type="xs:string"/>
+                <xs:attribute name="group-field-id" type="xs:string"/>
+                <xs:attribute name="image-field-id" type="xs:string"/>
+                <xs:attribute name="icon-field-id" type="xs:string"/>
+                <xs:attribute name="cache" type="xs:boolean" default="false"/>
+                <xs:attribute name="size" type="xs:integer" default="30"/>
+                <xs:attribute name="badge-field-id" type="xs:string"/>
+                <xs:attribute name="badge-color-field-id" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlIntervalFieldDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="default-value" minOccurs="0" maxOccurs="1">
+                        <xs:complexType>
+                            <xs:attribute name="begin" use="optional"/>
+                            <xs:attribute name="end" use="optional"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlValidationsDefinition">
+        <xs:complexContent>
+            <xs:extension base="obj:validationsDefinition">
+                <xs:attribute name="white-list" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlDependenciesDefinition" abstract="true">
+        <xs:sequence>
+            <xs:element name="enabling" type="baseDependencyDefinition" minOccurs="0"/>
+            <xs:element name="visibility" type="visibilityDependencyDefinition"  minOccurs="0"/>
+            <xs:element name="set-value" type="baseDependencyDefinition"  minOccurs="0"/>
+            <xs:element name="requiring" type="baseDependencyDefinition"  minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="controlToolbarDefinition" abstract="true">
+        <xs:sequence>
+            <xs:element name="button" type="controlToolbarButtonDefinition">
+                <xs:complexType>
+
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="controlOptionsListInlineDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:attribute name="inline" type="xs:boolean" default="false" use="optional"/>
+                <xs:attribute name="type" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlFileUploadDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:attribute name="multi" type="xs:boolean" default="false"/>
+                <xs:attribute name="ajax" type="xs:boolean" default="true"/>
+                <xs:attribute name="show-size" type="xs:boolean" default="true"/>
+                <xs:attribute name="upload-url" type="xs:string" use="optional"/>
+                <xs:attribute name="delete-url" type="xs:string" use="optional"/>
+                <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="url-field-id" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlHiddenDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition"></xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlMaskedInputDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="mask" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlCodeEditor">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
+                <xs:attribute name="language" use="optional">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="sql"/>
+                            <xs:enumeration value="xml"/>
+                            <xs:enumeration value="javascript"/>
+                            <xs:enumeration value="groovy"/>
+                            <xs:enumeration value="java"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="updateModelDef">
+        <xs:sequence>
+            <xs:element name="pre-filters" minOccurs="0" maxOccurs="1">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="pre-filter" type="updateModelPreFilterDefinition"
+                                    maxOccurs="unbounded"
+                                    minOccurs="0"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+        </xs:sequence>
+        <xs:attribute name="query-id" use="required"/>
+        <xs:attribute name="value-field-id" use="optional"/>
+    </xs:complexType>
+
+    <!--<xs:complexType name="updateModelPreFilterDefinition">-->
+        <!--<xs:complexContent>-->
+            <!--<xs:extension base="controlPreFilterDefinition">-->
+                <!--<xs:attribute name="on-change" type="xs:boolean"  use="optional"/>-->
+            <!--</xs:extension>-->
+        <!--</xs:complexContent>-->
+    <!--</xs:complexType>-->
+
+    <xs:complexType name="controlTextArea">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
+                <xs:attribute name="height" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlCustom">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="src" use="required"/>
+                <xs:anyAttribute namespace="##other"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlTextEditor">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="height" type="xs:string" use="optional"/>
+                <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
+                <xs:attribute name="config-url" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlInputTextDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="domain" type="dmn:domainType"/>
+                <xs:attribute name="length" type="xs:integer"/>
+                <xs:attribute name="min" type="xs:integer"/>
+                <xs:attribute name="max" type="xs:integer"/>
+                <xs:attribute name="step" type="xs:integer"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlHtml">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="height" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlOutputTextDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="icon" type="xs:string"/>
+                <xs:attribute name="type" type="iconType"/>
+                <xs:attribute name="position" type="positionType"/>
+                <xs:attribute name="format" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="positionType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="iconType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="iconAndText"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="controlDateIntervalDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlIntervalFieldDefinition">
+                <xs:attribute name="popup-placement" type="popupPlacementEnum" use="optional"/>
+                <xs:attribute name="format" use="optional" type="dataFormatEnum"/>
+                <xs:attribute name="begin-default-time" type="defaultTimeEnum" use="optional"/>
+                <xs:attribute name="end-default-time" type="defaultTimeEnum" use="optional"/>
+                <xs:attribute name="utc" type="xs:boolean" default="false" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="popupPlacementEnum">
+        <xs:restriction>
+            <xs:enumeration value="up,right"/>
+            <xs:enumeration value="up,left"/>
+            <xs:enumeration value="down,right"/>
+            <!--<xs:enumeration value="down,left"/>-->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="dataFormatEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="DD.MM.YYYY"/>
+                    <xs:enumeration value="DD.MM.YYYY HH:mm"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+    <xs:simpleType name="defaultTimeEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="now()"/>
+                    <xs:enumeration value="00:00"/>
+                    <xs:enumeration value="12:00"/>
+                    <xs:enumeration value="23:59"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <xs:complexType name="controlDatePickerDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="format" use="optional" type="dataFormatEnum"/>
+                <xs:attribute name="default-time" use="optional" type="defaultTimeEnum"/>
+                <xs:attribute name="max" use="optional" type="xs:string"/>
+                <xs:attribute name="min" use="optional" type="xs:string"/>
+                <xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlSelectDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:attribute name="type" type="inputSelectType"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlInputSelectDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:attribute name="type" type="inputSelectType"/>
+                <xs:attribute name="store-on-input" type="xs:boolean" default="true"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlSelectTreeDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:sequence>
+                    <!--<xs:element name="grouping-nodes" type="groupingNodesDefinition"/>-->
+                    <xs:element name="inheritance-nodes" type="inheritanceNodesDefinition"/>
+                    <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="set-value" type="setValueListDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="ajax" type="xs:boolean" default="false"/>
+                <xs:attribute name="search" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="setValueListDefinition">
+        <xs:sequence>
+            <xs:element name="then" type="thenSetValue" maxOccurs="1"/>
+            <xs:element name="else" type="thenSetValue" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="if" type="xs:string" use="required"/>
+        <xs:attribute name="on"/>
+    </xs:complexType>
+
+    <xs:complexType name="thenSetValue">
+        <xs:sequence>
+            <xs:element name="value">
+                <xs:complexType>
+                    <xs:attribute name="field-id" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="defaultModelDefinition">
+        <xs:sequence>
+            <xs:element name="value" minOccurs="1">
+                <xs:complexType>
+                    <xs:attribute name="field-id" use="required"/>
+                    <xs:attribute name="domain" use="optional" type="dmn:domainType"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="groupingNodesDefinition">
+        <xs:complexContent>
+            <xs:extension base="ctrv1:controlListQueryDefinition">
+                <xs:sequence>
+                    <xs:sequence>
+                        <xs:element name="pre-filters" maxOccurs="1" minOccurs="0">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="pre-filter" type="controlPreFilterDefinition" minOccurs="1"
+                                                maxOccurs="unbounded"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:element name="node" type="nodeDefinition" minOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="nodeDefinition">
+        <xs:sequence>
+            <xs:element name="node" type="nodeDefinition"/>
+        </xs:sequence>
+        <xs:attribute name="value-field-id" type="xs:string" use="required"/>
+        <xs:attribute name="label-field-id" type="xs:string" use="required"/>
+        <xs:attribute name="icon" type="xs:string" use="optional"/>
+        <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
+    </xs:complexType>
+
+    <xs:complexType name="controlPreFilterDefinition">
+        <xs:annotation>
+            <xs:documentation source="https://wiki.i-novus.ru/display/N2O/N2O.Documentation.Dependency"/>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="value" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="field-id" type="xs:string" use="required"/>
+        <xs:attribute name="ref" type="xs:string" use="optional"/>
+        <xs:attribute name="value" type="xs:string" use="optional"/>
+        <xs:attribute name="type" type="searchTypeEnumeration" use="optional"/>
+    </xs:complexType>
+
+    <xs:simpleType name="searchTypeEnumeration">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="eq"/>
+            <xs:enumeration value="notEq"/>
+            <xs:enumeration value="isNull"/>
+            <xs:enumeration value="isNotNull"/>
+            <xs:enumeration value="in"/>
+            <xs:enumeration value="notIn"/>
+            <xs:enumeration value="more"/>
+            <xs:enumeration value="less"/>
+            <xs:enumeration value="eqOrIsNull"/>
+            <xs:enumeration value="inOrIsNull"/>
+            <xs:enumeration value="like"/>
+            <xs:enumeration value="likeStart"/>
+            <xs:enumeration value="overlap"/>
+            <xs:enumeration value="contains"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="inheritanceNodesDefinition">
+        <xs:complexContent>
+            <xs:extension base="ctrv1:controlListQueryDefinition">
+                <xs:sequence>
+                    <xs:element name="pre-filters" maxOccurs="1" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="pre-filter" type="controlPreFilterDefinition" minOccurs="1"
+                                            maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
+                <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
+                <!--@deprecated <xs:attribute name="can-resolved-field-id" type="xs:string" use="optional"/>-->
+                <xs:attribute name="enabled-field-id" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlPasswordDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="length" type="xs:integer" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="inputSelectType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="single"/>
+            <xs:enumeration value="multi"/>
+            <xs:enumeration value="checkboxes"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="baseDependencyDefinition" abstract="true">
+        <xs:attribute name="on" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="visibilityDependencyDefinition" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="baseDependencyDefinition">
+                <xs:attribute name="reset" type="xs:boolean" default="true"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlToolbarButtonDefinition">
+        <xs:sequence>
+            <xs:element name="open-page" type="act:openPageDefinition" minOccurs="0"/>
+            <xs:element name="show-modal" type="act:showModalDefinition" minOccurs="0"/>
+            <xs:element name="a" type="act:aDefinition" minOccurs="0"/>
+            <xs:element name="invoke" type="act:invokeActionDefinition" minOccurs="0"/>
+            <xs:element name="perform-validation" type="act:performValidationDefinition" minOccurs="0"/>
+            <xs:element name="close" type="act:closeDefinition" minOccurs="0"/>
+            <xs:element name="set-value" type="act:setValueDefinition" minOccurs="0"/>
+            <xs:element name="execute-query" type="act:executeQueryDefinition" minOccurs="0"/>
+            <xs:element name="custom" type="act:customDefinition" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="label" type="xs:string"/>
+        <xs:attribute name="icon" type="xs:string"/>
+        <xs:attribute name="type" type="buttonTextType"/>
+        <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="action-id" type="xs:string"/>
+        <xs:attribute name="model" type="clientModel"/>
+    </xs:complexType>
+
+    <xs:simpleType name="buttonTextType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="textAndIcon"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="clientModel">
+        <xs:annotation>
+            <xs:documentation>Модель, над которой выполняется действие на клиенте.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="filter"/>
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="edit"/>
+            <xs:enumeration value="selected"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,10 @@
+{
+  "lerna": "2.11.0",
+  "version": "independent",
+  "packages": [
+    "n2o",
+    "n2o-auth",
+    "demo",
+    "n2o-simple-project"
+  ]
+}

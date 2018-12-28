@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0"
+       xmlns="http://n2oapp.net/framework/config/schema/query-3.0">
+    <object-id>configAudit</object-id>
+    <execution>
+        <n2o:java-criteria bean-name="configAuditCommitService"
+                           criteria-class="net.n2oapp.framework.config.audit.service.N2oCommitCriteria"/>
+    </execution>
+
+    <fields>
+        <field>
+            <id>id</id>
+            <domain>string</domain>
+            <display/>
+            <filters>
+                <filter type="eq" filter-field="id"/>
+            </filters>
+        </field>
+        <field>
+            <id>date</id>
+            <domain>date</domain>
+            <name>Дата</name>
+            <display>date</display>
+            <filters>
+                <filter type="more" filter-field="date.begin">dateBegin</filter>
+                <filter type="less" filter-field="date.end">dateEnd</filter>
+            </filters>
+        </field>
+        <field>
+            <id>message</id>
+            <domain>string</domain>
+            <display>message</display>
+            <name>Описание</name>
+            <filters>
+                <filter type="eq" filter-field="message">message</filter>
+            </filters>
+        </field>
+        <field>
+            <id>conflict</id>
+            <domain>boolean</domain>
+            <display>conflict</display>
+            <name>Конфликт</name>
+        </field>
+        <field>
+            <id>changeType.id</id>
+            <domain>string</domain>
+            <display>type</display>
+            <name>Изменение</name>
+            <filters>
+                <filter type="in" filter-field="changeType*.id">changeType</filter>
+            </filters>
+        </field>
+        <field>
+            <id>changeType.name</id>
+            <domain>string</domain>
+            <display>type?.description</display>
+            <name>Изменение</name>
+        </field>
+        <field>
+            <id>author</id>
+            <domain>string</domain>
+            <display>author</display>
+            <name>Автор</name>
+            <filters>
+                <filter type="eq" filter-field="author">author</filter>
+            </filters>
+        </field>
+        <field>
+            <id>state</id>
+            <domain>string</domain>
+            <display>state</display>
+            <name>Состояние</name>
+        </field>
+    </fields>
+</query>

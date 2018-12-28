@@ -1,0 +1,25 @@
+.n2o-header {
+  &.n2o-header-default {
+    border-bottom: $card-border-width solid $card-border-color;
+  }
+
+  .dropdown {
+    button {
+      background-color: white;
+      color: black;
+      &:hover, &:active{
+        background-color: $gray-lighter !important;
+      }
+      .active {
+        background-color: transparent;
+        color: black !important;
+      }
+      a{
+        color: rgba(0, 0, 0, 0.5) !important;
+        &:hover, &:active {
+          background-color: transparent !important;
+        }
+      }
+    }
+  }
+}

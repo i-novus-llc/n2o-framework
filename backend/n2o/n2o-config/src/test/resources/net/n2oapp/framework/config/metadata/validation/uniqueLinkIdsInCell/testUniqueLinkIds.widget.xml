@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="chartValidation">
+    <columns>
+        <column text-field-id="id">
+            <link>
+                <a href="test1"/>
+            </link>
+        </column>
+        <column text-field-id="id">
+            <link>
+                <a href="test2"/>
+            </link>
+        </column>
+    </columns>
+</table>

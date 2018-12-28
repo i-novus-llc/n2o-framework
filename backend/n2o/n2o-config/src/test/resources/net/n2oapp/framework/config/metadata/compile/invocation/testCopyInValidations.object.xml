@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
+        xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
+    <name>testCopyInValidations</name>
+    <app-name>appName</app-name>
+    <module-name>moduleName</module-name>
+
+    <actions>
+        <action id="all">
+            <invocation>
+                <n2o:java method="testMethod">
+                    <n2o:ejb bean="testBean"/>
+                </n2o:java>
+            </invocation>
+            <validations activate="all"/>
+        </action>
+        <action id="nothing">
+            <invocation>
+                <n2o:java method="testMethod">
+                    <n2o:ejb bean="testBean"/>
+                </n2o:java>
+            </invocation>
+            <validations activate="nothing"/>
+        </action>
+        <action id="white">
+            <invocation>
+                <n2o:java method="testMethod">
+                    <n2o:ejb bean="testBean"/>
+                </n2o:java>
+            </invocation>
+            <validations activate="whiteList">
+                <validation ref-id="v1"/>
+            </validations>
+        </action>
+        <action id="black">
+            <invocation>
+                <n2o:java method="testMethod">
+                    <n2o:ejb bean="testBean"/>
+                </n2o:java>
+            </invocation>
+            <validations activate="blackList">
+                <validation ref-id="v1"/>
+            </validations>
+        </action>
+    </actions>
+
+    <validations>
+        <condition id="v1" level="error">
+            <message>test</message>
+            <expression on="a,b">a == b</expression>
+        </condition>
+        <constraint id="v2" level="error">
+            <message>test</message>
+            <invocation>
+                <n2o:java method="testMethod">
+                    <n2o:ejb bean="testBean"/>
+                </n2o:java>
+            </invocation>
+            <in-parameters>
+                <param name="in" mapping="[]"/>
+            </in-parameters>
+            <out-parameters>
+                <param name="out" mapping="[]"/>
+            </out-parameters>
+            <result expression="[0][0][0] == 1"/>
+        </constraint>
+    </validations>
+
+</object>

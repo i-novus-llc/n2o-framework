@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<header xmlns="http://n2oapp.net/framework/config/schema/standard-header-1.0">
+
+
+    <navigation main-page="moduleWithoutMainPage.page4">
+        <module-group id="group">
+            <module ref-id="moduleWithoutMainPage"/>
+            <module id="module1" main-page="page2">
+                <page id="page1" name=""/>
+            </module>
+        </module-group>
+    </navigation>
+
+
+</header>

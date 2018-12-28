@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/access-point-2.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:a="http://n2oapp.net/framework/config/schema/base/access-base-1.0">
+
+    <xs:element name="object-access" type="objectAccessDef"/>
+    <xs:element name="url-access" type="urlAccessDef"/>
+    <xs:element name="page-access" type="pageAccessDef"/>
+
+    <xs:complexType name="objectAccessDef">
+        <xs:sequence>
+            <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="object-id" type="xs:string" use="required"/>
+        <xs:attribute name="operations" use="optional" type="a:actionGroupEnum"/>
+    </xs:complexType>
+
+    <xs:complexType name="urlAccessDef">
+        <xs:attribute name="pattern" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="pageAccessDef">
+        <xs:attribute name="page-id" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="preFiltersDefinition">
+        <xs:annotation>
+            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="eq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="in" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="like" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="contains" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="overlaps" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notIn" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNotNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefBase">
+        <xs:annotation>
+            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле в выборке виджета, по которому будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefValue">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefBase">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="value" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefValues">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefValue">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="values" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefValuesWithBody">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefValue">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки. С возможностью задания списка значений
+                        в теле.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="value" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                <xs:attribute name="values" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFieldDefBase">
+        <xs:annotation>
+            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле ввода в виджете, по которому будет предустановка.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="preFieldDefValue">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefBase">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="value" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение предустановки (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Localization</comment>
+
+    <entry key="n2o.displayTagNotFilled">не заполнен tag display</entry>
+    <entry key="n2o.labelFieldNotExists">Поля на которое ссылается label-field-id не существует</entry>
+    <entry key="n2o.valuesNotExists">отсутствует values</entry>
+    <entry key="n2o.fieldsNotExists">Не существует полей : {0}</entry>
+    <entry key="n2o.valueFieldNotExistsShort">отсутствует value-field-id</entry>
+    <entry key="n2o.valueFieldNotExists">Поля на которое ссылается value-field-id не существует</entry>
+    <entry key="n2o.pageNotExists">Страница {0} не существует</entry>
+    <entry key="n2o.widgetNotExists">Виджет {0} заданный в show-modal-form не существует</entry>
+    <entry key="n2o.cyrillicNotSupported">Код не должен содержать символ киррилицы</entry>
+    <entry key="n2o.dotSymbolNotSupported">Код не должен содержать символ '.'</entry>
+    <entry key="n2o.fillingErrorValueIsAbsent">Невозможно заполнить. Указанное значение отсутствует в списке</entry>
+    <entry key="n2o.fillingErrorDataLoadException">Невозможно заполнить. Произошла ошибка при получении данных</entry>
+    <entry key="n2o.serverVersionUpdated">обновлена серверная версия</entry>
+    <entry key="n2o.audit.created">Создан</entry>
+    <entry key="n2o.audit.updated">Изменен</entry>
+    <entry key="n2o.audit.deleted">Удален</entry>
+    <entry key="n2o.audit.merge">Слияние</entry>
+    <entry key="n2o.audit.commit">Коммит</entry>
+    <entry key="n2o.audit.updating">Обновление</entry>
+    <entry key="n2o.duplicateDeleted">удален дубликат</entry>
+    <entry key="n2o.manualModeConflictResolved">конфликт разрешен в ручном режиме</entry>
+    <entry key="n2o.manualModeConflictResolvedSystemVersionUpdated">конфликт разрешен в ручном режиме, восстановлена системная версия</entry>
+    <entry key="n2o.mergedSuccessfully">слито успешно</entry>
+    <entry key="n2o.mergedWithConflicts">слито с конфликтами</entry>
+    <entry key="n2o.manualCommit">коммит в ручном режиме </entry>
+    <entry key="n2o.autoModeConflictResolvedRollbackToServerVer">конфликт разрешен автоматически, откат к серверной версии</entry>
+    <entry key="n2o.autoModeConflictResolvedRollbackToSystemVer">конфликт разрешен автоматически, откат к системной версии</entry>
+    <entry key="n2o.autoModeConflictResolvedUpdateConflictStringsWithServerVer">конфликт разрешен автоматически, только для конфликтных строк применена серверная версия</entry>
+    <entry key="n2o.autoModeConflictResolvedUpdateConflictStringsWithSystemVer">конфликт разрешен автоматически, только для конфликтных строк применена серверная версия</entry>
+    <entry key="n2o.system">системный</entry>
+    <entry key="n2o.server">серверный</entry>
+    <entry key="n2o.modify">измененный</entry>
+    <entry key="n2o.conflict">конфликт</entry>
+    <entry key="n2o.duplicated">дублированный</entry>
+    <entry key="n2o.attributeIsMissing">Не заполнен обязательный атрибут {0}</entry>
+    <entry key="n2o.fileHasConflicts">В файле имеются конфликты!</entry>
+    <entry key="n2o.metadataReadingError">Ошибка чтения метаданных</entry>
+    <entry key="n2o.metadataLinkNotExists">Ссылка на метаданные не существует</entry>
+    <entry key="n2o.classNotFound">Не найден класс {0}</entry>
+    <entry key="n2o.couldNotDeleteFile">Не удаётся удалить файл {0}</entry>
+
+</properties>

@@ -1,0 +1,34 @@
+.n2o-date-input-group {
+  display: flex;
+}
+
+.n2o-calendar-button {
+  width: $datepicker-button-width;
+  border: none;
+  background: transparent;
+  margin-left: -$datepicker-button-width;
+  &:focus,
+  &:hover,
+  &:active {
+    outline: 0;
+    box-shadow: none;
+    &:not([disabled]) {
+      color: $link-hover-color;
+    }
+  }
+}
+
+.n2o-date-input {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  &.n2o-date-input-first {
+    width: calc(100% - #{$datepicker-button-width} + 3px);
+  }
+  &.n2o-date-input-last {
+    > input {
+      padding-right: $datepicker-button-width;
+    }
+  }
+}
+

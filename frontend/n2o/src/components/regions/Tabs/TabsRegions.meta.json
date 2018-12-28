@@ -1,0 +1,22 @@
+{
+  "src": "TabsRegion",
+  "tabs": [
+    {
+      "id": "tab1",
+      "opened": true,
+      "fetchOnInit": true,
+      "widgetId": "Page_Html",
+      "label": "HTML"
+    },
+    {
+      "id": "tab1",
+      "widgetId": "Page.SecureHtml",
+      "label": "HTML (secure)",
+      "fetchOnInit": true,
+      "opened": false,
+      "security": {
+        "roles": ["admin"]
+      }
+    }
+  ]
+}

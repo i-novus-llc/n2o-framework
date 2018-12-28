@@ -1,0 +1,16 @@
+{
+    "test": "test",
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "type": "object",
+    "properties": {
+        "item1": {
+            "subitem1": "subitem"
+        },
+        "item2": {
+            "subitem1": "subitem"
+        },
+        "item3": {
+            "subitem1": "subitem"
+        }
+    }
+}

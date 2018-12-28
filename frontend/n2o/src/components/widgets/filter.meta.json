@@ -1,0 +1,29 @@
+[
+  {
+    "src": "StandardFieldset",
+    "rows": [
+      {
+        "cols": [
+          {
+            "fields": [
+              {
+                "id": "name",
+                "label": "Имя",
+                "control": "InputText"
+              }
+            ]
+          },
+          {
+            "fields": [
+              {
+                "id": "surname",
+                "label": "Фамилия",
+                "control": "InputText"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form object-id="testFieldsetVisibility">
+        <fields>
+            <input-text id="id1">
+                <validations>
+                    <mandatory id="id1" severity="danger" server-moment="before-operation"/>
+                </validations>
+            </input-text>
+            <set label="fieldset1" visible="{fieldset1Condition}">
+                <input-text id="id2">
+                    <validations>
+                        <mandatory id="id2" severity="danger" server-moment="before-operation"/>
+                    </validations>
+                </input-text>
+
+                <input-text id="id3" required="true"/>
+
+                <set label="fieldset2" visible="{fieldset2Condition}">
+                    <input-text id="id4">
+                        <dependencies>
+                            <visibility>{id4Condition}</visibility>
+                        </dependencies>
+                        <validations>
+                            <mandatory id="id4" severity="danger" server-moment="before-operation"/>
+                        </validations>
+                    </input-text>
+                </set>
+                <set label="fieldset3" visible="{fieldset3Condition}">
+                    <input-text id="id5">
+                        <validations white-list="id5Required2">
+                            <condition id="id5IsNotNull" severity="danger" >id5 != null</condition>
+                        </validations>
+                    </input-text>
+                </set>
+            </set>
+        </fields>
+        <actions>
+            <action id="action">
+                <invoke operation-id="test" />
+            </action>
+        </actions>
+    </form>
+</simple-page>

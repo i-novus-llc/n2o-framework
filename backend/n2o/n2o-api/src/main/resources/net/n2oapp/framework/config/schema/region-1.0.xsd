@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+           targetNamespace="http://n2oapp.net/framework/config/schema/region-1.0">
+
+    <xs:element name="none" type="regionDefinition"/>
+    <xs:element name="tabs" type="tabsDefinition"/>
+    <xs:element name="line" type="lineDefinition"/>
+    <xs:element name="panel" type="panelDefinition"/>
+
+    <xs:complexType name="regionDefinition">
+        <xs:annotation>
+            <xs:documentation>Регионы.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:any namespace="##other" processContents="strict"/>
+            <xs:element name="table" type="wgt:tableReferenceDefinition"  maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="form" type="wgt:formReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="tree" type="wgt:treeReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="list" type="wgt:widgetListReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="chart" type="wgt:chartReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="html" type="wgt:htmlReferenceDefinition"  maxOccurs="unbounded" minOccurs="0" />
+            <xs:element name="custom" type="wgt:customReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор региона.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="place" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Местоположение региона на странице.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация региона.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="noneDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регион без вёрстки.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tabsDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регион в виде вкладок.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="lineDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регион с горизонтальным делителем.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="collapsible" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="panelDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регион в виде панелей.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="title" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="collapsible" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation> Стиль панели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="header" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>С заголовком.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+</xs:schema>

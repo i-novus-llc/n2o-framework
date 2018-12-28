@@ -1,0 +1,391 @@
+{
+  "id": "ProtoPage",
+  "regions": {
+    "left": [
+      {
+        "src": "None",
+        "containers": [
+          {
+            "id": "patients",
+            "pageId": "ProtoPage",
+            "icon" : "fa fa-plus",
+            "opened": true,
+            "fetchOnInit": true,
+            "widget": {
+              "id": "ProtoPage.patients",
+              "toolbar": {
+                "topLeft": [
+                  {
+                    "buttons": [
+                      {
+                        "id": "create",
+                        "context": false,
+                        "label": "Создать",
+                        "actionId": "create"
+                      },
+                      {
+                        "id": "update",
+                        "context": true,
+                        "label": "Изменить",
+                        "actionId": "update"
+                      },
+                      {
+                        "id": "delete",
+                        "context": true,
+                        "label": "Удалить",
+                        "actionId": "delete"
+                      }
+                    ]
+                  }
+                ],
+                "topRight": [
+                  {
+                    "buttons": [
+                      {
+                        "actionId": "toggleFilter",
+                        "eventId": "toggleFilter",
+                        "icon": "fa fa-filter"
+                      },
+                      {
+                        "actionId": "refreshData",
+                        "eventId": "refreshData",
+                        "icon": "fa fa-refresh"
+                      },
+                      {
+                        "actionId": "exportData",
+                        "eventId": "exportData",
+                        "icon": "fa fa-download"
+                      },
+                      {
+                        "actionId": "toggleColumns",
+                        "eventId": "toggleColumns",
+                        "icon": "fa fa-columns"
+                      },
+                      {
+                        "actionId": "toggleSize",
+                        "eventId": "toggleSize",
+                        "icon": "fa fa-cog"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "filterDefaultValues": {},
+              "filterFieldsets": [
+                {
+                  "src": "StandardFieldset",
+                  "rows": [
+                    {
+                      "cols": [
+                        {
+                          "fields": [
+                            {
+                              "id": "name",
+                              "label": "Имя",
+                              "control": "Input"
+                            }
+                          ]
+                        },
+                        {
+                          "fields": [
+                            {
+                              "id": "surname",
+                              "label": "Фамилия",
+                              "control": "Input"
+                            }
+                          ]
+                        },
+                        {
+                          "fields": [
+                            {
+                              "id": "patrName",
+                              "label": "Отчество",
+                              "control": "Input"
+                            }
+                          ]
+                        },
+                        {
+                          "fields": [
+                            {
+                              "id": "surname",
+                              "label": "Фамилия",
+                              "control": "DateInterval",
+                              "dateFormat": "DD.MM.YYYY",
+                              "locale": "ru"
+                            }
+                          ]
+                        },
+                        {
+                          "fields": [
+                            {
+                              "id": "gender",
+                              "label": "Пол",
+                              "control": "CheckboxGroup"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "size": 15,
+              "src": "Table",
+              "actions": {},
+              "cells": [
+                {
+                  "fieldKey": "name",
+                  "src": "TextCell"
+                },
+                {
+                  "fieldKey": "surname",
+                  "src": "TextCell"
+                },
+                {
+                  "fieldKey": "birthday",
+                  "src": "TextCell"
+                },
+                {
+                  "fieldKey": "gender.name",
+                  "src": "TextCell"
+                }
+              ],
+              "headers": [
+                {
+                  "id": "name",
+                  "label": "Имя",
+                  "src": "TextTableHeader",
+                  "sortable": true
+                },
+                {
+                  "id": "surname",
+                  "label": "Фамилия",
+                  "src": "TextTableHeader",
+                  "sortable": true
+                },
+                {
+                  "id": "birthday",
+                  "label": "Дата рождения",
+                  "src": "TextTableHeader",
+                  "sortable": true
+                },
+                {
+                  "id": "gender.name",
+                  "label": "Пол",
+                  "src": "TextTableHeader",
+                  "sortable": true
+                }
+              ],
+              "sorting": {
+                "birthday": "ASC"
+              },
+              "hasSelect": true,
+              "hasFocus": true,
+              "autoFocus": true
+            }
+          }
+        ]
+      }
+    ],
+    "right": [
+      {
+        "src": "List",
+        "containers": [
+          {
+            "id": "contacts",
+            "pageId": "ProtoPage",
+            "opened": false,
+            "fetchOnInit": false,
+            "widget": {
+              "id": "ProtoPage.contacts",
+              "toolbar": {},
+              "filterDefaultValues": {
+                "individualId": {
+                  "bindLink": "models.resolve['ProtoPage.patients']",
+                  "value": "`id`"
+                }
+              },
+              "size": 10,
+              "src": "Table",
+              "actions": {},
+              "dependency": {
+                "fetch": [
+                  {
+                    "bindLink": "models.resolve['ProtoPage.patients']"
+                  }
+                ]
+              },
+              "cells": [
+                {
+                  "fieldKey": "value",
+                  "src": "TextCell"
+                },
+                {
+                  "fieldKey": "typeId",
+                  "src": "TextCell"
+                }
+              ],
+              "headers": [
+                {
+                  "id": "value",
+                  "label": "Значение",
+                  "src": "TextTableHeader",
+                  "sortable": true
+                },
+                {
+                  "id": "typeId",
+                  "label": "Тип",
+                  "src": "TextTableHeader",
+                  "sortable": false
+                }
+              ],
+              "sorting": {},
+              "hasSelect": false,
+              "hasFocus": false,
+              "autoFocus": false
+            }
+          },
+          {
+            "id": "form",
+            "pageId": "ProtoPage",
+            "opened": true,
+            "fetchOnInit": false,
+            "widget": {
+              "id": "ProtoPage.form",
+              "toolbar": {
+                "topLeft": [
+                  {
+                    "buttons": [
+                      {
+                        "id": "update",
+                        "context": true,
+                        "label": "Сохранить",
+                        "actionId": "update"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "filterDefaultValues": {
+                "id": {
+                  "bindLink": "models.resolve['ProtoPage.patients']",
+                  "value": "`id`"
+                }
+              },
+              "size": 1,
+              "src": "EditForm",
+              "events": {
+                "update": {
+                  "id": "update",
+                  "actionId": "update",
+                  "objectId": "ProtoPatient",
+                  "modelLink": "models.resolve['ProtoPage.patient']",
+                  "src": "invoke"
+                }
+              },
+              "dependency": {
+                "fetch": [
+                  {
+                    "bindLink": "models.resolve['ProtoPage.patients']"
+                  }
+                ]
+              },
+              "fieldsets": [
+                {
+                  "src": "StandardFieldset",
+                  "rows": [
+                    {
+                      "cols": [
+                        {
+                          "fields": [
+                            {
+                              "id": "surname",
+                              "src": "StandardField",
+                              "label": "Фамилия",
+                              "control": "Input"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "cols": [
+                        {
+                          "fields": [
+                            {
+                              "id": "name",
+                              "src": "StandardField",
+                              "label": "Имя",
+                              "control": "Input"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "cols": [
+                        {
+                          "fields": [
+                            {
+                              "id": "vip",
+                              "src": "StandardField",
+                              "label": "VIP",
+                              "control": "Checkbox"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "cols": [
+                        {
+                          "fields": [
+                            {
+                              "id": "surname",
+                              "src": "StandardField",
+                              "label": "Фамилия",
+                              "control": "Input"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "cols": [
+                        {
+                          "fields": [
+                            {
+                              "id": "name",
+                              "src": "StandardField",
+                              "label": "Имя",
+                              "control": "Input"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "cols": [
+                        {
+                          "fields": [
+                            {
+                              "id": "vip",
+                              "src": "StandardField",
+                              "label": "VIP",
+                              "control": "Checkbox"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "layoutSrc": "LeftRight"
+}

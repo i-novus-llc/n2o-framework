@@ -1,0 +1,43 @@
+@import "~bootstrap/less/variables";
+
+@keyframes n2o-loading {
+  to {transform: rotate(360deg);}
+}
+.loading {
+  min-height: 10em;
+}
+.loading:after {
+  content: ' ';
+  background: fade(@body-bg, 0.5);
+  left: 0.5px;
+  top: -0.3em;
+  right: 0.5px;
+  bottom: 0;
+  display: block;
+  position: absolute;
+  z-index: (@zindex-modal - 11);
+}
+.loading:before {
+  content: '';
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  margin-left: -20px;
+  border-radius: 50%;
+  border: 3px solid lighten(@gray, 80%);
+  border-top-color: theme-color("primary");
+  animation: n2o-loading 0.9s linear infinite;
+  z-index: (@zindex-modal - 10);
+}
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}

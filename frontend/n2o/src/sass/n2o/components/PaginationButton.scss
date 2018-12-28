@@ -1,0 +1,9 @@
+.page-item {
+  & > .page-link {
+    &.no-border {
+      border-color: transparent !important;
+      background-color: transparent !important;
+      color: $primary;
+    }
+  }
+}

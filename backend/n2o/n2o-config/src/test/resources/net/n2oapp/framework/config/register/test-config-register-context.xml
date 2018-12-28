@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="net.n2oapp.context.StaticSpringContext"/>
+
+    <bean class="net.n2oapp.framework.api.event.N2oEventBus"/>
+
+
+
+    <bean id="configMetadataLockerMock" class="net.n2oapp.framework.config.reader.mock.ConfigMetadataLockerMock"/>
+    <bean class="net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory"/>
+
+    <bean id="n2oProperties" class="net.n2oapp.properties.OverrideProperties"/>
+
+    <bean id="configRegisterCache" class="net.n2oapp.framework.config.register.cache.MemoryConfigRegisterCache"/>
+
+    <bean class="net.n2oapp.framework.config.register.scanner.XmlInfoScanner"/>
+
+    <bean id="cacheManager"
+          class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcache"/>
+    </bean>
+
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="net/n2oapp/framework/config/register/ehcache-test.xml"/>
+        <property name="shared" value="false"/>
+    </bean>
+
+    <bean class="net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider">
+        <constructor-arg name="code" value="test"/>
+    </bean>
+
+    <bean class="net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider">
+        <constructor-arg name="code" value="list"/>
+    </bean>
+
+    <bean class="net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider">
+        <constructor-arg name="code" value="simple"/>
+    </bean>
+
+    <bean class="net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider">
+        <constructor-arg name="code" value="sec"/>
+    </bean>
+
+    <bean class="net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider">
+        <constructor-arg name="code" value="amb"/>
+    </bean>
+
+    <bean class="net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider">
+        <constructor-arg name="code" value="static"/>
+    </bean>
+
+</beans>

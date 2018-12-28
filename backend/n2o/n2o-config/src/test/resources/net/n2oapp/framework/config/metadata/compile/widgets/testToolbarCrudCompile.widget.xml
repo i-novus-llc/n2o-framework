@@ -1,0 +1,10 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+      object-id="utBlank"
+      query-id="utBlank">
+    <toolbar place="topLeft" generate="crud">
+        <button action-id="action1" type="icon"/>
+    </toolbar>
+    <toolbar place="bottomLeft" generate="submit">
+        <button action-id="action2" type="icon" confirm="true"/>
+    </toolbar>
+</form>

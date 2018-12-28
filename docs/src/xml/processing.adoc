@@ -1,0 +1,16 @@
+== Процессинг <processing>
+=== <pointcuts>
+==== <action-pointcut>
+==== <query-pointcut>
+=== <before>
+==== <in-parameters>
+==== <invocation>
+==== <out-parameters>
+=== <after-success>
+==== <in-parameters>
+==== <invocation>
+==== <out-parameters>
+=== <after-fail>
+==== <in-parameters>
+==== <invocation>
+==== <out-parameters>

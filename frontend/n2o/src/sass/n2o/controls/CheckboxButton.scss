@@ -1,0 +1,13 @@
+.btn {
+  > input[type=checkbox] {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    pointer-events: none;
+  }
+}
+
+.checkbox {
+  > label.btn {
+    padding-left: 12px;
+  }
+}

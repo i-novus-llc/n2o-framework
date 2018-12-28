@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
+           xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-2.0"
+           xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-4.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="table" type="tableReferenceDefinition"/>
+    <xs:element name="form" type="formReferenceDefinition"/>
+    <!--<xs:element name="tree" type="treeReferenceDefinition"/>-->
+    <!--<xs:element name="chart" type="chartReferenceDefinition"/>-->
+    <xs:element name="custom" type="customReferenceDefinition"/>
+    <xs:element name="html" type="htmlReferenceDefinition"/>
+
+    <xs:complexType name="widgets" abstract="true">
+        <xs:sequence>
+            <xs:element name="table" type="tableReferenceDefinition" minOccurs="0"/>
+            <xs:element name="form" type="formReferenceDefinition" minOccurs="0"/>
+            <!--<xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>-->
+            <!--<xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>-->
+            <xs:element name="custom" type="customReferenceDefinition" minOccurs="0"/>
+            <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
+            <xs:any namespace="##other" processContents="strict">
+                <xs:annotation>
+                    <xs:documentation>Подключаемый через библиотеку виджет.</xs:documentation>
+                </xs:annotation>
+            </xs:any>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="widgetDefinition">
+        <xs:sequence>
+            <xs:element name="actions" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Действия над виджетом.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="action" type="actionDefinition" maxOccurs="unbounded" minOccurs="1"/>
+                    </xs:sequence>
+                    <xs:attribute name="generate" type="generateDefinition" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>Генерация стандартных действий.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="toolbar" type="tool:widgetToolbarDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="pre-filters" type="preFiltersDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="pre-fields" type="preFieldsDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета внутри страницы. Генерируется по индексу wgt[idx]
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="upload" type="act:uploadType" use="optional">
+            <xs:annotation>
+                <xs:documentation>Источник данных виджета
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ссылка на родительский файл виджета
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="depends-on" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ссылка на master виджет
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="master-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ссылка на поле выборки в master виджете. Используется вместе с depends-on. По
+                    умолчанию "id"
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="detail-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ссылка на поле выборки в текущем виджете. Используется вместе с depends-on
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация виджета (React компонент).</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>CSS класс, который будет добавлен к виджету.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Наименование виджета. По умолчанию равно элементу name выборки, на основе которой
+                    построен компонент.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>URL виджета. По умолчанию вычисляется на основании идентификаторов страницы и
+                    виджета.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Иконка виджета.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="query-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор выборки, на основе которой построен компонент.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="object-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор объекта.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="size" type="xs:integer" use="optional">
+            <xs:annotation>
+                <xs:documentation>Количество записей, которое отображает виджет</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="actionDefinition">
+        <xs:annotation>
+            <xs:documentation>Обработчик действия.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="act:actions">
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="name" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Наименование.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Иконка действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Действие по умолчанию. Вызов по двойному клику или Enter.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hotkey" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Горячая клавиша вызова.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Видимость действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Доступность действий.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="model" type="tool:clientModel">
+                    <xs:annotation>
+                        <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
+                            заблокировано.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:complexType name="tableReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет таблица.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="columns" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Столбцы таблицы.</xs:documentation>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded"
+                                            minOccurs="1"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="rows" type="rowsTableDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Настройки цвета строк таблицы.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pagination" type="paginationDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Паджинация таблицы.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="filters" type="filtersDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Фильтры таблицы.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="columnDefinition">
+        <xs:annotation>
+            <xs:documentation>Столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="cell:cells">
+                <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отображаемое в столбце.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tooltip-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Ширина столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Иконка заголовка столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="textType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sorting-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Поле, по которому сортируется столбец.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="sorting-direction" type="sortingDirectionType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:complexType name="formReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет форма.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="fields" type="fieldsDefinition" maxOccurs="1" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="default-values-query-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Выборка значений по умолчанию. Её результат сливается со значениями по
+                            умолчанию
+                            заданными в полях.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="mode" type="formMode">
+                    <xs:annotation>
+                        <xs:documentation>Режим формы. Может быть одно или двух модельный(количество моделей на
+                            клиенте)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="fieldsDefinition">
+        <xs:annotation>
+            <xs:documentation>Поля формы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="fs:fields">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="treeReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет дерево.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence/>
+                <!--todo:реализовать-->
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="chartReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет диаграмма.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+            <!--todo:реализовать-->
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="customReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Кастомный виджет.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+            <!--todo:реализовать-->
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="htmlReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Html виджет.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Адрес запроса за html кодом.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+            <!--todo:реализовать-->
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="rowsTableDefinition">
+        <xs:sequence>
+            <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="color-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отвечающее за цвет.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="switchDefinition">
+        <xs:annotation>
+            <xs:documentation>Переключатель.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="case" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вариант переключения.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                    <xs:attribute name="value" type="xs:string" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="default" maxOccurs="1" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Вариант по умолчанию.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="value-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="paginationDefinition">
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация паджинации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="prev" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на предыдущую страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="next" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на следующую страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="last" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на последнюю страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="first" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Показать/скрыть кнопку быстрого перехода на первую страницу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="show-count" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Показать общее количество записей.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="hide-single-page" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Скрыть паджинацию на единственной странице.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="filtersDefinition">
+        <xs:annotation>
+            <xs:documentation>Фильтры таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="fs:fields">
+                <xs:attribute name="place" type="filterPlaceEnum"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!--положение панели фильтров-->
+    <xs:simpleType name="filterPlaceEnum">
+        <xs:restriction base="xs:string">
+            <!--не задано-->
+            <xs:enumeration value="top"/>
+            <!--по возрастанию-->
+            <xs:enumeration value="left"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="generateDefinition">
+        <xs:annotation>
+            <xs:documentation>Варианты генерации стандартных действий.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="crud"/>
+            <xs:enumeration value="saveAndClose"/>
+            <xs:enumeration value="close"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="placeDefinition">
+        <xs:annotation>
+            <xs:documentation>Текст с иконкой или без.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="textAndIcon"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="textType">
+        <xs:annotation>
+            <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="iconAndText"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="placeType">
+        <xs:annotation>
+            <xs:documentation>Тип места расположения меню.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="topLeft"/>
+            <xs:enumeration value="topRight"/>
+            <xs:enumeration value="bottomLeft"/>
+            <xs:enumeration value="bottomRight"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sortingDirectionType">
+        <xs:annotation>
+            <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="asc"/>
+            <xs:enumeration value="desc"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="preFiltersDefinition">
+        <xs:annotation>
+            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="eq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="in" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="like" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="contains" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="overlaps" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="more" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="less" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notEq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="notIn" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNotNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefBase">
+        <xs:annotation>
+            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле в выборке виджета, по которому будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefValue">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefBase">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="value" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefValues">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefValue">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="values" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFilterDefValuesWithBody">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefValues">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки. Со возможностью задания списка значений
+                        в теле.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="value" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFieldsDefinition">
+        <xs:annotation>
+            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="eq" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="in" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="contains" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="more" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="less" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNotNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="isNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="preFieldDefBase">
+        <xs:annotation>
+            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле ввода в виджете, по которому будет предустановка.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-widget-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel" use="optional">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="preFieldDefValue">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefBase">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="value" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значение предустановки (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="preFieldDefValues">
+        <xs:complexContent>
+            <xs:extension base="preFieldDefBase">
+                <xs:annotation>
+                    <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="values" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Значения предустановки (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="reduxModel">
+        <xs:annotation>
+            <xs:documentation>Модель данных.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="filter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="formMode">
+        <xs:annotation>
+            <xs:documentation>Режим формы</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="one-model"/>
+            <xs:enumeration value="two-models"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

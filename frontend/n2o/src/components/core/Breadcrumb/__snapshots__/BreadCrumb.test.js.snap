@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Breadcrumb /> тестирует снэпшот контейнера брэдкрамба 1`] = `
+<nav
+  aria-label="breadcrumb"
+  className=""
+>
+  <ol
+    className="breadcrumb"
+  >
+    <li
+      aria-current={undefined}
+      className="breadcrumb-item"
+    >
+      <a
+        href="/redirectTest"
+        onClick={[Function]}
+      >
+        test ? test : 'dummy'
+      </a>
+    </li>
+    <li
+      aria-current="page"
+      className="active breadcrumb-item"
+    >
+      test == 'fake' ? test : 'Test'
+    </li>
+  </ol>
+</nav>
+`;

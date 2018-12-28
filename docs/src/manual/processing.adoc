@@ -1,0 +1,284 @@
+== Процессинг
+Процессинг - это способ повлиять на процессы, проходящие в жизненном цикле N2O.
+
+=== Процессинг данных
+С помощью процессинга данных можно изменить входные или выходные параметры действия, фильтрацию и поля выборки, обработать ошибки или добавить сообщения.
+
+==== Точки входа
+Есть несколько точек входа для процессинга данных.
+Они делятся на:
+
+- Процессинг действия или процессинг выборки.
+- Перед отправкой данных в провайдер или после.
+- Успешно выполнено или прервано с исключением.
+
+image::images\processing-fa5c9.png[]
+
+.Точки входа процессинга данных
+|===
+|Точка входа|Описание
+
+|beforeAction
+|Перед отправкой действия в провайдер данных
+
+|afterSuccessAction
+|После успешного получения данных действия из провайдера.
+
+|afterFailAction
+|После отправки действия в провайдер данных. Выполнение было прервано исключением.
+
+|beforeQuery
+|Перед отправкой запроса за выборкой в провайдер данных.
+
+|afterSuccessQuery
+|После успешного получения данных выборки из провайдера данных.
+
+|afterFailQuery
+|После отправки запроса за выборкой в провайдер данных. Выполнение было прервано исключением.
+
+|===
+
+==== Процессинг данных через XML
+Процессинг можно задать через XML файл `[id].processing.xml`.
+
+.Процессинг данных
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<processing xmlns="http://n2oapp.net/framework/config/schema/processing-2.0">
+  <pointcuts><!-- Установка целей -->
+      <action-pointcut
+        object-id="myObject"
+        action-id="update"> <!-- Целевое действие -->
+          <filter>
+            <!-- Фильтрация действий по входным данным -->
+          </filter>
+      </action-pointcut>
+      <query-pointcut
+        query-id="myQuery"> <!-- Целевая выборка -->
+          <filter>
+            <!-- Фильтрация выборок по фильтрам -->
+          </filter>
+      </query-pointcut>
+  </pointcuts>
+  <before><!-- Обработка входных данных до передачи в провайдер -->
+      <in-parameters>
+        <!-- Получаем входные параметры действия
+        или фильтры выборки для дополнительного запроса -->
+      </in-parameters>
+      <invocation>
+        <!-- Делаем дополнительный запрос к провайдеру данных -->
+      </invocation>
+      <out-parameters>
+        <!-- Вставляем результат дополнительного запроса во входные параметры действия
+        или фильтры выборки -->
+      </out-parameters>
+  </before>
+  <after-success><!-- Обработка результата успешного выполнения -->
+      <in-parameters>
+        <!-- Получаем результаты выполнения действия
+        или поля каждой записи выборки для дополнительного запроса -->
+      </in-parameters>
+      <invocation>
+        <!-- Делаем дополнительный запрос к провайдеру данных -->
+      </invocation>
+      <out-parameters>
+        <!-- Вставляем результат дополнительного запроса в результаты действия
+        или поля выборки -->
+      </out-parameters>
+  </after-success>
+  <after-fail><!-- Обработка результата прерванного выполнения -->
+      <in-parameters>
+        <!-- Получаем параметры исключения
+        или входные параметры действия
+        или фильтры выборки для дополнительного запроса -->
+      </in-parameters>
+      <invocation>
+        <!-- Делаем дополнительный запрос к провайдеру данных -->
+      </invocation>
+      <out-parameters>
+        <!-- Вставляем результат дополнительного запроса в результаты действия
+        или поля выборки -->
+      </out-parameters>
+  </after-fail>
+</processing>
+----
+
+В элементе `<pointcuts>` задаются целевые действия `<action-pointcut>` и выборки `<query-pointcut>` для процессинга.
+Определяется какие действия и выборки нужно процессить.
+
+Конкретные вызовы действий и выборок можно пропустить (не обрабатывать процессингом) с помощью элементов `<filter>`.
+В теле фильтра должно быть выражение, возвращающее `true` (процессим) или `false` (пропускаем), написанное на языке SpEL.
+
+.Фильтрация действий в процессинге
+[source,xml]
+----
+<action-pointcut
+  object-id="person"
+  action-id="create">
+  <!-- Отбираем только мужчин-->
+  <filter>['gender.id'] == 1</filter>
+</action-pointcut>
+----
+
+В элементах `<before>`, `<after-success>`, `<after-fail>` задаётся сам процессинг.
+Определяется что нужно сделать с целевыми действиями и выборками.
+
+В процессинге можно обратиться к link:#_Провайдеры_данных[провайдеру данных] через элемент `<invocation>`. Например, для журналирования.
+
+.Журналирование действия
+[source,xml]
+----
+<after-success>    <!-- Действие выполнены успешно -->
+  <invocation>
+    <sql>INSERT INTO mylog VALUES (:id, :name, :username);
+  </invocation>
+  <in-parameters> <!-- Собираем результаты выполненного действия -->
+    <param id="id" mapping="id"/>
+    <param id="name" mapping="name"/>
+    <param id="user" mapping="username" default-value="#{username}"/>
+  </in-parameters>
+</after>
+----
+
+Или можно просто дозаполнить входные параметры действия:
+
+.Добавление текущего пользователя во входные параметры перед действием
+[source,xml]
+----
+<before>    <!-- Действие еще не выполнено -->
+    <out-parameters> <!-- Вставляем данные во входные параметры действия-->
+        <param name="author" default-value="#{username}"/>
+    </out-parameters>
+</before>
+----
+
+[IMPORTANT]
+Если при выполнении процессинга происходит исключение, оно проглатывается и не доходит до пользователя.
+Узнать причину исключения можно будет только по стектрейсу, посмотрев логи.
+
+==== Процессинг данных через Java
+Процессинг можно сделать через Java.
+В этом случае будет больше возможностей по сравнению с XML.
+Например, можно добавлять сообщения в виджет или создать диалог.
+
+Для процессинга данных на Java нужно реализовать интерфейс `DataProcessing`.
+
+
+.Аудит действия и выборки на Java
+[source,java]
+----
+public class MyAuditModule implements DataProcessing {
+
+    private MyAuditService auditService;//Сервис аудита
+
+    /**
+      * @param requestInfo  - информация о запросе
+      * @param responseInfo - информация об ответе на запрос
+      * @param dataSet      - выходной набор данных
+      */
+    @Override
+    public void processSuccessAction(ActionRequestInfo requestInfo,
+                                    ActionResponseInfo responseInfo,
+                                    DataSet dataSet) {
+        auditService.logAction(
+          requestInfo.getUser().getUsername(),
+          requestInfo.getAction(),
+          dataSet);
+    }
+
+    /**
+      * @param requestInfo  - информация о запросе
+      * @param responseInfo - информация об ответе на запрос
+      * @param page         - выборка данных
+      */
+    @Override
+    public void processSuccessQuery(QueryRequestInfo requestInfo,
+                                   QueryResponseInfo responseInfo,
+                                   CollectionPage<DataSet> page) {
+        auditService.logQuery(
+          requestInfo.getUser().getUsername(),
+          requestInfo.getQuery(),
+          page);
+    }
+
+}
+----
+
+=== Трансформаторы
+С помощью трансформаторов можно менять метаданные по пути их к клиенту.
+
+==== Жизненный цикл метаданных
+Есть несколько этапов жизненного цикла метаданных.
+В каждый из них можно вставить трансформацию.
+
+image::images\processing-94c18.png[]
+
+На первом этапе (`Source`) метаданные считываются из исходных файлов (.xml или .groovy) в Java объекты (`N2oMetadata`), link:#_Валидация_конфигураций[валидируются] и складываются в кэш первого уровня.
+
+На втором этапе (`Compile`) собираются в связанную структуру (`CompiledMetadata`) и складываются в кэш второго уровня.
+
+[WARNING]
+Трансформировать `CompiledMetadata` объекты не всегда удобно, т.к. они в основном unmodified.
+Зато удобно анализировать, т.к. у них есть ссылочная связность между зависимыми метаданными.
+
+На третьем этапе (`Client`) преобразуются в вид, удобный для клиента (`ClientMetadata`), кэшируются на третьем уровне, и отправляются клиенту в виде `Json`.
+
+.Точки входа трансформации
+[cols="2,4"]
+|===
+|Точка входа|Описание
+
+|BeforeValidateTransformer
+|После чтения, перед валидацией
+
+|AfterValidateTransformer
+|После валидации, перед первым кэшированием
+
+|BeforeCompileTransformer
+|После первого кэширования, перед компиляцией
+
+|AfterCompileTransformer
+|После компиляции, перед вторым кэшированием
+
+|BeforeMapTransformer
+|После второго кэширования, перед маппингом
+
+|AfterMapTransformer
+|После маппинга, перед третьим кэшированием
+
+|===
+
+==== Трансформаторы через Java
+
+Чтобы сделать трансформацию на Java, необходимо реализовать интерфейс `SourceTransformer` или `CompileTransformer` или `ClientTransformer`, и задать его в качестве Spring Bean.
+
+.Трансформация действий в процессинге
+[source,java]
+----
+public class MyPageTransformer
+  implements SourceTransformer<N2oPage, RootCompileContext> {
+
+    /**
+      * Трансформация перед валидацией метаданной
+      * @param page метаданная перед трансформацией
+      * @param context контекст трансформации
+      * @return метаданная после транформации
+      */
+    public N2oPage transformAfterValidate(N2oPage page, RootCompileContext context) {
+      ... //изменяем страницу
+      return page;
+    }
+
+    public Class<N2oPage> getMetadataClass() {
+      return N2oPage.class;
+    }
+
+    public Class<RootCompileContext> getContextClass() {
+      return RootCompileContext.class;
+    }
+}
+----
+
+==== Трансформаторы через XML
+Трансформаторы можно задать через XML файл `[id].transform.xml`.

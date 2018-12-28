@@ -1,0 +1,200 @@
+// ---------------- OLD CODE ----------------- //
+// 3 to 4 migration
+$gray-lighter: $gray-300;
+$gray-light: $gray-300;
+$gray: $gray-600;
+
+// Список переменных N2O
+//Checkbox
+$checkbox-icon-content: '\f00c' !default;
+$checkbox-icon-font: 'FontAwesome' !default;
+$checkbox-background-color: #ffffff !default;
+$checkbox-border: 1px solid #90a4ae !default;
+$checkbox-border-radius: 0 !default;
+$checkbox-custom-control-padding-left: 1.5rem !default;
+$checkbox-border-color-checked: #163851 !default;
+$checkbox-hover-border: $checkbox-border !default;
+$checkbox-background-image: $custom-checkbox-indicator-icon-checked !default;
+$checkbox-focus-shadow:  0 0 0 1px #fff, 0 0 0 0.2rem rgba(22, 56, 81, 0.25) !default;
+$checkbox-background-size: 50% !default;
+$checkbox-background-position: center !default;
+$checkbox-background-repeat: no-repeat !default;
+$checkbox-position-top: 0.25rem !default;
+$checkbox-position-left: -1.5rem !default;
+$checkbox-position-right: auto !default;
+$checkbox-position-bottom: auto !default;
+$checkbox-background-color-checked: #163851 !default;
+$checkbox-color: #333 !default;
+$checkbox-disabled-color: rgba(51, 51, 51, 0.55) !default;
+$checkbox-border-disabled-color: rgba(187, 187, 187, 0.55) !default;
+$checkbox-border-focus-color: rgba(82, 168, 236, 0.8);
+$checkbox-indeterminate-disabled-background: rgba(51, 51, 51, 0.55);
+$checkbox-width: 16px !default;
+$checkbox-height: 16px !default;
+$checkbox-font-size: 11px !default;
+$custom-checkbox-margin: 0 !default;
+
+// Radio
+$radio-border: 1px solid #bbb !default;
+$radio-background-color: #f5f5f5 !default;
+$radio-background-color-after: #777 !default;
+$radio-border-radius: 50% !default;
+$radio-focus-border-color: rgba(82, 168, 236, 0.8) !default;
+$radio-disabled-border-color: rgba(187, 187, 187, 0.55) !default;
+$radio-disabled-background: rgba(51, 51, 51, 0.55) !default;
+$radio-cursor: pointer !default;
+$radio-cursor-disabled: not-allowed !default;
+$radio-width: 16px !default;
+$radio-height: 16px !default;
+//Radio
+$n2o-radio-background-color: #90a4ae !default;
+$n2o-radio-width: 1rem !default;
+$n2o-radio-height: 1rem !default;
+$n2o-radio-top: 0.25rem !default;
+$n2o-radio-left: -1.5rem !default;
+$n2o-radio-right: auto !default;
+$n2o-radio-bottom: auto !default;
+$n2o-radio-focus-box-shadow: 0 0 0 1px #fff, 0 0 0 0.2rem rgba(22, 56, 81, 0.25) !default;
+$n2o-radio-checked-background-color: #163851 !default;
+$n2o-radio-checked-background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23fff'/%3E%3C/svg%3E") !default;
+$n2o-radio-checked-background-repeat: no-repeat !default;
+$n2o-radio-checked-background-position: center !default;
+$n2o-radio-checked-background-size: 50% !default;
+$n2o-radio-border: none !default;
+$n2o-radio-margin: none !default;
+
+//ProgressBar
+$mini-height: 10px !default;
+$default-height: 20px !default;
+$large-height: 34px !default;
+
+//InputSelect
+$border: 1px solid #ccc !default;
+$input-select-border: 1px solid #cfd8dc !default;
+$input-select-border-color: #ccc !default;
+$input-select-hover-border-color: #cfd8dc !default;
+$input-select-padding: $input-padding-y $input-padding-x !default;
+$input-select-font-size: 1rem !default;
+$input-select-font-color: #263238 !default;
+$input-select-border-radius: 0 !default;
+$input-select-item-padding: 0.25rem 1.5rem !default;
+$input-select-control-icon-size: 12px !default;
+$image-height: 40px !default;
+$input-min-height: calc(2.25rem + 2px) !default;
+$input-padding: 4px 0 4px 12px !default;
+$input-control-padding: 2px 12px 2px 12px !default;
+$focus-color: #317db5 !default;
+$disabled-cursor: not-allowed !default;
+$input-cursor: pointer !default;
+$disabled-color: rgba(156, 159, 173, 0.55) !default;
+$popup-height: 290px !default;
+$popup-max-width: 900px !default;
+$selected-item-height: 14px !default;
+$selected-item-margin-y: 0.2rem !default;
+$selected-item-margin-x: 0.15rem !default;
+$selected-item-width: 150px !default;
+$multiselect-item-color: #fafafa !default;
+$shadow-box: 0px 0px 0px 3px rgba(197,205,211,1) !default;
+$input-select-control-dropdown-header-padding: 0.5rem 1rem !default;
+
+//InputTreeSelect
+$image-tree-height: 20px !default;
+$multiselect-item-width: 100px !default;
+$icon-size: 12px !default;
+$image-width: 24px !default;
+$tree-animation-speed: 0.15s !default;
+$max-popup-height: 500px !default;
+$max-popup-width: 50vh !default;
+$icon-tree-hover-color: $gray-100 !default;
+$input-select-tree-color-hover: #ccc !default;
+
+// Card
+$card-colunm-mode-width: 250px !default;
+$card-line-mode-height: 60px !default;
+$card-border-top: none !default;
+$card-border-right: none !default;
+$card-border-bottom: none !default;
+$card-border-left: none !default;
+$card-background-color: $white !default;
+$card-box-shadow-hover: none !default;
+
+//Collapse
+$collapse-header-margin: 0 0 10px 0 !default;
+$collapse-line-height: 1px !default;
+$collapse-line-color: #ced3d6 !default;
+
+// DatePicker
+$calendar-min-width: 230px !default;
+$calendar-max-width: 230px !default;
+$calendar-height: 220px !default;
+$datepicker-day-background-color-hover: $gray-200 !default;
+$datepicker-day-color-hover: #051f28 !default;
+$datepicker-day-padding: 0 1px !default;
+$datepicker-day-color-selected: white !default;
+$datepicker-day-background-color-selected: $primary !default;
+$datepicker-day-border-color-current: $primary !default;
+$datepicker-button-width: 40px;
+
+// Panel Region
+$panel-region-heading-background-color: white !default;
+$panel-region-background-color: $white !default;
+$panel-region-border-top: 1px solid rgba(0, 0, 0, 0.125) !default;
+$panel-region-border-right: 1px solid rgba(0, 0, 0, 0.125) !default;
+$panel-region-border-bottom: 1px solid rgba(0, 0, 0, 0.125) !default;
+$panel-region-border-left: 1px solid rgba(0, 0, 0, 0.125) !default;
+$panel-region-box-shadow-hover: none !default;
+
+// FileUploader
+$file-uploader-progress-bar-width: 100% !default;
+$file-uploader-progress-bar-height: 5px !default;
+$file-uploader-border-color-drag-enter: $green !default;
+
+// DropZone
+$drop-zone-width: 100% !default;
+$drop-zone-height: 200px !default;
+$drop-zone-border: 2px dashed black !default;
+
+// Sidebar
+$togglerHeight: 50px !default;
+$custom-light-gray: darken($gray-500, 5%) !default;
+$sidebarWidth: 200px !default;
+$sidebarCollapseWidth: 60px !default;
+
+$gray-light: $gray-100 !default;
+$gray-dark: #263238 !default;
+$gray-lighter: $gray-300 !default;
+$navbar-inverse-link-active-color: rgba(255, 255, 255, 0.5) !default;
+$navbar-default-link-active-color: rgba(0, 0, 0, 0.5) !default;
+$gray: $gray-600 !default;
+$navbar-default-bg: $gray-light !default;
+$navbar-inverse-bg: $gray-dark !default;
+
+// Panel
+$panel-darken: 10%;
+
+// Wireframe
+$alert-info-text: #31708f;
+$border-radius-base: 1px;
+
+// Switch
+$n2o-switch-width: 44px;
+$n2o-switch-height: 22px;
+$n2o-switch-border-width: 1px;
+$n2o-switch-border-color: $gray-200;
+$n2o-switch-border-radius: $border-radius;
+$n2o-switch-bg-color: $gray-200;
+$n2o-switch-animation-duration: .3s;
+
+$n2o-switch-element-width: 18px;
+$n2o-switch-element-height: 18px;
+$n2o-switch-element-border-radius: $border-radius;
+$n2o-switch-element-background-color: $white;
+$n2o-switch-element-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.26);
+
+$n2o-switch-checked-border-width: 1px;
+$n2o-switch-checked-border-color: $primary;
+$n2o-switch-checked-background-color: $primary;
+
+$n2o-switch-disabled-border-color: $input-disabled-bg;
+$n2o-switch-disabled-background-color: $input-disabled-bg;
+$n2o-switch-disabled-element-background-color: $gray-300;

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/data-provider-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="sql" type="sqlDefinition"/>
+    <xs:element name="rest" type="restDefinition"/>
+    <xs:element name="java" type="javaDefinition"/>
+    <xs:element name="test" type="testDefinition"/>
+
+    <xs:complexType name="sqlDefinition">
+        <xs:annotation>
+            <xs:documentation>Вызов SQL запросов</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="data-source" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Jndi имя jdbc источника данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="file" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь к файлу .sql в ресурсах проекта</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="row-mapper" type="rowMapperEnum">
+            <xs:annotation>
+                <xs:documentation>Способ получения значений из jdbc в запросах sql</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="restDefinition">
+        <xs:annotation>
+            <xs:documentation>Вызов REST запросов.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="method" type="httpMethodDef">
+            <xs:annotation>
+                <xs:documentation>Http метод запроса</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="filters-separator" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Разделитель между фильтрами</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-separator" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Разделитель между сортировками</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="select-separator" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Разделитель между столбцами</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="join-separator" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Разделитель между присоединёнными таблицами</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="content-type" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Тип контента</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="proxy-host" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Адрес прокси</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="proxy-port" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Порт прокси</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="javaDefinition">
+        <xs:annotation>
+            <xs:documentation>Java Provider данных</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="arguments" type="argumentsDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="spring" type="springDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="ejb" type="ejbDefinition" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Полное имя java класса</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="method" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Имя java метода</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="argumentsDefinition">
+        <xs:annotation>
+            <xs:documentation>Аргументы метода</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="argument" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:attribute name="name" type="xs:string" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>Имя аргумента</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="type" type="argumentTypeDefinition" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>Тип аргумента</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                    <xs:attribute name="class" type="xs:string" use="optional">
+                        <xs:annotation>
+                            <xs:documentation>Имя класса</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="springDefinition">
+        <xs:annotation>
+            <xs:documentation>Вызов Spring бинов.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="bean" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор Spring бина</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="ejbDefinition">
+        <xs:annotation>
+            <xs:documentation>Вызов EJB бинов.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="bean" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор EJB бина</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="protocol" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Протокол URI</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="application" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Имя ear приложения</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="module" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Имя ejb модуля</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="distinct" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Имя участка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="stateful" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>С состоянием или без (по умолчанию false)</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="uri" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Адрес remote бина (по умолчанию составляется из protocol, application, module, distinct, bean, statefull.)</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="testDefinition">
+        <xs:annotation>
+            <xs:documentation>Тестовый провайдер данных</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="file" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Путь к файлу-источнику данных</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="operation" type="operationEnum">
+            <xs:annotation>
+                <xs:documentation>Операция, выполняемая провайдером</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="operationEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="create"/>
+                    <xs:enumeration value="findAll"/>
+                    <xs:enumeration value="findOne"/>
+                    <xs:enumeration value="update"/>
+                    <xs:enumeration value="delete"/>
+                    <xs:enumeration value="count"/>
+                    <xs:enumeration value="echo"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="argumentTypeDefinition">
+        <xs:annotation>
+            <xs:documentation>Тип аргумента.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction>
+            <xs:enumeration value="primitive"/>
+            <xs:enumeration value="class"/>
+            <xs:enumeration value="entity"/>
+            <xs:enumeration value="criteria"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="httpMethodDef">
+        <xs:restriction>
+            <xs:enumeration value="GET"/>
+            <xs:enumeration value="POST"/>
+            <xs:enumeration value="PUT"/>
+            <xs:enumeration value="DELETE"/>
+            <xs:enumeration value="HEAD"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="rowMapperEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="map"/>
+                    <xs:enumeration value="index"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+</xs:schema>
+

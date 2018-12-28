@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="testSqlQuery">
+    <list>
+        <sql>
+            select :select
+            from pim_indiv_contact a
+            where :filters
+            order by :sorting
+            limit :limit offset :offset
+        </sql>
+    </list>
+    <count count-mapping="[0]['cnt']">
+        <sql>
+            select count(*) as cnt
+            from pim_indiv_contact a
+            where :filters
+        </sql>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select mapping="['id']">a.id</select>
+            <filters>
+                <eq filter-id="id" mapping="['id']">a.id = :id</eq>
+            </filters>
+        </field>
+
+        <field id="value" domain="string">
+            <select mapping="['val']">a.value as val</select>
+            <filters>
+                <eq filter-id="name" mapping="['val']">a.value = :val</eq>
+                <like filter-id="nameStart" mapping="['_val']">a.value like '%'||:_val</like>
+            </filters>
+            <sorting mapping="['sortName']">a.value :sortName</sorting>
+        </field>
+    </fields>
+</query>

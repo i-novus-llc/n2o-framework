@@ -1,0 +1,9 @@
+<% Object.keys(list).map(function(k) { %>
+import <%= k %> from '<%= list[k] %>';
+<% }); %>
+
+export default {
+<% Object.keys(list).map(function(k) { %>
+  '<%= k %>': <%= k %>,
+<% }); %>
+};

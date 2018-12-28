@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <tabs place="single">
+            <table id="main" query-id="testTable" route="/widget">
+                <actions>
+                    <action id="test1">
+                        <a href="/page/widget/test"/>
+                    </action>
+                </actions>
+                <columns>
+                    <column text-field-id="name">
+                        <link action-id="test1" icon="icon"/>
+                    </column>
+                    <column text-field-id="name">
+                        <link model="filter" icon="icon">
+                            <open-page page-id="testShowModalPage" route="/test"/>
+                        </link>
+                    </column>
+                    <column text-field-id="name" id="data">
+                        <link model="filter" icon="icon2" type="icon">
+                            <show-modal page-id="testShowModalPage" modal-size="sm" operation-id="create"
+                                        route="/create"/>
+                        </link>
+                    </column>
+                    <column text-field-id="name">
+                        <link icon="icon">
+                            <a href="/page/widget/test"/>
+                        </link>
+                    </column>
+                </columns>
+            </table>
+        </tabs>
+    </regions>
+</page>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://n2oapp.net/framework/config/schema/base/properties-base-1.0">
+
+    <xs:complexType name="propertyListDefinition">
+        <xs:sequence>
+            <xs:element name="property" type="propertyDefinition" maxOccurs="unbounded" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="propertyDefinition">
+        <xs:attribute name="key" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="required"/>
+    </xs:complexType>
+
+
+</xs:schema>

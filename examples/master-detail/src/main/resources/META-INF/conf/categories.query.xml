@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns:exc="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0"
+       xmlns="http://n2oapp.net/framework/config/schema/query-3.0">
+    <name>categories</name>
+    <execution>
+        <exc:sql>
+            <exc:items-query>
+                SELECT :select
+                FROM category c
+                WHERE :where
+            </exc:items-query>
+            <exc:count-query>
+                SELECT count(*)
+                FROM category c
+                WHERE :where
+            </exc:count-query>
+            <exc:alias>c</exc:alias>
+        </exc:sql>
+    </execution>
+
+    <fields>
+        <field>
+            <id>id</id>
+            <domain>long</domain>
+            <display/>
+            <filters auto-generate="true">
+                <filter type="eq" filter-field="id">:id</filter>
+            </filters>
+        </field>
+        <field>
+            <id>name</id>
+            <domain>string</domain>
+            <display/>
+            <sorting/>
+            <filters auto-generate="true"/>
+        </field>
+    </fields>
+</query>

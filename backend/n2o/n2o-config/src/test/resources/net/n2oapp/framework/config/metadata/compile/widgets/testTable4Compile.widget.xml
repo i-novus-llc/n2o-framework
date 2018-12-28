@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable4Compile"
+       object-id="utBlank">
+    <actions>
+        <action id="testAction">
+            <invoke operation-id="update"/>
+        </action>
+        <action id="testAction3">
+            <invoke operation-id="update"/>
+        </action>
+        <action id="testAction2">
+            <invoke operation-id="update"/>
+        </action>
+    </actions>
+    <toolbar>
+        <button icon="icon" label="label" action-id="testAction" class="className" type="iconAndText"/>
+        <sub-menu>
+            <menu-item action-id="testAction2"/>
+        </sub-menu>
+        <button id="but">
+            <invoke operation-id="update"/>
+        </button>
+    </toolbar>
+    <toolbar place="bottomRight">
+        <group>
+            <button action-id="testAction3"/>
+        </group>
+    </toolbar>
+    <pre-filters>
+        <in field-id="name" values="{nameValues}" />
+    </pre-filters>
+    <columns>
+        <column text-field-id="id">
+            <text format="password">
+                <switch value-field-id="test">
+                    <case value="1">css1</case>
+                    <case value="2">css2</case>
+                    <default>css3</default>
+                </switch>
+            </text>
+        </column>
+        <column text-field-id="name"/>
+    </columns>
+    <rows color-field-id="red"/>
+    <filters place="left">
+        <input-text id="name" required="true"/>
+    </filters>
+</table>

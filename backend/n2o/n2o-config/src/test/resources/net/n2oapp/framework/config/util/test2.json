@@ -1,0 +1,18 @@
+{
+    "id": 2,
+    "name": "john",
+    "age": 24,
+    "gender": {
+        "name": "female"
+    },
+    "addresses": [4],
+    "parents": {
+        "mother": {
+            "name": "old woman"
+        },
+        "father": {
+            "id": 44,
+            "name": "old man"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <checkbox-group id="gender" inline="false"  class="n2o" visible="true" label="Label">
+            <options label-field-id="name" value-field-id="id">
+                <option>{"id":1,"name":"Алексей Николаев"}</option>
+                <option>
+                    {"id":2,"name":"Игонь Николаев"}
+                </option>
+                <option>
+                    {"id":3,"name":"Владимир Серпухов"}
+                </option>
+            </options>
+        </checkbox-group>
+    </fields>
+</form>

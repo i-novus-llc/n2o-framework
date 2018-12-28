@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="utBlank">
+    <list>
+        <sql>
+            select :select
+            from testTable4Compile a
+            where :filters
+            order by :sorting
+        </sql>
+    </list>
+
+    <count>
+        <sql>
+            select count(a)
+            from testTable4Compile a
+            where :filters
+        </sql>
+    </count>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <sorting/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+
+        <field id="name" domain="string">
+            <select/>
+            <filters>
+                <eq filter-id="name"/>
+                <in filter-id="names"/>
+            </filters>
+        </field>
+
+        <field id="birthday" domain="date">
+            <select/>
+            <filters>
+                <more filter-id="birthday.begin"/>
+                <less filter-id="birthday.end"/>
+            </filters>
+        </field>
+
+        <field id="gender.id" domain="integer">
+            <select/>
+            <filters>
+                <in filter-id="gender*.id"/>
+            </filters>
+        </field>
+
+        <field id="gender.name" domain="string">
+            <select/>
+            <filters>
+                <in filter-id="gender*.name"/>
+            </filters>
+        </field>
+    </fields>
+</query>

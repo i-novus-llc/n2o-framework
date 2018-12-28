@@ -1,0 +1,14 @@
+[
+  {
+    "path": "#/:pageId",
+    "page": "./components/core/Page"
+  },
+  {
+    "path": "#/ProtoPage/manual",
+    "page": "./ProtoPage"
+  },
+  {
+    "path": "#/test/test",
+    "page": "./components/snippets/ActionMenu/ActionMenu"
+  }
+]

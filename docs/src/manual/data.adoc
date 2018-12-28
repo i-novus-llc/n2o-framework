@@ -1,0 +1,1435 @@
+== Связывание с данными
+В фреймворке N2O все UI компоненты связываются с данными через объекты и выборки.
+
+image::images\data-f1687.png[]
+
+=== Объект
+
+Объект - это сущность предметной области.
+Он объединяет в себе все операции над этой сущностью и её валидации.
+
+Объекты создаются с помощью файлов `[id].object.xml`.
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+  name="Мой объект">
+  <operations>
+    <!-- Операции объекта -->
+    <operation id="create">...</operation>
+    <operation id="update">...</operation>
+    <operation id="delete">...</operation>
+  </operations>
+  <validations>
+    <constraint id="uniqueName">...</constraint>
+    <condition id="dateInPast">...</condition>
+  </validations>
+</object>
+----
+
+link:../xml/#_Объект_object[Подробнее об объектах]
+
+==== Операции объекта
+
+Над объектом можно выполнять операции, например, создание или удаление.
+Операция определяет входные, выходные данные для link:#_Провайдеры_данных[провайдера] и задаёт список валидаций.
+
+[source,xml]
+----
+<operation
+  id="create"
+  name="Создание">
+  <invocation>...</invocation><!--Провайдер данных-->
+  <in-parameters>
+      <!--Входные данные-->
+      <param id="name"/>
+      <param id="birthday"/>
+  </in-parameters>
+  <out-parameters>
+      <!--Выходные данные-->
+      <param id="id"/>
+  </out-parameters>
+  <validations>...</validations><!--Валидации операций-->
+</operation>
+----
+
+==== Валидации объекта
+
+Валидации - это проверки объекта на корректность.
+
+Проверки могут быть на удовлетворённость данных какому-либо условию.
+Например, что дата не может быть в прошлом.
+Они задаются элементом `<condition>`:
+
+[source,xml]
+----
+<validations>
+  <condition
+    id="dateInPast"
+    on="birthday"
+    message="Дата рождения не может быть в будущем">
+    birthday <= today()
+  </condition>
+</validations>
+----
+Условия пишутся на языке JavaScript.
+
+Так же проверки могут быть выполнены в базе данных или сервисах.
+Например, что наименование должно быть уникальным.
+Такие проверки задаются в элементе `<constraint>`:
+
+[source,xml]
+----
+<validations>
+  <constraint
+    id="uniqueName"
+    message="Имя {name} уже существует"
+    result="cnt == 0">
+    <invocation>...</invocation><!--Провайдер данных-->
+    <in-parameters>
+        <!--Входные данные-->
+        <param id="name"/>
+        <param id="id"/>
+    </in-parameters>
+  </constraint>
+</validations>
+----
+
+Вызов проверки происходит аналогично вызову операции объекта,
+т.е. определяет входные данные для link:#_Провайдеры_данных[провайдера]
+и обрабатывает результат выполнения.
+
+=== Выборка
+Выборка - это срез данных объекта.
+Выборки позволяют порционно получать данные объекта, фильтровать, сортировать и группировать их.
+
+Выборки создаются с помощью файлов `[id].query.xml`.
+
+.Структура выборки
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+  name="Моя выборка"
+  object-id="myObject">
+  <list>...</list> <!--Постраничное получение записей-->
+  <count>...</count> <!--Получение общего количества записей-->
+  <unique>...</unique> <!--Получение уникальной записи-->
+  <fields>
+    <!-- Поля выборки -->
+    <field id="firstName"> ... </field>
+    <field id="lastName"> ... </field>
+  </fields>
+</query>
+----
+
+За получение списка записей отвечает элемент `<list>`.
+За получение общего количества записей - элемент `<count>`.
+А за получение одной уникальной записи - `<unique>`.
+
+Элементов `<list>`, `<count>`, `<unique>` может быть несколько с разными наборами фильтров (атрибут `filters`).
+.Структура выборки
+[source,xml]
+----
+<list filters="firstName, lastName">
+  ...
+</list>
+----
+
+
+link:../xml/#_Выборка_query[Подробнее о выборках]
+
+==== Поля выборки
+Поле выборки - это информация о способе получения, фильтрации или сортировки данных одного поля объекта.
+
+За каждый способ отвечает соответствующий элемент.
+Например, за получение результатов отвечает `<select>`.
+Если элемент не объявлен, то соответствующий способ взаимодействия с полем невозможен.
+Например, если не объявлен элемент `<sorting>`, то сортировка по полю невозможна.
+
+.Поле выборки
+[source,xml]
+----
+<field id="name">
+  <select>...</select><!--Способ получения данных-->
+  <filters>...</filters><!--Способ фильтрации данных-->
+  <sorting>...</sorting><!--Способ сортировки данных-->
+</field>
+----
+
+===== Получение результатов выборки
+Для того, чтобы получить значения полей выборки, в некоторых случаях эти поля нужно передать на вход link:#_Провайдеры_данных[провайдеру данных].
+Это можно сделать с помощью элемента `<select>`.
+
+.Задание выражения для получения значения поля выборки sql запроса
+[source,xml]
+----
+<field id="firstName">
+  <select>t.name as firstName</select>
+</field>
+----
+
+Чтобы получить значение этого поля, алиас столбца и идентификатор поля выборки должны совпадать.
+Если они не совпадают можно использовать link:#_Маппинг_данных_в_провайдерах[маппинг].
+
+В теле `<select>` записывается выражение, которое можно вставить в sql или rest запрос с помощью переменной `select`.
+
+.Задание шаблона select команды sql запроса
+[source,xml]
+----
+<list>
+    <sql>SELECT :select FROM mytalbe</sql>
+<list>
+----
+
+===== Фильтры выборки
+Фильтров у одного поля выборки может быть много.
+Различаются они по типу фильтрации.
+
+Существует несколько типов фильтраций.
+Каждый из них задаётся соответствующим элементом:
+
+.Типы фильтраций
+|===
+|Тип|Описание|Тип данных
+
+|eq
+|Эквивалентность
+|Любой
+
+|like
+|Строка содержит подстроку
+|Строковые
+
+|likeStart
+|Строка начинается с подстроки
+|Строковые
+
+|in
+|Входит в список
+|Простые типы
+
+|isNull
+|Является null
+|Любой
+
+|contains
+|Входит в множество
+|Списковые типы
+
+|overlaps
+|Пересекается с множеством
+|Списковые типы
+
+|more
+|Строго больше
+|Числа и даты
+
+|less
+|Строго меньше
+|Числа и даты
+
+|===
+Почти на каждый из перечисленных типов есть тип с отрицанием, например, `notEq`.
+
+.Задание фильтров в выборке
+[source,xml]
+----
+<filters>
+  <!-- Фильтр по "eq" -->
+  <eq filter-id="gender.id">...</eq>
+  <!-- Фильтр по "in" -->
+  <in filter-id="genders*.id">...</in>
+</filters>
+----
+
+Атрибут `filter-id` задаёт уникальный идентификатор фильтра,
+по которому можно определить поле выборки и тип фильтрации.
+
+В теле фильтра записывается выражение,
+которое можно вставить в sql или rest запрос с помощью переменной `filters`.
+
+.Задание выражения фильтрации для sql запроса
+[source,xml]
+----
+<filters>
+  <eq>t.id = :id</eq>
+</filters>
+----
+
+.Задание шаблона where команды sql запроса
+[source,xml]
+----
+<list>
+  <sql>SELECT t.name FROM mytable t WHERE :filters</sql>
+</list>
+----
+
+===== Сортировка поля выборки
+Чтобы отсортировать поле выборки по возрастанию или по убыванию необходимо отправить эту информацию на вход в link:#_Провайдеры_данных[провайдер данных].
+
+Выражение для отправки можно сформировать в теле элемента `<sorting>`, которое можно вставить в sql или rest запрос с помощью переменной `sortings`.
+
+.Задание выражения сортировки для sql запроса
+[source,xml]
+----
+<field id="name">
+  <sorting>name :direction</sorting>
+</field>
+----
+Переменная `direction` содержит в себе направелние сортировки: `ASC` или `DESC`.
+Название переменной можно сменить с помощью link:#_Маппинг_данных_в_провайдерах[маппинга].
+
+.Задание шаблона order by команды sql запроса
+[source,xml]
+----
+<list>
+  <sql>SELECT t.name FROM mytable t ORDER BY :sortings</sql>
+</list>
+----
+
+=== Провайдеры данных
+Провайдеры - это универсальный способ обращения к источнику или к сервису предоставляющему данные.
+В N2O есть библиотека провайдеров данных: SQL, REST, EJB, Spring Framework.
+
+Провайдер можно задать при получении выборки данных,
+при выполнении операций над объектом, в валидациях и в других случаях.
+
+link:../xml/#_Провайдеры_данных[Подробнее о провайдерах]
+
+==== SQL провайдер данных
+
+SQL провайдер позволяет выполнять SQL запросы к базе данных, описанные прямо в XML файле.
+
+.Получение списка записей SQL провайдером
+[source,xml]
+----
+<query>
+  <list>
+    <sql>SELECT :select FROM mytable WHERE :filters ORDER BY :sortings</sql>
+  </list>
+  <count>
+    <sql>SELECT count(*) FROM mytable WHERE :filters</sql>
+  </count>
+  <fields>
+    <field id="name">
+      <select>name</select>
+      <filters>
+          <eq>name = :name</eq>
+      </filters>
+      <sorting>name :direction</sorting>
+    </field>
+  </fields>
+</query>
+----
+
+.Выполнение операции SQL провайдером
+[source,xml]
+----
+<operation id="create">
+  <invocation>
+    <sql>INSERT INTO mytable (first_name, last_name) VALUES (:firstName, :lastName)</sql>
+  </invocation>
+  <in-parameters>
+    <param id="firstName"/>
+    <param id="lastName"/>
+  </in-parameters>
+</operation>
+----
+
+==== REST провайдер данных
+REST провайдер выполняет http запросы к backend сервисам.
+
+.Получение списка записей REST провайдером
+[source,xml]
+----
+<query>
+  <list>
+    <rest>/api/myentity/items?{filters}&amp;{sortings}</rest>
+  </list>
+  <unique filters="id">
+    <rest>/api/mytable/{id}</rest>
+  </unique>
+  <fields>
+    <field id="name">
+      <select/>
+      <filters>
+          <eq>name={name}</eq>
+      </filters>
+      <sorting>sort=name:{direction}</sorting>
+    </field>
+  </fields>
+</query>
+----
+
+.Выполнение операции REST провайдером
+[source,xml]
+----
+<operation id="create">
+  <invocation>
+    <rest method="post">/api/myentity</rest>
+  </invocation>
+  <in-parameters>
+    <param id="firstName"/>
+    <param id="lastName"/>
+  </in-parameters>
+</operation>
+----
+
+==== Java провайдеры данных
+С помощью java провайдеров можно вызвать метод java класса.
+
+Экземпляр класса можно получить с помощью IoC контейнера EJB или Spring.
+Либо можно вызвать статический метод класса.
+
+.Получение списка записей Java провайдером
+[source,xml]
+----
+<query>
+  <list>
+    <java
+      class="com.example.MyService"
+      method="getList">
+      <arguments>
+        <argument
+          type="criteria"
+          class="com.example.MyCriteria"/>
+      </arguments>
+      <spring/>
+    </java>
+  </list>
+  <fields>
+    <field id="name">
+      <select/>
+      <filters>
+          <eq/>
+      </filters>
+      <sorting/>
+    </field>
+  </fields>
+</query>
+----
+
+.Выполнение операции Java провайдером
+[source,xml]
+----
+<operation id="create">
+  <invocation>
+    <java class="com.example.MyService"
+          method="create">
+      <arguments>
+        <argument
+          type="entity"
+          class="com.example.MyEntity"/>
+      </arguments>
+      <spring/>
+    </java>
+  </invocation>
+  <in-parameters>
+    <param id="firstName"/>
+    <param id="lastName"/>
+  </in-parameters>
+</operation>
+----
+
+=== Типы данных
+Типы данных в N2O предназначены для правильной передачи значений от клиента
+к провайдерам данных.
+
+.Типы данных
+[cols="1,4"]
+|===
+|Тип|Описание
+
+|string
+|Строки
+
+|integer
+|Целые числа
+
+|date
+|Дата и время
+
+|localdate
+|Локальная Дата
+
+|localdatetime
+|Локальная дата и время
+
+|boolean
+|true / false
+
+|object
+|Объект с вложенными свойствами
+
+|numeric
+|Число с точкой без округлений
+
+|long
+|Большое целое число
+
+|short
+|Короткое целое число
+
+|byte
+|Целое число размером с байт
+
+|===
+
+Любой из перечисленных типов может образовывать списковый тип данных,
+если добавить в конец квадратные скобки:
+```
+integer[]
+```
+
+Типы данных в XML элементах задаются ключевым словом `domain`.
+
+.Тип integer в поле выборки
+[source,xml]
+----
+<query>
+  ...
+  <fields>
+    <field id="gender.id" domain="integer">
+      ...
+    </field>
+  </fields>
+</query>
+----
+
+.Тип integer в параметрах операции
+[source,xml]
+----
+<operation>
+  ...
+  <in-parameters>
+    <param id="gender.id" domain="integer"/>
+  </in-parameters>
+</operation>
+----
+
+=== Биндинг полей
+Поле ввода, поле выборки и параметр операции связываются друг
+с другом через идентификатор `id`:
+
+.Поле виджета
+[source,xml]
+----
+<input-text id="firstName"/>
+----
+.Поле выборки
+[source,xml]
+----
+<field id="firstName"/> ... </field>
+----
+.Параметр операции
+[source,xml]
+----
+<param id="firstName"/>
+----
+Подобная связь называется биндингом.
+
+==== Биндинг составных полей
+Составные поля обычно используются в компонентах выбора одного значения из списка:
+[source,xml]
+----
+<select id="gender">
+  ... <!-- Содержит id и name -->
+</select>
+----
+В json представлении модель данных `gender` выглядит так:
+
+[source,json]
+----
+{
+    "gender": {
+      "id" : 1,
+      "name" : "Мужской"
+    }
+}
+----
+
+Если мы хотим использовать только `id`, можно записать биндинг через "точку":
+
+[source,xml]
+----
+<param id="gender.id"/> <!-- 1 -->
+----
+
+==== Биндинг интервальных полей
+Интервальные поля - это поля в которых можно задать начало и окончание:
+[source,xml]
+----
+<date-interval id="period">
+  ... <!-- Содержит begin и end -->
+</date-interval>
+----
+
+В json представлении модель данных `period` выглядит так:
+[source,json]
+----
+{
+    "period": {
+      "begin" : "01.01.2018 00:00",
+      "end" : "31.12.2018 00:00"
+    }
+}
+----
+
+При передаче в два параметра нужно использовать окончание `.begin` и `.end`:
+
+[source,xml]
+----
+<param id="period.begin"/> <!-- 01.01.2018 00:00 -->
+<param id="period.end"/> <!-- 31.12.2018 00:00 -->
+----
+
+==== Биндинг полей множественного выбора
+Поля множественного выбора позволяют выбрать несколько значений из предложенных вариантов:
+[source,xml]
+----
+<select id="regions" type="multi">
+  ...<!-- Содержит несколько регионов -->
+</select>
+----
+Модель данных `regions` в json:
+[source,json]
+----
+{
+    "regions": [
+      {
+        "id" : 1,
+        "name" : "Адыгея"
+      },
+      {
+        "id" : 16,
+        "name" : "Татарстан"
+      }
+    ]
+}
+----
+
+Чтобы в параметре операции собрать только идентификаторы `regions`
+необходимо использовать "звёздочку":
+[source,xml]
+----
+<param id="regions*.id"/> <!-- [1,16] -->
+----
+
+=== Маппинг данных в провайдерах
+Входные и выходные параметры провайдера могут несоответствовать полям ввода.
+Для их приведения в соответствие используется атрибут `mapping`.
+
+Провайдеры делятся по типу входных параметров: "ключ значение" и "массив значений".
+
+Java провайдеры используют тип параметров "массив значений".
+Поэтому в маппинге java нужно обращаться к номеру аргумента, например, `[0]`.
+
+Провайдеры sql и rest используют "ключ значение". Поэтому в маппинге нужно обращаться к ключу, например, `['name']`.
+
+==== Маппинг фильтров
+===== Маппинг фильтров в sql и rest
+
+.Маппинг фильтров в sql провайдере
+[source,xml]
+----
+<query>
+  <list>
+    <sql>SELECT t.first_name, t.gender_id FROM mytable t WHERE :filters</sql>
+  </list>
+  <fields>
+    <field id="firstName">
+      <filters>
+        <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
+        <like mapping="first_name">
+          t.first_name like '%'||:first_name||'%'
+        </like>
+      </filters>
+    </field>
+    <field id="gender.id">
+      <filters>
+        <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
+        <eq mapping="gender_id">
+          t.gender_id = :gender_id
+        </eq>
+        <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
+        <in mapping="genders">
+          t.gender_id in (:genders)
+        </in>
+      </filters>
+    </field>
+  </fields>
+</query>
+----
+
+.Маппинг фильтров в rest провайдере
+[source,xml]
+----
+<query>
+  <list>
+    <rest>/api/myentity/items?{filters}</rest>
+  </list>
+  <fields>
+    <field id="firstName">
+      <filters>
+        <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
+        <like mapping="first_name">
+          first_name_like={first_name}
+        </like>
+      </filters>
+    </field>
+    <field id="gender.id">
+      <filters>
+        <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
+        <eq mapping="gender_id">
+          gender_id={gender_id}
+        </eq>
+        <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
+        <in mapping="genders">
+          gender_id_in={genders}
+        </in>
+      </filters>
+    </field>
+  </fields>
+</query>
+----
+
+==== Маппинг входных параметров операции
+===== Маппинг входных параметров операции sql
+
+.Маппинг входных параметров в sql провайдере
+[source,xml]
+----
+<operation>
+  <invocation>
+    <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
+  </invocation>
+  <in-parameters>
+    <param id="name" mapping="first_name"/>
+    <param id="gender.id" mapping="gender_id"/>
+  </in-parameters>
+</operation>
+----
+
+===== Маппинг входных параметров операции rest
+
+.Запрос rest
+[source]
+----
+POST /api/myentity
+----
+
+.Тело запроса
+[source,js]
+----
+{
+    "firstName" : "John",
+    "genderId" : 1
+}
+----
+
+.Маппинг входных параметров в rest провайдере
+[source,xml]
+----
+<operation>
+  <invocation>
+    <rest method="post">/api/myentity</rest>
+  </invocation>
+  <in-parameters>
+    <param id="name" mapping="firstName"/>
+    <param id="gender.id" mapping="genderId"/>
+  </in-parameters>
+</operation>
+----
+
+===== Маппинг входных параметров операции java
+
+Для вызова метода java класса необходимо передать аргументы вызова в виде массива `Object[]`.
+В java провайдере можно задать класс каждого аргумента.
+Существует 3 типа аргументов: примитивы, сущности, критерии.
+
+.Типы аргументов java провайдера
+[cols="1,4"]
+|===
+|Тип|Описание
+
+|primitive
+|Примитивные java классы: String, Integer, Boolean и т.п.
+Для них не нужно задавать атрибут `class`.
+
+|entity
+|Класс сущности.
+Для них не нужно задавать атрибут `class`, если в объекте задан атрибут `entity-class`.
+
+|criteria
+|Класс, содержащий фильтры, сортировки и паджинацию.
+
+|===
+
+====== Маппинг примитивов
+
+Предположим у нас есть метод java класса с примитивным типом аргументов:
+
+.Метод java класса с примитивным типом аргументов
+[source,java]
+----
+package com.example;
+
+class Calculator {
+  public static Long sum(Long a, Long b) {
+    return a + b;
+  }
+}
+----
+Чтобы смапить значение поля ввода в примитивный аргумент java метода, достаточно указать порядковый номер аргумента:
+
+.Маппинг примитивов в java провайдере
+[source,xml]
+----
+<operation>
+  <invocation>
+    <java class="com.example.Calculator" method="sum">
+      <arguments>
+        <argument type="primitive"/>
+        <argument type="primitive"/>
+      </arguments>
+    </java>
+  </invocation>
+  <in-parameters>
+    <param id="a" mapping="[0]"/>
+    <param id="b" mapping="[1]"/>
+  </in-parameters>
+</operation>
+----
+
+====== Маппинг сущности
+
+.Метод java класса с аргументом - сущнотью
+[source,java]
+----
+@Service
+class MyService {
+  public Long create(MyEntity entity)  { ... }
+}
+----
+
+[source,java]
+----
+class MyEntity {
+  private String name;
+  private String surname;
+  //getters and setters
+}
+----
+
+Тип `entity` может быть задан только один раз среди всех аргументов.
+Маппинг в сущность задаётся напрямую, без указания порядкового номера аргумента:
+
+.Маппинг сущности в java провайдере
+[source,xml]
+----
+<operation>
+  <invocation>
+    <java class="com.example.MyService" method="create">
+      <arguments>
+        <argument type="entity" class="com.example.MyEntity"/>
+      </arguments>
+      <spring/>
+    </java>
+  </invocation>
+  <in-parameters>
+    <!-- Для type="entity" в mapping нет [0]. -->
+    <param id="firstName" mapping="name"/>
+    <param id="lastName" mapping="surname"/>
+  </in-parameters>
+</operation>
+----
+
+====== Маппинг критериев
+
+Критерии предназначены для передачи параметров фильтрации, сортировки и паджинации в java провайдер.
+Как правило, фильтры задаются через поля класса, т.к. они уникальны для каждого случая.
+А сортировка и паджинация задаются через базовый класс наследник.
+N2O поддерживает несколько базовых классов критериев:
+
+|===
+|Тип|Описание
+
+|org.springframework.data.domain.Pageable
+|Интерфейс библиотеки `spring-data` для задания паджинации
+
+|org.springframework.data.domain.Sort
+|Класс библиотеки `spring-data` для задания сортировок
+
+|org.springframework.data.domain.Example
+|Интерфейс библиотеки `spring-data` для задания критериев по полям сущности
+
+|net.n2oapp.criteria.Criteria
+|Класс библиотеки `criteria-api` для задания сортировок и паджинации
+
+
+|===
+
+
+.Метод java класса с аргументом - критерием
+[source,java]
+----
+@Service
+class MyService {
+  public List<MyEntity> getList(MyCriteria criteria)  { ... }
+}
+----
+
+[source,java]
+----
+class MyCriteria extends Criteria {
+  private Date birtdayBefore;
+  private Date birtdayAfter;
+  //getters and setters
+}
+----
+
+Тип `criteria` может быть задан только один раз среди всех аргументов.
+Маппинг фильтров в критерии задаётся напрямую, без указания порядкового номера аргумента.
+Маппинга сортировки и паджинации не предусмотрено, они передаются через базовый класс наследник.
+
+
+.Задание фильтров в java провайдере
+[source,xml]
+----
+<query>
+  <list>
+    <java
+      class="com.example.MyService"
+      method="getList">
+      <arguments>
+        <argument
+          type="criteria"
+          class="com.example.MyCriteria"/>
+      </arguments>
+      <spring/>
+    </java>
+  </list>
+  <fields>
+    <field id="birtday">
+      <filters>
+          <!-- Для type="criteria" в mapping нет [0]. -->
+          <more filter-id="birthdays.begin" mapping="birthdayAfter">
+          <less filter-id="birthdays.end" mapping="birthdayBefore">
+      </filters>
+      <sorting/>
+    </field>
+  </fields>
+</query>
+----
+
+==== Маппинг результатов выборки
+Выборка возвращает список объектов при вызове через `<list>`, или один объект, при вызове через `<unique>`.
+Задача маппинга - задать соответствие между свойством вернувшегося объекта и полем выборки.
+
+===== Маппинг результатов выборки sql
+
+.Sql запрос
+[source,sql]
+----
+SELECT name as fname, surname as lname FROM mytable
+----
+
+.Маппинг результатов выборки sql провайдера
+[source,xml]
+----
+<query>
+  <list>
+    <sql>SELECT name as fname, surname as lname FROM mytable</sql>
+  </list>
+  <count>
+    <sql>SELECT count(*) FROM mytable</sql>
+  </count>
+  <fields>
+    <field id="firstName">
+      <select mapping="fname"/>
+    </field>
+    <field id="lastName">
+      <select mapping="lname"/>
+    </field>
+  </fields>
+</query>
+----
+
+===== Маппинг результатов выборки rest
+
+.Запрос rest сервиса
+[source]
+----
+GET /api/myentity/items
+----
+
+.Ответ rest сервиса
+[source,js]
+----
+{
+  "data" : [
+      {
+        "name" : "John",
+        "surname" : "Doe"
+      }, ... //еще 9 записей
+  ],
+  "cnt" : 123
+}
+----
+
+.Маппинг результатов выборки из rest провайдера
+[source,xml]
+----
+<query>
+  <list>
+    <rest
+      result-mapping="data"
+      count-mapping="cnt">/api/myentity/items</rest>
+  </list>
+  <fields>
+    <field id="firstName">
+      <select mapping="name"/>
+    </field>
+    <field id="lastName">
+      <select mapping="surname"/>
+    </field>
+  </fields>
+</query>
+----
+
+===== Маппинг результатов выборки java
+
+.Метод java класса, возвращающий Spring Data Page
+[source,java]
+----
+@Repository
+interface MyRepository extends JpaRepository<MyEntity, Long> {
+  Page<MyEntity> findAll();
+}
+----
+
+[source,java]
+----
+class MyEntity {
+  private String name;
+  private String surname;
+  //getters and setters
+}
+----
+
+.Маппинг результатов выборки в java провайдере
+[source,xml]
+----
+<query>
+  <list
+    result-mapping="content"
+    count-mapping="totalElements">
+    <java
+      class="com.example.MyRepository"
+      method="findAll">
+      <spring/>
+    </java>
+  </list>
+  <fields>
+    <field id="firstName">
+      <select mapping="name"/>
+    </field>
+    <field id="lastName">
+      <select mapping="surname"/>
+    </field>
+  </fields>
+</query>
+----
+
+==== Маппинг результатов операции
+Чтобы вернуть данные от провайдера, после выполнения операции, используется элемент `<out-parameters>`:
+
+===== Маппинг результатов sql
+
+.Получение результата выполнения sql провайдера
+[source,xml]
+----
+<operation>
+  <invocation>
+    <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
+  </invocation>
+  <out-parameters>
+    <param id="id" mapping="id"/>
+  </out-parameters>
+</operation>
+----
+В примере результатом выполнения SQL запроса будет вставленная в таблицу запись.
+Эту запись можно получить обратным маппингом, где `id` - алиас колонки вставленной записи.
+
+===== Маппинг результатов rest
+
+.Запрос rest
+[source]
+----
+POST /api/myentity
+----
+
+.Ответ rest
+[source,js]
+----
+{
+  "result" : 123
+}
+----
+
+.Получение результата выполнения rest провайдера
+[source,xml]
+----
+<operation>
+  <invocation>
+    <rest method="post">/api/myentity</rest>
+  </invocation>
+  <out-parameters>
+    <param id="id" mapping="result"/>
+  </out-parameters>
+</operation>
+----
+
+==== Маппинг данных в Entity
+При использовании java провайдеров объект и выборка чаще всего работают с одной и той же сущностью.
+В N2O можно задать маппинг полей объекта на поля сущности в одном месте, и в дальнейшем не повторяться при выполнении операций, валидаций и выборок.
+
+Для этого в объекте есть специальный атрибут `entity-class` и список полей `<fields>`:
+
+.Определение entity класса в объекте
+[source,xml]
+----
+<object
+  entity-class="com.example.MyEntity">
+  <fields>
+    ...<!--Маппинг полей Entity-->
+  </fields>
+</object>
+----
+
+===== Маппинг простых полей сущности
+
+Поля делятся на простые и составные.
+
+Простые поля имеют примитивный тип данных (`Integer`, `String`, `Date` и т.п.).
+Составные поля либо ссылаются на другие N2O объекты, либо имеют вложенные поля.
+
+.Класс сущности с простыми полями
+[source,java]
+----
+@Entity
+class MyEntity {
+  @Id
+  @Column
+  private Long id;
+  @Column
+  private Date birtDate;
+  //getters and setters
+}
+----
+
+.Маппинг простых полей
+[source,xml]
+----
+<object entity-class="com.example.MyEntity">
+  <fields>
+    <!-- Простые поля -->
+    <field id="id" domain="long" mapping="id"/>
+    <field id="birthday" domain="date" mapping="birtDate"/>
+  </fields>
+</object>
+----
+
+Атрибут `id` задаёт поле виджета, атрибут `mapping` - доступ к полю сущности.
+
+===== Маппинг полей @ManyToOne и @OneToOne
+
+.Класс сущности с @ManyToOne и @OneToOne
+[source,java]
+----
+@Entity
+class MyEntity {
+  @ManyToOne
+  private Gender gender;
+  @OneToOne
+  private Address addr;
+  //getters and setters
+}
+----
+
+.Маппинг полей с @OneToOne
+[source,xml]
+----
+<fields>
+  <reference id="address"
+    mapping="addr">
+    <!-- Вложенные поля -->
+    <field id="home" domain="string"/>
+    <field id="work" domain="string"/>
+  </reference>
+</fields>
+----
+
+Для поля с отношением `@ManyToOne` обычно необходимо заполнить только идентификатор `id`.
+Если в ссылочном поле объекта не запонить вложенные поля, но указать ссылку на объект,
+то будет заполнено только поле `id`.
+
+.Маппинг полей с @ManyToOne
+[source,xml]
+----
+<fields>
+  <reference id="sex"
+    mapping="gender"
+    required="true"
+    object-id="gender"/> <!-- Ссылка на другой объект -->
+  <!-- Будет заполнено только поле gender.id -->
+<fields>
+----
+
+===== Маппинг полей @OneToMany и @ManyToMany
+
+Поля объекта могут быть множественными.
+Есть несколько типов множественности:
+
+.Типы множественности
+[cols="1,4"]
+|===
+|Тип|Описание
+
+|list
+|Список значений
+
+|set
+|Набор значений
+
+|===
+
+.Класс сущности с множественными полями
+[source,java]
+----
+@Entity
+class MyEntity {
+  @OneToMany
+  private Set<Status> statuses;
+  @ManyToMany
+  private List<Address> addrs;
+  //getters and setters
+}
+----
+
+.Маппинг полей с @OneToMany и @ManyToMany
+[source,xml]
+----
+<fields>
+  <set id="statuses"
+    mapping="statuses">
+    <!--Вложенные поля-->
+    <field id="id" domain="integer"/>
+    <field id="name" domain="string"/>
+  </set>
+  <list id="addresses"
+    mapping="addrs"
+    object-id="address"/><!--Ссылка на объект-->
+</fields>
+----
+
+===== Использование полей объекта
+При описании операций объекта не требуется определять маппинг
+и другие параметры, которые уже были заданы в полях объекта.
+Достаточно задать только идентификаторы параметров.
+
+[source,java]
+----
+@Service
+class MyService {
+  MyEntity create(MyEntity entity) { ... }
+}
+----
+
+.Использование полей объекта в операции
+[source,xml]
+----
+<object
+  entity-class="com.example.MyEntity"
+  service-class="com.example.MyService">
+  <fields>...</fields><!--Маппинг полей сущности-->
+  <operations>
+    <operation>
+      <invocation>
+        <java method="create">
+          <arguments>
+            <argument type="entity"/>
+          </arguments>
+          <spring/>
+        </java>
+      </invocation>
+      <in-parameters>
+        <!--Перечисление только нужных полей-->
+        <param id="birtday"/>
+        <param id="sex"/><!--Будет заполнен только sex.id-->
+        <param id="addresses"/><!--Будут заполнены все внутренние поля-->
+      </in-parameters>
+      <out-parameters>
+        <param id="id"/>
+      </out-parameters>
+    </operation>
+  </operations>
+</object>
+----
+
+==== Интерпретаторы маппинга
+Выражение в `mapping` может интерпретироваться несколькими способами:
+
+.Интерпретаторы для маппинга
+[cols="1,4"]
+|===
+|Маппер|Описание
+
+|dataset
+|Простой интерпретатор работающий с `Map`.
+
+|spel
+|Интерпретатор https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html[SpEL выражений].
+
+|javascript
+|Интерпретатор JavaScript.
+
+|groovy
+|Интерпретатор Groovy.
+
+|===
+
+Интерпретатор задаётся атрибутом `mapper`:
+
+.Интерпретатор маппинга spel
+[source,xml]
+----
+<in-parameters>
+  <param id="name" mapping="['first_name']" mapper="spel"/>
+  <param id="gender.id" mapping="['gender_id']" mapper="dataset"/>
+</in-parameters>
+<out-parameters>
+  <param id="id" mapping="[0][0]['id']" mapper="spel"/>
+</out-parameters>
+----
+
+.Интерпретатор маппинга dataset
+[source,xml]
+----
+<in-parameters>
+  <param id="name" mapping="first_name" mapper="dataset"/>
+  <param id="gender.id" mapping="gender_id" mapper="dataset"/>
+</in-parameters>
+<out-parameters>
+  <param id="id" mapping="[0][0].id" mapper="dataset"/>
+</out-parameters>
+----
+
+=== Загрузка данных в виджет
+Виджеты могут получать данные из разных источников.
+Источник задаётся атрибутом `upload`.
+
+.Источники данных виджета
+[cols="1,4,4"]
+|===
+|Источник|Описание|Случай использования
+
+|query
+|Получение данных из выборки.
+|Открытие формы на редактирование.
+
+|defaults
+|Получение значений по умолчанию.
+|Открытие формы на создание.
+
+|copy
+|Получение данных из выборки, за исключением полей с `copied="false"`.
+При этом `id` будет `null`.
+|Открытие формы для копирования существующей записи.
+
+|resolve
+|Копирование данных родительского виджета.
+|Открытие формы на редактирование записи в таблице.
+
+|===
+
+.Источник данных на форме
+[source,xml]
+----
+<form
+  upload="query"
+  query-id="person">
+  ...
+</form>
+----
+
+.Источник данных при открытии страницы
+[source,xml]
+----
+<button label="Создать">
+  <open-page
+    page-id="personCard"
+    upload="defaults"
+    submit-operation-id="create"/>
+</button>
+----
+
+=== Модели виджета
+
+Данные виджета загружаются в формате json и хранятся в модели виджета.
+У виджета может быть несколько моделей:
+
+.Модели виджета
+|===
+|Модель|Описание|Пример
+
+|datasource
+|Модель всех загруженных записей.
+|Список записей у таблицы.
+
+|filter
+|Модель фильтров вижета.
+|Пользовательские фильтры таблицы. Предустановленные фильтры формы.
+
+|multi
+|Список моделей выделенных записей.
+|Мультивыделения в таблице. Помеченные чекбоксами узлы в дереве.
+
+|resolve
+|Модель данных, от которой зависят дочерние виджеты.
+|
+
+|edit
+|Модель данных, в момент редактирования.
+|Форма, открытая на редактирование, с изменёнными полями.
+
+|===
+
+На модель виджета ссылаются в зависимостях,
+например, при link:#_Предустановленная_фильтрация[предустановленной фильтрации].
+
+.Ссылка на модель виджета в предустановленной фильтрации
+[source,xml]
+----
+<pre-filters>
+  <eq
+    field-id="org.id"
+    value="{id}"
+    ref-model="resolve"
+    ref-widget-id="organizations"/>
+</pre-filters>
+----
+
+На модель виджета так же ссылаются в link:#_Кнопки_и_действия[действиях],
+чтобы задать область данных, над которой происходит действие.
+
+.Ссылка на модель виджета в действиях
+[source,xml]
+----
+<button>
+  <invoke
+    operation-id="delete"
+    model="resolve"/>
+</button>
+----

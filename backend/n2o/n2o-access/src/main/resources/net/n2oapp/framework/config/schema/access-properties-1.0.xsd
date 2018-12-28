@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/access-properties-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:attribute name="object-id" type="xs:string"/>
+    <xs:attribute name="action-id" type="xs:string"/>
+    <xs:attribute name="permission" type="xs:string"/>
+    <xs:attribute name="role" type="xs:string"/>
+
+</xs:schema>

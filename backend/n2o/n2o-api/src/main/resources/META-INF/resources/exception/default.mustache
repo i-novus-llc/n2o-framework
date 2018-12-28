@@ -1,0 +1,6 @@
+{{#title}}<small>{{title}}</small>{{/title}}
+{{#message}}<b>{{message}}</b>{{/message}}
+{{#summary}}{{summary}}{{/summary}}
+
+<a href='#' onclick='$(this).next().toggle(); return false;'>Stacktrace</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>{{stackTraceAsString}}</pre>

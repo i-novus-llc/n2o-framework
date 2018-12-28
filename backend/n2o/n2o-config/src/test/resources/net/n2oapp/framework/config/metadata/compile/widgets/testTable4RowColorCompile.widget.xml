@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable4Compile"
+       object-id="utBlank">
+    <rows>
+        <switch value-field-id="gender.id">
+            <case value="1">red</case>
+            <case value="2">blue</case>
+            <case value="3">white</case>
+            <default>green</default>
+        </switch>
+    </rows>
+</table>

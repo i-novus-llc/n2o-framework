@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns:exc="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0"
+       xmlns="http://n2oapp.net/framework/config/schema/query-3.0">
+    <object-id>product</object-id>
+    <name>Товар есть в наличии в следующих магазинах</name>
+
+    <execution>
+        <exc:sql>
+            <exc:items-query>
+                SELECT :select
+                FROM shop s
+                left join product_shop ps on s.id = ps.shop_id
+                WHERE :where
+                ORDER BY :order
+            </exc:items-query>
+            <exc:count-query>
+                SELECT count(s.id)
+                FROM shop s
+                left join product_shop ps on s.id = ps.shop_id
+                WHERE :where
+            </exc:count-query>
+            <exc:alias>s</exc:alias>
+        </exc:sql>
+    </execution>
+
+    <fields>
+        <field>
+            <id>id</id>
+            <domain>long</domain>
+            <display/>
+            <filters auto-generate="true"/>
+        </field>
+        <field>
+            <id>name</id>
+            <domain>string</domain>
+            <display/>
+            <sorting/>
+            <filters auto-generate="true"/>
+        </field>
+        <field>
+            <id>address</id>
+            <domain>string</domain>
+            <display/>
+            <sorting/>
+            <filters auto-generate="true"/>
+        </field>
+        <field>
+            <id>product.id</id>
+            <domain>long</domain>
+            <filters auto-generate="true">
+                <filter type="eq" filter-field="product.id">ps.product_id = :product.id</filter>
+            </filters>
+        </field>
+    </fields>
+</query>

@@ -1,0 +1,13 @@
+<small>{{title}}</small>
+{{#message}}<b>{{message}}</b>{{/message}}
+
+<a href='#' onclick='$(this).next().toggle(); return false;'>SQL-запрос</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>{{sql}}</pre>
+<a href='#' onclick='$(this).next().toggle(); return false;'>Параметры</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>
+{{#parameters}}
+{{.}}
+{{/parameters}}
+</pre>
+<a href='#' onclick='$(this).next().toggle(); return false;'>Stacktrace</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>{{stackTraceAsString}}</pre>

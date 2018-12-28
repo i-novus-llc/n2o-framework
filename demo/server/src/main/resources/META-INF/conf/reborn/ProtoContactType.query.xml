@@ -1,0 +1,20 @@
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" name="Типы контактов">
+    <list count-mapping="size()">
+        <sql>select :select from pim_party_contact_type where :filters order by :sorting</sql>
+    </list>
+    <fields>
+        <field id="id">
+            <select mapping="['id']">id</select>
+            <filters>
+                <eq filter-id="id" mapping="['id']">id=:id</eq>
+            </filters>
+        </field>
+        <field id="name" name="Наименование">
+            <select mapping="['name']">name</select>
+            <filters>
+                <eq filter-id="name" mapping="['name']">name like '%'||:name||'%'</eq>
+            </filters>
+            <sorting mapping="['nameDir']">name :nameDir</sorting>
+        </field>
+    </fields>
+</query>

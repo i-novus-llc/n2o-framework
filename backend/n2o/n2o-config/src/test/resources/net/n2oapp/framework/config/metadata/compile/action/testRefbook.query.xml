@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <fields>
+        <field id="id">
+
+        </field>
+        <field id="detailId">
+            <filters>
+                <eq filter-id="detailId"/>
+            </filters>
+        </field>
+        <field id="name">
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
+        </field>
+        <field id="secondName">
+            <filters>
+                <eq filter-id="secondName"/>
+            </filters>
+        </field>
+    </fields>
+</query>

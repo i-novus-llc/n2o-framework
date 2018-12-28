@@ -1,0 +1,1 @@
+package net.n2oapp.framework.config.register.file.a.b.c

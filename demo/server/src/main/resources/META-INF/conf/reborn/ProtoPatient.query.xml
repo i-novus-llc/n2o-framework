@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       name="Люди"
+       object-id="ProtoPatient">
+    <list>
+        <sql>select :select
+            from pim_individual i
+            left join pim_gender g on g.id = i.gender_id
+            left join md_ethnic_group eg on eg.id = i.ethnic_group_id
+            left join md_soc_group sg on sg.id = i.social_group_id
+            left join pim_nationality n on n.id = i.nationality_id
+            where :filters
+            order by :sorting
+            limit :limit offset :offset
+        </sql>
+    </list>
+    <unique filters="id" result-mapping="[0]">
+        <sql>select :select
+            from pim_individual i
+            left join pim_gender g on g.id = i.gender_id
+            left join md_ethnic_group eg on eg.id = i.ethnic_group_id
+            left join md_soc_group sg on sg.id = i.social_group_id
+            left join pim_nationality n on n.id = i.nationality_id
+            where i.id = :id
+        </sql>
+    </unique>
+    <count count-mapping="[0]['cnt']">
+        <sql>select count(*) as cnt
+            from pim_individual i
+            left join pim_gender g on g.id = i.gender_id
+            left join md_ethnic_group eg on eg.id = i.ethnic_group_id
+            left join md_soc_group sg on sg.id = i.social_group_id
+            left join pim_nationality n on n.id = i.nationality_id
+            where :filters
+        </sql>
+    </count>
+
+
+    <fields>
+        <field id="id" domain="integer">
+            <select mapping="['id']">i.id</select>
+            <filters>
+                <eq filter-id="id" mapping="['id']">i.id = :id</eq>
+            </filters>
+        </field>
+        <field id="surname" domain="string" name="Фамилия">
+            <expression>i.surname</expression>
+            <select mapping="['surname']">i.surname</select>
+            <filters>
+                <like filter-id="surname" mapping="['surname']">i.surname like '%'||:surname||'%'</like>
+            </filters>
+            <sorting mapping="['surnameSort']">i.surname :surnameSort</sorting>
+        </field>
+        <field id="name" domain="string" name="Имя">
+            <select mapping="['name']">i.name</select>
+            <filters>
+                <like filter-id="name" mapping="['name']">i.name like '%'||:name||'%'</like>
+            </filters>
+            <sorting mapping="['nameSort']">i.name :nameSort</sorting>
+        </field>
+        <field id="patrName" domain="string" name="Отчество">
+            <select mapping="['patr_name']">i.patr_name</select>
+            <filters>
+                <like filter-id="patrName" mapping="['patr_name']">i.patr_name like '%'||:patr_name||'%'</like>
+            </filters>
+            <sorting mapping="['patrSort']">i.patr_name :patrSort</sorting>
+        </field>
+        <field id="fullName" domain="string" name="ФИО">
+            <expression>coalesce(i.surname,'')||' '||coalesce(i.name,'')||' '||coalesce(i.patr_name,'')</expression>
+            <select mapping="['full_name']">(:expression) as full_name</select>
+            <filters>
+                <like filter-id="fullName" mapping="['full_name']">:expression like '%'||:full_name||'%'</like>
+            </filters>
+        </field>
+        <field id="birthday" domain="date" name="Дата рождения">
+            <select mapping="['birth_dt']">i.birth_dt</select>
+            <filters>
+                <eq filter-id="birthday" mapping="['birt_dt']">i.birth_dt = :birthday</eq>
+                <more filter-id="bdate.begin" mapping="['bdate_begin']"><![CDATA[i.birth_dt >= :bdate_begin]]></more>
+                <less filter-id="bdate.end" mapping="['bdate_end']"><![CDATA[i.birth_dt <= :bdate_end]]></less>
+            </filters>
+            <sorting mapping="['birthSort']">i.birth_dt :birthSort</sorting>
+        </field>
+        <field id="age" domain="integer" name="Возраст">
+            <expression>DATEDIFF('DAY', i.birth_dt, NOW())/365</expression>
+            <select mapping="['age']">(:expression) as age</select>
+            <sorting>:expression</sorting>
+        </field>
+        <field id="gender.name" name="Пол" domain="string">
+            <select mapping="['g_name']">g.name as g_name</select>
+        </field>
+        <field id="genderName" name="Пол" domain="string">
+            <select mapping="['g_name']">g.name as g_name</select>
+        </field>
+        <field id="gender.id" domain="integer">
+            <select mapping="['g_id']">g.id as g_id</select>
+            <filters>
+                <eq filter-id="gender.id" mapping="['gender_id']">g.id = :gender_id</eq>
+                <in filter-id="genders*.id" mapping="['gender_ids']">g.id in (:gender_ids)</in>
+            </filters>
+        </field>
+        <field id="vip" name="VIP" domain="boolean">
+            <select mapping="['vip']">i.vip</select>
+            <filters>
+                <eq filter-id="vip" mapping="['vip']">i.vip = :vip</eq>
+            </filters>
+        </field>
+        <field id="hasCitizenship" domain="boolean" name="Городской житель">
+            <select mapping="['has_citizenship']">i.has_citizenship</select>
+        </field>
+        <field id="ethnicGroupName" domain="string" name="Этническая группа">
+            <select mapping="['eg_name']">eg.name as eg_name</select>
+        </field>
+        <field id="socialGroupName" name="Социальная группа" domain="string">
+            <select mapping="['sg_name']">sg.name as sg_name</select>
+        </field>
+        <field id="nationality.name" name="Национальность" domain="string">
+            <select mapping="['n_name']">n.name as n_name</select>
+        </field>
+        <field id="nationality.id" domain="integer">
+            <select mapping="['n_id']">n.id as n_id</select>
+        </field>
+    </fields>
+</query>

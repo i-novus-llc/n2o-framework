@@ -1,0 +1,9 @@
+<small>{{title}}</small>
+{{#summary}}<b>{{summary}}</b>{{/summary}}
+
+Объект      : {{objectId}}
+Валидация   : {{validationId}}
+Тип         : {{validationClass}}
+
+<a href='#' onclick='$(this).next().toggle(); return false;'>Stacktrace</a>
+<pre class='stackrace' style='display: none;' id='stacktrace'>{{stackTraceAsString}}</pre>

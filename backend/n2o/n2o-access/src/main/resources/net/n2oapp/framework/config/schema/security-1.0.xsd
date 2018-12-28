@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/security-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:attribute name="denied" type="xs:boolean"/>
+    <xs:attribute name="permit-all" type="xs:boolean"/>
+    <xs:attribute name="roles" type="xs:string"/>
+    <xs:attribute name="permissions" type="xs:string"/>
+    <xs:attribute name="usernames" type="xs:string"/>
+    <xs:attribute name="authenticated" type="xs:boolean"/>
+    <xs:attribute name="anonymous" type="xs:boolean"/>
+</xs:schema>

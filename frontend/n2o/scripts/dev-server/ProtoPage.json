@@ -1,0 +1,12 @@
+{
+  "type": "N2O/DUMMY",
+  "payload": {},
+  "meta": {
+    "refresh": {
+      "type": "widget",
+      "options": {
+        "widgetId": "ProtoPage/main"
+      }
+    }
+  }
+}

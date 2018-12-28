@@ -1,0 +1,26 @@
+<access xmlns="http://n2oapp.net/framework/config/schema/access-schema-1.0">
+
+    <user id="user">
+        <url-access pattern="testUrl"/>
+    </user>
+
+    <authenticated>
+        <url-access pattern="testUrl2"/>
+    </authenticated>
+
+    <guest-access>
+        <object-access object-id="test1"/>
+        <object-access object-id="test2"/>
+    </guest-access>
+
+    <role id="test">
+        <object-access object-id="test1"/>
+        <object-access object-id="test2"/>
+    </role>
+
+    <permission id="test">
+        <object-access object-id="test1"/>
+        <object-access object-id="test2"/>
+    </permission>
+
+</access>

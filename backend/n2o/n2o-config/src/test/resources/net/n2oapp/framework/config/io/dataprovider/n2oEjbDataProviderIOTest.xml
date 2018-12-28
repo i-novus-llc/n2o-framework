@@ -1,0 +1,10 @@
+<java xmlns="http://n2oapp.net/framework/config/schema/data-provider-1.0"
+      method="get"
+      class="className">
+    <arguments>
+        <argument name="arg1" type="primitive"/>
+        <argument class="className" name="arg2" type="class"/>
+    </arguments>
+    <ejb bean="ejbBean" application="application" distinct="distinct" module="module" protocol="protocol"
+         stateful="false" uri="uri"/>
+</java>

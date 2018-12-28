@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="mockCacheManager" class="net.n2oapp.framework.context.test.MockCacheManager">
+        <constructor-arg name="mockCache" ref="mockCache"/>
+    </bean>
+
+    <bean id="mockCache" class="net.n2oapp.framework.context.test.MockCache"/>
+
+    <bean id="contextCacheTemplate" class="net.n2oapp.framework.context.smart.impl.cache.ContextCacheTemplateImpl">
+        <constructor-arg name="cacheManager" ref="mockCacheManager"/>
+    </bean>
+
+    <bean id="smartContextEngine" class="net.n2oapp.framework.context.smart.impl.SmartContextEngine">
+        <constructor-arg name="cacheTemplate" ref="contextCacheTemplate"/>
+    </bean>
+
+    <import resource="test-context-providers.xml"/>
+
+</beans>

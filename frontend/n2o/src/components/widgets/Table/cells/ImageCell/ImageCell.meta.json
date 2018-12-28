@@ -1,0 +1,9 @@
+{
+  "id": "url",
+  "className": "n2o",
+  "style": {
+    "color": "red"
+  },
+  "title": "Это кот",
+  "shape": "circle"
+}

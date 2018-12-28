@@ -1,0 +1,67 @@
+# Windows
+Thumbs.db
+
+# Java
+*.class
+*.classpath
+*.project
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Maven
+target
+report
+*.versionsBackup
+
+# Intellij Idea
+.idea
+*.iml
+*.iws
+*.ipr
+temp
+
+# Gradle
+.gradle
+build
+out
+user.gradle
+
+#Autotest
+local.autotest.properties
+local.application.properties
+
+# Git merge
+*.orig
+
+# Frontend ignore
+
+# Documents
+frontend/n2o/docs/esdoc/
+frontend/n2o/docs/storybook/
+frontend/n2o/docs/eslint.json
+
+# Build output
+dist/
+lib/
+es/
+esdoc/
+storybook/
+
+# Compiled output
+public/dist
+public/index.html
+public/sitemap.xml
+
+# Node.js and NPM
+node_modules
+npm-debug.log
+lerna-debug.log
+
+# Firebase
+firebase-debug.log
+
+# Jest
+.jest-test-results.json

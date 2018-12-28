@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<test xmlns="http://example.com/n2o/ext-1.0" xmlns:ext="http://example.com/n2o/ext-1.0">
+    <children>
+        <ext:el1 attr="1" enum1="en1"/>
+        <el2 attr="2">test</el2>
+    </children>
+</test>

@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns:exc="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0"
+       xmlns="http://n2oapp.net/framework/config/schema/query-3.0">
+    <object-id>car</object-id>
+    <name>Список автомобилей</name>
+    <execution>
+        <exc:sql>
+            <exc:items-query>
+                SELECT :select
+                FROM cars c
+                WHERE :where
+                ORDER BY :order
+            </exc:items-query>
+            <exc:count-query>
+                SELECT count(*)
+                FROM cars c
+                WHERE :where
+            </exc:count-query>
+            <exc:alias>c</exc:alias>
+        </exc:sql>
+    </execution>
+
+    <fields>
+        <field>
+            <id>id</id>
+            <domain>integer</domain>
+            <display/>
+            <filters>
+                <filter type="eq" filter-field="id"/>
+            </filters>
+        </field>
+
+        <field>
+            <id>name</id>
+            <domain>string</domain>
+            <display/>
+            <sorting/>
+            <filters>
+                <filter type="eq" filter-field="name"/>
+            </filters>
+        </field>
+
+        <field>
+            <id>price</id>
+            <domain>long</domain>
+            <display/>
+            <filters>
+                <filter type="more" filter-field="minPrice"/>
+                <filter type="less" filter-field="maxPrice"/>
+            </filters>
+            <sorting/>
+        </field>
+
+        <field>
+            <id>year</id>
+            <domain>date</domain>
+            <display/>
+            <sorting/>
+            <filters>
+                <filter type="more" filter-field="year.begin"/>
+                <filter type="less" filter-field="year.end"/>
+            </filters>
+        </field>
+
+    </fields>
+</query>

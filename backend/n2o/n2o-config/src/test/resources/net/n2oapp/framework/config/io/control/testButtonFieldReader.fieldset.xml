@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0"
+           xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/n2o-event-1.0" src="test">
+    <ctrl:button id="openModal" label="openModal" title="test" type="textAndIcon" >
+        <!--<ctrl:event>
+            <act:show-modal page-id="test" width="100" max-width="100" min-width="100" page-name="test" container-id="test" master-field-id="id" detail-field-id="id" result-container-id="test">
+                <act:pre-filters>
+                    <act:pre-filter field-id="id" ref="test" type="eq" value="value"/>
+                </act:pre-filters>
+            </act:show-modal>
+        </ctrl:event>
+        <ctrl:properties>
+            <ctrl:property key="test" value="test"/>
+        </ctrl:properties>-->
+    </ctrl:button>
+    <!--<ctrl:button id="openPage" label="openPage" title="test" icon="test">
+        <ctrl:event>
+            <act:open-page page-id="test" width="100" max-width="100" min-width="100" page-name="test" container-id="test" master-field-id="id" detail-field-id="id" result-container-id="test">
+                <act:pre-filters>
+                    <act:pre-filter field-id="id" ref="test" type="eq" value="value"/>
+                </act:pre-filters>
+            </act:open-page>
+        </ctrl:event>
+        <ctrl:properties>
+            <ctrl:property key="test" value="test"/>
+        </ctrl:properties>
+    </ctrl:button>
+    <ctrl:button id="openAnchor" label="openAnchor" css-class="btn-link" title="test">
+        <ctrl:event>
+            <act:a href="test" target="newWindow"/>
+        </ctrl:event>
+        <ctrl:properties>
+            <ctrl:property key="test" value="test"/>
+        </ctrl:properties>
+    </ctrl:button>-->
+</set>

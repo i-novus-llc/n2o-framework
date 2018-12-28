@@ -1,0 +1,27 @@
+{@forEach context="." index="$idx"}
+    {@view tag="div"}
+        <div data-id="{id}" class="n2o-file-upload-result-block {?filesize}with-size{/filesize} {?msgError}error{/msgError}">
+            {#msgError}
+                <p class="text-danger">
+                    {msgError}
+                </p>
+            {:else}
+                {?url}
+                    <a title="{filename}" href="{downloadUrl}{url}" target="_blank">{filename}</a>
+                {:else}
+                    {filename}
+                {/url}
+                {?filesize}
+                <span class="text-muted n2o-file-upload-size">{$size}</span>
+                {/filesize}
+                {^$notEnabled}<button data-id="{id}" type="button" class="n2o-file-upload-remove close" title="{net.n2oapp.framework.ui.component.fileupload.title.cancel}">×</button>{/$notEnabled}
+            {/msgError}
+        </div>
+    {:bindings}
+        {@bind def="$size as contents (.n2o-file-upload-size) | file.upload.sizeFormat '{filesize}' " entry="value" context="." instant="true" /}
+
+        {@bind def="$notEnabled as visible (button) "
+            entry="$enabled,$dependency$enabled"
+            computed=" {readonly} ||  !( $enabled && (typeof $dependency$enabled === 'undefined' ? true : $dependency$enabled ) ) " /}
+    {/view}
+{/forEach}

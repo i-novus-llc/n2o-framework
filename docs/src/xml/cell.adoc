@@ -1,0 +1,464 @@
+== Ячейки
+Содержимое ячейки таблицы или строки списка.
+Библиотека компонентов::
+```
+http://n2oapp.net/framework/config/schema/n2o-cell-2.0
+```
+
+=== Общие свойства
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|src
+|React компонент
+|Реализация ячейки
+|Для каждой ячейки своя реализация по умолчанию.
+Для `custom` атрибут обязательный.
+
+|===
+
+=== <text>
+Текст со стилем или без.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|class
+|CSS class
+|Стиль текста
+|
+
+|===
+
+Тело::
+link:#_Переключатель_switch[Переключатель]
+
+[NOTE]
+Сам текст берется из значения `text-field-id` в родительском элементе.
+
+Пример::
+[source,xml]
+----
+<text class="font-weight-bold"/> <!--Жирный шрифт-->
+----
+[source,xml]
+----
+<text class="label label-success"/> <!--Текст в рамке-->
+----
+
+
+=== <link>
+Ссылка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|action-id
+|Ссылка на действие виджета
+|Действие виджета, которое будет вызвано при клике по ссылке
+|
+
+|icon
+|text, icon, iconAndText
+|Иконка ссылки. (Текст, Иконка, Иконка с текстом)
+|text
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<link action-id="update"/>
+----
+[source,xml]
+----
+<link>
+  <open-page page-id="personCard"/>
+</link>
+----
+
+=== <icon>
+Иконка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|text
+|Строка
+|Текст иконки
+|Берётся из значения в `text-field-id`
+
+|class
+|http://fontawesome.io/icons/[CSS класс]
+|Класс иконки
+|
+
+|type
+|icon, iconAndText
+|С текстом или без
+|icon
+
+|action-id
+|Ссылка на действие виджета
+|Действие виджета, которое выполнится при клике по иконке
+|
+
+|position
+|right, left
+|Расположение текста
+|
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<icon class="fa-pencil" action-id="update"/>
+----
+[source,xml]
+----
+<icon class="fa-id-card-o">
+  <show-modal page-id="personCard"/>
+</icon>
+----
+
+=== <checkbox>
+
+Чекбокс.
+[NOTE]
+Значение true или false берется из значения `text-field-id`.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|enabled
+|true false
+|Доступность чекбокса
+|Если есть действие, то `true`, иначе `false`
+
+|action-id
+|Ссылка на действие
+|Действие, которое выполнится при клике по чекбоксу
+|
+
+|class
+|CSS класс
+|Стиль чекбокса
+|
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<checkbox action-id="update"/>
+----
+
+[source,xml]
+----
+<checkbox>
+  <invoke operation-id="update"/>
+</checkbox>
+----
+
+=== <progress>
+Индикатор прогресса.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|value
+|Число
+|Значение прогресса (число от 0 до 100)
+|Берется из значения `text-field-id` в родительском элементе
+
+|class
+|https://getbootstrap.com/docs/4.0/components/progress/#backgrounds[CSS class]
+|Стиль индикатора
+|
+
+|active
+|true false
+|С анимацией загрузки?
+|false
+
+|size
+|large, normal, small
+|Размер индикатора прогресса
+|normal
+
+|striped
+|true false
+|С полосками?
+|false
+
+|color
+|Строка
+|Цвет индикатора
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<progress
+  value="50"
+  class="bg-success"
+  size="small"/>
+----
+
+=== <image>
+Картинка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|url
+|URL
+|URL изображения
+|Берется из значения `text-field-id` в родительском элементе
+
+|class
+|https://getbootstrap.com/docs/4.0/content/images/[CSS class]
+|Стиль обрамления
+|
+
+|width
+|Число
+|Ширина изображения (px)
+|
+
+|action-id
+|Ссылка на действие виджета
+|Действие виджета, которое выполнится при клике по иконке
+|
+
+|shape
+|circle, rounded, polaroid
+|Форма картинки
+|
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<image
+  url="images/user.png"
+  width="32"
+  class="img-thumbnail">
+  <open-page page-id="profile"/>
+</image>
+----
+
+=== <edit>
+Редактирование значения.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|action-id
+|Ссылка на действие виджета
+|Действие виджета, которое выполнится при завершении редактирования
+|
+
+|type
+|inline, popup
+|Расположение
+|inline
+
+|===
+
+Тело::
+link:#_Поля_ввода[Поле ввода]
+
+Пример::
+[source,xml]
+----
+<edit action-id="update" type="popup">
+  <date-time id="birthday"/>
+</edit>
+----
+
+=== <toolbar>
+Ячейка с кнопками.
+
+Пример::
+[source,xml]
+----
+<toolbar>
+  <button>...</button>
+  <button>...</button>
+  <button>...</button>
+</toolbar>
+----
+
+==== <button>
+Кнопка ячейки.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|label
+|Строка
+|Подпись кнопки
+|Вычисляется из action-id
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка кнопки
+|Вычисляется из action-id
+
+|action-id
+|Ссылка на действие виджета
+|Действие виджета, которое выполнится при нажатии на кнопку
+|
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Стиль кнопки
+|
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<toolbar>
+  <button action-id="update"/>
+  <button action-id="delete"/>
+</toolbar>
+----
+[source,xml]
+----
+<toolbar>
+  <button label="Изменить" icon="fa-pencil">
+    <open-page page-id="personCard" action-id="update"/>
+  </button>
+  <button label="Удалить" icon="fa-trash">
+    <invoke operation-id="delete"/>
+  </button>
+</toolbar>
+----
+
+=== <badge>
+Ячейка с текстом.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|position
+|right, left
+|Расположение
+|
+
+|text
+|Строка
+|Текст
+|
+
+|color
+|CSS класс
+|Цвет
+|
+
+|===
+
+Тело::
+link:#_Переключатель_switch[Переключатель цвета]
+
+Пример::
+[source,xml]
+----
+<badge text="{status}" position="right">
+  <switch>
+       <case value="1">success</case>
+       <case value="2">danger</case>
+       <default>info</default>
+  </switch>
+</badge>
+----
+
+=== <list>
+Ячейка со списком.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+
+|size
+|Число
+|Kоличество элементов для группировки
+|
+
+|color
+|CSS класс
+|Цвет
+|
+
+|label-field-id
+|Вложенное поле столбца
+|Отображаемое поле в объекте, если столбец - массив объектов. Если отсутствует, то столбец является массивом строк.
+|
+
+|===
+
+Тело::
+link:#_Переключатель_switch[Переключатель цвета]
+
+Пример::
+[source,xml]
+----
+<list color="secondary" size="3"/>
+----
+
+=== <custom>
+Настраиваемая ячейка.
+
+Пример::
+[source,xml]
+----
+<custom src="MyCell"
+  attr1="value1"
+  attr2="value2">
+</custom>
+----

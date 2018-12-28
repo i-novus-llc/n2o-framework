@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="configAuditCommitService"
+          class="net.n2oapp.framework.config.audit.service.N2oCommitService"/>
+
+    <bean id="configAuditHistoryService"
+          class="net.n2oapp.framework.config.audit.service.N2oHistoryService"/>
+
+    <bean id="configAuditService"
+          class="net.n2oapp.framework.config.audit.service.ConfigAuditService"/>
+
+    <bean id="configAuditTransformer"
+          class="net.n2oapp.framework.config.audit.service.ConfigAuditTransformer"/>
+
+    <bean id="configAuditConflictService"
+          class="net.n2oapp.framework.config.audit.service.conflict.MetaDataConflictCriteriaService">
+    </bean>
+
+    <bean id="configAuditBranchService" class="net.n2oapp.framework.config.audit.service.BranchService"/>
+
+</beans>

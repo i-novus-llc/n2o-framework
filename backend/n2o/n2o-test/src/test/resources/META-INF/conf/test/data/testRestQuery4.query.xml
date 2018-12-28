@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list result-mapping="['collection']" count-mapping="['count']">
+        <rest method="GET" filters-separator="&amp;">http://localhost:${local.server.port}/test/rest/?{filters}&amp;{sorting}&amp;size={limit}&amp;page={page}</rest>
+    </list>
+    <unique result-mapping="#this">
+        <rest method="GET">http://localhost:${local.server.port}/test/rest/{id}</rest>
+    </unique>
+
+    <fields>
+        <field id="id" domain="integer">
+            <select mapping="['id']"/>
+            <filters>
+                <eq filter-id="id" mapping="['id']">id={id}</eq>
+            </filters>
+        </field>
+
+        <field id="value" domain="string">
+            <select mapping="['value']"/>
+            <sorting mapping="['valueDir']">sort=value,{valueDir}</sorting>
+        </field>
+    </fields>
+</query>

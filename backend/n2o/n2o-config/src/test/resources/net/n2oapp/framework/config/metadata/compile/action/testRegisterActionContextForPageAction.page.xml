@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page  xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first" object-id="testActionContext">
+    <regions>
+        <panel place="single">
+            <form id="testActionContext" query-id="testActionContext">
+                <fields>
+                    <input-text id="id" required="true"/>
+                    <input-text id="name">
+                        <validations white-list="conditionName"/>
+                    </input-text>
+                    <input-text id="surname">
+                        <validations white-list="constraintSurname"/>
+                    </input-text>
+                    <date-time id="birthdate"/>
+                </fields>
+            </form>
+        </panel>
+    </regions>
+    <actions>
+        <action id="save" widget-id="testActionContext">
+            <invoke operation-id="create" widget-id="testActionContext" route="/test"/>
+        </action>
+    </actions>
+</page>
+

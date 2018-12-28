@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Пример загрузки файлов">
+    <regions>
+        <none place="single">
+            <table query-id="files" id="files">
+                <toolbar>
+                    <button id="add" label="Добавить файл" icon="fa fa-plus" model="filter">
+                        <show-modal page-id="uploadFile" submit-operation-id="submit" />
+                    </button>
+                    <button id="delete" label="Удалить" icon="icon-remove" type="text">
+                        <invoke operation-id="delete"/>
+                    </button>
+                </toolbar>
+                <columns>
+                    <column text-field-id="id"/>
+                    <column text-field-id="fileName" label="Имя файла"/>
+                    <column text-field-id="url" label="Скачать файл">
+                        <link type="icon" icon="fa fa-file">
+                            <a href=":url" target="self"/>
+                        </link>
+                    </column>
+                </columns>
+            </table>
+        </none>
+    </regions>
+</page>

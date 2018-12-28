@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-1.0"
+        xmlns:n2o="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0">
+    <name>testActionContext</name>
+
+    <actions>
+        <action id="create">
+            <invocation>
+                <n2o:sql>select 125</n2o:sql>
+            </invocation>
+            <in-parameters>
+                <param name="id" mapping="['id']"/>
+                <param name="name" mapping="['name']"/>
+                <param name="surname" mapping="['surname']"/>
+            </in-parameters>
+            <out-parameters>
+                <param name="id" mapping="[0][0][0]"/>
+            </out-parameters>
+        </action>
+    </actions>
+
+    <validations>
+        <condition id="testName" level="error">
+            <expression>name === 'testName'</expression>
+        </condition>
+        <constraint id="testSurname" level="error">
+            <message>Surname should be equals 'testSurname'</message>
+            <invocation>
+                <n2o:sql>select :surname </n2o:sql>
+            </invocation>
+            <in-parameters>
+                <param name="id" mapping="['id']"/>
+                <param name="name" mapping="['name']"/>
+                <param name="surname" mapping="['surname']"/>
+            </in-parameters>
+            <result expression="[0][0][0] == 'testSurname'"/>
+        </constraint>
+    </validations>
+
+</object>

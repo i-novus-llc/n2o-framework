@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment>Localization</comment>
+
+    <entry key="n2o.idNotSpecified">Не задан object-id в object-access</entry>
+    <entry key="n2o.objectNotExists">Несуществует объекта {0} указанного в схеме доступа!</entry>
+    <entry key="n2o.actionNotSpecified">У объекта {0} (id = {1}) нет action {2}!</entry>
+    <entry key="n2o.fieldIdNotSpecified">Не задан field-id в фильтре доступа в объекте {0}!</entry>
+    <entry key="n2o.filterValueNotSpecified">Не задано value фильтра доступа в объекте {0}!</entry>
+    <entry key="n2o.notMainActionWidgetRight">Это право используется т.к. нету доступа к основному действия виджета. Виджет переведен в режим чтения</entry>
+    <entry key="n2o.mainActionWidgetRight">Право на основное действие виджета. Не используется, виджет переведен в режим чтения</entry>
+    <entry key="n2o.additionalFiltersTakingActionWidgetRight">Данное право используется только для получения доп. фильтров из menu-item {0}! Фильтры учитываются потому что этот menu-item переводит виджет в режим редактирования</entry>
+
+</properties>

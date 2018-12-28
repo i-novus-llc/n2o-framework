@@ -1,0 +1,29 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/custom/route/fieldset">
+    <form query-id="ProtoPatient" name="Карточка пациента">
+        <fields>
+            <set src="CollapsedCardFieldset">
+                <row>
+                    <col>
+                        <input-text label="Фамилия" id="surname" required="true" placeholder="Введите значение"/>
+                    </col>
+                    <col>
+                        <input-text label="Имя" id="name" required="true"/>
+                    </col>
+                    <col>
+                        <input-text label="Отчество" id="patrName" default-value="Тест"/>
+                    </col>
+                </row>
+            </set>
+            <row>
+                <col size="5">
+                    <input-select-tree id="address" ajax="false" label="Адрес" checkboxes="true">
+                        <inheritance-nodes parent-field-id="parent_id" label-field-id="name" value-field-id="id"
+                                           query-id="stubAddress" has-children-field-id="hasChildren"
+                                           search-field-id="name">
+                        </inheritance-nodes>
+                    </input-select-tree>
+                </col>
+            </row>
+        </fields>
+    </form>
+</simple-page>

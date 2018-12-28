@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" name="Адреса">
+    <list>
+        <sql>
+            select :select
+            from address_element a
+            join address_element_level l on l.id = a.level_id
+            join address_element_type t on t.id = a.type_id
+            where :filters order by a.parent_id DESC
+        </sql>
+    </list>
+    <count>
+        <sql>
+            select count(*)
+            from address_element a
+            join address_element_level l on l.id = a.level_id
+            join address_element_type t on t.id = a.type_id
+            where :filters
+        </sql>
+    </count>
+    <fields>
+        <field id="id" domain="integer">
+            <select>a.id</select>
+            <filters>
+                <eq filter-id="id">a.id=:id</eq>
+            </filters>
+        </field>
+        <field id="name" domain="string">
+            <select>a.name</select>
+        </field>
+        <field id="parent_id" domain="integer">
+            <select>a.parent_id</select>
+        </field>
+        <field id="hasChildren">
+            <select>(select true from address_element where a.id = parent_id limit 1) as hasChildren</select>
+            <filters>
+                <eq filter-id="hasChildren">(select true from address_element where a.id = parent_id limit 1) = :hasChildren</eq>
+            </filters>
+        </field>
+    </fields>
+</query>

@@ -1,0 +1,15 @@
+<header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
+        brand-name="test"
+        class="css"
+        logo-src="logo"
+        color="invert"
+        src="Header" home-page-id="home">
+    <nav src="Nav" ref-id="MenuRef" welcome-page-id="test">
+        <page page-id="test1" label="test1" route="/test1" icon="test-icon"/>
+        <a href="/a" label="test2" icon="test2-icon" target="newWindow"/>
+        <sub-menu label="sub" icon="sub-icon">
+            <page page-id="test3" icon="test3-icon" label="test3" route="/test3"/>
+            <a label="test4" href="/test4" target="self"/>
+        </sub-menu>
+    </nav>
+</header>

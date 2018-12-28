@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/base/access-base-1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:query="http://n2oapp.net/framework/config/schema/query-3.0">
+
+    <!--список стандартных действий + все действия-->
+    <xs:simpleType name="actionGroupEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="create"/>
+                    <xs:enumeration value="update"/>
+                    <xs:enumeration value="delete"/>
+                    <xs:enumeration value="*"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <xs:complexType name="simpleFilterDef">
+        <xs:sequence>
+            <xs:element name="value" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="field-id" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string" use="optional"/>
+        <xs:attribute name="type" type="filterTypeEnumeration" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="slicerDef">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="group-id" type="slicerGroupEnum" use="required"/>
+        <xs:attribute name="field-id" type="xs:string" use="required"/>
+    </xs:complexType>
+
+    <xs:simpleType name="slicerGroupEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="read"/>
+                    <xs:enumeration value="edit"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
+    <xs:simpleType name="filterTypeEnumeration">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="infinite"/>
+            <xs:enumeration value="empty"/>
+            <xs:enumeration value="eq"/>
+            <xs:enumeration value="notEq"/>
+            <xs:enumeration value="isNull"/>
+            <xs:enumeration value="isNotNull"/>
+            <xs:enumeration value="in"/>
+            <xs:enumeration value="notIn"/>
+            <xs:enumeration value="overlaps"/>
+            <xs:enumeration value="contains"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

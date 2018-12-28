@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-fragment id="n2oGit" version="3.0" metadata-complete="true" xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-fragment_3_0.xsd">
+
+    <servlet>
+        <servlet-name>n2oAuditGitServlet</servlet-name>
+        <servlet-class>net.n2oapp.framework.config.audit.N2oAuditServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>n2oAuditGitServlet</servlet-name>
+        <url-pattern>/config/audit/*</url-pattern>
+    </servlet-mapping>
+
+</web-fragment>

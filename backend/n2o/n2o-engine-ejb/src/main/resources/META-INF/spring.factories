@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+net.n2oapp.framework.engine.ejb.EjbConfiguration

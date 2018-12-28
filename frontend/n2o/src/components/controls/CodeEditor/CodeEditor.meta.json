@@ -1,0 +1,8 @@
+{
+  "disabled": false,
+  "name": "CodeEditor",
+  "minLines": 1,
+  "maxLines": 50,
+  "lang": "javascript",
+  "autocomplete": true
+}
