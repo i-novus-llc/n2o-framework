@@ -174,8 +174,7 @@ stories
       {
         id: '1',
         name: 'Манин Евстигней Проклович',
-        hasChildren: true,
-        disabled: true
+        hasChildren: true
       },
       {
         id: '2',

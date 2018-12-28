@@ -318,5 +318,5 @@ stories
     ]);
   })
   .add('Примеры', () => {
-    return createTable(examplesDataSource);
+    return <div style={{ paddingBottom: 50 }}>{createTable(examplesDataSource)}</div>;
   });

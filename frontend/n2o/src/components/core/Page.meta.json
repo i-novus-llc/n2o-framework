@@ -26,8 +26,8 @@
       "path": "/"
     },
     {
-      "label": "`'Вторая: ' + id`",
-      "modelLink": "pages['testSimplePageJson'].metadata"
+      "label": "Вторая",
+      "path": "/test"
     }
   ],
   "widgets": {
@@ -51,15 +51,8 @@
         "redirect": {
           "src": "link",
           "options": {
-            "dataProvider": {
-              "url": "/test",
-              "pathMapping": {
-
-              },
-              "queryMapping": {
-
-              }
-            }
+            "target": "application",
+            "path": "/test"
           }
         }
       },

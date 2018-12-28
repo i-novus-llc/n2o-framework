@@ -7,14 +7,13 @@ import Wireframe from '../../../components/snippets/Wireframe/Wireframe';
 
 const stories = storiesOf('UI Компоненты/Меню сверху', module);
 
-stories.addWithJSX('Поиск', () => {
+stories.add('Компонент', () => {
   return (
     <div>
       <SimpleHeader
         brandImage={'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'}
         activeId={'link'}
         fixed={false}
-        search={true}
         items={simpleHeaderMetadata.items}
         extraItems={simpleHeaderMetadata.extraItems}
         color="inverse"

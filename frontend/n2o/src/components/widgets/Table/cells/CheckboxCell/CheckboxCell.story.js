@@ -47,8 +47,7 @@ const metadata = {
         {
           ...CheckboxCellJson,
           id: 'checkBox2',
-          fieldKey: 'checkBox2',
-          readOnly: true
+          fieldKey: 'checkBox2'
         }
       ],
       headers: [
@@ -77,11 +76,8 @@ stories.addDecorator(withTests('CheckboxCell'));
 
 stories.addDecorator(withPage(metadata)).add('Метаданные', () => {
   let data = {
-    list: [
-      { id: 0, description: 'Чекбокс', checkBox: false, checkBox2: true },
-      { id: 1, description: 'Чекбокс на чтение', checkBox: true, checkBox2: false }
-    ],
-    count: 2
+    list: [{ id: 0, description: 'Чекбокс', checkBox: false, checkBox2: true }],
+    count: 1
   };
 
   const getStub = () => {

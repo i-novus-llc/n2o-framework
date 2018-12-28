@@ -35,11 +35,11 @@ stories
 
     return <Factory level={WIDGETS} {...ShowModal['Page_Form']} id="Page_Form" />;
   })
-  .add('Заголовок модального окна', () => {
-    fetchMock.restore().get('begin:n2o/page', page);
-
-    return <Factory level={WIDGETS} {...ShowModalTitle['Page_Form']} id="Page_Form" />;
-  })
+  // .add('Заголовок модального окна', () => {
+  //   fetchMock.restore().get('begin:n2o/page', page);
+  //
+  //   return <Factory level={WIDGETS} {...ShowModalTitle['Page_Form']} id="Page_Form" />;
+  // })
   .add('Прелоадер модального окна', () => {
     return <ModalWindow />;
   });

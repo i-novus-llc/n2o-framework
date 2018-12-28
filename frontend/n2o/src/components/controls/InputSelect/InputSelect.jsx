@@ -319,7 +319,7 @@ class InputSelect extends React.Component {
    */
 
   _clearSearchField() {
-    this.setState({ input: '', options: this.props.options }, this._handleDataSearch);
+    this.setState({ input: '' }, this._handleDataSearch);
   }
 
   /**
@@ -371,6 +371,7 @@ class InputSelect extends React.Component {
       alerts
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
+
     return (
       <Dropdown
         style={inputSelectStyle}

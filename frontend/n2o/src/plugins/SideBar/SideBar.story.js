@@ -14,7 +14,7 @@ const stories = storiesOf('UI Компоненты/Меню слева', module)
 stories.addDecorator(withKnobs);
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       brandImage: text('brandImage', 'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'),
       color: select('color', ['default', 'inverse'], 'inverse'),
@@ -40,7 +40,7 @@ stories
       </Template>
     );
   })
-  .addWithJSX('Ограничение доступа', () => {
+  .add('Ограничение доступа', () => {
     return (
       <Template>
         <SidebarContainer {...sidebarMetadata} />

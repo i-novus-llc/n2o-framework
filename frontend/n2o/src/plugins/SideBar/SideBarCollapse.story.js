@@ -9,7 +9,7 @@ import sidebarMetadata from './sidebarMetadata.meta.json';
 
 const stories = storiesOf('UI Компоненты/Меню слева', module);
 
-stories.addWithJSX(
+stories.add(
   'Сжатие',
   withState({ visible: true }, store => {
     return (

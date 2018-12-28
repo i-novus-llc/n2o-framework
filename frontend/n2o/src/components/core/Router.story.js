@@ -27,7 +27,7 @@ storiesOf('Роутинг', module).add('Проверки mapping', () => {
   return (
     <div>
       <div className="row">
-        <div className="col-4">
+        <div className="col-6">
           <h5>Меню</h5>
           <div className="nav flex-column">
             <Link className="nav-link" to="/">
@@ -44,7 +44,7 @@ storiesOf('Роутинг', module).add('Проверки mapping', () => {
             </Link>
           </div>
         </div>
-        <div className="col-8">
+        <div className="col-6">
           <Switch>
             <Route
               path="/:pageId?"

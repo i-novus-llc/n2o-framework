@@ -109,19 +109,17 @@ describe('fetchData HOC test', () => {
   it('Обработка серверной ошибки', async () => {
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
       status: 401,
-      response: {
-        json: () => ({
-          meta: {
-            alert: {
-              messages: [
-                {
-                  severity: 'danger',
-                  text: 'Произошла внутренняя ошибка'
-                }
-              ]
-            }
+      body: {
+        meta: {
+          alert: {
+            messages: [
+              {
+                severity: 'danger',
+                text: 'Произошла внутренняя ошибка'
+              }
+            ]
           }
-        })
+        }
       }
     }));
 

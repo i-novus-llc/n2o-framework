@@ -17,7 +17,7 @@ stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('BadgeCell'));
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       headers: [
         {
@@ -47,11 +47,7 @@ stories
       ]
     };
 
-    return (
-      <div style={{ width: 120 }}>
-        <Table headers={props.headers} cells={props.cells} datasource={props.datasource} />
-      </div>
-    );
+    return <Table headers={props.headers} cells={props.cells} datasource={props.datasource} />;
   })
 
   .add('Метаданные', () => {
@@ -98,7 +94,7 @@ stories
     return <Table headers={props.headers} cells={props.cells} datasource={props.datasource} />;
   })
 
-  .addWithJSX('Примеры', () => {
+  .add('Примеры', () => {
     const getProps = (placement, props) => {
       return {
         headers: [

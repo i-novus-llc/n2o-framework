@@ -2,9 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
-
+import { set } from 'lodash';
 import TableData from './Table/TableWidget.meta.json';
-import filter from './filter.meta.json';
 import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
@@ -12,8 +11,9 @@ import withPage from '../../../.storybook/decorators/withPage';
 const stories = storiesOf('Виджеты/Таблица', module);
 
 stories.addDecorator(withPage(TableData)).add('Выборочное сбрасывание фильтра', () => {
-  fetchMock.restore().getOnce('begin:n2o/data', getStubData);
+  fetchMock.restore().get('begin:n2o/data', getStubData);
   const filter = {
+    filterPlace: 'top',
     filterFieldsets: [
       {
         src: 'StandardFieldset',
@@ -27,7 +27,7 @@ stories.addDecorator(withPage(TableData)).add('Выборочное сбрасы
                     label: 'Имя',
                     description: 'Это поле не сбросится',
                     control: {
-                      src: 'Input'
+                      src: 'InputText'
                     }
                   }
                 ]
@@ -38,7 +38,7 @@ stories.addDecorator(withPage(TableData)).add('Выборочное сбрасы
                     id: 'surname',
                     label: 'Фамилия',
                     control: {
-                      src: 'Input'
+                      src: 'InputText'
                     }
                   }
                 ]
@@ -51,9 +51,12 @@ stories.addDecorator(withPage(TableData)).add('Выборочное сбрасы
     filterButtonId: 'filter',
     blackResetList: ['name']
   };
+
+  const newProps = { ...set(TableData['Page_Table'], 'filter', filter) };
+
   return (
     <div>
-      <Factory level={WIDGETS} {...TableData['Page_Table']} id="Page_Table" filter={filter} />
+      <Factory level={WIDGETS} {...newProps} id="Page_Table" />
     </div>
   );
 });

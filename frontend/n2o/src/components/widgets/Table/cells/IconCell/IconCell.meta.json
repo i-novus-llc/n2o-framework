@@ -2,5 +2,11 @@
   "id": "name",
   "type": "iconAndText",
   "textPlace": "left",
-  "icon": "fa fa-plus"
+  "icon": "fa fa-plus",
+  "action":{
+    "src": "link",
+    "options": {
+      "path": "/test"
+    }
+  }
 }

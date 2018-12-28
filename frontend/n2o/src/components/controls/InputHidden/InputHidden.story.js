@@ -8,7 +8,7 @@ const stories = storiesOf('Контролы/Скрытое поле', module);
 stories.addDecorator(withKnobs);
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       value: text('Значение', 'InputHidden value')
     };
@@ -20,7 +20,7 @@ stories
       </div>
     );
   })
-  .addWithJSX('Метаданные', () => {
+  .add('Метаданные', () => {
     return (
       <div>
         <p>Здесь находиться скрытое поле</p>

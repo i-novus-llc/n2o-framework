@@ -95,7 +95,7 @@
                       "id": "surname",
                       "label": "Фамилия",
                       "required": true,
-                      "help": "<p><strong>Lorem ipsum dolor sit amet</strong>, consectetur adipiscing elit.</p><p><span style='color: #ff0000;'><em>Cras imperdiet suscipit quam a varius.</em></span> Etiam pretium, <span style='text-decoration: underline;'>diam lacus volutpat eros</span>.</p><ul><li>Pellentesque venenatis sem id</li><li>Proin cursus risus libero</li><li>Maecenas quis mauris varius</li></ul><p><a href='https://www.google.ru/'>Proin et convallis felis ...</a></p>",
+                      "help": "<p>При вводе скрывается поле 'Имя', чтобы поле появилось введите 'test'</p>",
                       "control": {
                         "src": "InputText",
                         "length": 10
