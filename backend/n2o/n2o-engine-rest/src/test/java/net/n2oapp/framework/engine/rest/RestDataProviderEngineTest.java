@@ -15,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RestDataProviderEngineTest {
     @Test
-    public void testSimple() throws Exception {
+    public void testSimple() {
         Properties properties = new Properties();
         properties.put("n2o.engine.mapper", "spel");
         new TestStaticProperties().setProperties(properties);
@@ -52,7 +52,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testDatasetMapper() throws Exception {
+    public void testDatasetMapper() {
         Properties properties = new Properties();
         properties.put("n2o.engine.mapper", "dataset");
         new TestStaticProperties().setProperties(properties);
@@ -78,7 +78,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testReplacePlaceholders() throws Exception {
+    public void testReplacePlaceholders() {
         DataSet res = new DataSet();
         res.put("id", 1);
         res.put("name", "test");
@@ -136,7 +136,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testBaseUrl() throws Exception {
+    public void testBaseUrl() {
         DataSet res = new DataSet();
         res.put("id", 1);
         res.put("name", "test");
@@ -163,7 +163,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testNoMethodSet() throws Exception {
+    public void testNoMethodSet() {
         DataSet req = new DataSet();
         req.put("id", 1);
         req.put("name", "test");

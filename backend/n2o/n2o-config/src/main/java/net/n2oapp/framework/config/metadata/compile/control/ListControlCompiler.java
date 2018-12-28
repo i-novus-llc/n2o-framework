@@ -52,6 +52,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
         listControl.setHasSearch(p.cast(source.getSearch(), false));
+        listControl.setQueryId(source.getQueryId());
         return compileStandardField(listControl, source, context, p);
     }
 

@@ -93,4 +93,30 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(((StandardField) form.getComponent().getFieldsets()
                 .get(0).getRows().get(0).getCols().get(3).getFields().get(0)).getLabel(), is("F2"));
     }
+
+    /**
+     * Форма по своим полям собирает саб-модели и кладёт в QueryContext
+     * проверяется, что по этому контексту получим Query с саб-моделями
+     */
+    @Test
+    public void testSubModels() {
+        ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
+                "net/n2oapp/framework/config/metadata/compile/query/testSubModel.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/query/testSubModel.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
+
+        pipeline.get(new WidgetContext("testSubModel"));
+
+        builder.getEnvironment().getRouteRegister().forEach(
+                routeInfo -> {
+                    if (routeInfo.getUrlPattern().equals("/w")) {
+                        CompiledQuery query = pipeline.get((QueryContext) routeInfo.getContext());
+                        assertThat(query.getSubModelQueries().size(), is(1));
+                        assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
+                        assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
+                    }
+                }
+        );
+
+    }
 }

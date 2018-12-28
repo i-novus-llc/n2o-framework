@@ -15,43 +15,28 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * User: operehod
  * Date: 26.01.2015
  * Time: 17:48
  */
-public class MultiListFieldSubModelQuery implements SubModelQuery {
+public class MultiListFieldSubModelQuery extends SubModelQuery {
 
     private static final Logger logger = LoggerFactory.getLogger(SingleListFieldSubModelQuery.class);
 
-    private String subModel;
-    private String queryId;
-    private String valueFieldId;
-    private String labelFieldId;
-
     public MultiListFieldSubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId) {
-        this.subModel = subModel;
-        this.labelFieldId = labelFieldId;
-        this.queryId = queryId;
-        this.valueFieldId = valueFieldId;
-    }
-
-
-    @Override
-    public String getSubModel() {
-        return subModel;
+        super(subModel, queryId, valueFieldId, labelFieldId);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void applySubModel(
             Map<String, Object> dataSet,
-            Function<String, CompiledQuery> querySupplier,
+            CompiledQuery subQuery,
             BiFunction<CompiledQuery, N2oPreparedCriteria, CollectionPage<DataSet>> queryExecutor) {
 
-        Object subModelValue = dataSet.get(subModel);
+        Object subModelValue = dataSet.get(getSubModel());
 
         //работа с dataSet закончена
         dataSet = null;
@@ -70,29 +55,28 @@ public class MultiListFieldSubModelQuery implements SubModelQuery {
             return;
         }
 
-        if (subModels.get(0).get(labelFieldId) == null && subModels.get(0).get(valueFieldId) == null) {
+        if (subModels.get(0).get(getLabelFieldId()) == null && subModels.get(0).get(getValueFieldId()) == null) {
             subModels.clear();
             return;
         }
 
-        CompiledQuery subQuery = querySupplier.apply(queryId);
-        N2oQuery.Field field = subQuery.getFieldsMap().get(valueFieldId);
+        N2oQuery.Field field = subQuery.getFieldsMap().get(getValueFieldId());
 
         if (field == null)
-            throw new N2oException(String.format("field [%s] not found in query [%s]", valueFieldId, queryId));
+            throw new N2oException(String.format("field [%s] not found in query [%s]", getValueFieldId(), getQueryId()));
 
         for (Map<String, Object> subModel : subModels) {
 
             //если label есть, то subQuery не выполняем
-            if (subModel.get(labelFieldId) != null || subModel.get(valueFieldId) == null) return;
+            if (subModel.get(getLabelFieldId()) != null || subModel.get(getValueFieldId()) == null) return;
 
 
-            Object value = subModel.get(valueFieldId);
+            Object value = subModel.get(getValueFieldId());
             //если значение динамическое, то subQuery не выполняем
             if (StringUtils.isDynamicValue(value)) return;
 
             value = DomainProcessor.getInstance().doDomainConversion(field.getDomain(), value);
-            N2oPreparedCriteria criteria = N2oPreparedCriteria.simpleCriteriaOneRecord(valueFieldId, value);
+            N2oPreparedCriteria criteria = N2oPreparedCriteria.simpleCriteriaOneRecord(getValueFieldId(), value);
             CollectionPage<DataSet> subData = queryExecutor.apply(subQuery, criteria);
             if (subData.getCollection().size() > 1) {
                 logger.warn("SubQuery for subModel '{}' return more then 1 row...({} rows)", subModel, subData.getCollection().size());

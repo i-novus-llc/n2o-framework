@@ -50,7 +50,7 @@ public abstract class N2oListField extends N2oStandardField {
     }
 
 
-    protected abstract boolean isSingle();
+    public abstract boolean isSingle();
 
     public enum PopupScaling {
         auto, nowrap, normal

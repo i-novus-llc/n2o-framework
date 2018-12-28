@@ -5,8 +5,6 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oJavaMethod;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -71,6 +69,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setFilterFieldsMap(Collections.unmodifiableMap(initFilterFieldsMap(query.getFiltersMap())));
         query.setParamToFilterIdMap(Collections.unmodifiableMap(initParamToFilterIdMap(query.getFilterFieldsMap(), p)));
         query.setFilterIdToParamMap(Collections.unmodifiableMap(initFilterIdToParamMap(query.getParamToFilterIdMap())));
+        query.setSubModelQueries(context.getSubModelQueries());
         initExpressions(query);
         query.setProperties(p.mapAttributes(source));
         return query;

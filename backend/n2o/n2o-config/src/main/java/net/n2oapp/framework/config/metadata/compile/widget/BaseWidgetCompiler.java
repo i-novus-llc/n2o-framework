@@ -5,29 +5,35 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.MultiListFieldSubModelQuery;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SingleListFieldSubModelQuery;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
-import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -286,12 +292,17 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            ValidationList validationList) {
         QueryContext queryContext = new QueryContext(query.getId(), route);
         queryContext.setValidations(validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER));
-        queryContext.setQuerySize(widget instanceof Form ? 1 : 10);
         queryContext.setFilters(widget.getFilters());
         queryContext.setUpload(widget.getUpload());
         queryContext.setFailAlertWidgetId(getFailAlertWidget(widget));
         queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(widget));
         queryContext.setMessagesForm(getMessagesForm(widget));
+        if (source instanceof N2oForm) {
+            queryContext.setSubModelQueries(initSubModelQueries(source));
+            queryContext.setQuerySize(1);
+        } else {
+            queryContext.setQuerySize(10);
+        }
 
         return queryContext;
     }
@@ -495,5 +506,55 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         } else {
             return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
         }
+    }
+
+    private List<SubModelQuery> initSubModelQueries(Source source) {
+        List<SubModelQuery> subModelQueries = new ArrayList<>();
+        NamespaceUriAware[] items = ((N2oForm) source).getItems();
+        if (items != null) {
+            for (NamespaceUriAware item : items)
+                fillSubModelQueries(item, subModelQueries);
+        }
+        return subModelQueries.isEmpty() ? null : subModelQueries;
+    }
+
+    private void fillSubModelQueries(NamespaceUriAware item, final List<SubModelQuery> subModelQueries) {
+        if (item instanceof N2oListField) {
+            subModelQueries.add(createSubModel((N2oListField) item));
+        } else if (item instanceof N2oFieldsetColumn) {
+            N2oFieldsetColumn fieldsetColumn = (N2oFieldsetColumn) item;
+            if (fieldsetColumn.getItems() != null) {
+                for (NamespaceUriAware innerItem : fieldsetColumn.getItems()) {
+                    fillSubModelQueries(innerItem, subModelQueries);
+                }
+            }
+        } else if (item instanceof N2oFieldsetRow) {
+            N2oFieldsetRow fieldsetRow = (N2oFieldsetRow) item;
+            if (fieldsetRow.getItems() != null) {
+                for (NamespaceUriAware innerItem : fieldsetRow.getItems()) {
+                    fillSubModelQueries(innerItem, subModelQueries);
+                }
+            }
+        }
+    }
+
+    private SubModelQuery createSubModel(N2oListField item) {
+        SubModelQuery subModelQuery;
+        if (item.isSingle()) {
+            subModelQuery = new SingleListFieldSubModelQuery(
+                    item.getId(),
+                    item.getQueryId(),
+                    item.getValueFieldId() != null ? item.getValueFieldId() : "id",
+                    item.getLabelFieldId()
+            );
+        } else {
+            subModelQuery = new MultiListFieldSubModelQuery(
+                    item.getId(),
+                    item.getQueryId(),
+                    item.getValueFieldId() != null ? item.getValueFieldId() : "id",
+                    item.getLabelFieldId()
+            );
+        }
+        return subModelQuery;
     }
 }

@@ -1,8 +1,10 @@
 package net.n2oapp.framework.api.metadata.compile;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
@@ -104,6 +106,14 @@ public interface CompileProcessor {
      */
     Object resolve(String value);
 
+    /**
+     * Добавляет в датасет данные списковых компонентов по идентификатору
+     *
+     * @param subModelQueries информация о списковом компоненте
+     * @param dataSet         входные данные
+     * @return данные после разрешения полей
+     */
+    DataSet resolveSubModels(SubModelQuery subModelQueries, DataSet dataSet);
 
     /**
      * Заменить в тексте плейсхолдеры на значения
@@ -112,8 +122,8 @@ public interface CompileProcessor {
      * @return Текст со значениями вместо плейсхолдеров
      */
     String resolveText(String text);
-    
-     /**
+
+    /**
      * Заменить в строке плейсхолдеры {...} на значения, кроме исключений
      *
      * @param text Строка с плейсхолдерами
@@ -124,8 +134,8 @@ public interface CompileProcessor {
     /**
      * Заменить в адресе плейсхолдеры на значения
      *
-     * @param url    Адрес
-     * @param pathMappings path параметры
+     * @param url           Адрес
+     * @param pathMappings  path параметры
      * @param queryMappings query параметры
      * @return Адрес со значениями вместо плейсхолдеров
      */
@@ -150,6 +160,7 @@ public interface CompileProcessor {
 
     /**
      * Превратить текст с ссылками в JS код
+     *
      * @param text Текст
      * @return JS код или текст, если в нем нет ссылок
      */

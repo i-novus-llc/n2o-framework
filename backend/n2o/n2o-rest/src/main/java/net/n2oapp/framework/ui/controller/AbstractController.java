@@ -182,6 +182,7 @@ public abstract class AbstractController {
         requestInfo.setSuccessAlertWidgetId(queryCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(queryCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
+        requestInfo.setSize(requestInfo.getCriteria().getSize());
         prepareSelectedId(requestInfo);
         return requestInfo;
     }

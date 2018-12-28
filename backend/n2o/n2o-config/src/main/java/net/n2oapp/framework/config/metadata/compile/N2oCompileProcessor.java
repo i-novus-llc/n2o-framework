@@ -9,11 +9,13 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
 import java.util.*;
@@ -33,6 +35,7 @@ public class N2oCompileProcessor implements CompileProcessor {
     private CompileTerminalPipeline<?> compilePipeline;
     private ReadCompileTerminalPipeline<?> readCompilePipeline;
     private ReadTerminalPipeline<?> readPipeline;
+    private SubModelsProcessor subModelsProcessor;
     /**
      * Контекст на входе в pipeline, используется не для компиляции, а для bind
      */
@@ -50,6 +53,7 @@ public class N2oCompileProcessor implements CompileProcessor {
         this.readPipeline = env.getReadPipelineFunction().apply(pipelineSupport);
         this.readCompilePipeline = env.getReadCompilePipelineFunction().apply(pipelineSupport);
         this.compilePipeline = env.getCompilePipelineFunction().apply(pipelineSupport);
+        this.subModelsProcessor = env.getSubModelsProcessor();
     }
 
     /**
@@ -148,6 +152,12 @@ public class N2oCompileProcessor implements CompileProcessor {
     @Override
     public Object resolve(String value) {
         return env.getDomainProcessor().doDomainConversion(null, value);
+    }
+
+    @Override
+    public DataSet resolveSubModels(SubModelQuery subModelQueries, DataSet dataSet) {
+        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQueries), dataSet, null);
+        return dataSet;
     }
 
     @Override

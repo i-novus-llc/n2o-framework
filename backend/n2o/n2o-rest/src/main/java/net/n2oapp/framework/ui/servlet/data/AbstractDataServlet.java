@@ -52,34 +52,34 @@ public abstract class AbstractDataServlet extends N2oServlet {
                 result.setContainerId(entry.getValue());
                 continue;
             }
-            if (entry.getKey().toString().equals("page")) {
+            if (entry.getKey().equals("page")) {
                 result.setPage(Integer.valueOf(entry.getValue()));
                 continue;
             }
-            if (entry.getKey().toString().equals("size")) {
+            if (entry.getKey().equals("size")) {
                 result.setSize(Integer.valueOf(entry.getValue()));
                 continue;
             }
-            if (entry.getKey().toString().equals("count")) {
+            if (entry.getKey().equals("count")) {
                 result.setCount(Integer.valueOf(entry.getValue()));
                 continue;
             }
-            if (entry.getKey().toString().equals("contentType")) {
+            if (entry.getKey().equals("contentType")) {
                 result.setContentType(entry.getValue());
                 continue;
             }
-            if (entry.getKey().toString().startsWith("sorting.")) {
-                String fieldId = entry.getKey().toString().substring("sorting.".length());
+            if (entry.getKey().startsWith("sorting.")) {
+                String fieldId = entry.getKey().substring("sorting.".length());
                 Direction direction = Direction.valueOf(entry.getValue());
                 result.getSortings().put(fieldId, direction);
                 continue;
             }
-            if (entry.getKey().toString().startsWith("filter.")) {
-                String fieldId = entry.getKey().toString().substring("filter.".length());
+            if (entry.getKey().startsWith("filter.")) {
+                String fieldId = entry.getKey().substring("filter.".length());
                 result.getFilters().put(fieldId, entry.getValue());
                 continue;
             }
-            if (entry.getKey().toString().equals("encoding")) {
+            if (entry.getKey().equals("encoding")) {
                 continue;
             }
             if (entry.getKey().equals("columns")) {
@@ -89,7 +89,7 @@ public abstract class AbstractDataServlet extends N2oServlet {
             ControllerArgumentException.throwUnknownParameter(entry.getKey());
         }
 
-        if(request.getHeader("query-source") != null) {
+        if (request.getHeader("query-source") != null) {
             result.setQuerySource(request.getHeader("query-source"));
         }
 
@@ -126,8 +126,6 @@ public abstract class AbstractDataServlet extends N2oServlet {
             return objectMapper.readValue(body, DataSet.class);
         }
     }
-
-
 
 
 }

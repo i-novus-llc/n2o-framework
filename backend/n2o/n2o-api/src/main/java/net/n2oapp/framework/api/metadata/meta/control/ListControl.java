@@ -33,6 +33,8 @@ public abstract class ListControl extends Control {
     @JsonProperty
     private Boolean closePopupOnSelect;
 
+    private String queryId;
+
     @JsonProperty
     private String format;
     @JsonProperty
