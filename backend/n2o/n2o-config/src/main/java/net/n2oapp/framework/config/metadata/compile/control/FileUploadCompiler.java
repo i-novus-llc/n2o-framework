@@ -32,6 +32,8 @@ public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFil
                 p.resolve(property("n2o.api.control.fileupload.label_field_id"), String.class)));
         compiled.setUrlFieldId(p.cast(source.getUrlFieldId(),
                 p.resolve(property("n2o.api.control.fileupload.url_field_id"), String.class)));
+        compiled.setResponseFieldId(p.cast(source.getMessageFieldId(),
+                p.resolve(property("n2o.api.control.fileupload.response_field_id"), String.class)));
         compiled.setControlSrc(p.cast(source.getSrc(),
                 p.resolve(property("n2o.api.control.fileupload.src"), String.class)));
         return compileStandardField(compiled, source, context, p);
