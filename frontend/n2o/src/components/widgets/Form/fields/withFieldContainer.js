@@ -53,7 +53,7 @@ export default Field => {
     onChange(e) {
       const { input, onChange } = this.props;
       input && input.onChange(e);
-      onChange && onChange(e.target.value);
+      onChange && onChange(e);
     }
 
     /**
@@ -107,10 +107,7 @@ export default Field => {
         ...propsResolver(this.props, this.context._reduxForm.getValues()),
         ...meta,
         validationClass: this.getValidationState(message),
-        value: (input && input.value) || value,
-        onChange: this.onChange,
-        onFocus: this.onFocus,
-        onBlur: this.onBlur
+        ...input
       };
     }
 
