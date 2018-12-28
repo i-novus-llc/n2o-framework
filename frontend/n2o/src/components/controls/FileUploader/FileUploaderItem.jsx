@@ -48,7 +48,9 @@ class FileUploaderItem extends React.Component {
             {file.name}
           </a>
           {!isEmpty(file.error) && (
-            <Tooltip isOpen={this.state.tooltipOpen} target={file.id} toggle={this.toggle} />
+            <Tooltip isOpen={this.state.tooltipOpen} target={file.id} toggle={this.toggle}>
+              {file.error}
+            </Tooltip>
           )}
           <span>
             {showSize && (

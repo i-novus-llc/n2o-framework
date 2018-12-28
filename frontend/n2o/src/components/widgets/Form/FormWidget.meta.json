@@ -95,7 +95,7 @@
                       "id": "surname",
                       "label": "Фамилия",
                       "required": true,
-                      "help": "<p>При вводе скрывается поле 'Имя', чтобы поле появилось введите 'test'</p>",
+                      "help": "<p><strong>При вводе скрывается поле <span style='color: #ff0000;'>'Имя'</span>, чтобы поле появилось введите 'test'</strong></p>",
                       "control": {
                         "src": "InputText",
                         "length": 10

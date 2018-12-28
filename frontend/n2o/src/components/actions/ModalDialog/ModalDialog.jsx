@@ -35,8 +35,8 @@ class ModalDialog extends React.Component {
       size,
       title,
       text,
-      denyText,
-      confirmText,
+      okLabel,
+      cancelLabel,
       onConfirm,
       onDeny,
       visible,
@@ -55,10 +55,10 @@ class ModalDialog extends React.Component {
         <ModalFooter>
           <ButtonGroup>
             <Button onClick={onConfirm} color="primary">
-              {denyText || <FormattedMessage id="dialog.confirm" defaultMessage="Да" />}
+              {okLabel || <FormattedMessage id="dialog.confirm" defaultMessage="Да" />}
             </Button>
             <Button onClick={onDeny}>
-              {confirmText || <FormattedMessage id="dialog.deny" defaultMessage="Нет" />}
+              {cancelLabel || <FormattedMessage id="dialog.deny" defaultMessage="Нет" />}
             </Button>
           </ButtonGroup>
         </ModalFooter>
