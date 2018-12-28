@@ -1,37 +1,33 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { pick, defaultTo } from 'lodash';
+import { pick, isEmpty } from 'lodash';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';
+import SecurityCheck from '../../../../../core/auth/SecurityCheck';
 
 /**
  * Кнопка с тултипом
  * @param label - Название кнопки
  * @param hint - Тултип кнопки
  * @param visible - Видимость кнопки
- * @param disabled - Активность кнопки
- * @param id - уникальный идентификатор
+ * @param uId - уникальный идентификатор
  * @param icon - Иконка кнопки
  * @param action - Переданное действие
- * @param placement - Расположение тултипа, по дефолту bottom
- * @param color - цвет кнопки, по дефолту link т.е отображается как ссылка
- * @param active - Кнопка находится в активном состоянии
- * @param size - Размеры кнопки (lg, md, sm). По дефолту md
- * @param delay - Задержка перед показом тултипа
- * @param hideArrow - Показать скрыть стрелку тултипа
- * @param offset - Смещение тултипа относительно положения заданной placement
+ * @param onClick - функция обработки клика
+ * @param security - объект настройки прав
+ * @param rest - остальные props
  * @returns {*}
  * @constructor
  */
-function HintButton({ uId, label, hint, visible, id, icon, onClick, action, ...rest }) {
+function HintButton({ uId, label, hint, visible, icon, onClick, action, security, ...rest }) {
   const otherBtnProps = pick(rest, ['size', 'active', 'color', 'disabled']);
   const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
 
   const handlerClick = action => () => onClick(action);
 
-  return (
-    visible && (
+  const render = () =>
+    visible ? (
       <Fragment>
         <Button id={uId} onClick={handlerClick(action)} {...otherBtnProps}>
           {icon && <Icon name={icon} />}
@@ -43,7 +39,17 @@ function HintButton({ uId, label, hint, visible, id, icon, onClick, action, ...r
           </UncontrolledTooltip>
         )}
       </Fragment>
-    )
+    ) : null;
+
+  return isEmpty(security) ? (
+    render()
+  ) : (
+    <SecurityCheck
+      config={security}
+      render={({ permissions }) => {
+        return permissions ? render() : null;
+      }}
+    />
   );
 }
 
