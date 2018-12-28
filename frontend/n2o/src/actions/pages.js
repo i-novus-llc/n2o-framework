@@ -23,7 +23,7 @@ export function metadataRequest(pageId, rootPage, pageUrl, mapping) {
 /**
  * Вспомогательный экшен. Успешный запрос за данными.
  * @ignore
- * @param pageId - уникальный индефикатор виджета
+ * @param pageId - уникальный идентификатор виджета
  * @param json - response в виде json
  */
 export function metadataSuccess(pageId, json) {

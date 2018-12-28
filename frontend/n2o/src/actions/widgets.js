@@ -29,7 +29,7 @@ import createActionHelper from './createActionHelper';
 
 /**
  * Регистрация виджета в хранилище
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @param initProps - стартовые свойства
  * @example
  * dispatch(registerWidget("Page.Widget", {isVisible: false}))
@@ -40,7 +40,7 @@ export function registerWidget(widgetId, initProps) {
 
 /**
  * Запрос за данными
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @param options - опции для `fetch`
  * @example
  * dispatch(dataRequestWidget("Page.Widget", {size: 200}))
@@ -52,7 +52,7 @@ export function dataRequestWidget(widgetId, options = {}) {
 /**
  * Вспомогательный экшен. Успешный запрос за данными.
  * @ignore
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @param json - response в виде json
  */
 export function dataSuccessWidget(widgetId, json) {
@@ -70,7 +70,7 @@ export function dataSuccessWidget(widgetId, json) {
 /**
  * Вспомогательный экшен. Ошибка при запросе за данными.
  * @ignore
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @param err - объект ошибки
  * @param errorResponse - json ответа
  */
@@ -89,7 +89,7 @@ export function dataFailWidget(widgetId, err, errorResponse = {}) {
 /**
  * Вызывает действие разрешения виджета.
  * Side-effect: зависимости, простановка в resolve-модель
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  */
 export function resolveWidget(widgetId, resolveModel) {
   return createActionHelper(RESOLVE)({ widgetId, model: resolveModel });
@@ -97,7 +97,7 @@ export function resolveWidget(widgetId, resolveModel) {
 
 /**
  * Удаляет виджет из хранилища
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @example
  * dispatch(removeWidget("Page.Widget"))
  */
@@ -107,7 +107,7 @@ export function removeWidget(widgetId) {
 
 /**
  * Сделать виджет видимым
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @example
  * dispatch(showWidget("Page.Widget"))
  */
@@ -117,7 +117,7 @@ export function showWidget(widgetId) {
 
 /**
  * Сделать виджет невидимым
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @example
  * dispatch(hideWidget("Page.Widget"))
  */
@@ -127,7 +127,7 @@ export function hideWidget(widgetId) {
 
 /**
  * Сделать виджет разблокированым
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @example
  * dispatch(enableWidget("Page.Widget"))
  */
@@ -137,7 +137,7 @@ export function enableWidget(widgetId) {
 
 /**
  * Сделать виджет заблокированым
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @example
  * dispatch(disableWidget("Page.Widget"))
  */
@@ -147,7 +147,7 @@ export function disableWidget(widgetId) {
 
 /**
  * Активировать анимацию загрузки у виджета
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @example
  * dispatch(loadingWidget("Page.Widget"))
  */
@@ -157,7 +157,7 @@ export function loadingWidget(widgetId) {
 
 /**
  * Деактивировать анимацию загрузки у виджета
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @example
  * dispatch(unloadingWidget("Page.Widget"))
  */
@@ -196,7 +196,7 @@ export function sortByWidget(widgetId, fieldKey, sortDirection) {
 /**
  * Меняет номер страницы виджета
  * Этот параметр используется при запросах на сервер
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @param page - номер страницы
  */
 export function changePageWidget(widgetId, page) {
@@ -206,7 +206,7 @@ export function changePageWidget(widgetId, page) {
 /**
  * Меняет количество записей в виджете.
  * Этот параметр служит для отрисовки пейджинга
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @param count - кол-во записей
  */
 export function changeCountWidget(widgetId, count) {
@@ -216,7 +216,7 @@ export function changeCountWidget(widgetId, count) {
 /**
  * Меняет размер выборки виджета
  * Этот параметр используется при запросах на сервер
- * @param widgetId - уникальный индефикатор виджета
+ * @param widgetId - уникальный идентификатор виджета
  * @param size - размер выборки
  */
 export function changeSizeWidget(widgetId, size) {

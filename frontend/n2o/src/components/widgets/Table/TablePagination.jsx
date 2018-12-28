@@ -12,7 +12,7 @@ import { dataRequestWidget, changePageWidget } from '../../../actions/widgets';
 
 /**
  * Компонент табличной пейджинации. По `widgetId` автоматически определяет все свойства для `Paging`
- * @reactProps {string} widgetId - уникальный индефикатор виджета
+ * @reactProps {string} widgetId - уникальный идентификатор виджета
  * @reactProps {number} count
  * @reactProps {number} size
  * @reactProps {number} activePage

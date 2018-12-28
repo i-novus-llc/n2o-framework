@@ -8,7 +8,7 @@ import { removeAlert } from '../../actions/alerts';
 
 /**
  * Компонент-редакс-обертка над алертами виджета
- * @reactProps {string} widgetId - уникальный индефикатор виджета
+ * @reactProps {string} widgetId - уникальный идентификатор виджета
  * @reactProps {array} alerts - массив алертов
  */
 class WidgetAlerts extends Component {

@@ -6,7 +6,7 @@ import Popover from '../../../../snippets/Popover/Popover';
 
 /**
  * Лейбел поля
- * @param {string} id - уникальный индефикатор
+ * @param {string} id - уникальный идентификатор
  * @param {string|element} value - текст/элемент лейбела
  * @param {boolean} required - поле обязательное(к лейбелу добавляется звездочка) или нет
  * @param {string} className - дополнительный класс стиля
