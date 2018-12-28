@@ -1,7 +1,7 @@
-import { isNumber } from 'lodash';
+import { isNumber, isNil, toNumber } from 'lodash';
 
 export function formatToFloat(val, precision) {
-  if (!val) return null;
+  if (isNil(val) || val === '') return null;
   const str = val
     .toString()
     .trim()
@@ -11,7 +11,7 @@ export function formatToFloat(val, precision) {
       ? str.length
       : str.indexOf('.', str.indexOf('.') + 1);
   const formattedStr = str.slice(0, end);
-  return Number(formattedStr).toFixed(precision);
+  return toNumber(formattedStr).toFixed(precision);
 }
 
 export function getPrecision(step) {
@@ -23,7 +23,10 @@ export function getPrecision(step) {
 }
 
 export function isValid(val, min, max) {
-  return !isNaN(val) && (!isNumber(max) || val <= max) && (!isNumber(min) || val >= min);
+  if (!min && !max) {
+    return true;
+  }
+  return !isNil(val) && (toNumber(val) <= toNumber(max) || toNumber(val) >= toNumber(min));
 }
 
 export function matchesWhiteList(val) {
