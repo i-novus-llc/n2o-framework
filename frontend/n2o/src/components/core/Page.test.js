@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { PageContainer } from './Page';
 import renderer from 'react-test-renderer';
 import { Provider } from 'react-redux';
@@ -230,5 +231,14 @@ describe('Тесты Page', () => {
     expect(spyFn.calledOnce).toEqual(true);
     expect(spyFn.returnValues[0]).toEqual(false);
     spyFn.restore();
+  });
+  it('Вызов reset при unmount компонента', () => {
+    const reset = sinon.spy();
+    const component = shallow(
+      <PageContainer pageId="pageId" reset={reset} getMetadata={() => null} />
+    );
+    component.unmount();
+    expect(reset.calledOnce).toEqual(true);
+    expect(reset.calledWithMatch('pageId')).toEqual(true);
   });
 });
