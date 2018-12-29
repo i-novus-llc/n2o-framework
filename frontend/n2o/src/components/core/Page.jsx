@@ -185,6 +185,8 @@ function mapDispatchToProps(dispatch, { pageId, rootPage, pageUrl, pageMapping }
   };
 }
 
+export { PageContainer };
+
 export default compose(
   branch(({ rootPage }) => rootPage, withActions),
   withPropsOnChange(['pageId', 'pageUrl'], ({ pageId, pageUrl }) => ({
