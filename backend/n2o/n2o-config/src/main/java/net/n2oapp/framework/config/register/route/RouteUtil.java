@@ -181,17 +181,9 @@ public abstract class RouteUtil {
      * @return true внутри, false снаружи
      */
     public static boolean isApplicationUrl(String url) {
-        if (url.startsWith("../"))
-            return true;//parent path relative
-        if (url.startsWith("/") && !url.startsWith("//"))
-            return true;//path relative
-        if (url.startsWith("http"))
-            return false;//absolute
-        if (url.startsWith("//"))
-            return false;//schema relative
-        if (url.contains(".") && !url.contains("/"))
-            return false;//host relative
-        return !url.contains(".") || url.indexOf(".") >= url.indexOf("/");
+        if (url.startsWith("http") || url.startsWith("//"))
+            return false;// target self or newWindow
+        return true;
     }
 
     /**
@@ -203,11 +195,9 @@ public abstract class RouteUtil {
     public static String absolute(String relativeRoute, String baseRoute) {
         if (!isApplicationUrl(relativeRoute))
             return relativeRoute;
-        if (relativeRoute.startsWith("../"))
-            return join(baseRoute, relativeRoute);
         if (relativeRoute.startsWith("/"))
             return relativeRoute;
-        return join(baseRoute, "/" + relativeRoute);
+        return join(baseRoute, relativeRoute);
     }
 
     /**
@@ -239,7 +229,7 @@ public abstract class RouteUtil {
             }
             result.append(child);
         } else {
-            result.append(parentRoute).append(childRoute);
+            result.append(parentRoute).append(normalize(childRoute));
         }
         return normalize(result.toString());
     }

@@ -50,22 +50,46 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
             pageRoute.setIsOtherPage(true);
             pageRoutes.addRoute(pageRoute);
         }
-        initPathMapping(linkAction, source, p);
+        initPathMapping(linkAction, source, p, routeScope);
         return linkAction;
     }
 
-    private void initPathMapping(LinkAction compiled, N2oAnchor source, CompileProcessor p) {
-        WidgetScope scope = p.getScope(WidgetScope.class);
-        if (scope == null
-                || scope.getClientWidgetId() == null
-                || p.getScope(ComponentScope.class).unwrap(ModelAware.class) == null)
-            return;
-        ReduxModel model = p.getScope(ComponentScope.class).unwrap(ModelAware.class).getModel();
+    private void initPathMapping(LinkAction compiled, N2oAnchor source, CompileProcessor p, ParentRoteScope routeScope ) {
         Map<String, BindLink> pathMapping = new StrictMap<>();
-        List<String> pathParams = RouteUtil.getParams(source.getHref());
-        for (String pathParam : pathParams) {
-            pathMapping.put(pathParam, Redux.createBindLink(scope.getClientWidgetId(), p.cast(model, ReduxModel.RESOLVE), pathParam));
+        if (routeScope != null && routeScope.getPathMapping() != null) {
+            List<String> pathParams = RouteUtil.getParams(compiled.getOptions().getPath());
+            routeScope.getPathMapping().forEach((k, v) -> {
+                if (pathParams.contains(k)) {
+                    pathMapping.put(k, v);
+                }
+            });
+        }
+
+        WidgetScope scope = p.getScope(WidgetScope.class);
+        if (scope != null && scope.getClientWidgetId() != null &&
+                p.getScope(ComponentScope.class).unwrap(ModelAware.class) != null) {
+            ReduxModel model = p.getScope(ComponentScope.class).unwrap(ModelAware.class).getModel();
+            if (source.getPathParams() != null) {
+                for (N2oAnchor.Param pathParam : source.getPathParams()) {
+                    pathMapping.put(pathParam.getName(), Redux.createBindLink(scope.getClientWidgetId(), p.cast(model, ReduxModel.RESOLVE), getRef(pathParam.getValue())));
+                }
+
+            }
+            if (source.getQueryParams() != null) {
+                Map<String, BindLink> queryMapping = new StrictMap<>();
+                for (N2oAnchor.Param pathParam : source.getQueryParams()) {
+                    queryMapping.put(pathParam.getName(), Redux.createBindLink(scope.getClientWidgetId(), p.cast(model, ReduxModel.RESOLVE), getRef(pathParam.getValue())));
+                }
+                compiled.getOptions().setQueryMapping(queryMapping);
+            }
         }
         compiled.getOptions().setPathMapping(pathMapping);
+    }
+
+    private String getRef (String value) {
+        if (value != null && value.startsWith("{") && value.endsWith("}")) {
+            return value.substring(1, value.length() - 1);
+        } else
+            return null;
     }
 }

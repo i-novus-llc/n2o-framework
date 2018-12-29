@@ -16,6 +16,8 @@ public class AnchorElementIOV1 extends AbstractActionElementIOV1<N2oAnchor> {
         super.io(e, a, p);
         p.attribute(e,"href", a::getHref,a::setHref);
         p.attributeEnum(e,"target",a::getTarget,a::setTarget, Target.class);
+        p.children(e, null, "path-param", a::getPathParams, a::setPathParams, N2oAnchor.Param::new, this::param);
+        p.children(e, null, "query-param", a::getQueryParams, a::setQueryParams, N2oAnchor.Param::new, this::param);
     }
 
     @Override
@@ -26,5 +28,11 @@ public class AnchorElementIOV1 extends AbstractActionElementIOV1<N2oAnchor> {
     @Override
     public Class<N2oAnchor> getElementClass() {
         return N2oAnchor.class;
+    }
+
+
+    private void param(Element e, N2oAnchor.Param param, IOProcessor p) {
+        p.attribute(e, "name", param::getName, param::setName);
+        p.attribute(e, "value", param::getValue, param::setValue);
     }
 }
