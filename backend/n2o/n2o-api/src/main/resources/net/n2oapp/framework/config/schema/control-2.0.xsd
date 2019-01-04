@@ -190,6 +190,7 @@
                 <xs:attribute name="delete-url" type="xs:string" use="optional"/>
                 <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="message-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="url-field-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>

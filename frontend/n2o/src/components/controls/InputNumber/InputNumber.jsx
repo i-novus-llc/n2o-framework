@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { findDOMNode } from 'react-dom';
+import { toNumber, toString, isNil, isString } from 'lodash';
 
 import Input from '../Input/Input';
 
@@ -27,11 +28,11 @@ import { formatToFloat, isValid, matchesWhiteList, getPrecision } from './utils'
 class InputNumber extends React.Component {
   constructor(props) {
     super(props);
-    const value = props.value ? +props.value : props.value === '0' ? 0 : null;
+    const value = props.value;
     this.precision = getPrecision(props.step);
     this.pasted = false;
     this.state = {
-      value: value !== null ? +value.toFixed(this.precision) : null
+      value: !isNil(value) && !isString(value) ? toNumber(value).toFixed(this.precision) : null
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
@@ -39,16 +40,14 @@ class InputNumber extends React.Component {
     this.onBlur = this.onBlur.bind(this);
   }
 
-  componentWillReceiveProps(props) {
+  componentDidUpdate(prevProps) {
     if (
-      (props.value || props.value === 0) &&
-      isValid(props.value, this.props.min, this.props.max)
+      prevProps.value !== this.props.value &&
+      !isNil(this.props.value) &&
+      !isString(this.props.value) &&
+      toNumber(this.props.value) !== toNumber(this.state.value)
     ) {
-      this.setState({ value: props.value });
-    }
-    if (props.step !== this.props.step) {
-      this.precision = getPrecision(props.step);
-      this.setState({ value: formatToFloat(props.value, this.precision) });
+      this.setState({ value: formatToFloat(this.props.value, this.precision) });
     }
   }
 
@@ -62,15 +61,16 @@ class InputNumber extends React.Component {
   }
 
   onChange(value) {
-    const { step, max, min, index } = this.props;
-    if (value < min || value > max) {
+    const nextValue = value === '' ? null : toNumber(value);
+    const { max, min } = this.props;
+    if (isNil(nextValue)) {
+      this.setState({ value: null }, () => this.props.onChange(null));
+    }
+    if (!isValid(nextValue, min, max)) {
       return;
     }
-    if (matchesWhiteList(value) || this.pasted) {
-      this.setState(
-        { value },
-        isValid(value, min, max) ? () => this.props.onChange(value) : undefined
-      );
+    if (matchesWhiteList(nextValue) || this.pasted) {
+      this.setState({ value }, () => this.props.onChange(nextValue));
     }
   }
 
@@ -79,32 +79,32 @@ class InputNumber extends React.Component {
    * @param type {string} - 'up' (увеличение значения) или 'down' (уменьшение значения)
    */
   buttonHandler(type) {
-    const { min, max, step, index } = this.props;
-    const delta = Number(formatToFloat(step, this.precision));
-    const val =
-      this.state.value === '' ? this.props.value || this.props.min || 0 : this.state.value;
-    const value = Number(formatToFloat(val, this.precision));
-    let newValue = value;
+    const { min, max, step } = this.props;
+    const { value } = this.state;
+    const delta = toNumber(formatToFloat(step, this.precision));
+    const val = !isNil(value) && value !== '' ? toNumber(value).toFixed(this.precision) : null;
+    const currentValue = toNumber(formatToFloat(val, this.precision));
+    let newValue = currentValue;
     if (type === 'up') {
-      newValue = value + delta;
+      newValue = currentValue + delta;
     } else if (type === 'down') {
-      newValue = value - delta;
+      newValue = currentValue - delta;
     }
-    if (isValid(value, min, max) && isValid(newValue, min, max)) {
+    if (isValid(newValue, min, max)) {
       this.setState({ value: newValue.toFixed(this.precision) }, () =>
-        this.props.onChange(this.state.value)
+        this.props.onChange(newValue)
       );
     }
   }
 
   onBlur(e) {
-    const { max, min, step } = this.props;
+    const { max, min } = this.props;
     const value = formatToFloat(this.state.value, this.precision);
     this.pasted = false;
-    if (this.state.value !== '' && isValid(Number(value), min, max)) {
+    if (!isNil(value) && isValid(value, min, max)) {
       this.setState({ value });
     } else {
-      this.setState({ value: '' });
+      this.setState({ value: null });
     }
     this.props.onBlur(e);
   }
@@ -141,7 +141,7 @@ class InputNumber extends React.Component {
           <Input
             onKeyDown={this.onKeyDown}
             name={name}
-            value={value || ''}
+            value={toString(value)}
             step={step}
             min={min}
             max={max}

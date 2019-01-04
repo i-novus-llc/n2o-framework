@@ -163,6 +163,11 @@
                 <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="filtersElementDefinition">
