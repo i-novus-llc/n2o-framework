@@ -27,7 +27,7 @@ public class DomainProcessorTest {
     @Before
     public void setUp() throws Exception {
         Properties properties = (Properties) StaticSpringContext.getBean("n2oProperties");
-        properties.setProperty("n2o.format.date", "dd.MM.yyyy HH:mm");
+        properties.setProperty("n2o.format.date", "dd.MM.yyyy HH:mm:ss");
     }
 
 
@@ -77,7 +77,7 @@ public class DomainProcessorTest {
         assert val instanceof Boolean;
         val = proc.doDomainConversion(null, "123");
         assert val instanceof Integer;
-        val = proc.doDomainConversion(null, "01.02.2014 18:15");
+        val = proc.doDomainConversion(null, "01.02.2014 18:15:00");
         assert val instanceof Date;
         val = proc.doDomainConversion(null, "125,444");
         assert val instanceof BigDecimal;
@@ -96,9 +96,9 @@ public class DomainProcessorTest {
         assert proc.doDomainConversion("Integer", "123") instanceof Integer;
         assert proc.doDomainConversion("Long", "123") instanceof Long;
         assert proc.doDomainConversion("String", "123") instanceof String;
-        assert proc.doDomainConversion("Date", "01.02.2014 18:15") instanceof Date;
-        assert proc.doDomainConversion("LocalDate", "01.02.2014 18:15") instanceof LocalDate;
-        assert proc.doDomainConversion("LocalDateTime", "01.02.2014 18:15") instanceof LocalDateTime;
+        assert proc.doDomainConversion("Date", "01.02.2014 18:15:00") instanceof Date;
+        assert proc.doDomainConversion("LocalDate", "01.02.2014 18:15:00") instanceof LocalDate;
+        assert proc.doDomainConversion("LocalDateTime", "01.02.2014 18:15:00") instanceof LocalDateTime;
         assert proc.doDomainConversion("Numeric", "125.888") instanceof BigDecimal;
         assert proc.doDomainConversion("Numeric", "11444,878") instanceof BigDecimal;
         Object dataSet = proc.doDomainConversion("Object", "{\"id\":1, \"name\":\"Олег\", \"gender.name\":\"Мужской\", \"age\":\"24.5\", \"real_age\":\"29,8\"}");
@@ -114,8 +114,8 @@ public class DomainProcessorTest {
     @Test
     public void testArrays() throws Exception {
         DomainProcessor proc = DomainProcessor.getInstance();
-        Date date1 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.02.2014 11:11");
-        Date date2 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("02.02.2014 11:11");
+        Date date1 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("01.02.2014 11:11:00");
+        Date date2 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("02.02.2014 11:11:00");
         List<Date> list = new ArrayList<>(Arrays.asList(date1, date2));
 
         //уже пришли даты
@@ -123,7 +123,7 @@ public class DomainProcessorTest {
         checkDates(date1, date2, list);
 
         //пришли строки
-        list = (List<Date>) proc.doDomainConversion("Date[]", Arrays.asList("01.02.2014 11:11", "02.02.2014 11:11"));
+        list = (List<Date>) proc.doDomainConversion("Date[]", Arrays.asList("01.02.2014 11:11:00", "02.02.2014 11:11:00"));
         checkDates(date1, date2, list);
 
         //пришли даты и без домена
@@ -131,7 +131,7 @@ public class DomainProcessorTest {
         checkDates(date1, date2, list);
 
         //пришли строки и без домена
-        list = (List<Date>) proc.doDomainConversion(null, Arrays.asList("01.02.2014 11:11", "02.02.2014 11:11"));
+        list = (List<Date>) proc.doDomainConversion(null, Arrays.asList("01.02.2014 11:11:00", "02.02.2014 11:11:00"));
         checkDates(date1, date2, list);
 
 //        тесты не работают, не предусмотрено в процессоре
@@ -158,8 +158,8 @@ public class DomainProcessorTest {
 
         //пришли строки
         Map<String, String> map2 = new HashMap();
-        map2.put("begin", "01.02.2014 11:11");
-        map2.put("end", "02.02.2014 11:11");
+        map2.put("begin", "01.02.2014 11:11:00");
+        map2.put("end", "02.02.2014 11:11:00");
         checkDates(date1, date2, (Interval) proc.doDomainConversion("interval{date}", map2));
 
 

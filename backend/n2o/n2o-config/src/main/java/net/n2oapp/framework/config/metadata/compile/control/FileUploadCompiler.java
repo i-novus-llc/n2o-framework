@@ -20,8 +20,8 @@ public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFil
     @Override
     public StandardField<FileUpload> compile(N2oFileUpload source, CompileContext<?, ?> context, CompileProcessor p) {
         FileUpload compiled = new FileUpload();
-        compiled.setUploadUrl(source.getUploadUrl());
-        compiled.setDeleteUrl(source.getDeleteUrl());
+        compiled.setUploadUrl(p.resolveJS(source.getUploadUrl()));
+        compiled.setDeleteUrl(p.resolveJS(source.getDeleteUrl()));
         compiled.setAjax(p.cast(source.getMulti(), true));
         compiled.setMulti(p.cast(source.getMulti(), false));
         compiled.setShowSize(p.cast(source.getShowSize(),
