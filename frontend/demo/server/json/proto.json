@@ -930,7 +930,6 @@
                   {
                     "id": "delete",
                     "icon": "fa fa-trash",
-                    "visible": true,
                     "actionId": "delete",
                     "action": {
                       "id": "delete",
@@ -983,7 +982,6 @@
                   {
                     "id": "update",
                     "icon": "fa fa-pencil",
-                    "visible": true,
                     "actionId": "update",
                     "action": {
                       "id": "update",
@@ -1093,7 +1091,6 @@
               {
                 "id": "create",
                 "icon": "fa fa-plus",
-                "visible": true,
                 "actionId": "create",
                 "hint": "Создать",
                 "conditions": {},
@@ -1102,7 +1099,6 @@
               {
                 "id": "update",
                 "icon": "fa fa-pencil",
-                "visible": true,
                 "actionId": "update",
                 "hint": "Изменить",
                 "conditions": {
@@ -1118,7 +1114,6 @@
               {
                 "id": "delete",
                 "icon": "fa fa-trash",
-                "visible": true,
                 "actionId": "delete",
                 "hint": "Удалить",
                 "conditions": {

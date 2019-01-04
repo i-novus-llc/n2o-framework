@@ -9,6 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ActionsBar extends ActionComponent {
-    private Boolean enabled;
     private Boolean defaultValue;
 }

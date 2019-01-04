@@ -74,7 +74,8 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
         p.attributeEnum(e, "model", mi::getModel, mi::setModel, ReduxModel.class);
         p.attribute(e, "icon", mi::getIcon, mi::setIcon);
         p.attribute(e, "color", mi::getColor, mi::setColor);
-        p.attributeBoolean(e, "visible", mi::getVisible, mi::setVisible);
+        p.attribute(e, "visible", mi::getVisible, mi::setVisible);
+        p.attribute(e, "enabled", mi::getEnabled, mi::setEnabled);
         p.attributeBoolean(e, "validate", mi::getValidate, mi::setValidate);
         p.attribute(e, "action-id", mi::getActionId, mi::setActionId);
         p.attribute(e, "class", mi::getClassName, mi::setClassName);

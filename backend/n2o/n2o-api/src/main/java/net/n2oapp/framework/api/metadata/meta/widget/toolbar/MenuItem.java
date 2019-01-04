@@ -28,7 +28,9 @@ public class MenuItem implements IdAware, Serializable, PropertiesAware {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private Boolean visible;
+    private Object visible;
+    @JsonProperty
+    private Object enabled;
     @JsonProperty
     private String actionId;
     @JsonProperty
