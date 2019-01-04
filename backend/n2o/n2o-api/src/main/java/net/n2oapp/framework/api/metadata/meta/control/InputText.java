@@ -16,9 +16,9 @@ public class InputText extends Control {
     @JsonProperty
     private String placeholder;
     @JsonProperty
-    private String min;
+    private Object min;
     @JsonProperty
-    private String max;
+    private Object max;
     @JsonProperty
     private String step;
     @JsonProperty

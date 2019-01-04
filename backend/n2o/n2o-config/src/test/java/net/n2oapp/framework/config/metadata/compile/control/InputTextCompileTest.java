@@ -51,8 +51,8 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(2).getType(), is(ValidationType.reRender));
         assertThat(inputText.getControlSrc(), is("InputText"));
         assertThat(inputText1.getControlSrc(), is("InputNumber"));
-        assertThat(inputText1.getMax(), is("" + Integer.MAX_VALUE));
-        assertThat(inputText1.getMin(), is("" + Integer.MIN_VALUE));
+        assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
+        assertThat(inputText1.getMin(), is(Integer.MIN_VALUE));
         assertThat(inputText1.getStep(), is("1"));
         assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getControlSrc(), is("InputNumber"));
         assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getControlSrc(), is("InputNumber"));

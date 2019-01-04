@@ -25,13 +25,13 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         field.setSrc(p.cast(source.getFieldSrc(), p.resolve(property("n2o.api.field.src"), String.class)));
         field.setLabel(initLabel(source, p));
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
-        field.setHelp(source.getHelp());
+        field.setHelp(p.resolveJS(source.getHelp()));
         if (source.getDescription() != null) {
-            field.setDescription(source.getDescription().trim());
+            field.setDescription(p.resolveJS(source.getDescription().trim()));
         }
         if (source.getSrc() != null)
             control.setControlSrc(source.getSrc());
-        control.setClassName(source.getCssClass());
+        control.setClassName(p.resolveJS(source.getCssClass()));
         control.setId(field.getId());
         field.setControl(control);
         return field;
