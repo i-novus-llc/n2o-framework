@@ -74,7 +74,7 @@ public class RouteUtilTest {
     @Test
     public void isApplicationUrl() {
         assertThat(RouteUtil.isApplicationUrl("https://google.com"), is(false));
-        assertThat(RouteUtil.isApplicationUrl("google.com"), is(false));
+        assertThat(RouteUtil.isApplicationUrl("google.com"), is(true));
         assertThat(RouteUtil.isApplicationUrl("//test"), is(false));
         assertThat(RouteUtil.isApplicationUrl("/test"), is(true));
         assertThat(RouteUtil.isApplicationUrl("test"), is(true));

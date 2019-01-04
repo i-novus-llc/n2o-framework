@@ -27,7 +27,9 @@
                     </column>
                     <column text-field-id="patrName">
                         <link>
-                            <a href="/patients/:id/update2"/>
+                            <a href="/patients/:id/update2">
+                                <path-param name="id" value="{id}"/>
+                            </a>
                         </link>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
