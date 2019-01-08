@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
-import net.n2oapp.framework.config.metadata.compile.ParentRoteScope;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
 import org.springframework.stereotype.Component;
@@ -45,7 +45,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(form.getId());
         MetaActions widgetActions = new MetaActions();
-        ParentRoteScope widgetRoute = initWidgetRoute(form.getRoute(), context, p);
+        ParentRouteScope widgetRoute = initWidgetRoute(form.getRoute(), context, p);
         Models models = p.getScope(Models.class);
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null));

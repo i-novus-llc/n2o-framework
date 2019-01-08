@@ -15,7 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRoteScope;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -51,11 +51,10 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         widget.setRoute(p.cast(widget.getRoute(), RouteUtil.normalize(widget.getId())));
         PageRoutes routes = initRoute(context, p, pageRoute);
         initPreFilters(context, widget);
-        ParentRoteScope routeScope = new ParentRoteScope(pageRoute, context.getPathRouteInfos());
         Models models = new Models();
         page.setModels(models);
         WidgetScope widgetScope = new WidgetScope();
-        ParentRoteScope pageRouteScope = new ParentRoteScope(pageRoute, context.getPathRouteInfos());
+        ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
         ValidationList validationList = new ValidationList(new HashMap<>());
         if (context.getUpload() != null)
@@ -74,7 +73,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         }
         if (context.getSubmitOperationId() != null) {
             MetaActions metaActions = new MetaActions();
-            page.setToolbar(compileToolbar(context, p, metaActions, pageScope, routeScope, object, breadcrumbs, validationList, widget));
+            page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             page.setActions(metaActions);
         }
         return page;
@@ -108,7 +107,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
     }
 
     private Toolbar compileToolbar(PageContext context, CompileProcessor p,
-                                   MetaActions metaActions, PageScope pageScope, ParentRoteScope routeScope,
+                                   MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,
                                    CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList,
                                    N2oWidget widget) {
         N2oToolbar n2oToolbar = new N2oToolbar();

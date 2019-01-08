@@ -171,16 +171,16 @@ public class N2oCompileProcessor implements CompileProcessor {
         Set<String> paramsForRemove = new HashSet<>();
         Set<String> except = new HashSet<>();
         if (pathMappings != null) {
-            if (context.getPathRouteInfos() != null) {
-                pathMappings.keySet().stream().filter(k -> !context.getPathRouteInfos().containsKey(k))
+            if (context.getPathRouteMapping() != null) {
+                pathMappings.keySet().stream().filter(k -> !context.getPathRouteMapping().containsKey(k))
                         .forEach(k -> except.add(k));
             } else {
                 except.addAll(pathMappings.keySet());
             }
         }
         if (queryMappings != null) {
-            if (context.getQueryRouteInfos() != null) {
-                queryMappings.keySet().stream().filter(k -> !context.getQueryRouteInfos().containsKey(k))
+            if (context.getQueryRouteMapping() != null) {
+                queryMappings.keySet().stream().filter(k -> !context.getQueryRouteMapping().containsKey(k))
                         .forEach(k -> except.add(k));
             } else {
                 except.addAll(queryMappings.keySet());
@@ -222,14 +222,14 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public ModelLink resolveLink(ModelLink link) {
-        if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteInfos() == null)
+        if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
             return link;
         Optional<String> res = Optional.empty();
-        if (context.getQueryRouteInfos() != null) {
-            res = context.getQueryRouteInfos().keySet().stream().filter(ri -> context.getQueryRouteInfos().get(ri).equals(link)).findAny();
+        if (context.getQueryRouteMapping() != null) {
+            res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
         }
-        if (!res.isPresent() && context.getPathRouteInfos() != null) {
-            res = context.getPathRouteInfos().keySet().stream().filter(ri -> context.getPathRouteInfos().get(ri).equals(link)).findAny();
+        if (!res.isPresent() && context.getPathRouteMapping() != null) {
+            res = context.getPathRouteMapping().keySet().stream().filter(ri -> context.getPathRouteMapping().get(ri).equals(link)).findAny();
         }
         if (res.isPresent()) {
             Object param = data.get(res.get());

@@ -1,9 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.redux;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
+import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -46,6 +50,7 @@ public abstract class Redux {
      * @param stateField Поле в состоянии виджета
      * @return Ссылка на Redux
      */
+    @Deprecated
     public static BindLink createBindLink(String widgetId, String stateField) {
         return new BindLink(String.format("widgets['%s'].%s", widgetId, stateField));
     }
@@ -142,5 +147,23 @@ public abstract class Redux {
         params.put("fieldKey", field);
         params.put("sortDirection", direction);
         return new ReduxAction("n2o/widgets/SORT_BY", params);
+    }
+
+    public static ModelLink createModelLink(N2oPreFilter preFilter, String queryId) {
+        Object value;
+        if (preFilter.getValues() == null) {
+            value = ScriptProcessor.resolveExpression(preFilter.getValue());
+        } else {
+            value = ScriptProcessor.resolveArrayExpression(preFilter.getValues());
+        }
+        if (StringUtils.isJs(value)) {
+            ModelLink link = new ModelLink(preFilter.getRefModel(),
+                    CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId()),
+                    null, preFilter.getParam(), queryId);
+            link.setValue(value);
+            return link;
+        } else {
+            return new ModelLink(value);
+        }
     }
 }

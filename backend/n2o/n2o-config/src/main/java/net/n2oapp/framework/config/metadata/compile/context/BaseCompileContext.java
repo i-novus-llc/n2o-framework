@@ -28,14 +28,14 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
      */
     private String route;
     /**
-     * Список query параметров в строке запроса, которые неоходимо разрешать на сервере
+     * Связь query параметров в маршруте с моделями данных
      */
-    private Map<String, ModelLink> queryRouteInfos;
+    private Map<String, ModelLink> queryRouteMapping;
 
     /**
-     * Список path параметров в строке запроса, которые неоходимо разрешать на сервере
+     * Связь path параметров в маршруте с моделями данных
      */
-    private Map<String, ModelLink> pathRouteInfos;
+    private Map<String, ModelLink> pathRouteMapping;
 
     public BaseCompileContext(String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         if (sourceId == null)
@@ -59,8 +59,8 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         if (context.route != null) {
             this.route = context.getRoute(p);
         }
-        this.pathRouteInfos = context.pathRouteInfos;
-        this.queryRouteInfos = context.queryRouteInfos;
+        this.pathRouteMapping = context.pathRouteMapping;
+        this.queryRouteMapping = context.queryRouteMapping;
     }
 
     @Override
@@ -102,27 +102,27 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     }
 
     @Override
-    public Map<String, ModelLink> getQueryRouteInfos() {
-        return queryRouteInfos;
+    public Map<String, ModelLink> getQueryRouteMapping() {
+        return queryRouteMapping;
     }
 
-    public void setQueryRouteInfos(Map<String, ModelLink> queryRouteInfos) {
-        if (queryRouteInfos != null)
-            this.queryRouteInfos = Collections.unmodifiableMap(queryRouteInfos);
+    public void setQueryRouteMapping(Map<String, ModelLink> queryRouteMapping) {
+        if (queryRouteMapping != null)
+            this.queryRouteMapping = Collections.unmodifiableMap(queryRouteMapping);
         else
-            this.queryRouteInfos = null;
+            this.queryRouteMapping = null;
     }
 
     @Override
-    public Map<String, ModelLink> getPathRouteInfos() {
-        return pathRouteInfos;
+    public Map<String, ModelLink> getPathRouteMapping() {
+        return pathRouteMapping;
     }
 
-    public void setPathRouteInfos(Map<String, ModelLink> pathRouteInfos) {
-        if (pathRouteInfos != null)
-            this.pathRouteInfos = Collections.unmodifiableMap(pathRouteInfos);
+    public void setPathRouteMapping(Map<String, ModelLink> pathRouteMapping) {
+        if (pathRouteMapping != null)
+            this.pathRouteMapping = Collections.unmodifiableMap(pathRouteMapping);
         else
-            this.pathRouteInfos = null;
+            this.pathRouteMapping = null;
     }
 
     @Override

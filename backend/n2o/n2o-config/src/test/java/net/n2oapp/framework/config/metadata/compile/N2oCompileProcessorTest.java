@@ -36,7 +36,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId", null, "paramName");
         value.setValue("`testField`");
         routeInfos.put("paramName", value);
-        context.setQueryRouteInfos(routeInfos);
+        context.setQueryRouteMapping(routeInfos);
         DataSet data = new DataSet();
         data.put("paramName", "testValue");
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
@@ -66,8 +66,8 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         assertThat(queryParams.size(), is(1));
 
         context = new PageContext("test");
-        context.setQueryRouteInfos(queryParams);
-        context.setPathRouteInfos(pathParams);
+        context.setQueryRouteMapping(queryParams);
+        context.setPathRouteMapping(pathParams);
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
         url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
         assertThat(url, is("/p/w/testValue/a?paramQ1=:paramQ1"));

@@ -1,26 +1,36 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import net.n2oapp.framework.config.util.CompileUtil;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
  * Абстрактная реализация компиляция open-page, show-modal
@@ -28,19 +38,11 @@ import java.util.*;
 @Component
 public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S extends N2oAbstractPageAction> extends AbstractActionCompiler<D, S> {
 
-    protected Map<String, ModelLink> initRouteInfos(List<N2oPreFilter> preFilters, Set<String> pathParams, CompileProcessor p) {
-        if (preFilters == null) return null;
-        CompiledQuery query = p.getScope(CompiledQuery.class);
-        String queryId = query == null ? null : query.getId();
-        Map<String, ModelLink> res = new HashMap<>();
-        preFilters.stream().filter(n2oPreFilter -> n2oPreFilter.getParam() != null && !pathParams.contains(n2oPreFilter.getParam()))
-                .forEach(preFilter -> res.put(preFilter.getParam(), createModelLink(preFilter, queryId, preFilter.getParam(), p)));
-        return res;
-    }
-
-    protected List<N2oPreFilter> initPreFilters(N2oAbstractPageAction source, String masterIdParam, WidgetScope widgetScope, CompileProcessor p) {
+    protected List<N2oPreFilter> initPreFilters(N2oAbstractPageAction source, String masterIdParam,
+                                                CompileProcessor p) {
         List<N2oPreFilter> preFilters = new ArrayList<>();
         ReduxModel model = ReduxModel.RESOLVE;
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String widgetId = widgetScope == null ? null : widgetScope.getWidgetId();
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
@@ -91,22 +93,110 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         return preFilters;
     }
 
-    protected ModelLink createModelLink(N2oPreFilter preFilter, String queryId, String param,  CompileProcessor p) {
-        Object prefilterValue = getPrefilterValue(preFilter);
-        if (StringUtils.isJs(prefilterValue)) {
-            ModelLink link = new ModelLink(preFilter.getRefModel(), CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId()), null, param, queryId);
-            link.setValue(prefilterValue);
-            return link;
-        } else {
-            return new ModelLink(prefilterValue);
+    protected abstract PageContext constructContext(String pageId, String route);
+
+    protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
+        String pageId = source.getPageId();
+        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+        String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute(p), "");
+        Map<String, ModelLink> pathMapping = new StrictMap<>();
+        Map<String, ModelLink> queryMapping = new StrictMap<>();
+        if (routeScope != null) {
+            pathMapping.putAll(routeScope.getPathMapping());
+            queryMapping.putAll(routeScope.getQueryMapping());
+        }
+        String parentClientWidgetId = null;
+        ReduxModel parentWidgetModel = ReduxModel.RESOLVE;
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        PageScope pageScope = p.getScope(PageScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null) {
+            parentClientWidgetId = widgetScope.getClientWidgetId();
+        } else if (componentScope != null && pageScope != null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                parentClientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
+            }
+        }
+        if (componentScope != null) {
+            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
+            if (modelAware != null && modelAware.getModel() != null) {
+                parentWidgetModel = modelAware.getModel();
+            }
+        }
+        boolean contextAction = ReduxModel.RESOLVE.equals(parentWidgetModel);
+        String masterIdFilter = null;
+        if (widgetScope != null && contextAction) {
+            masterIdFilter = widgetScope.getClientWidgetId() + "_id";
+            route = route + normalize(colon(masterIdFilter));
+            ModelLink link = new ModelLink(ReduxModel.RESOLVE, widgetScope.getClientWidgetId(), "id", masterIdFilter);
+            pathMapping.put(masterIdFilter, link);
+        }
+        String parentRoute = route;//специально на этом месте, потому что дальше route дополняется и это не должно быть в parentRoute
+        route = normalize(route + normalize(p.cast(source.getRoute(), source.getId())));
+
+        PageContext pageContext = constructContext(pageId, route);
+        pageContext.setPageName(source.getPageName());
+        pageContext.setBreadcrumbs(p.getScope(BreadcrumbList.class));
+        pageContext.setSubmitOperationId(source.getSubmitOperationId());
+        pageContext.setSubmitLabel(source.getSubmitLabel());
+        pageContext.setSubmitModel(source.getSubmitModel());
+        pageContext.setResultWidgetId(source.getResultContainerId());
+        pageContext.setUpload(source.getUpload());
+        pageContext.setParentWidgetId(parentClientWidgetId);
+        pageContext.setParentModel(parentWidgetModel);
+        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping.keySet()));
+        pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
+        pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
+        pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
+        if (source.getSubmitOperationId() != null
+                && source.getRedirectUrlAfterSubmit() == null
+                && source.getFocusAfterSubmit() != null
+                && source.getFocusAfterSubmit()) {
+            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? routeScope.getUrl() + normalize(colon("id")) : null);
+            pageContext.setRedirectTargetOnSuccessSubmit(Target.application);
+        } else if (source.getRedirectUrlAfterSubmit() != null) {
+            pageContext.setRedirectUrlOnSuccessSubmit(source.getRedirectUrlAfterSubmit());
+            pageContext.setRedirectTargetOnSuccessSubmit(p.cast(source.getRedirectTargetAfterSubmit(),
+                    RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
+        }
+
+        List<N2oPreFilter> preFilters = initPreFilters(source, masterIdFilter, p);
+        pageContext.setPreFilters(preFilters);
+        pageContext.setPathRouteMapping(pathMapping);
+        queryMapping.putAll(initPreFilterParams(preFilters, pathMapping, queryMapping));
+        pageContext.setQueryRouteMapping(queryMapping);
+
+        initPageRoute(compiled, route, pathMapping, queryMapping);
+        initOtherPageRoute(p, route);
+        p.addRoute(route, pageContext);
+        return pageContext;
+    }
+
+    protected abstract void initPageRoute(D compiled, String route,
+                                          Map<String, ModelLink> pathMapping,
+                                          Map<String, ModelLink> queryMapping);
+
+    private void initOtherPageRoute(CompileProcessor p, String route) {
+        PageRoutes pageRoutes = p.getScope(PageRoutes.class);
+        if (pageRoutes != null) {
+            PageRoutes.Route pageRoute = new PageRoutes.Route(route);
+            pageRoute.setIsOtherPage(true);
+            pageRoutes.addRoute(pageRoute);
         }
     }
 
-    protected Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
-        if (n2oPreFilter.getValues() == null) {
-            return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
-        } else {
-            return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
-        }
+
+    private Map<String, ModelLink> initPreFilterParams(List<N2oPreFilter> preFilters,
+                                                       Map<String, ModelLink> pathParams,
+                                                       Map<String, ModelLink> queryParams) {
+        if (preFilters == null) return null;
+        Map<String, ModelLink> res = new HashMap<>();
+        Set<String> params = new HashSet<>();
+        params.addAll(pathParams.keySet());
+        params.addAll(queryParams.keySet());
+        preFilters.stream().filter(f -> f.getParam() != null && !params.contains(f.getParam()))
+                .forEach(f -> res.put(f.getParam(), Redux.createModelLink(f, null)));
+        return res;
     }
 }

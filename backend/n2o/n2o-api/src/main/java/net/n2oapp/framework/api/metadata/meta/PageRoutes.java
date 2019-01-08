@@ -43,7 +43,7 @@ public class PageRoutes implements Compiled {
      * @param route  Путь
      */
     public void addRoute(Route route) {
-        if (this.list.contains(route)) {
+        if (this.list.contains(route) && !route.isOtherPage) {
             throw new N2oException("Page already contains route {0}!").addData(route.getPath());
         }
         this.list.add(route);

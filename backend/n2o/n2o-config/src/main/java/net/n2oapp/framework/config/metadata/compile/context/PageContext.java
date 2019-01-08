@@ -44,6 +44,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String parentWidgetId;
     /**
+     * Модель родительского виджета
+     */
+    private ReduxModel parentModel;
+    /**
      * Наименование страницы
      */
     private String pageName;

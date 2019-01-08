@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -76,7 +75,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
                                                 ValidationList validationList) {
         CompiledQuery query = getDataProviderQuery(source, p);
-        ParentRoteScope parentRouteScope = p.getScope(ParentRoteScope.class);
+        ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         String parentRoute = parentRouteScope != null ? parentRouteScope.getUrl() : "";
         String widgetRoute = normalize(parentRoute + p.cast(source.getRoute(), normalize(source.getId())));
         compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, parentRouteScope));
@@ -106,13 +105,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         });
     }
 
-    protected ParentRoteScope initWidgetRoute(String route, CompileContext<?, ?> context, CompileProcessor p) {
-        ParentRoteScope parentRouteScope = p.getScope(ParentRoteScope.class);
+    protected ParentRouteScope initWidgetRoute(String route, CompileContext<?, ?> context, CompileProcessor p) {
+        ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
         if (parentRouteScope != null)
-            return new ParentRoteScope(route, parentRouteScope);
+            return new ParentRouteScope(route, parentRouteScope);
         if (context instanceof WidgetContext && context.getRoute(p) != null)
-            return new ParentRoteScope(context.getRoute(p));
-        return new ParentRoteScope(route);
+            return new ParentRouteScope(context.getRoute(p));
+        return new ParentRouteScope(route);
     }
 
     private String initGlobalWidgetId(S source, String localWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
@@ -133,7 +132,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
-                                           WidgetScope widgetScope, ParentRoteScope widgetRoute, MetaActions widgetActions,
+                                           WidgetScope widgetScope, ParentRouteScope widgetRoute, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
         compileActions(source, context, p, widgetActions, widgetScope, object, validationList);
@@ -197,7 +196,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void compileToolbar(D compiled, S source, CompiledObject object, CompileContext<?, ?> context, CompileProcessor p
-            , MetaActions compiledActions, WidgetScope widgetScope, ParentRoteScope widgetRouteScope, ValidationList validations) {
+            , MetaActions compiledActions, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, ValidationList validations) {
         if (source.getToolbars() == null)
             return;
 
@@ -213,7 +212,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (routes == null)
             return;
-        ParentRoteScope routeScope = p.getScope(ParentRoteScope.class);
+        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         //Маршрут виджета /page/widget
         routes.addRoute(widgetRoute, compiled.getId());
         //Маршрут с выделенной записью в виджете /page/widget/:widget_id
@@ -260,7 +259,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private WidgetDataProvider initDataProvider(D widget, S source, String widgetRoute, CompiledQuery query,
-                                                CompileProcessor p, ValidationList validationList, ParentRoteScope parentRouteScope) {
+                                                CompileProcessor p, ValidationList validationList, ParentRouteScope parentRouteScope) {
         if (query == null)
             return null;
         WidgetDataProvider dataProvider = new WidgetDataProvider();

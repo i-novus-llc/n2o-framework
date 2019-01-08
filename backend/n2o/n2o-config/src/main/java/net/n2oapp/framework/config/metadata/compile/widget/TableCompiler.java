@@ -64,7 +64,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         component.setClassName(source.getCssClass());
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         MetaActions widgetActions = new MetaActions();
-        ParentRoteScope widgetRouteScope = initWidgetRoute(table.getRoute(), context, p);
+        ParentRouteScope widgetRouteScope = initWidgetRoute(table.getRoute(), context, p);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         if (source.getRows() != null) {
             if (source.getRows().getColorFieldId() != null) {
@@ -111,7 +111,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
 
     private void compileColumns(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                 TableWidgetComponent component, CompiledQuery query, CompiledObject object,
-                                WidgetScope widgetScope, ParentRoteScope widgetRouteScope, MetaActions widgetActions) {
+                                WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
         if (source.getColumns() != null) {
             List<ColumnHeader> headers = new ArrayList<>();
             List<N2oCell> cells = new ArrayList<>();
@@ -142,7 +142,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
     private void compileHeaderWithCell(CompiledObject object, CompiledQuery query, List<ColumnHeader> headers, List<N2oCell> cells,
                                        AbstractColumn column,
                                        CompileContext<?, ?> context, CompileProcessor p,
-                                       IndexScope columnIndex, WidgetScope widgetScope, ParentRoteScope widgetRouteScope, MetaActions widgetActions) {
+                                       IndexScope columnIndex, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
         ColumnHeader header = new ColumnHeader();
         column.setId(p.cast(column.getId(), column.getTextFieldId()));
         column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));

@@ -20,7 +20,7 @@
                            master-field-id="masterId"
                            detail-field-id="detailId">
                     <pre-filters>
-                        <eq field-id="name" value="{name}"/>
+                        <eq field-id="name" value="{name}" ref-model="filter"/>
                         <eq field-id="secondName" value="test"/>
                     </pre-filters>
                 </open-page>
