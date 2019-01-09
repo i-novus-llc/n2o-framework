@@ -43,7 +43,9 @@ public class ApacheRestClient implements RestClient {
     private static final String CONTENT_TYPE = "application/json";
     private Integer timeoutInMillis;
 
-    public ApacheRestClient() {}
+    public ApacheRestClient() {
+    }
+
     public ApacheRestClient(String millis) {
         timeoutInMillis = Integer.parseInt(millis) * 1000;
     }
@@ -74,6 +76,11 @@ public class ApacheRestClient implements RestClient {
     @Override
     public DataSet HEAD(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
         return doRequestWithPathParameters(query, args, headers, proxyHost, proxyPort, "HEAD");
+    }
+
+    @Override
+    public ObjectMapper getObjectMapper() {
+        return mapper;
     }
 
 
@@ -135,8 +142,8 @@ public class ApacheRestClient implements RestClient {
     }
 
     private DataSet doRequestWithBody(String query, Map<String, Object> body, Map<String, String> headers,
-                                             String proxyHost,
-                                             Integer proxyPort, String method) throws RestException {
+                                      String proxyHost,
+                                      Integer proxyPort, String method) throws RestException {
         CloseableHttpClient client = null;
         HttpResponse response = null;
         String url = null;
@@ -198,9 +205,9 @@ public class ApacheRestClient implements RestClient {
 
 
     private DataSet doRequestWithPathParameters(String query, Map<String, Object> args,
-                                                       Map<String, String> headers,
-                                                       String proxyHost,
-                                                       Integer proxyPort, String method) throws RestException {
+                                                Map<String, String> headers,
+                                                String proxyHost,
+                                                Integer proxyPort, String method) throws RestException {
         CloseableHttpClient client = null;
         HttpResponse response = null;
         String url = null;

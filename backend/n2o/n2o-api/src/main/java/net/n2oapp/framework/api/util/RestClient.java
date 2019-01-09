@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.util;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 
 import java.util.Map;
@@ -27,7 +28,7 @@ public interface RestClient {
 
 
     DataSet GET(String path, Map<String, Object> params, Map<String, String> headers, String host,
-                       Integer port) throws RestException;
+                Integer port) throws RestException;
 
     DataSet POST(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
 
@@ -36,6 +37,8 @@ public interface RestClient {
     DataSet DELETE(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
 
     DataSet HEAD(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
+
+    ObjectMapper getObjectMapper();
 
 
     class RestException extends RuntimeException {

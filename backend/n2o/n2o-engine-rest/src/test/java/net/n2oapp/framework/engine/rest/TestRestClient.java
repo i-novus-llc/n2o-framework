@@ -1,5 +1,6 @@
 package net.n2oapp.framework.engine.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.util.RestClient;
 
@@ -97,6 +98,11 @@ public class TestRestClient implements RestClient {
         query1.setPort(proxyPort);
         queryList.add(query1);
         return response;
+    }
+
+    @Override
+    public ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
     }
 
     public List<Query> getQueryList() {
