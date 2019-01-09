@@ -5,17 +5,14 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RestDataProviderEngineTest {
     @Test
-    public void testSimple() throws Exception {
+    public void testSimple() {
         Properties properties = new Properties();
         properties.put("n2o.engine.mapper", "spel");
         new TestStaticProperties().setProperties(properties);
@@ -52,7 +49,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testDatasetMapper() throws Exception {
+    public void testDatasetMapper() {
         Properties properties = new Properties();
         properties.put("n2o.engine.mapper", "dataset");
         new TestStaticProperties().setProperties(properties);
@@ -78,7 +75,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testReplacePlaceholders() throws Exception {
+    public void testReplacePlaceholders() {
         DataSet res = new DataSet();
         res.put("id", 1);
         res.put("name", "test");
@@ -136,7 +133,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testBaseUrl() throws Exception {
+    public void testBaseUrl() {
         DataSet res = new DataSet();
         res.put("id", 1);
         res.put("name", "test");
@@ -163,7 +160,7 @@ public class RestDataProviderEngineTest {
     }
 
     @Test
-    public void testNoMethodSet() throws Exception {
+    public void testNoMethodSet() {
         DataSet req = new DataSet();
         req.put("id", 1);
         req.put("name", "test");
@@ -179,5 +176,24 @@ public class RestDataProviderEngineTest {
         assertThat(result.get("id"), is(1));
         assertThat(result.get("name"), is("test"));
         assertThat(restClient.getQuery().getPath(), is("http://www.someUrl.org/1"));
+    }
+
+    @Test
+    public void testDateSerializing() {
+        TestRestClient restClient = new TestRestClient(new DataSet());
+        RestDataProviderEngine actionEngine = new RestDataProviderEngine(restClient);
+        actionEngine.setBaseRestUrl("http://localhost:8080");
+        N2oRestDataProvider dataProvider = new N2oRestDataProvider();
+        dataProvider.setQuery("test/path?{filters}");
+        dataProvider.setFiltersSeparator("&");
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("date.begin", new Date(0));
+        request.put("date.end", new Date(86400000));
+        request.put("filters", Arrays.asList("date_begin={date.begin}", "date_end={date.end}"));
+
+        actionEngine.invoke(dataProvider, request);
+
+        assertThat(restClient.getQuery().getPath(), is("http://localhost:8080/test/path?date_begin=1970-01-01T03%3A00%3A00&date_end=1970-01-02T03%3A00%3A00"));
     }
 }
