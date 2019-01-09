@@ -26,7 +26,7 @@ import java.util.*;
  * Time: 18:19
  */
 public class DomainProcessor {
-    private static DomainProcessor ourInstance = new DomainProcessor(new ObjectMapper(), "dd.MM.yyyy HH:mm");
+    private static DomainProcessor ourInstance = new DomainProcessor(new ObjectMapper(), "dd.MM.yyyy HH:mm:ss");
     public static final Map<Class, String> simpleDomainsMap = new HashMap<Class, String>();
 
     @Deprecated
@@ -60,15 +60,14 @@ public class DomainProcessor {
         return doDomainConversation(inDataSet, operation.getInParametersMap().values());
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T deserialize(Object value, Class<T> clazz) {
+    public Object deserialize(Object value, Class<?> clazz) {
         String domain = simpleDomainsMap.get(clazz);
         Object object = doDomainConversion(domain, value);
-        if (object != null) {
+        if (object != null && !StringUtils.isDynamicValue(object)) {
             if (!clazz.isAssignableFrom(object.getClass()))
                 throw new ClassCastException(String.format("Value [%s] is not a %s", value, clazz));
         }
-        return (T) object;
+        return object;
     }
 
     public DataSet doDomainConversation(DataSet inDataSet, Collection<? extends InvocationParameter> values) {

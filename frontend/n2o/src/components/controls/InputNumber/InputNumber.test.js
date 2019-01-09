@@ -35,7 +35,7 @@ describe('<InputNumber />', () => {
 
   it('можно вводить строку, которую можно привести к числу', () => {
     const { wrapper } = setup({
-      value: '2.4',
+      value: 2.4,
       step: '0.1'
     });
     expect(
@@ -43,7 +43,7 @@ describe('<InputNumber />', () => {
         .find('input')
         .first()
         .props().value
-    ).toBe(2.4);
+    ).toBe('2.4');
   });
 
   it('можно вводить строку, не приводимую к числу, значение которой будет проигнорировано', () => {
@@ -66,21 +66,21 @@ describe('<InputNumber />', () => {
         .find('input')
         .first()
         .props().value
-    ).toBe(2);
+    ).toBe('2');
     wrapper = setup({ value: 2.4, step: '1' }).wrapper;
     expect(
       wrapper
         .find('input')
         .first()
         .props().value
-    ).toBe(2);
+    ).toBe('2');
     wrapper = setup({ value: 2.4, step: '1.0' }).wrapper;
     expect(
       wrapper
         .find('input')
         .first()
         .props().value
-    ).toBe(2.4);
+    ).toBe('2.4');
   });
 
   it('увеличивает/уменьшает значение при нажатии на кнопку', () => {
@@ -119,37 +119,6 @@ describe('<InputNumber />', () => {
         .first()
         .props().value
     ).toBe('2');
-  });
-
-  it('точка и запятая валидны', () => {
-    const { wrapper } = setup({ value: 2, step: '1.0' });
-    wrapper.find('input').simulate('change', { target: { value: '2.1' } });
-    expect(
-      wrapper
-        .find('input')
-        .first()
-        .props().value
-    ).toBe('2.1');
-    wrapper.find('input').simulate('change', { target: { value: '2,3' } });
-    wrapper.find('input').simulate('blur');
-    expect(
-      wrapper
-        .find('input')
-        .first()
-        .props().value
-    ).toBe('2.3');
-  });
-
-  it('убирает лишние точки и запятые', () => {
-    const { wrapper } = setup({ value: 2, step: '1.0' });
-    wrapper.find('input').simulate('change', { target: { value: '2.2,.1' } });
-    wrapper.find('input').simulate('blur');
-    expect(
-      wrapper
-        .find('input')
-        .first()
-        .props().value
-    ).toBe('2.2');
   });
 
   it('округляет до количества знаков после запятой в step', () => {

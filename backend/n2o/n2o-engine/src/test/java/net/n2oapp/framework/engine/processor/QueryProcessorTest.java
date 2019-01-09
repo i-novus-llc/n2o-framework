@@ -70,7 +70,8 @@ public class QueryProcessorTest {
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessor.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"));
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"));
     }
 
     @Test
@@ -194,5 +195,19 @@ public class QueryProcessorTest {
         assertThat(result.getCount(), is(1));
         first = result.getCollection().iterator().next();
         assertThat(first.get("type"), is(10));
+    }
+
+    @Test
+    public void query4Normalize() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorNorm"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCount(), is(1));
+        DataSet first = result.getCollection().iterator().next();
+        assertThat(first.get("normTest"), is(Integer.MAX_VALUE));
+        assertThat(query.getFieldsMap().get("normTest").getSelectDefaultValue(), is("defaultValue"));
     }
 }

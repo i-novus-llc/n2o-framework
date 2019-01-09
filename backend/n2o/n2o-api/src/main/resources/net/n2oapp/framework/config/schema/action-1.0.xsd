@@ -82,7 +82,8 @@
                 </xs:attribute>
                 <xs:attribute name="submit-label" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Название кнопки отправки формы на открываемой странице. По умолчанию "Сохранить".
+                        <xs:documentation>Название кнопки отправки формы на открываемой странице. По умолчанию
+                            "Сохранить".
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -197,6 +198,10 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="actionDefinition">
+                <xs:sequence>
+                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
                 <xs:attribute name="href" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Адрес URL. Возможно использование плейсхолдеров {placeholder}
@@ -210,6 +215,19 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="paramDefinition">
+        <xs:attribute name="name" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Название параметра</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Ссылка на значение парамерта</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="invokeActionDefinition">

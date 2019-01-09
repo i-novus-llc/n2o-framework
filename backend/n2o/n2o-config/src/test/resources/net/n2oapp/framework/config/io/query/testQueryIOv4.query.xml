@@ -30,7 +30,7 @@
         <field id="id" domain="integer" name="nameId">
             <expression>expression</expression>
             <sorting>sorting</sorting>
-            <select default-value="defaultValue" mapping="mapping">id</select>
+            <select default-value="defaultValue" mapping="mapping" normalize="T(java.time.LocalDate).parse(this)">id</select>
             <filters>
                 <eq normalize="m;kl;k;" mapping="mapping" default-value="defaultValue" domain="integer" filter-id="id">
                     id = :id
