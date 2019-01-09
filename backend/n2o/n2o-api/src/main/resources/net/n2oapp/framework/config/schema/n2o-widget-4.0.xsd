@@ -10,7 +10,7 @@
     <xs:element name="form" type="formReferenceDefinition"/>
     <!--<xs:element name="tree" type="treeReferenceDefinition"/>-->
     <!--<xs:element name="chart" type="chartReferenceDefinition"/>-->
-    <xs:element name="custom" type="customReferenceDefinition"/>
+    <xs:element name="widget" type="customReferenceDefinition"/>
     <xs:element name="html" type="htmlReferenceDefinition"/>
 
     <xs:complexType name="widgets" abstract="true">
@@ -19,7 +19,7 @@
             <xs:element name="form" type="formReferenceDefinition" minOccurs="0"/>
             <!--<xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>-->
             <!--<xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>-->
-            <xs:element name="custom" type="customReferenceDefinition" minOccurs="0"/>
+            <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
