@@ -43,6 +43,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
+        page.setProperties(initPageName(pageName, context, p));
         page.getProperties().setTitle(pageName);
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         page.setWidgets(new StrictMap<>());

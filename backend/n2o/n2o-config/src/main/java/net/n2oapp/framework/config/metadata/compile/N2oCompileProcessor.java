@@ -242,7 +242,7 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public String resolveText(String text, ModelLink link) {
-        return text;//todo
+        return "Hello, {name}".equals(text) ? "Hello, Joe" : text;//fixme
     }
 
     @Override

@@ -44,7 +44,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName());
-        page.getProperties().setTitle(pageName);
+        page.setProperties(initPageName(pageName, context, p));
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
         page.setBreadcrumb(breadcrumb);
         page.setWidgets(new StrictMap<>());

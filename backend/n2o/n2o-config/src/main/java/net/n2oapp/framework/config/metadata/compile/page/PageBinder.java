@@ -45,6 +45,9 @@ public class PageBinder implements BaseMetadataBinder<Page> {
             });
             resolveLinks(page.getModels(), p);
         }
+        if (page.getProperties() != null) {
+            page.getProperties().setTitle(p.resolveText(page.getProperties().getTitle(), page.getProperties().getModelLink()));
+        }
         return page;
     }
 
