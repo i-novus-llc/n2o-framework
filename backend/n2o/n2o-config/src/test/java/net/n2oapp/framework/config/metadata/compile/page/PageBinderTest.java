@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
@@ -55,5 +56,18 @@ public class PageBinderTest extends SourceCompileTestBase {
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
         assertThat(page.getProperties().getTitle(), is("Hello, Joe"));
+    }
+
+    @Test
+    public void pageBreadcrumbResolve() {
+        PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
+        context.setParentModel(ReduxModel.RESOLVE);
+        context.setParentWidgetId("page_master");
+        context.setParentRoute("/page");
+        context.setPathRouteMapping(Collections.singletonMap("name_param", new ModelLink(ReduxModel.RESOLVE, "page_master", "name")));
+        context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("prev", "/page")));
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
+                .get(context, new DataSet().add("name_param", "Joe"));
+        assertThat(page.getBreadcrumb().get(1).getLabel(), is("Hello, Joe"));
     }
 }

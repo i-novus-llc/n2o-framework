@@ -66,6 +66,9 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
         }
         Breadcrumb current = new Breadcrumb();
         current.setLabel(pageName);
+        if (context.getParentModel() != null && context.getParentWidgetId() != null) {
+            current.setModelLink(new ModelLink(context.getParentModel(), context.getParentWidgetId()));
+        }
         breadcrumbs.add(current);
         return breadcrumbs;
     }

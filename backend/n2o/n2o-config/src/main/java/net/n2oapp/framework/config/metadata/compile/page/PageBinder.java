@@ -2,10 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import org.springframework.stereotype.Component;
@@ -47,6 +44,11 @@ public class PageBinder implements BaseMetadataBinder<Page> {
         }
         if (page.getProperties() != null) {
             page.getProperties().setTitle(p.resolveText(page.getProperties().getTitle(), page.getProperties().getModelLink()));
+        }
+        if (page.getBreadcrumb() != null) {
+            for (Breadcrumb crumb : page.getBreadcrumb()) {
+                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLink()));
+            }
         }
         return page;
     }
