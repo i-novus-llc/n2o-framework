@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.Page;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -97,9 +98,12 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         super(context, p);
         this.breadcrumbs = context.breadcrumbs;
         this.submitOperationId = context.submitOperationId;
+        this.submitModel = context.submitModel;
+        this.submitLabel = context.submitLabel;
         this.resultWidgetId = context.resultWidgetId;
         this.parentRoute = context.parentRoute;
         this.parentWidgetId = context.parentWidgetId;
+        this.parentModel = context.parentModel;
         this.pageName = context.pageName;
         this.closeOnSuccessSubmit = context.closeOnSuccessSubmit;
         this.refreshOnSuccessSubmit = context.refreshOnSuccessSubmit;
@@ -108,6 +112,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.redirectTargetOnSuccessSubmit = context.redirectTargetOnSuccessSubmit;
         this.upload = context.upload;
         this.clientPageId = context.clientPageId;
+        this.preFilters = new ArrayList<>(context.preFilters);
     }
 
     public void setBreadcrumbs(List<Breadcrumb> breadcrumbs) {
