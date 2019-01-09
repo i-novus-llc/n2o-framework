@@ -241,6 +241,11 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
+    public String resolveText(String text, ModelLink link) {
+        return text;//todo
+    }
+
+    @Override
     public String getMessage(String messageCode, Object... arguments) {
         return env.getMessageSource().getMessage(messageCode, arguments);
     }
