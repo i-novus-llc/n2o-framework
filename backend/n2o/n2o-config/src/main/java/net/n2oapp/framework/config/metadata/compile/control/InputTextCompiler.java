@@ -47,22 +47,22 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
         switch (domain) {
             case integer:
             case long_: {
-                inputText.setMin(p.cast(p.resolveJS(source.getMin()), "" + Integer.MIN_VALUE));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax()), "" + Integer.MAX_VALUE));
+                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Integer.class), Integer.MIN_VALUE));
+                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Integer.class), Integer.MAX_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 inputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.number.src"), String.class)));
                 return;
             }
             case short_: {
-                inputText.setMin(p.cast(p.resolveJS(source.getMin()), "" + Short.MIN_VALUE));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax()), "" + Short.MIN_VALUE));
+                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Short.class), Short.MIN_VALUE));
+                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Short.class), Short.MIN_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 inputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.number.src"), String.class)));
                 return;
             }
             case numeric: {
-                inputText.setMin(p.cast(p.resolveJS(source.getMin()), "-999999999"));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax()), "999999999"));
+                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Long.class), "-999999999"));
+                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Long.class), "999999999"));
                 inputText.setStep(castDefault(source.getStep(), "0.01"));
                 inputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.number.src"), String.class)));
                 return;

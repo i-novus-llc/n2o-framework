@@ -132,6 +132,7 @@ public class N2oCompileProcessor implements CompileProcessor {
         env.getRouteRegister().addRoute(new RouteInfo(urlPattern, context));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
         Object value = placeholder;
@@ -141,7 +142,7 @@ public class N2oCompileProcessor implements CompileProcessor {
         if (StringUtils.isContext(placeholder)) {
             value = env.getContextProcessor().resolve(placeholder);
         }
-        return env.getDomainProcessor().deserialize(value, clazz);
+        return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override
@@ -255,7 +256,8 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public String resolveJS(String text) {
-        return ScriptProcessor.resolveLinks(text);
+    public Object resolveJS(String text, Class<?> clazz) {
+        String value = ScriptProcessor.resolveLinks(text);
+        return env.getDomainProcessor().deserialize(value, clazz);
     }
 }

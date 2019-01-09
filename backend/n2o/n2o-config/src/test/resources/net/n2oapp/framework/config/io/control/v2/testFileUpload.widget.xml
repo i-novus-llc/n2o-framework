@@ -8,6 +8,7 @@
                      delete-url="/url"
                      value-field-id="test"
                      label-field-id="test"
+                     message-field-id="test"
                      url-field-id="test"/>
     </fields>
 </form>

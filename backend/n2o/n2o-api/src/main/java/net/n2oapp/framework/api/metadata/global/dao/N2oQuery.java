@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
-import org.aopalliance.intercept.Invocation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -117,6 +116,7 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String selectBody; //= select body
         private String selectDefaultValue; // = default value in select
         private String selectMapping; // = selectMapping in select
+        private String normalize;
         private Filter[] filterList;
 
         private String joinBody;

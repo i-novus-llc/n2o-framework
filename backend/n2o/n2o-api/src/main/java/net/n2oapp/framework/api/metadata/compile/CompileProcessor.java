@@ -162,9 +162,19 @@ public interface CompileProcessor {
      * Превратить текст с ссылками в JS код
      *
      * @param text Текст
-     * @return JS код или текст, если в нем нет ссылок
+     * @param clazz Тип значения, если это не JS код
+     * @return JS код или объект типа clazz
      */
-    String resolveJS(String text);
+    Object resolveJS(String text, Class<?> clazz);
+
+    /**
+     * Превратить текст с ссылками в JS код
+     * @param text Текст
+     * @return JS код или исходная строка
+     */
+    default String resolveJS(String text) {
+        return (String) resolveJS(text, String.class);
+    }
 
     /**
      * Получить локализованное сообщение по коду и аргументам
