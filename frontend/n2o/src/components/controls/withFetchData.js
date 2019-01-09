@@ -105,7 +105,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       const pathParams = this._mapping(pathMapping);
       const queryParams = this._mapping(queryMapping);
       const basePath = pathToRegexp.compile(url)(pathParams);
-      return await apiCaller({ ...queryParams, ...extraParams }, null, { basePath });
+      let response = this._findResponseInCache({ basePath, queryParams, extraParams });
+
+      if (!response) {
+        response = await apiCaller({ ...queryParams, ...extraParams }, null, { basePath });
+        cachingStore.add({ basePath, queryParams, extraParams }, response);
+      }
+
+      return response;
     }
 
     /**
@@ -139,21 +146,15 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       if (!dataProvider) return;
 
       this.setState({ loading: true });
-      let response = this._findResponseInCache({ dataProvider, extraParams });
-      if (!response) {
-        try {
-          response = await this._fetchDataProvider(dataProvider, extraParams);
-          cachingStore.add({ dataProvider, extraParams }, response);
-          if (has(response, 'message')) this._addAlertMessage(response.message);
+      try {
+        const response = await this._fetchDataProvider(dataProvider, extraParams);
+        cachingStore.add({ dataProvider, extraParams }, response);
+        if (has(response, 'message')) this._addAlertMessage(response.message);
 
-          this._setResponseToData(response, concat);
-        } catch (err) {
-          await this._setErrorMessage(err);
-        } finally {
-          this.setState({ loading: false });
-        }
-      } else {
         this._setResponseToData(response, concat);
+      } catch (err) {
+        await this._setErrorMessage(err);
+      } finally {
         this.setState({ loading: false });
       }
     }
