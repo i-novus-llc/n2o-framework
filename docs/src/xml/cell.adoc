@@ -451,14 +451,14 @@ link:#_Переключатель_switch[Переключатель цвета]
 <list color="secondary" size="3"/>
 ----
 
-=== <custom>
+=== <cell>
 Настраиваемая ячейка.
 
 Пример::
 [source,xml]
 ----
-<custom src="MyCell"
+<cell src="MyCell"
   attr1="value1"
   attr2="value2">
-</custom>
+</cell>
 ----
