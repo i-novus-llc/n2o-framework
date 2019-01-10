@@ -3,6 +3,9 @@ package net.n2oapp.framework.api.metadata.meta;
 import lombok.Getter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+
+import java.util.List;
 
 /**
  * Ссылка на модель виджета
@@ -14,9 +17,15 @@ public class ModelLink extends BindLink {
     private String fieldId;
     private String param;
     private String queryId;
+    private List<SubModelQuery> subModels;
 
     public ModelLink(Object value) {
         setValue(value);
+    }
+
+    public ModelLink(Object value, List<SubModelQuery> subModels) {
+        setValue(value);
+        this.subModels = subModels;
     }
 
     public ModelLink(ReduxModel model, String widgetId) {
@@ -46,12 +55,17 @@ public class ModelLink extends BindLink {
 
     /**
      * Проверяет является ли BindLink ссылкой на другой объект в redux или это константное значение
-     * @return   true, если является ссылкой
+     *
+     * @return true, если является ссылкой
      */
-    public boolean isLink(){
+    public boolean isLink() {
         if (getBindLink() == null && !StringUtils.isJs(getValue()))
             return false;
         return true;
+    }
+
+    public boolean isConstant() {
+        return !StringUtils.isJs(getValue());
     }
 
     @Override

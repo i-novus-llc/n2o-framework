@@ -22,7 +22,7 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
     }
 
     @Override
-    public CustomWidget compile(N2oCustomWidget source, CompileContext<?,?> context, CompileProcessor p) {
+    public CustomWidget compile(N2oCustomWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         CustomWidget widget = new CustomWidget();
         CompiledObject object = getObject(source, p);
         compileWidget(widget, source, context, p, object);

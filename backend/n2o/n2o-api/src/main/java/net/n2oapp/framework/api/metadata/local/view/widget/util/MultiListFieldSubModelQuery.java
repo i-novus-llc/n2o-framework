@@ -41,7 +41,7 @@ public class MultiListFieldSubModelQuery extends SubModelQuery {
         //работа с dataSet закончена
         dataSet = null;
 
-        if (subModelValue == null || !(subModelValue instanceof Collection)) return;
+        if (!(subModelValue instanceof Collection)) return;
         if (((List) subModelValue).isEmpty()) return;
         if (!(((Collection) subModelValue).iterator().next() instanceof Map))
             return;

@@ -9,9 +9,9 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -156,12 +156,6 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public DataSet resolveSubModels(SubModelQuery subModelQueries, DataSet dataSet) {
-        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQueries), dataSet, null);
-        return dataSet;
-    }
-
-    @Override
     public String resolveText(String text) {
         if (StringUtils.hasProperty(text))
             return env.getSystemProperties().resolvePlaceholders(text);
@@ -232,7 +226,22 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public ModelLink resolveLink(ModelLink link) {
-        if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteInfos() == null)
+        if (link.isConstant() && link.getSubModels() != null) {
+            link.getSubModels().forEach(
+                    subModel -> {
+                        if (link.getValue() instanceof DefaultValues) {
+                            DefaultValues defaultValues = (DefaultValues) link.getValue();
+                            if (defaultValues.getValues().containsKey(subModel.getLabelFieldId()))
+                                return;
+                            DataSet dataSet = new DataSet();
+                            dataSet.put(subModel.getSubModel() + "." + subModel.getValueFieldId(), defaultValues.getValues().get(subModel.getValueFieldId()));
+                            subModelsProcessor.executeSubModels(link.getSubModels(), dataSet, null);
+                            defaultValues.setValues((Map) dataSet.get(subModel.getSubModel()));
+                        }
+                    }
+            );
+        }
+        if (link.getBindLink() == null || context == null || context.getQueryRouteInfos() == null)
             return link;
         Optional<String> res = Optional.empty();
         if (context.getQueryRouteInfos() != null) {

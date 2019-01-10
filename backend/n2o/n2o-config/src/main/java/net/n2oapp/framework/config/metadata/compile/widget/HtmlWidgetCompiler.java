@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWidget> {
 
     @Override
-    public HtmlWidget compile(N2oHtmlWidget source, CompileContext<?,?> context, CompileProcessor p) {
+    public HtmlWidget compile(N2oHtmlWidget source, CompileContext<?, ?> context, CompileProcessor p) {
         HtmlWidget widget = new HtmlWidget();
         CompiledObject object = getObject(source, p);
         compileWidget(widget, source, context, p, object);

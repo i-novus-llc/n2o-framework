@@ -21,7 +21,6 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
-
 import java.util.*;
 
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildExpressionForSwitch;
@@ -82,8 +81,9 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, String route, CompiledQuery query, ValidationList validationList) {
-        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList);
+    protected QueryContext getQueryContext(Table widget, N2oTable source, String route, CompiledQuery query,
+                                           ValidationList validationList, SubModelsScope subModelsScope, CompileProcessor p) {
+        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList, subModelsScope, p);
 
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
@@ -169,7 +169,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                               WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
                                               ModelsScope modelsScope, FiltersScope filtersScope) {
-        List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope, widgetQuery, object, modelsScope, filtersScope);
+        List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope, widgetQuery, object, modelsScope, filtersScope, null);
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();

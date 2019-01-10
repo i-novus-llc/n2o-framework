@@ -3,9 +3,6 @@
     <list>
         <test file="META-INF/conf/test/data/submodels/testSubModel.json" operation="findAll"></test>
     </list>
-    <list>
-        <test file="META-INF/conf/test/data/submodels/testSubModel.json" operation="findOne"></test>
-    </list>
     <fields>
         <field id="id">
             <select/>

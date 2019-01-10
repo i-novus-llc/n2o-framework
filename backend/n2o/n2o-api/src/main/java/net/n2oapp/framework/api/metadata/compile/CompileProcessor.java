@@ -1,10 +1,8 @@
 package net.n2oapp.framework.api.metadata.compile;
 
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
@@ -107,15 +105,6 @@ public interface CompileProcessor {
     Object resolve(String value);
 
     /**
-     * Добавляет в датасет данные списковых компонентов по идентификатору
-     *
-     * @param subModelQueries информация о списковом компоненте
-     * @param dataSet         входные данные
-     * @return данные после разрешения полей
-     */
-    DataSet resolveSubModels(SubModelQuery subModelQueries, DataSet dataSet);
-
-    /**
      * Заменить в тексте плейсхолдеры на значения
      *
      * @param text Текст с плейсхолдерами
@@ -161,7 +150,7 @@ public interface CompileProcessor {
     /**
      * Превратить текст с ссылками в JS код
      *
-     * @param text Текст
+     * @param text  Текст
      * @param clazz Тип значения, если это не JS код
      * @return JS код или объект типа clazz
      */
@@ -169,6 +158,7 @@ public interface CompileProcessor {
 
     /**
      * Превратить текст с ссылками в JS код
+     *
      * @param text Текст
      * @return JS код или исходная строка
      */

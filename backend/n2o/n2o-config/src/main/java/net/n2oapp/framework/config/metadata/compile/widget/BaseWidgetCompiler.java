@@ -5,20 +5,16 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -26,9 +22,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.MultiListFieldSubModelQuery;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SingleListFieldSubModelQuery;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -81,11 +74,17 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
                                                 ValidationList validationList) {
+        compileDataProviderAndRoutes(compiled, source, p, validationList, null);
+    }
+
+
+    protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
+                                                ValidationList validationList, SubModelsScope subModelsScope) {
         CompiledQuery query = getDataProviderQuery(source, p);
         ParentRoteScope parentRouteScope = p.getScope(ParentRoteScope.class);
         String parentRoute = parentRouteScope != null ? parentRouteScope.getUrl() : "";
         String widgetRoute = normalize(parentRoute + p.cast(source.getRoute(), normalize(source.getId())));
-        compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, parentRouteScope));
+        compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, parentRouteScope, subModelsScope));
         compileRouteWidget(compiled, source, query, p, widgetRoute);
         compileFetchOnInit(source, compiled);
     }
@@ -266,7 +265,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private WidgetDataProvider initDataProvider(D widget, S source, String widgetRoute, CompiledQuery query,
-                                                CompileProcessor p, ValidationList validationList, ParentRoteScope parentRouteScope) {
+                                                CompileProcessor p, ValidationList validationList,
+                                                ParentRoteScope parentRouteScope, SubModelsScope subModelsScope) {
         if (query == null)
             return null;
         WidgetDataProvider dataProvider = new WidgetDataProvider();
@@ -284,12 +284,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
-        p.addRoute(widgetRoute, getQueryContext(widget, source, widgetRoute, query, validationList));
+        p.addRoute(widgetRoute, getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
         return dataProvider;
     }
 
     protected QueryContext getQueryContext(D widget, S source, String route, CompiledQuery query,
-                                           ValidationList validationList) {
+                                           ValidationList validationList, SubModelsScope subModelsScope, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(query.getId(), route);
         queryContext.setValidations(validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER));
         queryContext.setFilters(widget.getFilters());
@@ -298,7 +298,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(widget));
         queryContext.setMessagesForm(getMessagesForm(widget));
         if (source instanceof N2oForm) {
-            queryContext.setSubModelQueries(initSubModelQueries(source));
+            queryContext.setSubModelQueries(subModelsScope);
             queryContext.setQuerySize(1);
         } else {
             queryContext.setQuerySize(10);
@@ -413,7 +413,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            CompiledQuery widgetQuery,
                                            CompiledObject widgetObject,
                                            ModelsScope modelsScope,
-                                           FiltersScope filtersScope) {
+                                           FiltersScope filtersScope,
+                                           SubModelsScope subModelsScope) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -436,7 +437,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 newFieldset.setItems(newFieldsetItems.toArray(items));
                 fieldSet = newFieldset;
             }
-            fieldSets.add(p.compile(fieldSet, context, widgetScope, widgetQuery, fieldSetScope, widgetObject, modelsScope, filtersScope, indexScope));
+            fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
+                    widgetScope, fieldSetScope, modelsScope, filtersScope, indexScope, subModelsScope));
         }
         return fieldSets;
     }
@@ -506,55 +508,5 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         } else {
             return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
         }
-    }
-
-    private List<SubModelQuery> initSubModelQueries(Source source) {
-        List<SubModelQuery> subModelQueries = new ArrayList<>();
-        NamespaceUriAware[] items = ((N2oForm) source).getItems();
-        if (items != null) {
-            for (NamespaceUriAware item : items)
-                fillSubModelQueries(item, subModelQueries);
-        }
-        return subModelQueries.isEmpty() ? null : subModelQueries;
-    }
-
-    private void fillSubModelQueries(NamespaceUriAware item, final List<SubModelQuery> subModelQueries) {
-        if (item instanceof N2oListField) {
-            subModelQueries.add(createSubModel((N2oListField) item));
-        } else if (item instanceof N2oFieldsetColumn) {
-            N2oFieldsetColumn fieldsetColumn = (N2oFieldsetColumn) item;
-            if (fieldsetColumn.getItems() != null) {
-                for (NamespaceUriAware innerItem : fieldsetColumn.getItems()) {
-                    fillSubModelQueries(innerItem, subModelQueries);
-                }
-            }
-        } else if (item instanceof N2oFieldsetRow) {
-            N2oFieldsetRow fieldsetRow = (N2oFieldsetRow) item;
-            if (fieldsetRow.getItems() != null) {
-                for (NamespaceUriAware innerItem : fieldsetRow.getItems()) {
-                    fillSubModelQueries(innerItem, subModelQueries);
-                }
-            }
-        }
-    }
-
-    private SubModelQuery createSubModel(N2oListField item) {
-        SubModelQuery subModelQuery;
-        if (item.isSingle()) {
-            subModelQuery = new SingleListFieldSubModelQuery(
-                    item.getId(),
-                    item.getQueryId(),
-                    item.getValueFieldId() != null ? item.getValueFieldId() : "id",
-                    item.getLabelFieldId()
-            );
-        } else {
-            subModelQuery = new MultiListFieldSubModelQuery(
-                    item.getId(),
-                    item.getQueryId(),
-                    item.getValueFieldId() != null ? item.getValueFieldId() : "id",
-                    item.getLabelFieldId()
-            );
-        }
-        return subModelQuery;
     }
 }

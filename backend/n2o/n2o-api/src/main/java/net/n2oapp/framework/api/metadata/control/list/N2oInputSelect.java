@@ -17,6 +17,6 @@ public class N2oInputSelect extends N2oListField implements N2oSingleListField, 
 
     @Override
     public boolean isSingle() {
-        return type.equals(ListType.single);
+        return !ListType.multi.equals(type);
     }
 }
