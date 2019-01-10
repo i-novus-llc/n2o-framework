@@ -184,7 +184,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                             Models models) {
         Map<String, Widget> compiledWidgets = new StrictMap<>();
         IndexScope indexScope = new IndexScope();
-        getSourceIndependents(sourceWidgets).forEach(w -> compileWidget(w, pageRoutes, routeScope, null,
+        getSourceIndependents(sourceWidgets).forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
                 sourceWidgets, compiledWidgets,
                 context, p,
                 pageScope, breadcrumbs, validationList, models, indexScope));
@@ -195,6 +195,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                PageRoutes routes,
                                ParentRouteScope parentRoute,
                                String parentWidgetId,
+                               String parentQueryId,
                                List<N2oWidget> sourceWidgets,
                                Map<String, Widget> compiledWidgets,
                                PageContext context, CompileProcessor p,
@@ -202,23 +203,18 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                Models models, IndexScope indexScope) {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setDependsOnWidgetId(parentWidgetId);
-        //todo "чистый" конструктор ParentRouteScope нужно использовать только в одном месте, остальные должны использовать конструктор с parentRoute
-        ParentRouteScope routeScope = new ParentRouteScope(parentRoute.getUrl(), parentRoute.getPathMapping(), parentRoute.getQueryMapping());
-        Widget compiledWidget = p.compile(w, context, indexScope, routes, pageScope, widgetScope, routeScope,
+        widgetScope.setDependsOnQueryId(parentQueryId);
+        Widget compiledWidget = p.compile(w, context, indexScope, routes, pageScope, widgetScope, parentRoute,
                 breadcrumbs, validationList, models);
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
-        //master/detail filter
-        if (compiledWidget.getSelectedRoute() != null) {
-            //todo "чистый" конструктор ParentRouteScope нужно использовать только в одном месте, остальные должны использовать конструктор с parentRoute
-            ParentRouteScope parentRouteScope = new ParentRouteScope(compiledWidget.getSelectedRoute(), compiledWidget.getPathMapping(), parentRoute.getQueryMapping());
-            //compile detail widgets
-            getDetails(w.getId(), sourceWidgets).forEach(detWgt -> {
-                compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(),
-                        sourceWidgets, compiledWidgets,
-                        context, p,
-                        pageScope, breadcrumbs, validationList, models, indexScope);
-            });
-        }
+        //compile detail widgets
+        ParentRouteScope parentRouteScope = new ParentRouteScope(compiledWidget.getRoute(), parentRoute);
+        getDetails(w.getId(), sourceWidgets).forEach(detWgt -> {
+            compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
+                    sourceWidgets, compiledWidgets,
+                    context, p,
+                    pageScope, breadcrumbs, validationList, models, indexScope);
+        });
     }
 
     private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context, PageScope pageScope) {

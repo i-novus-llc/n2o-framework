@@ -60,11 +60,11 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
-        compileDataProviderAndRoutes(table, source, p, validationList);
+        ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
+        compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope);
         component.setClassName(source.getCssClass());
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         MetaActions widgetActions = new MetaActions();
-        ParentRouteScope widgetRouteScope = initWidgetRoute(table.getRoute(), context, p);
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         if (source.getRows() != null) {
             if (source.getRows().getColorFieldId() != null) {

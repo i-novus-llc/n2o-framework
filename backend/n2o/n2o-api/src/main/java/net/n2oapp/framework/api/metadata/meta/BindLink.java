@@ -36,11 +36,6 @@ public class BindLink implements Compiled {
         this.value = value;
     }
 
-
-    public void setBindLink(String bindLink) {
-        this.bindLink = bindLink;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

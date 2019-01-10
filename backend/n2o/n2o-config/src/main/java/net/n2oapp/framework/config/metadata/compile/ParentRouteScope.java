@@ -34,6 +34,16 @@ public class ParentRouteScope {
         this(RouteUtil.normalize(parent.getUrl() + route), parent.getPathMapping(), parent.getQueryMapping());
     }
 
+    public ParentRouteScope(String route,
+                            Map<String, ModelLink> additionalPathMapping, Map<String, ModelLink> additionalQueryMapping,
+                            ParentRouteScope parent) {
+        this(route, parent);
+        if (additionalPathMapping != null)
+            pathMapping.putAll(additionalPathMapping);
+        if (additionalQueryMapping != null)
+            queryMapping.putAll(additionalQueryMapping);
+    }
+
     @Override
     public String toString() {
         return queryMapping != null ? RouteUtil.addQueryParams(url, queryMapping.keySet()) : url;
