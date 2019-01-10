@@ -52,12 +52,13 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getId(), is("testRoute"));
         assertThat(page.getObject().getId(), is("utObjectField"));
         assertThat(page.getLayout().getSrc(), is("SingleLayout"));
-        assertThat(page.getLayout().getRegions().get("single").size(), is(2));
+        assertThat(page.getLayout().getRegions().get("single").size(), is(3));
         assertThat(page.getLayout().getRegions().get("left").size(), is(1));
         assertThat(page.getLayout().getRegions().size(), is(2));
         assertThat(page.getLayout().getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
+        assertThat(page.getLayout().getRegions().get("single").get(2).getSrc(), is("MyRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
