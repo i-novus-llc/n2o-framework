@@ -41,7 +41,7 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 |React компонент
 |Реализация виджета
 |Для каждого виджета своя реализация по умолчанию.
-Для `<custom>` атрибут обязательный.
+Для `<widget>` атрибут обязательный.
 
 |route
 |Строка
@@ -897,7 +897,7 @@ link:#_Ячейки[Ячейка]
 
 |===
 
-=== <custom>
+=== <widget>
 Настраиваемый виджет.
 
 Атрибуты::
@@ -919,9 +919,9 @@ link:#_Ячейки[Ячейка]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<custom src="MyWidget">
+<widget src="MyWidget">
   <child
     prop1="value1"
     prop2="value2"/>
-</custom>
+</widget>
 ----
