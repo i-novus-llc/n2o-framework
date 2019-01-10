@@ -242,7 +242,32 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public String resolveText(String text, ModelLink link) {
-        return "Hello, {name}".equals(text) ? "Hello, Joe" : text;//fixme
+        Set<String> links = StringUtils.collectLinks(text);
+        if (links == null || links.isEmpty())
+            return text;
+        Map<String, ModelLink> linkMap = new HashMap<>();
+        collectModelLinks(context.getPathRouteMapping(), link, linkMap);
+        collectModelLinks(context.getQueryRouteMapping(), link, linkMap);
+        for (String l : links) {
+            if (linkMap.containsKey(l) && data.containsKey(linkMap.get(l).getParam())) {
+                text = text.replace("{" + l + "}", data.get(linkMap.get(l).getParam()).toString());
+            }
+        }
+        return text;
+    }
+
+    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, ModelLink> resultMap) {
+        if (linkMap != null) {
+            linkMap.forEach((k, v) -> {
+                if (v.getWidgetId().equals(link.getWidgetId()) && v.getModel().equals(link.getModel())
+                        && (v.getFieldId() != null || StringUtils.isJs(v.getValue()))) {
+                    resultMap.put(v.getFieldId() == null ?
+                                    v.getValue().toString().substring(1, v.getValue().toString().length() - 1)
+                                    : v.getFieldId(),
+                            v);
+                }
+            });
+        }
     }
 
     @Override
