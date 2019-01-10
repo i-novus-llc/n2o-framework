@@ -18,7 +18,7 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
 
     @Override
     protected String getPropertyWidgetSrc() {
-        return null;
+        return "n2o.api.widget.custom.src";
     }
 
     @Override
