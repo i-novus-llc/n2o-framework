@@ -357,6 +357,7 @@
                 <xs:annotation>
                     <xs:documentation>Кастомный виджет.</xs:documentation>
                 </xs:annotation>
+                <xs:anyAttribute namespace="##other"/>
             </xs:extension>
             <!--todo:реализовать-->
         </xs:complexContent>
