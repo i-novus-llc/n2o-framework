@@ -52,7 +52,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setParentModel(ReduxModel.RESOLVE);
         context.setParentWidgetId("page_master");
         context.setParentRoute("/page");
-        context.setPathRouteMapping(Collections.singletonMap("name_param", new ModelLink(ReduxModel.RESOLVE, "page_master", "name")));
+        context.setPathRouteMapping(Collections.singletonMap("name_param", new ModelLink(ReduxModel.RESOLVE, "page_master", "name", "name_param")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
         assertThat(page.getProperties().getTitle(), is("Hello, Joe"));
@@ -64,7 +64,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setParentModel(ReduxModel.RESOLVE);
         context.setParentWidgetId("page_master");
         context.setParentRoute("/page");
-        context.setPathRouteMapping(Collections.singletonMap("name_param", new ModelLink(ReduxModel.RESOLVE, "page_master", "name")));
+        context.setPathRouteMapping(Collections.singletonMap("name_param", new ModelLink(ReduxModel.RESOLVE, "page_master", "name", "name_param")));
         context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("prev", "/page")));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
