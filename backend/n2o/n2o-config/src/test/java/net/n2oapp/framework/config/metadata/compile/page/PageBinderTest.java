@@ -49,7 +49,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     @Test
     public void pageNameResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
-        context.setParentModel(ReduxModel.RESOLVE);
+        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
         context.setParentWidgetId("page_master");
         context.setParentRoute("/page");
         context.setPathRouteMapping(Collections.singletonMap("name_param", new ModelLink(ReduxModel.RESOLVE, "page_master", "name", "name_param")));
@@ -61,7 +61,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     @Test
     public void pageBreadcrumbResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
-        context.setParentModel(ReduxModel.RESOLVE);
+        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
         context.setParentWidgetId("page_master");
         context.setParentRoute("/page");
         context.setPathRouteMapping(Collections.singletonMap("name_param", new ModelLink(ReduxModel.RESOLVE, "page_master", "name", "name_param")));
