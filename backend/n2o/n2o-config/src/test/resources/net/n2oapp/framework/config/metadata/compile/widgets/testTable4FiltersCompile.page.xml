@@ -5,12 +5,13 @@
         <none place="single">
             <table id="main" query-id="testTable4Compile"
                    object-id="utBlank">
-                <filters place="left">
+                <filters place="left" search-buttons="false">
                     <input-text id="name" required="true" default-value="test"/>
                     <date-interval id="birthday" />
                     <input-select id="gender">
                         <query query-id="testTable4Compile"/>
                     </input-select>
+                    <search-buttons id="sb" searchLabel="searchLabel" resetLabel="resetLabel" />
                 </filters>
                 <columns>
                     <column text-field-id="id">

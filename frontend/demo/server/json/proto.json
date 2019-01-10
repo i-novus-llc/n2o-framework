@@ -793,6 +793,7 @@
         "filterButtonId": "filter",
         "blackResetList": [],
         "filterPlace": "top",
+        "searchButtons": true,
         "validation": {}
       },
       "table": {
@@ -1279,6 +1280,7 @@
         "filterButtonId": "filter",
         "blackResetList": [],
         "filterPlace": "top",
+        "searchButtons": true,
         "validation": {}
       },
       "table": {

@@ -177,6 +177,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         filter.setFilterButtonId("filter");
         filter.setBlackResetList(Collections.EMPTY_LIST);//todo
         filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));
+        filter.setSearchButtons(p.cast(source.getSearchButtons(), true));
         return filter;
     }
 
