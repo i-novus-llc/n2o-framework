@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCustomRegion>{
 
     @Override
+    protected String getPropertyRegionSrc() {
+        return "n2o.api.region.none.src";
+    }
+
+    @Override
     public Class<N2oCustomRegion> getSourceClass() {
         return N2oCustomRegion.class;
     }
@@ -24,7 +29,6 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
     public CustomRegion compile(N2oCustomRegion source, PageContext context, CompileProcessor p) {
         CustomRegion region = new CustomRegion();
         build(region, source, context, p);
-        region.setSrc("MyRegion");
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, context, p, Region.Item.class));
         return region;
@@ -33,7 +37,7 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
     @Override
     protected CustomRegion.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
         CustomRegion.Item item = new CustomRegion.Item();
-        item.setId("region" + index.get());
+        item.setId("none" + index.get());
         item.setLabel(widget.getName());
         item.setProperties(p.mapAttributes(widget));
         return item;

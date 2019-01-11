@@ -58,7 +58,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getLayout().getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(2).getSrc(), is("MyRegion"));
+        assertThat(page.getLayout().getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
