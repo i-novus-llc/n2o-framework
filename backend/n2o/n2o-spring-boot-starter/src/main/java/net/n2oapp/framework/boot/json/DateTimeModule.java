@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Настройка сериализации и десериализации времени и даты
+ */
 public class DateTimeModule extends SimpleModule {
 
     public DateTimeModule(String dateTimePattern) {
