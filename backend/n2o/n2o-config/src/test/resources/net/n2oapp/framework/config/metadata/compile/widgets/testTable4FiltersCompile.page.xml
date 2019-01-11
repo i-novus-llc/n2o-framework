@@ -11,7 +11,7 @@
                     <input-select id="gender">
                         <query query-id="testTable4Compile"/>
                     </input-select>
-                    <search-buttons id="sb" searchLabel="searchLabel" resetLabel="resetLabel" />
+                    <search-buttons id="sb" search-label="searchLabel" reset-label="resetLabel" />
                 </filters>
                 <columns>
                     <column text-field-id="id">

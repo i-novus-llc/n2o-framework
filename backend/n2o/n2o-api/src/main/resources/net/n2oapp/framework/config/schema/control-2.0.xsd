@@ -200,8 +200,8 @@
     <xs:complexType name="controlSearchButtonsDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="searchLabel" type="xs:string"/>
-                <xs:attribute name="resetLabel" type="xs:string"/>
+                <xs:attribute name="search-label" type="xs:string"/>
+                <xs:attribute name="reset-label" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

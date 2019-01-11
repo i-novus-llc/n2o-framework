@@ -16,8 +16,8 @@ public class SearchButtonsIOv2 extends FieldIOv2<N2oSearchButtons>{
     @Override
     public void io(Element e, N2oSearchButtons m, IOProcessor p) {
         super.io(e, m, p);
-        p.attribute(e, "searchLabel", m::getSearchLabel, m::setSearchLabel);
-        p.attribute(e, "resetLabel", m::getResetLabel, m::setResetLabel);
+        p.attribute(e, "search-label", m::getSearchLabel, m::setSearchLabel);
+        p.attribute(e, "reset-label", m::getResetLabel, m::setResetLabel);
     }
 
     @Override
