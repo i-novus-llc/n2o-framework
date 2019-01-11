@@ -919,9 +919,8 @@ link:#_Ячейки[Ячейка]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<widget src="MyWidget">
-  <child
-    prop1="value1"
-    prop2="value2"/>
+<widget src="MyWidget"
+        ext:prop1="value1"
+        ext:prop2="value2">
 </widget>
 ----
