@@ -22,7 +22,7 @@ import { PREFIXES } from '../constants/models';
 /**
  * вызов экшена
  */
-function* handleAction(action) {
+export function* handleAction(action) {
   const { options, actionSrc } = action.payload;
   try {
     let actionFunc;
@@ -52,7 +52,7 @@ function* handleAction(action) {
   }
 }
 
-function* resolveMapping(dataProvider, state) {
+export function* resolveMapping(dataProvider, state) {
   if (!dataProvider.pathMapping) {
     return 'null';
   }
@@ -63,7 +63,7 @@ function* resolveMapping(dataProvider, state) {
 /**
  * вызов экшена
  */
-function* handleInvoke(action) {
+export function* handleInvoke(action) {
   const { modelLink, widgetId, dataProvider, data } = action.payload;
   try {
     if (!dataProvider) {
