@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 
+import java.util.Objects;
+
 /**
  * Ссылка на модель виджета
  */
@@ -36,6 +38,10 @@ public class ModelLink extends BindLink {
         this.fieldId = fieldId;
     }
 
+    public String getFieldId() {
+        return fieldId != null ? fieldId : getJSValue();
+    }
+
     /**
      * Проверяет является ли BindLink ссылкой на другой объект в redux или это константное значение
      * @return   true, если является ссылкой
@@ -44,6 +50,21 @@ public class ModelLink extends BindLink {
         if (getBindLink() == null && !StringUtils.isJs(getValue()))
             return false;
         return true;
+    }
+
+    /**
+     * Эквивалентны ли ссылки на модели без учёта значений и полей.
+     * @param o Ссылка
+     * @return true - эквивалентны, false - нет
+     */
+    public boolean equalsLink(Object o) {
+        if (super.equalsLink(o))
+            return true;
+        if (!(o instanceof ModelLink))
+            return false;
+        ModelLink modelLink = (ModelLink) o;
+        return Objects.equals(getWidgetId(), modelLink.getWidgetId())
+                && Objects.equals(getModel(), modelLink.getModel());
     }
 
     @Override

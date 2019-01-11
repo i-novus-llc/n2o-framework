@@ -232,9 +232,9 @@ public class N2oCompileProcessor implements CompileProcessor {
             res = context.getPathRouteMapping().keySet().stream().filter(ri -> context.getPathRouteMapping().get(ri).equals(link)).findAny();
         }
         if (res.isPresent()) {
-            Object param = data.get(res.get());
-            if (param != null) {
-                return new ModelLink(param);
+            Object value = data.get(res.get());
+            if (value != null) {
+                return new ModelLink(value);
             }
         }
         return link;
@@ -243,7 +243,7 @@ public class N2oCompileProcessor implements CompileProcessor {
     @Override
     public String resolveText(String text, ModelLink link) {
         Set<String> links = StringUtils.collectLinks(text);
-        if (links == null || links.isEmpty())
+        if (links == null || links.isEmpty() || data == null)
             return text;
         Map<String, String> valueParamMap = new HashMap<>();
         collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
@@ -256,20 +256,6 @@ public class N2oCompileProcessor implements CompileProcessor {
         return text;
     }
 
-    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
-        if (linkMap != null) {
-            linkMap.forEach((k, v) -> {
-                if (v.getWidgetId().equals(link.getWidgetId()) && v.getModel().equals(link.getModel())
-                        && (v.getFieldId() != null || StringUtils.isJs(v.getValue()))) {
-                    resultMap.put(v.getFieldId() == null ?
-                                    v.getValue().toString().substring(1, v.getValue().toString().length() - 1)
-                                    : v.getFieldId(),
-                            k);
-                }
-            });
-        }
-    }
-
     @Override
     public String getMessage(String messageCode, Object... arguments) {
         return env.getMessageSource().getMessage(messageCode, arguments);
@@ -279,5 +265,15 @@ public class N2oCompileProcessor implements CompileProcessor {
     public Object resolveJS(String text, Class<?> clazz) {
         String value = ScriptProcessor.resolveLinks(text);
         return env.getDomainProcessor().deserialize(value, clazz);
+    }
+
+    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
+        if (linkMap != null) {
+            linkMap.forEach((k, v) -> {
+                if (v.equalsLink(link)) {
+                    resultMap.put(v.getFieldId(), k);
+                }
+            });
+        }
     }
 }
