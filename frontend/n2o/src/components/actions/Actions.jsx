@@ -20,6 +20,11 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityCheck from '../../core/auth/SecurityCheck';
 
+import evalExpression, { parseExpression } from '../../utils/evalExpression';
+import { PREFIXES } from '../../constants/models';
+import { createStructuredSelector } from 'reselect';
+import { makeGetModelByPrefixSelector } from '../../selectors/models';
+
 /**
  * Компонент redux-обертка для тулбара
  * @reactProps {object} actions - объект с src экшенов
@@ -82,6 +87,7 @@ class Actions extends React.Component {
     };
     this.closeConfirm = this.closeConfirm.bind(this);
     this.onClickHelper = this.onClickHelper.bind(this);
+    this.mapButtonConfirmProps = this.mapButtonConfirmProps.bind(this);
   }
 
   /**
@@ -111,6 +117,22 @@ class Actions extends React.Component {
   }
 
   /**
+   * Маппинг свойст модального окна подтверждения
+   * @param confirm
+   * @returns {{text: *}}
+   */
+  mapButtonConfirmProps({ confirm }) {
+    if (confirm) {
+      const { resolveModel } = this.props;
+      const expression = parseExpression(confirm.text);
+      return {
+        ...confirm,
+        text: expression ? evalExpression(expression, resolveModel) : confirm.text
+      };
+    }
+  }
+
+  /**
    * рендер кнопки или элемента списка дропдауна
    * @param Component
    * @param button
@@ -127,7 +149,7 @@ class Actions extends React.Component {
           containerKey={this.props.containerKey}
         />
         <ModalDialog
-          {...button.confirm}
+          {...this.mapButtonConfirmProps(button)}
           visible={this.state.confirmVisibleId === button.id}
           onConfirm={() => {
             this.onClickHelper(button);
@@ -294,6 +316,11 @@ Actions.propTypes = {
   options: PropTypes.object
 };
 
+const mapStateToProps = createStructuredSelector({
+  resolveModel: (state, { containerKey }) =>
+    makeGetModelByPrefixSelector(PREFIXES.resolve, containerKey)(state)
+});
+
 /**
  * мэппинг диспатча экшенов в функции
  * @param dispatch
@@ -307,6 +334,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Actions);
