@@ -1,31 +1,19 @@
+import createSagaMiddleware, { fork } from 'redux-saga';
+import sagas from '../sagas.js';
+import configureStore from 'redux-mock-store';
 import { handleAction, resolveMapping, handleInvoke } from './actionsImpl';
 import { START_INVOKE, SUCCESS_INVOKE, FAIL_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
 
-const handleActionConfig = {
-  meta: {},
-  payload: {
-    actionSrc: 'perform',
-    options: {
-      actionId: 'update',
-      buttonId: 'update',
-      containerKey: '__patients',
-      type: 'n2o/modals/INSERT',
-      validate: true
-    }
-  },
-  type: 'n2o/actionsImpl/CALL_ACTION_IMPL'
-};
-
 const setupHandleAction = () => {
-  return handleAction(handleActionConfig);
+  return handleAction();
 };
 describe('Проверка саги actionsImpl', () => {
   it('Проверка вызова handleAction', () => {
-    const gen = setupHandleAction();
-    // console.log(gen.next().value)
-    // console.log(gen.next().value)
-    // console.log(gen.next().value)
+    // const gen = setupHandleAction();
+    // console.log(gen.next().value);
+    // console.log(gen.next().value);
+    // console.log(gen.next().value);
   });
 
   it('Проверка resolveMapping', () => {
