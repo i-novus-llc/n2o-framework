@@ -43,7 +43,9 @@ public class ApacheRestClient implements RestClient {
     private static final String CONTENT_TYPE = "application/json";
     private Integer timeoutInMillis;
 
-    public ApacheRestClient() {}
+    public ApacheRestClient() {
+    }
+
     public ApacheRestClient(String millis) {
         timeoutInMillis = Integer.parseInt(millis) * 1000;
     }
@@ -51,6 +53,10 @@ public class ApacheRestClient implements RestClient {
     @Required
     public void setMapper(ObjectMapper mapper) {
         this.mapper = mapper;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        return mapper;
     }
 
     //API
@@ -135,8 +141,8 @@ public class ApacheRestClient implements RestClient {
     }
 
     private DataSet doRequestWithBody(String query, Map<String, Object> body, Map<String, String> headers,
-                                             String proxyHost,
-                                             Integer proxyPort, String method) throws RestException {
+                                      String proxyHost,
+                                      Integer proxyPort, String method) throws RestException {
         CloseableHttpClient client = null;
         HttpResponse response = null;
         String url = null;
@@ -198,9 +204,9 @@ public class ApacheRestClient implements RestClient {
 
 
     private DataSet doRequestWithPathParameters(String query, Map<String, Object> args,
-                                                       Map<String, String> headers,
-                                                       String proxyHost,
-                                                       Integer proxyPort, String method) throws RestException {
+                                                Map<String, String> headers,
+                                                String proxyHost,
+                                                Integer proxyPort, String method) throws RestException {
         CloseableHttpClient client = null;
         HttpResponse response = null;
         String url = null;
