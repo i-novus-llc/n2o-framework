@@ -148,9 +148,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       this.setState({ loading: true });
       try {
         const response = await this._fetchDataProvider(dataProvider, extraParams);
-        cachingStore.add({ dataProvider, extraParams }, response);
         if (has(response, 'message')) this._addAlertMessage(response.message);
-
         this._setResponseToData(response, concat);
       } catch (err) {
         await this._setErrorMessage(err);
