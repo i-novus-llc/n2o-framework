@@ -55,6 +55,10 @@ public class ApacheRestClient implements RestClient {
         this.mapper = mapper;
     }
 
+    public ObjectMapper getObjectMapper() {
+        return mapper;
+    }
+
     //API
     public DataSet GET(String path, Map<String, Object> params, Map<String, String> headers, String host,
                        Integer port) throws RestException {
@@ -76,11 +80,6 @@ public class ApacheRestClient implements RestClient {
     @Override
     public DataSet HEAD(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
         return doRequestWithPathParameters(query, args, headers, proxyHost, proxyPort, "HEAD");
-    }
-
-    @Override
-    public ObjectMapper getObjectMapper() {
-        return mapper;
     }
 
 

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -23,9 +24,11 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
 
     private RestClient restClient;
     private String baseRestUrl;
+    private ObjectMapper objectMapper;
 
-    public RestDataProviderEngine(RestClient restClient) {
+    public RestDataProviderEngine(RestClient restClient, ObjectMapper objectMapper) {
         this.restClient = restClient;
+        this.objectMapper = objectMapper;
     }
 
     public void setBaseRestUrl(String baseRestUrl) {
@@ -84,8 +87,9 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
             if (query.contains(p)) {
                 String value;
                 try {
-                    value = args.get(key) == null ? "" : RestUtil.encode(restClient.getObjectMapper()
-                            .writeValueAsString(args.get(key)).replace("\"", ""));
+                    value = args.get(key) == null ? "" : RestUtil.encode(
+                            objectMapper.writeValueAsString(args.get(key)).replace("\"", "")
+                    );
                 } catch (JsonProcessingException e) {
                     throw new N2oException(e);
                 }

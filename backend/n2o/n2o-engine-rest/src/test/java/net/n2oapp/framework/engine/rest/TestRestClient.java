@@ -101,7 +101,6 @@ public class TestRestClient implements RestClient {
         return response;
     }
 
-    @Override
     public ObjectMapper getObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
