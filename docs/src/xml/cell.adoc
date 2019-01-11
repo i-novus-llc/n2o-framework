@@ -458,7 +458,7 @@ link:#_Переключатель_switch[Переключатель цвета]
 [source,xml]
 ----
 <cell src="MyCell"
-  attr1="value1"
-  attr2="value2">
+  ext:prop1="value1"
+  ext:prop2="value2">
 </cell>
 ----

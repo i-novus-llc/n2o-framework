@@ -6,8 +6,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCustomCell;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-
 /**
  * Компиляция кастомной ячейки
  */
@@ -21,7 +19,7 @@ public class CustomCellCompiler extends AbstractCellCompiler<N2oCustomCell, N2oC
     @Override
     public N2oCustomCell compile(N2oCustomCell source, CompileContext<?,?> context, CompileProcessor p) {
         N2oCustomCell cell = new N2oCustomCell();
-        build(cell, source, context, p, property("n2o.default.cell.custom.src"));
+        build(cell, source, context, p, source.getSrc());
         compileAction(cell, source, context, p);
         return cell;
     }
