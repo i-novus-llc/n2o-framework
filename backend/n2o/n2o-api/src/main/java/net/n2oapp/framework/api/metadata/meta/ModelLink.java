@@ -15,8 +15,6 @@ public class ModelLink extends BindLink {
     private ReduxModel model;
     private String widgetId;
     private String fieldId;
-    @Deprecated
-    private String param;
     @Setter
     private String queryId;
 
