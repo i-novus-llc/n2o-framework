@@ -245,18 +245,18 @@ public class N2oCompileProcessor implements CompileProcessor {
         Set<String> links = StringUtils.collectLinks(text);
         if (links == null || links.isEmpty())
             return text;
-        Map<String, ModelLink> linkMap = new HashMap<>();
-        collectModelLinks(context.getPathRouteMapping(), link, linkMap);
-        collectModelLinks(context.getQueryRouteMapping(), link, linkMap);
+        Map<String, String> valueParamMap = new HashMap<>();
+        collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
+        collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
         for (String l : links) {
-            if (linkMap.containsKey(l) && data.containsKey(linkMap.get(l).getParam())) {
-                text = text.replace("{" + l + "}", data.get(linkMap.get(l).getParam()).toString());
+            if (valueParamMap.containsKey(l) && data.containsKey(valueParamMap.get(l))) {
+                text = text.replace("{" + l + "}", data.get(valueParamMap.get(l)).toString());
             }
         }
         return text;
     }
 
-    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, ModelLink> resultMap) {
+    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
         if (linkMap != null) {
             linkMap.forEach((k, v) -> {
                 if (v.getWidgetId().equals(link.getWidgetId()) && v.getModel().equals(link.getModel())
@@ -264,7 +264,7 @@ public class N2oCompileProcessor implements CompileProcessor {
                     resultMap.put(v.getFieldId() == null ?
                                     v.getValue().toString().substring(1, v.getValue().toString().length() - 1)
                                     : v.getFieldId(),
-                            v);
+                            k);
                 }
             });
         }
