@@ -27,15 +27,21 @@ import java.util.*;
 public abstract class Widget<T extends WidgetComponent> implements Compiled, SrcAware, PropertiesAware {
     private String id;
     private String route;
-    //todo избавиться от selectedRoute и pathMapping, они нужны для компиляции роута детейл виджета. ее надо перенести в компиляцию страницы
-    private String selectedRoute;
-    private Map<String, ModelLink> pathMapping;
+    /**
+     * Наименование path параметра идентификатора родительского виджета
+     */
+    private String masterParam;
+    /**
+     * Ссылка на идентификатор родительского виджета
+     */
+    private ModelLink masterLink;
     private Boolean opened;
     private String name;
     @JsonProperty
     private String icon;
     private UploadType upload;
     private String objectId;
+    private String queryId;
     private List<Filter> filters;
     protected T component;
     private Set<String> notCopiedFields;
@@ -73,14 +79,10 @@ public abstract class Widget<T extends WidgetComponent> implements Compiled, Src
     }
 
     public Filter getFilter(String filterId) {
+        if (filters == null)
+            return null;
         return filters.stream().filter(f -> f.getFilterId().equals(filterId)).findFirst()
-                .orElseThrow(() -> new N2oException("Filter " + filterId + "not found"));
+                .orElseThrow(() -> new N2oException("Filter " + filterId + " not found"));
     }
 
-    public void addPathMapping(String param, ModelLink bindLink) {
-        if (pathMapping == null) {
-            pathMapping = new HashMap<>();
-        }
-        pathMapping.put(param, bindLink);
-    }
 }

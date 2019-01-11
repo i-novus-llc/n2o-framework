@@ -33,21 +33,21 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     public void testResolveLink() {
         PageContext context = new PageContext("test");
         Map<String, ModelLink> routeInfos = new HashMap<>();
-        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId", null, "paramName");
+        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
         value.setValue("`testField`");
         routeInfos.put("paramName", value);
         context.setQueryRouteMapping(routeInfos);
         DataSet data = new DataSet();
         data.put("paramName", "testValue");
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId", null, "paramName");
+        ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
         testML.setValue("`testField`");
         //проверяем, что заменился линк
         ModelLink link = processor.resolveLink(testML);
         assertThat(link.getBindLink(), nullValue());
         assertThat(link.getValue(), is("testValue"));
         //проверяем, что замена не произошла
-        assertThat(processor.resolveLink(new ModelLink(ReduxModel.RESOLVE, "widgetId", null, "paramName")).getBindLink(), is("models.resolve['widgetId']"));
+        assertThat(processor.resolveLink(new ModelLink(ReduxModel.RESOLVE, "widgetId")).getBindLink(), is("models.resolve['widgetId']"));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     public void testResolveText() {
         PageContext context = new PageContext("test");
         Map<String, ModelLink> routeInfos = new HashMap<>();
-        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId", null, "paramName");
+        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
         value.setValue("`name`");
         routeInfos.put("paramName", value);
         context.setQueryRouteMapping(routeInfos);

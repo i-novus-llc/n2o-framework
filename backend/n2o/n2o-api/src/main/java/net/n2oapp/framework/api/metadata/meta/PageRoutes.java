@@ -79,23 +79,6 @@ public class PageRoutes implements Compiled {
     }
 
     /**
-     * Добавить маршрут к виджету страницы
-     *
-     * @param path     Путь
-     * @param widgetId Идентификатор виджета
-     * @param resolved Признак, что виджет содержит выделенную запись
-     */
-    public Route addRoute(String path, String widgetId, boolean resolved, String selectedParam) {
-        Route route = new Route();
-        route.setPath(path);
-        route.setWidgetId(widgetId);
-        route.setResolved(resolved);
-        route.setSelectedParam(selectedParam);
-        addRoute(route);
-        return route;
-    }
-
-    /**
      * Добавить параметр пути
      *
      * @param pathParam Параметр в пути
@@ -135,16 +118,6 @@ public class PageRoutes implements Compiled {
         queryMapping.put(queryParam, query);
     }
 
-    /**
-     * Найти маршрут виджета с выделенной записью на странице
-     *
-     * @param widgetId Идентификатор виджета
-     * @return Маршрут виджета с выделенной записью на странице
-     */
-    public Route findMasterWidgetRoute(String widgetId) {
-        return list.stream().filter(r -> r.getWidgetId() != null && r.getWidgetId().equals(widgetId) && r.isResolved()).findFirst()
-                .orElseThrow(() -> new N2oException("Route by widget [" + widgetId + "] not found"));
-    }
 
     /**
      * Модель маршрута
@@ -167,10 +140,6 @@ public class PageRoutes implements Compiled {
          * Признак, что маршрут виджета содержит выделенную запись
          */
         private boolean resolved;
-        /**
-         * Наименование параметра, отвечающиего за выделенную запись виджета
-         */
-        private String selectedParam;
 
         public Route(String path) {
             this.path = path;

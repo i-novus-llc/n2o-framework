@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.redux;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
@@ -11,6 +12,8 @@ import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 
 /**
  * Взаимодействие c Redux моделями
@@ -44,15 +47,14 @@ public abstract class Redux {
     }
 
     /**
-     * Создать ссылку на Redux состояние виджета
+     * Создать ссылку на сортировку в состоянии виджета
      *
-     * @param widgetId   Идентификатор виджета
-     * @param stateField Поле в состоянии виджета
-     * @return Ссылка на Redux
+     * @param widgetId Идентификатор виджета
+     * @param fieldId  Поле сортировки
+     * @return Ссылка на состояние виджета
      */
-    @Deprecated
-    public static BindLink createBindLink(String widgetId, String stateField) {
-        return new BindLink(String.format("widgets['%s'].%s", widgetId, stateField));
+    public static BindLink createSortLink(String widgetId, String fieldId) {
+        return new BindLink(String.format("widgets['%s'].sorting.%s", widgetId, fieldId));
     }
 
     /**
@@ -69,7 +71,7 @@ public abstract class Redux {
             String widgetId = reduxAction.getPayload().get("widgetId").toString();
             return createBindLink(widgetId, reduxModel, "id");
         } else {
-            if (reduxAction.getType().equals("n2o/models/UPDATE")){
+            if (reduxAction.getType().equals("n2o/models/UPDATE")) {
                 reduxModel = ReduxModel.valueOf(reduxAction.getPayload().get("prefix").toString().toUpperCase());
                 String widgetId = reduxAction.getPayload().get("key").toString();
                 String field = reduxAction.getPayload().get("field") == null ? null : reduxAction.getPayload().get("field").toString();
@@ -149,7 +151,7 @@ public abstract class Redux {
         return new ReduxAction("n2o/widgets/SORT_BY", params);
     }
 
-    public static ModelLink createModelLink(N2oPreFilter preFilter, String queryId) {
+    public static ModelLink linkFilter(N2oPreFilter preFilter) {
         Object value;
         if (preFilter.getValues() == null) {
             value = ScriptProcessor.resolveExpression(preFilter.getValue());
@@ -158,12 +160,18 @@ public abstract class Redux {
         }
         if (StringUtils.isJs(value)) {
             ModelLink link = new ModelLink(preFilter.getRefModel(),
-                    CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId()),
-                    null, preFilter.getParam(), queryId);
+                    CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId()));
             link.setValue(value);
             return link;
         } else {
             return new ModelLink(value);
         }
+    }
+
+    public static ModelLink linkQuery(String clientWidgetId, String fieldId, String queryId) {
+        ModelLink link = new ModelLink(ReduxModel.RESOLVE, clientWidgetId, fieldId);
+        if (PK.equals(fieldId))
+            link.setQueryId(queryId);
+        return link;
     }
 }

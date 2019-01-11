@@ -20,12 +20,12 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         HtmlWidget widget = new HtmlWidget();
         CompiledObject object = getObject(source, p);
         compileWidget(widget, source, context, p, object);
-        compileDataProviderAndRoutes(widget, source, p, null);
+        ParentRouteScope widgetRoute = initWidgetRouteScope(widget, context, p);
+        compileDataProviderAndRoutes(widget, source, p, null, widgetRoute);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setClientWidgetId(widget.getId());
         widgetScope.setWidgetId(source.getId());
         MetaActions widgetActions = new MetaActions();
-        ParentRouteScope widgetRoute = initWidgetRoute(widget.getRoute(), context, p);
         widget.setUrl(source.getUrl());
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
         return widget;

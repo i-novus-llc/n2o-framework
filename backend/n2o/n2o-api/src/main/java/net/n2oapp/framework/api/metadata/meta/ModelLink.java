@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.metadata.meta;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -14,7 +15,7 @@ public class ModelLink extends BindLink {
     private ReduxModel model;
     private String widgetId;
     private String fieldId;
-    private String param;
+    @Setter
     private String queryId;
 
     public ModelLink(Object value) {
@@ -33,16 +34,6 @@ public class ModelLink extends BindLink {
         this.model = model;
         this.widgetId = widgetId;
         this.fieldId = fieldId;
-    }
-
-    public ModelLink(ReduxModel model, String widgetId, String fieldId, String param) {
-        this(model, widgetId, fieldId);
-        this.param = param;
-    }
-
-    public ModelLink(ReduxModel model, String widgetId, String fieldId, String param, String queryId) {
-        this(model, widgetId, fieldId, param);
-        this.queryId = queryId;
     }
 
     /**

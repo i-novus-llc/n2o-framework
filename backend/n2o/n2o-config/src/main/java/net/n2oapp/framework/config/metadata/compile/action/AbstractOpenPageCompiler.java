@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
@@ -13,7 +14,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.PageRoutes;
@@ -30,6 +30,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
+import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
@@ -57,11 +58,11 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         }
         if (source.getDetailFieldId() != null) {
             N2oPreFilter filter = new N2oPreFilter();
-            filter.setFieldId(p.cast(source.getDetailFieldId(), N2oQuery.Field.PK));
+            filter.setFieldId(p.cast(source.getDetailFieldId(), PK));
             filter.setType(FilterType.eq);
-            filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), N2oQuery.Field.PK)));
+            filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
             filter.setRefWidgetId(widgetId);
-            if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(N2oQuery.Field.PK)) && ReduxModel.RESOLVE.equals(model)) {
+            if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
                 filter.setParam(p.cast(masterIdParam, filter.getFieldId()));
             } else {
                 filter.setParam(filter.getFieldId());
@@ -124,16 +125,11 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
                 parentWidgetModel = modelAware.getModel();
             }
         }
-        boolean contextAction = ReduxModel.RESOLVE.equals(parentWidgetModel);
-        String masterIdFilter = null;
-        if (widgetScope != null && contextAction) {
-            masterIdFilter = widgetScope.getClientWidgetId() + "_id";
-            route = route + normalize(colon(masterIdFilter));
-            ModelLink link = new ModelLink(ReduxModel.RESOLVE, widgetScope.getClientWidgetId(), "id", masterIdFilter);
-            pathMapping.put(masterIdFilter, link);
-        }
-        String parentRoute = route;//специально на этом месте, потому что дальше route дополняется и это не должно быть в parentRoute
-        route = normalize(route + normalize(p.cast(source.getRoute(), source.getId())));
+
+        String actionRoute = initActionRoute(source, parentClientWidgetId, parentWidgetModel);
+        String masterIdParam = initMasterLink(actionRoute, pathMapping, parentClientWidgetId, p);
+        route = normalize(route + actionRoute);
+        String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
 
         PageContext pageContext = constructContext(pageId, route);
         pageContext.setPageName(source.getPageName());
@@ -161,7 +157,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
                     RouteUtil.isApplicationUrl(source.getRedirectUrlAfterSubmit()) ? Target.application : Target.self));
         }
 
-        List<N2oPreFilter> preFilters = initPreFilters(source, masterIdFilter, p);
+        List<N2oPreFilter> preFilters = initPreFilters(source, masterIdParam, p);
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
         queryMapping.putAll(initPreFilterParams(preFilters, pathMapping, queryMapping));
@@ -171,6 +167,36 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         initOtherPageRoute(p, route);
         p.addRoute(route, pageContext);
         return pageContext;
+    }
+
+    private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, String parentClientWidgetId,
+                                  CompileProcessor p) {
+        List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
+        String masterIdParam = null;
+        if (!actionRouteParams.isEmpty()) {
+            if (parentClientWidgetId == null)
+                throw new N2oException("Action route contains params " + actionRoute + ", but parent widget not found");
+            if (actionRouteParams.size() > 1)
+                throw new N2oException("Action route can not contain more then one param: " + actionRoute);
+            masterIdParam = actionRouteParams.get(0);
+            CompiledQuery query = p.getScope(CompiledQuery.class);//todo для кнопок страницы будет null
+            String queryId = query != null ? query.getId() : null;
+            ModelLink masterLink = Redux.linkQuery(parentClientWidgetId, PK, queryId);
+            pathMapping.put(masterIdParam, masterLink);
+        }
+        return masterIdParam;
+    }
+
+    private String initActionRoute(S source, String parentClientWidgetId, ReduxModel parentWidgetModel) {
+        String actionRoute = source.getRoute();
+        if (actionRoute == null) {
+            actionRoute = normalize(source.getId());
+            if (parentClientWidgetId != null && ReduxModel.RESOLVE.equals(parentWidgetModel)) {
+                String masterIdParam = parentClientWidgetId + "_id";
+                actionRoute = normalize(colon(masterIdParam)) + actionRoute;
+            }
+        }
+        return actionRoute;
     }
 
     protected abstract void initPageRoute(D compiled, String route,
@@ -196,7 +222,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         params.addAll(pathParams.keySet());
         params.addAll(queryParams.keySet());
         preFilters.stream().filter(f -> f.getParam() != null && !params.contains(f.getParam()))
-                .forEach(f -> res.put(f.getParam(), Redux.createModelLink(f, null)));
+                .forEach(f -> res.put(f.getParam(), Redux.linkFilter(f)));
         return res;
     }
 }
