@@ -140,7 +140,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setResultWidgetId(source.getResultContainerId());
         pageContext.setUpload(source.getUpload());
         pageContext.setParentWidgetId(parentClientWidgetId);
-        pageContext.setParentModel(parentWidgetModel);
+        pageContext.setParentModelLink(new ModelLink(parentWidgetModel, parentClientWidgetId));
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping.keySet()));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));

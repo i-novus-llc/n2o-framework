@@ -42,7 +42,9 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
                         new JavaInfo("testDynamic", N2oQuery.class),
                         new JavaInfo("testDynamic", N2oTable.class),
                         new JavaInfo("testDynamic", N2oPage.class),
-                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/dynamic/formForTestDynamic.widget.xml"))
+                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/dynamic/formForTestDynamic.widget.xml"),
+                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
+                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"))
                 .providers(new TestDynamicProvider())
                 .loaders(new JavaSourceLoader(builder.getEnvironment().getDynamicMetadataProviderFactory()));
     }
@@ -51,7 +53,6 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
     public void testDynamicPage() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml")
                 .get(new PageContext("testDynamicObject", "/test/route"));
-        assertThat(page.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(page.getWidgets().get("test_route_main"), instanceOf(Table.class));
         assertThat(((Table)page.getWidgets().get("test_route_main")).getComponent().getCells().size(), is(1));
         assertThat(((Table)page.getWidgets().get("test_route_main")).getComponent().getCells().get(0).getId(), is("id"));
@@ -66,11 +67,21 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id"));
         // динамическая страница в контекстной кнопке
-        Page dynamicPage = route("/test/route/main/:testDynamicObject_main_id/update", Page.class);
+        Page dynamicPage = route("/test/route/main/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_main_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicPage.getWidgets().get("test_route_main_update_main"), instanceOf(Form.class));
+        assertThat(dynamicPage.getWidgets().get("test_route_main_update_main").getName(), is("Dummy"));
         assertThat(((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id"));
+
+
+        dynamicPage = route("/test/route/second/123/update", Page.class);
+        assertThat(dynamicPage.getId(), is("test_route_second_update"));
+        assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
+        assertThat(dynamicPage.getWidgets().get("test_route_second_update_main"), instanceOf(Form.class));
+        assertThat(dynamicPage.getWidgets().get("test_route_second_update_main").getName(), is("123"));
+        assertThat(((Form) dynamicPage.getWidgets().get("test_route_second_update_main")).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id"));
     }
 }

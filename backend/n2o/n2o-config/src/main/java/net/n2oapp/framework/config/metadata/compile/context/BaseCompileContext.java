@@ -37,6 +37,11 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
      */
     private Map<String, ModelLink> pathRouteMapping;
 
+    /**
+     * Ссылка на модель родителя (связка widgetId + model)
+     */
+    private ModelLink parentModelLink;
+
     public BaseCompileContext(String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         if (sourceId == null)
             throw new IllegalArgumentException("SourceId must not be null");
@@ -61,6 +66,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         }
         this.pathRouteMapping = context.pathRouteMapping;
         this.queryRouteMapping = context.queryRouteMapping;
+        this.parentModelLink = context.parentModelLink;
     }
 
     @Override
@@ -68,9 +74,10 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         if (route != null) {
             String url = route;
             if (StringUtils.hasLink(sourceId) && p != null) {
-                url = p.resolveUrlParams(route, StringUtils.collectLinks(sourceId));
+                return RouteUtil.convertPathToId(url) + "_" + getSourceId(p);
+            } else {
+                return RouteUtil.convertPathToId(url);
             }
-            return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
             return p.resolveParams(sourceId);
@@ -88,7 +95,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getSourceId(CompileProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveParams(sourceId);
+            return p.resolveText(sourceId, parentModelLink);
         }
         return sourceId;
     }
@@ -123,6 +130,14 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
             this.pathRouteMapping = Collections.unmodifiableMap(pathRouteMapping);
         else
             this.pathRouteMapping = null;
+    }
+
+    public ModelLink getParentModelLink() {
+        return parentModelLink;
+    }
+
+    public void setParentModelLink(ModelLink parentModelLink) {
+        this.parentModelLink = parentModelLink;
     }
 
     @Override

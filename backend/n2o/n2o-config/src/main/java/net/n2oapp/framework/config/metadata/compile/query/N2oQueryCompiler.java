@@ -5,8 +5,6 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
-import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oJavaMethod;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -94,7 +92,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                     for (N2oQuery.Filter filter : field.getFilterList()) {
                         if (filter.getFilterField().equals(preFilter.getFilterId())) {
                             filter.setParam(p.cast(preFilter.getParam(), filter.getParam()));
-                            if (preFilter.getLink() != null && !preFilter.getLink().isLink()) {
+                            if (preFilter.getLink() != null && !preFilter.getLink().isConst()) {
                                 filter.setCompiledDefaultValue(p.cast(preFilter.getLink().getValue(), p.resolve(filter.getDefaultValue(), filter.getDomain())));
                             }
                         }

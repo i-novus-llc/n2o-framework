@@ -259,10 +259,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         DataSet data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction1");
         Page showModal = read().compile().bind().get(context, data);
-        assertThat(showModal.getId(), is("page_widget_testOpenPageSimplePageAction1_id1"));
-        assertThat(showModal.getLayout().getRegions().get("single").get(0).getItems().get(0).getWidgetId(), is("page_widget_testOpenPageSimplePageAction1_id1_w0"));
+        assertThat(showModal.getId(), is("page_widget_id1"));
+        assertThat(showModal.getLayout().getRegions().get("single").get(0).getItems().get(0).getWidgetId(), is("page_widget_id1_w0"));
         assertThat(showModal.getWidgets().size(), is(1));
-        assertThat(showModal.getWidgets().get("page_widget_testOpenPageSimplePageAction1_id1_w0"), instanceOf(Form.class));
+        assertThat(showModal.getWidgets().get("page_widget_id1_w0"), instanceOf(Form.class));
     }
 
     @Test

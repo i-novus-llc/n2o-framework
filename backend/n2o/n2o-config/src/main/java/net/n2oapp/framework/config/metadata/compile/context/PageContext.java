@@ -45,10 +45,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String parentWidgetId;
     /**
-     * Модель родительского виджета
-     */
-    private ReduxModel parentModel;
-    /**
      * Наименование страницы
      */
     private String pageName;
@@ -103,7 +99,6 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.resultWidgetId = context.resultWidgetId;
         this.parentRoute = context.parentRoute;
         this.parentWidgetId = context.parentWidgetId;
-        this.parentModel = context.parentModel;
         this.pageName = context.pageName;
         this.closeOnSuccessSubmit = context.closeOnSuccessSubmit;
         this.refreshOnSuccessSubmit = context.refreshOnSuccessSubmit;
