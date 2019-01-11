@@ -32,7 +32,7 @@
                 <pagination/>
                 <columns>
                     <column text-field-id="fullName" label="Аватар">
-                        <custom src="AvatarCell" />
+                        <cell src="AvatarCell" />
                     </column>
                     <column text-field-id="name"/>
                     <column text-field-id="surname"/>
