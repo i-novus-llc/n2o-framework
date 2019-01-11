@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.CustomWidget;
-import net.n2oapp.framework.config.metadata.compile.ParentRoteScope;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,12 +26,12 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
         CustomWidget widget = new CustomWidget();
         CompiledObject object = getObject(source, p);
         compileWidget(widget, source, context, p, object);
-        compileDataProviderAndRoutes(widget, source, p, null);
+        ParentRouteScope widgetRoute = initWidgetRouteScope(widget, context, p);
+        compileDataProviderAndRoutes(widget, source, p, null, widgetRoute);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(widget.getId());
         MetaActions widgetActions = new MetaActions();
-        ParentRoteScope widgetRoute = initWidgetRoute(widget.getRoute(), context, p);
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
         return widget;
     }

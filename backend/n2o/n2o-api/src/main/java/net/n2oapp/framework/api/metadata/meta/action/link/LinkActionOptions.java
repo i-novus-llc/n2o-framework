@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.ActionOptions;
 
 import java.util.Map;
@@ -21,7 +22,7 @@ public class LinkActionOptions implements ActionOptions {
     @JsonProperty
     private Target target;
     @JsonProperty
-    private Map<String, BindLink> pathMapping = new StrictMap<>();
+    private Map<String, ModelLink> pathMapping = new StrictMap<>();
     @JsonProperty
-    private Map<String, BindLink> queryMapping = new StrictMap<>();
+    private Map<String, ModelLink> queryMapping = new StrictMap<>();
 }
