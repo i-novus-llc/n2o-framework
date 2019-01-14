@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
@@ -25,9 +26,9 @@ public class ShowModalPayload implements ActionPayload {
     @JsonProperty
     private String pageUrl;
     @JsonProperty
-    private Map<String, BindLink> pathMapping;
+    private Map<String, ModelLink> pathMapping;
     @JsonProperty
-    private Map<String, BindLink> queryMapping;
+    private Map<String, ModelLink> queryMapping;
     @JsonProperty
     private String title;
     @JsonProperty

@@ -464,6 +464,7 @@
         <xs:complexContent>
             <xs:extension base="fs:fields">
                 <xs:attribute name="place" type="filterPlaceEnum"/>
+                <xs:attribute name="search-buttons" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

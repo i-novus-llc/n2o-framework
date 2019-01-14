@@ -36,14 +36,14 @@ public interface CompileContext<D extends Compiled, S> {
      *
      * @return  список описаний параметров
      */
-    Map<String, ModelLink> getQueryRouteInfos();
+    Map<String, ModelLink> getQueryRouteMapping();
 
     /**
      * Получить список описаний, как можно разрешить path параметры маршрута
      *
      * @return  список описаний параметров
      */
-    Map<String, ModelLink> getPathRouteInfos();
+    Map<String, ModelLink> getPathRouteMapping();
 
     /**
      * Получить класс исходной метаданной

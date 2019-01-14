@@ -3,6 +3,7 @@ package net.n2oapp.framework.boot;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import net.n2oapp.cache.template.SyncCacheTemplate;
 import net.n2oapp.engine.factory.integration.spring.OverrideBean;
 import net.n2oapp.framework.api.MetadataEnvironment;
@@ -14,16 +15,18 @@ import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.local.CompilerHolder;
 import net.n2oapp.framework.api.metadata.local.N2oCompiler;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineSupport;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -37,6 +40,7 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.boot.json.DateTimeModule;
 import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -52,16 +56,18 @@ import net.n2oapp.framework.config.persister.MetadataPersister;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
 import net.n2oapp.framework.config.reader.*;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
-import net.n2oapp.framework.config.register.*;
-import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
+import net.n2oapp.framework.config.register.CacheControl;
+import net.n2oapp.framework.config.register.N2oMetadataRegister;
+import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
+import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.util.SubModelsProcessor;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import net.n2oapp.framework.config.warmup.HeaderWarmUpper;
-import net.n2oapp.framework.engine.util.json.N2oBeanSerializerFactory;
+import net.n2oapp.framework.engine.util.json.BigDecimalSerializer;
 import net.n2oapp.properties.io.PropertiesInfoCollector;
 import net.n2oapp.watchdir.WatchDir;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -74,8 +80,11 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -100,7 +109,9 @@ public class N2oMetadataConfiguration {
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.setSerializerFactory(new N2oBeanSerializerFactory());
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(BigDecimal.class, new BigDecimalSerializer());
+        objectMapper.registerModule(module);
         objectMapper.setDateFormat(new SimpleDateFormat(dataFormat));
         objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
@@ -108,6 +119,7 @@ public class N2oMetadataConfiguration {
                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
                 .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
+        objectMapper.registerModule(new DateTimeModule(dataFormat));
         return objectMapper;
     }
 

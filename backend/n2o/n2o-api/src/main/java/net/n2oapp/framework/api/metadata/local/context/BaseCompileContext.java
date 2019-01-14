@@ -30,12 +30,12 @@ public abstract class BaseCompileContext<T extends SourceMetadata, P extends Com
     protected boolean real = true;
 
     @Override
-    public Map<String, ModelLink> getQueryRouteInfos() {
+    public Map<String, ModelLink> getQueryRouteMapping() {
         return null;
     }
 
     @Override
-    public Map<String, ModelLink> getPathRouteInfos() {
+    public Map<String, ModelLink> getPathRouteMapping() {
         return null;
     }
 
