@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 
 import java.util.Objects;
 
@@ -37,7 +38,20 @@ public class BindLink implements Compiled {
         this.value = value;
     }
 
-    public String getJSValue() {
+    /**
+     * Кстановить значение как ссылку на поле модели
+     * @param field Поле модели
+     */
+    public void setFieldValue(String field) {
+        this.value = Placeholders.js(field);
+    }
+
+    /**
+     * Получить поле модели, установленное ссылкой в значении
+     *
+     * @return Поле модели или null
+     */
+    public String getFieldValue() {
         return StringUtils.isJs(value) ? value.toString().substring(1, value.toString().length() -1) : null;
     }
 

@@ -55,7 +55,8 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(((LinkAction) toolbar.getButtons().get(0).getAction()).getOptions().getPath(), is("https://www.google.com/"));
         assertThat(((LinkAction) toolbar.getButtons().get(0).getAction()).getOptions().getTarget(), is(Target.self));
         BindLink link = ((LinkAction) toolbar.getButtons().get(0).getAction()).getOptions().getQueryMapping().get("q");
-        assertThat(link.getBindLink(), is("models.resolve['testToolbarCell_main'].test"));
+        assertThat(link.getBindLink(), is("models.resolve['testToolbarCell_main']"));
+        assertThat(link.getFieldValue(), is("test"));
 
         assertThat(toolbar.getButtons().get(1).getId(), is("subMenu1"));
         assertThat(toolbar.getButtons().get(1).getLabel(), is("label"));
