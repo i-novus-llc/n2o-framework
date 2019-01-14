@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
@@ -14,7 +15,7 @@ stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('DateTimeControl'));
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       value: text('value', DatePickerJson.value),
       dateFormat: text('dateFormat', DatePickerJson.dateFormat),
@@ -45,7 +46,7 @@ stories
     })
   )
 
-  .addWithJSX('Форматы дат', () => {
+  .add('Форматы дат', () => {
     return (
       <React.Fragment>
         <DatePicker dateFormat="DD/MM/YYYY HH:mm" placeholder="DD/MM/YYYY HH:mm" />
@@ -57,15 +58,15 @@ stories
     );
   })
 
-  .addWithJSX('Текущая неделя', () => {
+  .add('Текущая неделя', () => {
     return (
       <React.Fragment>
-        <DatePicker min="09/04/2018" max="15/04/2018" />
+        <DatePicker />
       </React.Fragment>
     );
   })
 
-  .addWithJSX('Время по умолчанию', () => {
+  .add('Время по умолчанию', () => {
     return (
       <React.Fragment>
         <DatePicker dateFormat="DD/MM/YYYY HH:mm" placeholder="DD/MM/YYYY 00:00" />
@@ -73,7 +74,7 @@ stories
     );
   })
 
-  .addWithJSX('Расположение', () => {
+  .add('Расположение', () => {
     return (
       <div style={{ marginTop: '100px' }}>
         <DatePicker popupPlacement="top" />

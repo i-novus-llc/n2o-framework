@@ -8,7 +8,7 @@ const stories = storiesOf('Контролы/InputSelect', module);
 
 stories.addDecorator(withKnobs);
 
-stories.addWithJSX('Компонент ', () => {
+stories.add('Компонент ', () => {
   const options = [
     {
       id: 'Алексей Николаев',

@@ -208,7 +208,6 @@ stories
       mock.post(
         '/n2o/data',
         delay((req, res) => {
-          console.log(req.body());
           return res.status(201).body(
             JSON.stringify({
               customId: `file_${uniqueId()}`,

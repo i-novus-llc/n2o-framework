@@ -26,12 +26,13 @@ class PasswordInput extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { className } = this.props;
+    const { className, length, ...rest } = this.props;
     return (
       <Input
-        {...this.props}
+        maxLength={length}
         className={cn(['form-control', { [className]: className }])}
         type="password"
+        {...rest}
       />
     );
   }
@@ -39,7 +40,6 @@ class PasswordInput extends React.Component {
 
 PasswordInput.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  disabled: PropTypes.bool,
   disabled: PropTypes.bool,
   onFocus: PropTypes.func,
   onPaste: PropTypes.func,
@@ -57,7 +57,6 @@ PasswordInput.propTypes = {
 PasswordInput.defaultProps = {
   onChange: () => {},
   className: '',
-  disabled: false,
   disabled: false,
   autoFocus: false
 };

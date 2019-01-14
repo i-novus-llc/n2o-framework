@@ -9,7 +9,7 @@ const stories = storiesOf('UI Компоненты/Визуальная загл
 
 stories.addDecorator(withKnobs);
 
-stories.addWithJSX('Компонент', () => {
+stories.add('Компонент', () => {
   const props = {
     className: text('className', 'n2o'),
     title: text('title', 'Текст визуальной заглушки')

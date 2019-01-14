@@ -8,7 +8,7 @@ import TextTableHeader from '../../headers/TextTableHeader';
 
 const stories = storiesOf('Ячейки/Индикатор', module);
 
-stories.addWithJSX('Цвета', () => {
+stories.add('Цвета', () => {
   const tableProps = {
     headers: [
       {

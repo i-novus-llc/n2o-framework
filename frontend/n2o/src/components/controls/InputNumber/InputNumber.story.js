@@ -15,7 +15,7 @@ stories.addDecorator(withTests('InputNumber'));
 const form = withForm({ src: 'InputNumber' });
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       visible: true,
       step: '0.1',
@@ -40,7 +40,7 @@ stories
     })
   )
 
-  .addWithJSX('Min/max', () => {
+  .add('Min/max', () => {
     const props = {
       value: 1,
       min: -150,
@@ -50,7 +50,7 @@ stories
     return <InputNumber {...props} />;
   })
 
-  .addWithJSX('Шаги', () => {
+  .add('Шаги', () => {
     const props = {
       value: 1,
       min: -150,
@@ -69,7 +69,7 @@ stories
     );
   })
 
-  .addWithJSX('Без кнопок', () => {
+  .add('Без кнопок', () => {
     const props = {
       value: 1,
       min: -150,

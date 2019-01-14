@@ -11,7 +11,7 @@ const stories = storiesOf('Регионы/Вкладки', module);
 stories.addDecorator(withTests('Tabs'));
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     return (
       <Tabs>
         <Tab id="one" title="Один" active>
@@ -32,7 +32,7 @@ stories
       </Tabs>
     );
   })
-  .addWithJSX('С отключенной вкладкой', () => {
+  .add('С отключенной вкладкой', () => {
     return (
       <Tabs>
         <Tab id="one" title="Один" active>
@@ -53,7 +53,7 @@ stories
       </Tabs>
     );
   })
-  .addWithJSX('С иконками', () => {
+  .add('С иконками', () => {
     return (
       <Tabs>
         <Tab id="one" title="Google" icon="fa fa-google" active>

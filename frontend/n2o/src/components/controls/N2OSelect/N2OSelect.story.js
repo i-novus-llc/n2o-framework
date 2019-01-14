@@ -11,7 +11,7 @@ const stories = storiesOf('Контролы/Выпадающий список', 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelect'));
 
-stories.addWithJSX('N2O вариант', () => {
+stories.add('N2O вариант', () => {
   const options = [
     {
       id: 'Алексей',

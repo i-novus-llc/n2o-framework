@@ -7,6 +7,8 @@ import LinkCell from './LinkCell';
 import TextTableHeader from '../../headers/TextTableHeader';
 import LinkCellJson from './LinkCell.meta';
 import LinkCellWithPerformJSON from './LinkCellWithPerform.meta';
+import fetchMock from 'fetch-mock';
+import { page } from 'N2oStorybook/fetchMock';
 
 const stories = storiesOf('Ячейки/Ссылка', module);
 
@@ -18,7 +20,6 @@ stories
       id: text('id', LinkCellJson.id),
       fieldKey: boolean('animated', LinkCellJson.fieldKey),
       className: boolean('striped', LinkCellJson.className),
-      style: select('color', LinkCellJson.style),
       action: LinkCellJson.action
     };
 
@@ -67,6 +68,8 @@ stories
     );
   })
   .add('LinkCell с иконкой', () => {
+    fetchMock.restore().get('begin:n2o/page', page);
+
     const tableProps = {
       headers: [
         {
@@ -112,6 +115,8 @@ stories
     );
   })
   .add('Отправка экшена', () => {
+    fetchMock.restore().get('*', page);
+
     const tableProps = {
       headers: [
         {
@@ -123,7 +128,8 @@ stories
       cells: [
         {
           component: LinkCell,
-          ...LinkCellWithPerformJSON
+          ...LinkCellWithPerformJSON,
+          type: 'text'
         }
       ],
       datasource: [

@@ -12,7 +12,7 @@ const stories = storiesOf('Действия/POST запрос', module);
 const urlPattern = 'begin:n2o/data';
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const toolbar = [
       {
         buttons: [

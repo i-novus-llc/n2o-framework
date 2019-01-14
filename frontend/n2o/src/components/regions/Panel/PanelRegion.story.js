@@ -63,7 +63,7 @@ stories
       </div>
     );
   })
-  .addWithJSX('Компоновки', () => {
+  .add('Компоновки', () => {
     const panelParams = [
       { ...defaultProps, headerTitle: 'Только заголовок' },
       { ...defaultProps, headerTitle: 'Заголовок и подвал', footerTitle: 'Подвал' }
@@ -79,7 +79,7 @@ stories
       </div>
     );
   })
-  .addWithJSX('Сворачивание', () => {
+  .add('Сворачивание', () => {
     const commonProps = { footerTitle: 'Подвал', collapsible: true, fullScreen: true };
 
     const panelParams = [
@@ -106,7 +106,7 @@ stories
       </div>
     );
   })
-  .addWithJSX('Цвета', () => {
+  .add('Цвета', () => {
     /**
      *  Создаёт массив пропсов для создания множества панелей
      *  @param {object} styles - доступные стили
@@ -130,7 +130,7 @@ stories
       </div>
     );
   })
-  .addWithJSX('На полный экран', () => {
+  .add('На полный экран', () => {
     const panelParams = [
       { ...defaultProps, headerTitle: 'С кнопкой переключения', fullScreen: true },
       { ...defaultProps, headerTitle: 'Без кнопки переключения', fullScreen: false }
