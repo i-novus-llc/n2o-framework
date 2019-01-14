@@ -336,11 +336,14 @@ class Calendar extends React.Component {
   }
 
   renderList(list, className) {
+    const { value } = this.props;
+
     const isActive = (className, item, i) => {
+      if (!value) return false;
       if (className !== 'month-item') {
-        return item === this.props.value.year();
+        return item === value.year();
       }
-      return i === this.props.value.month();
+      return i === value.month();
     };
     const isOtherDecade = i => className === 'year-item' && (i === 0 || i === 11);
     return list.map((item, i) => {
