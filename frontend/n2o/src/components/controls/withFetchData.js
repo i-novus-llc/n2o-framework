@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { fetchInputSelectData } from '../../core/api';
 import cachingStore from '../../utils/cacher';
 import { connect } from 'react-redux';
-import { get, isArray, has } from 'lodash';
+import { get, isArray, has, merge as mergeFn } from 'lodash';
 import { addAlert, removeAlerts } from '../../actions/alerts';
 import { getParams } from '../../utils/compileUrl';
 
@@ -116,16 +116,17 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     }
 
     /**
-     * Обновить данные если запрос успешен
+     *  Обновить данные если запрос успешен
      * @param list
      * @param count
      * @param size
      * @param page
+     * @param merge
      * @private
      */
-    _setResponseToData({ list, count, size, page }, concat = false) {
+    _setResponseToData({ list, count, size, page }, merge = false) {
       this.setState({
-        data: concat ? this.state.data.concat(list) : list,
+        data: merge ? mergeFn(this.state.data, list) : list,
         isLoading: false,
         count,
         size,
@@ -141,7 +142,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @private
      */
 
-    async _fetchData(extraParams = {}, concat = false) {
+    async _fetchData(extraParams = {}, merge = false) {
       const { dataProvider } = this.props;
       if (!dataProvider) return;
 
@@ -149,7 +150,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       try {
         const response = await this._fetchDataProvider(dataProvider, extraParams);
         if (has(response, 'message')) this._addAlertMessage(response.message);
-        this._setResponseToData(response, concat);
+        this._setResponseToData(response, merge);
       } catch (err) {
         await this._setErrorMessage(err);
       } finally {

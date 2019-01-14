@@ -81,7 +81,7 @@ describe('fetchData HOC test', () => {
     expect(wrapper.find('EmptyComponent').props().size).toBe(2);
   });
 
-  it('Конкатенация данных при fetchData concat=true', async () => {
+  it('Мердж данных при fetchData merge=true', async () => {
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
       list: new Array(10)
     }));
@@ -103,7 +103,7 @@ describe('fetchData HOC test', () => {
     await delay(400);
 
     wrapper.update();
-    expect(wrapper.find('EmptyComponent').props().data.length).toBe(20);
+    expect(wrapper.find('EmptyComponent').props().data.length).toBe(10);
   });
 
   it('Обработка серверной ошибки', async () => {
