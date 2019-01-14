@@ -1,15 +1,46 @@
 import { resolveMapping, handleAction, handleInvoke } from './actionsImpl';
 import { runSaga } from 'redux-saga';
+import { CALL_ACTION_IMPL } from '../constants/toolbar';
 
 describe('Проверка саги actionsImpl', () => {
   it('Проверка генератора handleAction', async () => {
     const disptatched = [];
-    const action = {};
+    const action = {
+      id: 'test',
+      payload: {
+        actionSrc: 'perform',
+        options: {
+          containerKey: 'testWidget'
+        }
+      },
+      type: CALL_ACTION_IMPL
+    };
     const fakeStore = {
-      getState: () => ({}),
+      getState: () => ({
+        widgets: {
+          testWidget: {
+            validation: 'value'
+          }
+        },
+        form: {
+          testWidget: {
+            values: {
+              some: 'value'
+            }
+          }
+        }
+      }),
       dispatch: action => disptatched.push(action)
     };
+    const gen = handleAction(action);
+    console.log(gen.next().value);
+    console.log(gen.next().value);
+    console.log(gen.next().value);
+    console.log(gen.next().value);
+    console.log(gen.next().value);
     const result = await runSaga(fakeStore, handleAction, action);
+    console.log(result.done);
+    console.log(disptatched);
   });
   it('Проверка генератора resolveMapping', async () => {
     const dataProvider = {

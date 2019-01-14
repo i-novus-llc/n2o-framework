@@ -37,7 +37,7 @@ export function* handleAction(action) {
     const notValid =
       options.validate &&
       (yield call(validateField(validationConfig, options.containerKey), values, options.dispatch));
-
+    console.log(notValid);
     if (notValid) {
       throw Error('Ошибка валидации');
     } else {
