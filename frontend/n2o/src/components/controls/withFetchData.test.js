@@ -109,17 +109,19 @@ describe('fetchData HOC test', () => {
   it('Обработка серверной ошибки', async () => {
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
       status: 401,
-      body: {
-        meta: {
-          alert: {
-            messages: [
-              {
-                severity: 'danger',
-                text: 'Произошла внутренняя ошибка'
-              }
-            ]
+      response: {
+        json: () => ({
+          meta: {
+            alert: {
+              messages: [
+                {
+                  severity: 'danger',
+                  text: 'Произошла внутренняя ошибка'
+                }
+              ]
+            }
           }
-        }
+        })
       }
     }));
 
@@ -129,6 +131,9 @@ describe('fetchData HOC test', () => {
       ._fetchData();
 
     await delay(400);
+
+    expect(1).toBe(1);
+
     expect(store.getActions()[1].payload.severity).toBe('danger');
     expect(store.getActions()[1].payload.text).toBe('Произошла внутренняя ошибка');
   });
