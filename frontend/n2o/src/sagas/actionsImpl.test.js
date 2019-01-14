@@ -3,9 +3,7 @@ import { runSaga } from 'redux-saga';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
 import * as api from './fetch';
 import * as fetch from './actionsImpl';
-import fetchMock from 'fetch-mock';
-
-fetchMock.post('*', () => ({ some: 'value' }));
+import * as apiPovider from '../core/api';
 
 const dataProvider = {
   method: 'POST',
@@ -38,14 +36,15 @@ const state = {
 };
 
 describe('Проверка саги actionsImpl', () => {
-  it('Проверка генератора handleInvoke', () => {
-    const gen = handleInvoke(action);
-    console.log(gen.next().value);
-    console.log(gen.next().value);
-    console.log(gen.next().value);
-    console.log(gen.next().value);
-    console.log(gen.next().value);
-    console.log(gen.next().value);
+  it('Проверка генератора handleInvoke', async () => {
+    const dispatched = [];
+    const fakeStore = {
+      dispatch: action => dispatched.push(action),
+      getState: () => ({ some: 'value' })
+    };
+    const result = await runSaga(fakeStore, handleInvoke, action);
+    console.log(dispatched);
+    console.log(result.done);
   });
 
   it('Проверка генератора fetchInvoke', async () => {

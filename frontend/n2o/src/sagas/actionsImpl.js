@@ -19,6 +19,15 @@ import { getParams } from '../utils/compileUrl';
 import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
 
+function* validate(options) {
+  const validationConfig = yield select(makeWidgetValidationSelector(options.containerKey));
+  const values = (yield select(getFormValues(options.containerKey))) || {};
+  const notValid =
+    options.validate &&
+    (yield call(validateField(validationConfig, options.containerKey), values, options.dispatch));
+  return notValid;
+}
+
 /**
  * вызов экшена
  */
@@ -32,12 +41,7 @@ export function* handleAction(action) {
       actionFunc = factoryResolver(actionSrc, null, 'function');
     }
     const state = yield select();
-    const validationConfig = yield select(makeWidgetValidationSelector(options.containerKey));
-    const values = (yield select(getFormValues(options.containerKey))) || {};
-    const notValid =
-      options.validate &&
-      (yield call(validateField(validationConfig, options.containerKey), values, options.dispatch));
-    console.log(notValid);
+    const notValid = yield validate(options);
     if (notValid) {
       throw Error('Ошибка валидации');
     } else {
@@ -78,6 +82,11 @@ export function* fetchInvoke(dataProvider, model) {
   return response;
 }
 
+function* handleFailInvoke(action, widgetId, err) {
+  const meta = merge(action.meta.fail, (err.body && err.body.meta) || {});
+  yield put(createActionHelper(FAIL_INVOKE)({ widgetId, err }, meta));
+}
+
 /**
  * вызов экшена
  */
@@ -108,8 +117,7 @@ export function* handleInvoke(action) {
       )
     );
   } catch (err) {
-    const meta = merge(action.meta.fail, (err.body && err.body.meta) || {});
-    yield put(createActionHelper(FAIL_INVOKE)({ widgetId, err }, meta));
+    yield* handleFailInvoke(action, widgetId, err);
   }
 }
 
