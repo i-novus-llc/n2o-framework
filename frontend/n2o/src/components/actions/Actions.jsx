@@ -20,9 +20,6 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityCheck from '../../core/auth/SecurityCheck';
 
-import { PREFIXES } from '../../constants/models';
-import { createStructuredSelector } from 'reselect';
-import { makeGetModelByPrefixSelector } from '../../selectors/models';
 import linkResolver from '../../utils/linkResolver';
 
 /**
@@ -324,11 +321,6 @@ Actions.propTypes = {
   options: PropTypes.object
 };
 
-const mapStateToProps = createStructuredSelector({
-  resolveModel: (state, { containerKey }) =>
-    makeGetModelByPrefixSelector(PREFIXES.resolve, containerKey)(state)
-});
-
 /**
  * мэппинг диспатча экшенов в функции
  * @param dispatch
@@ -342,6 +334,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Actions);
