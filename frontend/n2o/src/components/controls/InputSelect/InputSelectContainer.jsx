@@ -87,7 +87,6 @@ InputSelectContainer.propTypes = {
   badgeFieldId: PropTypes.string,
   badgeColorFieldId: PropTypes.string,
   disabled: PropTypes.bool,
-  disabled: PropTypes.bool,
   disabledValues: PropTypes.array,
   filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', 'server']),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -113,7 +112,6 @@ InputSelectContainer.propTypes = {
 
 InputSelectContainer.defaultProps = {
   loading: false,
-  disabled: false,
   disabled: false,
   disabledValues: [],
   value: '',
