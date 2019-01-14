@@ -11,9 +11,6 @@ import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
-import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
-
-import java.util.Collections;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -56,21 +53,8 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                     defaultValue.setValue(defValue);
                     defaultValues.add(field.getId(), defaultValue);
                 } else {
-                    SubModelQuery subModelQuery = null;
-                    SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
-                    if (subModelsScope != null) {
-                        for (SubModelQuery subModel : subModelsScope) {
-                            if (source.getId().equals(subModel.getSubModel())) {
-                                subModelQuery = subModel;
-                                break;
-                            }
-                        }
-                    }
-                    ModelLink modelLink = new ModelLink(
-                            defValue,
-                            subModelQuery != null ? Collections.singletonList(subModelQuery) : null
-                    );
-                    defaultValues.add(field.getId(), modelLink);
+                    SubModelQuery subModelQuery = initSubModelQuery(field.getId(), p);
+                    defaultValues.add(field.getId(), new ModelLink(defValue, subModelQuery));
                 }
             }
         }

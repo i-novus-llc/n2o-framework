@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
@@ -23,6 +24,7 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
+import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
@@ -59,12 +61,25 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
                 filter.setFilterId(f.getFilterField());
                 filter.setParam(widgetScope.getClientWidgetId() + "_" + f.getParam());
                 filter.setReloadable(true);
-                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
+                SubModelQuery subModelQuery = initSubModelQuery(field.getId(), p);
+                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId(), subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 filter.setLink(link);
                 filtersScope.getFilters().add(filter);
             });
         }
+    }
+
+    protected SubModelQuery initSubModelQuery(String fieldId, CompileProcessor p) {
+        if (fieldId == null) return null;
+        SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
+        if (subModelsScope != null) {
+            return subModelsScope.stream()
+                    .filter(subModelQuery -> fieldId.equals(subModelQuery.getSubModel()))
+                    .findAny()
+                    .orElse(null);
+        }
+        return null;
     }
 
     private void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {

@@ -19,12 +19,14 @@ public abstract class SubModelQuery implements Serializable {
     private String queryId;
     private String valueFieldId;
     private String labelFieldId;
+    private Boolean multi;
 
-    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId) {
+    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, Boolean multi) {
         this.subModel = subModel;
         this.queryId = queryId;
         this.valueFieldId = valueFieldId;
         this.labelFieldId = labelFieldId;
+        this.multi = multi;
     }
 
     public abstract void applySubModel(Map<String, Object> dataSet,

@@ -24,7 +24,7 @@ public class SubModelTest {
     @Test
     public void testSingleListSubModel() {
         //успех
-        SingleListFieldSubModelQuery subModelQuery = new SingleListFieldSubModelQuery("gender", "someQuery", "id", "label");
+        ListFieldSubModelQuery subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "id", "label", false);
         DataSet dataSet = new DataSet("gender.id", 1);
         TestQueryExecutor queryExecutor = new TestQueryExecutor();
         subModelQuery.applySubModel(dataSet, new TestCompiledQuery("someQuery"), queryExecutor);
@@ -35,7 +35,7 @@ public class SubModelTest {
         assert queryExecutor.compiledQuery != null;
 
         //label уже есть
-        subModelQuery = new SingleListFieldSubModelQuery("gender", "someQuery", "id", "label");
+        subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "id", "label", false);
         dataSet = new DataSet("gender.id", 1).add("gender.label", "someLabel");
         queryExecutor = new TestQueryExecutor();
         subModelQuery.applySubModel(dataSet, new TestCompiledQuery("someQuery"), queryExecutor);
@@ -45,7 +45,7 @@ public class SubModelTest {
         assert queryExecutor.compiledQuery == null;
 
         //value == null
-        subModelQuery = new SingleListFieldSubModelQuery("gender", "someQuery", "id", "label");
+        subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "id", "label", false);
         dataSet = new DataSet("gender.id", null);
         queryExecutor = new TestQueryExecutor();
         subModelQuery.applySubModel(dataSet, new TestCompiledQuery("someQuery"), queryExecutor);
@@ -58,7 +58,7 @@ public class SubModelTest {
     @Test
     public void testSingleListSubModelError() {
         //в query нету поля для value
-        SingleListFieldSubModelQuery subModelQuery = new SingleListFieldSubModelQuery("gender", "someQuery", "wrong", "label");
+        ListFieldSubModelQuery subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "wrong", "label", false);
         DataSet dataSet = new DataSet("gender.wrong", 1);
         TestQueryExecutor queryExecutor = new TestQueryExecutor();
         N2oTestUtil.assertOnException(() -> {
@@ -70,7 +70,7 @@ public class SubModelTest {
     @Test
     public void tesMultiListSubModel() {
         //успех
-        MultiListFieldSubModelQuery subModelQuery = new MultiListFieldSubModelQuery("gender", "someQuery", "id", "label");
+        ListFieldSubModelQuery subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "id", "label", true);
         DataSet dataSet = new DataSet("gender[0].id", 1).add("gender[1].id", 2);
         TestQueryExecutor queryExecutor = new TestQueryExecutor();
         subModelQuery.applySubModel(dataSet, new TestCompiledQuery("someQuery"), queryExecutor);
@@ -84,7 +84,7 @@ public class SubModelTest {
         assert queryExecutor.compiledQuery != null;
 
         //label уже есть
-        subModelQuery = new MultiListFieldSubModelQuery("gender", "someQuery", "id", "label");
+        subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "id", "label", true);
         dataSet = new DataSet("gender[0].id", 1).add("gender[1].id", 2).add("gender[0].label", "someLabel").add("gender[1].label", "someLabel");
         queryExecutor = new TestQueryExecutor();
         subModelQuery.applySubModel(dataSet, new TestCompiledQuery("someQuery"), queryExecutor);
@@ -98,7 +98,7 @@ public class SubModelTest {
         assert queryExecutor.compiledQuery == null;
 //
         //value == null
-        subModelQuery = new MultiListFieldSubModelQuery("gender", "someQuery", "id", "label");
+        subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "id", "label", true);
         dataSet = new DataSet("gender[0].id", null).add("gender[1].id", null);
         queryExecutor = new TestQueryExecutor();
         subModelQuery.applySubModel(dataSet, new TestCompiledQuery("someQuery"), queryExecutor);
@@ -109,7 +109,7 @@ public class SubModelTest {
     @Test
     public void testMultiListSubModelError() {
         //в query нету поля для value
-        MultiListFieldSubModelQuery subModelQuery = new MultiListFieldSubModelQuery("gender", "someQuery", "wrong", "label");
+        ListFieldSubModelQuery subModelQuery = new ListFieldSubModelQuery("gender", "someQuery", "wrong", "label", true);
         DataSet dataSet = new DataSet("gender[0].wrong", 1);
         TestQueryExecutor queryExecutor = new TestQueryExecutor();
         N2oTestUtil.assertOnException(() -> {

@@ -4,11 +4,13 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
@@ -226,20 +228,44 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public ModelLink resolveLink(ModelLink link) {
-        if (link.isConstant() && link.getSubModels() != null) {
-            link.getSubModels().forEach(
-                    subModel -> {
-                        if (link.getValue() instanceof DefaultValues) {
-                            DefaultValues defaultValues = (DefaultValues) link.getValue();
-                            if (defaultValues.getValues().containsKey(subModel.getLabelFieldId()))
-                                return;
-                            DataSet dataSet = new DataSet();
-                            dataSet.put(subModel.getSubModel() + "." + subModel.getValueFieldId(), defaultValues.getValues().get(subModel.getValueFieldId()));
-                            subModelsProcessor.executeSubModels(link.getSubModels(), dataSet, null);
-                            defaultValues.setValues((Map) dataSet.get(subModel.getSubModel()));
+        if (link.getSubModelQuery() != null) {
+            if (link.isConstant()) {
+                SubModelQuery subModelQuery = link.getSubModelQuery();
+                String key = link.getWidgetId() + "_" + link.getSubModelQuery().getSubModel() + "_" + link.getSubModelQuery().getValueFieldId();
+                if (!data.containsKey(key)) {
+                    if (link.getValue() instanceof DefaultValues) {
+                        resolveDefaultValues((DefaultValues) link.getValue(), subModelQuery);
+                    } else if (link.getValue() instanceof Collection) {
+                        for (Object defValue : (Collection) link.getValue()) {
+                            if (defValue instanceof DefaultValues) {
+                                resolveDefaultValues((DefaultValues) defValue, subModelQuery);
+                            }
                         }
                     }
-            );
+                } else if (link.getModel() == ReduxModel.FILTER) {
+                    if (link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()) {
+                        List<DefaultValues> values = new ArrayList<>();
+                        if (!(data.get(key) instanceof List))
+                            data.put(key, Collections.singletonList(data.get(key)));
+                        for (Object id : (List) data.get(key)) {
+                            DataSet dataSet = new DataSet();
+                            dataSet.put(link.getSubModelQuery().getSubModel() + "." + link.getSubModelQuery().getValueFieldId(), id);
+                            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet, null);
+                            DefaultValues defaultValues = new DefaultValues();
+                            defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
+                            values.add(defaultValues);
+                        }
+                        link.setValue(values);
+                    } else {
+                        DataSet dataSet = new DataSet();
+                        dataSet.put(link.getSubModelQuery().getSubModel() + "." + link.getSubModelQuery().getValueFieldId(), data.get(key));
+                        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet, null);
+                        DefaultValues defaultValues = new DefaultValues();
+                        defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
+                        link.setValue(defaultValues);
+                    }
+                }
+            }
         }
         if (link.getBindLink() == null || context == null || context.getQueryRouteInfos() == null)
             return link;
@@ -268,5 +294,14 @@ public class N2oCompileProcessor implements CompileProcessor {
     public Object resolveJS(String text, Class<?> clazz) {
         String value = ScriptProcessor.resolveLinks(text);
         return env.getDomainProcessor().deserialize(value, clazz);
+    }
+
+    private void resolveDefaultValues(DefaultValues defaultValues, SubModelQuery subModelQuery) {
+        if (!defaultValues.getValues().containsKey(subModelQuery.getLabelFieldId())) {
+            DataSet dataSet = new DataSet();
+            dataSet.put(subModelQuery.getSubModel() + "." + subModelQuery.getValueFieldId(), defaultValues.getValues().get(subModelQuery.getValueFieldId()));
+            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet, null);
+            defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
+        }
     }
 }

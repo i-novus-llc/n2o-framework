@@ -9,8 +9,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.MultiListFieldSubModelQuery;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SingleListFieldSubModelQuery;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.ListFieldSubModelQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -23,10 +22,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -56,7 +52,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
         listControl.setHasSearch(p.cast(source.getSearch(), false));
-        initSubModels(source, p.getScope(SubModelsScope.class));
+        initSubModel(source, p.getScope(SubModelsScope.class));
         return compileStandardField(listControl, source, context, p);
     }
 
@@ -68,33 +64,24 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         DefaultValues values = new DefaultValues();
         values.setValues(new HashMap<>());
         source.getDefValue().forEach((f, v) -> values.getValues().put(f, p.resolve(v)));
-        return values;
+        return source.isSingle() ? values : Collections.singletonList(values);
     }
 
-    private void initSubModels(S source, SubModelsScope scope) {
+    private void initSubModel(S source, SubModelsScope scope) {
         if (scope == null)
             return;
-        scope.add(createSubModel(source));
+        if (source.getQueryId() != null)
+            scope.add(createSubModel(source));
     }
 
     private SubModelQuery createSubModel(N2oListField item) {
-        SubModelQuery subModelQuery;
-        if (item.isSingle()) {
-            subModelQuery = new SingleListFieldSubModelQuery(
-                    item.getId(),
-                    item.getQueryId(),
-                    item.getValueFieldId() != null ? item.getValueFieldId() : "id",
-                    item.getLabelFieldId()
-            );
-        } else {
-            subModelQuery = new MultiListFieldSubModelQuery(
-                    item.getId(),
-                    item.getQueryId(),
-                    item.getValueFieldId() != null ? item.getValueFieldId() : "id",
-                    item.getLabelFieldId()
-            );
-        }
-        return subModelQuery;
+        return new ListFieldSubModelQuery(
+                item.getId(),
+                item.getQueryId(),
+                item.getValueFieldId() != null ? item.getValueFieldId() : "id",
+                item.getLabelFieldId() != null ? item.getLabelFieldId() : "name",
+                !item.isSingle()
+        );
     }
 
     private void initDataProvider(T listControl, N2oListField source, CompileProcessor p) {

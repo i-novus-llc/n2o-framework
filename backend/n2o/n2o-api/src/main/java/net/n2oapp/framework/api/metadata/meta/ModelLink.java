@@ -5,8 +5,6 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
-import java.util.List;
-
 /**
  * Ссылка на модель виджета
  */
@@ -17,21 +15,28 @@ public class ModelLink extends BindLink {
     private String fieldId;
     private String param;
     private String queryId;
-    private List<SubModelQuery> subModels;
+    private SubModelQuery subModelQuery;
 
     public ModelLink(Object value) {
         setValue(value);
     }
 
-    public ModelLink(Object value, List<SubModelQuery> subModels) {
+    public ModelLink(Object value, SubModelQuery subModelQuery) {
         setValue(value);
-        this.subModels = subModels;
+        this.subModelQuery = subModelQuery;
     }
 
     public ModelLink(ReduxModel model, String widgetId) {
         super(String.format("models.%s['%s']", model.getId(), widgetId));
         this.model = model;
         this.widgetId = widgetId;
+    }
+
+    public ModelLink(ReduxModel model, String widgetId, SubModelQuery subModelQuery) {
+        super(String.format("models.%s['%s']", model.getId(), widgetId));
+        this.model = model;
+        this.widgetId = widgetId;
+        this.subModelQuery = subModelQuery;
     }
 
     public ModelLink(ReduxModel model, String widgetId, String fieldId) {
