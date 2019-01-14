@@ -62,7 +62,7 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
     private DataSet executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
                                  Integer proxyPort) throws ApacheRestClient.RestException {
 
-        Map<String, String> headers = initHeaders();
+        Map<String, String> headers = initHeaders(args);
         args = new HashMap<>(args);
 
         switch (method) {
@@ -81,7 +81,7 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         }
     }
 
-    protected HashMap<String, String> initHeaders() {
+    protected HashMap<String, String> initHeaders(Map<String, Object> args) {
         return new HashMap<>();
     }
 
