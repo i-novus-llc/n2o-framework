@@ -1,58 +1,48 @@
-import createSagaMiddleware, { fork } from 'redux-saga';
-import sagas from '../sagas.js';
-import configureStore from 'redux-mock-store';
-import { handleAction, resolveMapping, handleInvoke } from './actionsImpl';
-import { START_INVOKE, SUCCESS_INVOKE, FAIL_INVOKE } from '../constants/actionImpls';
-import { CALL_ACTION_IMPL } from '../constants/toolbar';
+import { resolveMapping, handleAction, handleInvoke } from './actionsImpl';
+import { runSaga } from 'redux-saga';
 
-const setupHandleAction = () => {
-  return handleAction();
-};
 describe('Проверка саги actionsImpl', () => {
-  it('Проверка вызова handleAction', () => {
-    // const gen = setupHandleAction();
-    // console.log(gen.next().value);
-    // console.log(gen.next().value);
-    // console.log(gen.next().value);
+  it('Проверка генератора handleAction', async () => {
+    const disptatched = [];
+    const action = {};
+    const fakeStore = {
+      getState: () => ({}),
+      dispatch: action => disptatched.push(action)
+    };
+    const result = await runSaga(fakeStore, handleAction, action);
   });
-
-  it('Проверка resolveMapping', () => {
-    // const path = resolveMapping(
-    //   {
-    //     method: 'POST',
-    //     pathMapping: {
-    //       proto_patients_id: {
-    //         link: 'models.resolve["proto_patients"].id'
-    //       }
-    //     },
-    //     url: 'n2o/data/proto/patients/:proto_patients_id/vip'
-    //   },
-    //   {
-    //     models: {
-    //       resolve: {
-    //         proto_patients: {
-    //           id: 20
-    //         }
-    //       }
-    //     }
-    //   }
-    // );
-    // console.log(path.next().value);
-    // console.log(path.next().value);
-    // expect(
-    //   resolveMapping({
-    //     method: 'POST',
-    //     pathMapping: {
-    //       test: {
-    //         link: 'models.test'
-    //       }
-    //     },
-    //     url: 'n2o/data/:test'
-    //   }, {
-    //     models: {
-    //       test: 'test_is_passed'
-    //     }
-    //   }).next()
-    // ).toEqual('n2o/data/test_is_passed')
+  it('Проверка генератора resolveMapping', async () => {
+    const dataProvider = {
+      method: 'POST',
+      pathMapping: {
+        __patients_id: {
+          link: "models.resolve['__patients'].id"
+        }
+      },
+      url: 'n2o/data/patients/:__patients_id/vip'
+    };
+    const state = {
+      models: {
+        resolve: {
+          __patients: {
+            id: 111
+          }
+        }
+      }
+    };
+    const fakeState = {
+      getState: () => ({
+        models: {
+          resolve: {
+            __patients: {
+              id: 111
+            }
+          }
+        }
+      })
+    };
+    const promise = await runSaga(fakeState, resolveMapping, dataProvider, state);
+    const result = await promise.done;
+    expect(result).toEqual('n2o/data/patients/111/vip');
   });
 });

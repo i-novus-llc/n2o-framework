@@ -1,46 +1,49 @@
 import { runSaga } from 'redux-saga';
 import { getConfig } from './global';
-import fetchMock from 'fetch-mock';
-import sinon from 'sinon';
-
-fetchMock
-  .get('n2o/config', () => {
-    return {
-      test: 'test'
-    };
-  })
-  .restore();
+import { REQUEST_CONFIG } from '../constants/global';
+import * as api from '../core/api';
+import { requestConfigSuccess, requestConfigFail } from '../actions/global';
 
 describe('Проверка саги global', () => {
-  it('Проверка getConfig', () => {
-    const dispatched = [];
-    // sinon
-    //   .stub(
-    //     () => ({
-    //       some: 'value'
-    //     }),
-    //     'fetchSaga'
-    //   )
-    //   .callsFake(() => ({
-    //     json: () => ({
-    //       some: 'value'
-    //     })
-    //   }));
-    const saga = runSaga(
-      {
-        dispatch: action => dispatched.push(action),
-        getState: () => ({ value: 'test' })
+  it('Должен получить конфиг', async () => {
+    const action = {
+      meta: {},
+      payload: {
+        params: undefined
       },
-      getConfig,
-      {
-        payload: {
-          params: {
-            locale: 'ru_RU'
-          }
+      type: REQUEST_CONFIG
+    };
+    const config = {
+      menu: {},
+      page: {}
+    };
+    const dispatched = [];
+
+    const fakeStore = {
+      getState: () => ({
+        global: {
+          locale: 'ru_RU'
         }
-      }
-    );
-    console.log(saga.done);
-    console.log(dispatched[0].payload);
+      }),
+      dispatch: action => dispatched.push(action)
+    };
+
+    api.default = jest.fn(() => Promise.resolve(config));
+
+    await runSaga(fakeStore, getConfig, action);
+    const requestConfigSuccessAction = requestConfigSuccess(config);
+    expect(dispatched[2]).toEqual(requestConfigSuccessAction);
+  });
+
+  it('Должна выпасть ошибка', async () => {
+    const errorObject = {
+      label: 'Ошибка',
+      text: 'Не удалось получить конфигурацию приложения',
+      closeButton: false,
+      severity: 'danger'
+    };
+    const gen = getConfig();
+    gen.next();
+    expect(gen.next().value.PUT.action).toEqual(requestConfigFail(errorObject));
   });
 });
