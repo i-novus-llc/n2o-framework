@@ -5,6 +5,8 @@ import StandardField from '../../widgets/Form/fields/StandardField/StandardField
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
 import { pure, compose } from 'recompose';
 import observeStore from '../../../utils/observeStore';
+import setWatchDependency from '../../../utils/setWatchDependency';
+import { isEqual } from 'lodash';
 /**
  * Поле для {@link ReduxForm}
  * @reactProps {number} id
@@ -19,21 +21,62 @@ class ReduxField extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.observeStore = this.observeStore.bind(this);
+
+    this.state = {
+      state: null
+    };
+
+    this.onDependencyChange = this.onDependencyChange.bind(this);
+    this.observeState = this.observeState.bind(this);
+    this.setRef = this.setRef.bind(this);
     this.Field = compose(withFieldContainer)(props.component);
   }
 
   componentDidMount() {
-    this.observeStore();
+    this.observeState();
   }
 
-  observeStore() {
+  componentDidUpdate(prevProps, prevState) {
+    if (!isEqual(prevState, this.state) && this.controlRef && this.controlRef.props._fetchData) {
+      this.controlRef.props._fetchData({
+        size: this.controlRef.props.size,
+        [`sorting.${this.controlRef.props.labelFieldId}`]: 'ASC'
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this._observer && this._observer();
+  }
+
+  setRef(node) {
+    this.controlRef = node;
+  }
+
+  onDependencyChange(state) {
+    this.setState({ state });
+  }
+
+  observeState() {
     const { store } = this.context;
-    observeStore(store, this.props.setWatchDependency, () => {});
+    this._observer = observeStore(
+      store,
+      state => setWatchDependency(state, this.props),
+      currentState => {
+        this.onDependencyChange(currentState);
+      }
+    );
   }
 
   render() {
-    return <ReduxFormField name={this.props.id} {...this.props} component={this.Field} />;
+    return (
+      <ReduxFormField
+        name={this.props.id}
+        {...this.props}
+        component={this.Field}
+        setRef={this.setRef}
+      />
+    );
   }
 }
 

@@ -10,13 +10,7 @@ import ReduxField from './ReduxField';
 import { showFields, hideFields, enableFields, disableFields } from '../../../actions/formPlugin';
 import observeStore from '../../../utils/observeStore';
 import propsResolver from '../../../utils/propsResolver';
-
-const pickByPath = (object, arrayToPath) =>
-  reduce(arrayToPath, (o, p) => set(o, p, get(object, p)), {});
-
-const DEPENDENCY_TYPES = {
-  RE_RENDER: 'reRender'
-};
+import setWatchDependency from '../../../utils/setWatchDependency';
 
 /**
  * Компонент - филдсет формы
@@ -94,7 +88,6 @@ class Fieldset extends React.Component {
     this.observeState = this.observeState.bind(this);
     this.setVisible = this.setVisible.bind(this);
     this.setEnabled = this.setEnabled.bind(this);
-    this.setWatchDependency = this.setWatchDependency.bind(this);
     this.getFormValues = this.getFormValues.bind(this);
     this.renderRow = this.renderRow.bind(this);
 
@@ -103,7 +96,6 @@ class Fieldset extends React.Component {
     };
 
     this.fields = [];
-    this.fieldsetRef = React.createRef();
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -145,18 +137,6 @@ class Fieldset extends React.Component {
     }
   }
 
-  setWatchDependency(state) {
-    const { dependency, form } = this.props;
-
-    const pickByReRender = (acc, { type, on }) => {
-      if (on && type === DEPENDENCY_TYPES.RE_RENDER) {
-        const formOn = map(on, item => ['form', form, 'values', on].join('.'));
-        return { ...acc, ...pickByPath(state, formOn) };
-      }
-    };
-    return reduce(dependency, pickByReRender, {});
-  }
-
   getFormValues(store) {
     const state = store.getState();
     return getFormValues(this.props.form)(state);
@@ -167,11 +147,15 @@ class Fieldset extends React.Component {
     const { store } = this.context;
 
     if (isString(visible) || isString(enabled)) {
-      this._observer = observeStore(store, this.setWatchDependency, () => {
-        const formValues = this.getFormValues(store);
-        visible && this.setVisible(propsResolver(visible, formValues));
-        enabled && this.setEnabled(propsResolver(enabled, formValues));
-      });
+      this._observer = observeStore(
+        store,
+        state => setWatchDependency(state, this.props),
+        () => {
+          const formValues = this.getFormValues(store);
+          visible && this.setVisible(propsResolver(visible, formValues));
+          enabled && this.setEnabled(propsResolver(enabled, formValues));
+        }
+      );
     }
   }
 
@@ -195,8 +179,7 @@ class Fieldset extends React.Component {
                         labelAlignment={labelAlignment}
                         key={key}
                         autoFocus={autoFocus}
-                        setWatchDependency={this.setWatchDependency}
-                        ref={this.fieldsetRef}
+                        form={this.props.form}
                         {...field}
                       />
                     );

@@ -7,12 +7,6 @@ import { connect } from 'react-redux';
 import { get, isArray, has, isEqual } from 'lodash';
 import { addAlert, removeAlerts } from '../../actions/alerts';
 import { getParams } from '../../utils/compileUrl';
-import { createStructuredSelector } from 'reselect';
-import { makeFormByName } from '../../selectors/formPlugin';
-
-const DEPENDENCY_TYPES = {
-  RE_RENDER: 'reRender'
-};
 
 /**
  * HOC для работы с данными
@@ -48,43 +42,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
           data: nextProps.data
         };
       }
-    }
-
-    componentDidUpdate(nextProps) {
-      if (
-        this.props.dependency &&
-        this.isDependencyValueEqual(this.props, nextProps, this.props.dependency)
-      ) {
-        this._fetchData({
-          size: this.props.size,
-          [`sorting.${this.props.labelFieldId}`]: 'ASC'
-        });
-      }
-    }
-
-    isDependencyValueEqual(props, nextProps, dependency) {
-      let reRenderDependency = false;
-      let reRenderDependencyItem = null;
-      for (let i = 0; i < dependency.length; i++) {
-        if (dependency[i].type === DEPENDENCY_TYPES.RE_RENDER) {
-          reRenderDependency = true;
-          reRenderDependencyItem = dependency[i];
-          break;
-        }
-      }
-      if (reRenderDependency) {
-        for (let i = 0; i < reRenderDependencyItem.on.length; i++) {
-          if (
-            !isEqual(
-              props.dependencyValue[reRenderDependencyItem.on[i]],
-              nextProps.dependencyValue[reRenderDependencyItem.on[i]]
-            )
-          ) {
-            return true;
-          }
-        }
-      }
-      return false;
     }
 
     /**
@@ -206,7 +163,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      */
 
     render() {
-      return <WrappedComponent {...this.props} {...this.state} _fetchData={this._fetchData} />;
+      return (
+        <WrappedComponent
+          {...this.props}
+          {...this.state}
+          _fetchData={this._fetchData}
+          ref={this.props.setRef}
+        />
+      );
     }
   }
 
@@ -222,19 +186,13 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     size: 10
   };
 
-  const mapStateToProps = createStructuredSelector({
-    dependencyValue: (state, props) => {
-      return makeFormByName(props.form)(state, props).values;
-    }
-  });
-
   const mapDispatchToProps = (dispatch, ownProps) => ({
     addAlert: message => dispatch(addAlert(ownProps.form + '.' + ownProps.labelFieldId, message)),
     removeAlerts: () => dispatch(removeAlerts(ownProps.form + '.' + ownProps.labelFieldId))
   });
 
   return connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   )(WithFetchData);
 }
