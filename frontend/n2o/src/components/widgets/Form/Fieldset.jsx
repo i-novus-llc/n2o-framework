@@ -103,6 +103,7 @@ class Fieldset extends React.Component {
     };
 
     this.fields = [];
+    this.fieldsetRef = React.createRef();
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -194,6 +195,8 @@ class Fieldset extends React.Component {
                         labelAlignment={labelAlignment}
                         key={key}
                         autoFocus={autoFocus}
+                        setWatchDependency={this.setWatchDependency}
+                        ref={this.fieldsetRef}
                         {...field}
                       />
                     );

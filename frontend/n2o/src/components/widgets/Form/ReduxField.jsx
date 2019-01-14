@@ -4,6 +4,7 @@ import { Field as ReduxFormField } from 'redux-form';
 import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
 import { pure, compose } from 'recompose';
+import observeStore from '../../../utils/observeStore';
 /**
  * Поле для {@link ReduxForm}
  * @reactProps {number} id
@@ -18,13 +19,27 @@ class ReduxField extends React.Component {
    */
   constructor(props) {
     super(props);
+    this.observeStore = this.observeStore.bind(this);
     this.Field = compose(withFieldContainer)(props.component);
+  }
+
+  componentDidMount() {
+    this.observeStore();
+  }
+
+  observeStore() {
+    const { store } = this.context;
+    observeStore(store, this.props.setWatchDependency, () => {});
   }
 
   render() {
     return <ReduxFormField name={this.props.id} {...this.props} component={this.Field} />;
   }
 }
+
+ReduxField.contextTypes = {
+  store: PropTypes.object
+};
 
 ReduxField.defaultProps = {
   component: StandardField
