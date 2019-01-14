@@ -87,7 +87,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         PageContext context = new PageContext("test");
         Map<String, ModelLink> routeInfos = new HashMap<>();
         ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
-        value.setValue("`name`");
+        value.setFieldValue("name");
         routeInfos.put("paramName", value);
         context.setQueryRouteMapping(routeInfos);
         DataSet data = new DataSet();
