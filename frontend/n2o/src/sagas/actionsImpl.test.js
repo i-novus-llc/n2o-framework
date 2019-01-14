@@ -1,66 +1,66 @@
-import { resolveMapping, handleAction, handleInvoke } from './actionsImpl';
+import { resolveMapping, handleAction, handleInvoke, fetchInvoke } from './actionsImpl';
 import { runSaga } from 'redux-saga';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
+import * as api from './fetch';
+import * as fetch from './actionsImpl';
+import fetchMock from 'fetch-mock';
+
+fetchMock.post('*', () => ({ some: 'value' }));
+
+const dataProvider = {
+  method: 'POST',
+  pathMapping: {
+    __patients_id: {
+      link: "models.resolve['__patients'].id"
+    }
+  },
+  url: 'n2o/data/patients/:__patients_id/vip'
+};
+
+const action = {
+  meta: {},
+  payload: {
+    modelLink: '',
+    widgetId: '',
+    dataProvider,
+    data: {}
+  }
+};
+
+const state = {
+  models: {
+    resolve: {
+      __patients: {
+        id: 111
+      }
+    }
+  }
+};
 
 describe('Проверка саги actionsImpl', () => {
-  it('Проверка генератора handleAction', async () => {
-    const disptatched = [];
-    const action = {
-      id: 'test',
-      payload: {
-        actionSrc: 'perform',
-        options: {
-          containerKey: 'testWidget'
-        }
-      },
-      type: CALL_ACTION_IMPL
-    };
-    const fakeStore = {
-      getState: () => ({
-        widgets: {
-          testWidget: {
-            validation: 'value'
-          }
-        },
-        form: {
-          testWidget: {
-            values: {
-              some: 'value'
-            }
-          }
-        }
-      }),
-      dispatch: action => disptatched.push(action)
-    };
-    const gen = handleAction(action);
+  it('Проверка генератора handleInvoke', () => {
+    const gen = handleInvoke(action);
     console.log(gen.next().value);
     console.log(gen.next().value);
     console.log(gen.next().value);
     console.log(gen.next().value);
     console.log(gen.next().value);
-    const result = await runSaga(fakeStore, handleAction, action);
-    console.log(result.done);
-    console.log(disptatched);
+    console.log(gen.next().value);
   });
+
+  it('Проверка генератора fetchInvoke', async () => {
+    const fakeStore = {
+      getState: () => state
+    };
+    api.default = jest.fn(() => Promise.resolve({ response: 'response from server' }));
+    const promise = await runSaga(fakeStore, fetchInvoke, dataProvider, { id: 12345 }).done;
+    const result = await Promise.resolve(promise);
+    expect(result).toEqual({
+      response: 'response from server'
+    });
+  });
+
   it('Проверка генератора resolveMapping', async () => {
-    const dataProvider = {
-      method: 'POST',
-      pathMapping: {
-        __patients_id: {
-          link: "models.resolve['__patients'].id"
-        }
-      },
-      url: 'n2o/data/patients/:__patients_id/vip'
-    };
-    const state = {
-      models: {
-        resolve: {
-          __patients: {
-            id: 111
-          }
-        }
-      }
-    };
     const fakeState = {
       getState: () => ({
         models: {

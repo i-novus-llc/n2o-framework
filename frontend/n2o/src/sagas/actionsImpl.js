@@ -61,6 +61,24 @@ export function* resolveMapping(dataProvider, state) {
 }
 
 /**
+ * Отправка запроса
+ * @param dataProvider
+ * @param model
+ * @returns {IterableIterator<*>}
+ */
+export function* fetchInvoke(dataProvider, model) {
+  const state = yield select();
+  const path = yield resolveMapping(dataProvider, state);
+  const response = yield call(fetchSaga, FETCH_INVOKE_DATA, {
+    basePath: path,
+    baseQuery: {},
+    baseMethod: dataProvider.method,
+    model
+  });
+  return response;
+}
+
+/**
  * вызов экшена
  */
 export function* handleInvoke(action) {
@@ -73,14 +91,7 @@ export function* handleInvoke(action) {
     if (modelLink) {
       model = yield select(getModelSelector(modelLink));
     }
-    const state = yield select();
-    const path = yield resolveMapping(dataProvider, state);
-    const response = yield call(fetchSaga, FETCH_INVOKE_DATA, {
-      basePath: path,
-      baseQuery: {},
-      baseMethod: dataProvider.method,
-      model
-    });
+    const response = yield call(fetchInvoke, dataProvider, model);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
 

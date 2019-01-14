@@ -1,6 +1,8 @@
-import { addAlertSideEffect, getTimeout } from './alerts';
+import { removeAlertSideEffect, getTimeout } from './alerts';
+import { select } from 'redux-saga/effects';
 import { runSaga } from 'redux-saga';
-import * as alerts from './alerts';
+import { makeAlertsByKeySelector } from '../selectors/alerts';
+import { removeAlerts } from '../actions/alerts';
 
 describe('Проверка саги alerts', () => {
   it('getTimeout должен вернуть тайм-аут', () => {
@@ -34,41 +36,35 @@ describe('Проверка саги alerts', () => {
     expect(timeout2).toEqual(123);
   });
 
-  it('Проверка генератора addAlertSideEffect', async () => {
-    const dispatched = [];
-    const fakeStore = {
-      getState: () => ({
-        alerts: {
-          testAlert: {}
-        }
-      }),
-      dispatch: action => dispatched.push(action)
-    };
-    alerts.getTimeout = jest.fn(() => Promise.resolve({ test: 'test' }));
-    const config = {
-      timeout: {
-        danger: 1234
-      }
-    };
+  it('Проверка генератора removeAlertSideEffect', async () => {
+    const key = 'testKey';
     const action = {
+      meta: {},
       payload: {
-        key: 'testAlert',
+        key: 'testKey',
         alerts: [
           {
-            timeout: 100,
-            severity: 'danger'
+            data: {
+              name: 'test'
+            },
+            severity: 'success',
+            text: 'Success'
           }
         ]
       }
     };
-
-    let gen = addAlertSideEffect(config, action);
-    const result = await runSaga(fakeStore, addAlertSideEffect, config, action);
-
-    const timeout = true;
-    console.log(gen.next());
-    console.log(gen.next());
-    console.log(gen.next());
-    console.log(gen.next());
+    const dispatched = [];
+    const fakeStore = {
+      getState: () => ({
+        alerts: {
+          testKey: {
+            some: 'value'
+          }
+        }
+      }),
+      dispatch: action => dispatched.push(action)
+    };
+    await runSaga(fakeStore, removeAlertSideEffect, action);
+    expect(dispatched[0]).toEqual(removeAlerts('testKey'));
   });
 });
