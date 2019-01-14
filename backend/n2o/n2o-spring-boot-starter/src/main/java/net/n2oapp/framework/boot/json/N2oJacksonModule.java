@@ -16,15 +16,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
- * Настройка сериализации и десериализации времени и даты
+ * Настройка сериализации и десериализации json для N2O моделей
  */
 public class N2oJacksonModule extends SimpleModule {
 
-    public N2oJacksonModule(String dateTimePattern) {
+    public N2oJacksonModule(String dateTimePattern, String datePattern, String timePattern) {
         addSerializer(Date.class, new DateSerializer(false, new SimpleDateFormat(dateTimePattern)));
         addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(dateTimePattern)));
-        addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
-        addSerializer(LocalTime.class, LocalTimeSerializer.INSTANCE);
+        addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(datePattern)));
+        addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(timePattern)));
         addSerializer(BigDecimal.class, new BigDecimalSerializer());
     }
 }
