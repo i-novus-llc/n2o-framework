@@ -245,8 +245,9 @@ class InputSelect extends React.Component {
    * @private
    */
 
-  _handleDataSearch(input, delay = true, callback) {
+  _handleDataSearch(input, delay = 400, callback) {
     const { onSearch, filter, labelFieldId, options } = this.props;
+
     if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
       const filterFunc = item => String.prototype[filter].call(item, input);
       const filteredData = options.filter(item => filterFunc(item[labelFieldId]));

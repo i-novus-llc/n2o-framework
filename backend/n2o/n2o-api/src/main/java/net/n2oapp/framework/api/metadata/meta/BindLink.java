@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.meta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 
 import java.util.Objects;
@@ -36,9 +37,23 @@ public class BindLink implements Compiled {
         this.value = value;
     }
 
+    public String getJSValue() {
+        return StringUtils.isJs(value) ? value.toString().substring(1, value.toString().length() -1) : null;
+    }
 
-    public void setBindLink(String bindLink) {
-        this.bindLink = bindLink;
+
+    /**
+     * Эквивалентны ли ссылки на модели без учёта значений и полей.
+     * @param o Ссылка
+     * @return true - эквивалентны, false - нет
+     */
+    public boolean equalsLink(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof BindLink))
+            return false;
+        BindLink link = (BindLink) o;
+        return Objects.equals(getBindLink(), link.getBindLink());
     }
 
     @Override

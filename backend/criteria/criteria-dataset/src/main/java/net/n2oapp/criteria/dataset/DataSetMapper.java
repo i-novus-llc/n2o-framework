@@ -54,7 +54,7 @@ public class DataSetMapper {
         Map<String, Object> instances = instantiateArguments(argumentClasses);
         Map<String, Object> result;
         if (instances == null || instances.isEmpty()) {
-            result = new LinkedHashMap<>();
+            result = new DataSet();
         } else {
             result = instances;
         }

@@ -86,8 +86,9 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @param response
      * @private
      */
-    async _setErrorMessage({ body }) {
-      const messages = get(body, 'meta.alert.messages', false);
+    async _setErrorMessage({ response }) {
+      const errorMessage = await response.json();
+      const messages = get(errorMessage, 'meta.alert.messages', false);
       messages && this._addAlertMessage(messages);
     }
 
@@ -143,11 +144,11 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     async _fetchData(extraParams = {}, concat = false) {
       const { dataProvider } = this.props;
       if (!dataProvider) return;
+
       this.setState({ loading: true });
       try {
         const response = await this._fetchDataProvider(dataProvider, extraParams);
         if (has(response, 'message')) this._addAlertMessage(response.message);
-
         this._setResponseToData(response, concat);
       } catch (err) {
         await this._setErrorMessage(err);

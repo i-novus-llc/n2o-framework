@@ -20,7 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRoteScope;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -114,7 +114,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             if (context instanceof ModalPageContext)
                 meta.setCloseLastModal(true);
             meta.setRedirect(new RedirectSaga());
-            ParentRoteScope routeScope = p.getScope(ParentRoteScope.class);
+            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
             meta.getRedirect().setTarget(source.getRedirectTarget());
             meta.getRedirect().setServer(true);
@@ -130,7 +130,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         AsyncMetaSaga metaSaga = invokeAction.getOptions().getMeta();
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         Map<String, BindLink> pathMapping = new StrictMap<>();
-        ParentRoteScope routeScope = p.getScope(ParentRoteScope.class);
+        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute(p), "");
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null) {

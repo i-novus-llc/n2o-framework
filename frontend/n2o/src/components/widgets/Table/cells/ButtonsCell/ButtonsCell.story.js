@@ -8,6 +8,7 @@ import TextTableHeader from '../../headers/TextTableHeader';
 import TextCell from '../TextCell/TextCell';
 import ButtonsCell from './ButtonsCell';
 import metadata from './ButtonsCell.meta';
+import AuthButtonContainer from '../../../../../core/auth/AuthLogin';
 
 const stories = storiesOf('Ячейки/ButtonsCell', module);
 
@@ -288,7 +289,6 @@ const createTable = data =>
   });
 
 stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('CheckboxCell'));
 
 stories
   .add('Метаданные', () => {
@@ -306,16 +306,59 @@ stories
           disabled: boolean('disabled', metadata.buttons[0].disabled),
           color: text('color', metadata.buttons[0].color),
           action: metadata.buttons[0].action
+        },
+        {
+          label: 'Скрытая кнопка',
+          color: 'success',
+          security: {
+            roles: ['admin']
+          }
+        },
+        {
+          label: 'Скрытый dropdown',
+          color: 'warning',
+          subMenu: [
+            {
+              label: 'Элемент 1'
+            }
+          ],
+          security: {
+            roles: ['admin']
+          }
+        },
+        {
+          label: 'Еще',
+          color: 'secondary',
+          subMenu: [
+            {
+              label: 'Элемент 1 (не скрыт)'
+            },
+            {
+              label: 'Элемент 2 (скрыт)',
+              security: {
+                roles: ['admin']
+              }
+            }
+          ]
         }
       ]
     };
 
-    return createTable([
-      {
-        description: 'Кнопки',
-        buttons: props.buttons
-      }
-    ]);
+    return (
+      <div>
+        <small>
+          Введите <mark>admin</mark>, чтобы увидеть скрытый кнопку в ячейке
+        </small>
+        <AuthButtonContainer />
+        <br />
+        {createTable([
+          {
+            description: 'Кнопки',
+            buttons: props.buttons
+          }
+        ])}
+      </div>
+    );
   })
   .add('Примеры', () => {
     return <div style={{ paddingBottom: 50 }}>{createTable(examplesDataSource)}</div>;

@@ -32,8 +32,8 @@ public class RestEngineConfiguration {
     }
 
     @Bean
-    public RestDataProviderEngine restDataProviderEngine(RestClient restClient) {
-        RestDataProviderEngine restDataProviderEngine = new RestDataProviderEngine(restClient);
+    public RestDataProviderEngine restDataProviderEngine(ApacheRestClient restClient) {
+        RestDataProviderEngine restDataProviderEngine = new RestDataProviderEngine(restClient, restClient.getObjectMapper());
         restDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return restDataProviderEngine;
     }
@@ -45,7 +45,7 @@ public class RestEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RestClient n2oRestClient() {
+    public ApacheRestClient n2oRestClient() {
         ApacheRestClient restClient = new ApacheRestClient(timeoutInMillis);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));

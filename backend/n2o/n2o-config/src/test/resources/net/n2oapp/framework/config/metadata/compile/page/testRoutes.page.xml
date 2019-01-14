@@ -2,31 +2,35 @@
       route="/page" layout="test">
     <regions>
         <none place="test">
-            <table src="Test" route="/master" id="master">
+            <table id="master" route="/master">
                 <columns>
                     <column text-field-id="id"/>
                 </columns>
             </table>
-        </none>
-        <none place="test2">
-            <form id="detail" src="Test" route="/detail" depends-on="master"
-                    detail-field-id="detail.id" master-field-id="id">
+            <form id="detail" route="/:master_id/detail"
+                  query-id="testStandardPageDependency"
+                  depends-on="master" detail-field-id="parent.id" master-field-id="id">
                 <fields>
                     <input-text id="id"/>
                 </fields>
             </form>
-        </none>
-        <none place="test3">
-            <form id="detail2" src="Test" depends-on="master"
-                  detail-field-id="id" master-field-id="id">
+            <form id="detail2"
+                  query-id="testStandardPageDependency"
+                  depends-on="master" detail-field-id="parent.id" master-field-id="id">
                 <fields>
                     <input-text id="id"/>
                 </fields>
             </form>
-        </none>
-        <none place="test4">
-            <form id="detail4" src="Test" depends-on="detail"
-                  detail-field-id="id" master-field-id="id">
+            <form id="detail4"
+                  query-id="testStandardPageDependency"
+                  depends-on="detail" detail-field-id="parent.id" master-field-id="id">
+                <fields>
+                    <input-text id="id"/>
+                </fields>
+            </form>
+            <form id="detail5" route="/form"
+                  query-id="testStandardPageDependency"
+                  depends-on="detail" detail-field-id="parent.id" master-field-id="id">
                 <fields>
                     <input-text id="id"/>
                 </fields>

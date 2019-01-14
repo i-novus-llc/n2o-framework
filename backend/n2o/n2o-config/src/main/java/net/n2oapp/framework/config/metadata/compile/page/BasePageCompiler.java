@@ -3,10 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
-import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -69,8 +66,19 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
         }
         Breadcrumb current = new Breadcrumb();
         current.setLabel(pageName);
+        if (context.getParentModelLink() != null) {
+            current.setModelLink(context.getParentModelLink());
+        }
         breadcrumbs.add(current);
         return breadcrumbs;
+    }
+
+    protected PageProperty initPageName(String pageName, PageContext context, CompileProcessor p) {
+        PageProperty pageProperty = new PageProperty();
+        pageProperty.setTitle(p.cast(context.getPageName(), pageName));
+        if (context.getParentModelLink() != null)
+            pageProperty.setModelLink(context.getParentModelLink());
+        return pageProperty;
     }
 
 }

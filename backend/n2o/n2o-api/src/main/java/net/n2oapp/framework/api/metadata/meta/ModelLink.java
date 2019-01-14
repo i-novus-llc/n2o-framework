@@ -1,8 +1,13 @@
 package net.n2oapp.framework.api.metadata.meta;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.script.ScriptProcessor;
+
+import java.util.Objects;
 
 /**
  * Ссылка на модель виджета
@@ -12,7 +17,7 @@ public class ModelLink extends BindLink {
     private ReduxModel model;
     private String widgetId;
     private String fieldId;
-    private String param;
+    @Setter
     private String queryId;
 
     public ModelLink(Object value) {
@@ -26,7 +31,6 @@ public class ModelLink extends BindLink {
     }
 
     public ModelLink(ReduxModel model, String widgetId, String fieldId) {
-        //todo если поле genders*.id то нужно его превращать через js в массив и сетить в value
         super(fieldId == null ? String.format("models.%s['%s']", model.getId(), widgetId) : String.format("models.%s['%s'].%s",
                 model.getId(), widgetId, fieldId));
         this.model = model;
@@ -34,24 +38,33 @@ public class ModelLink extends BindLink {
         this.fieldId = fieldId;
     }
 
-    public ModelLink(ReduxModel model, String widgetId, String fieldId, String param) {
-        this(model, widgetId, fieldId);
-        this.param = param;
-    }
-
-    public ModelLink(ReduxModel model, String widgetId, String fieldId, String param, String queryId) {
-        this(model, widgetId, fieldId, param);
-        this.queryId = queryId;
+    public String getFieldId() {
+        return fieldId != null ? fieldId : getJSValue();
     }
 
     /**
      * Проверяет является ли BindLink ссылкой на другой объект в redux или это константное значение
      * @return   true, если является ссылкой
      */
-    public boolean isLink(){
+    public boolean isConst(){
         if (getBindLink() == null && !StringUtils.isJs(getValue()))
             return false;
         return true;
+    }
+
+    /**
+     * Эквивалентны ли ссылки на модели без учёта значений и полей.
+     * @param o Ссылка
+     * @return true - эквивалентны, false - нет
+     */
+    public boolean equalsLink(Object o) {
+        if (super.equalsLink(o))
+            return true;
+        if (!(o instanceof ModelLink))
+            return false;
+        ModelLink modelLink = (ModelLink) o;
+        return Objects.equals(getWidgetId(), modelLink.getWidgetId())
+                && Objects.equals(getModel(), modelLink.getModel());
     }
 
     @Override

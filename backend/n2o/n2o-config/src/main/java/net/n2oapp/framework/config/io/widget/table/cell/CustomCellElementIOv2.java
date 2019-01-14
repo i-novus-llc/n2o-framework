@@ -21,7 +21,7 @@ public class CustomCellElementIOv2 extends AbstractCellElementIOv2<N2oCustomCell
 
     @Override
     public String getElementName() {
-        return "custom" ;
+        return "cell" ;
     }
 
     @Override

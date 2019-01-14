@@ -42,6 +42,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.child(e, null, "rows", t::getRows, t::setRows, N2oRow::new, this::rows);
         p.child(e, null, "pagination", t::getPagination, t::setPagination, N2oPagination::new, this::pagination);
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
+        p.childAttributeBoolean(e, "filters", "search-buttons", t::getSearchButtons, t::setSearchButtons);
         p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
     }
 
