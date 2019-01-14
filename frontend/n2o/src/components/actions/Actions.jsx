@@ -20,10 +20,10 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityCheck from '../../core/auth/SecurityCheck';
 
-import evalExpression, { parseExpression } from '../../utils/evalExpression';
 import { PREFIXES } from '../../constants/models';
 import { createStructuredSelector } from 'reselect';
 import { makeGetModelByPrefixSelector } from '../../selectors/models';
+import linkResolver from '../../utils/linkResolver';
 
 /**
  * Компонент redux-обертка для тулбара
@@ -123,11 +123,15 @@ class Actions extends React.Component {
    */
   mapButtonConfirmProps({ confirm }) {
     if (confirm) {
-      const { resolveModel } = this.props;
-      const expression = parseExpression(confirm.text);
+      const store = this.context.store.getState();
+      const { modelLink, text } = confirm;
+      const resolvedText = linkResolver(store, {
+        link: modelLink,
+        value: text
+      });
       return {
         ...confirm,
-        text: expression ? evalExpression(expression, resolveModel) : confirm.text
+        text: resolvedText
       };
     }
   }
@@ -301,6 +305,10 @@ class Actions extends React.Component {
     );
   }
 }
+
+Actions.contextTypes = {
+  store: PropTypes.object
+};
 
 Actions.defaultProps = {
   toolbar: []
