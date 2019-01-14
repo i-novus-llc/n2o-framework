@@ -29,8 +29,22 @@ public class ReproducerAccessPoint {
 
     public static void reproduceAccessPoint(N2oObjectAccessPoint accessPoint, final List<AccessPoint> pointList, CompileProcessor p) {
         split(accessPoint, accessPoint.getAction(), N2oObjectAccessPoint::setAction, pointList);
-        collectAll(accessPoint, accessPoint.getAction(), () -> p.getSource(accessPoint.getObjectId(), N2oObject.class),
-                r -> safeStreamOf(r.getOperations()).map(N2oObject.Operation::getId), N2oObjectAccessPoint::setAction, pointList);
+        if ("*".equals(accessPoint.getAction())) {
+            if (accessPoint.getObjectId().contains("*")) {
+                N2oObjectAccessPoint point = copy(accessPoint);
+                point.setAction("update");
+                pointList.add(point);
+                point = copy(accessPoint);
+                point.setAction("create");
+                pointList.add(point);
+                point = copy(accessPoint);
+                point.setAction("delete");
+                pointList.add(point);
+            } else {
+                collectAll(accessPoint, accessPoint.getAction(), () -> p.getSource(accessPoint.getObjectId(), N2oObject.class),
+                        r -> safeStreamOf(r.getOperations()).map(N2oObject.Operation::getId), N2oObjectAccessPoint::setAction, pointList);
+            }
+        }
 
         boolean hasRead = pointList.stream()
                 .filter(N2oObjectAccessPoint.class::isInstance)

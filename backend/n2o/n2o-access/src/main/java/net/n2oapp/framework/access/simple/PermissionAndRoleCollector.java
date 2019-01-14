@@ -8,6 +8,7 @@ import net.n2oapp.framework.access.metadata.schema.permission.N2oPermission;
 import net.n2oapp.framework.access.metadata.schema.role.N2oRole;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.access.metadata.schema.user.N2oUserAccess;
+import net.n2oapp.framework.api.StringUtils;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -25,7 +26,7 @@ import static java.util.Arrays.stream;
 public class PermissionAndRoleCollector {
 
     public final static BiFunction<String, String, Predicate<N2oObjectAccessPoint>> OBJECT_ACCESS = (objectId, actionId) ->
-            ac -> ac.getObjectId().equals(objectId) && Objects.equals(actionId, ac.getAction());
+            ac -> StringUtils.maskMatch(ac.getObjectId(), objectId) && Objects.equals(actionId, ac.getAction());
 
     public final static Function<String, Predicate<N2oUrlAccessPoint>> URL_ACCESS = pattern -> ac -> ac.getMatcher().matches(pattern);
 
