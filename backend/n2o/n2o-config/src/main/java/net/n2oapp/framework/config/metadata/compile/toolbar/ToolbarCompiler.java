@@ -139,7 +139,8 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         button.setClassName(source.getClassName());
         if (p.cast(source.getDescription(), source.getLabel()) != null)
             button.setHint(p.cast(source.getDescription(), source.getLabel()).trim());
-        button.setVisible(source.getVisible());
+        button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
         compileDependencies(button, source, context, p);

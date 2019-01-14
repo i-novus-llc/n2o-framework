@@ -12,7 +12,7 @@
                 </button>
                 <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
                     <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"
-                               validate="true" enabling-condition="test" visibility-condition="test"/>
+                               validate="true"/>
                 </sub-menu>
             </toolbar>
         </column>

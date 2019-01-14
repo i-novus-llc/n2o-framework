@@ -20,7 +20,8 @@ public abstract class ActionComponent implements Serializable, IdAware, ModelAwa
     private String label;
     private String icon;
     private String hotkey;
-    private Boolean visible;
+    private String visible;
+    private String enabled;
     private N2oAction action;
     private ReduxModel model;
     private String widgetId;
