@@ -102,7 +102,6 @@ function withListContainer(WrappedComponent) {
      */
 
     const handleScrollEnd = throttle(() => {
-      console.log('every one hundred ms');
       if (data.length >= count) return false;
 
       if (page && size && count) {
