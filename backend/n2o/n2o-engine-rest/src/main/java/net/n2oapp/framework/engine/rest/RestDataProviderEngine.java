@@ -62,7 +62,7 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
     private DataSet executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
                                  Integer proxyPort) throws ApacheRestClient.RestException {
 
-        Map<String, String> headers = new HashMap<>();
+        Map<String, String> headers = initHeaders();
         args = new HashMap<>(args);
 
         switch (method) {
@@ -79,6 +79,10 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
             default:
                 throw new UnsupportedOperationException("Method " + method + " unsupported");
         }
+    }
+
+    protected HashMap<String, String> initHeaders() {
+        return new HashMap<>();
     }
 
     private String resolvePathPlaceholders(String query, Map<String, Object> args) {
