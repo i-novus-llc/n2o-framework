@@ -29,31 +29,6 @@ public class ReproducerAccessPoint {
 
     public static void reproduceAccessPoint(N2oObjectAccessPoint accessPoint, final List<AccessPoint> pointList, CompileProcessor p) {
         split(accessPoint, accessPoint.getAction(), N2oObjectAccessPoint::setAction, pointList);
-        if ("*".equals(accessPoint.getAction())) {
-            if (accessPoint.getObjectId().contains("*")) {
-                N2oObjectAccessPoint point = copy(accessPoint);
-                point.setAction("update");
-                pointList.add(point);
-                point = copy(accessPoint);
-                point.setAction("create");
-                pointList.add(point);
-                point = copy(accessPoint);
-                point.setAction("delete");
-                pointList.add(point);
-            } else {
-                collectAll(accessPoint, accessPoint.getAction(), () -> p.getSource(accessPoint.getObjectId(), N2oObject.class),
-                        r -> safeStreamOf(r.getOperations()).map(N2oObject.Operation::getId), N2oObjectAccessPoint::setAction, pointList);
-            }
-        }
-
-        boolean hasRead = pointList.stream()
-                .filter(N2oObjectAccessPoint.class::isInstance)
-                .map(N2oObjectAccessPoint.class::cast)
-                .anyMatch(ap -> ap.getObjectId().equals(accessPoint.getObjectId())
-                        && ap.getAction() != null && ap.getAction().equals("read"));
-        if (!hasRead && (accessPoint.getAction() == null || accessPoint.getAction().isEmpty() || accessPoint.getAction().equals("*"))) {
-            accessPoint.setAction("read");
-        }
     }
 
     public static void reproduceAccessPoint(N2oModuleAccessPoint accessPoint, final List<AccessPoint> pointList) {
@@ -66,9 +41,6 @@ public class ReproducerAccessPoint {
 
     public static void reproduceAccessPoint(N2oContainerAccessPoint accessPoint, final List<AccessPoint> pointList) {
         split(accessPoint, accessPoint.getContainer(), N2oContainerAccessPoint::setContainer, pointList);
-        collectAll(accessPoint, accessPoint.getContainer(), () -> ValidationUtil.getOrNull(accessPoint.getPage(), N2oPage.class),
-                r -> safeStreamOf(r.getContainers()).map(N2oWidget::getId),
-                N2oContainerAccessPoint::setContainer, pointList);
     }
 
     public static void reproduceAccessPoint(N2oMenuItemAccessPoint accessPoint, final List<AccessPoint> pointList) {
@@ -78,21 +50,13 @@ public class ReproducerAccessPoint {
 
     public static void reproduceAccessPoint(N2oColumnAccessPoint accessPoint, final List<AccessPoint> pointList) {
         split(accessPoint, accessPoint.getColumnId(), N2oColumnAccessPoint::setColumnId, pointList);
-        collectAll(accessPoint, accessPoint.getColumnId(), () -> ValidationUtil.getOrNull(accessPoint.getPageId(), N2oPage.class),
-                page -> safeStreamOf(page.getContainers()).filter(container -> container.getId().equals(accessPoint.getContainerId()))
-                        .findFirst().map(N2oTable.class::cast)
-                        .map(N2oTable::getColumns).flatMap(columns -> Optional.of(safeStreamOf(columns).map(AbstractColumn::getId)))
-                        .orElse(Stream.empty()), N2oColumnAccessPoint::setColumnId, pointList);
     }
 
     public static void reproduceAccessPoint(N2oFilterAccessPoint accessPoint, final List<AccessPoint> pointList){
         split(accessPoint, accessPoint.getFilterId(), N2oFilterAccessPoint::setFilterId, pointList);
-//        collectAll(accessPoint, accessPoint.getFilterId(), () -> CompilerHolder.get().get(accessPoint.getQueryId(), CompiledQuery.class),
-//                compiledQuery -> safeStreamOf(compiledQuery.getFilterFields()), N2oFilterAccessPoint::setFilterId, pointList);
-        //todo:закоментировано поскольку изменится компиляция
     }
 
-    public static <T extends AccessPoint> void split(T accessPoint, String val, BiConsumer<T, String> setter,
+    private static <T extends AccessPoint> void split(T accessPoint, String val, BiConsumer<T, String> setter,
                                                       final List<AccessPoint> pointList) {
         if (val != null && val.contains(",")) {
             String[] split = val.replaceAll("\\s+", "").split(",");
@@ -104,23 +68,6 @@ public class ReproducerAccessPoint {
                     }).collect(Collectors.toList());
             pointList.remove(accessPoint);
             pointList.addAll(list);
-        }
-    }
-
-    public static <T extends AccessPoint, R> void collectAll(T accessPoint, String val,
-                                                              Supplier<R> compiler, Function<R, Stream<String>> getter,
-                                                              BiConsumer<T, String> setter, final List<AccessPoint> pointList) {
-        if (val != null && val.equals("*")) {
-            R r = compiler.get();
-            if (r != null) {
-                List<T> points = getter.apply(r)
-                        .map(str -> {
-                            T point = copy(accessPoint);
-                            setter.accept(point, str);
-                            return point;
-                        }).collect(Collectors.toList());
-                pointList.addAll(points);
-            }
         }
     }
 

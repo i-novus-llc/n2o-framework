@@ -61,6 +61,7 @@ public class StringUtilsTest {
 
     @Test
     public void testMaskEquals() {
+        assert StringUtils.maskMatch("*","test");
         assert StringUtils.maskMatch("1Aba?","1Aba?");
         assert !StringUtils.maskMatch("1Aba","0Aba");
 

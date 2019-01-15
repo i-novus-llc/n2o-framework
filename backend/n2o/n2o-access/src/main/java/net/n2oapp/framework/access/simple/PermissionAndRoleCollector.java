@@ -26,7 +26,7 @@ import static java.util.Arrays.stream;
 public class PermissionAndRoleCollector {
 
     public final static BiFunction<String, String, Predicate<N2oObjectAccessPoint>> OBJECT_ACCESS = (objectId, actionId) ->
-            ac -> StringUtils.maskMatch(ac.getObjectId(), objectId) && Objects.equals(actionId, ac.getAction());
+            ac -> StringUtils.maskMatch(ac.getObjectId(), objectId) && StringUtils.maskMatch(ac.getAction(), actionId);
 
     public final static Function<String, Predicate<N2oUrlAccessPoint>> URL_ACCESS = pattern -> ac -> ac.getMatcher().matches(pattern);
 
