@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { fetchInputSelectData } from '../../core/api';
 import cachingStore from '../../utils/cacher';
 import { connect } from 'react-redux';
-import { get, isArray, has } from 'lodash';
+import { get, isArray, has, isEqual } from 'lodash';
 import { addAlert, removeAlerts } from '../../actions/alerts';
 import { getParams } from '../../utils/compileUrl';
 
@@ -162,7 +162,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      */
 
     render() {
-      return <WrappedComponent {...this.props} {...this.state} _fetchData={this._fetchData} />;
+      return (
+        <WrappedComponent
+          {...this.props}
+          {...this.state}
+          _fetchData={this._fetchData}
+          ref={this.props.setRef}
+        />
+      );
     }
   }
 
