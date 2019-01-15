@@ -29,6 +29,6 @@ public class N2oSimplePage extends N2oPage {
 
     @Override
     public String getObjectId() {
-        return widget.getObjectId();
+        return widget != null ? widget.getObjectId() : null;
     }
 }
