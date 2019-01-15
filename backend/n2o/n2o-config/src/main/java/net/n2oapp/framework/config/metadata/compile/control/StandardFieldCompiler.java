@@ -49,7 +49,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             }
             if (defValue != null) {
                 if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), null, field.getId());
+                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
                     defaultValue.setValue(defValue);
                     defaultValues.add(field.getId(), defaultValue);
                 } else {

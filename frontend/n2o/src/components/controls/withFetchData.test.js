@@ -131,6 +131,9 @@ describe('fetchData HOC test', () => {
       ._fetchData();
 
     await delay(400);
+
+    expect(1).toBe(1);
+
     expect(store.getActions()[1].payload.severity).toBe('danger');
     expect(store.getActions()[1].payload.text).toBe('Произошла внутренняя ошибка');
   });

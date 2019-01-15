@@ -28,10 +28,7 @@ import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
@@ -115,9 +112,9 @@ public abstract class AbstractController {
         DataSet sortingsData = data.getDataSet("sorting");
         if (sortingsData == null)
             return sortings;
-        for (Map.Entry<String, Object> entry : sortingsData.entrySet()) {
-            String fieldId = sortingMap == null || !sortingMap.containsKey(entry.getKey()) ? entry.getKey() : sortingMap.get(entry.getKey());
-            String value = (String) entry.getValue();
+        for (String key : sortingsData.flatKeySet()) {
+            String fieldId = sortingMap == null || !sortingMap.containsKey(key) ? key : sortingMap.get(key);
+            String value = sortingsData.getString(key);
             Direction direction = value != null ? Direction.valueOf(value.toUpperCase()) : Direction.ASC;
             sortings.add(new Sorting(fieldId, direction));
         }
@@ -143,6 +140,7 @@ public abstract class AbstractController {
         }
     }
 
+    @Deprecated
     protected QueryRequestInfo createQueryRequestInfo(HttpServletRequest request) {
         CompiledQuery query;
         RoutingResult result = getRoutingResult(request);

@@ -43,7 +43,7 @@ public class PageRoutes implements Compiled {
      * @param route  Путь
      */
     public void addRoute(Route route) {
-        if (this.list.contains(route)) {
+        if (this.list.contains(route) && !route.isOtherPage) {
             throw new N2oException("Page already contains route {0}!").addData(route.getPath());
         }
         this.list.add(route);
@@ -74,23 +74,6 @@ public class PageRoutes implements Compiled {
         Route route = new Route();
         route.setPath(path);
         route.setWidgetId(widgetId);
-        addRoute(route);
-        return route;
-    }
-
-    /**
-     * Добавить маршрут к виджету страницы
-     *
-     * @param path     Путь
-     * @param widgetId Идентификатор виджета
-     * @param resolved Признак, что виджет содержит выделенную запись
-     */
-    public Route addRoute(String path, String widgetId, boolean resolved, String selectedParam) {
-        Route route = new Route();
-        route.setPath(path);
-        route.setWidgetId(widgetId);
-        route.setResolved(resolved);
-        route.setSelectedParam(selectedParam);
         addRoute(route);
         return route;
     }
@@ -135,16 +118,6 @@ public class PageRoutes implements Compiled {
         queryMapping.put(queryParam, query);
     }
 
-    /**
-     * Найти маршрут виджета с выделенной записью на странице
-     *
-     * @param widgetId Идентификатор виджета
-     * @return Маршрут виджета с выделенной записью на странице
-     */
-    public Route findMasterWidgetRoute(String widgetId) {
-        return list.stream().filter(r -> r.getWidgetId() != null && r.getWidgetId().equals(widgetId) && r.isResolved()).findFirst()
-                .orElseThrow(() -> new N2oException("Route by widget [" + widgetId + "] not found"));
-    }
 
     /**
      * Модель маршрута
@@ -167,10 +140,6 @@ public class PageRoutes implements Compiled {
          * Признак, что маршрут виджета содержит выделенную запись
          */
         private boolean resolved;
-        /**
-         * Наименование параметра, отвечающиего за выделенную запись виджета
-         */
-        private String selectedParam;
 
         public Route(String path) {
             this.path = path;

@@ -246,7 +246,9 @@
           "success": {
             "refresh": {
               "type": "widget",
-              "options": {}
+              "options": {
+                "widgetId": "proto_patients"
+              }
             },
             "redirect": {
               "path": "/proto/patients/:id",

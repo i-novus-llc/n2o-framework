@@ -50,7 +50,7 @@ public abstract class RouteUtil {
      * @return  дополненный url
      */
     public static String addQueryParams(String route, Set<String> queryParams) {
-        if (queryParams == null && queryParams.size() == 0)
+        if (queryParams == null || queryParams.isEmpty())
             return route;
         StringBuilder params = new StringBuilder();
         queryParams.forEach(p -> {
@@ -64,8 +64,9 @@ public abstract class RouteUtil {
         }
         if (route.contains("?")) {
             return String.format("%s&%s", route, params.toString());
+        } else {
+            return String.format("%s?%s", route, params.toString());
         }
-        return String.format("%s?%s", route, params.toString());
     }
 
 
@@ -181,9 +182,8 @@ public abstract class RouteUtil {
      * @return true внутри, false снаружи
      */
     public static boolean isApplicationUrl(String url) {
-        if (url.startsWith("http") || url.startsWith("//"))
-            return false;// target self or newWindow
-        return true;
+        // target self or newWindow
+        return !url.startsWith("http") && !url.startsWith("//");
     }
 
     /**

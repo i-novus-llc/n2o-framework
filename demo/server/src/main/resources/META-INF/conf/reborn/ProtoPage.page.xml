@@ -17,12 +17,14 @@
                 <columns>
                     <column text-field-id="surname">
                         <link>
-                            <open-page page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"/>
+                            <open-page page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"
+                                       page-name="Карточка пациента: {id}"/>
                         </link>
                     </column>
                     <column text-field-id="name">
                         <link>
-                            <show-modal page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"/>
+                            <show-modal page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"
+                                        page-name="Карточка пациента: {id}"/>
                         </link>
                     </column>
                     <column text-field-id="patrName">
@@ -78,7 +80,7 @@
                     </button>
                     <button id="update" label="Изменить" icon="fa fa-pencil">
                         <show-modal page-id="ProtoPatient" submit-operation-id="update" focus-after-submit="true"
-                                    detail-field-id="id"/>
+                                    detail-field-id="id" page-name="Карточка пациента: {id}"/>
                     </button>
                     <button id="delete" label="Удалить" icon="fa fa-trash" type="text">
                         <invoke operation-id="delete"/>
@@ -89,7 +91,7 @@
                             visibility-condition="name!='Мария'"
                             description="Кнопка скрывается, если в строке имя Мария">
                         <open-page page-id="ProtoPatient" submit-operation-id="update" focus-after-submit="true"
-                                   detail-field-id="id"/>
+                                   detail-field-id="id" page-name="Карточка пациента: {id}"/>
                     </button>
                     <button id="view" label="Просмотр" color="info" icon="fa fa-book"
                             enabling-condition="name!='Анна'"
@@ -124,7 +126,7 @@
             </table>
         </panel>
         <panel place="right" title="Карточка">
-            <form id="form" ref-id="ProtoPatient" route="/card"
+            <form id="form" ref-id="ProtoPatient" route="/:patient_id/card"
                   depends-on="patients" master-field-id="id" detail-field-id="id"/>
         </panel>
     </regions>

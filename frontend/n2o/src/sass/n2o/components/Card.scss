@@ -13,6 +13,7 @@
   border-bottom: $card-border-bottom;
   border-left: $card-border-left;
   background-color: $card-background-color;
+  border: 1px solid transparent;
   margin: 20px;
 
   &:hover {
@@ -49,6 +50,9 @@
 
 
   &.linear{
+    & .card-image{
+      width: $card-image-liner-width;
+    }
     width: 100%;
     display: flex;
     flex-direction: row;

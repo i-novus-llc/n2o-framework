@@ -7,7 +7,7 @@ import TextCell from './cells/TextCell/TextCell';
 
 const stories = storiesOf('Виджеты/Таблица', module);
 
-stories.addWithJSX('Активные записи', () => {
+stories.add('Активные записи', () => {
   const tableData = [
     { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001' },
     { id: '2', name: 'X', surname: 'Y', birthday: '01.01.1001' },

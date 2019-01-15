@@ -81,20 +81,23 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test
     public void routes() {
         PageContext context = new PageContext("testRoutes", "/page");
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
                 .get(context);
         assertThat(page.getId(), is("page"));
-        assertThat(page.getRoutes().getList().size(), is(9));
+        assertThat(page.getRoutes().getList().size(), is(11));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/page"));
         assertThat(page.getRoutes().getList().get(1).getPath(), is("/page/master"));
         assertThat(page.getRoutes().getList().get(2).getPath(), is("/page/master/:page_master_id"));
-        assertThat(page.getRoutes().getList().get(3).getPath(), is("/page/master/:page_master_id/detail"));
-        assertThat(page.getRoutes().getList().get(4).getPath(), is("/page/master/:page_master_id/detail/:page_detail_id"));
-        assertThat(page.getRoutes().getList().get(5).getPath(), is("/page/master/:page_master_id/detail/:page_detail_id/detail4"));
-        assertThat(page.getRoutes().getList().get(6).getPath(), is("/page/master/:page_master_id/detail/:page_detail_id/detail4/:page_detail4_id"));
-        assertThat(page.getRoutes().getList().get(7).getPath(), is("/page/master/:page_master_id/detail2"));
-        assertThat(page.getRoutes().getList().get(8).getPath(), is("/page/master/:page_master_id/detail2/:page_detail2_id"));
-        assertThat(page.getRoutes().getPathMapping().size(), is(4));
+        assertThat(page.getRoutes().getList().get(3).getPath(), is("/page/master/:master_id/detail"));
+        assertThat(page.getRoutes().getList().get(4).getPath(), is("/page/master/:master_id/detail/:page_detail_id"));
+        assertThat(page.getRoutes().getList().get(5).getPath(), is("/page/master/:master_id/detail/:page_detail_id/detail4"));
+        assertThat(page.getRoutes().getList().get(6).getPath(), is("/page/master/:master_id/detail/:page_detail_id/detail4/:page_detail4_id"));
+        assertThat(page.getRoutes().getList().get(7).getPath(), is("/page/master/:master_id/detail/form"));
+        assertThat(page.getRoutes().getList().get(8).getPath(), is("/page/master/:master_id/detail/form/:page_detail5_id"));//todo у формы нет selectedId
+        assertThat(page.getRoutes().getList().get(9).getPath(), is("/page/master/:page_master_id/detail2"));
+        assertThat(page.getRoutes().getList().get(10).getPath(), is("/page/master/:page_master_id/detail2/:page_detail2_id"));
+        assertThat(page.getRoutes().getPathMapping().size(), is(6));
         assertThat(page.getRoutes().getPathMapping().get("page_master_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
         assertThat(page.getRoutes().getPathMapping().get("page_master_id").getPayload().get("widgetId"), is("page_master"));
         assertThat(page.getRoutes().getPathMapping().get("page_master_id").getPayload().get("value"), is(":page_master_id"));
@@ -107,6 +110,9 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
         assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getPayload().get("widgetId"), is("page_detail4"));
         assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getPayload().get("value"), is(":page_detail4_id"));
+        assertThat(page.getRoutes().getPathMapping().get("master_id").getPayload().get("widgetId"), is("page_master"));
+        assertThat(page.getRoutes().getPathMapping().get("master_id").getPayload().get("value"), is(":master_id"));
+        assertThat(page.getWidgets().get("page_detail").getFilter("parent.id").getParam(), is("master_id"));
 
         assertThat(((PageContext)route("/page/master/1").getContext(Page.class)).getClientPageId(), is(context.getClientPageId()));
         assertThat(((PageContext)route("/page/master/1/detail/2").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
@@ -131,8 +137,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         List<Filter> preFilters = page.getWidgets().get("testStandardPageDependency_detail").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("testStandardPageDependency_master_id"));
-        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_master']"));
-        assertThat(preFilters.get(0).getLink().getValue(), is("`id`"));
+        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
+        assertThat(preFilters.get(0).getLink().getValue(), nullValue());
         WidgetDataProvider dataProvider = page.getWidgets().get("testStandardPageDependency_detail").getDataProvider();
         assertThat(dataProvider.getPathMapping().get("testStandardPageDependency_master_id").getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
         assertThat(((QueryContext)route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().size(), is(1));
@@ -141,11 +147,10 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         preFilters = page.getWidgets().get("testStandardPageDependency_w0").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("parent_id"));
-        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_detail']"));
-        assertThat(preFilters.get(0).getLink().getValue(), is("`parent.id`"));
+        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
+        assertThat(preFilters.get(0).getLink().getFieldId(), is("parent.id"));
         dataProvider = page.getWidgets().get("testStandardPageDependency_w0").getDataProvider();
-        assertThat(dataProvider.getQueryMapping().get("parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail']"));
-        assertThat(dataProvider.getQueryMapping().get("parent_id").getValue(), is("`parent.id`"));
+        assertThat(dataProvider.getQueryMapping().get("parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
 
         assertThat(page.getRoutes().getQueryMapping().size(), is(6));
     }
@@ -161,8 +166,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         List<Filter> preFilters = page.getWidgets().get("testWidgetPrefilters_detail1").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_master1_id"));
-        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testWidgetPrefilters_master1']"));
-        assertThat(preFilters.get(0).getLink().getValue(), is("`id`"));
+        assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testWidgetPrefilters_master1'].id"));
+        assertThat(preFilters.get(0).getLink().getFieldId(), is("id"));
         assertThat(preFilters.get(1).getFilterId(), is("name"));
         assertThat(preFilters.get(1).getParam(), is("testWidgetPrefilters_detail1_name"));
         assertThat(preFilters.get(1).getLink().getBindLink(), nullValue());

@@ -25,7 +25,7 @@ const tabs = [
   }
 ];
 
-stories.addWithJSX('Компонент', () => {
+stories.add('Компонент', () => {
   const props = {
     className: text('className', PanelJson.className),
     color: select('color', Object.values(panelStyles), PanelJson.color),

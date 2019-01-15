@@ -24,7 +24,6 @@ public abstract class AbstractButtonGenerator implements ButtonGenerator {
         button.setKey(action.getHotKey());
         button.setDefaultAction(action.isDefaultAction());
         button.setReadonly(false);
-        button.setVisible(true);
         if (action.isContext()) {
             button.setModel(ReduxModel.RESOLVE);
         } else {

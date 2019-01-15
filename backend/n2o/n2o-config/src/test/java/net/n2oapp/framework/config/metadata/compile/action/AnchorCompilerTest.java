@@ -48,10 +48,13 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link2.getOptions().getPath(), is("/page/widget/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getOptions().getTarget(), is(Target.application));
         assertThat(link2.getOptions().getPathMapping().size(), is(2));
-        assertThat(link2.getOptions().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_test'].field1"));
-        assertThat(link2.getOptions().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test'].field2"));
+        assertThat(link2.getOptions().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(link2.getOptions().getPathMapping().get("param1").getValue(), is("`field1`"));
+        assertThat(link2.getOptions().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(link2.getOptions().getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(link2.getOptions().getQueryMapping().size(), is(1));
-        assertThat(link2.getOptions().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_test'].field3"));
+        assertThat(link2.getOptions().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(link2.getOptions().getQueryMapping().get("param3").getValue(), is("`field3`"));
         PageRoutes.Route anchor = page.getRoutes().findRouteByUrl("/page/widget/test2/:param1/:param2?param3=:param3");
         assertThat(anchor.getIsOtherPage(), is(true));
 
@@ -72,10 +75,13 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link2.getOptions().getTarget(), is(Target.application));
         assertThat(link2.getOptions().getPathMapping().size(), is(3));
         assertThat(link2.getOptions().getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
-        assertThat(link2.getOptions().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_widget_id4_test'].field1"));
-        assertThat(link2.getOptions().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_widget_id4_test'].field2"));
+        assertThat(link2.getOptions().getPathMapping().get("param1").getBindLink(), is("models.resolve['page_widget_id4_test']"));
+        assertThat(link2.getOptions().getPathMapping().get("param1").getValue(), is("`field1`"));
+        assertThat(link2.getOptions().getPathMapping().get("param2").getBindLink(), is("models.resolve['page_widget_id4_test']"));
+        assertThat(link2.getOptions().getPathMapping().get("param2").getValue(), is("`field2`"));
         assertThat(link2.getOptions().getQueryMapping().size(), is(1));
-        assertThat(link2.getOptions().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_widget_id4_test'].field3"));
+        assertThat(link2.getOptions().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_widget_id4_test']"));
+        assertThat(link2.getOptions().getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         link3 = (LinkAction)modalPage.getWidgets().get("page_widget_id4_test").getActions().get("id3");
         assertThat(link3.getOptions().getPath(), is("/page/widget/test3"));

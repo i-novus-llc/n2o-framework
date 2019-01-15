@@ -12,7 +12,7 @@ const stories = storiesOf('Регионы/Простой', module);
 
 stories.addDecorator(withTests('None'));
 const { store } = makeStore();
-stories.addWithJSX('Метаданные', () => {
+stories.add('Метаданные', () => {
   store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
 
   return <NoneRegion {...NoneRegionsJson} pageId="Page" />;

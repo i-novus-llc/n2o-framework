@@ -104,6 +104,7 @@ public interface CompileProcessor {
      */
     Object resolve(String value);
 
+
     /**
      * Заменить в тексте плейсхолдеры на значения
      *
@@ -146,6 +147,15 @@ public interface CompileProcessor {
      * @return ссылка с константой(если получилось разрешить ссылку) или исходная ссылка
      */
     ModelLink resolveLink(ModelLink link);
+
+    /**
+     * Заменить в тексте плейсхолдеры на значения, используя модель
+     *
+     * @param text Текст с плейсхолдерами
+     * @param link Ссылка на модель, на которую ссылаются плейсхолдеры
+     * @return Текст со значениями вместо плейсхолдеров
+     */
+    String resolveText(String text, ModelLink link);
 
     /**
      * Превратить текст с ссылками в JS код

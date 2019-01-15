@@ -11,7 +11,7 @@ const stories = storiesOf('Контролы/Выпадающий список', 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Select'));
 
-stories.addWithJSX('Компонент', () => {
+stories.add('Компонент', () => {
   const props = {
     value: number('value', 2),
     disabled: boolean('disabled', false),

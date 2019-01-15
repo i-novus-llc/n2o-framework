@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -44,6 +45,14 @@ public class PageBinder implements BaseMetadataBinder<Page> {
                 }
             });
             resolveLinks(page.getModels(), page, p);
+        }
+        if (page.getProperties() != null) {
+            page.getProperties().setTitle(p.resolveText(page.getProperties().getTitle(), page.getProperties().getModelLink()));
+        }
+        if (page.getBreadcrumb() != null) {
+            for (Breadcrumb crumb : page.getBreadcrumb()) {
+                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLink()));
+            }
         }
         return page;
     }

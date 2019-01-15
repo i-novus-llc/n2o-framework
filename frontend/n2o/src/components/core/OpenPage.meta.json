@@ -35,7 +35,7 @@
               {
                 "id": "redirect",
                 "actionId": "redirect",
-                "title": "Открыть"
+                "title": "Перейти"
               }
             ]
           }
@@ -48,7 +48,7 @@
             "path": "/:input",
             "pathMapping": {
               "input": {
-                "bindLink":  "models.resolve['Page_Form'].path"
+                "link":  "models.resolve['Page_Form'].path"
               }
             },
             "queryMapping": {},

@@ -8,7 +8,7 @@ const stories = storiesOf('Контролы/InputSelectTree', module);
 
 stories.addDecorator(withKnobs);
 
-stories.addWithJSX('Компонент ', () => {
+stories.add('Компонент ', () => {
   const data = [
     {
       id: '1',
@@ -106,7 +106,7 @@ stories.addWithJSX('Компонент ', () => {
     showCheckedStrategy: select(
       'showCheckedStrategy',
       ['SHOW_PARENT', 'SHOW_CHILD', 'SHOW_ALL'],
-      'SHOW_ALL'
+      'SHOW_CHILD'
     ),
     allowClear: boolean('allowClear', true),
     showSearch: boolean('showSearch', true),

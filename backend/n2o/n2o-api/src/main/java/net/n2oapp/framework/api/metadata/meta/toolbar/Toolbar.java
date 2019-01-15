@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Клиентская модель тулбара.
@@ -21,5 +22,10 @@ public class Toolbar extends StrictMap<String, List<Group>> implements Compiled 
     public Button getButton(String id) {
         Optional<Button> first = values().stream().flatMap(List::stream).flatMap(g -> g.getButtons().stream()).filter(b -> id.equals(b.getId())).findFirst();
         return first.orElse(null);
+    }
+
+    public Group getGroup(int index) {
+        List<Group> groups = values().stream().flatMap(List::stream).collect(Collectors.toList());
+        return groups.get(index);
     }
 }

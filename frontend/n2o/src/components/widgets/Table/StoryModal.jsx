@@ -20,7 +20,7 @@ export const exportFormName = 'storyForm';
 class StoryModal extends React.Component {
   render() {
     const dateControl = { component: controls.DatePicker };
-    const inputControl = { component: controls.Input };
+    const inputControl = { component: controls.InputText };
     return (
       <ReduxForm form={exportFormName}>
         <Fieldset>

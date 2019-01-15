@@ -93,7 +93,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                     for (N2oQuery.Filter filter : field.getFilterList()) {
                         if (filter.getFilterField().equals(preFilter.getFilterId())) {
                             filter.setParam(p.cast(preFilter.getParam(), filter.getParam()));
-                            if (preFilter.getLink() != null && !preFilter.getLink().isLink()) {
+                            if (preFilter.getLink() != null && !preFilter.getLink().isConst()) {
                                 filter.setCompiledDefaultValue(p.cast(preFilter.getLink().getValue(), p.resolve(filter.getDefaultValue(), filter.getDomain())));
                             }
                         }

@@ -14,10 +14,9 @@ stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('PasswordInput'));
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       placeholder: text('placeholder', 'Введите значение'),
-      disabled: boolean('disabled', false),
       disabled: boolean('disabled', false),
       length: number('length', 25)
     };
@@ -30,7 +29,6 @@ stories
     form(() => {
       const props = {
         placeholder: text('placeholder', PasswordInputJson.placeholder),
-        disabled: boolean('disabled', PasswordInputJson.disabled),
         disabled: boolean('disabled', PasswordInputJson.disabled),
         length: number('length', PasswordInputJson.length),
         value: text('value', PasswordInputJson.value)

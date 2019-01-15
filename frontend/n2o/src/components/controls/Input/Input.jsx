@@ -107,6 +107,7 @@ class Input extends React.Component {
         onBlur={onBlur}
         onClick={onClick}
         onKeyDown={onKeyDown}
+        placeholder={placeholder}
         {...restProps}
         onChange={this.handleChange}
       />

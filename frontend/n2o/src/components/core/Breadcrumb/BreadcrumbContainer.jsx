@@ -43,6 +43,7 @@ class BreadcrumbContainer extends React.Component {
 }
 
 BreadcrumbContainer.propTypes = {
+  defaultBreadcrumb: PropTypes.node,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -53,7 +54,8 @@ BreadcrumbContainer.propTypes = {
 };
 
 BreadcrumbContainer.defaultProps = {
-  items: []
+  items: [],
+  defaultBreadcrumb: () => null
 };
 
 const memoizedMap = memoize(map);
