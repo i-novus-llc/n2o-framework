@@ -5,6 +5,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.control.Field;
+import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -186,6 +188,13 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getQueryMapping().get("testTable4FiltersCompile_main_gender_name").getOnGet().getPayload().get("map"), is("name"));
         assertThat(page.getRoutes().getQueryMapping().get("testTable4FiltersCompile_main_gender_name").getOnGet().getPayload().get("field"), is("gender"));
         assertThat(page.getRoutes().getQueryMapping().get("testTable4FiltersCompile_main_gender_name").getOnGet().getType(), is("n2o/models/UPDATE_MAP"));
+
+        assertThat(table.getFilter().getSearchButtons(), is(false));
+        Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
+        assertThat(field.getId(), is("sb"));
+        assertThat(field.getSrc(), is("FilterButtonsField"));
+        assertThat(((SearchButtons)field).getResetLabel(), is("resetLabel"));
+        assertThat(((SearchButtons)field).getSearchLabel(), is("searchLabel"));
     }
 
     @Test

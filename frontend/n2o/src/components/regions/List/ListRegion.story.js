@@ -28,11 +28,11 @@ const ListRegionJson = set(
 const { store } = makeStore();
 
 stories
-  .addWithJSX('Метаданные', () => {
+  .add('Метаданные', () => {
     store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
     return <ListRegion {...ListRegionJson} pageId="Page" />;
   })
-  .addWithJSX('Ограничение доступа', () => {
+  .add('Ограничение доступа', () => {
     store.dispatch(metadataSuccess('Page', ListMetadata));
     return (
       <div>
@@ -46,7 +46,7 @@ stories
     );
   })
 
-  .addWithJSX('Инициализация виджетов', () => {
+  .add('Инициализация виджетов', () => {
     fetchMock
       .restore()
       .get('begin:n2o/data/test', getStubData)

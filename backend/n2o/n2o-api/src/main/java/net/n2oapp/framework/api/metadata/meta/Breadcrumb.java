@@ -19,8 +19,7 @@ public class Breadcrumb implements Compiled {
     private String label;
     @JsonProperty
     private String path;
-    @JsonProperty
-    private String modalLink;
+    private ModelLink modelLink;
     @JsonProperty
     private Map<String, BindLink> pathMapping = new StrictMap<>();
 

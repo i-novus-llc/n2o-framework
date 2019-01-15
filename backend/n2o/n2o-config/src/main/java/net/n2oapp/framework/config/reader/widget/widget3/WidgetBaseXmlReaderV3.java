@@ -142,7 +142,7 @@ public abstract class WidgetBaseXmlReaderV3<E extends N2oWidget> extends Abstrac
         menuItem.setDescription(getElementString(popupMenu, "description"));
         menuItem.setDefaultAction(getAttributeBoolean(popupMenu, "default"));
         menuItem.setPrimary(getAttributeBoolean(popupMenu, "primary"));
-        menuItem.setVisible(getAttributeBoolean(popupMenu, "visible"));
+        menuItem.setVisible(getAttributeString(popupMenu, "visible"));
         menuItem.setReadonly(getAttributeBoolean(popupMenu, "readonly"));
         menuItem.setKey(getAttributeString(popupMenu, "key"));
         menuItem.setBulk(getAttributeBoolean(popupMenu, "bulk"));

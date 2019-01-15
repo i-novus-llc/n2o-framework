@@ -14,9 +14,13 @@ stories.add('Компонент', () => {
     textPlace: select('textPlace', ['right', 'left'], OutputJSON.textPlace),
     icon: text('icon', OutputJSON.icon),
     value: text('value', 'text'),
-    format: text('format', ''),
+    format: select('format', ['', 'dateFromNow', 'password', 'number 0,0.00'], ''),
     disabled: boolean('disabled', OutputJSON.disabled)
   };
 
-  return <OutputText {...props} />;
+  return (
+    <div style={{ width: 200 }}>
+      <OutputText {...props} />
+    </div>
+  );
 });

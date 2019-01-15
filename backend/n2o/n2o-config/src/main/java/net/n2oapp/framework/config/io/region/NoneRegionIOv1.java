@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Чтение/запись региона без верстки
+ * @Deprecated replaced by {@link CustomRegionIOv1}
  */
+@Deprecated
 @Component
 public class NoneRegionIOv1 extends BaseRegionIOv1<N2oNoneRegion> {
     @Override

@@ -8,7 +8,7 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 
 const stories = storiesOf('Виджеты/Форма', module);
 
-stories.addWithJSX('Биндинги', () => {
+stories.add('Биндинги', () => {
   const form = {
     fieldsets: [
       {
@@ -24,7 +24,7 @@ stories.addWithJSX('Биндинги', () => {
                     src: 'StandardField',
                     label: 'Поле 1',
                     control: {
-                      src: 'Input',
+                      src: 'InputText',
                       readOnly: false
                     }
                   }
@@ -38,7 +38,7 @@ stories.addWithJSX('Биндинги', () => {
                     src: 'StandardField',
                     label: 'Поле 2',
                     control: {
-                      src: 'Input',
+                      src: 'InputText',
                       readOnly: false
                     }
                   }

@@ -5,7 +5,6 @@ import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 import { set } from 'lodash';
-
 import metadata from './TableWidget.meta.json';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';

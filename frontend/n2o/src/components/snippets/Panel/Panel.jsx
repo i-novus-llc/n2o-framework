@@ -55,6 +55,7 @@ class Panel extends React.Component {
         color={color}
         outline
         onKeyDown={e => onKeyPress(e)}
+        tabIndex="-1"
       >
         {children}
         <div className="panel-fullscreen-help">

@@ -16,6 +16,7 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
     @Override
     public T merge(T source, T override) {
         setIfNotNull(source::setId, override::getId);
+        setIfNotNull(source::setRoute, override::getRoute);
         setIfNotNull(source::setDependsOn, override::getDependsOn);
         setIfNotNull(source::setMasterFieldId, override::getMasterFieldId);
         setIfNotNull(source::setDetailFieldId, override::getDetailFieldId);

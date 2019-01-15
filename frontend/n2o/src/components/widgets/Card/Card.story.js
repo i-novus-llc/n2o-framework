@@ -57,7 +57,7 @@ stories
       circle: boolean('circle', false),
       color: select('color', [...colors, null]),
       inverse: boolean('inverse', false),
-      outline: boolean('outline', true)
+      outline: boolean('outline', false)
     };
     return <Card.Item {...props} />;
   })
@@ -72,7 +72,6 @@ stories
       linear: boolean('linear', items[1].linear),
       rows: object('rows', items[1].rows),
       circle: boolean('circle', items[1].circle),
-      datasource: object('datasource', {}),
       color: select('color', [...colors, null]),
       inverse: boolean('inverse', false),
       outline: boolean('outline', true)
@@ -81,32 +80,12 @@ stories
     return <Card.Item {...props} />;
   })
 
-  .add('Использование в виде json', () => {
-    const props = {
-      datasource: object('datasource', items[3])
-    };
-
-    return <Card.Item datasource={props.datasource} />;
-  })
-
   .add('Группировка блоками', () => {
-    const props = {
-      linear: boolean('linear', false),
-      circle: boolean('circle', true),
-      items: object('items', items)
-    };
-
-    return <Card {...props} />;
+    return <Card items={items} linear={false} circle={true} />;
   })
 
   .add('Группировка в линию', () => {
-    const props = {
-      linear: boolean('linear', true),
-      circle: boolean('circle', false),
-      items: object('items', items)
-    };
-
-    return <Card {...props} />;
+    return <Card items={items} linear={true} circle={false} />;
   })
 
   .add('Расширение в блочном отображении', () => (

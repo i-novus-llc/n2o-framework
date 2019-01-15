@@ -8,7 +8,7 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes';
 
 const stories = storiesOf('Ячейки/Иконки', module);
 
-stories.addWithJSX('Компонент', () => {
+stories.add('Компонент', () => {
   const tableProps = {
     headers: [
       {

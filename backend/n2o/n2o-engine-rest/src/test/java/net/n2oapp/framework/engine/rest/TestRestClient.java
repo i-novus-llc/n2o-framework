@@ -1,8 +1,10 @@
 package net.n2oapp.framework.engine.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.util.RestClient;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +99,12 @@ public class TestRestClient implements RestClient {
         query1.setPort(proxyPort);
         queryList.add(query1);
         return response;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+        return objectMapper;
     }
 
     public List<Query> getQueryList() {

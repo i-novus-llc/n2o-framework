@@ -12,7 +12,7 @@ const stories = storiesOf('Контролы/Радио', module);
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('RadioGroup'));
 
-stories.addWithJSX('N2O радио группа', () => {
+stories.add('N2O радио группа', () => {
   const props = {
     value: text('value', '2'),
     disabled: boolean('disabled', false),

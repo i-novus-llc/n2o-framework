@@ -30,7 +30,7 @@
             <xs:element name="edit" type="editDefinition" minOccurs="0"/>
             <xs:element name="toolbar" type="toolbarDefinition" minOccurs="0"/>
             <xs:element name="badge" type="badgeDefinition" minOccurs="0"/>
-            <xs:element name="custom" type="customDefinition" minOccurs="0"/>
+            <xs:element name="cell" type="customDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемая через библиотеку ячейка.</xs:documentation>

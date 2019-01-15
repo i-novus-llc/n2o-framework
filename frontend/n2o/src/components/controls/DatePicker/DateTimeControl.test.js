@@ -301,6 +301,19 @@ describe('<Calendar />', () => {
     ).toBe('январь');
   });
 
+  it('при нажатии на название месяца календаря отображаются месяцы при value null', () => {
+    const { wrapper } = setupCalendar({ value: null });
+    wrapper.find('.n2o-calendar-header-month-title').simulate('click');
+    wrapper.update();
+    expect(wrapper.find('.n2o-calendar-body-item.month-item')).toHaveLength(12);
+    expect(
+      wrapper
+        .find('.n2o-calendar-body-item.month-item')
+        .at(0)
+        .text()
+    ).toBe('январь');
+  });
+
   it('при нажатии на год отображаются годы', () => {
     const { wrapper } = setupCalendar({ value: moment() });
     wrapper.find('.n2o-calendar-header-year-title').simulate('click');

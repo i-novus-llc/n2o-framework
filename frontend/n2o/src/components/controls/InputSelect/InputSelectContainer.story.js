@@ -1,7 +1,7 @@
 import React from 'react';
 import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import InputSelectContainer from './InputSelectContainer.jsx';
 import InputSelectContainerJson from './InputSelectContainer.meta.json';
@@ -202,7 +202,11 @@ stories
         placeholder: text('placeholder', InputSelectContainerJson.placeholder),
         valueFieldId: text('valueFieldId', InputSelectContainerJson.valueFieldId),
         labelFieldId: text('labelFieldId', InputSelectContainerJson.labelFieldId),
-        filter: text('filter', InputSelectContainerJson.filter),
+        filter: select(
+          'filter',
+          ['includes', 'startsWith', 'endsWith'],
+          InputSelectContainerJson.filter
+        ),
         resetOnBlur: boolean('resetOnBlur', InputSelectContainerJson.resetOnBlur),
         queryId: text('queryId', InputSelectContainerJson.queryId),
         size: number('size', InputSelectContainerJson.size),

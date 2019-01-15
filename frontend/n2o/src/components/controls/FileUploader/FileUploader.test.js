@@ -12,6 +12,7 @@ const props = {
   name: 'avatar',
   disabled: false,
   uploadUrl: '/n2o/data',
+  deleteUrl: '/n2o/data/delete',
   autoUpload: true,
   showSize: true,
   multi: false,
@@ -344,7 +345,7 @@ describe('FileUploader Тесты', () => {
   it('Проверка url placeholder', () => {
     const button = setupButton(
       {
-        uploadUrl: '`name: ${name}`'
+        uploadUrl: "`'name:' + name`"
       },
       {
         context: {
@@ -356,6 +357,6 @@ describe('FileUploader Тесты', () => {
         }
       }
     );
-    expect(button.instance().resolveUrl()).toEqual('name: test');
+    expect(button.instance().resolveUrl("`'name: ' + name`")).toEqual('name: test');
   });
 });

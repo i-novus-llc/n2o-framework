@@ -20,6 +20,8 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityCheck from '../../core/auth/SecurityCheck';
 
+import linkResolver from '../../utils/linkResolver';
+
 /**
  * Компонент redux-обертка для тулбара
  * @reactProps {object} actions - объект с src экшенов
@@ -82,6 +84,7 @@ class Actions extends React.Component {
     };
     this.closeConfirm = this.closeConfirm.bind(this);
     this.onClickHelper = this.onClickHelper.bind(this);
+    this.mapButtonConfirmProps = this.mapButtonConfirmProps.bind(this);
   }
 
   /**
@@ -111,6 +114,26 @@ class Actions extends React.Component {
   }
 
   /**
+   * Маппинг свойст модального окна подтверждения
+   * @param confirm
+   * @returns {{text: *}}
+   */
+  mapButtonConfirmProps({ confirm }) {
+    if (confirm) {
+      const store = this.context.store.getState();
+      const { modelLink, text } = confirm;
+      const resolvedText = linkResolver(store, {
+        link: modelLink,
+        value: text
+      });
+      return {
+        ...confirm,
+        text: resolvedText
+      };
+    }
+  }
+
+  /**
    * рендер кнопки или элемента списка дропдауна
    * @param Component
    * @param button
@@ -127,7 +150,7 @@ class Actions extends React.Component {
           containerKey={this.props.containerKey}
         />
         <ModalDialog
-          {...button.confirm}
+          {...this.mapButtonConfirmProps(button)}
           visible={this.state.confirmVisibleId === button.id}
           onConfirm={() => {
             this.onClickHelper(button);
@@ -279,6 +302,10 @@ class Actions extends React.Component {
     );
   }
 }
+
+Actions.contextTypes = {
+  store: PropTypes.object
+};
 
 Actions.defaultProps = {
   toolbar: []

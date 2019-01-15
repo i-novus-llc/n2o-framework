@@ -172,7 +172,7 @@
     }
 
     & > img {
-      height: $input-min-height/2;
+      height: $image-selected-height !important;
       padding-right: 5px;
       display: flex
     }

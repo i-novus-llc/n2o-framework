@@ -58,8 +58,8 @@ class ModalPage extends React.Component {
       queryMapping
     };
 
-    const showSpinner = typeof loading === 'undefined' || loading;
-    const classes = cn({ 'd-none': showSpinner });
+    const showSpinner = !visible || loading || typeof loading === 'undefined';
+    const classes = cn({ 'd-none': loading });
     return (
       <div className={'modal-page-overlay'}>
         {showSpinner && <CoverSpinner mode="transparent" />}

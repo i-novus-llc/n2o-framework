@@ -14,6 +14,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPanelRegion> {
+
+    @Override
+    protected String getPropertyRegionSrc() {
+        return "n2o.api.region.panel.src";
+    }
+
     @Override
     public Class<N2oPanelRegion> getSourceClass() {
         return N2oPanelRegion.class;
@@ -23,7 +29,6 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     public PanelRegion compile(N2oPanelRegion source, PageContext context, CompileProcessor p) {
         PanelRegion region = new PanelRegion();
         build(region, source, context, p);
-        region.setSrc("PanelRegion");
         region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
         region.setItems(initItems(source, context, p, PanelRegion.Panel.class));

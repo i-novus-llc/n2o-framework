@@ -50,6 +50,7 @@
             <xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
+            <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку компонент.</xs:documentation>
@@ -192,6 +193,15 @@
                 <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="message-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="url-field-id" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlSearchButtonsDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="search-label" type="xs:string"/>
+                <xs:attribute name="reset-label" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

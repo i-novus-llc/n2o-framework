@@ -6,6 +6,12 @@
       "pathMapping": {
       },
       "queryMapping": {
+        "filter.name": {
+          "link": "models.filter['Page_Table'].name"
+        },
+        "filter.surname": {
+          "link": "models.filter['Page_Table'].surname"
+        }
       }
     },
     "toolbar": {
@@ -138,22 +144,11 @@
                 {
                   "fields": [
                     {
-                      "id": "name",
-                      "label": "Имя",
-                      "control": {
-                        "src": "InputText"
-                      }
-                    }
-                  ]
-                },
-                {
-                  "fields": [
-                    {
-                      "id": "surname",
-                      "label": "Фамилия",
-                      "control": {
-                        "src": "InputText"
-                      }
+                      "id": "testId",
+                      "src": "FilterButtonsField",
+                      "searchLabel": "searchLabel",
+                      "resetLabel": "resetLabel",
+                      "dependency": []
                     }
                   ]
                 }
@@ -163,7 +158,9 @@
         }
       ],
       "filterButtonId": "filter",
-      "blackResetList": []
+      "blackResetList": [],
+      "validation": {},
+      "searchButtons": false
     },
     "table": {
       "size": 10,

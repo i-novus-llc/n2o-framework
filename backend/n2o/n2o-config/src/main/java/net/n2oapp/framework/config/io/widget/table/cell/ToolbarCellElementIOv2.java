@@ -57,15 +57,12 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
     private void menuItem(Element e, AbstractMenuItem mi, IOProcessor p) {
         p.attribute(e, "id", mi::getId, mi::setId);
         p.attribute(e, "label", mi::getLabel, mi::setLabel);
-        p.attribute(e, "widget-id", mi::getWidgetId, mi::setWidgetId);
-        p.attributeEnum(e, "model", mi::getModel, mi::setModel, ReduxModel.class);
         p.attribute(e, "icon", mi::getIcon, mi::setIcon);
-        p.attributeBoolean(e, "visible", mi::getVisible, mi::setVisible);
+        p.attribute(e, "visible", mi::getVisible, mi::setVisible);
+        p.attribute(e, "enabled", mi::getEnabled, mi::setEnabled);
         p.attributeBoolean(e, "validate", mi::getValidate, mi::setValidate);
         p.attribute(e, "action-id", mi::getActionId, mi::setActionId);
         p.attribute(e, "class", mi::getClassName, mi::setClassName);
-        p.attribute(e, "enabling-condition", mi::getEnablingCondition, mi::setEnablingCondition);
-        p.attribute(e, "visibility-condition", mi::getVisibilityCondition, mi::setVisibilityCondition);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
         p.extensionAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
     }

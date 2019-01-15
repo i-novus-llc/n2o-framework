@@ -6,8 +6,7 @@
         </columns>
         <toolbar>
             <button id="id1">
-                <show-modal page-id="{page_test_id}" />
-                <!--detail-field-id="pageName"-->
+                <show-modal page-id="{id}" />
             </button>
         </toolbar>
     </table>

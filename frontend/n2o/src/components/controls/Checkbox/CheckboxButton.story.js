@@ -15,7 +15,6 @@ stories.add(
   'Кнопка чекбокс',
   withState({ checked: false }, store => {
     const props = {
-      value: number('value', 2),
       disabled: boolean('disabled', false),
       checked: boolean('checked', store.state.checked),
       label: text('label', 'Label')
