@@ -12,9 +12,14 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> implements BaseSourceCompiler<D, S, PageContext> {
 
+    protected abstract String getPropertyRegionSrc();
+
     protected D build(D compiled, S source, PageContext context, CompileProcessor p) {
+        compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyRegionSrc()), String.class)));
         IndexScope index = p.getScope(IndexScope.class);
         compiled.setId(p.cast(source.getId(), source.getPlace() + (index != null ? index.get() : "")));
         compiled.setProperties(p.mapAttributes(source));

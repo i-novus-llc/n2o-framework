@@ -478,14 +478,14 @@ http://n2oapp.net/framework/config/schema/region-1.0
 </panel>
 ----
 
-=== <none>
-Регион без вёрстки.
+=== <region>
+Кастомный регион.
 
 
 Пример::
 [source,xml]
 ----
-<none>
+<region>
   <table>...</table>
-</none>
+</region>
 ----

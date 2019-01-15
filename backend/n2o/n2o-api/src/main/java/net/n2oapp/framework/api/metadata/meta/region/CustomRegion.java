@@ -7,18 +7,15 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * Клиентская модель простого региона
- * @Deprecated replaced by {@link CustomRegion}
+ * Клиентская модель кастомного региона
  */
-@Deprecated
 @Getter
 @Setter
-public class NoneRegion extends Region {
+public class CustomRegion extends Region {
 
     @Override
     @JsonProperty
     public List<? extends Item> getItems() {
         return super.getItems();
     }
-
 }

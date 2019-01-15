@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy } from 'lodash';
+import { pickBy, throttle } from 'lodash';
 import { connect } from 'react-redux';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 
@@ -101,17 +101,15 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleScrollEnd = async () => {
-      if (data.length >= count) return false;
-
+    const handleScrollEnd = throttle(() => {
       if (page && size && count) {
         if (page * size < count) {
-          await callApiWithParams({ page: page + 1 }, true);
+          callApiWithParams({ page: page + 1 }, true);
         }
       }
 
       onScrollEnd && onScrollEnd();
-    };
+    }, 400);
 
     /**
      * Рендер
