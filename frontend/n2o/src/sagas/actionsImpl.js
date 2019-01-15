@@ -19,7 +19,7 @@ import { getParams } from '../utils/compileUrl';
 import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
 
-function* validate(options) {
+export function* validate(options) {
   const validationConfig = yield select(makeWidgetValidationSelector(options.containerKey));
   const values = (yield select(getFormValues(options.containerKey))) || {};
   const notValid =
