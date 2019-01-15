@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { isEqual, get, map, reduce, set } from 'lodash';
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -35,3 +35,38 @@ export function flatFields(obj, fields) {
   }
   return fields;
 }
+
+/**
+ * Запрашивает данные, если зависимое значение было изменено
+ * @param prevState
+ * @param state
+ * @param ref
+ */
+export function fetchIfChangeDependencyValue(prevState, state, ref) {
+  if (!isEqual(prevState, state) && ref && ref.props._fetchData) {
+    const { _fetchData, size, labelFieldId } = ref.props;
+    _fetchData({
+      size: size,
+      [`sorting.${labelFieldId}`]: 'ASC'
+    });
+  }
+}
+
+const pickByPath = (object, arrayToPath) =>
+  reduce(arrayToPath, (o, p) => set(o, p, get(object, p)), {});
+
+const DEPENDENCY_TYPES = {
+  RE_RENDER: 'reRender'
+};
+
+export const setWatchDependency = (state, props) => {
+  const { dependency, form } = props;
+
+  const pickByReRender = (acc, { type, on }) => {
+    if (on && type === DEPENDENCY_TYPES.RE_RENDER) {
+      const formOn = map(on, item => ['form', form, 'values', on].join('.'));
+      return { ...acc, ...pickByPath(state, formOn) };
+    }
+  };
+  return reduce(dependency, pickByReRender, {});
+};

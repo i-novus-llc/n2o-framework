@@ -5,8 +5,10 @@ import StandardField from '../../widgets/Form/fields/StandardField/StandardField
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
 import { pure, compose } from 'recompose';
 import observeStore from '../../../utils/observeStore';
-import setWatchDependency from '../../../utils/setWatchDependency';
+import { setWatchDependency } from './utils';
+import { fetchIfChangeDependencyValue } from './utils';
 import { isEqual } from 'lodash';
+
 /**
  * Поле для {@link ReduxForm}
  * @reactProps {number} id
@@ -37,12 +39,7 @@ class ReduxField extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!isEqual(prevState, this.state) && this.controlRef && this.controlRef.props._fetchData) {
-      this.controlRef.props._fetchData({
-        size: this.controlRef.props.size,
-        [`sorting.${this.controlRef.props.labelFieldId}`]: 'ASC'
-      });
-    }
+    fetchIfChangeDependencyValue(prevState, this.state, this.controlRef);
   }
 
   componentWillUnmount() {

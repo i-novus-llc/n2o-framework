@@ -10,7 +10,7 @@ import ReduxField from './ReduxField';
 import { showFields, hideFields, enableFields, disableFields } from '../../../actions/formPlugin';
 import observeStore from '../../../utils/observeStore';
 import propsResolver from '../../../utils/propsResolver';
-import setWatchDependency from '../../../utils/setWatchDependency';
+import { setWatchDependency } from './utils';
 
 /**
  * Компонент - филдсет формы
