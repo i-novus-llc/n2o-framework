@@ -1,15 +1,16 @@
 package net.n2oapp.framework.config.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -18,8 +19,6 @@ import java.util.List;
  * Использовать только для вычислений под конкретного пользователя!
  */
 public class N2oSubModelsProcessor implements SubModelsProcessor {
-
-    private static final Logger logger = LoggerFactory.getLogger(N2oSubModelsProcessor.class);
 
     private QueryProcessor queryProcessor;
     private MetadataEnvironment environment;
@@ -30,7 +29,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
     }
 
     @SuppressWarnings("unchecked")
-    public void executeSubModels(List<SubModelQuery> subQueries, DataSet dataSet, OnErrorCallback callback) {
+    public void executeSubModels(List<SubModelQuery> subQueries, DataSet dataSet) {
         if (dataSet.isEmpty()) return;
         for (SubModelQuery subModelQuery : subQueries) {
             try {
@@ -38,13 +37,21 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
                         .apply(new N2oPipelineSupport(environment))
                         .get(new QueryContext(subModelQuery.getQueryId()), dataSet);
 
-                subModelQuery.applySubModel(
-                        dataSet,
-                        subQuery,
-                        (query, criteria) -> queryProcessor.executeOneSizeQuery(query, criteria));
+                if (subQuery.getFieldsMap() != null && subQuery.getFieldsMap().containsKey("id")) {
+                    N2oQuery.Filter[] filters = subQuery.getFieldsMap().get("id").getFilterList();
+                    if (filters != null) {
+                        for (N2oQuery.Filter filter : filters) {
+                            if (FilterType.eq.equals(filter.getType())) {
+                                subModelQuery.applySubModel(
+                                        dataSet,
+                                        subQuery,
+                                        (query, criteria) -> queryProcessor.executeOneSizeQuery(query, criteria));
+                            }
+                        }
+                    }
+                }
             } catch (RuntimeException e) {
-                logger.error(e.getMessage(), e);
-                callback.onError(e, dataSet, subModelQuery.getSubModel());
+                throw new N2oException(e);
             }
         }
     }

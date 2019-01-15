@@ -250,7 +250,7 @@ public class N2oCompileProcessor implements CompileProcessor {
                         for (Object id : (List) data.get(key)) {
                             DataSet dataSet = new DataSet();
                             dataSet.put(link.getSubModelQuery().getSubModel() + "." + link.getSubModelQuery().getValueFieldId(), id);
-                            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet, null);
+                            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
                             DefaultValues defaultValues = new DefaultValues();
                             defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
                             values.add(defaultValues);
@@ -259,7 +259,7 @@ public class N2oCompileProcessor implements CompileProcessor {
                     } else {
                         DataSet dataSet = new DataSet();
                         dataSet.put(link.getSubModelQuery().getSubModel() + "." + link.getSubModelQuery().getValueFieldId(), data.get(key));
-                        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet, null);
+                        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
                         DefaultValues defaultValues = new DefaultValues();
                         defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
                         link.setValue(defaultValues);
@@ -326,7 +326,7 @@ public class N2oCompileProcessor implements CompileProcessor {
         if (!defaultValues.getValues().containsKey(subModelQuery.getLabelFieldId())) {
             DataSet dataSet = new DataSet();
             dataSet.put(subModelQuery.getSubModel() + "." + subModelQuery.getValueFieldId(), defaultValues.getValues().get(subModelQuery.getValueFieldId()));
-            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet, null);
+            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
             defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
         }
     }

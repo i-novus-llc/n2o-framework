@@ -6,9 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -18,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
-
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -39,7 +36,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
-        doNothing().when(subModelsProcessor).executeSubModels(isA(List.class), isA(DataSet.class), isA(SubModelsProcessor.OnErrorCallback.class));
+        doNothing().when(subModelsProcessor).executeSubModels(isA(List.class), isA(DataSet.class));
         ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
         builder.getEnvironment().getContextProcessor().set("test", "Test");
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),

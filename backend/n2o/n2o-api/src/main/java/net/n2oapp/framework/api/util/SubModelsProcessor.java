@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface SubModelsProcessor {
 
-    void executeSubModels(List<SubModelQuery> subQueries, DataSet dataSet, OnErrorCallback callback);
+    void executeSubModels(List<SubModelQuery> subQueries, DataSet dataSet);
 
     interface OnErrorCallback {
         void onError(RuntimeException e, Map<String, Object> dataSet, String controlId);

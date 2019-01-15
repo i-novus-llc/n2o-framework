@@ -62,7 +62,7 @@ public abstract class GetController implements ControllerTypeAware {
     private void executeSubModels(QueryRequestInfo requestInfo, CollectionPage<DataSet> page, QueryResponseInfo responseInfo) {
         if (!page.getCollection().isEmpty() && requestInfo.isSubModelsExists() && requestInfo.getSize() == 1) {
             DataSet dataSet = page.getCollection().iterator().next();
-            subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), dataSet, new RecordNotFoundCollector(responseInfo));
+            subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), dataSet);
         }
     }
 
