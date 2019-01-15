@@ -1,21 +1,19 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oNoneRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.meta.region.NoneRegion;
+import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 /**
- * Компиляция простого региона
- * @Deprecated replaced by {@link CustomRegionCompiler}
+ * Компиляция кастомного региона
  */
-@Deprecated
 @Component
-public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRegion> {
+public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCustomRegion>{
 
     @Override
     protected String getPropertyRegionSrc() {
@@ -23,13 +21,13 @@ public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRe
     }
 
     @Override
-    public Class<N2oNoneRegion> getSourceClass() {
-        return N2oNoneRegion.class;
+    public Class<N2oCustomRegion> getSourceClass() {
+        return N2oCustomRegion.class;
     }
 
     @Override
-    public NoneRegion compile(N2oNoneRegion source, PageContext context, CompileProcessor p) {
-        NoneRegion region = new NoneRegion();
+    public CustomRegion compile(N2oCustomRegion source, PageContext context, CompileProcessor p) {
+        CustomRegion region = new CustomRegion();
         build(region, source, context, p);
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, context, p, Region.Item.class));
@@ -37,12 +35,11 @@ public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRe
     }
 
     @Override
-    protected NoneRegion.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
-        NoneRegion.Item item = new NoneRegion.Item();
+    protected CustomRegion.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
+        CustomRegion.Item item = new CustomRegion.Item();
         item.setId("none" + index.get());
         item.setLabel(widget.getName());
         item.setProperties(p.mapAttributes(widget));
         return item;
     }
-
 }
