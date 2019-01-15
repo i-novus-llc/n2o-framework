@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Page;
@@ -15,15 +16,14 @@ import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class PageBinderTest extends SourceCompileTestBase {
     @Override
@@ -47,6 +47,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     public void fieldsResolve() {
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(new PageContext("testPageBinders"), new DataSet());
+
         assertThat(page.getModels().get("resolve['testPageBinders_main'].name").getValue(), is("Test"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), nullValue());
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].gender").getValue()).getValues().get("id"), is("#{test}"));
@@ -82,5 +83,46 @@ public class PageBinderTest extends SourceCompileTestBase {
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
         assertThat(page.getBreadcrumb().get(1).getLabel(), is("Hello, Joe"));
+    }
+
+    @Test
+    public void resolveSubModels() {
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
+
+        //мок subModelProcessor. Докидывает name в данные
+        doAnswer(invocation -> {
+            List<SubModelQuery> subModelQueries = invocation.getArgumentAt(0, List.class);
+            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            data.put(subModelQueries.get(0).getSubModel() + ".name", "test");
+            return null;
+        }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+
+        DataSet data = new DataSet();
+        List<String> ids = new ArrayList<>();
+        ids.add("1");
+        ids.add("2");
+        data.put("testSubModels_w1_testMultiUrl_id", ids);
+        data.put("testSubModels_w1_testSingleUrl_id", "1");
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
+                .get(new PageContext("testSubModels"), data);
+
+
+        //single фильтр по умолчанию
+        assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test"));
+        //multi фильтр по умолчанию
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test"));
+        //single фильтр по URL
+        assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test"));
+        //multi фильтр по URL
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(0)).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(1)).getValues().get("name"), is("test"));
+
+        //single поле по умолчанию
+        assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w2'].testSingle").getValue()).getValues().get("name"), is("test"));
+        //multi поле по умолчанию
+        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test"));
     }
 }

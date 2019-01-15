@@ -228,45 +228,7 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public ModelLink resolveLink(ModelLink link) {
-        if (link.getSubModelQuery() != null) {
-            if (link.isConstant()) {
-                SubModelQuery subModelQuery = link.getSubModelQuery();
-                String key = link.getWidgetId() + "_" + link.getSubModelQuery().getSubModel() + "_" + link.getSubModelQuery().getValueFieldId();
-                if (!data.containsKey(key)) {
-                    if (link.getValue() instanceof DefaultValues) {
-                        resolveDefaultValues((DefaultValues) link.getValue(), subModelQuery);
-                    } else if (link.getValue() instanceof Collection) {
-                        for (Object defValue : (Collection) link.getValue()) {
-                            if (defValue instanceof DefaultValues) {
-                                resolveDefaultValues((DefaultValues) defValue, subModelQuery);
-                            }
-                        }
-                    }
-                } else if (link.getModel() == ReduxModel.FILTER) {
-                    if (link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()) {
-                        List<DefaultValues> values = new ArrayList<>();
-                        if (!(data.get(key) instanceof List))
-                            data.put(key, Collections.singletonList(data.get(key)));
-                        for (Object id : (List) data.get(key)) {
-                            DataSet dataSet = new DataSet();
-                            dataSet.put(link.getSubModelQuery().getSubModel() + "." + link.getSubModelQuery().getValueFieldId(), id);
-                            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-                            DefaultValues defaultValues = new DefaultValues();
-                            defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
-                            values.add(defaultValues);
-                        }
-                        link.setValue(values);
-                    } else {
-                        DataSet dataSet = new DataSet();
-                        dataSet.put(link.getSubModelQuery().getSubModel() + "." + link.getSubModelQuery().getValueFieldId(), data.get(key));
-                        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-                        DefaultValues defaultValues = new DefaultValues();
-                        defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
-                        link.setValue(defaultValues);
-                    }
-                }
-            }
-        }
+        resolveSubModels(link);
         if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
             return link;
         Optional<String> res = Optional.empty();
@@ -322,12 +284,47 @@ public class N2oCompileProcessor implements CompileProcessor {
         }
     }
 
-    private void resolveDefaultValues(DefaultValues defaultValues, SubModelQuery subModelQuery) {
-        if (!defaultValues.getValues().containsKey(subModelQuery.getLabelFieldId())) {
-            DataSet dataSet = new DataSet();
-            dataSet.put(subModelQuery.getSubModel() + "." + subModelQuery.getValueFieldId(), defaultValues.getValues().get(subModelQuery.getValueFieldId()));
-            subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
-            defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
+    private void resolveSubModels(ModelLink link) {
+        if (link.getSubModelQuery() == null || !link.isConstant())
+            return;
+        SubModelQuery subModelQuery = link.getSubModelQuery();
+        String key = link.getWidgetId() + "_" + link.getSubModelQuery().getSubModel() + "_" + link.getSubModelQuery().getValueFieldId();
+        if (!data.containsKey(key)) {
+            if (link.getValue() instanceof DefaultValues) {
+                DefaultValues defaultValues = (DefaultValues) link.getValue();
+                resolveDefaultValues(defaultValues, subModelQuery, defaultValues.getValues().get(subModelQuery.getValueFieldId()));
+            } else if (link.getValue() instanceof Collection) {
+                for (Object defValue : (Collection) link.getValue()) {
+                    if (defValue instanceof DefaultValues) {
+                        DefaultValues defaultValues = (DefaultValues) defValue;
+                        resolveDefaultValues(defaultValues, subModelQuery, defaultValues.getValues().get(subModelQuery.getValueFieldId()));
+                    }
+                }
+            }
+        } else if (link.getModel() == ReduxModel.FILTER) {
+            if (link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()) {
+                List<DefaultValues> values = new ArrayList<>();
+                if (!(data.get(key) instanceof List))
+                    data.put(key, Collections.singletonList(data.get(key)));
+                for (Object id : (List) data.get(key)) {
+                    DefaultValues defaultValues = new DefaultValues();
+                    resolveDefaultValues(defaultValues, link.getSubModelQuery(), id);
+                    values.add(defaultValues);
+                }
+                link.setValue(values);
+            } else {
+                DefaultValues defaultValues = new DefaultValues();
+                resolveDefaultValues(defaultValues, link.getSubModelQuery(), data.get(key));
+                link.setValue(defaultValues);
+            }
         }
+    }
+
+    private void resolveDefaultValues(DefaultValues defaultValues, SubModelQuery subModelQuery, Object value) {
+        if (value == null) return;
+        DataSet dataSet = new DataSet();
+        dataSet.put(subModelQuery.getSubModel() + "." + subModelQuery.getValueFieldId(), value);
+        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
+        defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
     }
 }
