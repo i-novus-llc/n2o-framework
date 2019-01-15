@@ -82,8 +82,8 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
                 filter.setType(preFilter.getType());
                 filter.setValueAttr(preFilter.getValueAttr());
                 filter.setValuesAttr(preFilter.getValuesAttr());
-                filter.setRefWidgetId(p.cast(preFilter.getRefWidgetId(), widgetScope.getWidgetId()));
-                filter.setRefModel(p.cast(preFilter.getRefModel(), model, ReduxModel.RESOLVE));
+                filter.setRefWidgetId(p.cast(preFilter.getRefWidgetId(), widgetId));
+                filter.setRefModel(p.cast(preFilter.getRefModel(), model));
                 PageScope pageScope = p.getScope(PageScope.class);
                 if (pageScope != null) {
                     filter.setRefPageId(pageScope.getPageId());
@@ -106,28 +106,40 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             pathMapping.putAll(routeScope.getPathMapping());
             queryMapping.putAll(routeScope.getQueryMapping());
         }
-        String parentClientWidgetId = null;
-        ReduxModel parentWidgetModel = ReduxModel.RESOLVE;
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        PageScope pageScope = p.getScope(PageScope.class);
+
+        String currentClientWidgetId = null;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null) {
-            parentClientWidgetId = widgetScope.getClientWidgetId();
-        } else if (componentScope != null && pageScope != null) {
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                parentClientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
-            }
-        }
-        if (componentScope != null) {
-            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware != null && modelAware.getModel() != null) {
-                parentWidgetModel = modelAware.getModel();
-            }
+            currentClientWidgetId = widgetScope.getClientWidgetId();
         }
 
-        String actionRoute = initActionRoute(source, parentClientWidgetId, parentWidgetModel);
-        String masterIdParam = initMasterLink(actionRoute, pathMapping, parentClientWidgetId, p);
+        ModelLink actionModelLink = null;
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
+            ReduxModel actionDataModel = ReduxModel.RESOLVE;
+            if (modelAware != null && modelAware.getModel() != null) {
+                actionDataModel = modelAware.getModel();
+            }
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            String actionDataModelClientWidgetId = null;
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                PageScope pageScope = p.getScope(PageScope.class);
+                actionDataModelClientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
+            } else {
+                actionDataModelClientWidgetId = currentClientWidgetId;
+            }
+            if (actionDataModel != null && actionDataModelClientWidgetId != null)
+                actionModelLink = new ModelLink(actionDataModel, actionDataModelClientWidgetId);
+        }
+        if (actionModelLink == null)
+            throw new N2oException("widget-id for action " + source.getId() + " not specified");
+
+        if (currentClientWidgetId == null)
+            currentClientWidgetId = actionModelLink.getWidgetId();
+
+        String actionRoute = initActionRoute(source, actionModelLink);
+        String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink, p);
         route = normalize(route + actionRoute);
         String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
 
@@ -139,8 +151,8 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setSubmitModel(source.getSubmitModel());
         pageContext.setResultWidgetId(source.getResultContainerId());
         pageContext.setUpload(source.getUpload());
-        pageContext.setParentWidgetId(parentClientWidgetId);
-        pageContext.setParentModelLink(new ModelLink(parentWidgetModel, parentClientWidgetId));
+        pageContext.setParentWidgetId(currentClientWidgetId);
+        pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping.keySet()));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
@@ -169,30 +181,49 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         return pageContext;
     }
 
-    private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, String parentClientWidgetId,
+    /**
+     * Инициализация ссылки на идентификатор модели текущего виджета
+     *
+     * @param actionRoute Маршрут с параметром
+     * @param pathMapping Параметры, в которые добавится ссылка
+     * @param actionModelLink Модель данных действия
+     * @param p
+     *
+     * @return Наименование параметра ссылки
+     */
+    private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink,
                                   CompileProcessor p) {
         List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
         String masterIdParam = null;
         if (!actionRouteParams.isEmpty()) {
-            if (parentClientWidgetId == null)
+            if (actionModelLink == null)
                 throw new N2oException("Action route contains params " + actionRoute + ", but parent widget not found");
             if (actionRouteParams.size() > 1)
                 throw new N2oException("Action route can not contain more then one param: " + actionRoute);
             masterIdParam = actionRouteParams.get(0);
             CompiledQuery query = p.getScope(CompiledQuery.class);//todo для кнопок страницы будет null
             String queryId = query != null ? query.getId() : null;
-            ModelLink masterLink = Redux.linkQuery(parentClientWidgetId, PK, queryId);
+            ModelLink masterLink = Redux.linkQuery(actionModelLink.getWidgetId(), PK, queryId);
             pathMapping.put(masterIdParam, masterLink);
         }
         return masterIdParam;
     }
 
-    private String initActionRoute(S source, String parentClientWidgetId, ReduxModel parentWidgetModel) {
+    /**
+     * Добавление идентификатора текущего виджета в параметры маршрута.
+     * Если текущий виджет и виджет из модели действия совпадают и модель resolve, то добавляем.
+     *
+     * @param source                Действие
+     * @param actionModelLink       Ссылка на модель действия
+     * @return Маршрут с добавкой идентификатора или без
+     */
+    private String initActionRoute(S source, ModelLink actionModelLink) {
         String actionRoute = source.getRoute();
         if (actionRoute == null) {
             actionRoute = normalize(source.getId());
-            if (parentClientWidgetId != null && ReduxModel.RESOLVE.equals(parentWidgetModel)) {
-                String masterIdParam = parentClientWidgetId + "_id";
+            if (actionModelLink != null
+                    && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+                String masterIdParam = actionModelLink.getWidgetId() + "_id";
                 actionRoute = normalize(colon(masterIdParam)) + actionRoute;
             }
         }
