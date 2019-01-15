@@ -82,8 +82,9 @@ describe('fetchData HOC test', () => {
   });
 
   it('Мердж данных при fetchData merge=true', async () => {
+    const list = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
-      list: new Array(10)
+      list
     }));
 
     wrapper
@@ -93,7 +94,7 @@ describe('fetchData HOC test', () => {
 
     await delay(400);
     wrapper.update();
-    expect(wrapper.find('EmptyComponent').props().data.length).toBe(10);
+    expect(wrapper.find('EmptyComponent').props().data.length).toBe(5);
 
     wrapper
       .find('EmptyComponent')
@@ -103,7 +104,7 @@ describe('fetchData HOC test', () => {
     await delay(400);
 
     wrapper.update();
-    expect(wrapper.find('EmptyComponent').props().data.length).toBe(10);
+    expect(wrapper.find('EmptyComponent').props().data.length).toBe(5);
   });
 
   it('Обработка серверной ошибки', async () => {
