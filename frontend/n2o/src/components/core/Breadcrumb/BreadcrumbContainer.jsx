@@ -63,7 +63,7 @@ const memoizedMap = memoize(map);
 const mapStateToProps = (state, ownProps) => {
   return {
     items: memoizedMap(ownProps.items, item => {
-      if (item.modelLink && item.modelLink.link) {
+      if (item.modelLink) {
         return {
           ...item,
           label: propsResolver(item.label, getModelSelector(item.modelLink.link)(state))

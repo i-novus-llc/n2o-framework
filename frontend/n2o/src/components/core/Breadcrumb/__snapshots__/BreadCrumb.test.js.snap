@@ -16,7 +16,7 @@ exports[`<Breadcrumb /> тестирует снэпшот контейнера �
         href="/redirectTest"
         onClick={[Function]}
       >
-        test
+        dummy
       </a>
     </li>
     <li

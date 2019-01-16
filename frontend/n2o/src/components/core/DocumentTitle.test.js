@@ -36,9 +36,7 @@ describe('<DocumentTitle />', () => {
   it('тестирует резолв в DocumentTitle', () => {
     const { wrapper } = setupContainer({
       title: "`test ? test : 'dummy'`",
-      modelLink: {
-        link: 'models.test'
-      }
+      modelLink: 'models.test'
     });
     expect(wrapper.find(Helmet).props().title).toBe('test');
   });

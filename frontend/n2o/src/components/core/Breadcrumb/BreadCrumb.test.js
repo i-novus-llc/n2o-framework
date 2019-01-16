@@ -46,16 +46,12 @@ describe('<Breadcrumb />', () => {
       items: [
         {
           label: "`test ? test : 'dummy'`",
-          modelLink: {
-            link: 'models.test'
-          },
+          modelLink: 'models.test',
           path: '/redirectTest'
         },
         {
           label: "`test == 'fake' ? test : 'Test'`",
-          modelLink: {
-            link: 'models.test'
-          }
+          modelLink: 'models.test'
         }
       ]
     });
