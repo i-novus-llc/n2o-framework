@@ -1,0 +1,85 @@
+{
+  "id": "proto",
+  "routes": {
+    "list": [
+      {
+        "path": "/proto",
+        "exact": true,
+        "isOtherPage": false
+      }
+    ]
+  },
+  "widgets": {
+    "image_control_widget": {
+      "filterDefaultValues": {},
+      "src": "FormWidget",
+      "actions": {
+        "perform": {
+          "src": "perform",
+          "options": {
+            "type": "n2o/modals/INSERT",
+            "payload": {
+              "pageUrl": "/page/widget/create",
+              "size": "sm",
+              "visible": true,
+              "closeButton": true,
+              "title": "Новое модальное окно"
+            }
+          }
+        }
+      },
+      "form": {
+        "fieldsets": [
+          {
+            "src": "StandardFieldset",
+            "rows": [
+              {
+                "cols": [
+                  {
+                    "fields": [
+                      {
+                        "id": "image",
+                        "src": "StandardField",
+                        "label": "",
+                        "dependency": [],
+                        "control": {
+                          "src": "ImageControl"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "validation": {},
+        "fetchOnInit": false
+      }
+    }
+  },
+  "breadcrumb": [
+    {
+      "label": "Controls/Image"
+    }
+  ],
+  "actions": {},
+  "layout": {
+    "src": "SingleLayout",
+    "regions": {
+      "single": [
+        {
+          "src": "NoneRegion",
+          "items": [
+            {
+              "widgetId": "image_control_widget"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "page": {
+    "title": "Пример ImageControl"
+  }
+}
