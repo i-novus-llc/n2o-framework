@@ -60,7 +60,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             schema.getPermitAllPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
                             && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
-                            && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId))
+                            && (((N2oObjectAccessPoint) ap).getAction() == null ||
+                                StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -78,7 +79,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             schema.getAuthenticatedPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
                             && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
-                            && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId))
+                            && (((N2oObjectAccessPoint) ap).getAction() == null ||
+                                StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -96,7 +98,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             schema.getAnonymousPoints().stream()
                 .filter(ap -> ap instanceof N2oObjectAccessPoint
                         && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
-                        && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId))
+                        && (((N2oObjectAccessPoint) ap).getAction() == null ||
+                            StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
