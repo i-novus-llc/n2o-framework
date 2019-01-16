@@ -4,13 +4,13 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oNoneRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
-import net.n2oapp.framework.api.metadata.meta.region.NoneRegion;
+import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -96,9 +96,9 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
     private Layout createLayout(CompileProcessor p, N2oSimplePage source, PageContext context, PageScope pageScope) {
         Layout layout = new Layout();
         layout.setSrc("SingleLayout");
-        N2oNoneRegion n2oNoneRegion = new N2oNoneRegion();
-        n2oNoneRegion.setWidgets(new N2oWidget[]{source.getWidget()});
-        NoneRegion noneRegion = p.compile(n2oNoneRegion, context, pageScope);
+        N2oCustomRegion n2oCustomRegion = new N2oCustomRegion();
+        n2oCustomRegion.setWidgets(new N2oWidget[]{source.getWidget()});
+        CustomRegion noneRegion = p.compile(n2oCustomRegion, context, pageScope);
         noneRegion.setPlace("single");
         Map<String, List<Region>> regionMap = new HashMap<>();
         List<Region> regionList = new ArrayList<>();

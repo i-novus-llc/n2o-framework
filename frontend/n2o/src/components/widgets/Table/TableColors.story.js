@@ -7,7 +7,7 @@ import TextCell from './cells/TextCell/TextCell';
 
 const stories = storiesOf('Виджеты/Таблица', module);
 
-stories.addWithJSX('Цвет строк', () => {
+stories.add('Цвет строк', () => {
   const tableDefaultColorData = [
     { id: '1', name: 'primary', h1: 'текст', h2: 'текст' },
     { id: '2', name: 'secondary', h1: 'текст', h2: 'текст' },

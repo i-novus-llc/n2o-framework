@@ -85,4 +85,14 @@ public abstract class Placeholders {
     public static String spel(String parameter) {
         return "['" + parameter + "']";
     }
+
+    /**
+     * Параметризация javaScript выражением
+     *
+     * @param script javaScript выражение
+     * @return Выражение обернутое в обратные апострофы
+     */
+    public static String js(String script) {
+        return "`" + script + "`";
+    }
 }

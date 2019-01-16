@@ -33,6 +33,11 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |Класс для заголовка поля
 |
 
+|no-label
+|true false
+|Не отображать заголовок
+|false
+
 |src
 |React компонент
 |Реализация компонента

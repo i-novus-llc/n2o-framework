@@ -40,6 +40,7 @@ stories
   .add('Отображение в полях сообщений от сервера', () =>
     withPage(FormServerMessage)(() => {
       fetchMock.restore().post('begin:n2o/data', url => ({
+        status: 500,
         body: {
           meta: {
             messages: {
@@ -90,7 +91,7 @@ stories
       return renderForm(FormValidations);
     })
   )
-  .add('Сворарачиваемая форма', () =>
+  .add('Сворачиваемая форма', () =>
     withPage(FormCollapseFieldset)(() => {
       return renderForm(FormCollapseFieldset);
     })

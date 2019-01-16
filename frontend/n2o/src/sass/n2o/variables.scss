@@ -80,6 +80,7 @@ $input-select-border-radius: 0 !default;
 $input-select-item-padding: 0.25rem 1.5rem !default;
 $input-select-control-icon-size: 12px !default;
 $image-height: 40px !default;
+$image-selected-height: 20px !default;
 $input-min-height: calc(2.25rem + 2px) !default;
 $input-padding: 4px 0 4px 12px !default;
 $input-control-padding: 2px 12px 2px 12px !default;
@@ -110,6 +111,7 @@ $input-select-tree-color-hover: #ccc !default;
 
 // Card
 $card-colunm-mode-width: 250px !default;
+$card-image-liner-width: 100px;
 $card-line-mode-height: 60px !default;
 $card-border-top: none !default;
 $card-border-right: none !default;

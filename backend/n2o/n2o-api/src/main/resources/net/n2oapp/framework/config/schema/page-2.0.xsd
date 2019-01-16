@@ -108,7 +108,7 @@
         </xs:annotation>
         <xs:sequence>
             <xs:any namespace="##other" processContents="strict"/>
-            <xs:element name="none" type="reg:noneDefinition" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="region" type="reg:regionDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="tabs" type="reg:tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="line" type="reg:lineDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="panel" type="reg:panelDefinition" maxOccurs="unbounded" minOccurs="0"/>

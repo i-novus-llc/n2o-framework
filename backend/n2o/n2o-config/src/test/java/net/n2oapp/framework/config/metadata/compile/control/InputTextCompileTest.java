@@ -65,4 +65,13 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(((InputText)((StandardField)rows.get(6).getCols().get(0).getFields().get(0)).getControl()).getShowButtons(), is(false));
     }
 
+    @Test
+    public void testNoLabelInputText() {
+        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testInputText.widget.xml")
+                .get(new WidgetContext("testInputText"));
+        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0);
+        assertThat(((StandardField)field).getLabel(), nullValue());
+        assertThat(((StandardField)field).getLabelClass(), nullValue());
+    }
+
 }

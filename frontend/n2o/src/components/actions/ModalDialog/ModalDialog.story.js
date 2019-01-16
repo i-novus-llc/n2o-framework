@@ -14,7 +14,7 @@ stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('ModalDialog'));
 
 stories
-  .addWithJSX(
+  .add(
     'Компонент',
     withState({ visible: false }, store => {
       const props = {

@@ -4,11 +4,13 @@
         <columns>
             <column text-field-id="test">
                 <toolbar>
-                    <button class="class" label="label" icon="icon">
-                        <a href="https://www.google.com/" />
+                    <button class="class" label="label" icon="icon" visible="{test==1}">
+                        <a href="https://www.google.com/">
+                            <query-param name="q" value="{test}"/>
+                        </a>
                     </button>
                     <sub-menu icon="icon" label="label" class="lass" type="text">
-                        <menu-item action-id="linkAction"/>
+                        <menu-item action-id="linkAction" visible="{test==1}"/>
                     </sub-menu>
                 </toolbar>
             </column>

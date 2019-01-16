@@ -1,13 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
 import Collapse, { Panel } from './Collapse';
 
 const stories = storiesOf('UI Компоненты/Collapse', module);
 
 stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('Icon'));
 
 const textToPanel =
   'Значимость этих проблем настолько очевидна, что сложившаяся структура организации требует определения и уточнения модели развития! Дорогие друзья, рамки и место обучения кадров создаёт предпосылки качественно новых шагов для дальнейших направлений развития проекта! Дорогие друзья, курс на социально-ориентированный национальный проект представляет собой интересный эксперимент проверки дальнейших направлений развития проекта.';

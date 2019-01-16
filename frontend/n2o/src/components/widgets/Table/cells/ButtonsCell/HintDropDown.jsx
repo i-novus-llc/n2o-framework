@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map, defaultTo, pick } from 'lodash';
+import { map, defaultTo, pick, isEmpty } from 'lodash';
 import {
   UncontrolledButtonDropdown,
   UncontrolledTooltip,
@@ -10,41 +10,50 @@ import {
 } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';
+import SecurityCheck from '../../../../../core/auth/SecurityCheck';
 
 /**
  * @param label - Название компонента dropdown
  * @param hint - Тултип компонента dropdown
  * @param visible - Видимость компонента dropdown
- * @param disabled - Активность компонента dropdown
- * @param id - уникальный идентификатор
+ * @param uId - уникальный идентификатор
  * @param icon - Иконка компонента dropdown
  * @param menu - Элементы списка
- * @param placement - Расположение тултипа, по дефолту bottom
- * @param delay - Задержка перед показом тултипа
- * @param hideArrow - Показать скрыть стрелку тултипа
- * @param offset - Смещение тултипа относительно положения заданной placement
+ * @param onClick - функция обработки клика
+ * @param security - объект настройки прав
+ * @param rest - остальные props
  * @returns {*}
  * @constructor
  */
-function HintDropDown({ uId, label, hint, visible, id, menu, icon, onClick, ...rest }) {
+function HintDropDown({ uId, label, hint, visible, menu, icon, onClick, security, ...rest }) {
   const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
   const dropdownProps = pick(rest, ['disabled', 'direction', 'active', 'color', 'size']);
 
-  const createDropDownMenu = ({ label, visible, icon, action, ...itemProps }) => {
+  const createDropDownMenu = ({ label, visible, icon, action, security, ...itemProps }) => {
     const handlerClick = action => () => onClick(action);
 
-    return (
-      defaultTo(visible, true) && (
+    const renderItem = () =>
+      defaultTo(visible, true) ? (
         <DropdownItem {...itemProps} onClick={handlerClick(action)}>
           {icon && <Icon name={icon} />}
           {label}
         </DropdownItem>
-      )
+      ) : null;
+
+    return isEmpty(security) ? (
+      renderItem()
+    ) : (
+      <SecurityCheck
+        config={security}
+        render={({ permissions }) => {
+          return permissions ? renderItem() : null;
+        }}
+      />
     );
   };
 
-  return (
-    visible && (
+  const renderDropdown = () =>
+    visible ? (
       <UncontrolledButtonDropdown direction="down">
         {hint && (
           <UncontrolledTooltip target={uId} modifiers={MODIFIERS} {...otherToltipProps}>
@@ -60,7 +69,17 @@ function HintDropDown({ uId, label, hint, visible, id, menu, icon, onClick, ...r
           {map(menu, createDropDownMenu)}
         </DropdownMenu>
       </UncontrolledButtonDropdown>
-    )
+    ) : null;
+
+  return isEmpty(security) ? (
+    renderDropdown()
+  ) : (
+    <SecurityCheck
+      config={security}
+      render={({ permissions }) => {
+        return permissions ? renderDropdown() : null;
+      }}
+    />
   );
 }
 

@@ -2,10 +2,7 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.region.LineRegionCompiler;
-import net.n2oapp.framework.config.metadata.compile.region.NoneRegionCompiler;
-import net.n2oapp.framework.config.metadata.compile.region.PanelRegionCompiler;
-import net.n2oapp.framework.config.metadata.compile.region.TabsRegionCompiler;
+import net.n2oapp.framework.config.metadata.compile.region.*;
 
 
 /**
@@ -18,7 +15,8 @@ public class N2oRegionsPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new TabsRegionCompiler(),
                 new NoneRegionCompiler(),
                 new PanelRegionCompiler(),
-                new LineRegionCompiler());
+                new LineRegionCompiler(),
+                new CustomRegionCompiler());
         
     }
 }

@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.Objects;
 
@@ -39,7 +37,7 @@ public class ModelLink extends BindLink {
     }
 
     public String getFieldId() {
-        return fieldId != null ? fieldId : getJSValue();
+        return fieldId != null ? fieldId : getFieldValue();
     }
 
     /**

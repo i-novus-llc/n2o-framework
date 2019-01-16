@@ -6,6 +6,12 @@
       "pathMapping": {
       },
       "queryMapping": {
+        "filter.name": {
+          "link": "models.filter['Page_Table'].name"
+        },
+        "filter.surname": {
+          "link": "models.filter['Page_Table'].surname"
+        }
       }
     },
     "toolbar": {

@@ -81,9 +81,10 @@ describe('fetchData HOC test', () => {
     expect(wrapper.find('EmptyComponent').props().size).toBe(2);
   });
 
-  it('Конкатенация данных при fetchData concat=true', async () => {
+  it('Мердж данных при fetchData merge=true', async () => {
+    const list = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
-      list: new Array(10)
+      list
     }));
 
     wrapper
@@ -93,7 +94,7 @@ describe('fetchData HOC test', () => {
 
     await delay(400);
     wrapper.update();
-    expect(wrapper.find('EmptyComponent').props().data.length).toBe(10);
+    expect(wrapper.find('EmptyComponent').props().data.length).toBe(5);
 
     wrapper
       .find('EmptyComponent')
@@ -103,7 +104,7 @@ describe('fetchData HOC test', () => {
     await delay(400);
 
     wrapper.update();
-    expect(wrapper.find('EmptyComponent').props().data.length).toBe(20);
+    expect(wrapper.find('EmptyComponent').props().data.length).toBe(5);
   });
 
   it('Обработка серверной ошибки', async () => {
@@ -131,6 +132,9 @@ describe('fetchData HOC test', () => {
       ._fetchData();
 
     await delay(400);
+
+    expect(1).toBe(1);
+
     expect(store.getActions()[1].payload.severity).toBe('danger');
     expect(store.getActions()[1].payload.text).toBe('Произошла внутренняя ошибка');
   });

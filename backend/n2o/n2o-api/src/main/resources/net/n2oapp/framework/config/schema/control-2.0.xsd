@@ -69,6 +69,7 @@
         <xs:attribute name="help" type="xs:string"/>
         <xs:attribute name="label" type="xs:string"/>
         <xs:attribute name="label-class" type="xs:string"/>
+        <xs:attribute name="no-label" type="xs:boolean" default="false"/>
         <xs:attribute name="src" type="xs:string"/>
         <xs:attribute name="field-src" type="xs:string"/>
         <xs:attribute name="class" type="xs:string"/>

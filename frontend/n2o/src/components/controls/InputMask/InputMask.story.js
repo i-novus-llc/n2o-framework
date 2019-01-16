@@ -14,7 +14,7 @@ stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputMask'));
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       mask: text('mask', '9999'),
       className: text('className', ''),
@@ -56,7 +56,7 @@ stories
     })
   )
 
-  .addWithJSX('Пресеты', () => {
+  .add('Пресеты', () => {
     return (
       <React.Fragment>
         <InputMask preset="phone" placeholder="Телефон" />
@@ -75,7 +75,7 @@ stories
     );
   })
 
-  .addWithJSX('Комбинации', () => {
+  .add('Комбинации', () => {
     return (
       <React.Fragment>
         <InputMask

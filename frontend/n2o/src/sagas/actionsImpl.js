@@ -37,7 +37,6 @@ function* handleAction(action) {
     const notValid =
       options.validate &&
       (yield call(validateField(validationConfig, options.containerKey), values, options.dispatch));
-
     if (notValid) {
       throw Error('Ошибка валидации');
     } else {
@@ -53,9 +52,6 @@ function* handleAction(action) {
 }
 
 function* resolveMapping(dataProvider, state) {
-  if (!dataProvider.pathMapping) {
-    return 'null';
-  }
   const pathParams = yield call(getParams, dataProvider.pathMapping, state);
   return pathToRegexp.compile(dataProvider.url)(pathParams);
 }

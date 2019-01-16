@@ -8,7 +8,7 @@ import AuthButtonContainer from '../../core/auth/AuthLogin';
 const stories = storiesOf('Действия', module);
 
 stories
-  .addWithJSX('Варианты кнопок', () => {
+  .add('Варианты кнопок', () => {
     const toolbar1 = [
       {
         buttons: [
