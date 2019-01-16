@@ -19,15 +19,15 @@ export default function compileUrl(
 ) {
   const pathParams = getParams(pathMapping, state);
   const queryParams = getParams(queryMapping, state);
+  let compiledUrl = '';
   if (!isEmpty(pathParams)) {
-    if (!isEmpty(queryParams)) {
-      return `${pathToRegexp.compile(url)({
-        ...pathParams,
-        ...extraPathParams
-      })}?${queryString.stringify({ ...queryParams, ...extraQueryParams })}`;
-    } else {
-      return pathToRegexp.compile(url)(pathParams);
-    }
+    compiledUrl = pathToRegexp.compile(url)(pathParams);
   }
-  return url;
+  if (!isEmpty(queryParams)) {
+    compiledUrl = `${!isEmpty(compiledUrl) ? compiledUrl : url}?${queryString.stringify({
+      ...queryParams,
+      ...extraQueryParams
+    })}`;
+  }
+  return !isEmpty(compiledUrl) ? compiledUrl : url;
 }
