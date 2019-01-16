@@ -1,10 +1,19 @@
-import { resolveMapping, handleAction, handleInvoke, fetchInvoke, validate } from './actionsImpl';
+import {
+  resolveMapping,
+  handleAction,
+  handleInvoke,
+  fetchInvoke,
+  validate,
+  handleFailInvoke
+} from './actionsImpl';
 import { runSaga } from 'redux-saga';
+import { put } from 'redux-saga/effects';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
 import * as api from './fetch';
-import * as fetch from './actionsImpl';
-import * as apiPovider from '../core/api';
+import { merge } from 'lodash';
 import mockStore from 'redux-mock-store';
+import { FAIL_INVOKE } from '../constants/actionImpls';
+import createActionHelper from '../actions/createActionHelper';
 
 const store = mockStore()({
   widgets: {
@@ -52,6 +61,42 @@ const state = {
 };
 
 describe('Проверка саги actionsImpl', () => {
+  it('Проверка генератора handleFetchInvoke', () => {
+    const action = {
+      meta: {
+        fail: {
+          some: 'value'
+        }
+      }
+    };
+    const widgetId = 'testId';
+    const err = {
+      body: {
+        meta: {
+          value: 'value'
+        }
+      }
+    };
+    const gen = handleFailInvoke(action, widgetId, err);
+    const meta = merge(action.meta.fail, (err.body && err.body.meta) || {});
+    expect(gen.next().value.PUT.action).toEqual(
+      put(createActionHelper(FAIL_INVOKE)({ widgetId, err }, meta)).PUT.action
+    );
+    expect(gen.next().done).toEqual(true);
+  });
+
+  it('Проверка генератора validate', async () => {
+    const fakeStore = {
+      getState: () => ({})
+    };
+    const options = {
+      validate: true
+    };
+    let promise = await runSaga(fakeStore, validate, options).done;
+    const result = await Promise.resolve(promise);
+    expect(result).toEqual(false);
+  });
+
   it('Проверка генератора fetchInvoke', async () => {
     const fakeStore = {
       getState: () => state

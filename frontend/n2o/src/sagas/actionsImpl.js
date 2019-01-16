@@ -82,7 +82,7 @@ export function* fetchInvoke(dataProvider, model) {
   return response;
 }
 
-function* handleFailInvoke(action, widgetId, err) {
+export function* handleFailInvoke(action, widgetId, err) {
   const meta = merge(action.meta.fail, (err.body && err.body.meta) || {});
   yield put(createActionHelper(FAIL_INVOKE)({ widgetId, err }, meta));
 }
