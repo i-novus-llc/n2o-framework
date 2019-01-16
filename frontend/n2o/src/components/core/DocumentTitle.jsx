@@ -6,10 +6,10 @@ import { getModelSelector } from '../../selectors/models';
 import propsResolver from '../../utils/propsResolver';
 import { createStructuredSelector } from 'reselect';
 
-function DocumentTitle({ title, model }) {
+function DocumentTitle({ title, modelLink }) {
   let resolveTitle = title;
-  if (title && model) {
-    resolveTitle = propsResolver(title, model);
+  if (title && modelLink && modelLink.link) {
+    resolveTitle = propsResolver(title, modelLink.link);
   }
 
   return <Helmet title={resolveTitle} />;
