@@ -17,14 +17,12 @@ stories.addDecorator(withTests('DateTimeControl'));
 stories
   .add('Компонент', () => {
     const props = {
-      value: text('value', DatePickerJson.value),
-      dateFormat: text('dateFormat', DatePickerJson.dateFormat),
       min: text('min', DatePickerJson.min),
       max: text('max', DatePickerJson.max),
       disabled: boolean('disabled', DatePickerJson.disabled),
-      timeFormat: text('timeFormat', 'h:mm:ss'),
+      timeFormat: text('timeFormat', DatePickerJson.timeFormat),
       dateDivider: text('dateDivider', ' '),
-      defaultTime: text('defaultTime', '11:11:11'),
+      dateFormat: text('dateFormat', DatePickerJson.dateFormat),
       locale: select('locale', ['ru', 'en'], DatePickerJson.locale)
     };
     return <DatePicker {...props} onChange={action('onChange')} />;
@@ -34,8 +32,8 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        value: text('value', '12/12/2012'),
-        dateFormat: text('dateFormat', 'DD/MM/YYYY HH:mm'),
+        dateFormat: text('dateFormat', 'DD/MM/YYYY'),
+        timeFormat: text('timeFormat', 'HH:mm'),
         defaultTime: text('defaultTime', '12:00'),
         min: text('min', '5/12/2012'),
         max: text('max', '15/12/2021'),
@@ -49,7 +47,11 @@ stories
   .add('Форматы дат', () => {
     return (
       <React.Fragment>
-        <DatePicker dateFormat="DD/MM/YYYY HH:mm" placeholder="DD/MM/YYYY HH:mm" />
+        <DatePicker
+          dateFormat="DD/MM/YYYY"
+          timeFormat="HH:mm"
+          placeholder="dateFormat=DD/MM/YYYY timeFormat=HH:mm"
+        />
         <br />
         <DatePicker dateFormat="DD.MM.YYYY" placeholder="DD.MM.YYYY" />
         <br />
@@ -69,7 +71,12 @@ stories
   .add('Время по умолчанию', () => {
     return (
       <React.Fragment>
-        <DatePicker dateFormat="DD/MM/YYYY HH:mm" placeholder="DD/MM/YYYY 00:00" />
+        <DatePicker
+          dateFormat="DD/MM/YYYY"
+          timeFormat="HH:mm"
+          defaultTime="13:00"
+          placeholder="dateFormat=DD/MM/YYYY timeFormat=HH:mm defaultTime=13:00"
+        />
       </React.Fragment>
     );
   })
