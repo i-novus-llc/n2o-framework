@@ -32,4 +32,13 @@ public class FieldJsonTest extends JsonMetadataTestBase {
                 .exclude("src", "readOnly", "style", "control")
                 .assertEquals();
     }
+
+    @Test
+    public void testNoLabelInputText() {
+        check("net/n2oapp/framework/config/mapping/testInputText.widget.xml",
+                "components/widgets/Form/fields/StandardField/NoLabelField.meta.json")
+                .cutXml("form.fieldsets[0].rows[0].cols[1].fields[0]")
+                .exclude("src", "readOnly", "style", "control")
+                .assertEquals();
+    }
 }

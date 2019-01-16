@@ -23,6 +23,7 @@ public abstract class N2oStandardField extends N2oField implements CssClassAware
     private String style;
     private String labelStyle;
     private String labelClass;
+    private Boolean noLabel;
     private String domain;
     private Boolean copied;
     private N2oToolbar toolbar;

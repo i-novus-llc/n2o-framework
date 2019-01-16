@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -257,7 +258,7 @@ public class N2oCompileProcessor implements CompileProcessor {
         collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
         for (String l : links) {
             if (valueParamMap.containsKey(l) && data.containsKey(valueParamMap.get(l))) {
-                text = text.replace("{" + l + "}", data.get(valueParamMap.get(l)).toString());
+                text = text.replace(Placeholders.ref(l), data.get(valueParamMap.get(l)).toString());
             }
         }
         return text;

@@ -14,6 +14,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         super.io(e, m, p);
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "label-class", m::getLabelClass, m::setLabelClass);
+        p.attributeBoolean(e, "no-label", m::getNoLabel, m::setNoLabel);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.attribute(e, "placeholder", m::getPlaceholder, m::setPlaceholder);
         p.attribute(e, "description", m::getDescription, m::setDescription);

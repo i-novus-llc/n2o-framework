@@ -38,7 +38,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     private Map<String, ModelLink> pathRouteMapping;
 
     /**
-     * Ссылка на модель родителя (связка widgetId + model)
+     * Ссылка на модель данных родителя
      */
     private ModelLink parentModelLink;
 
@@ -80,7 +80,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
             }
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
-            return p.resolveParams(sourceId);
+            return p.resolveText(sourceId, parentModelLink);
         }
         return sourceId;
     }

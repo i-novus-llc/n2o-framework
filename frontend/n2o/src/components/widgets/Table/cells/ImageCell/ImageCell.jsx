@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import withCell from '../../withCell';
 import imageShapes from './imageShapes';
+import { get } from 'lodash';
 
 /**
  * Ячейка таблицы с картинкой
@@ -14,6 +15,10 @@ import imageShapes from './imageShapes';
  */
 
 class ImageCell extends React.Component {
+  setCursor(action) {
+    return action ? { cursor: 'pointer' } : null;
+  }
+
   /**
    * Рендер
    */
@@ -29,11 +34,26 @@ class ImageCell extends React.Component {
       return shape ? shapeToClass[shape] : '';
     };
 
-    const { title, style, className, model, id, shape } = this.props;
+    const {
+      title,
+      fieldKey,
+      style,
+      className,
+      model,
+      id,
+      shape,
+      callActionImpl,
+      action
+    } = this.props;
 
     return (
-      <div title={title} style={{ ...style }} className={className}>
-        <img src={model[id]} alt={title} className={getImageClass(shape)} />
+      <div title={title} style={{ ...style, ...this.setCursor(action) }} className={className}>
+        <img
+          src={get(model, fieldKey || id)}
+          alt={title}
+          className={getImageClass(shape)}
+          onClick={callActionImpl}
+        />
       </div>
     );
   }
@@ -48,4 +68,4 @@ ImageCell.propTypes = {
   title: PropTypes.string
 };
 
-export default ImageCell;
+export default withCell(ImageCell);

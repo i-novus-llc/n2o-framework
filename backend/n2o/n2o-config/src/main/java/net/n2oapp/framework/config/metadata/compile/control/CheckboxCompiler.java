@@ -26,7 +26,9 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
         Checkbox checkbox = new Checkbox();
         checkbox.setControlSrc(p.cast(checkbox.getControlSrc(), p.resolve(property("n2o.api.control.checkbox.src"), String.class)));
         StandardField<Checkbox> field = compileStandardField(checkbox, source, context, p);
-        checkbox.setLabel(p.resolveJS(field.getLabel()));
+        if (field.getLabel() != null) {
+            checkbox.setLabel(p.resolveJS(field.getLabel()));
+        }
         field.setLabel(null);
         return field;
     }
