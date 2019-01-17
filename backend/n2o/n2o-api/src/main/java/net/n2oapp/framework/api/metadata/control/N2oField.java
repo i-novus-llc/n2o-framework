@@ -45,6 +45,17 @@ public abstract class N2oField implements Source, ExtensionAttributesAware, Name
         }
     }
 
+    public boolean containsDependency(Class clazz) {
+        if (dependencies == null) return false;
+
+        for (Dependency dependency : dependencies) {
+            if (dependency.getClass().equals(clazz))
+                return true;
+        }
+
+        return false;
+    }
+
     @Getter
     @Setter
     public static class Validations implements Serializable {
