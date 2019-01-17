@@ -20,7 +20,10 @@ export default config => {
   }
 
   function getTimeout(action, config) {
-    return action.payload.alerts[0].timeout || config.timeout[action.payload.alerts[0].severity];
+    return (
+      action.payload.alerts[0].timeout ||
+      (config.timeout && config.timeout[action.payload.alerts[0].severity])
+    );
   }
 
   return [takeEvery([ADD, ADD_MULTI], addAlertSideEffect)];
