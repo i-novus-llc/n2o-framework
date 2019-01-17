@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
@@ -41,7 +42,7 @@ public class InvocationProcessorTest {
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
         ContextProcessor processor = mock(ContextProcessor.class);
         when(processor.resolve("defaultValue")).thenReturn("defaultValue");
-        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor);
+        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor, new DomainProcessor());
     }
 
     @Test

@@ -32,11 +32,14 @@ public class N2oInvocationProcessor implements InvocationProcessor {
 
     private N2oInvocationFactory invocationFactory;
     private ContextProcessor contextProcessor;
+    private DomainProcessor domainProcessor;
 
     public N2oInvocationProcessor(N2oInvocationFactory invocationFactory,
-                                  ContextProcessor contextProcessor) {
+                                  ContextProcessor contextProcessor,
+                                  DomainProcessor domainProcessor) {
         this.invocationFactory = invocationFactory;
         this.contextProcessor = contextProcessor;
+        this.domainProcessor = domainProcessor;
     }
 
     @Override
@@ -88,7 +91,7 @@ public class N2oInvocationProcessor implements InvocationProcessor {
             return inDataSet;
 
         for (InvocationParameter parameter : invocationParameters) {
-            resolveDefaultValue(parameter, inDataSet);
+            prepareValue(parameter, inDataSet);
             resolveMappingCondition(parameter, inMapping, inDataSet);
             if (!inMapping.containsKey(parameter.getId())) continue;
 
@@ -116,30 +119,30 @@ public class N2oInvocationProcessor implements InvocationProcessor {
         return normalize(invocationParameters, inDataSet);
     }
 
-    public void resolveDefaultValue(InvocationParameter inParameter, DataSet inDataSet) {
-        if (inParameter != null && inParameter.getDefaultValue() != null) {
-            if (inDataSet.get(inParameter.getId()) == null) {
-                Object value = DomainProcessor.getInstance().doDomainConversion(inParameter.getDomain(), inParameter.getDefaultValue());
-                value = contextProcessor.resolve(value);
-                inDataSet.put(inParameter.getId(), value);
-            }
+    public void prepareValue(InvocationParameter inParameter, DataSet inDataSet) {
+        Object value = inDataSet.get(inParameter.getId());
+        if (inParameter.getDefaultValue() != null && value == null) {
+            value = inParameter.getDefaultValue();
         }
+        value = contextProcessor.resolve(value);
+        value = domainProcessor.deserialize(value, inParameter.getDomain());
+        inDataSet.put(inParameter.getId(), value);
         if (inParameter instanceof N2oObject.Parameter &&
                 ((N2oObject.Parameter) inParameter).getChildParams() != null) {
             for (InvocationParameter childParam : ((N2oObject.Parameter) inParameter).getChildParams()) {
                 if (inParameter.getPluralityType() == PluralityType.list
                         || inParameter.getPluralityType() == PluralityType.set) {
-                    for (Object dataSet : (Collection) inDataSet.get(inParameter.getId())) {
-                        resolveDefaultValue(childParam, (DataSet) dataSet);
+                    for (Object dataSet : (Collection) value) {
+                        prepareValue(childParam, (DataSet) dataSet);
                     }
                 } else {
-                    resolveDefaultValue(childParam, (DataSet) inDataSet.get(inParameter.getId()));
+                    prepareValue(childParam, (DataSet) value);
                 }
             }
         }
     }
 
-    public DataSet normalize(Collection<? extends InvocationParameter> invocationParameters, DataSet inDataSet) {
+    private DataSet normalize(Collection<? extends InvocationParameter> invocationParameters, DataSet inDataSet) {
         DataSet copiedDataSet = new DataSet(inDataSet);
         for (InvocationParameter parameter : invocationParameters) {
             if (parameter.getNormalize() != null) {
