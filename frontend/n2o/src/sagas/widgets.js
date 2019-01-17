@@ -63,62 +63,111 @@ function* getData() {
   }
 }
 
-function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId) {
+/**
+ * Подготовка данных
+ * @param widgetId
+ * @returns {IterableIterator<*>}
+ */
+export function* prepareFetch(widgetId) {
+  const state = yield select();
+  const location = yield select(getLocation);
+  // selectors options: size, page, filters, sorting
+  const widgetState = yield select(makeWidgetByIdSelector(widgetId));
+  const currentPageId =
+    (yield select(makeWidgetPageIdSelector(widgetId))) || (yield select(rootPageSelector));
+  const routes = yield select(makePageRoutesByIdSelector(currentPageId));
+  const dataProvider = yield select(makeWidgetDataProviderSelector(widgetId));
+  return {
+    state,
+    location,
+    widgetState,
+    routes,
+    dataProvider
+  };
+}
+
+export function* routesQueryMapping(state, routes, location) {
+  const queryObject = yield call(getParams, mapValues(routes.queryMapping, 'set'), state);
+  const currentQueryObject = queryString.parse(location.search);
+  const pageQueryObject = pick(queryString.parse(location.search), keys(queryObject));
+  if (!isEqual(pickBy(queryObject, identity), pageQueryObject)) {
+    const newQuery = queryString.stringify(queryObject);
+    const tailQuery = queryString.stringify(omit(currentQueryObject, keys(queryObject)));
+    yield put(
+      replace({
+        search: newQuery + (tailQuery ? `&${tailQuery}` : ''),
+        state: { silent: true }
+      })
+    );
+  }
+}
+
+/**
+ * Получение basePath и baseQuery
+ * @param state
+ * @param dataProvider
+ * @param widgetState
+ * @param options
+ * @returns {IterableIterator<*>}
+ */
+export function* resolveUrl(state, dataProvider, widgetState, options) {
+  const pathParams = yield call(getParams, dataProvider.pathMapping, state);
+  const basePath = pathToRegexp.compile(dataProvider.url)(pathParams);
+  const queryParams = yield call(getParams, dataProvider.queryMapping, state);
+  const baseQuery = {
+    size: widgetState.size,
+    page: get(options, 'page', widgetState.page),
+    sorting: widgetState.sorting,
+    ...options,
+    ...queryParams
+  };
+  return {
+    basePath,
+    baseQuery
+  };
+}
+
+export function* setWidgetDataSuccess(widgetId, widgetState, basePath, baseQuery) {
+  const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
+    basePath,
+    baseQuery
+  });
+  yield put(setModel(PREFIXES.datasource, widgetId, data.list));
+  if (isNil(data.list) || isEmpty(data.list)) {
+    yield put(setModel(PREFIXES.resolve, widgetId, null));
+  }
+  yield put(changeCountWidget(widgetId, data.count));
+  yield data.page && put(changePageWidget(widgetId, data.page));
+  if (data.metadata) {
+    yield put(setWidgetMetadata(widgetState.pageId, widgetId, data.metadata));
+    yield put(resetWidgetState(widgetId));
+  }
+  yield put(dataSuccessWidget(widgetId, data));
+}
+
+export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId) {
   try {
-    const state = yield select();
-    const location = yield select(getLocation);
-    // selectors options: size, page, filters, sorting
-    const widgetState = yield select(makeWidgetByIdSelector(widgetId));
-    const currentPageId =
-      (yield select(makeWidgetPageIdSelector(widgetId))) || (yield select(rootPageSelector));
-    const routes = yield select(makePageRoutesByIdSelector(currentPageId));
-    const dataProvider = yield select(makeWidgetDataProviderSelector(widgetId));
+    const { state, location, widgetState, routes, dataProvider } = yield call(
+      prepareFetch,
+      widgetId
+    );
     if (!isEmpty(dataProvider) && dataProvider.url) {
-      const pathParams = yield call(getParams, dataProvider.pathMapping, state);
-      const basePath = pathToRegexp.compile(dataProvider.url)(pathParams);
-      const queryParams = yield call(getParams, dataProvider.queryMapping, state);
-      const baseQuery = {
-        size: widgetState.size,
-        page: get(options, 'page', widgetState.page),
-        sorting: widgetState.sorting,
-        ...options,
-        ...queryParams
-      };
+      const { basePath, baseQuery } = yield call(
+        resolveUrl,
+        state,
+        dataProvider,
+        widgetState,
+        options
+      );
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
         yield put(setTableSelectedId(widgetId, null));
       } else if (!withoutSelectedId && widgetState.selectedId) {
         baseQuery.selectedId = widgetState.selectedId;
       }
       if (routes && routes.queryMapping) {
-        const queryObject = yield call(getParams, mapValues(routes.queryMapping, 'set'), state);
-        const currentQueryObject = queryString.parse(location.search);
-        const pageQueryObject = pick(queryString.parse(location.search), keys(queryObject));
-        if (!isEqual(pickBy(queryObject, identity), pageQueryObject)) {
-          const newQuery = queryString.stringify(queryObject);
-          const tailQuery = queryString.stringify(omit(currentQueryObject, keys(queryObject)));
-          yield put(
-            replace({
-              search: newQuery + (tailQuery ? `&${tailQuery}` : ''),
-              state: { silent: true }
-            })
-          );
-        }
+        yield* routesQueryMapping(state, routes, location);
       }
-      const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
-        basePath,
-        baseQuery
-      });
-      yield put(setModel(PREFIXES.datasource, widgetId, data.list));
-      if (isNil(data.list) || isEmpty(data.list)) {
-        yield put(setModel(PREFIXES.resolve, widgetId, null));
-      }
-      yield put(changeCountWidget(widgetId, data.count));
-      yield data.page && put(changePageWidget(widgetId, data.page));
-      if (data.metadata) {
-        yield put(setWidgetMetadata(widgetState.pageId, widgetId, data.metadata));
-        yield put(resetWidgetState(widgetId));
-      }
-      yield put(dataSuccessWidget(widgetId, data));
+      yield* setWidgetDataSuccess(widgetId, widgetState, basePath, baseQuery);
     } else {
       yield put(dataFailWidget(widgetId));
     }
@@ -140,14 +189,14 @@ function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId) {
   }
 }
 
-function* runResolve(action) {
+export function* runResolve(action) {
   const { widgetId, model } = action.payload;
   try {
     yield put(setModel(PREFIXES.resolve, widgetId, model));
   } catch (err) {}
 }
 
-function* clearOnDisable(action) {
+export function* clearOnDisable(action) {
   const { widgetId } = action.payload;
   yield put(setModel(PREFIXES.datasource, widgetId, null));
   yield put(changeCountWidget(widgetId, 0));
