@@ -7,7 +7,7 @@
   "buttons": [
     {
       "id": "1",
-      "label": "Кнопка",
+      "title": "Кнопка",
       "icon": "fa fa-vk",
       "hint": "Подсказка",
       "size": "md",

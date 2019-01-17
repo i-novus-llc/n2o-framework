@@ -29,8 +29,8 @@ describe('<HintButton />', () => {
     expect(wrapper.find('button.btn-sm').exists()).toBeTruthy();
   });
 
-  it('Свойство label', () => {
-    const { wrapper } = setup({ label: 'test' });
+  it('Свойство title', () => {
+    const { wrapper } = setup({ title: 'test' });
     expect(wrapper.find('Button').props().children[1]).toBe('test');
   });
 

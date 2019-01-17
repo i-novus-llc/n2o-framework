@@ -2,7 +2,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 import { removeFieldMessage } from '../actions/formPlugin';
 
-function* removeMessage(action) {
+export function* removeMessage(action) {
   yield action.meta &&
     action.meta.form &&
     action.meta.field &&
