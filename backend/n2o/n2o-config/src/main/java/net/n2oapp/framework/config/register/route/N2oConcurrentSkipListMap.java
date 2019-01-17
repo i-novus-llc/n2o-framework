@@ -36,6 +36,7 @@
 package net.n2oapp.framework.config.register.route;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ThreadLocalRandom;
@@ -540,7 +541,7 @@ public class N2oConcurrentSkipListMap<K, V> extends AbstractMap<K, V>
 
         static {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
+                UNSAFE = getUnsafe();
                 Class<?> k = Node.class;
                 valueOffset = UNSAFE.objectFieldOffset
                         (k.getDeclaredField("value"));
@@ -624,7 +625,7 @@ public class N2oConcurrentSkipListMap<K, V> extends AbstractMap<K, V>
 
         static {
             try {
-                UNSAFE = sun.misc.Unsafe.getUnsafe();
+                UNSAFE = getUnsafe();
                 Class<?> k = Index.class;
                 rightOffset = UNSAFE.objectFieldOffset
                         (k.getDeclaredField("right"));
@@ -3747,7 +3748,7 @@ public class N2oConcurrentSkipListMap<K, V> extends AbstractMap<K, V>
 
     static {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
+            UNSAFE = getUnsafe();
             Class<?> k = N2oConcurrentSkipListMap.class;
             headOffset = UNSAFE.objectFieldOffset
                     (k.getDeclaredField("head"));
@@ -3758,5 +3759,11 @@ public class N2oConcurrentSkipListMap<K, V> extends AbstractMap<K, V>
         } catch (Exception e) {
             throw new Error(e);
         }
+    }
+
+    private static sun.misc.Unsafe getUnsafe() throws NoSuchFieldException, IllegalAccessException {
+        Field f = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
+        f.setAccessible(true);
+        return (sun.misc.Unsafe) f.get(null);
     }
 }

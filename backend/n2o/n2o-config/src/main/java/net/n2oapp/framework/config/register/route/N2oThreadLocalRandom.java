@@ -36,6 +36,7 @@
 package net.n2oapp.framework.config.register.route;
 
 import java.io.ObjectStreamField;
+import java.lang.reflect.Field;
 import java.util.Random;
 import java.util.Spliterator;
 import java.util.concurrent.ForkJoinTask;
@@ -1070,7 +1071,9 @@ public class N2oThreadLocalRandom extends Random {
 
     static {
         try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
+            Field f = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
+            f.setAccessible(true);
+            UNSAFE = (sun.misc.Unsafe) f.get(null);
             Class<?> tk = Thread.class;
             SEED = UNSAFE.objectFieldOffset
                     (tk.getDeclaredField("threadLocalRandomSeed"));

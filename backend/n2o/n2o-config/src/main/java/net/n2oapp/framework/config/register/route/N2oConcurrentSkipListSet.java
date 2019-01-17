@@ -2,8 +2,6 @@ package net.n2oapp.framework.config.register.route;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentNavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Реализация сортированного потокобезопасного Set, в котором при добавлении элементы перезаписываются
@@ -25,7 +23,7 @@ public class N2oConcurrentSkipListSet<E> extends AbstractSet<E>
      * their {@linkplain Comparable natural ordering}.
      */
     public N2oConcurrentSkipListSet() {
-        m = new ConcurrentSkipListMap<E, Object>();
+        m = new N2oConcurrentSkipListMap<E, Object>();
     }
 
     /**
@@ -37,7 +35,7 @@ public class N2oConcurrentSkipListSet<E> extends AbstractSet<E>
      *                   ordering} of the elements will be used.
      */
     public N2oConcurrentSkipListSet(Comparator<? super E> comparator) {
-        m = new ConcurrentSkipListMap<E, Object>(comparator);
+        m = new N2oConcurrentSkipListMap<E, Object>(comparator);
     }
 
     /**
@@ -52,7 +50,7 @@ public class N2oConcurrentSkipListSet<E> extends AbstractSet<E>
      *                              of its elements are null
      */
     public N2oConcurrentSkipListSet(Collection<? extends E> c) {
-        m = new ConcurrentSkipListMap<E, Object>();
+        m = new N2oConcurrentSkipListMap<E, Object>();
         addAll(c);
     }
 
@@ -65,7 +63,7 @@ public class N2oConcurrentSkipListSet<E> extends AbstractSet<E>
      *                              of its elements are null
      */
     public N2oConcurrentSkipListSet(SortedSet<E> s) {
-        m = new ConcurrentSkipListMap<E, Object>(s.comparator());
+        m = new N2oConcurrentSkipListMap<E, Object>(s.comparator());
         addAll(s);
     }
 
@@ -76,23 +74,6 @@ public class N2oConcurrentSkipListSet<E> extends AbstractSet<E>
         this.m = m;
     }
 
-    /**
-     * Returns a shallow copy of this {@code ConcurrentSkipListSet}
-     * instance. (The elements themselves are not cloned.)
-     *
-     * @return a shallow copy of this set
-     */
-    public N2oConcurrentSkipListSet<E> clone() {
-        try {
-            @SuppressWarnings("unchecked")
-            N2oConcurrentSkipListSet<E> clone =
-                    (N2oConcurrentSkipListSet<E>) super.clone();
-            clone.setMap(new ConcurrentSkipListMap<E, Object>(m));
-            return clone;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError();
-        }
-    }
 
     /* ---------------- Set operations -------------- */
 
@@ -417,28 +398,9 @@ public class N2oConcurrentSkipListSet<E> extends AbstractSet<E>
      */
     @SuppressWarnings("unchecked")
     public Spliterator<E> spliterator() {
-        if (m instanceof ConcurrentSkipListMap)
+        if (m instanceof N2oConcurrentSkipListMap)
             return ((N2oConcurrentSkipListMap<E, ?>) m).keySpliterator();
         else
             return (Spliterator<E>) ((N2oConcurrentSkipListMap.SubMap<E, ?>) m).keyIterator();
-    }
-
-    // Support for resetting map in clone
-    private void setMap(ConcurrentNavigableMap<E, Object> map) {
-        UNSAFE.putObjectVolatile(this, mapOffset, map);
-    }
-
-    private static final sun.misc.Unsafe UNSAFE;
-    private static final long mapOffset;
-
-    static {
-        try {
-            UNSAFE = sun.misc.Unsafe.getUnsafe();
-            Class<?> k = ConcurrentSkipListSet.class;
-            mapOffset = UNSAFE.objectFieldOffset
-                    (k.getDeclaredField("m"));
-        } catch (Exception e) {
-            throw new Error(e);
-        }
     }
 }
