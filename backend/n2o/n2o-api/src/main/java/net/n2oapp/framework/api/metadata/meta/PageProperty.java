@@ -14,6 +14,5 @@ import java.io.Serializable;
 public class PageProperty implements Serializable {
     @JsonProperty
     private String title;
-    @JsonProperty
-    private String modelLink;
+    private ModelLink modelLink;
 }

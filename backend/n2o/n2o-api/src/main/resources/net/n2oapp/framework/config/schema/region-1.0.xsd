@@ -3,7 +3,7 @@
            xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/region-1.0">
 
-    <xs:element name="none" type="regionDefinition"/>
+    <xs:element name="region" type="regionDefinition"/>
     <xs:element name="tabs" type="tabsDefinition"/>
     <xs:element name="line" type="lineDefinition"/>
     <xs:element name="panel" type="panelDefinition"/>
@@ -42,16 +42,6 @@
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
             </xs:annotation>
         </xs:anyAttribute>
-    </xs:complexType>
-
-    <xs:complexType name="noneDefinition">
-        <xs:complexContent>
-            <xs:extension base="regionDefinition">
-                <xs:annotation>
-                    <xs:documentation>Регион без вёрстки.</xs:documentation>
-                </xs:annotation>
-            </xs:extension>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="tabsDefinition">

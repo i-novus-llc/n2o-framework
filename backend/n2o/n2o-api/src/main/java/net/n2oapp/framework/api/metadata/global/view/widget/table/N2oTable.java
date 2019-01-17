@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
 
@@ -8,39 +10,19 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
  * Date: 05.02.13
  * Time: 18:30
  */
+
+@Getter
+@Setter
 public class N2oTable extends N2oAbstractTable<N2oTable> {
     private FilterPosition filterPosition;
     private Boolean filterOpened;
     private NamespaceUriAware[] filters;
+    private Boolean searchButtons;
 
 
     @Override
     public boolean isNavSupport() {
         return true;
-    }
-
-    public NamespaceUriAware[] getFilters() {
-        return filters;
-    }
-
-    public void setFilters(NamespaceUriAware[] filters) {
-        this.filters = filters;
-    }
-
-    public FilterPosition getFilterPosition() {
-        return filterPosition;
-    }
-
-    public void setFilterPosition(FilterPosition filterPosition) {
-        this.filterPosition = filterPosition;
-    }
-
-    public Boolean getFilterOpened() {
-        return filterOpened;
-    }
-
-    public void setFilterOpened(Boolean filterOpened) {
-        this.filterOpened = filterOpened;
     }
 
     public static enum FilterPosition {

@@ -27,17 +27,15 @@ const TabsRegionJson = set(
   pullAt(cloneObject(SecureTabRegionJson).tabs, 0)
 );
 
-console.log(TabsRegionJson);
-
 const { store } = makeStore();
 
 stories
-  .addWithJSX('Метаданные', () => {
+  .add('Метаданные', () => {
     store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
 
     return <TabsRegion {...TabsRegionJson} pageId="Page" />;
   })
-  .addWithJSX('Ограничение доступа', () => {
+  .add('Ограничение доступа', () => {
     store.dispatch(metadataSuccess('Page', ListMetadata));
     return (
       <div>
@@ -50,7 +48,7 @@ stories
       </div>
     );
   })
-  .addWithJSX('Инициализация виджетов', () => {
+  .add('Инициализация виджетов', () => {
     fetchMock
       .restore()
       .get('begin:n2o/data/test', getStubData)

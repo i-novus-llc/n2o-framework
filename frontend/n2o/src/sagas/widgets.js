@@ -172,7 +172,6 @@ export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId)
       yield put(dataFailWidget(widgetId));
     }
   } catch (err) {
-    debugger;
     yield put(
       dataFailWidget(
         widgetId,

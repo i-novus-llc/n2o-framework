@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { fetchInputSelectData } from '../../core/api';
 import cachingStore from '../../utils/cacher';
 import { connect } from 'react-redux';
-import { get, isArray, has } from 'lodash';
+import { get, isArray, has, isEqual, merge as mergeFn } from 'lodash';
 import { addAlert, removeAlerts } from '../../actions/alerts';
 import { getParams } from '../../utils/compileUrl';
 
@@ -105,20 +105,28 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       const pathParams = this._mapping(pathMapping);
       const queryParams = this._mapping(queryMapping);
       const basePath = pathToRegexp.compile(url)(pathParams);
-      return await apiCaller({ ...queryParams, ...extraParams }, null, { basePath });
+      let response = this._findResponseInCache({ basePath, queryParams, extraParams });
+
+      if (!response) {
+        response = await apiCaller({ ...queryParams, ...extraParams }, null, { basePath });
+        cachingStore.add({ basePath, queryParams, extraParams }, response);
+      }
+
+      return response;
     }
 
     /**
-     * Обновить данные если запрос успешен
+     *  Обновить данные если запрос успешен
      * @param list
      * @param count
      * @param size
      * @param page
+     * @param merge
      * @private
      */
-    _setResponseToData({ list, count, size, page }, concat = false) {
+    _setResponseToData({ list, count, size, page }, merge = false) {
       this.setState({
-        data: concat ? this.state.data.concat(list) : list,
+        data: merge ? mergeFn(this.state.data, list) : list,
         isLoading: false,
         count,
         size,
@@ -134,26 +142,18 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @private
      */
 
-    async _fetchData(extraParams = {}, concat = false) {
+    async _fetchData(extraParams = {}, merge = false) {
       const { dataProvider } = this.props;
       if (!dataProvider) return;
 
       this.setState({ loading: true });
-      let response = this._findResponseInCache({ dataProvider, extraParams });
-      if (!response) {
-        try {
-          response = await this._fetchDataProvider(dataProvider, extraParams);
-          cachingStore.add({ dataProvider, extraParams }, response);
-          if (has(response, 'message')) this._addAlertMessage(response.message);
-
-          this._setResponseToData(response, concat);
-        } catch (err) {
-          await this._setErrorMessage(err);
-        } finally {
-          this.setState({ loading: false });
-        }
-      } else {
-        this._setResponseToData(response, concat);
+      try {
+        const response = await this._fetchDataProvider(dataProvider, extraParams);
+        if (has(response, 'message')) this._addAlertMessage(response.message);
+        this._setResponseToData(response, merge);
+      } catch (err) {
+        await this._setErrorMessage(err);
+      } finally {
         this.setState({ loading: false });
       }
     }
@@ -163,7 +163,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      */
 
     render() {
-      return <WrappedComponent {...this.props} {...this.state} _fetchData={this._fetchData} />;
+      return (
+        <WrappedComponent
+          {...this.props}
+          {...this.state}
+          _fetchData={this._fetchData}
+          ref={this.props.setRef}
+        />
+      );
     }
   }
 

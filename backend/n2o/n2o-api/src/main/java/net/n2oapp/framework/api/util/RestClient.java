@@ -27,7 +27,7 @@ public interface RestClient {
 
 
     DataSet GET(String path, Map<String, Object> params, Map<String, String> headers, String host,
-                       Integer port) throws RestException;
+                Integer port) throws RestException;
 
     DataSet POST(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
 

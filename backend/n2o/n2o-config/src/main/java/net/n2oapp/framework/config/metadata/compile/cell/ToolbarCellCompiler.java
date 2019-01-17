@@ -29,7 +29,7 @@ public class ToolbarCellCompiler extends AbstractCellCompiler<ToolbarCell, N2oTo
 
     private void compileButtons(ToolbarCell cell, N2oToolbarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         Toolbar toolbar = p.compile(new N2oToolbar(source.getGenerate(), source.getItems()), context);
-        List<Button> buttons = toolbar.get(p.resolve(property("n2o.api.widget.toolbar.place"), String.class)).get(0).getButtons();
+        List<Button> buttons = toolbar.getGroup(0).getButtons();
         MetaActions metaActions = p.getScope(MetaActions.class);
         if (metaActions != null) {
             for (Button button : buttons)

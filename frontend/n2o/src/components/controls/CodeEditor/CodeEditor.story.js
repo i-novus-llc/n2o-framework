@@ -15,7 +15,7 @@ stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CodeEditor'));
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       disabled: boolean('disabled', false),
       visible: boolean('visible', true),

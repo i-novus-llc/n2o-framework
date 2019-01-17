@@ -23,8 +23,10 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         compileField(field, source, context, p);
         compileDefaultValues(field, source, p);
         field.setSrc(p.cast(source.getFieldSrc(), p.resolve(property("n2o.api.field.src"), String.class)));
-        field.setLabel(initLabel(source, p));
-        field.setLabelClass(p.resolveJS(source.getLabelClass()));
+        if (source.getNoLabel() == null || !source.getNoLabel()) {
+            field.setLabel(initLabel(source, p));
+            field.setLabelClass(p.resolveJS(source.getLabelClass()));
+        }
         field.setHelp(p.resolveJS(source.getHelp()));
         if (source.getDescription() != null) {
             field.setDescription(p.resolveJS(source.getDescription().trim()));
@@ -48,7 +50,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             }
             if (defValue != null) {
                 if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), null, field.getId());
+                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
                     defaultValue.setValue(defValue);
                     defaultValues.add(field.getId(), defaultValue);
                 } else {

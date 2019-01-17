@@ -12,12 +12,12 @@
                 <toolbar>
                     <button id="filter" visible="true" label="Видимость"
                             description=" Скроется, если имя в выбранной записи Афанасий"
-                            visibility-condition="name !== 'Афанасий'" model="filter">
+                            model="filter">
                         <invoke operation-id="dummy"/>
                     </button>
                     <button id="enable" visible="true" label="Блокировка"
                             description="Заблокируется, если имя в выбранной записи Иннокентий"
-                            enabling-condition="name !== 'Иннокентий'" model="filter">
+                            model="filter">
                         <invoke operation-id="dummy"/>
                     </button>
                     <button id="combo" visible="true" label="Комбинация"

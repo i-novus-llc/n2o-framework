@@ -1,11 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-
 import ImageCell from './ImageCell';
 import imageShapes from './imageShapes';
 import { object, text } from '@storybook/addon-knobs/react';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
-const props = {
+const defaultProps = {
   id: 'url',
   model: {
     url:
@@ -19,9 +19,21 @@ const props = {
   shape: imageShapes.THUMBNAIL
 };
 
+const setupImageCell = propsOverride => {
+  const props = { ...defaultProps, ...propsOverride };
+
+  const wrapper = mount(
+    <Provider store={configureMockStore()({})}>
+      <ImageCell {...props} />
+    </Provider>
+  );
+
+  return { wrapper, props };
+};
+
 describe('<ImageCell />', () => {
   it('проверяет создание тайтла', () => {
-    const wrapper = shallow(<ImageCell {...props} />);
+    const { wrapper, props } = setupImageCell();
 
     expect(
       wrapper
@@ -32,24 +44,24 @@ describe('<ImageCell />', () => {
   });
 
   it('проверяет путь до картинки', () => {
-    const wrapper = shallow(<ImageCell {...props} />);
+    const { wrapper, props } = setupImageCell();
 
-    expect(wrapper.children().getElements()[0].props.src).toEqual(props.model[props.id]);
+    expect(wrapper.find('img').props().src).toEqual(props.model[props.id]);
   });
 
   it('проверяет форму изображения', () => {
-    const wrapper = shallow(<ImageCell {...props} />);
-    expect(wrapper.children().getElements()[0].props.className).toEqual('img-thumbnail');
+    const { wrapper } = setupImageCell();
+    expect(wrapper.find('img').props().className).toEqual('img-thumbnail');
   });
 
   it('проверяет задание класса', () => {
-    const wrapper = shallow(<ImageCell {...props} />);
+    const { wrapper, props } = setupImageCell();
 
     expect(wrapper.find(`.${props.className}`).exists()).toBeTruthy();
   });
 
   it('проверяет стили для элемента', () => {
-    const wrapper = shallow(<ImageCell {...props} />);
+    const { wrapper, props } = setupImageCell();
 
     expect(
       wrapper

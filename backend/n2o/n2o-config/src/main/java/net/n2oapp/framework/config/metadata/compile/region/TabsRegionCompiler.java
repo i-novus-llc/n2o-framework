@@ -15,6 +15,12 @@ import java.util.ArrayList;
  */
 @Component
 public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRegion> {
+
+    @Override
+    protected String getPropertyRegionSrc() {
+        return "n2o.api.region.tabs.src";
+    }
+
     @Override
     public Class<N2oTabsRegion> getSourceClass() {
         return N2oTabsRegion.class;
@@ -24,7 +30,6 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     public TabsRegion compile(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         TabsRegion region = new TabsRegion();
         build(region, source, context, p);
-        region.setSrc("TabsRegion");
         region.setTabs(new ArrayList<>());
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, context, p, TabsRegion.Tab.class));

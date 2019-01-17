@@ -11,12 +11,12 @@
     "options": {
       "type": "n2o/modals/INSERT",
       "payload": {
-        "pageUrl": "/page/widget/create",
+        "pageUrl": "/Uid",
         "size": "sm",
         "visible": true,
         "closeButton": true,
         "title": "Новое модальное окно",
-        "pageId": "undefined"
+        "pageId": "Uid"
       }
     }
   }

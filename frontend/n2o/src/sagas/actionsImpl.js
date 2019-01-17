@@ -57,9 +57,6 @@ export function* handleAction(action) {
 }
 
 export function* resolveMapping(dataProvider, state) {
-  if (!dataProvider.pathMapping) {
-    return 'null';
-  }
   const pathParams = yield call(getParams, dataProvider.pathMapping, state);
   return pathToRegexp.compile(dataProvider.url)(pathParams);
 }

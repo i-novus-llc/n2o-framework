@@ -15,7 +15,7 @@ stories.addDecorator(withTests('CodeEditor'));
 const form = withForm({ src: 'TextEditor' });
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
       disabled: boolean('disabled', false),
       visible: boolean('visible', true),

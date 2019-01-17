@@ -1,8 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
@@ -33,7 +31,7 @@ public class TableJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testTableJson.widget.xml",
                 "components/widgets/Table/TableWidget.meta.json")
                         .cutJson("Page_Table")
-                .exclude("actions", "filter",
+                .exclude("actions",
                         "table.style", "table.cells[1].textPlace", "table.autoFocus",
                         "dataProvider.queryMapping",
                         "table.cells[0].fieldKey",

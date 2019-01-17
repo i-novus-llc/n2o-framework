@@ -8,7 +8,7 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 
 const stories = storiesOf('Виджеты/Форма', module);
 
-stories.addWithJSX('Расположение полей', () => {
+stories.add('Расположение полей', () => {
   const fieldSets = [
     {
       src: 'StandardFieldset',

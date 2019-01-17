@@ -70,13 +70,13 @@ const FileUploaderControl = WrappedComponent => {
      * Получение Url из expression
      * @returns {*}
      */
-    resolveUrl() {
-      const { uploadUrl } = this.props;
-      if (!parseExpression(uploadUrl)) {
-        return uploadUrl;
+    resolveUrl(url) {
+      const expression = parseExpression(url);
+      if (!expression) {
+        return url;
       }
       const resolveModel = this.context._reduxForm.resolveModel;
-      return evalExpression(uploadUrl, resolveModel);
+      return evalExpression(expression, resolveModel);
     }
 
     /**
@@ -127,8 +127,10 @@ const FileUploaderControl = WrappedComponent => {
      * @param id
      */
     handleRemove(index, id) {
-      const { value = [], multi, valueFieldId, onChange } = this.props;
-      deleteFile(this.resolveUrl(), id);
+      const { value = [], multi, valueFieldId, onChange, deleteUrl } = this.props;
+      if (deleteUrl) {
+        deleteFile(this.resolveUrl(deleteUrl), id);
+      }
       const newFiles = this.state.files.slice();
       newFiles.splice(index, 1);
       this.setState({
@@ -150,8 +152,8 @@ const FileUploaderControl = WrappedComponent => {
      * @param files
      */
     startUpload(files) {
-      const { labelFieldId, sizeFieldId, name } = this.props;
-      const url = this.resolveUrl();
+      const { labelFieldId, sizeFieldId, name, uploadUrl } = this.props;
+      const url = this.resolveUrl(uploadUrl);
       files.map(file => {
         if (!this.requests[file.id]) {
           const onProgress = this.onProgress.bind(this, file.id);
@@ -307,6 +309,7 @@ const FileUploaderControl = WrappedComponent => {
     responseFieldId: PropTypes.string,
     urlFieldId: PropTypes.string,
     uploadUrl: PropTypes.string,
+    deleteUrl: PropTypes.string,
     multi: PropTypes.bool,
     files: PropTypes.arrayOf(PropTypes.object),
     autoUpload: PropTypes.bool,

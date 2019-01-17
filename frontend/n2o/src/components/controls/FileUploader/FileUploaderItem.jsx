@@ -1,10 +1,11 @@
 import React from 'react';
 import { Tooltip } from 'reactstrap';
 import cn from 'classnames';
-import { Progress, Alert } from 'reactstrap';
+import { Progress } from 'reactstrap';
 import { convertSize } from './utils';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 class FileUploaderItem extends React.Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class FileUploaderItem extends React.Component {
           >
             {file.name}
           </a>
-          {file.error && (
+          {!isEmpty(file.error) && (
             <Tooltip isOpen={this.state.tooltipOpen} target={file.id} toggle={this.toggle}>
               {file.error}
             </Tooltip>

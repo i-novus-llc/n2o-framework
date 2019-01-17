@@ -14,16 +14,18 @@ import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.local.CompilerHolder;
 import net.n2oapp.framework.api.metadata.local.N2oCompiler;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineSupport;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -37,6 +39,7 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.boot.json.N2oJacksonModule;
 import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -52,16 +55,17 @@ import net.n2oapp.framework.config.persister.MetadataPersister;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
 import net.n2oapp.framework.config.reader.*;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
-import net.n2oapp.framework.config.register.*;
-import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
+import net.n2oapp.framework.config.register.CacheControl;
+import net.n2oapp.framework.config.register.N2oMetadataRegister;
+import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
+import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.util.SubModelsProcessor;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import net.n2oapp.framework.config.warmup.HeaderWarmUpper;
-import net.n2oapp.framework.engine.util.json.N2oBeanSerializerFactory;
 import net.n2oapp.properties.io.PropertiesInfoCollector;
 import net.n2oapp.watchdir.WatchDir;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -75,7 +79,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -91,7 +97,11 @@ public class N2oMetadataConfiguration {
     private String configPath;
 
     @Value("${n2o.format.date}")
-    private String dataFormat;
+    private String dateFormat;
+    @Value("${n2o.format.localdate}")
+    private String localDateFormat;
+    @Value("${n2o.format.localtime}")
+    private String localTimeFormat;
 
     @Value("${n2o.config.readonly}")
     private boolean readonly;
@@ -99,21 +109,21 @@ public class N2oMetadataConfiguration {
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat(dateFormat));
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.setSerializerFactory(new N2oBeanSerializerFactory());
-        objectMapper.setDateFormat(new SimpleDateFormat(dataFormat));
         objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
                 .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
                 .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
+        objectMapper.registerModule(new N2oJacksonModule(dateFormat, localDateFormat, localTimeFormat));
         return objectMapper;
     }
 
     @Bean
     public DomainProcessor domainProcessor(@Qualifier("n2oObjectMapper") ObjectMapper objectMapper) {
-        return new DomainProcessor(objectMapper, dataFormat);
+        return new DomainProcessor(objectMapper, dateFormat);
     }
 
     @Bean
@@ -190,7 +200,7 @@ public class N2oMetadataConfiguration {
     @Bean
     public ScriptProcessor scriptProcessor() {
         ScriptProcessor scriptProcessor = new ScriptProcessor();
-        scriptProcessor.setDateFormat(dataFormat);
+        scriptProcessor.setDateFormat(dateFormat);
         return scriptProcessor;
     }
 

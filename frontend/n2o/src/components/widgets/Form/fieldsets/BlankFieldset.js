@@ -11,7 +11,8 @@ BlankFieldset.propTypes = {
 };
 
 BlankFieldset.defaultProps = {
-  rows: []
+  rows: [],
+  render: () => {}
 };
 
 export default BlankFieldset;

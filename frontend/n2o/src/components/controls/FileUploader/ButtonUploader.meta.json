@@ -4,6 +4,7 @@
   "name": "avatar",
   "disabled": false,
   "uploadUrl": "/n2o/data",
+  "deleteUrl": "/n2o/data/delete",
   "autoUpload": true,
   "showSize": true,
   "multi": false,

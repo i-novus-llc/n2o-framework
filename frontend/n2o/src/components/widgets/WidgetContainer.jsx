@@ -281,7 +281,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           !isActive && dispatch(setActive(widgetId));
         },
         onFocus: widgetId => {
-          console.log(widgetId);
           dispatch(setActive(widgetId));
         }
       };

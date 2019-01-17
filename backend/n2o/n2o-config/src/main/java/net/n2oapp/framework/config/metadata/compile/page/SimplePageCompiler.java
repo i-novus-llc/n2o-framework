@@ -4,18 +4,18 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oNoneRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
-import net.n2oapp.framework.api.metadata.meta.region.NoneRegion;
+import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRoteScope;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -43,6 +43,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
+        page.setProperties(initPageName(pageName, context, p));
         page.getProperties().setTitle(pageName);
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         page.setWidgets(new StrictMap<>());
@@ -51,11 +52,10 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         widget.setRoute(p.cast(widget.getRoute(), RouteUtil.normalize(widget.getId())));
         PageRoutes routes = initRoute(context, p, pageRoute);
         initPreFilters(context, widget);
-        ParentRoteScope routeScope = new ParentRoteScope(pageRoute, context.getPathRouteInfos());
         Models models = new Models();
         page.setModels(models);
         WidgetScope widgetScope = new WidgetScope();
-        ParentRoteScope pageRouteScope = new ParentRoteScope(pageRoute, context.getPathRouteInfos());
+        ParentRouteScope pageRouteScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         BreadcrumbList breadcrumbs = new BreadcrumbList(page.getBreadcrumb());
         ValidationList validationList = new ValidationList(new HashMap<>());
         if (context.getUpload() != null)
@@ -74,7 +74,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         }
         if (context.getSubmitOperationId() != null) {
             MetaActions metaActions = new MetaActions();
-            page.setToolbar(compileToolbar(context, p, metaActions, pageScope, routeScope, object, breadcrumbs, validationList, widget));
+            page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             page.setActions(metaActions);
         }
         return page;
@@ -95,9 +95,9 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
     private Layout createLayout(CompileProcessor p, N2oSimplePage source, PageContext context, PageScope pageScope) {
         Layout layout = new Layout();
         layout.setSrc("SingleLayout");
-        N2oNoneRegion n2oNoneRegion = new N2oNoneRegion();
-        n2oNoneRegion.setWidgets(new N2oWidget[]{source.getWidget()});
-        NoneRegion noneRegion = p.compile(n2oNoneRegion, context, pageScope);
+        N2oCustomRegion n2oCustomRegion = new N2oCustomRegion();
+        n2oCustomRegion.setWidgets(new N2oWidget[]{source.getWidget()});
+        CustomRegion noneRegion = p.compile(n2oCustomRegion, context, pageScope);
         noneRegion.setPlace("single");
         Map<String, List<Region>> regionMap = new HashMap<>();
         List<Region> regionList = new ArrayList<>();
@@ -108,7 +108,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
     }
 
     private Toolbar compileToolbar(PageContext context, CompileProcessor p,
-                                   MetaActions metaActions, PageScope pageScope, ParentRoteScope routeScope,
+                                   MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,
                                    CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList,
                                    N2oWidget widget) {
         N2oToolbar n2oToolbar = new N2oToolbar();

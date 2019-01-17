@@ -85,7 +85,7 @@ public class DataSet extends NestedMap {
         if (value instanceof List)
             return (List<?>) value;
         if (value.getClass().isArray())
-            return new ArrayList<>(Arrays.asList((Object[])value));
+            return new ArrayList<>(Arrays.asList((Object[]) value));
         return new ArrayList<>((Collection<?>) value);
     }
 
@@ -120,6 +120,26 @@ public class DataSet extends NestedMap {
 
     protected NestedMap createNestedMap(Map map) {
         return new DataSet(map);
+    }
+
+    /**
+     * Плоский список ключей вложенной мапы
+     *
+     * @return Список с плоскими ключами
+     */
+    public Set<String> flatKeySet() {
+        Set<String> result = new LinkedHashSet<>();
+        for (Map.Entry<String, Object> entry : entrySet()) {
+            if (entry.getValue() instanceof DataSet) {
+                Set<String> childrenKeySet = ((DataSet) entry.getValue()).flatKeySet();
+                for (String childKey : childrenKeySet) {
+                    result.add(entry.getKey() + "." + childKey);
+                }
+            } else {
+                result.add(entry.getKey());
+            }
+        }
+        return result;
     }
 
 

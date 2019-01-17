@@ -7,7 +7,7 @@ import ModalDialog from './ModalDialog';
 
 const stories = storiesOf('UI Компоненты/Диалог', module);
 
-stories.addWithJSX(
+stories.add(
   'Текст',
   withState(
     {

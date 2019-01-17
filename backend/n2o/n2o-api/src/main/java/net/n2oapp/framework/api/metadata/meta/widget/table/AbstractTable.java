@@ -49,6 +49,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         private N2oTable.FilterPosition filterPlace;
         @JsonProperty
         private Map<String, List<Validation>> validation;
-
+        @JsonProperty
+        private Boolean searchButtons;
     }
 }
