@@ -19,15 +19,15 @@ export default function compileUrl(
 ) {
   const pathParams = getParams(pathMapping, state);
   const queryParams = getParams(queryMapping, state);
-  let compiledUrl = '';
+  let compiledUrl = null;
   if (!isEmpty(pathParams)) {
     compiledUrl = pathToRegexp.compile(url)(pathParams);
   }
   if (!isEmpty(queryParams)) {
-    compiledUrl = `${!isEmpty(compiledUrl) ? compiledUrl : url}?${queryString.stringify({
+    compiledUrl = `${compiledUrl || url}?${queryString.stringify({
       ...queryParams,
       ...extraQueryParams
     })}`;
   }
-  return !isEmpty(compiledUrl) ? compiledUrl : url;
+  return compiledUrl || url;
 }
