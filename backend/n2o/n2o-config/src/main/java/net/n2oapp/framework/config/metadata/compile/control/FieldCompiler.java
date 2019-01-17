@@ -244,7 +244,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
                 else if (d instanceof N2oField.SetValueDependency)
                     dependency.setType(ValidationType.setValue);
 
-                dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue().trim()));
+                dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
                 dependency.getOn().add(d.getOn());
                 dependency.setApplyOnInit(true);
                 field.addDependency(dependency);
