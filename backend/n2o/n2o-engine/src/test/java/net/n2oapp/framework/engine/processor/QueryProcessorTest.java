@@ -8,6 +8,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -57,7 +58,7 @@ public class QueryProcessorTest {
         ContextProcessor contextProcessor = mock(ContextProcessor.class);
         factory = mock(N2oInvocationFactory.class);
         when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);
-        queryProcessor = new N2oQueryProcessor(contextProcessor, factory);
+        queryProcessor = new N2oQueryProcessor(factory, contextProcessor, new DomainProcessor());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
         environment.setReadPipelineFunction(p -> p.read());

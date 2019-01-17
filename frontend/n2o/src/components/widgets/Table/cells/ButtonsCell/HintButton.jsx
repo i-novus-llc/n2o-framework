@@ -8,7 +8,7 @@ import SecurityCheck from '../../../../../core/auth/SecurityCheck';
 
 /**
  * Кнопка с тултипом
- * @param label - Название кнопки
+ * @param title - Название кнопки
  * @param hint - Тултип кнопки
  * @param visible - Видимость кнопки
  * @param uId - уникальный идентификатор
@@ -20,7 +20,7 @@ import SecurityCheck from '../../../../../core/auth/SecurityCheck';
  * @returns {*}
  * @constructor
  */
-function HintButton({ uId, label, hint, visible, icon, onClick, action, security, ...rest }) {
+function HintButton({ uId, title, hint, visible, icon, onClick, action, security, ...rest }) {
   const otherBtnProps = pick(rest, ['size', 'active', 'color', 'disabled']);
   const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
 
@@ -31,7 +31,7 @@ function HintButton({ uId, label, hint, visible, icon, onClick, action, security
       <Fragment>
         <Button id={uId} onClick={handlerClick(action)} {...otherBtnProps}>
           {icon && <Icon name={icon} />}
-          {label}
+          {title}
         </Button>
         {hint && (
           <UncontrolledTooltip target={uId} {...otherToltipProps} modifiers={MODIFIERS}>
@@ -54,7 +54,7 @@ function HintButton({ uId, label, hint, visible, icon, onClick, action, security
 }
 
 HintButton.propTypes = {
-  label: PropTypes.string,
+  title: PropTypes.string,
   hint: PropTypes.string,
   visible: PropTypes.bool,
   disabled: PropTypes.bool,
