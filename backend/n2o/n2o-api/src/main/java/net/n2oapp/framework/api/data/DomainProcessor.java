@@ -222,6 +222,16 @@ public class DomainProcessor {
             return elementsDomain + "[]";
         }
         if (value instanceof String) {
+            String val = ((String) value).toLowerCase();
+            if (val.equals("true") || value.equals("false")) return Domain.bool.getName();
+            if (val.matches("([\\d]{1,6})")) {
+                try {
+                    Integer.parseInt(val);
+                } catch (NumberFormatException e) {
+                    throw new N2oException("Value is not Integer [" + val + "]. Set domain explicitly!", e);
+                }
+                return Domain.integer.getName();
+            }
             return Domain.string.getName();
         }
         Domain domain = Domain.getByClass(value.getClass());//подбираем домен по классу значения

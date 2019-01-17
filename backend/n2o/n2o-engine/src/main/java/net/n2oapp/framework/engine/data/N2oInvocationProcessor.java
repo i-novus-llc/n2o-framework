@@ -119,15 +119,14 @@ public class N2oInvocationProcessor implements InvocationProcessor {
         return normalize(invocationParameters, inDataSet);
     }
 
-    public void prepareValue(InvocationParameter inParameter, DataSet inDataSet) {
+    private void prepareValue(InvocationParameter inParameter, DataSet inDataSet) {
         Object value = inDataSet.get(inParameter.getId());
         if (inParameter.getDefaultValue() != null && value == null) {
             value = inParameter.getDefaultValue();
         }
         value = contextProcessor.resolve(value);
         value = domainProcessor.deserialize(value, inParameter.getDomain());
-        inDataSet.put(inParameter.getId(), value);
-        if (inParameter instanceof N2oObject.Parameter &&
+        if (value != null && inParameter instanceof N2oObject.Parameter &&
                 ((N2oObject.Parameter) inParameter).getChildParams() != null) {
             for (InvocationParameter childParam : ((N2oObject.Parameter) inParameter).getChildParams()) {
                 if (inParameter.getPluralityType() == PluralityType.list
@@ -140,6 +139,7 @@ public class N2oInvocationProcessor implements InvocationProcessor {
                 }
             }
         }
+        inDataSet.put(inParameter.getId(), value);
     }
 
     private DataSet normalize(Collection<? extends InvocationParameter> invocationParameters, DataSet inDataSet) {

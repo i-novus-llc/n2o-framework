@@ -77,18 +77,9 @@ public class DomainProcessorTest {
         assert proc.deserialize(100) instanceof Integer;
         assert proc.deserialize(100L) instanceof Long;
         assert proc.deserialize(true) instanceof Boolean;
-//        val = proc.deserialize("true");
-//        assert val instanceof Boolean;
-//        val = proc.deserialize("123");
-//        assert val instanceof Integer;
-//        val = proc.deserialize("01.02.2014 18:15:00");
-//        assert val instanceof Date;
-//        val = proc.deserialize("125,444");
-//        assert val instanceof BigDecimal;
-//        val = proc.deserialize("66666.5555");
-//        assert val instanceof BigDecimal;
-//        val = proc.deserialize("2147483648");
-//        assert val instanceof Long;
+        assert proc.deserialize("true") instanceof Boolean;
+        assert proc.deserialize("123") instanceof Integer;
+        assert proc.deserialize("1234567") instanceof String;//more than 6 digets
     }
 
     @Test

@@ -18,12 +18,14 @@ import net.n2oapp.framework.engine.util.TestEntity;
 import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.AdditionalAnswers;
 
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -41,7 +43,7 @@ public class InvocationProcessorTest {
         SqlInvocationEngine sqlInvocationEngine = new SqlInvocationEngine();
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
         ContextProcessor processor = mock(ContextProcessor.class);
-        when(processor.resolve("defaultValue")).thenReturn("defaultValue");
+        when(processor.resolve(anyString())).then(AdditionalAnswers.returnsFirstArg());
         invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor, new DomainProcessor());
     }
 
