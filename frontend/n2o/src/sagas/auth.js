@@ -47,6 +47,6 @@ export default config => {
   if (!config.authProvider) return [];
   return [
     takeEvery(action => action.meta && action.meta.auth, resolveAuth, config),
-    takeEvery(FETCH_ERROR, resolveAuth)
+    takeEvery(FETCH_ERROR, resolveAuth, config)
   ];
 };
