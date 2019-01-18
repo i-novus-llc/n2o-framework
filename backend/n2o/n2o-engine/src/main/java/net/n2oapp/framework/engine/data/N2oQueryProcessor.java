@@ -30,14 +30,17 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
 public class N2oQueryProcessor implements QueryProcessor {
     private static final ExpressionParser parser = new SpelExpressionParser();
 
-    private ContextProcessor contextProcessor;
     private N2oInvocationFactory invocationFactory;
+    private ContextProcessor contextProcessor;
+    private DomainProcessor domainProcessor;
     private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor();
 
     private boolean pageStartsWith0;
 
-    public N2oQueryProcessor(ContextProcessor contextProcessor,
-                             N2oInvocationFactory invocationFactory) {
+    public N2oQueryProcessor(N2oInvocationFactory invocationFactory,
+                             ContextProcessor contextProcessor,
+                             DomainProcessor domainProcessor) {
+        this.domainProcessor = domainProcessor;
         this.contextProcessor = contextProcessor;
         this.invocationFactory = invocationFactory;
     }
@@ -170,6 +173,7 @@ public class N2oQueryProcessor implements QueryProcessor {
     private Object prepareValue(Object value, N2oQuery.Filter filter) {
         Object result = value;
         result = contextProcessor.resolve(result);
+        result = domainProcessor.deserialize(result, filter.getDomain());
         result = normalizeValue(result, filter.getNormalize(), null, parser);
         return result;
     }

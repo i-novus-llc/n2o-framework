@@ -58,4 +58,31 @@ public class StringUtilsTest {
     public void isLink() {
         assertThat(StringUtils.isLink("abc"), is(false));
     }
+
+    @Test
+    public void testMaskEquals() {
+        assert StringUtils.maskMatch("*","test");
+        assert StringUtils.maskMatch("1Aba?","1Aba?");
+        assert !StringUtils.maskMatch("1Aba","0Aba");
+
+        assert StringUtils.maskMatch("1Aba?*","1Aba?");
+        assert !StringUtils.maskMatch("1Aba*","1A000ba");
+        assert !StringUtils.maskMatch("1Aba*","0001Aba");
+        assert StringUtils.maskMatch("1Aba*","1Aba1000");
+
+        assert StringUtils.maskMatch("*1Aba?","1Aba?");
+        assert !StringUtils.maskMatch("*1Aba","1A000ba");
+        assert StringUtils.maskMatch("*1Aba","0001Aba");
+        assert !StringUtils.maskMatch("*1Aba","1Aba1000");
+
+        assert StringUtils.maskMatch("1A*ba?","1Aba?");
+        assert StringUtils.maskMatch("1A*ba","1A000ba");
+        assert !StringUtils.maskMatch("1A*ba","0001Aba");
+        assert !StringUtils.maskMatch("1A*ba","1Aba000");
+
+        assert StringUtils.maskMatch("*1Aba?*","1Aba?");
+        assert StringUtils.maskMatch("*1Aba*","zzz1Aba");
+        assert StringUtils.maskMatch("*1Aba*","1Abazzz");
+        assert StringUtils.maskMatch("*1Aba*","zzz1Abazzz");
+    }
 }

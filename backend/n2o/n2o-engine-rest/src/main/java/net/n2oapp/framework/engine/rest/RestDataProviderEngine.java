@@ -2,7 +2,6 @@ package net.n2oapp.framework.engine.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
@@ -59,8 +58,8 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         return executeQuery(method.name(), query, args, invocation.getProxyHost(), invocation.getProxyPort());
     }
 
-    private DataSet executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
-                                 Integer proxyPort) throws ApacheRestClient.RestException {
+    private Object executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
+                                Integer proxyPort) throws ApacheRestClient.RestException {
 
         Map<String, String> headers = initHeaders(args);
         args = new HashMap<>(args);

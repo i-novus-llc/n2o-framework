@@ -1,0 +1,143 @@
+{
+  "menu": {
+    "brand": "N2O Examples",
+    "collapsed": true,
+    "fixed": false,
+    "color": "inverse",
+    "items": [
+      {
+        "href": "/layouts",
+        "id": "menuItemLayouts",
+        "label": "Примеры Layouts",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "href": "/split-pane-layout",
+            "id": "menuItemLeftCenterRight",
+            "label": "LeftCenterRightExample",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      },
+      {
+        "href": "/regions",
+        "id": "menuItemRegions",
+        "label": "Примеры Regions",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "href": "/region-accordion",
+            "id": "menuItemRegionAccordion",
+            "label": "RegionAccordionExample",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      },
+      {
+        "href": "/widgets",
+        "id": "menuItemWidgets",
+        "label": "Примеры Widgets",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "href": "/widgets-jumborton",
+            "id": "menuItemJumborton",
+            "label": "JumbortonExample",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      },
+      {
+        "href": "/controls",
+        "id": "menuItemControls",
+        "label": "Примеры Controls",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+          "href": "/controls-image",
+          "id": "menuItemControlsImage",
+          "label": "ControlsImage",
+          "linkType": "inner",
+          "type": "link"
+          }
+        ]
+      },
+      {
+        "href": "/cells",
+        "id":"menuItemCells",
+        "label": "Примеры Cells",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "href": "/cells-input",
+            "id": "menuItemCellsInput",
+            "label": "CellsInputExample",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      },
+      {
+        "href": "/fields",
+        "id": "menuItemFields",
+        "label": "Примеры Fields",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "href": "/field-background",
+            "id": "menuItemFieldBackgroundExample",
+            "label": "BackgroundImageField",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      },
+      {
+        "href": "/headers",
+        "id": "menuItemHeader",
+        "label": "Примеры Headers",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "href": "/headers-icon",
+            "id": "menuItemHeaderIconExample",
+            "label": "IconHeader",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      },
+      {
+        "href": "/fieldsets",
+        "id": "menuItemFieldsets",
+        "label": "Примеры Fieldsets",
+        "linkType": "inner",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "href": "/fieldsets-background",
+            "id": "menuItemBackgroundImageExample",
+            "label": "BackgroundImageFieldset",
+            "linkType": "inner",
+            "type": "link"
+          }
+        ]
+      }
+    ]
+  },
+  "search": "false",
+  "messages": {},
+  "user": {
+    "username": null
+  }
+}
