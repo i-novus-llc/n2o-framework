@@ -12,7 +12,7 @@
                             query-id="ProtoGender" label-field-id="name"/>
                 </col>
                 <col size="5">
-                    <date-time id="birthday" label="Дата рождения" format="DD.MM.YYYY"/>
+                    <date-time id="birthday" label="Дата рождения" date-format="DD.MM.YYYY"/>
                 </col>
                 <checkbox id="vip">
                     <dependencies>
