@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.SortedMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Хранилище RouteInfo
@@ -15,24 +15,26 @@ import java.util.concurrent.ConcurrentSkipListSet;
 public class N2oRouteRegister implements RouteRegister {
     private static final Logger logger = LoggerFactory.getLogger(N2oRouteRegister.class);
 
-    private SortedSet<RouteInfo> register = new ConcurrentSkipListSet<>();
+    private final SortedMap<RouteInfo, RouteInfo> register = new ConcurrentSkipListMap<>();
 
     @Override
     public void addRoute(RouteInfo routeInfo) {
         if (!routeInfo.getUrlMatching().startsWith("/"))
             throw new IncorrectRouteException(routeInfo.getUrlPattern());
-        register.add(routeInfo);
-        //todo throw RouteAlreadyExistsException if route exists
+        if (register.containsKey(routeInfo) && !register.get(routeInfo).getContext().equals(routeInfo.getContext()))
+            throw new RouteAlreadyExistsException(routeInfo);
+        register.put(routeInfo, routeInfo);
+
         logger.info(String.format("Register route: '%s' to [%s]", routeInfo.getContext(), routeInfo.getUrlPattern()));
     }
 
     @Override
     public Iterator<RouteInfo> iterator() {
-        return register.iterator();
+        return register.values().iterator();
     }
 
     @Override
     public void clear(String startUrlMatching) {
-        register.removeIf(s -> s.getUrlMatching().startsWith(startUrlMatching));
+        register.keySet().removeIf(s -> s.getUrlMatching().startsWith(startUrlMatching));
     }
 }
