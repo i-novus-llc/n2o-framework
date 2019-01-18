@@ -25,6 +25,7 @@ import {
   setTableSelectedId,
   setWidgetMetadata
 } from '../actions/widgets';
+import { setModel } from '../actions/models';
 import {
   makeWidgetByIdSelector,
   makeWidgetDataProviderSelector,
@@ -32,7 +33,7 @@ import {
 } from '../selectors/widgets';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { getLocation, rootPageSelector } from '../selectors/global';
-import { setModel } from '../actions/models';
+import { makeGetModelByPrefixSelector } from '../selectors/models';
 import fetchSaga from './fetch.js';
 import { FETCH_WIDGET_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
@@ -77,12 +78,16 @@ export function* prepareFetch(widgetId) {
     (yield select(makeWidgetPageIdSelector(widgetId))) || (yield select(rootPageSelector));
   const routes = yield select(makePageRoutesByIdSelector(currentPageId));
   const dataProvider = yield select(makeWidgetDataProviderSelector(widgetId));
+  const currentDatasource = yield select(
+    makeGetModelByPrefixSelector(PREFIXES.datasource, widgetId)
+  );
   return {
     state,
     location,
     widgetState,
     routes,
-    dataProvider
+    dataProvider,
+    currentDatasource
   };
 }
 
@@ -127,12 +132,23 @@ export function* resolveUrl(state, dataProvider, widgetState, options) {
   };
 }
 
-export function* setWidgetDataSuccess(widgetId, widgetState, basePath, baseQuery) {
+export function* setWidgetDataSuccess(
+  widgetId,
+  widgetState,
+  basePath,
+  baseQuery,
+  currentDatasource
+) {
   const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
     basePath,
     baseQuery
   });
-  yield put(setModel(PREFIXES.datasource, widgetId, data.list));
+  if (isEqual(data.list, currentDatasource)) {
+    yield put(setModel(PREFIXES.datasource, widgetId, null));
+    yield put(setModel(PREFIXES.datasource, widgetId, data.list));
+  } else {
+    yield put(setModel(PREFIXES.datasource, widgetId, data.list));
+  }
   if (isNil(data.list) || isEmpty(data.list)) {
     yield put(setModel(PREFIXES.resolve, widgetId, null));
   }
@@ -147,7 +163,7 @@ export function* setWidgetDataSuccess(widgetId, widgetState, basePath, baseQuery
 
 export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId) {
   try {
-    const { state, location, widgetState, routes, dataProvider } = yield call(
+    const { state, location, widgetState, routes, dataProvider, currentDatasource } = yield call(
       prepareFetch,
       widgetId
     );
@@ -167,7 +183,14 @@ export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId)
       if (routes && routes.queryMapping) {
         yield* routesQueryMapping(state, routes, location);
       }
-      yield* setWidgetDataSuccess(widgetId, widgetState, basePath, baseQuery);
+      yield call(
+        setWidgetDataSuccess,
+        widgetId,
+        widgetState,
+        basePath,
+        baseQuery,
+        currentDatasource
+      );
     } else {
       yield put(dataFailWidget(widgetId));
     }
