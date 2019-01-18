@@ -1,4 +1,5 @@
 import _, { isEqual, get, map, reduce, set } from 'lodash';
+import { PREFIXES } from '../../../constants/models';
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -64,7 +65,7 @@ export const setWatchDependency = (state, props) => {
 
   const pickByReRender = (acc, { type, on }) => {
     if (on && type === DEPENDENCY_TYPES.RE_RENDER) {
-      const formOn = map(on, item => ['form', form, 'values', on].join('.'));
+      const formOn = map(on, item => ['models', PREFIXES.resolve, form, item].join('.'));
       return { ...acc, ...pickByPath(state, formOn) };
     }
   };

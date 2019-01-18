@@ -11,6 +11,7 @@ import { showFields, hideFields, enableFields, disableFields } from '../../../ac
 import observeStore from '../../../utils/observeStore';
 import propsResolver from '../../../utils/propsResolver';
 import { setWatchDependency } from './utils';
+import { makeGetResolveModelSelector } from '../../../selectors/models';
 
 /**
  * Компонент - филдсет формы
@@ -139,7 +140,7 @@ class Fieldset extends React.Component {
 
   getFormValues(store) {
     const state = store.getState();
-    return getFormValues(this.props.form)(state);
+    return makeGetResolveModelSelector(this.props.form)(state);
   }
 
   observeState() {
