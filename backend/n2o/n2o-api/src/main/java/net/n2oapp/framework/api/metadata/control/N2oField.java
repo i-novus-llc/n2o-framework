@@ -45,7 +45,11 @@ public abstract class N2oField implements Source, ExtensionAttributesAware, Name
         }
     }
 
-    public boolean containsDependency(Class clazz) {
+    /**
+     * @param clazz - Тип зависимости
+     * @return содержит ли поле зависимость типа clazz
+     */
+    public boolean containsDependency(Class<? extends Dependency> clazz) {
         if (dependencies == null) return false;
 
         for (Dependency dependency : dependencies) {
