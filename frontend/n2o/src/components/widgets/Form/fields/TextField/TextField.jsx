@@ -1,5 +1,5 @@
 import React from 'react';
-import ProptTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import parseFormatter from '../../../../../utils/parseFormatter';
 import cn from 'classnames';
 
@@ -14,8 +14,15 @@ function TextField({ text, visible, format, className, style }) {
 }
 
 TextField.propTypes = {
-  text: ProptTypes.string,
-  visible: ProptTypes.bool
+  text: PropTypes.string,
+  visible: PropTypes.bool,
+  format: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object
+};
+
+TextField.defaultProps = {
+  visible: true
 };
 
 export default TextField;
