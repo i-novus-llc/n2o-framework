@@ -5,10 +5,10 @@ import { ADD, ADD_MULTI } from '../constants/alerts';
 import { removeAlert, removeAlerts } from '../actions/alerts';
 import { makeAlertsByKeySelector } from '../selectors/alerts';
 
-export function* removeAlertSideEffect(action, timeout) {
+export function* removeAlertSideEffect(action, alert, timeout) {
   yield delay(timeout);
   const alertsByKey = yield select(makeAlertsByKeySelector(action.payload.key));
-  yield alertsByKey && put(removeAlerts(action.payload.key));
+  yield alertsByKey && put(removeAlert(action.payload.key, alert.id));
 }
 
 export function* addAlertSideEffect(config, action) {
@@ -18,7 +18,7 @@ export function* addAlertSideEffect(config, action) {
     for (let i = 0; i < alerts.length; i++) {
       const timeout = yield call(getTimeout, alerts[i], config);
       if (timeout) {
-        effects = [...effects, removeAlertSideEffect(action, timeout)];
+        effects = [...effects, removeAlertSideEffect(action, alerts[i], timeout)];
       }
     }
     yield all(effects);

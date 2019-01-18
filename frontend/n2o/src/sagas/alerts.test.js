@@ -2,7 +2,7 @@ import { removeAlertSideEffect, getTimeout } from './alerts';
 import { select } from 'redux-saga/effects';
 import { runSaga } from 'redux-saga';
 import { makeAlertsByKeySelector } from '../selectors/alerts';
-import { removeAlerts } from '../actions/alerts';
+import { removeAlert } from '../actions/alerts';
 
 describe('Проверка саги alerts', () => {
   it('getTimeout должен вернуть тайм-аут', () => {
@@ -32,6 +32,7 @@ describe('Проверка саги alerts', () => {
         key: 'testKey',
         alerts: [
           {
+            id: 'test',
             data: {
               name: 'test'
             },
@@ -54,6 +55,6 @@ describe('Проверка саги alerts', () => {
     };
     const result = await runSaga(fakeStore, removeAlertSideEffect, action, 1);
     await Promise.resolve(result.done);
-    expect(dispatched[0]).toEqual(removeAlerts('testKey'));
+    expect(dispatched[0]).toEqual(removeAlert('testKey'));
   });
 });
