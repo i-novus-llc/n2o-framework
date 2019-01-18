@@ -10,17 +10,11 @@ import java.util.*;
 /**
  * Точка доступа к объекту
  */
-
 public class N2oObjectAccessPoint extends AccessPoint {
 
     private String objectId;
     private String action;
-    private boolean forAllActions = false;
     private N2oPreFilter[] accessFilters;
-    public static final String SPEC_CHARACTER_FOR_ALL_ACTION = "*";
-
-    private static final Logger logger = LoggerFactory.getLogger(N2oObjectAccessPoint.class);
-
 
     public void setObjectId(String objectId) {
         this.objectId = objectId;
@@ -32,7 +26,6 @@ public class N2oObjectAccessPoint extends AccessPoint {
 
     public void setAction(String action) {
         this.action = action;
-        this.forAllActions = action.equals(SPEC_CHARACTER_FOR_ALL_ACTION);
     }
 
     public String getAction() {
