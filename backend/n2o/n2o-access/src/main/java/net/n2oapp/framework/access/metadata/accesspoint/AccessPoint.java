@@ -42,35 +42,5 @@ public abstract class AccessPoint implements Source, Compiled, NamespaceUriAware
         throw new UnsupportedOperationException("please implement equals() and hashCode()");
     }
 
-    protected  <T extends AccessPoint> void split(String val, BiConsumer<T, String> setter,
-                                                     final List<AccessPoint> pointList) {
-        if (val != null && val.contains(",")) {
-            String[] split = val.replaceAll("\\s+", "").split(",");
-            List<T> list = stream(split)
-                    .map(str -> {
-                        T point = copy((T) this);
-                        setter.accept(point, str);
-                        return point;
-                    }).collect(Collectors.toList());
-            pointList.remove(this);
-            pointList.addAll(list);
-        }
-    }
 
-    protected  <T extends AccessPoint, R> void collectAll(String val, Supplier<R> compiler, Function<R, Stream<String>> getter,
-                                                          BiConsumer<T, String> setter, final List<AccessPoint> pointList) {
-        if (val != null && val.equals("*")) {
-            R r = compiler.get();
-            if (r != null) {
-                List<T> points = getter.apply(r)
-                        .map(str -> {
-                            T point = copy((T) this);
-                            setter.accept(point, str);
-                            return point;
-                        }).collect(Collectors.toList());
-                pointList.remove(this);
-                pointList.addAll(points);
-            }
-        }
-    }
 }

@@ -18,21 +18,21 @@ const examplesDataSource = [
     buttons: [
       {
         id: '1',
-        label: 'Первая',
+        title: 'Первая',
         hint: 'Первая',
         size: 'md',
         color: 'primary'
       },
       {
         id: '2',
-        label: 'Вторая',
+        title: 'Вторая',
         hint: 'Вторая',
         size: 'md',
         color: 'secondary'
       },
       {
         id: '3',
-        label: 'Третья',
+        title: 'Третья',
         hint: 'Третья',
         size: 'md',
         color: 'warning'
@@ -45,19 +45,19 @@ const examplesDataSource = [
     buttons: [
       {
         id: '4',
-        label: 'Первая',
+        title: 'Первая',
         hint: 'Первая',
         size: 'md'
       },
       {
         id: '5',
-        label: 'Вторая',
+        title: 'Вторая',
         hint: 'Вторая',
         size: 'md'
       },
       {
         id: '6',
-        label: 'Третья',
+        title: 'Третья',
         hint: 'Третья',
         size: 'md'
       }
@@ -69,7 +69,7 @@ const examplesDataSource = [
     buttons: [
       {
         id: '7',
-        label: 'Первая',
+        title: 'Первая',
         hint: 'Первая',
         size: 'md',
         icon: 'fa fa-telegram',
@@ -77,7 +77,7 @@ const examplesDataSource = [
       },
       {
         id: '8',
-        label: 'Вторая',
+        title: 'Вторая',
         hint: 'Вторая',
         size: 'md',
         icon: 'fa fa-vk',
@@ -85,7 +85,7 @@ const examplesDataSource = [
       },
       {
         id: '9',
-        label: 'Третья',
+        title: 'Третья',
         hint: 'Третья',
         size: 'md',
         icon: 'fa fa-facebook',
@@ -99,21 +99,21 @@ const examplesDataSource = [
     buttons: [
       {
         id: '10',
-        label: 'Первая',
+        title: 'Первая',
         hint: 'Первая',
         icon: 'fa fa-telegram',
         size: 'md'
       },
       {
         id: '11',
-        label: 'Вторая',
+        title: 'Вторая',
         hint: 'Вторая',
         icon: 'fa fa-vk',
         size: 'md'
       },
       {
         id: '12',
-        label: 'Третья',
+        title: 'Третья',
         hint: 'Третья',
         icon: 'fa fa-facebook',
         size: 'md'
@@ -126,26 +126,26 @@ const examplesDataSource = [
     buttons: [
       {
         id: '13',
-        label: 'Первая',
+        title: 'Первая',
         icon: '',
         hint: 'Первая',
         color: 'primary'
       },
       {
         id: '14',
-        label: 'Вторая',
+        title: 'Вторая',
         icon: '',
         hint: 'Вторая',
         color: 'danger',
         subMenu: [
           {
             id: '15',
-            label: 'Первый',
+            title: 'Первый',
             icon: ''
           },
           {
             id: '16',
-            label: 'Второй',
+            title: 'Второй',
             icon: ''
           }
         ]
@@ -157,30 +157,30 @@ const examplesDataSource = [
     buttons: [
       {
         id: '17',
-        label: 'Первая',
+        title: 'Первая',
         icon: '',
         hint: 'Первая'
       },
       {
         id: '18',
-        label: 'Вторая',
+        title: 'Вторая',
         icon: '',
         hint: 'Вторая',
         subMenu: [
           {
             id: '19',
-            label: 'Первый',
+            title: 'Первый',
             icon: ''
           },
           {
             id: '20',
-            label: 'Второй'
+            title: 'Второй'
           }
         ]
       },
       {
         id: '21',
-        label: 'Третья',
+        title: 'Третья',
         icon: 'fa fa-vk',
         hint: 'Третья'
       }
@@ -191,14 +191,14 @@ const examplesDataSource = [
     buttons: [
       {
         id: '22',
-        label: 'Вторая',
+        title: 'Вторая',
         icon: 'fa fa-vk',
         hint: 'Вторая',
         subMenu: [
           {
             id: '23',
             header: true,
-            label: 'Заголовок'
+            title: 'Заголовок'
           },
           {
             id: '24',
@@ -206,7 +206,7 @@ const examplesDataSource = [
           },
           {
             id: '25',
-            label: 'С иконкой',
+            title: 'С иконкой',
             icon: 'fa fa-telegram'
           }
         ]
@@ -218,12 +218,12 @@ const examplesDataSource = [
     buttons: [
       {
         id: '26',
-        label: 'Действие',
+        title: 'Действие',
         icon: 'fa fa-vk',
         subMenu: [
           {
             id: '27',
-            label: 'Модальное окно',
+            title: 'Модальное окно',
             header: true
           },
           {
@@ -232,7 +232,7 @@ const examplesDataSource = [
           },
           {
             id: '29',
-            label: 'Открыть',
+            title: 'Открыть',
             action: {
               src: 'perform',
               options: {
@@ -298,7 +298,7 @@ stories
       className: text('className', metadata.className),
       buttons: [
         {
-          label: text('label', metadata.buttons[0].label),
+          title: text('title', metadata.buttons[0].title),
           icon: text('color', metadata.buttons[0].icon),
           hint: text('hint', metadata.buttons[0].hint),
           size: select('size', ['lg', 'md', 'sm'], metadata.buttons[0].size),
@@ -308,18 +308,18 @@ stories
           action: metadata.buttons[0].action
         },
         {
-          label: 'Скрытая кнопка',
+          title: 'Скрытая кнопка',
           color: 'success',
           security: {
             roles: ['admin']
           }
         },
         {
-          label: 'Скрытый dropdown',
+          title: 'Скрытый dropdown',
           color: 'warning',
           subMenu: [
             {
-              label: 'Элемент 1'
+              title: 'Элемент 1'
             }
           ],
           security: {
@@ -327,14 +327,14 @@ stories
           }
         },
         {
-          label: 'Еще',
+          title: 'Еще',
           color: 'secondary',
           subMenu: [
             {
-              label: 'Элемент 1 (не скрыт)'
+              title: 'Элемент 1 (не скрыт)'
             },
             {
-              label: 'Элемент 2 (скрыт)',
+              title: 'Элемент 2 (скрыт)',
               security: {
                 roles: ['admin']
               }

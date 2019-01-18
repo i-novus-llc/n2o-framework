@@ -45,6 +45,9 @@ describe('Проверка пресетов', () => {
     it('не валидное значение', () => {
       expect(required('test', { test2: 'test' })).toBe(false);
     });
+    it('Проверка dot нотации в пути во вложенных обьектах', () => {
+      expect(required('test2.test', { test2: { test: 'test' } })).toBe(true);
+    });
   });
   describe('Проверка condition пресета', () => {
     it('валидное значение', () => {

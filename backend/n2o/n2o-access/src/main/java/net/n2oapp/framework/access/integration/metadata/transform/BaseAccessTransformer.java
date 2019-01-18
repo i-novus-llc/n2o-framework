@@ -10,6 +10,7 @@ import net.n2oapp.framework.access.metadata.schema.role.N2oRole;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.access.metadata.schema.user.N2oUserAccess;
 import net.n2oapp.framework.access.simple.PermissionAndRoleCollector;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.CompiledClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -58,8 +59,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (schema.getPermitAllPoints() != null) {
             schema.getPermitAllPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
-                            && ((N2oObjectAccessPoint)ap).getObjectId().equals(objectId)
-                            && ((N2oObjectAccessPoint)ap).getAction().equals(operationId))
+                            && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
+                            && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
+                                StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -76,8 +78,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (schema.getAuthenticatedPoints() != null) {
             schema.getAuthenticatedPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
-                            && ((N2oObjectAccessPoint)ap).getObjectId().equals(objectId)
-                            && ((N2oObjectAccessPoint)ap).getAction().equals(operationId))
+                            && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
+                            && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
+                                StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -94,8 +97,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (schema.getAnonymousPoints() != null) {
             schema.getAnonymousPoints().stream()
                 .filter(ap -> ap instanceof N2oObjectAccessPoint
-                        && ((N2oObjectAccessPoint)ap).getObjectId().equals(objectId)
-                        && ((N2oObjectAccessPoint)ap).getAction().equals(operationId))
+                        && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
+                        && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
+                            StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {

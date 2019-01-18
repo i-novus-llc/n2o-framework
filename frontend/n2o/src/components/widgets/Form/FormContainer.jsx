@@ -5,9 +5,7 @@ import {
   onlyUpdateForKeys,
   withState,
   lifecycle,
-  defaultProps,
-  withPropsOnChange,
-  mapProps
+  withPropsOnChange
 } from 'recompose';
 import { isEmpty, isEqual } from 'lodash';
 import merge from 'deepmerge';
@@ -91,13 +89,18 @@ export default compose(
     })
   ),
   withHandlers({
-    onChange: props => values => {
-      if (props.modelPrefix && isEqual(props.initialValues, props.reduxFormValues)) {
+    onChange: props => (values, dispatch, options, prevValues) => {
+      if (
+        props.modelPrefix &&
+        isEqual(props.initialValues, props.reduxFormValues) &&
+        !isEqual(props.initialValues, props.resolveModel)
+      ) {
         props.onResolve(props.initialValues);
       }
+
       if (isEmpty(values) || !props.modelPrefix) {
         props.onResolve(values);
-      } else {
+      } else if (!isEqual(props.reduxFormValues, prevValues)) {
         props.onSetModel(values);
       }
     }

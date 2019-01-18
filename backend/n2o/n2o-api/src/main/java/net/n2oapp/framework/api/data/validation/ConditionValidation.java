@@ -76,7 +76,7 @@ public class ConditionValidation extends Validation {
             for (String key : getExpressionsOn()) {
                 Object value = dataSet.get(key);
                 if (value instanceof Date) {
-                    copiedDataSet.put(key, DomainProcessor.getInstance().serializeSimpleValue(value));
+                    copiedDataSet.put(key, DomainProcessor.getInstance().serialize(value));
                 }
             }
             if (!(boolean) ScriptProcessor.getInstance().eval(getExpression(), copiedDataSet))

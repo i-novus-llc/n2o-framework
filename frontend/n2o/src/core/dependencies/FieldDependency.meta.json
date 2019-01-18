@@ -230,7 +230,7 @@
                           "on": [
                             "f9"
                           ],
-                          "expression": "(function(){ return 'В поле №9 введено:  '+f9 })()"
+                          "expression": "(function(){return 'В поле №9 введено:  '+f9})()"
                         },
                         {
                           "type": "reset",
