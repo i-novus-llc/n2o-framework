@@ -61,11 +61,10 @@ const DEPENDENCY_TYPES = {
 };
 
 export const setWatchDependency = (state, props) => {
-  const { dependency, form } = props;
-
+  const { dependency, form, modelPrefix } = props;
   const pickByReRender = (acc, { type, on }) => {
     if (on && type === DEPENDENCY_TYPES.RE_RENDER) {
-      const formOn = map(on, item => ['models', PREFIXES.resolve, form, item].join('.'));
+      const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'));
       return { ...acc, ...pickByPath(state, formOn) };
     }
   };
