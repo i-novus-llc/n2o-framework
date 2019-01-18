@@ -18,7 +18,6 @@ stories.addDecorator(withTests('DateTimeControl'));
 stories
   .add('Компонент', () => {
     const props = {
-      value: object('value', { begin: '12/12/2012', end: '13/12/2012' }),
       dateFormat: text('dateFormat', 'DD/MM/YYYY'),
       timeFormat: text('timeFormat', 'HH:mm:ss'),
       defaultTime: text('defaultTime', '13:00:00'),

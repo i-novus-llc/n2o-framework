@@ -364,7 +364,17 @@
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="DD.MM.YYYY"/>
-                    <xs:enumeration value="DD.MM.YYYY HH:mm"/>
+                    <xs:enumeration value="DD/MM/YYYY"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+    <xs:simpleType name="timeFormatEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="HH:mm"/>
+                    <xs:enumeration value="HH:mm:ss"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:union>
@@ -385,11 +395,11 @@
     <xs:complexType name="controlDatePickerDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="format" use="optional" type="dataFormatEnum"/>
-                <xs:attribute name="default-time" use="optional" type="defaultTimeEnum"/>
+                <xs:attribute name="date-format" use="optional" type="dataFormatEnum"/>
+                <xs:attribute name="time-format" use="optional" type="timeFormatEnum"/>
                 <xs:attribute name="max" use="optional" type="xs:string"/>
                 <xs:attribute name="min" use="optional" type="xs:string"/>
-                <xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>
+                <!--<xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>-->
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
