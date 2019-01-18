@@ -26,7 +26,7 @@ const setup = (propOverrides = {}) => {
 describe('<ButtonsCell />', () => {
   it('Проверяет создание Кнопки', () => {
     const { wrapper } = setup({
-      buttons: [{ label: 'test' }]
+      buttons: [{ title: 'test' }]
     });
 
     wrapper.update();
@@ -37,8 +37,8 @@ describe('<ButtonsCell />', () => {
     const { wrapper } = setup({
       buttons: [
         {
-          label: 'test',
-          subMenu: [{ label: 'test' }]
+          title: 'test',
+          subMenu: [{ title: 'test' }]
         }
       ]
     });
@@ -50,7 +50,7 @@ describe('<ButtonsCell />', () => {
       callActionImpl: mockFn,
       buttons: [
         {
-          label: 'test',
+          title: 'test',
           action: 'test-action'
         }
       ]

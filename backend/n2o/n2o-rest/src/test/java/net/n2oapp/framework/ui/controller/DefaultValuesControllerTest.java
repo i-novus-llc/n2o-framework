@@ -3,6 +3,7 @@ package net.n2oapp.framework.ui.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -107,7 +108,7 @@ public class DefaultValuesControllerTest {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
         UserContext userContext = new UserContext(contextEngine);
         ContextProcessor contextProcessor = new ContextProcessor(userContext);
-        N2oQueryProcessor queryProcessor = new N2oQueryProcessor(contextProcessor, invocationFactory);
+        N2oQueryProcessor queryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor, new DomainProcessor());
         SubModelsProcessor subModelsProcessor = Mockito.mock(SubModelsProcessor.class);
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);

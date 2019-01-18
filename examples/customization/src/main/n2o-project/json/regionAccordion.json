@@ -1,0 +1,61 @@
+{
+  "id": "proto",
+  "routes": {
+    "list": [
+      {
+        "path": "/proto",
+        "exact": true,
+        "isOtherPage": false
+      }
+    ]
+  },
+  "widgets": {
+    "empty_widget1": {
+      "filterDefaultValues": {},
+      "src": "WireframeWidget",
+      "title": "Простой виджет"
+    }
+  },
+  "breadcrumb": [
+    {
+      "label": "Regions/RegionPanel"
+    }
+  ],
+  "actions": {},
+  "layout": {
+    "src": "SingleLayout",
+    "regions": {
+      "single": [
+        {
+          "src": "RegionAccordion",
+          "style": {
+            "padding": "40px 0"
+          },
+          "panels": [
+            {
+              "id": "panel1",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 1",
+              "description": "Описание 1"
+            },
+            {
+              "id": "panel2",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 2",
+              "description": "Описание 2"
+            },
+            {
+              "id": "panel3",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 3",
+              "description": "Описание 3"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "page": {
+    "title": "Пример Regions"
+  }
+}

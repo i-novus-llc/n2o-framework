@@ -59,8 +59,9 @@ public class N2oEngineConfiguration {
 
     @Bean
     public InvocationProcessor invocationProcessor(N2oInvocationFactory invocationFactory,
-                                                   ContextProcessor contextProcessor) {
-        return new N2oInvocationProcessor(invocationFactory, contextProcessor);
+                                                   ContextProcessor contextProcessor,
+                                                   DomainProcessor domainProcessor) {
+        return new N2oInvocationProcessor(invocationFactory, contextProcessor, domainProcessor);
     }
 
     @Bean
@@ -75,9 +76,10 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public QueryProcessor queryProcessor(ContextProcessor contextProcessor,
-                                         N2oInvocationFactory invocationFactory) {
-        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(contextProcessor, invocationFactory);
+    public QueryProcessor queryProcessor(N2oInvocationFactory invocationFactory,
+                                         ContextProcessor contextProcessor,
+                                         DomainProcessor domainProcessor) {
+        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor, domainProcessor);
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
         return n2oQueryProcessor;
     }

@@ -99,17 +99,19 @@ public class ScriptProcessor {
      * @return js функция
      */
     public static String resolveFunction(String text) {
-        if (text == null) return null;
-        if (text.startsWith("(function")) {
+        if (text == null)
+            return null;
+        String trimmedText = text.trim();
+        if (trimmedText.startsWith("(function")) {
             return text;
         }
-        if (text.startsWith("function")) {
-            return String.format("(%s)()", text);
+        if (trimmedText.startsWith("function")) {
+            return String.format("(%s)()", trimmedText);
         }
-        if (text.contains("return")) {
-            return String.format("(function(){ %s })()", text);
+        if (trimmedText.contains("return")) {
+            return String.format("(function(){%s})()", trimmedText);
         } else {
-            return text;
+            return trimmedText;
         }
     }
 
