@@ -7,7 +7,8 @@ import {
   isNull,
   isNaN,
   isString,
-  isObject
+  isObject,
+  get
 } from 'lodash';
 import evalExpression from '../../utils/evalExpression';
 import fetchSaga from '../../sagas/fetch.js';
@@ -32,7 +33,7 @@ export function email(fieldId, values) {
  * @returns {*}
  */
 export function required(fieldId, values) {
-  const value = values[fieldId];
+  const value = get(values, fieldId);
   if (isString(value)) {
     return value !== '';
   } else if (isObject(value)) {
