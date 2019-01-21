@@ -3,6 +3,15 @@ import PropTypes from 'prop-types';
 import parseFormatter from '../../../../../utils/parseFormatter';
 import cn from 'classnames';
 
+/**
+ * Компонент поле текст
+ * @param {string} text - текст поля
+ * @param {boolean} visible - флаг видимости
+ * @param {string} format - формат текста
+ * @param {string} className - класс поля
+ * @param {object} style - стили поля
+ * @constructor
+ */
 function TextField({ text, visible, format, className, style }) {
   return (
     visible && (
