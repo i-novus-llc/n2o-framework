@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.ListFieldSubModelQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -75,7 +74,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     }
 
     private SubModelQuery createSubModel(N2oListField item) {
-        return new ListFieldSubModelQuery(
+        return new SubModelQuery(
                 item.getId(),
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",
