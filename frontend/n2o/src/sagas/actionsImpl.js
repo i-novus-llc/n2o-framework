@@ -20,11 +20,16 @@ import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
 
 export function* validate(options) {
+  const isTouched = true;
   const validationConfig = yield select(makeWidgetValidationSelector(options.containerKey));
   const values = (yield select(getFormValues(options.containerKey))) || {};
   const notValid =
     options.validate &&
-    (yield call(validateField(validationConfig, options.containerKey), values, options.dispatch));
+    (yield call(
+      validateField(validationConfig, options.containerKey, null, isTouched),
+      values,
+      options.dispatch
+    ));
   return notValid;
 }
 

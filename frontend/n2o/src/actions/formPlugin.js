@@ -117,11 +117,12 @@ export function disableFields(form, names) {
  * @param name
  * @param message
  */
-export function addFieldMessage(form, name, message) {
+export function addFieldMessage(form, name, message, isTouched) {
   return createActionHelper(ADD_FIELD_MESSAGE, payload => payload, ({ form }) => ({ form }))({
     name,
     form,
-    message
+    message,
+    isTouched
   });
 }
 

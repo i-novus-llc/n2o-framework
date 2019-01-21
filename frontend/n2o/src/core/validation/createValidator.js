@@ -48,7 +48,10 @@ export default function createValidator(validationConfig = {}, formName, store) 
  * @param formName
  * @param store
  */
-export const validateField = (validationConfig, formName, store) => (values, dispatch) => {
+export const validateField = (validationConfig, formName, store, isTouched = false) => (
+  values,
+  dispatch
+) => {
   const state = store && store.getState();
   const registeredFields = get(state, [formName, 'registeredFields']);
   const validation = pickBy(validationConfig, (value, key) =>
@@ -101,7 +104,8 @@ export const validateField = (validationConfig, formName, store) => (values, dis
       map(
         errors,
         (messages, fieldId) =>
-          !isEmpty(messages) && addFieldMessage(formName, fieldId, findPriorityMessage(messages))
+          !isEmpty(messages) &&
+          addFieldMessage(formName, fieldId, findPriorityMessage(messages), isTouched)
       )
     );
 
