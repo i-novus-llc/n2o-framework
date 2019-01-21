@@ -35,9 +35,9 @@ function hasError(messages) {
     .reduce((res, msg) => msg.severity === 'danger' || res, false);
 }
 
-export default function createValidator(validationConfig = {}, formName, store) {
+export default function createValidator(validationConfig = {}, formName, state) {
   return {
-    asyncValidate: validateField(validationConfig, formName, store),
+    asyncValidate: validateField(validationConfig, formName, state),
     asyncChangeFields: Object.keys(validationConfig || {})
   };
 }
@@ -46,13 +46,14 @@ export default function createValidator(validationConfig = {}, formName, store) 
  * функция валидации
  * @param validationConfig
  * @param formName
- * @param store
+ * @param state
+ * @param isTouched
+ * @returns {function(*=, *=): Promise<any[]>}
  */
-export const validateField = (validationConfig, formName, store, isTouched = false) => (
+export const validateField = (validationConfig, formName, state, isTouched = false) => (
   values,
   dispatch
 ) => {
-  const state = store && store.getState();
   const registeredFields = get(state, [formName, 'registeredFields']);
   const validation = pickBy(validationConfig, (value, key) =>
     get(registeredFields, `${key}.visible`, true)

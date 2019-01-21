@@ -11,12 +11,8 @@ const ReduxFormWrapper = reduxForm({
 })(Form);
 
 function ReduxForm(props, context) {
-  return (
-    <ReduxFormWrapper
-      {...createValidator(props.validation, props.form, context.store)}
-      {...props}
-    />
-  );
+  const state = context.store.getState();
+  return <ReduxFormWrapper {...createValidator(props.validation, props.form, state)} {...props} />;
 }
 
 ReduxForm.contextTypes = {
