@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -94,7 +95,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         doAnswer(invocation -> {
             List<SubModelQuery> subModelQueries = invocation.getArgumentAt(0, List.class);
             DataSet data = invocation.getArgumentAt(1, DataSet.class);
-            data.put(subModelQueries.get(0).getSubModel() + ".name", "test");
+            data.put(subModelQueries.get(0).getSubModel() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
             return null;
         }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
 
@@ -111,18 +112,29 @@ public class PageBinderTest extends SourceCompileTestBase {
 
 
         //single фильтр по умолчанию
-        assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test1"));
         //multi фильтр по умолчанию
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test1"));
         //single фильтр по URL
-        assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test1"));
         //multi фильтр по URL
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(0)).getValues().get("name"), is("test"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(1)).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w1'].testMultiUrl").getValue()).get(1)).getValues().get("name"), is("test2"));
 
         //single поле по умолчанию
-        assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w2'].testSingle").getValue()).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w2'].testSingle").getValue()).getValues().get("name"), is("test1"));
         //multi поле по умолчанию
-        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test1"));
+
+        data.put("testSubModels_w0_testSingleDefault_id", "2");
+        data.put("testSubModels_w0_testMultiDefault_id", Arrays.asList("1", "2"));
+        page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
+                .get(new PageContext("testSubModels"), data);
+        //Фильтры из URL перекрывают дефолтные значения
+        assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test2"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(1)).getValues().get("name"), is("test2"));
     }
 }
