@@ -8,7 +8,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.form.FormWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.register.route.RouteInfo;
+import net.n2oapp.framework.api.register.route.RouteInfoKey;
+import net.n2oapp.framework.api.register.route.RouteInfoValue;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.fieldset.ColElementIO4;
 import net.n2oapp.framework.config.io.fieldset.RowElementIO4;
@@ -23,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -170,9 +172,9 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         );
         pipeline.get(new PageContext("testFieldsetVisibility"));
         ActionContext context = null;
-        for (RouteInfo info : builder.getEnvironment().getRouteRegister()) {
-            if (info.getContext() instanceof ActionContext) {
-                context = (ActionContext) info.getContext();
+        for (Map.Entry<RouteInfoKey, RouteInfoValue> info : builder.getEnvironment().getRouteRegister()) {
+            if (info.getValue().getContext() instanceof ActionContext) {
+                context = (ActionContext) info.getValue().getContext();
             }
         }
         assertThat(context, notNullValue());

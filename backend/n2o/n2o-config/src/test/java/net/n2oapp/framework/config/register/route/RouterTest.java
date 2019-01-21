@@ -1,31 +1,32 @@
 package net.n2oapp.framework.config.register.route;
 
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.register.route.RoutingResult;
 import org.junit.Before;
 import org.junit.Test;
 
-import static net.n2oapp.framework.config.register.route.RouteInfoUtil.createRouteInfo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Тестирование поиска метаданных по url
  */
 public class RouterTest {
     private N2oRouter router;
+    private N2oRouteRegister register;
 
     @Before
     public void setUp() throws Exception {
         N2oRouteRegister register = new N2oRouteRegister();
-        register.addRoute(createRouteInfo("/", "p", Page.class));
-        register.addRoute(createRouteInfo("/p/w1/:id", "pW1", Page.class));
-        register.addRoute(createRouteInfo("/p/w/:id/c/b/:id2", "pWcB", Page.class));
-        register.addRoute(createRouteInfo("/p/w/:id/c", "pWc", Page.class));
-        register.addRoute(createRouteInfo("/p/w/:id/c", "pWcTable", Table.class));
-        register.addRoute(createRouteInfo("/patients/:patients_id", "patients", Page.class));
-        register.addRoute(createRouteInfo("/patients/create", "patientsCreate", Page.class));
+        register.addRoute("/", new MockCompileContext<>("p", null, Page.class));
+        register.addRoute("/p/w1/:id", new MockCompileContext<>("pW1", null, Page.class));
+        register.addRoute("/p/w/:id/c/b/:id2", new MockCompileContext<>("pWcB", null, Page.class));
+        register.addRoute("/p/w/:id/c", new MockCompileContext<>("pWc", null, Page.class));
+        register.addRoute("/p/w/:id/c", new MockCompileContext<>("pWcTable", null, Table.class));
+        register.addRoute("/patients/:patients_id", new MockCompileContext<>("patients", null, Page.class));
+        register.addRoute("/patients/create", new MockCompileContext<>("patientsCreate", null, Page.class));
+        this.register = register;
         router = new N2oRouter(register, new MockBindPipeline(register));
     }
 
@@ -56,5 +57,22 @@ public class RouterTest {
         pageRoute = router.get("/patients/create");
         assertNotNull(pageRoute.getContext(Page.class));
         assertEquals(pageRoute.getContext(Page.class).getSourceId(null), "patientsCreate");
+
+        //проверяется, что новый контекст заменяет старый
+        String utlPattern = router.get("/p/w/12/c/b").getUrlPattern();
+        MockCompileContext context = (MockCompileContext) router.get("/p/w/12/c/b").getContext(Page.class);
+        assertNull(context.getParentModelLink());
+        context.setParentModelLink(new ModelLink(null));
+        register.addRoute(utlPattern, context);
+        assertNotNull(((MockCompileContext<Page, ?>) router.get("/p/w/12/c/b").getContext(Page.class)).getParentModelLink());
+
+        //Нельзя зарегистрировать по одному роуту не эквивалентные контексты (в случае эквивалентности новый заменит старый)
+        try {
+            register.addRoute(utlPattern, new MockCompileContext<>("otherSourceId", null, Page.class));
+            assert false;
+        } catch (RouteAlreadyExistsException e) {
+            e.getMessage().equals("Page by url '/p/w/:id/c/b' is already exists!");
+        }
+
     }
 }

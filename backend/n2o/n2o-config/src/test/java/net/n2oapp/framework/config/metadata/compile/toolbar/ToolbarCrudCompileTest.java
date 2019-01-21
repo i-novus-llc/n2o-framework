@@ -7,7 +7,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.register.route.RouteInfo;
+import net.n2oapp.framework.api.register.route.RouteInfoKey;
+import net.n2oapp.framework.api.register.route.RouteInfoValue;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -23,6 +24,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -52,12 +54,12 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.widget.xml");
         Form form = (Form) pipeline.get(new WidgetContext("testToolbarCrudCompile"));
 
-        Iterator<RouteInfo> iterator = builder.getEnvironment().getRouteRegister().iterator();
-        List<RouteInfo> routeInfos = new ArrayList<>();
+        Iterator<Map.Entry<RouteInfoKey, RouteInfoValue>> iterator = builder.getEnvironment().getRouteRegister().iterator();
+        List<RouteInfoValue> routeInfos = new ArrayList<>();
         while (iterator.hasNext()) {
-            RouteInfo info = iterator.next();
-            if (info.getContext() instanceof ModalPageContext)
-                routeInfos.add(info);
+            Map.Entry<RouteInfoKey, RouteInfoValue> info = iterator.next();
+            if (info.getValue().getContext() instanceof ModalPageContext)
+                routeInfos.add(info.getValue());
         }
 
         assertThat(routeInfos.size(), is(2));

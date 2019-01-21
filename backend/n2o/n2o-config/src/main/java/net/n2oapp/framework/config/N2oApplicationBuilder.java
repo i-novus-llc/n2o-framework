@@ -111,7 +111,7 @@ public class N2oApplicationBuilder implements
 
     public N2oApplicationBuilder routes(RouteInfo... routes) {
         Stream.of(routes).forEach(
-                environment.getRouteRegister()::addRoute
+                routeInfo -> environment.getRouteRegister().addRoute(routeInfo.getUrlPattern(), routeInfo.getContext())
         );
         return this;
     }
