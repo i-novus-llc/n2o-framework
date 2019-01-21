@@ -8,6 +8,7 @@ import observeStore from '../../../utils/observeStore';
 import { setWatchDependency } from './utils';
 import { fetchIfChangeDependencyValue } from './utils';
 import { isEqual } from 'lodash';
+import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
 /**
  * Поле для {@link ReduxForm}
@@ -56,13 +57,22 @@ class ReduxField extends React.Component {
 
   observeState() {
     const { store } = this.context;
-    this._observer = observeStore(
-      store,
-      state => setWatchDependency(state, this.props),
-      currentState => {
-        this.onDependencyChange(currentState);
+    const { dependency } = this.props;
+    let haveReRenderDependency = false;
+    dependency.map(item => {
+      if (item.type === DEPENDENCY_TYPES.RE_RENDER) {
+        haveReRenderDependency = true;
       }
-    );
+    });
+    if (haveReRenderDependency) {
+      this._observer = observeStore(
+        store,
+        state => setWatchDependency(state, this.props),
+        currentState => {
+          this.onDependencyChange(currentState);
+        }
+      );
+    }
   }
 
   render() {
