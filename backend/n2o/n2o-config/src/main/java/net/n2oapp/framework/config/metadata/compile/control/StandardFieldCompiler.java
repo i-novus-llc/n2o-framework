@@ -55,8 +55,10 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                     defaultValue.setValue(defValue);
                     defaultValues.add(field.getId(), defaultValue);
                 } else {
-                    SubModelQuery subModelQuery = initSubModelQuery(field.getId(), p);
-                    defaultValues.add(field.getId(), new ModelLink(defValue, subModelQuery));
+                    SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
+                    ModelLink modelLink = new ModelLink(defValue);
+                    modelLink.setSubModelQuery(subModelQuery);
+                    defaultValues.add(field.getId(), modelLink);
                 }
             }
         }

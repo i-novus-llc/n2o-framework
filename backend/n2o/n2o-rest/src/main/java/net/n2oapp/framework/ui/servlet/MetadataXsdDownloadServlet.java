@@ -1,11 +1,10 @@
 package net.n2oapp.framework.ui.servlet;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 /**
  * User: iryabov
@@ -13,7 +12,7 @@ import java.io.OutputStream;
  * Time: 15:55
  */
 public class MetadataXsdDownloadServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String schemaPath = request.getPathInfo();
         if (schemaPath == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

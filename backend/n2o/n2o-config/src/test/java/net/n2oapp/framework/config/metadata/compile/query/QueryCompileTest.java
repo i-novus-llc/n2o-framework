@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -106,17 +107,10 @@ public class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
 
         pipeline.get(new WidgetContext("testSubModel"));
-
-        builder.getEnvironment().getRouteRegister().forEach(
-                routeInfo -> {
-                    if (routeInfo.getUrlPattern().equals("/w")) {
-                        CompiledQuery query = pipeline.get((QueryContext) routeInfo.getContext());
-                        assertThat(query.getSubModelQueries().size(), is(1));
-                        assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
-                        assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
-                    }
-                }
-        );
-
+        CompileContext compile = builder.route("/w").getContext(CompiledQuery.class);
+        CompiledQuery query = pipeline.get((QueryContext) compile);
+        assertThat(query.getSubModelQueries().size(), is(1));
+        assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
+        assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
     }
 }

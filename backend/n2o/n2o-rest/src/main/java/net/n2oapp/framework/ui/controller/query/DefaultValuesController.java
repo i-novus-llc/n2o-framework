@@ -34,9 +34,8 @@ public abstract class DefaultValuesController extends GetController {
             defaultModel = new DataSet();
         }
 
-        subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), defaultModel);
-
         if (requestInfo.getQuery() != null) {
+        subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), defaultModel);
             CollectionPage<DataSet> queryDefaultPage;
             queryDefaultPage = executeQuery(requestInfo, responseInfo);
             if (!queryDefaultPage.getCollection().isEmpty()) {

@@ -5,15 +5,18 @@ import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 
-import java.io.Serializable;
 import java.util.Map;
 import java.util.function.BiFunction;
 
+/**
+ * Информация о вложенных моделях выборки
+ */
 @Getter
 @Setter
-public abstract class SubModelQuery implements Serializable {
+public abstract class SubModelQuery implements Compiled {
 
     private String subModel;
     private String queryId;

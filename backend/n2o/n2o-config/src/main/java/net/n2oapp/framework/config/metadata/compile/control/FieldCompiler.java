@@ -61,8 +61,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
                 filter.setFilterId(f.getFilterField());
                 filter.setParam(widgetScope.getClientWidgetId() + "_" + f.getParam());
                 filter.setReloadable(true);
-                SubModelQuery subModelQuery = initSubModelQuery(field.getId(), p);
-                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId(), subModelQuery);
+                SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
+                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
+                link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 filter.setLink(link);
                 filtersScope.getFilters().add(filter);
@@ -70,7 +71,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
         }
     }
 
-    protected SubModelQuery initSubModelQuery(String fieldId, CompileProcessor p) {
+    /**
+     * Возвращает информацию о вложенных моделях выборки по идентификатору поля
+     *
+     * @param fieldId - идентификатор поля
+     * @param p       - процессор сборки метаданных
+     */
+    protected SubModelQuery findSubModelQuery(String fieldId, CompileProcessor p) {
         if (fieldId == null) return null;
         SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
         if (subModelsScope != null) {

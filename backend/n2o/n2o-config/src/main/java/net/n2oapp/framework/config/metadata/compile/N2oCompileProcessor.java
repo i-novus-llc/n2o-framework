@@ -18,7 +18,6 @@ import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
 import java.util.*;
@@ -38,7 +37,6 @@ public class N2oCompileProcessor implements CompileProcessor {
     private CompileTerminalPipeline<?> compilePipeline;
     private ReadCompileTerminalPipeline<?> readCompilePipeline;
     private ReadTerminalPipeline<?> readPipeline;
-    private SubModelsProcessor subModelsProcessor;
     /**
      * Контекст на входе в pipeline, используется не для компиляции, а для bind
      */
@@ -56,7 +54,6 @@ public class N2oCompileProcessor implements CompileProcessor {
         this.readPipeline = env.getReadPipelineFunction().apply(pipelineSupport);
         this.readCompilePipeline = env.getReadCompilePipelineFunction().apply(pipelineSupport);
         this.compilePipeline = env.getCompilePipelineFunction().apply(pipelineSupport);
-        this.subModelsProcessor = env.getSubModelsProcessor();
     }
 
     /**
@@ -286,7 +283,7 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     private void resolveSubModels(ModelLink link) {
-        if (link.getSubModelQuery() == null || !link.isConstant())
+        if (link.getSubModelQuery() == null || !link.isConst())
             return;
         SubModelQuery subModelQuery = link.getSubModelQuery();
         String key = link.getWidgetId() + "_" + link.getSubModelQuery().getSubModel() + "_" + link.getSubModelQuery().getValueFieldId();
@@ -325,7 +322,7 @@ public class N2oCompileProcessor implements CompileProcessor {
         if (value == null) return;
         DataSet dataSet = new DataSet();
         dataSet.put(subModelQuery.getSubModel() + "." + subModelQuery.getValueFieldId(), value);
-        subModelsProcessor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
+        env.getSubModelsProcessor().executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         defaultValues.setValues((Map) dataSet.get(subModelQuery.getSubModel()));
     }
 }

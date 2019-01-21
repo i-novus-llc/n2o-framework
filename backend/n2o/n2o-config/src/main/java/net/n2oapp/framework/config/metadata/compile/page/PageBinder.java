@@ -55,7 +55,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
         return page;
     }
 
-    private void resolveLinks(Models linkMap, Map<String, Widget> widgets, CompileProcessor p) {
+    private void resolveLinks(Models models, Map<String, Widget> widgets, CompileProcessor p) {
         if (widgets != null) {
             for (Widget w : widgets.values()) {
                 if (w.getFilters() != null) {
@@ -63,24 +63,24 @@ public class PageBinder implements BaseMetadataBinder<Page> {
                         if (f.getReloadable() && f.getLink().getSubModelQuery() != null) {
                             ModelLink link = new ModelLink(
                                     f.getLink().getModel(),
-                                    f.getLink().getWidgetId(),
-                                    f.getLink().getSubModelQuery()
+                                    f.getLink().getWidgetId()
                             );
-                            if (linkMap.get(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel()) != null)
-                                link.setValue(linkMap.get(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel()).getValue());
+                            link.setSubModelQuery(f.getLink().getSubModelQuery());
+                            if (models.get(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel()) != null)
+                                link.setValue(models.get(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel()).getValue());
 
-                            linkMap.add(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel(), link);
+                            models.add(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel(), link);
                         }
                     }
                 }
             }
         }
-        Iterator<String> it = linkMap.keySet().iterator();
+        Iterator<String> it = models.keySet().iterator();
         while (it.hasNext()) {
             String key = it.next();
-            ModelLink link = p.resolveLink(linkMap.get(key));
+            ModelLink link = p.resolveLink(models.get(key));
             if (link.getValue() != null)
-                linkMap.put(key, link);
+                models.put(key, link);
             else
                 it.remove();
         }

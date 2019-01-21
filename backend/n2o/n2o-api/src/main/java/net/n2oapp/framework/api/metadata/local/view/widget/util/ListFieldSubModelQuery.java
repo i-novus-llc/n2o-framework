@@ -55,13 +55,13 @@ public class ListFieldSubModelQuery extends SubModelQuery {
             Object value = subModel.get(getValueFieldId());
             if (StringUtils.isDynamicValue(value))
                 continue;
-            value = DomainProcessor.getInstance().doDomainConversion(field.getDomain(), value);
+            value = DomainProcessor.getInstance().deserialize(value, field.getDomain());
             N2oPreparedCriteria criteria = N2oPreparedCriteria.simpleCriteriaOneRecord(getValueFieldId(), value);
             CollectionPage<DataSet> subData = queryExecutor.apply(subQuery, criteria);
 
+            DataSet first = subData.getCollection().iterator().next();
             for (N2oQuery.Field queryField : subQuery.getDisplayFields()) {
-                Object fieldValue = subData.getCollection().iterator().next().get(queryField.getId());
-                subModel.put(queryField.getId(), fieldValue);
+                subModel.put(queryField.getId(), first.get(queryField.getId()));
             }
         }
     }

@@ -18,28 +18,17 @@ public class ModelLink extends BindLink {
     private String fieldId;
     @Setter
     private String queryId;
+    @Setter
     private SubModelQuery subModelQuery;
 
     public ModelLink(Object value) {
         setValue(value);
     }
 
-    public ModelLink(Object value, SubModelQuery subModelQuery) {
-        setValue(value);
-        this.subModelQuery = subModelQuery;
-    }
-
     public ModelLink(ReduxModel model, String widgetId) {
         super(String.format("models.%s['%s']", model.getId(), widgetId));
         this.model = model;
         this.widgetId = widgetId;
-    }
-
-    public ModelLink(ReduxModel model, String widgetId, SubModelQuery subModelQuery) {
-        super(String.format("models.%s['%s']", model.getId(), widgetId));
-        this.model = model;
-        this.widgetId = widgetId;
-        this.subModelQuery = subModelQuery;
     }
 
     public ModelLink(ReduxModel model, String widgetId, String fieldId) {
@@ -59,7 +48,7 @@ public class ModelLink extends BindLink {
      *
      * @return true, если является ссылкой
      */
-    public boolean isConst() {
+    public boolean isLink() {
         if (getBindLink() == null && !StringUtils.isJs(getValue()))
             return false;
         return true;
@@ -81,7 +70,7 @@ public class ModelLink extends BindLink {
                 && Objects.equals(getModel(), modelLink.getModel());
     }
 
-    public boolean isConstant() {
+    public boolean isConst() {
         return !StringUtils.isJs(getValue());
     }
 

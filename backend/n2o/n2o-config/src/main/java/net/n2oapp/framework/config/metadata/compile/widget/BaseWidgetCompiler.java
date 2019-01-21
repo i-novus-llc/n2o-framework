@@ -142,11 +142,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
-                                                ValidationList validationList, ParentRouteScope widgetRouteScope) {
-        compileDataProviderAndRoutes(compiled, source, p, validationList, widgetRouteScope, null);
-    }
-
-    protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
                                                 ValidationList validationList, ParentRouteScope widgetRouteScope,
                                                 SubModelsScope subModelsScope) {
         CompiledQuery query = getDataProviderQuery(source, p);

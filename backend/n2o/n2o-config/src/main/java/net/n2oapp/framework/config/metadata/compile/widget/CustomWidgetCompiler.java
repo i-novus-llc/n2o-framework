@@ -27,7 +27,7 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
         CompiledObject object = getObject(source, p);
         compileWidget(widget, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(widget, context, p);
-        compileDataProviderAndRoutes(widget, source, p, null, widgetRoute);
+        compileDataProviderAndRoutes(widget, source, p, null, widgetRoute, null);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setClientWidgetId(widget.getId());
