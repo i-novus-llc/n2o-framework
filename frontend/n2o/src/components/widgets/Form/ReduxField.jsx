@@ -7,7 +7,7 @@ import { pure, compose } from 'recompose';
 import observeStore from '../../../utils/observeStore';
 import { setWatchDependency } from './utils';
 import { fetchIfChangeDependencyValue } from './utils';
-import { isEqual } from 'lodash';
+import { isEqual, some } from 'lodash';
 import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
 /**
@@ -58,12 +58,7 @@ class ReduxField extends React.Component {
   observeState() {
     const { store } = this.context;
     const { dependency } = this.props;
-    let haveReRenderDependency = false;
-    dependency.map(item => {
-      if (item.type === DEPENDENCY_TYPES.RE_RENDER) {
-        haveReRenderDependency = true;
-      }
-    });
+    let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
     if (haveReRenderDependency) {
       this._observer = observeStore(
         store,
