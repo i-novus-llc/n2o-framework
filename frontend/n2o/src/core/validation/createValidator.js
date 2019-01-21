@@ -1,7 +1,20 @@
-import { isObject, isArray, isBoolean, isFunction, each, isEmpty, find, pickBy, get } from 'lodash';
+import {
+  isObject,
+  isArray,
+  isBoolean,
+  isFunction,
+  each,
+  isEmpty,
+  find,
+  pickBy,
+  get,
+  compact,
+  map
+} from 'lodash';
 import { isPromise } from '../../tools/helpers';
 import * as presets from './presets';
 import { addFieldMessage } from '../../actions/formPlugin';
+import { batchActions } from 'redux-batched-actions/lib/index';
 
 function findPriorityMessage(messages) {
   return (
@@ -84,10 +97,16 @@ export const validateField = (validationConfig, formName, store) => (values, dis
     }
   });
   return Promise.all(promiseList).then(() => {
-    each(errors, (messages, fieldId) => {
-      !isEmpty(messages) &&
-        dispatch(addFieldMessage(formName, fieldId, findPriorityMessage(messages)));
-    });
+    const messagesAction = compact(
+      map(
+        errors,
+        (messages, fieldId) =>
+          !isEmpty(messages) && addFieldMessage(formName, fieldId, findPriorityMessage(messages))
+      )
+    );
+
+    dispatch(batchActions(messagesAction));
+
     return hasError(errors);
   });
 };
