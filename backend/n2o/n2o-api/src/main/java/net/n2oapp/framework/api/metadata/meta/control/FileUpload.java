@@ -24,5 +24,7 @@ public class FileUpload extends Control {
     @JsonProperty
     private String responseFieldId;
     @JsonProperty
+    private String requestParam;
+    @JsonProperty
     private Boolean multi;
 }

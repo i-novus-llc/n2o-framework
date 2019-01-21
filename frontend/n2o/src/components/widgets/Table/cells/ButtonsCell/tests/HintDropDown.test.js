@@ -29,8 +29,8 @@ describe('<HintDropDown />', () => {
     expect(wrapper.find('button.btn-md').exists()).toBeTruthy();
   });
 
-  it('Свойство label', () => {
-    const { wrapper } = setup({ label: 'test' });
+  it('Свойство title', () => {
+    const { wrapper } = setup({ title: 'test' });
     expect(wrapper.find('Button').props().children[1]).toBe('test');
   });
 
@@ -63,7 +63,7 @@ describe('<HintDropDown />', () => {
     const { wrapper } = setup({
       menu: [
         {
-          label: 'test'
+          title: 'test'
         }
       ]
     });
@@ -75,7 +75,7 @@ describe('<HintDropDown />', () => {
       onClick: mockClick,
       menu: [
         {
-          label: 'test',
+          title: 'test',
           action: 'test-action'
         }
       ]

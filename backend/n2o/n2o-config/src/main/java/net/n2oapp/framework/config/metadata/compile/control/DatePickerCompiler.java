@@ -23,11 +23,12 @@ public class DatePickerCompiler extends StandardFieldCompiler<DatePicker, N2oDat
     @Override
     public StandardField<DatePicker> compile(N2oDatePicker source, CompileContext<?,?> context, CompileProcessor p) {
         DatePicker datePicker = new DatePicker();
+        datePicker.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.date.picker.src"), String.class)));
+        datePicker.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.datetime.format"), String.class)));
+        datePicker.setTimeFormat(source.getTimeFormat());
         datePicker.setOutputFormat(p.resolve(property("n2o.format.date.client"), String.class));
         datePicker.setMin(source.getMin());
         datePicker.setMax(source.getMax());
-        datePicker.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.datetime.format"), String.class)));
-        datePicker.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.date.picker.src"), String.class)));
         return compileStandardField(datePicker, source, context, p);
     }
 }

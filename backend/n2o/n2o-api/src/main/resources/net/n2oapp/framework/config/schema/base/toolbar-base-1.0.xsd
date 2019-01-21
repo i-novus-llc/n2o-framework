@@ -189,6 +189,16 @@
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="visibility-condition" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие видимости.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabling-condition" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Условие доступности.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="menuItemDefinition">

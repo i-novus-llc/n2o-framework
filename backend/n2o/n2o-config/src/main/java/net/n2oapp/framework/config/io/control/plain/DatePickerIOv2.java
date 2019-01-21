@@ -11,7 +11,9 @@ public class DatePickerIOv2 extends PlainFieldIOv2<N2oDatePicker> {
     @Override
     public void io(Element e, N2oDatePicker m, IOProcessor p) {
         super.io(e, m, p);
-        p.attribute(e, "format", m::getDateFormat, m::setDateFormat);
+        p.read(e, m, (el,mo) -> mo.setDateFormat(el.getAttributeValue("format")));//deprecated
+        p.attribute(e, "date-format", m::getDateFormat, m::setDateFormat);
+        p.attribute(e, "time-format", m::getTimeFormat, m::setTimeFormat);
         p.attribute(e, "default-time", m::getDefaultTime, m::setDefaultTime);
         p.attribute(e, "min", m::getMin, m::setMin);
         p.attribute(e, "max", m::getMax, m::setMax);

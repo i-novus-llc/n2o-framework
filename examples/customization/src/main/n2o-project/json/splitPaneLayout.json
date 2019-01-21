@@ -1,0 +1,188 @@
+{
+  "id": "proto",
+  "routes": {
+    "list": [
+      {
+        "path": "/proto",
+        "exact": true,
+        "isOtherPage": false
+      },
+      {
+        "path": "/proto/patients",
+        "exact": true,
+        "isOtherPage": false
+      },
+      {
+        "path": "/proto/patients/:proto_patients_id",
+        "exact": true,
+        "isOtherPage": false
+      },
+      {
+        "path": "/proto/patients/create2",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/patients/:proto_patients_id/update2",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/patients/:proto_patients_id/contacts",
+        "exact": true,
+        "isOtherPage": false
+      },
+      {
+        "path": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id",
+        "exact": true,
+        "isOtherPage": false
+      },
+      {
+        "path": "/proto/patients/:proto_patients_id/form",
+        "exact": true,
+        "isOtherPage": false
+      },
+      {
+        "path": "/proto/patients/:proto_patients_id/form/:proto_form_id",
+        "exact": true,
+        "isOtherPage": false
+      }
+    ]
+  },
+  "widgets": {
+    "Page_Html": {
+      "filterDefaultValues": {},
+      "src": "WireframeWidget",
+      "title": "Простой виджет"
+    }
+  },
+  "breadcrumb": [
+    {
+      "label": "Layouts/SplitPaneLayout"
+    }
+  ],
+  "actions": {},
+  "layout": {
+    "src": "SquareLayout",
+    "split": "vertical",
+    "minSize": "400px",
+    "defaultSize": "400px",
+    "regions": {
+      "topLeft": [
+        {
+          "src": "RegionAccordion",
+          "style": {
+            "padding": "40px 0"
+          },
+          "panels": [
+            {
+              "id": "panel1",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 1",
+              "description": "Описание 1"
+            },
+            {
+              "id": "panel2",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 2",
+              "description": "Описание 2"
+            },
+            {
+              "id": "panel3",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 3",
+              "description": "Описание 3"
+            }
+          ]
+        }
+      ],
+      "topRight": [
+        {
+          "src": "RegionAccordion",
+          "style": {
+            "padding": "40px 0"
+          },
+          "panels": [
+            {
+              "id": "panel1",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 1",
+              "description": "Описание 1"
+            },
+            {
+              "id": "panel2",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 2",
+              "description": "Описание 2"
+            },
+            {
+              "id": "panel3",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 3",
+              "description": "Описание 3"
+            }
+          ]
+        }
+      ],
+      "bottomLeft": [
+        {
+          "src": "RegionAccordion",
+          "style": {
+            "padding": "40px 0"
+          },
+          "panels": [
+            {
+              "id": "panel1",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 1",
+              "description": "Описание 1"
+            },
+            {
+              "id": "panel2",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 2",
+              "description": "Описание 2"
+            },
+            {
+              "id": "panel3",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 3",
+              "description": "Описание 3"
+            }
+          ]
+        }
+      ],
+      "bottomRight": [
+        {
+          "src": "RegionAccordion",
+          "style": {
+            "padding": "40px 0"
+          },
+          "panels": [
+            {
+              "id": "panel1",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 1",
+              "description": "Описание 1"
+            },
+            {
+              "id": "panel2",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 2",
+              "description": "Описание 2"
+            },
+            {
+              "id": "panel3",
+              "widgetId": "empty_widget1",
+              "title": "Заголовок 3",
+              "description": "Описание 3"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "page": {
+    "title": "Проект Examples"
+  }
+}

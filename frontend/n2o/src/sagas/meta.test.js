@@ -117,7 +117,14 @@ describe('Сага для перехвата меты, сайд-эффектов
       let gen = alert.next();
       gen = alert.next();
       expect(gen.value['PUT'].action.payload.key).toEqual(meta.alert.alertKey);
-      expect(gen.value['PUT'].action.payload.alerts).toEqual(meta.alert.messages);
+      expect(gen.value['PUT'].action.payload.alerts[0].closeButton).toEqual(
+        meta.alert.messages[0].closeButton
+      );
+      expect(gen.value['PUT'].action.payload.alerts[0].label).toEqual(meta.alert.messages[0].label);
+      expect(gen.value['PUT'].action.payload.alerts[0].text).toEqual(meta.alert.messages[0].text);
+      expect(gen.value['PUT'].action.payload.alerts[0].severity).toEqual(
+        meta.alert.messages[0].severity
+      );
     });
   });
 

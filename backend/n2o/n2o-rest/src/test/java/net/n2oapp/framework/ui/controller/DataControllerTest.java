@@ -359,7 +359,7 @@ public class DataControllerTest {
 
         Mockito.when(invocationFactory.produce(Mockito.any(Class.class))).thenReturn(testDataProviderEngine);
 
-        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory, null);
+        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory, null, null);
 
         N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
         Map<String, N2oModule> moduleMap = new HashMap<>();
