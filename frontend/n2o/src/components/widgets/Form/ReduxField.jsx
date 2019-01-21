@@ -30,13 +30,13 @@ class ReduxField extends React.Component {
     };
 
     this.onDependencyChange = this.onDependencyChange.bind(this);
-    this.observeState = this.observeState.bind(this);
     this.setRef = this.setRef.bind(this);
     this.Field = compose(withFieldContainer)(props.component);
   }
 
   componentDidMount() {
-    this.observeState();
+    const { store } = this.context;
+    this._observer = ReduxField.observeState(store, this.props, this.onDependencyChange);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,16 +55,15 @@ class ReduxField extends React.Component {
     this.setState({ state });
   }
 
-  observeState() {
-    const { store } = this.context;
-    const { dependency } = this.props;
+  static observeState(store, props, onChange) {
+    const { dependency } = props;
     let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
     if (haveReRenderDependency) {
-      this._observer = observeStore(
+      return observeStore(
         store,
-        state => setWatchDependency(state, this.props),
+        state => setWatchDependency(state, props),
         currentState => {
-          this.onDependencyChange(currentState);
+          onChange(currentState);
         }
       );
     }
@@ -94,5 +93,5 @@ ReduxField.propTypes = {
   id: PropTypes.number,
   component: PropTypes.node
 };
-
+export const PureReduxField = ReduxField;
 export default pure(ReduxField);
