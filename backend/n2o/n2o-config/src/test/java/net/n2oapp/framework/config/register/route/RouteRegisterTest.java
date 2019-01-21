@@ -5,13 +5,14 @@ import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteInfoValue;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * Проверка добавления и удаления элементов из RouteRegister
@@ -52,14 +53,14 @@ public class RouteRegisterTest {
     }
 
     @Test
-    @Ignore
     public void testAddRouteConflict() throws Exception {
         N2oRouteRegister register = new N2oRouteRegister();
         register.addRoute("/a/:1", new MockCompileContext<>("1", null, Page.class));
         try {
-            register.addRoute("/a/:2", new MockCompileContext<>("1", null, Page.class));
+            register.addRoute("/a/:1", new MockCompileContext<>("2", null, Page.class));
             Assert.fail();
-        } catch (RouteAlreadyExistsException ignored) {
+        } catch (RouteAlreadyExistsException e) {
+            assertThat(e.getMessage(), is("Page by url '/a/:1' is already exists!"));
         }
     }
 

@@ -65,14 +65,5 @@ public class RouterTest {
         context.setParentModelLink(new ModelLink(null));
         register.addRoute(utlPattern, context);
         assertNotNull(((MockCompileContext<Page, ?>) router.get("/p/w/12/c/b").getContext(Page.class)).getParentModelLink());
-
-        //Нельзя зарегистрировать по одному роуту не эквивалентные контексты (в случае эквивалентности новый заменит старый)
-        try {
-            register.addRoute(utlPattern, new MockCompileContext<>("otherSourceId", null, Page.class));
-            assert false;
-        } catch (RouteAlreadyExistsException e) {
-            e.getMessage().equals("Page by url '/p/w/:id/c/b' is already exists!");
-        }
-
     }
 }
