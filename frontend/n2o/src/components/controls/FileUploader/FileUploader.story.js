@@ -61,7 +61,7 @@ stories
     const props = {
       label: 'Загрузчик файлов',
       className: 'custom-class',
-      name: 'avatar',
+      requestParam: 'avatar',
       disabled: false,
       uploadUrl: '/test',
       showSize: true,
@@ -77,7 +77,8 @@ stories
           id: 1,
           name: 'image.png',
           size: '1202031',
-          percentage: 10
+          percentage: 10,
+          link: '#'
         }
       ]
     };
@@ -106,7 +107,7 @@ stories
     const props = {
       label: 'Загрузчик файлов',
       className: 'custom-class',
-      name: 'avatar',
+      requestParam: 'avatar',
       disabled: false,
       uploadUrl: '/test',
       autoUpload: true,
@@ -125,7 +126,7 @@ stories
     const props = {
       label: 'Загрузчик файлов',
       className: 'custom-class',
-      name: 'avatar',
+      requestParam: 'avatar',
       disabled: false,
       uploadUrl: '/test',
       autoUpload: false,
@@ -143,7 +144,7 @@ stories
     const props = {
       label: 'Загрузчик файлов',
       className: 'custom-class',
-      name: 'avatar',
+      requestParam: 'avatar',
       disabled: false,
       uploadUrl: '/test',
       autoUpload: true,
@@ -174,12 +175,11 @@ stories
     const props = {
       label: 'Загрузчик файлов',
       className: 'custom-class',
-      name: 'avatar',
+      requestParam: 'avatar',
       disabled: false,
       uploadUrl: '/test',
       autoUpload: true,
       showSize: true,
-      disabled: true,
       valueFieldId: 'id',
       labelFieldId: 'name',
       statusFieldId: 'status',
