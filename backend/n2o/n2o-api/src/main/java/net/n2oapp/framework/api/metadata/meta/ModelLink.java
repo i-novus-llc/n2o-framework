@@ -17,8 +17,6 @@ public class ModelLink extends BindLink {
     private String widgetId;
     private String fieldId;
     @Setter
-    private String queryId;
-    @Setter
     private SubModelQuery subModelQuery;
 
     public ModelLink(Object value) {

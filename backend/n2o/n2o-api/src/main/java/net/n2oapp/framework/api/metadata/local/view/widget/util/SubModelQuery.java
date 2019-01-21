@@ -24,4 +24,8 @@ public class SubModelQuery implements Compiled {
         this.labelFieldId = labelFieldId;
         this.multi = multi;
     }
+
+    public SubModelQuery(String queryId) {
+        this.queryId = queryId;
+    }
 }
