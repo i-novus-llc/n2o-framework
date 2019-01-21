@@ -223,6 +223,47 @@ public abstract class StringUtils {
     }
 
     /**
+     * Сравнивает строку на соответствие маске
+     * @param mask - маска (* - любые символы)
+     * @param val - сравниваемое значение
+     * @return - результат сравнения
+     */
+    public static boolean maskMatch(String mask, String val) {
+        return mask == null || val == null ?
+                mask == null && val == null :
+                val.matches(maskToRegex(mask));
+    }
+
+    /**
+     * Конвертирует маску в RegEx
+     * @param mask - маска (* - любые символы)
+     * @return - регулярное выражение
+     */
+    public static String maskToRegex(String mask) {
+        if (mask == null) {
+            return null;
+        }
+        if (!mask.contains("*")) {
+            return "\\Q" + mask + "\\E";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (mask.startsWith("*")) {
+            sb.append("(.*)");
+        }
+        String[] pieces = mask.split("\\*");
+        for (int i = 0; i < pieces.length; i++) {
+            if (!pieces[i].isEmpty()) {
+                sb.append("\\Q").append(pieces[i]).append("\\E");
+                if (i + 1 < pieces.length || mask.endsWith("*")) {
+                    sb.append("(.*)");
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
      * Проверка, что строка - это ссылка
      * Примеры:
      *      isRef("{id}");      //true

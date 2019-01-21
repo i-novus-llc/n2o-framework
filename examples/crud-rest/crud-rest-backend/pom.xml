@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>crud-rest-backend</artifactId>
-    <version>7.0-SNAPSHOT</version>
+    <version>7.0.2</version>
     <name>crud-rest-backend</name>
     <packaging>jar</packaging>
 

@@ -51,7 +51,7 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
         if(n2oObject.getOperations() != null) {
             List<String> objectActionsIds = getActionsIds(Arrays.asList(n2oObject.getOperations()));
             for (String action : actions) {
-                if (!action.trim().equals(N2oObjectAccessPoint.SPEC_CHARACTER_FOR_ALL_ACTION) && !action.trim().equals("read")) {
+                if (!action.trim().equals("*") && !action.trim().equals("read")) {
                     if (!objectActionsIds.contains(action.trim())) {
                         throw new N2oMetadataValidationException("n2o.actionNotSpecified").addData(n2oObject.getName(), n2oObject.getId(), action);
                     }

@@ -13,29 +13,29 @@ import java.util.Map;
 public interface RestClient {
 
 
-    default DataSet GET(String path, Map<String, Object> params, Map<String, String> headers) throws RestException {
+    default Object GET(String path, Map<String, Object> params, Map<String, String> headers) throws RestException {
         return GET(path, params, headers, null, null);
     }
 
-    default DataSet GET(String path, Map<String, Object> params) throws RestException {
+    default Object GET(String path, Map<String, Object> params) throws RestException {
         return GET(path, params, null, null, null);
     }
 
-    default DataSet GET(String path) throws RestException {
+    default Object GET(String path) throws RestException {
         return GET(path, null, null, null, null);
     }
 
 
-    DataSet GET(String path, Map<String, Object> params, Map<String, String> headers, String host,
-                Integer port) throws RestException;
+    Object GET(String path, Map<String, Object> params, Map<String, String> headers, String host,
+               Integer port) throws RestException;
 
-    DataSet POST(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
+    Object POST(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
 
-    DataSet PUT(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
+    Object PUT(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
 
-    DataSet DELETE(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
+    Object DELETE(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
 
-    DataSet HEAD(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
+    Object HEAD(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException;
 
 
     class RestException extends RuntimeException {
