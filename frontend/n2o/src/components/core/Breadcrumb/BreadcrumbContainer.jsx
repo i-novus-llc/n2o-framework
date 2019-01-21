@@ -58,15 +58,15 @@ BreadcrumbContainer.defaultProps = {
   defaultBreadcrumb: () => null
 };
 
-const memoizedMap = memoize(map);
+//const memoizedMap = memoize(map);
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    items: memoizedMap(ownProps.items, item => {
+    items: map(ownProps.items, item => {
       if (item.modelLink) {
         return {
           ...item,
-          label: propsResolver(item.label, getModelSelector(item.modelLink.link)(state))
+          label: propsResolver(item.label, getModelSelector(item.modelLink)(state))
         };
       }
 
