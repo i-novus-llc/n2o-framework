@@ -52,8 +52,8 @@
   padding: 0 5px;
 }
 
-.n2o-pop-up {
-  z-index: 1000;
+.n2o-picker-dropdown {
+  z-index: $zindex-dropdown !important;
 }
 
 .n2o-calendar-month-header .fa {
