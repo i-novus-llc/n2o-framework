@@ -168,6 +168,28 @@ describe('Тесты models reducer', () => {
         editKey: { a: { b: 'value1' } }
       }
     });
+    expect(
+      models(
+        {
+          edit: {
+            editKey: {}
+          }
+        },
+        {
+          type: UPDATE,
+          payload: {
+            prefix: 'edit',
+            key: 'editKey',
+            field: 'a.b',
+            value: 'value1'
+          }
+        }
+      )
+    ).toEqual({
+      edit: {
+        editKey: { a: { b: 'value1' } }
+      }
+    });
   });
 
   it('Проверка UPDATE_MAP', () => {
