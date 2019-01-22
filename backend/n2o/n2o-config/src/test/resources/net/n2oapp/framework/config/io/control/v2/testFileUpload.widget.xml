@@ -9,6 +9,7 @@
                      value-field-id="test"
                      label-field-id="test"
                      message-field-id="test"
-                     url-field-id="test"/>
+                     url-field-id="test"
+                     request-param="test"/>
     </fields>
 </form>

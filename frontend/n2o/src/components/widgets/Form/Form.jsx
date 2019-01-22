@@ -38,7 +38,7 @@ class Form extends React.Component {
    * Рендер филдсетов
    */
   renderFieldsets() {
-    const { fieldsets, autoFocus, form } = this.props;
+    const { fieldsets, autoFocus, form, modelPrefix } = this.props;
     const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets, []));
     return fieldsets.map((set, i) => {
       return (
@@ -47,6 +47,7 @@ class Form extends React.Component {
           component={set.component}
           autoFocusId={autoFocusId}
           form={form}
+          modelPrefix={modelPrefix}
           {...omit(set, 'component')}
         />
       );
