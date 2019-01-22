@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import observeStore from '../../utils/observeStore';
 import { setWatchDependency } from '../../components/widgets/Form/utils';
 
+const COMPONENT_TYPE = {
+  FIELD: 'field',
+  FIELDSET: 'fieldset'
+};
+
 const withReRenderDependency = Config => BaseComponent => {
   class Wrapper extends React.Component {
     constructor(props) {
@@ -33,21 +38,19 @@ const withReRenderDependency = Config => BaseComponent => {
     observeState() {
       const { store } = this.context;
       const { dependencySelector } = this.props;
-      if (Config.type === 'field' && this.controlRef) {
-        this._observer = observeStore(
-          store,
-          state => dependencySelector(state, this.props),
-          () => {
-            this.onChange.apply(this.controlRef, [this.props]);
-          }
-        );
+      let context = null;
+      if (Config.type === COMPONENT_TYPE.FIELD) {
+        context = this.controlRef;
       }
-      if (Config.type === 'fieldset' && this._hocRef) {
+      if (Config.type === COMPONENT_TYPE.FIELDSET) {
+        context = this._hocRef;
+      }
+      if (context) {
         this._observer = observeStore(
           store,
           state => dependencySelector(state, this.props),
           () => {
-            this.onChange.apply(this._hocRef, [this.props, this.fields]);
+            this.onChange.apply(context, [this.props]);
           }
         );
       }
