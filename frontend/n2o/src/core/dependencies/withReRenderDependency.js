@@ -13,6 +13,10 @@ export default Config => {
         this.observeState = this.observeState.bind(this);
         this.setRef = this.setRef.bind(this);
         this.setHocRef = this.setHocRef.bind(this);
+        this.pushToFields = this.pushToFields.bind(this);
+        this.resetFields = this.resetFields.bind(this);
+
+        this.fields = [];
       }
 
       componentDidMount() {
@@ -21,6 +25,14 @@ export default Config => {
 
       componentWillUnmount() {
         this._observer && this._observer();
+      }
+
+      pushToFields(item) {
+        this.fields.push(item);
+      }
+
+      resetFields() {
+        this.fields = [];
       }
 
       setHocRef(el) {
@@ -48,16 +60,22 @@ export default Config => {
             store,
             state => dependencySelector(state, this.props),
             () => {
-              this.onChange.apply(this._hocRef, [this.props]);
+              this.onChange.apply(this._hocRef, [this.props, this.fields]);
             }
           );
         }
       }
 
       render() {
-        // console.log('point')
-        // console.log(this.props)
-        return <Component {...this.props} ref={this.setHocRef} setRef={this.setRef} />;
+        return (
+          <Component
+            {...this.props}
+            ref={this.setHocRef}
+            pushToFields={this.pushToFields}
+            resetFields={this.resetFields}
+            setRef={this.setRef}
+          />
+        );
       }
     }
 
