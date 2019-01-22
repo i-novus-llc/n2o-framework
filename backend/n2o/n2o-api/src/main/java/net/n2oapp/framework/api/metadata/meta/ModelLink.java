@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 
 import java.util.Objects;
 
@@ -24,14 +25,13 @@ public class ModelLink extends BindLink {
     }
 
     public ModelLink(ReduxModel model, String widgetId) {
-        super(String.format("models.%s['%s']", model.getId(), widgetId));
+        super(createBindLink(model, widgetId, null));
         this.model = model;
         this.widgetId = widgetId;
     }
 
     public ModelLink(ReduxModel model, String widgetId, String fieldId) {
-        super(fieldId == null ? String.format("models.%s['%s']", model.getId(), widgetId) : String.format("models.%s['%s'].%s",
-                model.getId(), widgetId, fieldId));
+        super(createBindLink(model, widgetId, fieldId));
         this.model = model;
         this.widgetId = widgetId;
         this.fieldId = fieldId;
@@ -59,13 +59,43 @@ public class ModelLink extends BindLink {
      * @return true - эквивалентны, false - нет
      */
     public boolean equalsLink(Object o) {
-        if (super.equalsLink(o))
-            return true;
-        if (!(o instanceof ModelLink))
+        if (o == null || o.getClass() != this.getClass())
             return false;
-        ModelLink modelLink = (ModelLink) o;
-        return Objects.equals(getWidgetId(), modelLink.getWidgetId())
-                && Objects.equals(getModel(), modelLink.getModel());
+
+        ModelLink that = (ModelLink) o;
+
+        ModelLink withSubModelQuery;
+        ModelLink withoutSubModelQuery;
+
+        if (this.getSubModelQuery() != null && that.getSubModelQuery() != null) {
+            return false;
+        } else if (this.getSubModelQuery() != null) {
+            withSubModelQuery = this;
+            withoutSubModelQuery = that;
+        } else if (that.getSubModelQuery() != null) {
+            withSubModelQuery = that;
+            withoutSubModelQuery = this;
+        } else {
+            return super.equalsLink(o) || Objects.equals(widgetId, that.getWidgetId())
+                    && Objects.equals(model, that.getModel());
+        }
+
+        String withSubModelQueryLink;
+        String withoutSubModelQueryLink = createBindLink(withSubModelQuery.getModel(), withSubModelQuery.getWidgetId(), withSubModelQuery.getSubModelQuery().getSubModel());
+        if (withoutSubModelQuery.getValue() == null) {
+            withSubModelQueryLink = createBindLink(withoutSubModelQuery.getModel(), withoutSubModelQuery.getWidgetId(), withoutSubModelQuery.getFieldId());
+        } else {
+            withSubModelQueryLink = withoutSubModelQuery.getBindLink() + "." + ScriptProcessor.removeJsBraces(withoutSubModelQuery.getValue());
+        }
+        if (withoutSubModelQueryLink.equals(withSubModelQueryLink))
+            return true;
+        return withSubModelQueryLink.startsWith(withoutSubModelQueryLink + ".");
+    }
+
+    private static String createBindLink(ReduxModel model, String widgetId, String fieldId) {
+        return fieldId == null
+                ? String.format("models.%s['%s']", model.getId(), widgetId)
+                : String.format("models.%s['%s'].%s", model.getId(), widgetId, fieldId);
     }
 
     public boolean isConst() {
