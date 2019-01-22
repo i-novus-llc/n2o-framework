@@ -99,6 +99,9 @@ class Fieldset extends React.Component {
   constructor(props) {
     super(props);
 
+    this.setVisible = this.setVisible.bind(this);
+    this.setEnabled = this.setEnabled.bind(this);
+    this.getFormValues = this.getFormValues.bind(this);
     this.renderRow = this.renderRow.bind(this);
 
     this.state = {
@@ -144,7 +147,15 @@ class Fieldset extends React.Component {
   }
 
   renderRow(rowId, row) {
-    const { labelPosition, labelWidth, labelAlignment, defaultCol, autoFocusId, form } = this.props;
+    const {
+      labelPosition,
+      labelWidth,
+      labelAlignment,
+      defaultCol,
+      autoFocusId,
+      form,
+      modelPrefix
+    } = this.props;
     return (
       <Row key={rowId} {...row.props} className={row.className}>
         {row.cols &&
@@ -164,13 +175,19 @@ class Fieldset extends React.Component {
                         key={key}
                         autoFocus={autoFocus}
                         form={this.props.form}
+                        modelPrefix={modelPrefix}
                         {...field}
                       />
                     );
                   })}
                 {col.fieldsets &&
                   col.fieldsets.map((fieldset, i) => (
-                    <FieldsetContainer key={'set' + i} form={form} {...fieldset} />
+                    <FieldsetContainer
+                      modelPrefix={modelPrefix}
+                      key={'set' + i}
+                      form={form}
+                      {...fieldset}
+                    />
                   ))}
               </Col>
             );
@@ -211,7 +228,8 @@ Fieldset.propTypes = {
   showFields: PropTypes.func,
   hideFields: PropTypes.func,
   enableFields: PropTypes.func,
-  disableFields: PropTypes.func
+  disableFields: PropTypes.func,
+  modelPrefix: PropTypes.string
 };
 
 Fieldset.defaultProps = {
