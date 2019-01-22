@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { Field as ReduxFormField } from 'redux-form';
 import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
-import { pure, compose } from 'recompose';
-import observeStore from '../../../utils/observeStore';
-import { setWatchDependency } from './utils';
-import { fetchIfChangeDependencyValue } from './utils';
+import { pure, compose, withProps } from 'recompose';
 import { isEqual, some } from 'lodash';
+import withReRenderDependency from '../../../core/dependencies/withReRenderDependency';
 import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
 /**
@@ -25,48 +23,7 @@ class ReduxField extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      state: null
-    };
-
-    this.onDependencyChange = this.onDependencyChange.bind(this);
-    this.setRef = this.setRef.bind(this);
     this.Field = compose(withFieldContainer)(props.component);
-  }
-
-  componentDidMount() {
-    const { store } = this.context;
-    this._observer = ReduxField.observeState(store, this.props, this.onDependencyChange);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    fetchIfChangeDependencyValue(prevState, this.state, this.controlRef);
-  }
-
-  componentWillUnmount() {
-    this._observer && this._observer();
-  }
-
-  setRef(node) {
-    this.controlRef = node;
-  }
-
-  onDependencyChange(state) {
-    this.setState({ state });
-  }
-
-  static observeState(store, props, onChange) {
-    const { dependency } = props;
-    let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
-    if (haveReRenderDependency) {
-      return observeStore(
-        store,
-        state => setWatchDependency(state, props),
-        currentState => {
-          onChange(currentState);
-        }
-      );
-    }
   }
 
   render() {
@@ -75,7 +32,7 @@ class ReduxField extends React.Component {
         name={this.props.id}
         {...this.props}
         component={this.Field}
-        setRef={this.setRef}
+        setRef={this.props.setRef}
       />
     );
   }
@@ -93,5 +50,17 @@ ReduxField.propTypes = {
   id: PropTypes.number,
   component: PropTypes.node
 };
-export const PureReduxField = ReduxField;
-export default pure(ReduxField);
+
+export default withReRenderDependency({
+  type: 'field',
+  onChange: function({ dependency }) {
+    const { _fetchData, size, labelFieldId } = this.props;
+    let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
+    if (haveReRenderDependency) {
+      _fetchData({
+        size,
+        [`sorting.${labelFieldId}`]: 'ASC'
+      });
+    }
+  }
+})(ReduxField);

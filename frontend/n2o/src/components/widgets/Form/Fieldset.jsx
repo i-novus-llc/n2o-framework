@@ -11,6 +11,7 @@ import { showFields, hideFields, enableFields, disableFields } from '../../../ac
 import observeStore from '../../../utils/observeStore';
 import propsResolver from '../../../utils/propsResolver';
 import { setWatchDependency } from './utils';
+import withReRenderDependency from '../../../core/dependencies/withReRenderDependency';
 
 /**
  * Компонент - филдсет формы
@@ -85,7 +86,6 @@ class Fieldset extends React.Component {
   constructor(props) {
     super(props);
 
-    this.observeState = this.observeState.bind(this);
     this.setVisible = this.setVisible.bind(this);
     this.setEnabled = this.setEnabled.bind(this);
     this.getFormValues = this.getFormValues.bind(this);
@@ -105,15 +105,6 @@ class Fieldset extends React.Component {
       };
     }
     return null;
-  }
-
-  componentDidMount() {
-    this.observeState();
-  }
-
-  componentWillUnmount() {
-    // unsubscribe deps
-    isFunction(this._observer) && this._observer();
   }
 
   setVisible(nextVisibleField) {
@@ -140,23 +131,6 @@ class Fieldset extends React.Component {
   getFormValues(store) {
     const state = store.getState();
     return getFormValues(this.props.form)(state);
-  }
-
-  observeState() {
-    const { visible, enabled } = this.props;
-    const { store } = this.context;
-
-    if (isString(visible) || isString(enabled)) {
-      this._observer = observeStore(
-        store,
-        state => setWatchDependency(state, this.props),
-        () => {
-          const formValues = this.getFormValues(store);
-          visible && this.setVisible(propsResolver(visible, formValues));
-          enabled && this.setEnabled(propsResolver(enabled, formValues));
-        }
-      );
-    }
   }
 
   renderRow(rowId, row) {
@@ -255,4 +229,18 @@ const FieldsetContainer = connect(
   mapDispatchToProps
 )(Fieldset);
 
-export default FieldsetContainer;
+export default withReRenderDependency({
+  type: 'fieldset',
+  onChange: function() {
+    console.log('point');
+    console.log(this);
+    console.log(arguments);
+    const { visible, enabled } = this.props;
+    const { store } = this.context;
+    if (isString(visible) || isString(enabled)) {
+      const formValues = this.getFormValues(store);
+      visible && this.setVisible(propsResolver(visible, formValues));
+      enabled && this.setEnabled(propsResolver(enabled, formValues));
+    }
+  }
+})(FieldsetContainer);
