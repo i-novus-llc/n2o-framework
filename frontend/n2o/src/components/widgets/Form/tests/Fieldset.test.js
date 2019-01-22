@@ -13,7 +13,13 @@ import {
 
 const mockStore = configureMockStore();
 
-const setup = (storeObj = {}, propOverrides = {}) => {
+const defaultStateObj = {
+  models: {
+    resolve: {}
+  }
+};
+
+const setup = (storeObj, propOverrides = {}) => {
   const props = Object.assign(
     {
       form: '__form',
@@ -31,7 +37,7 @@ const setup = (storeObj = {}, propOverrides = {}) => {
     propOverrides
   );
 
-  const store = mockStore(storeObj);
+  const store = mockStore(storeObj || defaultStateObj);
 
   const wrapper = mount(
     <Provider store={store}>
@@ -54,9 +60,11 @@ describe('<FieldSelts />', () => {
 
   it('Проверяем изменение видимости элемента', () => {
     const { wrapper, store } = setup({
-      form: {
-        __form: {
-          values: { id: 2 }
+      models: {
+        resolve: {
+          __form: {
+            id: 2
+          }
         }
       }
     });
@@ -66,9 +74,11 @@ describe('<FieldSelts />', () => {
   });
   it('Проверяем изменение enable элемента', () => {
     const { wrapper, store } = setup({
-      form: {
-        __form: {
-          values: { id: 3 }
+      models: {
+        resolve: {
+          __form: {
+            id: 3
+          }
         }
       }
     });
