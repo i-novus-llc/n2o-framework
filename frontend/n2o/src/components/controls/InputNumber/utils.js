@@ -26,6 +26,10 @@ export function isValid(val, min, max) {
   if (!min && !max) {
     return true;
   }
+
+  if (min && max) {
+    return !isNil(val) && (toNumber(val) <= toNumber(max) && toNumber(val) >= toNumber(min));
+  }
   return !isNil(val) && (toNumber(val) <= toNumber(max) || toNumber(val) >= toNumber(min));
 }
 
