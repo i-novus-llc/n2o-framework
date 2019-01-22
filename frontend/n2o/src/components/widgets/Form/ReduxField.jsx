@@ -11,7 +11,8 @@ import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 const config = {
   type: 'field',
   onChange: function({ dependency }) {
-    const { _fetchData, size, labelFieldId } = this.props;
+    if (!this.controlRef) return;
+    const { _fetchData, size, labelFieldId } = this.controlRef.props;
     let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
     if (haveReRenderDependency) {
       _fetchData({
@@ -37,7 +38,12 @@ class ReduxField extends React.Component {
   constructor(props) {
     super(props);
 
+    this.setRef = this.setRef.bind(this);
     this.Field = compose(withFieldContainer)(props.component);
+  }
+
+  setRef(el) {
+    this.controlRef = el;
   }
 
   render() {
@@ -46,7 +52,7 @@ class ReduxField extends React.Component {
         name={this.props.id}
         {...this.props}
         component={this.Field}
-        setRef={this.props.setRef}
+        setRef={this.setRef}
       />
     );
   }
