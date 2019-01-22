@@ -8,10 +8,23 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import ReduxField from './ReduxField';
 import { showFields, hideFields, enableFields, disableFields } from '../../../actions/formPlugin';
-import observeStore from '../../../utils/observeStore';
 import propsResolver from '../../../utils/propsResolver';
-import { setWatchDependency } from './utils';
 import withReRenderDependency from '../../../core/dependencies/withReRenderDependency';
+import { compose } from 'recompose';
+import { makeGetResolveModelSelector } from '../../../selectors/models';
+
+const config = {
+  type: 'fieldset',
+  onChange: function() {
+    const { store } = this.context;
+    const { visible, enabled } = this.props;
+    if (isString(visible) || isString(enabled)) {
+      const formValues = this.getFormValues(store);
+      visible && this.setVisible(propsResolver(visible, formValues));
+      enabled && this.setEnabled(propsResolver(enabled, formValues));
+    }
+  }
+};
 
 /**
  * Компонент - филдсет формы
@@ -104,16 +117,34 @@ class Fieldset extends React.Component {
     return null;
   }
 
+  setVisible(nextVisibleField) {
+    const { showFields, hideFields, form } = this.props;
+    this.setState(() => {
+      if (nextVisibleField) {
+        showFields(form, this.fields);
+      } else {
+        hideFields(form, this.fields);
+      }
+      return { visibleFieldset: !!nextVisibleField };
+    });
+  }
+
+  setEnabled(nextEnabledField) {
+    const { enableFields, disableFields, form } = this.props;
+    if (nextEnabledField) {
+      enableFields(form, this.fields);
+    } else {
+      disableFields(form, this.fields);
+    }
+  }
+
+  getFormValues(store) {
+    const state = store.getState();
+    return makeGetResolveModelSelector(this.props.form)(state);
+  }
+
   renderRow(rowId, row) {
-    const {
-      labelPosition,
-      labelWidth,
-      labelAlignment,
-      defaultCol,
-      autoFocusId,
-      form,
-      pushToFields
-    } = this.props;
+    const { labelPosition, labelWidth, labelAlignment, defaultCol, autoFocusId, form } = this.props;
     return (
       <Row key={rowId} {...row.props} className={row.className}>
         {row.cols &&
@@ -122,7 +153,7 @@ class Fieldset extends React.Component {
               <Col xs={col.size || defaultCol} key={colId} className={col.className}>
                 {col.fields &&
                   col.fields.map((field, i) => {
-                    pushToFields && pushToFields(field.id);
+                    this.fields.push(field.id);
                     const autoFocus = field.id && autoFocusId && field.id === autoFocusId;
                     const key = 'field' + i;
                     return (
@@ -149,8 +180,7 @@ class Fieldset extends React.Component {
   }
 
   render() {
-    const { component: ElementType, children, resetFields, ...rest } = this.props;
-    resetFields && resetFields();
+    const { component: ElementType, children, ...rest } = this.props;
     this.fields = [];
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
@@ -204,47 +234,12 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const FieldsetContainer = connect(
-  null,
-  mapDispatchToProps
+const FieldsetContainer = compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withReRenderDependency(config)
 )(Fieldset);
 
-export default withReRenderDependency({
-  type: 'fieldset',
-  onChange: function() {
-    const { store } = this.context;
-    this.fields = arguments[1];
-    const setVisible = nextVisibleField => {
-      const { showFields, hideFields, form } = this.selector.props;
-      this.setState(() => {
-        if (nextVisibleField) {
-          showFields(form, this.fields);
-        } else {
-          hideFields(form, this.fields);
-        }
-        return { visibleFieldset: !!nextVisibleField };
-      });
-    };
-
-    const setEnabled = nextEnabledField => {
-      const { enableFields, disableFields, form } = this.selector.props;
-      if (nextEnabledField) {
-        enableFields(form, this.fields);
-      } else {
-        disableFields(form, this.fields);
-      }
-    };
-
-    const getValues = () => {
-      const state = store.getState();
-      return getFormValues(this.props.form)(state);
-    };
-
-    const { visible, enabled } = this.props;
-    if (isString(visible) || isString(enabled)) {
-      const formValues = getValues();
-      visible && setVisible(propsResolver(visible, formValues));
-      enabled && setEnabled(propsResolver(enabled, formValues));
-    }
-  }
-})(FieldsetContainer);
+export default FieldsetContainer;

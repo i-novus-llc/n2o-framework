@@ -8,6 +8,20 @@ import { isEqual, some } from 'lodash';
 import withReRenderDependency from '../../../core/dependencies/withReRenderDependency';
 import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
+const config = {
+  type: 'field',
+  onChange: function({ dependency }) {
+    const { _fetchData, size, labelFieldId } = this.props;
+    let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
+    if (haveReRenderDependency) {
+      _fetchData({
+        size,
+        [`sorting.${labelFieldId}`]: 'ASC'
+      });
+    }
+  }
+};
+
 /**
  * Поле для {@link ReduxForm}
  * @reactProps {number} id
@@ -51,16 +65,4 @@ ReduxField.propTypes = {
   component: PropTypes.node
 };
 
-export default withReRenderDependency({
-  type: 'field',
-  onChange: function({ dependency }) {
-    const { _fetchData, size, labelFieldId } = this.props;
-    let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
-    if (haveReRenderDependency) {
-      _fetchData({
-        size,
-        [`sorting.${labelFieldId}`]: 'ASC'
-      });
-    }
-  }
-})(ReduxField);
+export default compose(withReRenderDependency(config))(ReduxField);
