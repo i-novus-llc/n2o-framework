@@ -1,4 +1,4 @@
-import { isNumber, isNil, toNumber } from 'lodash';
+import { isNumber, isNil, toNumber, isNaN } from 'lodash';
 
 export function formatToFloat(val, precision) {
   if (isNil(val) || val === '') return null;
@@ -27,10 +27,15 @@ export function isValid(val, min, max) {
     return true;
   }
 
-  if (min && max) {
-    return !isNil(val) && (toNumber(val) <= toNumber(max) && toNumber(val) >= toNumber(min));
+  const maxValue = toNumber(max);
+  const minValue = toNumber(min);
+  const value = toNumber(val);
+
+  if (!isNaN(minValue) && !isNaN(maxValue)) {
+    return !isNil(val) && (value <= maxValue && value >= minValue);
   }
-  return !isNil(val) && (toNumber(val) <= toNumber(max) || toNumber(val) >= toNumber(min));
+
+  return !isNil(val) && (value <= maxValue || value >= minValue);
 }
 
 export function matchesWhiteList(val) {
