@@ -37,7 +37,7 @@ class PopUp extends React.PureComponent {
     } = this.props;
 
     return (
-      <div className="n2o-pop-up position-absolute d-inline-flex justify-content-end">
+      <div className="n2o-pop-up n2o-picker-dropdown position-absolute d-inline-flex justify-content-end">
         {Object.keys(value).map((input, i) => {
           const { hasDefaultTime, ...timeObj } = time[input];
           return (
