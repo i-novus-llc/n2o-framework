@@ -521,7 +521,7 @@ InputSelect.defaultProps = {
   closePopupOnSelect: true,
   hasCheckboxes: false,
   expandPopUp: false,
-  flip: true,
+  flip: false,
   onSearch() {},
   onSelect() {},
   onToggle() {},

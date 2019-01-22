@@ -125,7 +125,7 @@ InputSelectContainer.defaultProps = {
   lengthToGroup: 3,
   expandPopUp: true,
   valueFieldId: 'id',
-  flip: true
+  flip: false
 };
 
 export default listContainer(InputSelectContainer);
