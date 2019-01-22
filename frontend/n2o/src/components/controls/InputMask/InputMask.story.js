@@ -46,7 +46,6 @@ stories
         ),
         placeholder: text('placeholder', InputMaskJson.placeholder),
         placeholderChar: text('placeholderChar', InputMaskJson.placeholderChar),
-        value: text('value', InputMaskJson.value),
         guide: boolean('guide', InputMaskJson.guide),
         keepCharPosition: boolean('keepCharPosition', InputMaskJson.keepCharPositions),
         resetOnNotValid: boolean('resetOnNotValid', InputMaskJson.resetOnNotValid)
