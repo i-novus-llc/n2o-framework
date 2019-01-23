@@ -369,7 +369,8 @@ class InputSelect extends React.Component {
       onScrollEnd,
       expandPopUp,
       style,
-      alerts
+      alerts,
+      flip
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
 
@@ -432,7 +433,7 @@ class InputSelect extends React.Component {
             />
           </InputSelectGroup>
         </DropdownToggle>
-        <Popup isExpanded={this.state.isExpanded} expandPopUp={expandPopUp}>
+        <Popup flip={flip} isExpanded={this.state.isExpanded} expandPopUp={expandPopUp}>
           <PopupList
             isExpanded={this.state.isExpanded}
             activeValueId={this.state.activeValueId}
@@ -501,7 +502,8 @@ InputSelect.propTypes = {
   format: PropTypes.string,
   onSearch: PropTypes.func,
   expandPopUp: PropTypes.bool,
-  alerts: PropTypes.array
+  alerts: PropTypes.array,
+  flip: PropTypes.bool
 };
 
 InputSelect.defaultProps = {
@@ -519,6 +521,7 @@ InputSelect.defaultProps = {
   closePopupOnSelect: true,
   hasCheckboxes: false,
   expandPopUp: false,
+  flip: false,
   onSearch() {},
   onSelect() {},
   onToggle() {},

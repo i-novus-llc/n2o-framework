@@ -10,7 +10,6 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
  * @reactProps {string} preset - пресет для маски. Варианты: phone(телефон), post-code(почтовый индекс), date(дата), money(деньги), percentage(процент), card (кредитная карта)
  * @reactProps {string|array|function} mask - маска. Стандартная конфигурация: 9 - цифра, S - английская буква, Б - русская буква. Дополнительную конфигурациюю можно осуществить, используя проперти dictionary
  * @reactProps {function} onChange - выполняется при изменении значения поля
- * @reactProps {function} onComplete - выполняется после обновления значения в стейте, если значение '' или соответствует маске
  * @reactProps {string} placeholder - плэйсходер для поля
  * @reactProps {string} placeholderChar - символ, который будет на месте незаполненного символа маски
  * @reactProps {string} value - максимальное кол-во кнопок перехода между страницами
@@ -19,7 +18,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
  * @reactProps {boolean} keepCharPositions - @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
  * @reactProps {boolean} resetOnNotValid - сбрасывать / оставлять невалижное значение при потере фокуса
  * @example
- * <InputMask onComplete={this.onComplete}
+ * <InputMask onChange={this.onChange}
  *             mask="99 x 99"
  *             dictionary={{x: \[01]\}}
  *             placeholderChar='?'
@@ -119,8 +118,9 @@ class InputMask extends React.Component {
   _onChange(e) {
     const { value } = e.target;
     this.valid = this._isValid(value);
-    this.props.onChange(value);
-    this.setState({ value }, () => (this.valid || value === '') && this.props.onComplete(value));
+    this.setState({ value, guide: this.props.guide }, () => {
+      (this.valid || value === '') && this.props.onChange(value);
+    });
   }
 
   _onBlur(e) {
@@ -129,20 +129,22 @@ class InputMask extends React.Component {
     this.valid = this._isValid(value);
     if (!this.valid) {
       const newValue = resetOnNotValid ? '' : value;
-      this.setState({ value: newValue, guide: false }, () => this.props.onComplete(newValue));
+      this.setState({ value: newValue, guide: false }, () => this.props.onChange(newValue));
     }
   }
 
   _onFocus() {
+    this.valid = this._isValid(this.state.value);
     if (!this.valid) {
       this.setState({ guide: this.props.guide });
     }
   }
 
-  getDerivedStateFromProps(props, state) {
-    if (props.value !== state.value) {
+  static getDerivedStateFromProps(props, state) {
+    if (props.value && props.value !== state.prevPropsValue && props.value !== state.value) {
       return {
         ...state,
+        prevPropsValue: props.value,
         value: props.value
       };
     }
@@ -152,9 +154,9 @@ class InputMask extends React.Component {
   /**
    * обработка новых пропсов
    */
-  componentDidUpdate(props) {
+  componentDidUpdate() {
     this.dict = { ...this.dict, ...this.props.dictionary };
-    this.valid = this._isValid(props.value);
+    this.valid = this._isValid(this.state.value);
   }
 
   /**
@@ -181,8 +183,7 @@ class InputMask extends React.Component {
 }
 
 InputMask.defaultProps = {
-  onChange: v => {},
-  onComplete: v => {},
+  onChange: () => {},
   placeholderChar: '_',
   guide: true,
   keepCharPositions: false,
@@ -197,7 +198,6 @@ InputMask.propTypes = {
   preset: PropTypes.string,
   mask: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.func]),
   onChange: PropTypes.func,
-  onComplete: PropTypes.func,
   placeholder: PropTypes.string,
   placeholderChar: PropTypes.string,
   value: PropTypes.string,
