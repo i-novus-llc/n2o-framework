@@ -101,8 +101,8 @@ export function enableFields(form, names) {
 
 /**
  *  экшен дизактивации полей формы
- * @param form
- * @param names
+ * @param form - название формы
+ * @param names - массив названия филдов формы
  */
 export function disableFields(form, names) {
   return createActionHelper(DISABLE_FIELDS, payload => payload, ({ form }) => ({ form }))({
@@ -113,10 +113,10 @@ export function disableFields(form, names) {
 
 /**
  * Добавить сообщение (после валидации) к полю
- * @param form
- * @param name
- * @param message
- * @param isTouched
+ * @param form - название формы
+ * @param name - названия филдов формы
+ * @param message - сообщение
+ * @param isTouched - флаг для вставки touch у филда
  */
 export function addFieldMessage(form, name, message, isTouched) {
   return createActionHelper(
