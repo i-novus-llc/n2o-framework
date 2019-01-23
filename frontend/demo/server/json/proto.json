@@ -914,6 +914,7 @@
             "id": "patrName",
             "fieldKey": "patrName",
             "src": "LinkCell",
+            "visible" : "`name!='Мария'`",
             "actionId": "patrName",
             "action": {
               "id": "patrName",
