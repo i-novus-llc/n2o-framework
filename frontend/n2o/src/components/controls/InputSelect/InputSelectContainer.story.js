@@ -221,7 +221,8 @@ stories
         ),
         format: text('format', InputSelectContainerJson.format),
         dataProvider: InputSelectContainerJson.dataProvider,
-        expandPopUp: boolean('expandPopUp', InputSelectContainerJson.expandPopUp)
+        expandPopUp: boolean('expandPopUp', InputSelectContainerJson.expandPopUp),
+        flip: boolean('flip', InputSelectContainerJson.flip)
       };
 
       fetchMock
