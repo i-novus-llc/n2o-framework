@@ -28,6 +28,7 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
         }
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
+        compiled.setJsonVisible(p.resolveJS(source.getVisible(), Boolean.class));
         return compiled;
     }
 

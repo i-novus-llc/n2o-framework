@@ -28,7 +28,7 @@
                         </link>
                     </column>
                     <column text-field-id="patrName">
-                        <link>
+                        <link visible="{name!='Мария'}">
                             <a href="/patients/:id/update2">
                                 <path-param name="id" value="{id}"/>
                             </a>

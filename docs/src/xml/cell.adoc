@@ -18,6 +18,16 @@ http://n2oapp.net/framework/config/schema/n2o-cell-2.0
 |Для каждой ячейки своя реализация по умолчанию.
 Для `custom` атрибут обязательный.
 
+|class
+|CSS класс
+|Класс стиля ячейки
+|
+
+|visible
+|true false
+|Видимость ячейки
+|
+
 |===
 
 === <text>
