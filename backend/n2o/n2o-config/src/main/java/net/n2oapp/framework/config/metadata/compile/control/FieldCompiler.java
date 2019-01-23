@@ -79,7 +79,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
             serverValidations.add(mandatory);
             clientValidations.add(mandatory);
             field.setRequired(true);
-        } else if (source.getDependencies() != null) {
+        } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
             mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
             mandatory.addEnablingConditions(visibilityConditions);
@@ -229,7 +229,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
                 else if (d instanceof N2oField.SetValueDependency)
                     dependency.setType(ValidationType.setValue);
 
-                dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue().trim()));
+                dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
                 dependency.getOn().add(d.getOn());
                 dependency.setApplyOnInit(true);
                 field.addDependency(dependency);

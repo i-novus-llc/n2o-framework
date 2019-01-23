@@ -20,6 +20,7 @@ public class FileUploadIOv2 extends StandardFieldIOv2<N2oFileUpload> {
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "message-field-id", m::getMessageFieldId, m::setMessageFieldId);
         p.attribute(e, "url-field-id", m::getUrlFieldId, m::setUrlFieldId);
+        p.attribute(e, "request-param", m::getRequestParam, m::setRequestParam);
     }
 
     @Override

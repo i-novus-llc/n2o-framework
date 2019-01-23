@@ -45,12 +45,12 @@ describe('<Breadcrumb />', () => {
     const { component } = setupContainer({
       items: [
         {
-          label: "test ? test : 'dummy'",
+          label: "`test ? test : 'dummy'`",
           modelLink: 'models.test',
           path: '/redirectTest'
         },
         {
-          label: "test == 'fake' ? test : 'Test'",
+          label: "`test == 'fake' ? test : 'Test'`",
           modelLink: 'models.test'
         }
       ]

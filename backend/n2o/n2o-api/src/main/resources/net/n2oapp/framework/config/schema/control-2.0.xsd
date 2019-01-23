@@ -19,20 +19,21 @@
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
     <xs:element name="file-upload" type="controlFileUploadDefinition"/>
-    <xs:element name="html" type="controlHtml"/>
-    <xs:element name="custom" type="controlCustom"/>
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="select" type="controlSelectDefinition"/>
-    <xs:element name="select-tree" type="controlSelectTreeDefinition"/>
+    <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
     <xs:element name="input-select" type="controlInputSelectDefinition"/>
     <xs:element name="input-select-tree" type="controlSelectTreeDefinition"/>
+    <xs:element name="search-buttons" type="controlSearchButtonsDefinition"/>
+    <xs:element name="html" type="controlHtml"/>
+    <xs:element name="field" type="controlCustom"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
             <xs:element name="hidden" type="controlHiddenDefinition" minOccurs="0"/>
             <xs:element name="text-area" type="controlTextArea" minOccurs="0"/>
-            <xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>
+            <!--<xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>-->
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
@@ -42,15 +43,15 @@
             <xs:element name="date-interval" type="controlDateIntervalDefinition" minOccurs="0"/>
             <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
             <xs:element name="file-upload" type="controlFileUploadDefinition" minOccurs="0"/>
-            <xs:element name="html" type="controlHtml" minOccurs="0"/>
-            <xs:element name="field" type="controlCustom" minOccurs="0"/>
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
-            <xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
+            <!--<xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>-->
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
+            <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
+            <xs:element name="field" type="controlCustom" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку компонент.</xs:documentation>
@@ -194,6 +195,7 @@
                 <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="message-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="url-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="request-param" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -364,7 +366,17 @@
             <xs:simpleType>
                 <xs:restriction base="xs:string">
                     <xs:enumeration value="DD.MM.YYYY"/>
-                    <xs:enumeration value="DD.MM.YYYY HH:mm"/>
+                    <xs:enumeration value="DD/MM/YYYY"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+    <xs:simpleType name="timeFormatEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="HH:mm"/>
+                    <xs:enumeration value="HH:mm:ss"/>
                 </xs:restriction>
             </xs:simpleType>
         </xs:union>
@@ -385,11 +397,11 @@
     <xs:complexType name="controlDatePickerDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="format" use="optional" type="dataFormatEnum"/>
-                <xs:attribute name="default-time" use="optional" type="defaultTimeEnum"/>
+                <xs:attribute name="date-format" use="optional" type="dataFormatEnum"/>
+                <xs:attribute name="time-format" use="optional" type="timeFormatEnum"/>
                 <xs:attribute name="max" use="optional" type="xs:string"/>
                 <xs:attribute name="min" use="optional" type="xs:string"/>
-                <xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>
+                <!--<xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>-->
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

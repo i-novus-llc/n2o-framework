@@ -11,6 +11,7 @@ import { showFields, hideFields, enableFields, disableFields } from '../../../ac
 import observeStore from '../../../utils/observeStore';
 import propsResolver from '../../../utils/propsResolver';
 import { setWatchDependency } from './utils';
+import { makeGetResolveModelSelector } from '../../../selectors/models';
 
 /**
  * Компонент - филдсет формы
@@ -139,7 +140,7 @@ class Fieldset extends React.Component {
 
   getFormValues(store) {
     const state = store.getState();
-    return getFormValues(this.props.form)(state);
+    return makeGetResolveModelSelector(this.props.form)(state);
   }
 
   observeState() {
@@ -160,7 +161,15 @@ class Fieldset extends React.Component {
   }
 
   renderRow(rowId, row) {
-    const { labelPosition, labelWidth, labelAlignment, defaultCol, autoFocusId, form } = this.props;
+    const {
+      labelPosition,
+      labelWidth,
+      labelAlignment,
+      defaultCol,
+      autoFocusId,
+      form,
+      modelPrefix
+    } = this.props;
     return (
       <Row key={rowId} {...row.props} className={row.className}>
         {row.cols &&
@@ -180,6 +189,7 @@ class Fieldset extends React.Component {
                         key={key}
                         autoFocus={autoFocus}
                         form={this.props.form}
+                        modelPrefix={modelPrefix}
                         {...field}
                       />
                     );
@@ -227,7 +237,8 @@ Fieldset.propTypes = {
   showFields: PropTypes.func,
   hideFields: PropTypes.func,
   enableFields: PropTypes.func,
-  disableFields: PropTypes.func
+  disableFields: PropTypes.func,
+  modelPrefix: PropTypes.string
 };
 
 Fieldset.defaultProps = {

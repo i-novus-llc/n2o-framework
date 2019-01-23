@@ -1,5 +1,5 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <date-time id="id" format="DD.MM.YYYY" default-time="now()" utc="true" max="1" min="0"/>
+        <date-time id="id" date-format="DD.MM.YYYY" max="1" min="0"/>
     </fields>
 </form>

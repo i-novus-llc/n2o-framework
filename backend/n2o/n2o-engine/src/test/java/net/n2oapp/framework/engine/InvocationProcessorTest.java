@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
@@ -17,12 +18,14 @@ import net.n2oapp.framework.engine.util.TestEntity;
 import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.AdditionalAnswers;
 
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,8 +43,8 @@ public class InvocationProcessorTest {
         SqlInvocationEngine sqlInvocationEngine = new SqlInvocationEngine();
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
         ContextProcessor processor = mock(ContextProcessor.class);
-        when(processor.resolve("defaultValue")).thenReturn("defaultValue");
-        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor);
+        when(processor.resolve(anyString())).then(AdditionalAnswers.returnsFirstArg());
+        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor, new DomainProcessor());
     }
 
     @Test

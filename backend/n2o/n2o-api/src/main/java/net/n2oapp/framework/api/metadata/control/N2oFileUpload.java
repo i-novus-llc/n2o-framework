@@ -13,6 +13,7 @@ public class N2oFileUpload extends N2oStandardField {
     private String labelFieldId;
     private String messageFieldId;
     private String urlFieldId;
+    private String requestParam;
     private Boolean showSize;
     private Boolean multi;
     private Boolean ajax;
