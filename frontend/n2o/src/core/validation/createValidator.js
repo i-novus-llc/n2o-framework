@@ -48,7 +48,7 @@ export default function createValidator(validationConfig = {}, formName, state) 
  * @param formName
  * @param state
  * @param isTouched
- * @returns {function(*=, *=): Promise<any[]>}
+ * @returns {Promise<any[]>}
  */
 export const validateField = (validationConfig, formName, state, isTouched = false) => (
   values,
