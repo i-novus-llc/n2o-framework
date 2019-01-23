@@ -50,6 +50,7 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
         @JsonProperty
         private Map<String, List<Validation>> validation;
         @JsonProperty
-        private Boolean searchButtons;
+        @Deprecated
+        private Boolean hideButtons;
     }
 }
