@@ -124,6 +124,9 @@ public class DomainProcessorTest {
         //пришли даты и без домена
         list = (List<Date>) proc.deserialize(list);
         checkDates(date1, date2, list);
+
+        //примитивный объект, домен - массив
+        assert ((List) proc.deserialize("1", "integer[]")).get(0).equals(1);
     }
 
     @Test
