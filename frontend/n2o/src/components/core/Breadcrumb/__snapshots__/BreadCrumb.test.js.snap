@@ -16,14 +16,14 @@ exports[`<Breadcrumb /> тестирует снэпшот контейнера �
         href="/redirectTest"
         onClick={[Function]}
       >
-        test ? test : 'dummy'
+        test
       </a>
     </li>
     <li
       aria-current="page"
       className="active breadcrumb-item"
     >
-      test == 'fake' ? test : 'Test'
+      Test
     </li>
   </ol>
 </nav>
