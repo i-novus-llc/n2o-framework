@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.form.FormWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.fieldset.ColElementIO4;
 import net.n2oapp.framework.config.io.fieldset.RowElementIO4;
@@ -169,12 +168,8 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetVisibility.object.xml"
         );
         pipeline.get(new PageContext("testFieldsetVisibility"));
-        ActionContext context = null;
-        for (RouteInfo info : builder.getEnvironment().getRouteRegister()) {
-            if (info.getContext() instanceof ActionContext) {
-                context = (ActionContext) info.getContext();
-            }
-        }
+        ActionContext context = (ActionContext) builder.route("/testFieldsetVisibility/1/action").getContext(CompiledObject.class);
+
         assertThat(context, notNullValue());
 
         CompiledObject object = pipeline.get(context);
