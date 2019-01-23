@@ -3,5 +3,6 @@
   "fieldKey": "data",
   "color": "secondary",
   "amountToGroup": 3,
-  "labelFieldId": "name"
+  "labelFieldId": "name",
+  "visible": true
 }

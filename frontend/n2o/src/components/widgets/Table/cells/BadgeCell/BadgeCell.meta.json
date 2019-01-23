@@ -3,5 +3,6 @@
   "fieldKey": "name",
   "placement": "right",
   "text": "`gender.name`",
-  "color": "`status == '1' ? 'success' : status == '2' ? 'danger' : 'primary'`"
+  "color": "`status == '1' ? 'success' : status == '2' ? 'danger' : 'primary'`",
+  "visible": true
 }

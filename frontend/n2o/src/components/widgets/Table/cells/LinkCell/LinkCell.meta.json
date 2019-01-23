@@ -6,6 +6,7 @@
   "style" : {},
   "icon": "icon",
   "type": "text",
+  "visible": true,
   "action": {
     "src": "link",
     "options": {

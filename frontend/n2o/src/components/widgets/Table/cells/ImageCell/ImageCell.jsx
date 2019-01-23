@@ -43,18 +43,21 @@ class ImageCell extends React.Component {
       id,
       shape,
       callActionImpl,
-      action
+      action,
+      visible
     } = this.props;
 
     return (
-      <div title={title} style={{ ...style, ...this.setCursor(action) }} className={className}>
-        <img
-          src={get(model, fieldKey || id)}
-          alt={title}
-          className={getImageClass(shape)}
-          onClick={callActionImpl}
-        />
-      </div>
+      visible && (
+        <div title={title} style={{ ...style, ...this.setCursor(action) }} className={className}>
+          <img
+            src={get(model, fieldKey || id)}
+            alt={title}
+            className={getImageClass(shape)}
+            onClick={callActionImpl}
+          />
+        </div>
+      )
     );
   }
 }
@@ -65,7 +68,12 @@ ImageCell.propTypes = {
   shape: PropTypes.oneOf(Object.values(imageShapes)),
   style: PropTypes.object,
   className: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
+  visible: PropTypes.bool
+};
+
+ImageCell.defaultProps = {
+  visible: true
 };
 
 export default withCell(ImageCell);
