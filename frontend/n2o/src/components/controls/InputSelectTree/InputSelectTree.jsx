@@ -98,6 +98,7 @@ function InputSelectTree({
   ajax,
   className,
   intl,
+  dropdownPopupAlign,
   ...rest
 }) {
   const popupProps = {
@@ -279,6 +280,7 @@ function InputSelectTree({
       onSearch={handleSearch}
       treeExpandedKeys={treeExpandedKeys}
       onTreeExpand={onTreeExpand}
+      dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
