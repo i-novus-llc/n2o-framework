@@ -18,7 +18,9 @@ import { LinkCellType } from './linkCellTypes';
  * @param callActionImpl - экшен на клик
  * @param icon - класс иконки
  * @param type
- * @param url
+ * @param url - при наличии этого параметра, в зависимости от
+ * параметра target будет создана ссылка с соответствующим таргетом,
+ * при отсутствии, компонент будет вызывать приходящий экшен
  * @param target - тип ссылки
  * @param rest
  * @returns {*}
