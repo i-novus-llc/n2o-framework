@@ -801,6 +801,7 @@
                         "dependency": [],
                         "control": {
                           "src": "DateInterval",
+                          "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }

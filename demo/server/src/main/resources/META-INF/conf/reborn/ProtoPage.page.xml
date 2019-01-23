@@ -62,7 +62,7 @@
                     <row>
                         <input-text id="surname"/>
                         <input-text id="name"/>
-                        <date-interval id="bdate" label="Дата рождения"/>
+                        <date-interval id="bdate" label="Дата рождения" date-format="DD.MM.YYYY"/>
                     </row>
                     <row>
                         <col size="10">

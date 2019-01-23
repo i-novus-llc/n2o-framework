@@ -13,9 +13,11 @@ public class DateIntervalIOv2 extends IntervalFieldIOv2<N2oDateInterval> {
     @Override
     public void io(Element e, N2oDateInterval m, IOProcessor p) {
         super.io(e, m, p);
+        p.read(e, m, (el,mo) -> mo.setDateFormat(el.getAttributeValue("format")));//deprecated
+        p.attribute(e, "date-format", m::getDateFormat, m::setDateFormat);
+        p.attribute(e, "time-format", m::getTimeFormat, m::setTimeFormat);
         p.attribute(e, "begin-default-time", m::getBeginDefaultTime, m::setBeginDefaultTime);
         p.attribute(e, "end-default-time", m::getEndDefaultTime, m::setEndDefaultTime);
-        p.attribute(e, "format", m::getDateFormat, m::setDateFormat);
         p.attributeEnum(e, "popup-placement", m::getPopupPlacement, m::setPopupPlacement, PopupPlacement.class);
         p.attributeBoolean(e, "utc", m::getUtc, m::setUtc);
     }

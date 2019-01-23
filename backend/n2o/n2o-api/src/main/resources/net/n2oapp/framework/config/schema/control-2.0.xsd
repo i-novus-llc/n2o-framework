@@ -343,11 +343,12 @@
     <xs:complexType name="controlDateIntervalDefinition">
         <xs:complexContent>
             <xs:extension base="controlIntervalFieldDefinition">
-                <xs:attribute name="popup-placement" type="popupPlacementEnum" use="optional"/>
-                <xs:attribute name="format" use="optional" type="dataFormatEnum"/>
-                <xs:attribute name="begin-default-time" type="defaultTimeEnum" use="optional"/>
-                <xs:attribute name="end-default-time" type="defaultTimeEnum" use="optional"/>
-                <xs:attribute name="utc" type="xs:boolean" default="false" use="optional"/>
+                <!--<xs:attribute name="popup-placement" type="popupPlacementEnum" use="optional"/>-->
+                <xs:attribute name="date-format" use="optional" type="dataFormatEnum"/>
+                <xs:attribute name="time-format" use="optional" type="timeFormatEnum"/>
+                <!--<xs:attribute name="begin-default-time" type="defaultTimeEnum" use="optional"/>-->
+                <!--<xs:attribute name="end-default-time" type="defaultTimeEnum" use="optional"/>-->
+                <!--<xs:attribute name="utc" type="xs:boolean" default="false" use="optional"/>-->
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
