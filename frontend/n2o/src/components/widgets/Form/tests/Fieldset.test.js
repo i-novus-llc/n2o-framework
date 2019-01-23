@@ -26,12 +26,6 @@ const setup = (storeObj, propOverrides = {}) => {
       component: StandardFieldset,
       visible: '`id == 2`',
       enabled: '`id == 3`',
-      dependency: [
-        {
-          type: 'reRender',
-          on: ['id']
-        }
-      ],
       rows: []
     },
     propOverrides
