@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.register.route;
 
-import net.n2oapp.framework.api.register.route.RouteInfo;
+import net.n2oapp.framework.api.metadata.Compiled;
 
 public class RouteAlreadyExistsException extends RuntimeException {
 
-    public RouteAlreadyExistsException(RouteInfo info) {
-        super(info.getContext().getCompiledClass().getSimpleName() + " by url '" + info.getUrlPattern() + "' is already exists!");
+    public RouteAlreadyExistsException(String urlPattern, Class<? extends Compiled> compiledClass) {
+        super(compiledClass.getSimpleName() + " by url '" + urlPattern + "' is already exists!");
     }
 }

@@ -4,16 +4,14 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.register.route.RouteInfo;
-import net.n2oapp.framework.api.register.route.RouteRegister;
-import net.n2oapp.framework.api.register.route.RoutingResult;
+import net.n2oapp.framework.api.register.route.*;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +36,7 @@ public class N2oRouter implements MetadataRouter {
      */
     public RoutingResult get(String url) {
         url = url != null ? url : "/";
-        List<RouteInfo> infos = findRoutes(url);
+        List<RouteInfoValue> infos = findRoutes(url);
         if (infos.isEmpty())
             tryToFindDeep(url);
         infos = findRoutes(url);
@@ -48,17 +46,17 @@ public class N2oRouter implements MetadataRouter {
         return new RoutingResult(urlPattern, getContexts(infos), getResultData(url, urlPattern));
     }
 
-    private List<CompileContext<?, ?>> getContexts(List<RouteInfo> infos) {
-        return infos.stream().map(RouteInfo::getContext).collect(Collectors.toList());
+    private List<CompileContext<?, ?>> getContexts(List<RouteInfoValue> infos) {
+        return infos.stream().map(RouteInfoValue::getContext).collect(Collectors.toList());
     }
 
-    private List<RouteInfo> findRoutes(String url) {
-        List<RouteInfo> infos = null;
-        for (RouteInfo routeInfo : register) {
-            if (matchInfo(routeInfo, url)) {
+    private List<RouteInfoValue> findRoutes(String url) {
+        List<RouteInfoValue> infos = null;
+        for (Map.Entry<RouteInfoKey, RouteInfoValue> routeEntry : register) {
+            if (matchInfo(routeEntry.getKey(), url)) {
                 if (infos == null)
                     infos = new ArrayList<>();
-                infos.add(routeInfo);
+                infos.add(routeEntry.getValue());
             }
         }
         return infos == null ? Collections.emptyList() : infos;
@@ -72,14 +70,14 @@ public class N2oRouter implements MetadataRouter {
      * @param <D>         Тип собранной метаданной
      * @return Сопоставимы или нет
      */
-    private <D extends Compiled> boolean matchInfo(RouteInfo info, String urlMatching) {
+    private <D extends Compiled> boolean matchInfo(RouteInfoKey info, String urlMatching) {
         return pathMatcher.match(info.getUrlMatching(), urlMatching);
     }
 
     private void tryToFindDeep(String url) {
         if (url.length() > 1) {
             String subUrl;
-            List<RouteInfo> subInfo;
+            List<RouteInfoValue> subInfo;
             int idx = url.lastIndexOf("/");
             if (idx > 0)
                 subUrl = url.substring(0, idx);
