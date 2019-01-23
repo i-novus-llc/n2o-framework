@@ -7,9 +7,12 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.MetadataBinder;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.user.StaticUserContext;
-import net.n2oapp.framework.api.user.UserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+/**
+ * Проверка прав доступа на элемент Page
+ */
 
 @Component
 public class SecurityPageBinder implements MetadataBinder<Page>, CompiledClassAware {
@@ -22,13 +25,9 @@ public class SecurityPageBinder implements MetadataBinder<Page>, CompiledClassAw
 
     @Override
     public Page bind(Page compiled, CompileProcessor p) {
-        securityProvider.checkAccess(compiled, getUserContext());
+        securityProvider.checkAccess(compiled, StaticUserContext.getUserContext());
 
         return compiled;
-    }
-
-    public UserContext getUserContext() {
-        return StaticUserContext.getUserContext();
     }
 
     @Override
