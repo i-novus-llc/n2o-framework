@@ -3,6 +3,20 @@ import PropTypes from 'prop-types';
 import observeStore from '../../utils/observeStore';
 import { setWatchDependency } from '../../components/widgets/Form/utils';
 
+/**
+ * HOC для ре рендера по депенденси reRender
+ * @param Config - объект с функцией onChange, которая будет выполнена при изменении
+ * зависимого поля
+ * @reactProps dependencySelector - селектор выбора значений
+ * @returns {function(*): Wrapper}
+ * @example
+ * compose(
+ *    hoc1,
+ *    hoc2,
+ *    ...,
+ *    withReRenderDependency(config)
+ *  )(WrappedComponent)
+ */
 const withReRenderDependency = Config => BaseComponent => {
   class Wrapper extends React.Component {
     constructor(props) {
