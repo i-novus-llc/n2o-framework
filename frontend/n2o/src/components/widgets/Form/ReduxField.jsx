@@ -9,7 +9,6 @@ import withReRenderDependency from '../../../core/dependencies/withReRenderDepen
 import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
 const config = {
-  type: 'field',
   onChange: function({ dependency }) {
     if (!this.controlRef) return;
     const { _fetchData, size, labelFieldId } = this.controlRef.props;

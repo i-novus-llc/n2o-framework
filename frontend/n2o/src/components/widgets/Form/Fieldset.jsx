@@ -14,7 +14,6 @@ import { compose } from 'recompose';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
 
 const config = {
-  type: 'fieldset',
   onChange: function() {
     const { store } = this.context;
     const { visible, enabled } = this.props;
