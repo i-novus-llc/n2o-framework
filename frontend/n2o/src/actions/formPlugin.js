@@ -100,9 +100,9 @@ export function enableFields(form, names) {
 }
 
 /**
- * экшен дизактивации полей формы
- * @param form - название формы
- * @param names - массив названия филдов формы
+ *  экшен дизактивации полей формы
+ * @param form
+ * @param names
  */
 export function disableFields(form, names) {
   return createActionHelper(DISABLE_FIELDS, payload => payload, ({ form }) => ({ form }))({
@@ -116,13 +116,17 @@ export function disableFields(form, names) {
  * @param form
  * @param name
  * @param message
+ * @param isTouched
  */
 export function addFieldMessage(form, name, message, isTouched) {
-  return createActionHelper(ADD_FIELD_MESSAGE, payload => payload, ({ form }) => ({ form }))({
+  return createActionHelper(
+    ADD_FIELD_MESSAGE,
+    payload => payload,
+    ({ form }) => ({ form, isTouched })
+  )({
     name,
     form,
-    message,
-    isTouched
+    message
   });
 }
 

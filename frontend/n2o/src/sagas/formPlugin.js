@@ -16,5 +16,5 @@ export function* addTouched({ payload: { form, name } }) {
 
 export const formPluginSagas = [
   takeEvery('@@redux-form/START_ASYNC_VALIDATION', removeMessage),
-  takeEvery(action => action.payload && action.payload.isTouched, addTouched)
+  takeEvery(action => action.meta && action.meta.isTouched, addTouched)
 ];
