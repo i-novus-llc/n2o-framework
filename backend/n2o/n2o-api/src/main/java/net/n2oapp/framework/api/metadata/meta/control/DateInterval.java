@@ -9,6 +9,8 @@ import lombok.Setter;
 public class DateInterval extends Control {
     @JsonProperty
     private String dateFormat;
+    @JsonProperty
+    private String timeFormat;
     @JsonProperty("outputFormat")
     private String outputFormat;
 }
