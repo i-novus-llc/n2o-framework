@@ -189,7 +189,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getQueryMapping().get("testTable4FiltersCompile_main_gender_name").getOnGet().getPayload().get("field"), is("gender"));
         assertThat(page.getRoutes().getQueryMapping().get("testTable4FiltersCompile_main_gender_name").getOnGet().getType(), is("n2o/models/UPDATE_MAP"));
 
-        assertThat(table.getFilter().getHideButtons(), is(false));
+        assertThat(table.getFilter().getHideButtons(), is(true));
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("sb"));
         assertThat(field.getSrc(), is("FilterButtonsField"));

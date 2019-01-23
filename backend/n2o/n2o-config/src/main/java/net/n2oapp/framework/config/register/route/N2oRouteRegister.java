@@ -1,13 +1,17 @@
 package net.n2oapp.framework.config.register.route;
 
-import net.n2oapp.framework.api.register.route.RouteInfo;
+import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.register.route.RouteInfoKey;
+import net.n2oapp.framework.api.register.route.RouteInfoValue;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Хранилище RouteInfo
@@ -15,24 +19,27 @@ import java.util.concurrent.ConcurrentSkipListSet;
 public class N2oRouteRegister implements RouteRegister {
     private static final Logger logger = LoggerFactory.getLogger(N2oRouteRegister.class);
 
-    private SortedSet<RouteInfo> register = new ConcurrentSkipListSet<>();
+    private final SortedMap<RouteInfoKey, RouteInfoValue> register = new ConcurrentSkipListMap<>();
 
     @Override
-    public void addRoute(RouteInfo routeInfo) {
-        if (!routeInfo.getUrlMatching().startsWith("/"))
-            throw new IncorrectRouteException(routeInfo.getUrlPattern());
-        register.add(routeInfo);
-        //todo throw RouteAlreadyExistsException if route exists
-        logger.info(String.format("Register route: '%s' to [%s]", routeInfo.getContext(), routeInfo.getUrlPattern()));
+    public void addRoute(String urlPattern, CompileContext<? extends Compiled, ?> context) {
+        RouteInfoKey key = new RouteInfoKey(urlPattern, context.getCompiledClass());
+        if (!key.getUrlMatching().startsWith("/"))
+            throw new IncorrectRouteException(key.getUrlMatching());
+        if (register.containsKey(key) && !register.get(key).getContext().equals(context))
+            throw new RouteAlreadyExistsException(urlPattern, context.getCompiledClass());
+        register.put(key, new RouteInfoValue(urlPattern, context));
+
+        logger.info(String.format("Register route: '%s' to [%s]", context, urlPattern));
     }
 
     @Override
-    public Iterator<RouteInfo> iterator() {
-        return register.iterator();
+    public Iterator<Map.Entry<RouteInfoKey, RouteInfoValue>> iterator() {
+        return register.entrySet().iterator();
     }
 
     @Override
     public void clear(String startUrlMatching) {
-        register.removeIf(s -> s.getUrlMatching().startsWith(startUrlMatching));
+        register.keySet().removeIf(s -> s.getUrlMatching().startsWith(startUrlMatching));
     }
 }
