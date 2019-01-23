@@ -23,7 +23,7 @@
         "isOtherPage": true
       },
       {
-        "path": "/proto/patients/:proto_patients_id/update",
+        "path": "/proto/patients/:proto_patients_id/update_patient",
         "exact": true,
         "isOtherPage": true
       },
@@ -412,9 +412,9 @@
                 "title": "Создать"
               },
               {
-                "id": "update",
+                "id": "update_patient",
                 "icon": "fa fa-pencil",
-                "actionId": "update",
+                "actionId": "update_patient",
                 "hint": "Изменить",
                 "conditions": {
                   "enabled": [
@@ -550,15 +550,15 @@
             }
           }
         },
-        "update": {
-          "id": "update",
+        "update_patient": {
+          "id": "update_patient",
           "src": "perform",
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_update",
-              "pageId": "proto_patients_update",
-              "pageUrl": "/proto/patients/:proto_patients_id/update",
+              "name": "proto_patients_update_patient",
+              "pageId": "proto_patients_update_patient",
+              "pageUrl": "/proto/patients/:proto_patients_id/update_patient",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -734,6 +734,26 @@
               "fail": {}
             }
           }
+        },
+        "update": {
+          "id": "update",
+          "src": "perform",
+          "options": {
+            "type": "n2o/modals/INSERT",
+            "payload": {
+              "name": "proto_patients_update",
+              "pageId": "proto_patients_update",
+              "pageUrl": "/proto/patients/:proto_patients_id/update",
+              "pathMapping": {
+                "proto_patients_id": {
+                  "link": "models.resolve['proto_patients'].id"
+                }
+              },
+              "queryMapping": {},
+              "closeButton": true,
+              "visible": true
+            }
+          }
         }
       },
       "paging": {
@@ -836,7 +856,6 @@
         "filterButtonId": "filter",
         "blackResetList": [],
         "filterPlace": "top",
-        "searchButtons": true,
         "validation": {}
       },
       "table": {
@@ -1319,7 +1338,6 @@
         "filterButtonId": "filter",
         "blackResetList": [],
         "filterPlace": "top",
-        "searchButtons": true,
         "validation": {}
       },
       "table": {
