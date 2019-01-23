@@ -147,4 +147,70 @@ stories
         datasource={tableProps.datasource}
       />
     );
+  })
+  .add('LinkCell с action', () => {
+    const tableProps = {
+      headers: [
+        {
+          id: 'header',
+          component: TextTableHeader,
+          label: 'Отправка экшена'
+        }
+      ],
+      cells: [
+        {
+          component: LinkCell,
+          ...LinkCellWithPerformJSON,
+          type: 'text'
+        }
+      ],
+      datasource: [
+        {
+          id: 'id',
+          name: 'Ссылка с экшеном'
+        }
+      ]
+    };
+
+    return (
+      <Table
+        headers={tableProps.headers}
+        cells={tableProps.cells}
+        datasource={tableProps.datasource}
+      />
+    );
+  })
+  .add('Ссылка с url и target=newWindow', () => {
+    const tableProps = {
+      headers: [
+        {
+          id: 'header',
+          component: TextTableHeader,
+          label: 'Отправка экшена'
+        }
+      ],
+      cells: [
+        {
+          component: LinkCell,
+          ...LinkCellWithPerformJSON,
+          type: 'text',
+          url: 'https://google.com/',
+          target: 'newWindow'
+        }
+      ],
+      datasource: [
+        {
+          id: 'id',
+          name: 'Ссылка с url'
+        }
+      ]
+    };
+
+    return (
+      <Table
+        headers={tableProps.headers}
+        cells={tableProps.cells}
+        datasource={tableProps.datasource}
+      />
+    );
   });
