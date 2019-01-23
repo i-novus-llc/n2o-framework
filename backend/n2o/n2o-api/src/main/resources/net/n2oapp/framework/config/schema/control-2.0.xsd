@@ -19,20 +19,21 @@
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
     <xs:element name="file-upload" type="controlFileUploadDefinition"/>
-    <xs:element name="html" type="controlHtml"/>
-    <xs:element name="custom" type="controlCustom"/>
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="select" type="controlSelectDefinition"/>
-    <xs:element name="select-tree" type="controlSelectTreeDefinition"/>
+    <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
     <xs:element name="input-select" type="controlInputSelectDefinition"/>
     <xs:element name="input-select-tree" type="controlSelectTreeDefinition"/>
+    <xs:element name="search-buttons" type="controlSearchButtonsDefinition"/>
+    <xs:element name="html" type="controlHtml"/>
+    <xs:element name="field" type="controlCustom"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
             <xs:element name="hidden" type="controlHiddenDefinition" minOccurs="0"/>
             <xs:element name="text-area" type="controlTextArea" minOccurs="0"/>
-            <xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>
+            <!--<xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>-->
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
@@ -42,15 +43,15 @@
             <xs:element name="date-interval" type="controlDateIntervalDefinition" minOccurs="0"/>
             <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
             <xs:element name="file-upload" type="controlFileUploadDefinition" minOccurs="0"/>
-            <xs:element name="html" type="controlHtml" minOccurs="0"/>
-            <xs:element name="field" type="controlCustom" minOccurs="0"/>
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
-            <xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
+            <!--<xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>-->
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
+            <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
+            <xs:element name="field" type="controlCustom" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку компонент.</xs:documentation>
