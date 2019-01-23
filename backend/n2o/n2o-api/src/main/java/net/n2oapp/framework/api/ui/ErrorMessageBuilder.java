@@ -1,10 +1,7 @@
 package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.N2oValidationException;
-import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.exception.ValidationMessage;
+import net.n2oapp.framework.api.exception.*;
 import org.springframework.context.support.MessageSourceAccessor;
 
 import java.io.PrintWriter;
@@ -28,8 +25,9 @@ public class ErrorMessageBuilder {
     public ResponseMessage build(Exception e) {
         ResponseMessage resp = new ResponseMessage();
         resp.setText(buildText(e));
-        resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
+            if (!(e instanceof N2oUserException))
+                resp.setStacktrace(getStackFrames(getStackTrace(e)));
             resp.setChoice(((N2oException) e).getChoice());
             resp.setSeverityType(((N2oException) e).getSeverity());
             resp.setField(((N2oException) e).getField());
@@ -48,7 +46,6 @@ public class ErrorMessageBuilder {
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());
-                resp.setStacktrace(getStackFrames(getStackTrace(e)));
                 messages.add(resp);
             }
         }
