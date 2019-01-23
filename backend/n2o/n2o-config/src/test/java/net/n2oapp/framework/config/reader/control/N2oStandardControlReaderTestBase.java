@@ -42,7 +42,6 @@ public abstract class N2oStandardControlReaderTestBase {
         assert field.getDependsOn()[0].equals(test);
         assert field.getCssClass().equals(test);
         assert field.getLabelStyle().equals(test);
-        assert field.getFieldSrc().equals(test);
         assert field.getDependencies()[0].getValue().equals(test);
     }
 

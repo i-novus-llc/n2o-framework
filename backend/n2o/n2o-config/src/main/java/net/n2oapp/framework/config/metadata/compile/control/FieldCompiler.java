@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
@@ -21,29 +22,85 @@ import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
+import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
 import java.util.*;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Абстрактная реализация компиляции поля ввода
  */
-public abstract class FieldCompiler<D extends Field, S extends N2oField> implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
+public abstract class FieldCompiler<D extends Field, S extends N2oField> extends ComponentCompiler<D, S> {
 
-    private final String FIELD_REQUIRED_MESSAGE = "n2o.required";
+    @Override
+    protected String getSrcProperty() {
+        return "n2o.api.field.src";
+    }
 
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        field.setId(source.getId());
-        field.setSrc(source.getSrc());
-        field.setVisible(source.getVisible());
-        field.setEnabled(source.getEnabled());
-        field.setProperties(p.mapAttributes(source));
+        compileComponent(field, source, context, p);
+
+        field.setLabel(initLabel(source, p));
+        field.setLabelClass(p.resolveJS(source.getLabelClass()));
+        field.setHelp(p.resolveJS(source.getHelp()));
+        field.setDescription(p.resolveJS(source.getDescription()));
+        field.setClassName(p.resolveJS(source.getCssClass()));
+        compileDefaultValues(field, source, p);
         compileDependencies(field, source);
         initValidations(source, field, context, p);
         compileFilters(field, p);
+    }
+
+    /**
+     * Сборка значения по умолчанию у поля
+     * @param source Исходная модель поля
+     * @param p Процессор сборки
+     * @return Значение по умолчанию поля
+     */
+    protected Object compileDefValues(S source, CompileProcessor p) {
+        return null;
+    }
+
+    private void compileDefaultValues(Field field, S source, CompileProcessor p) {
+        ModelsScope defaultValues = p.getScope(ModelsScope.class);
+        if (defaultValues != null && defaultValues.hasModels()) {
+            Object defValue = null;
+            if (source.getDefaultValue() != null) {
+                defValue = p.resolve(source.getDefaultValue(), source.getDomain());
+            } else {
+                defValue = compileDefValues(source, p);
+            }
+            if (defValue != null) {
+                if (StringUtils.isJs(defValue)) {
+                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
+                    defaultValue.setValue(defValue);
+                    defaultValues.add(field.getId(), defaultValue);
+                } else {
+                    defaultValues.add(field.getId(), new ModelLink(defValue));
+                }
+            }
+        }
+    }
+
+    private String initLabel(S source, CompileProcessor p) {
+        if (source.getNoLabel() == null || !source.getNoLabel()) {
+            String label = p.resolveJS(source.getLabel());
+            FieldSetScope scope = p.getScope(FieldSetScope.class);
+            if (label == null && scope != null) {
+                label = scope.get(source.getId());
+            }
+            if (label == null)
+                label = source.getId();
+            return label;
+        } else
+            return null;
     }
 
     private void compileFilters(Field field, CompileProcessor p) {
@@ -71,6 +128,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
         List<Validation> serverValidations = new ArrayList<>();
         List<Validation> clientValidations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
+        String FIELD_REQUIRED_MESSAGE = "n2o.required";
         if (source.getRequired() != null && source.getRequired()) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
             mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);

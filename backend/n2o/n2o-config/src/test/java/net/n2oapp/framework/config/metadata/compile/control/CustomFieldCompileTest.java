@@ -48,6 +48,8 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getJsonProperties().get("sendEmailUrl"), is("/send/email"));
         assertThat(field.getJsonProperties().get("sendCodeUrl"), is("/send/code"));
         assertThat(field.getJsonProperties().get("codeVerified"), is("{emailSender.status=='send'}"));
+
+
     }
 
 }

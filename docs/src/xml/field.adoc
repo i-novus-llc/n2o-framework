@@ -43,11 +43,6 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |Реализация компонента
 |
 
-|field-src
-|React компонент
-|Реализация кастомного поля
-|
-
 |class
 |Строка
 |CSS класс стилей

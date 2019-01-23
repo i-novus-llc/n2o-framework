@@ -133,7 +133,6 @@ public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends
         setAttribute(element, "label-style", n2oField.getLabelStyle());
         setAttribute(element, "copied", n2oField.getCopied());
         setAttribute(element, "control-style", n2oField.getStyle());
-        setAttribute(element, "layout", n2oField.getFieldSrc());
         setAttribute(element, "src", n2oField.getSrc());
         if (n2oField.getDefaultValue() instanceof String)
             setAttribute(element, "default-value", n2oField.getDefaultValue());

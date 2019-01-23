@@ -66,7 +66,6 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             n2oField.setLabelStyle(getAttributeString(field, "label-style"));
             n2oField.setStyle(getAttributeString(field, "control-style"));
             n2oField.setCssClass(getAttributeString(field, "css-class"));
-            n2oField.setFieldSrc(getAttributeString(field, "layout"));
             n2oField.setSrc(getAttributeString(field, "src"));
             Element dependencies = field.getChild("dependencies", field.getNamespace());
             n2oField.setDependencies(readDependencies(dependencies, field));

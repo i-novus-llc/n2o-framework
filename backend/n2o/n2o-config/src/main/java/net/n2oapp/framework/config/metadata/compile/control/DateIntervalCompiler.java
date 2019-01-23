@@ -25,7 +25,6 @@ public class DateIntervalCompiler  extends StandardFieldCompiler<DateInterval, N
         DateInterval dateInterval = new DateInterval();
         dateInterval.setOutputFormat(p.resolve(property("n2o.format.date.client"), String.class));
         dateInterval.setDateFormat(source.getDateFormat());
-        dateInterval.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.date.interval.src"), String.class)));
         return compileStandardField(dateInterval, source, context, p);
     }
 
@@ -42,5 +41,10 @@ public class DateIntervalCompiler  extends StandardFieldCompiler<DateInterval, N
             values.getValues().put("end", source.getEnd());
         }
         return values;
+    }
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.date.interval.src";
     }
 }
