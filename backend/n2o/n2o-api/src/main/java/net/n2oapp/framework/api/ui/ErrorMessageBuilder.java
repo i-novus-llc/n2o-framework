@@ -25,9 +25,9 @@ public class ErrorMessageBuilder {
     public ResponseMessage build(Exception e) {
         ResponseMessage resp = new ResponseMessage();
         resp.setText(buildText(e));
+        if (!(e instanceof N2oUserException))
+            resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
-            if (!(e instanceof N2oUserException))
-                resp.setStacktrace(getStackFrames(getStackTrace(e)));
             resp.setChoice(((N2oException) e).getChoice());
             resp.setSeverityType(((N2oException) e).getSeverity());
             resp.setField(((N2oException) e).getField());
