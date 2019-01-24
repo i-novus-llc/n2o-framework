@@ -4,7 +4,6 @@
   "src": "CheckboxCell",
   "readOnly": false,
   "widgetId": "Page_Table",
-  "visible": true,
   "dataProvider": {
     "url": "n2o/data",
     "method": "POST"

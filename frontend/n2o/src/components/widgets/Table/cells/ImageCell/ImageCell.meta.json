@@ -5,6 +5,5 @@
     "color": "red"
   },
   "title": "Это кот",
-  "shape": "circle",
-  "visible": true
+  "shape": "circle"
 }

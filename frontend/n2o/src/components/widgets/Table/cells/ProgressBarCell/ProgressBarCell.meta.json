@@ -3,6 +3,5 @@
   "animated": false,
   "striped": true,
   "color": "danger",
-  "size": "normal",
-  "visible": true
+  "size": "normal"
 }

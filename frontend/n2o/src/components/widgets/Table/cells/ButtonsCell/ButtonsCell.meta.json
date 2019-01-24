@@ -4,7 +4,6 @@
   "fieldKey": "name",
   "className" : "n2o",
   "style" : {},
-  "visible": true,
   "buttons": [
     {
       "id": "1",
