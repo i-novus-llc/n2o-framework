@@ -35,20 +35,7 @@ public abstract class N2oListField extends N2oStandardField {
     private String masterFieldId;
     private String detailFieldId;
     private String format;
-
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
-    private Map<String, String> defaultValue;
-
-
-    public Map<String, String> getDefValue() {
-        return defaultValue;
-    }
-
-    public void setDefValue(Map<String, String> defaultValue) {
-        this.defaultValue = defaultValue;
-    }
-
+    private Map<String, String> defValue;
 
     protected abstract boolean isSingle();
 
