@@ -4,6 +4,7 @@ import LinkCell from './LinkCell';
 import meta from './LinkCell.meta';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { Link, HashRouter } from 'react-router-dom';
 
 const setupLinkCell = propsOverride => {
   const props = {
@@ -11,7 +12,9 @@ const setupLinkCell = propsOverride => {
   };
   return mount(
     <Provider store={configureMockStore()({})}>
-      <LinkCell {...props} {...propsOverride} />
+      <HashRouter>
+        <LinkCell {...props} {...propsOverride} />
+      </HashRouter>
     </Provider>
   );
 };
@@ -53,7 +56,7 @@ describe('Тесты LinkCell', () => {
       url: '/n2o/test',
       target: 'application'
     });
-    expect(wrapper.find('a[href="/n2o/test"]').exists()).toEqual(true);
+    expect(wrapper.find(Link).exists()).toEqual(true);
   });
   it('Отрисовывается ссылка по таргету "self"', () => {
     const wrapper = setupLinkCell({
