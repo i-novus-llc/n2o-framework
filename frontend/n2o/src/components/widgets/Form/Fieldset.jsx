@@ -8,10 +8,22 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import ReduxField from './ReduxField';
 import { showFields, hideFields, enableFields, disableFields } from '../../../actions/formPlugin';
-import observeStore from '../../../utils/observeStore';
 import propsResolver from '../../../utils/propsResolver';
-import { setWatchDependency } from './utils';
+import withReRenderDependency from '../../../core/dependencies/withReRenderDependency';
+import { compose } from 'recompose';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
+
+const config = {
+  onChange: function() {
+    const { store } = this.context;
+    const { visible, enabled } = this.props;
+    if (isString(visible) || isString(enabled)) {
+      const formValues = this.getFormValues(store);
+      visible && this.setVisible(propsResolver(visible, formValues));
+      enabled && this.setEnabled(propsResolver(enabled, formValues));
+    }
+  }
+};
 
 /**
  * Компонент - филдсет формы
@@ -86,7 +98,6 @@ class Fieldset extends React.Component {
   constructor(props) {
     super(props);
 
-    this.observeState = this.observeState.bind(this);
     this.setVisible = this.setVisible.bind(this);
     this.setEnabled = this.setEnabled.bind(this);
     this.getFormValues = this.getFormValues.bind(this);
@@ -106,15 +117,6 @@ class Fieldset extends React.Component {
       };
     }
     return null;
-  }
-
-  componentDidMount() {
-    this.observeState();
-  }
-
-  componentWillUnmount() {
-    // unsubscribe deps
-    isFunction(this._observer) && this._observer();
   }
 
   setVisible(nextVisibleField) {
@@ -141,23 +143,6 @@ class Fieldset extends React.Component {
   getFormValues(store) {
     const state = store.getState();
     return makeGetResolveModelSelector(this.props.form)(state);
-  }
-
-  observeState() {
-    const { visible, enabled } = this.props;
-    const { store } = this.context;
-
-    if (isString(visible) || isString(enabled)) {
-      this._observer = observeStore(
-        store,
-        state => setWatchDependency(state, this.props),
-        () => {
-          const formValues = this.getFormValues(store);
-          visible && this.setVisible(propsResolver(visible, formValues));
-          enabled && this.setEnabled(propsResolver(enabled, formValues));
-        }
-      );
-    }
   }
 
   renderRow(rowId, row) {
@@ -196,7 +181,12 @@ class Fieldset extends React.Component {
                   })}
                 {col.fieldsets &&
                   col.fieldsets.map((fieldset, i) => (
-                    <FieldsetContainer key={'set' + i} form={form} {...fieldset} />
+                    <FieldsetContainer
+                      modelPrefix={modelPrefix}
+                      key={'set' + i}
+                      form={form}
+                      {...fieldset}
+                    />
                   ))}
               </Col>
             );
@@ -261,9 +251,12 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const FieldsetContainer = connect(
-  null,
-  mapDispatchToProps
+const FieldsetContainer = compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withReRenderDependency(config)
 )(Fieldset);
 
 export default FieldsetContainer;

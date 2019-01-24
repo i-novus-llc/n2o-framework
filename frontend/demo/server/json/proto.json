@@ -801,6 +801,7 @@
                         "dependency": [],
                         "control": {
                           "src": "DateInterval",
+                          "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }
@@ -914,6 +915,7 @@
             "id": "patrName",
             "fieldKey": "patrName",
             "src": "LinkCell",
+            "visible" : "`name!='Мария'`",
             "actionId": "patrName",
             "action": {
               "id": "patrName",

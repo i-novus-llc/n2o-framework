@@ -90,7 +90,8 @@ describe('Проверка саги actionsImpl', () => {
       getState: () => ({})
     };
     const options = {
-      validate: true
+      validate: true,
+      dispatch: () => {}
     };
     let promise = await runSaga(fakeStore, validate, options).done;
     const result = await Promise.resolve(promise);
