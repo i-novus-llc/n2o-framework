@@ -44,7 +44,6 @@ class InputNumber extends React.Component {
     if (
       prevProps.value !== this.props.value &&
       !isNil(this.props.value) &&
-      !isString(this.props.value) &&
       toNumber(this.props.value) !== toNumber(this.state.value)
     ) {
       this.setState({ value: formatToFloat(this.props.value, this.precision) });
