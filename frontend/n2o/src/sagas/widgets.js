@@ -11,11 +11,12 @@ import {
   pickBy,
   identity
 } from 'lodash';
+import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
 import { CHANGE_SIZE, DATA_REQUEST, DISABLE, RESOLVE } from '../constants/widgets';
-import { PREFIXES } from '../constants/models';
+import { CLEAR, PREFIXES } from '../constants/models';
 import {
   changeCountWidget,
   changePageWidget,
@@ -219,6 +220,10 @@ export function* runResolve(action) {
   } catch (err) {}
 }
 
+export function* clearForm(action) {
+  yield put(reset(action.payload.key));
+}
+
 export function* clearOnDisable(action) {
   const { widgetId } = action.payload;
   yield put(setModel(PREFIXES.datasource, widgetId, null));
@@ -231,6 +236,7 @@ export function* clearOnDisable(action) {
  */
 export const widgetsSagas = [
   fork(getData),
+  takeEvery(CLEAR, clearForm),
   takeEvery(RESOLVE, runResolve),
   takeEvery(DISABLE, clearOnDisable)
 ];
