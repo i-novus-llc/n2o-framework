@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { get } from 'lodash';
 import { Button } from 'reactstrap';
 import withCell from '../../withCell';
-import Link from '../../../../snippets/Link/Link';
+import { Link } from 'react-router-dom';
 import { LinkType } from '../../../../../impl/linkTypes';
 import { LinkCellType } from './linkCellTypes';
 
