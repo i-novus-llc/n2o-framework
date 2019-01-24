@@ -35,6 +35,16 @@ const FileUploaderControl = WrappedComponent => {
       });
     }
 
+    componentDidUpdate(prevProps) {
+      const { value } = this.props;
+      const mappedValue = this.mapFiles(isArray(value) ? value : [value]);
+      if (!isEqual(prevProps.value, value) && !isEmpty(value) && isEmpty(this.state.files)) {
+        this.setState({
+          files: mappedValue || []
+        });
+      }
+    }
+
     mapFiles(files) {
       let currentFiles = [];
       if (!isArray(files)) {
