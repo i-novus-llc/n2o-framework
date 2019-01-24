@@ -10,6 +10,8 @@
                      label-field-id="test"
                      message-field-id="test"
                      url-field-id="test"
-                     request-param="test"/>
+                     request-param="test">
+            <default-value id="1" url="/1" filename="1.txt"/>
+        </file-upload>
     </fields>
 </form>
