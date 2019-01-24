@@ -5,7 +5,15 @@ import { get, set } from 'lodash';
 import withCell from '../../withCell';
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O';
 
-function CheckboxCell({ callActionImpl, updateFieldInModel, model, fieldKey, id, ...rest }) {
+function CheckboxCell({
+  callActionImpl,
+  updateFieldInModel,
+  model,
+  fieldKey,
+  id,
+  visible,
+  ...rest
+}) {
   const onChange = e => {
     const data = set(
       {
@@ -19,13 +27,15 @@ function CheckboxCell({ callActionImpl, updateFieldInModel, model, fieldKey, id,
   };
 
   return (
-    <CheckboxN2O
-      className="сheckbox-сell"
-      inline={true}
-      onChange={onChange}
-      checked={model && get(model, fieldKey || id)}
-      {...rest}
-    />
+    visible && (
+      <CheckboxN2O
+        className="сheckbox-сell"
+        inline={true}
+        onChange={onChange}
+        checked={model && get(model, fieldKey || id)}
+        {...rest}
+      />
+    )
   );
 }
 
@@ -35,11 +45,13 @@ CheckboxCell.propTypes = {
   fieldKey: PropTypes.string,
   className: PropTypes.string,
   readOnly: PropTypes.bool,
-  callInvoke: PropTypes.func
+  callInvoke: PropTypes.func,
+  visible: PropTypes.bool
 };
 
 CheckboxCell.defaultProps = {
-  readOnly: false
+  readOnly: false,
+  visible: true
 };
 
 export default withCell(CheckboxCell);
