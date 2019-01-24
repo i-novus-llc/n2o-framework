@@ -34,9 +34,6 @@ class Calendar extends React.Component {
       calendarType: Calendar.BY_DAYS,
       tempTimeObj: props.value ? this.objFromTime(props.value) : props.time
     };
-    this.hourRef = React.createRef();
-    this.minuteRef = React.createRef();
-    this.secondRef = React.createRef();
     this.nextMonth = this.nextMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
     this.nextYear = this.nextYear.bind(this);
@@ -49,6 +46,9 @@ class Calendar extends React.Component {
     this.setTimeUnit = this.setTimeUnit.bind(this);
     this.setTime = this.setTime.bind(this);
     this.changeCalendarType = this.changeCalendarType.bind(this);
+    this.setHourRef = this.setHourRef.bind(this);
+    this.setMinuteRef = this.setMinuteRef.bind(this);
+    this.setSecondRef = this.setSecondRef.bind(this);
   }
 
   changeCalendarType(type) {
@@ -64,6 +64,18 @@ class Calendar extends React.Component {
         tempTimeObj: props.value ? this.objFromTime(props.value) : props.time
       });
     }
+  }
+
+  setHourRef(el) {
+    this.hourRef = el;
+  }
+
+  setMinuteRef(el) {
+    this.minuteRef = el;
+  }
+
+  setSecondRef(el) {
+    this.secondRef = el;
   }
 
   /**
@@ -371,9 +383,9 @@ class Calendar extends React.Component {
 
   componentDidUpdate() {
     if (this.state.calendarType === Calendar.TIME_PICKER) {
-      this.minuteRef.current.scrollIntoView();
-      this.secondRef.current.scrollIntoView();
-      this.hourRef.current.scrollIntoView();
+      this.minuteRef && this.minuteRef.scrollIntoView();
+      this.secondRef && this.secondRef.scrollIntoView();
+      this.hourRef && this.hourRef.scrollIntoView();
     }
   }
 
@@ -401,7 +413,7 @@ class Calendar extends React.Component {
               <div
                 className={cx('n2o-calendar-time-unit', { active: index === hours })}
                 onClick={() => this.setTimeUnit(index, 'hours')}
-                ref={index === hours && this.hourRef}
+                ref={index === hours ? this.setHourRef : null}
               >
                 {index}
               </div>
@@ -411,7 +423,7 @@ class Calendar extends React.Component {
             {Array.from(new Array(60), (val, index) => (
               <div
                 className={cx('n2o-calendar-time-unit', { active: index === mins })}
-                ref={index === mins && this.minuteRef}
+                ref={index === mins ? this.setMinuteRef : null}
                 onClick={() => this.setTimeUnit(index, 'mins')}
               >
                 {index}
@@ -422,7 +434,7 @@ class Calendar extends React.Component {
             {Array.from(new Array(60), (val, index) => (
               <div
                 className={cx('n2o-calendar-time-unit', { active: index === seconds })}
-                ref={index === seconds && this.secondRef}
+                ref={index === seconds ? this.setSecondRef : null}
                 onClick={() => this.setTimeUnit(index, 'seconds')}
               >
                 {index}
