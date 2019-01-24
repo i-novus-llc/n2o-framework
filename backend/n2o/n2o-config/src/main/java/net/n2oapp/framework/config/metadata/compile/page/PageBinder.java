@@ -9,8 +9,8 @@ import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +42,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
                     bl.setValue(p.resolveText((String) bl.getValue()));
                 }
             });
-            resolveLinks(page.getModels(), page.getWidgets(), p);
+            resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), page.getWidgets()), p);
         }
         if (page.getProperties() != null) {
             page.getProperties().setTitle(p.resolveText(page.getProperties().getTitle(), page.getProperties().getModelLink()));
@@ -55,35 +55,39 @@ public class PageBinder implements BaseMetadataBinder<Page> {
         return page;
     }
 
-    private void resolveLinks(Models models, Map<String, Widget> widgets, CompileProcessor p) {
+    private List<ModelLink> collectFilterLinks(Models models, Map<String, Widget> widgets) {
+        List<ModelLink> links = new ArrayList<>();
         if (widgets != null) {
             for (Widget w : widgets.values()) {
                 if (w.getFilters() != null) {
                     for (Filter f : (List<Filter>) w.getFilters()) {
                         if (f.getReloadable() && f.getLink().getSubModelQuery() != null) {
-                            ModelLink link = new ModelLink(
-                                    f.getLink().getModel(),
-                                    f.getLink().getWidgetId()
-                            );
+                            ReduxModel model = f.getLink().getModel();
+                            String widgetId = f.getLink().getWidgetId();
+                            String fieldId = f.getLink().getSubModelQuery().getSubModel();
+                            ModelLink link = new ModelLink(model, widgetId, fieldId);
+                            f.getLink().setParam(f.getParam());
                             link.setSubModelQuery(f.getLink().getSubModelQuery());
-                            if (models.get(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel()) != null)
-                                link.setValue(models.get(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel()).getValue());
-
-                            models.add(ReduxModel.FILTER, w.getId(), f.getLink().getSubModelQuery().getSubModel(), link);
+                            if (models.get(model, widgetId, fieldId) != null)
+                                link.setValue(models.get(model, widgetId, fieldId).getValue());
+                            if (link.isConst())
+                                models.add(model, widgetId, fieldId, link);
+                            links.add(f.getLink());
                         }
                     }
                 }
             }
         }
-        Iterator<String> it = models.keySet().iterator();
-        while (it.hasNext()) {
-            String key = it.next();
-            ModelLink link = p.resolveLink(models.get(key));
-            if (link.getValue() != null)
-                models.put(key, link);
-            else
-                it.remove();
-        }
+        return links;
+    }
+
+    private void resolveLinks(Models models, List<ModelLink> filterLinks, CompileProcessor p) {
+        models.keySet().forEach(param -> {
+                    ModelLink link = p.resolveLink(models.get(param));
+                    p.resolveSubModels(link, filterLinks);
+                    models.put(param, link);
+                }
+        );
     }
 
     @Override

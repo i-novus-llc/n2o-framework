@@ -5,9 +5,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
-import net.n2oapp.framework.api.script.ScriptProcessor;
-
-import java.util.Objects;
 
 /**
  * Ссылка на модель виджета
@@ -19,6 +16,8 @@ public class ModelLink extends BindLink {
     private String fieldId;
     @Setter
     private SubModelQuery subModelQuery;
+    @Setter
+    private String param;
 
     public ModelLink(Object value) {
         setValue(value);
@@ -38,6 +37,10 @@ public class ModelLink extends BindLink {
     }
 
     public String getFieldId() {
+        if (fieldId != null) return fieldId;
+        if (getFieldValue() != null && getFieldValue().contains(".map(function(t){return t."))
+            return getFieldValue().substring(0, getFieldValue().indexOf("."));
+
         return fieldId != null ? fieldId : getFieldValue();
     }
 
@@ -53,7 +56,7 @@ public class ModelLink extends BindLink {
     }
 
     /**
-     * Эквивалентны ли ссылки на модели без учёта значений и полей.
+     * Эквивалентны ли ссылки на модели.
      *
      * @param o Ссылка
      * @return true - эквивалентны, false - нет
@@ -64,32 +67,25 @@ public class ModelLink extends BindLink {
 
         ModelLink that = (ModelLink) o;
 
-        ModelLink withSubModelQuery;
-        ModelLink withoutSubModelQuery;
+        String thisSubModelQueryLink;
+        String thatSubModelQueryLink;
 
-        if (this.getSubModelQuery() != null && that.getSubModelQuery() != null) {
-            return false;
-        } else if (this.getSubModelQuery() != null) {
-            withSubModelQuery = this;
-            withoutSubModelQuery = that;
-        } else if (that.getSubModelQuery() != null) {
-            withSubModelQuery = that;
-            withoutSubModelQuery = this;
-        } else {
-            return super.equalsLink(o) || Objects.equals(widgetId, that.getWidgetId())
-                    && Objects.equals(model, that.getModel());
-        }
+        String thisFieldId = this.getFieldId();
+        if (this.getSubModelQuery() != null)
+            thisFieldId = this.getSubModelQuery().getSubModel();
+        thisSubModelQueryLink = createBindLink(this.getModel(), this.getWidgetId(), thisFieldId);
 
-        String withSubModelQueryLink;
-        String withoutSubModelQueryLink = createBindLink(withSubModelQuery.getModel(), withSubModelQuery.getWidgetId(), withSubModelQuery.getSubModelQuery().getSubModel());
-        if (withoutSubModelQuery.getValue() == null) {
-            withSubModelQueryLink = createBindLink(withoutSubModelQuery.getModel(), withoutSubModelQuery.getWidgetId(), withoutSubModelQuery.getFieldId());
-        } else {
-            withSubModelQueryLink = withoutSubModelQuery.getBindLink() + "." + ScriptProcessor.removeJsBraces(withoutSubModelQuery.getValue());
-        }
-        if (withoutSubModelQueryLink.equals(withSubModelQueryLink))
-            return true;
-        return withSubModelQueryLink.startsWith(withoutSubModelQueryLink + ".");
+        String thatFieldId = that.getFieldId();
+        if (that.getSubModelQuery() != null)
+            thatFieldId = that.getSubModelQuery().getSubModel();
+        thatSubModelQueryLink = createBindLink(that.getModel(), that.getWidgetId(), thatFieldId);
+
+        if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length()) {
+            return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
+        } else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length()) {
+            return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
+        } else
+            return thisSubModelQueryLink.equals(thatSubModelQueryLink);
     }
 
     private static String createBindLink(ReduxModel model, String widgetId, String fieldId) {

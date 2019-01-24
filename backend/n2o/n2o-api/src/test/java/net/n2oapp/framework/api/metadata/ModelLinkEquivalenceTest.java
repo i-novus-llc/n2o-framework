@@ -67,9 +67,6 @@ public class ModelLinkEquivalenceTest {
         assertFalse(withSubModelQuery1.equalsLink(modelLink1));
         assertFalse(withSubModelQuery1.equalsLink(modelLink2));
 
-        assertFalse(withSubModelQuery1.equalsLink(withSubModelQuery2));
-        assertFalse(withSubModelQuery2.equalsLink(withSubModelQuery1));
-
         assertFalse(modelLink1.equalsLink(modelLink2));
 
         assertFalse(withSubModelQuery1.equalsLink(null));

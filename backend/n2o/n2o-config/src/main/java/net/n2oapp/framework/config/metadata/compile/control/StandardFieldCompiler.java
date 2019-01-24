@@ -43,7 +43,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     private void compileDefaultValues(Field field, S source, CompileProcessor p) {
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
-            Object defValue = null;
+            Object defValue;
             if (source.getDefaultValue() != null) {
                 defValue = p.resolve(source.getDefaultValue(), source.getDomain());
             } else {
@@ -56,7 +56,8 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                     defaultValues.add(field.getId(), defaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
-                    ModelLink modelLink = new ModelLink(defValue);
+                    ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), field.getId());
+                    modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
                     defaultValues.add(field.getId(), modelLink);
                 }

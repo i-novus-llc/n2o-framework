@@ -274,6 +274,7 @@
   },
   "models": {
     "resolve['proto_create2_main'].patrName": {
+      "link": "models.resolve['proto_create2_main'].patrName",
       "value": "Тест"
     }
   },

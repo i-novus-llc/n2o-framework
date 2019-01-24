@@ -345,6 +345,7 @@
   },
   "models": {
     "resolve['proto_patients_update2_main'].patrName": {
+      "link": "models.resolve['proto_patients_update2_main'].patrName",
       "value": "Тест"
     }
   },

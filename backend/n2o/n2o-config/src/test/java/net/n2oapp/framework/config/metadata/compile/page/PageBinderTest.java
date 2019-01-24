@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -50,9 +49,9 @@ public class PageBinderTest extends SourceCompileTestBase {
                 .get(new PageContext("testPageBinders"), new DataSet());
 
         assertThat(page.getModels().get("resolve['testPageBinders_main'].name").getValue(), is("Test"));
-        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), nullValue());
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].gender").getBindLink(), is("models.resolve['testPageBinders_main'].gender"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].gender").getValue()).getValues().get("id"), is("#{test}"));
-        assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getBindLink(), nullValue());
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getBindLink(), is("models.resolve['testPageBinders_main'].birthday"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("begin"), is("01.11.2018"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("end"), is("11.11.2018"));
     }

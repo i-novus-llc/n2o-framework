@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -147,6 +148,14 @@ public interface CompileProcessor {
      * @return ссылка с константой(если получилось разрешить ссылку) или исходная ссылка
      */
     ModelLink resolveLink(ModelLink link);
+
+    /**
+     * Попытаться разрешить вложенные модели ссылки
+     *
+     * @param link  ссылка на значение
+     * @param links исходный список ссылок
+     */
+    void resolveSubModels(ModelLink link, List<ModelLink> links);
 
     /**
      * Заменить в тексте плейсхолдеры на значения, используя модель

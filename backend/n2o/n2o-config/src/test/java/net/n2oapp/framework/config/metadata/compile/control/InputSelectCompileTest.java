@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class InputSelectCompileTest extends SourceCompileTestBase {
@@ -46,7 +45,6 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidgets().get("testInputSelect_main");
 
         Models models = page.getModels();
-        assertThat(models.get("resolve['testInputSelect_main'].testId").getBindLink(), nullValue());
         assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("id"), is(1));
         assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("name"), is("test"));
         assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("isTest"), is(true));
