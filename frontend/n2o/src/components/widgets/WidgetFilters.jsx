@@ -105,9 +105,7 @@ class WidgetFilters extends React.Component {
         defaultValues: newReduxForm
       },
       () => {
-        if (isEmpty(newReduxForm)) {
-          resetFilterModel(this.formName);
-        }
+        resetFilterModel(this.formName);
         setFilterModel(widgetId, newReduxForm);
         fetchWidget(widgetId);
       }
