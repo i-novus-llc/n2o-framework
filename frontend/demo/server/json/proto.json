@@ -689,21 +689,6 @@
             }
           }
         },
-        "patrName": {
-          "id": "patrName",
-          "src": "link",
-          "options": {
-            "path": "/patients/:id/update2",
-            "target": "application",
-            "pathMapping": {
-              "id": {
-                "value": "`id`",
-                "link": "models.resolve['proto_patients']"
-              }
-            },
-            "queryMapping": {}
-          }
-        },
         "vip": {
           "id": "vip",
           "src": "perform",
@@ -916,22 +901,8 @@
             "fieldKey": "patrName",
             "src": "LinkCell",
             "visible" : "`name!='Мария'`",
-            "actionId": "patrName",
-            "action": {
-              "id": "patrName",
-              "src": "link",
-              "options": {
-                "path": "/patients/:id/update2",
-                "target": "application",
-                "pathMapping": {
-                  "id": {
-                    "value": "`id`",
-                    "link": "models.resolve['proto_patients']"
-                  }
-                },
-                "queryMapping": {}
-              }
-            }
+            "url" : "`'/patients/'+id+'/update2'`",
+            "target" : "application"
           },
           {
             "id": "birthday",

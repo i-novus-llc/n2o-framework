@@ -28,11 +28,8 @@
                         </link>
                     </column>
                     <column text-field-id="patrName">
-                        <link visible="{name!='Мария'}">
-                            <a href="/patients/:id/update2">
-                                <path-param name="id" value="{id}"/>
-                            </a>
-                        </link>
+                        <link visible="{name!='Мария'}"
+                              url="/patients/{id}/update2" target="application"/>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
                         <text format="date DD.MM.YYYY"/>
