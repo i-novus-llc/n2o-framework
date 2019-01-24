@@ -21,7 +21,7 @@ class BadgeCell extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { id, model, fieldKey, placement, text, color } = this.props;
+    const { id, model, fieldKey, placement, text, color, visible } = this.props;
     const style = {
       display: 'flex'
     };
@@ -31,12 +31,14 @@ class BadgeCell extends React.Component {
       marginRight: placement === 'left' && 5
     };
     return (
-      <div style={style}>
-        <Text text={text} />
-        <Badge style={badgeStyle} color={color}>
-          {get(model, fieldKey || id)}
-        </Badge>
-      </div>
+      visible && (
+        <div style={style}>
+          <Text text={text} />
+          <Badge style={badgeStyle} color={color}>
+            {get(model, fieldKey || id)}
+          </Badge>
+        </div>
+      )
     );
   }
 }
@@ -47,13 +49,15 @@ BadgeCell.propTypes = {
   model: PropTypes.object,
   placement: PropTypes.oneOf(['left', 'right']),
   text: PropTypes.string,
-  color: PropTypes.oneOf(['secondary', 'primary', 'danger', 'success', 'warning', 'info'])
+  color: PropTypes.oneOf(['secondary', 'primary', 'danger', 'success', 'warning', 'info']),
+  visible: PropTypes.bool
 };
 
 BadgeCell.defaultProps = {
   model: {},
   color: 'secondary',
-  placement: 'right'
+  placement: 'right',
+  visible: true
 };
 
 export default BadgeCell;
