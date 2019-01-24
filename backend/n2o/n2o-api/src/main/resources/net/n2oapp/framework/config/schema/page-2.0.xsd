@@ -64,6 +64,11 @@
                 <xs:documentation>Вёрстка шаблона страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="simplePageDefinition">
@@ -87,6 +92,11 @@
                         <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

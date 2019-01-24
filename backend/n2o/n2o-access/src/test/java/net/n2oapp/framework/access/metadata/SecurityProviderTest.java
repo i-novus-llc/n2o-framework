@@ -48,7 +48,7 @@ public class SecurityProviderTest {
         operation.setProperties(properties);
         when(requestInfo.getOperation()).thenReturn(operation);
 
-        securityProvider.checkAccess(requestInfo);
+        securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
         Assert.fail("Expected exception to be thrown");
     }
 
@@ -69,7 +69,7 @@ public class SecurityProviderTest {
         operation.setProperties(properties);
         when(requestInfo.getOperation()).thenReturn(operation);
 
-        securityProvider.checkAccess(requestInfo);
+        securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
     }
 
     @Test
@@ -94,11 +94,11 @@ public class SecurityProviderTest {
         operation.setProperties(properties);
         when(requestInfo.getOperation()).thenReturn(operation);
 
-        securityProvider.checkAccess(requestInfo);
+        securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
         securityObject.setAnonymous(false);
 
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(UnauthorizedException.class));
@@ -128,7 +128,7 @@ public class SecurityProviderTest {
         operation.setProperties(properties);
         when(requestInfo.getOperation()).thenReturn(operation);
 
-        securityProvider.checkAccess(requestInfo);
+        securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -154,7 +154,7 @@ public class SecurityProviderTest {
         operation.setProperties(properties);
         when(requestInfo.getOperation()).thenReturn(operation);
 
-        securityProvider.checkAccess(requestInfo);
+        securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
         Assert.fail("Expected exception to be thrown");
     }
 
@@ -187,7 +187,7 @@ public class SecurityProviderTest {
         when(requestInfo.getOperation()).thenReturn(operation);
 
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -196,7 +196,7 @@ public class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "admin")).thenReturn(false);
 
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -232,7 +232,7 @@ public class SecurityProviderTest {
         when(requestInfo.getOperation()).thenReturn(operation);
 
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -241,7 +241,7 @@ public class SecurityProviderTest {
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(false);
 
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -277,21 +277,21 @@ public class SecurityProviderTest {
         when(requestInfo.getOperation()).thenReturn(operation);
 
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n1")).thenReturn(false);
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n2")).thenReturn(false);
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -333,7 +333,7 @@ public class SecurityProviderTest {
         securityObject.setPermissions(Arrays.asList("p0", "p1"));
         securityObject.setRoles(Arrays.asList("r0", "r1"));
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -341,7 +341,7 @@ public class SecurityProviderTest {
 
         when(permissionApi.hasUsername(userContext, "n0")).thenReturn(true);
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -349,7 +349,7 @@ public class SecurityProviderTest {
 
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(true);
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -357,7 +357,7 @@ public class SecurityProviderTest {
 
         when(permissionApi.hasRole(userContext, "r0")).thenReturn(true);
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -367,7 +367,7 @@ public class SecurityProviderTest {
         securityObject.setPermissions(Arrays.asList("p0"));
         securityObject.setRoles(Arrays.asList("r1"));
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -375,7 +375,7 @@ public class SecurityProviderTest {
 
         securityObject.setRoles(Arrays.asList("r0", "r1"));
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -385,7 +385,7 @@ public class SecurityProviderTest {
         securityObject.setPermissions(null);
         securityObject.setUsernames(null);
         try {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -405,6 +405,6 @@ public class SecurityProviderTest {
         operation.setProperties(properties);
         when(requestInfo.getOperation()).thenReturn(operation);
 
-        securityProvider.checkAccess(requestInfo);
+        securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
     }
 }

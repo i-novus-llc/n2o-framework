@@ -29,21 +29,21 @@ public class N2oSecurityModule extends N2oModule {
 
     @Override
     public void processAction(ActionRequestInfo requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
-        securityProvider.checkAccess(requestInfo);
+        securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
 
     }
 
     @Override
     public void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         if (requestInfo.getUpload().equals(UploadType.query)) {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getQuery(), requestInfo.getUser());
         }
     }
 
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
         if (requestInfo.getUpload().equals(UploadType.query)) {
-            securityProvider.checkAccess(requestInfo);
+            securityProvider.checkAccess(requestInfo.getQuery(), requestInfo.getUser());
         }
     }
 }
