@@ -8,7 +8,7 @@ import { setWatchDependency } from '../../components/widgets/Form/utils';
  * @param Config - объект с функцией onChange, которая будет выполнена при изменении
  * зависимого поля
  * @reactProps dependencySelector - селектор выбора значений
- * @returns {function(*): Wrapper}
+ * @returns {function}
  * @example
  * compose(
  *    hoc1,
