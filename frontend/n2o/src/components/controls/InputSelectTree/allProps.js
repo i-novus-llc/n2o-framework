@@ -28,6 +28,12 @@ export const defaultProps = {
   allowClear: true,
   placeholder: '',
   showSearch: true,
+  dropdownPopupAlign: {
+    points: ['tl', 'bl'],
+    overflow: {
+      adjustY: false
+    }
+  },
   onSearch: () => {},
   onSelect: () => {},
   onChange: () => {},
@@ -69,5 +75,6 @@ export const propTypes = {
   onSearch: PropTypes.func,
   expandPopUp: PropTypes.bool,
   ajax: PropTypes.bool,
-  handleItemOpen: PropTypes.func
+  handleItemOpen: PropTypes.func,
+  dropdownPopupAlign: PropTypes.object
 };

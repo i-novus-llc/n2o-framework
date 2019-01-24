@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
@@ -127,7 +126,7 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public <D extends Compiled> void addRoute(String urlPattern, CompileContext<D, ?> context) {
-        env.getRouteRegister().addRoute(new RouteInfo(urlPattern, context));
+        env.getRouteRegister().addRoute(urlPattern, context);
     }
 
     @SuppressWarnings("unchecked")

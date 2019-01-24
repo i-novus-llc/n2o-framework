@@ -28,7 +28,7 @@
                         </link>
                     </column>
                     <column text-field-id="patrName">
-                        <link>
+                        <link visible="{name!='Мария'}">
                             <a href="/patients/:id/update2">
                                 <path-param name="id" value="{id}"/>
                             </a>
@@ -62,7 +62,7 @@
                     <row>
                         <input-text id="surname"/>
                         <input-text id="name"/>
-                        <date-interval id="bdate" label="Дата рождения"/>
+                        <date-interval id="bdate" label="Дата рождения" date-format="DD.MM.YYYY"/>
                     </row>
                     <row>
                         <col size="10">
@@ -78,7 +78,7 @@
                                     upload="defaults" focus-after-submit="true"
                                     redirect-url-after-submit="../:id/update2"/>
                     </button>
-                    <button id="update" label="Изменить" icon="fa fa-pencil">
+                    <button id="update_patient" label="Изменить" icon="fa fa-pencil">
                         <show-modal page-id="ProtoPatient" submit-operation-id="update" focus-after-submit="true"
                                     detail-field-id="id" page-name="Карточка пациента: {id}"/>
                     </button>

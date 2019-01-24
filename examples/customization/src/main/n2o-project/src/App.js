@@ -1,27 +1,33 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import N2o from 'n2o';
+import layouts from './components/layouts';
+import widgets from './components/widgets';
+import regions from './components/regions';
+import controls from './components/controls';
+import cells from './components/cells';
+import fieldsets from './components/fieldsets';
+import headers from './components/headers';
+import fields from './components/fields';
 
-import TestPage from './pages/TestPage';
+const config = {
+    layouts,
+    regions,
+    widgets,
+    controls,
+    cells,
+    fieldsets,
+    headers,
+    fields
+};
 
 class App extends Component {
   constructor(props) {
     super(props);
   }
 
-  generateProjectRoutes() {
-    return [
-      {
-        path: '/TestPage/manual',
-        component: TestPage,
-      }
-    ]
-  }
-
-
   render() {
     return (
-      <N2o routes={this.generateProjectRoutes()} />
+      <N2o {...config} />
     );
   }
 }

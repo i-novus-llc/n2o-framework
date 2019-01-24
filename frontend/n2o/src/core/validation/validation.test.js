@@ -45,6 +45,9 @@ describe('Проверка пресетов', () => {
     it('не валидное значение', () => {
       expect(required('test', { test2: 'test' })).toBe(false);
     });
+    it('Проверка dot нотации в пути во вложенных обьектах', () => {
+      expect(required('test2.test', { test2: { test: 'test' } })).toBe(true);
+    });
   });
   describe('Проверка condition пресета', () => {
     it('валидное значение', () => {
@@ -145,12 +148,12 @@ describe('Проверка валидатора', () => {
     expect.assertions(2);
     const res = await validator({ field2: 'test1', field4: null, field8: 'qwe' }, dispatch);
     expect(res).toBe(true);
-    expect(dispatched.length).toBe(3);
+    expect(dispatched.length).toBe(1);
   });
   it('есть ошибки, когда форма пустая', async () => {
     expect.assertions(2);
     const res = await validator({}, dispatch);
     expect(res).toBe(true);
-    expect(dispatched.length).toBe(3);
+    expect(dispatched.length).toBe(1);
   });
 });

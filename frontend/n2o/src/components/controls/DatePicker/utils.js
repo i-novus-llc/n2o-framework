@@ -129,19 +129,40 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
  * @param defaultTime
  * @param defaultName
  */
-export function mapToDefaultTime(val, defaultTime, defaultName, timeFormat) {
+export function mapToDefaultTime(val, defaultTime, defaultName, timeFormat, format) {
   if (Array.isArray(val)) {
     let res = {};
     val.map(input => {
       res[input.name] = {
-        hours: moment(input.defaultTime || defaultTime || '00:00', timeFormat).hour() || 0,
-        mins: moment(input.defaultTime || defaultTime || '00:00', timeFormat).minute() || 0,
-        seconds: moment(input.defaultTime || defaultTime || '00:00', timeFormat).second() || 0,
+        hours:
+          moment(input.value, format).hour() ||
+          moment(input.defaultTime || '00:00', timeFormat).hour() ||
+          0,
+        mins:
+          moment(input.value, format).minute() ||
+          moment(input.defaultTime || '00:00', timeFormat).minute() ||
+          0,
+        seconds:
+          moment(input.value, format).second() ||
+          moment(input.defaultTime || '00:00', timeFormat).second() ||
+          0,
         hasDefaultTime: !!input.defaultTime || !!defaultTime
       };
     });
     return res;
   }
+
+  if (val) {
+    return {
+      [defaultName]: {
+        hours: moment(val, format).hour(),
+        mins: moment(val, format).minute(),
+        seconds: moment(val, format).second(),
+        hasDefaultTime: !!defaultTime
+      }
+    };
+  }
+
   return {
     [defaultName]: {
       hours: moment(defaultTime, timeFormat).hour(),

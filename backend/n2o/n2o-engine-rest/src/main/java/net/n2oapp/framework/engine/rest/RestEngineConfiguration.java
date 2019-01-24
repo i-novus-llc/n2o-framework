@@ -32,6 +32,7 @@ public class RestEngineConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public RestDataProviderEngine restDataProviderEngine(ApacheRestClient restClient) {
         RestDataProviderEngine restDataProviderEngine = new RestDataProviderEngine(restClient, restClient.getObjectMapper());
         restDataProviderEngine.setBaseRestUrl(baseRestUrl);

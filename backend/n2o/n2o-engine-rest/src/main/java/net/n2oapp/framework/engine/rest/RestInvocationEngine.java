@@ -16,7 +16,7 @@ import java.util.Map;
 @Deprecated
 public class RestInvocationEngine implements MapInvocationEngine<N2oRestInvocation> {
 
-    private DateFormatSerializingTemplate<DataSet> dateFormatSerializingTemplate = new DateFormatSerializingTemplate<>();
+    private DateFormatSerializingTemplate<Object> dateFormatSerializingTemplate = new DateFormatSerializingTemplate<>();
 
     private RestClient restClient;
     private RestProcessingEngine processing;
@@ -31,7 +31,7 @@ public class RestInvocationEngine implements MapInvocationEngine<N2oRestInvocati
     public Object invoke(N2oRestInvocation invocation, Map<String, Object> data) {
         String query = invocation.getQuery();
         final String method = invocation.getMethod();
-        Map<String, Object> args = new HashMap<> ();
+        Map<String, Object> args = new HashMap<>();
         data.forEach(args::put);
         query = resolvePathPlaceholders(query, args);
         final String finalQuery = query;
@@ -46,8 +46,8 @@ public class RestInvocationEngine implements MapInvocationEngine<N2oRestInvocati
         });
     }
 
-    private DataSet executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
-                                 Integer proxyPort) throws ApacheRestClient.RestException {
+    private Object executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
+                                Integer proxyPort) throws ApacheRestClient.RestException {
 
         Map<String, String> headers = new HashMap<>();
         args = new HashMap<>(args);

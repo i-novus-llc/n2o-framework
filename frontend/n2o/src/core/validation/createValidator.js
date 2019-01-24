@@ -1,7 +1,20 @@
-import { isObject, isArray, isBoolean, isFunction, each, isEmpty, find, pickBy, get } from 'lodash';
+import {
+  isObject,
+  isArray,
+  isBoolean,
+  isFunction,
+  each,
+  isEmpty,
+  find,
+  pickBy,
+  get,
+  compact,
+  map
+} from 'lodash';
 import { isPromise } from '../../tools/helpers';
 import * as presets from './presets';
 import { addFieldMessage } from '../../actions/formPlugin';
+import { batchActions } from 'redux-batched-actions/lib/index';
 
 function findPriorityMessage(messages) {
   return (
@@ -22,9 +35,9 @@ function hasError(messages) {
     .reduce((res, msg) => msg.severity === 'danger' || res, false);
 }
 
-export default function createValidator(validationConfig = {}, formName, store) {
+export default function createValidator(validationConfig = {}, formName, state) {
   return {
-    asyncValidate: validateField(validationConfig, formName, store),
+    asyncValidate: validateField(validationConfig, formName, state),
     asyncChangeFields: Object.keys(validationConfig || {})
   };
 }
@@ -33,10 +46,14 @@ export default function createValidator(validationConfig = {}, formName, store) 
  * функция валидации
  * @param validationConfig
  * @param formName
- * @param store
+ * @param state
+ * @param isTouched
+ * @returns {Promise<any[]>}
  */
-export const validateField = (validationConfig, formName, store) => (values, dispatch) => {
-  const state = store && store.getState();
+export const validateField = (validationConfig, formName, state, isTouched = false) => (
+  values,
+  dispatch
+) => {
   const registeredFields = get(state, [formName, 'registeredFields']);
   const validation = pickBy(validationConfig, (value, key) =>
     get(registeredFields, `${key}.visible`, true)
@@ -84,10 +101,17 @@ export const validateField = (validationConfig, formName, store) => (values, dis
     }
   });
   return Promise.all(promiseList).then(() => {
-    each(errors, (messages, fieldId) => {
-      !isEmpty(messages) &&
-        dispatch(addFieldMessage(formName, fieldId, findPriorityMessage(messages)));
-    });
+    const messagesAction = compact(
+      map(
+        errors,
+        (messages, fieldId) =>
+          !isEmpty(messages) &&
+          addFieldMessage(formName, fieldId, findPriorityMessage(messages), isTouched)
+      )
+    );
+
+    dispatch(batchActions(messagesAction));
+
     return hasError(errors);
   });
 };

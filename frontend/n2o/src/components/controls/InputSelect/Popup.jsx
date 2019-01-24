@@ -29,7 +29,7 @@ class Popup extends React.Component {
    */
 
   render() {
-    const { isExpanded, children, expandPopUp } = this.props;
+    const { isExpanded, children, expandPopUp, flip } = this.props;
 
     return (
       <DropdownMenu
@@ -37,6 +37,7 @@ class Popup extends React.Component {
           'drop-up': this._displayTop(),
           expandPopUp
         })}
+        flip={flip}
         ref={el => {
           this.popUp = el;
         }}
@@ -53,7 +54,8 @@ class Popup extends React.Component {
 Popup.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
   children: PropTypes.node,
-  expandPopUp: PropTypes.string
+  expandPopUp: PropTypes.string,
+  flip: PropTypes.bool
 };
 
 export default pure(Popup);

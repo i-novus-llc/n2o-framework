@@ -46,7 +46,7 @@ ButtonUploader.propTypes = {
   autoUpload: PropTypes.bool,
   visible: PropTypes.bool,
   disabled: PropTypes.bool,
-  name: PropTypes.string,
+  requestParam: PropTypes.string,
   maxSize: PropTypes.number,
   minSize: PropTypes.number,
   multiple: PropTypes.bool,

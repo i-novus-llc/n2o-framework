@@ -2,6 +2,7 @@
     <fields>
         <file-upload id="testId" label="Загрузчик файлов" class="custom-class" enabled="true" ajax="false"
                      upload-url="/n2o/data" delete-url="/n2o/data/delete" show-size="true" label-field-id="customName"
-                     value-field-id="customId" message-field-id="customResponse" url-field-id="customLink" multi="false"/>
+                     value-field-id="customId" message-field-id="customResponse" url-field-id="customLink" multi="false"
+                     request-param="avatar"/>
     </fields>
 </form>

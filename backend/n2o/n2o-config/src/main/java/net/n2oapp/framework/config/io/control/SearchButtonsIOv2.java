@@ -3,10 +3,12 @@ package net.n2oapp.framework.config.io.control;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
+import org.springframework.stereotype.Component;
 
 /**
  * Чтение/запись базовых свойств компонента SearchButtons (кнопки фильтра)
  */
+@Component
 public class SearchButtonsIOv2 extends FieldIOv2<N2oSearchButtons>{
     @Override
     public Class<N2oSearchButtons> getElementClass() {

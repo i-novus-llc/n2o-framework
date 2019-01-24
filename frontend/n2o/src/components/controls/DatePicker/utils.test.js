@@ -76,18 +76,31 @@ describe('utils', () => {
     let defaultTime = '11:11';
     const defaultName = 'singleInput';
     const timeFormat = 'hh:mm:ss';
+    const format = 'DD/MM/YYYY hh:mm:ss';
     expect(mapToDefaultTime(val, defaultTime, defaultName, timeFormat).beginDate).toMatchObject({
       hours: 1,
       mins: 1
     });
-    expect(mapToDefaultTime(val, defaultTime, defaultName, timeFormat).endDate).toMatchObject({
-      hours: 11,
-      mins: 11
+
+    expect(
+      mapToDefaultTime(val, defaultTime, defaultName, timeFormat, format).endDate
+    ).toMatchObject({
+      hours: 0,
+      mins: 0
     });
     val = '11/11/1111';
+
     expect(mapToDefaultTime(val, defaultTime, defaultName, timeFormat)[defaultName]).toMatchObject({
-      hours: 11,
-      mins: 11
+      hours: 0,
+      mins: 0
+    });
+
+    val = '11/11/1111 01:05:33';
+
+    expect(mapToDefaultTime(val, defaultTime, defaultName, timeFormat)[defaultName]).toMatchObject({
+      hours: 1,
+      mins: 5,
+      seconds: 33
     });
   });
 });

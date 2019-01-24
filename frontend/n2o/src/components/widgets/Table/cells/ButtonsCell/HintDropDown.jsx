@@ -25,18 +25,18 @@ import SecurityCheck from '../../../../../core/auth/SecurityCheck';
  * @returns {*}
  * @constructor
  */
-function HintDropDown({ uId, label, hint, visible, menu, icon, onClick, security, ...rest }) {
+function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security, ...rest }) {
   const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
   const dropdownProps = pick(rest, ['disabled', 'direction', 'active', 'color', 'size']);
 
-  const createDropDownMenu = ({ label, visible, icon, action, security, ...itemProps }) => {
+  const createDropDownMenu = ({ title, visible, icon, action, security, ...itemProps }) => {
     const handlerClick = action => () => onClick(action);
 
     const renderItem = () =>
       defaultTo(visible, true) ? (
         <DropdownItem {...itemProps} onClick={handlerClick(action)}>
           {icon && <Icon name={icon} />}
-          {label}
+          {title}
         </DropdownItem>
       ) : null;
 
@@ -62,7 +62,7 @@ function HintDropDown({ uId, label, hint, visible, menu, icon, onClick, security
         )}
         <DropdownToggle {...dropdownProps} id={uId}>
           {icon && <Icon name={icon} />}
-          {label}
+          {title}
           <Icon className="n2o-dropdown-icon" name="fa fa-angle-down" />
         </DropdownToggle>
         <DropdownMenu positionFixed={true} modifiers={MODIFIERS}>
@@ -84,7 +84,7 @@ function HintDropDown({ uId, label, hint, visible, menu, icon, onClick, security
 }
 
 HintDropDown.propTypes = {
-  label: PropTypes.string,
+  title: PropTypes.string,
   hint: PropTypes.string,
   visible: PropTypes.bool,
   disabled: PropTypes.bool,

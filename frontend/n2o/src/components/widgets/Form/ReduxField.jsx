@@ -3,11 +3,24 @@ import PropTypes from 'prop-types';
 import { Field as ReduxFormField } from 'redux-form';
 import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
-import { pure, compose } from 'recompose';
-import observeStore from '../../../utils/observeStore';
-import { setWatchDependency } from './utils';
-import { fetchIfChangeDependencyValue } from './utils';
-import { isEqual } from 'lodash';
+import { pure, compose, withProps } from 'recompose';
+import { isEqual, some } from 'lodash';
+import withReRenderDependency from '../../../core/dependencies/withReRenderDependency';
+import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
+
+const config = {
+  onChange: function({ dependency }) {
+    if (!this.controlRef) return;
+    const { _fetchData, size, labelFieldId } = this.controlRef.props;
+    let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
+    if (haveReRenderDependency) {
+      _fetchData({
+        size,
+        [`sorting.${labelFieldId}`]: 'ASC'
+      });
+    }
+  }
+};
 
 /**
  * Поле для {@link ReduxForm}
@@ -24,45 +37,12 @@ class ReduxField extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      state: null
-    };
-
-    this.onDependencyChange = this.onDependencyChange.bind(this);
-    this.observeState = this.observeState.bind(this);
     this.setRef = this.setRef.bind(this);
     this.Field = compose(withFieldContainer)(props.component);
   }
 
-  componentDidMount() {
-    this.observeState();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    fetchIfChangeDependencyValue(prevState, this.state, this.controlRef);
-  }
-
-  componentWillUnmount() {
-    this._observer && this._observer();
-  }
-
-  setRef(node) {
-    this.controlRef = node;
-  }
-
-  onDependencyChange(state) {
-    this.setState({ state });
-  }
-
-  observeState() {
-    const { store } = this.context;
-    this._observer = observeStore(
-      store,
-      state => setWatchDependency(state, this.props),
-      currentState => {
-        this.onDependencyChange(currentState);
-      }
-    );
+  setRef(el) {
+    this.controlRef = el;
   }
 
   render() {
@@ -90,4 +70,4 @@ ReduxField.propTypes = {
   component: PropTypes.node
 };
 
-export default pure(ReduxField);
+export default compose(withReRenderDependency(config))(ReduxField);
