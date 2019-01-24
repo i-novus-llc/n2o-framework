@@ -43,7 +43,7 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.otherAttributes(e, Namespace.NO_NAMESPACE, map);
     }
 
-    private void defaultValue(Element e, Map map, IOProcessor p) {
+    private void defaultValue(Element e, Map<String, String> map, IOProcessor p) {
         p.otherAttributes(e, Namespace.NO_NAMESPACE, map);
     }
 }
