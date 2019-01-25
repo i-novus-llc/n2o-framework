@@ -1,22 +1,33 @@
+import axios from 'axios';
+
 const Size = {
   0: 'Б',
   1: 'КБ',
   2: 'МБ'
 };
 
-export function post(url, file, onProgress, onUpload) {
-  const xhr = new XMLHttpRequest();
-  xhr.upload.onprogress = onProgress;
-  xhr.onreadystatechange = () => onUpload(xhr);
-  xhr.open('POST', url, true);
-  xhr.send(file);
-  return xhr;
+export function post(url, file, onProgress, onUpload, onError) {
+  axios
+    .post(url, file, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: onProgress
+    })
+    .then(function(response) {
+      onUpload(response);
+    })
+    .catch(function(error) {
+      if (error.response) {
+        onError(error.response.data || error.message, error.response.status);
+      } else {
+        onError(error.message);
+      }
+    });
 }
 
 export function deleteFile(url, id) {
-  const xhr = new XMLHttpRequest();
-  xhr.open('DELETE', url + `/${id}`, true);
-  xhr.send();
+  axios.delete(`${url}/${id}`);
 }
 
 export function convertSize(size, step = 0) {

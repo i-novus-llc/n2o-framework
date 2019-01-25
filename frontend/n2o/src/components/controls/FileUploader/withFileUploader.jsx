@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, isEqual, isArray } from 'lodash';
-import merge from 'deepmerge';
+import { isEmpty, isEqual, isArray, isString } from 'lodash';
 import { post, deleteFile } from './utils';
 import { id } from '../../../utils/id';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
@@ -168,6 +167,7 @@ const FileUploaderControl = WrappedComponent => {
         if (!this.requests[file.id]) {
           const onProgress = this.onProgress.bind(this, file.id);
           const onUpload = this.onUpload.bind(this, file.id);
+          const onError = this.onError.bind(this, file.id);
           if (labelFieldId !== 'name') {
             file[labelFieldId] = file.name;
           }
@@ -182,7 +182,7 @@ const FileUploaderControl = WrappedComponent => {
           });
           const formData = new FormData();
           formData.append(requestParam, file);
-          this.requests[file.id] = post(url, formData, onProgress, onUpload);
+          this.requests[file.id] = post(url, formData, onProgress, onUpload, onError);
         }
       });
     }
@@ -227,22 +227,19 @@ const FileUploaderControl = WrappedComponent => {
     /**
      * Upload event
      * @param id
-     * @param xhr
+     * @param response
      */
-    onUpload(id, xhr) {
-      if (xhr.status < 200 || xhr.status >= 300) {
-        this.onError(id, xhr.statusText, xhr.status);
-      }
-      if (xhr.readyState === XMLHttpRequest.DONE && xhr.status >= 200 && xhr.status < 300) {
-        const file = JSON.parse(xhr.responseText);
-        const size = xhr.getResponseHeader('Content-Length');
+    onUpload(id, response) {
+      if (response.status < 200 || response.status >= 300) {
+        this.onError(id, response.statusText, response.status);
+      } else {
+        const file = response.data;
         this.setState({
           files: [
             ...this.state.files.map(item => {
               if (item.id === id) {
                 return {
                   ...this.fileAdapter(file),
-                  size,
                   loading: false
                 };
               }
@@ -265,12 +262,10 @@ const FileUploaderControl = WrappedComponent => {
         uploading[id] = false;
       }
       this.setState({
-        uploading
-      });
-      this.setState({
+        uploading,
         ...this.state.files.map(file => {
           if (file.id === id) {
-            file.error = error || status;
+            file.error = isString(error) ? error : error[this.props.responseFieldId] || status;
           }
         })
       });

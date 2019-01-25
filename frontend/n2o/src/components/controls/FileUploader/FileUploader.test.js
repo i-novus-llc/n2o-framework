@@ -1,10 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import mock from 'xhr-mock';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import ButtonUploader from './ButtonUploader';
 import DropZone from './DropZone';
 
-mock.setup();
+const mock = new MockAdapter(axios);
 
 const props = {
   label: 'Загрузчик файлов',
@@ -268,17 +269,12 @@ describe('FileUploader Тесты', () => {
   });
 
   it('Проверка отправки запросов', () => {
-    mock.post('/n2o/data', {
-      readyState: XMLHttpRequest.DONE,
-      status: 201,
-      getResponseHeader: () => 83921,
-      body: JSON.stringify({
-        customId: undefined,
-        customName: 'файл с сервера.png',
-        customStatus: 'success',
-        customResponse: 'response',
-        customLink: 'google.com'
-      })
+    mock.onPost('/n2o/data').reply(200, {
+      customId: undefined,
+      customName: 'файл с сервера.png',
+      customStatus: 'success',
+      customResponse: 'response',
+      customLink: 'google.com'
     });
 
     const button = setupButton({
@@ -302,7 +298,7 @@ describe('FileUploader Тесты', () => {
       expect(button.state().files[0]).toEqual({
         id: undefined,
         name: 'файл с сервера.png',
-        size: null,
+        size: undefined,
         status: 'success',
         response: 'response',
         link: 'google.com',
@@ -322,16 +318,14 @@ describe('FileUploader Тесты', () => {
       ]
     });
     button.instance().onUpload(2, {
-      readyState: XMLHttpRequest.DONE,
       status: 201,
-      getResponseHeader: () => 100,
-      responseText: JSON.stringify({
+      data: {
         customId: 2,
         customName: 'newFile.png',
         customSize: 100,
         customLink: 'link',
         customStatus: 'success'
-      })
+      }
     });
     button.update();
     setImmediate(() => {
