@@ -51,6 +51,11 @@ public class AccessConfiguration {
     private Boolean defaultFilterAccess;
 
     @Bean
+    public SecurityProvider securityProvider(PermissionApi permissionApi) {
+        return new SecurityProvider(permissionApi);
+    }
+
+    @Bean
     public N2oSecurityModule n2oSecurityModule(PermissionApi permissionApi){
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         N2oSecurityModule n2oSecurityModule = new N2oSecurityModule(securityProvider);
