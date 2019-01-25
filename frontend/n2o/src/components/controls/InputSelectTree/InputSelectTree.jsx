@@ -99,6 +99,7 @@ function InputSelectTree({
   className,
   intl,
   dropdownPopupAlign,
+  ref,
   ...rest
 }) {
   const popupProps = {
@@ -261,8 +262,6 @@ function InputSelectTree({
   return (
     <TreeSelect
       tabIndex={-1}
-      onFocus={onFocus}
-      onBlur={onBlur}
       {...value && { value: setValue(value) }}
       onDropdownVisibleChange={handleDropdownVisibleChange}
       className={cx('n2o', className)}
@@ -294,18 +293,19 @@ function InputSelectTree({
         id: 'inputSelectTree.searchPlaceholder',
         defaultMessage: searchPlaceholder || ' '
       })}
-      // ref={e => {
-      //   if (e) {
-      //     e.onSelectorBlur = (e) => {
-      //       onBlur(e);
-      //       return true;
-      //     };
-      //     e.onSelectorFocus = (e) => {
-      //       onFocus(e);
-      //       return true;
-      //     };
-      //   }
-      // }}
+      ref={e => {
+        if (e) {
+          ref && ref(e);
+          e.onSelectorBlur = e => {
+            onBlur(e);
+            return true;
+          };
+          e.onSelectorFocus = e => {
+            onFocus(e);
+            return true;
+          };
+        }
+      }}
       {...rest}
     >
       {children}
