@@ -34,6 +34,34 @@ const setupDropZone = propsOverride => {
 
 describe('FileUploader Тесты', () => {
   describe('Тесты ButtonUploader', () => {
+    it('Меняет состояние при update props value', () => {
+      const button = setupButton();
+      expect(button.state()).toEqual({
+        files: []
+      });
+      button.setProps({
+        value: {
+          customId: 1,
+          customName: 'filename.test',
+          customStatus: 'success',
+          customSize: '1024',
+          customLink: '/test'
+        }
+      });
+      expect(button.state()).toEqual({
+        files: [
+          {
+            id: 1,
+            name: 'filename.test',
+            status: 'success',
+            size: '1024',
+            response: undefined,
+            link: '/test'
+          }
+        ]
+      });
+    });
+
     it('Отрисовывается', () => {
       const button = setupButton();
       expect(button.find('.n2o-button-uploader').exists()).toEqual(true);

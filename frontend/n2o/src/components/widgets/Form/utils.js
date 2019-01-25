@@ -1,4 +1,5 @@
 import _, { isEqual, get, map, reduce, set } from 'lodash';
+import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -55,16 +56,11 @@ export function fetchIfChangeDependencyValue(prevState, state, ref) {
 const pickByPath = (object, arrayToPath) =>
   reduce(arrayToPath, (o, p) => set(o, p, get(object, p)), {});
 
-const DEPENDENCY_TYPES = {
-  RE_RENDER: 'reRender'
-};
-
 export const setWatchDependency = (state, props) => {
-  const { dependency, form } = props;
-
+  const { dependency, form, modelPrefix } = props;
   const pickByReRender = (acc, { type, on }) => {
     if (on && type === DEPENDENCY_TYPES.RE_RENDER) {
-      const formOn = map(on, item => ['form', form, 'values', on].join('.'));
+      const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'));
       return { ...acc, ...pickByPath(state, formOn) };
     }
   };

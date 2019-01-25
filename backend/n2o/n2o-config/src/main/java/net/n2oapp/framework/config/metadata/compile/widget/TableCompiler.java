@@ -175,9 +175,9 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         AbstractTable.Filter filter = new AbstractTable.Filter();
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
-        filter.setBlackResetList(Collections.EMPTY_LIST);//todo
+        filter.setBlackResetList(Collections.EMPTY_LIST);
         filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));
-        filter.setSearchButtons(p.cast(source.getSearchButtons(), true));
+        filter.setHideButtons(p.cast(source.getSearchButtons(), true) ? null : true);
         return filter;
     }
 

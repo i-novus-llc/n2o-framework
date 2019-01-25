@@ -23,6 +23,7 @@ import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
+import net.n2oapp.framework.engine.data.N2oOperationExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
@@ -359,7 +360,7 @@ public class DataControllerTest {
 
         Mockito.when(invocationFactory.produce(Mockito.any(Class.class))).thenReturn(testDataProviderEngine);
 
-        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory, null);
+        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory, null, null);
 
         N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
         Map<String, N2oModule> moduleMap = new HashMap<>();
@@ -367,7 +368,7 @@ public class DataControllerTest {
         ObjectMapper mapper = new ObjectMapper();
         DomainProcessor domainProcessor = new DomainProcessor(mapper, "dd.MM.yyyy");
 
-        N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor);
+        N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, new N2oOperationExceptionHandler());
 
         ApplicationContext context = Mockito.mock(ApplicationContext.class);
         Mockito.when(context.getBeansOfType(N2oModule.class)).thenReturn(moduleMap);

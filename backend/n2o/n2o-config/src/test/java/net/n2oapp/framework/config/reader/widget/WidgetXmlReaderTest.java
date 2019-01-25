@@ -18,7 +18,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimp
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oColorCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLink;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.config.reader.widget.cell.*;
 import net.n2oapp.framework.config.selective.reader.SelectiveReader;
@@ -139,11 +139,11 @@ public class WidgetXmlReaderTest {
         }
 
         //провеяем link
-        N2oLink linkCell = (N2oLink) ((N2oSimpleColumn) table.getColumns()[3]).getCell();
+        N2oLinkCell linkCell = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[3]).getCell();
         assert ((N2oAnchor) linkCell.getAction()).getTarget().name().equals("newWindow");
         assert ((N2oAnchor) linkCell.getAction()).getHref().equals("https://www.google.ru/");
 
-        N2oLink linkCell2 = (N2oLink) ((N2oSimpleColumn) table.getColumns()[4]).getCell();
+        N2oLinkCell linkCell2 = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[4]).getCell();
         N2oAbstractPageAction openPage = (N2oOpenPage) linkCell2.getAction();
         assert openPage.getPageId().equals("test");
         assert openPage.getOperationId().equals("create");
@@ -158,7 +158,7 @@ public class WidgetXmlReaderTest {
         assert openPage.getPreFilters()[0].getTargetWidgetId().equals("test");
         assert openPage.getPreFilters()[0].getValue().equals("{test}");
 
-        N2oLink linkCell3 = (N2oLink) ((N2oSimpleColumn) table.getColumns()[5]).getCell();
+        N2oLinkCell linkCell3 = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[5]).getCell();
         N2oAbstractPageAction showModal = (N2oShowModal) linkCell3.getAction();
 
         assert showModal.getPageId().equals("test");

@@ -1,7 +1,7 @@
 {
   "label": "Загрузчик файлов",
   "className": "custom-class",
-  "name": "avatar",
+  "requestParam": "avatar",
   "disabled": false,
   "uploadUrl": "/n2o/data",
   "deleteUrl": "/n2o/data/delete",

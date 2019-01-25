@@ -12,36 +12,30 @@
         <xs:annotation>
             <xs:documentation>Регионы.</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:any namespace="##other" processContents="strict"/>
-            <xs:element name="table" type="wgt:tableReferenceDefinition"  maxOccurs="unbounded" minOccurs="0" />
-            <xs:element name="form" type="wgt:formReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="tree" type="wgt:treeReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="list" type="wgt:widgetListReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="chart" type="wgt:chartReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="html" type="wgt:htmlReferenceDefinition"  maxOccurs="unbounded" minOccurs="0" />
-            <xs:element name="custom" type="wgt:customReferenceDefinition"  maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-        <xs:attribute name="id" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Идентификатор региона.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="place" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Местоположение региона на странице.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="src" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Реализация региона.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:anyAttribute>
-            <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-            </xs:annotation>
-        </xs:anyAttribute>
+        <xs:complexContent>
+            <xs:extension base="wgt:widgets">
+                <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор региона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="place" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Местоположение региона на странице.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="src" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Реализация региона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="tabsDefinition">

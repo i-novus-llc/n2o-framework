@@ -22,4 +22,7 @@ public abstract class N2oAbstractCell implements N2oCell, CssClassAware {
     private String namespaceUri;
     @JsonProperty("className")
     private String cssClass;
+    private String visible;
+    @JsonProperty("visible")
+    private Object jsonVisible;
 }

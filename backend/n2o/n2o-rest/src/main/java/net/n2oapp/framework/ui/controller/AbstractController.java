@@ -28,7 +28,10 @@ import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
@@ -129,9 +132,8 @@ public abstract class AbstractController {
                 if (query.getInvertFiltersMap().containsKey(filterId)) {
                     Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
                     String fieldId = typeEntry.getKey();
-                    N2oQuery.Field field = query.getFieldsMap().get(fieldId);
                     FilterType filterType = typeEntry.getValue();
-                    Restriction restriction = new Restriction(fieldId, environment.getDomainProcessor().doDomainConversion(field.getDomain(), value), filterType);
+                    Restriction restriction = new Restriction(fieldId, value, filterType);
                     criteria.addRestriction(restriction);
                 } else {
                     criteria.putAdditionalField(filterId, value);

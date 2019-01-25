@@ -14,9 +14,9 @@
     <version>7.0.3-SNAPSHOT</version>
 
     <scm>
-        <connection>scm:git:https://git.i-novus.ru/framework/n2o.git</connection>
-        <url>https://git.i-novus.ru/framework/n2o</url>
-        <developerConnection>scm:git:https://git.i-novus.ru/framework/n2o.git</developerConnection>
+        <connection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</connection>
+        <url>https://git.i-novus.ru/open/n2o-framework</url>
+        <developerConnection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 

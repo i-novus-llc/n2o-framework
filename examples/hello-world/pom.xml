@@ -4,7 +4,7 @@
 
     <groupId>net.n2oapp.framework.examples</groupId>
     <artifactId>hello-world</artifactId>
-    <version>7.0-SNAPSHOT</version>
+    <version>7.0.2</version>
     <packaging>jar</packaging>
     <name>hello-world</name>
 

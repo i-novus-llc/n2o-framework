@@ -10,14 +10,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DatePicker extends Control {
-    @JsonProperty("dateFormat")
+    @JsonProperty
     private String dateFormat;
-    @JsonProperty("max")
+    @JsonProperty
+    private String timeFormat;
+    @JsonProperty
     private String max;
-    @JsonProperty("min")
+    @JsonProperty
     private String min;
-    @JsonProperty("popupPlacement")
+    @JsonProperty
     private String popupPlacement;
-    @JsonProperty("outputFormat")
+    @JsonProperty
     private String outputFormat;
 }

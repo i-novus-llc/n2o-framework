@@ -11,12 +11,16 @@ import { metadataRequest } from '../actions/pages';
 import { dataRequestWidget } from '../actions/widgets';
 import { destroyModal } from '../actions/modals';
 import compileUrl from '../utils/compileUrl';
+import { id } from '../utils/id';
 
 export function* alertEffect(action) {
   try {
     const { alertKey = GLOBAL_KEY, messages } = action.meta.alert;
     yield put(removeAlerts(alertKey));
-    yield put(addAlerts(alertKey, isArray(messages) ? messages : [messages]));
+    const alerts = isArray(messages)
+      ? messages.map(message => ({ ...message, id: message.id || id() }))
+      : [{ ...messages, id: messages.id || id() }];
+    yield put(addAlerts(alertKey, alerts));
   } catch (e) {
     console.error(e);
   }

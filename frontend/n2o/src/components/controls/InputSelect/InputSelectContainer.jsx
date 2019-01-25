@@ -94,6 +94,7 @@ InputSelectContainer.propTypes = {
   onSelect: PropTypes.func,
   onScrollEnd: PropTypes.func,
   placeholder: PropTypes.string,
+  flip: PropTypes.bool,
   resetOnBlur: PropTypes.bool,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
@@ -123,7 +124,8 @@ InputSelectContainer.defaultProps = {
   collapseSelected: true,
   lengthToGroup: 3,
   expandPopUp: true,
-  valueFieldId: 'id'
+  valueFieldId: 'id',
+  flip: false
 };
 
 export default listContainer(InputSelectContainer);

@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,25 +61,25 @@ public class ApacheRestClient implements RestClient {
     }
 
     //API
-    public DataSet GET(String path, Map<String, Object> params, Map<String, String> headers, String host,
-                       Integer port) throws RestException {
+    public Object GET(String path, Map<String, Object> params, Map<String, String> headers, String host,
+                      Integer port) throws RestException {
         return doRequestWithPathParameters(path, params, headers, host, port, "GET");
     }
 
-    public DataSet POST(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
+    public Object POST(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
         return doRequestWithBody(query, args, headers, proxyHost, proxyPort, "POST");
     }
 
-    public DataSet PUT(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
+    public Object PUT(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
         return doRequestWithBody(query, args, headers, proxyHost, proxyPort, "PUT");
     }
 
-    public DataSet DELETE(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
+    public Object DELETE(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
         return doRequestWithPathParameters(query, args, headers, proxyHost, proxyPort, "DELETE");
     }
 
     @Override
-    public DataSet HEAD(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
+    public Object HEAD(String query, Map<String, Object> args, Map<String, String> headers, String proxyHost, Integer proxyPort) throws RestException {
         return doRequestWithPathParameters(query, args, headers, proxyHost, proxyPort, "HEAD");
     }
 
@@ -143,14 +144,13 @@ public class ApacheRestClient implements RestClient {
     private DataSet doRequestWithBody(String query, Map<String, Object> body, Map<String, String> headers,
                                       String proxyHost,
                                       Integer proxyPort, String method) throws RestException {
-        CloseableHttpClient client = null;
+
         HttpResponse response = null;
         String url = null;
         String result = null;
         String sbody = "";
-        try {
+        try (CloseableHttpClient client = getHttpClient()) {
             url = getURL(proxyHost, proxyPort, query.trim());
-            client = getHttpClient();
             HttpEntityEnclosingRequestBase request;
             switch (method) {
                 case "POST":
@@ -193,20 +193,14 @@ public class ApacheRestClient implements RestClient {
             return resultData;
         } catch (IOException e) {
             throw createRuntimeException(e, url, response, method, sbody, headers, result);
-        } finally {
-            try {
-                if (client != null) client.close();
-            } catch (IOException e) {
-                throw createRuntimeException(e, url, response, method, sbody, headers, result);
-            }
         }
     }
 
 
-    private DataSet doRequestWithPathParameters(String query, Map<String, Object> args,
-                                                Map<String, String> headers,
-                                                String proxyHost,
-                                                Integer proxyPort, String method) throws RestException {
+    private Object doRequestWithPathParameters(String query, Map<String, Object> args,
+                                               Map<String, String> headers,
+                                               String proxyHost,
+                                               Integer proxyPort, String method) throws RestException {
         CloseableHttpClient client = null;
         HttpResponse response = null;
         String url = null;
@@ -234,18 +228,22 @@ public class ApacheRestClient implements RestClient {
             }
             prepareConnection(headers, request);
             response = client.execute(request);
-            TypeReference<DataSet> typeRef = new TypeReference<DataSet>() {
-            };
-            DataSet dataSet = null;
+            Object data = null;
             result = getResult(response);
-            if (result != null && !result.isEmpty() && (result.trim().startsWith("{") || result.trim().startsWith("["))) {
-                dataSet = mapper.readValue(result, typeRef);
+            if (result != null && !result.isEmpty()) {
+                result = result.trim();
+                if (result.startsWith("["))
+                    data = mapper.<List<DataSet>>readValue(result, mapper.getTypeFactory().constructCollectionType(List.class, DataSet.class));
+                else if (result.startsWith("{"))
+                    data = mapper.readValue(result, DataSet.class);
+                else
+                    data = mapper.readValue(result, Object.class);
             }
             if (logger.isDebugEnabled())
                 logger.debug("Response from remote rest service: {}", result != null ? result : "");
             if (!isSuccess(response))
-                throw new RestException(response.getStatusLine().getStatusCode(), dataSet);
-            return dataSet;
+                throw new RestException(response.getStatusLine().getStatusCode(), result);
+            return data;
         } catch (IOException e) {
             throw createRuntimeException(e, url, response, method, null, headers, result);
         } finally {

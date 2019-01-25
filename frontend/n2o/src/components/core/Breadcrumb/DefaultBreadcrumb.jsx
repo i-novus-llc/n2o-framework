@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 
 function DefaultBreadcrumb({ items }) {
-  const crumbs = items.map(({ label, path }, index) => {
+  const crumbs = items.map(({ label, path, modelLink }, index) => {
     return (
       <BreadcrumbItem active={index === items.length - 1}>
         {index !== items.length - 1 ? <Link to={path}>{label}</Link> : label}

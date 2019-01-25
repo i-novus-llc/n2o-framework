@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -119,15 +120,20 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                     CompiledObject.Operation operation = compiledObject != null && compiledObject.getOperations() != null ?
                             compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
 
-                    if((source.getConfirm() != null && source.getConfirm()) ||
-                            (source.getConfirm() == null && operation != null && operation.getConfirm() != null && operation.getConfirm()) ) {
-                        N2oButton srcBtn = (N2oButton)source;
+                    if ((source.getConfirm() != null && source.getConfirm()) ||
+                            (source.getConfirm() == null && operation != null && operation.getConfirm() != null && operation.getConfirm())) {
+                        N2oButton srcBtn = (N2oButton) source;
 
                         Confirm confirm = new Confirm();
-                        confirm.setText(p.cast(srcBtn.getConfirmText(), (operation != null ? operation.getConfirmationText(): null), p.getMessage("n2o.confirm.text")));
-                        confirm.setTitle(p.cast(srcBtn.getConfirmTitle(),  (operation != null ? operation.getFormSubmitLabel(): null), p.getMessage("n2o.confirm.title")));
+                        confirm.setText(p.cast(srcBtn.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
+                        confirm.setTitle(p.cast(srcBtn.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
                         confirm.setOkLabel(p.cast(srcBtn.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
                         confirm.setCancelLabel(p.cast(srcBtn.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+                        if (StringUtils.isJs(confirm.getText())) {
+                            String widgetId = initWidgetId(source, context, p);
+                            ReduxModel reduxModel = source.getModel();
+                            confirm.setModelLink(new ModelLink(reduxModel == null ? ReduxModel.RESOLVE : reduxModel, widgetId).getBindLink());
+                        }
                         button.setConfirm(confirm);
                     }
                 }

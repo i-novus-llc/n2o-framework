@@ -30,8 +30,7 @@ function resolve(state = defaultState, { type, payload }) {
       return [
         ...state,
         ...payload.alerts.map(item => ({
-          ...item,
-          id: payload.id || generateId()
+          ...item
         }))
       ];
     default:

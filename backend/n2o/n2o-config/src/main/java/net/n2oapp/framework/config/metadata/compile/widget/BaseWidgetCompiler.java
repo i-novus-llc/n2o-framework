@@ -131,7 +131,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 throw new N2oException("Widget route can not contain more then one param: " + route);
             }
             if (widgetScope == null || widgetScope.getDependsOnWidgetId() == null) {
-                throw new N2oException("Widget route contains params " + route + ", but parent widget not found");
+                throw new N2oException("Widget route contains params " + route + ", but parent widget not found! May you have forgotten to specify 'depends-on' attribute?");
             }
             String masterIdParam = params.get(0);
             ModelLink masterLink = Redux.linkQuery(widgetScope.getDependsOnWidgetId(), N2oQuery.Field.PK,

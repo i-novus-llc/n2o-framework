@@ -79,8 +79,7 @@ public class ScriptProcessorTest {
 
     @Test
     public void testResolveFuction() {
-        assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){ if (gender.id = 1) return 'М'; else return 'Ж'; })()"));
-        assertThat(ScriptProcessor.resolveFunction(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';")), is("(function(){ if (gender.id = 1) return 'М'; else return 'Ж'; })()"));
+        assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
         assertThat(ScriptProcessor.resolveFunction("gender.id == 1"), is("gender.id == 1"));
         assertThat(ScriptProcessor.resolveFunction("function(){if (gender.id = 1) return 'М'; else return 'Ж';}"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
         assertThat(ScriptProcessor.resolveFunction("(function(){ '123'; })()"), is("(function(){ '123'; })()"));

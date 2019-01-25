@@ -18,6 +18,7 @@ import InitWidgetsList from './InitWidgetsList';
 import FormCollapseFieldset from './FormCollapseFieldset';
 import FormFieldsetCollapseVE from './FormFieldsetCollapseVE';
 import FormFieldsetStandartVE from './FormFieldsetStandartVE';
+import PlaceholderBreadCrumb from './PlaceholderBreadCrumb';
 
 export {
   filterMetadata,
@@ -39,5 +40,6 @@ export {
   InitWidgetsList,
   FormCollapseFieldset,
   FormFieldsetCollapseVE,
-  FormFieldsetStandartVE
+  FormFieldsetStandartVE,
+  PlaceholderBreadCrumb
 };

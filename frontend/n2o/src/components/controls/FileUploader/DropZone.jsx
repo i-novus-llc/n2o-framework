@@ -40,7 +40,7 @@ DropZone.propTypes = {
   saveBtnStyle: PropTypes.object,
   visible: PropTypes.bool,
   disabled: PropTypes.bool,
-  name: PropTypes.string,
+  requestParam: PropTypes.string,
   maxSize: PropTypes.number,
   minSize: PropTypes.number,
   multiple: PropTypes.bool,

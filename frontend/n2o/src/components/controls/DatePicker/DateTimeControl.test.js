@@ -156,7 +156,7 @@ describe('<DateTimeControl />', () => {
 
   it('устанавливает время', () => {
     const { wrapper } = setup({
-      value: moment('22/12/2017', 'DD/MM/YYYY'),
+      value: '22/12/2017 12:00',
       dateFormat: 'DD/MM/YYYY',
       timeFormat: 'HH:mm',
       defaultTime: '12:34'
@@ -166,7 +166,7 @@ describe('<DateTimeControl />', () => {
         .find('input')
         .first()
         .props().value
-    ).toBe('22/12/2017 12:34');
+    ).toBe('22/12/2017 12:00');
   });
 
   it('устанавливает value', () => {

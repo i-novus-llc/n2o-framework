@@ -16,6 +16,7 @@ public abstract class AbstractCellElementIOv2<T extends N2oAbstractCell> impleme
     public void io(Element e, T с, IOProcessor p) {
         p.attribute(e, "src", с::getSrc, с::setSrc);
         p.attribute(e, "class", с::getCssClass, с::setCssClass);
+        p.attribute(e, "visible", с::getVisible, с::setVisible);
     }
 
 }

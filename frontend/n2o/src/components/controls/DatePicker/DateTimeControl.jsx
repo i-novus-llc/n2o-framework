@@ -29,12 +29,15 @@ class DateTimeControl extends React.Component {
     super(props);
     let { value, dateFormat, locale, timeFormat, dateDivider } = props;
     this.format = buildDateFormat(dateFormat, timeFormat, dateDivider);
+
     this.defaultTime = mapToDefaultTime(
-      value || moment(),
+      value,
       props.defaultTime,
       DateTimeControl.defaultInputName,
-      timeFormat
+      timeFormat,
+      this.format
     );
+
     const { defaultTime } = this;
     this.state = {
       inputs: mapToValue(value, defaultTime, this.format, locale, DateTimeControl.defaultInputName),
@@ -55,15 +58,17 @@ class DateTimeControl extends React.Component {
    * Обработка новых пропсов
    */
   componentWillReceiveProps(props) {
-    let { value, dateFormat, locale, timeFormat, dateDivider, defaultTime } = props;
+    let { value, dateFormat, locale, timeFormat, dateDivider } = props;
     this.format = buildDateFormat(dateFormat, timeFormat, dateDivider);
-    const { hours, mins } = this;
+
     this.defaultTime = mapToDefaultTime(
-      value || moment(),
-      defaultTime,
+      value,
+      props.defaultTime,
       DateTimeControl.defaultInputName,
-      timeFormat
+      timeFormat,
+      this.format
     );
+
     this.setState({
       inputs: mapToValue(
         value,

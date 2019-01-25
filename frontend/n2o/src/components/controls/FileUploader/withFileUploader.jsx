@@ -35,6 +35,16 @@ const FileUploaderControl = WrappedComponent => {
       });
     }
 
+    componentDidUpdate(prevProps) {
+      const { value } = this.props;
+      const mappedValue = this.mapFiles(isArray(value) ? value : [value]);
+      if (!isEqual(prevProps.value, value) && !isEmpty(value) && isEmpty(this.state.files)) {
+        this.setState({
+          files: mappedValue || []
+        });
+      }
+    }
+
     mapFiles(files) {
       let currentFiles = [];
       if (!isArray(files)) {
@@ -152,7 +162,7 @@ const FileUploaderControl = WrappedComponent => {
      * @param files
      */
     startUpload(files) {
-      const { labelFieldId, sizeFieldId, name, uploadUrl } = this.props;
+      const { labelFieldId, sizeFieldId, requestParam, uploadUrl } = this.props;
       const url = this.resolveUrl(uploadUrl);
       files.map(file => {
         if (!this.requests[file.id]) {
@@ -171,7 +181,7 @@ const FileUploaderControl = WrappedComponent => {
             }
           });
           const formData = new FormData();
-          formData.append(name, file);
+          formData.append(requestParam, file);
           this.requests[file.id] = post(url, formData, onProgress, onUpload);
         }
       });
@@ -289,7 +299,7 @@ const FileUploaderControl = WrappedComponent => {
 
   ReturnedComponent.defaultProps = {
     label: 'Загрузить файл',
-    name: 'file',
+    requestParam: 'file',
     visible: true,
     icon: 'fa fa-upload',
     statusBarColor: 'success',
@@ -316,7 +326,7 @@ const FileUploaderControl = WrappedComponent => {
     maxSize: PropTypes.number,
     minSize: PropTypes.number,
     label: PropTypes.string,
-    name: PropTypes.string,
+    requestParam: PropTypes.string,
     visible: PropTypes.bool,
     disabled: PropTypes.bool,
     icon: PropTypes.string,

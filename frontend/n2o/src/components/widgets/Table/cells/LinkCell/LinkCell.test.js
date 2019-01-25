@@ -4,6 +4,7 @@ import LinkCell from './LinkCell';
 import meta from './LinkCell.meta';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
+import { Link, HashRouter } from 'react-router-dom';
 
 const setupLinkCell = propsOverride => {
   const props = {
@@ -11,7 +12,9 @@ const setupLinkCell = propsOverride => {
   };
   return mount(
     <Provider store={configureMockStore()({})}>
-      <LinkCell {...props} {...propsOverride} />
+      <HashRouter>
+        <LinkCell {...props} {...propsOverride} />
+      </HashRouter>
     </Provider>
   );
 };
@@ -46,5 +49,27 @@ describe('Тесты LinkCell', () => {
         }
       });
     expect(callActionImpl.withArgs().calledOnce).toEqual(true);
+  });
+
+  it('Отрисовыается ссылка по таргету "application"', () => {
+    const wrapper = setupLinkCell({
+      url: '/n2o/test',
+      target: 'application'
+    });
+    expect(wrapper.find(Link).exists()).toEqual(true);
+  });
+  it('Отрисовывается ссылка по таргету "self"', () => {
+    const wrapper = setupLinkCell({
+      url: '/n2o/self/test',
+      target: 'self'
+    });
+    expect(wrapper.find('a[href="/n2o/self/test"]').exists()).toEqual(true);
+  });
+  it('Отрисовывается ссылка по таргету "newWindow"', () => {
+    const wrapper = setupLinkCell({
+      url: 'https://google.com',
+      target: 'newWindow'
+    });
+    expect(wrapper.find('a[target="_blank"]').exists()).toEqual(true);
   });
 });

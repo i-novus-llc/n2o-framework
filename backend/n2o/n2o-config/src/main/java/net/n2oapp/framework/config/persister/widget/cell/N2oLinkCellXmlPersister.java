@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.persister.widget.cell;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLink;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
 import org.jdom.Element;
 import org.jdom.Namespace;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
  * Сохраняет link в xml-файл
  */
 @Component
-public class N2oLinkCellXmlPersister extends N2oCellXmlPersister<N2oLink> {
+public class N2oLinkCellXmlPersister extends N2oCellXmlPersister<N2oLinkCell> {
     @Override
-    public Element persist(N2oLink link, Namespace namespaceElement) {
+    public Element persist(N2oLinkCell link, Namespace namespaceElement) {
         Namespace namespace = Namespace.getNamespace(namespacePrefix, namespaceUri);
         Element element = new Element(getElementName(), namespace);
         Element eventElement = persisterFactory.produce(link.getAction()).persist(link.getAction(),namespace);
@@ -23,8 +23,8 @@ public class N2oLinkCellXmlPersister extends N2oCellXmlPersister<N2oLink> {
     }
 
     @Override
-    public Class<N2oLink> getElementClass() {
-        return N2oLink.class;
+    public Class<N2oLinkCell> getElementClass() {
+        return N2oLinkCell.class;
     }
 
     @Override
