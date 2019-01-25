@@ -146,9 +146,13 @@ export function mapToDefaultTime(val, defaultTime, defaultName, timeFormat, form
           moment(input.value, format).second() ||
           moment(input.defaultTime || '00:00', timeFormat).second() ||
           0,
-        hasDefaultTime: !!input.defaultTime || !!defaultTime
+        hasDefaultTime: false
       };
+      if (res[input.name].hours || res[input.name].mins || res[input.name].seconds || timeFormat) {
+        res[input.name].hasDefaultTime = true;
+      }
     });
+
     return res;
   }
 
@@ -158,19 +162,25 @@ export function mapToDefaultTime(val, defaultTime, defaultName, timeFormat, form
         hours: moment(val, format).hour(),
         mins: moment(val, format).minute(),
         seconds: moment(val, format).second(),
-        hasDefaultTime: !!defaultTime
+        hasDefaultTime: true
       }
     };
   }
 
-  return {
+  let ress = {
     [defaultName]: {
       hours: moment(defaultTime, timeFormat).hour(),
       mins: moment(defaultTime, timeFormat).minute(),
       seconds: moment(defaultTime, timeFormat).second(),
-      hasDefaultTime: !!defaultTime
+      hasDefaultTime: false
     }
   };
+
+  if (ress[defaultName].hours || ress[defaultName].mins || ress[defaultName].seconds) {
+    ress[defaultName].hasDefaultTime = true;
+  }
+
+  return ress;
 }
 
 /**
