@@ -143,10 +143,11 @@ class ButtonContainer extends React.Component {
    * @returns {*}
    */
   renderDropdown() {
-    const { children, icon, color, title } = this.props;
+    const { children, icon, color, title, disabled } = this.props;
     return (
       <Dropdown
         id={this.buttonId}
+        disabled={disabled}
         color={color}
         title={
           <span>
@@ -164,8 +165,9 @@ class ButtonContainer extends React.Component {
    */
   render() {
     const { visible, disabled, size, title, count, color, icon, hint, component } = this.props;
+
     return (
-      (visible || null) &&
+      visible &&
       withTooltip(
         component === DropdownMenu ? this.renderDropdown() : this.renderButton(),
         hint,
@@ -201,6 +203,11 @@ ButtonContainer.propTypes = {
   hint: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object
+};
+
+ButtonContainer.defaultProps = {
+  visible: true,
+  disabled: false
 };
 
 export default connect(mapStateToProps)(ButtonContainer);
