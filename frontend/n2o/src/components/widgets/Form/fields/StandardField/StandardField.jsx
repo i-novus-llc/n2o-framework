@@ -87,7 +87,6 @@ class StandardField extends React.Component {
       'is-invalid': 'text-danger',
       'has-warning': 'text-warning'
     };
-    const validationTextStyle = { fontSize: '80%' };
     const styleHelper = { width: '100%' };
     const labelWidthPixels =
       labelWidth === 'default' ? 180 : labelWidth === 'min' ? undefined : labelWidth;
@@ -99,7 +98,9 @@ class StandardField extends React.Component {
     return (
       visible && (
         <div
-          className={cx('form-group', className, { ['label-' + labelPosition]: labelPosition })}
+          className={cx('n2o-form-group', 'form-group', className, {
+            ['label-' + labelPosition]: labelPosition
+          })}
           style={style}
         >
           <Label
@@ -134,12 +135,9 @@ class StandardField extends React.Component {
               {loading && <InlineSpinner />}
             </div>
             <Description value={description} />
-            {touched &&
-              message && (
-                <div className={validationMap[validationClass]} style={validationTextStyle}>
-                  {message.text}
-                </div>
-              )}
+            <div className={cx('n2o-validation-message', validationMap[validationClass])}>
+              {message && message.text}
+            </div>
           </div>
         </div>
       )
