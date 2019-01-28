@@ -3,21 +3,33 @@ import sinon from 'sinon';
 import * as hocs from './FormContainer';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { debounce } from 'lodash';
 
 const NullComponent = () => null;
+const FormContainerTest = hocs.default;
 
 function setup(props, hocName) {
   const TestComponent = hocs[hocName](NullComponent);
   return mount(<TestComponent {...props} />);
 }
 
+function setupToProvider(props, hocName, overrideStore = {}) {
+  const mockStore = configureMockStore();
+  const store = mockStore({
+    models: { resolve: {} },
+    ...overrideStore
+  });
+  return mount(
+    <Provider store={store}>
+      <FormContainerTest {...props} />
+    </Provider>
+  );
+}
+
 describe('FormContainer', () => {
   describe('Проверка прокидвания пропсов withWidgetContainer', () => {
     it('Проверка при незаданных props', () => {
-      // const TestComponent = withWidgetContainer(NullComponent);
-      // const wrapper = mount(<TestComponent />);
-      // expect(wrapper.find(NullComponent).props()).toBe({});
+      const wrapper = setupToProvider({}, 'withWidgetContainer');
+      expect(wrapper.find(FormContainerTest).exists()).toBeTruthy();
     });
   });
 
@@ -184,16 +196,8 @@ describe('FormContainer', () => {
   });
 
   it('Проверка compose', () => {
-    const FormContainerTest = hocs.default;
-    const mockStore = configureMockStore();
-    const store = mockStore({
-      models: { resolve: {} }
-    });
-    const wrapper = mount(
-      <Provider store={store}>
-        <FormContainerTest />
-      </Provider>
-    );
+    const wrapper = setupToProvider(null, 'default');
+
     expect(
       wrapper
         .find(
