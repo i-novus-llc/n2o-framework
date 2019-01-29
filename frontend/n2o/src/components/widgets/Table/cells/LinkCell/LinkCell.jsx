@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { get } from 'lodash';
 import { Button } from 'reactstrap';
 import withCell from '../../withCell';
-import Link from '../../../../snippets/Link/Link';
+import { Link } from 'react-router-dom';
 import { LinkType } from '../../../../../impl/linkTypes';
 import { LinkCellType } from './linkCellTypes';
 
@@ -23,6 +23,7 @@ import { LinkCellType } from './linkCellTypes';
  * при отсутствии, компонент будет вызывать приходящий экшен
  * @param target - тип ссылки
  * @param rest
+ * @param visible - флаг видимости
  * @returns {*}
  * @constructor
  */
@@ -37,6 +38,7 @@ function LinkCell({
   type,
   url,
   target,
+  visible,
   ...rest
 }) {
   const props = {
@@ -81,7 +83,7 @@ function LinkCell({
       </React.Fragment>
     );
   };
-  return url ? <UrlLinkCell /> : <ActionLinkCell />;
+  return visible && (url ? <UrlLinkCell /> : <ActionLinkCell />);
 }
 
 LinkCell.propTypes = {
@@ -89,13 +91,15 @@ LinkCell.propTypes = {
   type: PropTypes.string,
   id: PropTypes.string,
   fieldKey: PropTypes.string,
-  model: PropTypes.object,
+  model: PropTypes.object.dependencies,
+  visible: PropTypes.bool,
   url: PropTypes.string,
   target: PropTypes.string
 };
 
 LinkCell.defaultProps = {
-  type: LinkCellType.TEXT
+  type: LinkCellType.TEXT,
+  visible: true
 };
 
 export default withCell(LinkCell);

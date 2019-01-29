@@ -3,57 +3,51 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import ButtonUploader from './ButtonUploader';
 import DropZone from './DropZone';
-import mock, { delay } from 'xhr-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
 import buttonMeta from './ButtonUploader.meta';
 import dropzoneMeta from './DropZone.meta';
 import { uniqueId } from 'lodash';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
+const mockAxios = new MockAdapter(axios, { delayResponse: 500 });
 const form = withForm({ src: 'DropZone' });
 const stories = storiesOf('Контролы/Загрузчик файлов', module);
 
 stories.addDecorator(withKnobs);
-mock.setup();
+
 stories
   .add('Single кнопка', () => {
-    mock.post(
-      '/n2o/data',
-      delay(
+    mockAxios.onPost('/n2o/data').reply(function(config) {
+      return [
+        200,
         {
-          status: 201,
-          body: JSON.stringify({
-            customId: 2,
-            customName: 'файл с сервера.png',
-            customSize: '83921',
-            customStatus: 'success',
-            customResponse: 'response',
-            customLink: 'google.com'
-          })
-        },
-        500
-      )
-    );
+          customId: `file_${uniqueId()}`,
+          customName: config.data.get('avatar').name,
+          customSize: config.data.get('avatar').size,
+          customStatus: 'success',
+          customResponse: 'File uploaded success!',
+          customLink: 'https://www.google.com'
+        }
+      ];
+    });
 
     return <ButtonUploader {...buttonMeta} />;
   })
   .add('Single DropZone', () => {
-    mock.post(
-      '/n2o/data',
-      delay(
+    mockAxios.onPost('/n2o/data').reply(function(config) {
+      return [
+        200,
         {
-          status: 201,
-          body: JSON.stringify({
-            customId: 2,
-            customName: 'test.png',
-            customSize: '83921',
-            customStatus: 'success',
-            customResponse: 'response',
-            customLink: 'google.com'
-          })
-        },
-        500
-      )
-    );
+          customId: `file_${uniqueId()}`,
+          customName: config.data.get('avatar').name,
+          customSize: config.data.get('avatar').size,
+          customStatus: 'success',
+          customResponse: 'File uploaded success!',
+          customLink: 'https://www.google.com'
+        }
+      ];
+    });
 
     return <DropZone {...dropzoneMeta} />;
   })
@@ -83,26 +77,23 @@ stories
       ]
     };
 
-    mock.post(
-      '/n2o/data-multi',
-      delay(
+    mockAxios.onPost('/n2o/data-multi').reply(function(config) {
+      return [
+        200,
         {
-          status: 201,
-          body: JSON.stringify({
-            customId: 2,
-            customName: 'test.png',
-            customSize: '83921',
-            customStatus: 'success',
-            customResponse: 'response',
-            customLink: 'google.com'
-          })
-        },
-        500
-      )
-    );
+          customId: `file_${uniqueId()}`,
+          customName: config.data.get('avatar').name,
+          customSize: config.data.get('avatar').size,
+          customStatus: 'success',
+          customResponse: 'File uploaded success!',
+          customLink: 'https://www.google.com'
+        }
+      ];
+    });
 
     return <ButtonUploader {...props} />;
   })
+
   .add('Мультизагрузка', () => {
     const props = {
       label: 'Загрузчик файлов',
@@ -122,6 +113,7 @@ stories
 
     return <ButtonUploader {...props} />;
   })
+
   .add('Мульзагрузка DropZone', () => {
     const props = {
       label: 'Загрузчик файлов',
@@ -140,6 +132,7 @@ stories
     };
     return <DropZone {...props} />;
   })
+
   .add('Мультизагрузка с предустановленными значениями', () => {
     const props = {
       label: 'Загрузчик файлов',
@@ -171,6 +164,7 @@ stories
 
     return <ButtonUploader {...props} />;
   })
+
   .add('disabled режим', () => {
     const props = {
       label: 'Загрузчик файлов',
@@ -202,24 +196,47 @@ stories
 
     return <ButtonUploader {...props} />;
   })
+
+  .add('Отображение network ошибки', () => {
+    mockAxios.onPost('/n2o/data').reply(500);
+
+    return <ButtonUploader {...buttonMeta} responseFieldId="message" />;
+  })
+
+  .add('Отображение кастомной ошибки', () => {
+    mockAxios.onPost('/n2o/data').reply(function(config) {
+      return [
+        500,
+        {
+          customId: `file_${uniqueId()}`,
+          customName: config.data.get('avatar').name,
+          customSize: config.data.get('avatar').size,
+          customStatus: 'error',
+          customResponse: 'Ошибка с файлов. Повторите позже.',
+          customLink: '#'
+        }
+      ];
+    });
+
+    return <ButtonUploader {...buttonMeta} />;
+  })
+
   .add(
     'Компонент в форме',
     form(() => {
-      mock.post(
-        '/n2o/data',
-        delay((req, res) => {
-          return res.status(201).body(
-            JSON.stringify({
-              customId: `file_${uniqueId()}`,
-              customName: req.body().get('avatar').name,
-              customSize: req.body().get('avatar').size,
-              customStatus: 'success',
-              customResponse: 'File uploaded success!',
-              customLink: 'https://www.google.com'
-            })
-          );
-        }, 500)
-      );
+      mockAxios.onPost('/n2o/data').reply(function(config) {
+        return [
+          200,
+          {
+            customId: `file_${uniqueId()}`,
+            customName: config.data.get('avatar').name,
+            customSize: config.data.get('avatar').size,
+            customStatus: 'success',
+            customResponse: 'File uploaded success!',
+            customLink: 'https://www.google.com'
+          }
+        ];
+      });
       return {
         ...dropzoneMeta,
         multi: true,

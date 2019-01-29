@@ -20,22 +20,24 @@ class IconCell extends React.Component {
    */
   render() {
     const text = this.props.model[this.props.id];
-
+    const { visible } = this.props;
     return (
-      <div title={text}>
-        {this.props.icon && <Icon name={this.props.icon} />}
-        {this.props.type === iconCellTypes.ICONANDTEXT && (
-          <div
-            className="n2o-cell-text"
-            style={{
-              float: this.props.textPlace === textPlaceTypes.LEFT ? 'left' : null,
-              display: 'inline-block'
-            }}
-          >
-            <Text text={text} />
-          </div>
-        )}
-      </div>
+      visible && (
+        <div title={text}>
+          {this.props.icon && <Icon name={this.props.icon} />}
+          {this.props.type === iconCellTypes.ICONANDTEXT && (
+            <div
+              className="n2o-cell-text"
+              style={{
+                float: this.props.textPlace === textPlaceTypes.LEFT ? 'left' : null,
+                display: 'inline-block'
+              }}
+            >
+              <Text text={text} />
+            </div>
+          )}
+        </div>
+      )
     );
   }
 }
@@ -45,12 +47,14 @@ IconCell.propTypes = {
   model: PropTypes.object.isRequired,
   icon: PropTypes.string.isRequired,
   type: PropTypes.oneOf(Object.values(iconCellTypes)),
-  textPlace: PropTypes.oneOf(Object.values(textPlaceTypes))
+  textPlace: PropTypes.oneOf(Object.values(textPlaceTypes)),
+  visible: PropTypes.bool
 };
 
 IconCell.defaultProps = {
   type: iconCellTypes.ICONANDTEXT,
-  textPlace: textPlaceTypes.RIGHT
+  textPlace: textPlaceTypes.RIGHT,
+  visible: true
 };
 
 export default IconCell;

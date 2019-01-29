@@ -13,11 +13,12 @@ import withCell from '../../withCell';
  * @param className
  * @param callActionImpl
  * @param buttons
+ * @param visible
  * @param other
  * @returns {*}
  * @constructor
  */
-function ButtonsCell({ id, className, callActionImpl, buttons, ...other }) {
+function ButtonsCell({ id, className, callActionImpl, buttons, visible, ...other }) {
   const handlerClick = action => callActionImpl({ action });
 
   const createGroupItems = ({ subMenu, ...rest }) =>
@@ -28,9 +29,11 @@ function ButtonsCell({ id, className, callActionImpl, buttons, ...other }) {
     );
 
   return (
-    <ButtonGroup key={id} className={cx('n2o-table-btn', className)} {...other}>
-      {map(buttons, createGroupItems)}
-    </ButtonGroup>
+    visible && (
+      <ButtonGroup key={id} className={cx('n2o-table-btn', className)} {...other}>
+        {map(buttons, createGroupItems)}
+      </ButtonGroup>
+    )
   );
 }
 
@@ -38,11 +41,13 @@ ButtonsCell.propTypes = {
   size: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
-  id: PropTypes.string
+  id: PropTypes.string,
+  visible: PropTypes.bool
 };
 
 ButtonsCell.defaultProps = {
-  size: 'sm'
+  size: 'sm',
+  visible: true
 };
 
 export default withCell(ButtonsCell);

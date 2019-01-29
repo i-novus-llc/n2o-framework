@@ -20,16 +20,18 @@ class ProgressBarCell extends React.Component {
    */
 
   render() {
-    const { id, animated, striped, color, size } = this.props;
+    const { id, animated, striped, color, size, visible } = this.props;
 
     return (
-      <Progress
-        value={this.props.model[id]}
-        className={size}
-        animated={animated}
-        striped={striped}
-        color={color}
-      />
+      visible && (
+        <Progress
+          value={this.props.model[id]}
+          className={size}
+          animated={animated}
+          striped={striped}
+          color={color}
+        />
+      )
     );
   }
 }
@@ -40,13 +42,15 @@ ProgressBarCell.propTypes = {
   animated: PropTypes.bool,
   striped: PropTypes.bool,
   color: PropTypes.oneOf(Object.values(progressBarStyles)),
-  size: PropTypes.oneOf(['mini', 'default', 'large'])
+  size: PropTypes.oneOf(['mini', 'default', 'large']),
+  visible: PropTypes.bool
 };
 
 ProgressBarCell.defaultProps = {
   animated: false,
   striped: false,
-  size: 'default'
+  size: 'default',
+  visible: true
 };
 
 export default ProgressBarCell;

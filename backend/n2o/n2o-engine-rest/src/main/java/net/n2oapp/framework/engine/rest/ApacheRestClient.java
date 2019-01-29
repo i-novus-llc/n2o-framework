@@ -144,14 +144,13 @@ public class ApacheRestClient implements RestClient {
     private DataSet doRequestWithBody(String query, Map<String, Object> body, Map<String, String> headers,
                                       String proxyHost,
                                       Integer proxyPort, String method) throws RestException {
-        CloseableHttpClient client = null;
+
         HttpResponse response = null;
         String url = null;
         String result = null;
         String sbody = "";
-        try {
+        try (CloseableHttpClient client = getHttpClient()) {
             url = getURL(proxyHost, proxyPort, query.trim());
-            client = getHttpClient();
             HttpEntityEnclosingRequestBase request;
             switch (method) {
                 case "POST":
@@ -194,12 +193,6 @@ public class ApacheRestClient implements RestClient {
             return resultData;
         } catch (IOException e) {
             throw createRuntimeException(e, url, response, method, sbody, headers, result);
-        } finally {
-            try {
-                if (client != null) client.close();
-            } catch (IOException e) {
-                throw createRuntimeException(e, url, response, method, sbody, headers, result);
-            }
         }
     }
 

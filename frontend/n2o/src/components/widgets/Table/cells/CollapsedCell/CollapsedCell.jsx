@@ -29,7 +29,7 @@ class CollapsedCell extends React.Component {
   }
 
   render() {
-    const { model, fieldKey, color, amountToGroup, labelFieldId } = this.props;
+    const { model, fieldKey, color, amountToGroup, labelFieldId, visible } = this.props;
 
     const data = model[fieldKey] || [];
     const items = this.state.collapsed ? data.slice(0, amountToGroup) : data;
@@ -38,18 +38,20 @@ class CollapsedCell extends React.Component {
     const labelClasses = cx('badge', `badge-${color}`);
 
     return (
-      <React.Fragment>
-        {items.map(item => (
-          <React.Fragment key={uniqueId('collapsed-cell')}>
-            <span className={labelClasses}>{isString(item) ? item : item[labelFieldId]}</span>{' '}
-          </React.Fragment>
-        ))}
-        {isButtonNeeded && (
-          <a href="#" onClick={this._changeVisibility} className="collapsed-cell-control">
-            {buttonTitle}
-          </a>
-        )}
-      </React.Fragment>
+      visible && (
+        <React.Fragment>
+          {items.map(item => (
+            <React.Fragment key={uniqueId('collapsed-cell')}>
+              <span className={labelClasses}>{isString(item) ? item : item[labelFieldId]}</span>{' '}
+            </React.Fragment>
+          ))}
+          {isButtonNeeded && (
+            <a href="#" onClick={this._changeVisibility} className="collapsed-cell-control">
+              {buttonTitle}
+            </a>
+          )}
+        </React.Fragment>
+      )
     );
   }
 }
@@ -59,12 +61,14 @@ CollapsedCell.propTypes = {
   fieldKey: PropTypes.string.isRequired,
   color: PropTypes.string,
   amountToGroup: PropTypes.number,
-  labelFieldId: PropTypes.string
+  labelFieldId: PropTypes.string,
+  visible: PropTypes.bool
 };
 
 CollapsedCell.defaultProps = {
   amountToGroup: 3,
-  color: 'secondary'
+  color: 'secondary',
+  visible: true
 };
 
 export default CollapsedCell;
