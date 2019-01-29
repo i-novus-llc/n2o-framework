@@ -43,8 +43,8 @@ class ButtonContainer extends React.Component {
       id,
       containerKey,
       initialProps: {
-        visible,
-        disabled,
+        visible = true,
+        disabled = false,
         size,
         color,
         count,

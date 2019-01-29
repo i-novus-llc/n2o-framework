@@ -33,9 +33,10 @@ class Dropdown extends React.Component {
    */
   render() {
     const { color, title, children, disabled } = this.props;
+
     return (
-      <ButtonDropdown disabled={disabled} isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret color={color} id={this.props.id}>
+      <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <DropdownToggle caret color={color} id={this.props.id} disabled={disabled}>
           {title}
         </DropdownToggle>
         <DropdownMenu>{children}</DropdownMenu>
