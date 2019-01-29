@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { compose, withContext, branch, renderComponent, lifecycle } from 'recompose';
 import { createStructuredSelector } from 'reselect';
@@ -54,12 +55,14 @@ export default compose(
     {
       getLocale: PropTypes.func,
       getMessages: PropTypes.func,
-      getMenu: PropTypes.func
+      getMenu: PropTypes.func,
+      getFromConfig: PropTypes.func
     },
     props => ({
       getLocale: () => props.locale,
       getMessages: () => props.messages,
-      getMenu: () => props.menu
+      getMenu: () => props.menu,
+      getFromConfig: key => get(props, key)
     })
   ),
   lifecycle({
