@@ -8,13 +8,7 @@ import { createStructuredSelector } from 'reselect';
 import numeral from 'numeral';
 import 'numeral/locales/ru';
 import { requestConfig as requestConfigAction } from '../../actions/global';
-import {
-  menuSelector,
-  localeSelector,
-  localizationSelector,
-  appLoadingSelector,
-  errorSelector
-} from '../../selectors/global';
+import { globalSelector } from '../../selectors/global';
 import CoverSpinner from '../snippets/Spinner/CoverSpinner';
 import Alert from '../snippets/Alerts/Alert';
 
@@ -35,11 +29,7 @@ Application.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  locale: localeSelector,
-  messages: localizationSelector,
-  menu: menuSelector,
-  loading: appLoadingSelector,
-  error: errorSelector
+  ...globalSelector
 });
 
 const mapDispatchToProps = dispatch => ({
