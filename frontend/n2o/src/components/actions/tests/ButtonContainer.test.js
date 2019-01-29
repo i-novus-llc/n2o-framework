@@ -40,7 +40,7 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            isVisible: true
+            visible: true
           }
         }
       }
@@ -54,7 +54,7 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            isVisible: false
+            visible: false
           }
         }
       }
@@ -68,7 +68,7 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            isDisabled: false
+            disabled: false
           }
         }
       }
@@ -82,7 +82,7 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            isDisabled: true
+            disabled: true
           }
         }
       }
@@ -96,7 +96,7 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            isVisible: true
+            visible: true
           }
         }
       }
@@ -110,7 +110,7 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            isVisible: false
+            visible: false
           }
         }
       }
@@ -124,7 +124,7 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            isDisabled: false
+            disabled: false
           }
         }
       }

@@ -43,9 +43,9 @@ describe('Проверка toolbar reducer', () => {
           hint: null,
           icon: 'fa fa-plus',
           id: 'buttonId',
-          isDisabled: false,
+          disabled: false,
           isInit: true,
-          isVisible: true,
+          visible: true,
           key: 'buttonKey',
           loading: false,
           size: null,
@@ -61,7 +61,7 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              isVisible: false
+              visible: false
             }
           }
         },
@@ -77,7 +77,7 @@ describe('Проверка toolbar reducer', () => {
     ).toEqual({
       buttonKey: {
         buttonId: {
-          isVisible: true
+          visible: true
         }
       }
     });
@@ -201,7 +201,7 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              isDisabled: true
+              disabled: true
             }
           }
         },
@@ -217,7 +217,7 @@ describe('Проверка toolbar reducer', () => {
     ).toEqual({
       buttonKey: {
         buttonId: {
-          isDisabled: false
+          disabled: false
         }
       }
     });
@@ -229,7 +229,7 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              isDisabled: true
+              disabled: true
             }
           }
         },
@@ -244,7 +244,7 @@ describe('Проверка toolbar reducer', () => {
     ).toEqual({
       buttonKey: {
         buttonId: {
-          isDisabled: false
+          disabled: false
         }
       }
     });
@@ -256,7 +256,7 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              isVisible: true
+              visible: true
             }
           }
         },
@@ -271,7 +271,7 @@ describe('Проверка toolbar reducer', () => {
     ).toEqual({
       buttonKey: {
         buttonId: {
-          isVisible: false
+          visible: false
         }
       }
     });

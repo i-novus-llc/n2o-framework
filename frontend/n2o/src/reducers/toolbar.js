@@ -19,14 +19,14 @@ import { generateKey } from '../utils/id';
 
 export const buttonState = {
   isInit: true,
-  isVisible: true,
+  visible: true,
   count: 0,
   size: null,
   color: null,
   title: null,
   hint: null,
   icon: null,
-  isDisabled: false,
+  disabled: false,
   loading: false,
   error: null,
   conditions: null
@@ -36,15 +36,15 @@ function resolve(state = buttonState, action) {
   switch (action.type) {
     case CHANGE_BUTTON_VISIBILITY:
       return Object.assign({}, state, {
-        isVisible: action.payload.visible
+        visible: action.payload.visible
       });
     case TOGGLE_BUTTON_VISIBILITY:
       return Object.assign({}, state, {
-        isVisible: !state.isVisible
+        visible: !state.visible
       });
     case TOGGLE_BUTTON_DISABLED:
       return Object.assign({}, state, {
-        isDisabled: !state.isDisabled
+        disabled: !state.disabled
       });
     case CHANGE_BUTTON_TITLE:
       return Object.assign({}, state, {
@@ -52,7 +52,7 @@ function resolve(state = buttonState, action) {
       });
     case CHANGE_BUTTON_DISABLED:
       return Object.assign({}, state, {
-        isDisabled: action.payload.disabled
+        disabled: action.payload.disabled
       });
     case CHANGE_BUTTON_SIZE:
       return Object.assign({}, state, {
