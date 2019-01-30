@@ -67,7 +67,6 @@ class CodeEditor extends React.Component {
             value={this.state.value}
             enableBasicAutocompletion={autocomplete}
             setOptions={{
-              enableSnippets: true,
               showLineNumbers: true,
               tabSize: 2
             }}
