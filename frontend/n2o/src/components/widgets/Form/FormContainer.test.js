@@ -12,7 +12,21 @@ function setup(props, hocName) {
   return mount(<TestComponent {...props} />);
 }
 
-function setupToProvider(props, hocName, overrideStore = {}) {
+function setupToProvider(props, hocName, overrideStore) {
+  const TestComponent = hocs[hocName](NullComponent);
+  const mockStore = configureMockStore();
+  const store = mockStore({
+    models: { resolve: {} },
+    ...overrideStore
+  });
+  return mount(
+    <Provider store={store}>
+      <TestComponent {...props} />
+    </Provider>
+  );
+}
+
+function setupToProviderFromDefault(props, overrideStore = {}) {
   const mockStore = configureMockStore();
   const store = mockStore({
     models: { resolve: {} },
@@ -27,9 +41,50 @@ function setupToProvider(props, hocName, overrideStore = {}) {
 
 describe('FormContainer', () => {
   describe('Проверка прокидвания пропсов withWidgetContainer', () => {
-    it('Проверка при незаданных props', () => {
+    it('Проверка создания', () => {
       const wrapper = setupToProvider({}, 'withWidgetContainer');
-      expect(wrapper.find(FormContainerTest).exists()).toBeTruthy();
+      expect(wrapper.find(NullComponent).exists()).toBeTruthy();
+    });
+
+    it('Проверка прокидывания props', () => {
+      const testPropsData = {
+        widgetId: 'widgetId',
+        pageId: 'pageId',
+        autoFocus: true,
+        fieldsets: [{ id: 1, fieldset: 'any' }],
+        modelPrefix: 'modelPrefix',
+        validation: true
+      };
+
+      const stateData = {
+        widgets: {
+          widgetId: {
+            isEnabled: true
+          }
+        },
+        models: {
+          datasource: {
+            widgetId: [{ id: 'datasource' }]
+          },
+          modelPrefix: {
+            widgetId: {
+              any: 'any'
+            }
+          }
+        }
+      };
+
+      const wrapper = setupToProvider(testPropsData, 'withWidgetContainer', stateData);
+
+      expect(wrapper.find(NullComponent).props()).toEqual({
+        ...testPropsData,
+        ...stateData.widgets.widgetId,
+        datasource: stateData.models.datasource.widgetId[0],
+        activeModel: stateData.models.modelPrefix.widgetId,
+        resolveModel: {},
+        onSetModel: expect.any(Function),
+        onResolve: expect.any(Function)
+      });
     });
   });
 
@@ -196,7 +251,7 @@ describe('FormContainer', () => {
   });
 
   it('Проверка compose', () => {
-    const wrapper = setupToProvider(null, 'default');
+    const wrapper = setupToProviderFromDefault();
 
     expect(
       wrapper
