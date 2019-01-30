@@ -68,8 +68,9 @@
   margin-bottom: 0.5rem;
 
   & .n2o-validation-message {
-    height: 1rem;
+    min-height: 1rem;
 
     font-size: 0.8rem;
+    line-height: 1rem;
   }
 }
