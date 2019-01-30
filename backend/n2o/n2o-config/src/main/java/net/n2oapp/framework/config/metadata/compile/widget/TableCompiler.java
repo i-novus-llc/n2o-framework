@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
@@ -54,8 +55,10 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         widgetScope.setWidgetId(source.getId());
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = new SubModelsScope();
+        UploadScope uploadScope = new UploadScope();
+        uploadScope.setUpload(UploadType.defaults);
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters()), subModelsScope));
+                new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters()), subModelsScope, uploadScope));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
@@ -169,8 +172,10 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
 
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                               WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
-                                              ModelsScope modelsScope, FiltersScope filtersScope, SubModelsScope subModelsScope) {
-        List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope, widgetQuery, object, modelsScope, filtersScope, subModelsScope);
+                                              ModelsScope modelsScope, FiltersScope filtersScope,
+                                              SubModelsScope subModelsScope, UploadScope uploadScope) {
+        List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
+                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope);
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();

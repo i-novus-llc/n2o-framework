@@ -202,13 +202,13 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableCompileFilters.page.xml")
                 .get(new PageContext("testTableCompileFilters"));
         assertThat(page.getModels().size(), is(6));
-        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
-        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].birthday").getValue()).getValues().get("end"), is("22.11.2018"));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].name").getValue(), is("test"));
-        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].gender").getValue()).getValues().get("name"), is("test"));
-        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].gender").getValue()).getValues().get("id"), is(1));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].age").getValue(), is(18));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].amount").getValue(), is("100.99"));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].hidden").getValue(), is("test"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("end"), is("22.11.2018"));
+        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].name").getValue(), is("test"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].gender").getValue()).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].gender").getValue()).getValues().get("id"), is(1));
+        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].age").getValue(), is(18));
+        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].amount").getValue(), is("100.99"));
+        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].hidden").getValue(), is("test"));
     }
 }

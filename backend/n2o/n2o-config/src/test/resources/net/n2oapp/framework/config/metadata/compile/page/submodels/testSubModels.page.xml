@@ -24,7 +24,7 @@
             </table>
         </region>
         <region place="single">
-            <form query-id="testModel">
+            <form query-id="testModel" upload="defaults">
                 <fields>
                     <input-select id="testSingle" query-id="testSubModel" label-field-id="name" type="single">
                         <default-value id="1"/>
