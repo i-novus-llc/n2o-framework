@@ -37,7 +37,7 @@ public abstract class N2oListField extends N2oStandardField {
     private String format;
     private Map<String, String> defValue;
 
-    protected abstract boolean isSingle();
+    public abstract boolean isSingle();
 
     public enum PopupScaling {
         auto, nowrap, normal

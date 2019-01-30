@@ -1,21 +1,19 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 
+import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
+import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.region.CustomRegionIOv1;
 import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.region.NoneRegion;
-import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.region.CustomRegionCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -45,7 +43,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
 
 
     @Test
-    public void simplePage() throws Exception {
+    public void simplePage() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testSimplePage.page.xml").get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
         assertThat(page.getLayout().getSrc(), is("SingleLayout"));

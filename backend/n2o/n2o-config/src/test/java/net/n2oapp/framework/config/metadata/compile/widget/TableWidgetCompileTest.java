@@ -5,10 +5,10 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -78,7 +78,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testTable4RowColorCompile"));
         assertThat(table.getComponent().getRowColor(), is("`gender.id == '1' ? 'red' : gender.id == '2' ? 'blue' : gender.id == '3' ? 'white' : 'green'`"));
     }
-    
+
     @Test
     public void testSortableColumns() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.widget.xml",
@@ -93,7 +93,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(0).getSortable(), is(true));
 
         assertThat(headers.get(1).getId(), is("col"));
-        assertThat(headers.get(1).getLabel(),  is("col_label"));
+        assertThat(headers.get(1).getLabel(), is("col_label"));
         assertThat(headers.get(1).getSortable(), nullValue());
 
         assertThat(headers.get(2).getId(), is("name"));
@@ -107,7 +107,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(4).getId(), is("notInQuery"));
         assertThat(headers.get(4).getLabel(), is("notInQueryLabel"));
 
-        QueryContext context = (QueryContext)route("/testTable4SortableCompile").getContext(CompiledQuery.class);
+        QueryContext context = (QueryContext) route("/testTable4SortableCompile").getContext(CompiledQuery.class);
         assertThat(context.getSortingMap().get("id"), is("id"));
         assertThat(context.getSortingMap().get("col"), is("col_id"));
         assertThat(context.getSortingMap().get("name"), is("id"));
@@ -193,8 +193,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("sb"));
         assertThat(field.getSrc(), is("FilterButtonsField"));
-        assertThat(((SearchButtons)field).getResetLabel(), is("resetLabel"));
-        assertThat(((SearchButtons)field).getSearchLabel(), is("searchLabel"));
+        assertThat(((SearchButtons) field).getResetLabel(), is("resetLabel"));
+        assertThat(((SearchButtons) field).getSearchLabel(), is("searchLabel"));
     }
 
     @Test
@@ -202,14 +202,11 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableCompileFilters.page.xml")
                 .get(new PageContext("testTableCompileFilters"));
         assertThat(page.getModels().size(), is(6));
-        assertThat(((DefaultValues)page.getModels().get("filter['testTableCompileFilters_detail1'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
-        assertThat(((DefaultValues)page.getModels().get("filter['testTableCompileFilters_detail1'].birthday").getValue()).getValues().get("end"), is("22.11.2018"));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].birthday").getBindLink(), nullValue());
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].birthday").getValue()).getValues().get("end"), is("22.11.2018"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].name").getValue(), is("test"));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].name").getBindLink(), nullValue());
-        assertThat(((DefaultValues)page.getModels().get("filter['testTableCompileFilters_detail1'].gender").getValue()).getValues().get("name"), is("test"));
-        assertThat(((DefaultValues)page.getModels().get("filter['testTableCompileFilters_detail1'].gender").getValue()).getValues().get("id"), is(1));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].gender").getBindLink(), nullValue());
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].gender").getValue()).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_detail1'].gender").getValue()).getValues().get("id"), is(1));
         assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].age").getValue(), is(18));
         assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].amount").getValue(), is("100.99"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_detail1'].hidden").getValue(), is("test"));

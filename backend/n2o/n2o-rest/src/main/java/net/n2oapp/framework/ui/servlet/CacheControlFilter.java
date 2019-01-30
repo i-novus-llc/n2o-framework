@@ -19,7 +19,7 @@ public class CacheControlFilter implements Filter {
     private int cacheAge = 60;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         try {
             cacheAge = StaticProperties.getInt("n2o.ui.cache");
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class CacheControlFilter implements Filter {
 
 
         long expiry = new Date().getTime() + cacheAge * 1000;
-        HttpServletResponse httpResponse = (HttpServletResponse)servletResponse;
+        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         httpResponse.setDateHeader("Expires", expiry);
         httpResponse.setHeader("Cache-Control", "max-age=" + cacheAge);
 

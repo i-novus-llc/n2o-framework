@@ -24,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -267,6 +268,20 @@ public class DataTest {
         GetDataResponse result = response.getBody();
         assertThat(result.getList().size(), is(10));
         assertThat(result.getList().get(0).get("id"), is(2));
+    }
+
+    @Test
+    public void testResolveSubModels() {
+        RestTemplate restTemplate = new RestTemplate();
+        String queryPath = "/n2o/data/test/subModels";
+        String fooResourceUrl = "http://localhost:" + port + queryPath;
+        ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.OK));
+        assertThat(response.getBody().getList().size(), is(1));
+        assertThat(response.getBody().getList().get(0).get("id"), is(11));
+        assertThat(((Map)response.getBody().getList().get(0).get("subModel")).get("id"), is(123));
+        assertThat(((Map)response.getBody().getList().get(0).get("subModel")).get("name"), is("testName"));
     }
 
     @Getter

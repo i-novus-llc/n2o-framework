@@ -16,7 +16,7 @@ public class N2oInputSelect extends N2oListField implements N2oSingleListField, 
     private Boolean storeOnInput;
 
     @Override
-    protected boolean isSingle() {
-        return type.equals(ListType.single);
+    public boolean isSingle() {
+        return !ListType.multi.equals(type) && !ListType.checkboxes.equals(type);
     }
 }

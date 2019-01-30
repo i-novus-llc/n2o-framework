@@ -19,7 +19,7 @@ import java.util.Date;
 public class ModifiedClientCacheTemplate extends ClientCacheTemplate implements N2oEventListener<MetadataChangedEvent> {
     private static final Logger logger = LoggerFactory.getLogger(ModifiedClientCacheTemplate.class);
     private CacheManager cacheManager;
-    private String cacheRegion = "n2o.client";;
+    private String cacheRegion = "n2o.client";
 
     public ModifiedClientCacheTemplate(CacheManager cacheManager) {
         this.cacheManager = cacheManager;

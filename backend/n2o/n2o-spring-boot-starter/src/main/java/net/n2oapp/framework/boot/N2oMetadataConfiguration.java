@@ -40,6 +40,7 @@ import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.boot.json.N2oJacksonModule;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -63,7 +64,7 @@ import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFa
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
-import net.n2oapp.framework.config.util.SubModelsProcessor;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import net.n2oapp.framework.config.warmup.HeaderWarmUpper;
 import net.n2oapp.properties.io.PropertiesInfoCollector;
@@ -193,8 +194,8 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
-    public SubModelsProcessor subModelsProcessor(QueryProcessor queryProcessor, N2oCompiler compiler) {
-        return new SubModelsProcessor(queryProcessor, compiler);
+    public SubModelsProcessor subModelsProcessor(MetadataEnvironment n2oEnvironment) {
+        return n2oEnvironment.getSubModelsProcessor();
     }
 
     @Bean
@@ -244,8 +245,9 @@ public class N2oMetadataConfiguration {
                                               PipelineOperationFactory pipelineOperationFactory,
                                               DynamicMetadataProviderFactory dynamicMetadataProviderFactory,
                                               ExtensionAttributeMapperFactory extensionAttributeMapperFactory,
-                                              ButtonGeneratorFactory buttonGeneratorFactory) {
-        ((CrudGenerator)generators.get("crudGenerator")).setButtonGeneratorFactory(buttonGeneratorFactory);
+                                              ButtonGeneratorFactory buttonGeneratorFactory,
+                                              QueryProcessor queryProcessor) {
+        ((CrudGenerator) generators.get("crudGenerator")).setButtonGeneratorFactory(buttonGeneratorFactory);
         N2oEnvironment environment = new N2oEnvironment();
         environment.setSystemProperties(springEnv);
         environment.setMessageSource(messageSourceAccessor);
@@ -268,6 +270,8 @@ public class N2oMetadataConfiguration {
         environment.setContextProcessor(contextProcessor);
         environment.setExtensionAttributeMapperFactory(extensionAttributeMapperFactory);
         environment.setButtonGeneratorFactory(buttonGeneratorFactory);
+        N2oSubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor, environment);
+        environment.setSubModelsProcessor(subModelsProcessor);
         return environment;
     }
 

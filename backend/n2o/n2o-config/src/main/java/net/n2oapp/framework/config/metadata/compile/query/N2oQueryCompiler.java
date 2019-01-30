@@ -69,6 +69,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setFilterFieldsMap(Collections.unmodifiableMap(initFilterFieldsMap(query.getFiltersMap())));
         query.setParamToFilterIdMap(Collections.unmodifiableMap(initParamToFilterIdMap(query.getFilterFieldsMap(), p)));
         query.setFilterIdToParamMap(Collections.unmodifiableMap(initFilterIdToParamMap(query.getParamToFilterIdMap())));
+        query.setSubModelQueries(context.getSubModelQueries());
         initExpressions(query);
         query.setProperties(p.mapAttributes(source));
         return query;
@@ -92,7 +93,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                     for (N2oQuery.Filter filter : field.getFilterList()) {
                         if (filter.getFilterField().equals(preFilter.getFilterId())) {
                             filter.setParam(p.cast(preFilter.getParam(), filter.getParam()));
-                            if (preFilter.getLink() != null && !preFilter.getLink().isConst()) {
+                            if (preFilter.getLink() != null && !preFilter.getLink().isLink()) {
                                 filter.setCompiledDefaultValue(p.cast(preFilter.getLink().getValue(), p.resolve(filter.getDefaultValue(), filter.getDomain())));
                             }
                         }

@@ -95,6 +95,7 @@ public class ScriptProcessor {
      * "gender.id == 1" -> "(function(){return gender.id == 1;})()"
      * "function(){if (gender.id = 1) return 'М'; else return 'Ж';}" -> "(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"
      * "(function(){ return '123'; })()" -> "(function(){ return '123'; })()"
+     *
      * @param text выражение сождержащее ссылки
      * @return js функция
      */
@@ -171,7 +172,7 @@ public class ScriptProcessor {
         return "`" + expression + "`";
     }
 
-    private static Object removeJsBraces(Object expression) {
+    public static Object removeJsBraces(Object expression) {
         if (expression instanceof String)
             return ((String) expression).replaceAll("`", "");
         return expression;
@@ -183,7 +184,7 @@ public class ScriptProcessor {
         String[] split = text.split("\\{");
         if (split.length <= 1)
             return text;
-        if (!split[0].equals("")){
+        if (!split[0].equals("")) {
             sb.append("'".concat(split[0]).concat("'"));
         }
         for (int i = 1; i < split.length; i++) {

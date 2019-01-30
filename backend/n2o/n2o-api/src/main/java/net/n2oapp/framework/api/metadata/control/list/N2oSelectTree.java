@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.multi.N2oMultiListField;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
+
 /**
  * Компонент ввода select-tree
  */
@@ -28,7 +29,7 @@ public class N2oSelectTree extends N2oListField implements N2oSingleListField, N
     }
 
     @Override
-    protected boolean isSingle() {
+    public boolean isSingle() {
         return checkboxes == null || !checkboxes;
     }
 }
