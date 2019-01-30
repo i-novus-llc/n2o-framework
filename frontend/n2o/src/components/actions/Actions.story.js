@@ -471,7 +471,6 @@ stories
           {
             id: '11113',
             title: 'Дропдаун',
-            visible: false,
             subMenu: [
               {
                 id: 'testBtn29',
@@ -511,11 +510,45 @@ stories
         ]
       }
     ];
+
+    const dropDownVisibledAllItems = [
+      {
+        buttons: [
+          {
+            id: '11134',
+            title: 'Дропдаун',
+            subMenu: [
+              {
+                id: 'testBtn29',
+                actionId: 'dummy',
+                visible: false,
+                title: 'Элемент списка'
+              },
+              {
+                id: 'testBtn29',
+                actionId: 'dummy',
+                visible: false,
+                title: 'Элемент списка'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
     return (
       <React.Fragment>
         <div className="row mb-2">
           Кнопку не видно, потому что она скрыта
           <Actions actions={actions} toolbar={toolbarNonVisible} containerKey="visibleTest" />
+        </div>
+        <div className="row mb-2">
+          Кнопку не видно, тк скрыты все внутренние поля
+          <Actions
+            actions={actions}
+            toolbar={dropDownVisibledAllItems}
+            containerKey="dropDownVisibledAllItems"
+          />
         </div>
         <div className="row mb-2">
           Кнопка неактивна
