@@ -79,7 +79,9 @@ public class N2oEngineConfiguration {
     public QueryProcessor queryProcessor(N2oInvocationFactory invocationFactory,
                                          ContextProcessor contextProcessor,
                                          DomainProcessor domainProcessor) {
-        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor, domainProcessor);
+        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor,
+                domainProcessor);
+        n2oQueryProcessor.setCriteriaResolver(new N2oCriteriaConstructor(pageStartsWith0));
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
         return n2oQueryProcessor;
     }

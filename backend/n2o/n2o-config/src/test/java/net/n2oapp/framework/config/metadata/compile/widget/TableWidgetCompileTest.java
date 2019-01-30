@@ -204,12 +204,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getModels().size(), is(6));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("end"), is("22.11.2018"));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getBindLink(), nullValue());
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].name").getValue(), is("test"));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].name").getBindLink(), nullValue());
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].gender").getValue()).getValues().get("name"), is("test"));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].gender").getValue()).getValues().get("id"), is(1));
-        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].gender").getBindLink(), nullValue());
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].age").getValue(), is(18));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].amount").getValue(), is("100.99"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].hidden").getValue(), is("test"));

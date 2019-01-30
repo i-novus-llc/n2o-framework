@@ -27,7 +27,7 @@ class ChangeSize extends React.Component {
   resize(size) {
     const { dispatch, widgetId } = this.props;
     dispatch(changeSizeWidget(widgetId, size));
-    dispatch(dataRequestWidget(widgetId, { size }));
+    dispatch(dataRequestWidget(widgetId, { size, page: 1 }));
   }
 
   /**

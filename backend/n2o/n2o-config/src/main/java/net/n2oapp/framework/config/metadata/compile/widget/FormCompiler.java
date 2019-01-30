@@ -49,12 +49,13 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         Models models = p.getScope(Models.class);
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(form.getUpload());
+        SubModelsScope subModelsScope = new SubModelsScope();
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, uploadScope));
+                new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(form.getId(), ReduxModel.RESOLVE, validationList);
         compileValidation(form, source, validationScope);
-        compileDataProviderAndRoutes(form, source, p, validationList, widgetRoute);
+        compileDataProviderAndRoutes(form, source, p, validationList, widgetRoute, subModelsScope);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetRoute, widgetActions, object, validationList);
         if (source.getMode() != null && source.getMode().equals(FormMode.TWO_MODELS)) {
             form.getComponent().setModelPrefix("edit");

@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.test.TestContextEngine;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
 import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
@@ -38,6 +39,7 @@ public class N2oEnvironment implements MetadataEnvironment {
     private DomainProcessor domainProcessor;
     private PropertyResolver systemProperties;
     private ContextProcessor contextProcessor;
+    private SubModelsProcessor subModelsProcessor;
     private SourceTypeRegister sourceTypeRegister;
     private MetadataRegister metadataRegister;
     private RouteRegister routeRegister;
@@ -187,6 +189,16 @@ public class N2oEnvironment implements MetadataEnvironment {
 
     public void setContextProcessor(ContextProcessor contextProcessor) {
         this.contextProcessor = contextProcessor;
+    }
+
+
+    @Override
+    public SubModelsProcessor getSubModelsProcessor() {
+        return subModelsProcessor;
+    }
+
+    public void setSubModelsProcessor(SubModelsProcessor subModelsProcessor) {
+        this.subModelsProcessor = subModelsProcessor;
     }
 
     @Override
