@@ -19,6 +19,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertTrue;
 
 public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
     @Override
@@ -49,26 +50,26 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getPermissions().size(), is(1));
-        assertThat(securityObject.getPermissions().get(0), is("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission"));
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().get(0), is("admin"));
+        assertTrue(securityObject.getRoles().contains("admin"));
         assertThat(securityObject.getUsernames().size(), is(1));
-        assertThat(securityObject.getUsernames().get(0), is("user"));
+        assertTrue(securityObject.getUsernames().contains("user"));
 
         securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("page");
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().contains("admin"), is(true));
+        assertTrue(securityObject.getRoles().contains("admin"));
 
         securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getPermissions().size(), is(2));
-        assertThat(securityObject.getPermissions().contains("permission"), is(true));
-        assertThat(securityObject.getPermissions().contains("permission2"), is(true));
+        assertTrue(securityObject.getPermissions().contains("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission2"));
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().get(0), is("role"));
+        assertTrue(securityObject.getRoles().contains("role"));
         assertThat(securityObject.getUsernames(), nullValue());
 
         securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
@@ -76,7 +77,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().contains("admin"), is(true));
+        assertTrue(securityObject.getRoles().contains("admin"));
     }
 
     @Test
@@ -91,11 +92,11 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getPermissions().size(), is(1));
-        assertThat(securityObject.getPermissions().get(0), is("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission"));
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().get(0), is("admin"));
+        assertTrue(securityObject.getRoles().contains("admin"));
         assertThat(securityObject.getUsernames().size(), is(1));
-        assertThat(securityObject.getUsernames().get(0), is("user"));
+        assertTrue(securityObject.getUsernames().contains("user"));
         assertThat(securityObject.getAnonymous(), nullValue());
 
         securityObject = ((Security) page.getToolbar().get("bottomRight")
@@ -103,25 +104,25 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().contains("admin"), is(true));
+        assertTrue(securityObject.getRoles().contains("admin"));
         assertThat(securityObject.getAnonymous(), nullValue());
 
         securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getPermissions().size(), is(2));
-        assertThat(securityObject.getPermissions().contains("permission"), is(true));
-        assertThat(securityObject.getPermissions().contains("permission2"), is(true));
+        assertTrue(securityObject.getPermissions().contains("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission2"));
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().get(0), is("role"));
+        assertTrue(securityObject.getRoles().contains("role"));
         assertThat(securityObject.getUsernames(), nullValue());
-        assertThat(securityObject.getAnonymous(), is(true));
+        assertTrue(securityObject.getAnonymous());
 
         securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("page");
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
-        assertThat(securityObject.getRoles().contains("admin"), is(true));
+        assertTrue(securityObject.getRoles().contains("admin"));
         assertThat(securityObject.getAnonymous(), nullValue());
     }
 }

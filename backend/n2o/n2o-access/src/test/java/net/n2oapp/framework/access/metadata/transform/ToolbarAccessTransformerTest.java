@@ -6,6 +6,7 @@ import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -20,6 +21,8 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
     @Override
@@ -50,11 +53,11 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
-        assertThat(securityObjectToolbar.getPermissions().get(0), is("permission"));
+        assertThat(securityObjectToolbar.getPermissions().contains("permission"), is(true));
         assertThat(securityObjectToolbar.getUsernames().size(), is(1));
-        assertThat(securityObjectToolbar.getUsernames().get(0), is("user"));
+        assertThat(securityObjectToolbar.getUsernames().contains("user"), is(true));
         assertThat(securityObjectToolbar.getRoles().size(), is(1));
-        assertThat(securityObjectToolbar.getRoles().get(0), is("admin"));
+        assertThat(securityObjectToolbar.getRoles().contains("admin"), is(true));
 
         securityObjectToolbar = ((Security) page.getWidgets().get("testToolbarAccessTransformer_test").getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
@@ -62,9 +65,9 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
                 .get("update")).getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
-        assertThat(securityObjectToolbar.getPermissions().get(0), is("permission"));
+        assertThat(securityObjectToolbar.getPermissions().contains("permission"), is(true));
         assertThat(securityObjectToolbar.getUsernames().size(), is(1));
-        assertThat(securityObjectToolbar.getUsernames().get(0), is("user"));
+        assertThat(securityObjectToolbar.getUsernames().contains("user"), is(true));
         assertThat(securityObjectToolbar.getRoles(), nullValue());
 
     }
@@ -79,27 +82,53 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
                 .getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get("security")).getSecurityMap().get("object");
-        assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
-        assertThat(securityObjectAction.getAnonymous(), is(true));
+        assertTrue(securityObjectAction.equals(securityObjectToolbar));
+        assertTrue(securityObjectAction.getAnonymous());
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
-        assertThat(securityObjectToolbar.getPermissions().get(0), is("permission"));
+        assertTrue(securityObjectToolbar.getPermissions().contains("permission"));
         assertThat(securityObjectToolbar.getUsernames().size(), is(1));
-        assertThat(securityObjectToolbar.getUsernames().get(0), is("user"));
+        assertTrue(securityObjectToolbar.getUsernames().contains("user"));
         assertThat(securityObjectToolbar.getRoles().size(), is(1));
-        assertThat(securityObjectToolbar.getRoles().get(0), is("admin"));
-        assertThat(securityObjectToolbar.getAnonymous(), is(true));
+        assertTrue(securityObjectToolbar.getRoles().contains("admin"));
+        assertTrue(securityObjectToolbar.getAnonymous());
 
         securityObjectToolbar = ((Security) page.getWidgets().get("testToolbarAccessTransformer_test").getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         securityObjectAction = ((Security) ((Action) page.getWidgets().get("testToolbarAccessTransformer_test").getActions()
                 .get("update")).getProperties().get("security")).getSecurityMap().get("object");
-        assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
+        assertTrue(securityObjectAction.equals(securityObjectToolbar));
         assertThat(securityObjectAction.getAnonymous(), nullValue());
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
-        assertThat(securityObjectToolbar.getPermissions().get(0), is("permission"));
+        assertTrue(securityObjectToolbar.getPermissions().contains("permission"));
         assertThat(securityObjectToolbar.getUsernames().size(), is(1));
-        assertThat(securityObjectToolbar.getUsernames().get(0), is("user"));
+        assertTrue(securityObjectToolbar.getUsernames().contains("user"));
         assertThat(securityObjectToolbar.getRoles(), nullValue());
         assertThat(securityObjectToolbar.getAnonymous(), nullValue());
+    }
+
+    @Test
+    public void testSubMenu() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testSubMenu");
+
+        ReadCompileTerminalPipeline<?> pipeline = compile("net/n2oapp/framework/access/metadata/schema/testSubMenu.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testSubMenuAccess.page.xml",
+                "net/n2oapp/framework/access/metadata/transform/testSubMenuAccess.object.xml");
+
+        Page page = pipeline.transform().get(new PageContext("testSubMenuAccess"));
+
+        //permitAll в одном из menuItem делает доступным subMenu
+        Button subMenu1 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(0);
+        assertTrue(((Security) subMenu1.getProperties().get("security")).getSecurityMap().get("object").getPermitAll());
+
+        Button subMenu2 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(1);
+        assertTrue(((Security) subMenu2.getProperties().get("security")).getSecurityMap().get("object").getAnonymous());
+        assertTrue(((Security) subMenu2.getProperties().get("security")).getSecurityMap().get("object").getAuthenticated());
+
+        Button subMenu3 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(2);
+        assertTrue(((Security) subMenu2.getProperties().get("security")).getSecurityMap().get("object").getAuthenticated());
+        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getAnonymous());
+        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getRoles().isEmpty());
+        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getUsernames().isEmpty());
+        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getPermissions().isEmpty());
     }
 }

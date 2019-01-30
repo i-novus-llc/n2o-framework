@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Права доступа на клиенте
@@ -30,11 +30,11 @@ public class Security implements Serializable {
         @JsonProperty
         private Boolean permitAll;
         @JsonProperty
-        private List<String> roles;
+        private Set<String> roles;
         @JsonProperty
-        private List<String> permissions;
+        private Set<String> permissions;
         @JsonProperty
-        private List<String> usernames;
+        private Set<String> usernames;
         @JsonProperty
         private Boolean authenticated;
         @JsonProperty
