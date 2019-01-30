@@ -28,8 +28,8 @@ Application.propTypes = {
   error: PropTypes.object
 };
 
-const mapStateToProps = createStructuredSelector({
-  ...globalSelector
+const mapStateToProps = state => ({
+  ...globalSelector(state)
 });
 
 const mapDispatchToProps = dispatch => ({
