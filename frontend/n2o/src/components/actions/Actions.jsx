@@ -214,8 +214,8 @@ class Actions extends React.Component {
   /**
    * рендер кнопки-дропдауна
    */
-  renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size }) {
-    const dropdownProps = { size, title, color, hint, visible, icon };
+  renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
+    const dropdownProps = { size, title, color, hint, visible, icon, disabled };
 
     return (
       <ButtonContainer
