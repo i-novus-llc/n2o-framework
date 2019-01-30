@@ -23,6 +23,26 @@ import SecurityCheck from '../../core/auth/SecurityCheck';
 import linkResolver from '../../utils/linkResolver';
 
 /**
+ * Вспомогательная функция для SecurityCheck
+ * @param security
+ * @param component
+ * @returns {*}
+ * @constructor
+ */
+function Security({ security, component }) {
+  return isEmpty(security) ? (
+    component
+  ) : (
+    <SecurityCheck
+      config={security}
+      render={({ permissions }) => {
+        return permissions ? component : null;
+      }}
+    />
+  );
+}
+
+/**
  * Компонент redux-обертка для тулбара
  * @reactProps {object} actions - объект с src экшенов
  * @reactProps {object} toolbar - массив из групп кнопок
@@ -140,7 +160,7 @@ class Actions extends React.Component {
    * @returns {*}
    */
   renderButton(Component, button) {
-    return (
+    const btn = (
       <React.Fragment>
         <ButtonContainer
           id={button.id}
@@ -161,6 +181,8 @@ class Actions extends React.Component {
         />
       </React.Fragment>
     );
+
+    return <Security security={button.security} component={btn} />;
   }
 
   /**
@@ -180,16 +202,7 @@ class Actions extends React.Component {
         } else {
           buttonEl = this.renderButton(Button, button);
         }
-        return isEmpty(button.security) ? (
-          buttonEl
-        ) : (
-          <SecurityCheck
-            config={button.security}
-            render={({ permissions }) => {
-              return permissions ? buttonEl : null;
-            }}
-          />
-        );
+        return <Security security={button.security} component={buttonEl} />;
       })
     );
   }
@@ -290,16 +303,7 @@ class Actions extends React.Component {
             </ButtonGroup>
           );
 
-          return isEmpty(security) ? (
-            buttonGroup
-          ) : (
-            <SecurityCheck
-              config={security}
-              render={({ permissions }) => {
-                return permissions ? buttonGroup : null;
-              }}
-            />
-          );
+          return <Security security={security} component={buttonGroup} />;
         })}
       </ButtonToolbar>
     );
