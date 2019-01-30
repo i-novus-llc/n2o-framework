@@ -87,7 +87,12 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @private
      */
     async _setErrorMessage({ response }) {
-      const errorMessage = await response.json();
+      let errorMessage = null;
+      if (response) {
+        errorMessage = await response.json();
+      } else {
+        errorMessage = arguments[0].body;
+      }
       const messages = get(errorMessage, 'meta.alert.messages', false);
       messages && this._addAlertMessage(messages);
     }
