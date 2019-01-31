@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import _, { isEmpty, isEqual } from 'lodash';
+import _, { isEmpty, isEqual, pick } from 'lodash';
 import { pure } from 'recompose';
 import { HotKeys } from 'react-hotkeys';
 import cx from 'classnames';
@@ -186,10 +186,13 @@ class Table extends React.Component {
 
   renderCell(props) {
     const { redux } = this.props;
+
+    const styleProps = pick(props, ['width']);
+
     if (redux) {
-      return <ReduxCell {...props} />;
+      return <ReduxCell style={styleProps} {...props} />;
     }
-    return <TableCell {...props} />;
+    return <TableCell style={styleProps} {...props} />;
   }
 
   render() {
