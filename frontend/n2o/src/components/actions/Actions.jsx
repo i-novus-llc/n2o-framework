@@ -18,7 +18,7 @@ import ModalDialog from './ModalDialog/ModalDialog';
 import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
-import Security from '../../core/auth/Security';
+import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
 
 /**
@@ -161,7 +161,7 @@ class Actions extends React.Component {
       </React.Fragment>
     );
 
-    return <Security config={button.security} component={btn} />;
+    return <SecurityNotRender config={button.security} component={btn} />;
   }
 
   /**
@@ -181,7 +181,7 @@ class Actions extends React.Component {
         } else {
           buttonEl = this.renderButton(Button, button);
         }
-        return <Security config={button.security} component={buttonEl} />;
+        return <SecurityNotRender config={button.security} component={buttonEl} />;
       })
     );
   }
@@ -280,7 +280,7 @@ class Actions extends React.Component {
             </ButtonGroup>
           );
 
-          return <Security config={security} component={buttonGroup} />;
+          return <SecurityNotRender config={security} component={buttonGroup} />;
         })}
       </ButtonToolbar>
     );

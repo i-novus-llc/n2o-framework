@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 
 /**
  * Вспомогательная функция для SecurityCheck
- * @param security
+ * @param config
  * @param component
+ * @param rest
  * @returns {*}
  * @constructor
  */
-function Security({ component, config, ...rest }) {
+function SecurityNotRender({ component, config, ...rest }) {
   return isEmpty(config) ? (
     component
   ) : (
@@ -24,11 +25,11 @@ function Security({ component, config, ...rest }) {
   );
 }
 
-Security.propTypes = {
+SecurityNotRender.propTypes = {
   authProvider: PropTypes.func,
   config: PropTypes.object,
   user: PropTypes.object,
   onPermissionsSet: PropTypes.func
 };
 
-export default Security;
+export default SecurityNotRender;
