@@ -45,5 +45,23 @@
                 </enabling-condition>
             </conditions>
         </menu-item>
+        <sub-menu id="subMenu3" label="Видимость списка">
+            <menu-item id="menuItem4" label="Элементы списка">
+                <description>Исчезнет, если фамилия Ревин</description>
+                <conditions>
+                    <visibility-condition>
+                        <expression>surname !== 'Ревин'</expression>
+                    </visibility-condition>
+                </conditions>
+            </menu-item>
+            <menu-item id="menuItem5" label="Элементы списка">
+                <description>Исчезнет, если фамилия Ревин</description>
+                <conditions>
+                    <visibility-condition>
+                        <expression>surname !== 'Ревин'</expression>
+                    </visibility-condition>
+                </conditions>
+            </menu-item>
+        </sub-menu>
     </action-menu>
 </table>
