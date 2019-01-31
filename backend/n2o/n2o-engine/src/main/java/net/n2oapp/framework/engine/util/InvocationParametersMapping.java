@@ -140,7 +140,7 @@ public class InvocationParametersMapping {
         for (int i = 0; i < invocation.getArguments().length; i++) {
             if (classesOfArguments[i] == null)
                 continue;
-            if (invocation.getArguments()[i].equals(Argument.Type.CLASS) || invocation.getArguments()[i].getType().equals(Argument.Type.ENTITY)) {
+            if (invocation.getArguments()[i].getType().equals(Argument.Type.CLASS) || invocation.getArguments()[i].getType().equals(Argument.Type.ENTITY)) {
                 try {
                     argumentInstances[i] = classesOfArguments[i].newInstance();
                 } catch (InstantiationException | IllegalAccessException e) {
