@@ -36,7 +36,6 @@ export function* handleAction(action) {
  * Функция для мониторинга изменения видимости родителя списка
  * @param key
  * @param id
- * @returns {IterableIterator<*>}
  */
 export function* setParentVisibleIfAllChildChangeVisible({ key, id }) {
   const buttons = yield select(getContainerButtons(key));
