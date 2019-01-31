@@ -52,7 +52,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
     private void executeSubModel(SubModelQuery subModelQuery, Map<String, Object> dataSet, CompiledQuery subQuery) {
 
         Object subModelValue = dataSet.get(subModelQuery.getSubModel());
-        List<Map<String, Object>> subModels = null;
+        List<Map<String, Object>> subModels;
         if (subModelValue instanceof Collection) {
             if (((Collection) subModelValue).isEmpty()) return;
             if (!(((Collection) subModelValue).iterator().next() instanceof Map))
@@ -68,6 +68,8 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
             }
         } else if (subModelValue instanceof Map)
             subModels = Collections.singletonList((Map<String, Object>) subModelValue);
+        else
+            return;
 
         N2oQuery.Field field = subQuery.getFieldsMap().get(subModelQuery.getValueFieldId());
         if (field == null)
