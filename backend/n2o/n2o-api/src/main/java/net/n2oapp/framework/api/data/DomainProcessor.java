@@ -84,41 +84,11 @@ public class DomainProcessor {
         }
         domain = domain.toLowerCase();
         if (isArray(domain)) {
-            //если домен списковый, например "integer[]", приводим к домену его элементы
-            String domainElement = domain.replaceAll("\\[\\]", "");
-            try {
-                if (value instanceof String) {
-                    String array = (String) value;
-                    //json array?
-                    if (!(array.startsWith("[") && array.endsWith("]"))) {
-                        array = "[" + array + "]";
-                    }
-                    value = objectMapper.readValue(array, List.class);
-                }
-                Collection<Object> res = createCollection(value);
-                ((Collection<Object>) value).forEach(val -> res.add(deserialize(val, domainElement)));
-                return res;
-            } catch (Exception e) {
-                throw new IllegalStateException(e);
-            }
+            return convertArray(value, domain);
         } else if (isInterval(domain)) {
-            //если домен интервальный, например "interval{date}", приводим к домену начало и конец интервала
-            Map map = (Map) value;//todo а если значение в json?
-            Interval res = new Interval();
-            domain = domain.replaceAll("interval\\{", "").replaceAll("\\}", "");
-            res.put("begin", deserialize(map.get("begin"), domain));
-            res.put("end", deserialize(map.get("end"), domain));
-            return res;
+            return convertInterval(value, domain);
         } else {
-            //строку преобразуем в домен, а если значение не строка, то возвращаем как есть
-            if (value instanceof String || value instanceof Number) {
-                try {
-                    return toObject(domain, value.toString());
-                } catch (ParseException | IOException e) {
-                    throw new IllegalStateException(String.format("failed to cast to type [%s] value [%s]", domain, value), e);
-                }
-            } else
-                return value;
+            return convertObject(value, domain);
         }
     }
 
@@ -183,24 +153,94 @@ public class DomainProcessor {
         return deserialize(value, domain);
     }
 
-    private Collection<Object> createCollection(Object source) {
-        if (!(source instanceof Collection))
-            throw new IllegalStateException("domain is array, but value [" + source + "] not instanceof collection");
-        if (((Collection) source).isEmpty()) {
-            return (Collection) source;
-        }
-
-        if (source instanceof Set) {
-            return new HashSet<>();
-        }
-        if (source instanceof List) {
-            return new ArrayList<>();
-        }
-        return new ArrayList<>();
+    private Object convertObject(Object value, String domain) {
+        //строку преобразуем в домен, а если значение не строка, то возвращаем как есть
+        if (value instanceof String || value instanceof Number) {
+            try {
+                return toObject(domain, value.toString());
+            } catch (ParseException | IOException e) {
+                throw new IllegalStateException(String.format("failed to cast to type [%s] value [%s]", domain, value), e);
+            }
+        } else
+            return value;
     }
 
-    private String getDateFormat() {
-        return dateFormat;
+    /**
+     * Если домен интервальный, например "interval{date}", приводим к домену начало и конец интервала
+     *
+     * @param value  Значение
+     * @param domain Домен
+     * @return Интервал из двух значений приведенных к домену
+     */
+    @SuppressWarnings("unchecked")
+    private Interval<?> convertInterval(Object value, String domain) {
+        Interval<?> res = new Interval<>();
+        Object begin = null;
+        Object end = null;
+        String domainElement = domain.replaceAll("interval\\{", "").replaceAll("\\}", "");
+        if (value instanceof String
+                && (((String)value).startsWith("{")
+                && ((String)value).endsWith("}"))) {
+            //json
+            try {
+                value = objectMapper.readValue((String) value, Map.class);
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+        if (value instanceof Collection) {
+            //array
+            Iterator iterator = ((Collection) value).iterator();
+            begin = iterator.hasNext() ? iterator.next() : null;
+            end = iterator.hasNext() ? iterator.next() : null;
+        } else if (value instanceof Map) {
+            //map
+            Map<String, Object> map = (Map<String, Object>) value;
+            begin = map.getOrDefault("begin", map.get("from"));
+            end = map.getOrDefault("end", map.get("to"));
+        } else {
+            throw new IllegalStateException("Value " + value + " is not an interval");
+        }
+        res.setBegin(deserialize(begin, domainElement));
+        res.setEnd(deserialize(end, domainElement));
+        return res;
+    }
+
+    /**
+     * Если домен списковый, например "integer[]", приводим к домену его элементы
+     *
+     * @param value  значение
+     * @param domain домен
+     * @return Список элементов приведенных к домену
+     */
+    private Object convertArray(Object value, String domain) {
+        List<Object> resultList = new ArrayList<>();
+        String domainElement = domain.replaceAll("\\[\\]", "");
+        if (value instanceof String
+                && (((String) value).startsWith("["))
+                && (((String) value).endsWith("]"))) {
+            //json
+            try {
+                value = objectMapper.readValue((String)value, List.class);
+            } catch (IOException e) {
+                throw new IllegalStateException(e);
+            }
+        }
+        if (value instanceof String) {
+            //string list
+            String string = (String) value;
+            String[] elements = string.split(",");
+            for (String element : elements) {
+                resultList.add(deserialize(element, domainElement));
+            }
+        } else if (value instanceof Collection) {
+            for (Object element : (Collection<?>) value) {
+                resultList.add(deserialize(element, domainElement));
+            }
+        } else {
+            throw new IllegalStateException("Value " + value + " is not a collection");
+        }
+        return resultList;
     }
 
 
@@ -241,11 +281,11 @@ public class DomainProcessor {
     private Object toObject(String domain, String value) throws ParseException, IOException, NumberFormatException {
         if ((value == null) || (value.isEmpty())) return null;
         if (Domain.bool.getName().equals(domain)) return Boolean.parseBoolean(value);
-        if (Domain.date.getName().equals(domain)) return new SimpleDateFormat(getDateFormat()).parse(value);
+        if (Domain.date.getName().equals(domain)) return new SimpleDateFormat(dateFormat).parse(value);
         if (Domain.localdate.getName().equals(domain))
-            return LocalDate.parse(value, DateTimeFormatter.ofPattern(getDateFormat()));
+            return LocalDate.parse(value, DateTimeFormatter.ofPattern(dateFormat));
         if (Domain.localdatetime.getName().equals(domain))
-            return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(getDateFormat()));
+            return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(dateFormat));
         if (Domain.byte_.getName().equals(domain)) return Byte.parseByte(value);
         if (Domain.short_.getName().equals(domain)) return Short.parseShort(value);
         if (Domain.integer.getName().equals(domain)) return Integer.parseInt(value);
@@ -267,6 +307,5 @@ public class DomainProcessor {
         }
         throw new RuntimeException(String.format("arity '%s' for filter-type '%s' is unknown", type.arity, type));
     }
-
 
 }

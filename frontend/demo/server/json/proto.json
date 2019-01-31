@@ -1490,7 +1490,11 @@
       }
     }
   },
-  "models": {},
+  "models": {
+    "filter['proto_patients'].genders": {
+      "link": "models.filter['proto_patients'].genders"
+    }
+  },
   "layout": {
     "src": "LeftRightLayout",
     "regions": {

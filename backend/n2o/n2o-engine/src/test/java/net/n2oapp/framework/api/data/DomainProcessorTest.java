@@ -1,13 +1,8 @@
 package net.n2oapp.framework.api.data;
 
-import net.n2oapp.context.StaticSpringContext;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -23,16 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тесты для {@link DomainProcessor}
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/META-INF/test-common-context.xml")
 public class DomainProcessorTest {
-
-    @Before
-    public void setUp() throws Exception {
-        Properties properties = (Properties) StaticSpringContext.getBean("n2oProperties");
-        properties.setProperty("n2o.format.date", "dd.MM.yyyy HH:mm:ss");
-    }
-
 
     @Test
     public void testNullEmpty() throws Exception {
@@ -109,24 +95,67 @@ public class DomainProcessorTest {
     @Test
     public void testArrays() throws Exception {
         DomainProcessor proc = new DomainProcessor();
-        Date date1 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("01.02.2014 11:11:00");
-        Date date2 = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("02.02.2014 11:11:00");
-        List<Date> list = new ArrayList<>(Arrays.asList(date1, date2));
 
-        //уже пришли даты
-        list = (List<Date>) proc.deserialize(list, "date[]");
-        checkDates(date1, date2, list);
+        //список чисел с доменом
+        Object value = proc.deserialize(Arrays.asList("1", "2"), "integer[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(2));
+        assertThat(((List<?>) value).get(0), is(1));
+        assertThat(((List<?>) value).get(1), is(2));
 
-        //пришли строки
-        list = (List<Date>) proc.deserialize(Arrays.asList("01.02.2014 11:11:00", "02.02.2014 11:11:00"), "date[]");
-        checkDates(date1, date2, list);
+        //список чисел без домена (автоподбор домена)
+        value = proc.deserialize(Arrays.asList("1", "2"));
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(2));
+        assertThat(((List<?>) value).get(0), is(1));
+        assertThat(((List<?>) value).get(1), is(2));
 
-        //пришли даты и без домена
-        list = (List<Date>) proc.deserialize(list);
-        checkDates(date1, date2, list);
+        //список чисел в виде строки
+        value = proc.deserialize("1,2", "integer[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(2));
+        assertThat(((List<?>) value).get(0), is(1));
+        assertThat(((List<?>) value).get(1), is(2));
 
-        //примитивный объект, домен - массив
-        assert ((List) proc.deserialize("1", "integer[]")).get(0).equals(1);
+        //список чисел в виде строки json
+        value = proc.deserialize("[1,2]", "integer[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(2));
+        assertThat(((List<?>) value).get(0), is(1));
+        assertThat(((List<?>) value).get(1), is(2));
+
+        //список строк в виде строки
+        value = proc.deserialize("a,b", "string[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(2));
+        assertThat(((List<?>) value).get(0), is("a"));
+        assertThat(((List<?>) value).get(1), is("b"));
+
+        //json строк
+        value = proc.deserialize("[\"a\",\"b\"]", "string[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(2));
+        assertThat(((List<?>) value).get(0), is("a"));
+        assertThat(((List<?>) value).get(1), is("b"));
+
+        //json строковых чисел
+        value = proc.deserialize("[\"1\",\"2\"]", "integer[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(2));
+        assertThat(((List<?>) value).get(0), is(1));
+        assertThat(((List<?>) value).get(1), is(2));
+
+        //одно число как список
+        value = proc.deserialize("1", "integer[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(1));
+        assertThat(((List<?>) value).get(0), is(1));
+
+        //одна строка как список
+        value = proc.deserialize("a", "string[]");
+        assertThat(value, instanceOf(List.class));
+        assertThat(((List<?>) value).size(), is(1));
+        assertThat(((List<?>) value).get(0), is("a"));
     }
 
     @Test
@@ -135,19 +164,47 @@ public class DomainProcessorTest {
         Date date1 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.02.2014 11:11");
         Date date2 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("02.02.2014 11:11");
 
-        //уже пришли даты
-        Map<String, Date> map = new HashMap<>();
-        map.put("begin", date1);
-        map.put("end", date2);
-        checkDates(date1, date2, (Interval) proc.deserialize(map, "interval{date}"));
+        //мапа дат
+        Map<String, Date> mapDate = new HashMap<>();
+        mapDate.put("begin", date1);
+        mapDate.put("end", date2);
+        checkDates(date1, date2, (Interval) proc.deserialize(mapDate, "interval{date}"));
 
-        //пришли строки
-        Map<String, String> map2 = new HashMap<>();
-        map2.put("begin", "01.02.2014 11:11:00");
-        map2.put("end", "02.02.2014 11:11:00");
-        checkDates(date1, date2, (Interval) proc.deserialize(map2, "interval{date}"));
+        //мапа строковых дат
+        Map<String, String> mapString = new HashMap<>();
+        mapString.put("begin", "01.02.2014 11:11:00");
+        mapString.put("end", "02.02.2014 11:11:00");
+        checkDates(date1, date2, (Interval) proc.deserialize(mapString, "interval{date}"));
 
+        //мапа числел
+        Map<String, Integer> mapInteger = new HashMap<>();
+        mapInteger.put("begin", 1);
+        mapInteger.put("end", 2);
+        Object value = proc.deserialize(mapInteger, "interval{integer}");
+        assertThat(value, instanceOf(Interval.class));
+        assertThat(((Interval) value).getBegin(), is(1));
+        assertThat(((Interval) value).getEnd(), is(2));
 
+        //мапа строковых чисел
+        mapString = new HashMap<>();
+        mapString.put("begin", "1");
+        mapString.put("end", "2");
+        value = proc.deserialize(mapInteger, "interval{integer}");
+        assertThat(value, instanceOf(Interval.class));
+        assertThat(((Interval) value).getBegin(), is(1));
+        assertThat(((Interval) value).getEnd(), is(2));
+
+        //список чисел
+        value = proc.deserialize(Arrays.asList(1, 2), "interval{integer}");
+        assertThat(value, instanceOf(Interval.class));
+        assertThat(((Interval) value).getBegin(), is(1));
+        assertThat(((Interval) value).getEnd(), is(2));
+
+        //json чисел
+        value = proc.deserialize("{\"from\":1,\"to\":2}", "interval{integer}");
+        assertThat(value, instanceOf(Interval.class));
+        assertThat(((Interval) value).getBegin(), is(1));
+        assertThat(((Interval) value).getEnd(), is(2));
     }
 
     @Test
@@ -166,12 +223,6 @@ public class DomainProcessorTest {
         assert "123".equals(proc.serialize(123));
         Date date = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.01.2019 11:11");
         assertThat(proc.serialize(date), is("01.01.2019 11:11:00"));
-    }
-
-    private void checkDates(Date date1, Date date2, List<Date> list) {
-        assert list.size() == 2;
-        assert list.get(0).equals(date1);
-        assert list.get(1).equals(date2);
     }
 
     private void checkDates(Date date1, Date date2, Interval interval) {

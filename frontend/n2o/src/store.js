@@ -15,7 +15,7 @@ const sagaMiddleware = createSagaMiddleware();
 export default function configureStore(initialState, history, config) {
   const store = createStore(
     connectRouter(history)(rootReducer),
-    /* initialState, */
+    initialState,
     composeWithDevTools(
       applyMiddleware(
         batchDispatchMiddleware,

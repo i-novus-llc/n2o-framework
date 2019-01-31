@@ -41,8 +41,19 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         TabsRegion.Tab tab = new TabsRegion.Tab();
         boolean first = index.isFirst();
         tab.setId("tab" + index.get());
-        tab.setLabel(widget.getName());
-        tab.setIcon(widget.getIcon());
+
+        String label = null;
+        String icon = null;
+        if (widget.getRefId() != null) {
+            N2oWidget referable = p.getSource(widget.getRefId(), widget.getClass());
+            if (referable != null) {
+                label = referable.getName();
+                icon = referable.getIcon();
+            }
+        }
+        tab.setLabel(p.cast(widget.getName(), label));
+        tab.setIcon(p.cast(widget.getIcon(), icon));
+
         tab.setOpened(p.cast(widget.getOpened(), first ? true : null, false));
         tab.setFetchOnInit(tab.getOpened());
         tab.setProperties(p.mapAttributes(widget));

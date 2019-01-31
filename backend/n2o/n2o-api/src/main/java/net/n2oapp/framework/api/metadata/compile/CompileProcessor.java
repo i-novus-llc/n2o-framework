@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -113,7 +114,7 @@ public interface CompileProcessor {
      */
     String resolveText(String text);
 
-     /**
+    /**
      * Заменить в строке плейсхолдеры {...} на значения, кроме исключений
      *
      * @param text Строка с плейсхолдерами
@@ -124,21 +125,21 @@ public interface CompileProcessor {
     /**
      * Заменить в адресе плейсхолдеры на значения
      *
-     * @param url    Адрес
-     * @param pathMappings path параметры
+     * @param url           Адрес
+     * @param pathMappings  path параметры
      * @param queryMappings query параметры
      * @return Адрес со значениями вместо плейсхолдеров
      */
     String resolveUrl(String url, Map<String, ? extends BindLink> pathMappings, Map<String, ? extends BindLink> queryMappings);
 
     /**
-     * Заменить в адресе только переданные параметры на значения
+     * Заменить в адресе параметры, которые ссылаются на переданную модель
      *
      * @param url    Адрес
-     * @param params path параметры
+     * @param link   Ссылка на модель, по которой определяем какие параметры необходимо заменить
      * @return Измененный адрес
      */
-    String resolveUrlParams(String url, Set<String> params);
+    String resolveUrlParams(String url, ModelLink link);
 
     /**
      * Попытаться разрешить значение ModelLink
@@ -149,7 +150,16 @@ public interface CompileProcessor {
     ModelLink resolveLink(ModelLink link);
 
     /**
+     * Попытаться разрешить вложенные модели ссылки
+     *
+     * @param link  ссылка на значение
+     * @param links исходный список ссылок
+     */
+    void resolveSubModels(ModelLink link, List<ModelLink> links);
+
+    /**
      * Заменить в тексте плейсхолдеры на значения, используя модель
+     *
      * @param text Текст с плейсхолдерами
      * @param link Ссылка на модель, на которую ссылаются плейсхолдеры
      * @return Текст со значениями вместо плейсхолдеров
@@ -158,7 +168,8 @@ public interface CompileProcessor {
 
     /**
      * Превратить текст с ссылками в JS код
-     * @param text Текст
+     *
+     * @param text  Текст
      * @param clazz Тип значения, если это не JS код
      * @return JS код или объект типа clazz
      */
@@ -166,6 +177,7 @@ public interface CompileProcessor {
 
     /**
      * Превратить текст с ссылками в JS код
+     *
      * @param text Текст
      * @return JS код или исходная строка
      */

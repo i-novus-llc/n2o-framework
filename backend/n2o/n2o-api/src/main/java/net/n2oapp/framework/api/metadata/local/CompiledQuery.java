@@ -6,8 +6,8 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.CompiledMetadata;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.global.aware.OriginAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
+import net.n2oapp.framework.api.metadata.global.aware.OriginAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -34,6 +34,7 @@ public class CompiledQuery implements CompiledMetadata, OriginAware, PropertiesA
     private Set<String> sortingSet;
     private Map<String, Object> properties;
     private List<Validation> validations;
+    private List<SubModelQuery> subModelQueries;
 
     protected Map<String, N2oQuery.Field> fieldsMap;
     private Map<String, String> fieldNamesMap;
@@ -76,10 +77,6 @@ public class CompiledQuery implements CompiledMetadata, OriginAware, PropertiesA
     @Override
     public Class<? extends SourceMetadata> getSourceClass() {
         return N2oQuery.class;
-    }
-
-    public List<SubModelQuery> getSubModelQueries() {
-        return Collections.emptyList();//todo
     }
 
     public Map<String, Object> getFieldsDefaultValues() {

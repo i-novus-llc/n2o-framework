@@ -1,26 +1,31 @@
 package net.n2oapp.framework.api.metadata.local.view.widget.util;
 
-import net.n2oapp.criteria.api.CollectionPage;
-import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-
-import java.io.Serializable;
-import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import lombok.Getter;
+import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Compiled;
 
 /**
- * User: operehod
- * Date: 26.01.2015
- * Time: 17:48
+ * Информация о вложенных моделях выборки
  */
-public interface SubModelQuery extends Serializable {
+@Getter
+@Setter
+public class SubModelQuery implements Compiled {
 
+    private String subModel;
+    private String queryId;
+    private String valueFieldId;
+    private String labelFieldId;
+    private Boolean multi;
 
-    String getSubModel();
+    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, Boolean multi) {
+        this.subModel = subModel;
+        this.queryId = queryId;
+        this.valueFieldId = valueFieldId;
+        this.labelFieldId = labelFieldId;
+        this.multi = multi;
+    }
 
-    void applySubModel(Map<String, Object> dataSet,
-                              Function<String, CompiledQuery> querySupplier,
-                              BiFunction<CompiledQuery, N2oPreparedCriteria, CollectionPage<DataSet>> queryExecutor);
+    public SubModelQuery(String queryId) {
+        this.queryId = queryId;
+    }
 }

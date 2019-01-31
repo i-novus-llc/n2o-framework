@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.control.N2oListField;
 public abstract class N2oSingleListFieldAbstract extends N2oListField implements N2oSingleListField {
 
     @Override
-    protected boolean isSingle() {
+    public boolean isSingle() {
         return true;
     }
 }

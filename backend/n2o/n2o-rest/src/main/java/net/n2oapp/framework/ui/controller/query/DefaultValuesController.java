@@ -3,7 +3,6 @@ package net.n2oapp.framework.ui.controller.query;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
@@ -35,9 +34,8 @@ public abstract class DefaultValuesController extends GetController {
             defaultModel = new DataSet();
         }
 
-        subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), defaultModel, new RecordNotFoundCollector(responseInfo));
-
         if (requestInfo.getQuery() != null) {
+        subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), defaultModel);
             CollectionPage<DataSet> queryDefaultPage;
             queryDefaultPage = executeQuery(requestInfo, responseInfo);
             if (!queryDefaultPage.getCollection().isEmpty()) {

@@ -238,11 +238,7 @@
       }
     }
   },
-  "models": {
-    "resolve['proto_patients_update_main'].patrName": {
-      "value": "Тест"
-    }
-  },
+  "models": {},
   "layout": {
     "src": "SingleLayout",
     "regions": {

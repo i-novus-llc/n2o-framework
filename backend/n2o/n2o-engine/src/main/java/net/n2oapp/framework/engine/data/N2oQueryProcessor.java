@@ -30,11 +30,10 @@ import static net.n2oapp.framework.engine.util.MappingProcessor.outMap;
 public class N2oQueryProcessor implements QueryProcessor {
     private static final ExpressionParser parser = new SpelExpressionParser();
 
-    private N2oInvocationFactory invocationFactory;
     private ContextProcessor contextProcessor;
+    private N2oInvocationFactory invocationFactory;
+    private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
     private DomainProcessor domainProcessor;
-    private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor();
-
     private boolean pageStartsWith0;
 
     public N2oQueryProcessor(N2oInvocationFactory invocationFactory,
@@ -43,6 +42,7 @@ public class N2oQueryProcessor implements QueryProcessor {
         this.domainProcessor = domainProcessor;
         this.contextProcessor = contextProcessor;
         this.invocationFactory = invocationFactory;
+        this.pageStartsWith0 = pageStartsWith0;
     }
 
     @SuppressWarnings("unchecked")

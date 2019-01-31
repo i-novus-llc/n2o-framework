@@ -7,5 +7,5 @@ package net.n2oapp.framework.api.metadata.global.aware;
  */
 @Deprecated
 public interface OriginAware {
-    public boolean isReal();
+    boolean isReal();
 }

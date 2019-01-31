@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -25,7 +26,6 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
-import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -142,10 +142,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
-                                                ValidationList validationList, ParentRouteScope widgetRouteScope) {
+                                                ValidationList validationList, ParentRouteScope widgetRouteScope,
+                                                SubModelsScope subModelsScope) {
         CompiledQuery query = getDataProviderQuery(source, p);
         String widgetRoute = widgetRouteScope.getUrl();
-        compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, widgetRouteScope));
+        compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, widgetRouteScope, subModelsScope));
         compileRouteWidget(compiled, source, query, p, widgetRouteScope);
         compileFetchOnInit(source, compiled);
     }
@@ -324,7 +325,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     private WidgetDataProvider initDataProvider(D widget, S source, String widgetRoute, CompiledQuery query,
                                                 CompileProcessor p, ValidationList validationList,
-                                                ParentRouteScope parentRouteScope) {
+                                                ParentRouteScope parentRouteScope, SubModelsScope subModelsScope) {
         if (query == null)
             return null;
         WidgetDataProvider dataProvider = new WidgetDataProvider();
@@ -342,20 +343,25 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
-        p.addRoute(widgetRoute, getQueryContext(widget, source, widgetRoute, query, validationList));
+        p.addRoute(widgetRoute, getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
         return dataProvider;
     }
 
     protected QueryContext getQueryContext(D widget, S source, String route, CompiledQuery query,
-                                           ValidationList validationList) {
+                                           ValidationList validationList, SubModelsScope subModelsScope, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(query.getId(), route);
         queryContext.setValidations(validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER));
-        queryContext.setQuerySize(widget instanceof Form ? 1 : 10);
         queryContext.setFilters(widget.getFilters());
         queryContext.setUpload(widget.getUpload());
         queryContext.setFailAlertWidgetId(getFailAlertWidget(widget));
         queryContext.setSuccessAlertWidgetId(getSuccessAlertWidget(widget));
         queryContext.setMessagesForm(getMessagesForm(widget));
+        if (source instanceof N2oForm) {
+            queryContext.setSubModelQueries(subModelsScope);
+            queryContext.setQuerySize(1);
+        } else {
+            queryContext.setQuerySize(10);
+        }
 
         return queryContext;
     }
@@ -466,7 +472,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            CompiledQuery widgetQuery,
                                            CompiledObject widgetObject,
                                            ModelsScope modelsScope,
-                                           FiltersScope filtersScope) {
+                                           FiltersScope filtersScope,
+                                           SubModelsScope subModelsScope,
+                                           UploadScope uploadScope) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -489,7 +497,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 newFieldset.setItems(newFieldsetItems.toArray(items));
                 fieldSet = newFieldset;
             }
-            fieldSets.add(p.compile(fieldSet, context, widgetScope, widgetQuery, fieldSetScope, widgetObject, modelsScope, filtersScope, indexScope));
+            fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
+                    widgetScope, fieldSetScope, modelsScope, filtersScope, indexScope, subModelsScope, uploadScope));
         }
         return fieldSets;
     }

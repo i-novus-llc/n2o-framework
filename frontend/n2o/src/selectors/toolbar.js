@@ -36,7 +36,7 @@ const isInitSelector = (key, id) =>
  */
 const isVisibleSelector = (key, id) =>
   createSelector(makeButtonByKeyAndIdSelector(key, id), button => {
-    return button.isVisible;
+    return button.visible;
   });
 
 /*
@@ -44,7 +44,7 @@ const isVisibleSelector = (key, id) =>
  */
 const isDisabledSelector = (key, id) =>
   createSelector(makeButtonByKeyAndIdSelector(key, id), button => {
-    return button.isDisabled;
+    return button.disabled;
   });
 
 /**

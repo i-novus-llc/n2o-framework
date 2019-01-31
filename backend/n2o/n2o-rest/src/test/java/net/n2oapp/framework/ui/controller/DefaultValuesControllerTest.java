@@ -17,7 +17,7 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.selective.SelectiveMetadataLoader;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
-import net.n2oapp.framework.config.util.SubModelsProcessor;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
@@ -109,7 +109,7 @@ public class DefaultValuesControllerTest {
         UserContext userContext = new UserContext(contextEngine);
         ContextProcessor contextProcessor = new ContextProcessor(userContext);
         N2oQueryProcessor queryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor, new DomainProcessor());
-        SubModelsProcessor subModelsProcessor = Mockito.mock(SubModelsProcessor.class);
+        N2oSubModelsProcessor subModelsProcessor = Mockito.mock(N2oSubModelsProcessor.class);
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
