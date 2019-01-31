@@ -41,6 +41,7 @@ class ButtonContainer extends React.Component {
       isInit,
       dispatch,
       id,
+      parentId,
       containerKey,
       initialProps: {
         visible = true,
@@ -64,6 +65,7 @@ class ButtonContainer extends React.Component {
           visible,
           disabled,
           size,
+          parentId,
           color,
           icon,
           count,

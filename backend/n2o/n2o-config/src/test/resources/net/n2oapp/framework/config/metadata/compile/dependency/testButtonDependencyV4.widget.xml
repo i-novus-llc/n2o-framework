@@ -15,6 +15,14 @@
                 visibility-condition="surname !== 'Ревин'" enabling-condition="name !== 'Людмила'" model="filter">
             <invoke operation-id="dummy"/>
         </button>
+        <sub-menu label="Видимость списка">
+            <menu-item label="Элементы списка"
+                       description="Исчезнет, если фамилия Ревин"
+                       visibility-condition="surname !== 'Ревин'"/>
+            <menu-item label="Элементы списка"
+                       description="Исчезнет, если фамилия Ревин"
+                       visibility-condition="surname !== 'Ревин'"/>
+        </sub-menu>
     </toolbar>
 
 </table>

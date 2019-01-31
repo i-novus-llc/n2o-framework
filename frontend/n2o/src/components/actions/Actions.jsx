@@ -11,7 +11,7 @@ import {
   DropdownItem
 } from 'reactstrap';
 import cx from 'classnames';
-import { isEmpty } from 'lodash';
+import { isEmpty, every } from 'lodash';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
@@ -139,7 +139,7 @@ class Actions extends React.Component {
    * @param button
    * @returns {*}
    */
-  renderButton(Component, button) {
+  renderButton(Component, button, parentId) {
     return (
       <React.Fragment>
         <ButtonContainer
@@ -148,6 +148,7 @@ class Actions extends React.Component {
           initialProps={button}
           component={Component}
           containerKey={this.props.containerKey}
+          parentId={parentId}
         />
         <ModalDialog
           {...this.mapButtonConfirmProps(button)}
@@ -215,7 +216,7 @@ class Actions extends React.Component {
    * рендер кнопки-дропдауна
    */
   renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
-    const dropdownProps = { size, title, color, hint, visible, icon, disabled };
+    const dropdownProps = { size, title, color, hint, icon, visible, disabled };
 
     return (
       <ButtonContainer
@@ -224,7 +225,7 @@ class Actions extends React.Component {
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
       >
-        {subMenu.map(item => this.renderButton(DropdownItem, item))}
+        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
       </ButtonContainer>
     );
   }
@@ -287,6 +288,7 @@ class Actions extends React.Component {
               {this.renderButtons(buttons)}
             </ButtonGroup>
           );
+
           return isEmpty(security) ? (
             buttonGroup
           ) : (

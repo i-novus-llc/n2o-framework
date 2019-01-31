@@ -62,6 +62,51 @@
               },
               "title": "Комбинация",
               "hint": "Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин"
+            },
+            {
+              "id": "subMenu3",
+              "title": "Видимость списка",
+              "hint": "Исчезнет, если фамилия Ревин. Условие видимости на элементах списка",
+              "subMenu": [
+                {
+                  "id": "menuItem4",
+                  "conditions": {
+                    "visible": [
+                      {
+                        "expression": "surname !== 'Ревин'",
+                        "modelLink": "models.resolve['Page_Table']"
+                      }
+                    ],
+                    "enabled": [
+                      {
+                        "expression": "!_.isEmpty(this)",
+                        "modelLink": "models.resolve['Page_Table']"
+                      }
+                    ]
+                  },
+                  "title": "Элементы списка",
+                  "hint": "Исчезнет, если фамилия Ревин"
+                },
+                {
+                  "id": "menuItem5",
+                  "conditions": {
+                    "visible": [
+                      {
+                        "expression": "surname !== 'Ревин'",
+                        "modelLink": "models.resolve['Page_Table']"
+                      }
+                    ],
+                    "enabled": [
+                      {
+                        "expression": "!_.isEmpty(this)",
+                        "modelLink": "models.resolve['Page_Table']"
+                      }
+                    ]
+                  },
+                  "title": "Элементы списка",
+                  "hint": "Исчезнет, если фамилия Ревин"
+                }
+              ]
             }
           ]
         }
