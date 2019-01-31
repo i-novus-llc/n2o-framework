@@ -130,6 +130,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             component.setHeaders(headers);
             component.setCells(cells);
             component.setSorting(sortings);
+            component.setHasSelect(source.getSelected() == null || source.getSelected());
         }
     }
 
