@@ -18,29 +18,8 @@ import ModalDialog from './ModalDialog/ModalDialog';
 import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
-import SecurityCheck from '../../core/auth/SecurityCheck';
-
+import Security from '../../core/auth/Security';
 import linkResolver from '../../utils/linkResolver';
-
-/**
- * Вспомогательная функция для SecurityCheck
- * @param security
- * @param component
- * @returns {*}
- * @constructor
- */
-function Security({ security, component }) {
-  return isEmpty(security) ? (
-    component
-  ) : (
-    <SecurityCheck
-      config={security}
-      render={({ permissions }) => {
-        return permissions ? component : null;
-      }}
-    />
-  );
-}
 
 /**
  * Компонент redux-обертка для тулбара
@@ -182,7 +161,7 @@ class Actions extends React.Component {
       </React.Fragment>
     );
 
-    return <Security security={button.security} component={btn} />;
+    return <Security config={button.security} component={btn} />;
   }
 
   /**
@@ -202,7 +181,7 @@ class Actions extends React.Component {
         } else {
           buttonEl = this.renderButton(Button, button);
         }
-        return <Security security={button.security} component={buttonEl} />;
+        return <Security config={button.security} component={buttonEl} />;
       })
     );
   }
@@ -301,7 +280,7 @@ class Actions extends React.Component {
             </ButtonGroup>
           );
 
-          return <Security security={security} component={buttonGroup} />;
+          return <Security config={security} component={buttonGroup} />;
         })}
       </ButtonToolbar>
     );
