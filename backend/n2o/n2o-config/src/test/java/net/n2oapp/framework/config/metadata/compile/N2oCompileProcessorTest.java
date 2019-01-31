@@ -107,9 +107,33 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());
         resultText = processor.resolveText("Hello, {name}", testML);
         assertThat(resultText, is("Hello, {name}"));
+    }
 
-
-
+    @Test
+    public void testResolveUrlParam() {
+        PageContext context = new PageContext("test");
+        Map<String, ModelLink> routeInfos = new HashMap<>();
+        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        value.setFieldValue("name");
+        routeInfos.put("paramName", value);
+        context.setQueryRouteMapping(routeInfos);
+        DataSet data = new DataSet();
+        data.put("paramName", "Joe");
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+        // все необходимые данные есть и плейсхолдер заменился заменился
+        ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        String resultText = processor.resolveUrlParams("http://test/:name/action", testML);
+        assertThat(resultText, is("http://test/Joe/action"));
+        // нет подходящего по widgetId
+        resultText = processor.resolveUrlParams("http://test/:name/action", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
+        assertThat(resultText, is("http://test/:name/action"));
+        // нет подходящего по model
+        resultText = processor.resolveText("http://test/:name/action", new ModelLink(ReduxModel.FILTER, "widgetId"));
+        assertThat(resultText, is("http://test/:name/action"));
+        // нет подходящего значения в data
+        processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());
+        resultText = processor.resolveText("http://test/:name/action", testML);
+        assertThat(resultText, is("http://test/:name/action"));
     }
 
 }

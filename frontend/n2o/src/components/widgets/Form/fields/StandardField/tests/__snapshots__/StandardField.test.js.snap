@@ -2,7 +2,7 @@
 
 exports[`StandardField рендерится корректно 1`] = `
 <div
-  className="form-group test"
+  className="n2o-form-group form-group test"
   style={
     Object {
       "display": "block",
@@ -68,6 +68,9 @@ exports[`StandardField рендерится корректно 1`] = `
     >
       Введите значение
     </div>
+    <div
+      className="n2o-validation-message"
+    />
   </div>
 </div>
 `;

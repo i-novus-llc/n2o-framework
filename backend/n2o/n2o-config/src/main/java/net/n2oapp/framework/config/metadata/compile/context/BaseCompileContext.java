@@ -73,12 +73,8 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     @Override
     public String getCompiledId(CompileProcessor p) {
         if (route != null) {
-            String url = route;
-            if (StringUtils.hasLink(sourceId) && p != null) {
-                return RouteUtil.convertPathToId(url) + "_" + getSourceId(p);
-            } else {
-                return RouteUtil.convertPathToId(url);
-            }
+            String url = getRoute(p);
+            return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
             return p.resolveText(sourceId, parentModelLink);
@@ -104,7 +100,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getRoute(CompileProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveUrlParams(route, StringUtils.collectLinks(sourceId));
+            return p.resolveUrlParams(route, parentModelLink);
         }
         return route;
     }
