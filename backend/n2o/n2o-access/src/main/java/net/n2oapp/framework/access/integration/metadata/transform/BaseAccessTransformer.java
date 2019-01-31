@@ -18,10 +18,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileTransformer;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.OBJECT_ACCESS;
@@ -248,7 +245,41 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         to.getProperties().put("security", properties.get("security"));
     }
 
-    protected void merge(Security.SecurityObject destination, List<Security.SecurityObject> sources) {
+    protected void merge(PropertiesAware destination, List<? extends PropertiesAware> sources) {
+        if (destination == null || sources == null) return;
+        Map<String, List<Security.SecurityObject>> securityObjects = new HashMap<>();
+        for (PropertiesAware source : sources) {
+            if (source.getProperties() != null && source.getProperties().containsKey("security")) {
+                Security sourceSecurity = (Security) source.getProperties().get("security");
+                if (sourceSecurity.getSecurityMap() == null || sourceSecurity.getSecurityMap().isEmpty())
+                    continue;
+                for (String securityObjectKey : sourceSecurity.getSecurityMap().keySet()) {
+                    if (!securityObjects.containsKey(securityObjectKey)) {
+                        securityObjects.put(securityObjectKey, new ArrayList<>());
+                    }
+                    securityObjects.get(securityObjectKey)
+                            .add(sourceSecurity.getSecurityMap().get(securityObjectKey));
+                }
+            }
+        }
+
+        Security security = new Security();
+        security.setSecurityMap(new HashMap<>());
+        for (String securityKey : securityObjects.keySet()) {
+            Security.SecurityObject securityObject = new Security.SecurityObject();
+            if (securityObjects.get(securityKey).size() == sources.size())
+                mergeSecurityObjects(securityObject, securityObjects.get(securityKey));
+            if (!securityObject.isEmpty())
+                security.getSecurityMap().put(securityKey, securityObject);
+        }
+        if (!security.getSecurityMap().isEmpty()) {
+            if (destination.getProperties() == null)
+                destination.setProperties(new HashMap<>());
+            destination.getProperties().put("security", security);
+        }
+    }
+
+    private void mergeSecurityObjects(Security.SecurityObject destination, List<Security.SecurityObject> sources) {
         boolean permitAll = false;
         boolean denied = true;
         boolean anonymous = false;

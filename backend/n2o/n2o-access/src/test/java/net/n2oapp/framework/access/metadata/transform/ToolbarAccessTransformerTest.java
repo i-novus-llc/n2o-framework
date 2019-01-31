@@ -19,8 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -82,26 +81,26 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
                 .getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get("security")).getSecurityMap().get("object");
-        assertTrue(securityObjectAction.equals(securityObjectToolbar));
-        assertTrue(securityObjectAction.getAnonymous());
+        assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
+        assertThat(securityObjectAction.getAnonymous(), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
-        assertTrue(securityObjectToolbar.getPermissions().contains("permission"));
+        assertThat(securityObjectToolbar.getPermissions(), hasItem("permission"));
         assertThat(securityObjectToolbar.getUsernames().size(), is(1));
-        assertTrue(securityObjectToolbar.getUsernames().contains("user"));
+        assertThat(securityObjectToolbar.getUsernames(), hasItem("user"));
         assertThat(securityObjectToolbar.getRoles().size(), is(1));
-        assertTrue(securityObjectToolbar.getRoles().contains("admin"));
-        assertTrue(securityObjectToolbar.getAnonymous());
+        assertThat(securityObjectToolbar.getRoles(), hasItem("admin"));
+        assertThat(securityObjectToolbar.getAnonymous(), is(true));
 
         securityObjectToolbar = ((Security) page.getWidgets().get("testToolbarAccessTransformer_test").getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         securityObjectAction = ((Security) ((Action) page.getWidgets().get("testToolbarAccessTransformer_test").getActions()
                 .get("update")).getProperties().get("security")).getSecurityMap().get("object");
-        assertTrue(securityObjectAction.equals(securityObjectToolbar));
+        assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectAction.getAnonymous(), nullValue());
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
-        assertTrue(securityObjectToolbar.getPermissions().contains("permission"));
+        assertThat(securityObjectToolbar.getPermissions(), hasItem("permission"));
         assertThat(securityObjectToolbar.getUsernames().size(), is(1));
-        assertTrue(securityObjectToolbar.getUsernames().contains("user"));
+        assertThat(securityObjectToolbar.getUsernames(), hasItem("user"));
         assertThat(securityObjectToolbar.getRoles(), nullValue());
         assertThat(securityObjectToolbar.getAnonymous(), nullValue());
     }
@@ -130,5 +129,11 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getRoles().isEmpty());
         assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getUsernames().isEmpty());
         assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getPermissions().isEmpty());
+
+        //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security
+        Button subMenu4 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(3);
+        assertThat(subMenu4.getSubMenu().get(0).getProperties().get("security"), notNullValue());
+        assertThat(subMenu4.getSubMenu().get(1).getProperties(), nullValue());
+        assertThat(subMenu4.getProperties(), nullValue());
     }
 }
