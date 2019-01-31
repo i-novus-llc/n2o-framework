@@ -15,6 +15,12 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  */
 @Component
 public class HiddenCompiler extends StandardFieldCompiler<Hidden, N2oHidden>{
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.hidden.src";
+    }
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oHidden.class;
@@ -23,7 +29,6 @@ public class HiddenCompiler extends StandardFieldCompiler<Hidden, N2oHidden>{
     @Override
     public StandardField<Hidden> compile(N2oHidden source, CompileContext<?, ?> context, CompileProcessor p) {
         Hidden field = new Hidden();
-        field.setControlSrc(p.cast(field.getControlSrc(), p.resolve(property("n2o.api.control.hidden.src"), String.class)));
         StandardField<Hidden> hiddenField = compileStandardField(field, source, context, p);
         hiddenField.setVisible(false);
         return hiddenField;

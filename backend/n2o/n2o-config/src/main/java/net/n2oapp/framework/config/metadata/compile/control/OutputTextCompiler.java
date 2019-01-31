@@ -18,6 +18,11 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public class OutputTextCompiler extends StandardFieldCompiler<OutputText, N2oOutputText> {
 
     @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.output_text.src";
+    }
+
+    @Override
     public Class<? extends Source> getSourceClass() {
         return N2oOutputText.class;
     }
@@ -25,7 +30,6 @@ public class OutputTextCompiler extends StandardFieldCompiler<OutputText, N2oOut
     @Override
     public StandardField<OutputText> compile(N2oOutputText source, CompileContext<?, ?> context, CompileProcessor p) {
         OutputText outputText = new OutputText();
-        outputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.output_text.src"), String.class)));
         outputText.setPosition(source.getPosition());
         outputText.setType(source.getType());
         outputText.setIcon(p.resolveJS(source.getIcon()));
