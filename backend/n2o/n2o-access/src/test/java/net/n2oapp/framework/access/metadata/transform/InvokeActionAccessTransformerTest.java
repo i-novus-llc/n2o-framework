@@ -19,6 +19,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertTrue;
 
 public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
 
@@ -49,17 +50,17 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getRoles(), nullValue());
         assertThat(securityObject.getPermissions().size(), is(1));
-        assertThat(securityObject.getPermissions().get(0), is("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission"));
         assertThat(securityObject.getUsernames().size(), is(1));
-        assertThat(securityObject.getUsernames().get(0), is("user"));
+        assertTrue(securityObject.getUsernames().contains("user"));
 
         securityObject = ((Security) page.getActions().get("update")
                 .getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getRoles(), nullValue());
         assertThat(securityObject.getPermissions().size(), is(1));
-        assertThat(securityObject.getPermissions().get(0), is("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission"));
         assertThat(securityObject.getUsernames().size(), is(1));
-        assertThat(securityObject.getUsernames().get(0), is("user"));
+        assertTrue(securityObject.getUsernames().contains("user"));
     }
 
     @Test
@@ -74,19 +75,19 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
                 .get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getRoles(), nullValue());
         assertThat(securityObject.getPermissions().size(), is(1));
-        assertThat(securityObject.getPermissions().get(0), is("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission"));
         assertThat(securityObject.getUsernames().size(), is(1));
-        assertThat(securityObject.getUsernames().get(0), is("user"));
-        assertThat(securityObject.getAnonymous(), is(true));
+        assertTrue(securityObject.getUsernames().contains("user"));
+        assertTrue(securityObject.getAnonymous());
 
         securityObject = ((Security) page.getActions().get("update")
                 .getProperties().get("security")).getSecurityMap().get("object");
         assertThat(securityObject.getRoles(), nullValue());
         assertThat(securityObject.getPermissions().size(), is(1));
-        assertThat(securityObject.getPermissions().get(0), is("permission"));
+        assertTrue(securityObject.getPermissions().contains("permission"));
         assertThat(securityObject.getUsernames().size(), is(1));
-        assertThat(securityObject.getUsernames().get(0), is("user"));
-        assertThat(securityObject.getAnonymous(), is(true));
+        assertTrue(securityObject.getUsernames().contains("user"));
+        assertTrue(securityObject.getAnonymous());
 
     }
 }
