@@ -13,14 +13,12 @@ import net.n2oapp.framework.access.simple.PermissionAndRoleCollector;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.CompiledClassAware;
+import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileTransformer;
-import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.OBJECT_ACCESS;
@@ -59,9 +57,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (schema.getPermitAllPoints() != null) {
             schema.getPermitAllPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
-                            && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
+                            && StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getObjectId(), objectId)
                             && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
-                                StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
+                            StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -78,9 +76,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (schema.getAuthenticatedPoints() != null) {
             schema.getAuthenticatedPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
-                            && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
+                            && StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getObjectId(), objectId)
                             && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
-                                StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
+                            StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -96,10 +94,10 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
 
         if (schema.getAnonymousPoints() != null) {
             schema.getAnonymousPoints().stream()
-                .filter(ap -> ap instanceof N2oObjectAccessPoint
-                        && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
-                        && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
-                            StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId)))
+                    .filter(ap -> ap instanceof N2oObjectAccessPoint
+                            && StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getObjectId(), objectId)
+                            && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
+                            StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -119,7 +117,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             securityObject.setUsernames(userAccesses
                     .stream()
                     .map(N2oUserAccess::getId)
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toSet()));
         }
         List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oObjectAccessPoint.class,
                 OBJECT_ACCESS.apply(objectId, operationId), schema);
@@ -127,7 +125,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             securityObject.setPermissions(permissions
                     .stream()
                     .map(N2oPermission::getId)
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toSet()));
         }
         List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oObjectAccessPoint.class,
                 OBJECT_ACCESS.apply(objectId, operationId), schema);
@@ -135,7 +133,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             securityObject.setRoles(roles
                     .stream()
                     .map(N2oRole::getId)
-                    .collect(Collectors.toList()));
+                    .collect(Collectors.toSet()));
         }
 
         if (securityObject.isEmpty()) {
@@ -163,7 +161,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (schema.getPermitAllPoints() != null) {
             schema.getPermitAllPoints().stream()
                     .filter(ap -> ap instanceof N2oPageAccessPoint
-                            && ((N2oPageAccessPoint)ap).getPage().equals(pageId))
+                            && ((N2oPageAccessPoint) ap).getPage().equals(pageId))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -179,7 +177,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         if (schema.getAuthenticatedPoints() != null) {
             schema.getAuthenticatedPoints().stream()
                     .filter(ap -> ap instanceof N2oPageAccessPoint
-                            && ((N2oPageAccessPoint)ap).getPage().equals(pageId))
+                            && ((N2oPageAccessPoint) ap).getPage().equals(pageId))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
@@ -199,7 +197,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                     roles
                             .stream()
                             .map(N2oRole::getId)
-                            .collect(Collectors.toList())
+                            .collect(Collectors.toSet())
             );
         }
 
@@ -210,7 +208,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                     permissions
                             .stream()
                             .map(N2oPermission::getId)
-                            .collect(Collectors.toList())
+                            .collect(Collectors.toSet())
             );
         }
 
@@ -221,7 +219,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                     userAccesses
                             .stream()
                             .map(N2oUserAccess::getId)
-                            .collect(Collectors.toList())
+                            .collect(Collectors.toSet())
             );
         }
 
@@ -247,4 +245,75 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         to.getProperties().put("security", properties.get("security"));
     }
 
+    protected void merge(PropertiesAware destination, List<? extends PropertiesAware> sources) {
+        if (destination == null || sources == null) return;
+        Map<String, List<Security.SecurityObject>> securityObjects = new HashMap<>();
+        for (PropertiesAware source : sources) {
+            if (source.getProperties() != null && source.getProperties().containsKey("security")) {
+                Security sourceSecurity = (Security) source.getProperties().get("security");
+                if (sourceSecurity.getSecurityMap() == null || sourceSecurity.getSecurityMap().isEmpty())
+                    continue;
+                for (String securityObjectKey : sourceSecurity.getSecurityMap().keySet()) {
+                    if (!securityObjects.containsKey(securityObjectKey)) {
+                        securityObjects.put(securityObjectKey, new ArrayList<>());
+                    }
+                    securityObjects.get(securityObjectKey)
+                            .add(sourceSecurity.getSecurityMap().get(securityObjectKey));
+                }
+            }
+        }
+
+        Security security = new Security();
+        security.setSecurityMap(new HashMap<>());
+        for (String securityKey : securityObjects.keySet()) {
+            Security.SecurityObject securityObject = new Security.SecurityObject();
+            if (securityObjects.get(securityKey).size() == sources.size())
+                mergeSecurityObjects(securityObject, securityObjects.get(securityKey));
+            if (!securityObject.isEmpty())
+                security.getSecurityMap().put(securityKey, securityObject);
+        }
+        if (!security.getSecurityMap().isEmpty()) {
+            if (destination.getProperties() == null)
+                destination.setProperties(new HashMap<>());
+            destination.getProperties().put("security", security);
+        }
+    }
+
+    private void mergeSecurityObjects(Security.SecurityObject destination, List<Security.SecurityObject> sources) {
+        boolean permitAll = false;
+        boolean denied = true;
+        boolean anonymous = false;
+        boolean authenticated = false;
+
+        for (Security.SecurityObject source : sources) {
+            denied = (source.getDenied() != null && source.getDenied()) && denied;
+            permitAll = (source.getPermitAll() != null && source.getPermitAll()) || permitAll;
+            anonymous = (source.getAnonymous() != null && source.getAnonymous()) || anonymous;
+            authenticated = (source.getAuthenticated() != null && source.getAuthenticated()) || authenticated;
+
+            if (source.getUsernames() != null) {
+                if (destination.getUsernames() == null)
+                    destination.setUsernames(new HashSet<>());
+                destination.getUsernames().addAll(source.getUsernames());
+            }
+            if (source.getPermissions() != null) {
+                if (destination.getPermissions() == null)
+                    destination.setPermissions(new HashSet<>());
+                destination.getPermissions().addAll(source.getPermissions());
+            }
+            if (source.getRoles() != null) {
+                if (destination.getRoles() == null)
+                    destination.setRoles(new HashSet<>());
+                destination.getRoles().addAll(source.getRoles());
+            }
+        }
+        if (permitAll) {
+            destination.setPermitAll(true);
+        } else if (authenticated || anonymous) {
+            destination.setAnonymous(anonymous);
+            destination.setAuthenticated(authenticated);
+        } else if (denied) {
+            destination.setDenied(true);
+        }
+    }
 }

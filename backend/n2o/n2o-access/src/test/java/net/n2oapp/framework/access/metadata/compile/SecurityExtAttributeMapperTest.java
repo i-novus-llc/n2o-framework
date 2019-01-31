@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -50,9 +51,9 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
-        securityObject.setUsernames(Arrays.asList("user"));
-        securityObject.setPermissions(Arrays.asList("admin", "user"));
-        securityObject.setRoles(Arrays.asList("admin"));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
@@ -68,9 +69,9 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
-        securityObject.setUsernames(Arrays.asList("user"));
-        securityObject.setPermissions(Arrays.asList("admin", "user"));
-        securityObject.setRoles(Arrays.asList("admin"));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
@@ -93,15 +94,15 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setAuthenticated(true);
         securityObject.setDenied(false);
         securityObject.setAnonymous(false);
-        securityObject.setRoles(Arrays.asList("role1", "role2"));
-        securityObject.setUsernames(Arrays.asList("user1"));
-        securityObject.setPermissions(Arrays.asList("p1", "p2", "p3"));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
 
-        assertThat( operation.getProperties().get("security"), is(security));
+        assertThat(operation.getProperties().get("security"), is(security));
         assertThat(((Security) operation.getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
     }
 
@@ -114,15 +115,15 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setAuthenticated(true);
         securityObject.setDenied(false);
         securityObject.setAnonymous(false);
-        securityObject.setRoles(Arrays.asList("role1", "role2"));
-        securityObject.setUsernames(Arrays.asList("user1"));
-        securityObject.setPermissions(Arrays.asList("p1", "p2", "p3"));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
 
         assertThat(query.getProperties().get("security"), is(security));
-        assertThat(((Security)query.getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
     }
 }
