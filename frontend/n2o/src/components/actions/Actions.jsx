@@ -18,8 +18,7 @@ import ModalDialog from './ModalDialog/ModalDialog';
 import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
-import SecurityCheck from '../../core/auth/SecurityCheck';
-
+import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
 
 /**
@@ -139,8 +138,8 @@ class Actions extends React.Component {
    * @param button
    * @returns {*}
    */
-  renderButton(Component, button, parentId) {
-    return (
+  renderButton(Component, button) {
+    const btn = (
       <React.Fragment>
         <ButtonContainer
           id={button.id}
@@ -148,7 +147,6 @@ class Actions extends React.Component {
           initialProps={button}
           component={Component}
           containerKey={this.props.containerKey}
-          parentId={parentId}
         />
         <ModalDialog
           {...this.mapButtonConfirmProps(button)}
@@ -162,6 +160,8 @@ class Actions extends React.Component {
         />
       </React.Fragment>
     );
+
+    return <SecurityNotRender config={button.security} component={btn} />;
   }
 
   /**
@@ -181,16 +181,7 @@ class Actions extends React.Component {
         } else {
           buttonEl = this.renderButton(Button, button);
         }
-        return isEmpty(button.security) ? (
-          buttonEl
-        ) : (
-          <SecurityCheck
-            config={button.security}
-            render={({ permissions }) => {
-              return permissions ? buttonEl : null;
-            }}
-          />
-        );
+        return <SecurityNotRender config={button.security} component={buttonEl} />;
       })
     );
   }
@@ -289,16 +280,7 @@ class Actions extends React.Component {
             </ButtonGroup>
           );
 
-          return isEmpty(security) ? (
-            buttonGroup
-          ) : (
-            <SecurityCheck
-              config={security}
-              render={({ permissions }) => {
-                return permissions ? buttonGroup : null;
-              }}
-            />
-          );
+          return <SecurityNotRender config={security} component={buttonGroup} />;
         })}
       </ButtonToolbar>
     );
