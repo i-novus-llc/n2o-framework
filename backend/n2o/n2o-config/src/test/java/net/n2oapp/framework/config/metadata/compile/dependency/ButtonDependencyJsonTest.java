@@ -39,7 +39,12 @@ public class ButtonDependencyJsonTest extends JsonMetadataTestBase {
                         "buttons[0].conditions.visible[0].modelLink",
                         "buttons[1].conditions.enabled[0].modelLink",
                         "buttons[2].conditions.visible[0].modelLink",
-                        "buttons[2].conditions.enabled[0].modelLink")
+                        "buttons[2].conditions.enabled[0].modelLink",
+                        "buttons[3].hint",
+                        "buttons[3].subMenu[0].conditions.visible[0].modelLink",
+                        "buttons[3].subMenu[0].conditions.enabled[0].modelLink",
+                        "buttons[3].subMenu[1].conditions.visible[0].modelLink",
+                        "buttons[3].subMenu[1].conditions.enabled[0].modelLink")
                 .cutXml("toolbar.topLeft[0]")
                 .assertEquals();
     }
@@ -56,7 +61,12 @@ public class ButtonDependencyJsonTest extends JsonMetadataTestBase {
                         "buttons[0].conditions.visible[0].modelLink",
                         "buttons[1].conditions.enabled[0].modelLink",
                         "buttons[2].conditions.visible[0].modelLink",
-                        "buttons[2].conditions.enabled[0].modelLink")
+                        "buttons[2].conditions.enabled[0].modelLink",
+                        "buttons[3].hint",
+                        "buttons[3].subMenu[0].conditions.visible[0].modelLink",
+                        "buttons[3].subMenu[0].conditions.enabled[0].modelLink",
+                        "buttons[3].subMenu[1].conditions.visible[0].modelLink",
+                        "buttons[3].subMenu[1].conditions.enabled[0].modelLink")
                 .cutXml("toolbar.topLeft[0]")
                 .assertEquals();
     }

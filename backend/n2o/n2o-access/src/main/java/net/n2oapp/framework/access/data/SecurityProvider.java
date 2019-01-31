@@ -7,8 +7,8 @@ import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.user.UserContext;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiPredicate;
 
 public class SecurityProvider {
@@ -56,7 +56,7 @@ public class SecurityProvider {
             throw new AccessDeniedException();
     }
 
-    private boolean checkAccessList(UserContext userContext, List<String> accessList, BiPredicate<UserContext, String> f) {
+    private boolean checkAccessList(UserContext userContext, Set<String> accessList, BiPredicate<UserContext, String> f) {
         if (accessList == null) return false;
         for (String param : accessList) {
             if (f.test(userContext, param)) return true;

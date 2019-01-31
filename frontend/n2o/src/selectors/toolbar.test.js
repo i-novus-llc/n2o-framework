@@ -20,8 +20,8 @@ const state = {
     widgetId: {
       create: {
         isInit: true,
-        isVisible: true,
-        isDisabled: true,
+        visible: true,
+        disabled: true,
         size: 'lg',
         color: 'success',
         count: 1,
@@ -35,8 +35,8 @@ const state = {
       },
       delete: {
         isInit: false,
-        isVisible: false,
-        isDisabled: false,
+        visible: false,
+        disabled: false,
         size: 'sm',
         color: 'danger',
         count: 2,
@@ -55,7 +55,7 @@ const state = {
 describe('Проверка селекторов toolbar', () => {
   it('isVisibleSelector должен вернуть visible кнопки', () => {
     expect(isVisibleSelector('widgetId', 'create')(state)).toEqual(
-      state.toolbar.widgetId.create.isVisible
+      state.toolbar.widgetId.create.visible
     );
   });
   it('sizeSelector должен вернуть size кнопки', () => {
@@ -66,7 +66,7 @@ describe('Проверка селекторов toolbar', () => {
   });
   it('isDisabledSelector должен вернуть disabled кнопки', () => {
     expect(isDisabledSelector('widgetId', 'create')(state)).toEqual(
-      state.toolbar.widgetId.create.isDisabled
+      state.toolbar.widgetId.create.disabled
     );
   });
   it('titleSelector должен вернуть title кнопки', () => {

@@ -88,7 +88,7 @@ function PopupItems({
         {iconFieldId && renderIcon(item, iconFieldId)}
         {imageFieldId && renderImage(item, imageFieldId)}
         {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
-        {badgeFieldId && renderBadge(item, badgeColorFieldId)}
+        {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
       </DropdownItem>
     );
   };
@@ -96,8 +96,8 @@ function PopupItems({
   const renderIcon = (item, iconFieldId) => item[iconFieldId] && <Icon name={item[iconFieldId]} />;
   const renderImage = (item, imageFieldId) =>
     item[imageFieldId] && <img src={item[imageFieldId]} />;
-  const renderBadge = (item, badgeColorFieldId) => (
-    <Badge color={item[badgeColorFieldId]}>{item.badge}</Badge>
+  const renderBadge = (item, badgeFieldId, badgeColorFieldId) => (
+    <Badge color={item[badgeColorFieldId]}>{item[badgeFieldId]}</Badge>
   );
   const renderCheckbox = (item, selected) => (
     <CheckboxN2O value={inArray(selected, item)} label={displayTitle(item)} inline />

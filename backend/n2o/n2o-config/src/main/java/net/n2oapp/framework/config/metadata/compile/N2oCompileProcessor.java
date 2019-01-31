@@ -210,11 +210,16 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public String resolveUrlParams(String url, Set<String> params) {
+    public String resolveUrlParams(String url, ModelLink link) {
+        List<String> params = getParams(url);
+        if (params == null || params.isEmpty() || data == null)
+            return url;
+        Map<String, String> valueParamMap = new HashMap<>();
+        collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
+        collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
         for (String param : params) {
-            Object value = data.get(param);
-            if (value != null) {
-                url = url.replace(":" + param, value.toString());
+            if (valueParamMap.containsKey(param) && data.containsKey(valueParamMap.get(param))) {
+                url = url.replace(":" + param, data.get(valueParamMap.get(param)).toString());
             }
         }
         return url;
