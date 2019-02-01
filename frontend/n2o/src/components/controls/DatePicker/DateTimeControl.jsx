@@ -77,7 +77,7 @@ class DateTimeControl extends React.Component {
         locale,
         DateTimeControl.defaultInputName
       ),
-      isPopUpVisible: false
+      isPopUpVisible: !!props.active
     });
   }
 
@@ -246,6 +246,7 @@ class DateTimeControl extends React.Component {
             setVisibility={this.setVisibility}
             setWidth={this.setWidth}
             onBlur={onBlur}
+            onFocus={onFocus}
           />
           {this.renderPopUp(this.width)}
         </div>

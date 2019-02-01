@@ -43,8 +43,8 @@ class DateInput extends React.Component {
 
   onFocus(e) {
     const { setVisibility, onFocus } = this.props;
-    setVisibility(true);
     onFocus && onFocus(e);
+    setVisibility(true);
   }
 
   /**
