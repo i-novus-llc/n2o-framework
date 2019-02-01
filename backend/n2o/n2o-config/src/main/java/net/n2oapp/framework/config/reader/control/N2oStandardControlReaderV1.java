@@ -50,7 +50,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
     }
 
     @SuppressWarnings("unchecked")
-    protected void getControlFieldDefinition(Element field, N2oStandardField n2oField) {
+    protected void getControlFieldDefinition(Element field, N2oField n2oField) {
         try {
             getControlDefinition(field, n2oField);
             String domain = getAttributeString(field, "domain");
@@ -75,8 +75,10 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             ActionButtonsReaderV1 actionButtonsReaderV1 = new ActionButtonsReaderV1();
             actionButtonsReaderV1.setReaderFactory(readerFactory);
             List<N2oActionButton> buttons = getChildrenAsList(field, "actions", "button", actionButtonsReaderV1);
-            n2oField.setActionButtons(buttons);
-            n2oField.setCopied(getAttributeBoolean(field, "copied"));
+            if (n2oField instanceof N2oStandardField) {
+                ((N2oStandardField)n2oField).setActionButtons(buttons);
+                ((N2oStandardField)n2oField).setCopied(getAttributeBoolean(field, "copied"));
+            }
             if (n2oField instanceof N2oListField) {
                 if ("on".equalsIgnoreCase(getAttributeString(field, "cache")))
                     ((N2oListField) n2oField).setCache(true);
@@ -142,7 +144,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         return res;
     }
 
-    protected void readSetValueExp(N2oStandardField n2oField, List<Element> list) {
+    protected void readSetValueExp(N2oField n2oField, List<Element> list) {
         for (Element element : list) {
             N2oField.SetValueDependency setValue = new N2oField.SetValueDependency();
             setValue.setOn(getAttributeString(element, "on"));
@@ -151,7 +153,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         }
     }
 
-    protected void readSetValues(N2oStandardField n2oField, List<Element> list) {
+    protected void readSetValues(N2oField n2oField, List<Element> list) {
         for (Element element : list) {
             String ifClause = getAttributeString(element, "if");
             String thenClause = getAttributeString(element, "then");
@@ -250,7 +252,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         text.setHeight(getAttributeString(element, "height"));
     }
 
-    protected void getControlDefinition(Element fieldSetElement, N2oStandardField n2oControl) {
+    protected void getControlDefinition(Element fieldSetElement, N2oField n2oControl) {
         String id = getAttributeString(fieldSetElement, "id");
         String label = getAttributeString(fieldSetElement, "label");
         Boolean readonly = getAttributeBoolean(fieldSetElement, "readonly");
@@ -259,7 +261,9 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oControl.setLabel(label);
         n2oControl.setVisible(visible);
         n2oControl.setDescription(getElementString(fieldSetElement, "description"));
-        n2oControl.setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
+        if (n2oControl instanceof N2oStandardField) {
+            ((N2oStandardField)n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
+        }
     }
 
     protected N2oListField getListFieldDefinition(Element element, N2oListField n2oListField) {

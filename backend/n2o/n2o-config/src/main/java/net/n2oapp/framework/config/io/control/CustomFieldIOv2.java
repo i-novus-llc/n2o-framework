@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Чтение запись настраиваемого поля
  */
 @Component
-public class CustomFieldIOv2 extends StandardFieldIOv2<N2oCustomField> {
+public class CustomFieldIOv2 extends FieldIOv2<N2oCustomField> {
     private Namespace controlDefaultNamespace = ControlIOv2.NAMESPACE;
 
     @Override
@@ -30,7 +30,4 @@ public class CustomFieldIOv2 extends StandardFieldIOv2<N2oCustomField> {
         return "field";
     }
 
-    public void setControlDefaultNamespace(Namespace controlDefaultNamespace) {
-        this.controlDefaultNamespace = controlDefaultNamespace;
-    }
 }

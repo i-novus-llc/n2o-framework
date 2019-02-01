@@ -49,15 +49,15 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(2).getOn().get(0), is("name"));
         assertThat(field.getDependencies().get(2).getOn().get(1), is("type"));
         assertThat(field.getDependencies().get(2).getType(), is(ValidationType.reRender));
-        assertThat(inputText.getControlSrc(), is("InputText"));
-        assertThat(inputText1.getControlSrc(), is("InputNumber"));
+        assertThat(inputText.getSrc(), is("InputText"));
+        assertThat(inputText1.getSrc(), is("InputNumber"));
         assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
         assertThat(inputText1.getMin(), is(Integer.MIN_VALUE));
         assertThat(inputText1.getStep(), is("1"));
-        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getControlSrc(), is("InputNumber"));
-        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getControlSrc(), is("InputNumber"));
-        assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getControlSrc(), is("InputNumber"));
-        assertThat(((StandardField) rows.get(5).getCols().get(0).getFields().get(0)).getControl().getControlSrc(), is("InputText"));
+        assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
+        assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
+        assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
+        assertThat(((StandardField) rows.get(5).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputText"));
 
         assertThat(((StandardField) rows.get(0).getCols().get(0).getFields().get(0)).getHelp(), is("testHelp"));
         assertThat(((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getHelp(), nullValue());
