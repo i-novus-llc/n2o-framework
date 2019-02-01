@@ -1,12 +1,18 @@
 import moment from 'moment';
-import { each } from 'lodash';
 
 let formats = {
   dateFormat: 'DD.MM.YYYY',
   timeFormat: 'hh.mm'
 };
 
-const getFormat = () => `${formats.dateFormat} ${formats.timeFormat}`;
+/**
+ * Функция хелпер для соединения форматов
+ * Берет формат из аргумента или глобальной переменной
+ * @param overrideFormat
+ * @returns {string}
+ */
+const getFormat = overrideFormat =>
+  `${(overrideFormat || formats).dateFormat} ${(overrideFormat || formats).timeFormat}`;
 
 const fns = {
   /**
@@ -14,13 +20,13 @@ const fns = {
    * @param newFormat - кастомный формат даты
    * @returns {string}
    */
-  now: newFormat => moment().format(newFormat || getFormat()),
+  now: newFormat => moment().format(getFormat(newFormat)),
   /**
    * Возвращает текущее время в UTC
    * @param newFormat - кастомный формат даты
    * @returns {string}
    */
-  nowUTC: newFormat => moment.utc().format(newFormat || getFormat()),
+  nowUTC: newFormat => moment.utc().format(getFormat(newFormat)),
 
   /**
    * Возвращает вчерашний день
@@ -30,7 +36,7 @@ const fns = {
   yesterday: newFormat =>
     moment()
       .add(-1, 'd')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает завтрешний день
    * @param newFormat - кастомный формат даты
@@ -39,7 +45,7 @@ const fns = {
   tomorrow: newFormat =>
     moment()
       .add(1, 'd')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает начало текущего дня
    * @param newFormat - кастомный формат даты
@@ -48,7 +54,7 @@ const fns = {
   beginDay: newFormat =>
     moment()
       .startOf('day')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает конец текущего дня
    * @param newFormat - кастомный формат даты
@@ -57,7 +63,7 @@ const fns = {
   endDay: newFormat =>
     moment()
       .endOf('day')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
 
   /**
    * Возвращает начало текущей недели
@@ -67,7 +73,7 @@ const fns = {
   beginWeek: newFormat =>
     moment()
       .startOf('isoWeek')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает конец текущей недели
    * @param newFormat
@@ -76,7 +82,7 @@ const fns = {
   endWeek: newFormat =>
     moment()
       .endOf('isoWeek')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает начало текущего месяца
    * @param newFormat
@@ -85,7 +91,7 @@ const fns = {
   beginMonth: newFormat =>
     moment()
       .startOf('month')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает конец текущего месяца
    * @param newFormat
@@ -94,7 +100,7 @@ const fns = {
   endMonth: newFormat =>
     moment()
       .endOf('month')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает начало текущего квартала
    * @param newFormat
@@ -103,7 +109,7 @@ const fns = {
   beginQuarter: newFormat =>
     moment()
       .startOf('quarter')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает конец текущего месяца
    * @param newFormat
@@ -112,7 +118,7 @@ const fns = {
   endQuarter: newFormat =>
     moment()
       .endOf('quarter')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает начало текущего года
    * @param newFormat
@@ -121,7 +127,7 @@ const fns = {
   beginYear: newFormat =>
     moment()
       .startOf('year')
-      .format(newFormat || getFormat()),
+      .format(getFormat(newFormat)),
   /**
    * Возвращает конец текущего года
    * @param newFormat
@@ -130,7 +136,7 @@ const fns = {
   endYear: newFormat =>
     moment()
       .endOf('year')
-      .format(newFormat || getFormat())
+      .format(getFormat(newFormat))
 };
 
 const dateFunctions = {
