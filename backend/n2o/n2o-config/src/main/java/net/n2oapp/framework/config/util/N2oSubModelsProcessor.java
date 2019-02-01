@@ -30,9 +30,8 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
     private QueryProcessor queryProcessor;
     private MetadataEnvironment environment;
 
-    public N2oSubModelsProcessor(QueryProcessor queryProcessor, MetadataEnvironment environment) {
+    public N2oSubModelsProcessor(QueryProcessor queryProcessor) {
         this.queryProcessor = queryProcessor;
-        this.environment = environment;
     }
 
     @Override
@@ -91,5 +90,10 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
                 subModel.put(queryField.getId(), first.get(queryField.getId()));
             }
         }
+    }
+
+    @Override
+    public void setEnvironment(MetadataEnvironment environment) {
+        this.environment = environment;
     }
 }
