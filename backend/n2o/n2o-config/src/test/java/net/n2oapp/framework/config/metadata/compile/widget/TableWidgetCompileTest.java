@@ -215,4 +215,17 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].amount").getValue(), is("100.99"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].hidden").getValue(), is("test"));
     }
+
+    @Test
+    public void testColumnsWidth() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
+                .get(new WidgetContext("testTable4SortableCompile"));
+        assertThat(table.getId(), is("testTable4SortableCompile"));
+        assertThat(table.getComponent().getHeaders().size(), is(5));
+        List<ColumnHeader> headers = table.getComponent().getHeaders();
+
+        assertThat(headers.get(0).getWidth(), is("100"));
+        assertThat(headers.get(1).getWidth(), nullValue());
+    }
 }
