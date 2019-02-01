@@ -97,6 +97,11 @@ describe('Тесты hasSelect и hasFocus', () => {
     expect(wrapper.state().selectIndex).toEqual(1);
   });
 
+  it('проверяет правильно ли устанавливается значение индекса селекта при рендере', () => {
+    const wrapper = setup({ hasFocus: false, hasSelect: true });
+    expect(wrapper.find('.table-active').exists()).toBeTruthy();
+  });
+
   it('проверяет вызывается ли функция установки новых индексов селекта и фокуса в state', () => {
     const wrapper = setup({ hasFocus: false, hasSelect: true });
     const setSelectAndFocus = sinon.spy();

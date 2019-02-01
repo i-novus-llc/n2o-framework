@@ -435,6 +435,47 @@ stories
       </div>
     );
   })
+  .add('Ограничение доступа на выпадающие списки', () => {
+    const toolbar = [
+      {
+        buttons: [
+          {
+            id: 'testBtn22',
+            title: 'Кнопка',
+            actionId: 'dummy',
+            subMenu: [
+              {
+                id: 'testBtn23',
+                title: 'Защищенная кнопка',
+                actionId: 'dummy',
+                security: {
+                  roles: ['admin']
+                }
+              },
+              {
+                id: 'testBtn23',
+                title: 'Защищенная кнопка 2',
+                actionId: 'dummy',
+                security: {
+                  roles: ['admin']
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    return (
+      <div>
+        <small>
+          Введите <mark>admin</mark>, чтобы увидеть выпадающий список
+        </small>
+        <AuthButtonContainer />
+        <br />
+        <Actions actions={MetaJson.actions} toolbar={toolbar} containerKey="metaBtns" />
+      </div>
+    );
+  })
   .add('Page Buttons с предустановленным visible/disabled', () => {
     const actions = {
       dummy: {
@@ -511,6 +552,7 @@ stories
         ]
       }
     ];
+
     return (
       <React.Fragment>
         <div className="row mb-2">

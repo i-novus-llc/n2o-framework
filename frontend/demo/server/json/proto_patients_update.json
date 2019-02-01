@@ -179,7 +179,8 @@
               ]
             },
             "color": "primary",
-            "title": "Сохранить"
+            "title": "Сохранить",
+            "validate": true
           },
           {
             "id": "close",

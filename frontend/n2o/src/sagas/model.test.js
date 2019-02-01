@@ -1,5 +1,7 @@
-import { resolveButton, resolveConditions } from './model';
+import { resolveButton, resolveConditions, setParentVisibleIfAllChildChangeVisible } from './model';
 import { CHANGE_BUTTON_DISABLED, CHANGE_BUTTON_VISIBILITY } from '../constants/toolbar';
+import { put } from 'redux-saga/effects';
+import { changeButtonVisiblity } from '../actions/toolbar';
 
 const setupResolveButton = () => {
   return resolveButton({
@@ -27,6 +29,7 @@ describe('Тестирование саги', () => {
     let { value } = gen.next({ model: { test: 'test' } });
     expect(value['PUT'].action.type).toEqual(CHANGE_BUTTON_VISIBILITY);
     expect(value['PUT'].action.payload.visible).toBe(true);
+    gen.next();
     value = gen.next().value;
     expect(value['PUT'].action.type).toEqual(CHANGE_BUTTON_DISABLED);
     expect(value['PUT'].action.payload.disabled).toBe(true);
@@ -68,5 +71,66 @@ describe('Тестирование саги', () => {
         null
       )
     ).toBe(false);
+  });
+});
+
+describe('setParentVisibleIfAllChildChangeVisible', () => {
+  it('Тестирование скрытия родителя если все потомки скрыты', () => {
+    const testData = {
+      btnId: {
+        visible: true
+      },
+      btnChild1Id: {
+        visible: false,
+        parentId: 'btnId'
+      },
+      btnChild2Id: {
+        visible: false,
+        parentId: 'btnId'
+      }
+    };
+    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    gen.next();
+    expect(gen.next(testData).value).toEqual(
+      put(changeButtonVisiblity('fieldKey', 'btnId', false))
+    );
+    expect(gen.next().done).toBe(true);
+  });
+  it('Тестирование показа родителя если все потомки видимы', () => {
+    const testData = {
+      btnId: {
+        visible: false
+      },
+      btnChild1Id: {
+        visible: true,
+        parentId: 'btnId'
+      },
+      btnChild2Id: {
+        visible: true,
+        parentId: 'btnId'
+      }
+    };
+    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    gen.next();
+    expect(gen.next(testData).value).toEqual(put(changeButtonVisiblity('fieldKey', 'btnId', true)));
+    expect(gen.next().done).toBe(true);
+  });
+  it('Экшен не отправляется если родитель имеет такую же видимость как и потомки', () => {
+    const testData = {
+      btnId: {
+        visible: true
+      },
+      btnChild1Id: {
+        visible: true,
+        parentId: 'btnId'
+      },
+      btnChild2Id: {
+        visible: true,
+        parentId: 'btnId'
+      }
+    };
+    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    gen.next();
+    expect(gen.next().done).toBe(true);
   });
 });

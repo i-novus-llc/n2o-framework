@@ -11,15 +11,14 @@ import {
   DropdownItem
 } from 'reactstrap';
 import cx from 'classnames';
-import { isEmpty } from 'lodash';
+import { isEmpty, every } from 'lodash';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
 import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
-import SecurityCheck from '../../core/auth/SecurityCheck';
-
+import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
 
 /**
@@ -140,7 +139,7 @@ class Actions extends React.Component {
    * @returns {*}
    */
   renderButton(Component, button) {
-    return (
+    const btn = (
       <React.Fragment>
         <ButtonContainer
           id={button.id}
@@ -161,6 +160,8 @@ class Actions extends React.Component {
         />
       </React.Fragment>
     );
+
+    return <SecurityNotRender config={button.security} component={btn} />;
   }
 
   /**
@@ -180,16 +181,7 @@ class Actions extends React.Component {
         } else {
           buttonEl = this.renderButton(Button, button);
         }
-        return isEmpty(button.security) ? (
-          buttonEl
-        ) : (
-          <SecurityCheck
-            config={button.security}
-            render={({ permissions }) => {
-              return permissions ? buttonEl : null;
-            }}
-          />
-        );
+        return <SecurityNotRender config={button.security} component={buttonEl} />;
       })
     );
   }
@@ -215,7 +207,7 @@ class Actions extends React.Component {
    * рендер кнопки-дропдауна
    */
   renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
-    const dropdownProps = { size, title, color, hint, visible, icon, disabled };
+    const dropdownProps = { size, title, color, hint, icon, visible, disabled };
 
     return (
       <ButtonContainer
@@ -224,7 +216,7 @@ class Actions extends React.Component {
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
       >
-        {subMenu.map(item => this.renderButton(DropdownItem, item))}
+        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
       </ButtonContainer>
     );
   }
@@ -287,16 +279,8 @@ class Actions extends React.Component {
               {this.renderButtons(buttons)}
             </ButtonGroup>
           );
-          return isEmpty(security) ? (
-            buttonGroup
-          ) : (
-            <SecurityCheck
-              config={security}
-              render={({ permissions }) => {
-                return permissions ? buttonGroup : null;
-              }}
-            />
-          );
+
+          return <SecurityNotRender config={security} component={buttonGroup} />;
         })}
       </ButtonToolbar>
     );

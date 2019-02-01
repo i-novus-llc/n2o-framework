@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -175,7 +176,7 @@ public class SecurityProviderTest {
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
-        securityObject.setRoles(Arrays.asList("role2", "role1", "admin"));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("role2", "role1", "admin")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
@@ -220,7 +221,7 @@ public class SecurityProviderTest {
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
-        securityObject.setPermissions(Arrays.asList("p0", "p1", "p2"));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("p0", "p1", "p2")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
@@ -265,7 +266,7 @@ public class SecurityProviderTest {
         securityObject.setPermitAll(false);
         securityObject.setAnonymous(true);
         securityObject.setAuthenticated(false);
-        securityObject.setUsernames(Arrays.asList("n0", "n1", "n2"));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("n0", "n1", "n2")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
@@ -329,9 +330,9 @@ public class SecurityProviderTest {
         operation.setProperties(properties);
         when(requestInfo.getOperation()).thenReturn(operation);
 
-        securityObject.setUsernames(Arrays.asList("n0", "n1"));
-        securityObject.setPermissions(Arrays.asList("p0", "p1"));
-        securityObject.setRoles(Arrays.asList("r0", "r1"));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("n0", "n1")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("p0", "p1")));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("r0", "r1")));
         try {
             securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
@@ -363,9 +364,9 @@ public class SecurityProviderTest {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
 
-        securityObject.setUsernames(Arrays.asList("n1"));
-        securityObject.setPermissions(Arrays.asList("p0"));
-        securityObject.setRoles(Arrays.asList("r1"));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("n1")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("p0")));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("r1")));
         try {
             securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
@@ -373,7 +374,7 @@ public class SecurityProviderTest {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
 
-        securityObject.setRoles(Arrays.asList("r0", "r1"));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("r0", "r1")));
         try {
             securityProvider.checkAccess(requestInfo.getOperation(), requestInfo.getUser());
             Assert.fail("Expected exception to be thrown");
