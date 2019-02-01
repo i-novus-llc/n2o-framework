@@ -138,7 +138,7 @@ class Actions extends React.Component {
    * @param button
    * @returns {*}
    */
-  renderButton(Component, button) {
+  renderButton(Component, button, parentId) {
     const btn = (
       <React.Fragment>
         <ButtonContainer
@@ -147,6 +147,7 @@ class Actions extends React.Component {
           initialProps={button}
           component={Component}
           containerKey={this.props.containerKey}
+          parentId={parentId}
         />
         <ModalDialog
           {...this.mapButtonConfirmProps(button)}
