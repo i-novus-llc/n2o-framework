@@ -3,9 +3,19 @@ import {
   METADATA_SUCCESS,
   METADATA_FAIL,
   MAP_URL,
-  RESET
+  RESET,
+  DISABLE,
+  ENABLE
 } from '../constants/pages';
-import { metadataRequest, metadataSuccess, metadataFail, mapUrl, resetPage } from './pages';
+import {
+  metadataRequest,
+  metadataSuccess,
+  metadataFail,
+  mapUrl,
+  resetPage,
+  disablePage,
+  enablePage
+} from './pages';
 
 const pageId = 'Page.Widget';
 const rootPage = 'Root.Page';
@@ -80,6 +90,28 @@ describe('Тесты экшенов pages', () => {
     it('Возвращает правильный payload', () => {
       const action = resetPage(pageId);
       expect(action.payload.pageId).toEqual(pageId);
+    });
+  });
+
+  describe('Проверка экшена disablePage', () => {
+    it('Генерирует правильное событие', () => {
+      const action = disablePage(pageId);
+      expect(action.payload.pageId).toEqual(pageId);
+    });
+    it('Возвращает правильный payload', () => {
+      const action = disablePage(pageId);
+      expect(action.payload.pageId).toEqual(pageId);
+    });
+
+    describe('Проверка экшена disablePage', () => {
+      it('Генерирует правильное событие', () => {
+        const action = enablePage(pageId);
+        expect(action.payload.pageId).toEqual(pageId);
+      });
+      it('Возвращает правильный payload', () => {
+        const action = enablePage(pageId);
+        expect(action.payload.pageId).toEqual(pageId);
+      });
     });
   });
 });

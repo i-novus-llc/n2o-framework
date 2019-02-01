@@ -21,7 +21,8 @@ import {
   TOGGLE_FILTERS_VISIBILITY,
   RESET_STATE,
   SET_TABLE_SELECTED_ID,
-  SET_ACTIVE
+  SET_ACTIVE,
+  DISABLE_ON_FETCH
 } from '../constants/widgets';
 
 /**
@@ -90,6 +91,7 @@ function resolve(state = widgetState, action) {
         isEnabled: true
       });
     case DISABLE:
+    case DISABLE_ON_FETCH:
       return Object.assign({}, state, {
         isEnabled: false
       });
@@ -175,6 +177,7 @@ export default function widgets(state = {}, action) {
     case DATA_FAIL:
     case RESOLVE:
     case DISABLE:
+    case DISABLE_ON_FETCH:
     case ENABLE:
     case SHOW:
     case HIDE:
