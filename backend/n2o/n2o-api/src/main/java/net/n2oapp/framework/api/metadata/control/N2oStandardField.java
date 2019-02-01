@@ -2,8 +2,6 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.local.view.CssClassAware;
 
 import java.util.List;
 
@@ -13,7 +11,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class N2oStandardField extends N2oField implements CssClassAware {
+public abstract class N2oStandardField extends N2oField {
     private String placeholder;
     private Boolean copied;
     private String controlSrc;

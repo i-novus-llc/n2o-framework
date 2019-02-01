@@ -2,18 +2,11 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.aware.SrcAware;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.local.view.CssClassAware;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Map;
 
 
 /**
