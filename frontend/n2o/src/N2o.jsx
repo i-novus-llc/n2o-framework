@@ -25,10 +25,11 @@ import ruLocaleData from 'react-intl/locale-data/ru';
 import Application from './components/core/Application';
 import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
+import globalFnDate from './utils/globalFnDate';
 
 addLocaleData(ruLocaleData);
 
-class N2o extends Component {
+export class N2o extends Component {
   constructor(props) {
     super(props);
     const config = {
@@ -36,6 +37,7 @@ class N2o extends Component {
       messages: props.messages
     };
     this.store = configureStore({}, history, config);
+    globalFnDate.addFormat(props.formats);
   }
 
   generateCustomConfig() {
@@ -73,6 +75,7 @@ N2o.propTypes = {
   ...factoryConfigShape,
   defaultTemplate: PropTypes.element,
   defaultBreadcrumb: PropTypes.element,
+  formats: PropTypes.object,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string,
@@ -103,6 +106,10 @@ export default compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
+    formats: {
+      dateFormat: 'DD.MM.YYYY',
+      timeFormat: 'hh.mm.ss'
+    },
     routes: [],
     security: {},
     messages: {}

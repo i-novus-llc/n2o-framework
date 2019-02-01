@@ -1,92 +1,143 @@
 import moment from 'moment';
 import { each } from 'lodash';
 
-const TYPES = {
-  FORMAT: 'DD.MM.YYYY HH:mm',
-  FORMAT00: 'DD.MM.YYYY 00:00',
-  FORMAT59: 'DD.MM.YYYY 23:59'
+let formats = {
+  dateFormat: 'DD.MM.YYYY',
+  timeFormat: 'hh.mm'
+};
+
+const getFormat = () => `${formats.dateFormat} ${formats.timeFormat}`;
+
+const fns = {
+  /**
+   * Возвращает текущий день
+   * @param newFormat - кастомный формат даты
+   * @returns {string}
+   */
+  now: newFormat => moment().format(newFormat || getFormat()),
+  /**
+   * Возвращает текущее время в UTC
+   * @param newFormat - кастомный формат даты
+   * @returns {string}
+   */
+  nowUTC: newFormat => moment.utc().format(newFormat || getFormat()),
+
+  /**
+   * Возвращает вчерашний день
+   * @param newFormat - кастомный формат даты
+   * @returns {string}
+   */
+  yesterday: newFormat =>
+    moment()
+      .add(-1, 'd')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает завтрешний день
+   * @param newFormat - кастомный формат даты
+   * @returns {string}
+   */
+  tomorrow: newFormat =>
+    moment()
+      .add(1, 'd')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает начало текущего дня
+   * @param newFormat - кастомный формат даты
+   * @returns {string}
+   */
+  beginDay: newFormat =>
+    moment()
+      .startOf('day')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает конец текущего дня
+   * @param newFormat - кастомный формат даты
+   * @returns {string}
+   */
+  endDay: newFormat =>
+    moment()
+      .endOf('day')
+      .format(newFormat || getFormat()),
+
+  /**
+   * Возвращает начало текущей недели
+   * @param newFormat
+   * @returns {string}
+   */
+  beginWeek: newFormat =>
+    moment()
+      .startOf('isoWeek')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает конец текущей недели
+   * @param newFormat
+   * @returns {string}
+   */
+  endWeek: newFormat =>
+    moment()
+      .endOf('isoWeek')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает начало текущего месяца
+   * @param newFormat
+   * @returns {string}
+   */
+  beginMonth: newFormat =>
+    moment()
+      .startOf('month')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает конец текущего месяца
+   * @param newFormat
+   * @returns {string}
+   */
+  endMonth: newFormat =>
+    moment()
+      .endOf('month')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает начало текущего квартала
+   * @param newFormat
+   * @returns {string}
+   */
+  beginQuarter: newFormat =>
+    moment()
+      .startOf('quarter')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает конец текущего месяца
+   * @param newFormat
+   * @returns {string}
+   */
+  endQuarter: newFormat =>
+    moment()
+      .endOf('quarter')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает начало текущего года
+   * @param newFormat
+   * @returns {string}
+   */
+  beginYear: newFormat =>
+    moment()
+      .startOf('year')
+      .format(newFormat || getFormat()),
+  /**
+   * Возвращает конец текущего года
+   * @param newFormat
+   * @returns {string}
+   */
+  endYear: newFormat =>
+    moment()
+      .endOf('year')
+      .format(newFormat || getFormat())
 };
 
 const dateFunctions = {
-  /**
-   * Возвращает текущий день в формате DD.MM.YYYY HH:mm
-   * @returns {string}
-   */
-  now: () => moment().format(TYPES.FORMAT),
-  /**
-   * Возвращает текущее время в UTC формате
-   * @returns {string}
-   */
-  nowUTC: () => moment.utc().format(TYPES.FORMAT),
-  /**
-   * Возвращает день в формате DD.MM.YYYY 00:00
-   * @returns {string}
-   */
-  today: () => moment().format(TYPES.FORMAT00),
-
-  /**
-   * Возвращает вчерашний день в формате DD.MM.YYYY 00:00
-   * @returns {string}
-   */
-  yesterday: () =>
-    moment()
-      .add('d', -1)
-      .format(TYPES.FORMAT00),
-  /**
-   * Возвращает затрешний день в формате DD.MM.YYYY 00:00
-   * @returns {string}
-   */
-  tomorrow: () =>
-    moment()
-      .add('d', 1)
-      .format(TYPES.FORMAT00),
-  /**
-   * Возвращает начало текущего дня в формате DD.MM.YYYY 00:00
-   * @returns {string}
-   */
-  beginDay: () => moment().format(TYPES.FORMAT00),
-  /**
-   * Возвращает конец текущего дня в формате DD.MM.YYYY 23:59
-   * @returns {string}
-   */
-  endDay: () => moment().format(TYPES.FORMAT59),
-
-  beginWeek: () =>
-    moment()
-      .startOf('isoWeek')
-      .format(TYPES.FORMAT00),
-  endWeek: () =>
-    moment()
-      .endOf('isoWeek')
-      .format(TYPES.FORMAT00),
-  beginMonth: () =>
-    moment()
-      .startOf('month')
-      .format(TYPES.FORMAT00),
-  endMonth: () =>
-    moment()
-      .endOf('month')
-      .format(TYPES.FORMAT00),
-  beginQuarter: () =>
-    moment()
-      .startOf('quarter')
-      .format(TYPES.FORMAT00),
-  endQuarter: () =>
-    moment()
-      .endOf('quarter')
-      .format(TYPES.FORMAT00),
-  beginYear: () =>
-    moment()
-      .startOf('year')
-      .format(TYPES.FORMAT00),
-  endYear: () =>
-    moment()
-      .endOf('year')
-      .format(TYPES.FORMAT00)
+  addFormat: overrideFormat => {
+    formats = overrideFormat;
+  },
+  getFns: () => fns
 };
 
-each(dateFunctions, (fn, key) => {
-  window[key] = fn;
-});
-
-export default dateFunctions;
+export default Object.freeze(dateFunctions);
