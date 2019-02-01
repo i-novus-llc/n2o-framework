@@ -29,7 +29,7 @@ import globalFnDate from './utils/globalFnDate';
 
 addLocaleData(ruLocaleData);
 
-export class N2o extends Component {
+class N2o extends Component {
   constructor(props) {
     super(props);
     const config = {

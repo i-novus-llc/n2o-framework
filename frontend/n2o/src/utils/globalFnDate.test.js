@@ -167,13 +167,13 @@ describe('Проверка globalFnDate', () => {
 });
 
 describe('Проверка изменения глобального формата', () => {
-  it('DD.MM hh', () => {
+  it('Проверка работы в globalFnDate', () => {
     globalFnDate.addFormat({ timeFormat: 'hh:ss', dateFormat: 'DD.MM' });
     expect(date.now()).toEqual(moment().format('DD.MM hh:ss'));
     globalFnDate.addFormat({ timeFormat: 'hh:mm:ss', dateFormat: 'DD.MM.YYYY' });
     expect(date.now()).toEqual(moment().format('DD.MM.YYYY hh:mm:ss'));
   });
-  it('Проверка работы globalFnDate с evalExpression', () => {
+  it('Проверка работы evalExpression', () => {
     globalFnDate.addFormat({ timeFormat: 'hh:ss', dateFormat: 'DD.MM' });
     expect(evalExpression('date.now()', {})).toEqual(moment().format('DD.MM hh:ss'));
   });
