@@ -1,153 +1,103 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AdvancedCellRenderer from './AdvancedTableCellRenderer';
+import AdvancedTableRow from './AdvancedTableRow';
 import Table from 'rc-table';
 import { HotKeys } from 'react-hotkeys';
+import _ from 'lodash';
+import ReactDOM from 'react-dom';
 
-const columns = [
-  {
-    title: '手机号',
-    dataIndex: 'a',
-    colSpan: 2,
-    width: 100,
-    key: 'a',
-    render(o, row, index) {
-      const obj = {
-        children: o,
-        props: {}
-      };
-      // 设置第一行为链接
-      if (index === 0) {
-        obj.children = AdvancedCellRenderer;
-      }
-      // 第5行合并两列
-      if (index === 4) {
-        obj.props.colSpan = 2;
-      }
-
-      if (index === 5) {
-        obj.props.colSpan = 6;
-      }
-      return obj;
-    }
-  },
-  {
-    title: '电话',
-    dataIndex: 'b',
-    colSpan: 0,
-    width: 100,
-    key: 'b',
-    render(o, row, index) {
-      const obj = {
-        children: o,
-        props: {}
-      };
-      // 列合并掉的表格设置colSpan=0，不会去渲染
-      if (index === 4 || index === 5) {
-        obj.props.colSpan = 0;
-      }
-      return obj;
-    }
-  },
-  {
-    title: 'Name',
-    dataIndex: 'c',
-    width: 100,
-    key: 'c',
-    render(o, row, index) {
-      const obj = {
-        children: o,
-        props: {}
-      };
-
-      if (index === 5) {
-        obj.props.colSpan = 0;
-      }
-      return obj;
-    }
-  },
-  {
-    title: 'Address',
-    dataIndex: 'd',
-    width: 200,
-    key: 'd',
-    render(o, row, index) {
-      const obj = {
-        children: o,
-        props: {}
-      };
-      if (index === 0) {
-        obj.props.rowSpan = 2;
-      }
-      if (index === 1 || index === 5) {
-        obj.props.rowSpan = 0;
-      }
-
-      return obj;
-    }
-  },
-  {
-    title: 'Gender',
-    dataIndex: 'e',
-    width: 200,
-    key: 'e',
-    render(o, row, index) {
-      const obj = {
-        children: o,
-        props: {}
-      };
-      if (index === 5) {
-        obj.props.colSpan = 0;
-      }
-      return obj;
-    }
-  },
-  {
-    title: 'Operations',
-    dataIndex: '',
-    key: 'f',
-    render(o, row, index) {
-      if (index === 5) {
-        return {
-          props: {
-            colSpan: 0
-          }
-        };
-      }
-      return <a href="#">Operations</a>;
-    }
-  }
-];
+export const getIndex = (datasource, selectedId) => {
+  const index = _.findIndex(datasource, model => model.id == selectedId);
+  return index >= 0 ? index : 0;
+};
 
 class AdvancedTable extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      focusIndex: props.autoFocus
+        ? getIndex(props.datasource, props.selectedId)
+        : props.hasFocus
+          ? 0
+          : 1,
+      selectIndex: props.hasSelect ? getIndex(props.datasource, props.selectedId) : -1
+    };
+
     this.prepareColumns = this.prepareColumns.bind(this);
+    this.prepareData = this.prepareData.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onKeyDown(e) {
+    const keyNm = e.key;
+    const { datasource, children, hasFocus, hasSelect, autoFocus, onResolve } = this.props;
+    const { focusIndex } = this.state;
+    if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
+      if (!React.Children.count(children) && hasFocus) {
+        let newFocusIndex = keyNm === 'ArrowUp' ? focusIndex - 1 : focusIndex + 1;
+        newFocusIndex =
+          newFocusIndex < datasource.length && newFocusIndex >= 0 ? newFocusIndex : focusIndex;
+        if (hasSelect && autoFocus) {
+          this.setSelectAndFocus(newFocusIndex, newFocusIndex);
+          this.props.onResolve(datasource[newFocusIndex]);
+        } else {
+          this.setNewFocusIndex(newFocusIndex);
+        }
+      }
+    } else if (keyNm === ' ' && hasSelect && !autoFocus) {
+      this.props.onResolve(datasource[this.state.focusIndex]);
+      this.setNewSelectIndex(this.state.focusIndex);
+    }
   }
 
   prepareColumns(columns) {
-    return columns.map(({ id, ...rest }) => {
+    return columns.map(({ id, label, sortable }) => {
       return {
-        id,
-        value: 'test',
-        render(o, row, index) {
-          return {
-            children: o,
-            props: {
-              id,
-              ...rest
-            }
-          };
-        }
+        title: label,
+        dataIndex: id,
+        key: id
       };
     });
   }
 
+  prepareData(datasource) {
+    if (!datasource) return;
+    return datasource.map(item => {
+      return {
+        ...item,
+        key: item.id
+      };
+    });
+  }
+
+  onClick(ref) {
+    setTimeout(() => {
+      ref.focus();
+    }, 1);
+  }
+
   render() {
+    const { headers, datasource } = this.props;
     return (
-      <HotKeys>
+      <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
         <div className="n2o-advanced-table">
-          <Table columns={columns} />
+          <Table
+            className="n2o-table table table-sm"
+            columns={this.prepareColumns(headers)}
+            data={this.prepareData(datasource)}
+            onRow={props => ({
+              ...props,
+              onClick: this.onClick
+            })}
+            components={{
+              body: {
+                row: AdvancedTableRow
+              }
+            }}
+          />
         </div>
       </HotKeys>
     );

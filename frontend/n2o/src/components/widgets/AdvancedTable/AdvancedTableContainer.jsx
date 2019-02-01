@@ -20,7 +20,7 @@ export default compose(
           widgetId: props.widgetId,
           pageId: props.pageId,
           headers: props.headers,
-          columns: props.cells,
+          cells: props.cells,
           isAnyTableFocused: props.isAnyTableFocused,
           isActive: props.isActive,
           hasFocus: props.hasFocus,

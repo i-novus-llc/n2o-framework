@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AdvancedTableContainer from './AdvancedTableContainer';
-//TODO AdvancedTablePagination
+import AdvancedTablePagination from './AdvancedTablePagination';
 import StandardWidget from '../StandardWidget';
 import Fieldsets from '../Form/fieldsets';
 
@@ -47,8 +47,8 @@ class AdvancedTableWidget extends Component {
         widgetId={widgetId}
         toolbar={toolbar}
         actions={actions}
-        // filter={this.prepareFilters()}
-        // bottomLeft={paging && <AdvancedTablePagination/>}
+        filter={this.prepareFilters()}
+        bottomLeft={paging && <AdvancedTablePagination widgetId={widgetId} />}
       >
         <AdvancedTableContainer
           widgetId={widgetId}
@@ -72,6 +72,27 @@ AdvancedTableWidget.defaultProps = {
   filter: {}
 };
 
-AdvancedTableWidget.propTypes = {};
+AdvancedTableWidget.propTypes = {
+  containerId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired,
+  widgetId: PropTypes.string,
+  actions: PropTypes.object,
+  toolbar: PropTypes.object,
+  dataProvider: PropTypes.object,
+  table: PropTypes.arrayOf(
+    PropTypes.shape({
+      size: PropTypes.number,
+      fetchOnInit: PropTypes.bool,
+      hasSelect: PropTypes.bool,
+      className: PropTypes.string,
+      style: PropTypes.object,
+      autoFocus: PropTypes.bool,
+      sorting: PropTypes.object,
+      headers: PropTypes.array,
+      cells: PropTypes.array
+    })
+  ),
+  paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+};
 
 export default dependency(AdvancedTableWidget);

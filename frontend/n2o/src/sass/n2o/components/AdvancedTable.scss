@@ -1,0 +1,17 @@
+.n2o-advanced-table {
+  & table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+  }
+
+  &-row {
+    box-sizing: border-box;
+    border-left: 0.2rem solid transparent;
+    outline: none;
+
+    &:focus {
+      outline: -webkit-focus-ring-color auto 5px;
+    }
+  }
+}
