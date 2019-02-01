@@ -41,7 +41,7 @@
     "build": "lerna run build",
     "test": "lerna run test --stream",
     "bootstrap": "lerna bootstrap",
-    "release": "lerna publish --skip-git --yes --repo-version 7.0.3",
+    "release": "lerna publish --skip-git --yes --repo-version 7.0.4",
     "releaseVersion": "lerna publish --skip-git --skip-npm --yes",
     "startPublish": "node tools/publish.js",
     "releaseScript": "npm run releaseVersion && npm run startPublish",
