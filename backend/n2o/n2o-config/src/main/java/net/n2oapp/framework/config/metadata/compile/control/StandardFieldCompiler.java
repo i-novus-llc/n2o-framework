@@ -9,11 +9,15 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.UploadScope;
+
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -56,12 +60,8 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 defValue = compileDefValues(source, p);
             }
             if (defValue != null) {
-                if (defValue instanceof String
-                        && ((String) defValue).startsWith("{")
-                        && ((String) defValue).endsWith("}")) {
-                    String value = (String) defValue;
-                    value = value.substring(1, value.length() - 1);
-                    defValue = Placeholders.js(value);
+                if (defValue instanceof String) {
+                    defValue = ScriptProcessor.resolveExpression((String) defValue);
                 }
                 if (StringUtils.isJs(defValue)) {
                     ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
@@ -70,6 +70,19 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
                     ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), field.getId());
+                    if (defValue instanceof DefaultValues) {
+                        DefaultValues defaultValue = (DefaultValues) defValue;
+                        Map<String, Object> values = defaultValue.getValues();
+                        if (defaultValue.getValues() != null) {
+                            for (String param : values.keySet()) {
+                                if (values.get(param) instanceof String) {
+                                    Object value = ScriptProcessor.resolveExpression((String) values.get(param));
+                                    if (value != null)
+                                        values.put(param, value);
+                                }
+                            }
+                        }
+                    }
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
                     defaultValues.add(field.getId(), modelLink);
