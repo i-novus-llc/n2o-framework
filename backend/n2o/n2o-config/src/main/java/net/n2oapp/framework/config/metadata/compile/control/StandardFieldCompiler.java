@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -55,6 +56,13 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 defValue = compileDefValues(source, p);
             }
             if (defValue != null) {
+                if (defValue instanceof String
+                        && ((String) defValue).startsWith("{")
+                        && ((String) defValue).endsWith("}")) {
+                    String value = (String) defValue;
+                    value = value.substring(1, value.length() - 1);
+                    defValue = Placeholders.js(value);
+                }
                 if (StringUtils.isJs(defValue)) {
                     ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
                     defaultValue.setValue(defValue);
