@@ -76,8 +76,8 @@ class DateTimeControl extends React.Component {
         this.format,
         locale,
         DateTimeControl.defaultInputName
-      ),
-      isPopUpVisible: !!props.active
+      )
+      // isPopUpVisible: false
     });
   }
 
