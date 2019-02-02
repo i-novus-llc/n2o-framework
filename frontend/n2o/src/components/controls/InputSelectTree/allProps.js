@@ -24,7 +24,7 @@ export const defaultProps = {
   searchPlaceholder: '',
   transitionName: 'slide-up',
   choiceTransitionName: 'zoom',
-  showCheckedStrategy: SHOW_PARENT,
+  showCheckedStrategy: SHOW_CHILD,
   allowClear: true,
   placeholder: '',
   showSearch: true,
