@@ -9,9 +9,5 @@
     box-sizing: border-box;
     border-left: 0.2rem solid transparent;
     outline: none;
-
-    &:focus {
-      outline: -webkit-focus-ring-color auto 5px;
-    }
   }
 }

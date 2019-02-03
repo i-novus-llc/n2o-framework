@@ -1,9 +1,13 @@
 import React from 'react';
-import Factory from '../../../core/factory/Factory';
 
-function AdvancedTableCellRenderer(props) {
-  console.log(props);
-  return <Factory {...props} />;
+/**
+ * Опертка RowCell
+ * @param children - cell
+ * @returns {*}
+ * @constructor
+ */
+function AdvancedTableCellRenderer({ children }) {
+  return children;
 }
 
 export default AdvancedTableCellRenderer;

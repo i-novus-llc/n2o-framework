@@ -1,19 +1,31 @@
 import React, { Component } from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 
 class AdvancedTableRow extends Component {
-  onClick(ref) {
-    const { onClick } = this.props;
-    onClick && onClick(ref);
-  }
-
   render() {
-    const { children } = this.props;
+    const {
+      id,
+      children,
+      color,
+      className,
+      onClick,
+      isRowActive,
+      onFocus,
+      setRef,
+      index
+    } = this.props;
+
     return (
       <tr
-        ref={el => (this.ref = el)}
-        className="n2o-advanced-table-row"
-        onClick={this.onClick.bind(this, this.ref)}
+        className={cn(className, 'n2o-table-row n2o-advanced-table-row', {
+          [`table-${color}`]: color,
+          'table-active': isRowActive
+        })}
+        onClick={onClick}
+        onFocus={onFocus}
+        ref={el => setRef && setRef(el, index)}
+        tabIndex={1}
       >
         {children}
       </tr>

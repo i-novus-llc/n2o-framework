@@ -1,102 +1,44 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AdvancedCellRenderer from './AdvancedTableCellRenderer';
-import AdvancedTableRow from './AdvancedTableRow';
 import Table from 'rc-table';
 import { HotKeys } from 'react-hotkeys';
-import _ from 'lodash';
-import ReactDOM from 'react-dom';
+import cx from 'classnames';
 
-export const getIndex = (datasource, selectedId) => {
-  const index = _.findIndex(datasource, model => model.id == selectedId);
-  return index >= 0 ? index : 0;
-};
-
+/**
+ * Компонент Таблица
+ * @reactProps {boolean} hasFocus - флаг наличия фокуса
+ * @reactProps {string} className - класс таблицы
+ * @reactProps {Array.<Object>} columns - настройки колонок
+ * @reactProps {Array.<Object>} data - данные
+ * @reactProps {function} onRow - функция прокидывания дополнительных параметров в компонент строки
+ * @reactProps {Object} components - компоненты обертки
+ * @reactProps {Node} emptyText - компонент пустых данных
+ * @reactProps {object} hotKeys - настройка hot keys
+ */
 class AdvancedTable extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      focusIndex: props.autoFocus
-        ? getIndex(props.datasource, props.selectedId)
-        : props.hasFocus
-          ? 0
-          : 1,
-      selectIndex: props.hasSelect ? getIndex(props.datasource, props.selectedId) : -1
-    };
-
-    this.prepareColumns = this.prepareColumns.bind(this);
-    this.prepareData = this.prepareData.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onKeyDown(e) {
-    const keyNm = e.key;
-    const { datasource, children, hasFocus, hasSelect, autoFocus, onResolve } = this.props;
-    const { focusIndex } = this.state;
-    if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
-      if (!React.Children.count(children) && hasFocus) {
-        let newFocusIndex = keyNm === 'ArrowUp' ? focusIndex - 1 : focusIndex + 1;
-        newFocusIndex =
-          newFocusIndex < datasource.length && newFocusIndex >= 0 ? newFocusIndex : focusIndex;
-        if (hasSelect && autoFocus) {
-          this.setSelectAndFocus(newFocusIndex, newFocusIndex);
-          this.props.onResolve(datasource[newFocusIndex]);
-        } else {
-          this.setNewFocusIndex(newFocusIndex);
-        }
-      }
-    } else if (keyNm === ' ' && hasSelect && !autoFocus) {
-      this.props.onResolve(datasource[this.state.focusIndex]);
-      this.setNewSelectIndex(this.state.focusIndex);
-    }
-  }
-
-  prepareColumns(columns) {
-    return columns.map(({ id, label, sortable }) => {
-      return {
-        title: label,
-        dataIndex: id,
-        key: id
-      };
-    });
-  }
-
-  prepareData(datasource) {
-    if (!datasource) return;
-    return datasource.map(item => {
-      return {
-        ...item,
-        key: item.id
-      };
-    });
-  }
-
-  onClick(ref) {
-    setTimeout(() => {
-      ref.focus();
-    }, 1);
-  }
-
   render() {
-    const { headers, datasource } = this.props;
+    const {
+      hasFocus,
+      className,
+      columns,
+      data,
+      onRow,
+      components,
+      emptyText,
+      hotKeys
+    } = this.props;
     return (
-      <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
-        <div className="n2o-advanced-table">
+      <HotKeys keyMap={hotKeys.keyMap} handlers={hotKeys.handlers}>
+        <div className="n2o-advanced-table table-responsive">
           <Table
-            className="n2o-table table table-sm"
-            columns={this.prepareColumns(headers)}
-            data={this.prepareData(datasource)}
-            onRow={props => ({
-              ...props,
-              onClick: this.onClick
+            className={cx('n2o-table table table-sm table-hover', className, {
+              'has-focus': hasFocus
             })}
-            components={{
-              body: {
-                row: AdvancedTableRow
-              }
-            }}
+            columns={columns}
+            data={data}
+            onRow={onRow}
+            components={components}
+            emptyText={emptyText}
           />
         </div>
       </HotKeys>
@@ -104,6 +46,15 @@ class AdvancedTable extends Component {
   }
 }
 
-AdvancedTable.propTypes = {};
+AdvancedTable.propTypes = {
+  hasFocus: PropTypes.bool,
+  className: PropTypes.string,
+  columns: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.object),
+  onRow: PropTypes.func,
+  components: PropTypes.object,
+  emptyText: PropTypes.node,
+  hotKeys: PropTypes.object
+};
 
 export default AdvancedTable;
