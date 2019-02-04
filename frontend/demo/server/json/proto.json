@@ -806,7 +806,6 @@
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
-                          "label": "Пол",
                           "inline": true,
                           "type": "n2o",
                           "src": "CheckboxGroup"
@@ -836,7 +835,7 @@
         "filterButtonId": "filter",
         "blackResetList": [],
         "filterPlace": "top",
-        "searchButtons": true,
+        "hideButtons": true,
         "validation": {}
       },
       "table": {
@@ -1319,7 +1318,7 @@
         "filterButtonId": "filter",
         "blackResetList": [],
         "filterPlace": "top",
-        "searchButtons": true,
+        "hideButtons": true,
         "validation": {}
       },
       "table": {
@@ -1418,7 +1417,7 @@
                       {
                         "id": "gender",
                         "src": "StandardField",
-                        "enabled": false,
+
                         "label": "Пол",
                         "dependency": [],
                         "control": {
@@ -1443,7 +1442,7 @@
                       {
                         "id": "vip",
                         "src": "StandardField",
-                        "enabled": false,
+
                         "dependency": [],
                         "control": {
                           "label": "VIP",

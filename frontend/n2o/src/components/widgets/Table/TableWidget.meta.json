@@ -160,7 +160,7 @@
       "filterButtonId": "filter",
       "blackResetList": [],
       "validation": {},
-      "searchButtons": false
+      "hideButtons": false
     },
     "table": {
       "size": 10,

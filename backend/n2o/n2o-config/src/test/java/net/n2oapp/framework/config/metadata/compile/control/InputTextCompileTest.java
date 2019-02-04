@@ -71,7 +71,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0);
         assertThat(((StandardField)field).getLabel(), nullValue());
-        assertThat(((StandardField)field).getLabelClass(), nullValue());
+        assertThat(((StandardField)field).getLabelClass(), is("testLabelClass"));
     }
 
 }
