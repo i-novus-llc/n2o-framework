@@ -174,7 +174,8 @@
               ]
             },
             "color": "primary",
-            "title": "Сохранить"
+            "title": "Сохранить",
+            "validate": true
           },
           {
             "id": "close",
@@ -235,6 +236,7 @@
   },
   "models": {
     "resolve['proto_patients_create_main'].patrName": {
+      "link": "models.resolve['proto_patients_create_main'].patrName",
       "value": "Тест"
     }
   },

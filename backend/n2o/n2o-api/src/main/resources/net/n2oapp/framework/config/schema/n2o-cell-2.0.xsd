@@ -53,6 +53,11 @@
                 <xs:documentation>Стиль текста.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Видимость ячейки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -105,6 +110,18 @@
                         </xs:annotation>
                     </xs:any>
                 </xs:sequence>
+                <xs:attribute name="url" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Адрес URL открываемой страницы
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target" type="acn:aType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Сценарий открытия ссылки
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое будет вызвано при клике по ссылке.
@@ -425,7 +442,7 @@
             <xs:documentation>Ячейка с кнопками.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="button" type="tool:widgetButtonDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="button" type="tool:buttonDefinition" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="sub-menu" type="tool:subMenuDefinition" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="generate" type="xs:string" use="optional">

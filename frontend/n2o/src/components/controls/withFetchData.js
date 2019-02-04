@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { fetchInputSelectData } from '../../core/api';
 import cachingStore from '../../utils/cacher';
 import { connect } from 'react-redux';
-import { get, isArray, has, isEqual, merge as mergeFn } from 'lodash';
+import { get, isArray, has, isEqual, unionBy } from 'lodash';
 import { addAlert, removeAlerts } from '../../actions/alerts';
 import { getParams } from '../../utils/compileUrl';
 
@@ -87,7 +87,12 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @private
      */
     async _setErrorMessage({ response }) {
-      const errorMessage = await response.json();
+      let errorMessage = null;
+      if (response) {
+        errorMessage = await response.json();
+      } else {
+        errorMessage = arguments[0].body;
+      }
       const messages = get(errorMessage, 'meta.alert.messages', false);
       messages && this._addAlertMessage(messages);
     }
@@ -125,8 +130,9 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @private
      */
     _setResponseToData({ list, count, size, page }, merge = false) {
+      const { valueFieldId } = this.props;
       this.setState({
-        data: merge ? mergeFn(this.state.data, list) : list,
+        data: merge ? unionBy(this.state.data, list, valueFieldId || 'id') : list,
         isLoading: false,
         count,
         size,

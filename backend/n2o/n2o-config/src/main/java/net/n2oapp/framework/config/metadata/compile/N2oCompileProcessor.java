@@ -12,8 +12,8 @@ import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
@@ -126,7 +126,7 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public <D extends Compiled> void addRoute(String urlPattern, CompileContext<D, ?> context) {
-        env.getRouteRegister().addRoute(new RouteInfo(urlPattern, context));
+        env.getRouteRegister().addRoute(urlPattern, context);
     }
 
     @SuppressWarnings("unchecked")
@@ -210,11 +210,16 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public String resolveUrlParams(String url, Set<String> params) {
+    public String resolveUrlParams(String url, ModelLink link) {
+        List<String> params = getParams(url);
+        if (params == null || params.isEmpty() || data == null)
+            return url;
+        Map<String, String> valueParamMap = new HashMap<>();
+        collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
+        collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
         for (String param : params) {
-            Object value = data.get(param);
-            if (value != null) {
-                url = url.replace(":" + param, value.toString());
+            if (valueParamMap.containsKey(param) && data.containsKey(valueParamMap.get(param))) {
+                url = url.replace(":" + param, data.get(valueParamMap.get(param)).toString());
             }
         }
         return url;
@@ -239,6 +244,55 @@ public class N2oCompileProcessor implements CompileProcessor {
             }
         }
         return link;
+    }
+
+    @Override
+    public void resolveSubModels(ModelLink link, List<ModelLink> linkList) {
+        for (ModelLink modelLink : linkList) {
+            if (link.equalsLink(modelLink)) {
+                resolveDefaultValues(modelLink, link);
+            }
+        }
+        executeSubModels(link);
+    }
+
+    private void resolveDefaultValues(ModelLink src, ModelLink dst) {
+        if (src.getParam() != null && data.containsKey(src.getParam())) {
+            if (data.get(src.getParam()) instanceof List) {
+                List<DefaultValues> values = new ArrayList<>();
+                for (Object value : (List) data.get(src.getParam())) {
+                    DefaultValues defaultValues = new DefaultValues();
+                    defaultValues.setValues(new HashMap<>());
+                    defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), value);
+                    values.add(defaultValues);
+                }
+                if (!values.isEmpty())
+                    dst.setValue(values);
+            } else {
+                DefaultValues defaultValues = new DefaultValues();
+                defaultValues.setValues(new HashMap<>());
+                defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), data.get(src.getParam()));
+                dst.setValue(defaultValues);
+            }
+        }
+    }
+
+    private void executeSubModels(ModelLink link) {
+        if (link.getValue() == null)
+            return;
+        if (link.getValue() instanceof List) {
+            for (DefaultValues defaultValues : (List<DefaultValues>) link.getValue()) {
+                DataSet dataSet = new DataSet();
+                dataSet.put(link.getFieldId(), defaultValues.getValues());
+                env.getSubModelsProcessor().executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+                defaultValues.setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
+            }
+        } else if (link.getValue() instanceof DefaultValues) {
+            DataSet dataSet = new DataSet();
+            dataSet.put(link.getFieldId(), ((DefaultValues) link.getValue()).getValues());
+            env.getSubModelsProcessor().executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ((DefaultValues) link.getValue()).setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
+        }
     }
 
     @Override

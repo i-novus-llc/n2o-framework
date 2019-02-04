@@ -68,6 +68,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveAction.setOperationId(submitOperationId);
         saveButton.setAction(saveAction);
         saveButton.setModel(p.cast(submitModel, ReduxModel.RESOLVE));
+        saveButton.setValidate(true);
         saveButton.setConfirm(false);
         return Collections.singletonList(saveButton);
     }

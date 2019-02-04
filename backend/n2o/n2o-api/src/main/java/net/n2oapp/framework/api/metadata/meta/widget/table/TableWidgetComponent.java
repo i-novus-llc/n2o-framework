@@ -31,7 +31,6 @@ public class TableWidgetComponent extends WidgetComponent {
     private List<ColumnHeader> headers;
     @JsonProperty("sorting")
     private Map<String, String> sorting;
-    //todo показывает можно ли выбирать строки в таблице, пока только на клиенте реализована в xml такой функции нет
     @JsonProperty("hasSelect")
     private Boolean hasSelect = true;
 

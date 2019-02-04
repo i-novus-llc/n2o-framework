@@ -3,8 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLink;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -13,18 +15,24 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция ячейки иконка
  */
 @Component
-public class LinkCellCompiler extends AbstractCellCompiler<N2oLink, N2oLink> {
+public class LinkCellCompiler extends AbstractCellCompiler<N2oLinkCell, N2oLinkCell> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oLink.class;
+        return N2oLinkCell.class;
     }
 
     @Override
-    public N2oLink compile(N2oLink source, CompileContext<?,?> context, CompileProcessor p) {
-        N2oLink cell = new N2oLink();
+    public N2oLinkCell compile(N2oLinkCell source, CompileContext<?,?> context, CompileProcessor p) {
+        N2oLinkCell cell = new N2oLinkCell();
         build(cell, source, context, p, property("n2o.default.cell.link.src"));
-        compileAction(cell, source, context, p);
+        if (source.getUrl() == null) {
+            compileAction(cell, source, context, p);
+        } else {
+            cell.setUrl(p.resolveJS(source.getUrl()));
+            Target defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? Target.application : Target.self;
+            cell.setTarget(p.cast(source.getTarget(), defaultTarget));
+        }
         cell.setIcon(p.resolveJS(source.getIcon()));
         if (source.getIcon() != null) {
             cell.setType(p.cast(source.getType(), IconType.text));

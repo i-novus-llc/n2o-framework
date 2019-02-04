@@ -46,6 +46,7 @@ class FileUploaderItem extends React.Component {
             })}
           >
             {file.name}
+            {file.link && <i className=" n2o-file-uploader-external-link fa fa-external-link" />}
           </a>
           {!isEmpty(file.error) && (
             <Tooltip isOpen={this.state.tooltipOpen} target={file.id} toggle={this.toggle}>

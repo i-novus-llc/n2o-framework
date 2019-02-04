@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class BaseCompileContext<D extends Compiled, S> implements CompileContext<D, S> {
     /**
@@ -72,12 +73,8 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     @Override
     public String getCompiledId(CompileProcessor p) {
         if (route != null) {
-            String url = route;
-            if (StringUtils.hasLink(sourceId) && p != null) {
-                return RouteUtil.convertPathToId(url) + "_" + getSourceId(p);
-            } else {
-                return RouteUtil.convertPathToId(url);
-            }
+            String url = getRoute(p);
+            return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
             return p.resolveText(sourceId, parentModelLink);
@@ -103,7 +100,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getRoute(CompileProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveUrlParams(route, StringUtils.collectLinks(sourceId));
+            return p.resolveUrlParams(route, parentModelLink);
         }
         return route;
     }
@@ -153,5 +150,18 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" + sourceId + ")";
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseCompileContext)) return false;
+        BaseCompileContext<?, ?> that = (BaseCompileContext<?, ?>) o;
+        return this.sourceId.equals(that.sourceId) && this.compiledClass.equals(that.compiledClass);
+    }
+
+    @Override
+    public final int hashCode() {
+        return Objects.hash(sourceId, compiledClass);
     }
 }

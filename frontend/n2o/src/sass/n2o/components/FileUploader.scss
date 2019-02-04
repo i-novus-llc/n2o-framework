@@ -42,9 +42,11 @@
   }
 
   &-file-name {
+    display: flex;
+    align-items: center;
+
     text-overflow: ellipsis;
     overflow: hidden;
-    display: block;
     white-space: nowrap;
   }
 
@@ -67,5 +69,12 @@
 
   &-icon {
     margin-right: 10px;
+  }
+
+  &-external-link {
+    margin-left: 5px;
+    margin-top: 4px;
+
+    font-size: 14px;
   }
 }

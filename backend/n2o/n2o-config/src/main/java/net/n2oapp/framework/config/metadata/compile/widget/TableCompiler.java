@@ -54,14 +54,17 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         widgetScope.setClientWidgetId(table.getId());
         widgetScope.setWidgetId(source.getId());
         Models models = p.getScope(Models.class);
+        SubModelsScope subModelsScope = new SubModelsScope();
+        UploadScope uploadScope = new UploadScope();
+        uploadScope.setUpload(UploadType.defaults);
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters())));
+                new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters()), subModelsScope, uploadScope));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
         ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
-        compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope);
+        compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null);
         component.setClassName(source.getCssClass());
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         MetaActions widgetActions = new MetaActions();
@@ -82,8 +85,9 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, String route, CompiledQuery query, ValidationList validationList) {
-        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList);
+    protected QueryContext getQueryContext(Table widget, N2oTable source, String route, CompiledQuery query,
+                                           ValidationList validationList, SubModelsScope subModelsScope, CompileProcessor p) {
+        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList, subModelsScope, p);
 
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
@@ -126,6 +130,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             component.setHeaders(headers);
             component.setCells(cells);
             component.setSorting(sortings);
+            component.setHasSelect(source.getSelected() == null || source.getSelected());
         }
     }
 
@@ -168,8 +173,10 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
 
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                               WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
-                                              ModelsScope modelsScope, FiltersScope filtersScope) {
-        List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope, widgetQuery, object, modelsScope, filtersScope);
+                                              ModelsScope modelsScope, FiltersScope filtersScope,
+                                              SubModelsScope subModelsScope, UploadScope uploadScope) {
+        List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
+                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope);
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();
@@ -177,7 +184,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         filter.setFilterButtonId("filter");
         filter.setBlackResetList(Collections.EMPTY_LIST);
         filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));
-        filter.setHideButtons(!p.cast(source.getSearchButtons(), false));
+        filter.setHideButtons(p.cast(source.getSearchButtons(), true) ? null : true);
         return filter;
     }
 

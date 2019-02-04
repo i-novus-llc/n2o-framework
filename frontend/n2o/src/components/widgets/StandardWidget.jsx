@@ -23,25 +23,15 @@ class StandardWidget extends React.Component {
   renderSection(place) {
     const { widgetId, toolbar, actions, filter } = this.props;
     if (this.props[place] && React.isValidElement(this.props[place])) return this.props[place];
+    const filterProps = {
+      ...filter,
+      fieldsets: filter.filterFieldsets
+    };
     switch (place) {
       case 'left':
-        return (
-          <WidgetFilters
-            widgetId={widgetId}
-            blackResetList={filter.blackResetList}
-            fieldsets={filter.filterFieldsets}
-            filterButtonId={filter.filterButtonId}
-          />
-        );
+        return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       case 'top':
-        return (
-          <WidgetFilters
-            widgetId={widgetId}
-            blackResetList={filter.blackResetList}
-            fieldsets={filter.filterFieldsets}
-            filterButtonId={filter.filterButtonId}
-          />
-        );
+        return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       case 'topLeft':
         return <Actions toolbar={toolbar.topLeft} actions={actions} containerKey={widgetId} />;
       case 'topRight':
@@ -51,14 +41,7 @@ class StandardWidget extends React.Component {
       case 'bottomRight':
         return <Actions toolbar={toolbar.bottomRight} actions={actions} containerKey={widgetId} />;
       case 'right':
-        return (
-          <WidgetFilters
-            widgetId={widgetId}
-            blackResetList={filter.blackResetList}
-            fieldsets={filter.filterFieldsets}
-            filterButtonId={filter.filterButtonId}
-          />
-        );
+        return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       default:
         break;
     }

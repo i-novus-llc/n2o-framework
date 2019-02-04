@@ -4,12 +4,18 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oFileUpload;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.FileUpload;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+/**
+ * Сборка компонента загрузки файлов
+ */
 @Component
 public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFileUpload> {
     @Override
@@ -41,5 +47,16 @@ public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFil
     @Override
     protected String getControlSrcProperty() {
         return "n2o.api.control.fileupload.src";
+    }
+
+    @Override
+    protected Object compileDefValues(N2oFileUpload source, CompileProcessor p) {
+        if (source.getDefValue() == null) {
+            return null;
+        }
+        DefaultValues values = new DefaultValues();
+        values.setValues(new HashMap<>());
+        source.getDefValue().forEach((f, v) -> values.getValues().put(f, p.resolve(v)));
+        return values;
     }
 }

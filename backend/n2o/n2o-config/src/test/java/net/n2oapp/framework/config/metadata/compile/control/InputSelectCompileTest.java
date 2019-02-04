@@ -17,9 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class InputSelectCompileTest extends SourceCompileTestBase {
@@ -45,10 +45,9 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         Form form = (Form) page.getWidgets().get("testInputSelect_main");
 
         Models models = page.getModels();
-        assertThat(models.get("resolve['testInputSelect_main'].testId").getBindLink(), nullValue());
-        assertThat(((DefaultValues)models.get("resolve['testInputSelect_main'].testId").getValue()).getValues().get("id"), is(1));
-        assertThat(((DefaultValues)models.get("resolve['testInputSelect_main'].testId").getValue()).getValues().get("name"), is("test"));
-        assertThat(((DefaultValues)models.get("resolve['testInputSelect_main'].testId").getValue()).getValues().get("isTest"), is(true));
+        assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("id"), is(1));
+        assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("name"), is("test"));
+        assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("isTest"), is(true));
 
         InputSelect inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl();
@@ -63,7 +62,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(wdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
 
         Table table = (Table) page.getWidgets().get("testInputSelect_second");
-        wdp = ((InputSelect) ((StandardField)table.getFilter().getFilterFieldsets().get(0).getRows()
+        wdp = ((InputSelect) ((StandardField) table.getFilter().getFilterFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
         assertThat(wdp.getUrl(), is("n2o/data/test"));
         assertThat(wdp.getQuickSearchParam(), is("search"));

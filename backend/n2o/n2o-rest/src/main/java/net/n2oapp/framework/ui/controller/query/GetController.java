@@ -12,7 +12,8 @@ import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.ui.ResponseMessage;
-import net.n2oapp.framework.config.util.SubModelsProcessor;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,12 +62,12 @@ public abstract class GetController implements ControllerTypeAware {
     private void executeSubModels(QueryRequestInfo requestInfo, CollectionPage<DataSet> page, QueryResponseInfo responseInfo) {
         if (!page.getCollection().isEmpty() && requestInfo.isSubModelsExists() && requestInfo.getSize() == 1) {
             DataSet dataSet = page.getCollection().iterator().next();
-            subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), dataSet, new RecordNotFoundCollector(responseInfo));
+            subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), dataSet);
         }
     }
 
 
-    public static class RecordNotFoundCollector implements SubModelsProcessor.OnErrorCallback {
+    public static class RecordNotFoundCollector implements N2oSubModelsProcessor.OnErrorCallback {
         private QueryResponseInfo responseInfo;
 
         public RecordNotFoundCollector(QueryResponseInfo responseInfo) {
@@ -100,7 +101,7 @@ public abstract class GetController implements ControllerTypeAware {
         this.queryProcessor = queryProcessor;
     }
 
-    public void setSubModelsProcessor(SubModelsProcessor subModelsProcessor) {
+    public void setSubModelsProcessor(N2oSubModelsProcessor subModelsProcessor) {
         this.subModelsProcessor = subModelsProcessor;
     }
 

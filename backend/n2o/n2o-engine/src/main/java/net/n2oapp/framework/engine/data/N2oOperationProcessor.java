@@ -4,6 +4,7 @@ package net.n2oapp.framework.engine.data;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.InvocationProcessor;
+import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -19,9 +20,12 @@ import java.util.stream.Collectors;
 public class N2oOperationProcessor {
 
     private InvocationProcessor invocationProcessor;
+    private OperationExceptionHandler exceptionHandler;
 
-    public N2oOperationProcessor(InvocationProcessor invocationProcessor) {
+    public N2oOperationProcessor(InvocationProcessor invocationProcessor,
+                                 OperationExceptionHandler exceptionHandler) {
         this.invocationProcessor = invocationProcessor;
+        this.exceptionHandler = exceptionHandler;
     }
 
     public DataSet invoke(CompiledObject.Operation action, DataSet inDataSet) {
@@ -46,12 +50,7 @@ public class N2oOperationProcessor {
                     outParameters
             );
         } catch (Exception e) {
-            N2oException n2oE = new N2oActionException(e);
-            if (operation.getFailText() != null) {
-                //вывод fail-text вместо внутренней ошибки
-                n2oE.setUserMessage(StringUtils.resolveLinks(operation.getFailText(), inDataSet));
-            }
-            throw n2oE;
+            throw exceptionHandler.handle(operation, inDataSet, e);
         }
     }
 

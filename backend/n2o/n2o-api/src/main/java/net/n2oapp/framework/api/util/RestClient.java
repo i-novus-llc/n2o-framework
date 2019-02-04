@@ -6,10 +6,9 @@ import net.n2oapp.criteria.dataset.DataSet;
 import java.util.Map;
 
 /**
- * User: operhod
- * Date: 18.01.14
- * Time: 13:03
+ * @deprecated В 7.1 перейдем на RestTemplate
  */
+@Deprecated
 public interface RestClient {
 
 

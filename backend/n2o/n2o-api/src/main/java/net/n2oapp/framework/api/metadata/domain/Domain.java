@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * User: iryabov
- * Date: 20.02.14
- * Time: 10:38
+ * Типы данных N2O
  */
 public enum Domain {
     integer(Integer.class, N2oInputText.class),

@@ -434,4 +434,147 @@ stories
         <Actions actions={MetaJson.actions} toolbar={toolbar} containerKey="metaBtns" />
       </div>
     );
+  })
+  .add('Ограничение доступа на выпадающие списки', () => {
+    const toolbar = [
+      {
+        buttons: [
+          {
+            id: 'testBtn22',
+            title: 'Кнопка',
+            actionId: 'dummy',
+            subMenu: [
+              {
+                id: 'testBtn23',
+                title: 'Защищенная кнопка',
+                actionId: 'dummy',
+                security: {
+                  roles: ['admin']
+                }
+              },
+              {
+                id: 'testBtn23',
+                title: 'Защищенная кнопка 2',
+                actionId: 'dummy',
+                security: {
+                  roles: ['admin']
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    return (
+      <div>
+        <small>
+          Введите <mark>admin</mark>, чтобы увидеть выпадающий список
+        </small>
+        <AuthButtonContainer />
+        <br />
+        <Actions actions={MetaJson.actions} toolbar={toolbar} containerKey="metaBtns" />
+      </div>
+    );
+  })
+  .add('Page Buttons с предустановленным visible/disabled', () => {
+    const actions = {
+      dummy: {
+        src: 'dummyImpl'
+      }
+    };
+    const toolbarNonVisible = [
+      {
+        buttons: [
+          {
+            id: '111',
+            title: 'Кнопка',
+            actionId: 'dummy',
+            visible: false
+          }
+        ]
+      }
+    ];
+    const toolbarDisabled = [
+      {
+        buttons: [
+          {
+            id: '1112',
+            title: 'Кнопка',
+            actionId: 'dummy',
+            disabled: true
+          }
+        ]
+      }
+    ];
+    const dropDownNonVisisble = [
+      {
+        buttons: [
+          {
+            id: '11113',
+            title: 'Дропдаун',
+            visible: false,
+            subMenu: [
+              {
+                id: 'testBtn29',
+                actionId: 'dummy',
+                title: 'Элемент списка'
+              },
+              {
+                id: 'testBtn29',
+                actionId: 'dummy',
+                title: 'Элемент списка'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+    const dropDownDisabled = [
+      {
+        buttons: [
+          {
+            id: '11134',
+            title: 'Дропдаун',
+            disabled: true,
+            subMenu: [
+              {
+                id: 'testBtn29',
+                actionId: 'dummy',
+                title: 'Элемент списка'
+              },
+              {
+                id: 'testBtn29',
+                actionId: 'dummy',
+                title: 'Элемент списка'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    return (
+      <React.Fragment>
+        <div className="row mb-2">
+          Кнопку не видно, потому что она скрыта
+          <Actions actions={actions} toolbar={toolbarNonVisible} containerKey="visibleTest" />
+        </div>
+        <div className="row mb-2">
+          Кнопка неактивна
+          <Actions actions={actions} toolbar={toolbarDisabled} containerKey="disabledTest" />
+        </div>
+        <div className="row mb-2">
+          Дропдаун не видно, потому что он скрыт
+          <Actions
+            actions={actions}
+            toolbar={dropDownNonVisisble}
+            containerKey="notVisibleDropDown"
+          />
+        </div>
+        <div className="row mb-2">
+          Дропдаун неактивен
+          <Actions actions={actions} toolbar={dropDownDisabled} containerKey="dropdownDisabled" />
+        </div>
+      </React.Fragment>
+    );
   });

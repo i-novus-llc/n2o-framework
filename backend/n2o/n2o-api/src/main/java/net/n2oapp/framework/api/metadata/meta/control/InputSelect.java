@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.control.multi.N2oMultiListFieldUtil;
 
-import static net.n2oapp.framework.api.metadata.control.list.ListType.checkboxes;
-import static net.n2oapp.framework.api.metadata.control.list.ListType.multi;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,7 +23,7 @@ public class InputSelect extends ListControl {
     @Override
     public boolean containsHimself(DataSet dataSet) {
         if (multiSelect || hasCheckboxes) {
-            return N2oMultiListFieldUtil.containsHimself(dataSet, this);
+            return dataSet.get(getId()) instanceof Collection && ((List) dataSet.get(getId())).size() > 0;
         } else return super.containsHimself(dataSet);
     }
 }

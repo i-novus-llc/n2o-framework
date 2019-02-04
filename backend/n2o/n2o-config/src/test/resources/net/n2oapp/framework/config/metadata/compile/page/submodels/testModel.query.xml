@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <sql>test</sql>
+    </list>
+    <count>test</count>
+    <fields>
+        <field id="id" domain="integer">
+            <select/>
+            <sorting/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="testSingleUrl.id">
+            <filters>
+                <eq filter-id="testSingleUrl.id"/>
+            </filters>
+        </field>
+        <field id="testMultiUrl.id">
+            <filters>
+                <in filter-id="testMultiUrl*.id"/>
+            </filters>
+        </field>
+        <field id="testSingleDefault.id">
+            <filters>
+                <eq filter-id="testSingleDefault.id"/>
+            </filters>
+        </field>
+        <field id="testMultiDefault.id">
+            <filters>
+                <in filter-id="testMultiDefault*.id"/>
+            </filters>
+        </field>
+    </fields>
+</query>

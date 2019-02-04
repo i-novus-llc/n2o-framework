@@ -37,6 +37,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
     @Override
     public void io(Element e, N2oTable t, IOProcessor p) {
         super.io(e, t, p);
+        p.attributeBoolean(e, "selected", t::getSelected, t::setSelected);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns,
                 p.oneOf(AbstractColumn.class).add("column", N2oSimpleColumn.class, this::column));
         p.child(e, null, "rows", t::getRows, t::setRows, N2oRow::new, this::rows);

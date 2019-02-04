@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects';
-import { removeMessage } from './formPlugin';
+import { removeMessage, addTouched } from './formPlugin';
+import { touch } from 'redux-form';
 import { removeFieldMessage } from '../actions/formPlugin';
 
 describe('Проверка саги formPlugin', () => {
@@ -40,5 +41,21 @@ describe('Проверка саги formPlugin', () => {
     });
     expect(genWithoutField.next().value).toEqual(undefined);
     expect(genWithoutField.next().done).toEqual(true);
+  });
+
+  it('Проверка вызова touch при добавлении сообщения', () => {
+    const testData = {
+      payload: {
+        name: 'formField',
+        form: 'formName'
+      }
+    };
+
+    const genAddMessage = addTouched(testData);
+
+    expect(genAddMessage.next().value).toEqual(
+      put(touch(testData.payload.form, testData.payload.name))
+    );
+    expect(genAddMessage.next().done).toEqual(true);
   });
 });

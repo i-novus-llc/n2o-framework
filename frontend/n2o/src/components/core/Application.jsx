@@ -1,19 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { get } from 'lodash';
 import { connect } from 'react-redux';
 import { compose, withContext, branch, renderComponent, lifecycle } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import numeral from 'numeral';
 import 'numeral/locales/ru';
 import { requestConfig as requestConfigAction } from '../../actions/global';
-import {
-  menuSelector,
-  localeSelector,
-  localizationSelector,
-  appLoadingSelector,
-  errorSelector
-} from '../../selectors/global';
+import { globalSelector } from '../../selectors/global';
 import CoverSpinner from '../snippets/Spinner/CoverSpinner';
 import Alert from '../snippets/Alerts/Alert';
 
@@ -33,12 +28,8 @@ Application.propTypes = {
   error: PropTypes.object
 };
 
-const mapStateToProps = createStructuredSelector({
-  locale: localeSelector,
-  messages: localizationSelector,
-  menu: menuSelector,
-  loading: appLoadingSelector,
-  error: errorSelector
+const mapStateToProps = state => ({
+  ...globalSelector(state)
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -54,12 +45,14 @@ export default compose(
     {
       getLocale: PropTypes.func,
       getMessages: PropTypes.func,
-      getMenu: PropTypes.func
+      getMenu: PropTypes.func,
+      getFromConfig: PropTypes.func
     },
     props => ({
       getLocale: () => props.locale,
       getMessages: () => props.messages,
-      getMenu: () => props.menu
+      getMenu: () => props.menu,
+      getFromConfig: key => get(props, key)
     })
   ),
   lifecycle({

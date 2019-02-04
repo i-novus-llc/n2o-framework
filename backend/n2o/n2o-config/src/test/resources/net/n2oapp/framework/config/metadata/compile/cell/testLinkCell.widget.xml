@@ -13,5 +13,8 @@
         <column text-field-id="test4">
             <link icon="{id}" type="iconAndText"/>
         </column>
+        <column text-field-id="test5">
+            <link url="/test/{uid}"/>
+        </column>
     </columns>
 </table>

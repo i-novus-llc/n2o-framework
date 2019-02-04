@@ -179,7 +179,8 @@
               ]
             },
             "color": "primary",
-            "title": "Сохранить"
+            "title": "Сохранить",
+            "validate": true
           },
           {
             "id": "close",
@@ -238,11 +239,7 @@
       }
     }
   },
-  "models": {
-    "resolve['proto_patients_update_main'].patrName": {
-      "value": "Тест"
-    }
-  },
+  "models": {},
   "layout": {
     "src": "SingleLayout",
     "regions": {
@@ -261,6 +258,6 @@
     }
   },
   "page": {
-    "title": "Карточка пациента: 5607677"
+    "title": "Пациент - Изменение"
   }
 }

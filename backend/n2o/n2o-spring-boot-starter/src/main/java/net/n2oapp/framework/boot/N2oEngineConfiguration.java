@@ -4,11 +4,9 @@ import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
+import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.data.QueryProcessor;
-import net.n2oapp.framework.engine.data.N2oInvocationFactory;
-import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
-import net.n2oapp.framework.engine.data.N2oOperationProcessor;
-import net.n2oapp.framework.engine.data.N2oQueryProcessor;
+import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
@@ -53,11 +51,13 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public ContextProcessor contextProcessor(Context context) {
         return new ContextProcessor(context);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InvocationProcessor invocationProcessor(N2oInvocationFactory invocationFactory,
                                                    ContextProcessor contextProcessor,
                                                    DomainProcessor domainProcessor) {
@@ -79,14 +79,23 @@ public class N2oEngineConfiguration {
     public QueryProcessor queryProcessor(N2oInvocationFactory invocationFactory,
                                          ContextProcessor contextProcessor,
                                          DomainProcessor domainProcessor) {
-        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor, domainProcessor);
+        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor,
+                domainProcessor);
+        n2oQueryProcessor.setCriteriaResolver(new N2oCriteriaConstructor(pageStartsWith0));
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
         return n2oQueryProcessor;
     }
 
     @Bean
-    public N2oOperationProcessor actionProcessor(InvocationProcessor invocationProcessor) {
-        return new N2oOperationProcessor(invocationProcessor);
+    @ConditionalOnMissingBean
+    public OperationExceptionHandler operationExceptionHandler() {
+        return new N2oOperationExceptionHandler();
+    }
+
+    @Bean
+    public N2oOperationProcessor actionProcessor(InvocationProcessor invocationProcessor,
+                                                 OperationExceptionHandler operationExceptionHandler) {
+        return new N2oOperationProcessor(invocationProcessor, operationExceptionHandler);
     }
 
     @Bean

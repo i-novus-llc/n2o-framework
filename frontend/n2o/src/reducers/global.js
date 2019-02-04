@@ -29,8 +29,7 @@ export default handleActions(
     [REQUEST_CONFIG_SUCCESS]: (state, action) => ({
       ...state,
       loading: false,
-      messages: action.payload.config.messages,
-      menu: action.payload.config.menu
+      ...action.payload.config
     }),
     [REQUEST_CONFIG_FAIL]: (state, action) => ({
       ...state,

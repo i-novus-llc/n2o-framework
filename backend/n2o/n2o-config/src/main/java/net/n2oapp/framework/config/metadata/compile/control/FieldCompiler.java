@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
@@ -15,6 +14,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
@@ -27,6 +27,7 @@ import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
@@ -119,12 +120,32 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 filter.setFilterId(f.getFilterField());
                 filter.setParam(widgetScope.getClientWidgetId() + "_" + f.getParam());
                 filter.setReloadable(true);
+                SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
+                link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 filter.setLink(link);
                 filtersScope.getFilters().add(filter);
             });
         }
+    }
+
+    /**
+     * Возвращает информацию о вложенных моделях выборки по идентификатору поля
+     *
+     * @param fieldId - идентификатор поля
+     * @param p       - процессор сборки метаданных
+     */
+    protected SubModelQuery findSubModelQuery(String fieldId, CompileProcessor p) {
+        if (fieldId == null) return null;
+        SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
+        if (subModelsScope != null) {
+            return subModelsScope.stream()
+                    .filter(subModelQuery -> fieldId.equals(subModelQuery.getSubModel()))
+                    .findAny()
+                    .orElse(null);
+        }
+        return null;
     }
 
     private void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {

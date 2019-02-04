@@ -57,7 +57,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"));
     }
 
     @Test
@@ -263,6 +264,15 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(showModal.getLayout().getRegions().get("single").get(0).getItems().get(0).getWidgetId(), is("page_widget_id1_w0"));
         assertThat(showModal.getWidgets().size(), is(1));
         assertThat(showModal.getWidgets().get("page_widget_id1_w0"), instanceOf(Form.class));
+
+        context = (PageContext) route("/page/widget/testOpenPageSimplePageAction2/id1").getContext(Page.class);
+        data = new DataSet();
+        data.put("page_test_id", "testOpenPageSimplePageAction2");
+        showModal = read().compile().bind().get(context, data);
+        assertThat(showModal.getId(), is("page_widget_id1"));
+        assertThat(showModal.getLayout().getRegions().get("topLeft").get(0).getItems().get(0).getWidgetId(), is("page_widget_id1_main"));
+        assertThat(showModal.getWidgets().size(), is(1));
+        assertThat(showModal.getWidgets().get("page_widget_id1_main"), instanceOf(Form.class));
     }
 
     @Test

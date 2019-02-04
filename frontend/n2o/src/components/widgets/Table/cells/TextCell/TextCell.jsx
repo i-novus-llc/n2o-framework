@@ -13,8 +13,8 @@ import Text from '../../../../snippets/Text/Text';
  */
 class TextCell extends React.Component {
   render() {
-    const { model, fieldKey, id, ...rest } = this.props;
-    return <Text text={model && get(model, fieldKey || id)} {...rest} />;
+    const { model, fieldKey, id, visible, ...rest } = this.props;
+    return visible && <Text text={model && get(model, fieldKey || id)} {...rest} />;
   }
 }
 
@@ -22,7 +22,12 @@ TextCell.propTypes = {
   model: PropTypes.object,
   fieldKey: PropTypes.string,
   className: PropTypes.string,
-  format: PropTypes.string
+  format: PropTypes.string,
+  visible: PropTypes.bool
+};
+
+TextCell.defaultProps = {
+  visible: true
 };
 
 export default TextCell;

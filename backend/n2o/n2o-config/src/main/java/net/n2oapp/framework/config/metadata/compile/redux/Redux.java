@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.redux;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
@@ -171,7 +171,7 @@ public abstract class Redux {
     public static ModelLink linkQuery(String clientWidgetId, String fieldId, String queryId) {
         ModelLink link = new ModelLink(ReduxModel.RESOLVE, clientWidgetId, fieldId);
         if (PK.equals(fieldId))
-            link.setQueryId(queryId);
+            link.setSubModelQuery(new SubModelQuery(queryId));
         return link;
     }
 }

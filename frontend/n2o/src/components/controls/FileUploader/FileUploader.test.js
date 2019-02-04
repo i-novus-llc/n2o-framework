@@ -1,10 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import mock from 'xhr-mock';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import ButtonUploader from './ButtonUploader';
 import DropZone from './DropZone';
 
-mock.setup();
+const mock = new MockAdapter(axios);
 
 const props = {
   label: 'Загрузчик файлов',
@@ -34,6 +35,34 @@ const setupDropZone = propsOverride => {
 
 describe('FileUploader Тесты', () => {
   describe('Тесты ButtonUploader', () => {
+    it('Меняет состояние при update props value', () => {
+      const button = setupButton();
+      expect(button.state()).toEqual({
+        files: []
+      });
+      button.setProps({
+        value: {
+          customId: 1,
+          customName: 'filename.test',
+          customStatus: 'success',
+          customSize: '1024',
+          customLink: '/test'
+        }
+      });
+      expect(button.state()).toEqual({
+        files: [
+          {
+            id: 1,
+            name: 'filename.test',
+            status: 'success',
+            size: '1024',
+            response: undefined,
+            link: '/test'
+          }
+        ]
+      });
+    });
+
     it('Отрисовывается', () => {
       const button = setupButton();
       expect(button.find('.n2o-button-uploader').exists()).toEqual(true);
@@ -240,17 +269,12 @@ describe('FileUploader Тесты', () => {
   });
 
   it('Проверка отправки запросов', () => {
-    mock.post('/n2o/data', {
-      readyState: XMLHttpRequest.DONE,
-      status: 201,
-      getResponseHeader: () => 83921,
-      body: JSON.stringify({
-        customId: undefined,
-        customName: 'файл с сервера.png',
-        customStatus: 'success',
-        customResponse: 'response',
-        customLink: 'google.com'
-      })
+    mock.onPost('/n2o/data').reply(200, {
+      customId: undefined,
+      customName: 'файл с сервера.png',
+      customStatus: 'success',
+      customResponse: 'response',
+      customLink: 'google.com'
     });
 
     const button = setupButton({
@@ -274,7 +298,7 @@ describe('FileUploader Тесты', () => {
       expect(button.state().files[0]).toEqual({
         id: undefined,
         name: 'файл с сервера.png',
-        size: null,
+        size: undefined,
         status: 'success',
         response: 'response',
         link: 'google.com',
@@ -294,16 +318,14 @@ describe('FileUploader Тесты', () => {
       ]
     });
     button.instance().onUpload(2, {
-      readyState: XMLHttpRequest.DONE,
       status: 201,
-      getResponseHeader: () => 100,
-      responseText: JSON.stringify({
+      data: {
         customId: 2,
         customName: 'newFile.png',
         customSize: 100,
         customLink: 'link',
         customStatus: 'success'
-      })
+      }
     });
     button.update();
     setImmediate(() => {
