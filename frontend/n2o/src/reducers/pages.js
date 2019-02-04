@@ -13,7 +13,8 @@ import { SET_WIDGET_METADATA } from '../constants/widgets';
 export const pageState = {
   metadata: {},
   loading: false,
-  error: false
+  error: false,
+  disabled: false
 };
 
 function resolve(state = pageState, action) {
