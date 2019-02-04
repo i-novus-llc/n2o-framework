@@ -55,6 +55,8 @@ DateInterval.defaultProps = {
     [DateTimeControl.endInputName]: null
   },
   onChange: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
   dateFormat: 'DD/MM/YYYY',
   placeholder: '',
   disabled: false,
@@ -64,6 +66,8 @@ DateInterval.defaultProps = {
 };
 
 DateInterval.propTypes = {
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   defaultTime: PropTypes.object,
   value: PropTypes.object,
   min: PropTypes.oneOfType([

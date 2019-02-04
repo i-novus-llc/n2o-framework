@@ -196,7 +196,8 @@
           "src": "TextTableHeader",
           "id": "name",
           "sortable": false,
-          "label": "Имя"
+          "label": "Имя",
+          "width": "50"
         },
         {
           "src": "TextTableHeader",
