@@ -119,7 +119,7 @@ class Table extends React.Component {
   }
 
   handleRow(id, index, noResolve) {
-    const { datasource, hasFocus, hasSelect } = this.props;
+    const { datasource, hasFocus, hasSelect, handleRowClick } = this.props;
     hasSelect && !noResolve && this.props.onResolve(_.find(datasource, { id }));
     if (hasSelect && hasFocus) {
       this.setSelectAndFocus(index, index);
@@ -128,6 +128,7 @@ class Table extends React.Component {
     } else if (hasSelect) {
       this.setNewSelectIndex(index);
     }
+    handleRowClick();
   }
 
   setNewFocusIndex(index) {
@@ -318,7 +319,8 @@ Table.propTypes = {
 Table.defaultProps = {
   sorting: {},
   onResolve: () => {},
-  redux: false
+  redux: false,
+  handleRowClick: () => {}
 };
 
 Table.Header = TableHeader;

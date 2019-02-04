@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { lifecycle, compose } from 'recompose';
+import { lifecycle, compose, withHandlers } from 'recompose';
 import { isEqual, find, isEmpty, debounce } from 'lodash';
 
 import Table from './Table';
@@ -47,7 +47,9 @@ export default compose(
           onFocus: props.onFocus,
           size: props.size,
           actions: props.actions,
-          redux: true
+          redux: true,
+          onActionImpl: props.onActionImpl,
+          rowClick: props.rowClick
         };
       }
     },
@@ -69,6 +71,14 @@ export default compose(
         const selectedModel = find(datasource, model => model.id == selectedId);
         const resolveModel = selectedModel || datasource[0];
         onResolve(resolveModel);
+      }
+    }
+  }),
+  withHandlers({
+    handleRowClick: props => () => {
+      const { rowClick, onActionImpl } = props;
+      if (rowClick) {
+        onActionImpl(rowClick);
       }
     }
   })

@@ -5,6 +5,7 @@ import { compose, pure } from 'recompose';
 import { forEach, get, isEqual, isFunction } from 'lodash';
 import cx from 'classnames';
 import { batchActions } from 'redux-batched-actions';
+import { callActionImpl } from '../../actions/toolbar';
 
 import {
   dataRequestWidget,
@@ -282,7 +283,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         },
         onFocus: widgetId => {
           dispatch(setActive(widgetId));
-        }
+        },
+        onActionImpl: ({ src, component, options }) =>
+          dispatch(callActionImpl(src || component, { ...options, dispatch }))
       };
     }
 
