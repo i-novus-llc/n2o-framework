@@ -23,7 +23,16 @@ class DateInputGroup extends React.Component {
    * рендер полей-инпутов
    */
   renderInputs() {
-    const { dateFormat, disabled, placeholder, value, onInputChange, setVisibility } = this.props;
+    const {
+      dateFormat,
+      disabled,
+      placeholder,
+      value,
+      onInputChange,
+      setVisibility,
+      onFocus,
+      onBlur
+    } = this.props;
     const style = { display: 'flex', flexGrow: 1 };
     return (
       <div style={style}>
@@ -38,6 +47,8 @@ class DateInputGroup extends React.Component {
               value={value[input]}
               onInputChange={onInputChange}
               setVisibility={setVisibility}
+              onFocus={onFocus}
+              onBlur={onBlur}
             />
           );
         })}
@@ -65,7 +76,14 @@ DateInput.propTypes = {
   placeholder: PropTypes.bool,
   value: PropTypes.instanceOf(moment),
   onInputChange: PropTypes.func,
-  setVisibility: PropTypes.func
+  setVisibility: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func
+};
+
+DateInput.defaultProps = {
+  onFocus: () => {},
+  onBlur: () => {}
 };
 
 export default DateInputGroup;
