@@ -1417,7 +1417,7 @@
                       {
                         "id": "gender",
                         "src": "StandardField",
-
+                        "enabled": false,
                         "label": "Пол",
                         "dependency": [],
                         "control": {
@@ -1442,7 +1442,7 @@
                       {
                         "id": "vip",
                         "src": "StandardField",
-
+                        "enabled": false,
                         "dependency": [],
                         "control": {
                           "label": "VIP",
