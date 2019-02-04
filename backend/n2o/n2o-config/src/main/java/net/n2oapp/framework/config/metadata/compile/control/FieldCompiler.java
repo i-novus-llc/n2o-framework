@@ -47,6 +47,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compileComponent(field, source, context, p);
 
+        field.setVisible(source.getVisible());
+        field.setEnabled(source.getEnabled());
+
         field.setLabel(initLabel(source, p));
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));

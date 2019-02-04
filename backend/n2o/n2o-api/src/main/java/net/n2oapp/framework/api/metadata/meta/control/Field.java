@@ -17,8 +17,6 @@ import java.util.List;
 @Setter
 public class Field extends Component {
     @JsonProperty
-    private String id;
-    @JsonProperty
     private Boolean required;
     @JsonProperty
     private Boolean visible;
