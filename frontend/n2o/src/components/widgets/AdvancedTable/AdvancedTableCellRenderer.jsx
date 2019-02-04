@@ -7,7 +7,7 @@ import React from 'react';
  * @constructor
  */
 function AdvancedTableCellRenderer({ children }) {
-  return children;
+  return children ? children : null;
 }
 
 export default AdvancedTableCellRenderer;

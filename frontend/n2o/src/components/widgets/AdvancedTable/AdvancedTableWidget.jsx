@@ -10,7 +10,18 @@ import { values } from 'lodash';
 
 class AdvancedTableWidget extends Component {
   getWidgetProps() {
-    const { headers, cells, sorting, hasFocus, hasSelect, autoFocus, rowColor } = this.props.table;
+    const {
+      headers,
+      cells,
+      sorting,
+      hasFocus,
+      hasSelect,
+      autoFocus,
+      rowColor,
+      rowSelection,
+      tableSize,
+      useFixedHeader
+    } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
     return {
@@ -23,7 +34,10 @@ class AdvancedTableWidget extends Component {
       hasFocus,
       hasSelect,
       autoFocus,
-      dataProvider
+      dataProvider,
+      rowSelection,
+      tableSize,
+      useFixedHeader
     };
   }
 

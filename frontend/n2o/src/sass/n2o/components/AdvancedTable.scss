@@ -9,5 +9,25 @@
     box-sizing: border-box;
     border-left: 0.2rem solid transparent;
     outline: none;
+
+    &-level .n2o-advanced-table-row-expand-icon-cell {
+      &-1 {
+        padding-right: 10px;
+      }
+
+      &-2 {
+        padding-right: 20px;
+      }
+
+      &-3 {
+        padding-right: 30px;
+      }
+    }
+  }
+
+  &-expand {
+    cursor: pointer;
+
+    font-size: 12px;
   }
 }

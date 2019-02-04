@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
+import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
+import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys';
 import cx from 'classnames';
 
@@ -25,19 +27,40 @@ class AdvancedTable extends Component {
       onRow,
       components,
       emptyText,
+      rowKey,
+      expandable = false,
+      onExpand,
+      expandIconAsCell,
+      expandRowByClick,
+      onExpandedRowsChange,
+      expandedRowKeys,
+      tableSize,
+      useFixedHeader,
       hotKeys
     } = this.props;
     return (
       <HotKeys keyMap={hotKeys.keyMap} handlers={hotKeys.handlers}>
         <div className="n2o-advanced-table table-responsive">
           <Table
-            className={cx('n2o-table table table-sm table-hover', className, {
-              'has-focus': hasFocus
+            prefixCls={'n2o-advanced-table'}
+            className={cx('n2o-table table table-hover', className, {
+              'has-focus': hasFocus,
+              [`table-${tableSize}`]: tableSize
             })}
             columns={columns}
             data={data}
             onRow={onRow}
             components={components}
+            rowKey={rowKey && rowKey}
+            expandIcon={AdvancedTableExpandIcon}
+            expandIconAsCell={expandIconAsCell}
+            expandRowByClick={expandRowByClick}
+            expandedRowRender={expandable && AdvancedTableExpandedRenderer}
+            expandedRowKeys={expandedRowKeys}
+            onExpandedRowsChange={onExpandedRowsChange}
+            onExpand={onExpand}
+            useFixedHeader={useFixedHeader}
+            indentSize={'20px'}
             emptyText={emptyText}
           />
         </div>
