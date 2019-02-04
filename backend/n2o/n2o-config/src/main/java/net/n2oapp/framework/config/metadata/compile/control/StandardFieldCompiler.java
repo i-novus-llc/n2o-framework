@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -22,7 +23,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     }
 
     protected void compileControl(D control, S source, CompileProcessor p, StandardField<D> field) {
-        control.setSrc(p.cast(source.getControlSrc(), p.resolve(getControlSrcProperty(), String.class)));
+        control.setSrc(p.cast(control.getSrc(), source.getControlSrc(), p.resolve(Placeholders.property(getControlSrcProperty()), String.class)));
         if (control.getSrc() == null)
             throw new N2oException("control src is required");
         control.setId(field.getId());

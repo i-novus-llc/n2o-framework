@@ -28,7 +28,7 @@ public class FileUploadJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testFileUpload.widget.xml",
                 "components/controls/FileUploader/DropZone.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("disabled", "ajax", "label", "name", "statusFieldId", "src", "sizeFieldId", "autoUpload")
+                .exclude("id", "disabled", "ajax", "label", "name", "statusFieldId", "src", "sizeFieldId", "autoUpload")
                 .assertEquals();
     }
 

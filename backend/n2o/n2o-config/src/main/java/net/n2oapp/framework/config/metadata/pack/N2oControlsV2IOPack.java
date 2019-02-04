@@ -2,10 +2,7 @@ package net.n2oapp.framework.config.metadata.pack;
 
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.control.CustomFieldIOv2;
-import net.n2oapp.framework.config.io.control.FileUploadIOv2;
-import net.n2oapp.framework.config.io.control.HiddenIOv2;
-import net.n2oapp.framework.config.io.control.SearchButtonsIOv2;
+import net.n2oapp.framework.config.io.control.*;
 import net.n2oapp.framework.config.io.control.interval.DateIntervalIOv2;
 import net.n2oapp.framework.config.io.control.list.*;
 import net.n2oapp.framework.config.io.control.plain.*;
@@ -34,6 +31,7 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new CodeEditorIOv2(),
                 new FileUploadIOv2(),
                 new CodeEditorIOv2(),
-                new SearchButtonsIOv2());
+                new SearchButtonsIOv2(),
+                new CustomControlIOv2() );
     }
 }
