@@ -273,7 +273,7 @@ class Table extends React.Component {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={headers.length} style={{ textAlign: 'center' }}>
+                  <TableCell colSpan={headers && headers.length} style={{ textAlign: 'center' }}>
                     <span className="text-muted">
                       <FormattedMessage
                         id="table.notFound"

@@ -39,8 +39,8 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.boot.json.N2oJacksonModule;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.boot.json.N2oJacksonModule;
 import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -71,6 +71,7 @@ import net.n2oapp.properties.io.PropertiesInfoCollector;
 import net.n2oapp.watchdir.WatchDir;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
@@ -194,8 +195,9 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
-    public SubModelsProcessor subModelsProcessor(MetadataEnvironment n2oEnvironment) {
-        return n2oEnvironment.getSubModelsProcessor();
+    @ConditionalOnMissingBean
+    public SubModelsProcessor subModelsProcessor(QueryProcessor queryProcessor) {
+        return new N2oSubModelsProcessor(queryProcessor);
     }
 
     @Bean
@@ -246,7 +248,7 @@ public class N2oMetadataConfiguration {
                                               DynamicMetadataProviderFactory dynamicMetadataProviderFactory,
                                               ExtensionAttributeMapperFactory extensionAttributeMapperFactory,
                                               ButtonGeneratorFactory buttonGeneratorFactory,
-                                              QueryProcessor queryProcessor) {
+                                              SubModelsProcessor subModelsProcessor) {
         ((CrudGenerator) generators.get("crudGenerator")).setButtonGeneratorFactory(buttonGeneratorFactory);
         N2oEnvironment environment = new N2oEnvironment();
         environment.setSystemProperties(springEnv);
@@ -270,7 +272,6 @@ public class N2oMetadataConfiguration {
         environment.setContextProcessor(contextProcessor);
         environment.setExtensionAttributeMapperFactory(extensionAttributeMapperFactory);
         environment.setButtonGeneratorFactory(buttonGeneratorFactory);
-        N2oSubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor, environment);
         environment.setSubModelsProcessor(subModelsProcessor);
         return environment;
     }

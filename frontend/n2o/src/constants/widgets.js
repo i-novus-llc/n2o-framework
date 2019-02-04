@@ -11,6 +11,7 @@ export const SHOW = 'n2o/widgets/SHOW';
 export const HIDE = 'n2o/widgets/HIDE';
 export const ENABLE = 'n2o/widgets/ENABLE';
 export const DISABLE = 'n2o/widgets/DISABLE';
+export const DISABLE_ON_FETCH = 'n2o/widgets/DISABLE_ON_FETCH';
 export const LOADING = 'n2o/widgets/LOADING';
 export const UNLOADING = 'n2o/widgets/UNLOADING';
 export const ALERT_ADD = 'n2o/widgets/ALERT_ADD';

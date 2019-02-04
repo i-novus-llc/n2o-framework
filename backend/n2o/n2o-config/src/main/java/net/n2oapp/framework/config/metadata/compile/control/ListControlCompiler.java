@@ -78,7 +78,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 item.getId(),
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",
-                item.getLabelFieldId(),
+                item.getLabelFieldId() != null ? item.getLabelFieldId() : "name",
                 !item.isSingle()
         );
     }

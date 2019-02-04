@@ -22,7 +22,8 @@ import {
   RESET_STATE,
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
-  SET_ACTIVE
+  SET_ACTIVE,
+  DISABLE_ON_FETCH
 } from '../constants/widgets';
 import {
   registerWidget,
@@ -50,7 +51,8 @@ import {
   resetWidgetState,
   setWidgetMetadata,
   setTableSelectedId,
-  setActive
+  setActive,
+  disableWidgetOnFetch
 } from '../actions/widgets';
 
 const widgetId = ' widgetId';
@@ -388,6 +390,17 @@ describe('Тесты экшенов widgets', () => {
     });
     it('Возвращает правильный payload', () => {
       const action = setActive(widgetId);
+      expect(action.payload.widgetId).toEqual(widgetId);
+    });
+  });
+
+  describe('Проверка disabledWidgetOnFetch', () => {
+    it('Генирирует правильное событие', () => {
+      const action = disableWidgetOnFetch(widgetId);
+      expect(action.type).toEqual(DISABLE_ON_FETCH);
+    });
+    it('Генирирует правильный payload', () => {
+      const action = disableWidgetOnFetch(widgetId);
       expect(action.payload.widgetId).toEqual(widgetId);
     });
   });

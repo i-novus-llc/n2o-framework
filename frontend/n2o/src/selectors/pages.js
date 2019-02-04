@@ -86,6 +86,15 @@ const makePageTitleByIdSelector = pageId =>
     return pageState && pageState.page && pageState.page.title;
   });
 
+/**
+ *  Получение свойства disabled страницы по ее id
+ * @param pageId
+ */
+const makePageDisabledByIdSelector = pageId =>
+  createSelector(makePageByIdSelector(pageId), pageState => {
+    return pageState && pageState.disabled;
+  });
+
 export {
   pagesSelector,
   makePageByIdSelector,
@@ -96,5 +105,6 @@ export {
   makePageActionsByIdSelector,
   makePageToolbarByIdSelector,
   makePageErrorByIdSelector,
-  makePageTitleByIdSelector
+  makePageTitleByIdSelector,
+  makePageDisabledByIdSelector
 };

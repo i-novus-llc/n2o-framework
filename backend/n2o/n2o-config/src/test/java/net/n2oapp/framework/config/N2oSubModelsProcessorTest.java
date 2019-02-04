@@ -37,7 +37,8 @@ public class N2oSubModelsProcessorTest {
         when(environment.getReadCompileBindTerminalPipelineFunction()).thenReturn(pipelineFunction);
         when(environment.getReadCompileBindTerminalPipelineFunction().apply(any())).thenReturn(pipeline);
         when(environment.getReadCompileBindTerminalPipelineFunction().apply(any()).get(any(), any())).thenReturn(new TestCompiledQuery("someQuery"));
-        this.processor = new N2oSubModelsProcessor(queryProcessor, environment);
+        this.processor = new N2oSubModelsProcessor(queryProcessor);
+        this.processor.setEnvironment(environment);
     }
 
     @Test
