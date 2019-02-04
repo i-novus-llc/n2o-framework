@@ -50,6 +50,7 @@ public class CompiledQuery implements CompiledMetadata, OriginAware, PropertiesA
     private Map<String, N2oQuery.Filter> filterFieldsMap = new StrictMap<>(); //[filterId : filter]
     private Map<String, String> paramToFilterIdMap = new StrictMap<>(); // [urlParam : filterId]
     private Map<String, String> filterIdToParamMap = new StrictMap<>(); // [filterId : urlParam]
+    private Map<String, N2oQuery.Filter> requiredFiltersMap = new StrictMap<>(); // [fieldId : filter]
 
     public boolean containsFilter(String fieldId, FilterType type) {
         return filtersMap.get(fieldId) != null && filtersMap.get(fieldId).containsKey(type);

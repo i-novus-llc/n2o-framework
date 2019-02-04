@@ -523,6 +523,11 @@
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="required" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefValue">

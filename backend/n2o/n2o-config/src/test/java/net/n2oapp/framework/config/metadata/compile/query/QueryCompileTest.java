@@ -67,6 +67,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
 //        assert query.getUniques() == null;
 
         N2oQuery.Field testFilter = query.getFieldsMap().get("testFilter");
+        assertThat(testFilter.getFilterList()[0].getRequired(), is(true));
         assertThat(testFilter.getFilterList()[0].getFilterField(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterField(), is("testFilter_in"));
     }

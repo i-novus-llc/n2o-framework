@@ -64,7 +64,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setFieldsMap(Collections.unmodifiableMap(CompileQueryUtil.initFieldsMap(fields, query.getId())));
         query.setFieldNamesMap(Collections.unmodifiableMap(CompileQueryUtil.initFieldNamesMap(query.getFieldsMap())));
         query.setSortingSet(Collections.unmodifiableSet(initSortingSet(query.getSortingFields())));
-        query.setFiltersMap(Collections.unmodifiableMap(initFiltersMap(query.getFieldsMap(), p)));
+        query.setFiltersMap(Collections.unmodifiableMap(initFilters(query.getFieldsMap(), query.getRequiredFiltersMap(), p)));
         query.setInvertFiltersMap(Collections.unmodifiableMap(initInvertFiltersMap(query.getFieldsMap())));
         query.setFilterFieldsMap(Collections.unmodifiableMap(initFilterFieldsMap(query.getFiltersMap())));
         query.setParamToFilterIdMap(Collections.unmodifiableMap(initParamToFilterIdMap(query.getFilterFieldsMap(), p)));
@@ -158,7 +158,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
 
-    private Map<String, Map<FilterType, N2oQuery.Filter>> initFiltersMap(Map<String, N2oQuery.Field> fieldsMap, CompileProcessor p) {
+    private Map<String, Map<FilterType, N2oQuery.Filter>> initFilters(Map<String, N2oQuery.Field> fieldsMap, Map<String, N2oQuery.Filter> requiredFilters, CompileProcessor p) {
         Map<String, Map<FilterType, N2oQuery.Filter>> result = new HashMap<>();
         fieldsMap.values().stream().filter(queryField -> !queryField.isSearchUnavailable()).forEach(queryField -> {
             Map<FilterType, N2oQuery.Filter> filters = new HashMap<>();
@@ -170,6 +170,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                     f.setCompiledDefaultValue(p.resolve(f.getDefaultValue(), f.getDomain()));
                 }
                 filters.put(f.getType(), f);
+                if (f.getRequired() != null && f.getRequired())
+                    requiredFilters.put(queryField.getId(), f);
             }
             result.put(queryField.getId(), filters);
         });

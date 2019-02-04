@@ -8,11 +8,12 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.exception.N2oUserException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
+import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -47,6 +48,7 @@ public class N2oQueryProcessor implements QueryProcessor {
 
     @SuppressWarnings("unchecked")
     public CollectionPage<DataSet> execute(final CompiledQuery query, final N2oPreparedCriteria criteria) {
+        checkRequiredFilters(query, criteria);
         if (criteria.getSize() == 1) {
             //todo сейчас size==1 это дефакто выборки "byId" и они брасают исключение, если не найдуит записей, что не очень удобно, когда нам надо просто 0 или 1 запись
             return executeOneSizeQuery(query, criteria);
@@ -304,6 +306,26 @@ public class N2oQueryProcessor implements QueryProcessor {
             return new CollectionPage<>(criteria.getFirst() + content.size(), content, criteria);
         }
         return new CollectionPage<>(totalSupplier.get(), content, criteria);
+    }
+
+    private void checkRequiredFilters(CompiledQuery query, N2oPreparedCriteria criteria) {
+        if (query.getRequiredFiltersMap() == null || query.getRequiredFiltersMap().isEmpty()) return;
+        for (Map.Entry<String, N2oQuery.Filter> entry : query.getRequiredFiltersMap().entrySet()) {
+            String fieldId = entry.getKey();
+            Collection<Restriction> restrictions = criteria.getRestrictions(fieldId);
+            boolean filterExists = false;
+            if (restrictions != null && !restrictions.isEmpty()) {
+                for (Restriction restriction : criteria.getRestrictions()) {
+                    if (restriction.getType().equals(entry.getValue().getType()))
+                        filterExists = true;
+                }
+            }
+            if (!filterExists) {
+                N2oUserException e = new N2oUserException("n2o.exceptions.error.requiredFilter");
+                e.setData(fieldId);
+                throw e;
+            }
+        }
     }
 
     public void setPageStartsWith0(boolean pageStartsWith0) {

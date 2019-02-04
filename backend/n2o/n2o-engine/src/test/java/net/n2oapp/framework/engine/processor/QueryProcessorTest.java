@@ -4,12 +4,14 @@ import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Direction;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oUserException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.register.MetaType;
@@ -37,8 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -72,7 +73,8 @@ public class QueryProcessorTest {
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessor.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"));
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"));
     }
 
     @Test
@@ -210,5 +212,24 @@ public class QueryProcessorTest {
         DataSet first = result.getCollection().iterator().next();
         assertThat(first.get("normTest"), is(Integer.MAX_VALUE));
         assertThat(query.getFieldsMap().get("normTest").getSelectDefaultValue(), is("defaultValue"));
+    }
+
+    @Test
+    public void testRequiredFilter() {
+        TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
+        when(factory.produce(any())).thenReturn(testDataprovider);
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorRequiredFilter"));
+        try {
+            queryProcessor.execute(query, new N2oPreparedCriteria());
+            assert false;
+        } catch (Exception exception) {
+            assertThat(exception, instanceOf(N2oUserException.class));
+        }
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.setSize(1);
+        criteria.addRestriction(new Restriction("id", new Filter(FilterType.eq)));
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        assertThat(result.getCollection().size(), is(1));
     }
 }
