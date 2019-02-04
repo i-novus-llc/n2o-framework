@@ -354,7 +354,6 @@ function InputSelectTree({
   return (
     <TreeSelect
       tabIndex={-1}
-      onBlur={onBlur}
       {...value && { value: setValue(value) }}
       onDropdownVisibleChange={handleDropdownVisibleChange}
       className={cx('n2o', className)}
@@ -390,12 +389,10 @@ function InputSelectTree({
       ref={e => {
         if (e) {
           ref && ref(e);
-          // e.onSelectorBlur = event => {
-          //   console.clear();
-          //   console.log('BLURE', e);
-          //   onBlur(event);
-          //   return true;
-          // };
+          e.onSelectorBlur = event => {
+            onBlur(event);
+            return true;
+          };
           e.onSelectorFocus = event => {
             onFocus(event);
             return true;
