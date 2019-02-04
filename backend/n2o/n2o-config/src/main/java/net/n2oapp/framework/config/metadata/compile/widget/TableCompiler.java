@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;

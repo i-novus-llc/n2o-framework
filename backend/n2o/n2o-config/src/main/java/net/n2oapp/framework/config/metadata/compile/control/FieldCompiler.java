@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
@@ -10,6 +11,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -21,19 +23,13 @@ import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
-import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
-import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
 import java.util.*;
-
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -73,9 +69,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     private void compileDefaultValues(Field field, S source, CompileProcessor p) {
+        UploadScope uploadScope = p.getScope(UploadScope.class);
+        if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
+            return;
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
-            Object defValue = null;
+            Object defValue;
             if (source.getDefaultValue() != null) {
                 defValue = p.resolve(source.getDefaultValue(), source.getDomain());
             } else {
@@ -87,7 +86,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defaultValue.setValue(defValue);
                     defaultValues.add(field.getId(), defaultValue);
                 } else {
-                    defaultValues.add(field.getId(), new ModelLink(defValue));
+                    SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
+                    ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), field.getId());
+                    modelLink.setValue(defValue);
+                    modelLink.setSubModelQuery(subModelQuery);
+                    defaultValues.add(field.getId(), modelLink);
                 }
             }
         }
