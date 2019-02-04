@@ -76,8 +76,8 @@ class DateTimeControl extends React.Component {
         this.format,
         locale,
         DateTimeControl.defaultInputName
-      ),
-      isPopUpVisible: false
+      )
+      // isPopUpVisible: false
     });
   }
 
@@ -228,7 +228,7 @@ class DateTimeControl extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, className } = this.props;
+    const { disabled, placeholder, className, onFocus, onBlur } = this.props;
     const { inputs } = this.state;
     return (
       <div className="n2o-date-picker-container">
@@ -245,6 +245,8 @@ class DateTimeControl extends React.Component {
             inputClassName={className}
             setVisibility={this.setVisibility}
             setWidth={this.setWidth}
+            onBlur={onBlur}
+            onFocus={onFocus}
           />
           {this.renderPopUp(this.width)}
         </div>
@@ -258,6 +260,8 @@ DateTimeControl.beginInputName = 'begin';
 DateTimeControl.endInputName = 'end';
 
 DateTimeControl.defaultProps = {
+  onFocus: () => {},
+  onBlur: () => {},
   onChange: () => {},
   dateDivider: ' ',
   dateFormat: 'DD/MM/YYYY',
@@ -266,6 +270,8 @@ DateTimeControl.defaultProps = {
 };
 
 DateTimeControl.propTypes = {
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   type: PropTypes.oneOf(['date-interval', 'date-picker']),
   defaultTime: PropTypes.string,
   value: PropTypes.oneOfType([
