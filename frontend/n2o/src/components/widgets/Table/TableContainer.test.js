@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import * as hocs from './TableContainer';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import { withHandlers } from 'recompose';
 
 const NullComponent = () => null;
 const TableContainerTest = hocs.default;
@@ -62,7 +63,8 @@ describe('TableContainer', () => {
         rowColor: 'red',
         size: 10,
         actions: { anyActions: {} },
-        redux: true
+        redux: true,
+        rowClick: { src: 'dummy' }
       };
 
       const stateData = {
@@ -87,7 +89,8 @@ describe('TableContainer', () => {
         datasource: stateData.models.datasource.widgetId,
         onFocus: expect.any(Function),
         onResolve: expect.any(Function),
-        onSort: expect.any(Function)
+        onSort: expect.any(Function),
+        onActionImpl: expect.any(Function)
       });
     });
   });
@@ -154,7 +157,7 @@ describe('TableContainer', () => {
     expect(
       wrapper
         .find('WidgetContainer')
-        .find('lifecycle(Table)')
+        .find('lifecycle(withHandlers(Table))')
         .exists()
     ).toBe(true);
   });

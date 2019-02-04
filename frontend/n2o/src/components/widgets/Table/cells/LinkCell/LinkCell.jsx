@@ -47,8 +47,7 @@ function LinkCell({
   };
 
   const handleClick = e => {
-    e.stopPropagation();
-    callActionImpl({});
+    callActionImpl(e, {});
   };
 
   const getLinkContent = () => {
