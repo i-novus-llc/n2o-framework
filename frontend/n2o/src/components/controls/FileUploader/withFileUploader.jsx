@@ -42,8 +42,7 @@ const FileUploaderControl = WrappedComponent => {
             files: mapper ? mapper(value) : this.mapFiles(value)
           };
         });
-      }
-      if (!isEqual(prevProps.files, files)) {
+      } else if (!isEqual(prevProps.files, files)) {
         this.setState({
           files: mapper ? mapper(files) : this.mapFiles(files)
         });
