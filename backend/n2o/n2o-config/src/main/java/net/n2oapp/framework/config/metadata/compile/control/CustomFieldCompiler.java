@@ -24,4 +24,9 @@ public class CustomFieldCompiler extends FieldCompiler<CustomField, N2oCustomFie
         compileField(customField, source, context, p);
         return customField;
     }
+
+    @Override
+    protected String getSrcProperty() {
+        return "n2o.api.field.src";
+    }
 }

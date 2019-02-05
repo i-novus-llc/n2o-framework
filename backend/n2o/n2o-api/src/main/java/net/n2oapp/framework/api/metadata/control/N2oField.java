@@ -2,37 +2,38 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.N2oNamespace;
-import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.local.view.CssClassAware;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Map;
 
 
 /**
- * Абстратная реализация контрола
+ * Исходная модель поля
  */
 @Getter
 @Setter
-public abstract class N2oField implements Source, ExtensionAttributesAware, NamespaceUriAware {
-    private String id;
+public abstract class N2oField extends N2oComponent {
     private Boolean visible;
-    private String namespaceUri;
     private Validations validations;
-    protected String src;
-    private String fieldSrc;
     private Boolean required;
     private Boolean enabled;
     private String[] dependsOn;
+    @Deprecated
+    private String style;
+    private String label;
+    private String labelClass;
+    @Deprecated
+    private String labelStyle;
+    private String description;
+    private String help;
+    private String domain;
+    private String defaultValue;
+    private Boolean noLabel;
+
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
-    private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     public void addDependency(Dependency d) {
         if (d == null) return;

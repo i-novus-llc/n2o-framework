@@ -26,8 +26,6 @@ public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFil
     @Override
     public StandardField<FileUpload> compile(N2oFileUpload source, CompileContext<?, ?> context, CompileProcessor p) {
         FileUpload compiled = new FileUpload();
-        compiled.setControlSrc(p.cast(source.getSrc(),
-                p.resolve(property("n2o.api.control.fileupload.src"), String.class)));
         compiled.setUploadUrl(p.resolveJS(source.getUploadUrl()));
         compiled.setDeleteUrl(p.resolveJS(source.getDeleteUrl()));
         compiled.setAjax(p.cast(source.getMulti(), true));
@@ -44,6 +42,11 @@ public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFil
                 p.resolve(property("n2o.api.control.fileupload.response_field_id"), String.class)));
         compiled.setRequestParam(p.cast(source.getRequestParam(), "file"));
         return compileStandardField(compiled, source, context, p);
+    }
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.fileupload.src";
     }
 
     @Override

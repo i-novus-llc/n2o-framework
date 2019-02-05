@@ -4,6 +4,10 @@
         <field id="testId" src="testSrc" depends-on="name,type"
                test:sendEmailUrl="/send/email"
                test:sendCodeUrl="/send/code"
-               test:codeVerified="{emailSender.status=='send'}"/>
+               test:codeVerified="{emailSender.status=='send'}">
+            <controls>
+                <control id="ctrl" src="MyCOntrol"/>
+            </controls>
+        </field>
     </fields>
 </form>

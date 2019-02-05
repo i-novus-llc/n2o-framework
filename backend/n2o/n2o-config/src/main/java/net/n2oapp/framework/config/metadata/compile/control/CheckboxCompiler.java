@@ -24,12 +24,16 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
     @Override
     public StandardField<Checkbox> compile(N2oCheckbox source, CompileContext<?,?> context, CompileProcessor p) {
         Checkbox checkbox = new Checkbox();
-        checkbox.setControlSrc(p.cast(checkbox.getControlSrc(), p.resolve(property("n2o.api.control.checkbox.src"), String.class)));
         StandardField<Checkbox> field = compileStandardField(checkbox, source, context, p);
         if (field.getLabel() != null) {
             checkbox.setLabel(p.resolveJS(field.getLabel()));
         }
         field.setLabel(null);
         return field;
+    }
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.checkbox.src";
     }
 }

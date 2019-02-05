@@ -26,7 +26,7 @@ public class MaskedInputJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/metadata/compile/field/testMaskedInput.widget.xml",
                 "components/controls/InputMask/InputMask.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "readOnly", "preset", "placeholderChar", "dictionary", "guide", "keepCharPositions", "resetOnNotValid")
+                .exclude("src", "id", "readOnly", "preset", "placeholderChar", "dictionary", "guide", "keepCharPositions", "resetOnNotValid")
                 .assertEquals();
     }
 }

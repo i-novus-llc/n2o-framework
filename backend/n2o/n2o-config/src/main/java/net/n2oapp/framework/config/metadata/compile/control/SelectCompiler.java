@@ -9,10 +9,15 @@ import net.n2oapp.framework.api.metadata.meta.control.Select;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 @Component
 public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.select.src";
+    }
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oSelect.class;
@@ -23,7 +28,6 @@ public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
         Select control = new Select();
         control.setHasCheckboxes(ListType.checkboxes == source.getType());
         control.setClosePopupOnSelect(!control.getHasCheckboxes());
-        control.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.select.src"), String.class)));
         return compileListControl(control, source, context, p);
     }
 }
