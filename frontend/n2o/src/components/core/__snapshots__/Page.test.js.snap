@@ -1,33 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Тесты Page Отрисовка Page 1`] = `
-Array [
+<div
+  className=""
+>
   <nav
     aria-label="breadcrumb"
     className=""
->
+  >
     <ol
-        className="breadcrumb"
+      className="breadcrumb"
     >
-        <li
-            aria-current={undefined}
-            className="breadcrumb-item"
+      <li
+        aria-current={undefined}
+        className="breadcrumb-item"
+      >
+        <a
+          href="/"
+          onClick={[Function]}
         >
-            <a
-                href="/"
-                onClick={[Function]}
-            >
-                Первая
-            </a>
-        </li>
-        <li
-            aria-current="page"
-            className="active breadcrumb-item"
-        />
+          Первая
+        </a>
+      </li>
+      <li
+        aria-current="page"
+        className="active breadcrumb-item"
+      />
     </ol>
-</nav>,
+  </nav>
   <div
     className="n2o-page"
-/>,
-]
+  />
+</div>
 `;

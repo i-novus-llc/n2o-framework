@@ -4,6 +4,7 @@ import fetchMock from 'fetch-mock';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import withFetchData from './withFetchData';
+import { addAlert, removeAlerts } from '../../actions/alerts';
 
 const dataUrl = 'test';
 
@@ -153,5 +154,55 @@ describe('fetchData HOC test', () => {
 
     await delay(400);
     expect(count).toBe(0);
+  });
+  it('Обработка серверной ошибки1111', async () => {
+    let err = false;
+
+    let { wrapper } = setup(
+      { dataProvider: { url: dataUrl }, form: 'form', labelFieldId: 'labelFieldId' },
+      () => {
+        if (!err) {
+          err = true;
+          return {
+            status: 401,
+            response: {
+              json: () => ({
+                meta: {
+                  alert: {
+                    messages: [
+                      {
+                        severity: 'danger',
+                        text: 'Произошла внутренняя ошибка'
+                      }
+                    ]
+                  }
+                }
+              })
+            }
+          };
+        }
+        return {
+          list: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
+        };
+      }
+    );
+
+    wrapper
+      .find('EmptyComponent')
+      .props()
+      ._fetchData();
+
+    await delay(400);
+    expect(store.getActions()[1].payload.severity).toBe('danger');
+    expect(store.getActions()[1].payload.text).toBe('Произошла внутренняя ошибка');
+
+    wrapper
+      .find('EmptyComponent')
+      .props()
+      ._fetchData();
+
+    await delay(400);
+
+    expect(store.getActions()[2]).toEqual(removeAlerts('form.labelFieldId'));
   });
 });
