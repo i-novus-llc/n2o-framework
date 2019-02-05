@@ -3,7 +3,6 @@ import sinon from 'sinon';
 import * as hocs from './TableContainer';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { withHandlers } from 'recompose';
 
 const NullComponent = () => null;
 const TableContainerTest = hocs.default;
@@ -160,5 +159,22 @@ describe('TableContainer', () => {
         .find('lifecycle(withHandlers(Table))')
         .exists()
     ).toBe(true);
+  });
+
+  it('Проверка withWidgetHandlers', () => {
+    const onActionImpl = sinon.spy();
+    const wrapper = setup(
+      {
+        onActionImpl,
+        rowClick: { src: 'dummy' }
+      },
+      'withWidgetHandlers'
+    );
+    wrapper
+      .find(NullComponent)
+      .props()
+      .onRowClickAction();
+    expect(onActionImpl.calledOnce).toBe(true);
+    expect(onActionImpl.calledWith({ src: 'dummy' })).toBe(true);
   });
 });
