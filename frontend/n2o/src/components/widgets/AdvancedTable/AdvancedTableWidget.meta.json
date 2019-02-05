@@ -171,11 +171,21 @@
       "style": {},
       "hasFocus": true,
       "autoFocus": false,
-      "rowSelection": true,
       "tableSize": "sm",
       "sorting": {
         "birthday": "ASC"
       },
+      "columns": [
+        {
+          "src": "TextCell",
+          "id": "name"
+        },
+        {
+          "src": "IconCell",
+          "id": "surname",
+          "icon": "fa fa-plus"
+        }
+      ],
       "cells": [
         {
           "src": "TextCell",

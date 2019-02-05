@@ -20,7 +20,9 @@ class AdvancedTableWidget extends Component {
       rowColor,
       rowSelection,
       tableSize,
-      useFixedHeader
+      useFixedHeader,
+      expandable,
+      scroll
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -37,7 +39,9 @@ class AdvancedTableWidget extends Component {
       dataProvider,
       rowSelection,
       tableSize,
-      useFixedHeader
+      useFixedHeader,
+      expandable,
+      scroll
     };
   }
 

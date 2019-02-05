@@ -10,19 +10,7 @@
     border-left: 0.2rem solid transparent;
     outline: none;
 
-    &-level .n2o-advanced-table-row-expand-icon-cell {
-      &-1 {
-        padding-right: 10px;
-      }
 
-      &-2 {
-        padding-right: 20px;
-      }
-
-      &-3 {
-        padding-right: 30px;
-      }
-    }
   }
 
   &-expand {
@@ -30,4 +18,38 @@
 
     font-size: 12px;
   }
+
+  &-selection-container {
+    width: 100px;
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.n2o-advanced-table-row-level  {
+  &-1 .n2o-advanced-table-expand {
+    padding-right: 10px;
+  }
+
+  &-2 .n2o-advanced-table-expand {
+    padding-right: 20px;
+  }
+
+  &-3 .n2o-advanced-table-expand {
+    padding-right: 30px;
+  }
+}
+
+.n2o-advanced-table-row-level-1 .n2o-advanced-table-expand {
+  padding-left: 10px;
+}
+.n2o-advanced-table-row-level-2 .n2o-advanced-table-expand {
+  padding-left: 20px;
+}
+
+.n2o-advanced-table-row-level-2 .n2o-advanced-table-expand {
+  padding-left: 30px;
 }
