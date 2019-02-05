@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.servlet;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.n2oapp.framework.api.JsonUtil;
@@ -31,7 +32,9 @@ public class AppConfigJsonWriter {
 
 
     public void loadValues() {
-        this.configs = readConfigs();
+        if (configs == null)
+            configs = new ArrayList<>();
+        configs.addAll(readConfigs());
     }
 
 
@@ -39,16 +42,19 @@ public class AppConfigJsonWriter {
     public void writeValues(PrintWriter out, Map<String, ?> addedValues) throws IOException {
         ObjectNode objectNode = objectMapper.createObjectNode();
         ObjectNode configsNode = retrieveConfig(configs);
-        if (configsNode != null) objectNode.setAll(configsNode);
-
         for (String key : addedValues.keySet()) {
-            objectNode.putPOJO(key, addedValues.get(key));
+            objectNode.set(key, objectMapper.valueToTree(addedValues.get(key)));
         }
+        if (configsNode != null)
+            JsonUtil.merge(objectNode, configsNode);
+
         objectMapper.writeValue(out, objectNode);
     }
 
     private ObjectNode retrieveConfig(List<String> configs) {
         ObjectNode res = null;
+        if (configs == null)
+            return null;
         for (String config : configs) {
             try {
                 if (res == null) res = read(config);
@@ -61,16 +67,21 @@ public class AppConfigJsonWriter {
     }
 
     private ObjectNode read(String json) throws IOException {
-        String text = StringUtils.resolveProperties(json, properties);
-        text = contextProcessor.resolveJson(text, objectMapper);
+        String text = json;
+        if (properties != null)
+            text = StringUtils.resolveProperties(text, properties);
+        if (contextProcessor != null)
+            text = contextProcessor.resolveJson(text, objectMapper);
         return (ObjectNode) objectMapper.readTree(text);
     }
 
     private List<String> readConfigs() {
         List<String> configs = new ArrayList<>();
         try {
-            load(configs, path);
-            load(configs, overridePath);
+            if (path != null)
+                load(configs, path);
+            if (overridePath != null)
+                load(configs, overridePath);
         } catch (IOException e) {
             throw new N2oException(e);
         }
@@ -111,6 +122,10 @@ public class AppConfigJsonWriter {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public void setConfigs(List<String> configs) {
+        this.configs = configs;
     }
 
     public void setOverridePath(String overridePath) {

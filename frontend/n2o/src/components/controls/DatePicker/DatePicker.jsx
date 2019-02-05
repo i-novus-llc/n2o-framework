@@ -36,6 +36,8 @@ class DatePicker extends React.Component {
 
 DatePicker.defaultProps = {
   onChange: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
   dateFormat: 'DD/MM/YYYY',
   locale: 'ru',
   placeholder: '',
@@ -60,6 +62,8 @@ DatePicker.propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.string
   ]),
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   dateDivider: PropTypes.string,
   onChange: PropTypes.func,
   dateFormat: PropTypes.string,

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.servlet;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.n2oapp.framework.api.context.Context;
@@ -9,17 +10,14 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class JsonWriterTest {
+public class AppConfigJsonWriterTest {
 
     @Test
     public void testResolveValues() throws IOException {
@@ -52,4 +50,34 @@ public class JsonWriterTest {
         assertThat(result.get("user").get("isActive").toString().equals("true"), is(true));
         assertThat(result.get("prop").asText().equals("Test_Props"), is(true));
     }
+
+    @Test
+    public void overrideValues() throws IOException {
+        AppConfigJsonWriter writer = new AppConfigJsonWriter();
+        List<String> configs = Collections.singletonList("{\"test\":{\"inner-value\":123}}");
+        writer.setConfigs(configs);
+        writer.setObjectMapper(new ObjectMapper());
+        Map<String, Object> added = new HashMap<>();
+        added.put("test", new Sub("test"));
+
+        StringWriter sw = new StringWriter();
+        writer.writeValues(new PrintWriter(sw), added);
+        ObjectNode result = (ObjectNode) new ObjectMapper().readTree(sw.toString());
+        assertThat(result.get("test").get("inner-value").asInt(), is(123));
+        assertThat(result.get("test").get("inner-class").asText(), is("test"));
+    }
+
+    public static class Sub {
+        @JsonProperty("inner-class")
+        private String innerClass;
+
+        public Sub(String innerClass) {
+            this.innerClass = innerClass;
+        }
+
+        public String getInnerClass() {
+            return innerClass;
+        }
+    }
+
 }

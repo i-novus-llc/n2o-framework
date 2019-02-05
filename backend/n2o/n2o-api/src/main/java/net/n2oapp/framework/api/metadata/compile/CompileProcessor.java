@@ -133,13 +133,13 @@ public interface CompileProcessor {
     String resolveUrl(String url, Map<String, ? extends BindLink> pathMappings, Map<String, ? extends BindLink> queryMappings);
 
     /**
-     * Заменить в адресе только переданные параметры на значения
+     * Заменить в адресе параметры, которые ссылаются на переданную модель
      *
      * @param url    Адрес
-     * @param params path параметры
+     * @param link   Ссылка на модель, по которой определяем какие параметры необходимо заменить
      * @return Измененный адрес
      */
-    String resolveUrlParams(String url, Set<String> params);
+    String resolveUrlParams(String url, ModelLink link);
 
     /**
      * Попытаться разрешить значение ModelLink
