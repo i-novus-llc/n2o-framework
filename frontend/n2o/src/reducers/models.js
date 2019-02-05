@@ -40,19 +40,21 @@ const modelState = {
  * @param action
  */
 function resolveUpdate(state, action) {
+  const copyState = { ...state };
   if (isArray(state[action.payload.key])) {
-    set(state[action.payload.key], action.payload.field, action.payload.value);
-    return [...state[action.payload.key]];
+    set(copyState[action.payload.key], action.payload.field, action.payload.value);
+    return [...copyState[action.payload.key]];
   }
   if (isObject(state[action.payload.key])) {
+    set(copyState[action.payload.key], action.payload.field, action.payload.value);
     return {
-      ...state[action.payload.key],
-      ...set({}, action.payload.field, action.payload.value)
+      ...copyState[action.payload.key]
     };
   }
+
   return {
-    ...state,
-    [action.payload.field]: action.payload.value
+    ...copyState,
+    ...set({}, action.payload.field, action.payload.value)
   };
 }
 
