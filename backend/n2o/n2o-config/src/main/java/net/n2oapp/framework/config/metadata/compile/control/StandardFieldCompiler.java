@@ -30,10 +30,6 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         control.setClassName(p.resolveJS(source.getCssClass()));
     }
 
-    protected Object compileDefValues(S source, CompileProcessor p) {
-        return null;
-    }
-
     /**
      * Настройка React компонента ввода по умолчанию
      */
