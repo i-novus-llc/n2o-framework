@@ -5,6 +5,7 @@ import evalExpression from '../utils/evalExpression';
 import { getContainerButtons, toolbarSelector } from '../selectors/toolbar';
 import { changeButtonDisabled, changeButtonVisiblity } from '../actions/toolbar';
 import { get, every, values, has, filter } from 'lodash';
+import { REGISTER_BUTTON } from '../constants/toolbar';
 
 /**
  * резолв кондишена кнопки
@@ -86,4 +87,4 @@ export function* resolveButton(button) {
   }
 }
 
-export const modelSagas = [takeEvery([SET, REGISTER], handleAction)];
+export const modelSagas = [takeEvery([SET, REGISTER, REGISTER_BUTTON], handleAction)];

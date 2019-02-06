@@ -9,6 +9,7 @@ import { dependenciesSagas } from './sagas/dependency';
 import { modelSagas } from './sagas/model';
 import { metaSagas } from './sagas/meta';
 import { globalSagas } from './sagas/global';
+import { toolbarSagas } from './sagas/toolbar';
 
 export default function generateSagas(dispatch, config) {
   return function* rootSaga() {
@@ -22,7 +23,8 @@ export default function generateSagas(dispatch, config) {
       ...authSagas(config.security),
       ...metaSagas,
       ...modelSagas,
-      ...globalSagas
+      ...globalSagas,
+      ...toolbarSagas
     ]);
   };
 }
