@@ -21,8 +21,8 @@ const setup = (groupOverrides, checkboxOverrides) => {
 
   const wrapper = mount(
     <CheckboxGroup {...groupProps}>
-      <Checkbox value="1" {...checkboxProps} />
-      <Checkbox value="2" {...checkboxProps} />
+      <Checkbox value={{ id: 1 }} {...checkboxProps} />
+      <Checkbox value={{ id: 2 }} {...checkboxProps} />
     </CheckboxGroup>
   );
 
@@ -51,7 +51,7 @@ describe('<CheckboxGroup />', () => {
         .find('input[type="checkbox"]')
         .first()
         .props().value
-    ).toBe('1');
+    ).toEqual({ id: 1 });
   });
 
   it('calls onChange', () => {
@@ -68,5 +68,64 @@ describe('<CheckboxGroup />', () => {
     const { wrapper } = setup({ inline: true });
 
     expect(wrapper.find('div.n2o-checkbox-inline').exists()).toBeTruthy();
+  });
+
+  it('проверяет изменение value', () => {
+    const { wrapper } = setup({ value: [{ id: 1 }, { id: 2 }], valueFieldId: 'id' });
+    expect(
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(0)
+        .props().checked
+    ).toBe(true);
+    expect(
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(1)
+        .props().checked
+    ).toBe(true);
+
+    wrapper.setProps({ value: [{ id: 1 }] });
+    wrapper.update();
+    expect(
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(0)
+        .props().checked
+    ).toBe(true);
+    expect(
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(1)
+        .props().checked
+    ).toBe(false);
+
+    // value null
+    wrapper.setProps({ value: null });
+    wrapper.update();
+    expect(
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(0)
+        .props().checked
+    ).toBe(false);
+    // value undefined
+    wrapper.setProps({ value: undefined });
+    wrapper.update();
+    expect(
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(0)
+        .props().checked
+    ).toBe(false);
+    // value empty array
+    wrapper.setProps({ value: [] });
+    wrapper.update();
+    expect(
+      wrapper
+        .find('input[type="checkbox"]')
+        .at(0)
+        .props().checked
+    ).toBe(false);
   });
 });

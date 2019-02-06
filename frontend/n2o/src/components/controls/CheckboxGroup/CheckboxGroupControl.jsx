@@ -40,7 +40,7 @@ class CheckboxGroupControl extends React.Component {
    */
 
   render() {
-    const { data, labelFieldId, type, isLoading, value } = this.props;
+    const { data, labelFieldId, type, isLoading } = this.props;
 
     const checkboxTypes = {
       default: Checkbox,

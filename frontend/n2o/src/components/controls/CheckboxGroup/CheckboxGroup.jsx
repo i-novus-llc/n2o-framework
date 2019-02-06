@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { xorBy, some } from 'lodash';
+import { xorBy, some, isNull } from 'lodash';
 
 /**
  * Компонент - группа чекбоксов, содержит {@link Checkbox} как children
@@ -52,7 +52,8 @@ class CheckboxGroup extends React.Component {
     const { children, visible, inline, style, className, value, valueFieldId } = this.props;
     const element = child => {
       return React.cloneElement(child, {
-        checked: value && this._isIncludes(value, child.props.value, valueFieldId),
+        checked:
+          !isNull(value) && value && this._isIncludes(value, child.props.value, valueFieldId),
         disabled: this.props.disabled || child.props.disabled,
         onChange: this._onChange,
         inline: this.props.inline
