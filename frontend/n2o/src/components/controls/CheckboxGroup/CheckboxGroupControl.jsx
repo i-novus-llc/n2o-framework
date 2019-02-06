@@ -27,7 +27,7 @@ import Spinner from '../../snippets/Spinner/InlineSpinner';
  * @reactProps {boolean} isLoading - флаг готовности
  */
 
-class CheckboxGroupControl extends React.Component {
+export class CheckboxGroupControl extends React.Component {
   componentDidMount() {
     this.props._fetchData({
       size: this.props.size,
@@ -40,7 +40,7 @@ class CheckboxGroupControl extends React.Component {
    */
 
   render() {
-    const { data, labelFieldId, type, isLoading, onFocus, onBlur } = this.props;
+    const { data, labelFieldId, valueFieldId, type, isLoading, onFocus, onBlur } = this.props;
 
     const checkboxTypes = {
       default: Checkbox,
@@ -57,7 +57,7 @@ class CheckboxGroupControl extends React.Component {
             {data &&
               data.map(checkbox => (
                 <CheckboxElement
-                  key={checkbox.id}
+                  key={checkbox[valueFieldId]}
                   value={checkbox}
                   label={checkbox[labelFieldId]}
                   disabled={checkbox.disabled}
@@ -89,7 +89,8 @@ CheckboxGroupControl.propTypes = {
   queryId: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
   type: PropTypes.oneOf(['default', 'n2o', 'btn']),
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  _fetchData: PropTypes.func
 };
 
 CheckboxGroupControl.defaultProps = {
@@ -100,7 +101,10 @@ CheckboxGroupControl.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   onBlur: () => {},
-  isLoading: false
+  isLoading: false,
+  valueFieldId: 'id',
+  labelFieldId: 'label',
+  _fetchData: () => {}
 };
 
 export default withFetchData(CheckboxGroupControl);
