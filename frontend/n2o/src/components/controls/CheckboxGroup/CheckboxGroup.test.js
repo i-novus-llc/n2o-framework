@@ -128,4 +128,22 @@ describe('<CheckboxGroup />', () => {
         .props().checked
     ).toBe(false);
   });
+  it('проверяем onFocus', () => {
+    const onFocus = sinon.spy();
+    const { wrapper } = setup({ onFocus });
+    wrapper
+      .find('input[type="checkbox"]')
+      .at(0)
+      .simulate('focus');
+    expect(onFocus.calledOnce).toBe(true);
+  });
+  it('проверяем onBlur', () => {
+    const onBlur = sinon.spy();
+    const { wrapper } = setup({ onBlur });
+    wrapper
+      .find('input[type="checkbox"]')
+      .first()
+      .simulate('blur');
+    expect(onBlur.calledOnce).toBe(true);
+  });
 });

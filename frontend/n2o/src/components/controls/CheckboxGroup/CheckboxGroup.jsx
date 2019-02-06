@@ -26,6 +26,7 @@ class CheckboxGroup extends React.Component {
     super(props);
 
     this._onChange = this._onChange.bind(this);
+    this._onBlur = this._onBlur.bind(this);
   }
 
   /**
@@ -38,6 +39,12 @@ class CheckboxGroup extends React.Component {
     const { onChange, value, valueFieldId } = this.props;
     const { value: newValue } = e.target;
     onChange(xorBy(value, [newValue], valueFieldId));
+  }
+
+  _onBlur(e) {
+    const { onBlur, value, valueFieldId } = this.props;
+    const { value: newValue } = e.target;
+    onBlur(xorBy(value, [newValue], valueFieldId));
   }
 
   _isIncludes(collection, object, key) {
@@ -56,6 +63,8 @@ class CheckboxGroup extends React.Component {
           !isNull(value) && value && this._isIncludes(value, child.props.value, valueFieldId),
         disabled: this.props.disabled || child.props.disabled,
         onChange: this._onChange,
+        onBlur: this._onBlur,
+        onFocus: this.props.onFocus,
         inline: this.props.inline
       });
     };
