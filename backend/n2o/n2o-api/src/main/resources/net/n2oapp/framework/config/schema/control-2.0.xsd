@@ -28,6 +28,7 @@
     <xs:element name="search-buttons" type="controlSearchButtonsDefinition"/>
     <xs:element name="html" type="controlHtml"/>
     <xs:element name="field" type="fieldCustom"/>
+    <xs:element name="text" type="controlText"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -52,6 +53,7 @@
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
             <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
+            <xs:element name="text" type="controlText"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -276,6 +278,15 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
                 <xs:attribute name="height" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlText">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="format" type="xs:string"/>
+                <xs:anyAttribute namespace="##other"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
