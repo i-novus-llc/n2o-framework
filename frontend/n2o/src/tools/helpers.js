@@ -1,5 +1,12 @@
 import _ from 'lodash';
 
+/**
+ * Не мутабельный set
+ * @param object
+ * @param path
+ * @param value
+ * @returns {Object}
+ */
 export const setIn = (object, path, value) => _.setWith(_.clone(object), path, value, _.clone);
 
 function http_build_query(formdata, numeric_prefix, arg_separator) {

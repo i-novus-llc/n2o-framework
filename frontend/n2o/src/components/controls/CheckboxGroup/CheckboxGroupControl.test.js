@@ -1,8 +1,8 @@
 import React from 'react';
 import sinon from 'sinon';
-
-import Checkbox from '../Checkbox/Checkbox';
 import { CheckboxGroupControl } from './CheckboxGroupControl';
+import setupFormTest, { toMathInCollection } from '../../../utils/formTestHelper';
+import { focus, blur } from 'redux-form';
 
 const setup = overrideProps => {
   const props = Object.assign(
@@ -38,5 +38,28 @@ describe('<CheckboxGroupControl />', () => {
       isLoading: true
     });
     expect(wrapper.find('Spinner')).toBeTruthy();
+  });
+});
+
+describe('Работа с reduxForm', () => {
+  it('creates checkboxes', () => {
+    const { wrapper, store, actions } = setupFormTest({
+      src: 'CheckboxGroup',
+      data: [{ id: 1, label: 'test' }, { id: 2, label: 'test2' }]
+    });
+
+    wrapper
+      .find('input[type="checkbox"]')
+      .at(0)
+      .simulate('focus');
+
+    expect(toMathInCollection(actions, focus('Page_Form', 'testControl'))).toBe(true);
+
+    wrapper
+      .find('input[type="checkbox"]')
+      .at(0)
+      .simulate('blur');
+
+    expect(toMathInCollection(actions, blur('Page_Form', 'testControl', '', true))).toBe(true);
   });
 });

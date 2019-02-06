@@ -22,7 +22,7 @@ const modelsSelector = state => {
  * @param state
  */
 const resolveSelector = state => {
-  return state.models[PREFIXES.resolve] || {};
+  return (state.models && state.models[PREFIXES.resolve]) || {};
 };
 
 /**

@@ -42,9 +42,8 @@ class CheckboxGroup extends React.Component {
   }
 
   _onBlur(e) {
-    const { onBlur, value, valueFieldId } = this.props;
-    const { value: newValue } = e.target;
-    onBlur(xorBy(value, [newValue], valueFieldId));
+    const { onBlur, value } = this.props;
+    onBlur(value);
   }
 
   _isIncludes(collection, object, key) {
