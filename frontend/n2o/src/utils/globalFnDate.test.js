@@ -2,8 +2,8 @@ import moment from 'moment';
 import globalFnDate from './globalFnDate';
 import evalExpression from './evalExpression';
 
-const testFormat = { timeFormat: 'hh', dateFormat: 'DD.MM' };
-const testFormatForArgs = { timeFormat: 'hh.mm.ss', dateFormat: 'DD.MM.YYYY' };
+const testFormat = { timeFormat: 'HH', dateFormat: 'DD.MM' };
+const testFormatForArgs = { timeFormat: 'HH.mm.ss', dateFormat: 'DD.MM.YYYY' };
 
 const stringFormats = `${testFormat.dateFormat} ${testFormat.timeFormat}`;
 const stringFormatsToArgs = `${testFormatForArgs.dateFormat} ${testFormatForArgs.timeFormat}`;
@@ -20,15 +20,29 @@ describe('Проверка globalFnDate', () => {
     expect(date.nowUTC()).toEqual(moment.utc().format(stringFormats));
     expect(date.nowUTC(testFormatForArgs)).toEqual(moment.utc().format(stringFormatsToArgs));
   });
+  it('today', () => {
+    expect(date.today()).toEqual(
+      moment()
+        .startOf('day')
+        .format(stringFormats)
+    );
+    expect(date.today(testFormatForArgs)).toEqual(
+      moment()
+        .startOf('day')
+        .format(stringFormatsToArgs)
+    );
+  });
   it('yesterday', () => {
     expect(date.yesterday()).toEqual(
       moment()
         .add(-1, 'd')
+        .startOf('day')
         .format(stringFormats)
     );
     expect(date.yesterday(testFormatForArgs)).toEqual(
       moment()
         .add(-1, 'd')
+        .startOf('day')
         .format(stringFormatsToArgs)
     );
   });
@@ -36,11 +50,13 @@ describe('Проверка globalFnDate', () => {
     expect(date.tomorrow()).toEqual(
       moment()
         .add(1, 'd')
+        .startOf('day')
         .format(stringFormats)
     );
     expect(date.tomorrow(testFormatForArgs)).toEqual(
       moment()
         .add(1, 'd')
+        .startOf('day')
         .format(stringFormatsToArgs)
     );
   });
@@ -174,7 +190,7 @@ describe('Проверка изменения глобального форма�
     expect(date.now()).toEqual(moment().format('DD.MM.YYYY hh:mm:ss'));
   });
   it('Проверка работы evalExpression', () => {
-    globalFnDate.addFormat({ timeFormat: 'hh:ss', dateFormat: 'DD.MM' });
-    expect(evalExpression('date.now()', {})).toEqual(moment().format('DD.MM hh:ss'));
+    globalFnDate.addFormat({ timeFormat: 'HH:mm', dateFormat: 'DD.MM' });
+    expect(evalExpression('$.now()', {})).toEqual(moment().format('DD.MM HH:mm'));
   });
 });
