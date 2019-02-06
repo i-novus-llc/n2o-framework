@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ScriptProcessorTest {
@@ -52,13 +53,13 @@ public class ScriptProcessorTest {
     public void testResolveExpression() {
         assertThat(ScriptProcessor.resolveExpression("{id}"), is("`id`"));
         assertThat(ScriptProcessor.resolveExpression("1"), is(1));
-        assertThat( ScriptProcessor.resolveExpression("true"), is(true));
-        assertThat( ScriptProcessor.resolveExpression("1,2"), is("1,2"));
-        assertThat( ScriptProcessor.resolveExpression("test"), is("test"));
-        assertThat( ScriptProcessor.resolveExpression("`1+1`"), is("`1+1`"));
-        assertThat( ScriptProcessor.resolveExpression("Test{id}"), is("`'Test'+id`"));
-        assertThat( ScriptProcessor.resolveExpression("Test {surname} {name}"), is("`'Test '+surname+' '+name`"));
-        assertThat( ScriptProcessor.resolveExpression("Test {id} #{surname} {name} ${patr}"), is("`'Test '+id+' #{surname} '+name+' ${patr}'`"));
+        assertThat(ScriptProcessor.resolveExpression("true"), is(true));
+        assertThat(ScriptProcessor.resolveExpression("1,2"), is("1,2"));
+        assertThat(ScriptProcessor.resolveExpression("test"), is("test"));
+        assertThat(ScriptProcessor.resolveExpression("`1+1`"), is("`1+1`"));
+        assertThat(ScriptProcessor.resolveExpression("Test{id}"), is("`'Test'+id`"));
+        assertThat(ScriptProcessor.resolveExpression("Test {surname} {name}"), is("`'Test '+surname+' '+name`"));
+        assertThat(ScriptProcessor.resolveExpression("Test {id} #{surname} {name} ${patr}"), is("`'Test '+id+' #{surname} '+name+' ${patr}'`"));
         assertThat(ScriptProcessor.resolveExpression("#{id}"), is("#{id}"));
         assertThat(ScriptProcessor.resolveExpression("${id}"), is("${id}"));
         assertThat(ScriptProcessor.resolveExpression("{gender*.id}"), is("`gender.map(function(t){return t.id})`"));
@@ -66,10 +67,10 @@ public class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveExpression("{test == 1}"), is("`test == 1`"));
         assertThat(ScriptProcessor.resolveExpression("Hello, {test + 1}"), is("`'Hello, '+test + 1`"));
 
-        assertThat( ScriptProcessor.resolveArrayExpression("1"), is(Collections.singletonList(1)));
-        assertThat( ScriptProcessor.resolveArrayExpression("1", "2"), is(Arrays.asList(1,2)));
-        assertThat( ScriptProcessor.resolveArrayExpression("Test1", "Test2"), is(Arrays.asList("Test1","Test2")));
-        assertThat( ScriptProcessor.resolveArrayExpression("true", "false"), is(Arrays.asList(true,"`false`")));
+        assertThat(ScriptProcessor.resolveArrayExpression("1"), is(Collections.singletonList(1)));
+        assertThat(ScriptProcessor.resolveArrayExpression("1", "2"), is(Arrays.asList(1, 2)));
+        assertThat(ScriptProcessor.resolveArrayExpression("Test1", "Test2"), is(Arrays.asList("Test1", "Test2")));
+        assertThat(ScriptProcessor.resolveArrayExpression("true", "false"), is(Arrays.asList(true, "`false`")));
         //todo реализовать для сложных вариантов
         //assertThat( scriptProcessor.resolveArrayExpression("{id}"), is("`[id]`"));
         //assertThat( scriptProcessor.resolveArrayExpression("{id1}", "{id2}"), is("`[id1,id2]`"));
@@ -92,8 +93,8 @@ public class ScriptProcessorTest {
         assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch) == null;
         n2oSwitch.setValueFieldId("status");
         Map<String, String> cases = new HashMap<>();
-        cases.put("1","blue");
-        cases.put("2","red");
+        cases.put("1", "blue");
+        cases.put("2", "red");
         n2oSwitch.setCases(cases);
         assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch).equals("`status == '1' ? 'blue' : status == '2' ? 'red' : null`");
         n2oSwitch.setDefaultCase("gray");
@@ -430,8 +431,8 @@ public class ScriptProcessorTest {
     }
 
     /*
-    * test moment.js functions in scriptProcessor
-    * */
+     * test moment.js functions in scriptProcessor
+     * */
     @Test
     @Ignore
     public void testAddMomentJs() throws ExecutionException, InterruptedException {
@@ -452,8 +453,8 @@ public class ScriptProcessorTest {
     }
 
     /*
-    * test globalDateFuncs.js functions in scriptProcessor
-    * */
+     * test globalDateFuncs.js functions in scriptProcessor
+     * */
     @Test
     @Ignore
     public void testGlobalDateFuncsJs() throws ExecutionException, InterruptedException {
@@ -480,9 +481,10 @@ public class ScriptProcessorTest {
         });
 
     }
+
     /*
-    * test that numeral.js functions are thread safe
-    * */
+     * test that numeral.js functions are thread safe
+     * */
     @Test
     @Ignore
     public void testAddNumeralJs() throws ExecutionException, InterruptedException {
@@ -500,9 +502,10 @@ public class ScriptProcessorTest {
             return result.equals(diff);
         });
     }
+
     /*
-    * test that underscore.js functions are thread safe
-    * */
+     * test that underscore.js functions are thread safe
+     * */
     @Test
     @Ignore
     public void testAddUnderscoreJs() throws ExecutionException, InterruptedException {
@@ -524,6 +527,30 @@ public class ScriptProcessorTest {
                 System.out.println("temp=" + Arrays.asList(temp).toString() + ", summ = " + sum + ", result=" + result);
             return result.equals(sum);
         });
+    }
+
+    @Test
+    public void testCustomFunctions() throws ScriptException {
+        ScriptEngine engine = ScriptProcessor.getScriptEngine();
+
+        //n2o
+        assertThat(engine.eval("$.now()"), notNullValue());
+        assertThat(engine.eval("$.today()"), notNullValue());
+        assertThat(engine.eval("$.beginWeek()"), notNullValue());
+        assertThat(engine.eval("$.endWeek()"), notNullValue());
+        assertThat(engine.eval("$.beginMonth()"), notNullValue());
+        assertThat(engine.eval("$.endMonth()"), notNullValue());
+        assertThat(engine.eval("$.beginQuarter()"), notNullValue());
+        assertThat(engine.eval("$.endQuarter()"), notNullValue());
+        assertThat(engine.eval("$.beginYear()"), notNullValue());
+        assertThat(engine.eval("$.endYear()"), notNullValue());
+
+        //moment
+        assertThat(engine.eval("moment('06.02.2019').format('DD.MM.YYYY')"), is("02.06.2019"));
+        //numeral
+        assertThat(engine.eval("numeral(1.5).format('0.00')"), is("1.50"));
+        //lodash
+        assertThat(engine.eval("_.join(['a', 'b', 'c'], '~')"), is("a~b~c"));
     }
 
 }
