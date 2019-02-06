@@ -1,4 +1,5 @@
 import {
+  toolbarSelector,
   isVisibleSelector,
   sizeSelector,
   colorSelector,
@@ -53,6 +54,9 @@ const state = {
 };
 
 describe('Проверка селекторов toolbar', () => {
+  it('toolbarSelector должен вернуть state toolbar', () => {
+    expect(toolbarSelector(state)).toEqual(state.toolbar);
+  });
   it('isVisibleSelector должен вернуть visible кнопки', () => {
     expect(isVisibleSelector('widgetId', 'create')(state)).toEqual(
       state.toolbar.widgetId.create.visible
