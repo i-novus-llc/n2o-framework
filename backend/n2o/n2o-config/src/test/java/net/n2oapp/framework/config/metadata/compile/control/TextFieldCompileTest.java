@@ -38,7 +38,7 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
 
         assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("TextField"));
-        assertThat(field.getText(), is("textTest"));
+        assertThat(field.getText(), is("`'Hello, '+username`"));
         assertThat(field.getFormat(), is("formatTest"));
     }
 

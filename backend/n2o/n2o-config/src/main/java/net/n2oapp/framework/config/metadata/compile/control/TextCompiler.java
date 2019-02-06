@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import org.springframework.stereotype.Component;
 
 /**
- * Компиляция TextField
+ * Сборка компонента текста
  */
 
 @Component
@@ -23,7 +23,7 @@ public class TextCompiler extends ComponentCompiler<Text, N2oText> {
     @Override
     public Text compile(N2oText source, CompileContext<?, ?> context, CompileProcessor p) {
         Text text = new Text();
-        text.setText(source.getText());
+        text.setText(p.resolveJS(source.getText()));
         text.setFormat(source.getFormat());
 
         compileComponent(text, source, context, p);

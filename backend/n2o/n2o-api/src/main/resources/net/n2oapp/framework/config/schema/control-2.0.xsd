@@ -285,7 +285,6 @@
     <xs:complexType name="controlText">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="text" type="xs:string" use="required"/>
                 <xs:attribute name="format" type="xs:string"/>
                 <xs:anyAttribute namespace="##other"/>
             </xs:extension>
