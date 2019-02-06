@@ -326,6 +326,9 @@ public class N2oCompileProcessor implements CompileProcessor {
         if (linkMap != null) {
             linkMap.forEach((k, v) -> {
                 if (v.equalsLink(link)) {
+                    // для данных, которые мапятся напрямую
+                    resultMap.put(k, k);
+                    // для данных, которые мапятся через параметр
                     resultMap.put(v.getFieldId(), k);
                 }
             });

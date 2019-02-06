@@ -112,28 +112,36 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     @Test
     public void testResolveUrlParam() {
         PageContext context = new PageContext("test");
+
         Map<String, ModelLink> routeInfos = new HashMap<>();
         ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
-        value.setFieldValue("name");
-        routeInfos.put("paramName", value);
+        value.setValue("`versionId`");
+        routeInfos.put("versionId", value);
         context.setQueryRouteMapping(routeInfos);
+        Map<String, ModelLink> pathRouteInfos = new HashMap<>();
+        ModelLink pathValue = new ModelLink(ReduxModel.RESOLVE, "widgetId", "id");
+        pathRouteInfos.put("w_id", pathValue);
+        context.setPathRouteMapping(pathRouteInfos);
+
         DataSet data = new DataSet();
-        data.put("paramName", "Joe");
+        data.put("versionId", "2");
+        data.put("w_id", "1");
+
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
         // все необходимые данные есть и плейсхолдер заменился заменился
         ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
-        String resultText = processor.resolveUrlParams("http://test/:name/action", testML);
-        assertThat(resultText, is("http://test/Joe/action"));
+        String resultText = processor.resolveUrlParams("http://page/widget/:w_id/action?versionId=:versionId", testML);
+        assertThat(resultText, is("http://page/widget/1/action?versionId=2"));
         // нет подходящего по widgetId
-        resultText = processor.resolveUrlParams("http://test/:name/action", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
-        assertThat(resultText, is("http://test/:name/action"));
+        resultText = processor.resolveUrlParams("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
+        assertThat(resultText, is("http://page/widget/:w_id/action?versionId=:versionId"));
         // нет подходящего по model
-        resultText = processor.resolveText("http://test/:name/action", new ModelLink(ReduxModel.FILTER, "widgetId"));
-        assertThat(resultText, is("http://test/:name/action"));
+        resultText = processor.resolveText("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.FILTER, "widgetId"));
+        assertThat(resultText, is("http://page/widget/:w_id/action?versionId=:versionId"));
         // нет подходящего значения в data
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());
-        resultText = processor.resolveText("http://test/:name/action", testML);
-        assertThat(resultText, is("http://test/:name/action"));
+        resultText = processor.resolveText("http://page/widget/:w_id/action?versionId=:versionId", testML);
+        assertThat(resultText, is("http://page/widget/:w_id/action?versionId=:versionId"));
     }
 
 }

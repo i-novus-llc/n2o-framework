@@ -77,11 +77,11 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
 
 
         dynamicPage = route("/test/route/second/123/update", Page.class);
-        assertThat(dynamicPage.getId(), is("test_route_second_update"));
+        assertThat(dynamicPage.getId(), is("test_route_second_123_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
-        assertThat(dynamicPage.getWidgets().get("test_route_second_update_main"), instanceOf(Form.class));
-        assertThat(dynamicPage.getWidgets().get("test_route_second_update_main").getName(), is("123"));
-        assertThat(((Form) dynamicPage.getWidgets().get("test_route_second_update_main")).getComponent().getFieldsets().get(0)
+        assertThat(dynamicPage.getWidgets().get("test_route_second_123_update_main"), instanceOf(Form.class));
+        assertThat(dynamicPage.getWidgets().get("test_route_second_123_update_main").getName(), is("123"));
+        assertThat(((Form) dynamicPage.getWidgets().get("test_route_second_123_update_main")).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id"));
     }
 }

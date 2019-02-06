@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.context;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -7,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -106,6 +108,24 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     }
 
     @Override
+    public DataSet getParams(String url, Map<String, String[]> queryParams) {
+        DataSet data;
+        if (route == null) {
+            data = new DataSet();
+        } else {
+            data = getResultData(url, route);
+        }
+        queryParams.forEach((k, v) -> {
+            if (v.length == 1) {
+                data.put(k, v[0]);
+            } else {
+                data.put(k, Arrays.asList(v));
+            }
+        });
+        return data;
+    }
+
+    @Override
     public Map<String, ModelLink> getQueryRouteMapping() {
         return queryRouteMapping;
     }
@@ -163,5 +183,17 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     @Override
     public final int hashCode() {
         return Objects.hash(sourceId, compiledClass);
+    }
+
+    private DataSet getResultData(String url, String urlPattern) {
+        DataSet data = new DataSet();
+        String[] splitUrl = url.split("/");
+        String[] splitPattern = urlPattern.split("/");
+        for (int i = 0; i < splitUrl.length && i < splitPattern.length; i++) {
+            if (splitPattern[i].startsWith(":")) {
+                data.put(splitPattern[i].substring(1), splitUrl[i]);
+            }
+        }
+        return data;
     }
 }
