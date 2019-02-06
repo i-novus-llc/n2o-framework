@@ -19,7 +19,8 @@ import {
   TOGGLE_FILTERS_VISIBILITY,
   RESET_STATE,
   SET_TABLE_SELECTED_ID,
-  SET_ACTIVE
+  SET_ACTIVE,
+  DISABLE_ON_FETCH
 } from '../constants/widgets';
 import widgets from './widgets';
 
@@ -238,6 +239,26 @@ describe('Тесты widget reducer', () => {
         },
         {
           type: DISABLE,
+          payload: {
+            widgetId: 'widget'
+          }
+        }
+      )
+    ).toEqual({
+      widget: {
+        isEnabled: false
+      }
+    });
+  });
+
+  it('Проверка DISABLE_ON_FETCH', () => {
+    expect(
+      widgets(
+        {
+          widget: {}
+        },
+        {
+          type: DISABLE_ON_FETCH,
           payload: {
             widgetId: 'widget'
           }

@@ -14,6 +14,11 @@
                     <input-text id="age" domain="integer" default-value="18"/>
                     <input-text id="amount" domain="number" step="0.00" default-value="100.99"/>
                     <hidden id="hidden" default-value="test"/>
+
+                    <input-text id="name2" default-value="{today()}"/>
+                    <date-interval id="birthday2">
+                        <default-value begin="{today()}" end="22.11.2018"/>
+                    </date-interval>
                 </filters>
             </table>
         </region>
