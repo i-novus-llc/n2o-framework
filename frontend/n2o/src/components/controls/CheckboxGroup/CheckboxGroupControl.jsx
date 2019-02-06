@@ -40,7 +40,7 @@ class CheckboxGroupControl extends React.Component {
    */
 
   render() {
-    const { data, labelFieldId, type, isLoading } = this.props;
+    const { data, labelFieldId, type, isLoading, onFocus, onBlur } = this.props;
 
     const checkboxTypes = {
       default: Checkbox,
@@ -62,6 +62,8 @@ class CheckboxGroupControl extends React.Component {
                   label={checkbox[labelFieldId]}
                   disabled={checkbox.disabled}
                   checked={checkbox.checked}
+                  onFocus={onFocus}
+                  onBlur={onBlur}
                 />
               ))}
           </CheckboxGroup>
@@ -96,6 +98,8 @@ CheckboxGroupControl.defaultProps = {
   visible: true,
   type: 'default',
   onChange: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
   isLoading: false
 };
 
