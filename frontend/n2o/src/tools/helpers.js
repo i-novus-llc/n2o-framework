@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+export const setIn = (object, path, value) => _.setWith(_.clone(object), path, value, _.clone);
+
 function http_build_query(formdata, numeric_prefix, arg_separator) {
   let key,
     use_val,
