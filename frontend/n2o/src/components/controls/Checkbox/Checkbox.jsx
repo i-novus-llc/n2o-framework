@@ -18,7 +18,7 @@ class Checkbox extends React.Component {
    * базовый рендер
    * */
   render() {
-    const { label, disabled, value, checked, onChange, ...rest } = this.props;
+    const { label, disabled, value, checked, onChange, onFocus, onBlur } = this.props;
     return (
       <div className="checkbox">
         <label>
@@ -28,7 +28,8 @@ class Checkbox extends React.Component {
             value={value}
             checked={isNil(checked) ? !!value : checked}
             onChange={onChange}
-            {...rest}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />{' '}
           {label}
         </label>

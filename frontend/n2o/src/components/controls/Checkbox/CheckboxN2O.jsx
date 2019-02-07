@@ -38,7 +38,8 @@ class CheckboxN2O extends React.Component {
       inline,
       checked,
       onClick,
-      ...rest
+      onFocus,
+      onBlur
     } = this.props;
     return (
       <div
@@ -55,7 +56,8 @@ class CheckboxN2O extends React.Component {
           checked={isNil(checked) ? !!value : checked}
           onChange={onChange}
           onClick={onClick}
-          {...rest}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <label className="custom-control-label" htmlFor={this.elementId}>
           {label}
