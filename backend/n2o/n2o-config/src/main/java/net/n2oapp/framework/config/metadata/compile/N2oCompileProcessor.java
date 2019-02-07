@@ -125,8 +125,8 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public <D extends Compiled> void addRoute(String urlPattern, CompileContext<D, ?> context) {
-        env.getRouteRegister().addRoute(urlPattern, context);
+    public <D extends Compiled> void addRoute(CompileContext<D, ?> context) {
+        env.getRouteRegister().addRoute(context.getRoute(this), context);
     }
 
     @SuppressWarnings("unchecked")

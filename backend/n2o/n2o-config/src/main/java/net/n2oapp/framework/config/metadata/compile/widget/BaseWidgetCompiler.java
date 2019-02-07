@@ -272,21 +272,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (routes == null)
             return;
         String widgetRoute = widgetRouteScope.getUrl();
-
-        //Регистрация основного маршрута виджета для страницы
-        routes.addRoute(widgetRouteScope.getUrl(), compiled.getId());
-        if (compiled.getMasterLink() != null)
-            routes.addPathMapping(compiled.getMasterParam(),
-                    Redux.dispatchSelectedWidget(compiled.getMasterLink().getWidgetId(), colon(compiled.getMasterParam())));
-
         //Маршрут с выделенной записью в виджете /page/widget/:widget_id
-        //todo для формы не существует selected!
-        String selectedId = normalizeParam(compiled.getId() + "_id");
-        String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
-        routes.addRoute(routeWidgetSelected, compiled.getId());
-
-        ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
-        routes.addPathMapping(selectedId, widgetIdMapping);
+        addSelectedRoute(compiled, routes, widgetRoute);
 
         if (query != null) {
             ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getReloadable)
@@ -309,6 +296,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 routes.addQueryMapping(sortParam, onGet, onSet);
             }
         }
+    }
+
+    protected void addSelectedRoute(D compiled, PageRoutes routes, String widgetRoute) {
+
     }
 
     protected CompiledObject getObject(S source, CompileProcessor p) {
@@ -343,7 +334,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
-        p.addRoute(widgetRoute, getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
+        p.addRoute(getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
         return dataProvider;
     }
 

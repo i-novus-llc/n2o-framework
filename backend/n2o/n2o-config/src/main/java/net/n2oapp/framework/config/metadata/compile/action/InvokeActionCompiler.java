@@ -162,7 +162,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContext.setFailAlertWidgetId(metaSaga.getFail().getMessageWidgetId());
         actionContext.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
         actionContext.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
-        p.addRoute(path, actionContext);
+        p.addRoute(actionContext);
     }
 
     private RedirectSaga initServerRedirect(AsyncMetaSaga meta) {

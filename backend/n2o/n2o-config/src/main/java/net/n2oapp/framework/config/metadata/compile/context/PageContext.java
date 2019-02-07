@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.Page;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -90,8 +89,8 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         super(route, clientPageId, N2oPage.class, Page.class);
     }
 
-    public PageContext(PageContext context, CompileProcessor p) {
-        super(context, p);
+    public PageContext(String route, PageContext context, CompileProcessor p) {
+        super(route, context, p);
         this.breadcrumbs = context.breadcrumbs;
         this.submitOperationId = context.submitOperationId;
         this.submitModel = context.submitModel;

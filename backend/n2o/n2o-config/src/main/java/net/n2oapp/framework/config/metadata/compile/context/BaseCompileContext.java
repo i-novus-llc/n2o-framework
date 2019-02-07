@@ -62,11 +62,9 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this.route = route;
     }
 
-    public BaseCompileContext(BaseCompileContext<D, S> context, CompileProcessor p) {
+    public BaseCompileContext(String route, BaseCompileContext<D, S> context, CompileProcessor p) {
         this(context.sourceId, context.sourceClass, context.compiledClass);
-        if (context.route != null) {
-            this.route = context.getRoute(p);
-        }
+        this.route = route;
         this.pathRouteMapping = context.pathRouteMapping;
         this.queryRouteMapping = context.queryRouteMapping;
         this.parentModelLink = context.parentModelLink;
@@ -76,6 +74,9 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getCompiledId(CompileProcessor p) {
         if (route != null) {
             String url = getRoute(p);
+            if (StringUtils.hasLink(sourceId) && p != null) {
+                return RouteUtil.convertPathToId(url) + getSourceId(p);
+            }
             return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
