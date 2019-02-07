@@ -1,9 +1,54 @@
 import { takeEvery, select, put, call, all } from 'redux-saga/effects';
-import { forOwn, isEmpty } from 'lodash';
+import { every, filter, forOwn, get, has, isEmpty, values } from 'lodash';
 import { SET } from '../constants/models';
-import { toolbarSelector } from '../selectors/toolbar';
+import { getContainerButtons, toolbarSelector } from '../selectors/toolbar';
 import { changeButtonDisabled, changeButtonVisiblity } from '../actions/toolbar';
-import { resolveConditions, setParentVisibleIfAllChildChangeVisible } from './model';
+import evalExpression from '../utils/evalExpression';
+import { REGISTER } from '../constants/widgets';
+import { REGISTER_BUTTON } from '../constants/toolbar';
+
+/**
+ * резолв кондишена кнопки
+ * @param conditions
+ * @param model
+ * @returns {boolean}
+ */
+
+export const resolveConditions = (conditions = [], model) =>
+  every(conditions, ({ expression, modelLink }) =>
+    evalExpression(expression, get(model, modelLink, {}))
+  );
+
+export function* handleAction(action) {
+  const buttons = yield select(getContainerButtons(action.payload.key || action.payload.widgetId));
+  yield all(values(buttons || []).map(v => call(resolveButton, v)));
+}
+
+/**
+ * Функция для мониторинга изменения видимости родителя списка
+ * @param key
+ * @param id
+ */
+export function* setParentVisibleIfAllChildChangeVisible({ key, id }) {
+  const buttons = yield select(getContainerButtons(key));
+  const currentBtn = get(buttons, id);
+
+  if (has(currentBtn, 'parentId')) {
+    const parentId = get(currentBtn, 'parentId');
+    const currentBtnGroup = filter(buttons, ['parentId', parentId]);
+
+    const isAllChildHidden = every(currentBtnGroup, ['visible', false]);
+    const isAllChildVisible = every(currentBtnGroup, ['visible', true]);
+    const isParentVisible = get(buttons, [parentId, 'visible'], false);
+
+    if (isAllChildHidden && isParentVisible) {
+      yield put(changeButtonVisiblity(key, parentId, false));
+    }
+    if (isAllChildVisible && !isParentVisible) {
+      yield put(changeButtonVisiblity(key, parentId, true));
+    }
+  }
+}
 
 export function checkOnNeed(button, modelLink) {
   const { conditions } = button;
@@ -36,11 +81,16 @@ export function getDependencyButtons(toolbar, modelLink) {
   return buttons;
 }
 
-export function* updateButton(button) {
+/**
+ * резолв всех условий
+ * @param button
+ * @param model
+ */
+
+export function* resolveButton(button) {
   const model = yield select();
-  const { conditions } = button;
-  if (conditions) {
-    const { visible, enabled } = conditions;
+  if (button.conditions) {
+    const { visible, enabled } = button.conditions;
     if (visible) {
       const nextVisible = resolveConditions(visible, model);
       yield put(changeButtonVisiblity(button.key, button.id, nextVisible));
@@ -51,6 +101,12 @@ export function* updateButton(button) {
       yield put(changeButtonDisabled(button.key, button.id, !nextEnable));
     }
   }
+  if (button.resolveEnabled) {
+    const { modelLink: btnModelLink, on } = button.resolveEnabled;
+    const modelOnLink = get(model, btnModelLink, {});
+    const nextEnabled = on.some(o => modelOnLink[o]);
+    yield put(changeButtonDisabled(button.key, button.id, !nextEnabled));
+  }
 }
 
 export function* updateButtonsConditions(action) {
@@ -58,7 +114,10 @@ export function* updateButtonsConditions(action) {
   const modelLink = `models.${payload.prefix}['${payload.key}']`;
   const toolbar = yield select(toolbarSelector);
   const buttons = yield getDependencyButtons(toolbar, modelLink);
-  yield all(buttons.map(button => call(updateButton, button)));
+  yield all(buttons.map(button => call(resolveButton, button)));
 }
 
-export const toolbarSagas = [takeEvery(SET, updateButtonsConditions)];
+export const toolbarSagas = [
+  takeEvery([SET], updateButtonsConditions),
+  takeEvery([REGISTER, REGISTER_BUTTON], handleAction)
+];
