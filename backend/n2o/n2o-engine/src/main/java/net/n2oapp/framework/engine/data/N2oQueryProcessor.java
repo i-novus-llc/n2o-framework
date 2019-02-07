@@ -42,7 +42,6 @@ public class N2oQueryProcessor implements QueryProcessor {
         this.domainProcessor = domainProcessor;
         this.contextProcessor = contextProcessor;
         this.invocationFactory = invocationFactory;
-        this.pageStartsWith0 = pageStartsWith0;
     }
 
     @SuppressWarnings("unchecked")
