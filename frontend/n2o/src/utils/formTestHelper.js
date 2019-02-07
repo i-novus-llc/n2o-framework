@@ -61,6 +61,7 @@ export const getField = store =>
  * @param props - данные компонента, обязательно указывать src
  * @returns {{store, wrapper: *}}
  */
+
 export default props => {
   const actions = [];
   const lastAction = (state = null, action) => {
