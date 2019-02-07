@@ -22,6 +22,7 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
+
 import java.util.*;
 
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildExpressionForSwitch;

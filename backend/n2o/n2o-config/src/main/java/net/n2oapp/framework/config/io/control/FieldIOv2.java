@@ -17,17 +17,15 @@ import org.jdom.Element;
 import org.jdom.Namespace;
 
 /**
- * Чтение/запись базовых свойств контрола
+ * Чтение/запись базовых свойств поля
  */
-public abstract class FieldIOv2<T extends N2oField> implements NamespaceIO<T>, ControlIOv2 {
+public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> implements ControlIOv2 {
 
     private static Namespace dataProviderNamespace = DataProviderIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
-        p.attribute(e, "id", m::getId, m::setId);
-        p.attribute(e, "src", m::getSrc, m::setSrc);
-        p.attribute(e, "field-src", m::getFieldSrc, m::setFieldSrc);
+        super.io(e, m, p);
         p.attributeBoolean(e, "required", m::getRequired, m::setRequired);
         p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
         p.attributeBoolean(e, "enabled", m::getEnabled, m::setEnabled);
@@ -40,7 +38,6 @@ public abstract class FieldIOv2<T extends N2oField> implements NamespaceIO<T>, C
         p.child(e, null, "validations", m::getValidations, m::setValidations,
                 N2oField.Validations.class, this::inlineValidations);
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
-        p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
     private void dependency(Element e, N2oField.Dependency t, IOProcessor p) {

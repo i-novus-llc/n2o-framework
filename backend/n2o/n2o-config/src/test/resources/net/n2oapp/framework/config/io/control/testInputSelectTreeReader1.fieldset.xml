@@ -3,7 +3,7 @@
            xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0"
            xmlns:evt="http://n2oapp.net/framework/config/schema/n2o-event-1.0" src="test">
     <ctrl:input-select-tree id="id" label="test" ajax="false" search="true" copied="false"  required="false" domain="test"
-                      visible="true" depends-on="test" css-class="test" label-style="test" layout="test"
+                      visible="true" depends-on="test" css-class="test" label-style="test"
                       dependency-condition="test"
                       cache="off">
         <ctrl:grouping-nodes query-id="blank" detail-field-id="id" label-field-id="id" master-field-id="id" value-field-id="id"

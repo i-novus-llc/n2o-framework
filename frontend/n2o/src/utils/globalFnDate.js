@@ -2,7 +2,7 @@ import moment from 'moment';
 
 let formats = {
   dateFormat: 'DD.MM.YYYY',
-  timeFormat: 'hh.mm'
+  timeFormat: 'HH.mm.ss'
 };
 
 /**
@@ -27,7 +27,15 @@ const fns = {
    * @returns {string}
    */
   nowUTC: newFormat => moment.utc().format(getFormat(newFormat)),
-
+  /**
+   * Возвращает сегодняшний день
+   * @param newFormat - кастомный формат даты
+   * @returns {string}
+   */
+  today: newFormat =>
+    moment()
+      .startOf('day')
+      .format(getFormat(newFormat)),
   /**
    * Возвращает вчерашний день
    * @param newFormat - кастомный формат даты
@@ -36,6 +44,7 @@ const fns = {
   yesterday: newFormat =>
     moment()
       .add(-1, 'd')
+      .startOf('day')
       .format(getFormat(newFormat)),
   /**
    * Возвращает завтрешний день
@@ -45,6 +54,7 @@ const fns = {
   tomorrow: newFormat =>
     moment()
       .add(1, 'd')
+      .startOf('day')
       .format(getFormat(newFormat)),
   /**
    * Возвращает начало текущего дня

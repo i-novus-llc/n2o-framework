@@ -24,7 +24,8 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         isLoading: false,
         count: 0,
         size: props.size,
-        page: 1
+        page: 1,
+        hasError: false
       };
 
       this._fetchData = this._fetchData.bind(this);
@@ -70,11 +71,15 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
     /**
      * Вывод сообщения
-     * @param message
+     * @param messages
      * @private
      */
     _addAlertMessage(messages) {
+      const { hasError } = this.state;
       const { addAlert, removeAlerts } = this.props;
+
+      !hasError && this.setState({ hasError: true });
+
       removeAlerts();
       isArray(messages)
         ? messages.map(m => addAlert({ ...m, closeButton: false }))
@@ -149,7 +154,8 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      */
 
     async _fetchData(extraParams = {}, merge = false) {
-      const { dataProvider } = this.props;
+      const { dataProvider, removeAlerts } = this.props;
+      const { hasError } = this.state;
       if (!dataProvider) return;
 
       this.setState({ loading: true });
@@ -157,6 +163,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         const response = await this._fetchDataProvider(dataProvider, extraParams);
         if (has(response, 'message')) this._addAlertMessage(response.message);
         this._setResponseToData(response, merge);
+        hasError && removeAlerts();
       } catch (err) {
         await this._setErrorMessage(err);
       } finally {

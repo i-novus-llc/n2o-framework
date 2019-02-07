@@ -3,4 +3,4 @@ import _ from 'lodash';
 import numeral from 'numeral';
 import globalFnDate from './globalFnDate';
 
-export default { moment, _, numeral, date: globalFnDate.getFns() };
+export default { moment, _, numeral, $: globalFnDate.getFns() };

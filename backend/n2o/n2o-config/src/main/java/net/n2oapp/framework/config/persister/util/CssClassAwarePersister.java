@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.persister.util;
 
+import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import org.jdom.Element;
-import net.n2oapp.framework.api.metadata.local.view.CssClassAware;
 
 /**
  * User: operhod
@@ -18,7 +18,6 @@ public class CssClassAwarePersister {
 
     public void persist(Element element, CssClassAware cssClassAware) {
         PersisterJdomUtil.setAttribute(element, "css-class", cssClassAware.getCssClass());
-        PersisterJdomUtil.setAttribute(element, "style", cssClassAware.getStyle());
     }
 
 }

@@ -812,7 +812,6 @@
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
-                          "label": "Пол",
                           "inline": true,
                           "type": "n2o",
                           "src": "CheckboxGroup"
