@@ -5,7 +5,7 @@ import FactoryProvider from '../src/core/factory/FactoryProvider';
 import createFactoryConfig from '../src/core/factory/createFactoryConfig';
 import { WIDGETS } from '../src/core/factory/factoryLevels';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import rootReducer from '../src/reducers';
 
 const setValueToForm = (override = {}) => ({
@@ -54,7 +54,7 @@ export const toMathInCollection = (collection, object) =>
  * @returns {*}
  */
 export const getField = store =>
-  get(store.getState(), 'rootReducer.form["Page_Form"].fields.testControl', false);
+  get(store.getState(), 'form["Page_Form"].fields.testControl', false);
 
 /**
  * Вспомогательная функция для интеграционного тестировани
@@ -64,16 +64,14 @@ export const getField = store =>
 
 export default props => {
   const actions = [];
-  const lastAction = (state = null, action) => {
+
+  // мидлваре слушаем и пушем actions в массив
+  const actionLogger = store => next => action => {
     actions.push(action);
-    return action;
+    return next(action);
   };
-  // слушаем и закидываем все экшены в массив
-  const reducer = combineReducers({
-    lastAction,
-    rootReducer
-  });
-  const store = createStore(reducer);
+
+  const store = createStore(rootReducer, applyMiddleware(actionLogger));
 
   const wrapper = mount(
     <Provider store={store}>
