@@ -61,8 +61,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
     /**
      * Сборка значения по умолчанию у поля
+     *
      * @param source Исходная модель поля
-     * @param p Процессор сборки
+     * @param p      Процессор сборки
      * @return Значение по умолчанию поля
      */
     protected Object compileDefValues(S source, CompileProcessor p) {
@@ -332,8 +333,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     dependency.setType(ValidationType.setValue);
 
                 dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
-                dependency.getOn().add(d.getOn());
                 dependency.setApplyOnInit(true);
+                if (d.getOn() != null)
+                    dependency.getOn().addAll(Arrays.asList(d.getOn().split(",")));
+
                 field.addDependency(dependency);
             }
         }
