@@ -7,10 +7,8 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.util.RestClient;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.engine.data.QueryUtil.normalizeQueryParams;
 import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
@@ -49,6 +47,10 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
                 query = query.replace("//", "/");
             query = baseRestUrl + query;
         }
+        normalize("select", args, invocation.getSelectSeparator());
+        normalize("filters", args, invocation.getFiltersSeparator());
+        normalize("sorting", args, invocation.getSortingSeparator());
+        normalize("join", args, invocation.getJoinSeparator());
         query = replaceListPlaceholder(query, "{select}", args.remove("select"), "", (a, b) -> a + invocation.getSelectSeparator() + b);
         query = replaceListPlaceholder(query, "{filters}", args.remove("filters"), "", (a, b) -> a + invocation.getFiltersSeparator() + b);
         query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + invocation.getSortingSeparator() + b);
@@ -60,11 +62,43 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
 
     /**
      * Инициализация заголовков запроса
+     *
      * @param args Аргументы запроса
      * @return Заголовки
      */
     protected Map<String, String> initHeaders(Map<String, Object> args) {
         return new HashMap<>();
+    }
+
+
+    /**
+     * Конкатенирует повторяющиеся параметры
+     *
+     * @param args      Аргументы запроса
+     * @param separator Разделитель параметров
+     * @param key       целевой аргумент
+     */
+    private void normalize(String key, Map<String, Object> args, String separator) {
+        if (args.get(key) != null) {
+            for (String param : (List<String>) args.get(key)) {
+                if (!param.contains("{") || !param.contains("}")) continue;
+                String paramKey = param.substring(param.indexOf("{") + 1, param.indexOf("}"));
+                if (args.get(paramKey) != null && args.get(paramKey) instanceof List) {
+                    int repetitionsCount = ((List) args.get(paramKey)).size() - 1;
+                    List<String> params = ((List<String>) args.get(key))
+                            .stream()
+                            .map(parameter -> {
+                                String result = parameter;
+                                for (int i = 0; i < repetitionsCount; i++) {
+                                    result += separator + parameter;
+                                }
+                                return result;
+                            })
+                            .collect(Collectors.toList());
+                    args.put(key, params);
+                }
+            }
+        }
     }
 
     private Object executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
@@ -93,19 +127,35 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         for (String key : new HashSet<>(args.keySet())) {
             String p = "{" + key + "}";
             if (query.contains(p)) {
-                String value;
+                List<String> values = new ArrayList<>();
                 try {
-                    value = args.get(key) == null ? "" : RestUtil.encode(
-                            objectMapper.writeValueAsString(args.get(key)).replace("\"", "")
-                    );
+                    if (args.get(key) instanceof List) {
+                        for (String value : (List<String>) args.get(key)) {
+                            values.add(writeValueAsString(value));
+                        }
+                    } else {
+                        values.add(writeValueAsString(args.get(key)));
+                    }
                 } catch (JsonProcessingException e) {
                     throw new N2oException(e);
                 }
-                query = query.replace("{" + key + "}", value);
+                if (values.size() == 1) {
+                    query = query.replace("{" + key + "}", values.get(0));
+                } else {
+                    for (String value : values) {
+                        query = query.replaceFirst("\\{" + key.replace("*", "\\*") + "}", value);
+                    }
+                }
                 args.remove(key);
             }
         }
         return query;
+    }
+
+    private String writeValueAsString(Object value) throws JsonProcessingException {
+        return value == null ? "" : RestUtil.encode(
+                objectMapper.writeValueAsString(value).replace("\"", "")
+        );
     }
 
     @Override
