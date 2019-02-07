@@ -121,18 +121,15 @@ class Table extends React.Component {
   handleRow(id, index, noResolve) {
     const { datasource, hasFocus, hasSelect, onRowClickAction, rowClick } = this.props;
 
-    if (rowClick) {
-      onRowClickAction();
-      return false;
-    }
-
     hasSelect && !noResolve && this.props.onResolve(_.find(datasource, { id }));
-    if (hasSelect && hasFocus) {
+    if (hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(index, index);
     } else if (hasFocus) {
       this.setNewFocusIndex(index);
-    } else if (hasSelect) {
+    } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(index);
+    } else if (rowClick) {
+      onRowClickAction();
     }
   }
 
