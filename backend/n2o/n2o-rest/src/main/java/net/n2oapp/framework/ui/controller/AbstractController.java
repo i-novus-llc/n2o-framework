@@ -146,8 +146,8 @@ public abstract class AbstractController {
     protected QueryRequestInfo createQueryRequestInfo(HttpServletRequest request) {
         CompiledQuery query;
         RoutingResult result = getRoutingResult(request);
-        DataSet data = getQueryData(request, result);
         QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        DataSet data = queryCtx.getParams(request.getPathInfo(), request.getParameterMap());
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(queryCtx, data);
@@ -197,18 +197,5 @@ public abstract class AbstractController {
     private <D extends Compiled> RoutingResult getRoutingResult(HttpServletRequest req) {
         String path = req.getPathInfo();
         return router.get(path);
-    }
-
-    private <D extends Compiled> DataSet getQueryData(HttpServletRequest req, RoutingResult routingResult) {
-        DataSet data = new DataSet();
-        data.putAll(routingResult.getParams());
-        req.getParameterMap().forEach((k, v) -> {
-            if (v.length == 1) {
-                data.put(k, v[0]);
-            } else {
-                data.put(k, Arrays.asList(v));
-            }
-        });
-        return data;
     }
 }

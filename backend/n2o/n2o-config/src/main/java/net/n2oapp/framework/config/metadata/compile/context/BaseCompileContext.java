@@ -115,13 +115,15 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         } else {
             data = getResultData(url, route);
         }
-        queryParams.forEach((k, v) -> {
-            if (v.length == 1) {
-                data.put(k, v[0]);
-            } else {
-                data.put(k, Arrays.asList(v));
-            }
-        });
+        if (queryParams != null) {
+            queryParams.forEach((k, v) -> {
+                if (v.length == 1) {
+                    data.put(k, v[0]);
+                } else {
+                    data.put(k, Arrays.asList(v));
+                }
+            });
+        }
         return data;
     }
 
