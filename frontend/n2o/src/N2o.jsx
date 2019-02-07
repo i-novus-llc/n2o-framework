@@ -75,7 +75,10 @@ N2o.propTypes = {
   ...factoryConfigShape,
   defaultTemplate: PropTypes.element,
   defaultBreadcrumb: PropTypes.element,
-  formats: PropTypes.object,
+  formats: PropTypes.shape({
+    dateFormat: PropTypes.string,
+    timeFormat: PropTypes.string
+  }),
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string,
@@ -108,7 +111,7 @@ export default compose(
     defaultBreadcrumb: DefaultBreadcrumb,
     formats: {
       dateFormat: 'DD.MM.YYYY',
-      timeFormat: 'hh.mm.ss'
+      timeFormat: 'HH.mm.ss'
     },
     routes: [],
     security: {},

@@ -37,7 +37,7 @@ public class HiddenFieldCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testHiddenFieldCompile"));
         assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl(), instanceOf(Hidden.class));
         assertThat(form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("testId"));
-        assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getControlSrc(), is("InputHidden"));
+        assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputHidden"));
     }
 
 }

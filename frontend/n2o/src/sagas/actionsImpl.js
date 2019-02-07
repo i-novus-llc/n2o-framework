@@ -117,7 +117,7 @@ export function* handleInvoke(action) {
 
     const meta = merge(action.meta.success || {}, response.meta || {});
 
-    if (!meta.redirect) {
+    if (!meta.redirect && !meta.closeLastModal) {
       yield put(setModel(PREFIXES.resolve, widgetId, response.data));
     }
     yield put(

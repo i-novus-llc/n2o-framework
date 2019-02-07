@@ -99,7 +99,6 @@ public class WidgetXmlReaderTest {
         assert widget.getSrc().equals("test");
         assert widget.getCssClass().equals("test");
         assert widget.getCustomize().equals("css");
-        assert widget.getStyle().equals("test");
         assert widget.getQueryId().equals("blank");
     }
 

@@ -37,8 +37,6 @@ public class ScriptProcessor {
     private String dateFormat;
     private final static ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
-    private static Object underscoreJs;
-    private static Object numeralJs;
 
 
     @Deprecated
@@ -513,7 +511,6 @@ public class ScriptProcessor {
                 bindings.put(key, var);
             }
         }
-        addJsLibs(script, bindings);
         return (T) scriptEngine.eval(script, bindings);
     }
 
@@ -581,36 +578,20 @@ public class ScriptProcessor {
     private static synchronized void createScriptEngine() {
         if (scriptEngine == null) {
             scriptEngine = engineMgr.getEngineByName("JavaScript");
-//            URL underscoreIo = this.getClass().getClassLoader().getResource("META-INF/resources/lib/underscore.js");
-//            URL numeralIo = this.getClass().getClassLoader().getResource("META-INF/resources/lib/numeral.min-1.5.3.js");
-//            try {
-//                scriptEngine.eval(IOUtils.toString(underscoreIo, "UTF-8"));
-//                underscoreJs = scriptEngine.eval("_");
-//                scriptEngine.eval(IOUtils.toString(numeralIo, "UTF-8"));
-//                numeralJs = scriptEngine.eval("numeral");
-//            } catch (IOException e) {
-//                throw new N2oException(e);
-//            }
-        }
-    }
-
-    private static void addJsLibs(String script, Bindings bindings) throws ScriptException {
-        bindings.put("_", underscoreJs);
-        bindings.put("numeral", numeralJs);
-        if (isNeedMoment(script)) {
-            URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/lib/moment.min.js");
-            URL momentTzUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/lib/moment-timezone-with-data.min.js");
-            URL globalDateFuncUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/lib/globalDateFunc.js");
+            URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/moment.js");
+            URL lodashUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/lodash.js");
+            URL numeralUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/numeral.js");
+            URL n2oUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o.js");
             try {
-                scriptEngine.eval(IOUtils.toString(momentUrl, "UTF-8"), bindings);
-                scriptEngine.eval(IOUtils.toString(globalDateFuncUrl, "UTF-8"), bindings);
-                scriptEngine.eval(IOUtils.toString(momentTzUrl, "UTF-8"), bindings);
-            } catch (IOException e) {
+                scriptEngine.eval(IOUtils.toString(momentUrl, "UTF-8"));
+                scriptEngine.eval(IOUtils.toString(lodashUrl, "UTF-8"));
+                scriptEngine.eval(IOUtils.toString(numeralUrl, "UTF-8"));
+                scriptEngine.eval(IOUtils.toString(n2oUrl, "UTF-8"));
+            } catch (IOException | ScriptException e) {
                 throw new N2oException(e);
             }
         }
     }
-
 
     private String getString(Object value) {
         if (value instanceof String)

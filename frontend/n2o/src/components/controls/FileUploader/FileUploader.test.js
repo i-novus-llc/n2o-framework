@@ -294,17 +294,14 @@ describe('FileUploader Тесты', () => {
       }
     ]);
     button.update();
-    setImmediate(() => {
-      expect(button.state().files[0]).toEqual({
-        id: undefined,
-        name: 'файл с сервера.png',
-        size: undefined,
-        status: 'success',
-        response: 'response',
-        link: 'google.com',
-        loading: false
-      });
-    }, 0);
+    expect(button.state().files[0]).toEqual({
+      id: undefined,
+      name: 'first.jpg',
+      status: undefined,
+      size: '231321',
+      response: undefined,
+      link: undefined
+    });
   });
 
   it('Проверка обработки ответа от сервера', () => {

@@ -3,7 +3,7 @@
            xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0"
            xmlns:evt="http://n2oapp.net/framework/config/schema/n2o-event-1.0" src="test">
     <ctrl:time id="id" label="test" copied="false"  required="false" domain="test"
-                   visible="true" depends-on="test" css-class="test" label-style="test" layout="test"
+                   visible="true" depends-on="test" css-class="test" label-style="test"
                    dependency-condition="test"
                    default-value="test">
         <ctrl:description>test</ctrl:description>
