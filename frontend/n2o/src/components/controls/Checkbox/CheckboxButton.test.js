@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import CheckboxN2O from './CheckboxN2O';
+import CheckboxButton from './CheckboxButton';
 import sinon from 'sinon';
 import { isNil } from 'lodash';
 
@@ -13,7 +13,7 @@ const setup = propsOverrides => {
     propsOverrides
   );
 
-  const wrapper = mount(<CheckboxN2O {...props} />);
+  const wrapper = mount(<CheckboxButton {...props} />);
 
   return {
     wrapper,
@@ -29,12 +29,12 @@ describe('<CheckboxN2O />', () => {
   });
 
   it('классы чекбокса', () => {
-    const { wrapper } = setup({ name: 'name' });
+    const { wrapper } = setup({ name: 'name', checked: true, disabled: true });
 
-    expect(wrapper.find('div.custom-control').exists()).toBeTruthy();
-    expect(wrapper.find('div.custom-checkbox').exists()).toBeTruthy();
-    expect(wrapper.find('input.custom-control-input').exists()).toBeTruthy();
-    expect(wrapper.find('label.custom-control-label').exists()).toBeTruthy();
+    expect(wrapper.find('label.btn').exists()).toBeTruthy();
+    expect(wrapper.find('label.btn-secondary').exists()).toBeTruthy();
+    expect(wrapper.find('label.active').exists()).toBeTruthy();
+    expect(wrapper.find('label.disabled').exists()).toBeTruthy();
   });
 
   it('onFocus', () => {

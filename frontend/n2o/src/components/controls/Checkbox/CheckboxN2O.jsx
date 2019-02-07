@@ -29,7 +29,18 @@ class CheckboxN2O extends React.Component {
    */
 
   render() {
-    const { className, label, disabled, value, onChange, inline, checked, onClick } = this.props;
+    const {
+      className,
+      label,
+      disabled,
+      value,
+      onChange,
+      inline,
+      checked,
+      onClick,
+      onFocus,
+      onBlur
+    } = this.props;
     return (
       <div
         className={cx('custom-control', 'custom-checkbox', className, {
@@ -45,6 +56,8 @@ class CheckboxN2O extends React.Component {
           checked={isNil(checked) ? !!value : checked}
           onChange={onChange}
           onClick={onClick}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <label className="custom-control-label" htmlFor={this.elementId}>
           {label}
@@ -62,12 +75,30 @@ CheckboxN2O.propTypes = {
   label: PropTypes.string,
   inline: PropTypes.bool,
   className: PropTypes.string,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
+  obBlur: PropTypes.func,
+  style: PropTypes.object,
+  placeholder: PropTypes.string,
+  length: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  type: PropTypes.string,
+  autoFocus: PropTypes.bool,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onPaste: PropTypes.func,
+  onKeyDown: PropTypes.func
 };
 
 CheckboxN2O.defaultProps = {
   disabled: false,
-  inline: false
+  inline: false,
+  onFocus: () => {},
+  onBlur: () => {},
+  onChange: () => {},
+  onPaste: () => {},
+  onClick: () => {},
+  onKeyDown: () => {}
 };
 
 export default setDisplayName('CheckboxN2O')(CheckboxN2O);
