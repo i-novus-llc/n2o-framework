@@ -73,7 +73,39 @@ stories
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
   .add('Column filters', () => {
-    return <div>filters</div>;
+    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    const props = {
+      ...metadata['Page_Table'],
+      table: {
+        ...metadata['Page_Table'].table,
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
+            width: 200,
+            filterable: true
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия',
+            width: 200,
+            filterable: true,
+            resizable: true
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'birthday',
+            sortable: true,
+            label: 'Дата рождения'
+          }
+        ]
+      }
+    };
+    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
   .add('Expanded rows', () => {
     fetchMock.restore().get(urlPattern, url => {
@@ -251,7 +283,44 @@ stories
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
   .add('Editable cell', () => {
-    return <div>editable</div>;
+    fetchMock.restore().get(urlPattern, url => {
+      const data = getStubData(url);
+      return {
+        ...data,
+        list: data.list.map(i => ({
+          ...i,
+          editable: true
+        }))
+      };
+    });
+    const props = {
+      ...metadata['Page_Table'],
+      table: {
+        ...metadata['Page_Table'].table,
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя'
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия',
+            editable: record => record.editable
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'birthday',
+            sortable: true,
+            label: 'Дата рождения'
+          }
+        ]
+      }
+    };
+    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
   .add('nested', () => {
     return <div>nested</div>;

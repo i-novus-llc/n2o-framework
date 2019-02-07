@@ -208,19 +208,23 @@
           "src": "TextTableHeader",
           "id": "name",
           "sortable": false,
-          "label": "Имя"
+          "label": "Имя",
+          "width": 200
         },
         {
           "src": "TextTableHeader",
           "id": "surname",
           "sortable": true,
-          "label": "Фамилия"
+          "label": "Фамилия",
+          "width": 200,
+          "resizable": true
         },
         {
           "src": "TextTableHeader",
           "id": "birthday",
           "sortable": true,
-          "label": "Дата рождения"
+          "label": "Дата рождения",
+          "width": 200
         }
       ]
     }

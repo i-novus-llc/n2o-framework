@@ -22,7 +22,8 @@ class AdvancedTableWidget extends Component {
       tableSize,
       useFixedHeader,
       expandable,
-      scroll
+      scroll,
+      onFetch
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -41,7 +42,8 @@ class AdvancedTableWidget extends Component {
       tableSize,
       useFixedHeader,
       expandable,
-      scroll
+      scroll,
+      onFetch
     };
   }
 

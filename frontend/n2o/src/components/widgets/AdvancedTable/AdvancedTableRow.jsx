@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 class AdvancedTableRow extends Component {
   render() {
-    const { color, className, isRowActive, setRef, index } = this.props;
+    const { color, className, isRowActive, setRef, index, children } = this.props;
     const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
       [`table-${color}`]: color,
       'table-active': isRowActive
@@ -16,13 +16,19 @@ class AdvancedTableRow extends Component {
         ...this.props,
         ref: el => setRef && setRef(el, index),
         tabIndex: 1,
+        key: index,
         className: classes
       },
-      this.props.children
+      children
     );
   }
 }
 
 AdvancedTableRow.propTypes = {};
+AdvancedTableRow.contextTypes = {
+  indent: PropTypes.string,
+  table: PropTypes.object,
+  getChildContext: PropTypes.func
+};
 
 export default AdvancedTableRow;

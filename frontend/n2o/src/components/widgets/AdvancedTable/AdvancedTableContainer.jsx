@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { lifecycle, compose } from 'recompose';
-import { isEqual, find, isEmpty, debounce, pick } from 'lodash';
+import { isEqual, find, isEmpty, debounce, pick, forOwn } from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import widgetContainer from '../WidgetContainer';
@@ -13,6 +13,7 @@ import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import { Resizable } from 'react-resizable';
+import AdvancedTableCellRenderer from './AdvancedTableCellRenderer';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -34,11 +35,14 @@ class AdvancedTableContainer extends React.Component {
       data: this.mapData(props.datasource)
     };
 
+    this._timeoutId = null;
+
     this.getTableProps = this.getTableProps.bind(this);
     this.mapColumns = this.mapColumns.bind(this);
     this.mapData = this.mapData.bind(this);
     this.renderHeaderCell = this.renderHeaderCell.bind(this);
     this.renderCell = this.renderCell.bind(this);
+    this.onSetFilter = this.onSetFilter.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -83,6 +87,20 @@ class AdvancedTableContainer extends React.Component {
     return component;
   }
 
+  onSetFilter(filter) {
+    const { onSetFilter, onFetch } = this.props;
+    this._filter = {
+      ...this._filter,
+      [filter.id]: filter.value
+    };
+    forOwn(this._filter, (v, k) => {
+      if (!v || isEmpty(v)) delete this._filter[k];
+    });
+    clearTimeout(this._timeoutId);
+    onSetFilter({ ...this._filter });
+    this._timeoutId = setTimeout(() => onFetch(), 500);
+  }
+
   mapColumns() {
     const { columns, cells, headers, widgetId, sorting, onSort } = this.props;
     if (columns) {
@@ -102,22 +120,25 @@ class AdvancedTableContainer extends React.Component {
           }),
           dataIndex: header.id,
           key: header.id,
-          render: (value, record, i) =>
-            this.renderCell(
-              {
+          render: (value, record, i) => (
+            <AdvancedTableCellRenderer
+              value={value}
+              record={record}
+              index={i}
+              editable={record.editable}
+              redux={this.props.redux}
+              propsStyles={pick(this.props, ['width'])}
+              props={{
                 index,
                 key: cell.id,
                 widgetId,
                 columnId: cell.id,
                 model: record,
                 ...cell
-              },
-              {
-                value,
-                record,
-                index: i
-              }
-            )
+              }}
+              key={i}
+            />
+          )
         };
       });
     }
@@ -160,7 +181,8 @@ class AdvancedTableContainer extends React.Component {
       scroll,
       expandable,
       hasSelect,
-      onSetSelection
+      onSetSelection,
+      onFilter: this.onSetFilter
     };
   }
 
@@ -187,6 +209,7 @@ export default compose(
           selectedId: props.selectedId,
           sorting: props.sorting,
           rowColor: props.rowColor,
+          onFetch: props.onFetch,
           onSort: props.onSort,
           onResolve: debounce(newModel => {
             props.onResolve(newModel);
@@ -196,6 +219,9 @@ export default compose(
           }, 100),
           onSetSelection: model => {
             props.dispatch(setModel(PREFIXES.multi, props.widgetId, model));
+          },
+          onSetFilter: filters => {
+            props.dispatch(setModel(PREFIXES.filter, props.widgetId, filters));
           },
           onFocus: props.onFocus,
           size: props.size,

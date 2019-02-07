@@ -27,29 +27,34 @@
       justify-content: center;
     }
   }
-}
 
-.n2o-advanced-table-row-level  {
-  &-1 .n2o-advanced-table-expand {
-    padding-right: 10px;
+  &-header-cell {
+    &-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 
-  &-2 .n2o-advanced-table-expand {
-    padding-right: 20px;
+  &-filter-dropdown {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    width: 200px;
+    padding: 8px;
+    background-color: $white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 5px;
+
+    & .n2o-input {
+      height: 32px;
+      margin-bottom: 5px;
+      box-sizing: border-box;
+    }
+
+    &-btn {
+      border-radius: 5px;
+    }
   }
-
-  &-3 .n2o-advanced-table-expand {
-    padding-right: 30px;
-  }
-}
-
-.n2o-advanced-table-row-level-1 .n2o-advanced-table-expand {
-  padding-left: 10px;
-}
-.n2o-advanced-table-row-level-2 .n2o-advanced-table-expand {
-  padding-left: 20px;
-}
-
-.n2o-advanced-table-row-level-2 .n2o-advanced-table-expand {
-  padding-left: 30px;
 }

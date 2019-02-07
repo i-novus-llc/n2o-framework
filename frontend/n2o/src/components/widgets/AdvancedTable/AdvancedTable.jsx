@@ -14,37 +14,15 @@ import TableCell from '../Table/TableCell';
 import cn from 'classnames';
 import { Resizable } from 'react-resizable';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import AdvancedTableCell from './AdvancedTableCell';
+import Menu, { Item, Divider } from 'rc-menu';
+import DropDown from 'rc-dropdown';
+import 'rc-dropdown/assets/index.css';
+import 'rc-menu/assets/index.css';
 
 export const getIndex = (data, selectedId) => {
   const index = _.findIndex(data, model => model.id == selectedId);
   return index >= 0 ? index : 0;
-};
-
-const EditableCell = props => {
-  return props.children.map(c => c || null);
-};
-
-const ResizeableTitle = props => {
-  const { onResize, resizable, className, ...restProps } = props;
-  let width = props.width;
-  if (className === 'n2o-advanced-table-expand-icon-th') {
-    width = 10;
-  } else if (className === 'n2o-advanced-table-selection-container') {
-    width = 50;
-  }
-  if (!width || !resizable) {
-    return (
-      <th {...props} width={width}>
-        {props.title}
-      </th>
-    );
-  }
-
-  return (
-    <Resizable width={props.width} height={0} onResize={onResize}>
-      <th {...props}>{props.title}</th>
-    </Resizable>
-  );
 };
 
 /**
@@ -85,6 +63,7 @@ class AdvancedTable extends Component {
     this.mapColumns = this.mapColumns.bind(this);
     this.checkAll = this.checkAll.bind(this);
     this.onChangeChecked = this.onChangeChecked.bind(this);
+    this.onFilter = this.onFilter.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -146,6 +125,11 @@ class AdvancedTable extends Component {
       this.props.onResolve(data[this.state.focusIndex]);
       this.setNewSelectIndex(this.state.focusIndex);
     }
+  }
+
+  onFilter(filter) {
+    const { onFilter } = this.props;
+    onFilter && onFilter(filter);
   }
 
   handleRow(id, index, noResolve) {
@@ -210,7 +194,6 @@ class AdvancedTable extends Component {
     if (checked) {
       validIndexes.push(index);
     }
-    console.log(validIndexes);
   }
 
   handleResize(index) {
@@ -272,11 +255,8 @@ class AdvancedTable extends Component {
       onHeaderCell: column => ({
         ...column,
         width: column.width,
-        onResize: this.handleResize(index)
-      }),
-      onCell: cell => ({
-        ...cell,
-        ...col
+        onResize: this.handleResize(index),
+        onFilter: this.onFilter
       })
     }));
 
@@ -312,11 +292,11 @@ class AdvancedTable extends Component {
             components={{
               header: {
                 row: AdvancedTableRow,
-                cell: ResizeableTitle
+                cell: AdvancedTableHeaderCell
               },
               body: {
                 row: AdvancedTableRow,
-                cell: EditableCell
+                cell: ({ children }) => children
               }
             }}
             rowKey={record => record.key}
