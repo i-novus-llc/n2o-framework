@@ -1,5 +1,5 @@
 import React from 'react';
-import { some, isEqual } from 'lodash';
+import { some, isEqual, get, has } from 'lodash';
 import Factory from '../../src/core/factory/Factory';
 import FactoryProvider from '../../src/core/factory/FactoryProvider';
 import createFactoryConfig from '../../src/core/factory/createFactoryConfig';
@@ -46,7 +46,16 @@ const setValueToForm = (override = {}) => ({
 export const toMathInCollection = (collection, object) =>
   some(collection, item => isEqual(item, object));
 
-const lastAction = (state = null, action) => action;
+/**
+ * вспомогательная функция
+ * для взятия visited, active, touched
+ * при событии onFocus, onBlur
+ * @param store
+ * @returns {*}
+ */
+export const getField = store =>
+  get(store.getState(), 'rootReducer.form["Page_Form"].fields.testControl', false);
+
 /**
  * Вспомогательная функция для интеграционного тестировани
  * @param props - данные компонента, обязательно указывать src
@@ -54,11 +63,14 @@ const lastAction = (state = null, action) => action;
  */
 export default props => {
   const actions = [];
-
+  const lastAction = (state = null, action) => {
+    actions.push(action);
+    return action;
+  };
   // слушаем и закидываем все экшены в массив
   const reducer = combineReducers({
-    rootReducer,
-    lastAction
+    lastAction,
+    rootReducer
   });
   const store = createStore(reducer);
 
@@ -69,10 +81,6 @@ export default props => {
       </FactoryProvider>
     </Provider>
   );
-
-  store.subscribe(() => {
-    actions.push(store.getState().lastAction);
-  });
 
   return {
     actions,

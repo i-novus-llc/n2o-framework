@@ -114,7 +114,8 @@ CheckboxGroup.propTypes = {
 
 CheckboxGroup.defaultProps = {
   value: [],
-  visible: true
+  visible: true,
+  onChange: () => {}
 };
 
 export default CheckboxGroup;
