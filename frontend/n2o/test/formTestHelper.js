@@ -1,12 +1,12 @@
 import React from 'react';
 import { some, isEqual, get, has } from 'lodash';
-import Factory from '../../src/core/factory/Factory';
-import FactoryProvider from '../../src/core/factory/FactoryProvider';
-import createFactoryConfig from '../../src/core/factory/createFactoryConfig';
-import { WIDGETS } from '../../src/core/factory/factoryLevels';
+import Factory from '../src/core/factory/Factory';
+import FactoryProvider from '../src/core/factory/FactoryProvider';
+import createFactoryConfig from '../src/core/factory/createFactoryConfig';
+import { WIDGETS } from '../src/core/factory/factoryLevels';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import rootReducer from '../../src/reducers';
+import rootReducer from '../src/reducers';
 
 const setValueToForm = (override = {}) => ({
   src: 'FormWidget',

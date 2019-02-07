@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { CheckboxGroupControl } from './CheckboxGroupControl';
-import setupFormTest, { toMathInCollection, getField } from '../../../utils/formTestHelper';
+import setupFormTest, { toMathInCollection, getField } from '../../../../test/formTestHelper';
 import { focus, blur, change } from 'redux-form';
 
 const setup = overrideProps => {
