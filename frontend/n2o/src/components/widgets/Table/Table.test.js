@@ -6,7 +6,7 @@ import TextTableHeader from './headers/TextTableHeader';
 import TextCell from './cells/TextCell/TextCell';
 import TableRow from './TableRow';
 
-const colors = ['danger', 'success', 'warning', 'info', 'active'];
+const colors = ['table-danger', 'table-success', 'table-warning', 'table-info', 'table-active'];
 const setup = propOverrides => {
   const tableData = [
     { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001', rowColor: colors[0] },
@@ -144,7 +144,8 @@ describe('Тесты hasSelect и hasFocus', () => {
 describe('Тесты цветов', () => {
   it('Проверка цветов колонок', () => {
     const wrapper = setup({
-      rowColor: "`id == '1' ? 'red' : id == '2' ? 'blue' : id == '3' ? 'white' : 'green'`"
+      rowColor:
+        "`id == '1' ? 'table-red' : id == '2' ? 'table-blue' : id == '3' ? 'table-white' : 'table-green'`"
     });
 
     expect(
