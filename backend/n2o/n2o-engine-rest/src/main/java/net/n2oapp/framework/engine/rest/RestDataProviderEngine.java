@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.util.RestClient;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.engine.data.QueryUtil.normalizeQueryParams;
@@ -47,12 +48,10 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
                 query = query.replace("//", "/");
             query = baseRestUrl + query;
         }
-        normalize("select", args, invocation.getSelectSeparator());
-        normalize("filters", args, invocation.getFiltersSeparator());
-        normalize("sorting", args, invocation.getSortingSeparator());
-        normalize("join", args, invocation.getJoinSeparator());
+
         query = replaceListPlaceholder(query, "{select}", args.remove("select"), "", (a, b) -> a + invocation.getSelectSeparator() + b);
-        query = replaceListPlaceholder(query, "{filters}", args.remove("filters"), "", (a, b) -> a + invocation.getFiltersSeparator() + b);
+        query = replaceListPlaceholder(query, "{filters}", args.remove("filters"), "",
+                createResolver(args, invocation.getFiltersSeparator()), (a, b) -> a + invocation.getFiltersSeparator() + b);
         query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + invocation.getSortingSeparator() + b);
         query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + invocation.getJoinSeparator() + b);
         query = resolvePathPlaceholders(query, args);
@@ -127,35 +126,35 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         for (String key : new HashSet<>(args.keySet())) {
             String p = "{" + key + "}";
             if (query.contains(p)) {
-                List<String> values = new ArrayList<>();
+                String value;
                 try {
-                    if (args.get(key) instanceof List) {
-                        for (String value : (List<String>) args.get(key)) {
-                            values.add(writeValueAsString(value));
-                        }
-                    } else {
-                        values.add(writeValueAsString(args.get(key)));
-                    }
+                    value = args.get(key) == null ? "" : RestUtil.encode(
+                            objectMapper.writeValueAsString(args.get(key)).replace("\"", "")
+                    );
                 } catch (JsonProcessingException e) {
                     throw new N2oException(e);
                 }
-                if (values.size() == 1) {
-                    query = query.replace("{" + key + "}", values.get(0));
-                } else {
-                    for (String value : values) {
-                        query = query.replaceFirst("\\{" + key.replace("*", "\\*") + "}", value);
-                    }
-                }
+                query = query.replace("{" + key + "}", value);
                 args.remove(key);
             }
         }
         return query;
     }
 
-    private String writeValueAsString(Object value) throws JsonProcessingException {
-        return value == null ? "" : RestUtil.encode(
-                objectMapper.writeValueAsString(value).replace("\"", "")
-        );
+    private Function<String, String> createResolver(Map<String, Object> args, String separator) {
+        return str -> {
+            if (!str.contains("{") || !str.contains("}")) return str;
+            String paramKey = str.substring(str.indexOf("{") + 1, str.indexOf("}"));
+            if (!(args.get(paramKey) instanceof List)) return str;
+            List<String> paramValues = ((List) args.get(paramKey));
+            int size = paramValues.size();
+            int i = 0;
+            String result = str.replaceFirst("\\{" + paramKey.replace("*.", "\\*\\.") + "}", paramValues.get(i++));
+            for (int j = 0; j < size - 1; j++) {
+                result += separator + str.replaceFirst("\\{" + paramKey.replace("*.", "\\*\\.") + "}", paramValues.get(i++));
+            }
+            return result;
+        };
     }
 
     @Override
