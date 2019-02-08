@@ -12,6 +12,7 @@ function CheckboxCell({
   fieldKey,
   id,
   visible,
+  readOnly,
   ...rest
 }) {
   const onChange = e => {
@@ -25,13 +26,13 @@ function CheckboxCell({
     updateFieldInModel(e.nativeEvent.target.checked);
     callActionImpl({ model: data });
   };
-
   return (
     visible && (
       <CheckboxN2O
         className="сheckbox-сell"
         inline={true}
         onChange={onChange}
+        disabled={readOnly}
         checked={model && get(model, fieldKey || id)}
         {...rest}
       />
