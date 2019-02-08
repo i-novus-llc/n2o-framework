@@ -23,8 +23,8 @@ const withColumn = WrappedComponent => {
      * Диспатч экшена регистрации виджета
      */
     initIfNeeded() {
-      const { columnId, widgetId, label, isInit, dispatch } = this.props;
-      !isInit && dispatch(registerColumn(widgetId, columnId, label));
+      const { columnId, widgetId, label, isInit, disabled, visible, dispatch } = this.props;
+      !isInit && dispatch(registerColumn(widgetId, columnId, label, disabled, visible));
     }
 
     /**
