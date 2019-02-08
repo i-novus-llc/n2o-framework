@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { isEmpty } from 'lodash';
 import DropDown from 'rc-dropdown';
 import { Button } from 'reactstrap';
 import 'rc-dropdown/assets/index.css';
@@ -37,8 +38,10 @@ class AdvancedTableFilter extends Component {
   }
 
   onResetFilter() {
-    const { id, onFilter } = this.props;
-    this.setState({ value: '' }, () => onFilter({ id, value: '' }));
+    if (!isEmpty(this.state.value)) {
+      const { id, onFilter } = this.props;
+      this.setState({ value: '' }, () => onFilter({ id, value: '' }));
+    }
   }
 
   onSetFilter() {

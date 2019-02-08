@@ -25,10 +25,5 @@ class AdvancedTableRow extends Component {
 }
 
 AdvancedTableRow.propTypes = {};
-AdvancedTableRow.contextTypes = {
-  indent: PropTypes.string,
-  table: PropTypes.object,
-  getChildContext: PropTypes.func
-};
 
 export default AdvancedTableRow;

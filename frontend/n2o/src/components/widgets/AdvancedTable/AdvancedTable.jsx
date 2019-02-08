@@ -72,9 +72,9 @@ class AdvancedTable extends Component {
       const id = getIndex(data, selectedId);
       isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
     }
-    if (!isEqual(prevProps.data, this.props.data)) {
+    if (this.props.data && !isEqual(prevProps.data, this.props.data)) {
       const checked = {};
-      Object.keys(this.props.data).map(key => {
+      this.props.data.map(key => {
         checked[key] = false;
       });
       this.setState({
@@ -233,13 +233,11 @@ class AdvancedTable extends Component {
       className: 'n2o-advanced-table-selection-container',
       width: 50,
       render: (value, model, index) => (
-        <td className="n2o-advanced-table-selection-item">
-          <CheckboxN2O
-            inline={true}
-            checked={this.state.checked[index]}
-            onChange={event => this.onChangeChecked(event, index)}
-          />
-        </td>
+        <CheckboxN2O
+          inline={true}
+          checked={this.state.checked[index]}
+          onChange={event => this.onChangeChecked(event, index)}
+        />
       )
     };
   }
@@ -279,40 +277,38 @@ class AdvancedTable extends Component {
 
     return (
       <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
-        <div className="n2o-advanced-table table-responsive">
-          <Table
-            prefixCls={'n2o-advanced-table'}
-            className={cx('n2o-table table table-hover', className, {
-              'has-focus': hasFocus,
-              [`table-${tableSize}`]: tableSize
-            })}
-            columns={columns}
-            data={this.state.data}
-            onRow={this.getRowProps}
-            components={{
-              header: {
-                row: AdvancedTableRow,
-                cell: AdvancedTableHeaderCell
-              },
-              body: {
-                row: AdvancedTableRow,
-                cell: ({ children }) => children
-              }
-            }}
-            rowKey={record => record.key}
-            expandIcon={AdvancedTableExpandIcon}
-            expandIconAsCell={true}
-            expandRowByClick={expandRowByClick}
-            expandedRowRender={expandable && AdvancedTableExpandedRenderer}
-            expandedRowKeys={this.state.expandedRowKeys}
-            onExpandedRowsChange={this.onExpandedRowsChange}
-            onExpand={onExpand}
-            useFixedHeader={useFixedHeader}
-            indentSize={20}
-            emptyText={AdvancedTableEmptyText}
-            scroll={scroll}
-          />
-        </div>
+        <Table
+          prefixCls={'n2o-advanced-table'}
+          className={cx('n2o-table table table-hover', className, {
+            'has-focus': hasFocus,
+            [`table-${tableSize}`]: tableSize
+          })}
+          columns={columns}
+          data={this.state.data}
+          onRow={this.getRowProps}
+          components={{
+            header: {
+              row: AdvancedTableRow,
+              cell: AdvancedTableHeaderCell
+            },
+            body: {
+              row: AdvancedTableRow
+              // cell: ({ children }) => children
+            }
+          }}
+          rowKey={record => record.key}
+          expandIcon={AdvancedTableExpandIcon}
+          // expandIconAsCell={true}
+          expandRowByClick={expandRowByClick}
+          expandedRowRender={expandable && AdvancedTableExpandedRenderer}
+          expandedRowKeys={this.state.expandedRowKeys}
+          onExpandedRowsChange={this.onExpandedRowsChange}
+          onExpand={onExpand}
+          useFixedHeader={useFixedHeader}
+          indentSize={20}
+          emptyText={AdvancedTableEmptyText}
+          scroll={scroll}
+        />
       </HotKeys>
     );
   }
@@ -327,6 +323,10 @@ AdvancedTable.propTypes = {
   components: PropTypes.object,
   emptyText: PropTypes.node,
   hotKeys: PropTypes.object
+};
+
+AdvancedTableCell.defaultProps = {
+  data: []
 };
 
 export default AdvancedTable;

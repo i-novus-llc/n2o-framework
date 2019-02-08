@@ -22,8 +22,38 @@ stories
   .addDecorator(withPage(metadata))
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-
-    return <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />;
+    const props = {
+      ...metadata['Page_Table'],
+      table: {
+        ...metadata['Page_Table'].table,
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
+            width: 200,
+            resizable: true
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия',
+            width: 200,
+            resizable: true
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'birthday',
+            sortable: true,
+            width: 200,
+            label: 'Дата рождения'
+          }
+        ]
+      }
+    };
+    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
   .add('Resize', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
@@ -172,11 +202,20 @@ stories
           children: [
             {
               id: i.id + Math.floor(Math.random()) + 123,
+              key: i.id + Math.floor(Math.random()) + 123,
               name: 'test',
               children: [
                 {
                   id: i.id + Math.floor(Math.random()) + 55,
-                  name: 'more test'
+                  key: i.id + Math.floor(Math.random()) + 55,
+                  name: 'more test',
+                  children: [
+                    {
+                      id: i.id + Math.floor(Math.random()) + 11,
+                      key: i.id + Math.floor(Math.random()) + 11,
+                      name: 'more test'
+                    }
+                  ]
                 }
               ]
             }
@@ -193,6 +232,32 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
+            width: 200,
+            filterable: true
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия',
+            width: 200,
+            filterable: true,
+            resizable: true
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'birthday',
+            sortable: true,
+            label: 'Дата рождения',
+            width: 200
+          }
+        ],
         scroll: {
           x: 1500,
           y: 300
@@ -207,10 +272,6 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        scroll: {
-          x: 1500,
-          y: 300
-        },
         headers: [
           {
             src: 'TextTableHeader',
@@ -256,26 +317,30 @@ stories
               {
                 title: '街道',
                 dataIndex: 'street',
-                key: 'street'
+                key: 'street',
+                src: 'TextTableHeader',
+                id: 'name'
               },
               {
                 title: '街道',
                 dataIndex: 'street',
-                key: 'street'
+                key: 'street',
+                src: 'TextTableHeader',
+                id: 'name'
               }
             ]
           },
           {
-            src: 'TextTableHeader',
-            id: 'surname',
             sortable: true,
-            label: 'Фамилия'
+            label: 'Фамилия',
+            src: 'TextTableHeader',
+            id: 'name'
           },
           {
-            src: 'TextTableHeader',
-            id: 'birthday',
             sortable: true,
-            label: 'Дата рождения'
+            label: 'Дата рождения',
+            src: 'TextTableHeader',
+            id: 'name'
           }
         ]
       }

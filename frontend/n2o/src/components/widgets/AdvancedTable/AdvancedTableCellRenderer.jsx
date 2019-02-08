@@ -18,9 +18,9 @@ function AdvancedTableCellRenderer({ props, record }) {
   const { index } = props;
   let component = null;
   if (redux) {
-    component = <ReduxCell {...propStyles} {...props} as={'td'} />;
+    component = <ReduxCell {...propStyles} {...props} as={'span'} />;
   } else {
-    component = <TableCell {...propStyles} {...props} as={'td'} />;
+    component = <TableCell {...propStyles} {...props} as={'span'} />;
   }
   return component;
 }
