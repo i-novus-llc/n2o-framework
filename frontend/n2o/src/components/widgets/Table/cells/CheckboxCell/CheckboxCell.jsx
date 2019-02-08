@@ -23,7 +23,7 @@ function CheckboxCell({
       e.nativeEvent.target.checked
     );
     updateFieldInModel(e.nativeEvent.target.checked);
-    callActionImpl({ model: data });
+    callActionImpl(e, { model: data });
   };
 
   return (

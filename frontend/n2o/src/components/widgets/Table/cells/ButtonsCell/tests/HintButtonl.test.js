@@ -61,10 +61,11 @@ describe('<HintButton />', () => {
 
   it('Проверка события onClick если есть action', () => {
     const mockClick = sinon.spy();
+    const mockEvent = { target: {} };
     const { wrapper } = setup({ action: 'test', onClick: mockClick });
-    wrapper.simulate('click');
+    wrapper.simulate('click', mockEvent);
     wrapper.update();
     expect(mockClick.calledOnce).toEqual(true);
-    expect(mockClick.calledWith('test')).toEqual(true);
+    expect(mockClick.args[0][1]).toEqual('test');
   });
 });

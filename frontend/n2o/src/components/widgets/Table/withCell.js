@@ -40,7 +40,8 @@ export default function(WrappedComponent) {
     dataProvider,
     ...rest
   }) {
-    const callActionImpl = ({ action, model }) => {
+    const callActionImpl = (e, { action, model }) => {
+      e && e.stopPropagation();
       const currentModel = model || defaultModel;
       const currentAction = action || defaultAction;
       currentModel && resolveWidget(currentModel);
