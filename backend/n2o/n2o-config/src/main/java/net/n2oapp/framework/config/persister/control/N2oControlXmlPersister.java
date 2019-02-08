@@ -168,18 +168,19 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
 
     protected void setDefaultModel(Element element, N2oField listField) {
         if (listField instanceof N2oListField) {
-            if (((N2oListField)listField).getDefValue() == null) return;
+            if (((N2oListField) listField).getDefValue() == null) return;
             Element defaultModel = setEmptyElement(element, "default-model");
-            ((N2oListField)listField).getDefValue().forEach((field, val) -> {
+            ((N2oListField) listField).getDefValue().forEach((field, val) -> {
                 Element value = setEmptyElement(defaultModel, "value");
                 setAttribute(value, "field-id", field);
                 value.setText(val);
             });
         } else if (listField instanceof N2oIntervalField) {
-            if (((N2oIntervalField)listField).getBegin() == null && ((N2oIntervalField)listField).getEnd() == null) return;
+            if (((N2oIntervalField) listField).getBegin() == null && ((N2oIntervalField) listField).getEnd() == null)
+                return;
             Element defaultModel = setEmptyElement(element, "default-model");
-            setAttribute(defaultModel, "begin", ((N2oIntervalField)listField).getBegin());
-            setAttribute(defaultModel, "end", ((N2oIntervalField)listField).getEnd());
+            setAttribute(defaultModel, "begin", ((N2oIntervalField) listField).getBegin());
+            setAttribute(defaultModel, "end", ((N2oIntervalField) listField).getEnd());
         }
     }
 
@@ -261,15 +262,24 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
                     if (dependencies == null)
                         dependencies = setEmptyElement(rootElement, "dependencies");
                     Element enable = setElementString(dependencies, "enabling-condition", dependency.getValue());
-                    setAttribute(enable, "on", dependency.getOn());
+                    if (dependency.getOn() != null) {
+                        String on = String.join(",", dependency.getOn());
+                        setAttribute(enable, "on", on);
+                    }
                 } else if (dependency instanceof N2oField.RequiringDependency) {
                     if (dependencies == null)
                         dependencies = setEmptyElement(rootElement, "dependencies");
                     Element required = setElementString(dependencies, "required-condition", dependency.getValue());
-                    setAttribute(required, "on", dependency.getOn());
-                } else if(dependency instanceof N2oField.SetValueDependency) {
+                    if (dependency.getOn() != null) {
+                        String on = String.join(",", dependency.getOn());
+                        setAttribute(required, "on", on);
+                    }
+                } else if (dependency instanceof N2oField.SetValueDependency) {
                     Element setValueExp = setElementString(rootElement, "set-value-expression", dependency.getValue());
-                    setAttribute(setValueExp, "on", dependency.getOn());
+                    if (dependency.getOn() != null) {
+                        String on = String.join(",", dependency.getOn());
+                        setAttribute(setValueExp, "on", on);
+                    }
                 }
             }
         }

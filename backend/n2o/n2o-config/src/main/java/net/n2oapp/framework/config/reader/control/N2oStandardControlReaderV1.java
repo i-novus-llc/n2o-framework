@@ -26,10 +26,8 @@ import org.jdom.Namespace;
 import org.jdom.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 
@@ -118,13 +116,13 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         for (Element dependency : (List<Element>) element.getChildren()) {
             if (dependency.getName().equals("enabling-condition")) {
                 N2oField.EnablingDependency enablingDependency = new N2oField.EnablingDependency();
-                enablingDependency.setOn(dependency.getAttributeValue("on"));
+                enablingDependency.setOn(dependency.getAttributeValue("on").split(","));
                 enablingDependency.setValue(dependency.getValue());
                 dependencies[i] = enablingDependency;
                 i++;
             } else if (dependency.getName().equals("required-condition")) {
                 N2oField.RequiringDependency requiringDependency = new N2oField.RequiringDependency();
-                requiringDependency.setOn(dependency.getAttributeValue("on"));
+                requiringDependency.setOn(dependency.getAttributeValue("on").split(","));
                 requiringDependency.setValue(dependency.getValue());
                 dependencies[i] = requiringDependency;
                 i++;
@@ -138,16 +136,19 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         if (condition == null) return null;
         N2oField.VisibilityDependency res = new N2oField.VisibilityDependency();
         res.setValue(condition);
-        res.setOn(ScriptProcessor.extractVars(condition).stream()
-                .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f)  //клиент не учитывает вложенные модели
-                .reduce((a, b) -> a + "," + b).get());
+        res.setOn(
+                ScriptProcessor.extractVars(condition).stream()
+                        .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f) //клиент не учитывает вложенные модели
+                        .collect(Collectors.toList()).toArray(new String[0])
+        );
         return res;
     }
 
     protected void readSetValueExp(N2oField n2oField, List<Element> list) {
         for (Element element : list) {
             N2oField.SetValueDependency setValue = new N2oField.SetValueDependency();
-            setValue.setOn(getAttributeString(element, "on"));
+            String on = getAttributeString(element, "on");
+            setValue.setOn(on != null ? on.split(",") : null);
             setValue.setValue(element.getText());
             n2oField.addDependency(setValue);
         }
@@ -163,7 +164,8 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             Element anThen = element.getChild("then", element.getNamespace());
             Map<String, String> thenClauses = toMap(anThen);
             N2oField.SetValueDependency setValue = new N2oField.SetValueDependency();
-            setValue.setOn(getAttributeString(element, "on"));
+            String on = getAttributeString(element, "on");
+            setValue.setOn(on != null ? on.split(",") : null);
             setValue.setValue("if(" + ifClause + ") " + calculateReturnStatement(thenClause, thenClauses,
                     null) + "; else " + calculateReturnStatement(elseClause, elseClauses, " throw new Error() "));
             n2oField.addDependency(setValue);
