@@ -17,14 +17,14 @@ import { widgetSetSort } from '../../../actions/widgets';
 import TextTableHeader from './headers/TextTableHeader';
 import TextCell from './cells/TextCell/TextCell';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
-import columnHOC from './ColumnContainer';
+import withColumn from './withColumn';
 
 export const getIndex = (datasource, selectedId) => {
   const index = _.findIndex(datasource, model => model.id == selectedId);
   return index >= 0 ? index : 0;
 };
 
-const ReduxCell = columnHOC(TableCell);
+const ReduxCell = withColumn(TableCell);
 
 /**
  * Компонент таблицы.

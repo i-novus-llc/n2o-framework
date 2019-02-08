@@ -12,7 +12,6 @@ function CheckboxCell({
   fieldKey,
   id,
   visible,
-  readOnly,
   disabled,
   ...rest
 }) {
@@ -33,7 +32,7 @@ function CheckboxCell({
         className="сheckbox-сell"
         inline={true}
         onChange={onChange}
-        disabled={readOnly || disabled}
+        disabled={disabled}
         checked={model && get(model, fieldKey || id)}
         {...rest}
       />
@@ -46,13 +45,11 @@ CheckboxCell.propTypes = {
   model: PropTypes.object,
   fieldKey: PropTypes.string,
   className: PropTypes.string,
-  readOnly: PropTypes.bool,
   callInvoke: PropTypes.func,
   visible: PropTypes.bool
 };
 
 CheckboxCell.defaultProps = {
-  readOnly: false,
   visible: true,
   disabled: false
 };
