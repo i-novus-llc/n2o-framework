@@ -110,13 +110,11 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         if (!(args.get(paramKey) instanceof List)) {
             return replacePlaceholder(str, paramKey, args.get(paramKey));
         }
-        List<Object> paramValues = ((List) args.get(paramKey));
-        String result = "";
-        for (Object paramValue : paramValues) {
-            result = reducer.apply(result, replacePlaceholder(str, paramKey, paramValue));
-
-        }
-        return result;
+        Optional<String> result = ((List<String>) args.get(paramKey))
+                .stream()
+                .map(item -> replacePlaceholder(str, paramKey, item))
+                .reduce(reducer);
+        return result.orElse("");
     }
 
     private String replacePlaceholder(String target, String key, Object value) {
