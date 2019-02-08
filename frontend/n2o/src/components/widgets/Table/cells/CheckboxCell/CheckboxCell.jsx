@@ -12,6 +12,7 @@ function CheckboxCell({
   fieldKey,
   id,
   visible,
+  disabled,
   ...rest
 }) {
   const onChange = e => {
@@ -25,13 +26,13 @@ function CheckboxCell({
     updateFieldInModel(e.nativeEvent.target.checked);
     callActionImpl(e, { model: data });
   };
-
   return (
     visible && (
       <CheckboxN2O
         className="сheckbox-сell"
         inline={true}
         onChange={onChange}
+        disabled={disabled}
         checked={model && get(model, fieldKey || id)}
         {...rest}
       />
@@ -44,14 +45,13 @@ CheckboxCell.propTypes = {
   model: PropTypes.object,
   fieldKey: PropTypes.string,
   className: PropTypes.string,
-  readOnly: PropTypes.bool,
   callInvoke: PropTypes.func,
   visible: PropTypes.bool
 };
 
 CheckboxCell.defaultProps = {
-  readOnly: false,
-  visible: true
+  visible: true,
+  disabled: false
 };
 
 export default withCell(CheckboxCell);
