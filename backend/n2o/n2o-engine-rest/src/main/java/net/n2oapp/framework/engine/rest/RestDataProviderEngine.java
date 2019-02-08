@@ -97,15 +97,7 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         for (String key : new HashSet<>(args.keySet())) {
             String p = "{" + key + "}";
             if (query.contains(p)) {
-                String value;
-                try {
-                    value = args.get(key) == null ? "" : RestUtil.encode(
-                            objectMapper.writeValueAsString(args.get(key)).replace("\"", "")
-                    );
-                } catch (JsonProcessingException e) {
-                    throw new N2oException(e);
-                }
-                query = query.replace("{" + key + "}", value);
+                query = replacePlaceholder(query, key, args.get(key) == null ? "" : args.get(key));
                 args.remove(key);
             }
         }
