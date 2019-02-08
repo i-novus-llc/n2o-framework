@@ -36,7 +36,7 @@
             </input-text>
             <input-text id="depend4" label="Зависимое поле" description="Зависит от полей №9, 10">
                 <dependencies>
-                    <set-value on="f9">
+                    <set-value on="f9,f10">
                         return 'В поле №9 введено:  '+f9
                     </set-value>
                     <enabling>true</enabling>

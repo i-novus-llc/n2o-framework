@@ -178,11 +178,11 @@ public abstract class N2oStandardControlReaderTestBase {
     }
 
     private void assertConditions(N2oField field) {
-        assert field.getDependencies()[0].getOn().equals("test");
+        assert field.getDependencies()[0].getOn()[0].equals("test");
         assert field.getDependencies()[0].getValue().equals("test");
-        assert field.getDependencies()[1].getOn().equals("id");
+        assert field.getDependencies()[1].getOn()[0].equals("id");
         assert field.getDependencies()[1].getValue().equals("test");
-        assert field.getDependencies()[2].getOn().equals("id");
+        assert field.getDependencies()[2].getOn()[0].equals("id");
         assert field.getDependencies()[2].getValue().equals("test");
     }
 
