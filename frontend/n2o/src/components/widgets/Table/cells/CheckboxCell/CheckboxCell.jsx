@@ -13,6 +13,7 @@ function CheckboxCell({
   id,
   visible,
   readOnly,
+  disabled,
   ...rest
 }) {
   const onChange = e => {
@@ -32,7 +33,7 @@ function CheckboxCell({
         className="сheckbox-сell"
         inline={true}
         onChange={onChange}
-        disabled={readOnly}
+        disabled={readOnly || disabled}
         checked={model && get(model, fieldKey || id)}
         {...rest}
       />
@@ -52,7 +53,8 @@ CheckboxCell.propTypes = {
 
 CheckboxCell.defaultProps = {
   readOnly: false,
-  visible: true
+  visible: true,
+  disabled: false
 };
 
 export default withCell(CheckboxCell);
