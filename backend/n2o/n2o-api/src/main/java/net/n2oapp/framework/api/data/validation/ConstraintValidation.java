@@ -37,7 +37,7 @@ public class ConstraintValidation extends Validation {
 
     public void setInParameterList(List<InvocationParameter> inParameterList) {
         this.requiredFields = inParameterList.stream()
-                .filter(InvocationParameter::getRequired)
+                .filter(p -> p.getRequired() != null && p.getRequired())
                 .map(InvocationParameter::getId)
                 .collect(Collectors.toSet());
         this.inParameterList = inParameterList;
