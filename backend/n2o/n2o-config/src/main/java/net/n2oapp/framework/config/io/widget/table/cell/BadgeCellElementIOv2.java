@@ -16,7 +16,9 @@ public class BadgeCellElementIOv2 extends AbstractCellElementIOv2<N2oBadgeCell> 
         super.io(e, c, p);
         p.attributeEnum(e, "position", c::getPosition, c::setPosition, Position.class);
         p.attribute(e,"text",c::getText,c::setText);
+        p.attribute(e,"text-format",c::getTextFormat,c::setTextFormat);
         p.attribute(e,"color",c::getColor,c::setColor);
+        p.attribute(e,"format",c::getFormat,c::setFormat);
         p.child(e, null, "switch", c::getN2oSwitch, c::setN2oSwitch, new SwitchIO());
     }
 
