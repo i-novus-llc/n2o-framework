@@ -40,7 +40,7 @@ class FileUploaderItem extends React.Component {
           <a
             href={file.link}
             target="_blank"
-            id={file.id}
+            id={`tooltip-${file.id}`}
             className={cn('n2o-file-uploader-file-name', {
               'n2o-file-uploader-item-error': file.error
             })}
@@ -48,9 +48,13 @@ class FileUploaderItem extends React.Component {
             {file.name}
             {file.link && <i className=" n2o-file-uploader-external-link fa fa-external-link" />}
           </a>
-          {!isEmpty(file.error) && (
-            <Tooltip isOpen={this.state.tooltipOpen} target={file.id} toggle={this.toggle}>
-              {file.error}
+          {(!isEmpty(file.error) || !isEmpty(file.response)) && (
+            <Tooltip
+              isOpen={this.state.tooltipOpen}
+              target={`tooltip-${file.id}`}
+              toggle={this.toggle}
+            >
+              {file.response || file.error}
             </Tooltip>
           )}
           <span>

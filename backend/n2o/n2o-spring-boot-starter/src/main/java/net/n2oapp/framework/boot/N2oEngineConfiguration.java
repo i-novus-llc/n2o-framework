@@ -2,10 +2,7 @@ package net.n2oapp.framework.boot;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.data.InvocationProcessor;
-import net.n2oapp.framework.api.data.OperationExceptionHandler;
-import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
@@ -78,9 +75,10 @@ public class N2oEngineConfiguration {
     @ConditionalOnMissingBean
     public QueryProcessor queryProcessor(N2oInvocationFactory invocationFactory,
                                          ContextProcessor contextProcessor,
-                                         DomainProcessor domainProcessor) {
+                                         DomainProcessor domainProcessor,
+                                         QueryExceptionHandler exceptionHandler) {
         N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor,
-                domainProcessor);
+                domainProcessor, exceptionHandler);
         n2oQueryProcessor.setCriteriaResolver(new N2oCriteriaConstructor(pageStartsWith0));
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
         return n2oQueryProcessor;
@@ -90,6 +88,12 @@ public class N2oEngineConfiguration {
     @ConditionalOnMissingBean
     public OperationExceptionHandler operationExceptionHandler() {
         return new N2oOperationExceptionHandler();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public QueryExceptionHandler queryExceptionHandler() {
+        return new N2oQueryExceptionHandler();
     }
 
     @Bean

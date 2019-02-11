@@ -72,7 +72,7 @@ public abstract class N2oField extends N2oComponent {
     @Getter
     @Setter
     public static abstract class Dependency implements Serializable {
-        private String on;
+        private String[] on;
         private String value;
     }
 

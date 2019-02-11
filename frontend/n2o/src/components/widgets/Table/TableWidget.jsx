@@ -33,7 +33,16 @@ class TableWidget extends React.Component {
    * Замена src на компонент
    */
   getWidgetProps() {
-    const { headers, cells, sorting, hasFocus, hasSelect, autoFocus, rowColor } = this.props.table;
+    const {
+      headers,
+      cells,
+      sorting,
+      hasFocus,
+      hasSelect,
+      autoFocus,
+      rowColor,
+      rowClick
+    } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
     return {
@@ -46,7 +55,8 @@ class TableWidget extends React.Component {
       hasFocus,
       hasSelect,
       autoFocus,
-      dataProvider
+      dataProvider,
+      rowClick
     };
   }
 

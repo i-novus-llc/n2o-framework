@@ -234,7 +234,7 @@ public class InvocationParametersMapping {
         try {
             for (int i = 0; i < argumentCount; i++) {
                 if (invocation.getArguments()[i].getClassName() == null
-                        && invocation.getArguments()[i].getType().equals(Argument.Type.PRIMITIVE))
+                        || invocation.getArguments()[i].getType().equals(Argument.Type.PRIMITIVE))
                     classesOfArguments[i] = null;
                 else
                     classesOfArguments[i] = ClassHash.getClass(invocation.getArguments()[i].getClassName());

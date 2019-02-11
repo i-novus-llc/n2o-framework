@@ -137,6 +137,7 @@ const errorSelector = (key, id) =>
   });
 
 export {
+  toolbarSelector,
   isVisibleSelector,
   sizeSelector,
   colorSelector,
