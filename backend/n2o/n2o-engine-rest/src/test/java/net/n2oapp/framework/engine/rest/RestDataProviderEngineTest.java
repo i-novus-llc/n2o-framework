@@ -196,4 +196,30 @@ public class RestDataProviderEngineTest {
 
         assertThat(restClient.getQuery().getPath(), is("http://localhost:8080/test/path?date_begin=1970-01-01T03%3A00%3A00&date_end=1970-01-02T03%3A00%3A00"));
     }
+
+    @Test
+    public void testListParameters() {
+        Properties properties = new Properties();
+        properties.put("n2o.engine.mapper", "spel");
+        new TestStaticProperties().setProperties(properties);
+        TestRestClient restClient = new TestRestClient(new DataSet());
+        RestDataProviderEngine actionEngine = new RestDataProviderEngine(restClient, restClient.getObjectMapper());
+        N2oRestDataProvider dataProvider = new N2oRestDataProvider();
+        dataProvider.setFiltersSeparator("&");
+        dataProvider.setQuery("http://www.someUrl.org/path?{filters}");
+
+        dataProvider.setMethod(N2oRestDataProvider.Method.GET);
+        Map<String, Object> request = new HashMap<>();
+        request.put("filters", new ArrayList<>());
+        request.put("filter1*.id", Arrays.asList("1", "2"));
+        request.put("filter2*.name", Arrays.asList("a", "b"));
+        request.put("filter3*.value", "testValue");
+        ((List) request.get("filters")).add("filter1={filter1*.id}");
+        ((List) request.get("filters")).add("filter2={filter2*.name}");
+        ((List) request.get("filters")).add("filter3={filter3*.value}");
+
+        actionEngine.invoke(dataProvider, request);
+
+        assertThat(restClient.getQuery().getPath(), is("http://www.someUrl.org/path?filter1=1&filter1=2&filter2=a&filter2=b&filter3=testValue"));
+    }
 }

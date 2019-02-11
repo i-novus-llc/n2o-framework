@@ -7,10 +7,8 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.util.RestClient;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
+import java.util.function.BinaryOperator;
 
 import static net.n2oapp.framework.engine.data.QueryUtil.normalizeQueryParams;
 import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
@@ -49,8 +47,13 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
                 query = query.replace("//", "/");
             query = baseRestUrl + query;
         }
+
         query = replaceListPlaceholder(query, "{select}", args.remove("select"), "", (a, b) -> a + invocation.getSelectSeparator() + b);
-        query = replaceListPlaceholder(query, "{filters}", args.remove("filters"), "", (a, b) -> a + invocation.getFiltersSeparator() + b);
+        query = replaceListPlaceholder(query,
+                "{filters}",
+                args.remove("filters"), "",
+                (str) -> resolve(str, args, (a, b) -> a + invocation.getFiltersSeparator() + b),
+                (a, b) -> a + invocation.getFiltersSeparator() + b);
         query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + invocation.getSortingSeparator() + b);
         query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + invocation.getJoinSeparator() + b);
         query = resolvePathPlaceholders(query, args);
@@ -60,6 +63,7 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
 
     /**
      * Инициализация заголовков запроса
+     *
      * @param args Аргументы запроса
      * @return Заголовки
      */
@@ -93,19 +97,35 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         for (String key : new HashSet<>(args.keySet())) {
             String p = "{" + key + "}";
             if (query.contains(p)) {
-                String value;
-                try {
-                    value = args.get(key) == null ? "" : RestUtil.encode(
-                            objectMapper.writeValueAsString(args.get(key)).replace("\"", "")
-                    );
-                } catch (JsonProcessingException e) {
-                    throw new N2oException(e);
-                }
-                query = query.replace("{" + key + "}", value);
+                query = replacePlaceholder(query, key, args.get(key) == null ? "" : args.get(key));
                 args.remove(key);
             }
         }
         return query;
+    }
+
+    private String resolve(String str, Map<String, Object> args, BinaryOperator<String> reducer) {
+        if (!str.contains("{") || !str.contains("}")) return str;
+        String paramKey = str.substring(str.indexOf("{") + 1, str.indexOf("}"));
+        if (!(args.get(paramKey) instanceof List)) {
+            return replacePlaceholder(str, paramKey, args.get(paramKey));
+        }
+        Optional<String> result = ((List<String>) args.get(paramKey))
+                .stream()
+                .map(item -> replacePlaceholder(str, paramKey, item))
+                .reduce(reducer);
+        return result.orElse("");
+    }
+
+    private String replacePlaceholder(String target, String key, Object value) {
+        try {
+            return target.replace(
+                    "{" + key + "}",
+                    RestUtil.encode(objectMapper.writeValueAsString(value).replace("\"", ""))
+            );
+        } catch (JsonProcessingException e) {
+            throw new N2oException(e);
+        }
     }
 
     @Override

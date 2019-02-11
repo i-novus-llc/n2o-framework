@@ -48,21 +48,20 @@ public abstract class QueryUtil {
         return baseQuery.replace(placeholder, clause);
     }
 
-    public static <T> String replaceListPlaceholder(String baseQuery, String placeholder, Object list, String defaultValue,
-                                                    Function<String, String> resolver,
-                                                    BinaryOperator<String> reducer) {
+    public static String replaceListPlaceholder(String baseQuery, String placeholder, Object list, String defaultValue,
+                                                Function<String, String> resolver,
+                                                BinaryOperator<String> reducer) {
         if (!baseQuery.contains(placeholder)) return baseQuery;
         String clause = defaultValue;
         if (list != null) {
-            List<String> result = (List<String>) list;
-            clause = result.stream().map(resolver).reduce(reducer).orElse(defaultValue);
+            clause = ((List<String>)list).stream().map(resolver).reduce(reducer).orElse(defaultValue);
         }
         return baseQuery.replace(placeholder, clause);
     }
 
-    public static <T> String replaceListPlaceholder(String baseQuery, String placeholder, Object list,
-                                                    String defaultValue, BinaryOperator<String> reducer) {
-        return replaceListPlaceholder(baseQuery, placeholder, list, defaultValue, (m) -> m, reducer);
+    public static String replaceListPlaceholder(String baseQuery, String placeholder, Object list,
+                                                String defaultValue, BinaryOperator<String> reducer) {
+        return replaceListPlaceholder(baseQuery, placeholder, list, defaultValue, Function.identity(), reducer);
     }
 
     public static String reduceAnd(String a, String b) {
