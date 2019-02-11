@@ -2,8 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -12,6 +14,7 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
@@ -536,6 +539,27 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 N2oQuery.Filter queryFilter = query.getFilterByPreFilter(preFilter);
                 if (queryFilter != null) {
                     Filter filter = new Filter();
+                    if (preFilter.getRequired() != null && preFilter.getRequired()) {
+                        if (p.getScope(ValidationList.class) != null) {
+                            MandatoryValidation v = new MandatoryValidation(
+                                    queryFilter.getFilterField(),
+                                    p.getMessage("n2o.required.filter"),
+                                    queryFilter.getFilterField()
+                            );
+                            v.setMoment(N2oValidation.ServerMoment.beforeQuery);
+                            v.setSeverity(SeverityType.danger);
+
+                            ReduxModel prefilterModel = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
+                            if (p.getScope(ValidationList.class).get(compiled.getId(), prefilterModel) == null) {
+                                Map<String, List<Validation>> map = new HashMap<>();
+                                map.put(compiled.getId(), new ArrayList<>());
+                                p.getScope(ValidationList.class).getValidations().put(prefilterModel, map);
+                            }
+                            List<Validation> validationList = p.getScope(ValidationList.class)
+                                    .get(compiled.getId(), prefilterModel);
+                            validationList.add(v);
+                        }
+                    }
                     filter.setParam(p.cast(preFilter.getParam(), compiled.getId() + "_" + queryFilter.getParam()));
                     filter.setReloadable(false);
                     filter.setFilterId(queryFilter.getFilterField());

@@ -31,7 +31,7 @@
         </field>
         <field id="testFilter">
             <filters>
-                <eq/>
+                <eq required="true"/>
                 <in/>
             </filters>
         </field>

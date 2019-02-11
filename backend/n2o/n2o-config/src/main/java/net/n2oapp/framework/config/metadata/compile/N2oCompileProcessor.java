@@ -273,7 +273,9 @@ public class N2oCompileProcessor implements CompileProcessor {
                 DefaultValues defaultValues = new DefaultValues();
                 defaultValues.setValues(new HashMap<>());
                 defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), data.get(src.getParam()));
-                dst.setValue(defaultValues);
+                dst.setValue(src.getSubModelQuery().getMulti() != null && src.getSubModelQuery().getMulti()
+                        ? Collections.singletonList(defaultValues)
+                        : defaultValues);
             }
         }
     }

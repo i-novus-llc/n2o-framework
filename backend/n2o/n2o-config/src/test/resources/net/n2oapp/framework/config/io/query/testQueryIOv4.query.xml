@@ -39,7 +39,7 @@
         </field>
         <field id="individualId" domain="integer">
             <filters>
-                <eq filter-id="individualId">ic.indiv_id = :individualId</eq>
+                <eq filter-id="individualId" required="true">ic.indiv_id = :individualId</eq>
             </filters>
         </field>
     </fields>

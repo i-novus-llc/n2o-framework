@@ -53,6 +53,8 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String domain;
         private String normalize;
         private String mapping;
+        private Boolean required;
+
         /**
          * Параметр в адресе маршрутов выборки
          */

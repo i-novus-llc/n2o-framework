@@ -173,7 +173,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         List<Validation> serverValidations = new ArrayList<>();
         List<Validation> clientValidations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
-        String FIELD_REQUIRED_MESSAGE = "n2o.required";
+        String FIELD_REQUIRED_MESSAGE = "n2o.required.field";
         if (source.getRequired() != null && source.getRequired()) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
             mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
