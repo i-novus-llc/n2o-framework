@@ -24,17 +24,18 @@ class AdvancedTableHeaderCell extends Component {
       onResize,
       resizable,
       className,
+      children,
       filterable,
       title,
       onFilter,
       id,
+      width,
       ...restProps
     } = this.props;
-    let width = this.props.width;
-    if (className === 'n2o-advanced-table-expand-icon-th') {
-      width = 10;
-    } else if (className === 'n2o-advanced-table-selection-container') {
-      width = 50;
+    console.log('point');
+    console.log(this.props);
+    if (typeof children === 'string') {
+      return <th>{children}</th>;
     }
     const component = (
       <th {...this.props} width={width} className="n2o-advanced-table-header-cell">
@@ -49,12 +50,12 @@ class AdvancedTableHeaderCell extends Component {
               {title}
             </AdvancedTableFilter>
           ) : (
-            this.props.title
+            this.props.title || this.props.component
           )}
         </div>
       </th>
     );
-    return !width || !resizable ? (
+    return !resizable || (!resizable && !width) ? (
       component
     ) : (
       <Resizable width={this.props.width} height={0} onResize={onResize}>

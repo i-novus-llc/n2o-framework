@@ -215,9 +215,9 @@ class AdvancedTable extends Component {
       index,
       isRowActive: index === this.state.selectIndex,
       color: rowColor && propsResolver(rowColor, model),
-      setRef: this.setRowRef,
-      onClick: isActive ? () => this.handleRow(model.id, index) : undefined,
-      onFocus: !isActive ? () => this.handleRow(model.id, index, true) : undefined
+      setRef: this.setRowRef
+      // onClick: isActive ? () => this.handleRow(model.id, index) : undefined,
+      // onFocus: !isActive ? () => this.handleRow(model.id, index, true) : undefined
     };
   }
 
@@ -255,6 +255,9 @@ class AdvancedTable extends Component {
         width: column.width,
         onResize: this.handleResize(index),
         onFilter: this.onFilter
+      }),
+      onCell: (record, index) => ({
+        editable: col.editable && record.editable
       })
     }));
 
@@ -292,8 +295,8 @@ class AdvancedTable extends Component {
               cell: AdvancedTableHeaderCell
             },
             body: {
-              row: AdvancedTableRow
-              // cell: ({ children }) => children
+              row: AdvancedTableRow,
+              cell: AdvancedTableCell
             }
           }}
           rowKey={record => record.key}

@@ -41,7 +41,6 @@ class AdvancedTableContainer extends React.Component {
     this.mapColumns = this.mapColumns.bind(this);
     this.mapData = this.mapData.bind(this);
     this.renderHeaderCell = this.renderHeaderCell.bind(this);
-    this.renderCell = this.renderCell.bind(this);
     this.onSetFilter = this.onSetFilter.bind(this);
   }
 
@@ -62,26 +61,14 @@ class AdvancedTableContainer extends React.Component {
   }
 
   renderHeaderCell(props) {
+    if (props.children) return props.label;
     const { redux } = this.props;
     const propStyles = pick(this.props, ['width']);
     let component = null;
     if (redux) {
-      component = <ReduxCell {...propStyles} {...props} as={'div'} />;
+      component = <ReduxCell {...propStyles} {...props} label={props.title} as={'div'} />;
     } else {
-      component = <TableCell {...propStyles} {...props} as={'div'} />;
-    }
-
-    return component;
-  }
-
-  renderCell(props, args) {
-    const { redux } = this.props;
-    const propStyles = pick(this.props, ['width']);
-    let component = null;
-    if (redux) {
-      component = <ReduxCell {...propStyles} {...props} as={'td'} />;
-    } else {
-      component = <TableCell {...propStyles} {...props} as={'td'} />;
+      component = <TableCell {...propStyles} {...props} label={props.title} as={'div'} />;
     }
 
     return component;
@@ -109,15 +96,15 @@ class AdvancedTableContainer extends React.Component {
         const cell = find(cells, c => c.id === header.id);
         return {
           ...header,
-          title: this.renderHeaderCell({
-            key: header.id,
-            columnId: header.id,
-            widgetId,
-            as: 'th',
-            sorting: sorting && sorting[header.id],
-            onSort,
-            ...header
-          }),
+          // title: this.renderHeaderCell({
+          //   key: header.id,
+          //   columnId: header.id,
+          //   widgetId,
+          //   as: 'th',
+          //   sorting: sorting && sorting[header.id],
+          //   onSort,
+          //   ...header
+          // }),
           dataIndex: header.id,
           key: header.id,
           render: (value, record, i) => (
@@ -167,7 +154,8 @@ class AdvancedTableContainer extends React.Component {
       rowSelection,
       expandable,
       hasSelect,
-      onSetSelection
+      onSetSelection,
+      isActive
     } = this.props;
     return {
       className,
@@ -182,7 +170,8 @@ class AdvancedTableContainer extends React.Component {
       expandable,
       hasSelect,
       onSetSelection,
-      onFilter: this.onSetFilter
+      onFilter: this.onSetFilter,
+      isActive
     };
   }
 

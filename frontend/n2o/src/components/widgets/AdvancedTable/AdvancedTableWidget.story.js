@@ -26,12 +26,13 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
+        isActive: true,
         headers: [
           {
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя',
+            title: 'Имя',
             width: 200,
             resizable: true
           },
@@ -39,7 +40,7 @@ stories
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             width: 200,
             resizable: true
           },
@@ -48,7 +49,7 @@ stories
             id: 'birthday',
             sortable: true,
             width: 200,
-            label: 'Дата рождения'
+            title: 'Дата рождения'
           }
         ]
       }
@@ -66,7 +67,7 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя',
+            title: 'Имя',
             width: 200,
             resizable: true
           },
@@ -74,7 +75,7 @@ stories
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             width: 200,
             resizable: true
           },
@@ -82,7 +83,7 @@ stories
             src: 'TextTableHeader',
             id: 'birthday',
             sortable: true,
-            label: 'Дата рождения'
+            title: 'Дата рождения'
           }
         ]
       }
@@ -113,7 +114,7 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя',
+            title: 'Имя',
             width: 200,
             filterable: true
           },
@@ -121,7 +122,7 @@ stories
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             width: 200,
             filterable: true,
             resizable: true
@@ -130,7 +131,7 @@ stories
             src: 'TextTableHeader',
             id: 'birthday',
             sortable: true,
-            label: 'Дата рождения'
+            title: 'Дата рождения'
           }
         ]
       }
@@ -171,21 +172,21 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя',
+            title: 'Имя',
             colSpan: 2
           },
           {
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             colSpan: 0
           },
           {
             src: 'TextTableHeader',
             id: 'birthday',
             sortable: true,
-            label: 'Дата рождения'
+            title: 'Дата рождения'
           }
         ]
       }
@@ -223,7 +224,14 @@ stories
         }))
       };
     });
-    return <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />;
+    const props = {
+      ...metadata['Page_Table'],
+      table: {
+        ...metadata['Page_Table'].table,
+        rowSelection: true
+      }
+    };
+    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
 
   .add('Fixed header', () => {
@@ -237,7 +245,7 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя',
+            title: 'Имя',
             width: 200,
             filterable: true
           },
@@ -245,7 +253,7 @@ stories
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             width: 200,
             filterable: true,
             resizable: true
@@ -254,12 +262,11 @@ stories
             src: 'TextTableHeader',
             id: 'birthday',
             sortable: true,
-            label: 'Дата рождения',
+            title: 'Дата рождения',
             width: 200
           }
         ],
         scroll: {
-          x: 1500,
           y: 300
         }
       }
@@ -277,7 +284,7 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя',
+            title: 'Имя',
             fixed: 'left',
             width: 200
           },
@@ -285,18 +292,21 @@ stories
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             width: 300
           },
           {
             src: 'TextTableHeader',
             id: 'birthday',
             sortable: true,
-            label: 'Дата рождения',
+            title: 'Дата рождения',
             fixed: 'right',
             width: 200
           }
-        ]
+        ],
+        scroll: {
+          x: 1500
+        }
       }
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
@@ -310,37 +320,36 @@ stories
         headers: [
           {
             src: 'TextTableHeader',
-            id: 'name',
             sortable: false,
-            label: 'Имя',
+            title: 'Имя',
             children: [
               {
-                title: '街道',
+                title: 'Заголовок 1',
                 dataIndex: 'street',
                 key: 'street',
                 src: 'TextTableHeader',
                 id: 'name'
               },
               {
-                title: '街道',
+                title: 'Заголовок 2',
                 dataIndex: 'street',
                 key: 'street',
                 src: 'TextTableHeader',
-                id: 'name'
+                id: 'ыгктфьу'
               }
             ]
           },
           {
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             src: 'TextTableHeader',
-            id: 'name'
+            id: 'surname'
           },
           {
             sortable: true,
-            label: 'Дата рождения',
+            title: 'Дата рождения',
             src: 'TextTableHeader',
-            id: 'name'
+            id: 'birthday'
           }
         ]
       }
@@ -367,20 +376,20 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя'
+            title: 'Имя'
           },
           {
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия',
+            title: 'Фамилия',
             editable: record => record.editable
           },
           {
             src: 'TextTableHeader',
             id: 'birthday',
             sortable: true,
-            label: 'Дата рождения'
+            title: 'Дата рождения'
           }
         ]
       }

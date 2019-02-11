@@ -1,4 +1,21 @@
 .n2o-advanced-table {
+
+  &-content {
+    position: relative;
+  }
+
+  &-fixed-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &-fixed-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   & table {
     width: 100%;
     margin-bottom: 1rem;
@@ -9,8 +26,22 @@
     box-sizing: border-box;
     border-left: 0.2rem solid transparent;
     outline: none;
+  }
 
+  &-cell-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
 
+  &-editable-cell {
+    position: relative;
+
+    & input {
+      position: absolute;
+      top: 0;
+      height: 100%;
+    }
   }
 
   &-expand {
@@ -21,16 +52,16 @@
     font-size: 12px;
   }
 
-  &-selection-container {
-    width: 100px;
-    &-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+
+  &-selection-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
   }
 
   &-header-cell {
+    background-color: white;
     &-content {
       display: flex;
       justify-content: space-between;
