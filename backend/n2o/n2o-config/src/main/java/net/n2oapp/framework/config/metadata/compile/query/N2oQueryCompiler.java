@@ -3,10 +3,13 @@ package net.n2oapp.framework.config.metadata.compile.query;
 
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.data.validation.MandatoryValidation;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.CompileQueryUtil;
@@ -64,7 +67,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setFieldsMap(Collections.unmodifiableMap(CompileQueryUtil.initFieldsMap(fields, query.getId())));
         query.setFieldNamesMap(Collections.unmodifiableMap(CompileQueryUtil.initFieldNamesMap(query.getFieldsMap())));
         query.setSortingSet(Collections.unmodifiableSet(initSortingSet(query.getSortingFields())));
-        query.setFiltersMap(Collections.unmodifiableMap(initFilters(query.getFieldsMap(), query.getRequiredFiltersMap(), p)));
+        query.setFiltersMap(Collections.unmodifiableMap(initFiltersMap(query, p)));
         query.setInvertFiltersMap(Collections.unmodifiableMap(initInvertFiltersMap(query.getFieldsMap())));
         query.setFilterFieldsMap(Collections.unmodifiableMap(initFilterFieldsMap(query.getFiltersMap())));
         query.setParamToFilterIdMap(Collections.unmodifiableMap(initParamToFilterIdMap(query.getFilterFieldsMap(), p)));
@@ -158,9 +161,9 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
     }
 
 
-    private Map<String, Map<FilterType, N2oQuery.Filter>> initFilters(Map<String, N2oQuery.Field> fieldsMap, Map<String, N2oQuery.Filter> requiredFilters, CompileProcessor p) {
+    private Map<String, Map<FilterType, N2oQuery.Filter>> initFiltersMap(CompiledQuery query, CompileProcessor p) {
         Map<String, Map<FilterType, N2oQuery.Filter>> result = new HashMap<>();
-        fieldsMap.values().stream().filter(queryField -> !queryField.isSearchUnavailable()).forEach(queryField -> {
+        query.getFieldsMap().values().stream().filter(queryField -> !queryField.isSearchUnavailable()).forEach(queryField -> {
             Map<FilterType, N2oQuery.Filter> filters = new HashMap<>();
             for (N2oQuery.Filter f : queryField.getFilterList()) {
                 if (f.getDomain() == null) {
@@ -170,8 +173,18 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                     f.setCompiledDefaultValue(p.resolve(f.getDefaultValue(), f.getDomain()));
                 }
                 filters.put(f.getType(), f);
-                if (f.getRequired() != null && f.getRequired())
-                    requiredFilters.put(queryField.getId(), f);
+                if (f.getRequired() != null && f.getRequired()) {
+                    MandatoryValidation mandatory = new MandatoryValidation(
+                            f.getFilterField(),
+                            p.getMessage("n2o.required.filter"),
+                            f.getFilterField()
+                    );
+                    mandatory.setMoment(N2oValidation.ServerMoment.beforeQuery);
+                    mandatory.setSeverity(SeverityType.danger);
+                    if (query.getValidations() == null)
+                        query.setValidations(new ArrayList<>());
+                    query.getValidations().add(mandatory);
+                }
             }
             result.put(queryField.getId(), filters);
         });

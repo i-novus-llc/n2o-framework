@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +20,6 @@ public class ValidationList implements Compiled {
     }
 
     public List<Validation> get(String widgetId, ReduxModel model) {
-        return validations.containsKey(model) ? validations.get(model).get(widgetId) : Collections.emptyList();
+        return validations.containsKey(model) ? validations.get(model).get(widgetId) : null;
     }
 }

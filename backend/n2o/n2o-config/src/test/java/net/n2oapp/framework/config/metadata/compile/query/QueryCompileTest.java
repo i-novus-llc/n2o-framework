@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
+import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -113,5 +116,19 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(query.getSubModelQueries().size(), is(1));
         assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
         assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
+    }
+
+
+    @Test
+    public void testRequiredPrefilters() {
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
+                .get(new QueryContext("testRequiredFilters"));
+
+
+        assertThat(query.getFiltersMap().get("test").get(FilterType.eq).getRequired(), is(true));
+        assertThat(query.getValidations().get(0).getId(), is("test"));
+        assertThat(query.getValidations().get(0).getFieldId(), is("test"));
+        assertThat(query.getValidations().get(0).getSeverity(), is(SeverityType.danger));
+        assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
     }
 }

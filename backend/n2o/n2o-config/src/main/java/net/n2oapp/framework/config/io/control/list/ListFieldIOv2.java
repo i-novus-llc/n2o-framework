@@ -36,6 +36,7 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
+        p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.childrenToStringArray(e, null, "value", pf::getValues, pf::setValues);
     }
 

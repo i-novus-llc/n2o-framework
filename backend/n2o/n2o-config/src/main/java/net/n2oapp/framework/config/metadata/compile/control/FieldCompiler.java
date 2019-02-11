@@ -35,7 +35,7 @@ import java.util.*;
  */
 public abstract class FieldCompiler<D extends Field, S extends N2oField> implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    private final String FIELD_REQUIRED_MESSAGE = "n2o.required";
+    private final String FIELD_REQUIRED_MESSAGE = "n2o.required.field";
 
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         field.setId(source.getId());
@@ -95,7 +95,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
         if (source.getRequired() != null && source.getRequired()) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
-            mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
             collectEnablingConditions(mandatory, source, N2oField.VisibilityDependency.class);
             mandatory.addEnablingConditions(visibilityConditions);
             serverValidations.add(mandatory);
@@ -103,7 +102,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> impleme
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
-            mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
             mandatory.addEnablingConditions(visibilityConditions);
             collectEnablingConditions(mandatory, source, N2oField.RequiringDependency.class);
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {

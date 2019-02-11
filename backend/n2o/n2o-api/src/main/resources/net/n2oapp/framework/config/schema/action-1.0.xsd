@@ -437,6 +437,11 @@
                 <xs:documentation>Поле в выборке виджета, по которому будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="required" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFilterDefValue">
@@ -448,6 +453,11 @@
                 <xs:attribute name="value" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="required" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -463,6 +473,11 @@
                 <xs:attribute name="values" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="required" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -483,6 +498,11 @@
                 <xs:attribute name="values" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="required" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -521,11 +541,6 @@
         <xs:attribute name="ref-model" type="reduxModel" use="optional">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean" use="optional">
-            <xs:annotation>
-                <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

@@ -216,7 +216,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         List<Validation> requiredParamValidations = new ArrayList<>();
         for (N2oObject.Parameter parameter : compiledOperation.getInParametersMap().values()) {
             if (parameter.getRequired() != null && parameter.getRequired()) {
-                MandatoryValidation validation = new MandatoryValidation(parameter.getId(), p.getMessage("n2o.required"), parameter.getId());
+                MandatoryValidation validation = new MandatoryValidation(parameter.getId(), p.getMessage("n2o.required.field"), parameter.getId());
                 validation.setMoment(N2oValidation.ServerMoment.beforeOperation);
                 requiredParamValidations.add(validation);
             }
