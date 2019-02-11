@@ -40,13 +40,16 @@ class BadgeCell extends React.Component {
       marginLeft: placement === 'right' && 5,
       marginRight: placement === 'left' && 5
     };
+    const badgeText = get(model, fieldKey || id);
     return (
       visible && (
         <div style={style}>
           <Text text={text} format={format} />
-          <Badge style={badgeStyle} color={color}>
-            <Text text={get(model, fieldKey || id)} format={badgeFormat} />
-          </Badge>
+          {badgeText && (
+            <Badge style={badgeStyle} color={color}>
+              <Text text={get(model, fieldKey || id)} format={badgeFormat} />
+            </Badge>
+          )}
         </div>
       )
     );
