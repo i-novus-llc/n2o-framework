@@ -85,6 +85,7 @@ class AdvancedTable extends Component {
     this.checkAll = this.checkAll.bind(this);
     this.onChangeChecked = this.onChangeChecked.bind(this);
     this.onFilter = this.onFilter.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -245,6 +246,15 @@ class AdvancedTable extends Component {
     };
   }
 
+  handleEdit(value, index, id) {
+    let data = this.state.data;
+    data[index][id] = value;
+    this.setState({
+      data
+    });
+    //TODO send edited to server
+  }
+
   getRowProps(model, index) {
     const { isActive, redux, rowColor } = this.props;
     return {
@@ -281,7 +291,7 @@ class AdvancedTable extends Component {
   }
 
   mapColumns(columns) {
-    const { widgetId, rowSelection, redux, sorting, onSort } = this.props;
+    const { widgetId, rowSelection, redux, sorting, onSort, multiHeader } = this.props;
     let newColumns = columns;
 
     newColumns = newColumns.map((col, index) => ({
@@ -297,15 +307,14 @@ class AdvancedTable extends Component {
         redux,
         sorting,
         onSort,
-        component: col.header && !col.selectionHead && col.header.component,
-        rowSelection: rowSelection
+        multiHeader
       }),
       onCell: (record, index) => ({
-        editable: col.editable && record.editable,
-        component: !col.selectionHead && col.cell.component
+        editable: col.editable && record.editable
       }),
       render: (value, row, index) => (
         <AdvancedTableCellRenderer
+          onEdit={this.handleEdit}
           value={value}
           row={row}
           index={index}

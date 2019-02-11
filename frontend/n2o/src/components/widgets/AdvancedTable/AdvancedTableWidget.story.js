@@ -649,6 +649,7 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
+        multiHeader: true,
         columns: [
           {
             header: {
@@ -749,8 +750,7 @@ stories
             },
             cell: {
               src: 'TextCell'
-            },
-            editable: true
+            }
           },
           {
             id: 'surname',
@@ -789,7 +789,7 @@ stories
             },
             editable: true,
             edit: {
-              src: 'InputText'
+              src: 'InputNumber'
             }
           }
         ]

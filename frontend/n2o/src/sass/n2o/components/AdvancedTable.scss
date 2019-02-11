@@ -33,7 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    & input {
+    & .n2o-advanced-table-edit-control {
       position: absolute;
       top: 0;
       height: 100%;
@@ -58,6 +58,7 @@
 
   &-header-cell {
     background-color: white;
+
     &-content {
       display: flex;
       justify-content: space-between;

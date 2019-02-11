@@ -23,12 +23,15 @@ class AdvancedTableCellRenderer extends React.Component {
       editing: false
     };
 
-    this.toggleEdit = this.toggleEdit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
 
-  toggleEdit() {
+  toggleEdit(event, changeValue = false) {
+    const { onEdit, index, id } = this.props;
     this.setState({ editing: !this.state.editing });
+    if (changeValue) {
+      onEdit(this.state.value, index, id);
+    }
   }
 
   onChange(value) {
@@ -36,7 +39,7 @@ class AdvancedTableCellRenderer extends React.Component {
   }
 
   render() {
-    const { component, redux, value, row, cell, editable, edit } = this.props;
+    const { redux, value, row, cell, editable, edit } = this.props;
     const { editing } = this.state;
 
     const cellContent = redux ? (
@@ -46,15 +49,16 @@ class AdvancedTableCellRenderer extends React.Component {
     );
 
     return (
-      <div onDoubleClick={this.toggleEdit}>
+      <div onDoubleClick={event => this.toggleEdit(event)}>
         {cellContent}
         {editable &&
           editing &&
           React.createElement(edit.component, {
+            className: 'n2o-advanced-table-edit-control',
             autoFocus: true,
             value: this.state.value,
             onChange: this.onChange,
-            onBlur: this.toggleEdit
+            onBlur: event => this.toggleEdit(event, true)
           })}
       </div>
     );
