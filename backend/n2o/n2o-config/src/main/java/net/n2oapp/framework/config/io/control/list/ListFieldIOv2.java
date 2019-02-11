@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.control.list;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -37,6 +38,8 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
+        p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
         p.childrenToStringArray(e, null, "value", pf::getValues, pf::setValues);
     }
 

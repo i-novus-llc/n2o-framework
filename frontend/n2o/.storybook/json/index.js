@@ -19,6 +19,7 @@ import FormCollapseFieldset from './FormCollapseFieldset';
 import FormFieldsetCollapseVE from './FormFieldsetCollapseVE';
 import FormFieldsetStandartVE from './FormFieldsetStandartVE';
 import PlaceholderBreadCrumb from './PlaceholderBreadCrumb';
+import tableActions from './tableActions';
 
 export {
   filterMetadata,
@@ -41,5 +42,6 @@ export {
   FormCollapseFieldset,
   FormFieldsetCollapseVE,
   FormFieldsetStandartVE,
-  PlaceholderBreadCrumb
+  PlaceholderBreadCrumb,
+  tableActions
 };

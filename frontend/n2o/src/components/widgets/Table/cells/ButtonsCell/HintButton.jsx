@@ -24,12 +24,12 @@ function HintButton({ uId, title, hint, visible, icon, onClick, action, security
   const otherBtnProps = pick(rest, ['size', 'active', 'color', 'disabled']);
   const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
 
-  const handlerClick = action => () => onClick(action);
+  const handleClick = action => e => onClick(e, action);
 
   const render = () =>
     visible ? (
       <Fragment>
-        <Button id={uId} onClick={handlerClick(action)} {...otherBtnProps}>
+        <Button id={uId} onClick={handleClick(action)} {...otherBtnProps}>
           {icon && <Icon name={icon} />}
           {title}
         </Button>

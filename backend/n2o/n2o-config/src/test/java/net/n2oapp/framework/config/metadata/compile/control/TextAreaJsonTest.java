@@ -31,7 +31,7 @@ public class TextAreaJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testTextArea.widget.xml",
                 "components/controls/TextArea/TextArea.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "style", "disabled")
+                .exclude("src", "id", "style", "disabled")
                 .assertEquals(new WidgetContext("testTextArea"));
     }
 

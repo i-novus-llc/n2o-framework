@@ -3,7 +3,7 @@
        object-id="utBlank" selected="false">
 
     <columns>
-        <column text-field-id="id"/>
+        <column text-field-id="id" width="100"/>
         <column id="col" text-field-id="col_id" label="col_label"/>
         <column text-field-id="name" sorting-field-id="id"/>
         <column text-field-id="comments" />

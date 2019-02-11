@@ -19,7 +19,7 @@ import withCell from '../../withCell';
  * @constructor
  */
 function ButtonsCell({ id, className, callActionImpl, buttons, visible, ...other }) {
-  const handlerClick = action => callActionImpl({ action });
+  const handlerClick = (e, action) => callActionImpl(e, { action });
 
   const createGroupItems = ({ subMenu, ...rest }) =>
     subMenu ? (

@@ -19,6 +19,11 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInputText> {
 
     @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.input.number.src";
+    }
+
+    @Override
     public Class<? extends Source> getSourceClass() {
         return N2oInputText.class;
     }
@@ -50,26 +55,23 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Integer.class), Integer.MIN_VALUE));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), Integer.class), Integer.MAX_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
-                inputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.number.src"), String.class)));
                 return;
             }
             case short_: {
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Short.class), Short.MIN_VALUE));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), Short.class), Short.MIN_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
-                inputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.number.src"), String.class)));
                 return;
             }
             case numeric: {
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Long.class), "-999999999"));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), Long.class), "999999999"));
                 inputText.setStep(castDefault(source.getStep(), "0.01"));
-                inputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.number.src"), String.class)));
                 return;
             }
             case string:{
                 inputText.setLength(source.getLength());
-                inputText.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.text.src"), String.class)));
+                inputText.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.text.src"), String.class)));
                 return;
             }
         }

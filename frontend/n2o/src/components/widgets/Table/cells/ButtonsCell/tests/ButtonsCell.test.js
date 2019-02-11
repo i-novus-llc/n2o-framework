@@ -58,6 +58,6 @@ describe('<ButtonsCell />', () => {
 
     wrapper.find('HintButton').simulate('click');
     expect(mockFn.calledOnce).toEqual(true);
-    expect(mockFn.calledWith({ action: 'test-action' })).toEqual(true);
+    expect(mockFn.args[0][1]).toEqual({ action: 'test-action' });
   });
 });

@@ -248,6 +248,7 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public void resolveSubModels(ModelLink link, List<ModelLink> linkList) {
+        if (link.getSubModelQuery() == null) return;
         for (ModelLink modelLink : linkList) {
             if (link.equalsLink(modelLink)) {
                 resolveDefaultValues(modelLink, link);

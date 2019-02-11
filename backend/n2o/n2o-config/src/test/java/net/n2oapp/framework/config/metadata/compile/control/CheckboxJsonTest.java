@@ -25,7 +25,7 @@ public class CheckboxJsonTest extends JsonMetadataTestBase {
     public void testCheckbox() {
         check("net/n2oapp/framework/config/metadata/compile/field/testCheckbox.widget.xml",
                 "components/controls/Checkbox/Checkbox.meta.json")
-                .exclude("src", "checked")
+                .exclude("src", "checked", "id")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
                 .assertEquals();
 

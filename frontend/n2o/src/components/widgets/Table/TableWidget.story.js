@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import withTests from 'N2oStorybook/withTests';
 import { getStubData } from 'N2oStorybook/fetchMock';
-import { filterMetadata, newEntry } from 'N2oStorybook/json';
+import { filterMetadata, newEntry, tableActions } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 import { set } from 'lodash';
 import metadata from './TableWidget.meta.json';
@@ -14,6 +14,7 @@ import { id } from '../../../utils/id';
 import cloneObject from '../../../utils/cloneObject';
 import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import withPage from '../../../../.storybook/decorators/withPage';
+import { page } from 'N2oStorybook/fetchMock';
 
 const stories = storiesOf('Виджеты/Таблица', module);
 
@@ -141,4 +142,10 @@ stories
         <Factory level={WIDGETS} {...secureMetadata['Page_Table']} id="Page_Table" />
       </div>
     );
+  })
+  .add('Экшены таблицы', () => {
+    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    fetchMock.get('begin:n2o/page', page);
+
+    return <Factory level={WIDGETS} {...tableActions['Page_Table']} id="Page_Table" />;
   });

@@ -30,9 +30,8 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
     private QueryProcessor queryProcessor;
     private MetadataEnvironment environment;
 
-    public N2oSubModelsProcessor(QueryProcessor queryProcessor, MetadataEnvironment environment) {
+    public N2oSubModelsProcessor(QueryProcessor queryProcessor) {
         this.queryProcessor = queryProcessor;
-        this.environment = environment;
     }
 
     @Override
@@ -76,7 +75,10 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
             throw new N2oException(String.format("field [%s] not found in query [%s]", subModelQuery.getValueFieldId(), subModelQuery.getQueryId()));
 
         for (Map<String, Object> subModel : subModels) {
-            if (subModel.get(subModelQuery.getLabelFieldId()) != null || subModel.get(subModelQuery.getValueFieldId()) == null)
+            if (subModelQuery.getLabelFieldId() == null
+                    || subModel.get(subModelQuery.getLabelFieldId()) != null
+                    || subModelQuery.getValueFieldId() == null
+                    || subModel.get(subModelQuery.getValueFieldId()) == null)
                 return;
             Object value = subModel.get(subModelQuery.getValueFieldId());
             if (StringUtils.isDynamicValue(value))
@@ -90,5 +92,10 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
                 subModel.put(queryField.getId(), first.get(queryField.getId()));
             }
         }
+    }
+
+    @Override
+    public void setEnvironment(MetadataEnvironment environment) {
+        this.environment = environment;
     }
 }

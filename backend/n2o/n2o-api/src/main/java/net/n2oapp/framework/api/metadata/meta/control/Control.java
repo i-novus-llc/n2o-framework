@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +15,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class Control implements Compiled {
-    private String id;
-    @JsonProperty("src")
-    private String controlSrc;
-    @JsonProperty
-    private String className;
+public abstract class Control extends Component {
 
     public boolean containsHimself(DataSet dataSet) {
         Object value = dataSet.get(getId());
