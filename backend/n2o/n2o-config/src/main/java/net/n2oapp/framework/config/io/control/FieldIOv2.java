@@ -42,6 +42,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
 
     private void dependency(Element e, N2oField.Dependency t, IOProcessor p) {
         p.attributeArray(e, "on", ",", t::getOn, t::setOn);
+        p.attributeBoolean(e, "apply-on-init", t::getApplyOnInit, t::setApplyOnInit);
         p.text(e, t::getValue, t::setValue);
     }
 

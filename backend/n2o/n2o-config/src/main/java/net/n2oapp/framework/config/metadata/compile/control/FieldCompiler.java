@@ -54,7 +54,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
         compileDefaultValues(field, source, p);
-        compileDependencies(field, source);
+        compileDependencies(field, source, p);
         initValidations(source, field, context, p);
         compileFilters(field, p);
     }
@@ -318,7 +318,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param field  клиентская модель элемента ввода
      * @param source исходная модель поля
      */
-    protected void compileDependencies(Field field, S source) {
+    protected void compileDependencies(Field field, S source, CompileProcessor p) {
 
         if (source.getDependencies() != null) {
             for (N2oField.Dependency d : source.getDependencies()) {
@@ -333,7 +333,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     dependency.setType(ValidationType.setValue);
 
                 dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
-                dependency.setApplyOnInit(true);
+                dependency.setApplyOnInit(p.cast(d.getApplyOnInit(), true));
                 if (d.getOn() != null)
                     dependency.getOn().addAll(Arrays.asList(d.getOn()));
 
