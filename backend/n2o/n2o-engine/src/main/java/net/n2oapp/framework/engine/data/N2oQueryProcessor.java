@@ -34,15 +34,17 @@ public class N2oQueryProcessor implements QueryProcessor {
     private N2oInvocationFactory invocationFactory;
     private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
     private DomainProcessor domainProcessor;
+    private QueryExceptionHandler exceptionHandler;
     private boolean pageStartsWith0;
 
     public N2oQueryProcessor(N2oInvocationFactory invocationFactory,
                              ContextProcessor contextProcessor,
-                             DomainProcessor domainProcessor) {
+                             DomainProcessor domainProcessor,
+                             QueryExceptionHandler exceptionHandler) {
         this.domainProcessor = domainProcessor;
         this.contextProcessor = contextProcessor;
         this.invocationFactory = invocationFactory;
-        this.pageStartsWith0 = pageStartsWith0;
+        this.exceptionHandler = exceptionHandler;
     }
 
     @SuppressWarnings("unchecked")
@@ -62,12 +64,20 @@ public class N2oQueryProcessor implements QueryProcessor {
         ActionInvocationEngine engine = invocationFactory.produce(selection.getInvocation().getClass());
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
-            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                    InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            try {
+                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
+                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            } catch (Exception e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         } else {
             Map<String, Object> map = new LinkedHashMap<>();
             InvocationParametersMapping.prepareMapForQuery(map, query, criteria);
-            result = engine.invoke(selection.getInvocation(), map);
+            try {
+                result = engine.invoke(selection.getInvocation(), map);
+            } catch (Exception e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         }
         return outMap(result, selection.getCountMapping(), Integer.class);
     }
@@ -136,16 +146,24 @@ public class N2oQueryProcessor implements QueryProcessor {
         ActionInvocationEngine engine = invocationFactory.produce(selection.getInvocation().getClass());
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
-
-            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                    InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            try {
+                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
+                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            } catch (UnsupportedOperationException e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         } else if (engine instanceof MapInvocationEngine) {
             Map<String, Object> map = new LinkedHashMap<>();
             InvocationParametersMapping.prepareMapForQuery(map, query, criteria);
             InvocationParametersMapping.prepareMapForPage(map, criteria, pageStartsWith0);
-            result = engine.invoke(selection.getInvocation(), map);
+            try {
+                result = engine.invoke(selection.getInvocation(), map);
+            } catch (UnsupportedOperationException e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         } else
             throw new UnsupportedOperationException("Engine invocation must be inherited from ArgumentsInvocationEngine or MapInvocationEngine");
+
         return result;
     }
 
