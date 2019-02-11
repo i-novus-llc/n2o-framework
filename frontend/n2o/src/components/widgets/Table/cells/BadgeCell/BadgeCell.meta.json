@@ -2,6 +2,8 @@
   "src" : "BadgeCell",
   "fieldKey": "name",
   "placement": "right",
-  "text": "`gender.name`",
+  "text": "`my.date`",
+  "format": "date dddd",
+  "badgeFormat": "password",
   "color": "`status == '1' ? 'success' : status == '2' ? 'danger' : 'primary'`"
 }
