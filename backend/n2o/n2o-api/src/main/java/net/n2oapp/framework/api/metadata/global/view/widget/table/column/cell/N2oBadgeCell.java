@@ -15,7 +15,11 @@ public class N2oBadgeCell extends N2oAbstractCell {
     private Position position;
     @JsonProperty
     private String text;
+    @JsonProperty("format")
+    private String textFormat;
     @JsonProperty
     private String color;
+    @JsonProperty("badgeFormat")
+    private String format;
     private N2oSwitch n2oSwitch;
 }

@@ -59,7 +59,9 @@ stories
         BadgeCellJson.color
       ),
       fieldKey: BadgeCellJson.fieldKey,
-      text: BadgeCellJson.text
+      text: BadgeCellJson.text,
+      format: BadgeCellJson.format,
+      badgeFormat: BadgeCellJson.badgeFormat
     };
 
     const props = {
@@ -83,8 +85,8 @@ stories
         {
           id: 1,
           name: 'Иван',
-          gender: {
-            name: 'Мужской'
+          my: {
+            date: '01.02.2003 04:05:06'
           },
           status: 1
         }
