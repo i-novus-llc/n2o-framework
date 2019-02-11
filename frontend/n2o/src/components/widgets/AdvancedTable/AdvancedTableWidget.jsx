@@ -12,6 +12,7 @@ class AdvancedTableWidget extends Component {
   getWidgetProps() {
     const {
       headers,
+      columns,
       cells,
       sorting,
       hasFocus,
@@ -29,6 +30,7 @@ class AdvancedTableWidget extends Component {
     const { resolveProps } = this.context;
     return {
       headers: values(resolveProps(headers)),
+      columns: values(resolveProps(columns)),
       cells: values(resolveProps(cells)),
       sorting,
       toolbar,

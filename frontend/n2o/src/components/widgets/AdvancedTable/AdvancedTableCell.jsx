@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { map, get } from 'lodash';
-import InputText from '../../controls/InputText/InputText';
-import PropTypes from 'prop-types';
+import columnHOC from '../Table/ColumnContainer';
+import TableCell from '../Table/TableCell';
+
+const ReduxCell = columnHOC(TableCell);
 
 class AdvancedTableCell extends Component {
   constructor(props) {
@@ -19,18 +21,6 @@ class AdvancedTableCell extends Component {
     this.getCellValue = this.getCellValue.bind(this);
   }
 
-  // componentDidMount() {
-  //   if (this.props.editable) {
-  //     document.addEventListener('click', this.handleClickOutside, true);
-  //   }
-  // }
-  //
-  // componentWillUnmount() {
-  //   if (this.props.editable) {
-  //     document.removeEventListener('click', this.handleClickOutside, true);
-  //   }
-  // }
-
   setInputRef(ref) {
     this.input = ref;
   }
@@ -39,20 +29,13 @@ class AdvancedTableCell extends Component {
     this.setState({ value });
   }
 
-  toggleEdit(event) {
+  toggleEdit() {
     const editing = !this.state.editing;
-    this.setState({ editing }, () => {
-      if (editing) {
-        // this.input && this.input.focus();
-      }
-    });
+    this.setState({ editing });
   }
 
   handleClickOutside(e) {
     const { editing } = this.state;
-    // if (editing && this.cell !== e.target && !this.cell.contains(e.target)) {
-    //   this.save();
-    // }
   }
 
   getCellValue() {
@@ -65,25 +48,12 @@ class AdvancedTableCell extends Component {
 
   render() {
     const { editing } = this.state;
-    const { editable, record, children, index } = this.props;
+    const { editable, record, children, index, src, redux, width } = this.props;
+    const cellContent = redux ? <TableCell /> : <ReduxCell />;
+
     return (
-      <td className="n2o-advanced-table-cell" onDoubleClick={this.toggleEdit}>
-        <div className="n2o-advanced-table-cell-content">
-          {record &&
-            record.children &&
-            index === 0 && <span className="n2o-advanced-table-indent" />}
-          {editable &&
-            editing && (
-              <InputText
-                value={this.state.value}
-                disabled={false}
-                onChange={this.onChange}
-                autoFocus={true}
-                onBlur={this.toggleEdit}
-              />
-            )}
-          {children}
-        </div>
+      <td className="n2o-advanced-table-cell">
+        <div className="n2o-advanced-table-cell-content">{children}</div>
       </td>
     );
   }

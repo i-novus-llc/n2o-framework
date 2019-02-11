@@ -29,14 +29,10 @@
   }
 
   &-cell-content {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-  }
-
-  &-editable-cell {
-    position: relative;
-
     & input {
       position: absolute;
       top: 0;

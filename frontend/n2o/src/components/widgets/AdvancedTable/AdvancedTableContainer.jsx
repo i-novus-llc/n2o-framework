@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { lifecycle, compose } from 'recompose';
-import { isEqual, find, isEmpty, debounce, pick, forOwn } from 'lodash';
+import { map, isEqual, find, isEmpty, debounce, pick, forOwn } from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import widgetContainer from '../WidgetContainer';
@@ -61,7 +61,8 @@ class AdvancedTableContainer extends React.Component {
   }
 
   renderHeaderCell(props) {
-    if (props.children) return props.label;
+    console.log('point');
+    console.log(props);
     const { redux } = this.props;
     const propStyles = pick(this.props, ['width']);
     let component = null;
@@ -89,23 +90,32 @@ class AdvancedTableContainer extends React.Component {
   }
 
   mapColumns() {
-    const { columns, cells, headers, widgetId, sorting, onSort } = this.props;
+    const { columns, cells, headers, widgetId, sorting, onSort, redux } = this.props;
     if (columns) {
+      return map(columns, (column, index) => {
+        return {
+          ...column,
+          index,
+          dataIndex: column.id,
+          key: column.id
+        };
+      });
     } else {
       return headers.map((header, index) => {
         const cell = find(cells, c => c.id === header.id);
         return {
           ...header,
-          // title: this.renderHeaderCell({
-          //   key: header.id,
-          //   columnId: header.id,
-          //   widgetId,
-          //   as: 'th',
-          //   sorting: sorting && sorting[header.id],
-          //   onSort,
-          //   ...header
-          // }),
+          title: this.renderHeaderCell({
+            key: header.id,
+            columnId: header.id,
+            widgetId,
+            as: 'th',
+            sorting: sorting && sorting[header.id],
+            onSort,
+            ...header
+          }),
           dataIndex: header.id,
+          columnId: header.id,
           key: header.id,
           render: (value, record, i) => (
             <AdvancedTableCellRenderer
@@ -161,7 +171,7 @@ class AdvancedTableContainer extends React.Component {
       className,
       hasFocus,
       rowColor,
-      columns: columns || this.mapColumns(),
+      columns: this.mapColumns(),
       data: this.state.data,
       tableSize,
       rowSelection,
@@ -171,7 +181,8 @@ class AdvancedTableContainer extends React.Component {
       hasSelect,
       onSetSelection,
       onFilter: this.onSetFilter,
-      isActive
+      isActive,
+      ...this.props
     };
   }
 
@@ -188,6 +199,7 @@ export default compose(
           widgetId: props.widgetId,
           pageId: props.pageId,
           headers: props.headers,
+          columns: props.columns,
           cells: props.cells,
           isAnyTableFocused: props.isAnyTableFocused,
           isActive: props.isActive,

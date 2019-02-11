@@ -13,6 +13,7 @@ import { id } from '../../../utils/id';
 import cloneObject from '../../../utils/cloneObject';
 import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import withPage from '../../../../.storybook/decorators/withPage';
+import AdvancedTable from './AdvancedTableContainer';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
 
@@ -20,6 +21,28 @@ const urlPattern = 'begin:n2o/data';
 
 stories
   .addDecorator(withPage(metadata))
+  .add('test', () => {
+    return (
+      <AdvancedTable
+        columns={[
+          {
+            title: 'test',
+            key: 'test',
+            dataIndex: 'test',
+            width: 100,
+            resizable: true
+          },
+          {
+            title: 'test1',
+            key: 'test1',
+            dataIndex: 'test1',
+            width: 100,
+            resizable: true
+          }
+        ]}
+      />
+    );
+  })
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
@@ -27,29 +50,55 @@ stories
       table: {
         ...metadata['Page_Table'].table,
         isActive: true,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'name',
-            sortable: false,
             title: 'Имя',
-            width: 200,
-            resizable: true
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
+            sortable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
             id: 'surname',
-            sortable: true,
             title: 'Фамилия',
-            width: 200,
-            resizable: true
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'birthday',
-            sortable: true,
-            width: 200,
-            title: 'Дата рождения'
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true
           }
         ]
       }
@@ -62,28 +111,51 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'name',
-            sortable: false,
             title: 'Имя',
-            width: 200,
+            width: 100,
+            className: 'name-cell',
+            dataIndex: 'name',
+            key: 'name',
             resizable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'surname',
-            sortable: true,
             title: 'Фамилия',
-            width: 200,
+            width: 100,
+            className: 'surname-cell',
+            dataIndex: 'surname',
+            key: 'surname',
             resizable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'birthday',
-            sortable: true,
-            title: 'Дата рождения'
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            resizable: true
           }
         ]
       }
@@ -97,6 +169,57 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
+        columns: [
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'name',
+            title: 'Имя',
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
+            sortable: true
+          },
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
+            id: 'surname',
+            title: 'Фамилия',
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true
+          },
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'birthday',
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true
+          }
+        ],
         rowSelection: true
       }
     };
@@ -109,29 +232,53 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'name',
-            sortable: false,
             title: 'Имя',
-            width: 200,
+            width: 100,
+            className: 'name-cell',
+            dataIndex: 'name',
+            key: 'name',
+            resizable: true,
             filterable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'surname',
-            sortable: true,
             title: 'Фамилия',
-            width: 200,
-            filterable: true,
-            resizable: true
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            resizable: true,
+            filterable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'birthday',
-            sortable: true,
-            title: 'Дата рождения'
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            resizable: true
           }
         ]
       }
@@ -156,6 +303,57 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
+        columns: [
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'name',
+            title: 'Имя',
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
+            sortable: true
+          },
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
+            id: 'surname',
+            title: 'Фамилия',
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true
+          },
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'birthday',
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true
+          }
+        ],
         expandable: true
       }
     };
@@ -167,26 +365,57 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'name',
-            sortable: false,
             title: 'Имя',
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
+            sortable: true,
             colSpan: 2
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
             id: 'surname',
-            sortable: true,
             title: 'Фамилия',
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true,
             colSpan: 0
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'birthday',
-            sortable: true,
-            title: 'Дата рождения'
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true
           }
         ]
       }
@@ -228,7 +457,57 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        rowSelection: true
+        columns: [
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'name',
+            title: 'Имя',
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
+            sortable: true
+          },
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
+            id: 'surname',
+            title: 'Фамилия',
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true
+          },
+          {
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'birthday',
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true
+          }
+        ]
       }
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
@@ -240,30 +519,55 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'name',
-            sortable: false,
             title: 'Имя',
-            width: 200,
-            filterable: true
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
+            sortable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
             id: 'surname',
-            sortable: true,
             title: 'Фамилия',
-            width: 200,
-            filterable: true,
-            resizable: true
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'birthday',
-            sortable: true,
             title: 'Дата рождения',
-            width: 200
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true
           }
         ],
         scroll: {
@@ -279,33 +583,61 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'name',
-            sortable: false,
             title: 'Имя',
-            fixed: 'left',
-            width: 200
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
+            sortable: true,
+            fixed: 'left'
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
             id: 'surname',
-            sortable: true,
             title: 'Фамилия',
-            width: 300
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true
           },
           {
-            src: 'TextTableHeader',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
             id: 'birthday',
-            sortable: true,
             title: 'Дата рождения',
-            fixed: 'right',
-            width: 200
+            width: 200,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true,
+            fixed: 'right'
           }
         ],
         scroll: {
-          x: 1500
+          x: '130%'
         }
       }
     };
@@ -317,39 +649,72 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
-            sortable: false,
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'name',
             title: 'Имя',
+            width: 100,
+            dataIndex: 'name',
+            key: 'name',
+            className: 'name-cell',
             children: [
               {
-                title: 'Заголовок 1',
-                dataIndex: 'street',
-                key: 'street',
-                src: 'TextTableHeader',
-                id: 'name'
+                id: 'name2',
+                title: 'Имя1',
+                width: 100,
+                dataIndex: 'name1',
+                key: 'name1',
+                className: 'name-cell'
               },
               {
-                title: 'Заголовок 2',
-                dataIndex: 'street',
-                key: 'street',
-                src: 'TextTableHeader',
-                id: 'ыгктфьу'
+                id: 'name2',
+                title: 'Имя2',
+                width: 100,
+                dataIndex: 'name2',
+                key: 'name2',
+                className: 'name-cell'
               }
             ]
           },
           {
-            sortable: true,
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
+            id: 'surname',
             title: 'Фамилия',
-            src: 'TextTableHeader',
-            id: 'surname'
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            sortable: true
           },
           {
-            sortable: true,
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            id: 'birthday',
             title: 'Дата рождения',
-            src: 'TextTableHeader',
-            id: 'birthday'
+            width: 200,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            sortable: true
           }
         ]
       }
@@ -371,25 +736,61 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        headers: [
+        columns: [
           {
-            src: 'TextTableHeader',
             id: 'name',
-            sortable: false,
-            title: 'Имя'
+            title: 'Имя',
+            width: 100,
+            className: 'name-cell',
+            dataIndex: 'name',
+            key: 'name',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            editable: true
           },
           {
-            src: 'TextTableHeader',
             id: 'surname',
-            sortable: true,
             title: 'Фамилия',
-            editable: record => record.editable
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'IconCell',
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            },
+            editable: true,
+            edit: {
+              src: 'InputText'
+            }
           },
           {
-            src: 'TextTableHeader',
             id: 'birthday',
-            sortable: true,
-            title: 'Дата рождения'
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            header: {
+              src: 'TextTableHeader'
+            },
+            cell: {
+              src: 'TextCell'
+            },
+            editable: true,
+            edit: {
+              src: 'InputText'
+            }
           }
         ]
       }

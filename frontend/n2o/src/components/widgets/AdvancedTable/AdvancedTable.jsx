@@ -6,7 +6,7 @@ import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
-import _, { find, isEqual } from 'lodash';
+import _, { find, isEqual, map, forOwn } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
@@ -19,11 +19,32 @@ import Menu, { Item, Divider } from 'rc-menu';
 import DropDown from 'rc-dropdown';
 import 'rc-dropdown/assets/index.css';
 import 'rc-menu/assets/index.css';
+import AdvancedTableCellRenderer from './AdvancedTableCellRenderer';
 
 export const getIndex = (data, selectedId) => {
   const index = _.findIndex(data, model => model.id == selectedId);
   return index >= 0 ? index : 0;
 };
+
+/**
+ * columns: {
+ *     title,
+ *     dataIndex,
+ *     id,
+ *     index,
+ *     model,
+ *     key,
+ *     width,
+ *     fixed,
+ *     sortable,
+ *     sorting,
+ *     resizable,
+ *     editable,
+ *     columnId,
+ *     widgetId,
+ *     onSort,
+ * }
+ */
 
 /**
  * Компонент Таблица
@@ -74,8 +95,8 @@ class AdvancedTable extends Component {
     }
     if (this.props.data && !isEqual(prevProps.data, this.props.data)) {
       const checked = {};
-      this.props.data.map(key => {
-        checked[key] = false;
+      map(this.props.data, item => {
+        checked[item.id] = false;
       });
       this.setState({
         data: this.props.data,
@@ -93,9 +114,14 @@ class AdvancedTable extends Component {
   componentDidMount() {
     const { isAnyTableFocused, isActive, focusIndex, selectIndex } = this.state;
     !isAnyTableFocused && isActive && this.setSelectAndFocus(selectIndex, focusIndex);
+    const checked = {};
+    map(this.props.data, item => {
+      checked[item.id] = false;
+    });
     this.setState({
       data: this.props.data,
-      columns: this.props.columns
+      columns: this.props.columns,
+      checked
     });
   }
 
@@ -173,7 +199,9 @@ class AdvancedTable extends Component {
     const checked = !event.target.checked;
     const newChecked = {};
     onSetSelection(checked ? _.toArray(this.props.data) : []);
-    Object.keys(this.state.checked).map(key => (newChecked[key] = checked));
+    forOwn(this.state.checked, (v, k) => {
+      newChecked[k] = checked;
+    });
     this.setState(() => ({
       checkedAll: checked,
       checked: newChecked
@@ -181,19 +209,27 @@ class AdvancedTable extends Component {
   }
 
   onChangeChecked(event, index) {
+    const { onSetSelection } = this.props;
     const checked = !event.target.checked;
-    this.setState(() => ({
-      checked: {
-        ...this.state.checked,
-        [index]: checked
+    let multi = [];
+    this.setState(
+      () => ({
+        checked: {
+          ...this.state.checked,
+          [index]: checked
+        }
+      }),
+      () => {
+        forOwn(this.state.checked, (v, k) => {
+          console.log(v, k);
+          if (v) {
+            const item = find(this.props.data, i => i.id.toString() === k.toString());
+            multi.push(item);
+          }
+        });
+        onSetSelection(multi);
       }
-    }));
-    const validIndexes = [
-      ...Object.keys(this.state.checked).filter(key => this.state.checked[key] === true && key)
-    ];
-    if (checked) {
-      validIndexes.push(index);
-    }
+    );
   }
 
   handleResize(index) {
@@ -210,9 +246,10 @@ class AdvancedTable extends Component {
   }
 
   getRowProps(model, index) {
-    const { isActive, rowColor } = this.props;
+    const { isActive, redux, rowColor } = this.props;
     return {
       index,
+      redux,
       isRowActive: index === this.state.selectIndex,
       color: rowColor && propsResolver(rowColor, model),
       setRef: this.setRowRef
@@ -232,35 +269,61 @@ class AdvancedTable extends Component {
       key: 'row-selection',
       className: 'n2o-advanced-table-selection-container',
       width: 50,
+      selectionHead: true,
       render: (value, model, index) => (
         <CheckboxN2O
           inline={true}
-          checked={this.state.checked[index]}
-          onChange={event => this.onChangeChecked(event, index)}
+          checked={this.state.checked[model.id]}
+          onChange={event => this.onChangeChecked(event, model.id)}
         />
       )
     };
   }
 
   mapColumns(columns) {
-    const { rowSelection } = this.props;
+    const { widgetId, rowSelection, redux, sorting, onSort } = this.props;
     let newColumns = columns;
-    if (rowSelection) {
-      newColumns = [this.createSelectionColumn(), ...newColumns];
-    }
+
     newColumns = newColumns.map((col, index) => ({
       ...col,
       onHeaderCell: column => ({
         ...column,
-        width: column.width,
+        dataIndex: column.id,
+        key: column.id,
         onResize: this.handleResize(index),
-        onFilter: this.onFilter
+        onFilter: this.onFilter,
+        columnId: column.id,
+        widgetId,
+        redux,
+        sorting,
+        onSort,
+        component: col.header && !col.selectionHead && col.header.component,
+        rowSelection: rowSelection
       }),
       onCell: (record, index) => ({
-        editable: col.editable && record.editable
-      })
+        editable: col.editable && record.editable,
+        component: !col.selectionHead && col.cell.component
+      }),
+      render: (value, row, index) => (
+        <AdvancedTableCellRenderer
+          value={value}
+          row={row}
+          index={index}
+          cell={col.cell}
+          component={col.cell.component}
+          columnId={col.id}
+          widgetId={widgetId}
+          redux={redux}
+          id={col.id}
+          width={col.width}
+          editable={col.editable && row.editable}
+          edit={col.edit}
+        />
+      )
     }));
-
+    if (rowSelection) {
+      newColumns = [this.createSelectionColumn(), ...newColumns];
+    }
     return newColumns;
   }
 

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pick } from 'lodash';
 import TableCell from '../Table/TableCell';
+import Factory from '../../../core/factory/Factory';
 import columnHOC from '../Table/ColumnContainer';
-import InputText from './AdvancedTableCell';
 
 const ReduxCell = columnHOC(TableCell);
 /**
@@ -19,22 +19,45 @@ class AdvancedTableCellRenderer extends React.Component {
     super(props);
 
     this.state = {
-      value: props.props.value
+      value: props.value,
+      editing: false
     };
+
+    this.toggleEdit = this.toggleEdit.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+
+  toggleEdit() {
+    this.setState({ editing: !this.state.editing });
+  }
+
+  onChange(value) {
+    this.setState({ value });
   }
 
   render() {
-    const { editing } = this.props;
-    const { record, editable, index } = this.props;
-    const { redux, propStyles } = this.props.props;
-    let component = null;
-    if (redux) {
-      component = <ReduxCell {...propStyles} {...this.props.props} as={'span'} />;
-    } else {
-      component = <TableCell {...propStyles} {...this.props.props} as={'span'} />;
-    }
+    const { component, redux, value, row, cell, editable, edit } = this.props;
+    const { editing } = this.state;
 
-    return component;
+    const cellContent = redux ? (
+      <ReduxCell {...this.props} {...cell} label={value} as={'span'} model={row} />
+    ) : (
+      <TableCell {...this.props} {...cell} label={value} as={'span'} model={row} />
+    );
+
+    return (
+      <div onDoubleClick={this.toggleEdit}>
+        {cellContent}
+        {editable &&
+          editing &&
+          React.createElement(edit.component, {
+            autoFocus: true,
+            value: this.state.value,
+            onChange: this.onChange,
+            onBlur: this.toggleEdit
+          })}
+      </div>
+    );
   }
 }
 
