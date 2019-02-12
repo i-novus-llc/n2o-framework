@@ -100,7 +100,8 @@ describe('Тесты pages reducer', () => {
       pageId: {
         loading: false,
         metadata: {},
-        error: false
+        error: false,
+        disabled: false
       }
     });
   });

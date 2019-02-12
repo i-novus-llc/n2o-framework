@@ -2,9 +2,9 @@ package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.local.view.CssClassAware;
 
 import java.util.Set;
 

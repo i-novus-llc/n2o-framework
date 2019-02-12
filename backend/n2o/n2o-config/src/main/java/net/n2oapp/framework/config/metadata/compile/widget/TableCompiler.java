@@ -22,6 +22,7 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
+
 import java.util.*;
 
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildExpressionForSwitch;
@@ -152,6 +153,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         column.setId(p.cast(column.getId(), column.getTextFieldId()));
         column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));
         header.setId(column.getId());
+        header.setWidth(column.getWidth());
         if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
             header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
         } else {

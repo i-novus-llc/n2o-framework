@@ -196,6 +196,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId)
       yield put(dataFailWidget(widgetId));
     }
   } catch (err) {
+    console.error(`JS Error: Widget(${widgetId}) fetch saga. ${err.message}`);
     yield put(
       dataFailWidget(
         widgetId,
@@ -203,7 +204,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId)
         err.body || {
           meta: generateErrorMeta({
             id: id(),
-            text: `JS Error: Widget(${widgetId}) fetch saga. ${err.message}`,
+            text: `Произошла внутренняя ошибка`,
             stacktrace: err.stack,
             closeButton: true
           })

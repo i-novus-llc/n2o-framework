@@ -24,10 +24,11 @@
     <xs:element name="select" type="controlSelectDefinition"/>
     <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
     <xs:element name="input-select" type="controlInputSelectDefinition"/>
-    <xs:element name="input-select-tree" type="controlSelectTreeDefinition"/>
+    <xs:element name="input-select-tree" type="inputSelectTreeDefinition"/>
     <xs:element name="search-buttons" type="controlSearchButtonsDefinition"/>
     <xs:element name="html" type="controlHtml"/>
-    <xs:element name="field" type="controlCustom"/>
+    <xs:element name="field" type="fieldCustom"/>
+    <xs:element name="text" type="controlText"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -48,15 +49,11 @@
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
             <!--<xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>-->
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
-            <xs:element name="input-select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>
+            <xs:element name="input-select-tree" type="inputSelectTreeDefinition" minOccurs="0"/>
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
             <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
-            <xs:element name="field" type="controlCustom" minOccurs="0"/>
-            <xs:any namespace="##other" processContents="strict">
-                <xs:annotation>
-                    <xs:documentation>Подключаемый через библиотеку компонент.</xs:documentation>
-                </xs:annotation>
-            </xs:any>
+            <xs:element name="field" type="fieldCustom" minOccurs="0"/>
+            <xs:element name="text" type="controlText"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -72,7 +69,6 @@
         <xs:attribute name="label-class" type="xs:string"/>
         <xs:attribute name="no-label" type="xs:boolean" default="false"/>
         <xs:attribute name="src" type="xs:string"/>
-        <xs:attribute name="field-src" type="xs:string"/>
         <xs:attribute name="class" type="xs:string"/>
         <xs:attribute name="placeholder" type="xs:string"/>
         <xs:attribute name="required" type="xs:boolean" default="false"/>
@@ -252,22 +248,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="updateModelDef">
-        <xs:sequence>
-            <xs:element name="pre-filters" minOccurs="0" maxOccurs="1">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="pre-filter" type="updateModelPreFilterDefinition"
-                                    maxOccurs="unbounded"
-                                    minOccurs="0"/>
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
-
-        </xs:sequence>
-        <xs:attribute name="query-id" use="required"/>
-        <xs:attribute name="value-field-id" use="optional"/>
-    </xs:complexType>
 
     <!--<xs:complexType name="updateModelPreFilterDefinition">-->
         <!--<xs:complexContent>-->
@@ -286,13 +266,40 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="controlCustom">
+    <xs:complexType name="controlText">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="src" use="required"/>
+                <xs:attribute name="format" type="xs:string"/>
                 <xs:anyAttribute namespace="##other"/>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="fieldCustom">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="controls">
+                        <xs:complexType>
+                            <xs:complexContent>
+                                <xs:extension base="controls">
+                                    <xs:sequence>
+                                        <xs:element name="control" type="controlCustom" minOccurs="0"/>
+                                    </xs:sequence>
+                                </xs:extension>
+                            </xs:complexContent>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:anyAttribute namespace="##other"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlCustom">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+        <xs:attribute name="src" type="xs:string"/>
+        <xs:anyAttribute namespace="##local" processContents="skip"/>
     </xs:complexType>
 
     <xs:complexType name="controlTextEditor">
@@ -434,14 +441,13 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="controlSelectTreeDefinition">
+    <xs:complexType name="inputSelectTreeDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:sequence>
                     <!--<xs:element name="grouping-nodes" type="groupingNodesDefinition"/>-->
                     <xs:element name="inheritance-nodes" type="inheritanceNodesDefinition"/>
                     <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
-                    <xs:element name="set-value" type="setValueListDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
                 <xs:attribute name="search" type="xs:boolean" use="optional" default="false"/>
@@ -450,14 +456,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="setValueListDefinition">
-        <xs:sequence>
-            <xs:element name="then" type="thenSetValue" maxOccurs="1"/>
-            <xs:element name="else" type="thenSetValue" maxOccurs="1" minOccurs="0"/>
-        </xs:sequence>
-        <xs:attribute name="if" type="xs:string" use="required"/>
-        <xs:attribute name="on"/>
-    </xs:complexType>
 
     <xs:complexType name="thenSetValue">
         <xs:sequence>
@@ -522,6 +520,7 @@
         <xs:attribute name="ref" type="xs:string" use="optional"/>
         <xs:attribute name="value" type="xs:string" use="optional"/>
         <xs:attribute name="type" type="searchTypeEnumeration" use="optional"/>
+        <xs:attribute name="required" type="xs:boolean" use="optional"/>
     </xs:complexType>
 
     <xs:simpleType name="searchTypeEnumeration">
@@ -584,6 +583,7 @@
 
     <xs:complexType name="baseDependencyDefinition" abstract="true">
         <xs:attribute name="on" type="xs:string"/>
+        <xs:attribute name="apply-on-init" type="xs:boolean" default="true"/>
     </xs:complexType>
 
     <xs:complexType name="visibilityDependencyDefinition" abstract="true">

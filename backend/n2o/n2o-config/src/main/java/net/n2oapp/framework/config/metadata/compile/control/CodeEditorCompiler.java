@@ -23,12 +23,16 @@ public class CodeEditorCompiler extends StandardFieldCompiler<CodeEditor, N2oCod
     @Override
     public StandardField<CodeEditor> compile(N2oCodeEditor source, CompileContext<?, ?> context, CompileProcessor p) {
         CodeEditor codeEditor = new CodeEditor();
-        codeEditor.setControlSrc(p.cast(codeEditor.getControlSrc(), p.resolve(property("n2o.api.control.code_editor.src"), String.class)));
         codeEditor.setName(p.resolveJS(source.getLabel()));
         codeEditor.setLang(source.getLanguage());
         codeEditor.setAutocomplete(true);
         codeEditor.setMinLines(1);
         codeEditor.setMaxLines(source.getRows());
         return compileStandardField(codeEditor, source, context, p);
+    }
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.code_editor.src";
     }
 }

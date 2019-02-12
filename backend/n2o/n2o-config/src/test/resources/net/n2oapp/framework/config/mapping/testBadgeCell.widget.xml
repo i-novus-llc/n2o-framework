@@ -2,7 +2,7 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testTable">
     <columns>
         <column text-field-id="name">
-            <badge text="{gender.name}" position="right" color="info">
+            <badge text="{my.date}" position="right" color="info" format="password" text-format="date dddd">
                 <switch value-field-id="status">
                     <case value="1">success</case>
                     <case value="2">danger</case>

@@ -30,9 +30,9 @@ public abstract class FieldSet implements Compiled {
     @JsonProperty
     private List<Row> rows;
     @JsonProperty
-    private String visible;
+    private Object visible;
     @JsonProperty
-    private String enabled;
+    private Object enabled;
     @JsonProperty
     private ControlDependency[] dependency;
 

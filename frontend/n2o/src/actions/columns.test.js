@@ -16,6 +16,8 @@ import {
 const widgetId = 'widgetId';
 const columnId = 'columnId';
 const label = 'label';
+const visible = 'label';
+const disabled = 'label';
 
 describe('Тесты для экшенов columns', () => {
   describe('Проверка экшена changeColumnVisibility', () => {
@@ -84,8 +86,10 @@ describe('Тесты для экшенов columns', () => {
       expect(action.type).toEqual(REGISTER_COLUMN);
     });
     it('Проверяет правильность payload', () => {
-      const action = registerColumn(widgetId, columnId, label);
+      const action = registerColumn(widgetId, columnId, label, visible, disabled);
       expect(action.payload.label).toEqual(label);
+      expect(action.payload.visible).toEqual(visible);
+      expect(action.payload.disabled).toEqual(disabled);
       expect(action.payload.columnId).toEqual(columnId);
       expect(action.payload.key).toEqual(widgetId);
     });

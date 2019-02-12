@@ -1,15 +1,15 @@
-import { select, takeEvery, put, call, all } from 'redux-saga/effects';
+import { takeEvery, select, put, call, all } from 'redux-saga/effects';
+import { every, filter, forOwn, get, has, isEmpty, values } from 'lodash';
 import { SET } from '../constants/models';
-import { REGISTER } from '../constants/widgets';
-import evalExpression from '../utils/evalExpression';
 import { getContainerButtons, toolbarSelector } from '../selectors/toolbar';
 import { changeButtonDisabled, changeButtonVisiblity } from '../actions/toolbar';
-import { get, every, values, has, filter } from 'lodash';
+import evalExpression from '../utils/evalExpression';
+import { REGISTER } from '../constants/widgets';
+import { REGISTER_BUTTON } from '../constants/toolbar';
 
 /**
  * резолв кондишена кнопки
  * @param conditions
- * @param modelLink
  * @param model
  * @returns {boolean}
  */
@@ -18,14 +18,6 @@ export const resolveConditions = (conditions = [], model) =>
   every(conditions, ({ expression, modelLink }) =>
     evalExpression(expression, get(model, modelLink, {}))
   );
-
-/**
- * резолв кондишена кнопки
- * @param conditions
- * @param modelLink
- * @param model
- * @returns {boolean}
- */
 
 export function* handleAction(action) {
   const buttons = yield select(getContainerButtons(action.payload.key || action.payload.widgetId));
@@ -58,6 +50,37 @@ export function* setParentVisibleIfAllChildChangeVisible({ key, id }) {
   }
 }
 
+export function checkOnNeed(button, modelLink) {
+  const { conditions } = button;
+  if (!conditions || isEmpty(conditions)) return false;
+  const { visible = [], enabled = [] } = conditions;
+  const cycleLength = visible.length > enabled.length ? visible.length : enabled.length;
+  for (let i = 0; i < cycleLength; i++) {
+    if (
+      (visible && visible[i] && visible[i].modelLink === modelLink) ||
+      (enabled && enabled[i] && enabled[i].modelLink === modelLink)
+    ) {
+      return button;
+    }
+  }
+  return false;
+}
+
+export function getDependencyButtons(toolbar, modelLink) {
+  const buttons = [];
+  forOwn(toolbar, value => {
+    if (!isEmpty(value)) {
+      forOwn(value, button => {
+        const neededButton = checkOnNeed(button, modelLink);
+        if (neededButton) {
+          buttons.push(neededButton);
+        }
+      });
+    }
+  });
+  return buttons;
+}
+
 /**
  * резолв всех условий
  * @param button
@@ -86,4 +109,15 @@ export function* resolveButton(button) {
   }
 }
 
-export const modelSagas = [takeEvery([SET, REGISTER], handleAction)];
+export function* updateButtonsConditions(action) {
+  const { payload } = action;
+  const modelLink = `models.${payload.prefix}['${payload.key}']`;
+  const toolbar = yield select(toolbarSelector);
+  const buttons = yield getDependencyButtons(toolbar, modelLink);
+  yield all(buttons.map(button => call(resolveButton, button)));
+}
+
+export const toolbarSagas = [
+  takeEvery([SET], updateButtonsConditions),
+  takeEvery([REGISTER, REGISTER_BUTTON], handleAction)
+];

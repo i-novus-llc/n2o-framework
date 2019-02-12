@@ -31,7 +31,7 @@ public class TextEditorJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testTextEditor.widget.xml",
                 "components/controls/TextEditor/TextEditor.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "disabled", "visible", "toolbarConfig")
+                .exclude("src", "id", "disabled", "visible", "toolbarConfig")
                 .assertEquals(new WidgetContext("testTextEditor"));
     }
 

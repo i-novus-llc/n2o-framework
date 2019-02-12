@@ -42,6 +42,7 @@ public class SelectivePersister implements PersistersBuilder<SelectivePersister>
             boolean similar = diff.similar();
             logger.debug("Comparing two xml..." +
                     "\nSource:\n{}\nPersisted:\n{}\nSimilar? {}\nIdentical? {}", s2, s1, similar, diff.identical());
+            logger.debug(diff.toString());
             return similar;
         } catch (Exception e) {
             throw new RuntimeException(e);

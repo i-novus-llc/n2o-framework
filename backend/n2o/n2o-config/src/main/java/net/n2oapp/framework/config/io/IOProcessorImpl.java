@@ -815,7 +815,7 @@ public final class IOProcessorImpl implements IOProcessor {
                 } else {
                     N2oNamespace namespace = new N2oNamespace(attribute.getNamespace());
                     extensions.putIfAbsent(namespace, new HashMap<>());
-                    extensions.get(namespace).put(attribute.getName(), attribute.getValue());
+                    extensions.get(namespace).put(attribute.getName(), process(attribute.getValue()));
                 }
             }
             setter.accept(extensions);

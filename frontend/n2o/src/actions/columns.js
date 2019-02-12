@@ -56,8 +56,16 @@ export function changeColumnDisabled(widgetId, columnId, disabled) {
  * @param widgetId
  * @param columnId
  * @param label
+ * @param disabled
+ * @param visible
  * @returns {*}
  */
-export function registerColumn(widgetId, columnId, label) {
-  return createActionHelper(REGISTER_COLUMN)({ label, columnId, key: widgetId });
+export function registerColumn(widgetId, columnId, label, visible, disabled) {
+  return createActionHelper(REGISTER_COLUMN)({
+    key: widgetId,
+    columnId,
+    label,
+    visible,
+    disabled
+  });
 }

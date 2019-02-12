@@ -17,14 +17,14 @@ import { widgetSetSort } from '../../../actions/widgets';
 import TextTableHeader from './headers/TextTableHeader';
 import TextCell from './cells/TextCell/TextCell';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
-import columnHOC from './ColumnContainer';
+import withColumn from './withColumn';
 
 export const getIndex = (datasource, selectedId) => {
   const index = _.findIndex(datasource, model => model.id == selectedId);
   return index >= 0 ? index : 0;
 };
 
-const ReduxCell = columnHOC(TableCell);
+const ReduxCell = withColumn(TableCell);
 
 /**
  * Компонент таблицы.
@@ -119,14 +119,19 @@ class Table extends React.Component {
   }
 
   handleRow(id, index, noResolve) {
-    const { datasource, hasFocus, hasSelect } = this.props;
+    const { datasource, hasFocus, hasSelect, onRowClickAction, rowClick } = this.props;
+
     hasSelect && !noResolve && this.props.onResolve(_.find(datasource, { id }));
-    if (hasSelect && hasFocus) {
+
+    if (hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(index, index);
     } else if (hasFocus) {
       this.setNewFocusIndex(index);
-    } else if (hasSelect) {
+    } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(index);
+    }
+    if (rowClick) {
+      onRowClickAction();
     }
   }
 
@@ -273,7 +278,7 @@ class Table extends React.Component {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={headers.length} style={{ textAlign: 'center' }}>
+                  <TableCell colSpan={headers && headers.length} style={{ textAlign: 'center' }}>
                     <span className="text-muted">
                       <FormattedMessage
                         id="table.notFound"
@@ -312,13 +317,16 @@ Table.propTypes = {
   datasource: PropTypes.array,
   resolveModel: PropTypes.object,
   onResolve: PropTypes.func,
-  onFocus: PropTypes.func
+  onFocus: PropTypes.func,
+  onRowClickAction: PropTypes.func,
+  rowClick: PropTypes.object
 };
 
 Table.defaultProps = {
   sorting: {},
   onResolve: () => {},
-  redux: false
+  redux: false,
+  onRowClickAction: () => {}
 };
 
 Table.Header = TableHeader;

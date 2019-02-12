@@ -8,13 +8,17 @@ import net.n2oapp.framework.api.metadata.meta.control.MaskedInput;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция поля с маской для ввода текста
  */
 @Component
 public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oMaskedInput> {
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.maskedinput.src";
+    }
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -27,7 +31,6 @@ public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oM
         maskedInput.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         maskedInput.setMask(p.resolveJS(source.getMask()));
         maskedInput.setClassName(source.getCssClass());
-        maskedInput.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.maskedinput.src"), String.class)));
         return compileStandardField(maskedInput, source, context, p);
     }
 }

@@ -8,7 +8,8 @@ import {
   makePageActionsByIdSelector,
   makePageToolbarByIdSelector,
   makePageErrorByIdSelector,
-  makePageTitleByIdSelector
+  makePageTitleByIdSelector,
+  makePageDisabledByIdSelector
 } from './pages';
 
 const state = {
@@ -27,6 +28,7 @@ const state = {
       },
       loading: true,
       error: false,
+      disabled: true,
       routes: [
         {
           route: 'route'
@@ -77,5 +79,8 @@ describe('Проверка селекторов pages', () => {
   });
   it('makePageTitleByIdSelector должен вернуть title по id', () => {
     expect(makePageTitleByIdSelector('_')(state)).toEqual(state.pages._.metadata.page.title);
+  });
+  it('makePageDisabledByIdSelector должен вернуть disabled по id', () => {
+    expect(makePageDisabledByIdSelector('_')(state)).toEqual(state.pages._.disabled);
   });
 });

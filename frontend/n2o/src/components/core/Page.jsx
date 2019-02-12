@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import cn from 'classnames';
 import { isEmpty, filter, find, isEqual, has, get, clone, setWith, curry } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange, branch, getContext } from 'recompose';
@@ -17,7 +18,8 @@ import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
 import {
   makePageMetadataByIdSelector,
   makePageLoadingByIdSelector,
-  makePageErrorByIdSelector
+  makePageErrorByIdSelector,
+  makePageDisabledByIdSelector
 } from '../../selectors/pages';
 import { getLocation } from '../../selectors/global';
 import withActions from './withActions';
@@ -89,10 +91,12 @@ class PageContainer extends React.Component {
       toolbar,
       actions,
       containerKey,
-      error
+      error,
+      disabled,
+      pageId
     } = this.props;
     return (
-      <React.Fragment>
+      <div className={cn({ 'n2o-disabled-page': disabled })}>
         {error && <Alert {...error} visible />}
         {!isEmpty(metadata) && metadata.page && <DocumentTitle {...metadata.page} />}
         {!isEmpty(metadata) &&
@@ -105,8 +109,18 @@ class PageContainer extends React.Component {
         {toolbar &&
           (toolbar.topLeft || toolbar.topRight) && (
             <div className="n2o-page-actions">
-              <Actions toolbar={toolbar.topLeft} actions={actions} containerKey={containerKey} />
-              <Actions toolbar={toolbar.topRight} actions={actions} containerKey={containerKey} />
+              <Actions
+                toolbar={toolbar.topLeft}
+                actions={actions}
+                containerKey={containerKey}
+                pageId={pageId}
+              />
+              <Actions
+                toolbar={toolbar.topRight}
+                actions={actions}
+                containerKey={containerKey}
+                pageId={pageId}
+              />
             </div>
           )}
         <div className="n2o-page">
@@ -132,15 +146,21 @@ class PageContainer extends React.Component {
         {toolbar &&
           (toolbar.bottomLeft || toolbar.bottomRight) && (
             <div className="n2o-page-actions">
-              <Actions toolbar={toolbar.bottomLeft} actions={actions} containerKey={containerKey} />
+              <Actions
+                toolbar={toolbar.bottomLeft}
+                actions={actions}
+                containerKey={containerKey}
+                pageId={pageId}
+              />
               <Actions
                 toolbar={toolbar.bottomRight}
                 actions={actions}
                 containerKey={containerKey}
+                pageId={pageId}
               />
             </div>
           )}
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -172,6 +192,9 @@ const mapStateToProps = createStructuredSelector({
   error: (state, { pageId }) => {
     return makePageErrorByIdSelector(pageId)(state);
   },
+  disabled: (state, { pageId }) => {
+    return makePageDisabledByIdSelector(pageId)(state);
+  },
   location: getLocation
 });
 
@@ -184,6 +207,8 @@ function mapDispatchToProps(dispatch, { pageId, rootPage, pageUrl, pageMapping }
     routeMap: () => dispatch(mapUrl(pageId))
   };
 }
+
+export { PageContainer };
 
 export default compose(
   branch(({ rootPage }) => rootPage, withActions),

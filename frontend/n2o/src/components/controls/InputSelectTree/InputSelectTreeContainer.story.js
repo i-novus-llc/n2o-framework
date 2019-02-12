@@ -36,7 +36,7 @@ const data = [
     dob: '24.04.1891',
     country: 'Россия',
     parentId: '1',
-    hasChildren: false
+    hasChildren: true
   },
   {
     id: '3',
@@ -45,7 +45,27 @@ const data = [
     image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_511.png',
     dob: '03.12.1981',
     country: 'США',
+    parentId: '2',
+    hasChildren: false
+  },
+  {
+    id: '44',
+    name: 'Игонь Николаев',
+    icon: 'fa fa-address-card',
+    image: 'https://img.faceyourmanga.com/mangatars/0/2/2729/large_3156.png',
+    dob: '24.04.1891',
+    country: 'Россия',
     parentId: '1',
+    hasChildren: true
+  },
+  {
+    id: '444',
+    name: 'Владимир Серпухов',
+    icon: 'fa fa-address-card',
+    image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_511.png',
+    dob: '03.12.1981',
+    country: 'США',
+    parentId: '44',
     hasChildren: false
   },
   {

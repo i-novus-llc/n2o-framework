@@ -200,59 +200,63 @@
         <xs:annotation>
             <xs:documentation>Пункт выпадающего меню.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="action-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="label" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Заголовок пункта меню.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="icon" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Иконка пункта меню.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="class" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Стиль пункта меню.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="validate" type="xs:boolean" use="optional" default="false">
-            <xs:annotation>
-                <xs:documentation>Валидировать ли форму при нажатии на кнопку.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="visible" type="xs:boolean" use="optional">
-            <xs:annotation>
-                <xs:documentation>Видимость по умолчанию.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="visibility-condition" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Условие видимости.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="enabling-condition" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Условие доступности.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="widget-id" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Идентификатор виджета над которым будет выполнена операция. По умолчанию
-                    главный
-                    виджет страницы(если он один).
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:anyAttribute>
-            <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-            </xs:annotation>
-        </xs:anyAttribute>
+        <xs:complexContent>
+            <xs:extension base="acn:actions">
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок пункта меню.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Иконка пункта меню.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Стиль пункта меню.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="validate" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Валидировать ли форму при нажатии на кнопку.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visible" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Видимость по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="visibility-condition" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие видимости.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabling-condition" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Условие доступности.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="widget-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор виджета над которым будет выполнена операция. По умолчанию
+                            главный
+                            виджет страницы(если он один).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:simpleType name="textType">

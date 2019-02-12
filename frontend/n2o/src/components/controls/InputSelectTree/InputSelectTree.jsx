@@ -3,11 +3,17 @@ import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
 import {
   difference,
   filter as filterF,
+  eq,
+  every,
   find,
   isArray,
+  isString,
   isEmpty,
   keys,
+  forEach,
   map,
+  reduce,
+  memoize,
   some,
   uniq,
   uniqBy,
@@ -100,6 +106,7 @@ function InputSelectTree({
   intl,
   dropdownPopupAlign,
   ref,
+  showCheckedStrategy,
   ...rest
 }) {
   const popupProps = {
@@ -118,7 +125,7 @@ function InputSelectTree({
    * @param items
    * @returns {*}
    */
-  const createTree = items => {
+  const createTree = memoize(items => {
     let itemsByID = [...items].reduce(
       (acc, item) => ({
         ...acc,
@@ -144,7 +151,7 @@ function InputSelectTree({
     return keys(itemsByID)
       .filter(key => !itemsByID[key][parentFieldId])
       .reduce((acc, key) => [...acc, { ...itemsByID[key] }], []);
-  };
+  });
 
   /**
    * Если нет data но есть value
@@ -177,17 +184,102 @@ function InputSelectTree({
   };
 
   /**
+   * Взять данные по ids.
+   * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
+   * @param ids
+   */
+  const getDataByIds = ids => filterF(data, node => some(ids, v => v === node[valueFieldId]));
+
+  /**
+   * Берет всех потомков у родителей
+   * @param ids
+   * @param arrData
+   */
+  const getChildWithParenId = (ids, arrData) => {
+    let buff = getDataByIds(ids);
+
+    // рекурсивно спускаемся вниз ко всем потомкам
+    // и добавляем потомков в буфер
+    const recursionFn = ids =>
+      forEach(ids, id => {
+        const childs = filterF(arrData, [parentFieldId, id]);
+        buff = buff.concat(childs);
+        recursionFn(map(childs, valueFieldId));
+      });
+
+    recursionFn(ids, arrData);
+    return buff;
+  };
+
+  /**
+   * Берет всех родителей у потомков
+   * если все потомки выделены
+   * @param ids
+   * @param arrData
+   */
+  const getParentsWithChildId = (ids, arrData) => {
+    let buff = getDataByIds(ids);
+
+    // Берем только те id потомков у которых выделены
+    // родители
+    const recursionFn = ids => {
+      let parentBuff = [];
+
+      forEach(ids, id => {
+        const node = find(arrData, { id });
+        const parentIdNode = node[parentFieldId];
+        if (!parentIdNode) {
+          return false;
+        }
+
+        const allParendChilds = filterF(arrData, [parentFieldId, parentIdNode]);
+        const hasParentAllChildsCheck = every(allParendChilds, child =>
+          ids.includes(child[valueFieldId])
+        );
+
+        if (hasParentAllChildsCheck) {
+          parentBuff.push(parentIdNode);
+          const buffHasParent = find(buff, { id: parentIdNode });
+          if (!buffHasParent) {
+            buff.push(find(arrData, { id: parentIdNode }));
+          }
+        }
+      });
+
+      if (!isEmpty(parentBuff)) {
+        recursionFn(parentBuff);
+      }
+    };
+
+    recursionFn(ids, arrData);
+    return buff;
+  };
+
+  /**
    * Функция преобразования value rcTreeSelect в формат n2o
+   * Производит поиск по родителям и потомкам.
+   * rcTreeSelect не дает информации о выделенных потомках при моде 'SHOW_PARENT'
+   * и о выделенных родителях при 'SHOW_CHILD'
    * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
    * @param value
    * @returns {*}
    */
   const getItemByValue = value => {
     if (!value) return null;
-    if (isArray(value)) {
-      return filterF(data, node => some(value, v => v === node[valueFieldId]));
+    if (isString(value)) {
+      return find(data, [valueFieldId, value]);
     }
-    return find(data, [valueFieldId, value]);
+
+    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
+      return getChildWithParenId(value, data);
+    }
+
+    if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
+      return getParentsWithChildId(value, data);
+    }
+
+    // стратегия SHOW_ALL
+    return getDataByIds(value);
   };
 
   /**
@@ -281,6 +373,7 @@ function InputSelectTree({
       onTreeExpand={onTreeExpand}
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
+      showCheckedStrategy={showCheckedStrategy}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
         defaultMessage: notFoundContent || ' '
@@ -296,12 +389,12 @@ function InputSelectTree({
       ref={e => {
         if (e) {
           ref && ref(e);
-          e.onSelectorBlur = e => {
-            onBlur(e);
+          e.onSelectorBlur = event => {
+            onBlur(event);
             return true;
           };
-          e.onSelectorFocus = e => {
-            onFocus(e);
+          e.onSelectorFocus = event => {
+            onFocus(event);
             return true;
           };
         }

@@ -8,13 +8,18 @@ import net.n2oapp.framework.api.metadata.meta.control.HtmlControl;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция html контрола
  */
 @Component
 public class HtmlControlCompiler extends StandardFieldCompiler<HtmlControl, N2oHtml> {
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.html.src";
+    }
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oHtml.class;
@@ -23,7 +28,6 @@ public class HtmlControlCompiler extends StandardFieldCompiler<HtmlControl, N2oH
     @Override
     public StandardField<HtmlControl> compile(N2oHtml source, CompileContext<?, ?> context, CompileProcessor p) {
         HtmlControl htmlControl = new HtmlControl();
-        htmlControl.setControlSrc(p.cast(htmlControl.getControlSrc(), p.resolve(property("n2o.api.control.html.src"), String.class)));
         return compileStandardField(htmlControl, source, context, p);
     }
 }
