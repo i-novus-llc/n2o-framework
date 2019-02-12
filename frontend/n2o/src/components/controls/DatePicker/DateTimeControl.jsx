@@ -119,17 +119,41 @@ class DateTimeControl extends React.Component {
    * Выбор даты, прокидывается в календарь
    */
   select(day, inputName, close = true) {
+    const { inputs } = this.state;
     let { locale } = this.props;
-    this.setState(
-      {
-        inputs: { ...this.state.inputs, [inputName]: day },
-        isPopUpVisible:
-          inputName === DateTimeControl.beginInputName ||
-          inputName === DateTimeControl.endInputName ||
-          !close
-      },
-      () => inputName === DateTimeControl.defaultInputName && this.onChange(inputName)
-    );
+    if (
+      inputName === DateTimeControl.defaultInputName ||
+      inputName === DateTimeControl.beginInputName ||
+      (inputName === DateTimeControl.endInputName && !inputs[DateTimeControl.beginInputName]) ||
+      (inputName === DateTimeControl.endInputName &&
+        moment(day).isSameOrAfter(inputs[DateTimeControl.beginInputName]))
+    ) {
+      const inputValue = () => {
+        if (
+          inputName === DateTimeControl.beginInputName &&
+          inputs[DateTimeControl.endInputName] &&
+          moment(day).isAfter(inputs[DateTimeControl.endInputName])
+        ) {
+          return {
+            [inputName]: day,
+            [DateTimeControl.endInputName]: null
+          };
+        }
+        return {
+          [inputName]: day
+        };
+      };
+      this.setState(
+        {
+          inputs: { ...this.state.inputs, ...inputValue() },
+          isPopUpVisible:
+            inputName === DateTimeControl.beginInputName ||
+            inputName === DateTimeControl.endInputName ||
+            !close
+        },
+        () => inputName === DateTimeControl.defaultInputName && this.onChange(inputName)
+      );
+    }
   }
   /**
    * Выбор даты, прокидывается в инпут
