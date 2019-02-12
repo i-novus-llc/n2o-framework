@@ -122,22 +122,30 @@ class DateTimeControl extends React.Component {
     const { inputs } = this.state;
     let { locale } = this.props;
     if (
-      (inputs[DateTimeControl.beginInputName] === null &&
-        inputs[DateTimeControl.endInputName] === null) ||
-      (inputs[DateTimeControl.beginInputName] === null &&
-        inputName === DateTimeControl.beginInputName &&
-        moment(day).isSameOrBefore(inputs[DateTimeControl.endInputName])) ||
-      (inputs[DateTimeControl.endInputName] === null &&
-        inputName === DateTimeControl.endInputName &&
-        moment(day).isSameOrAfter(inputs[DateTimeControl.beginInputName])) ||
+      inputName === DateTimeControl.defaultInputName ||
+      inputName === DateTimeControl.beginInputName ||
+      (inputName === DateTimeControl.endInputName && !inputs[DateTimeControl.beginInputName]) ||
       (inputName === DateTimeControl.endInputName &&
-        moment(day).isSameOrAfter(inputs[DateTimeControl.beginInputName])) ||
-      (inputName === DateTimeControl.beginInputName &&
-        moment(day).isSameOrBefore(inputs[DateTimeControl.endInputName]))
+        moment(day).isSameOrAfter(inputs[DateTimeControl.beginInputName]))
     ) {
+      const inputValue = () => {
+        if (
+          inputName === DateTimeControl.beginInputName &&
+          inputs[DateTimeControl.endInputName] &&
+          moment(day).isAfter(inputs[DateTimeControl.endInputName])
+        ) {
+          return {
+            [inputName]: day,
+            [DateTimeControl.endInputName]: null
+          };
+        }
+        return {
+          [inputName]: day
+        };
+      };
       this.setState(
         {
-          inputs: { ...this.state.inputs, [inputName]: day },
+          inputs: { ...this.state.inputs, ...inputValue() },
           isPopUpVisible:
             inputName === DateTimeControl.beginInputName ||
             inputName === DateTimeControl.endInputName ||
