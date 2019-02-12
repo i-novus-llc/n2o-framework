@@ -46,7 +46,7 @@ public class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveLinks("#{test}"), is("#{test}"));
         assertThat(ScriptProcessor.resolveLinks("`test`"), is("`test`"));
         assertThat(ScriptProcessor.resolveLinks("true"), is("true"));
-        assertThat(ScriptProcessor.resolveLinks("false"), is("`false`"));
+        assertThat(ScriptProcessor.resolveLinks("false"), is("false"));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveArrayExpression("1"), is(Collections.singletonList(1)));
         assertThat(ScriptProcessor.resolveArrayExpression("1", "2"), is(Arrays.asList(1, 2)));
         assertThat(ScriptProcessor.resolveArrayExpression("Test1", "Test2"), is(Arrays.asList("Test1", "Test2")));
-        assertThat(ScriptProcessor.resolveArrayExpression("true", "false"), is(Arrays.asList(true, "`false`")));
+        assertThat(ScriptProcessor.resolveArrayExpression("true", "false"), is(Arrays.asList(true, false)));
         //todo реализовать для сложных вариантов
         //assertThat( scriptProcessor.resolveArrayExpression("{id}"), is("`[id]`"));
         //assertThat( scriptProcessor.resolveArrayExpression("{id1}", "{id2}"), is("`[id1,id2]`"));
@@ -81,11 +81,12 @@ public class ScriptProcessorTest {
     @Test
     public void invertExpression() {
         assertThat(ScriptProcessor.invertExpression("{check}"), is("`!(check)`"));
-        assertThat(ScriptProcessor.invertExpression("true"), is(true));
+        assertThat(ScriptProcessor.invertExpression("true"), is(false));
+        assertThat(ScriptProcessor.invertExpression("false"), is(true));
     }
 
     @Test
-    public void testResolveFuction() {
+    public void testResolveFunction() {
         assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
         assertThat(ScriptProcessor.resolveFunction("gender.id == 1"), is("gender.id == 1"));
         assertThat(ScriptProcessor.resolveFunction("function(){if (gender.id = 1) return 'М'; else return 'Ж';}"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));

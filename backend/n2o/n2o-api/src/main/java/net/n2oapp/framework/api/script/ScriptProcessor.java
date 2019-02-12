@@ -81,8 +81,6 @@ public class ScriptProcessor {
                 return expr.replaceAll("#<", "#{").replaceAll("\\$<", "\\${").replaceAll(">>", "}");
             }
         }
-        if (text.equals("false"))
-            return toJsExpression(text);//"false" as String is true for JavaScript
         return text;
     }
 
@@ -152,6 +150,8 @@ public class ScriptProcessor {
         Object result = resolveExpression(text);
         if (result == null)
             return null;
+        if (result instanceof Boolean)
+            return !(Boolean)result;
         if (!StringUtils.isJs(result))
             return result;
         String expr = (String) result;
