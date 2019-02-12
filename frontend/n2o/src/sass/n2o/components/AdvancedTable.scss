@@ -1,7 +1,19 @@
 .n2o-advanced-table {
 
+  & th[colspan] {
+    text-align: center;
+  }
+
+  & .n2o-advanced-table-expanded-row:hover {
+    background-color: transparent;
+  }
+
   &-content {
     position: relative;
+  }
+
+  &-expanded-row-content {
+    padding: 0 20px;
   }
 
   &-fixed-left {
@@ -28,12 +40,29 @@
     outline: none;
   }
 
+  &-nested table tr:hover {
+    background-color: transparent;
+  }
+
+  &-editable-cell {
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: text;
+    &:hover {
+      border: 1px solid #40a9ff;
+      box-shadow: 0 0 3px 1px #40a9ff;
+      transition: 0.4s;
+    }
+  }
+
   &-cell-content {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     & .n2o-advanced-table-edit-control {
+      width: 100%;
       position: absolute;
       top: 0;
       height: 100%;
@@ -41,20 +70,37 @@
   }
 
   &-expand {
-    margin-right: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
 
     cursor: pointer;
 
     font-size: 12px;
+
+    &:hover {
+      background-color: #ced3d6;
+      transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    & i {
+      position: absolute;
+      top: calc(50% - 5px);
+      left: calc(50% - 6px);
+    }
   }
 
 
-  &-selection-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-  }
+&-selection-container {
+  width: 50px !important;
+  max-width: 50px !important
+}
 
   &-header-cell {
     background-color: white;
@@ -79,12 +125,18 @@
 
     & .n2o-input {
       height: 32px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       box-sizing: border-box;
     }
 
     &-btn {
       border-radius: 5px;
     }
+  }
+}
+
+.n2o-advanced-table {
+  & .react-resizable-handle {
+    cursor: col-resize;
   }
 }

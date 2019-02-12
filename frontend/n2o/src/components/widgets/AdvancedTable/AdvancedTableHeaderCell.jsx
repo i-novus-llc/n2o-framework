@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { pick } from 'lodash';
+import { pick, isArray, isString } from 'lodash';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
-import Factory from '../../../core/factory/Factory';
 import 'react-resizable/css/styles.css';
 import AdvancedTableFilter from './AdvancedTableFilter';
 import columnHOC from '../Table/ColumnContainer';
@@ -19,50 +19,108 @@ class AdvancedTableHeaderCell extends Component {
     };
 
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
+    this.renderCell = this.renderCell.bind(this);
+    this.renderMultiCell = this.renderMultiCell.bind(this);
+    this.getCellContent = this.getCellContent.bind(this);
+    this.renderStringChild = this.renderStringChild.bind(this);
+    this.renderSelectionBox = this.renderSelectionBox.bind(this);
   }
 
   handleVisibleChange(visible) {
     this.setState({ visible });
   }
 
-  render() {
+  getCellContent(props) {
+    const { redux } = this.props;
+    const propStyles = pick(this.props, ['width']);
+    return redux ? (
+      <ReduxCell {...propStyles} {...props} />
+    ) : (
+      <TableCell {...propStyles} {...props} />
+    );
+  }
+
+  renderMultiCell() {
+    const { id, colSpan, rowSpan, className, title, label, sorting, onSort, columnId } = this.props;
+
+    return (
+      <th colSpan={colSpan} rowSpan={rowSpan}>
+        {this.getCellContent({
+          id,
+          columnId,
+          className,
+          key: id,
+          component: title,
+          label,
+          value: label,
+          as: 'div',
+          sorting,
+          onSort
+        })}
+      </th>
+    );
+  }
+
+  renderStringChild() {
+    const { className, children } = this.props;
+    return <th className={className}>{children}</th>;
+  }
+
+  renderSelectionBox() {
+    const { children } = this.props;
+    return children;
+  }
+
+  renderCell() {
     const {
       id,
-      width,
-      onFilter,
-      onResize,
-      className,
-      redux,
-      title,
-      component,
+      multiHeader,
+      columnId,
+      sorting,
+      onSort,
+      children,
+      selectionHead,
+      selectionClass,
+      index,
       filterable,
-      resizable,
-      rowSelection,
-      selectionHead
+      colSpan,
+      rowSpan,
+      className,
+      title,
+      label,
+      onFilter
     } = this.props;
 
-    const propStyles = pick(this.props, ['width']);
-    const cellContent = redux ? (
-      <ReduxCell
-        className={className}
-        {...propStyles}
-        {...this.props}
-        component={this.props.component}
-        label={title}
-        as={'div'}
-      />
-    ) : (
-      <TableCell
-        className={className}
-        {...propStyles}
-        {...this.props}
-        component={this.props.component}
-        as={'div'}
-      />
-    );
+    let cellContent = null;
+
+    if (isString(children)) {
+      return this.renderStringChild();
+    } else if (multiHeader && isArray(children)) {
+      return this.renderMultiCell();
+    } else if (selectionHead) {
+      cellContent = this.renderSelectionBox();
+    } else {
+      cellContent = this.getCellContent({
+        id,
+        index,
+        columnId,
+        className,
+        key: id,
+        component: title,
+        label,
+        value: label,
+        as: 'div',
+        sorting,
+        onSort
+      });
+    }
 
     const cell = (
-      <th className="n2o-advanced-table-header-cell">
+      <th
+        rowSpan={rowSpan}
+        colSpan={colSpan}
+        className={cn('n2o-advanced-table-header-cel', { [selectionClass]: selectionHead })}
+      >
         <div className="n2o-advanced-table-header-cell-content">
           {filterable ? (
             <AdvancedTableFilter
@@ -71,72 +129,67 @@ class AdvancedTableHeaderCell extends Component {
               visible={this.state.visible}
               onFilter={onFilter}
             >
-              {!selectionHead ? cellContent : this.props.children}
+              {cellContent}
             </AdvancedTableFilter>
-          ) : !selectionHead ? (
-            cellContent
           ) : (
-            this.props.children
+            cellContent
           )}
         </div>
       </th>
     );
+
+    return cell;
+  }
+
+  render() {
+    const { width, onResize, resizable } = this.props;
+
     return (
       <React.Fragment>
         {resizable && width ? (
           <Resizable width={width} height={0} onResize={onResize}>
-            {cell}
+            {this.renderCell()}
           </Resizable>
         ) : (
-          cell
+          this.renderCell()
         )}
       </React.Fragment>
     );
   }
-
-  // render() {
-  //   const {
-  //     onResize,
-  //     resizable,
-  //     className,
-  //     children,
-  //     filterable,
-  //     title,
-  //     onFilter,
-  //     id,
-  //     width,
-  //     ...restProps
-  //   } = this.props;
-  //   console.log('point')
-  //   console.log(this.props)
-  //   const component = (
-  //     <th {...this.props} width={width} className="n2o-advanced-table-header-cell">
-  //       <div className="n2o-advanced-table-header-cell-content">
-  //         {filterable ? (
-  //           <AdvancedTableFilter
-  //             id={id}
-  //             onVisibleChange={this.handleVisibleChange}
-  //             visible={this.state.visible}
-  //             onFilter={onFilter}
-  //           >
-  //             {title}
-  //           </AdvancedTableFilter>
-  //         ) : (
-  //           this.props.title || this.props.component
-  //         )}
-  //       </div>
-  //     </th>
-  //   );
-  //   return !resizable || (!resizable && !width) ? (
-  //     component
-  //   ) : (
-  //     <Resizable width={this.props.width} height={0} onResize={onResize}>
-  //       {component}
-  //     </Resizable>
-  //   );
-  // }
 }
 
-AdvancedTableHeaderCell.propTypes = {};
+AdvancedTableHeaderCell.propTypes = {
+  cell: PropTypes.func,
+  children: PropTypes.oneOf(PropTypes.array, PropTypes.string, PropTypes.object),
+  className: PropTypes.string,
+  columnId: PropTypes.string,
+  dataIndex: PropTypes.string,
+  edit: PropTypes.func,
+  editOptions: PropTypes.object,
+  editable: PropTypes.bool,
+  id: PropTypes.string,
+  index: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+  label: PropTypes.string,
+  multiHeader: PropTypes.bool,
+  onCell: PropTypes.func,
+  onFilter: PropTypes.func,
+  onHeaderCell: PropTypes.func,
+  onResize: PropTypes.func,
+  onSort: PropTypes.func,
+  redux: PropTypes.bool,
+  render: PropTypes.func,
+  sorting: PropTypes.object,
+  title: PropTypes.oneOf(PropTypes.string, PropTypes.func),
+  widgetId: PropTypes.string,
+  width: PropTypes.number
+};
+
+AdvancedTableHeaderCell.defaultProps = {
+  editable: false,
+  multiHeader: false,
+  redux: false,
+  sorting: {},
+  edit: null
+};
 
 export default AdvancedTableHeaderCell;

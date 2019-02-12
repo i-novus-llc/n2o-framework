@@ -14,6 +14,7 @@ import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import { Resizable } from 'react-resizable';
 import AdvancedTableCellRenderer from './AdvancedTableCellRenderer';
+import PropTypes from 'prop-types';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -61,8 +62,6 @@ class AdvancedTableContainer extends React.Component {
   }
 
   renderHeaderCell(props) {
-    console.log('point');
-    console.log(props);
     const { redux } = this.props;
     const propStyles = pick(this.props, ['width']);
     let component = null;
@@ -90,14 +89,19 @@ class AdvancedTableContainer extends React.Component {
   }
 
   mapColumns() {
-    const { columns, cells, headers, widgetId, sorting, onSort, redux } = this.props;
+    const { columns, cells, headers, widgetId, sorting, onSort } = this.props;
+    const { resolveProps } = this.context;
     if (columns) {
       return map(columns, (column, index) => {
         return {
           ...column,
           index,
-          dataIndex: column.id,
-          key: column.id
+          dataIndex: column.dataIndex || column.id,
+          key: column.key || column.id,
+          title: resolveProps(column.headerSrc),
+          label: column.title,
+          cell: resolveProps(column.cellSrc),
+          edit: resolveProps(column.editSrc)
         };
       });
     } else {
@@ -168,6 +172,7 @@ class AdvancedTableContainer extends React.Component {
       isActive
     } = this.props;
     return {
+      ...this.props,
       className,
       hasFocus,
       rowColor,
@@ -181,8 +186,7 @@ class AdvancedTableContainer extends React.Component {
       hasSelect,
       onSetSelection,
       onFilter: this.onSetFilter,
-      isActive,
-      ...this.props
+      isActive
     };
   }
 
@@ -190,6 +194,10 @@ class AdvancedTableContainer extends React.Component {
     return <AdvancedTable {...this.getTableProps()} />;
   }
 }
+
+AdvancedTableContainer.contextTypes = {
+  resolveProps: PropTypes.func
+};
 
 export default compose(
   widgetContainer(
@@ -232,7 +240,8 @@ export default compose(
           tableSize: props.tableSize,
           useFixedHeader: props.useFixedHeader,
           expandable: props.expandable,
-          scroll: props.scroll
+          scroll: props.scroll,
+          multiHeader: props.multiHeader
         };
       }
     },

@@ -55,27 +55,27 @@ class AdvancedTableFilter extends Component {
 
   render() {
     return (
-      <DropDown
-        trigger={['click']}
-        onVisibleChange={this.props.onVisibleChange}
-        visible={this.props.visible}
-        onBlur={() => this.onVisibleChange(false)}
-        overlay={() => (
-          <AdvancedTableFilterOverlay
-            value={this.state.value}
-            onChange={this.onChangeFilter}
-            onResetFilter={this.onResetFilter}
-            onSetFilter={this.onSetFilter}
-          />
-        )}
-      >
-        <React.Fragment>
-          {this.props.children}
-          <Button size={'sm'} onClick={this.props.onVisibleChange}>
+      <React.Fragment>
+        {this.props.children}
+        <DropDown
+          trigger={['click']}
+          onVisibleChange={this.props.onVisibleChange}
+          visible={this.props.visible}
+          onBlur={() => this.onVisibleChange(false)}
+          overlay={() => (
+            <AdvancedTableFilterOverlay
+              value={this.state.value}
+              onChange={this.onChangeFilter}
+              onResetFilter={this.onResetFilter}
+              onSetFilter={this.onSetFilter}
+            />
+          )}
+        >
+          <Button size={'sm'}>
             <i className="fa fa-filter" />
           </Button>
-        </React.Fragment>
-      </DropDown>
+        </DropDown>
+      </React.Fragment>
     );
   }
 }

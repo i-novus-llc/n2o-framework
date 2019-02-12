@@ -21,28 +21,6 @@ const urlPattern = 'begin:n2o/data';
 
 stories
   .addDecorator(withPage(metadata))
-  .add('test', () => {
-    return (
-      <AdvancedTable
-        columns={[
-          {
-            title: 'test',
-            key: 'test',
-            dataIndex: 'test',
-            width: 100,
-            resizable: true
-          },
-          {
-            title: 'test1',
-            key: 'test1',
-            dataIndex: 'test1',
-            width: 100,
-            resizable: true
-          }
-        ]}
-      />
-    );
-  })
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
@@ -52,12 +30,8 @@ stories
         isActive: true,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -67,11 +41,9 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -86,12 +58,8 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -113,12 +81,8 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -128,11 +92,13 @@ stories
             resizable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
             },
             id: 'surname',
             title: 'Фамилия',
@@ -143,12 +109,8 @@ stories
             resizable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -171,12 +133,8 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -186,11 +144,9 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -205,12 +161,8 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -234,12 +186,8 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -250,11 +198,13 @@ stories
             filterable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
             },
             id: 'surname',
             title: 'Фамилия',
@@ -266,12 +216,8 @@ stories
             filterable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -305,12 +251,8 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -320,11 +262,9 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -339,12 +279,8 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -367,11 +303,13 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
+            cellOptions: {
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
             },
             id: 'name',
             title: 'Имя',
@@ -380,14 +318,13 @@ stories
             key: 'name',
             className: 'name-cell',
             sortable: true,
-            colSpan: 2
+            colSpan: 2,
+            rowSpan: 2
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -403,12 +340,8 @@ stories
             colSpan: 0
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -459,12 +392,8 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -474,11 +403,9 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -493,12 +420,8 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -521,12 +444,8 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -536,11 +455,9 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -555,12 +472,8 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 100,
@@ -585,12 +498,8 @@ stories
         ...metadata['Page_Table'].table,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
             width: 100,
@@ -601,11 +510,9 @@ stories
             fixed: 'left'
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -620,12 +527,8 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 200,
@@ -637,7 +540,7 @@ stories
           }
         ],
         scroll: {
-          x: '130%'
+          x: '200%'
         }
       }
     };
@@ -649,46 +552,37 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        multiHeader: true,
         columns: [
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
-            id: 'name',
             title: 'Имя',
-            width: 100,
-            dataIndex: 'name',
-            key: 'name',
-            className: 'name-cell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
+            multiHeader: true,
             children: [
               {
+                headerSrc: 'TextTableHeader',
+                cellSrc: 'TextCell',
                 id: 'name2',
                 title: 'Имя1',
                 width: 100,
-                dataIndex: 'name1',
-                key: 'name1',
-                className: 'name-cell'
+                dataIndex: 'name',
+                key: 'name1'
               },
               {
+                headerSrc: 'TextTableHeader',
+                cellSrc: 'TextCell',
                 id: 'name2',
                 title: 'Имя2',
                 width: 100,
-                dataIndex: 'name2',
-                key: 'name2',
-                className: 'name-cell'
+                dataIndex: 'name',
+                key: 'name2'
               }
             ]
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
@@ -703,12 +597,8 @@ stories
             sortable: true
           },
           {
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
             width: 200,
@@ -745,12 +635,8 @@ stories
             className: 'name-cell',
             dataIndex: 'name',
             key: 'name',
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            }
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell'
           },
           {
             id: 'surname',
@@ -759,19 +645,18 @@ stories
             dataIndex: 'surname',
             key: 'surname',
             className: 'surname-cell',
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'IconCell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
               id: 'surname',
               icon: 'fa fa-plus',
               type: 'iconAndText',
               textPlace: 'right'
             },
             editable: true,
-            edit: {
-              src: 'InputText'
+            editSrc: 'InputText',
+            editOptions: {
+              autoFocus: true
             }
           },
           {
@@ -781,16 +666,10 @@ stories
             dataIndex: 'birthday',
             key: 'birthday',
             className: 'birthday-cell',
-            header: {
-              src: 'TextTableHeader'
-            },
-            cell: {
-              src: 'TextCell'
-            },
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
             editable: true,
-            edit: {
-              src: 'InputNumber'
-            }
+            editSrc: 'InputNumber'
           }
         ]
       }
@@ -798,5 +677,86 @@ stories
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
   .add('nested', () => {
-    return <div>nested</div>;
+    fetchMock.restore().get(urlPattern, url => {
+      const data = getStubData(url);
+      return {
+        ...data,
+        list: data.list.map(i => ({
+          ...i,
+          expandedContent: {
+            type: 'table',
+            columns: [
+              {
+                title: 'Имя',
+                dataIndex: 'name',
+                key: 'name'
+              },
+              {
+                title: 'Фамилия',
+                dataIndex: 'surname',
+                key: 'surname'
+              },
+              {
+                title: 'День рождения',
+                dataIndex: 'birthday',
+                key: 'birthday'
+              }
+            ],
+            data: [
+              {
+                name: 'test',
+                surname: 'test1',
+                birthday: 'test2'
+              }
+            ]
+          }
+        }))
+      };
+    });
+    const props = {
+      ...metadata['Page_Table'],
+      table: {
+        ...metadata['Page_Table'].table,
+        expandable: true,
+        columns: [
+          {
+            id: 'name',
+            title: 'Имя',
+            width: 100,
+            className: 'name-cell',
+            dataIndex: 'name',
+            key: 'name',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell'
+          },
+          {
+            id: 'surname',
+            title: 'Фамилия',
+            width: 100,
+            dataIndex: 'surname',
+            key: 'surname',
+            className: 'surname-cell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'IconCell',
+            cellOptions: {
+              id: 'surname',
+              icon: 'fa fa-plus',
+              type: 'iconAndText',
+              textPlace: 'right'
+            }
+          },
+          {
+            id: 'birthday',
+            title: 'Дата рождения',
+            width: 100,
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell',
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell'
+          }
+        ]
+      }
+    };
+    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   });

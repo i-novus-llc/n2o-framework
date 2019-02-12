@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { pick } from 'lodash';
 import TableCell from '../Table/TableCell';
@@ -24,6 +25,8 @@ class AdvancedTableCellRenderer extends React.Component {
     };
 
     this.onChange = this.onChange.bind(this);
+    this.createEditControl = this.createEditControl.bind(this);
+    this.renderCellContent = this.renderCellContent.bind(this);
   }
 
   toggleEdit(event, changeValue = false) {
@@ -38,28 +41,42 @@ class AdvancedTableCellRenderer extends React.Component {
     this.setState({ value });
   }
 
+  createEditControl(edit) {
+    return (
+      <div className={'n2o-advanced-table-edit-control'}>
+        {React.createElement(edit, {
+          className: 'n2o-advanced-table-edit-control',
+          autoFocus: true,
+          value: this.state.value,
+          onChange: this.onChange,
+          onBlur: event => this.toggleEdit(event, true)
+        })}
+      </div>
+    );
+  }
+
+  renderCellContent() {
+    const { redux, cellOptions, row } = this.props;
+    const propStyles = pick(this.props, ['width']);
+    return redux ? (
+      <ReduxCell {...propStyles} {...cellOptions} {...this.props} as={'span'} model={row} />
+    ) : (
+      <TableCell {...propStyles} {...cellOptions} {...this.props} as={'span'} model={row} />
+    );
+  }
+
   render() {
-    const { redux, value, row, cell, editable, edit } = this.props;
+    const { editable, edit } = this.props;
+
     const { editing } = this.state;
 
-    const cellContent = redux ? (
-      <ReduxCell {...this.props} {...cell} label={value} as={'span'} model={row} />
-    ) : (
-      <TableCell {...this.props} {...cell} label={value} as={'span'} model={row} />
-    );
-
     return (
-      <div onDoubleClick={event => this.toggleEdit(event)}>
-        {cellContent}
-        {editable &&
-          editing &&
-          React.createElement(edit.component, {
-            className: 'n2o-advanced-table-edit-control',
-            autoFocus: true,
-            value: this.state.value,
-            onChange: this.onChange,
-            onBlur: event => this.toggleEdit(event, true)
-          })}
+      <div
+        className={cn({ 'n2o-advanced-table-editable-cell': editable })}
+        onClick={event => this.toggleEdit(event)}
+      >
+        {this.renderCellContent()}
+        {editable && editing && this.createEditControl(edit)}
       </div>
     );
   }

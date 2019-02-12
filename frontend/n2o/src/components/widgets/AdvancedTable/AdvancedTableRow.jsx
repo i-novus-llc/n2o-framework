@@ -10,6 +10,8 @@ class AdvancedTableRow extends Component {
       [`table-${color}`]: color,
       'table-active': isRowActive
     });
+    console.log('point');
+    console.log(this.props);
     return React.createElement(
       'tr',
       {
@@ -19,7 +21,7 @@ class AdvancedTableRow extends Component {
         key: index,
         className: classes
       },
-      children
+      [...children]
     );
   }
 }

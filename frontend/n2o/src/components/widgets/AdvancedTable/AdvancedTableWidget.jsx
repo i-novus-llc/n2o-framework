@@ -24,13 +24,14 @@ class AdvancedTableWidget extends Component {
       useFixedHeader,
       expandable,
       scroll,
-      onFetch
+      onFetch,
+      multiHeader
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
     return {
       headers: values(resolveProps(headers)),
-      columns: values(resolveProps(columns)),
+      columns: columns,
       cells: values(resolveProps(cells)),
       sorting,
       toolbar,
@@ -45,7 +46,8 @@ class AdvancedTableWidget extends Component {
       useFixedHeader,
       expandable,
       scroll,
-      onFetch
+      onFetch,
+      multiHeader
     };
   }
 

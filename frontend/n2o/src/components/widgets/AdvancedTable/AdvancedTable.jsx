@@ -222,7 +222,6 @@ class AdvancedTable extends Component {
       }),
       () => {
         forOwn(this.state.checked, (v, k) => {
-          console.log(v, k);
           if (v) {
             const item = find(this.props.data, i => i.id.toString() === k.toString());
             multi.push(item);
@@ -279,7 +278,14 @@ class AdvancedTable extends Component {
       key: 'row-selection',
       className: 'n2o-advanced-table-selection-container',
       width: 50,
-      selectionHead: true,
+      onHeaderCell: column => ({
+        selectionHead: true,
+        selectionClass: 'n2o-advanced-table-selection-container'
+      }),
+      onCell: (record, index) => ({
+        selectionCell: true,
+        selectionClass: 'n2o-advanced-table-selection-container'
+      }),
       render: (value, model, index) => (
         <CheckboxN2O
           inline={true}
@@ -291,35 +297,34 @@ class AdvancedTable extends Component {
   }
 
   mapColumns(columns) {
-    const { widgetId, rowSelection, redux, sorting, onSort, multiHeader } = this.props;
+    const { widgetId, rowSelection, redux, sorting, onSort } = this.props;
     let newColumns = columns;
-
     newColumns = newColumns.map((col, index) => ({
       ...col,
-      onHeaderCell: column => ({
+      onHeaderCell: (column, index) => ({
         ...column,
-        dataIndex: column.id,
-        key: column.id,
-        onResize: this.handleResize(index),
-        onFilter: this.onFilter,
-        columnId: column.id,
+        title: col.title,
         widgetId,
         redux,
         sorting,
         onSort,
-        multiHeader
+        columnId: col.id,
+        multiHeader: col.multiHeader,
+        onFilter: this.onFilter,
+        onResize: this.handleResize(index)
       }),
       onCell: (record, index) => ({
+        record,
         editable: col.editable && record.editable
       }),
       render: (value, row, index) => (
         <AdvancedTableCellRenderer
           onEdit={this.handleEdit}
+          cellOptions={col.cellOptions}
           value={value}
           row={row}
           index={index}
-          cell={col.cell}
-          component={col.cell.component}
+          component={col.cell}
           columnId={col.id}
           widgetId={widgetId}
           redux={redux}
@@ -349,7 +354,6 @@ class AdvancedTable extends Component {
     } = this.props;
 
     const columns = this.mapColumns(this.state.columns);
-
     return (
       <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
         <Table
@@ -373,7 +377,6 @@ class AdvancedTable extends Component {
           }}
           rowKey={record => record.key}
           expandIcon={AdvancedTableExpandIcon}
-          // expandIconAsCell={true}
           expandRowByClick={expandRowByClick}
           expandedRowRender={expandable && AdvancedTableExpandedRenderer}
           expandedRowKeys={this.state.expandedRowKeys}
