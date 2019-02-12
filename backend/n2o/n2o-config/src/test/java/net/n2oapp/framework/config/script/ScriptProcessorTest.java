@@ -79,6 +79,12 @@ public class ScriptProcessorTest {
     }
 
     @Test
+    public void invertExpression() {
+        assertThat(ScriptProcessor.invertExpression("{check}"), is("`!(check)`"));
+        assertThat(ScriptProcessor.invertExpression("true"), is(true));
+    }
+
+    @Test
     public void testResolveFuction() {
         assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
         assertThat(ScriptProcessor.resolveFunction("gender.id == 1"), is("gender.id == 1"));

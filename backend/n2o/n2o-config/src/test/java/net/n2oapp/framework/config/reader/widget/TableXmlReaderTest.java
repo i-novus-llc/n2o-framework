@@ -43,7 +43,6 @@ public class TableXmlReaderTest extends BaseWidgetReaderTest {
         assert table3.getHasCheckboxes();
         assert table3.getAutoSelect();
         N2oSimpleColumn checkBoxColumn = ((N2oSimpleColumn) table3.getColumns()[0]);
-        assert ((N2oCheckboxCell) checkBoxColumn.getCell()).getEnablingCondition().getOn().equals("id");
         N2oCustomCell custom = (N2oCustomCell) ((N2oSimpleColumn) table3.getColumns()[6]).getCell();
         assert custom.getSrc().equals("test");
         assert custom.getProperties().size() == 2;

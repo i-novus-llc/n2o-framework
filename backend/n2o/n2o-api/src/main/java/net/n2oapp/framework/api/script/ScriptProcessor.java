@@ -130,6 +130,8 @@ public class ScriptProcessor {
      */
     public static Object resolveExpression(String text) {
         String expression = resolveLinks(text);
+        if (expression == null)
+            return null;
         if (expression.equals("true") || expression.equals("false"))
             return Boolean.valueOf(expression);
         if (expression.matches("([\\d]+)")) {
@@ -139,6 +141,23 @@ public class ScriptProcessor {
             }
         }
         return expression;
+    }
+
+    /**
+     * Изменить значение JS выраждения на обратное
+     * @param text JS выражение или текст
+     * @return Обратное JS выражение или объект
+     */
+    public static Object invertExpression(String text) {
+        Object result = resolveExpression(text);
+        if (result == null)
+            return null;
+        if (!StringUtils.isJs(result))
+            return result;
+        String expr = (String) result;
+        expr = expr.substring(1, expr.length() - 1);
+        expr = toJsExpression("!(" + expr + ")");
+        return expr;
     }
 
     /**

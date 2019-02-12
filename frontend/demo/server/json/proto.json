@@ -919,8 +919,8 @@
             "id": "vip",
             "fieldKey": "vip",
             "src": "CheckboxCell",
+            "disabled" : "`!(name!='Мария')`",
             "actionId": "vip",
-            "readOnly": false,
             "action": {
               "id": "vip",
               "src": "perform",
