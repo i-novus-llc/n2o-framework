@@ -18,12 +18,12 @@ const isInitSelector = (key, id) =>
 
 const isVisibleSelector = (key, id) =>
   createSelector(makeColumnByKeyAndIdSelector(key, id), column => {
-    return column.isVisible;
+    return column.visible;
   });
 
 const isDisabledSelector = (key, id) =>
   createSelector(makeColumnByKeyAndIdSelector(key, id), column => {
-    return column.isDisabled;
+    return column.disabled;
   });
 
 export { getContainerColumns, isVisibleSelector, isInitSelector, isDisabledSelector };

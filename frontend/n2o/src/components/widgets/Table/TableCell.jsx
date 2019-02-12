@@ -17,8 +17,13 @@ import getElementType from '../../../tools/getElementType';
  * @reactprops {node} children - элемент потомок компонента TableCell
  */
 class TableCell extends React.Component {
+  constructor(props) {
+    super(props);
+    this.getPassProps = this.getPassProps.bind(this);
+  }
+
   getPassProps() {
-    return omit(this.props, ['component', 'className', 'style', 'colSpan', 'as']);
+    return omit(this.props, ['component', 'colSpan', 'as', 'model']);
   }
 
   render() {
@@ -32,11 +37,11 @@ class TableCell extends React.Component {
       );
     }
     const tableCellBody = React.createElement(component, {
-      ...propsResolver(this.getPassProps(), model),
+      ...this.getPassProps(),
       model
     });
     return (
-      <ElementType className={className} model={model} colSpan={colSpan} style={style}>
+      <ElementType className={className} colSpan={colSpan} style={style}>
         {tableCellBody}
       </ElementType>
     );

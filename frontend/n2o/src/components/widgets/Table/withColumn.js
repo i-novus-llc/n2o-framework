@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty, omit } from 'lodash';
 import { compose, pure } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 
+import propsResolver from '../../../utils/propsResolver';
 import { registerColumn } from '../../../actions/columns';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 import { isInitSelector, isVisibleSelector, isDisabledSelector } from '../../../selectors/columns';
@@ -16,6 +17,7 @@ const withColumn = WrappedComponent => {
   class ColumnContainer extends React.Component {
     constructor(props) {
       super(props);
+      this.getPassProps = this.getPassProps.bind(this);
       this.initIfNeeded();
     }
 
@@ -23,17 +25,35 @@ const withColumn = WrappedComponent => {
      * Диспатч экшена регистрации виджета
      */
     initIfNeeded() {
-      const { columnId, widgetId, label, isInit, disabled, visible, dispatch } = this.props;
-      !isInit && dispatch(registerColumn(widgetId, columnId, label, disabled, visible));
+      const {
+        columnId,
+        widgetId,
+        label,
+        columnIsInit,
+        columnVisible = true,
+        columnDisabled = false,
+        dispatch
+      } = this.props;
+      !columnIsInit &&
+        dispatch(registerColumn(widgetId, columnId, label, columnVisible, columnDisabled));
+    }
+
+    getPassProps() {
+      return omit(this.props, ['columnIsInit', 'columnVisible', 'columnDisabled', 'security']);
     }
 
     /**
      *Базовый рендер
      */
     render() {
-      const { visible, security } = this.props;
-      const cellEl = <WrappedComponent {...this.props} />;
-      return (visible || null) && isEmpty(security) ? (
+      const { columnVisible, columnDisabled, security, model } = this.props;
+      const cellEl = (
+        <WrappedComponent
+          disabled={columnDisabled}
+          {...propsResolver(this.getPassProps(), model)}
+        />
+      );
+      return (columnVisible || null) && isEmpty(security) ? (
         cellEl
       ) : (
         <SecurityCheck
@@ -45,9 +65,9 @@ const withColumn = WrappedComponent => {
   }
 
   const mapStateToProps = createStructuredSelector({
-    isInit: (state, props) => isInitSelector(props.widgetId, props.columnId)(state),
-    visible: (state, props) => isVisibleSelector(props.widgetId, props.columnId)(state),
-    disabled: (state, props) => isDisabledSelector(props.widgetId, props.columnId)(state)
+    columnIsInit: (state, props) => isInitSelector(props.widgetId, props.columnId)(state),
+    columnVisible: (state, props) => isVisibleSelector(props.widgetId, props.columnId)(state),
+    columnDisabled: (state, props) => isDisabledSelector(props.widgetId, props.columnId)(state)
   });
 
   return compose(
