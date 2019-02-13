@@ -34,7 +34,6 @@ class ToggleColumn extends React.Component {
    * @param columns
    */
   renderColumnDropdown(columns) {
-    debugger;
     const notActive = (_.filter(columns, item => !item.value.visible) || []).map(col => col.key);
     return columns.map(column => {
       const checked = !notActive.includes(column.key);

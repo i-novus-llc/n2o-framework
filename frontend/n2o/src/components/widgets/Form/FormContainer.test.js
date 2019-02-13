@@ -175,18 +175,6 @@ describe('FormContainer', () => {
         data: ''
       });
     });
-
-    it('initialValues = {} при изменении isEnabled с true в false', () => {
-      const wrapper = setup(
-        {
-          defaultValues: [],
-          isEnabled: true
-        },
-        'withPropsOnChangeWidget'
-      );
-      wrapper.setProps({ isEnabled: false }).update();
-      expect(wrapper.find(NullComponent).props()).toHaveProperty('initialValues', {});
-    });
   });
 
   describe('Проверка withWidgetHandlers', () => {
