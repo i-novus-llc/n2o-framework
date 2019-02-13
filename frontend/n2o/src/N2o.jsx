@@ -111,7 +111,7 @@ export default compose(
     defaultBreadcrumb: DefaultBreadcrumb,
     formats: {
       dateFormat: 'DD.MM.YYYY',
-      timeFormat: 'HH.mm.ss'
+      timeFormat: 'HH:mm:ss'
     },
     routes: [],
     security: {},
