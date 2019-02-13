@@ -66,7 +66,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
         assertThat(wdp.getUrl(), is("n2o/data/test"));
         assertThat(wdp.getQuickSearchParam(), is("search"));
-        assertThat(wdp.getQueryMapping().get("noRef").getBindLink(), is("models.filter['main']"));
+        assertThat(wdp.getQueryMapping().get("noRef").getBindLink(), is("models.filter['testInputSelect_main']"));
         assertThat(wdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(wdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
     }
