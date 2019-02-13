@@ -38,7 +38,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
             region.setHasTabs(true);
         else
             region.setHasTabs(false);
-        region.setHeader(true);
+        region.setHeader(source.getHeader());
         //  region.setFooterTitle();
         region.setOpen(true);
         region.setCollapsible(source.getCollapsible() != null ? source.getCollapsible() : true);
