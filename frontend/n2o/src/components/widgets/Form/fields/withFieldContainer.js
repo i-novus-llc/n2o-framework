@@ -7,7 +7,8 @@ import {
   isVisibleSelector,
   isDisabledSelector,
   messageSelector,
-  filterSelector
+  filterSelector,
+  requiredSelector
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
 import { compose, pure, defaultProps, withProps } from 'recompose';
@@ -134,6 +135,7 @@ export default Field => {
       visible: isBoolean(isVisible) ? isVisible : ownProps.visible,
       disabled: isBoolean(isDisabled) ? isDisabled : ownProps.disabled,
       message: messageSelector(form, name)(state),
+      required: requiredSelector(form, name)(state),
       filterValues: filterSelector(form, name)(state)
     };
   };

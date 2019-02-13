@@ -13,7 +13,9 @@ import {
   SHOW_FIELDS,
   HIDE_FIELDS,
   ENABLE_FIELDS,
-  DISABLE_FIELDS
+  DISABLE_FIELDS,
+  SET_REQUIRED,
+  UNSET_REQUIRED
 } from '../constants/formPlugin';
 
 const defaultState = {
@@ -21,7 +23,9 @@ const defaultState = {
   visible: true,
   disabled: false,
   message: null,
-  filter: []
+  filter: [],
+  dependency: null,
+  required: false
 };
 
 const setValueByNames = (state, names, props) =>
@@ -72,6 +76,10 @@ function resolve(state = defaultState, action) {
       return setValueByNames(state, action.payload.names, { disabled: false });
     case HIDE_FIELDS:
       return setValueByNames(state, action.payload.names, { visible: false });
+    case SET_REQUIRED:
+      return Object.assign({}, state, { required: true });
+    case UNSET_REQUIRED:
+      return Object.assign({}, state, { required: false });
     default:
       return state;
   }
@@ -92,6 +100,8 @@ export default function formPlugin(state = {}, action) {
     case REMOVE_FIELD_MESSAGE:
     case REGISTER_DEPENDENCY:
     case SET_FIELD_FILTER:
+    case SET_REQUIRED:
+    case UNSET_REQUIRED:
       return _.set(
         state,
         ['registeredFields', action.payload.name],

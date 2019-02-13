@@ -15,8 +15,8 @@ import user from './reducers/auth';
 const formHack = (state, action) => {
   return action.meta && action.meta.form
     ? formReducer.plugin({
-        [action.meta.form]: (state, action) => {
-          return Object.assign({}, state, formPlugin(state, action));
+        [action.meta.form]: (formState, formAction) => {
+          return Object.assign({}, formState, formPlugin(formState, formAction));
         }
       })(state, action)
     : formReducer(state, action);

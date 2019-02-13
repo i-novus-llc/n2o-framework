@@ -57,12 +57,19 @@
             "text": "Успешное действие"
           }
         ],
-
         "field4": [
           {
             "type": "required",
             "severity": "danger",
             "text": "Поле обязательное"
+          }
+        ],
+        "field41": [
+          {
+            "type": "required",
+            "severity": "danger",
+            "text": "Поле обязательное по условию",
+            "expression": "(field42 == '1')"
           }
         ],
         "field5": [
@@ -277,6 +284,36 @@
                       "id": "field11",
                       "src": "StandardField",
                       "label": "Равно значению",
+                      "control": {
+                        "src": "InputText"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "size": 4,
+                  "fields": [
+                    {
+                      "id": "field42",
+                      "src": "StandardField",
+                      "label": "Условие ( field42 == '1')",
+                      "control": {
+                        "src": "InputText"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "size": 4,
+                  "fields": [
+                    {
+                      "id": "field41",
+                      "src": "StandardField",
+                      "label": "Зависит от 'Условия'",
                       "control": {
                         "src": "InputText"
                       }
