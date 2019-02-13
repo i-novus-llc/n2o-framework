@@ -25,7 +25,8 @@ class AdvancedTableWidget extends Component {
       expandable,
       scroll,
       onFetch,
-      multiHeader
+      multiHeader,
+      bordered
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -47,7 +48,8 @@ class AdvancedTableWidget extends Component {
       expandable,
       scroll,
       onFetch,
-      multiHeader
+      multiHeader,
+      bordered
     };
   }
 
@@ -93,7 +95,8 @@ AdvancedTableWidget.contextTypes = {
 
 AdvancedTableWidget.defaultProps = {
   toolbar: {},
-  filter: {}
+  filter: {},
+  bordered: false
 };
 
 AdvancedTableWidget.propTypes = {

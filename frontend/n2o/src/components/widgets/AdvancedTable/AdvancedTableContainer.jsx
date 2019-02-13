@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { lifecycle, compose } from 'recompose';
 import { map, isEqual, find, isEmpty, debounce, pick, forOwn } from 'lodash';
 import AdvancedTable from './AdvancedTable';
-import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
 import { ADVANCED_TABLE } from '../widgetTypes';
@@ -12,9 +11,9 @@ import columnHOC from '../Table/ColumnContainer';
 import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
-import { Resizable } from 'react-resizable';
 import AdvancedTableCellRenderer from './AdvancedTableCellRenderer';
 import PropTypes from 'prop-types';
+import { makeGetFilterModelSelector } from '../../../selectors/models';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -36,13 +35,12 @@ class AdvancedTableContainer extends React.Component {
       data: this.mapData(props.datasource)
     };
 
-    this._timeoutId = null;
-
     this.getTableProps = this.getTableProps.bind(this);
     this.mapColumns = this.mapColumns.bind(this);
     this.mapData = this.mapData.bind(this);
     this.renderHeaderCell = this.renderHeaderCell.bind(this);
     this.onSetFilter = this.onSetFilter.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -83,9 +81,12 @@ class AdvancedTableContainer extends React.Component {
     forOwn(this._filter, (v, k) => {
       if (!v || isEmpty(v)) delete this._filter[k];
     });
-    clearTimeout(this._timeoutId);
     onSetFilter({ ...this._filter });
-    this._timeoutId = setTimeout(() => onFetch(), 500);
+    onFetch();
+  }
+
+  handleEdit(value, index, id) {
+    //TODO something
   }
 
   mapColumns() {
@@ -169,11 +170,14 @@ class AdvancedTableContainer extends React.Component {
       expandable,
       hasSelect,
       onSetSelection,
-      isActive
+      isActive,
+      filters,
+      bordered
     } = this.props;
     return {
       ...this.props,
       className,
+      handleEdit: this.handleEdit,
       hasFocus,
       rowColor,
       columns: this.mapColumns(),
@@ -186,7 +190,9 @@ class AdvancedTableContainer extends React.Component {
       hasSelect,
       onSetSelection,
       onFilter: this.onSetFilter,
-      isActive
+      isActive,
+      filters,
+      bordered
     };
   }
 
@@ -197,6 +203,16 @@ class AdvancedTableContainer extends React.Component {
 
 AdvancedTableContainer.contextTypes = {
   resolveProps: PropTypes.func
+};
+
+AdvancedTableContainer.defaultProps = {
+  filters: {}
+};
+
+const mapStateToProps = (state, props) => {
+  return {
+    filters: makeGetFilterModelSelector(props.widgetId)(state, props)
+  };
 };
 
 export default compose(
@@ -241,7 +257,8 @@ export default compose(
           useFixedHeader: props.useFixedHeader,
           expandable: props.expandable,
           scroll: props.scroll,
-          multiHeader: props.multiHeader
+          multiHeader: props.multiHeader,
+          bordered: props.bordered
         };
       }
     },
@@ -265,5 +282,9 @@ export default compose(
         onResolve(resolveModel);
       }
     }
-  })
+  }),
+  connect(
+    mapStateToProps,
+    null
+  )
 )(AdvancedTableContainer);

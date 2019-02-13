@@ -41,20 +41,36 @@ class AdvancedTableHeaderCell extends Component {
   }
 
   renderMultiCell() {
-    const { id, colSpan, rowSpan, className, title, label, sorting, onSort, columnId } = this.props;
+    const {
+      id,
+      colSpan,
+      rowSpan,
+      className,
+      title,
+      label,
+      sorting,
+      onSort,
+      columnId,
+      sortable
+    } = this.props;
 
     return (
-      <th colSpan={colSpan} rowSpan={rowSpan}>
+      <th
+        {...this.props}
+        className={cn('n2o-advanced-table-header-text-center', className)}
+        colSpan={colSpan}
+        rowSpan={rowSpan}
+      >
         {this.getCellContent({
           id,
           columnId,
+          sortable,
           className,
           key: id,
           component: title,
           label,
-          value: label,
           as: 'div',
-          sorting,
+          sorting: sorting[id],
           onSort
         })}
       </th>
@@ -63,7 +79,7 @@ class AdvancedTableHeaderCell extends Component {
 
   renderStringChild() {
     const { className, children } = this.props;
-    return <th className={className}>{children}</th>;
+    return <th className={cn('n2o-advanced-table-header-text-center', className)}>{children}</th>;
   }
 
   renderSelectionBox() {
@@ -81,14 +97,15 @@ class AdvancedTableHeaderCell extends Component {
       children,
       selectionHead,
       selectionClass,
-      index,
       filterable,
       colSpan,
       rowSpan,
       className,
       title,
       label,
-      onFilter
+      onFilter,
+      filters,
+      sortable
     } = this.props;
 
     let cellContent = null;
@@ -102,21 +119,21 @@ class AdvancedTableHeaderCell extends Component {
     } else {
       cellContent = this.getCellContent({
         id,
-        index,
         columnId,
         className,
         key: id,
         component: title,
         label,
-        value: label,
+        sortable,
         as: 'div',
-        sorting,
+        sorting: sorting[id],
         onSort
       });
     }
 
     const cell = (
       <th
+        {...this.props}
         rowSpan={rowSpan}
         colSpan={colSpan}
         className={cn('n2o-advanced-table-header-cel', { [selectionClass]: selectionHead })}
@@ -128,6 +145,7 @@ class AdvancedTableHeaderCell extends Component {
               onVisibleChange={this.handleVisibleChange}
               visible={this.state.visible}
               onFilter={onFilter}
+              value={filters && filters[id]}
             >
               {cellContent}
             </AdvancedTableFilter>
@@ -143,11 +161,10 @@ class AdvancedTableHeaderCell extends Component {
 
   render() {
     const { width, onResize, resizable } = this.props;
-
     return (
       <React.Fragment>
         {resizable && width ? (
-          <Resizable width={width} height={0} onResize={onResize}>
+          <Resizable width={width} height={0} onResize={onResize} handleSize={[10, 10]}>
             {this.renderCell()}
           </Resizable>
         ) : (

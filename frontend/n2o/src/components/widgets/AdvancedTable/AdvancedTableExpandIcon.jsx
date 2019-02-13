@@ -3,12 +3,16 @@ import cn from 'classnames';
 
 function AdvancedTableExpandIcon({ record, expanded, onExpand }) {
   return (
-    <span className="n2o-advanced-table-expand" onClick={e => onExpand(record, e)}>
+    <span
+      className={cn({ 'n2o-advanced-table-expand': record.children || record.expandedContent })}
+      onClick={e => onExpand(record, e)}
+    >
       {(record.expandedContent || record.children) && (
         <i
-          className={cn('fa', {
-            'fa-chevron-right': !expanded,
-            'fa-chevron-down': expanded
+          className={cn('fa', 'n2o-advanced-table-expand-icon', {
+            'n2o-advanced-table-expand-icon-expanded': expanded,
+            'fa-angle-right': !expanded,
+            'fa-angle-down': expanded
           })}
         />
       )}

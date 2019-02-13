@@ -1,7 +1,22 @@
 .n2o-advanced-table {
 
-  & th[colspan] {
+  &.table-bordered thead th {
+    border: 1px solid #cfd8dc;
+  }
+
+  &-header-text-center {
     text-align: center;
+  }
+
+  &-filter-badge.badge {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    display: block;
+    width: 5px;
+    height: 5px;
+    padding: 0;
+    border-radius: 50%;
   }
 
   & .n2o-advanced-table-expanded-row:hover {
@@ -16,10 +31,19 @@
     padding: 0 20px;
   }
 
+  &-fixed {
+    background-color: $white;
+  }
+
   &-fixed-left {
     position: absolute;
     top: 0;
     left: 0;
+  }
+
+  & .react-resizable-handle {
+    width: 15px;
+    height: 15px;
   }
 
   &-fixed-right {
@@ -31,7 +55,6 @@
   & table {
     width: 100%;
     margin-bottom: 1rem;
-    background-color: transparent;
   }
 
   &-row {
@@ -75,8 +98,8 @@
     align-items: center;
     justify-content: center;
 
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     margin-right: 5px;
 
@@ -84,23 +107,23 @@
 
     font-size: 12px;
 
+    &-icon {
+      font-size: 16px;
+      transform: rotate(0deg);
+      transition: .2s background-color;
+      margin: 0;
+      padding-left: 1px;
+
+      &-expanded {
+        padding: 0 1px 0 0;
+      }
+    }
+
     &:hover {
       background-color: #ced3d6;
       transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
-
-    & i {
-      position: absolute;
-      top: calc(50% - 5px);
-      left: calc(50% - 6px);
-    }
   }
-
-
-&-selection-container {
-  width: 50px !important;
-  max-width: 50px !important
-}
 
   &-header-cell {
     background-color: white;
@@ -112,13 +135,16 @@
     }
   }
 
-  &-filter-dropdown {
+  &-filter-dropdown.show {
     display: flex;
+  }
+
+  &-filter-dropdown {
     flex-wrap: wrap;
     justify-content: space-between;
 
     width: 200px;
-    padding: 8px;
+    padding: 10px;
     background-color: $white;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     border-radius: 5px;

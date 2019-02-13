@@ -1,23 +1,19 @@
 import React from 'react';
+import { pick } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
-import { set } from 'lodash';
 import metadata from './AdvancedTableWidget.meta';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
-import { START_INVOKE } from '../../../constants/actionImpls';
-import { omit } from 'lodash';
-import { id } from '../../../utils/id';
-import cloneObject from '../../../utils/cloneObject';
-import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import withPage from '../../../../.storybook/decorators/withPage';
-import AdvancedTable from './AdvancedTableContainer';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
 
 const urlPattern = 'begin:n2o/data';
+
+const tableWidget = pick(metadata['Page_Table'], ['src', 'table', 'dataProvider']);
 
 stories
   .addDecorator(withPage(metadata))
@@ -76,9 +72,9 @@ stories
   .add('Resize', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
@@ -113,11 +109,20 @@ stories
             cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
-            width: 100,
+            width: 200,
             dataIndex: 'birthday',
             key: 'birthday',
             className: 'birthday-cell',
             resizable: true
+          },
+          {
+            headerSrc: 'TextTableHeader',
+            cellSrc: 'TextCell',
+            id: 'birthday',
+            title: 'Дата рождения',
+            dataIndex: 'birthday',
+            key: 'birthday',
+            className: 'birthday-cell'
           }
         ]
       }
@@ -128,16 +133,16 @@ stories
   .add('Checkbox selection', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
             cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
-            width: 100,
+            width: 10,
             dataIndex: 'name',
             key: 'name',
             className: 'name-cell',
@@ -154,7 +159,7 @@ stories
             },
             id: 'surname',
             title: 'Фамилия',
-            width: 100,
+            width: 10,
             dataIndex: 'surname',
             key: 'surname',
             className: 'surname-cell',
@@ -165,7 +170,6 @@ stories
             cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
-            width: 100,
             dataIndex: 'birthday',
             key: 'birthday',
             className: 'birthday-cell',
@@ -181,20 +185,18 @@ stories
   .add('Column filters', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
             cellSrc: 'TextCell',
             id: 'name',
             title: 'Имя',
-            width: 100,
             className: 'name-cell',
             dataIndex: 'name',
             key: 'name',
-            resizable: true,
             filterable: true
           },
           {
@@ -208,11 +210,9 @@ stories
             },
             id: 'surname',
             title: 'Фамилия',
-            width: 100,
             dataIndex: 'surname',
             key: 'surname',
             className: 'surname-cell',
-            resizable: true,
             filterable: true
           },
           {
@@ -220,11 +220,9 @@ stories
             cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
-            width: 100,
             dataIndex: 'birthday',
             key: 'birthday',
-            className: 'birthday-cell',
-            resizable: true
+            className: 'birthday-cell'
           }
         ]
       }
@@ -246,9 +244,9 @@ stories
       };
     });
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
@@ -298,9 +296,9 @@ stories
   .add('Colspan rowspan', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
@@ -387,9 +385,9 @@ stories
       };
     });
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
@@ -435,13 +433,12 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-
   .add('Fixed header', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
@@ -493,9 +490,9 @@ stories
   .add('Fixed columns', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             headerSrc: 'TextTableHeader',
@@ -520,7 +517,6 @@ stories
             },
             id: 'surname',
             title: 'Фамилия',
-            width: 100,
             dataIndex: 'surname',
             key: 'surname',
             className: 'surname-cell',
@@ -531,11 +527,11 @@ stories
             cellSrc: 'TextCell',
             id: 'birthday',
             title: 'Дата рождения',
-            width: 200,
             dataIndex: 'birthday',
             key: 'birthday',
             className: 'birthday-cell',
             sortable: true,
+            width: 200,
             fixed: 'right'
           }
         ],
@@ -549,9 +545,10 @@ stories
   .add('Multi level header', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
+        bordered: true,
         columns: [
           {
             title: 'Имя',
@@ -624,9 +621,9 @@ stories
       };
     });
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         columns: [
           {
             id: 'name',
@@ -714,9 +711,9 @@ stories
       };
     });
     const props = {
-      ...metadata['Page_Table'],
+      ...tableWidget,
       table: {
-        ...metadata['Page_Table'].table,
+        ...tableWidget.table,
         expandable: true,
         columns: [
           {

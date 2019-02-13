@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-function AdvancedTableCell({ children, selectionCell, selectionClass }) {
+function AdvancedTableCell({ children, selectionCell, selectionClass, colSpan, rowSpan }) {
   return (
     <td className={cn('n2o-advanced-table-cell', { [selectionClass]: selectionCell })}>
       <div className="n2o-advanced-table-cell-content">{children}</div>

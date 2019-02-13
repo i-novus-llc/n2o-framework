@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
@@ -6,20 +7,14 @@ import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
-import _, { find, isEqual, map, forOwn } from 'lodash';
+import _, { find, some, isEqual, map, forOwn, every, flattenDeep } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
-import TableCell from '../Table/TableCell';
-import cn from 'classnames';
-import { Resizable } from 'react-resizable';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import AdvancedTableCell from './AdvancedTableCell';
-import Menu, { Item, Divider } from 'rc-menu';
-import DropDown from 'rc-dropdown';
-import 'rc-dropdown/assets/index.css';
-import 'rc-menu/assets/index.css';
 import AdvancedTableCellRenderer from './AdvancedTableCellRenderer';
+import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 
 export const getIndex = (data, selectedId) => {
   const index = _.findIndex(data, model => model.id == selectedId);
@@ -76,6 +71,7 @@ class AdvancedTable extends Component {
     };
 
     this.rows = {};
+    this._dataStorage = [];
 
     this.setRowRef = this.setRowRef.bind(this);
     this.getRowProps = this.getRowProps.bind(this);
@@ -85,7 +81,9 @@ class AdvancedTable extends Component {
     this.checkAll = this.checkAll.bind(this);
     this.onChangeChecked = this.onChangeChecked.bind(this);
     this.onFilter = this.onFilter.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.onEdit = this.onEdit.bind(this);
+    this.setSelectionRef = this.setSelectionRef.bind(this);
+    this.getModelsFromData = this.getModelsFromData.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -103,6 +101,7 @@ class AdvancedTable extends Component {
         data: this.props.data,
         checked
       });
+      this._dataStorage = this.getModelsFromData(this.props.data);
     }
 
     if (!isEqual(prevProps.columns, this.props.columns)) {
@@ -126,9 +125,36 @@ class AdvancedTable extends Component {
     });
   }
 
-  setRowRef(ref, index) {
+  getModelsFromData(data) {
+    let dataStorage = [];
+    const getChildren = children => {
+      return map(children, model => {
+        let array = [...children];
+        if (model.children) {
+          array = [...array, getChildren(model.children)];
+        }
+        return array;
+      });
+    };
+
+    map(data, item => {
+      if (item.children) {
+        const children = getChildren(item.children);
+        dataStorage.push(...flattenDeep(children));
+      }
+      dataStorage.push(item);
+    });
+
+    return dataStorage;
+  }
+
+  setSelectionRef(el) {
+    this.selectAllCheckbox = el;
+  }
+
+  setRowRef(ref, id) {
     if (ref) {
-      this.rows[index] = ref;
+      this.rows[id] = ref;
     }
   }
 
@@ -161,7 +187,7 @@ class AdvancedTable extends Component {
 
   handleRow(id, index, noResolve) {
     const { data, hasFocus, hasSelect } = this.props;
-    hasSelect && !noResolve && this.props.onResolve(_.find(data, { id }));
+    hasSelect && !noResolve && this.props.onResolve(_.find(this._dataStorage, { id }));
     if (hasSelect && hasFocus) {
       this.setSelectAndFocus(index, index);
     } else if (hasFocus) {
@@ -210,6 +236,7 @@ class AdvancedTable extends Component {
   }
 
   onChangeChecked(event, index) {
+    const selectAllCheckbox = ReactDom.findDOMNode(this.selectAllCheckbox).querySelector('input');
     const { onSetSelection } = this.props;
     const checked = !event.target.checked;
     let multi = [];
@@ -221,6 +248,13 @@ class AdvancedTable extends Component {
         }
       }),
       () => {
+        const isSomeOneChecked = some(this.state.checked, checked => checked);
+        const isAllChecked = every(this.state.checked, checked => checked);
+        if (isSomeOneChecked && !isAllChecked) {
+          selectAllCheckbox.indeterminate = true;
+        } else {
+          selectAllCheckbox.indeterminate = false;
+        }
         forOwn(this.state.checked, (v, k) => {
           if (v) {
             const item = find(this.props.data, i => i.id.toString() === k.toString());
@@ -245,13 +279,14 @@ class AdvancedTable extends Component {
     };
   }
 
-  handleEdit(value, index, id) {
+  onEdit(value, index, id) {
+    const { handleEdit } = this.props;
     let data = this.state.data;
     data[index][id] = value;
     this.setState({
       data
     });
-    //TODO send edited to server
+    handleEdit(value, index, id);
   }
 
   getRowProps(model, index) {
@@ -261,9 +296,10 @@ class AdvancedTable extends Component {
       redux,
       isRowActive: index === this.state.selectIndex,
       color: rowColor && propsResolver(rowColor, model),
-      setRef: this.setRowRef
-      // onClick: isActive ? () => this.handleRow(model.id, index) : undefined,
-      // onFocus: !isActive ? () => this.handleRow(model.id, index, true) : undefined
+      model,
+      setRef: this.setRowRef,
+      onClick: isActive ? () => this.handleRow(model.id, model.id) : undefined,
+      onFocus: !isActive ? () => this.handleRow(model.id, model.id, true) : undefined
     };
   }
 
@@ -271,13 +307,18 @@ class AdvancedTable extends Component {
     return {
       title: (
         <div className="n2o-advanced-table-selection-item">
-          <CheckboxN2O inline={true} checked={this.state.checkedAll} onChange={this.checkAll} />
+          <CheckboxN2O
+            ref={this.setSelectionRef}
+            inline={true}
+            checked={this.state.checkedAll}
+            onChange={this.checkAll}
+          />
         </div>
       ),
       dataIndex: 'row-selection',
       key: 'row-selection',
       className: 'n2o-advanced-table-selection-container',
-      width: 50,
+      width: 30,
       onHeaderCell: column => ({
         selectionHead: true,
         selectionClass: 'n2o-advanced-table-selection-container'
@@ -297,11 +338,11 @@ class AdvancedTable extends Component {
   }
 
   mapColumns(columns) {
-    const { widgetId, rowSelection, redux, sorting, onSort } = this.props;
+    const { widgetId, rowSelection, redux, sorting, onSort, filters } = this.props;
     let newColumns = columns;
     newColumns = newColumns.map((col, index) => ({
       ...col,
-      onHeaderCell: (column, index) => ({
+      onHeaderCell: column => ({
         ...column,
         title: col.title,
         widgetId,
@@ -311,7 +352,8 @@ class AdvancedTable extends Component {
         columnId: col.id,
         multiHeader: col.multiHeader,
         onFilter: this.onFilter,
-        onResize: this.handleResize(index)
+        onResize: this.handleResize(index),
+        filters
       }),
       onCell: (record, index) => ({
         record,
@@ -319,7 +361,7 @@ class AdvancedTable extends Component {
       }),
       render: (value, row, index) => (
         <AdvancedTableCellRenderer
-          onEdit={this.handleEdit}
+          onEdit={this.onEdit}
           cellOptions={col.cellOptions}
           value={value}
           row={row}
@@ -350,24 +392,29 @@ class AdvancedTable extends Component {
       expandRowByClick,
       tableSize,
       useFixedHeader,
-      scroll
+      scroll,
+      bordered,
+      isActive,
+      onFocus
     } = this.props;
 
     const columns = this.mapColumns(this.state.columns);
     return (
       <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
         <Table
+          onFocus={!isActive ? onFocus() : undefined}
           prefixCls={'n2o-advanced-table'}
           className={cx('n2o-table table table-hover', className, {
             'has-focus': hasFocus,
-            [`table-${tableSize}`]: tableSize
+            [`table-${tableSize}`]: tableSize,
+            'table-bordered': bordered
           })}
           columns={columns}
           data={this.state.data}
           onRow={this.getRowProps}
           components={{
             header: {
-              row: AdvancedTableRow,
+              row: AdvancedTableHeaderRow,
               cell: AdvancedTableHeaderCell
             },
             body: {
