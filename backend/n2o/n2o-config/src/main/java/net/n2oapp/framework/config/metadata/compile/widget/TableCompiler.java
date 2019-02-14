@@ -66,7 +66,6 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         compileValidation(table, source, validationScope);
         ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
         compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null);
-        component.setClassName(source.getCssClass());
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);

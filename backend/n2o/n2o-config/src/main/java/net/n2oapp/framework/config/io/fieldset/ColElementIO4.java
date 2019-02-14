@@ -18,7 +18,7 @@ public class ColElementIO4 implements NamespaceIO<N2oFieldsetColumn> {
 
     @Override
     public void io(Element e, N2oFieldsetColumn col, IOProcessor p) {
-        p.attribute(e, "class", col::getClassRow, col::setClassRow);
+        p.attribute(e, "class", col::getCssClass, col::setCssClass);
         p.attributeInteger(e, "size", col::getSize, col::setSize);
         p.anyChildren(e, null, col::getItems, col::setItems, p.anyOf(), DEFAULT_NAMESPACE, controlDefaultNamespace);
     }
