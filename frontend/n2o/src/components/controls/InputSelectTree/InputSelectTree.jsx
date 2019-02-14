@@ -69,7 +69,7 @@ import cx from 'classnames';
  * @returns {*}
  * @constructor
  */
-
+//TODO переделать в класс
 function InputSelectTree({
   onOpen,
   onFocus,
@@ -261,6 +261,14 @@ function InputSelectTree({
     return buff;
   };
 
+  const getSingleValue = () => find(data, [valueFieldId, value]);
+  const getMultiValue = () => {
+    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
+      return getChildWithParenId(value, data);
+    } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
+      return getParentsWithChildId(value, data);
+    }
+  };
   /**
    * Функция преобразования value rcTreeSelect в формат n2o
    * Производит поиск по родителям и потомкам.
@@ -272,16 +280,10 @@ function InputSelectTree({
    */
   const getItemByValue = value => {
     if (!value) return null;
-    if (isString(value) || isNumber(value)) {
-      return find(data, [valueFieldId, value]);
-    }
-
-    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
-      return getChildWithParenId(value, data);
-    }
-
-    if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
-      return getParentsWithChildId(value, data);
+    if (multiSelect) {
+      return getMultiValue();
+    } else {
+      return getSingleValue();
     }
 
     // стратегия SHOW_ALL
