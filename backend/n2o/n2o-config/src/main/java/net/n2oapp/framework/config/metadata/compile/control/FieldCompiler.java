@@ -53,65 +53,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
-        compileDefaultValues(field, source, p);
         compileDependencies(field, source, p);
         initValidations(source, field, context, p);
         compileFilters(field, p);
-    }
-
-    /**
-     * Сборка значения по умолчанию у поля
-     *
-     * @param source Исходная модель поля
-     * @param p      Процессор сборки
-     * @return Значение по умолчанию поля
-     */
-    protected Object compileDefValues(S source, CompileProcessor p) {
-        return null;
-    }
-
-    private void compileDefaultValues(Field field, S source, CompileProcessor p) {
-        UploadScope uploadScope = p.getScope(UploadScope.class);
-        if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
-            return;
-        ModelsScope defaultValues = p.getScope(ModelsScope.class);
-        if (defaultValues != null && defaultValues.hasModels()) {
-            Object defValue;
-            if (source.getDefaultValue() != null) {
-                defValue = p.resolve(source.getDefaultValue(), source.getDomain());
-            } else {
-                defValue = compileDefValues(source, p);
-            }
-            if (defValue != null) {
-                if (defValue instanceof String) {
-                    defValue = ScriptProcessor.resolveExpression((String) defValue);
-                }
-                if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
-                    defaultValue.setValue(defValue);
-                    defaultValues.add(field.getId(), defaultValue);
-                } else {
-                    SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
-                    ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), field.getId());
-                    if (defValue instanceof DefaultValues) {
-                        DefaultValues defaultValue = (DefaultValues) defValue;
-                        Map<String, Object> values = defaultValue.getValues();
-                        if (defaultValue.getValues() != null) {
-                            for (String param : values.keySet()) {
-                                if (values.get(param) instanceof String) {
-                                    Object value = ScriptProcessor.resolveExpression((String) values.get(param));
-                                    if (value != null)
-                                        values.put(param, value);
-                                }
-                            }
-                        }
-                    }
-                    modelLink.setValue(defValue);
-                    modelLink.setSubModelQuery(subModelQuery);
-                    defaultValues.add(field.getId(), modelLink);
-                }
-            }
-        }
     }
 
     private String initLabel(S source, CompileProcessor p) {
