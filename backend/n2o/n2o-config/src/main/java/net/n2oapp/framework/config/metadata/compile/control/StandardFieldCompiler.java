@@ -16,6 +16,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     protected StandardField<D> compileStandardField(D control, S source, CompileContext<?, ?> context, CompileProcessor p) {
         StandardField<D> field = new StandardField<>();
         compileField(field, source, context, p);
+        field.setClassName(null);//для StandardField className должен попасть в control, а не field
 
         compileControl(control, source, p, field);
         field.setControl(control);
