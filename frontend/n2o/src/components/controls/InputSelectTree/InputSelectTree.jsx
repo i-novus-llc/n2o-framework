@@ -7,6 +7,7 @@ import {
   every,
   find,
   isArray,
+  isNumber,
   isString,
   isEmpty,
   keys,
@@ -144,8 +145,13 @@ function InputSelectTree({
     );
 
     keys(itemsByID).forEach(key => {
-      if (itemsByID[key][parentFieldId])
+      if (
+        itemsByID[key][parentFieldId] &&
+        itemsByID[itemsByID[key][parentFieldId]] &&
+        itemsByID[itemsByID[key][parentFieldId]].children
+      ) {
         itemsByID[itemsByID[key][parentFieldId]].children.push({ ...itemsByID[key] });
+      }
     });
 
     return keys(itemsByID)
@@ -266,7 +272,7 @@ function InputSelectTree({
    */
   const getItemByValue = value => {
     if (!value) return null;
-    if (isString(value)) {
+    if (isString(value) || isNumber(value)) {
       return find(data, [valueFieldId, value]);
     }
 
@@ -327,6 +333,11 @@ function InputSelectTree({
    * @returns {boolean}
    */
   const handleDropdownVisibleChange = visible => {
+    if (visible) {
+      onFocus();
+    } else {
+      onBlur();
+    }
     onToggle(visible);
     visible ? onOpen() : onClose();
     if (ajax) setTreeExpandedKeys([]);
@@ -386,19 +397,6 @@ function InputSelectTree({
         id: 'inputSelectTree.searchPlaceholder',
         defaultMessage: searchPlaceholder || ' '
       })}
-      ref={e => {
-        if (e) {
-          ref && ref(e);
-          e.onSelectorBlur = event => {
-            onBlur(event);
-            return true;
-          };
-          e.onSelectorFocus = event => {
-            onFocus(event);
-            return true;
-          };
-        }
-      }}
       {...rest}
     >
       {children}
