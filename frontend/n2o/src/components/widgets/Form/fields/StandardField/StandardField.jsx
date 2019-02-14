@@ -118,8 +118,6 @@ class StandardField extends React.Component {
           <div style={styleHelper}>
             <div style={flexStyle}>
               <Control
-                className={cx(controlClass, { [validationClass]: touched })}
-                style={controlStyle}
                 placeholder={placeholder}
                 visible={visible}
                 autoFocus={autoFocus}
@@ -129,6 +127,7 @@ class StandardField extends React.Component {
                 onChange={onChange}
                 {...control}
                 {...props}
+                className={cx(control && control.className, { [validationClass]: touched })}
               />
               <Measure value={measure} />
               <FieldActions actions={fieldActions} />

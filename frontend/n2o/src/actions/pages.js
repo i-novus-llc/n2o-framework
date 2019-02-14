@@ -37,9 +37,10 @@ export function metadataSuccess(pageId, json) {
  * @ignore
  * @param pageId - id страницы
  * @param err - ошибка
+ * @param meta - meta эффекты
  */
-export function metadataFail(pageId, err) {
-  return createActionHelper(METADATA_FAIL)({ pageId, err });
+export function metadataFail(pageId, err, meta) {
+  return createActionHelper(METADATA_FAIL)({ pageId, err }, meta);
 }
 
 export function mapUrl(pageId) {
