@@ -32,6 +32,7 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new FileUploadIOv2(),
                 new CodeEditorIOv2(),
                 new SearchButtonsIOv2(),
-                new CustomControlIOv2() );
+                new CustomControlIOv2(),
+                new TextFieldIOv4());
     }
 }

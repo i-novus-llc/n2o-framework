@@ -1,4 +1,4 @@
-import { omit, map, isArray, isObject, merge, set, pick, each } from 'lodash';
+import { omit, map as mapFn, isArray, isObject, merge, set, pick, each, isString } from 'lodash';
 import {
   SET,
   REMOVE,
@@ -10,7 +10,7 @@ import {
   COPY,
   CLEAR
 } from '../constants/models';
-import { omitDeep } from '../tools/helpers';
+import { omitDeep, setIn } from '../tools/helpers';
 
 /**
  * Префиксы моделей в N2O
@@ -40,20 +40,16 @@ const modelState = {
  * @param action
  */
 function resolveUpdate(state, action) {
-  if (isArray(state[action.payload.key])) {
-    set(state[action.payload.key], action.payload.field, action.payload.value);
-    return [...state[action.payload.key]];
+  const { key, field, value } = action.payload;
+
+  if (isArray(state[key])) {
+    return setIn(state[key], field, value);
   }
-  if (isObject(state[action.payload.key])) {
-    return {
-      ...state[action.payload.key],
-      ...set({}, action.payload.field, action.payload.value)
-    };
+  if (isObject(state[key])) {
+    return setIn(state[key], field, value);
   }
-  return {
-    ...state,
-    [action.payload.field]: action.payload.value
-  };
+
+  return setIn(state, field, value);
 }
 
 function resolve(state, action) {
@@ -76,15 +72,11 @@ function resolve(state, action) {
         [action.payload.key]: resolveUpdate(state, action)
       };
     case UPDATE_MAP:
-      return {
-        ...state,
-        [action.payload.key]: {
-          ...state[action.payload.key],
-          [action.payload.field]:
-            isArray(action.payload.value) &&
-            map(action.payload.value, v => ({ [action.payload.map]: v }))
-        }
-      };
+      const { value, key, field, map } = action.payload;
+      const newValue = isString(value) ? [value] : value;
+
+      return setIn(state, [key, field], mapFn(newValue, v => ({ [map]: v })));
+
     case COPY:
       return {
         ...state[action.payload.target.prefix],

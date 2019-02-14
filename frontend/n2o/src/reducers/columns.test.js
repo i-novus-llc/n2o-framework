@@ -27,11 +27,9 @@ describe('Тесты columns reducer', () => {
     ).toEqual({
       testKey: {
         columnId: {
-          columnId: 'columnId',
-          isDisabled: false,
+          disabled: false,
           isInit: true,
-          isVisible: true,
-          key: 'testKey'
+          visible: true
         },
         name: 'testColumns'
       }
@@ -58,9 +56,9 @@ describe('Тесты columns reducer', () => {
     ).toEqual({
       testKey: {
         columnId: {
-          isDisabled: false,
+          disabled: false,
           isInit: true,
-          isVisible: true
+          visible: true
         },
         name: 'testName'
       }
@@ -87,9 +85,9 @@ describe('Тесты columns reducer', () => {
     ).toEqual({
       testKey: {
         columnId: {
-          isDisabled: true,
+          disabled: true,
           isInit: true,
-          isVisible: true
+          visible: true
         },
         name: 'testName'
       }
@@ -115,9 +113,9 @@ describe('Тесты columns reducer', () => {
     ).toEqual({
       testKey: {
         columnId: {
-          isDisabled: false,
+          disabled: false,
           isInit: true,
-          isVisible: false
+          visible: false
         },
         name: 'testName'
       }

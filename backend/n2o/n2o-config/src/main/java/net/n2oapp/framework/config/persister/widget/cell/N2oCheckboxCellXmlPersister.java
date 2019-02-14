@@ -22,12 +22,8 @@ public class N2oCheckboxCellXmlPersister extends N2oCellXmlPersister<N2oCheckbox
         Element invokeAction = new Element("invoke-action", namespace);
         if (checkbox.getAction() != null) {
             root.setAttribute("action-id", ((N2oInvokeAction)checkbox.getAction()).getOperationId());
-        };
-        Element dependencies = setEmptyElement(root, "dependencies");
-        if (checkbox.getEnablingCondition() != null) {
-            Element enablingCondition = setEmptyElement(dependencies, "enabling-condition");
-            setAttribute(enablingCondition, "on", checkbox.getEnablingCondition().getOn());
         }
+        Element dependencies = setEmptyElement(root, "dependencies");
         root.addContent(invokeAction);
         return root;
     }

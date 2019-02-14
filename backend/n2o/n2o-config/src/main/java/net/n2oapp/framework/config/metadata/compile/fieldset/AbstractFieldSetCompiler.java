@@ -32,8 +32,8 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
         }
         compiled.setLabelWidth(source.getLabelWidth());
 
-        compiled.setVisible(ScriptProcessor.resolveLinks(source.getVisible()));
-        compiled.setEnabled(ScriptProcessor.resolveLinks(source.getEnabled()));
+        compiled.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        compiled.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
 
         if (source.getDependsOn() != null) {
             ControlDependency[] dependency = new ControlDependency[1];

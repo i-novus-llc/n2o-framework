@@ -1,5 +1,6 @@
 package net.n2oapp.framework.boot;
 
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.ConfigStarter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;

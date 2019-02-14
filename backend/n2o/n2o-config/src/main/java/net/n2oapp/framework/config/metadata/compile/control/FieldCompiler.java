@@ -54,15 +54,16 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
         compileDefaultValues(field, source, p);
-        compileDependencies(field, source);
+        compileDependencies(field, source, p);
         initValidations(source, field, context, p);
         compileFilters(field, p);
     }
 
     /**
      * Сборка значения по умолчанию у поля
+     *
      * @param source Исходная модель поля
-     * @param p Процессор сборки
+     * @param p      Процессор сборки
      * @return Значение по умолчанию поля
      */
     protected Object compileDefValues(S source, CompileProcessor p) {
@@ -172,7 +173,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         List<Validation> serverValidations = new ArrayList<>();
         List<Validation> clientValidations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
-        String FIELD_REQUIRED_MESSAGE = "n2o.required";
+        String FIELD_REQUIRED_MESSAGE = "n2o.required.field";
         if (source.getRequired() != null && source.getRequired()) {
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
             mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
@@ -317,7 +318,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param field  клиентская модель элемента ввода
      * @param source исходная модель поля
      */
-    protected void compileDependencies(Field field, S source) {
+    protected void compileDependencies(Field field, S source, CompileProcessor p) {
 
         if (source.getDependencies() != null) {
             for (N2oField.Dependency d : source.getDependencies()) {
@@ -332,8 +333,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     dependency.setType(ValidationType.setValue);
 
                 dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
-                dependency.getOn().add(d.getOn());
-                dependency.setApplyOnInit(true);
+                dependency.setApplyOnInit(p.cast(d.getApplyOnInit(), true));
+                if (d.getOn() != null)
+                    dependency.getOn().addAll(Arrays.asList(d.getOn()));
+
                 field.addDependency(dependency);
             }
         }

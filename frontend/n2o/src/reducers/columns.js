@@ -11,23 +11,23 @@ import { buttonState } from './toolbar';
 
 export const columnState = {
   isInit: true,
-  isVisible: true,
-  isDisabled: false
+  visible: true,
+  disabled: false
 };
 
 function resolve(state = columnState, action) {
   switch (action.type) {
     case CHANGE_COLUMN_VISIBILITY:
       return Object.assign({}, state, {
-        isVisible: action.payload.visible
+        visible: action.payload.visible
       });
     case CHANGE_COLUMN_DISABLED:
       return Object.assign({}, state, {
-        isDisabled: action.payload.disabled
+        disabled: action.payload.disabled
       });
     case TOGGLE_COLUMN_VISIBILITY:
       return Object.assign({}, state, {
-        isVisible: !state.isVisible
+        visible: !state.visible
       });
     case RESET_STATE:
       return Object.assign({}, state, { isInit: false });
@@ -41,11 +41,11 @@ function resolve(state = columnState, action) {
  * @ignore
  */
 export default function columns(state = {}, action) {
-  const { key, columnId } = action.payload || {};
+  const { key, columnId, ...rest } = action.payload || {};
   switch (action.type) {
     case REGISTER_COLUMN:
       return Object.assign({}, state, {
-        [key]: { ...state[key], [columnId]: Object.assign({}, columnState, action.payload) }
+        [key]: { ...state[key], [columnId]: Object.assign({}, columnState, rest) }
       });
     case CHANGE_COLUMN_VISIBILITY:
     case CHANGE_COLUMN_DISABLED:

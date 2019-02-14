@@ -228,7 +228,8 @@
                         {
                           "type": "setValue",
                           "on": [
-                            "f9"
+                            "f9",
+                            "f10"
                           ],
                           "expression": "(function(){return 'В поле №9 введено:  '+f9})()"
                         },

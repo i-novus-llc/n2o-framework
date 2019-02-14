@@ -248,6 +248,7 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public void resolveSubModels(ModelLink link, List<ModelLink> linkList) {
+        if (link.getSubModelQuery() == null) return;
         for (ModelLink modelLink : linkList) {
             if (link.equalsLink(modelLink)) {
                 resolveDefaultValues(modelLink, link);
@@ -272,7 +273,9 @@ public class N2oCompileProcessor implements CompileProcessor {
                 DefaultValues defaultValues = new DefaultValues();
                 defaultValues.setValues(new HashMap<>());
                 defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), data.get(src.getParam()));
-                dst.setValue(defaultValues);
+                dst.setValue(src.getSubModelQuery().getMulti() != null && src.getSubModelQuery().getMulti()
+                        ? Collections.singletonList(defaultValues)
+                        : defaultValues);
             }
         }
     }

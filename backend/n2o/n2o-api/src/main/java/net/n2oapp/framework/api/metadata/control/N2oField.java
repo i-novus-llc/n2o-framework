@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
@@ -71,9 +72,10 @@ public abstract class N2oField extends N2oComponent {
 
     @Getter
     @Setter
-    public static abstract class Dependency implements Serializable {
-        private String on;
+    public static class Dependency implements Source {
+        private String[] on;
         private String value;
+        private Boolean applyOnInit;
     }
 
     public static class EnablingDependency extends Dependency {

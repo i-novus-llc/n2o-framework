@@ -494,24 +494,34 @@
         <xs:complexContent>
             <xs:extension base="cellDefinition">
                 <xs:annotation>
-                    <xs:documentation>Ячейка с текстом.</xs:documentation>
+                    <xs:documentation>Ячейка со значком.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
                 <xs:attribute name="position" type="positionType" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Расположение.</xs:documentation>
+                        <xs:documentation>Расположение относительно текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="color" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Цвет текста.</xs:documentation>
+                        <xs:documentation>Цвет значка.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="text" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Текст ячейки</xs:documentation>
+                        <xs:documentation>Текст вне значка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="format" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Формат текста внутри значка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-format" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Формат текста вне значка.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

@@ -144,4 +144,12 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         assertThat(resultText, is("http://page/widget/:w_id/action?versionId=:versionId"));
     }
 
+    @Test
+    public void resolveJS() {
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
+        assertThat(processor.resolveJS("Hello {name}", String.class), is("`'Hello '+name`"));
+        assertThat(processor.resolveJS("{name}", String.class), is("`name`"));
+        assertThat(processor.resolveJS("true", Boolean.class), is(true));
+        assertThat(processor.resolveJS("false", Boolean.class), is(false));
+    }
 }

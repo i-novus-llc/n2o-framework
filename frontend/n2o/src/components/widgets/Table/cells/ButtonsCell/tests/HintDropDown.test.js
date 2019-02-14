@@ -87,6 +87,6 @@ describe('<HintDropDown />', () => {
       .simulate('click');
     wrapper.update();
     expect(mockClick.calledOnce).toEqual(true);
-    expect(mockClick.calledWith('test-action')).toEqual(true);
+    expect(mockClick.args[0][1]).toEqual('test-action');
   });
 });

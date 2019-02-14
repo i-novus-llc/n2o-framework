@@ -4,6 +4,7 @@ import moment from 'moment';
 
 import Calendar from './Calendar';
 import { parseDate } from './utils';
+import DateTimeControl from './DateTimeControl';
 
 /**
  * Компонент PopUp
@@ -36,6 +37,13 @@ class PopUp extends React.PureComponent {
       isTimeSet
     } = this.props;
 
+    let minDate = inputName => {
+      if (value[DateTimeControl.beginInputName] && inputName === DateTimeControl.endInputName) {
+        return parseDate(value[DateTimeControl.beginInputName], dateFormat);
+      }
+      return parseDate(min, dateFormat);
+    };
+
     return (
       <div className="n2o-pop-up n2o-picker-dropdown position-absolute d-inline-flex justify-content-end">
         {Object.keys(value).map((input, i) => {
@@ -52,7 +60,7 @@ class PopUp extends React.PureComponent {
               select={this.props.select}
               setVisibility={this.setVisibility}
               max={parseDate(max, dateFormat)}
-              min={parseDate(min, dateFormat)}
+              min={minDate(input)}
               locale={locale}
             />
           );

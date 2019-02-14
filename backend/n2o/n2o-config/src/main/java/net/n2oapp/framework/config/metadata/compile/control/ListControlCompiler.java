@@ -105,8 +105,9 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 String filterParam = query.getFilterIdToParamMap().get(filter.getFilterField());
                 Object prefilterValue = getPrefilterValue(preFilter);
-                if (StringUtils.isJs(prefilterValue) && modelsScope != null) {
-                    ModelLink link = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId());
+                if (StringUtils.isJs(prefilterValue)) {
+                    ModelLink link = new ModelLink(p.cast(preFilter.getRefModel(), modelsScope.getModel()),
+                            p.cast(preFilter.getRefWidgetId(), modelsScope.getWidgetId()));
                     link.setValue(prefilterValue);
                     queryMap.put(filterParam, link);
                 } else {

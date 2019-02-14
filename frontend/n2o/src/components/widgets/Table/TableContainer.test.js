@@ -62,7 +62,8 @@ describe('TableContainer', () => {
         rowColor: 'red',
         size: 10,
         actions: { anyActions: {} },
-        redux: true
+        redux: true,
+        rowClick: { src: 'dummy' }
       };
 
       const stateData = {
@@ -87,7 +88,8 @@ describe('TableContainer', () => {
         datasource: stateData.models.datasource.widgetId,
         onFocus: expect.any(Function),
         onResolve: expect.any(Function),
-        onSort: expect.any(Function)
+        onSort: expect.any(Function),
+        onActionImpl: expect.any(Function)
       });
     });
   });
@@ -154,8 +156,25 @@ describe('TableContainer', () => {
     expect(
       wrapper
         .find('WidgetContainer')
-        .find('lifecycle(Table)')
+        .find('lifecycle(withHandlers(Table))')
         .exists()
     ).toBe(true);
+  });
+
+  it('Проверка withWidgetHandlers', () => {
+    const onActionImpl = sinon.spy();
+    const wrapper = setup(
+      {
+        onActionImpl,
+        rowClick: { src: 'dummy' }
+      },
+      'withWidgetHandlers'
+    );
+    wrapper
+      .find(NullComponent)
+      .props()
+      .onRowClickAction();
+    expect(onActionImpl.calledOnce).toBe(true);
+    expect(onActionImpl.calledWith({ src: 'dummy' })).toBe(true);
   });
 });

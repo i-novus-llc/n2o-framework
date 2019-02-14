@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { lifecycle, compose } from 'recompose';
+import { lifecycle, compose, withHandlers } from 'recompose';
 import { isEqual, find, isEmpty, debounce } from 'lodash';
 
 import Table from './Table';
@@ -41,7 +41,9 @@ export const withWidgetContainer = widgetContainer(
         onFocus: props.onFocus,
         size: props.size,
         actions: props.actions,
-        redux: true
+        redux: true,
+        onActionImpl: props.onActionImpl,
+        rowClick: props.rowClick
       };
     }
   },
@@ -68,6 +70,12 @@ export const withContainerLiveCycle = lifecycle({
   }
 });
 
+export const withWidgetHandlers = withHandlers({
+  onRowClickAction: ({ rowClick, onActionImpl }) => () => {
+    onActionImpl(rowClick);
+  }
+});
+
 /**
  * Обертка в widgetContainer, мэппинг пропсов
  */
@@ -75,5 +83,6 @@ const TableContainer = Table;
 
 export default compose(
   withWidgetContainer,
-  withContainerLiveCycle
+  withContainerLiveCycle,
+  withWidgetHandlers
 )(Table);

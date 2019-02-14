@@ -14,7 +14,7 @@
         </ctrl:validations>
 
         <ctrl:dependencies>
-            <ctrl:enabling-condition on="id">test</ctrl:enabling-condition>
+            <ctrl:enabling-condition on="id,name">test</ctrl:enabling-condition>
             <ctrl:required-condition on="id">test</ctrl:required-condition>
         </ctrl:dependencies>
     </ctrl:text-area>

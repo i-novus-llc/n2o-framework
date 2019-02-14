@@ -38,7 +38,7 @@
                         <badge color="{gender.id==1?'danger':'success'}"/>
                     </column>
                     <column text-field-id="vip">
-                        <checkbox>
+                        <checkbox enabled="{name!='Мария'}">
                             <invoke operation-id="update"/>
                         </checkbox>
                     </column>

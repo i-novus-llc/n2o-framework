@@ -19,7 +19,7 @@ class CheckboxButton extends React.Component {
    * базовый рендер
    * */
   render() {
-    const { label, disabled, value, checked, onChange } = this.props;
+    const { label, disabled, value, checked, onChange, onFocus, onBlur } = this.props;
 
     return (
       <label className={cx('btn btn-secondary', { active: checked, disabled: disabled })}>
@@ -29,6 +29,8 @@ class CheckboxButton extends React.Component {
           value={value}
           checked={isNil(checked) ? !!value : checked}
           onChange={onChange}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         {label}
       </label>
@@ -41,12 +43,32 @@ CheckboxButton.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  label: PropTypes.string
+  label: PropTypes.string,
+  obBlur: PropTypes.func,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  placeholder: PropTypes.string,
+  length: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  type: PropTypes.string,
+  autoFocus: PropTypes.bool,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onPaste: PropTypes.func,
+  onClick: PropTypes.func,
+  onKeyDown: PropTypes.func
 };
 
 CheckboxButton.defaultProps = {
   checked: false,
-  disabled: false
+  disabled: false,
+  onFocus: () => {},
+  onBlur: () => {},
+  onChange: () => {},
+  onPaste: () => {},
+  onClick: () => {},
+  onKeyDown: () => {}
 };
 
 export default setDisplayName('CheckboxButton')(CheckboxButton);

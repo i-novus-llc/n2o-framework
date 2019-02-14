@@ -62,6 +62,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
         p.attribute(e, "domain", t::getDomain, t::setDomain);
         p.attribute(e, "filter-id", t::getFilterField, t::setFilterField);
+        p.attributeBoolean(e, "required", t::getRequired, t::setRequired);
         p.text(e, t::getText, t::setText);
     }
 
