@@ -1,9 +1,5 @@
 package net.n2oapp.framework.api.metadata.global.view.widget;
 
-/**
- * @author rgalina
- * @since 17.02.2016
- */
 public class N2oHtmlWidget extends N2oWidget {
     private String url;
     private boolean dummyObject;

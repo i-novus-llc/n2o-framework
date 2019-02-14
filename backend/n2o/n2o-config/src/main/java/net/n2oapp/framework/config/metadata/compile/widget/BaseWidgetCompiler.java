@@ -61,6 +61,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         String localWidgetId = initLocalWidgetId(source, p);
         source.setId(localWidgetId);
         compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
+        compiled.setClassName(source.getCssClass());
+        compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
         compiled.setQueryId(source.getQueryId());
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));

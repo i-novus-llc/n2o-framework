@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -18,9 +19,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public abstract class FieldSet implements Compiled {
-    @JsonProperty
-    private String src;
+public abstract class FieldSet extends Component implements Compiled {
     @JsonProperty
     private LabelPosition labelPosition;
     @JsonProperty
