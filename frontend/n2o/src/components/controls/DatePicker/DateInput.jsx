@@ -26,6 +26,7 @@ class DateInput extends React.Component {
     };
     this.onChange = this.onChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
   }
 
@@ -45,6 +46,16 @@ class DateInput extends React.Component {
     const { setVisibility, onFocus } = this.props;
     onFocus && onFocus(e);
     setVisibility(true);
+  }
+
+  onBlur(e) {
+    const { value } = e.target;
+    const { dateFormat, name } = this.props;
+    if (value === '') {
+      this.props.onBlur(null, name);
+    } else if (moment(value, dateFormat).format(dateFormat) === value) {
+      this.props.onBlur(moment(value, dateFormat), name);
+    }
   }
 
   /**
@@ -79,7 +90,7 @@ class DateInput extends React.Component {
           onClick={onClick}
           style={inputStyle}
           onFocus={this.onFocus}
-          onBlur={this.props.onBlur}
+          onBlur={this.onBlur}
         />
         {(name === DateTimeControl.defaultInputName || name === DateTimeControl.endInputName) && (
           <button

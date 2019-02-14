@@ -48,6 +48,7 @@ class DateTimeControl extends React.Component {
     this.select = this.select.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.setVisibility = this.setVisibility.bind(this);
     this.setPlacement = this.setPlacement.bind(this);
     this.onClickOutside = this.onClickOutside.bind(this);
@@ -113,6 +114,26 @@ class DateTimeControl extends React.Component {
         this.dateToString(inputs[DateTimeControl.endInputName])
       ]);
     }
+  }
+
+  /**
+   * вызов onBlur
+   */
+  onBlur(date, inputName) {
+    this.setState(state => {
+      const inputs = { ...state.inputs };
+      if (inputName === DateTimeControl.defaultInputName) {
+        this.props.onBlur(this.dateToString(inputs[inputName]));
+      } else {
+        this.props.onBlur([
+          this.dateToString(inputs[DateTimeControl.beginInputName]),
+          this.dateToString(inputs[DateTimeControl.endInputName])
+        ]);
+      }
+      return {
+        inputs: { ...this.state.inputs, [inputName]: date }
+      };
+    });
   }
 
   /**
@@ -269,7 +290,7 @@ class DateTimeControl extends React.Component {
             inputClassName={className}
             setVisibility={this.setVisibility}
             setWidth={this.setWidth}
-            onBlur={onBlur}
+            onBlur={this.onBlur}
             onFocus={onFocus}
           />
           {this.renderPopUp(this.width)}

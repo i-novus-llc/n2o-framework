@@ -39,7 +39,9 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
             ControlDependency[] dependency = new ControlDependency[1];
             ControlDependency dep = new ControlDependency();
             dep.setType(ValidationType.reRender);
-            dep.setOn(Arrays.asList(source.getDependsOn()));
+            List<String> ons = Arrays.asList(source.getDependsOn());
+            ons.replaceAll(String::trim);
+            dep.setOn(ons);
             dependency[0] = dep;
             compiled.setDependency(dependency);
         }

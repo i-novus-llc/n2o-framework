@@ -10,7 +10,7 @@ exports[`StandardField рендерится корректно 1`] = `
   }
 >
   <label
-    className="myLabelClass n2o-label"
+    className="n2o-field-label myLabelClass n2o-label"
     htmlFor={undefined}
     style={
       Object {
@@ -22,14 +22,7 @@ exports[`StandardField рендерится корректно 1`] = `
   >
     Мое поле
     <span
-      style={
-        Object {
-          "color": "#e53935",
-          "fontWeight": 900,
-          "marginLeft": 3,
-          "verticalAlign": "top",
-        }
-      }
+      className="n2o-field-label-required"
     >
       *
     </span>

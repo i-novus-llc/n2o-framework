@@ -334,8 +334,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
                 dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
                 dependency.setApplyOnInit(p.cast(d.getApplyOnInit(), true));
-                if (d.getOn() != null)
-                    dependency.getOn().addAll(Arrays.asList(d.getOn()));
+                if (d.getOn() != null) {
+                    List<String> ons = Arrays.asList(d.getOn());
+                    ons.replaceAll(String::trim);
+                    dependency.getOn().addAll(ons);
+                }
 
                 field.addDependency(dependency);
             }
@@ -343,7 +346,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         if (source.getDependsOn() != null) {
             ControlDependency dependency = new ControlDependency();
-            dependency.setOn(Arrays.asList(source.getDependsOn()));
+            List<String> ons = Arrays.asList(source.getDependsOn());
+            ons.replaceAll(String::trim);
+            dependency.setOn(ons);
             dependency.setType(ValidationType.reRender);
             field.addDependency(dependency);
         }

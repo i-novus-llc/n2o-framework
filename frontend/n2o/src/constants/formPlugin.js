@@ -11,3 +11,5 @@ export const HIDE_FIELDS = 'n2o/formPlugin/HIDE_FIELDS';
 export const SHOW_FIELDS = 'n2o/formPlugin/SHOW_FIELDS';
 export const ENABLE_FIELDS = 'n2o/formPlugin/ENABLE_FIELDS';
 export const DISABLE_FIELDS = 'n2o/formPlugin/DISABLE_FIELDS';
+export const SET_REQUIRED = 'n2o/formPlugin/SET_REQUIRED';
+export const UNSET_REQUIRED = 'n2o/formPlugin/UNSET_REQUIRED';

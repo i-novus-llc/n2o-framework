@@ -7,7 +7,9 @@ import {
   ADD_FIELD_MESSAGE,
   REMOVE_FIELD_MESSAGE,
   REGISTER_DEPENDENCY,
-  SET_FIELD_FILTER
+  SET_FIELD_FILTER,
+  SET_REQUIRED,
+  UNSET_REQUIRED
 } from '../constants/formPlugin';
 import formPlugin from './formPlugin';
 
@@ -30,7 +32,9 @@ describe('Тесты formPlugin reducer', () => {
           filter: [],
           isInit: true,
           message: null,
-          visible: true
+          visible: true,
+          dependency: null,
+          required: false
         }
       }
     });
@@ -54,7 +58,9 @@ describe('Тесты formPlugin reducer', () => {
           filter: [],
           isInit: true,
           message: null,
-          visible: true
+          visible: true,
+          dependency: null,
+          required: false
         }
       }
     });
@@ -78,7 +84,9 @@ describe('Тесты formPlugin reducer', () => {
           filter: [],
           isInit: true,
           message: null,
-          visible: true
+          visible: true,
+          dependency: null,
+          required: false
         }
       }
     });
@@ -102,7 +110,9 @@ describe('Тесты formPlugin reducer', () => {
           filter: [],
           isInit: true,
           message: null,
-          visible: false
+          visible: false,
+          dependency: null,
+          required: false
         }
       }
     });
@@ -129,7 +139,9 @@ describe('Тесты formPlugin reducer', () => {
           message: {
             0: 'message'
           },
-          visible: true
+          visible: true,
+          dependency: null,
+          required: false
         }
       }
     });
@@ -154,7 +166,9 @@ describe('Тесты formPlugin reducer', () => {
           filter: [],
           isInit: true,
           message: null,
-          visible: true
+          visible: true,
+          dependency: null,
+          required: false
         }
       }
     });
@@ -182,7 +196,9 @@ describe('Тесты formPlugin reducer', () => {
           filter: [],
           isInit: true,
           message: null,
-          visible: false
+          visible: false,
+          dependency: null,
+          required: false
         }
       }
     });
@@ -208,6 +224,7 @@ describe('Тесты formPlugin reducer', () => {
           isInit: true,
           message: null,
           visible: true,
+          required: false,
           dependency: 'dependency'
         }
       }
@@ -233,6 +250,8 @@ describe('Тесты formPlugin reducer', () => {
     ).toEqual({
       registeredFields: {
         testName: {
+          dependency: null,
+          required: false,
           disabled: false,
           isInit: true,
           message: null,
@@ -242,6 +261,58 @@ describe('Тесты formPlugin reducer', () => {
               'filter.name': 'Oleg'
             }
           ]
+        }
+      }
+    });
+  });
+
+  it('Проверка SHOW_FIELD', () => {
+    expect(
+      formPlugin(
+        {},
+        {
+          type: SET_REQUIRED,
+          payload: {
+            name: 'testName'
+          }
+        }
+      )
+    ).toEqual({
+      registeredFields: {
+        testName: {
+          disabled: false,
+          filter: [],
+          isInit: true,
+          message: null,
+          visible: true,
+          dependency: null,
+          required: true
+        }
+      }
+    });
+  });
+
+  it('Проверка UNSET_REQUIRED', () => {
+    expect(
+      formPlugin(
+        {},
+        {
+          type: UNSET_REQUIRED,
+          payload: {
+            name: 'testName'
+          }
+        }
+      )
+    ).toEqual({
+      registeredFields: {
+        testName: {
+          disabled: false,
+          filter: [],
+          isInit: true,
+          message: null,
+          visible: true,
+          dependency: null,
+          required: false
         }
       }
     });

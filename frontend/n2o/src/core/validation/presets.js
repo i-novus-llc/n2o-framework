@@ -30,10 +30,14 @@ export function email(fieldId, values) {
  * Валидация того, что поле непустое
  * @param fieldId
  * @param values
+ * @param options
  * @returns {*}
  */
-export function required(fieldId, values) {
+export function required(fieldId, values, options = {}) {
   const value = get(values, fieldId);
+  if (options.expression && !evalExpression(options.expression, values)) {
+    return true;
+  }
   if (isString(value)) {
     return value !== '';
   } else if (isObject(value)) {
