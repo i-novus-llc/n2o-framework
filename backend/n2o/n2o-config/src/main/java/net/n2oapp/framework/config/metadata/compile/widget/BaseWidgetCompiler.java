@@ -479,7 +479,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            ModelsScope modelsScope,
                                            FiltersScope filtersScope,
                                            SubModelsScope subModelsScope,
-                                           UploadScope uploadScope) {
+                                           UploadScope uploadScope,
+                                           MomentScope momentScope) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -503,7 +504,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 fieldSet = newFieldset;
             }
             fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
-                    widgetScope, fieldSetScope, modelsScope, filtersScope, indexScope, subModelsScope, uploadScope));
+                    widgetScope, fieldSetScope, modelsScope, filtersScope,
+                    indexScope, subModelsScope, uploadScope, momentScope));
         }
         return fieldSets;
     }
