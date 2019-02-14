@@ -1,19 +1,21 @@
 package net.n2oapp.framework.config.metadata.merge;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
 import net.n2oapp.framework.config.metadata.compile.widget.FormCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.N2oFormMerger;
 import net.n2oapp.framework.config.metadata.compile.widget.N2oWidgetMerger;
-import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
-import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -33,11 +35,11 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         builder.packs(new N2oActionsPack(), new N2oFieldSetsPack(), new N2oControlsPack())
                 .ios(new FormElementIOV4())
                 .compilers(new FormCompiler())
-                .mergers(new N2oWidgetMerger<>());
+                .mergers(new N2oWidgetMerger<>(), new N2oFormMerger());
     }
 
     @Test
-    public void testMergeOverrideToSource() {
+    public void testMergeWidget() {
         N2oForm widget = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentWidgetForm.widget.xml",
                 "net/n2oapp/framework/config/metadata/local/merger/widget/childWidgetForm.widget.xml")
                 .get("childWidgetForm", N2oForm.class);
@@ -48,5 +50,13 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(widget.getObjectId(), is("parent"));
         assertThat(widget.getPreFilters().length, is(2));
         assertThat(widget.getPreFields().length, is(2));
+    }
+
+    @Test
+    public void testMergeForm() {
+        N2oForm widget = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentFormMerger.widget.xml",
+                "net/n2oapp/framework/config/metadata/local/merger/widget/childFormMerger.widget.xml")
+                .get("childFormMerger", N2oForm.class);
+        assertThat(widget.getMode(), is(FormMode.TWO_MODELS));
     }
 }
