@@ -41,6 +41,8 @@ public abstract class FieldSet extends Component implements Compiled {
     @Setter
     public static class Row implements Compiled {
         @JsonProperty
+        private String className;
+        @JsonProperty
         private List<Column> cols;
     }
 
@@ -48,11 +50,13 @@ public abstract class FieldSet extends Component implements Compiled {
     @Setter
     public static class Column implements Compiled {
         @JsonProperty
-        private List<Field> fields;
+        private String className;
         @JsonProperty
         private Integer size;
         @JsonProperty
         private List<FieldSet> fieldsets;
+        @JsonProperty
+        private List<Field> fields;
     }
 
     public enum LabelPosition {
