@@ -27,8 +27,21 @@
     position: relative;
   }
 
+  &-row-hover {
+    background-color: rgba(0, 0, 0, 0.075);
+  }
+
   &-expanded-row-content {
     padding: 0 20px;
+  }
+
+  &-scroll-position-middle {
+    & .n2o-advanced-table-fixed-right {
+       box-shadow: -6px 0 6px -4px rgba(0,0,0,0.15);
+    }
+    & .n2o-advanced-table-fixed-left {
+      box-shadow: 6px 0 6px -4px rgba(0,0,0,0.15);
+    }
   }
 
   &-fixed {

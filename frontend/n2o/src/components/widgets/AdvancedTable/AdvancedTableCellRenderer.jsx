@@ -30,6 +30,7 @@ class AdvancedTableCellRenderer extends React.Component {
   }
 
   toggleEdit(event, changeValue = false) {
+    event.stopPropagation();
     const { onEdit, index, id } = this.props;
     this.setState({ editing: !this.state.editing });
     if (changeValue) {
@@ -69,7 +70,6 @@ class AdvancedTableCellRenderer extends React.Component {
     const { editable, edit } = this.props;
 
     const { editing } = this.state;
-
     return (
       <div
         className={cn({ 'n2o-advanced-table-editable-cell': editable })}

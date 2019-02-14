@@ -118,11 +118,11 @@ stories
           {
             headerSrc: 'TextTableHeader',
             cellSrc: 'TextCell',
-            id: 'birthday',
-            title: 'Дата рождения',
-            dataIndex: 'birthday',
-            key: 'birthday',
-            className: 'birthday-cell'
+            id: 'age',
+            title: 'Возраст',
+            dataIndex: 'age',
+            key: 'age',
+            className: 'age-cell'
           }
         ]
       }
