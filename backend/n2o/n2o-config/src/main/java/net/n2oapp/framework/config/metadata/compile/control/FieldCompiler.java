@@ -173,20 +173,30 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         List<Validation> serverValidations = new ArrayList<>();
         List<Validation> clientValidations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
-        String FIELD_REQUIRED_MESSAGE = "n2o.required.field";
+        MomentScope momentScope = p.getScope(MomentScope.class);
+        String REQUIRED_MESSAGE = momentScope != null
+                && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
+                ? "n2o.required.filter" : "n2o.required.field";
         if (source.getRequired() != null && source.getRequired()) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
-            mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
-            collectEnablingConditions(mandatory, source, N2oField.VisibilityDependency.class);
+            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
+            if (momentScope != null)
+                mandatory.setMoment(momentScope.getMoment());
+            collectEnablingConditions(mandatory, source,
+                    N2oField.VisibilityDependency.class,
+                    N2oField.EnablingDependency.class);
             mandatory.addEnablingConditions(visibilityConditions);
             serverValidations.add(mandatory);
             clientValidations.add(mandatory);
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
-            mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
+            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
+            if (momentScope != null)
+                mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
-            collectEnablingConditions(mandatory, source, N2oField.RequiringDependency.class);
+            collectEnablingConditions(mandatory, source,
+                    N2oField.RequiringDependency.class,
+                    N2oField.VisibilityDependency.class,
+                    N2oField.EnablingDependency.class);
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
                 serverValidations.add(mandatory);
                 clientValidations.add(mandatory);
@@ -198,11 +208,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setClientValidations(clientValidations.isEmpty() ? null : clientValidations);
     }
 
-    private void collectEnablingConditions(Validation v, S source, Class clazz) {
-        if (source.getDependencies() != null) {
+    private void collectEnablingConditions(Validation v, S source, Class ... types) {
+        if (source.getDependencies() != null && types != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
-                if (dependency.getClass().equals(clazz)) {
-                    v.addEnablingCondition(dependency.getValue());
+                for (Class clazz : types) {
+                    if (dependency.getClass().equals(clazz)) {
+                        v.addEnablingCondition(dependency.getValue());
+                    }
                 }
             }
         }
