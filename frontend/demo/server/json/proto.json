@@ -1471,6 +1471,7 @@
           "open": true,
           "collapsible": false,
           "fullScreen": false,
+          "header": true,
           "panels": [
             {
               "id": "panel1",

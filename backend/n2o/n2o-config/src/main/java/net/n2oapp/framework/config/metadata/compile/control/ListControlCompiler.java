@@ -18,8 +18,10 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
 
@@ -106,8 +108,14 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 String filterParam = query.getFilterIdToParamMap().get(filter.getFilterField());
                 Object prefilterValue = getPrefilterValue(preFilter);
                 if (StringUtils.isJs(prefilterValue)) {
-                    ModelLink link = new ModelLink(p.cast(preFilter.getRefModel(), modelsScope.getModel()),
-                            p.cast(preFilter.getRefWidgetId(), modelsScope.getWidgetId()));
+                    String widgetId = modelsScope.getWidgetId();
+                    if (preFilter.getRefWidgetId() != null) {
+                        PageScope pageScope = p.getScope(PageScope.class);
+                        widgetId = preFilter.getRefPageId() == null ?
+                                pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
+                                : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
+                    }
+                    ModelLink link = new ModelLink(p.cast(preFilter.getRefModel(), modelsScope.getModel()), widgetId);
                     link.setValue(prefilterValue);
                     queryMap.put(filterParam, link);
                 } else {

@@ -67,18 +67,17 @@ export const withLiveCycleMethods = lifecycle({
 export const withPropsOnChangeWidget = withPropsOnChange(
   (props, nextProps) => {
     return (
-      !isEqual(props.isEnabled, nextProps.isEnabled) ||
       !isEqual(props.defaultValues, nextProps.defaultValues) ||
       !isEqual(props.datasource, nextProps.datasource)
     );
   },
-  props => ({
-    initialValues: props.isEnabled
-      ? props.defaultValues
+  props => {
+    return {
+      initialValues: props.defaultValues
         ? props.defaultValues
         : merge(props.resolveModel || {}, props.datasource || {})
-      : {}
-  })
+    };
+  }
 );
 
 export const withWidgetHandlers = withHandlers({

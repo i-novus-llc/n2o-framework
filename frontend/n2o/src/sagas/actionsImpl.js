@@ -42,9 +42,6 @@ export function* validate(options) {
 export function* handleAction(action) {
   const { options, actionSrc } = action.payload;
   try {
-    if (options && options.type === START_INVOKE && options.pageId) {
-      yield put(disablePage(options.pageId));
-    }
     let actionFunc;
     if (isFunction(actionSrc)) {
       actionFunc = actionSrc;
@@ -64,10 +61,6 @@ export function* handleAction(action) {
     }
   } catch (err) {
     console.error(err);
-  } finally {
-    if (options && options.type === START_INVOKE && options.pageId) {
-      yield put(enablePage(options.pageId));
-    }
   }
 }
 
@@ -103,12 +96,17 @@ export function* handleFailInvoke(action, widgetId, err) {
  * вызов экшена
  */
 export function* handleInvoke(action) {
-  const { modelLink, widgetId, dataProvider, data } = action.payload;
+  const { modelLink, widgetId, pageId, dataProvider, data } = action.payload;
   try {
     if (!dataProvider) {
       throw new Error('dataProvider is undefined');
     }
-    yield put(disableWidgetOnFetch(widgetId));
+    if (pageId) {
+      yield put(disablePage(pageId));
+    }
+    if (widgetId) {
+      yield put(disableWidgetOnFetch(widgetId));
+    }
     let model = data || {};
     if (modelLink) {
       model = yield select(getModelSelector(modelLink));
@@ -132,7 +130,12 @@ export function* handleInvoke(action) {
   } catch (err) {
     yield* handleFailInvoke(action, widgetId, err);
   } finally {
-    yield put(enableWidget(widgetId));
+    if (pageId) {
+      yield put(enablePage(pageId));
+    }
+    if (widgetId) {
+      yield put(enableWidget(widgetId));
+    }
   }
 }
 

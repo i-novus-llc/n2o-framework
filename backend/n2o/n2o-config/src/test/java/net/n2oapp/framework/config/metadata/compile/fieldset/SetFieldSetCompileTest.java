@@ -21,6 +21,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -153,7 +154,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fieldSets.get(3).getEnabled(), is("`x < 5`"));
         assertThat(fieldSets.get(3).getVisible(), is("`x > 1`"));
         ControlDependency dependency = fieldSets.get(3).getDependency()[0];
-        assertThat(dependency.getOn().toString(), is("[a.b.c,  z.x.c]"));
+        assertThat(dependency.getOn(), is(Arrays.asList("a.b.c","z.x.c")));
         assertThat(dependency.getType().toString(), is("reRender"));
     }
 

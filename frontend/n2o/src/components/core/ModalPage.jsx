@@ -89,11 +89,13 @@ class ModalPage extends React.Component {
                   toolbar={toolbar.bottomLeft}
                   actions={actions}
                   containerKey={containerKey}
+                  pageId={pageId}
                 />
                 <Actions
                   toolbar={toolbar.bottomRight}
                   actions={actions}
                   containerKey={containerKey}
+                  pageId={pageId}
                 />
               </div>
             </ModalFooter>

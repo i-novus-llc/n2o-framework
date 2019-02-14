@@ -73,3 +73,8 @@ export const filterSelector = (formName, fieldName) =>
   createSelector(makeFieldByName(formName, fieldName), field => {
     return field.filter;
   });
+
+export const requiredSelector = (formName, fieldName) =>
+  createSelector(makeFieldByName(formName, fieldName), field => {
+    return field.required;
+  });

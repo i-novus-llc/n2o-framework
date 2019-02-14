@@ -162,7 +162,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 resolveActivate(operation, compiledOperation, source);
             if (compiledOperation.getValidations().getWhiteList() != null) {
                 for (String name : operation.getValidations().getWhiteList()) {
-                    Validation validation = compiled.getValidationsMap().get(name);
+                    Validation validation = compiled.getValidationsMap().get(name.trim());
                     if (validation.getEnabled() == null || validation.getEnabled()) {
                         validationList.add(validation);
                         if (compiledOperation.getValidations().getActivate() != N2oObject.Operation.Validations.Activate.all)
@@ -174,7 +174,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 Map<String, Validation> blackListValidationsMap = new HashMap<>();
                 blackListValidationsMap.putAll(compiled.getValidationsMap());
                 for (String name : operation.getValidations().getBlackList()) {
-                    blackListValidationsMap.remove(name);
+                    blackListValidationsMap.remove(name.trim());
                 }
                 validationList.addAll(blackListValidationsMap.values());
             }
