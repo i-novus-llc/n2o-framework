@@ -181,9 +181,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
-            collectEnablingConditions(mandatory, source,
-                    N2oField.VisibilityDependency.class,
-                    N2oField.EnablingDependency.class);
+            collectEnablingConditions(mandatory, source, N2oField.VisibilityDependency.class);
             mandatory.addEnablingConditions(visibilityConditions);
             serverValidations.add(mandatory);
             clientValidations.add(mandatory);
@@ -193,10 +191,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
-            collectEnablingConditions(mandatory, source,
-                    N2oField.RequiringDependency.class,
-                    N2oField.VisibilityDependency.class,
-                    N2oField.EnablingDependency.class);
+            collectEnablingConditions(mandatory, source, N2oField.RequiringDependency.class, N2oField.VisibilityDependency.class);
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
                 serverValidations.add(mandatory);
                 clientValidations.add(mandatory);
