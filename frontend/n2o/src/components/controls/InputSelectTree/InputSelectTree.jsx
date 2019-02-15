@@ -261,12 +261,15 @@ function InputSelectTree({
     return buff;
   };
 
-  const getSingleValue = () => find(data, [valueFieldId, value]);
-  const getMultiValue = () => {
+  const getSingleValue = value => find(data, [valueFieldId, value]);
+  const getMultiValue = value => {
     if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
       return getChildWithParenId(value, data);
     } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
       return getParentsWithChildId(value, data);
+    } else {
+      // стратегия SHOW_ALL
+      return getDataByIds(value);
     }
   };
   /**
@@ -280,14 +283,10 @@ function InputSelectTree({
    */
   const getItemByValue = value => {
     if (!value) return null;
-    if (multiSelect) {
-      return getMultiValue();
-    } else {
-      return getSingleValue();
+    if (!multiSelect) {
+      return getSingleValue(value);
     }
-
-    // стратегия SHOW_ALL
-    return getDataByIds(value);
+    return getMultiValue(value);
   };
 
   /**
