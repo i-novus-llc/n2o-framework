@@ -393,18 +393,32 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void compileFetchDependency(D compiled, S source, CompileProcessor p) {
+        WidgetDependency dependency = new WidgetDependency();
+        String masterWidgetId = null;
         if (source.getDependsOn() != null) {
-            FetchDependency dependency = new FetchDependency();
-            List<FetchDependency.On> fetch = new ArrayList<>();
+            List<WidgetDependency.Condition> fetch = new ArrayList<>();
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
-                String masterWidgetId = widgetScope.getDependsOnWidgetId();
+                masterWidgetId = widgetScope.getDependsOnWidgetId();
                 ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
-                fetch.add(new FetchDependency.On(bindLink.getBindLink()));
+                WidgetDependency.Condition condition = new WidgetDependency.Condition();
+                condition.setOn(bindLink.getBindLink());
+                fetch.add(condition);
             }
             dependency.setFetch(fetch);
-            compiled.setDependency(dependency);
         }
+        if (source.getVisible() != null) {
+            WidgetDependency.Condition visibilityCondition = new WidgetDependency.Condition();
+            List<WidgetDependency.Condition> visible = new ArrayList<>();
+            visibilityCondition.setCondition(source.getVisible());
+            if (masterWidgetId != null) {
+                visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
+            }
+            visible.add(visibilityCondition);
+            dependency.setVisible(visible);
+        }
+        if (!dependency.isEmpty())
+            compiled.setDependency(dependency);
     }
 
     /**

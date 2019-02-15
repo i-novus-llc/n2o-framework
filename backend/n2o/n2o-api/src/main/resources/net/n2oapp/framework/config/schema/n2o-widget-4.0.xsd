@@ -131,6 +131,11 @@
                 <xs:documentation>Количество записей, которое отображает виджет</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="visible" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Условие видимости виджета</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>

@@ -50,6 +50,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(widget.getObjectId(), is("parent"));
         assertThat(widget.getPreFilters().length, is(2));
         assertThat(widget.getPreFields().length, is(2));
+        assertThat(widget.getVisible(), is("true"));
     }
 
     @Test

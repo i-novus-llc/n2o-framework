@@ -135,6 +135,10 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(page.getWidgets().get("testStandardPageDependency_w0").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_detail']"));
 
+        //Условия видимости виджета
+        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_detail']"));
+        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getDependency().getVisible().get(0).getCondition(), is("true"));
+
         List<Filter> preFilters = page.getWidgets().get("testStandardPageDependency_detail").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("testStandardPageDependency_master_id"));

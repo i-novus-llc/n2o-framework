@@ -9,7 +9,7 @@
             <table id="detail" query-id="testStandardPageDependency"
                    depends-on="master" detail-field-id="parent.id">
             </table>
-            <table query-id="testStandardPageDependency"
+            <table query-id="testStandardPageDependency" visible="true"
                    depends-on="detail" master-field-id="parent.id" detail-field-id="parent.id"/>
         </panel>
     </regions>
