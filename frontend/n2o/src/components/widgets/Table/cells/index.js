@@ -7,6 +7,7 @@ import BadgeCell from './BadgeCell/BadgeCell';
 import CheckboxCell from './CheckboxCell/CheckboxCell';
 import CollapsedCell from './CollapsedCell/CollapsedCell';
 import ButtonsCell from './ButtonsCell/ButtonsCell';
+import EditableCell from './EditableCell/EditableCell';
 
 export default {
   TextCell: TextCell,
@@ -17,5 +18,6 @@ export default {
   BadgeCell: BadgeCell,
   CheckboxCell: CheckboxCell,
   CollapsedCell: CollapsedCell,
-  ButtonsCell: ButtonsCell
+  ButtonsCell: ButtonsCell,
+  EditableCell: EditableCell
 };

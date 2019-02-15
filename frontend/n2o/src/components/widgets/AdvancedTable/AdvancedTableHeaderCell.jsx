@@ -21,7 +21,6 @@ class AdvancedTableHeaderCell extends Component {
     this.handleVisibleChange = this.handleVisibleChange.bind(this);
     this.renderCell = this.renderCell.bind(this);
     this.renderMultiCell = this.renderMultiCell.bind(this);
-    this.getCellContent = this.getCellContent.bind(this);
     this.renderStringChild = this.renderStringChild.bind(this);
     this.renderSelectionBox = this.renderSelectionBox.bind(this);
   }
@@ -30,29 +29,8 @@ class AdvancedTableHeaderCell extends Component {
     this.setState({ visible });
   }
 
-  getCellContent(props) {
-    const { redux } = this.props;
-    const propStyles = pick(this.props, ['width']);
-    return redux ? (
-      <ReduxCell {...propStyles} {...props} />
-    ) : (
-      <TableCell {...propStyles} {...props} />
-    );
-  }
-
   renderMultiCell() {
-    const {
-      id,
-      colSpan,
-      rowSpan,
-      className,
-      title,
-      label,
-      sorting,
-      onSort,
-      columnId,
-      sortable
-    } = this.props;
+    const { colSpan, rowSpan, className, children } = this.props;
 
     return (
       <th
@@ -61,18 +39,7 @@ class AdvancedTableHeaderCell extends Component {
         colSpan={colSpan}
         rowSpan={rowSpan}
       >
-        {this.getCellContent({
-          id,
-          columnId,
-          sortable,
-          className,
-          key: id,
-          component: title,
-          label,
-          as: 'div',
-          sorting: sorting[id],
-          onSort
-        })}
+        {children}
       </th>
     );
   }
@@ -91,21 +58,14 @@ class AdvancedTableHeaderCell extends Component {
     const {
       id,
       multiHeader,
-      columnId,
-      sorting,
-      onSort,
       children,
       selectionHead,
       selectionClass,
       filterable,
       colSpan,
       rowSpan,
-      className,
-      title,
-      label,
       onFilter,
-      filters,
-      sortable
+      filters
     } = this.props;
 
     let cellContent = null;
@@ -117,18 +77,7 @@ class AdvancedTableHeaderCell extends Component {
     } else if (selectionHead) {
       cellContent = this.renderSelectionBox();
     } else {
-      cellContent = this.getCellContent({
-        id,
-        columnId,
-        className,
-        key: id,
-        component: title,
-        label,
-        sortable,
-        as: 'div',
-        sorting: sorting[id],
-        onSort
-      });
+      cellContent = children;
     }
 
     const cell = (
@@ -160,7 +109,7 @@ class AdvancedTableHeaderCell extends Component {
   }
 
   render() {
-    const { width, onResize, resizable } = this.props;
+    const { width, onResize, resizable, children } = this.props;
     return (
       <React.Fragment>
         {resizable && width ? (

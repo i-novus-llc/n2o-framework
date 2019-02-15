@@ -7,7 +7,7 @@ import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
-import _, { find, some, isEqual, map, forOwn, every, flattenDeep } from 'lodash';
+import _, { find, some, isEqual, map, forOwn, every, flattenDeep, isArray } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
@@ -112,7 +112,7 @@ class AdvancedTable extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { hasSelect, data, selectedId, isAnyTableFocused, isActive } = this.props;
     if (hasSelect && !isEqual(data, prevProps.data)) {
-      const id = data && data[selectedId] ? data[selectedId].id : data[0].id;
+      const id = data && data[selectedId] && data[selectedId].id ? data[selectedId].id : data[0].id;
       isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
     }
     if (this.props.data && !isEqual(prevProps.data, this.props.data)) {
@@ -121,7 +121,7 @@ class AdvancedTable extends Component {
         checked[item.id] = false;
       });
       this.setState({
-        data: this.props.data,
+        data: isArray(data) ? data : [this.props.data],
         checked
       });
       this._dataStorage = this.getModelsFromData(this.props.data);
@@ -332,14 +332,6 @@ class AdvancedTable extends Component {
       key: 'row-selection',
       className: 'n2o-advanced-table-selection-container',
       width: 30,
-      onHeaderCell: column => ({
-        selectionHead: true,
-        selectionClass: 'n2o-advanced-table-selection-container'
-      }),
-      onCell: (record, index) => ({
-        selectionCell: true,
-        selectionClass: 'n2o-advanced-table-selection-container'
-      }),
       render: (value, model, index) => (
         <CheckboxN2O
           inline={true}
@@ -375,24 +367,7 @@ class AdvancedTable extends Component {
         rowSpan: 2,
         rowIndex: index,
         columnIndex
-      }),
-      render: (value, row, index) => (
-        <AdvancedTableCellRenderer
-          onEdit={this.onEdit}
-          cellOptions={col.cellOptions}
-          value={value}
-          row={row}
-          index={index}
-          component={col.cell}
-          columnId={col.id}
-          widgetId={widgetId}
-          redux={redux}
-          id={col.id}
-          width={col.width}
-          editable={col.editable && row.editable}
-          edit={col.edit}
-        />
-      )
+      })
     }));
     if (rowSelection) {
       newColumns = [this.createSelectionColumn(), ...newColumns];

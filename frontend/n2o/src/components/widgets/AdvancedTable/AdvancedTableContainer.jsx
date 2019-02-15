@@ -38,7 +38,7 @@ class AdvancedTableContainer extends React.Component {
     this.getTableProps = this.getTableProps.bind(this);
     this.mapColumns = this.mapColumns.bind(this);
     this.mapData = this.mapData.bind(this);
-    this.renderHeaderCell = this.renderHeaderCell.bind(this);
+    this.renderCell = this.renderCell.bind(this);
     this.onSetFilter = this.onSetFilter.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
   }
@@ -59,17 +59,14 @@ class AdvancedTableContainer extends React.Component {
     }
   }
 
-  renderHeaderCell(props) {
+  renderCell(props) {
     const { redux } = this.props;
-    const propStyles = pick(this.props, ['width']);
-    let component = null;
-    if (redux) {
-      component = <ReduxCell {...propStyles} {...props} label={props.title} as={'div'} />;
-    } else {
-      component = <TableCell {...propStyles} {...props} label={props.title} as={'div'} />;
-    }
+    const propStyles = pick(props, ['width']);
 
-    return component;
+    if (redux) {
+      return <ReduxCell {...propStyles} {...props} />;
+    }
+    return <TableCell {...propStyles} {...props} />;
   }
 
   onSetFilter(filter) {
@@ -110,35 +107,34 @@ class AdvancedTableContainer extends React.Component {
         const cell = find(cells, c => c.id === header.id);
         return {
           ...header,
-          title: this.renderHeaderCell({
+          title: this.renderCell({
+            ...header,
             key: header.id,
             columnId: header.id,
             widgetId,
-            as: 'th',
+            as: 'div',
             sorting: sorting && sorting[header.id],
-            onSort,
-            ...header
+            onSort
           }),
           dataIndex: header.id,
           columnId: header.id,
           key: header.id,
-          render: (value, record, i) => (
+          render: (value, record, index) => (
             <AdvancedTableCellRenderer
               value={value}
               record={record}
-              index={i}
+              index={index}
               editable={record.editable}
-              redux={this.props.redux}
-              propsStyles={pick(this.props, ['width'])}
-              props={{
+              key={index}
+              component={this.renderCell({
                 index,
                 key: cell.id,
                 widgetId,
                 columnId: cell.id,
                 model: record,
+                as: 'td',
                 ...cell
-              }}
-              key={i}
+              })}
             />
           )
         };
@@ -158,9 +154,7 @@ class AdvancedTableContainer extends React.Component {
 
   getTableProps() {
     const {
-      columns,
       scroll,
-      datasource,
       tableSize,
       className,
       hasFocus,
@@ -223,7 +217,6 @@ export default compose(
           widgetId: props.widgetId,
           pageId: props.pageId,
           headers: props.headers,
-          columns: props.columns,
           cells: props.cells,
           isAnyTableFocused: props.isAnyTableFocused,
           isActive: props.isActive,

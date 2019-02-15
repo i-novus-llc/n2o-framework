@@ -80,30 +80,7 @@
     background-color: transparent;
   }
 
-  &-editable-cell {
-    width: 100%;
-    border: 1px solid transparent;
-    border-radius: 5px;
-    cursor: text;
-    &:hover {
-      border: 1px solid #40a9ff;
-      box-shadow: 0 0 3px 1px #40a9ff;
-      transition: 0.4s;
-    }
-  }
 
-  &-cell-content {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    & .n2o-advanced-table-edit-control {
-      width: 100%;
-      position: absolute;
-      top: 0;
-      height: 100%;
-    }
-  }
 
   &-expand {
     position: relative;

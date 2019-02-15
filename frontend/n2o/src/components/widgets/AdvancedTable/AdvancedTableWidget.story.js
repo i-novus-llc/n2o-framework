@@ -23,46 +23,43 @@ stories
       ...metadata['Page_Table'],
       table: {
         ...metadata['Page_Table'].table,
-        isActive: true,
-        columns: [
+        cells: [
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
-            id: 'name',
-            title: 'Имя',
-            width: 100,
-            dataIndex: 'name',
-            key: 'name',
-            className: 'name-cell',
-            sortable: true
+            src: 'TextCell',
+            id: 'name'
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'IconCell',
-            cellOptions: {
-              id: 'surname',
-              icon: 'fa fa-plus',
-              type: 'iconAndText',
-              textPlace: 'right'
-            },
+            src: 'IconCell',
             id: 'surname',
-            title: 'Фамилия',
-            width: 100,
-            dataIndex: 'surname',
-            key: 'surname',
-            className: 'surname-cell',
-            sortable: true
+            icon: 'fa fa-plus',
+            type: 'iconAndText',
+            textPlace: 'right'
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
+            src: 'TextCell',
+            id: 'birthday'
+          }
+        ],
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
+            width: 200
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия',
+            width: 200
+          },
+          {
+            src: 'TextTableHeader',
             id: 'birthday',
-            title: 'Дата рождения',
-            width: 100,
-            dataIndex: 'birthday',
-            key: 'birthday',
-            className: 'birthday-cell',
-            sortable: true
+            sortable: true,
+            label: 'Дата рождения'
           }
         ]
       }
@@ -75,54 +72,45 @@ stories
       ...tableWidget,
       table: {
         ...tableWidget.table,
-        columns: [
+        cells: [
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
-            id: 'name',
-            title: 'Имя',
-            width: 100,
-            className: 'name-cell',
-            dataIndex: 'name',
-            key: 'name',
-            resizable: true
+            src: 'TextCell',
+            id: 'name'
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'IconCell',
-            cellOptions: {
-              id: 'surname',
-              icon: 'fa fa-plus',
-              type: 'iconAndText',
-              textPlace: 'right'
-            },
+            src: 'IconCell',
             id: 'surname',
-            title: 'Фамилия',
-            width: 100,
-            className: 'surname-cell',
-            dataIndex: 'surname',
-            key: 'surname',
-            resizable: true
+            icon: 'fa fa-plus',
+            type: 'iconAndText',
+            textPlace: 'right'
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
-            id: 'birthday',
-            title: 'Дата рождения',
+            src: 'TextCell',
+            id: 'birthday'
+          }
+        ],
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
             width: 200,
-            dataIndex: 'birthday',
-            key: 'birthday',
-            className: 'birthday-cell',
             resizable: true
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
-            id: 'age',
-            title: 'Возраст',
-            dataIndex: 'age',
-            key: 'age',
-            className: 'age-cell'
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия',
+            width: 200,
+            resizable: true
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'birthday',
+            sortable: true,
+            label: 'Дата рождения'
           }
         ]
       }
@@ -136,44 +124,41 @@ stories
       ...tableWidget,
       table: {
         ...tableWidget.table,
-        columns: [
+        cells: [
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
-            id: 'name',
-            title: 'Имя',
-            width: 10,
-            dataIndex: 'name',
-            key: 'name',
-            className: 'name-cell',
-            sortable: true
+            src: 'TextCell',
+            id: 'name'
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'IconCell',
-            cellOptions: {
-              id: 'surname',
-              icon: 'fa fa-plus',
-              type: 'iconAndText',
-              textPlace: 'right'
-            },
+            src: 'IconCell',
             id: 'surname',
-            title: 'Фамилия',
-            width: 10,
-            dataIndex: 'surname',
-            key: 'surname',
-            className: 'surname-cell',
-            sortable: true
+            icon: 'fa fa-plus',
+            type: 'iconAndText',
+            textPlace: 'right'
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
+            src: 'TextCell',
+            id: 'birthday'
+          }
+        ],
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя'
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия'
+          },
+          {
+            src: 'TextTableHeader',
             id: 'birthday',
-            title: 'Дата рождения',
-            dataIndex: 'birthday',
-            key: 'birthday',
-            className: 'birthday-cell',
-            sortable: true
+            sortable: true,
+            label: 'Дата рождения'
           }
         ],
         rowSelection: true
@@ -188,41 +173,42 @@ stories
       ...tableWidget,
       table: {
         ...tableWidget.table,
-        columns: [
+        cells: [
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
-            id: 'name',
-            title: 'Имя',
-            className: 'name-cell',
-            dataIndex: 'name',
-            key: 'name',
-            filterable: true
+            src: 'TextCell',
+            id: 'name'
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'IconCell',
-            cellOptions: {
-              id: 'surname',
-              icon: 'fa fa-plus',
-              type: 'iconAndText',
-              textPlace: 'right'
-            },
+            src: 'IconCell',
             id: 'surname',
-            title: 'Фамилия',
-            dataIndex: 'surname',
-            key: 'surname',
-            className: 'surname-cell',
+            icon: 'fa fa-plus',
+            type: 'iconAndText',
+            textPlace: 'right'
+          },
+          {
+            src: 'TextCell',
+            id: 'birthday'
+          }
+        ],
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
             filterable: true
           },
           {
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия'
+          },
+          {
+            src: 'TextTableHeader',
             id: 'birthday',
-            title: 'Дата рождения',
-            dataIndex: 'birthday',
-            key: 'birthday',
-            className: 'birthday-cell'
+            sortable: true,
+            label: 'Дата рождения'
           }
         ]
       }
@@ -624,49 +610,46 @@ stories
       ...tableWidget,
       table: {
         ...tableWidget.table,
-        columns: [
+        cells: [
           {
+            src: 'EditableCell',
             id: 'name',
-            title: 'Имя',
-            width: 100,
-            className: 'name-cell',
-            dataIndex: 'name',
-            key: 'name',
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell'
-          },
-          {
-            id: 'surname',
-            title: 'Фамилия',
-            width: 100,
-            dataIndex: 'surname',
-            key: 'surname',
-            className: 'surname-cell',
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'IconCell',
-            cellOptions: {
-              id: 'surname',
-              icon: 'fa fa-plus',
-              type: 'iconAndText',
-              textPlace: 'right'
-            },
             editable: true,
-            editSrc: 'InputText',
-            editOptions: {
-              autoFocus: true
+            control: {
+              src: 'InputText'
             }
           },
           {
+            src: 'IconCell',
+            id: 'surname',
+            icon: 'fa fa-plus',
+            type: 'iconAndText',
+            textPlace: 'right'
+          },
+          {
+            src: 'TextCell',
+            id: 'birthday'
+          }
+        ],
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
+            width: 200
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия'
+          },
+          {
+            src: 'TextTableHeader',
             id: 'birthday',
-            title: 'Дата рождения',
-            width: 100,
-            dataIndex: 'birthday',
-            key: 'birthday',
-            className: 'birthday-cell',
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell',
-            editable: true,
-            editSrc: 'InputNumber'
+            sortable: true,
+            label: 'Дата рождения'
           }
         ]
       }

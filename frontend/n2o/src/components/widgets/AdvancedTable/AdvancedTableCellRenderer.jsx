@@ -26,7 +26,6 @@ class AdvancedTableCellRenderer extends React.Component {
 
     this.onChange = this.onChange.bind(this);
     this.createEditControl = this.createEditControl.bind(this);
-    this.renderCellContent = this.renderCellContent.bind(this);
   }
 
   toggleEdit(event, changeValue = false) {
@@ -56,29 +55,10 @@ class AdvancedTableCellRenderer extends React.Component {
     );
   }
 
-  renderCellContent() {
-    const { redux, cellOptions, row } = this.props;
-    const propStyles = pick(this.props, ['width']);
-    return redux ? (
-      <ReduxCell {...propStyles} {...cellOptions} {...this.props} as={'span'} model={row} />
-    ) : (
-      <TableCell {...propStyles} {...cellOptions} {...this.props} as={'span'} model={row} />
-    );
-  }
-
   render() {
-    const { editable, edit } = this.props;
-
+    const { editable, edit, component } = this.props;
     const { editing } = this.state;
-    return (
-      <div
-        className={cn({ 'n2o-advanced-table-editable-cell': editable })}
-        onClick={event => this.toggleEdit(event)}
-      >
-        {this.renderCellContent()}
-        {editable && editing && this.createEditControl(edit)}
-      </div>
-    );
+    return component;
   }
 }
 
