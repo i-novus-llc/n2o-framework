@@ -410,9 +410,15 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (source.getVisible() != null) {
             WidgetDependency.Condition visibilityCondition = new WidgetDependency.Condition();
             List<WidgetDependency.Condition> visible = new ArrayList<>();
-            visibilityCondition.setCondition(source.getVisible());
-            if (masterWidgetId != null) {
-                visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
+            Object condition = p.resolveJS(source.getVisible(), Boolean.class);
+            if (StringUtils.isJs(condition)) {
+                if (masterWidgetId != null) {
+                    visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
+                }
+                visibilityCondition.setCondition(((String)condition).substring(1, ((String) condition).length() - 1));
+            }
+            else {
+                visibilityCondition.setCondition(condition);
             }
             visible.add(visibilityCondition);
             dependency.setVisible(visible);

@@ -131,9 +131,9 @@
                 <xs:documentation>Количество записей, которое отображает виджет</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="visible" type="xs:string" use="optional">
+        <xs:attribute name="visible" type="xs:boolean" use="optional">
             <xs:annotation>
-                <xs:documentation>Условие видимости виджета</xs:documentation>
+                <xs:documentation>Видимость виджета</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>

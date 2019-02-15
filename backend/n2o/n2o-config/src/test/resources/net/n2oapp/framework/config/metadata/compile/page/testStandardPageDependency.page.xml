@@ -6,7 +6,7 @@
             <table id="master" query-id="testStandardPageDependency"/>
         </panel>
         <panel place="right">
-            <table id="detail" query-id="testStandardPageDependency"
+            <table id="detail" query-id="testStandardPageDependency" visible="{parent.id == 1}"
                    depends-on="master" detail-field-id="parent.id">
             </table>
             <table query-id="testStandardPageDependency" visible="true"

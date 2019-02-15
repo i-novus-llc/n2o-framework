@@ -34,7 +34,7 @@ public class WidgetDependency implements Compiled {
         @JsonProperty
         private String on;
         @JsonProperty
-        private String condition;
+        private Object condition;
     }
 
 }
