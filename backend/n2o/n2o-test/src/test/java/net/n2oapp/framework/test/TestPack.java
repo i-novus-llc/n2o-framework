@@ -41,11 +41,11 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private QueryContext getQueryContext() {
         QueryContext context = new QueryContext("testSqlQuery4", "/test/sql/validation");
         StandardField field = new StandardField();
-        field.setId("id");
+        field.getControl().setId("id");
         InputText control = new InputText();
         control.setId("id");
         field.setControl(control);
-        MandatoryValidation mandatory = new MandatoryValidation("id_validation", "id is required", field.getId());
+        MandatoryValidation mandatory = new MandatoryValidation("id_validation", "id is required", field.getControl().getId());
         mandatory.setMoment(N2oValidation.ServerMoment.beforeQuery);
         context.setValidations(Arrays.asList(mandatory));
         context.setMessagesForm("testTable.filter");
@@ -81,11 +81,11 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private List<Validation> createValidations() {
         List<Validation> validations = new ArrayList<>();
         StandardField field = new StandardField();
-        field.setId("id");
+        field.getControl().setId("id");
         InputText control = new InputText();
         control.setId("id");
         field.setControl(control);
-        MandatoryValidation mandatory = new MandatoryValidation("required_id", "Id is null", field.getId());
+        MandatoryValidation mandatory = new MandatoryValidation("required_id", "Id is null", field.getControl().getId());
         mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
         validations.add(mandatory);
         ConditionValidation conditionValidation = new ConditionValidation();

@@ -53,13 +53,15 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             getControlDefinition(field, n2oField);
             String domain = getAttributeString(field, "domain");
             n2oField.setDomain(domain);
-            n2oField.setValidations(readValidationReferences(field));
+            if (n2oField instanceof N2oStandardField) {
+                ((N2oStandardField) n2oField).setValidations(readValidationReferences(field));
+                ((N2oStandardField) n2oField).setDefaultValue(getAttributeString(field, "default-value"));
+            }
             n2oField.setRequired(getAttributeBoolean(field, "required"));
             if (getAttributeString(field, "depends-on") != null) {
                 n2oField.setDependsOn(new String[]{getAttributeString(field, "depends-on")});
             }
             n2oField.setNamespaceUri(field.getNamespaceURI());
-            n2oField.setDefaultValue(getAttributeString(field, "default-value"));
             readDefaultModel(n2oField, field.getChild("default-model", field.getNamespace()));
             n2oField.setLabelStyle(getAttributeString(field, "label-style"));
             n2oField.setStyle(getAttributeString(field, "control-style"));
@@ -255,15 +257,14 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
     }
 
     protected void getControlDefinition(Element fieldSetElement, N2oField n2oControl) {
-        String id = getAttributeString(fieldSetElement, "id");
         String label = getAttributeString(fieldSetElement, "label");
-        Boolean readonly = getAttributeBoolean(fieldSetElement, "readonly");
         Boolean visible = getAttributeBoolean(fieldSetElement, "visible");
-        n2oControl.setId(id);
         n2oControl.setLabel(label);
         n2oControl.setVisible(visible);
         n2oControl.setDescription(getElementString(fieldSetElement, "description"));
         if (n2oControl instanceof N2oStandardField) {
+            String id = getAttributeString(fieldSetElement, "id");
+            ((N2oStandardField)n2oControl).setId(id);
             ((N2oStandardField)n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
         }
     }

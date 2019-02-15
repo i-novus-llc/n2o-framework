@@ -145,7 +145,6 @@
                 {
                   "fields": [
                     {
-                      "id": "testId",
                       "src": "FilterButtonsField",
                       "searchLabel": "searchLabel",
                       "resetLabel": "resetLabel",

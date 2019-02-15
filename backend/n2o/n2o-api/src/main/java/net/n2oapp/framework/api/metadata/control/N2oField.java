@@ -17,7 +17,6 @@ import java.util.Arrays;
 @Setter
 public abstract class N2oField extends N2oComponent {
     private Boolean visible;
-    private Validations validations;
     private Boolean required;
     private Boolean enabled;
     private String[] dependsOn;
@@ -30,7 +29,6 @@ public abstract class N2oField extends N2oComponent {
     private String description;
     private String help;
     private String domain;
-    private String defaultValue;
     private Boolean noLabel;
 
     private N2oToolbar toolbar;
@@ -91,11 +89,6 @@ public abstract class N2oField extends N2oComponent {
     @Setter
     public static class VisibilityDependency extends Dependency {
         private Boolean reset;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" + getId() + ")";
     }
 
 }

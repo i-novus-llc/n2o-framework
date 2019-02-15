@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.selective;
 import net.n2oapp.context.CacheTemplateByMapMock;
 import net.n2oapp.context.StaticSpringContext;
 import net.n2oapp.engine.factory.EngineNotFoundException;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
@@ -63,7 +62,7 @@ public class ION2oMetadataTesterTest {
         assert tester.check("net/n2oapp/framework/config/selective/duplex/test1.fieldset.xml", (N2oFieldSet fieldSet) -> {
             assert ((N2oFieldsetRow) fieldSet.getItems()[0]).getItems().length == 1;
             assert ((N2oFieldsetRow) fieldSet.getItems()[1]).getItems().length == 4;
-            assert ((N2oField) ((N2oFieldsetRow) fieldSet.getItems()[0]).getItems()[0]).getId().equals("test1");
+            assert ((N2oStandardField) ((N2oFieldsetRow) fieldSet.getItems()[0]).getItems()[0]).getId().equals("test1");
         });
     }
 
@@ -79,7 +78,7 @@ public class ION2oMetadataTesterTest {
                 .ios(new InputTextIOv2());
         assert tester.check("net/n2oapp/framework/config/selective/duplex/test2.fieldset.xml", (N2oFieldSet fieldSet) -> {
             assert ((N2oFieldsetRow) fieldSet.getItems()[0]).getItems().length == 4;
-            assert ((N2oField) fieldSet.getItems()[1]).getId().equals("test1");
+            assert ((N2oStandardField) fieldSet.getItems()[1]).getId().equals("test1");
         });
     }
 

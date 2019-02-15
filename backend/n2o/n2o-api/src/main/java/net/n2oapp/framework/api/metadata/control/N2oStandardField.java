@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 import java.util.List;
 
@@ -11,10 +12,13 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class N2oStandardField extends N2oField {
+public abstract class N2oStandardField extends N2oField implements IdAware {
+    private String id;
     private String placeholder;
     private Boolean copied;
     private String controlSrc;
+    private Validations validations;
+    private String defaultValue;
 
     @Override
     public void setSrc(String src) {
@@ -28,6 +32,11 @@ public abstract class N2oStandardField extends N2oField {
 
     public void setActionButtons(List<N2oActionButton> buttons) {
         //todo добавлять их в тулбар
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" + getId() + ")";
     }
 
 }

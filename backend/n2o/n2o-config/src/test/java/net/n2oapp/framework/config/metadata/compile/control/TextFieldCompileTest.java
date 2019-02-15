@@ -36,7 +36,6 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testTextFieldCompile"));
         Text field = (Text)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
-        assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("TextField"));
         assertThat(field.getText(), is("`'Hello, '+username`"));
         assertThat(field.getFormat(), is("formatTest"));

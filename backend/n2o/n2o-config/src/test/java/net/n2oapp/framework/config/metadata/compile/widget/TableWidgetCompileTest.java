@@ -198,7 +198,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(table.getFilter().getHideButtons(), is(true));
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("sb"));
         assertThat(field.getSrc(), is("FilterButtonsField"));
         assertThat(((SearchButtons) field).getResetLabel(), is("resetLabel"));
         assertThat(((SearchButtons) field).getSearchLabel(), is("searchLabel"));

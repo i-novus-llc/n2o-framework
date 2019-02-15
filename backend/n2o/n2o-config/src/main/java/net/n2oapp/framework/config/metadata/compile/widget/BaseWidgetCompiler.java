@@ -25,6 +25,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -166,8 +167,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         if (f.getServerValidations() != null) {
                             validationScope.addAll(f.getServerValidations());
                         }
-                        if (f.getClientValidations() != null) {
-                            clientValidations.put(f.getId(), f.getClientValidations());
+                        if (f.getClientValidations() != null && f instanceof StandardField) {
+                            String id = ((StandardField)f).getControl().getId();
+                            clientValidations.put(id, f.getClientValidations());
                         }
                     });
                 }

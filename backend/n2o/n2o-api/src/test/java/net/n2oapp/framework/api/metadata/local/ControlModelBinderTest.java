@@ -3,9 +3,9 @@ package net.n2oapp.framework.api.metadata.local;
 import net.n2oapp.context.CacheTemplateByMapMock;
 import net.n2oapp.context.StaticSpringContext;
 
+import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import org.junit.Before;
 import org.junit.Test;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
 import net.n2oapp.framework.api.metadata.control.list.N2oClassifier;
 import net.n2oapp.framework.api.metadata.control.multi.N2oMultiClassifier;
@@ -35,7 +35,7 @@ public class ControlModelBinderTest {
 
     @Test
     public void test() throws Exception {
-        List<N2oField> controls = new ArrayList<>();
+        List<N2oStandardField> controls = new ArrayList<>();
         controls.add(new N2oInputText("id"));
         controls.add(new N2oClassifier("gender"));
         controls.add(new N2oInputText("gender.id"));
@@ -47,7 +47,7 @@ public class ControlModelBinderTest {
         ControlModelBinder picker = new ControlModelBinder(controls);
 
         //простые поля
-        List<N2oField> list = picker.bind("id");
+        List<N2oStandardField> list = picker.bind("id");
         assert list.size() == 1;
         assert list.get(0).getId().equals("id");
 

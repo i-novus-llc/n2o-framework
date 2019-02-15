@@ -33,9 +33,9 @@ public abstract class N2oStandardControlReaderTestBase {
 
     protected void assertBaseAttributes(N2oField field) {
         String test = "test";
-        assert field.getId().equals("id");
         assert field.getLabel().equals(test);
         if (field instanceof N2oStandardField) {
+            assert ((N2oStandardField) field).getId().equals("id");
             assert !((N2oStandardField) field).getCopied();
         }
         assert !field.getRequired();

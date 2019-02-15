@@ -46,13 +46,12 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
     }
 
     protected void setControl(Element element, N2oField n2oControl) {
-        if (n2oControl.getId() != null)
-            element.setAttribute("id", n2oControl.getId());
         if (n2oControl.getLabel() != null)
             element.setAttribute("label", n2oControl.getLabel());
         setAttribute(element, "visible", n2oControl.getVisible());
         setElementString(element, "description", n2oControl.getDescription());
         if (n2oControl instanceof N2oStandardField) {
+            element.setAttribute("id", ((N2oStandardField)n2oControl).getId());
             setElementString(element, "placeholder", ((N2oStandardField) n2oControl).getPlaceholder());
         }
     }
@@ -135,13 +134,13 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
         setAttribute(element, "label-style", n2oField.getLabelStyle());
         if (n2oField instanceof N2oStandardField) {
             setAttribute(element, "copied", ((N2oStandardField) n2oField).getCopied());
+            setValidations((N2oStandardField)n2oField, element);
+            if (((N2oStandardField)n2oField).getDefaultValue() != null)
+                setAttribute(element, "default-value", ((N2oStandardField)n2oField).getDefaultValue());
         }
         setAttribute(element, "control-style", n2oField.getStyle());
         setAttribute(element, "src", n2oField.getSrc());
-        if (n2oField.getDefaultValue() instanceof String)
-            setAttribute(element, "default-value", n2oField.getDefaultValue());
         CssClassAwarePersister.getInstance().persist(element, n2oField);
-        setValidations(n2oField, element);
         setDependencies(n2oField, element);
     }
 
@@ -238,7 +237,7 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
         return null;
     }
 
-    private void setValidations(N2oField field, Element rootElement) {
+    private void setValidations(N2oStandardField field, Element rootElement) {
         if (field.getValidations() == null || field.getValidations().getWhiteList() == null) return;
         Element validations = setEmptyElement(rootElement, "validations");
 
