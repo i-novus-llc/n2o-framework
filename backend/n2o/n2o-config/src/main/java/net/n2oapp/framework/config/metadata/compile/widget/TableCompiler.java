@@ -103,7 +103,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
 
     @Override
     protected String getMessagesForm(Widget widget) {
-        return widget.getId() + ".filter";
+        return widget.getId() + "_filter";
     }
 
     private void compileValidation(Table table, N2oTable source, ValidationScope validationScope) {
