@@ -71,16 +71,14 @@ describe('Проверка саги actionsImpl', () => {
     };
     const widgetId = 'testId';
     const err = {
-      body: {
-        meta: {
-          value: 'value'
-        }
+      meta: {
+        value: 'value'
       }
     };
-    const gen = handleFailInvoke(action, widgetId, err);
-    const meta = merge(action.meta.fail, (err.body && err.body.meta) || {});
+    const gen = handleFailInvoke(action.meta.fail, widgetId, err.meta);
+    const meta = merge(action.meta.fail, err.meta);
     expect(gen.next().value.PUT.action).toEqual(
-      put(createActionHelper(FAIL_INVOKE)({ widgetId, err }, meta)).PUT.action
+      put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta)).PUT.action
     );
     expect(gen.next().done).toEqual(true);
   });
