@@ -236,6 +236,7 @@
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
           "widgetId": "proto_create2_main",
+          "pageId":"proto_create2",
           "dataProvider": {
             "url": "n2o/data/proto/create2/submit",
             "pathMapping": {},

@@ -201,6 +201,7 @@
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
           "widgetId": "proto_patients_update_main",
+          "pageId":"proto_patients_update",
           "dataProvider": {
             "url": "n2o/data/proto/patients/5607677/update/submit",
             "pathMapping": {},
