@@ -120,20 +120,17 @@ class DateTimeControl extends React.Component {
    * вызов onBlur
    */
   onBlur(date, inputName) {
-    this.setState(state => {
-      const inputs = { ...state.inputs };
-      if (inputName === DateTimeControl.defaultInputName) {
-        this.props.onBlur(this.dateToString(inputs[inputName]));
-      } else {
-        this.props.onBlur([
-          this.dateToString(inputs[DateTimeControl.beginInputName]),
-          this.dateToString(inputs[DateTimeControl.endInputName])
-        ]);
+    this.setState(
+      state => {
+        return {
+          inputs: { ...this.state.inputs, [inputName]: date }
+        };
+      },
+      () => {
+        this.props.onBlur();
+        this.onChange(inputName);
       }
-      return {
-        inputs: { ...this.state.inputs, [inputName]: date }
-      };
-    });
+    );
   }
 
   /**
