@@ -42,7 +42,7 @@ class EditableCell extends React.Component {
     const { visible, control, editable, ...rest } = this.props;
     const { value, editing } = this.state;
     return (
-      <div className="n2o-editable-cell">
+      <div className="n2o-editable-cell" onClick={e => e.stopPropagation()}>
         {visible &&
           !editing && (
             <div className="n2o-editable-cell-text" onClick={this.toggleEdit}>

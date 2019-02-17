@@ -103,7 +103,7 @@ class AdvancedTableContainer extends React.Component {
         };
       });
     } else {
-      return headers.map((header, index) => {
+      return headers.map((header, columnIndex) => {
         const cell = find(cells, c => c.id === header.id);
         return {
           ...header,
@@ -121,10 +121,6 @@ class AdvancedTableContainer extends React.Component {
           key: header.id,
           render: (value, record, index) => (
             <AdvancedTableCellRenderer
-              value={value}
-              record={record}
-              index={index}
-              editable={record.editable}
               key={index}
               component={this.renderCell({
                 index,
@@ -132,7 +128,7 @@ class AdvancedTableContainer extends React.Component {
                 widgetId,
                 columnId: cell.id,
                 model: record,
-                as: 'td',
+                as: columnIndex === 0 ? 'div' : 'td',
                 ...cell
               })}
             />

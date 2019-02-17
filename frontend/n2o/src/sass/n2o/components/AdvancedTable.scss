@@ -4,6 +4,12 @@
     border: 1px solid #cfd8dc;
   }
 
+
+  &-cell-content {
+    display: flex;
+    align-items: center;
+  }
+
   &-header-text-center {
     text-align: center;
   }
@@ -80,6 +86,10 @@
     background-color: transparent;
   }
 
+  &-cell-expand {
+    display: flex;
+    align-items: center;
+  }
 
 
   &-expand {
@@ -116,13 +126,13 @@
   }
 
   &-header-cell {
-    background-color: white;
 
     &-content {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
     }
+    background-color: white;
   }
 
   &-filter-dropdown.show {

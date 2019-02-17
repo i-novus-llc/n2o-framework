@@ -31,7 +31,6 @@ class AdvancedTableHeaderCell extends Component {
 
   renderMultiCell() {
     const { colSpan, rowSpan, className, children } = this.props;
-
     return (
       <th
         {...this.props}
@@ -39,7 +38,7 @@ class AdvancedTableHeaderCell extends Component {
         colSpan={colSpan}
         rowSpan={rowSpan}
       >
-        {children}
+        dsa
       </th>
     );
   }
@@ -65,7 +64,8 @@ class AdvancedTableHeaderCell extends Component {
       colSpan,
       rowSpan,
       onFilter,
-      filters
+      filters,
+      component
     } = this.props;
 
     let cellContent = null;
