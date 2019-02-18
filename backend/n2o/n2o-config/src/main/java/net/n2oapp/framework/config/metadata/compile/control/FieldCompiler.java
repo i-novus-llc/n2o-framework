@@ -53,65 +53,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
-        compileDefaultValues(field, source, p);
         compileDependencies(field, source, p);
         initValidations(source, field, context, p);
         compileFilters(field, p);
-    }
-
-    /**
-     * Сборка значения по умолчанию у поля
-     *
-     * @param source Исходная модель поля
-     * @param p      Процессор сборки
-     * @return Значение по умолчанию поля
-     */
-    protected Object compileDefValues(S source, CompileProcessor p) {
-        return null;
-    }
-
-    private void compileDefaultValues(Field field, S source, CompileProcessor p) {
-        UploadScope uploadScope = p.getScope(UploadScope.class);
-        if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
-            return;
-        ModelsScope defaultValues = p.getScope(ModelsScope.class);
-        if (defaultValues != null && defaultValues.hasModels()) {
-            Object defValue;
-            if (source.getDefaultValue() != null) {
-                defValue = p.resolve(source.getDefaultValue(), source.getDomain());
-            } else {
-                defValue = compileDefValues(source, p);
-            }
-            if (defValue != null) {
-                if (defValue instanceof String) {
-                    defValue = ScriptProcessor.resolveExpression((String) defValue);
-                }
-                if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
-                    defaultValue.setValue(defValue);
-                    defaultValues.add(field.getId(), defaultValue);
-                } else {
-                    SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
-                    ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), field.getId());
-                    if (defValue instanceof DefaultValues) {
-                        DefaultValues defaultValue = (DefaultValues) defValue;
-                        Map<String, Object> values = defaultValue.getValues();
-                        if (defaultValue.getValues() != null) {
-                            for (String param : values.keySet()) {
-                                if (values.get(param) instanceof String) {
-                                    Object value = ScriptProcessor.resolveExpression((String) values.get(param));
-                                    if (value != null)
-                                        values.put(param, value);
-                                }
-                            }
-                        }
-                    }
-                    modelLink.setValue(defValue);
-                    modelLink.setSubModelQuery(subModelQuery);
-                    defaultValues.add(field.getId(), modelLink);
-                }
-            }
-        }
     }
 
     private String initLabel(S source, CompileProcessor p) {
@@ -173,20 +117,25 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         List<Validation> serverValidations = new ArrayList<>();
         List<Validation> clientValidations = new ArrayList<>();
         Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
-        String FIELD_REQUIRED_MESSAGE = "n2o.required.field";
+        MomentScope momentScope = p.getScope(MomentScope.class);
+        String REQUIRED_MESSAGE = momentScope != null
+                && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
+                ? "n2o.required.filter" : "n2o.required.field";
         if (source.getRequired() != null && source.getRequired()) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
-            mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
+            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
+            if (momentScope != null)
+                mandatory.setMoment(momentScope.getMoment());
             collectEnablingConditions(mandatory, source, N2oField.VisibilityDependency.class);
             mandatory.addEnablingConditions(visibilityConditions);
             serverValidations.add(mandatory);
             clientValidations.add(mandatory);
             field.setRequired(true);
         } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(FIELD_REQUIRED_MESSAGE), field.getId());
-            mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
+            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
+            if (momentScope != null)
+                mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
-            collectEnablingConditions(mandatory, source, N2oField.RequiringDependency.class);
+            collectEnablingConditions(mandatory, source, N2oField.RequiringDependency.class, N2oField.VisibilityDependency.class);
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
                 serverValidations.add(mandatory);
                 clientValidations.add(mandatory);
@@ -198,11 +147,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setClientValidations(clientValidations.isEmpty() ? null : clientValidations);
     }
 
-    private void collectEnablingConditions(Validation v, S source, Class clazz) {
-        if (source.getDependencies() != null) {
+    private void collectEnablingConditions(Validation v, S source, Class ... types) {
+        if (source.getDependencies() != null && types != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
-                if (dependency.getClass().equals(clazz)) {
-                    v.addEnablingCondition(dependency.getValue());
+                for (Class clazz : types) {
+                    if (dependency.getClass().equals(clazz)) {
+                        v.addEnablingCondition(dependency.getValue());
+                    }
                 }
             }
         }
@@ -334,8 +285,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
                 dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
                 dependency.setApplyOnInit(p.cast(d.getApplyOnInit(), true));
-                if (d.getOn() != null)
-                    dependency.getOn().addAll(Arrays.asList(d.getOn()));
+                if (d.getOn() != null) {
+                    List<String> ons = Arrays.asList(d.getOn());
+                    ons.replaceAll(String::trim);
+                    dependency.getOn().addAll(ons);
+                }
 
                 field.addDependency(dependency);
             }
@@ -343,7 +297,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         if (source.getDependsOn() != null) {
             ControlDependency dependency = new ControlDependency();
-            dependency.setOn(Arrays.asList(source.getDependsOn()));
+            List<String> ons = Arrays.asList(source.getDependsOn());
+            ons.replaceAll(String::trim);
+            dependency.setOn(ons);
             dependency.setType(ValidationType.reRender);
             field.addDependency(dependency);
         }

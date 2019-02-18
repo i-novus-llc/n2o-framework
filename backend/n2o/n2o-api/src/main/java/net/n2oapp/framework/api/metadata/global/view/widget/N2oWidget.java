@@ -5,10 +5,10 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.global.N2oReference;
-import net.n2oapp.framework.api.metadata.global.aware.NameAware;
+import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
@@ -23,14 +23,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Исходная модель виджета
  */
 @Getter
 @Setter
-public abstract class N2oWidget<T extends N2oWidget> extends N2oMetadata implements NameAware, CssClassAware,
-        N2oReference<T>, ExtensionAttributesAware {
+public abstract class N2oWidget extends N2oMetadata
+        implements NameAware, RefIdAware, CssClassAware, ExtensionAttributesAware {
     private String src;
     private String customize;
     private String name;
@@ -65,14 +64,10 @@ public abstract class N2oWidget<T extends N2oWidget> extends N2oMetadata impleme
     private GenerateType actionGenerate;
     private N2oToolbar[] toolbars;
     private N2oPreField[] preFields;
-    Map<N2oNamespace, Map<String, String>> extAttributes;
+    private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     public Class getWidgetClass() {
         return this.getClass();
-    }
-
-    public String getCustomizeSources() {
-        return customize;
     }
 
     @Override
@@ -83,31 +78,6 @@ public abstract class N2oWidget<T extends N2oWidget> extends N2oMetadata impleme
     @Override
     public final Class<? extends N2oMetadata> getSourceBaseClass() {
         return N2oWidget.class;
-    }
-
-    public boolean isEditable() {
-        return false;
-    }
-
-    public boolean isNavSupport() {
-        return false;
-    }
-
-    @Override
-    public N2oMetadataMerger<T> getMerger() {
-        return null;
-    }
-
-    /**
-     * Добавить предустановленный фильтр
-     * @param preFilter Предустановленный фильтр
-     */
-    public void addPreFilter(N2oPreFilter preFilter) {
-        List<N2oPreFilter> list = new ArrayList<>();
-        if (this.preFilters != null)
-            list.addAll(Arrays.asList(this.preFilters));
-        list.add(preFilter);
-        this.preFilters = list.toArray(new N2oPreFilter[list.size()]);
     }
 
     /**

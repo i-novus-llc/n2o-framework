@@ -1,5 +1,6 @@
 {
   "src": "ListRegion",
+  "collapsible": false,
   "items": [
     {
       "widgetId": "Page_Html",

@@ -5,8 +5,14 @@ import evalExpression from '../utils/evalExpression';
 
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
-import { enableField, disableField } from '../actions/formPlugin';
-import { showField, hideField } from '../actions/formPlugin';
+import {
+  enableField,
+  disableField,
+  showField,
+  hideField,
+  setRequired,
+  unsetRequired
+} from '../actions/formPlugin';
 
 export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
@@ -27,6 +33,11 @@ export function* modify(values, formName, fieldName, type, options = {}) {
       break;
     case 'reset':
       yield _evalResult && put(change(formName, fieldName, null));
+      break;
+    case 'required':
+      yield _evalResult
+        ? put(setRequired(formName, fieldName))
+        : put(unsetRequired(formName, fieldName));
       break;
     default:
       break;

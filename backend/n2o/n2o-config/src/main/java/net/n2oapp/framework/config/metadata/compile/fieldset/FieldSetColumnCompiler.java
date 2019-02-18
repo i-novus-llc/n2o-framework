@@ -23,6 +23,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
     @Override
     public FieldSet.Column compile(N2oFieldsetColumn source, CompileContext<?,?> context, CompileProcessor p) {
         FieldSet.Column column = new FieldSet.Column();
+        column.setClassName(source.getCssClass());
         column.setSize(source.getSize());
         if (source.getItems() != null && source.getItems().length > 0) {
             if (source.getItems()[0] instanceof N2oField) {

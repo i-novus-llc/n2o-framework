@@ -149,7 +149,7 @@ public class N2oQueryProcessor implements QueryProcessor {
             try {
                 result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
                         InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
-            } catch (UnsupportedOperationException e) {
+            } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);
             }
         } else if (engine instanceof MapInvocationEngine) {
@@ -158,7 +158,7 @@ public class N2oQueryProcessor implements QueryProcessor {
             InvocationParametersMapping.prepareMapForPage(map, criteria, pageStartsWith0);
             try {
                 result = engine.invoke(selection.getInvocation(), map);
-            } catch (UnsupportedOperationException e) {
+            } catch (Exception e) {
                 throw exceptionHandler.handle(query, criteria, e);
             }
         } else

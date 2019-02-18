@@ -15,7 +15,8 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oComponent implements Source, SrcAware, IdAware, NamespaceUriAware, ExtensionAttributesAware, CssClassAware {
+public abstract class N2oComponent
+        implements Source, SrcAware, IdAware, NamespaceUriAware, ExtensionAttributesAware, CssClassAware {
     private String id;
     private String namespaceUri;
     private String src;

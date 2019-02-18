@@ -4,11 +4,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 
 
-/**
- * User: iryabov
- * Date: 05.02.13
- * Time: 19:10
- */
 public class N2oTree extends N2oWidget {
     private Boolean ajax;
     private Boolean search;

@@ -11,7 +11,9 @@ import {
   ADD_FIELD_MESSAGE,
   REMOVE_FIELD_MESSAGE,
   REGISTER_DEPENDENCY,
-  SET_FIELD_FILTER
+  SET_FIELD_FILTER,
+  SET_REQUIRED,
+  UNSET_REQUIRED
 } from '../constants/formPlugin';
 import createActionHelper from './createActionHelper';
 
@@ -175,5 +177,29 @@ export function setFilterValue(form, name, filter) {
     form,
     name,
     filter
+  });
+}
+
+/**
+ * установить флаг обазяательного поля
+ * @param form
+ * @param name
+ */
+export function setRequired(form, name) {
+  return createActionHelper(SET_REQUIRED, payload => payload, ({ form }) => ({ form }))({
+    name,
+    form
+  });
+}
+
+/**
+ * снять флаг обазяательного поля
+ * @param form
+ * @param name
+ */
+export function unsetRequired(form, name) {
+  return createActionHelper(UNSET_REQUIRED, payload => payload, ({ form }) => ({ form }))({
+    name,
+    form
   });
 }

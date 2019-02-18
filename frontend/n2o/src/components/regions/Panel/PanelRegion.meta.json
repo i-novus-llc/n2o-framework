@@ -9,6 +9,7 @@
   "open": true,
   "collapsible": true,
   "fullScreen": false,
+  "header": true,
   "panels": [
     {
       "icon": "fa fa-plus",

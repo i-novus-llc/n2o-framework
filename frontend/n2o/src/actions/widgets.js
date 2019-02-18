@@ -73,17 +73,15 @@ export function dataSuccessWidget(widgetId, json) {
  * @ignore
  * @param widgetId - уникальный индефикатор виджета
  * @param err - объект ошибки
- * @param errorResponse - json ответа
+ * @param meta - meta эффекты запроса
  */
-export function dataFailWidget(widgetId, err, errorResponse = {}) {
+export function dataFailWidget(widgetId, err, meta) {
   return createActionHelper(DATA_FAIL)(
     {
       widgetId,
       err
     },
-    {
-      ...errorResponse.meta
-    }
+    meta
   );
 }
 

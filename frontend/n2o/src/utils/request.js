@@ -17,9 +17,7 @@ function checkStatus({ status, statusText, body }) {
     // ничего не делаем, если не JSON
   }
   if (status < 200 || status >= 300) {
-    return Promise.reject(
-      new RequestError((json && json.message) || statusText, status, json || body)
-    );
+    return Promise.reject(new RequestError(statusText, status, body, json));
   }
   return json;
 }

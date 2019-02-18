@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class TextFieldIOv4 extends ComponentIO<N2oText> implements ControlIOv2 {
+public class TextFieldIOv4 extends FieldIOv2<N2oText> implements ControlIOv2 {
 
     @Override
     public void io(Element e, N2oText m, IOProcessor p) {

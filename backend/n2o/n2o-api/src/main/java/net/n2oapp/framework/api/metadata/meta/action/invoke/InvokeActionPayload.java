@@ -15,6 +15,8 @@ public class InvokeActionPayload implements ActionPayload {
     @JsonProperty
     private String widgetId;
     @JsonProperty
+    private String pageId;
+    @JsonProperty
     private WidgetDataProvider dataProvider;
     @JsonProperty
     private String modelLink;

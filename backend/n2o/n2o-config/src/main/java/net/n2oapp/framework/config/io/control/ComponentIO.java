@@ -13,6 +13,7 @@ public abstract class ComponentIO<T extends N2oComponent> implements NamespaceIO
     public void io(Element e, T m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "src", m::getSrc, m::setSrc);
+        p.attribute(e, "class", m::getCssClass, m::setCssClass);
         p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 }

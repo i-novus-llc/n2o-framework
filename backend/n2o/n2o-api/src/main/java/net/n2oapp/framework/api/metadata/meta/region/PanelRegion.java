@@ -34,6 +34,7 @@ public class PanelRegion extends Region {
     private Boolean collapsible;
     @JsonProperty
     private Boolean fullScreen;
+    @JsonProperty
     private Boolean header;
 
     @Override
