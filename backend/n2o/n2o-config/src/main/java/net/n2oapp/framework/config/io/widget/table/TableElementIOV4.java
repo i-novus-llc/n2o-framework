@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.io.control.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
 import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
 import net.n2oapp.framework.config.io.widget.table.cell.CellIOv2;
+import net.n2oapp.framework.config.io.widget.table.cell.RowClickIO;
 import net.n2oapp.framework.config.io.widget.table.cell.SwitchIO;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
@@ -69,6 +70,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
     private void rows(Element e, N2oRow r, IOProcessor p) {
         p.attribute(e, "color-field-id", r::getColorFieldId, r::setColorFieldId);
         p.child(e, null, "switch", r::getColor, r::setColor, new SwitchIO());
+        p.child(e, null, "click", r::getRowClick, r::setRowClick, new RowClickIO());
     }
 
 

@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
@@ -82,6 +83,15 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testTable4RowColorCompile"));
         assertThat(table.getComponent().getRowColor(), is("`gender.id == '1' ? 'red' : gender.id == '2' ? 'blue' : gender.id == '3' ? 'white' : 'green'`"));
         assertThat(table.getComponent().getHasSelect(), is(true));
+    }
+
+    @Test
+    public void testRowClick() {
+        Table table = (Table)compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.widget.xml")
+                .get(new WidgetContext("testTable4RowClickCompile"));
+
+        assertThat(table.getComponent().getRowClick(), notNullValue());
+        assertThat(table.getComponent().getRowClick(), instanceOf(Action.class));
     }
 
     @Test
