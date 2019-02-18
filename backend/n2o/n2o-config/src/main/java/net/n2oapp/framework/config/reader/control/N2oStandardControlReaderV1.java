@@ -26,10 +26,8 @@ import org.jdom.Namespace;
 import org.jdom.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 
@@ -50,7 +48,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
     }
 
     @SuppressWarnings("unchecked")
-    protected void getControlFieldDefinition(Element field, N2oStandardField n2oField) {
+    protected void getControlFieldDefinition(Element field, N2oField n2oField) {
         try {
             getControlDefinition(field, n2oField);
             String domain = getAttributeString(field, "domain");
@@ -66,7 +64,6 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             n2oField.setLabelStyle(getAttributeString(field, "label-style"));
             n2oField.setStyle(getAttributeString(field, "control-style"));
             n2oField.setCssClass(getAttributeString(field, "css-class"));
-            n2oField.setFieldSrc(getAttributeString(field, "layout"));
             n2oField.setSrc(getAttributeString(field, "src"));
             Element dependencies = field.getChild("dependencies", field.getNamespace());
             n2oField.setDependencies(readDependencies(dependencies, field));
@@ -76,8 +73,10 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             ActionButtonsReaderV1 actionButtonsReaderV1 = new ActionButtonsReaderV1();
             actionButtonsReaderV1.setReaderFactory(readerFactory);
             List<N2oActionButton> buttons = getChildrenAsList(field, "actions", "button", actionButtonsReaderV1);
-            n2oField.setActionButtons(buttons);
-            n2oField.setCopied(getAttributeBoolean(field, "copied"));
+            if (n2oField instanceof N2oStandardField) {
+                ((N2oStandardField)n2oField).setActionButtons(buttons);
+                ((N2oStandardField)n2oField).setCopied(getAttributeBoolean(field, "copied"));
+            }
             if (n2oField instanceof N2oListField) {
                 if ("on".equalsIgnoreCase(getAttributeString(field, "cache")))
                     ((N2oListField) n2oField).setCache(true);
@@ -117,13 +116,13 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         for (Element dependency : (List<Element>) element.getChildren()) {
             if (dependency.getName().equals("enabling-condition")) {
                 N2oField.EnablingDependency enablingDependency = new N2oField.EnablingDependency();
-                enablingDependency.setOn(dependency.getAttributeValue("on"));
+                enablingDependency.setOn(dependency.getAttributeValue("on").split(","));
                 enablingDependency.setValue(dependency.getValue());
                 dependencies[i] = enablingDependency;
                 i++;
             } else if (dependency.getName().equals("required-condition")) {
                 N2oField.RequiringDependency requiringDependency = new N2oField.RequiringDependency();
-                requiringDependency.setOn(dependency.getAttributeValue("on"));
+                requiringDependency.setOn(dependency.getAttributeValue("on").split(","));
                 requiringDependency.setValue(dependency.getValue());
                 dependencies[i] = requiringDependency;
                 i++;
@@ -137,22 +136,25 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         if (condition == null) return null;
         N2oField.VisibilityDependency res = new N2oField.VisibilityDependency();
         res.setValue(condition);
-        res.setOn(ScriptProcessor.extractVars(condition).stream()
-                .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f)  //клиент не учитывает вложенные модели
-                .reduce((a, b) -> a + "," + b).get());
+        res.setOn(
+                ScriptProcessor.extractVars(condition).stream()
+                        .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f) //клиент не учитывает вложенные модели
+                        .collect(Collectors.toList()).toArray(new String[0])
+        );
         return res;
     }
 
-    protected void readSetValueExp(N2oStandardField n2oField, List<Element> list) {
+    protected void readSetValueExp(N2oField n2oField, List<Element> list) {
         for (Element element : list) {
             N2oField.SetValueDependency setValue = new N2oField.SetValueDependency();
-            setValue.setOn(getAttributeString(element, "on"));
+            String on = getAttributeString(element, "on");
+            setValue.setOn(on != null ? on.split(",") : null);
             setValue.setValue(element.getText());
             n2oField.addDependency(setValue);
         }
     }
 
-    protected void readSetValues(N2oStandardField n2oField, List<Element> list) {
+    protected void readSetValues(N2oField n2oField, List<Element> list) {
         for (Element element : list) {
             String ifClause = getAttributeString(element, "if");
             String thenClause = getAttributeString(element, "then");
@@ -162,7 +164,8 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             Element anThen = element.getChild("then", element.getNamespace());
             Map<String, String> thenClauses = toMap(anThen);
             N2oField.SetValueDependency setValue = new N2oField.SetValueDependency();
-            setValue.setOn(getAttributeString(element, "on"));
+            String on = getAttributeString(element, "on");
+            setValue.setOn(on != null ? on.split(",") : null);
             setValue.setValue("if(" + ifClause + ") " + calculateReturnStatement(thenClause, thenClauses,
                     null) + "; else " + calculateReturnStatement(elseClause, elseClauses, " throw new Error() "));
             n2oField.addDependency(setValue);
@@ -251,7 +254,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         text.setHeight(getAttributeString(element, "height"));
     }
 
-    protected void getControlDefinition(Element fieldSetElement, N2oStandardField n2oControl) {
+    protected void getControlDefinition(Element fieldSetElement, N2oField n2oControl) {
         String id = getAttributeString(fieldSetElement, "id");
         String label = getAttributeString(fieldSetElement, "label");
         Boolean readonly = getAttributeBoolean(fieldSetElement, "readonly");
@@ -260,7 +263,9 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oControl.setLabel(label);
         n2oControl.setVisible(visible);
         n2oControl.setDescription(getElementString(fieldSetElement, "description"));
-        n2oControl.setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
+        if (n2oControl instanceof N2oStandardField) {
+            ((N2oStandardField)n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
+        }
     }
 
     protected N2oListField getListFieldDefinition(Element element, N2oListField n2oListField) {

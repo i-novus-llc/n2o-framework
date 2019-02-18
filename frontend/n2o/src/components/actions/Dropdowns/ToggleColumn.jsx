@@ -34,15 +34,15 @@ class ToggleColumn extends React.Component {
    * @param columns
    */
   renderColumnDropdown(columns) {
-    const notActive = (_.filter(columns, { isVisible: false }) || []).map(col => col.columnId);
+    const notActive = (_.filter(columns, item => !item.value.visible) || []).map(col => col.key);
     return columns.map(column => {
-      const checked = !notActive.includes(column.columnId);
+      const checked = !notActive.includes(column.key);
       return (
-        <DropdownItem toggle={false} onClick={() => this.toggleVisibility(column.columnId)}>
+        <DropdownItem toggle={false} onClick={() => this.toggleVisibility(column.key)}>
           <span className="n2o-dropdown-check-container">
             {checked && <i className="fa fa-check" aria-hidden="true" />}
           </span>
-          <span>{column.label || column.columnId}</span>
+          <span>{column.value.label || column.key}</span>
         </DropdownItem>
       );
     });
@@ -54,7 +54,7 @@ class ToggleColumn extends React.Component {
    */
   render() {
     const { columns } = this.props;
-    const columnsArray = Object.values(columns || {});
+    const columnsArray = _.map(columns || {}, (value, key) => ({ key, value }));
     return (
       <React.Fragment>
         {_.isArray(columnsArray) ? this.renderColumnDropdown(columnsArray) : null}

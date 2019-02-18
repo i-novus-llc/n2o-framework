@@ -33,7 +33,16 @@ class TableWidget extends React.Component {
    * Замена src на компонент
    */
   getWidgetProps() {
-    const { headers, cells, sorting, hasFocus, hasSelect, autoFocus, rowColor } = this.props.table;
+    const {
+      headers,
+      cells,
+      sorting,
+      hasFocus,
+      hasSelect,
+      autoFocus,
+      rowColor,
+      rowClick
+    } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
     return {
@@ -46,7 +55,8 @@ class TableWidget extends React.Component {
       hasFocus,
       hasSelect,
       autoFocus,
-      dataProvider
+      dataProvider,
+      rowClick
     };
   }
 
@@ -62,7 +72,9 @@ class TableWidget extends React.Component {
       actions,
       table: { fetchOnInit, size },
       pageId,
-      paging
+      paging,
+      className,
+      style
     } = this.props;
     return (
       <StandardWidget
@@ -72,6 +84,8 @@ class TableWidget extends React.Component {
         actions={actions}
         filter={this.prepareFilters()}
         bottomLeft={paging && <TablePagination widgetId={widgetId} />}
+        className={className}
+        style={style}
       >
         <TableContainer
           widgetId={widgetId}
@@ -92,6 +106,8 @@ TableWidget.defaultProps = {
 };
 
 TableWidget.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
   containerId: PropTypes.string.isRequired,
   pageId: PropTypes.string.isRequired,
   widgetId: PropTypes.string,

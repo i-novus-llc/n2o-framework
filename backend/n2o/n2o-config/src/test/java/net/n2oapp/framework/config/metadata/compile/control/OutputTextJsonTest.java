@@ -29,7 +29,7 @@ public class OutputTextJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testOutputText.widget.xml",
                 "components/controls/Output/Output.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("style", "src")
+                .exclude("style", "src", "id")
                 .assertEquals();
     }
 

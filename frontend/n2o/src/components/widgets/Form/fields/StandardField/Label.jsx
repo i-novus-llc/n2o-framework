@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Label as BootstrapLabel } from 'reactstrap';
+import cx from 'classnames';
 
 import Popover from '../../../../snippets/Popover/Popover';
 
@@ -18,20 +19,19 @@ import Popover from '../../../../snippets/Popover/Popover';
  */
 
 const Label = ({ id, value, required, className, style, help, ...props }) => {
-  const starStyle = { verticalAlign: 'top', marginLeft: 3, color: '#e53935', fontWeight: 900 };
   return React.isValidElement(value) ? (
-    <div>
+    <div className={cx('n2o-field-label')}>
       {React.cloneElement(value, {
-        className: `col-form-label ${className}`,
+        className: cx('col-form-label', className),
         style: { display: 'inline-block', ...style }
       })}
-      {required ? <span style={starStyle}>*</span> : ''}
+      {required ? <span className="n2o-field-label-required">*</span> : ''}
       {help && <Popover id={id} help={help} />}
     </div>
   ) : (
-    <BootstrapLabel className={className} style={style}>
+    <BootstrapLabel className={cx('n2o-field-label', className)} style={style}>
       {value}
-      {required ? <span style={starStyle}>*</span> : null}
+      {required ? <span className="n2o-field-label-required">*</span> : null}
       {help && <Popover id={id} help={help} />}
     </BootstrapLabel>
   );

@@ -7,21 +7,17 @@ import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
 import { ADVANCED_TABLE } from '../widgetTypes';
 import _ from 'lodash';
-import columnHOC from '../Table/ColumnContainer';
+import columnHOC from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import PropTypes from 'prop-types';
+import { withWidgetHandlers } from '../Table/TableContainer';
 import { makeGetFilterModelSelector } from '../../../selectors/models';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
   return isEqual(find(data1, predicate), find(data2, predicate));
-};
-
-export const getIndex = (datasource, selectedId) => {
-  const index = _.findIndex(datasource, model => model.id == selectedId);
-  return index >= 0 ? index : 0;
 };
 
 const ReduxCell = columnHOC(TableCell);
@@ -160,7 +156,8 @@ class AdvancedTableContainer extends React.Component {
       onSetSelection,
       isActive,
       filters,
-      bordered
+      bordered,
+      rowClick
     } = this.props;
     return {
       ...this.props,
@@ -180,7 +177,8 @@ class AdvancedTableContainer extends React.Component {
       onFilter: this.onSetFilter,
       isActive,
       filters,
-      bordered
+      bordered,
+      rowClick
     };
   }
 
@@ -245,7 +243,9 @@ export default compose(
           expandable: props.expandable,
           scroll: props.scroll,
           multiHeader: props.multiHeader,
-          bordered: props.bordered
+          bordered: props.bordered,
+          rowClick: props.rowClick,
+          onActionImpl: props.onActionImpl
         };
       }
     },
@@ -270,6 +270,7 @@ export default compose(
       }
     }
   }),
+  withWidgetHandlers,
   connect(
     mapStateToProps,
     null

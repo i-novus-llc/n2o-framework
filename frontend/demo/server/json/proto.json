@@ -812,7 +812,6 @@
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
-                          "label": "Пол",
                           "inline": true,
                           "type": "n2o",
                           "src": "CheckboxGroup"
@@ -920,8 +919,8 @@
             "id": "vip",
             "fieldKey": "vip",
             "src": "CheckboxCell",
+            "disabled" : "`!(name!='Мария')`",
             "actionId": "vip",
-            "readOnly": false,
             "action": {
               "id": "vip",
               "src": "perform",
@@ -1506,6 +1505,7 @@
           "open": true,
           "collapsible": false,
           "fullScreen": false,
+          "header": true,
           "panels": [
             {
               "id": "panel1",

@@ -22,7 +22,8 @@ import {
   RESET_STATE,
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
-  SET_ACTIVE
+  SET_ACTIVE,
+  DISABLE_ON_FETCH
 } from '../constants/widgets';
 import { CHANGE_BUTTON_CLASS } from '../constants/toolbar';
 import createActionHelper from './createActionHelper';
@@ -72,17 +73,15 @@ export function dataSuccessWidget(widgetId, json) {
  * @ignore
  * @param widgetId - уникальный индефикатор виджета
  * @param err - объект ошибки
- * @param errorResponse - json ответа
+ * @param meta - meta эффекты запроса
  */
-export function dataFailWidget(widgetId, err, errorResponse = {}) {
+export function dataFailWidget(widgetId, err, meta) {
   return createActionHelper(DATA_FAIL)(
     {
       widgetId,
       err
     },
-    {
-      ...errorResponse.meta
-    }
+    meta
   );
 }
 
@@ -143,6 +142,10 @@ export function enableWidget(widgetId) {
  */
 export function disableWidget(widgetId) {
   return createActionHelper(DISABLE)({ widgetId });
+}
+
+export function disableWidgetOnFetch(widgetId) {
+  return createActionHelper(DISABLE_ON_FETCH)({ widgetId });
 }
 
 /**

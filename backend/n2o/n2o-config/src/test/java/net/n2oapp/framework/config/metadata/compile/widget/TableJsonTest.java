@@ -32,16 +32,13 @@ public class TableJsonTest extends JsonMetadataTestBase {
                 "components/widgets/Table/TableWidget.meta.json")
                         .cutJson("Page_Table")
                 .exclude("actions",
-                        "table.style", "table.cells[1].textPlace", "table.autoFocus",
+                        "table.style", "table.autoFocus",
                         "dataProvider.queryMapping",
                         "table.cells[0].fieldKey",
                         "table.cells[1].fieldKey",
+                        "table.cells[1].textPlace",
                         "table.cells[2].fieldKey",
-                        "toolbar.topRight[0].buttons[4]",
-                        "toolbar.topRight[0].buttons[0].confirm", "toolbar.topRight[0].buttons[0].conditions",
-                        "toolbar.topRight[0].buttons[1].confirm", "toolbar.topRight[0].buttons[1].conditions",
-                        "toolbar.topRight[0].buttons[2].confirm", "toolbar.topRight[0].buttons[2].conditions",
-                        "toolbar.topRight[0].buttons[3].confirm", "toolbar.topRight[0].buttons[3].conditions")
+                        "toolbar")
                 .assertEquals();
     }
 

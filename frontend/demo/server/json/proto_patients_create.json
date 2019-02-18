@@ -196,6 +196,7 @@
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
           "widgetId": "proto_patients_create_main",
+          "pageId":"proto_patients_create",
           "dataProvider": {
             "url": "n2o/data/proto/patients/create/submit",
             "pathMapping": {},

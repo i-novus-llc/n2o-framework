@@ -48,6 +48,7 @@ class DateTimeControl extends React.Component {
     this.select = this.select.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onBlur = this.onBlur.bind(this);
     this.setVisibility = this.setVisibility.bind(this);
     this.setPlacement = this.setPlacement.bind(this);
     this.onClickOutside = this.onClickOutside.bind(this);
@@ -76,8 +77,8 @@ class DateTimeControl extends React.Component {
         this.format,
         locale,
         DateTimeControl.defaultInputName
-      ),
-      isPopUpVisible: false
+      )
+      // isPopUpVisible: false
     });
   }
 
@@ -116,20 +117,61 @@ class DateTimeControl extends React.Component {
   }
 
   /**
+   * вызов onBlur
+   */
+  onBlur(date, inputName) {
+    this.setState(
+      state => {
+        return {
+          inputs: { ...this.state.inputs, [inputName]: date }
+        };
+      },
+      () => {
+        this.props.onBlur();
+        this.onChange(inputName);
+      }
+    );
+  }
+
+  /**
    * Выбор даты, прокидывается в календарь
    */
   select(day, inputName, close = true) {
+    const { inputs } = this.state;
     let { locale } = this.props;
-    this.setState(
-      {
-        inputs: { ...this.state.inputs, [inputName]: day },
-        isPopUpVisible:
-          inputName === DateTimeControl.beginInputName ||
-          inputName === DateTimeControl.endInputName ||
-          !close
-      },
-      () => inputName === DateTimeControl.defaultInputName && this.onChange(inputName)
-    );
+    if (
+      inputName === DateTimeControl.defaultInputName ||
+      inputName === DateTimeControl.beginInputName ||
+      (inputName === DateTimeControl.endInputName && !inputs[DateTimeControl.beginInputName]) ||
+      (inputName === DateTimeControl.endInputName &&
+        moment(day).isSameOrAfter(inputs[DateTimeControl.beginInputName]))
+    ) {
+      const inputValue = () => {
+        if (
+          inputName === DateTimeControl.beginInputName &&
+          inputs[DateTimeControl.endInputName] &&
+          moment(day).isAfter(inputs[DateTimeControl.endInputName])
+        ) {
+          return {
+            [inputName]: day,
+            [DateTimeControl.endInputName]: null
+          };
+        }
+        return {
+          [inputName]: day
+        };
+      };
+      this.setState(
+        {
+          inputs: { ...this.state.inputs, ...inputValue() },
+          isPopUpVisible:
+            inputName === DateTimeControl.beginInputName ||
+            inputName === DateTimeControl.endInputName ||
+            !close
+        },
+        () => inputName === DateTimeControl.defaultInputName && this.onChange(inputName)
+      );
+    }
   }
   /**
    * Выбор даты, прокидывается в инпут
@@ -228,7 +270,7 @@ class DateTimeControl extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, className } = this.props;
+    const { disabled, placeholder, className, onFocus, onBlur } = this.props;
     const { inputs } = this.state;
     return (
       <div className="n2o-date-picker-container">
@@ -245,6 +287,8 @@ class DateTimeControl extends React.Component {
             inputClassName={className}
             setVisibility={this.setVisibility}
             setWidth={this.setWidth}
+            onBlur={this.onBlur}
+            onFocus={onFocus}
           />
           {this.renderPopUp(this.width)}
         </div>
@@ -258,6 +302,8 @@ DateTimeControl.beginInputName = 'begin';
 DateTimeControl.endInputName = 'end';
 
 DateTimeControl.defaultProps = {
+  onFocus: () => {},
+  onBlur: () => {},
   onChange: () => {},
   dateDivider: ' ',
   dateFormat: 'DD/MM/YYYY',
@@ -266,6 +312,8 @@ DateTimeControl.defaultProps = {
 };
 
 DateTimeControl.propTypes = {
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   type: PropTypes.oneOf(['date-interval', 'date-picker']),
   defaultTime: PropTypes.string,
   value: PropTypes.oneOfType([

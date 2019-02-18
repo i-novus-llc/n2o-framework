@@ -3,11 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.Display;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oChartValue;
 
-/**
- * @author V. Alexeev.
- * @date 02.03.2016
- */
-public class N2oChart extends N2oWidget{
+public class N2oChart extends N2oWidget {
 
     private Display display;
     private N2oChartValue[] values;

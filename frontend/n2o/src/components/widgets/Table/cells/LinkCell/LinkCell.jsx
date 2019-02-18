@@ -46,6 +46,10 @@ function LinkCell({
     className: cn('n2o-link-cell', 'p-0', { [className]: className })
   };
 
+  const handleClick = e => {
+    callActionImpl(e, {});
+  };
+
   const getLinkContent = () => {
     return (
       <React.Fragment>
@@ -61,7 +65,7 @@ function LinkCell({
 
   const ActionLinkCell = () => {
     return (
-      <Button color="link" onClick={callActionImpl} {...props}>
+      <Button color="link" onClick={handleClick} {...props}>
         {getLinkContent()}
       </Button>
     );

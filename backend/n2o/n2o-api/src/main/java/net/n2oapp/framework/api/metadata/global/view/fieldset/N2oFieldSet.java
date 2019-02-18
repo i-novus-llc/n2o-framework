@@ -2,10 +2,13 @@ package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.aware.CssClassAware;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.local.view.CssClassAware;
 
+import java.util.Map;
 import java.util.Set;
 
 
@@ -14,7 +17,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public abstract class N2oFieldSet extends N2oMetadata implements CssClassAware {
+public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, CssClassAware {
 
     private NamespaceUriAware[] items;
     private String label;
@@ -31,6 +34,7 @@ public abstract class N2oFieldSet extends N2oMetadata implements CssClassAware {
     private String enablingConditionOn;
     private String visible;
     private String enabled;
+    private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     @Override
     public final String getPostfix() {

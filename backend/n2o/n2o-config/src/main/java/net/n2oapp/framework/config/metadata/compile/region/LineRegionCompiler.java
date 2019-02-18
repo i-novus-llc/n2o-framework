@@ -33,6 +33,7 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
         build(region, source, context, p);
         region.setPlace(source.getPlace());
         region.setItems(new ArrayList<>());
+        region.setCollapsible(source.getCollapsible());
         region.setItems(initItems(source, context, p, Region.Item.class));
         return region;
     }

@@ -2,7 +2,7 @@
 <set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0"
      xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0"
      xmlns:evt="http://n2oapp.net/framework/config/schema/n2o-event-1.0" src="test">
-    <ctrl:input-select type="multi" id="id" label="test"  visible="true" depends-on="test" dependency-condition="test" domain="test" required="false" label-style="test" copied="false" layout="test" css-class="test" cache="off" autoselect-alone="true" autoselect-first="false" store-on-input="true">
+    <ctrl:input-select type="multi" id="id" label="test"  visible="true" depends-on="test" dependency-condition="test" domain="test" required="false" label-style="test" copied="false" css-class="test" cache="off" autoselect-alone="true" autoselect-first="false" store-on-input="true">
         <ctrl:description>test</ctrl:description>
         <ctrl:set-value-expression >test</ctrl:set-value-expression>
         <ctrl:validations>

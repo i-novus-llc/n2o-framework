@@ -7,7 +7,7 @@ const proxy = require('http-proxy-middleware');
 const app = express();
 
 const options = {
-  target: 'https://n2o.i-novus.ru/react/',
+  target: 'http://172.16.1.130:7777/',
   changeOrigin: true,
   ws: true,
 };

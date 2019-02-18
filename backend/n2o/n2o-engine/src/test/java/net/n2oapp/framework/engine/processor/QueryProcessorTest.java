@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.metadata.compile.query.N2oQueryCompiler;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
+import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
@@ -58,7 +59,7 @@ public class QueryProcessorTest {
         ContextProcessor contextProcessor = mock(ContextProcessor.class);
         factory = mock(N2oInvocationFactory.class);
         when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);
-        queryProcessor = new N2oQueryProcessor(factory, contextProcessor, new DomainProcessor());
+        queryProcessor = new N2oQueryProcessor(factory, contextProcessor, new DomainProcessor(), new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
         environment.setReadPipelineFunction(p -> p.read());
@@ -72,7 +73,8 @@ public class QueryProcessorTest {
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessor.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"));
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"));
     }
 
     @Test

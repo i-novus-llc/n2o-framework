@@ -18,8 +18,10 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
 
@@ -78,7 +80,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 item.getId(),
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",
-                item.getLabelFieldId(),
+                item.getLabelFieldId() != null ? item.getLabelFieldId() : "name",
                 !item.isSingle()
         );
     }
@@ -105,8 +107,15 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 String filterParam = query.getFilterIdToParamMap().get(filter.getFilterField());
                 Object prefilterValue = getPrefilterValue(preFilter);
-                if (StringUtils.isJs(prefilterValue) && modelsScope != null) {
-                    ModelLink link = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId());
+                if (StringUtils.isJs(prefilterValue)) {
+                    String widgetId = modelsScope.getWidgetId();
+                    if (preFilter.getRefWidgetId() != null) {
+                        PageScope pageScope = p.getScope(PageScope.class);
+                        widgetId = preFilter.getRefPageId() == null ?
+                                pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
+                                : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
+                    }
+                    ModelLink link = new ModelLink(p.cast(preFilter.getRefModel(), modelsScope.getModel()), widgetId);
                     link.setValue(prefilterValue);
                     queryMap.put(filterParam, link);
                 } else {

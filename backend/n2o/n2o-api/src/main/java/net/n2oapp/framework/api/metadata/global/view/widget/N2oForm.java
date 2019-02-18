@@ -16,8 +16,4 @@ public class N2oForm extends N2oWidget {
     private String defaultValuesQueryId;
     private FormMode mode;
 
-    @Override
-    public boolean isEditable() {
-        return true;
-    }
 }

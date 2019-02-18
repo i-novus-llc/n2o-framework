@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
+import { isEqual } from 'lodash';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**
@@ -35,6 +36,15 @@ class InputMask extends React.Component {
       Б: /[А-Яа-я]/,
       ...props.dictionary
     };
+    this.mask = this.mask.bind(this);
+    this.preset = this.preset.bind(this);
+    this._indexOfFirstPlaceHolder = this._indexOfFirstPlaceHolder.bind(this);
+    this._indexOfLastPlaceholder = this._indexOfLastPlaceholder.bind(this);
+    this._isValid = this._isValid.bind(this);
+    this._mapToArray = this._mapToArray.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this._onBlur = this._onBlur.bind(this);
+    this._onFocus = this._onFocus.bind(this);
   }
 
   /**
@@ -75,8 +85,8 @@ class InputMask extends React.Component {
    * возвращает индекс первого символа маски, который еще не заполнен
    * @returns (number) индекс первого символа маски, который еще не заполнен
    */
-  _indexOfFirstPlaceHolder(value) {
-    return value.indexOf(this.props.placeholderChar);
+  _indexOfFirstPlaceHolder(value = '') {
+    return value.toString().indexOf(this.props.placeholderChar);
   }
 
   /**
@@ -154,7 +164,10 @@ class InputMask extends React.Component {
   /**
    * обработка новых пропсов
    */
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.value, this.props.value)) {
+      this.setState({ value: this.props.value });
+    }
     this.dict = { ...this.dict, ...this.props.dictionary };
     this.valid = this._isValid(this.state.value);
   }
@@ -177,6 +190,10 @@ class InputMask extends React.Component {
         onChange={this._onChange.bind(this)}
         onFocus={this._onFocus.bind(this)}
         keepCharPositions={this.props.keepCharPositions}
+        render={(ref, props) => {
+          delete props.defaultValue;
+          return <input ref={ref} {...props} onChange={props.onChange} />;
+        }}
       />
     );
   }

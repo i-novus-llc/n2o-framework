@@ -1,6 +1,6 @@
 {
   "name": "n2o",
-  "version": "7.0.3",
+  "version": "7.0.5",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
   "main": "lib/index.js",
@@ -80,8 +80,8 @@
     "path-to-regexp": "^2.2.1",
     "prop-types": "^15.6.1",
     "query-string": "^5.1.1",
-    "rc-collapse": "^1.10.0",
-    "rc-switch": "^1.8.0",
+    "rc-collapse": "~1.10.0",
+    "rc-switch": "~1.8.0",
     "rc-table": "^6.4.3",
     "rc-tree-select": "^2.3.1",
     "react-ace": "^5.9.0",

@@ -8,6 +8,7 @@ import metadata from './AdvancedTableWidget.meta';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withPage from '../../../../.storybook/decorators/withPage';
+import { page } from 'N2oStorybook/fetchMock';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
 
@@ -742,6 +743,72 @@ stories
             className: 'birthday-cell',
             headerSrc: 'TextTableHeader',
             cellSrc: 'TextCell'
+          }
+        ]
+      }
+    };
+    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+  })
+  .add('Экшен AdvancedTable', () => {
+    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    fetchMock.get('begin:n2o/page', page);
+    const props = {
+      ...tableWidget,
+      table: {
+        ...tableWidget.table,
+        hasSelect: false,
+        hasFocus: false,
+        rowClick: {
+          src: 'perform',
+          options: {
+            type: 'n2o/modals/INSERT',
+            payload: {
+              pageUrl: '/Uid',
+              size: 'sm',
+              visible: true,
+              closeButton: true,
+              title: 'Новое модальное окно',
+              pageId: 'Uid'
+            }
+          }
+        },
+        cells: [
+          {
+            src: 'TextCell',
+            id: 'name'
+          },
+          {
+            src: 'IconCell',
+            id: 'surname',
+            icon: 'fa fa-plus',
+            type: 'iconAndText',
+            textPlace: 'right'
+          },
+          {
+            src: 'TextCell',
+            id: 'birthday'
+          }
+        ],
+        headers: [
+          {
+            src: 'TextTableHeader',
+            id: 'name',
+            sortable: false,
+            label: 'Имя',
+            width: 200
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'surname',
+            sortable: true,
+            label: 'Фамилия',
+            width: 200
+          },
+          {
+            src: 'TextTableHeader',
+            id: 'birthday',
+            sortable: true,
+            label: 'Дата рождения'
           }
         ]
       }

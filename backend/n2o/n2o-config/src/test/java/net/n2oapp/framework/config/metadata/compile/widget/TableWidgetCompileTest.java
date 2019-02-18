@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
+import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -42,6 +44,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
     }
 
@@ -69,7 +72,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
         assertThat(queryContext.getFailAlertWidgetId(), is("testTable4Compile"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("testTable4Compile"));
-        assertThat(queryContext.getMessagesForm(), is("testTable4Compile.filter"));
+        assertThat(queryContext.getMessagesForm(), is("testTable4Compile_filter"));
         assertThat(table.getComponent().getHasSelect(), is(true));
     }
 
@@ -205,7 +208,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testDefaultValues() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableCompileFilters.page.xml")
                 .get(new PageContext("testTableCompileFilters"));
-        assertThat(page.getModels().size(), is(6));
+        assertThat(page.getModels().size(), is(8));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("end"), is("22.11.2018"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].name").getValue(), is("test"));
@@ -214,5 +217,32 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].age").getValue(), is(18));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].amount").getValue(), is("100.99"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].hidden").getValue(), is("test"));
+        assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].name2").getValue(), is("`today()`"));
+        assertThat(((DefaultValues)page.getModels().get("filter['testTableCompileFilters_testTable'].birthday2").getValue()).getValues().get("begin"), is("`today()`"));
+    }
+
+    @Test
+    public void testColumnsWidth() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
+                .get(new WidgetContext("testTable4SortableCompile"));
+        assertThat(table.getId(), is("testTable4SortableCompile"));
+        assertThat(table.getComponent().getHeaders().size(), is(5));
+        List<ColumnHeader> headers = table.getComponent().getHeaders();
+
+        assertThat(headers.get(0).getWidth(), is("100"));
+        assertThat(headers.get(1).getWidth(), nullValue());
+    }
+
+    @Test
+    public void testRequiredPrefilters() {
+        compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
+                .get(new PageContext("testTableRequiredPrefilters"));
+        QueryContext queryContext = ((QueryContext)builder.route("/testTableRequiredPrefilters/main").getContext(CompiledQuery.class));
+
+        assertThat(queryContext.getValidations().get(0).getId(), is("gender*.id"));
+        assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));
+        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
+        assertThat(queryContext.getValidations().get(0).getSeverity(), is(SeverityType.danger));
     }
 }

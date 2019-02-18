@@ -28,8 +28,6 @@ public class N2oCheckboxCellXmlReader extends AbstractN2oCellXmlReader<N2oCheckb
             return new N2oCheckboxCell();
         N2oCheckboxCell checkbox = new N2oCheckboxCell();
         checkbox.setAction(new N2oInvokeAction(getAttributeString(el, "action-id")));
-        Element dependencies = element.getChild("dependencies", element.getNamespace());
-        checkbox.setEnablingCondition(getChild(dependencies, "enabling-condition", ConditionReaderV1.getInstance()));
         return checkbox;
     }
 

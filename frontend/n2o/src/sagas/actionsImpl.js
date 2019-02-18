@@ -1,4 +1,4 @@
-import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
+import { call, put, select, takeEvery, throttle, takeLatest } from 'redux-saga/effects';
 import { getFormValues } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
 import { isFunction } from 'lodash';
@@ -18,6 +18,8 @@ import { FETCH_INVOKE_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
 import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
+import { disablePage, enablePage } from '../actions/pages';
+import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 
 export function* validate(options) {
   const isTouched = true;
@@ -85,19 +87,25 @@ export function* fetchInvoke(dataProvider, model) {
   return response;
 }
 
-export function* handleFailInvoke(action, widgetId, err) {
-  const meta = merge(action.meta.fail, (err.body && err.body.meta) || {});
-  yield put(createActionHelper(FAIL_INVOKE)({ widgetId, err }, meta));
+export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
+  const meta = merge(metaInvokeFail, metaResponse);
+  yield put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta));
 }
 
 /**
  * вызов экшена
  */
 export function* handleInvoke(action) {
-  const { modelLink, widgetId, dataProvider, data } = action.payload;
+  const { modelLink, widgetId, pageId, dataProvider, data } = action.payload;
   try {
     if (!dataProvider) {
       throw new Error('dataProvider is undefined');
+    }
+    if (pageId) {
+      yield put(disablePage(pageId));
+    }
+    if (widgetId) {
+      yield put(disableWidgetOnFetch(widgetId));
     }
     let model = data || {};
     if (modelLink) {
@@ -107,7 +115,7 @@ export function* handleInvoke(action) {
 
     const meta = merge(action.meta.success || {}, response.meta || {});
 
-    if (!meta.redirect) {
+    if (!meta.redirect && !meta.closeLastModal) {
       yield put(setModel(PREFIXES.resolve, widgetId, response.data));
     }
     yield put(
@@ -120,11 +128,22 @@ export function* handleInvoke(action) {
       )
     );
   } catch (err) {
-    yield* handleFailInvoke(action, widgetId, err);
+    yield* handleFailInvoke(
+      action.meta.fail || {},
+      widgetId,
+      err.json && err.json.meta ? err.json.meta : {}
+    );
+  } finally {
+    if (pageId) {
+      yield put(enablePage(pageId));
+    }
+    if (widgetId) {
+      yield put(enableWidget(widgetId));
+    }
   }
 }
 
 export const actionsImplSagas = [
-  throttle(500, CALL_ACTION_IMPL, handleAction),
+  takeLatest(CALL_ACTION_IMPL, handleAction),
   throttle(500, START_INVOKE, handleInvoke)
 ];

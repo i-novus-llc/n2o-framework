@@ -161,12 +161,16 @@ function* getMetadata(action) {
       yield put(changeRootPage(pageId));
     }
     yield put(
-      metadataFail(pageId, {
-        label: err.status ? err.status : 'Ошибка',
-        text: err.message || err,
-        closeButton: false,
-        severity: 'danger'
-      })
+      metadataFail(
+        pageId,
+        {
+          label: err.status ? err.status : 'Ошибка',
+          text: err.message,
+          closeButton: false,
+          severity: 'danger'
+        },
+        err.json && err.json.meta ? err.json.meta : {}
+      )
     );
   }
 }

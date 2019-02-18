@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { xorBy } from 'lodash';
+import { xorBy, some, isNull } from 'lodash';
 
 /**
  * Компонент - группа чекбоксов, содержит {@link Checkbox} как children
@@ -26,6 +26,7 @@ class CheckboxGroup extends React.Component {
     super(props);
 
     this._onChange = this._onChange.bind(this);
+    this._onBlur = this._onBlur.bind(this);
   }
 
   /**
@@ -40,18 +41,29 @@ class CheckboxGroup extends React.Component {
     onChange(xorBy(value, [newValue], valueFieldId));
   }
 
+  _onBlur(e) {
+    const { onBlur, value } = this.props;
+    onBlur(value);
+  }
+
+  _isIncludes(collection, object, key) {
+    return some(collection, item => item[key] == object[key]);
+  }
+
   /**
    * Рендер
    */
 
   render() {
-    const { children, visible, inline, style, className, value } = this.props;
-
+    const { children, visible, inline, style, className, value, valueFieldId } = this.props;
     const element = child => {
       return React.cloneElement(child, {
-        checked: value.includes(child.props.value),
+        checked:
+          !isNull(value) && value && this._isIncludes(value, child.props.value, valueFieldId),
         disabled: this.props.disabled || child.props.disabled,
         onChange: this._onChange,
+        onBlur: this._onBlur,
+        onFocus: this.props.onFocus,
         inline: this.props.inline
       });
     };
@@ -102,7 +114,8 @@ CheckboxGroup.propTypes = {
 
 CheckboxGroup.defaultProps = {
   value: [],
-  visible: true
+  visible: true,
+  onChange: () => {}
 };
 
 export default CheckboxGroup;

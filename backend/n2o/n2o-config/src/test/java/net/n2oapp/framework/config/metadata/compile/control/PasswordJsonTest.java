@@ -29,7 +29,7 @@ public class PasswordJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testPasswordInput.widget.xml",
                 "components/controls/PasswordInput/PasswordInput.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "disabled", "style")
+                .exclude("src", "id", "disabled", "style")
                 .assertEquals();
     }
 

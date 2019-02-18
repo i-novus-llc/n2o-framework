@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 public class LineRegion extends Region {
+    @JsonProperty
     private Boolean collapsible;
 
     @Override

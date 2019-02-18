@@ -30,11 +30,11 @@ function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security
   const dropdownProps = pick(rest, ['disabled', 'direction', 'active', 'color', 'size']);
 
   const createDropDownMenu = ({ title, visible, icon, action, security, ...itemProps }) => {
-    const handlerClick = action => () => onClick(action);
+    const handleClick = action => e => onClick(e, action);
 
     const renderItem = () =>
       defaultTo(visible, true) ? (
-        <DropdownItem {...itemProps} onClick={handlerClick(action)}>
+        <DropdownItem {...itemProps} onClick={handleClick(action)}>
           {icon && <Icon name={icon} />}
           {title}
         </DropdownItem>

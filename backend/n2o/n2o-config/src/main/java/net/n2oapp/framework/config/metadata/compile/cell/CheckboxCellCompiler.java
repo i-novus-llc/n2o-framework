@@ -21,10 +21,11 @@ public class CheckboxCellCompiler extends AbstractCellCompiler<N2oCheckboxCell, 
     @Override
     public N2oCheckboxCell compile(N2oCheckboxCell source, CompileContext<?,?> context, CompileProcessor p) {
         N2oCheckboxCell cell = new N2oCheckboxCell();
-        if (source.getActionId() == null && source.getAction() == null)
-            cell.setEnabled(false);
-        else
-            cell.setEnabled(true);
+        if (source.getEnabled() != null) {
+            cell.setEnabled(source.getEnabled());
+        } else if (source.getActionId() == null && source.getAction() == null) {
+            cell.setEnabled("false");
+        }
         build(cell, source, context, p, property("n2o.default.cell.checkbox.src"));
         compileAction(cell, source, context, p);
         return cell;

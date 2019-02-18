@@ -196,18 +196,21 @@ export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId)
       yield put(dataFailWidget(widgetId));
     }
   } catch (err) {
+    console.error(`JS Error: Widget(${widgetId}) fetch saga. ${err.message}`);
     yield put(
       dataFailWidget(
         widgetId,
         err,
-        err.body || {
-          meta: generateErrorMeta({
-            id: id(),
-            text: `JS Error: Widget(${widgetId}) fetch saga. ${err.message}`,
-            stacktrace: err.stack,
-            closeButton: true
-          })
-        }
+        err.json && err.json.meta
+          ? err.json.meta
+          : {
+              meta: generateErrorMeta({
+                id: id(),
+                text: `Произошла внутренняя ошибка`,
+                stacktrace: err.stack,
+                closeButton: true
+              })
+            }
       )
     );
   }

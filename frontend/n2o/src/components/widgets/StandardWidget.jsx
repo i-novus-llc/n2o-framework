@@ -48,9 +48,9 @@ class StandardWidget extends React.Component {
   }
 
   render() {
-    const { widgetId, disabled, filter } = this.props;
+    const { widgetId, disabled, filter, className, style } = this.props;
     return (
-      <StandardWidgetLayout className={cx({ 'n2o-disabled': disabled })}>
+      <StandardWidgetLayout className={cx(className, { 'n2o-disabled': disabled })} style={style}>
         {filter.filterPlace === 'left' && (
           <Section place="left">{this.renderSection('left')}</Section>
         )}
@@ -75,6 +75,8 @@ StandardWidget.defaultProps = {
 };
 
 StandardWidget.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
   widgetId: PropTypes.string,
   toolbar: PropTypes.object,
   actions: PropTypes.object,

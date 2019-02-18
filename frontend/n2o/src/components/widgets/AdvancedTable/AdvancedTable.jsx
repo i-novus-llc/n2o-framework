@@ -93,9 +93,11 @@ class AdvancedTable extends Component {
   }
 
   componentDidMount() {
+    const { rowClick } = this.props;
     const { isAnyTableFocused, isActive, focusIndex, selectIndex, data } = this.state;
     !isAnyTableFocused &&
       isActive &&
+      !rowClick &&
       this.setSelectAndFocus(data[selectIndex].id, data[focusIndex].id);
     const checked = {};
     map(this.props.data, item => {
@@ -199,14 +201,17 @@ class AdvancedTable extends Component {
   }
 
   handleRow(id, index, noResolve) {
-    const { hasFocus, hasSelect } = this.props;
+    const { hasFocus, hasSelect, rowClick, onRowClickAction } = this.props;
     hasSelect && !noResolve && this.props.onResolve(_.find(this._dataStorage, { id }));
-    if (hasSelect && hasFocus) {
+    if (hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(id, id);
     } else if (hasFocus) {
       this.setNewFocusIndex(id);
-    } else if (hasSelect) {
+    } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(id);
+    }
+    if (rowClick) {
+      onRowClickAction();
     }
   }
 

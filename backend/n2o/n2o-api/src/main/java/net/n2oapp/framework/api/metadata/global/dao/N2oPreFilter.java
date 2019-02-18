@@ -3,11 +3,9 @@ package net.n2oapp.framework.api.metadata.global.dao;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 
 import java.util.Objects;
 
@@ -59,6 +57,11 @@ public class N2oPreFilter implements Source {
      * Список значений фильтра
      */
     private String[] values;
+
+    /**
+     * Обязательность фильтра
+     */
+    private Boolean required;
 
     private ResetMode resetMode;
     private Boolean onChange;
@@ -121,7 +124,6 @@ public class N2oPreFilter implements Source {
     public int hashCode() {
         return Objects.hash(fieldId, refWidgetId, refModel, type);
     }
-
 
 
     public enum ResetMode {

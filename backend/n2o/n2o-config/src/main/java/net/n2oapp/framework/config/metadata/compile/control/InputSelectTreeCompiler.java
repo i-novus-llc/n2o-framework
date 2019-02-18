@@ -8,10 +8,15 @@ import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 @Component
 public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree, N2oInputSelectTree> {
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.input.select.tree.src";
+    }
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oInputSelectTree.class;
@@ -20,7 +25,6 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
     @Override
     public StandardField<InputSelectTree> compile(N2oInputSelectTree source, CompileContext<?,?> context, CompileProcessor p) {
         InputSelectTree control = new InputSelectTree();
-        control.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.select.tree.src"), String.class)));
         control.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         control.setParentFieldId(p.resolveJS(source.getInheritanceNodes().getParentFieldId()));
         control.setHasChildrenFieldId(p.resolveJS(source.getInheritanceNodes().getHasChildrenFieldId()));

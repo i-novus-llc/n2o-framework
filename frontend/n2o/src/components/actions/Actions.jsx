@@ -199,6 +199,7 @@ class Actions extends React.Component {
         actionId,
         buttonId: id,
         validate,
+        pageId: this.props.pageId,
         ...options[actionId]
       });
     }

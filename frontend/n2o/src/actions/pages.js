@@ -3,7 +3,9 @@ import {
   METADATA_SUCCESS,
   METADATA_FAIL,
   MAP_URL,
-  RESET
+  RESET,
+  DISABLE,
+  ENABLE
 } from '../constants/pages';
 import createActionHelper from './createActionHelper';
 
@@ -35,9 +37,10 @@ export function metadataSuccess(pageId, json) {
  * @ignore
  * @param pageId - id страницы
  * @param err - ошибка
+ * @param meta - meta эффекты
  */
-export function metadataFail(pageId, err) {
-  return createActionHelper(METADATA_FAIL)({ pageId, err });
+export function metadataFail(pageId, err, meta) {
+  return createActionHelper(METADATA_FAIL)({ pageId, err }, meta);
 }
 
 export function mapUrl(pageId) {
@@ -50,4 +53,20 @@ export function mapUrl(pageId) {
  */
 export function resetPage(pageId) {
   return createActionHelper(RESET)({ pageId });
+}
+
+/**
+ * заблокировать страницу
+ * @param pageId
+ */
+export function disablePage(pageId) {
+  return createActionHelper(DISABLE)({ pageId });
+}
+
+/**
+ * разблокировать страницу
+ * @param pageId
+ */
+export function enablePage(pageId) {
+  return createActionHelper(ENABLE)({ pageId });
 }
