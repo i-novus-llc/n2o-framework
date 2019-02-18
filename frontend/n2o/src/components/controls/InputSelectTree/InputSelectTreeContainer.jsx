@@ -42,7 +42,6 @@ class InputSelectTreeContainer extends Component {
     this.state = {
       data: props.data
     };
-    this.getPopupContainer = this.getPopupContainer.bind(this);
   }
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.data !== prevState.data && nextProps.ajax) {
@@ -51,29 +50,9 @@ class InputSelectTreeContainer extends Component {
     return { data: nextProps.data };
   }
 
-  getPopupContainer(container) {
-    // ищем не находится ли InputSelectTree в модалке
-    // если да то возвращаем модалку как контейнер
-
-    const node = ReactDOM.findDOMNode(this);
-
-    const modal = node.closest('.modal');
-
-    if (!isNull(modal)) {
-      return modal;
-    }
-
-    return container;
-  }
-
   render() {
     return (
-      <InputSelectTree
-        {...this.props}
-        data={this.state.data}
-        loading={this.props.isLoading}
-        getPopupContainer={this.getPopupContainer}
-      />
+      <InputSelectTree {...this.props} data={this.state.data} loading={this.props.isLoading} />
     );
   }
 }
