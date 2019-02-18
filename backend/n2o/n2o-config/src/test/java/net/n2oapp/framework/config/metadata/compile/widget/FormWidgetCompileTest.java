@@ -99,7 +99,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(10).getSide(), is(nullValue()));
 
         validations = form.getComponent().getValidation().get("testField3");
-        assertThat(((MandatoryValidation)validations.get(0)).getExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
+        assertThat(((MandatoryValidation)validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
 
