@@ -54,7 +54,7 @@ image::images\getstarted-c1d22.png[]
    </parent>
 
    <properties>
-     <n2o.version>7.0.RC1-SNAPSHOT</n2o.version>
+     <n2o.version>7.0.6</n2o.version>
    </properties>
 
     <dependencies>
