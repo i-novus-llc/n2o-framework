@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge } from 'reactstrap';
-import { get } from 'lodash';
+import { get, isNil } from 'lodash';
 
 import Text from '../../../../snippets/Text/Text';
 
@@ -45,7 +45,7 @@ class BadgeCell extends React.Component {
       visible && (
         <div style={style}>
           <Text text={text} format={format} />
-          {badgeText && (
+          {!isNil(badgeText) && (
             <Badge style={badgeStyle} color={color}>
               <Text text={get(model, fieldKey || id)} format={badgeFormat} />
             </Badge>
