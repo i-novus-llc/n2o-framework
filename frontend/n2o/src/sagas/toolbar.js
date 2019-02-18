@@ -4,7 +4,6 @@ import { SET } from '../constants/models';
 import { getContainerButtons } from '../selectors/toolbar';
 import { changeButtonDisabled, changeButtonVisiblity } from '../actions/toolbar';
 import evalExpression from '../utils/evalExpression';
-import { REGISTER } from '../constants/widgets';
 import { REGISTER_BUTTON } from '../constants/toolbar';
 
 /**
@@ -80,14 +79,13 @@ export function* resolveButton(button) {
 
 function* watchRegister() {
   let buttons = {};
-  const chan = yield actionChannel([REGISTER_BUTTON, REGISTER, SET]);
+  const chan = yield actionChannel([REGISTER_BUTTON, SET]);
   while (true) {
     const action = yield take(chan);
     const { type, payload } = action;
     const { conditions } = payload;
     switch (type) {
-      case REGISTER_BUTTON:
-      case REGISTER: {
+      case REGISTER_BUTTON: {
         if (conditions && !isEmpty(conditions)) {
           buttons = yield call(prepareButton, buttons, payload);
           yield fork(handleAction, action);
@@ -110,7 +108,7 @@ function* watchRegister() {
 
 export function prepareButton(buttons, payload) {
   const { conditions } = payload;
-  let newButtons = buttons;
+  let newButtons = Object.assign({}, buttons);
   let modelsLinkBuffer = [];
   forOwn(conditions, condition => {
     condition.map(({ modelLink }) => {
