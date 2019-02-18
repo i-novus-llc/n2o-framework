@@ -15,23 +15,16 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
-import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import org.springframework.stereotype.Component;
-
 
 import java.util.*;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildExpressionForSwitch;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalizeParam;
 
 
 /**
@@ -89,18 +82,6 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions);
         table.setPaging(createPaging(source, p));
         return table;
-    }
-
-    @Override
-    protected void addSelectedRoute(Table compiled, PageRoutes routes, String widgetRoute) {
-        if (compiled.getMasterLink() != null)
-            routes.addPathMapping(compiled.getMasterParam(),
-                    Redux.dispatchSelectedWidget(compiled.getMasterLink().getWidgetId(), colon(compiled.getMasterParam())));
-        String selectedId = normalizeParam(compiled.getId() + "_id");
-        String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
-        routes.addRoute(routeWidgetSelected, compiled.getId());
-        ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
-        routes.addPathMapping(selectedId, widgetIdMapping);
     }
 
     @Override

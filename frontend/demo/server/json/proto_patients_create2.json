@@ -6,9 +6,25 @@
         "path": "/proto/create2",
         "exact": true,
         "isOtherPage": false
-      }
-    ],
+      },
+      {
+        "path":"/proto/create2/main",
+        "exact":true,
+        "isOtherPage":false
+      },
+      {
+        "path":"/proto/create2/main/:proto_create2_main_id",
+        "exact":true,
+        "isOtherPage":false
+      }],
     "pathMapping": {
+      "proto_create2_main_id":{
+        "type":"n2o/widgets/CHANGE_SELECTED_ID",
+        "payload":{
+          "widgetId":"proto_create2_main",
+          "value":":proto_create2_main_id"
+        }
+      }
     },
     "queryMapping": {}
   },

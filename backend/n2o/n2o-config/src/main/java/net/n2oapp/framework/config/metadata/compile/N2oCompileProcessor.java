@@ -129,6 +129,11 @@ public class N2oCompileProcessor implements CompileProcessor {
         env.getRouteRegister().addRoute(context.getRoute(this), context);
     }
 
+    @Override
+    public <D extends Compiled> void addRoute(String route, CompileContext<D, ?> context) {
+        env.getRouteRegister().addRoute(route, context);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {

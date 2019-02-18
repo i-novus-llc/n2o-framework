@@ -89,8 +89,8 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         super(route, clientPageId, N2oPage.class, Page.class);
     }
 
-    public PageContext(String route, PageContext context, CompileProcessor p) {
-        super(route, context, p);
+    public PageContext(PageContext context, CompileProcessor p) {
+        super(context, p);
         this.breadcrumbs = context.breadcrumbs;
         this.submitOperationId = context.submitOperationId;
         this.submitModel = context.submitModel;

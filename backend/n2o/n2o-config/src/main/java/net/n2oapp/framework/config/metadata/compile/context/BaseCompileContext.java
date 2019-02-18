@@ -62,6 +62,14 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this.route = route;
     }
 
+    public BaseCompileContext(BaseCompileContext<D, S> context, CompileProcessor p) {
+        this(context.sourceId, context.sourceClass, context.compiledClass);
+        this.route = context.route;
+        this.pathRouteMapping = context.pathRouteMapping;
+        this.queryRouteMapping = context.queryRouteMapping;
+        this.parentModelLink = context.parentModelLink;
+    }
+
     public BaseCompileContext(String route, BaseCompileContext<D, S> context, CompileProcessor p) {
         this(context.sourceId, context.sourceClass, context.compiledClass);
         this.route = route;
