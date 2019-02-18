@@ -18,8 +18,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ScriptProcessorTest {
@@ -560,4 +559,14 @@ public class ScriptProcessorTest {
         assertThat(engine.eval("_.join(['a', 'b', 'c'], '~')"), is("a~b~c"));
     }
 
+    @Test
+    public void testReduce() {
+        assertThat(ScriptProcessor.and(Arrays.asList("test1 || test2", "test3 || test4")), is("(test1 || test2) && (test3 || test4)"));
+        assertThat(ScriptProcessor.and(Collections.singletonList("test1")), is("test1"));
+        assertThat(ScriptProcessor.and(null), nullValue());
+
+        assertThat(ScriptProcessor.or(Arrays.asList("test1 || test2", "test3 || test4")), is("(test1 || test2) || (test3 || test4)"));
+        assertThat(ScriptProcessor.or(Arrays.asList("test1")), is("test1"));
+        assertThat(ScriptProcessor.or(null), nullValue());
+    }
 }

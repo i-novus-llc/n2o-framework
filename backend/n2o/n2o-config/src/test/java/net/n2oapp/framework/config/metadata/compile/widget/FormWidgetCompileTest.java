@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -96,6 +97,10 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(9).getSide().contains("client"), is(true));
         assertThat(validations.get(10).getId(), is("Condition3"));
         assertThat(validations.get(10).getSide(), is(nullValue()));
+
+        validations = form.getComponent().getValidation().get("testField3");
+        assertThat(((MandatoryValidation)validations.get(0)).getExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
+        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
 
     }

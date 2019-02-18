@@ -2,12 +2,20 @@
     <fields>
         <input-text id="testField">
             <validations white-list="Mandatory1,Mandatory2,Mandatory3,Mandatory4,test1,test2,test3,test4,test5,test7">
-                <condition id="Condition1" severity="danger" side="client" server-moment="before-operation">test</condition>
+                <condition id="Condition1" severity="danger" side="client">test</condition>
                 <condition id="Condition2" severity="danger" side="client,server" server-moment="before-operation">test</condition>
                 <condition id="Condition3" severity="danger" server-moment="before-operation">test</condition>
                 <!--не уйдет на клиент-->
                 <condition id="test11" severity="danger" side="server" server-moment="before-operation"/>
             </validations>
+        </input-text>
+        <input-text id="testField2">
+        </input-text>
+        <input-text id="testField3">
+            <dependencies>
+                <requiring on="testField2">testField2 == 'test'</requiring>
+                <requiring on="testField3">testField3 == 'test'</requiring>
+            </dependencies>
         </input-text>
     </fields>
 </form>
