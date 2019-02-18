@@ -754,11 +754,11 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "id": "surname",
                           "src": "InputText"
                         }
                       }
@@ -767,11 +767,11 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
                         "label": "Имя",
                         "dependency": [],
                         "control": {
+                          "id": "name",
                           "src": "InputText"
                         }
                       }
@@ -780,11 +780,11 @@
                   {
                     "fields": [
                       {
-                        "id": "bdate",
                         "src": "StandardField",
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
+                          "id": "bdate",
                           "src": "DateInterval",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
@@ -799,11 +799,11 @@
                   {
                     "fields": [
                       {
-                        "id": "genders",
                         "src": "StandardField",
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "id": "genders",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -823,10 +823,10 @@
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
                         "dependency": [],
                         "control": {
+                          "id": "vip",
                           "label": "VIP",
                           "src": "Checkbox"
                         }
@@ -1271,12 +1271,12 @@
                   {
                     "fields": [
                       {
-                        "id": "type",
                         "src": "StandardField",
                         "label": "Тип контакта",
                         "help": "Тип контакта",
                         "dependency": [],
                         "control": {
+                          "id": "type",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -1376,11 +1376,11 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "id": "surname",
                           "src": "InputText"
                         }
                       }
@@ -1389,11 +1389,11 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
                         "label": "Имя",
                         "dependency": [],
                         "control": {
+                          "id": "name",
                           "src": "InputText"
                         }
                       }
@@ -1406,12 +1406,12 @@
                   {
                     "fields": [
                       {
-                        "id": "gender",
                         "src": "StandardField",
                         "enabled": false,
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -1431,11 +1431,11 @@
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
                         "enabled": false,
                         "dependency": [],
                         "control": {
+                          "id": "vip",
                           "label": "VIP",
                           "src": "Checkbox"
                         }

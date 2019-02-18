@@ -14,12 +14,12 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
                         "required": true,
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "id": "surname",
                           "placeholder": "Введите значение",
                           "src": "InputText"
                         }
@@ -29,12 +29,12 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
                         "required": true,
                         "label": "Имя",
                         "dependency": [],
                         "control": {
+                          "id": "name",
                           "src": "InputText"
                         }
                       }
@@ -43,11 +43,11 @@
                   {
                     "fields": [
                       {
-                        "id": "patrName",
                         "src": "StandardField",
                         "label": "Отчество",
                         "dependency": [],
                         "control": {
+                          "id": "patrName",
                           "src": "InputText"
                         }
                       }
@@ -60,12 +60,12 @@
                   {
                     "fields": [
                       {
-                        "id": "gender",
                         "src": "StandardField",
                         "required": true,
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -85,11 +85,11 @@
                   {
                     "fields": [
                       {
-                        "id": "birthday",
                         "src": "StandardField",
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
+                          "id": "birthday",
                           "src": "DatePicker",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
@@ -101,7 +101,6 @@
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
                         "dependency": [
                           {
@@ -114,6 +113,7 @@
                           }
                         ],
                         "control": {
+                          "id": "vip",
                           "label": "VIP",
                           "src": "Checkbox"
                         }
