@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import InputSelectTree from './InputSelectTree';
 import listContainer from '../listContainer.js';
 import { propTypes, defaultProps } from './allProps';
-import { isEmpty, isEqual, unionWith, isNull } from 'lodash';
-import ReactDOM from 'react-dom';
+import { isEmpty, isEqual, unionWith } from 'lodash';
 
 /**
  * Контейнер для {@link InputSelect}
