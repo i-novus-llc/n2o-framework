@@ -41,7 +41,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private QueryContext getQueryContext() {
         QueryContext context = new QueryContext("testSqlQuery4", "/test/sql/validation");
         StandardField field = new StandardField();
-        field.getControl().setId("id");
         InputText control = new InputText();
         control.setId("id");
         field.setControl(control);
@@ -81,7 +80,6 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private List<Validation> createValidations() {
         List<Validation> validations = new ArrayList<>();
         StandardField field = new StandardField();
-        field.getControl().setId("id");
         InputText control = new InputText();
         control.setId("id");
         field.setControl(control);
