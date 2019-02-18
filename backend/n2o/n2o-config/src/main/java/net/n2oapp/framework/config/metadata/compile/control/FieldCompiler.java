@@ -249,6 +249,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);
+                MomentScope momentScope = p.getScope(MomentScope.class);
+                if (momentScope != null)
+                    compiledValidation.setMoment(momentScope.getMoment());
                 if (field.getVisible() != null && !field.getVisible()) {
                     continue;
                 } else if (!enablingConditions.isEmpty()) {
