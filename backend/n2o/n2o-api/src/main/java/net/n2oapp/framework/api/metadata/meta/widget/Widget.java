@@ -50,6 +50,8 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private Map<String, Action> actions;
     @JsonProperty
     private WidgetDependency dependency;
+    @JsonProperty
+    private Boolean visible;
 
     public Widget() {
     }

@@ -73,7 +73,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setIcon(source.getIcon());
         compiled.setProperties(p.mapAttributes(source));
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
-        compileFetchDependency(compiled, source, p);
+        compileDependencies(compiled, source, p);
         initFilters(compiled, source, p);
     }
 
@@ -392,7 +392,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
     }
 
-    private void compileFetchDependency(D compiled, S source, CompileProcessor p) {
+    private void compileDependencies(D compiled, S source, CompileProcessor p) {
         WidgetDependency dependency = new WidgetDependency();
         String masterWidgetId = null;
         if (source.getDependsOn() != null) {
@@ -408,20 +408,19 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             dependency.setFetch(fetch);
         }
         if (source.getVisible() != null) {
-            WidgetDependency.Condition visibilityCondition = new WidgetDependency.Condition();
-            List<WidgetDependency.Condition> visible = new ArrayList<>();
             Object condition = p.resolveJS(source.getVisible(), Boolean.class);
             if (StringUtils.isJs(condition)) {
+                WidgetDependency.Condition visibilityCondition = new WidgetDependency.Condition();
+                List<WidgetDependency.Condition> visible = new ArrayList<>();
                 if (masterWidgetId != null) {
                     visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
                 }
-                visibilityCondition.setCondition(((String)condition).substring(1, ((String) condition).length() - 1));
+                visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
+                visible.add(visibilityCondition);
+                dependency.setVisible(visible);
+            } else if (condition instanceof Boolean) {
+                compiled.setVisible((Boolean) condition);
             }
-            else {
-                visibilityCondition.setCondition(condition);
-            }
-            visible.add(visibilityCondition);
-            dependency.setVisible(visible);
         }
         if (!dependency.isEmpty())
             compiled.setDependency(dependency);
