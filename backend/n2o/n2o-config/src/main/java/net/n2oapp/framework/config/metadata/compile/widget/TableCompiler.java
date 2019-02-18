@@ -22,10 +22,9 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
-
 import java.util.*;
 
-import static net.n2oapp.framework.api.script.ScriptProcessor.buildExpressionForSwitch;
+import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 
 
 /**
@@ -75,7 +74,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 component.setRowColor(p.resolveJS(source.getRows().getColorFieldId()));
             } else {
                 if (source.getRows().getColor() != null) {
-                    component.setRowColor(buildExpressionForSwitch(source.getRows().getColor()));
+                    component.setRowColor(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
 

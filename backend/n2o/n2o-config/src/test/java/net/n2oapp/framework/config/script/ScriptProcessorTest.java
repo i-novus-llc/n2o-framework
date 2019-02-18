@@ -18,8 +18,7 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ScriptProcessorTest {
@@ -97,15 +96,20 @@ public class ScriptProcessorTest {
     @Test
     public void testBuildExpressionForSwitch() {
         N2oSwitch n2oSwitch = new N2oSwitch();
-        assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch) == null;
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), nullValue());
         n2oSwitch.setValueFieldId("status");
         Map<String, String> cases = new HashMap<>();
         cases.put("1", "blue");
         cases.put("2", "red");
         n2oSwitch.setCases(cases);
-        assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch).equals("`status == '1' ? 'blue' : status == '2' ? 'red' : null`");
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : null`"));
+
         n2oSwitch.setDefaultCase("gray");
-        assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch).equals("`status == '1' ? 'blue' : status == '2' ? 'red' : 'gray'`");
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : 'gray'`"));
+
+        cases.put("3", "{name == 'Нина' ? 'black' : 'white'}");
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
+                is("`status == 1 ? 'blue' : status == 2 ? 'red' : status == 3 ? name == 'Нина' ? 'black' : 'white' : 'gray'`"));
     }
 
 
