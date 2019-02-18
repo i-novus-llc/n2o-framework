@@ -74,7 +74,6 @@ import cx from 'classnames';
 function InputSelectTree({
   onOpen,
   onFocus,
-  getPopupContainer,
   value,
   onBlur,
   searchPlaceholder,
@@ -364,6 +363,8 @@ function InputSelectTree({
   const clearIcon = <Icon name="fa fa-times" />;
 
   const inputIcon = loading ? <InlineSpinner /> : <Icon name="fa fa-chevron-down" />;
+
+  const getPopupContainer = container => container;
 
   return (
     <TreeSelect
