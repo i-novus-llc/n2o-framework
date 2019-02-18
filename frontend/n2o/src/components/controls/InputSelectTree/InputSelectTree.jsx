@@ -1,5 +1,6 @@
 import React from 'react';
 import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
+import ReactDOM from 'react-dom';
 import {
   difference,
   filter as filterF,
@@ -73,6 +74,7 @@ import cx from 'classnames';
 function InputSelectTree({
   onOpen,
   onFocus,
+  getPopupContainer,
   value,
   onBlur,
   searchPlaceholder,
@@ -386,6 +388,7 @@ function InputSelectTree({
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
       showCheckedStrategy={showCheckedStrategy}
+      getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
         defaultMessage: notFoundContent || ' '
