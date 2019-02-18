@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Компонент создания строки заголовка
+ * @param props
+ * @constructor
+ */
 function AdvancedTableHeaderRow(props) {
   return React.createElement(
     'tr',
@@ -10,7 +15,5 @@ function AdvancedTableHeaderRow(props) {
     [...props.children]
   );
 }
-
-AdvancedTableHeaderRow.propTypes = {};
 
 export default AdvancedTableHeaderRow;

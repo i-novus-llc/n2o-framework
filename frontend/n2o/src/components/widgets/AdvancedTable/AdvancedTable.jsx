@@ -21,26 +21,6 @@ export const getIndex = (data, selectedId) => {
 };
 
 /**
- * columns: {
- *     title,
- *     dataIndex,
- *     id,
- *     index,
- *     model,
- *     key,
- *     width,
- *     fixed,
- *     sortable,
- *     sorting,
- *     resizable,
- *     editable,
- *     columnId,
- *     widgetId,
- *     onSort,
- * }
- */
-
-/**
  * Компонент Таблица
  * @reactProps {boolean} hasFocus - флаг наличия фокуса
  * @reactProps {string} className - класс таблицы
@@ -66,13 +46,12 @@ class AdvancedTable extends Component {
       selectIndex: props.hasSelect ? getIndex(props.data, props.selectedId) : -1,
       data: props.data || [],
       expandedRowKeys: [],
-      expandIconAsCell: true,
       expandRowByClick: false,
       selection: {},
       selectAll: false,
       columns: props.columns,
       checkedAll: false,
-      checked: {}
+      checked: props.data ? this.mapChecked(props.data) : {}
     };
 
     this.rows = {};
@@ -80,13 +59,13 @@ class AdvancedTable extends Component {
 
     this.setRowRef = this.setRowRef.bind(this);
     this.getRowProps = this.getRowProps.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.onExpandedRowsChange = this.onExpandedRowsChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleExpandedRowsChange = this.handleExpandedRowsChange.bind(this);
     this.mapColumns = this.mapColumns.bind(this);
     this.checkAll = this.checkAll.bind(this);
-    this.onChangeChecked = this.onChangeChecked.bind(this);
-    this.onFilter = this.onFilter.bind(this);
-    this.onEdit = this.onEdit.bind(this);
+    this.handleChangeChecked = this.handleChangeChecked.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
     this.setSelectionRef = this.setSelectionRef.bind(this);
     this.getModelsFromData = this.getModelsFromData.bind(this);
     this.setTableRef = this.setTableRef.bind(this);
@@ -99,15 +78,6 @@ class AdvancedTable extends Component {
       isActive &&
       !rowClick &&
       this.setSelectAndFocus(data[selectIndex].id, data[focusIndex].id);
-    const checked = {};
-    map(this.props.data, item => {
-      checked[item.id] = false;
-    });
-    this.setState({
-      data: this.props.data,
-      columns: this.props.columns,
-      checked
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -117,23 +87,32 @@ class AdvancedTable extends Component {
       const id = data && data[selectedId] && data[selectedId].id ? data[selectedId].id : data[0].id;
       isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
     }
-    if (this.props.data && !isEqual(prevProps.data, this.props.data)) {
-      const checked = {};
-      map(this.props.data, item => {
-        checked[item.id] = false;
-      });
-      this.setState({
-        data: isArray(data) ? data : [this.props.data],
-        checked
-      });
-      this._dataStorage = this.getModelsFromData(this.props.data);
+    if (!isEqual(prevProps, this.props)) {
+      let state = {};
+      if (this.props.data && !isEqual(prevProps.data, this.props.data)) {
+        const checked = this.mapChecked(this.props.data);
+        state = {
+          data: isArray(data) ? data : [this.props.data],
+          checked
+        };
+        this._dataStorage = this.getModelsFromData(this.props.data);
+      }
+      if (!isEqual(prevProps.columns, this.props.columns)) {
+        state = {
+          ...state,
+          columns: this.props.columns
+        };
+      }
+      this.setState({ ...state });
     }
+  }
 
-    if (!isEqual(prevProps.columns, this.props.columns)) {
-      this.setState({
-        columns: this.props.columns
-      });
-    }
+  mapChecked(data) {
+    const checked = {};
+    map(data, item => {
+      checked[item.id] = false;
+    });
+    return checked;
   }
 
   getModelsFromData(data) {
@@ -173,7 +152,7 @@ class AdvancedTable extends Component {
     }
   }
 
-  onKeyDown(e) {
+  handleKeyDown(e) {
     const keyNm = e.key;
     const { data, children, hasFocus, hasSelect, autoFocus } = this.props;
     const { focusIndex } = this.state;
@@ -195,12 +174,12 @@ class AdvancedTable extends Component {
     }
   }
 
-  onFilter(filter) {
+  handleFilter(filter) {
     const { onFilter } = this.props;
     onFilter && onFilter(filter);
   }
 
-  handleRow(id, index, noResolve) {
+  handleRowClick(id, index, noResolve) {
     const { hasFocus, hasSelect, rowClick, onRowClickAction } = this.props;
     hasSelect && !noResolve && this.props.onResolve(_.find(this._dataStorage, { id }));
     if (hasSelect && hasFocus && !rowClick) {
@@ -233,7 +212,7 @@ class AdvancedTable extends Component {
     this.rows[this.state.focusIndex] && this.rows[this.state.focusIndex].focus();
   }
 
-  onExpandedRowsChange(rows) {
+  handleExpandedRowsChange(rows) {
     this.setState({
       expandedRowKeys: rows
     });
@@ -253,35 +232,33 @@ class AdvancedTable extends Component {
     }));
   }
 
-  onChangeChecked(event, index) {
+  handleChangeChecked(event, index) {
     const selectAllCheckbox = ReactDom.findDOMNode(this.selectAllCheckbox).querySelector('input');
-    const { onSetSelection } = this.props;
+    const { onSetSelection, data } = this.props;
     const checked = !event.target.checked;
+    let checkedAll = this.state.checkedAll;
     let multi = [];
-    this.setState(
-      () => ({
-        checked: {
-          ...this.state.checked,
-          [index]: checked
-        }
-      }),
-      () => {
-        const isSomeOneChecked = some(this.state.checked, checked => checked);
-        const isAllChecked = every(this.state.checked, checked => checked);
-        if (isSomeOneChecked && !isAllChecked) {
-          selectAllCheckbox.indeterminate = true;
-        } else {
-          selectAllCheckbox.indeterminate = false;
-        }
-        forOwn(this.state.checked, (v, k) => {
-          if (v) {
-            const item = find(this.props.data, i => i.id.toString() === k.toString());
-            multi.push(item);
-          }
-        });
-        onSetSelection(multi);
+    const checkedState = {
+      ...this.state.checked,
+      [index]: checked
+    };
+    const isSomeOneChecked = some(checkedState, checked => checked);
+    const isAllChecked = every(checkedState, checked => checked);
+    if (isAllChecked) {
+      checkedAll = true;
+    }
+    selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked;
+    forOwn(checkedState, (v, k) => {
+      if (v) {
+        const item = find(data, i => i.id.toString() === k.toString());
+        multi.push(item);
       }
-    );
+    });
+    onSetSelection(multi);
+    this.setState(() => ({
+      checked: checkedState,
+      checkedAll
+    }));
   }
 
   handleResize(index) {
@@ -297,27 +274,26 @@ class AdvancedTable extends Component {
     };
   }
 
-  onEdit(value, index, id) {
-    const { handleEdit } = this.props;
+  handleEdit(value, index, id) {
+    const { onEdit } = this.props;
     let data = this.state.data;
     data[index][id] = value;
     this.setState({
       data
     });
-    handleEdit(value, index, id);
+    onEdit(value, index, id);
   }
 
   getRowProps(model, index) {
-    const { isActive, redux, rowColor } = this.props;
+    const { isActive, rowColor } = this.props;
     return {
       index,
-      redux,
       isRowActive: model.id === this.state.selectIndex,
       color: rowColor && propsResolver(rowColor, model),
       model,
       setRef: this.setRowRef,
-      onClick: isActive ? () => this.handleRow(model.id, model.id) : undefined,
-      onFocus: !isActive ? () => this.handleRow(model.id, model.id, true) : undefined
+      onClick: isActive ? () => this.handleRowClick(model.id, model.id) : undefined,
+      onFocus: !isActive ? () => this.handleRowClick(model.id, model.id, true) : undefined
     };
   }
 
@@ -337,35 +313,28 @@ class AdvancedTable extends Component {
       key: 'row-selection',
       className: 'n2o-advanced-table-selection-container',
       width: 30,
-      render: (value, model, index) => (
+      render: (value, model) => (
         <CheckboxN2O
           inline={true}
           checked={this.state.checked[model.id]}
-          onChange={event => this.onChangeChecked(event, model.id)}
+          onChange={event => this.handleChangeChecked(event, model.id)}
         />
       )
     };
   }
 
   mapColumns(columns) {
-    const { widgetId, rowSelection, redux, sorting, onSort, filters } = this.props;
+    const { rowSelection, filters } = this.props;
     let newColumns = columns;
-    newColumns = newColumns.map((col, columnIndex) => ({
+    newColumns = map(newColumns, (col, columnIndex) => ({
       ...col,
       onHeaderCell: column => ({
         ...column,
-        title: col.title,
-        widgetId,
-        redux,
-        sorting,
-        onSort,
-        columnId: col.id,
-        multiHeader: col.multiHeader,
-        onFilter: this.onFilter,
+        onFilter: this.handleFilter,
         onResize: this.handleResize(columnIndex),
         filters
       }),
-      onCell: (record, index) => ({
+      onCell: record => ({
         record,
         editable: col.editable && record.editable,
         hasSpan: col.hasSpan
@@ -383,19 +352,21 @@ class AdvancedTable extends Component {
       className,
       expandable,
       onExpand,
-      expandRowByClick,
       tableSize,
       useFixedHeader,
       scroll,
       bordered,
       isActive,
-      onFocus
+      onFocus,
+      rowSelection
     } = this.props;
 
     const columns = this.mapColumns(this.state.columns);
-
     return (
-      <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
+      <HotKeys
+        keyMap={{ events: ['up', 'down', 'space'] }}
+        handlers={{ events: this.handleKeyDown }}
+      >
         <Table
           ref={this.setTableRef}
           onFocus={!isActive ? onFocus() : undefined}
@@ -420,10 +391,10 @@ class AdvancedTable extends Component {
           }}
           rowKey={record => record.key}
           expandIcon={AdvancedTableExpandIcon}
-          expandRowByClick={expandRowByClick}
+          expandIconAsCell={rowSelection && expandable}
           expandedRowRender={expandable && AdvancedTableExpandedRenderer}
           expandedRowKeys={this.state.expandedRowKeys}
-          onExpandedRowsChange={this.onExpandedRowsChange}
+          onExpandedRowsChange={this.handleExpandedRowsChange}
           onExpand={onExpand}
           useFixedHeader={useFixedHeader}
           indentSize={20}
@@ -443,11 +414,19 @@ AdvancedTable.propTypes = {
   onRow: PropTypes.func,
   components: PropTypes.object,
   emptyText: PropTypes.node,
-  hotKeys: PropTypes.object
+  hotKeys: PropTypes.object,
+  bordered: PropTypes.bool,
+  rowSelection: PropTypes.bool,
+  expandable: PropTypes.bool
 };
 
-AdvancedTableCell.defaultProps = {
-  data: []
+AdvancedTable.defaultProps = {
+  data: [],
+  bordered: false,
+  rowSelection: false,
+  expandable: false,
+  onFocus: () => {},
+  onSetSelection: () => {}
 };
 
 export default AdvancedTable;

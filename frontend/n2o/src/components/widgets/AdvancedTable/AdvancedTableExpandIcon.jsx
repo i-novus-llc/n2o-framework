@@ -1,6 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 
+/**
+ * Компонент кнопки открытия подстроки
+ * @param record - модель строки
+ * @param expanded - флаг открытия
+ * @param onExpand - callback на открытие
+ * @returns {*}
+ * @constructor
+ */
 function AdvancedTableExpandIcon({ record, expanded, onExpand }) {
   return (
     <span
@@ -19,5 +28,15 @@ function AdvancedTableExpandIcon({ record, expanded, onExpand }) {
     </span>
   );
 }
+
+AdvancedTableExpandIcon.propTypes = {
+  record: PropTypes.object,
+  expanded: PropTypes.bool,
+  onExpand: PropTypes.func
+};
+
+AdvancedTableExpandIcon.defaultProps = {
+  record: {}
+};
 
 export default AdvancedTableExpandIcon;

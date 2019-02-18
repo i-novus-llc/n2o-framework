@@ -1,6 +1,11 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+/**
+ * Компонент отображения отсутствия данных
+ * @returns {*}
+ * @constructor
+ */
 function AdvancedTableEmptyText() {
   return (
     <span className="d-flex justify-content-center text-muted">

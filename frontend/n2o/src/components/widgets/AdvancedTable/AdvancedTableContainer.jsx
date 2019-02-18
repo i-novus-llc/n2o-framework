@@ -34,15 +34,31 @@ class AdvancedTableContainer extends React.Component {
     this.mapColumns = this.mapColumns.bind(this);
     this.mapData = this.mapData.bind(this);
     this.renderCell = this.renderCell.bind(this);
-    this.onSetFilter = this.onSetFilter.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
+    this.handleSetFilter = this.handleSetFilter.bind(this);
+    this.onEdit = this.onEdit.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { selectedId: prevSelectedId, datasource: prevDatasource, onResolve } = prevProps;
+    const { hasSelect, datasource, selectedId } = this.props;
+
     if (!isEqual(prevProps.datasource, this.props.datasource)) {
       this.setState({
         data: this.mapData(this.props.datasource)
       });
+    }
+
+    if (
+      hasSelect &&
+      !isEmpty(datasource) &&
+      !isEqual(prevDatasource, datasource) &&
+      (!selectedId ||
+        !isEqual(prevSelectedId, selectedId) ||
+        !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
+    ) {
+      const selectedModel = find(datasource, model => model.id == selectedId);
+      const resolveModel = selectedModel || datasource[0];
+      onResolve(resolveModel);
     }
   }
 
@@ -54,17 +70,14 @@ class AdvancedTableContainer extends React.Component {
     }
   }
 
-  renderCell(props) {
-    const { redux } = this.props;
-    const propStyles = pick(props, ['width']);
+  componentWillReceiveProps(nextProps) {}
 
-    if (redux) {
-      return <ReduxCell {...propStyles} {...props} />;
-    }
-    return <TableCell {...propStyles} {...props} />;
+  renderCell(props) {
+    const propStyles = pick(props, ['width']);
+    return <ReduxCell {...propStyles} {...props} />;
   }
 
-  onSetFilter(filter) {
+  handleSetFilter(filter) {
     const { onSetFilter, onFetch } = this.props;
     this._filter = {
       ...this._filter,
@@ -77,7 +90,7 @@ class AdvancedTableContainer extends React.Component {
     onFetch();
   }
 
-  handleEdit(value, index, id) {
+  onEdit(value, index, id) {
     //TODO something
   }
 
@@ -143,42 +156,12 @@ class AdvancedTableContainer extends React.Component {
   }
 
   getTableProps() {
-    const {
-      scroll,
-      tableSize,
-      className,
-      hasFocus,
-      useFixedHeader,
-      rowColor,
-      rowSelection,
-      expandable,
-      hasSelect,
-      onSetSelection,
-      isActive,
-      filters,
-      bordered,
-      rowClick
-    } = this.props;
     return {
       ...this.props,
-      className,
-      handleEdit: this.handleEdit,
-      hasFocus,
-      rowColor,
+      onEdit: this.onEdit,
       columns: this.mapColumns(),
       data: this.state.data,
-      tableSize,
-      rowSelection,
-      useFixedHeader,
-      scroll,
-      expandable,
-      hasSelect,
-      onSetSelection,
-      onFilter: this.onSetFilter,
-      isActive,
-      filters,
-      bordered,
-      rowClick
+      onFilter: this.handleSetFilter
     };
   }
 
@@ -251,25 +234,6 @@ export default compose(
     },
     ADVANCED_TABLE
   ),
-  lifecycle({
-    componentWillReceiveProps(nextProps) {
-      const { selectedId: prevSelectedId, datasource: prevDatasource, onResolve } = this.props;
-      const { hasSelect, datasource, selectedId } = nextProps;
-
-      if (
-        hasSelect &&
-        !isEmpty(datasource) &&
-        !isEqual(prevDatasource, datasource) &&
-        (!selectedId ||
-          !isEqual(prevSelectedId, selectedId) ||
-          !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
-      ) {
-        const selectedModel = find(datasource, model => model.id == selectedId);
-        const resolveModel = selectedModel || datasource[0];
-        onResolve(resolveModel);
-      }
-    }
-  }),
   withWidgetHandlers,
   connect(
     mapStateToProps,

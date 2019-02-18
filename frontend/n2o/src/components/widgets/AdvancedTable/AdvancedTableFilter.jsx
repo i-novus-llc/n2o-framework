@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import AdvancedTableFilterPopup from './AdvancedTableFilterPopup';
 import { isEmpty } from 'lodash';
 import { Dropdown, DropdownToggle, DropdownMenu, Badge } from 'reactstrap';
 import { Button } from 'reactstrap';
-import InputText from '../../controls/InputText/InputText';
 
-function AdvancedTableFilterOverlay({ value, onChange, onResetFilter, onSetFilter }) {
-  return (
-    <React.Fragment>
-      <InputText value={value} onChange={onChange} />
-      <Button color={'primary'} size={'sm'} onClick={onSetFilter}>
-        Искать
-      </Button>
-      <Button size={'sm'} onClick={onResetFilter}>
-        Сбросить
-      </Button>
-    </React.Fragment>
-  );
-}
-
+/**
+ * Компонент заголовок с фильтрацией
+ * @param id - id колонки === фильтра
+ * @param onFilter - callback на фильтрацию
+ * @param children - компонент потомок
+ * @param value - предустановленное значение фильтра
+ */
 class AdvancedTableFilter extends Component {
   constructor(props) {
     super(props);
@@ -58,21 +52,23 @@ class AdvancedTableFilter extends Component {
   }
 
   render() {
+    const { children } = this.props;
+    const { filterOpen, value } = this.state;
     return (
       <React.Fragment>
-        {this.props.children}
-        <Dropdown isOpen={this.state.filterOpen} toggle={this.toggleFilter}>
+        {children}
+        <Dropdown isOpen={filterOpen} toggle={this.toggleFilter}>
           <DropdownToggle tag="div">
             <Button color="link" size="sm">
               <i className="fa fa-filter" />
-              {!isEmpty(this.state.value) && (
+              {!isEmpty(value) && (
                 <Badge className="n2o-advanced-table-filter-badge" color="primary" />
               )}
             </Button>
           </DropdownToggle>
           <DropdownMenu className="n2o-advanced-table-filter-dropdown" tag="div" right={true}>
-            <AdvancedTableFilterOverlay
-              value={this.state.value}
+            <AdvancedTableFilterPopup
+              value={value}
               onChange={this.onChangeFilter}
               onResetFilter={this.onResetFilter}
               onSetFilter={this.onSetFilter}
@@ -84,10 +80,15 @@ class AdvancedTableFilter extends Component {
   }
 }
 
-AdvancedTableFilter.propTypes = {};
+AdvancedTableFilter.propTypes = {
+  children: PropTypes.object,
+  id: PropTypes.string,
+  onFilter: PropTypes.func,
+  value: PropTypes.string
+};
 
 AdvancedTableFilter.defaultProps = {
-  value: ''
+  onFilter: () => {}
 };
 
 export default AdvancedTableFilter;

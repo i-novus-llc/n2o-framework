@@ -1,8 +1,15 @@
 import React from 'react';
 import Table from 'rc-table';
+import PropTypes from 'prop-types';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 
-function AdvancedTableExpandedRenderer(record, index, indent, expanded) {
+/**
+ * Компонент контента в подстроке text/html/table
+ * @param record
+ * @returns {*}
+ * @constructor
+ */
+function AdvancedTableExpandedRenderer(record) {
   const { expandedContent } = record;
   if (expandedContent) {
     if (expandedContent.type === 'table') {
@@ -14,18 +21,23 @@ function AdvancedTableExpandedRenderer(record, index, indent, expanded) {
           emptyText={AdvancedTableEmptyText}
         />
       );
-    }
-    if (expandedContent.type === 'html') {
+    } else if (expandedContent.type === 'html') {
       return (
         <div
           className="n2o-advanced-table-expanded-row-content"
           dangerouslySetInnerHTML={{ __html: expandedContent.value }}
         />
       );
+    } else {
+      return <div className="n2o-advanced-table-expanded-row-content">{expandedContent.value}</div>;
     }
-    return <div className="n2o-advanced-table-expanded-row-content">{expandedContent.value}</div>;
   }
-  return <div />;
+
+  return null;
 }
+
+AdvancedTableExpandedRenderer.propTypes = {
+  record: PropTypes.object
+};
 
 export default AdvancedTableExpandedRenderer;

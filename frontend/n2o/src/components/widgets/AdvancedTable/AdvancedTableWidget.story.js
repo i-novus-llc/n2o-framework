@@ -9,6 +9,7 @@ import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withPage from '../../../../.storybook/decorators/withPage';
 import { page } from 'N2oStorybook/fetchMock';
+import AdvancedTable from './AdvancedTable';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
 
@@ -67,7 +68,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Resize', () => {
+  .add('Resizable колонки', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
       ...tableWidget,
@@ -119,7 +120,7 @@ stories
 
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Checkbox selection', () => {
+  .add('Выбор строк чекбоксом', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
       ...tableWidget,
@@ -168,7 +169,7 @@ stories
 
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Column filters', () => {
+  .add('Фильтр в заголовках', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
       ...tableWidget,
@@ -216,7 +217,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Expanded rows', () => {
+  .add('Контент в подстроке', () => {
     fetchMock.restore().get(urlPattern, url => {
       const data = getStubData(url);
       return {
@@ -354,7 +355,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Tree view', () => {
+  .add('Вид дерево', () => {
     fetchMock.restore().get(urlPattern, url => {
       const data = getStubData(url);
       return {
@@ -430,7 +431,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Fixed header', () => {
+  .add('Зафиксированный заголовок', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
       ...tableWidget,
@@ -483,7 +484,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Fixed columns', () => {
+  .add('Зафиксированные колонки', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
       ...tableWidget,
@@ -537,7 +538,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Multi level header', () => {
+  .add('Многоуровневый заголовок', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     const props = {
       ...tableWidget,
@@ -604,7 +605,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('Editable cell', () => {
+  .add('Редактируемая ячейка', () => {
     fetchMock.restore().get(urlPattern, url => {
       const data = getStubData(url);
       return {
@@ -665,7 +666,7 @@ stories
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
-  .add('nested', () => {
+  .add('Подтаблица', () => {
     fetchMock.restore().get(urlPattern, url => {
       const data = getStubData(url);
       return {
@@ -814,4 +815,96 @@ stories
       }
     };
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+  })
+  .add('Компонент со всеми фичами', () => {
+    const columns = [
+      {
+        title: 'Имя',
+        id: 'name',
+        multiHeader: true,
+        children: [
+          {
+            title: 'Имя1',
+            id: 'name1',
+            dataIndex: 'name',
+            width: 100
+          },
+          {
+            title: 'Имя2',
+            id: 'name2',
+            dataIndex: 'name',
+            width: 100
+          }
+        ]
+      },
+      {
+        title: 'Фамилия',
+        id: 'surname',
+        dataIndex: 'surname',
+        resizable: true,
+        width: 100,
+        filterable: true
+      },
+      {
+        title: 'Описание',
+        id: 'description',
+        dataIndex: 'description'
+      }
+    ];
+
+    const data = [
+      {
+        id: 1,
+        name: 'Name 1',
+        surname: 'Surname 1',
+        description: 'Текст в подстроке',
+        expandedContent: {
+          type: 'text',
+          value: 'Expanded text'
+        }
+      },
+      {
+        id: 2,
+        name: 'Name 2',
+        surname: 'Surname 2',
+        description: 'HTML в подстроке',
+        expandable: true,
+        expandedContent: {
+          type: 'html',
+          value: '<h1>Заголовок<h1/>'
+        }
+      },
+      {
+        id: 3,
+        name: 'Name 3',
+        surname: 'Surname 3',
+        description: 'Таблица в подстроке',
+        expandable: true,
+        expandedContent: {
+          type: 'table',
+          columns: [
+            {
+              title: 'Sub title 1',
+              dataIndex: 'subTitle1'
+            }
+          ],
+          data: [
+            {
+              subTitle1: 'sub value 1'
+            }
+          ]
+        }
+      }
+    ];
+
+    return (
+      <AdvancedTable
+        rowClick={true}
+        expandable={true}
+        rowSelection={true}
+        bordered={true}
+        columns={columns}
+        data={data}
+      />
+    );
   });

@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AdvancedTableContainer from './AdvancedTableContainer';
-import AdvancedTablePagination from './AdvancedTablePagination';
+import TablePagination from '../Table/TablePagination';
 import StandardWidget from '../StandardWidget';
 import Fieldsets from '../Form/fieldsets';
 
 import dependency from '../../../core/dependency';
 import { values } from 'lodash';
 
+/**
+ * Компонент AdvancedTableWidget
+ * @param pageId - id страницы
+ * @param widgetId - id виджета
+ * @param actions - экшены
+ * @param toolbar - тулбар таблицы
+ * @param dataProvider
+ * @param bordered - флаг таблицы с боредарми
+ * @param rowClick - действие клика по строке
+ * @param paging - объект пагинации
+ * @param multiHeader - флаг использования многоуровненвого заголовка
+ * @param scroll - объект скролла для таблицы
+ * @param expandable - флаг использования контента в подстроке
+ * @param useFixedHeader - флаг использования фиксированного заголовка
+ * @param tableSize - размер таблицы
+ * @param rowSelection - флаг использования чекбоксов для мульти селекта
+ * @param rowColor - expression цвет строки
+ */
 class AdvancedTableWidget extends Component {
   getWidgetProps() {
     const {
       headers,
-      columns,
       cells,
       sorting,
       hasFocus,
@@ -75,7 +92,7 @@ class AdvancedTableWidget extends Component {
         toolbar={toolbar}
         actions={actions}
         filter={this.prepareFilters()}
-        bottomLeft={paging && <AdvancedTablePagination widgetId={widgetId} />}
+        bottomLeft={paging && <TablePagination widgetId={widgetId} />}
       >
         <AdvancedTableContainer
           widgetId={widgetId}
@@ -120,7 +137,16 @@ AdvancedTableWidget.propTypes = {
       cells: PropTypes.array
     })
   ),
-  paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+  bordered: PropTypes.bool,
+  rowClick: PropTypes.object,
+  paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
+  multiHeader: PropTypes.bool,
+  scroll: PropTypes.object,
+  expandable: PropTypes.bool,
+  useFixedHeader: PropTypes.bool,
+  tableSize: PropTypes.string,
+  rowSelection: PropTypes.bool,
+  rowColor: PropTypes.string
 };
 
 export default dependency(AdvancedTableWidget);

@@ -1,4 +1,8 @@
 .n2o-advanced-table {
+  
+  &-content {
+    position: relative;
+  }
 
   &.table-bordered thead th {
     border: 1px solid #cfd8dc;
@@ -9,8 +13,14 @@
     align-items: center;
   }
 
-  &-header-text-center {
+  &-header-text-center,
+  &-header-text-center .n2o-advanced-table-header-cell-content{
+    justify-content: center;
     text-align: center;
+  }
+
+  & td.n2o-advanced-table-row-expand-icon-cell {
+    width: 30px;
   }
 
   &-filter-badge.badge {
@@ -30,6 +40,10 @@
 
   &-expanded-row-content {
     padding: 0 20px;
+  }
+
+  &-row-hover {
+    background-color: rgba(0, 0, 0, 0.075);
   }
 
   &-scroll-position-middle {
@@ -111,7 +125,7 @@
   &-header-cell {
     &-content {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: space-between;
     }
   }

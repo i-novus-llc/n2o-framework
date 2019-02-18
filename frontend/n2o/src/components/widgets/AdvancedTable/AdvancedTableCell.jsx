@@ -3,7 +3,15 @@ import PropTypes from 'prop-types';
 import { filter, isString } from 'lodash';
 import cn from 'classnames';
 
-function AdvancedTableCell({ rowIndex, columnIndex, children, hasSpan, record = {} }) {
+/**
+ * Компонент обертка Cell
+ * @param children - вставляемый компонент
+ * @param hasSpan - флаг возможности colSpan/rowSpan в этой колонке
+ * @param record - модель строки
+ * @returns {*}
+ * @constructor
+ */
+function AdvancedTableCell({ children, hasSpan, record }) {
   const { span } = record;
   let colSpan = 1;
   let rowSpan = 1;
@@ -25,8 +33,13 @@ function AdvancedTableCell({ rowIndex, columnIndex, children, hasSpan, record = 
 
 AdvancedTableCell.propTypes = {
   children: PropTypes.any,
-  selectionCell: PropTypes.bool,
-  selectionClass: PropTypes.string
+  hasSpan: PropTypes.bool,
+  record: PropTypes.object
+};
+
+AdvancedTableCell.defaultProps = {
+  hasSpan: false,
+  record: {}
 };
 
 export default AdvancedTableCell;

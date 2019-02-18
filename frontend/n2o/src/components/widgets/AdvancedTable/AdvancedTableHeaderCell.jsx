@@ -1,28 +1,39 @@
 import React, { Component } from 'react';
-import { pick, isArray, isString } from 'lodash';
+import { isArray, isString } from 'lodash';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import AdvancedTableFilter from './AdvancedTableFilter';
 
+/**
+ * Компонент ячейки заголовка
+ * @param children - компонент потомок
+ * @param className - класс ячейки
+ * @param columnId - id колонки
+ * @param dataIndex - id ключа с данными из модели
+ * @param id - id колонки
+ * @param index - index колонки
+ * @param label - текст заголовка
+ * @param multiHeader - флаг многоуровневого заголовка
+ * @param onFilter - callback на фильтрацию
+ * @param onResize - callback на изменение размера колонок
+ * @param onSort - функция вызова сортировки
+ * @param sorting - настройки сортировки
+ * @param title - компонент в ячейки заголовка
+ * @param widgetId - id виджета
+ *  @param width - длина колонки
+ *  @param resizable - флаг функции resize колонки
+ *  @param selectionHead - флаг чекбокса в заголовке
+ *  @param selectionClass - класс для чекбокса в заголовке
+ */
 class AdvancedTableHeaderCell extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      visible: false
-    };
-
-    this.handleVisibleChange = this.handleVisibleChange.bind(this);
     this.renderCell = this.renderCell.bind(this);
     this.renderMultiCell = this.renderMultiCell.bind(this);
     this.renderStringChild = this.renderStringChild.bind(this);
-    this.renderSelectionBox = this.renderSelectionBox.bind(this);
-  }
-
-  handleVisibleChange(visible) {
-    this.setState({ visible });
   }
 
   renderMultiCell() {
@@ -40,6 +51,7 @@ class AdvancedTableHeaderCell extends Component {
     return (
       <th
         {...this.props}
+        title={label}
         className={cn('n2o-advanced-table-header-text-center', className)}
         colSpan={colSpan}
         rowSpan={rowSpan}
@@ -62,11 +74,6 @@ class AdvancedTableHeaderCell extends Component {
     return <th className={cn('n2o-advanced-table-header-text-center', className)}>{children}</th>;
   }
 
-  renderSelectionBox() {
-    const { children } = this.props;
-    return children;
-  }
-
   renderCell() {
     const {
       id,
@@ -79,17 +86,18 @@ class AdvancedTableHeaderCell extends Component {
       rowSpan,
       onFilter,
       filters,
-      component
+      label,
+      title
     } = this.props;
 
     let cellContent = null;
 
-    if (isString(children)) {
+    if (isString(title)) {
+      cellContent = title;
+    } else if (isString(children)) {
       return this.renderStringChild();
     } else if (multiHeader && isArray(children)) {
       return this.renderMultiCell();
-    } else if (selectionHead) {
-      cellContent = this.renderSelectionBox();
     } else {
       cellContent = children;
     }
@@ -97,19 +105,17 @@ class AdvancedTableHeaderCell extends Component {
     const cell = (
       <th
         {...this.props}
+        title={label}
         rowSpan={rowSpan}
         colSpan={colSpan}
-        className={cn('n2o-advanced-table-header-cel', { [selectionClass]: selectionHead })}
+        className={cn('n2o-advanced-table-header-cel', {
+          [selectionClass]: selectionHead,
+          'n2o-advanced-table-header-text-center': multiHeader
+        })}
       >
         <div className="n2o-advanced-table-header-cell-content">
           {filterable ? (
-            <AdvancedTableFilter
-              id={id}
-              onVisibleChange={this.handleVisibleChange}
-              visible={this.state.visible}
-              onFilter={onFilter}
-              value={filters && filters[id]}
-            >
+            <AdvancedTableFilter id={id} onFilter={onFilter} value={filters && filters[id]}>
               {cellContent}
             </AdvancedTableFilter>
           ) : (
@@ -123,7 +129,7 @@ class AdvancedTableHeaderCell extends Component {
   }
 
   render() {
-    const { width, onResize, resizable, children } = this.props;
+    const { width, onResize, resizable } = this.props;
 
     return (
       <React.Fragment>
@@ -140,14 +146,10 @@ class AdvancedTableHeaderCell extends Component {
 }
 
 AdvancedTableHeaderCell.propTypes = {
-  cell: PropTypes.func,
   children: PropTypes.oneOf(PropTypes.array, PropTypes.string, PropTypes.object),
   className: PropTypes.string,
   columnId: PropTypes.string,
   dataIndex: PropTypes.string,
-  edit: PropTypes.func,
-  editOptions: PropTypes.object,
-  editable: PropTypes.bool,
   id: PropTypes.string,
   index: PropTypes.oneOf(PropTypes.string, PropTypes.number),
   label: PropTypes.string,
@@ -157,20 +159,23 @@ AdvancedTableHeaderCell.propTypes = {
   onHeaderCell: PropTypes.func,
   onResize: PropTypes.func,
   onSort: PropTypes.func,
-  redux: PropTypes.bool,
-  render: PropTypes.func,
   sorting: PropTypes.object,
   title: PropTypes.oneOf(PropTypes.string, PropTypes.func),
   widgetId: PropTypes.string,
-  width: PropTypes.number
+  width: PropTypes.number,
+  resizable: PropTypes.bool,
+  selectionHead: PropTypes.bool,
+  selectionClass: PropTypes.string
 };
 
 AdvancedTableHeaderCell.defaultProps = {
-  editable: false,
   multiHeader: false,
-  redux: false,
+  resizable: false,
+  selectionHead: false,
   sorting: {},
-  edit: null
+  onResize: () => {},
+  onSort: () => {},
+  onFilter: () => {}
 };
 
 export default AdvancedTableHeaderCell;
