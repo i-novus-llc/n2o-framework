@@ -60,7 +60,6 @@ class EditableCell extends React.Component {
                 autoFocus: true,
                 value: value
               })}
-              {/*<Factory {...control} onChange={this.onChange} onBlur={this.toggleEdit} autoFocus={true} value={value} />*/}
             </div>
           )}
       </div>

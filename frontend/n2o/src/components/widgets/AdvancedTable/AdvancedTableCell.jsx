@@ -3,21 +3,24 @@ import PropTypes from 'prop-types';
 import { filter, isString } from 'lodash';
 import cn from 'classnames';
 
-function AdvancedTableCell({ rowIndex, columnIndex, children }) {
-  const renderCell = () => {
-    const components = filter(children, c => c);
+function AdvancedTableCell({ rowIndex, columnIndex, children, hasSpan, record = {} }) {
+  const { span } = record;
+  let colSpan = 1;
+  let rowSpan = 1;
 
-    if (components.length > 1 || isString(components[0])) {
-      return (
-        <td>
-          <div className="n2o-advanced-table-cell-expand">{components}</div>
-        </td>
-      );
+  if (hasSpan && span) {
+    if (span.colSpan === 0 || span.rowSpan === 0) {
+      return null;
     }
-    return components;
-  };
+    colSpan = span.colSpan;
+    rowSpan = span.rowSpan;
+  }
 
-  return renderCell(children);
+  return (
+    <td colSpan={colSpan} rowSpan={rowSpan}>
+      <div className="n2o-advanced-table-cell-expand">{children}</div>
+    </td>
+  );
 }
 
 AdvancedTableCell.propTypes = {

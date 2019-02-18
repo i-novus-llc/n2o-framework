@@ -5,10 +5,6 @@ import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
 import 'react-resizable/css/styles.css';
 import AdvancedTableFilter from './AdvancedTableFilter';
-import columnHOC from '../Table/ColumnContainer';
-import TableCell from '../Table/TableCell';
-
-const ReduxCell = columnHOC(TableCell);
 
 class AdvancedTableHeaderCell extends Component {
   constructor(props) {
@@ -30,7 +26,17 @@ class AdvancedTableHeaderCell extends Component {
   }
 
   renderMultiCell() {
-    const { colSpan, rowSpan, className, children } = this.props;
+    const {
+      colSpan,
+      rowSpan,
+      className,
+      columnId,
+      id,
+      label,
+      sorting,
+      onSort,
+      widgetId
+    } = this.props;
     return (
       <th
         {...this.props}
@@ -38,7 +44,15 @@ class AdvancedTableHeaderCell extends Component {
         colSpan={colSpan}
         rowSpan={rowSpan}
       >
-        dsa
+        {React.createElement(this.props.component, {
+          className,
+          columnId,
+          id,
+          label,
+          sorting: sorting && sorting[id],
+          onSort,
+          widgetId
+        })}
       </th>
     );
   }
@@ -110,6 +124,7 @@ class AdvancedTableHeaderCell extends Component {
 
   render() {
     const { width, onResize, resizable, children } = this.props;
+
     return (
       <React.Fragment>
         {resizable && width ? (

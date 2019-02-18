@@ -11,7 +11,6 @@ import columnHOC from '../Table/ColumnContainer';
 import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
-import AdvancedTableCellRenderer from './AdvancedTableCellRenderer';
 import PropTypes from 'prop-types';
 import { makeGetFilterModelSelector } from '../../../selectors/models';
 
@@ -87,7 +86,7 @@ class AdvancedTableContainer extends React.Component {
   }
 
   mapColumns() {
-    const { columns, cells, headers, widgetId, sorting, onSort } = this.props;
+    const { columns, cells, headers, widgetId, sorting, onSort, rowSelection } = this.props;
     const { resolveProps } = this.context;
     if (columns) {
       return map(columns, (column, index) => {
@@ -116,23 +115,22 @@ class AdvancedTableContainer extends React.Component {
             sorting: sorting && sorting[header.id],
             onSort
           }),
+          label: header.title,
           dataIndex: header.id,
           columnId: header.id,
           key: header.id,
-          render: (value, record, index) => (
-            <AdvancedTableCellRenderer
-              key={index}
-              component={this.renderCell({
-                index,
-                key: cell.id,
-                widgetId,
-                columnId: cell.id,
-                model: record,
-                as: columnIndex === 0 ? 'div' : 'td',
-                ...cell
-              })}
-            />
-          )
+          hasSpan: cell.hasSpan,
+          render: (value, record, index) => ({
+            children: this.renderCell({
+              index,
+              key: cell.id,
+              widgetId,
+              columnId: cell.id,
+              model: record,
+              as: 'div',
+              ...cell
+            })
+          })
         };
       });
     }

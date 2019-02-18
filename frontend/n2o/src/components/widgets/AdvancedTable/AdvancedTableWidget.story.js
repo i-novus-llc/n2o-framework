@@ -195,7 +195,8 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя'
+            label: 'Имя',
+            filterable: true
           },
           {
             src: 'TextTableHeader',
@@ -275,7 +276,31 @@ stories
     return <Factory level={WIDGETS} {...props} id="Page_Table" />;
   })
   .add('Colspan rowspan', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    fetchMock.restore().get(urlPattern, url => {
+      const data = getStubData(url);
+
+      return {
+        ...data,
+        list: data.list.map((i, index) => {
+          let rowSpan = 1;
+          let colSpan = 1;
+          if (index === 0) {
+            rowSpan = 2;
+          }
+          if (index === 1) {
+            rowSpan = 0;
+          }
+
+          return {
+            ...i,
+            span: {
+              rowSpan,
+              colSpan
+            }
+          };
+        })
+      };
+    });
     const props = {
       ...tableWidget,
       table: {
@@ -290,7 +315,12 @@ stories
             id: 'surname',
             icon: 'fa fa-plus',
             type: 'iconAndText',
-            textPlace: 'right'
+            textPlace: 'right',
+            span: {
+              rowSpan: 2,
+              colSpan: 2
+            },
+            hasSpan: true
           },
           {
             src: 'TextCell',
@@ -302,13 +332,15 @@ stories
             src: 'TextTableHeader',
             id: 'name',
             sortable: false,
-            label: 'Имя'
+            label: 'Имя',
+            colSpan: 2
           },
           {
             src: 'TextTableHeader',
             id: 'surname',
             sortable: true,
-            label: 'Фамилия'
+            label: 'Фамилия',
+            colSpan: 0
           },
           {
             src: 'TextTableHeader',
@@ -530,8 +562,10 @@ stories
         ],
         headers: [
           {
-            title: 'Имя',
             src: 'TextTableHeader',
+            title: 'Имя',
+            id: 'name',
+            key: 'name',
             multiHeader: true,
             children: [
               {

@@ -7,13 +7,12 @@ import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
-import _, { find, some, isEqual, map, forOwn, every, flattenDeep, isArray } from 'lodash';
+import _, { find, some, isEqual, isEmpty, map, forOwn, every, flattenDeep, isArray } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import AdvancedTableCell from './AdvancedTableCell';
-import AdvancedTableCellRenderer from './AdvancedTableCellRenderer';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 
 export const getIndex = (data, selectedId) => {
@@ -110,8 +109,9 @@ class AdvancedTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { hasSelect, data, selectedId, isAnyTableFocused, isActive } = this.props;
-    if (hasSelect && !isEqual(data, prevProps.data)) {
+    const { hasSelect, data, isAnyTableFocused, isActive } = this.props;
+    const { selectedId } = this.state;
+    if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = data && data[selectedId] && data[selectedId].id ? data[selectedId].id : data[0].id;
       isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
     }
@@ -166,7 +166,7 @@ class AdvancedTable extends Component {
   }
 
   setRowRef(ref, id) {
-    if (ref) {
+    if (ref && !this.rows[id]) {
       this.rows[id] = ref;
     }
   }
@@ -202,11 +202,11 @@ class AdvancedTable extends Component {
     const { hasFocus, hasSelect } = this.props;
     hasSelect && !noResolve && this.props.onResolve(_.find(this._dataStorage, { id }));
     if (hasSelect && hasFocus) {
-      this.setSelectAndFocus(index, index);
+      this.setSelectAndFocus(id, id);
     } else if (hasFocus) {
-      this.setNewFocusIndex(index);
+      this.setNewFocusIndex(id);
     } else if (hasSelect) {
-      this.setNewSelectIndex(index);
+      this.setNewSelectIndex(id);
     }
   }
 
@@ -363,10 +363,7 @@ class AdvancedTable extends Component {
       onCell: (record, index) => ({
         record,
         editable: col.editable && record.editable,
-        colSpan: 2,
-        rowSpan: 2,
-        rowIndex: index,
-        columnIndex
+        hasSpan: col.hasSpan
       })
     }));
     if (rowSelection) {
@@ -389,7 +386,9 @@ class AdvancedTable extends Component {
       isActive,
       onFocus
     } = this.props;
+
     const columns = this.mapColumns(this.state.columns);
+
     return (
       <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
         <Table
