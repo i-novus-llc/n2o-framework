@@ -61,7 +61,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getCells().size(), is(2));
         assertThat(table.getComponent().getHeaders().size(), is(2));
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getCssClass(),
-                is("`test == '1' ? 'css1' : test == '2' ? 'css2' : 'css3'`"));
+                is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getFormat(),
                 is("password"));
         assertThat(table.getActions().containsKey("but"), is(true));
@@ -81,7 +81,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRowColor() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowColorCompile.widget.xml")
                 .get(new WidgetContext("testTable4RowColorCompile"));
-        assertThat(table.getComponent().getRowColor(), is("`gender.id == '1' ? 'red' : gender.id == '2' ? 'blue' : gender.id == '3' ? 'white' : 'green'`"));
+        assertThat(table.getComponent().getRowColor(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
         assertThat(table.getComponent().getHasSelect(), is(true));
     }
 
@@ -219,7 +219,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].amount").getValue(), is("100.99"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].hidden").getValue(), is("test"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].name2").getValue(), is("`today()`"));
-        assertThat(((DefaultValues)page.getModels().get("filter['testTableCompileFilters_testTable'].birthday2").getValue()).getValues().get("begin"), is("`today()`"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday2").getValue()).getValues().get("begin"), is("`today()`"));
     }
 
     @Test
@@ -239,7 +239,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
                 .get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext)builder.route("/testTableRequiredPrefilters/main").getContext(CompiledQuery.class));
+        QueryContext queryContext = ((QueryContext) builder.route("/testTableRequiredPrefilters/main").getContext(CompiledQuery.class));
 
         assertThat(queryContext.getValidations().get(0).getId(), is("gender*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));

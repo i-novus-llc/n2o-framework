@@ -250,22 +250,23 @@ public class ScriptProcessor {
         return "function(){" + code + "}()";
     }
 
-    public static String buildExpressionForSwitch(N2oSwitch n2oSwitch) {
+    public static String buildSwitchExpression(N2oSwitch n2oSwitch) {
         if (n2oSwitch == null
                 || (n2oSwitch.getCases() == null && n2oSwitch.getDefaultCase() == null)
                 || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().length() == 0))
             return null;
+        Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getCases());
         StringBuilder b = new StringBuilder("`");
-        for (String key : n2oSwitch.getCases().keySet()) {
-            b.append(n2oSwitch.getValueFieldId() + " == '" + key + "' ? ");
-            b.append("'" + n2oSwitch.getCases().get(key) + "' : ");
+        for (Object key : cases.keySet()) {
+            b.append(n2oSwitch.getValueFieldId() + " == " + key + " ? ");
+            b.append(cases.get(key) + " : ");
         }
         if (n2oSwitch.getDefaultCase() != null) {
-            b.append("'" + n2oSwitch.getDefaultCase() + "'");
+            b.append("'" + ScriptProcessor.resolveExpression(n2oSwitch.getDefaultCase()) + "'");
         } else {
             b.append("null");
         }
-        return b.toString().trim() + "`";
+        return b.toString() + "`";
     }
 
 
@@ -647,6 +648,21 @@ public class ScriptProcessor {
 
     private static boolean isNeedMoment(String script) {
         return momentFuncs.stream().anyMatch(f -> script.contains(f));
+    }
+
+    private static Map<Object, String> resolveSwitchCases(Map<String, String> cases) {
+        Map<Object, String> result = new HashMap<>();
+        for (Map.Entry<String, String> entry : cases.entrySet()) {
+            Object resultKey = ScriptProcessor.resolveExpression(entry.getKey());
+            String resultValue;
+            if (StringUtils.hasLink(entry.getValue())) {
+                resultValue = ScriptProcessor.resolveLinks(entry.getValue());
+                resultValue = resultValue.substring(1, resultValue.length() - 1);
+            } else
+                resultValue = "'" + entry.getValue() + "'";
+            result.put(resultKey, resultValue);
+        }
+        return result;
     }
 
 
