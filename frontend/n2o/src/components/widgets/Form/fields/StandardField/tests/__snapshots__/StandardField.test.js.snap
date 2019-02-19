@@ -38,6 +38,7 @@ exports[`StandardField рендерится корректно 1`] = `
       style={
         Object {
           "display": "flex",
+          "minHeight": "1.2rem",
         }
       }
     >
