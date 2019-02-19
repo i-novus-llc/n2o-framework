@@ -57,6 +57,15 @@
 
   &-fixed {
     background-color: $white;
+
+    &-left .n2o-advanced-table-body-inner .n2o-advanced-table-fixed,
+    &-right .n2o-advanced-table-body-inner .n2o-advanced-table-fixed {
+      margin-bottom: 17px;
+    }
+
+    & .n2o-advanced-table-header-row {
+      border-left: 0.2rem solid transparent;
+    }
   }
 
   &-fixed-left {
@@ -133,7 +142,7 @@
   }
 
   &-fixed-left &-body-inner {
-    overflow: hidden !important;
+    margin-right: -17px;
   }
 
   &-header-cell {
