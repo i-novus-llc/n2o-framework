@@ -143,6 +143,7 @@ public class ScriptProcessor {
 
     /**
      * Изменить значение JS выраждения на обратное
+     *
      * @param text JS выражение или текст
      * @return Обратное JS выражение или объект
      */
@@ -151,7 +152,7 @@ public class ScriptProcessor {
         if (result == null)
             return null;
         if (result instanceof Boolean)
-            return !(Boolean)result;
+            return !(Boolean) result;
         if (!StringUtils.isJs(result))
             return result;
         String expr = (String) result;
@@ -556,6 +557,20 @@ public class ScriptProcessor {
         res.append(exp);
         res.append(')');
         return res.toString();
+    }
+
+    public static String and(List<String> operands) {
+        return reduce("&&", operands);
+    }
+
+    public static String or(List<String> operands) {
+        return reduce("||", operands);
+    }
+
+
+    private static String reduce(String operator, List<String> operands) {
+        if (operands == null || operands.isEmpty()) return null;
+        return operands.stream().reduce((s1, s2) -> "(" + s1 + ") " + operator + " (" + s2 + ")").orElseGet(null);
     }
 
     private static List<String> retrieve(String[] fields) {

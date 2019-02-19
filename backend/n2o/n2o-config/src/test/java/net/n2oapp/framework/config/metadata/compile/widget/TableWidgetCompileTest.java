@@ -70,6 +70,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
+        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
         assertThat(queryContext.getFailAlertWidgetId(), is("testTable4Compile"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("testTable4Compile_filter"));
