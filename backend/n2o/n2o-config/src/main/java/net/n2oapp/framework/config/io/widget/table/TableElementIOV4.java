@@ -1,19 +1,21 @@
 package net.n2oapp.framework.config.io.widget.table;
 
+import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRow;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.DirectionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.control.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
 import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
 import net.n2oapp.framework.config.io.widget.table.cell.CellIOv2;
-import net.n2oapp.framework.config.io.widget.table.cell.RowClickIO;
 import net.n2oapp.framework.config.io.widget.table.cell.SwitchIO;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
@@ -70,7 +72,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
     private void rows(Element e, N2oRow r, IOProcessor p) {
         p.attribute(e, "color-field-id", r::getColorFieldId, r::setColorFieldId);
         p.child(e, null, "switch", r::getColor, r::setColor, new SwitchIO());
-        p.child(e, null, "click", r::getRowClick, r::setRowClick, new RowClickIO());
+        p.child(e, null, "click", r::getRowClick, r::setRowClick, N2oRowClick::new, this::rowClick);
     }
 
 
@@ -82,5 +84,10 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.attributeBoolean(e, "first", page::getFirst, page::setFirst);
         p.attributeBoolean(e, "show-count", page::getShowCount, page::setShowCount);
         p.attributeBoolean(e, "hide-single-page", page::getHideSinglePage, page::setHideSinglePage);
+    }
+
+    private void rowClick(Element e, N2oRowClick m, IOProcessor p) {
+        p.attribute(e, "action-id", m::getActionId, m::setActionId);
+        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 }
