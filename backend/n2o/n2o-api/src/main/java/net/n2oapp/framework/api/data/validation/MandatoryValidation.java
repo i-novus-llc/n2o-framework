@@ -21,8 +21,9 @@ import java.util.Map;
 public class MandatoryValidation extends Validation {
 
     protected Field field;
+    private String mandatoryExpression;
     @JsonProperty("expression")
-    private String expression;
+    private String enablingExpression;
     private String expressionOn;
 
     public MandatoryValidation(String id, String message, String fieldId) {
@@ -34,8 +35,8 @@ public class MandatoryValidation extends Validation {
 
     public MandatoryValidation(MandatoryValidation v) {
         super(v);
-        this.expression = v.getExpression();
-        this.expression = v.getExpressionOn();
+        this.mandatoryExpression = v.getMandatoryExpression();
+        this.expressionOn = v.getExpressionOn();
     }
 
 

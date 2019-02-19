@@ -33,7 +33,7 @@ public class IconCellJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testIconCell.widget.xml",
                 "components/widgets/Table/cells/IconCell/IconCell.meta.json")
                 .cutXml("table.cells[0]")
-                .changeValue("icon", "`type.id == '1' ? 'fa fa-plus' : null`")
+                .changeValue("icon", "`type.id == 1 ? 'fa fa-plus' : null`")
                 .exclude("id", "fieldKey", "src")
                .assertEquals();
     }
