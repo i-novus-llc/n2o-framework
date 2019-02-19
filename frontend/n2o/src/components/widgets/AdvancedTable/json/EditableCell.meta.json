@@ -1,0 +1,73 @@
+{
+  "Page_Table": {
+    "src": "AdvancedTableWidget",
+    "dataProvider": {
+      "url": "n2o/data/test",
+      "pathMapping": {
+      },
+      "queryMapping": {
+        "filter.name": {
+          "link": "models.filter['Page_Table'].name"
+        },
+        "filter.surname": {
+          "link": "models.filter['Page_Table'].surname"
+        }
+      }
+    },
+    "table": {
+      "size": 10,
+      "fetchOnInit": true,
+      "hasSelect": true,
+      "className": "n2o",
+      "style": {},
+      "hasFocus": true,
+      "autoFocus": false,
+      "tableSize": "sm",
+      "sorting": {
+        "birthday": "ASC"
+      },
+      "cells": [
+        {
+          "src": "EditableCell",
+          "id": "name",
+          "editable": true,
+          "control": {
+            "src": "InputText"
+          }
+        },
+        {
+          "src": "IconCell",
+          "id": "surname",
+          "icon": "fa fa-plus",
+          "type": "iconAndText",
+          "textPlace": "right"
+        },
+        {
+          "src": "TextCell",
+          "id": "birthday"
+        }
+      ],
+      "headers": [
+        {
+          "src": "TextTableHeader",
+          "id": "name",
+          "sortable": false,
+          "label": "Имя",
+          "width": 200
+        },
+        {
+          "src": "TextTableHeader",
+          "id": "surname",
+          "sortable": true,
+          "label": "Фамилия"
+        },
+        {
+          "src": "TextTableHeader",
+          "id": "birthday",
+          "sortable": true,
+          "label": "Дата рождения"
+        }
+      ]
+    }
+  }
+}

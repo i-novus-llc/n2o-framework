@@ -1,359 +1,189 @@
 import React from 'react';
-import { pick } from 'lodash';
+import { get } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
-import metadata from './AdvancedTableWidget.meta';
+import metadata from './json/AdvancedTableWidget.meta';
+import resizable from './json/Resizable.meta';
+import rowSelection from './json/RowSelection.meta';
+import filterable from './json/Filterable.meta';
+import expandedRow from './json/ExpandedRow.meta';
+import colSpanRowSpan from './json/ColspanRowspan.meta';
+import treeView from './json/TreeView.meta';
+import fixedHeader from './json/FixedHeader.meta';
+import fixedColumns from './json/FixedColumns.meta';
+import multiLevelHeader from './json/MultiLevelHeader.meta';
+import editableCell from './json/EditableCell.meta';
+import nested from './json/Nested.meta';
+import customRowClick from './json/CustomRowClick.meta';
+import allFeatures from './json/AllFeatures.meta';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withPage from '../../../../.storybook/decorators/withPage';
 import { page } from 'N2oStorybook/fetchMock';
 import AdvancedTable from './AdvancedTable';
+import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
 
 const urlPattern = 'begin:n2o/data';
 
-const tableWidget = pick(metadata['Page_Table'], ['src', 'table', 'dataProvider']);
+class AdvancedTableWidgetStory extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      ...props.json,
+      filterable: get(props.json, 'columns[1].filterable'),
+      resizable: get(props.json, 'columns[1].resizable'),
+      fixedLeft: get(props.json, 'columns[0].fixed'),
+      fixedRight: get(props.json, 'columns[3].fixed')
+    };
+
+    this.toggleHeaderParam = this.toggleHeaderParam.bind(this);
+    this.toggleFixed = this.toggleFixed.bind(this);
+    this.toggleScroll = this.toggleScroll.bind(this);
+  }
+
+  toggleHeaderParam(name) {
+    let columns = this.state.columns;
+    columns[1][name] = !this.state[name];
+    this.setState({
+      columns,
+      [name]: !this.state[name]
+    });
+  }
+
+  toggleFixed(name, index) {
+    let columns = this.state.columns;
+    let newDirection = null;
+    if (name === 'fixedLeft') {
+      newDirection = this.state[name] ? false : 'left';
+    } else {
+      newDirection = this.state[name] ? false : 'right';
+    }
+    columns[index].fixed = newDirection;
+    this.setState({
+      columns,
+      [name]: newDirection
+    });
+  }
+
+  toggleScroll(name) {
+    let newScroll = this.state.scroll;
+    if (name === 'x') {
+      newScroll = this.state.scroll.x ? false : '200%';
+    } else {
+      newScroll = this.state.scroll.y ? false : 400;
+    }
+    this.setState({
+      scroll: {
+        ...this.state.scroll,
+        [name]: newScroll
+      }
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            marginBottom: 20
+          }}
+        >
+          <CheckboxN2O
+            checked={this.state.resizable}
+            onChange={() => this.toggleHeaderParam('resizable')}
+            inline={true}
+            label={'Функция resizable'}
+          />
+          <CheckboxN2O
+            checked={this.state.filterable}
+            onChange={() => this.toggleHeaderParam('filterable')}
+            inline={true}
+            label={'Функция filterable'}
+          />
+          <CheckboxN2O
+            checked={this.state.rowSelection}
+            onChange={() => this.setState({ rowSelection: !this.state.rowSelection })}
+            inline={true}
+            label={'Функция выбора строк'}
+          />
+          <CheckboxN2O
+            checked={this.state.fixedLeft}
+            onChange={() => this.toggleFixed('fixedLeft', 0)}
+            inline={true}
+            label={'Фиксирование первой колонки слева'}
+          />
+          <CheckboxN2O
+            checked={this.state.fixedRight}
+            onChange={() => this.toggleFixed('fixedRight', 3)}
+            inline={true}
+            label={'Фиксирование последней колонки справа'}
+          />
+          <CheckboxN2O
+            checked={this.state.scroll.x}
+            onChange={() => this.toggleScroll('x')}
+            inline={true}
+            label={'Скролл-x'}
+          />
+          <CheckboxN2O
+            checked={this.state.scroll.y}
+            onChange={() => this.toggleScroll('y')}
+            inline={true}
+            label={'Скролл-y'}
+          />
+        </div>
+        <AdvancedTable {...this.state} rowKey={record => record.id} />
+      </div>
+    );
+  }
+}
 
 stories
   .addDecorator(withPage(metadata))
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    const props = {
-      ...metadata['Page_Table'],
-      table: {
-        ...metadata['Page_Table'].table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            width: 200
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия',
-            width: 200
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />;
   })
   .add('Resizable колонки', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            width: 200,
-            resizable: true
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия',
-            width: 200,
-            resizable: true
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...resizable['Page_Table']} id="Page_Table" />;
   })
   .add('Выбор строк чекбоксом', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ],
-        rowSelection: true
-      }
-    };
-
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...rowSelection['Page_Table']} id="Page_Table" />;
   })
   .add('Фильтр в заголовках', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            filterable: true
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...filterable['Page_Table']} id="Page_Table" />;
   })
   .add('Контент в подстроке', () => {
-    fetchMock.restore().get(urlPattern, url => {
-      const data = getStubData(url);
+    fetchMock.restore().get(urlPattern, () => {
       return {
-        ...data,
-        list: data.list.map(i => ({
-          ...i,
-          expandedContent: {
-            type: 'text',
-            value: 'Expanded text'
-          }
-        }))
+        count: 3,
+        filterValue: null,
+        page: 1,
+        size: 10,
+        list: expandedRow.datasource
       };
     });
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ],
-        expandable: true
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...expandedRow['Page_Table']} id="Page_Table" />;
   })
   .add('Colspan rowspan', () => {
-    fetchMock.restore().get(urlPattern, url => {
-      const data = getStubData(url);
+    fetchMock.restore().get(urlPattern, () => ({
+      count: 3,
+      list: colSpanRowSpan.datasource,
+      page: 1,
+      size: 10
+    }));
 
-      return {
-        ...data,
-        list: data.list.map((i, index) => {
-          let rowSpan = 1;
-          let colSpan = 1;
-          if (index === 0) {
-            rowSpan = 2;
-          }
-          if (index === 1) {
-            rowSpan = 0;
-          }
-
-          return {
-            ...i,
-            span: {
-              rowSpan,
-              colSpan
-            }
-          };
-        })
-      };
-    });
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right',
-            span: {
-              rowSpan: 2,
-              colSpan: 2
-            },
-            hasSpan: true
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            colSpan: 2
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия',
-            colSpan: 0
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...colSpanRowSpan['Page_Table']} id="Page_Table" />;
   })
   .add('Вид дерево', () => {
     fetchMock.restore().get(urlPattern, url => {
@@ -386,525 +216,39 @@ stories
         }))
       };
     });
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
-  })
-  .add('Зафиксированный заголовок', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            width: 200
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия',
 
-            width: 200
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ],
-        scroll: {
-          y: 300
-        }
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...treeView['Page_Table']} id="Page_Table" />;
   })
-  .add('Зафиксированные колонки', () => {
+  .add('Фиксированный заголовок', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            width: 200,
-            fixed: 'left'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения',
-            fixed: 'right',
-            width: 200
-          }
-        ],
-        scroll: {
-          x: '200%'
-        }
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...fixedHeader['Page_Table']} id="Page_Table" />;
+  })
+  .add('Фиксированные колонки', () => {
+    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    return <Factory level={WIDGETS} {...fixedColumns['Page_Table']} id="Page_Table" />;
   })
   .add('Многоуровневый заголовок', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        bordered: true,
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            title: 'Имя',
-            id: 'name',
-            key: 'name',
-            multiHeader: true,
-            children: [
-              {
-                src: 'TextTableHeader',
-                id: 'name2',
-                title: 'Имя1',
-                width: 100,
-                dataIndex: 'name',
-                key: 'name1'
-              },
-              {
-                src: 'TextTableHeader',
-                id: 'name3',
-                title: 'Имя2',
-                width: 100,
-                dataIndex: 'name',
-                key: 'name3'
-              }
-            ]
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...multiLevelHeader['Page_Table']} id="Page_Table" />;
   })
   .add('Редактируемая ячейка', () => {
-    fetchMock.restore().get(urlPattern, url => {
-      const data = getStubData(url);
-      return {
-        ...data,
-        list: data.list.map(i => ({
-          ...i,
-          editable: true
-        }))
-      };
-    });
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        cells: [
-          {
-            src: 'EditableCell',
-            id: 'name',
-            editable: true,
-            control: {
-              src: 'InputText'
-            }
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            width: 200
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия'
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    return <Factory level={WIDGETS} {...editableCell['Page_Table']} id="Page_Table" />;
   })
   .add('Подтаблица', () => {
-    fetchMock.restore().get(urlPattern, url => {
-      const data = getStubData(url);
-      return {
-        ...data,
-        list: data.list.map(i => ({
-          ...i,
-          expandedContent: {
-            type: 'table',
-            columns: [
-              {
-                title: 'Имя',
-                dataIndex: 'name',
-                key: 'name'
-              },
-              {
-                title: 'Фамилия',
-                dataIndex: 'surname',
-                key: 'surname'
-              },
-              {
-                title: 'День рождения',
-                dataIndex: 'birthday',
-                key: 'birthday'
-              }
-            ],
-            data: [
-              {
-                name: 'test',
-                surname: 'test1',
-                birthday: 'test2'
-              }
-            ]
-          }
-        }))
-      };
-    });
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        expandable: true,
-        columns: [
-          {
-            id: 'name',
-            title: 'Имя',
-            width: 100,
-            className: 'name-cell',
-            dataIndex: 'name',
-            key: 'name',
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell'
-          },
-          {
-            id: 'surname',
-            title: 'Фамилия',
-            width: 100,
-            dataIndex: 'surname',
-            key: 'surname',
-            className: 'surname-cell',
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'IconCell',
-            cellOptions: {
-              id: 'surname',
-              icon: 'fa fa-plus',
-              type: 'iconAndText',
-              textPlace: 'right'
-            }
-          },
-          {
-            id: 'birthday',
-            title: 'Дата рождения',
-            width: 100,
-            dataIndex: 'birthday',
-            key: 'birthday',
-            className: 'birthday-cell',
-            headerSrc: 'TextTableHeader',
-            cellSrc: 'TextCell'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    fetchMock.restore().get(urlPattern, () => ({
+      count: 1,
+      page: 1,
+      size: 10,
+      list: nested.datasource
+    }));
+    return <Factory level={WIDGETS} {...nested['Page_Table']} id="Page_Table" />;
   })
   .add('Экшен AdvancedTable', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     fetchMock.get('begin:n2o/page', page);
-    const props = {
-      ...tableWidget,
-      table: {
-        ...tableWidget.table,
-        hasSelect: false,
-        hasFocus: false,
-        rowClick: {
-          src: 'perform',
-          options: {
-            type: 'n2o/modals/INSERT',
-            payload: {
-              pageUrl: '/Uid',
-              size: 'sm',
-              visible: true,
-              closeButton: true,
-              title: 'Новое модальное окно',
-              pageId: 'Uid'
-            }
-          }
-        },
-        cells: [
-          {
-            src: 'TextCell',
-            id: 'name'
-          },
-          {
-            src: 'IconCell',
-            id: 'surname',
-            icon: 'fa fa-plus',
-            type: 'iconAndText',
-            textPlace: 'right'
-          },
-          {
-            src: 'TextCell',
-            id: 'birthday'
-          }
-        ],
-        headers: [
-          {
-            src: 'TextTableHeader',
-            id: 'name',
-            sortable: false,
-            label: 'Имя',
-            width: 200
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'surname',
-            sortable: true,
-            label: 'Фамилия',
-            width: 200
-          },
-          {
-            src: 'TextTableHeader',
-            id: 'birthday',
-            sortable: true,
-            label: 'Дата рождения'
-          }
-        ]
-      }
-    };
-    return <Factory level={WIDGETS} {...props} id="Page_Table" />;
+    return <Factory level={WIDGETS} {...customRowClick['Page_Table']} id="Page_Table" />;
   })
   .add('Компонент со всеми фичами', () => {
-    const columns = [
-      {
-        title: 'Имя',
-        id: 'name',
-        multiHeader: true,
-        children: [
-          {
-            title: 'Имя1',
-            id: 'name1',
-            dataIndex: 'name',
-            width: 100
-          },
-          {
-            title: 'Имя2',
-            id: 'name2',
-            dataIndex: 'name',
-            width: 100
-          }
-        ]
-      },
-      {
-        title: 'Фамилия',
-        id: 'surname',
-        dataIndex: 'surname',
-        resizable: true,
-        width: 100,
-        filterable: true
-      },
-      {
-        title: 'Описание',
-        id: 'description',
-        dataIndex: 'description'
-      }
-    ];
-
-    const data = [
-      {
-        id: 1,
-        name: 'Name 1',
-        surname: 'Surname 1',
-        description: 'Текст в подстроке',
-        expandedContent: {
-          type: 'text',
-          value: 'Expanded text'
-        }
-      },
-      {
-        id: 2,
-        name: 'Name 2',
-        surname: 'Surname 2',
-        description: 'HTML в подстроке',
-        expandable: true,
-        expandedContent: {
-          type: 'html',
-          value: '<h1>Заголовок<h1/>'
-        }
-      },
-      {
-        id: 3,
-        name: 'Name 3',
-        surname: 'Surname 3',
-        description: 'Таблица в подстроке',
-        expandable: true,
-        expandedContent: {
-          type: 'table',
-          columns: [
-            {
-              title: 'Sub title 1',
-              dataIndex: 'subTitle1'
-            }
-          ],
-          data: [
-            {
-              subTitle1: 'sub value 1'
-            }
-          ]
-        }
-      }
-    ];
-
-    return (
-      <AdvancedTable
-        rowClick={true}
-        expandable={true}
-        rowSelection={true}
-        bordered={true}
-        columns={columns}
-        data={data}
-      />
-    );
+    return <AdvancedTableWidgetStory json={allFeatures} />;
   });

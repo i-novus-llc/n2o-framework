@@ -298,6 +298,7 @@ class AdvancedTable extends Component {
   }
 
   createSelectionColumn() {
+    const isSomeFixed = some(this.state.columns, c => c.fixed);
     return {
       title: (
         <div className="n2o-advanced-table-selection-item">
@@ -313,6 +314,7 @@ class AdvancedTable extends Component {
       key: 'row-selection',
       className: 'n2o-advanced-table-selection-container',
       width: 30,
+      fixed: isSomeFixed && 'left',
       render: (value, model) => (
         <CheckboxN2O
           inline={true}

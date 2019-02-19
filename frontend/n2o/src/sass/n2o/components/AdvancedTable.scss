@@ -63,17 +63,22 @@
     position: absolute;
     top: 0;
     left: 0;
+    overflow: hidden;
   }
 
   &-fixed-right {
     position: absolute;
     top: 0;
     right: 0;
+    overflow: hidden;
+
+    & tr.n2o-table-row {
+      border-left: 1px solid #cfd8dc;
+    }
   }
 
   & table {
     width: 100%;
-    margin-bottom: 1rem;
   }
 
   &-nested table tr:hover {
@@ -120,6 +125,15 @@
       background-color: #ced3d6;
       transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     }
+  }
+
+  &-header {
+    margin: 0 !important;
+    overflow: hidden;
+  }
+
+  &-fixed-left &-body-inner {
+    overflow: hidden !important;
   }
 
   &-header-cell {
