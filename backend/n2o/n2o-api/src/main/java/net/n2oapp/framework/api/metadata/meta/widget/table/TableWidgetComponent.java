@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 
 import java.util.List;
 import java.util.Map;
@@ -33,5 +34,7 @@ public class TableWidgetComponent extends WidgetComponent {
     private Map<String, String> sorting;
     @JsonProperty("hasSelect")
     private Boolean hasSelect = true;
+    @JsonProperty("rowClick")
+    private Action rowClick;
 
 }
