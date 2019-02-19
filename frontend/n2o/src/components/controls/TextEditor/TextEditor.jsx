@@ -1,72 +1,83 @@
-import React from 'react';
+import React, { Component } from 'react';
+import cn from 'classnames';
+import { isEqual } from 'lodash';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import PropTypes from 'prop-types';
-import RichTextEditor from 'react-rte';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 /**
- * Компонент текст-эдитор
- * @reactProps {string} value - начальное значение текста внутри эдитора
- * @reactProps {function} onChange - вызывается при изменении значеня поля
- * @reactProps {boolean} disabled - задизейблен / нет
- * @reactProps {string} name - имя поля
- * @reactProps {boolean} visible
- * @reactProps {string} className - css-класс - здесь можно задать высоту
- * @reactProps {object} toolbarConfig - концфигурация тулбара
- * @see https://github.com/sstur/react-rte
+ * Компонент TextEditor
+ * @param value - значение разметки
+ * @param onChange - callback на изменение значения
+ * @param onFocus - callback на фокус
+ * @param onBlur - callback на потерю фокуса
+ * @param disabled - флаг активности
+ * @param visible - флаг видимости
+ * @param className - класс компонента
+ * @param toolbarConfig - настройка тулбара
+ *
  * @example
- * // пример toolbarConfig
- * const toolbarConfig = {
- *   // Optionally specify the groups to display (displayed in the order listed).
- *   display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'BLOCK_TYPE_DROPDOWN', 'HISTORY_BUTTONS'],
- *   INLINE_STYLE_BUTTONS: [
- *    {label: 'Bold', style: 'BOLD', className: 'custom-css-class'},
- *    {label: 'Italic', style: 'ITALIC'},
- *    {label: 'Underline', style: 'UNDERLINE'}
- *   ],
- *   BLOCK_TYPE_DROPDOWN: [
- *    {label: 'Normal', style: 'unstyled'},
- *    {label: 'Heading Large', style: 'header-one'},
- *    {label: 'Heading Medium', style: 'header-two'},
- *    {label: 'Heading Small', style: 'header-three'}
- *   ],
- *   BLOCK_TYPE_BUTTONS: [
- *    {label: 'UL', style: 'unordered-list-item'},
- *    {label: 'OL', style: 'ordered-list-item'}
- *   ]
- * };
- *
- *
+ * toolbar: {
+    inline: { inDropdown: true },
+    list: { inDropdown: true },
+    textAlign: { inDropdown: true },
+    link: { inDropdown: true },
+    history: { inDropdown: true },
+  }
  */
-class TextEditor extends React.Component {
+class TextEditor extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      richValue: RichTextEditor.createValueFromString(props.value, 'html'),
-      htmlValue: props.value
+      editorState: this.convertToEditorState(props.value),
+      value: props.value
     };
+
+    this.onEditorStateChange = this.onEditorStateChange.bind(this);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.value !== this.state.htmlValue) {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.value, this.props.value)) {
       this.setState({
-        richValue: RichTextEditor.createValueFromString(newProps.value, 'html'),
-        htmlValue: newProps.value
+        editorState: EditorState.moveFocusToEnd(this.convertToEditorState(this.props.value)),
+        value: this.props.value
       });
     }
   }
 
-  onChange(richValue) {
-    this.setState({ richValue, htmlValue: richValue.toString('html') }, () => {
-      this.props.onChange(this.state.htmlValue);
-    });
+  convertToHtml(editorState) {
+    return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+  }
+
+  convertToEditorState(value) {
+    const contentBlock = htmlToDraft(value);
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      return EditorState.createWithContent(contentState);
+    }
+
+    return EditorState.createEmpty();
+  }
+
+  onEditorStateChange(editorState) {
+    const { onChange } = this.props;
+    const value = this.convertToHtml(editorState);
+    onChange && onChange(value);
+    this.setState({ editorState, value });
   }
 
   render() {
-    const { toolbarConfig, disabled, name, visible, className } = this.props;
+    const { className, disabled, visible, onFocus, onBlur, toolbarConfig } = this.props;
+    console.log(visible);
+    const { editorState } = this.state;
     const baseStyle = {
       wordBreak: 'break-all',
       wordWrap: 'break-word',
-      maxWidth: '100%',
-      display: 'flex'
+      maxWidth: '100%'
     };
     const disabledStyle = {
       pointerEvents: 'none',
@@ -75,12 +86,14 @@ class TextEditor extends React.Component {
     return (
       <div style={disabled ? { ...baseStyle, ...disabledStyle } : baseStyle}>
         {visible && (
-          <RichTextEditor
-            value={this.state.richValue}
-            name={name}
-            editorClassName={`editor ${className}`}
-            toolbarConfig={toolbarConfig}
-            onChange={this.onChange.bind(this)}
+          <Editor
+            onFocus={onFocus}
+            onBlur={onBlur}
+            editorState={editorState}
+            wrapperClassName={cn('n2o-text-editor-wrapper')}
+            editorClassName={cn('n2o-text-editor', className)}
+            onEditorStateChange={this.onEditorStateChange}
+            toolbar={toolbarConfig}
           />
         )}
       </div>
@@ -91,15 +104,17 @@ class TextEditor extends React.Component {
 TextEditor.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
   disabled: PropTypes.bool,
-  name: PropTypes.string,
   visible: PropTypes.bool,
   className: PropTypes.string,
   toolbarConfig: PropTypes.object
 };
-
 TextEditor.defaultProps = {
   onChange: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
   disabled: false,
   visible: true,
   value: ''
