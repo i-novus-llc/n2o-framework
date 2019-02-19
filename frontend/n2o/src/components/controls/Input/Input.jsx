@@ -102,7 +102,6 @@ class Input extends React.Component {
         disabled={disabled}
         autoFocus={autoFocus}
         value={value}
-        ref={inputRef}
         onPaste={onPaste}
         onFocus={onFocus}
         onBlur={onBlur}

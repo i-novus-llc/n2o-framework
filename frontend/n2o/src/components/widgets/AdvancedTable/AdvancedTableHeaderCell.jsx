@@ -3,7 +3,6 @@ import { isArray, isString } from 'lodash';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
-import 'react-resizable/css/styles.css';
 import AdvancedTableFilter from './AdvancedTableFilter';
 
 /**
