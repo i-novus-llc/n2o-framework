@@ -1,5 +1,6 @@
 import React from 'react';
 import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
+import ReactDOM from 'react-dom';
 import {
   difference,
   filter as filterF,
@@ -363,6 +364,8 @@ function InputSelectTree({
 
   const inputIcon = loading ? <InlineSpinner /> : <Icon name="fa fa-chevron-down" />;
 
+  const getPopupContainer = container => container;
+
   return (
     <TreeSelect
       tabIndex={-1}
@@ -386,6 +389,7 @@ function InputSelectTree({
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
       showCheckedStrategy={showCheckedStrategy}
+      getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
         defaultMessage: notFoundContent || ' '
