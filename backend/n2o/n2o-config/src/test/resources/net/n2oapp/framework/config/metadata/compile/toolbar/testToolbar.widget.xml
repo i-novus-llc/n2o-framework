@@ -5,7 +5,7 @@
         </action>
     </actions>
     <toolbar place="topLeft">
-        <button id="testId1" action-id="testActionId1"/>
+        <button id="testId1" action-id="testActionId1" widget-need-to-validate="testWidgetId"/>
     </toolbar>
     <toolbar place="bottomLeft" >
         <button id="testId2" action-id="testActionId1" label="Label1" model="filter"/>

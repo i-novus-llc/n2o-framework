@@ -48,6 +48,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!_.isEmpty(this)"));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar']"));
+        assertThat(b1.getWidgetNeedToValidate(), is("testWidgetId"));
 
         Button b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));

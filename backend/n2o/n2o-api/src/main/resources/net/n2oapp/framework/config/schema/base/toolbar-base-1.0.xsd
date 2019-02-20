@@ -99,6 +99,11 @@
                         <xs:documentation>Валидировать ли форму при нажатии на кнопку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="widget-need-to-validate" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>ID - виджета который нужно валидировать</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="visibility-condition" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие видимости.</xs:documentation>

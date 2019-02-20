@@ -19,6 +19,7 @@ public class N2oButton extends AbstractMenuItem implements GroupItem {
     private String confirmTitle;
     private String confirmOkLabel;
     private String confirmCancelLabel;
+    private String widgetNeedToValidate;
 
     @Override
     public List<N2oAction> getActions() {
