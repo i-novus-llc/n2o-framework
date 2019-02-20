@@ -2,5 +2,20 @@
   "disabled": false,
   "visible": true,
   "className": "n2o",
-  "toolbarConfig": {}
+  "toolbarConfig": {
+    "inline": {
+      "visible": true,
+      "inDropdown": false,
+      "bold": { "visible": true },
+      "italic": { "visible": true }
+    },
+    "list": {
+      "visible": true,
+      "inDropdown": true
+    },
+    "textAlign": {
+      "visible": true,
+      "inDropdown": true
+    }
+  }
 }

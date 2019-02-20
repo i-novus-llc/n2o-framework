@@ -15,6 +15,9 @@ stories
   .add('Компонент', () => {
     return <TextEditor />;
   })
+  .add('Кастомный тулбар', () => {
+    return <TextEditor toolbarConfig={TextEditorJson.toolbarConfig} />;
+  })
   .add(
     'Метаданные',
     form(() => {
