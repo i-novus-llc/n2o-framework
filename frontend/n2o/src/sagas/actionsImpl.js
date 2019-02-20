@@ -169,9 +169,14 @@ export function* handleInvoke(apiProvider, action) {
   }
 }
 
+export function* handleDummy() {
+  alert('AHOY!');
+}
+
 export default (apiProvider, factories) => {
   return [
     throttle(500, CALL_ACTION_IMPL, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
+    takeEvery('n2o/button/Dummy', handleDummy)
   ];
 };

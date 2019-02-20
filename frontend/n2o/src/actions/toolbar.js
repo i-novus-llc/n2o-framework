@@ -167,17 +167,11 @@ export function changeButtonClass(key, buttonId, className) {
 /**
  * Экшен регистрации кнопки в редаксе
  * @param key
- * @param id
- * @param size
- * @param title
+ * @param buttonId
  * @param count
- * @param icon
- * @param color
  * @param visible
  * @param disabled
- * @param hint
- * @param className
- * @param style
+ * @param conditions
  */
 export function registerButton(
   key,
@@ -203,17 +197,8 @@ export function registerButton(
 ) {
   return createActionHelper(REGISTER_BUTTON)({
     key,
-    id,
-    size,
-    title,
     count,
-    color,
     visible,
-    hint,
-    parentId,
-    icon,
-    className,
-    style,
     disabled,
     containerKey,
     conditions,

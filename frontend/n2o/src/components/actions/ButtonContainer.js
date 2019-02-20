@@ -20,7 +20,6 @@ import {
   hintPositionSelector,
   styleSelector,
 } from '../../selectors/toolbar';
-import withTooltip from '../../utils/withTooltip';
 import { id } from '../../utils/id';
 import Dropdown from './Dropdowns/Dropdown';
 
