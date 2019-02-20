@@ -37,9 +37,9 @@ describe('Проверка компонента TextEditor', () => {
     expect(onBlur.calledOnce).toEqual(true);
   });
   it('Не отрисовывается по visible = false', () => {
-    // const wrapper = setup({
-    //   visible: false
-    // });
-    // expect(wrapper.find('.test-class').exists()).toEqual(false);
+    const wrapper = setup({
+      visible: false
+    });
+    expect(wrapper.find('.n2o-text-editor').exists()).toEqual(false);
   });
 });

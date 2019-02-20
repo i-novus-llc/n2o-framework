@@ -72,7 +72,6 @@ class TextEditor extends Component {
 
   render() {
     const { className, disabled, visible, onFocus, onBlur, toolbarConfig } = this.props;
-    console.log(visible);
     const { editorState } = this.state;
     const baseStyle = {
       wordBreak: 'break-all',
