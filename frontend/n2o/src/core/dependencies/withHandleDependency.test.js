@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import mockStore from 'redux-mock-store';
-import withReRenderDependency from './withReRenderDependency';
+import withHandleDependency from './withHandleDependency';
 import sinon from 'sinon';
 import * as obs from '../../utils/observeStore';
 
@@ -12,7 +12,7 @@ class Wrapped extends React.Component {
 }
 
 const setup = (component, onChange, store, props = {}) => {
-  const Component = withReRenderDependency({
+  const Component = withHandleDependency({
     onChange
   })(component);
   return mount(
@@ -22,7 +22,7 @@ const setup = (component, onChange, store, props = {}) => {
   );
 };
 
-describe('Проверка хока withReRenderDependency', () => {
+describe('Проверка хока withHandleDependency', () => {
   it('hoc подпишется на изменение стора', () => {
     const fake = sinon.spy();
     obs.default = fake;

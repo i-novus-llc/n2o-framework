@@ -14,10 +14,10 @@ import { setWatchDependency } from '../../components/widgets/Form/utils';
  *    hoc1,
  *    hoc2,
  *    ...,
- *    withReRenderDependency(config)
+ *    withHandleDependency(config)
  *  )(WrappedComponent)
  */
-const withReRenderDependency = Config => BaseComponent => {
+const withHandleDependency = Config => BaseComponent => {
   class Wrapper extends React.Component {
     constructor(props) {
       super(props);
@@ -47,7 +47,7 @@ const withReRenderDependency = Config => BaseComponent => {
           store,
           state => dependencySelector(state, this.props),
           () => {
-            this.onChange.apply(this._hocRef, [this.props]);
+            this.forceUpdate(() => this.onChange.apply(this._hocRef, [this.props]));
           }
         );
       }
@@ -72,4 +72,4 @@ const withReRenderDependency = Config => BaseComponent => {
   return Wrapper;
 };
 
-export default withReRenderDependency;
+export default withHandleDependency;
