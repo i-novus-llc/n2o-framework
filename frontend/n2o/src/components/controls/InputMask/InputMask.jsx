@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
+import { isEqual } from 'lodash';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**
@@ -163,7 +164,10 @@ class InputMask extends React.Component {
   /**
    * обработка новых пропсов
    */
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.value, this.props.value)) {
+      this.setState({ value: this.props.value });
+    }
     this.dict = { ...this.dict, ...this.props.dictionary };
     this.valid = this._isValid(this.state.value);
   }
@@ -186,6 +190,10 @@ class InputMask extends React.Component {
         onChange={this._onChange.bind(this)}
         onFocus={this._onFocus.bind(this)}
         keepCharPositions={this.props.keepCharPositions}
+        render={(ref, props) => {
+          delete props.defaultValue;
+          return <input ref={ref} {...props} onChange={props.onChange} />;
+        }}
       />
     );
   }

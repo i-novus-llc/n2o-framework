@@ -325,7 +325,7 @@ Table.propTypes = {
 Table.defaultProps = {
   sorting: {},
   onResolve: () => {},
-  redux: false,
+  redux: true,
   onRowClickAction: () => {}
 };
 
