@@ -36,7 +36,7 @@ const FileUploaderControl = WrappedComponent => {
 
     componentDidUpdate(prevProps) {
       const { value, files, mapper } = this.props;
-      if (!isEqual(prevProps.value, value)) {
+      if (!isEqual(prevProps.value, value) && !isEmpty(value)) {
         this.setState(() => {
           return {
             files: mapper ? mapper(value) : this.mapFiles(value)
