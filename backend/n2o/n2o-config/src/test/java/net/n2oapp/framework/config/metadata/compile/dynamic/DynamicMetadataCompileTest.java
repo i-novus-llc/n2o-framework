@@ -65,6 +65,8 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(dynamicCreatePage.getId(), is("test_route_main_create"));
         assertThat(dynamicCreatePage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicCreatePage.getWidgets().get("test_route_main_create_main"), instanceOf(Form.class));
+        assertThat((((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
         assertThat(((StandardField)((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
         // динамическая страница в контекстной кнопке
@@ -73,6 +75,8 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicPage.getWidgets().get("test_route_main_update_main"), instanceOf(Form.class));
         assertThat(dynamicPage.getWidgets().get("test_route_main_update_main").getName(), is("Dummy"));
+        assertThat((((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
         assertThat(((StandardField)((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
 
@@ -82,6 +86,8 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicPage.getWidgets().get("test_route_second_update_main"), instanceOf(Form.class));
         assertThat(dynamicPage.getWidgets().get("test_route_second_update_main").getName(), is("123"));
+        assertThat((((Form) dynamicPage.getWidgets().get("test_route_second_update_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
         assertThat(((StandardField)((Form) dynamicPage.getWidgets().get("test_route_second_update_main")).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
     }

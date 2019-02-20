@@ -50,8 +50,8 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
             element.setAttribute("label", n2oControl.getLabel());
         setAttribute(element, "visible", n2oControl.getVisible());
         setElementString(element, "description", n2oControl.getDescription());
+        element.setAttribute("id", n2oControl.getId());
         if (n2oControl instanceof N2oStandardField) {
-            element.setAttribute("id", ((N2oStandardField)n2oControl).getId());
             setElementString(element, "placeholder", ((N2oStandardField) n2oControl).getPlaceholder());
         }
     }

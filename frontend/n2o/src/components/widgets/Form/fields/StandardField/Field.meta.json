@@ -1,4 +1,5 @@
 {
+  "id": "test1",
   "label": "InputNumber",
   "labelClass": "testLabelClass",
   "help": "testHelp",

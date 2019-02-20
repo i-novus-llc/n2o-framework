@@ -167,9 +167,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         if (f.getServerValidations() != null) {
                             validationScope.addAll(f.getServerValidations());
                         }
-                        if (f.getClientValidations() != null && f instanceof StandardField) {
-                            String id = ((StandardField)f).getControl().getId();
-                            clientValidations.put(id, f.getClientValidations());
+                        if (f.getClientValidations() != null) {
+                            clientValidations.put(f.getId(), f.getClientValidations());
                         }
                     });
                 }

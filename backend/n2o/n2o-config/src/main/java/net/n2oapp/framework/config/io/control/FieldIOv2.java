@@ -14,6 +14,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
     @Override
     public void io(Element e, T m, IOProcessor p) {
         super.io(e, m, p);
+        p.attribute(e, "id", m::getId, m::setId);
         p.attributeBoolean(e, "required", m::getRequired, m::setRequired);
         p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
         p.attributeBoolean(e, "enabled", m::getEnabled, m::setEnabled);

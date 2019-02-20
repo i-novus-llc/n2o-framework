@@ -25,7 +25,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
     @Override
     public void io(Element e, T m, IOProcessor p) {
         super.io(e, m, p);
-        p.attribute(e, "id", m::getId, m::setId);
+
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "label-class", m::getLabelClass, m::setLabelClass);
         p.attributeBoolean(e, "no-label", m::getNoLabel, m::setNoLabel);

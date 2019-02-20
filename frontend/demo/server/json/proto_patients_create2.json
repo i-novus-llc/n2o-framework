@@ -114,6 +114,7 @@
                   {
                     "fields": [
                       {
+                        "id": "birthday",
                         "src": "StandardField",
                         "label": "Дата рождения",
                         "dependency": [],
@@ -130,6 +131,7 @@
                   {
                     "fields": [
                       {
+                        "id": "vip",
                         "src": "StandardField",
                         "dependency": [
                           {

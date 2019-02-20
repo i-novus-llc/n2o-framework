@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.control;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
@@ -15,7 +16,8 @@ import java.util.Arrays;
  */
 @Getter
 @Setter
-public abstract class N2oField extends N2oComponent {
+public abstract class N2oField extends N2oComponent implements IdAware {
+    private String id;
     private Boolean visible;
     private Boolean required;
     private Boolean enabled;
@@ -91,4 +93,8 @@ public abstract class N2oField extends N2oComponent {
         private Boolean reset;
     }
 
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" + getId() + ")";
+    }
 }

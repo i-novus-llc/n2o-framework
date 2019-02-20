@@ -14,6 +14,7 @@
                   {
                     "fields": [
                       {
+                        "id": "surname",
                         "src": "StandardField",
                         "required": true,
                         "label": "Фамилия",
@@ -29,6 +30,7 @@
                   {
                     "fields": [
                       {
+                        "id": "name",
                         "src": "StandardField",
                         "required": true,
                         "label": "Имя",
@@ -43,6 +45,7 @@
                   {
                     "fields": [
                       {
+                        "id": "patrName",
                         "src": "StandardField",
                         "label": "Отчество",
                         "dependency": [],
@@ -60,6 +63,7 @@
                   {
                     "fields": [
                       {
+                        "id": "gender",
                         "src": "StandardField",
                         "required": true,
                         "label": "Пол",
@@ -85,6 +89,7 @@
                   {
                     "fields": [
                       {
+                        "id": "birthday",
                         "src": "StandardField",
                         "label": "Дата рождения",
                         "dependency": [],
@@ -101,6 +106,7 @@
                   {
                     "fields": [
                       {
+                        "id": "vip",
                         "src": "StandardField",
                         "dependency": [
                           {

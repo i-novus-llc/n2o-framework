@@ -262,9 +262,8 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oControl.setLabel(label);
         n2oControl.setVisible(visible);
         n2oControl.setDescription(getElementString(fieldSetElement, "description"));
+        n2oControl.setId(getAttributeString(fieldSetElement, "id"));
         if (n2oControl instanceof N2oStandardField) {
-            String id = getAttributeString(fieldSetElement, "id");
-            ((N2oStandardField)n2oControl).setId(id);
             ((N2oStandardField)n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
         }
     }

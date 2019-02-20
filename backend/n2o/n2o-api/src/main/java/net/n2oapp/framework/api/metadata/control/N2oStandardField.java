@@ -12,8 +12,8 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class N2oStandardField extends N2oField implements IdAware {
-    private String id;
+public abstract class N2oStandardField extends N2oField {
+
     private String placeholder;
     private Boolean copied;
     private String controlSrc;
@@ -32,11 +32,6 @@ public abstract class N2oStandardField extends N2oField implements IdAware {
 
     public void setActionButtons(List<N2oActionButton> buttons) {
         //todo добавлять их в тулбар
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "(" + getId() + ")";
     }
 
 }

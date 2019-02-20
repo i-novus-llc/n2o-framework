@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -25,6 +24,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void compileField(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compileComponent(field, source, context, p);
 
+        field.setId(source.getId());
+
         field.setVisible(source.getVisible());
         field.setEnabled(source.getEnabled());
 
@@ -43,208 +44,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         return null;
     }
 
-    private void compileFilters(Field field, CompileProcessor p) {
-        FiltersScope filtersScope = p.getScope(FiltersScope.class);
-        if (filtersScope != null) {
-            CompiledQuery query = p.getScope(CompiledQuery.class);
-            if (query == null)
-                return;
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(field.getId(), query);
-            filters.forEach(f -> {
-                Filter filter = new Filter();
-                filter.setFilterId(f.getFilterField());
-                filter.setParam(widgetScope.getClientWidgetId() + "_" + f.getParam());
-                filter.setReloadable(true);
-                SubModelQuery subModelQuery = findSubModelQuery(field.getId(), p);
-                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
-                link.setSubModelQuery(subModelQuery);
-                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
-                filter.setLink(link);
-                filtersScope.getFilters().add(filter);
-            });
-        }
-    }
-
-    /**
-     * Возвращает информацию о вложенных моделях выборки по идентификатору поля
-     *
-     * @param fieldId - идентификатор поля
-     * @param p       - процессор сборки метаданных
-     */
-    protected SubModelQuery findSubModelQuery(String fieldId, CompileProcessor p) {
-        if (fieldId == null) return null;
-        SubModelsScope subModelsScope = p.getScope(SubModelsScope.class);
-        if (subModelsScope != null) {
-            return subModelsScope.stream()
-                    .filter(subModelQuery -> fieldId.equals(subModelQuery.getSubModel()))
-                    .findAny()
-                    .orElse(null);
-        }
-        return null;
-    }
-
-    private void initValidations(S source, Field field, CompileContext<?, ?> context, CompileProcessor p) {
-        List<Validation> serverValidations = new ArrayList<>();
-        List<Validation> clientValidations = new ArrayList<>();
-        Set<String> visibilityConditions = p.getScope(FieldSetVisibilityScope.class);
-        MomentScope momentScope = p.getScope(MomentScope.class);
-        String REQUIRED_MESSAGE = momentScope != null
-                && N2oValidation.ServerMoment.beforeQuery.equals(momentScope.getMoment())
-                ? "n2o.required.filter" : "n2o.required.field";
-        if (source.getRequired() != null && source.getRequired()) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
-            if (momentScope != null)
-                mandatory.setMoment(momentScope.getMoment());
-            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
-            mandatory.addEnablingConditions(visibilityConditions);
-            serverValidations.add(mandatory);
-            clientValidations.add(mandatory);
-            field.setRequired(true);
-        } else if (source.containsDependency(N2oField.RequiringDependency.class)) {
-            MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
-            if (momentScope != null)
-                mandatory.setMoment(momentScope.getMoment());
-            mandatory.addEnablingConditions(visibilityConditions);
-            mandatory.addEnablingConditions(
-                    collectConditions(
-                            source,
-                            N2oField.RequiringDependency.class,
-                            N2oField.VisibilityDependency.class
-                    )
-            );
-            mandatory.setEnablingExpression(ScriptProcessor.and(collectConditions(source, N2oField.RequiringDependency.class)));
-            if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
-                serverValidations.add(mandatory);
-                clientValidations.add(mandatory);
-            }
-        }
-        CompiledObject object = p.getScope(CompiledObject.class);
-        initInlineValidations(field, source, serverValidations, clientValidations, object, context, visibilityConditions, p);
-        field.setServerValidations(serverValidations.isEmpty() ? null : serverValidations);
-        field.setClientValidations(clientValidations.isEmpty() ? null : clientValidations);
-    }
-
-    private List<String> collectConditions(S source, Class... types) {
-        List<String> result = new ArrayList<>();
-        if (source.getDependencies() != null && types != null) {
-            for (N2oField.Dependency dependency : source.getDependencies()) {
-                for (Class clazz : types) {
-                    if (dependency.getClass().equals(clazz)) {
-                        result.add(dependency.getValue());
-                    }
-                }
-            }
-        }
-        return result.isEmpty() ? null : result;
-    }
-
-    private void initWhiteListValidation(String fieldId,
-                                         String refId,
-                                         S source,
-                                         List<Validation> serverValidations,
-                                         List<Validation> clientValidations,
-                                         CompiledObject object,
-                                         Set<String> visibilityConditions) {
-        if (object == null) {
-            throw new N2oException("Field {0} have validation reference, but haven't object!").addData(fieldId);
-        }
-        Validation objectValidation = null;
-        if (object.getValidationsMap() != null && object.getValidationsMap().containsKey(refId)) {
-            objectValidation = object.getValidationsMap().get(refId);
-        } else {
-            if (object.getOperations() != null && !object.getOperations().isEmpty()) {
-                for (CompiledObject.Operation operation : object.getOperations().values()) {
-                    Optional<Validation> result = operation.getValidationList().stream().filter(v -> v.getId().equals(refId)).findFirst();
-                    if (result.isPresent()) {
-                        objectValidation = result.get();
-                        break;
-                    }
-                }
-            }
-        }
-        if (objectValidation == null) {
-            throw new N2oException("Field {0} contains validation reference for nonexistent validation!").addData(fieldId);
-        }
-        Validation validation = null;
-        if (objectValidation instanceof ConstraintValidation) {
-            validation = new ConstraintValidation((ConstraintValidation) objectValidation);
-        } else if (objectValidation instanceof ConditionValidation) {
-            validation = new ConditionValidation((ConditionValidation) objectValidation);
-        } else if (objectValidation instanceof MandatoryValidation) {
-            validation = new MandatoryValidation((MandatoryValidation) objectValidation);
-        }
-        if (validation == null)
-            return;
-        List<String> enablingConditions = new ArrayList<>();
-        if (source.getDependencies() != null) {
-            for (N2oField.Dependency dependency : source.getDependencies()) {
-                if (dependency instanceof N2oField.VisibilityDependency) {
-                    enablingConditions.add(dependency.getValue());
-                }
-            }
-        }
-        validation.setFieldId(fieldId);
-        validation.addEnablingConditions(enablingConditions);
-        validation.addEnablingConditions(visibilityConditions);
-        if (validation.getSide() == null || validation.getSide().equals("client,server")) {
-            serverValidations.add(validation);
-            clientValidations.add(validation);
-        } else if (validation.getSide().equals("client")) {
-            clientValidations.add(validation);
-        } else if (validation.getSide().equals("server")) {
-            serverValidations.add(validation);
-        }
-    }
-
-    private void initInlineValidations(Field field,
-                                       S source,
-                                       List<Validation> serverValidations,
-                                       List<Validation> clientValidations,
-                                       CompiledObject object,
-                                       CompileContext<?, ?> context,
-                                       Set<String> visibilityConditions,
-                                       CompileProcessor p) {
-
-        N2oField.Validations validations = source.getValidations();
-        if (validations == null) return;
-        if (validations.getWhiteList() != null) {
-            for (String validation : validations.getWhiteList()) {
-                initWhiteListValidation(field.getId(),
-                        validation,
-                        source,
-                        serverValidations, clientValidations, object, visibilityConditions);
-            }
-        }
-        if (validations.getInlineValidations() != null) {
-            List<String> enablingConditions = new ArrayList<>();
-            if (source.getDependencies() != null) {
-                for (N2oField.Dependency dependency : source.getDependencies()) {
-                    if (dependency.getClass().equals(N2oField.VisibilityDependency.class))
-                        enablingConditions.add(dependency.getValue());
-                }
-            }
-            if (object.getValidations() == null)
-                object.setValidations(new ArrayList<>());
-            for (N2oValidation v : validations.getInlineValidations()) {
-                v.setFieldId(field.getId());
-                Validation compiledValidation = p.compile(v, context);
-                MomentScope momentScope = p.getScope(MomentScope.class);
-                if (momentScope != null)
-                    compiledValidation.setMoment(momentScope.getMoment());
-                if (field.getVisible() != null && !field.getVisible()) {
-                    continue;
-                } else if (!enablingConditions.isEmpty()) {
-                    compiledValidation.addEnablingConditions(enablingConditions);
-                }
-                compiledValidation.addEnablingConditions(visibilityConditions);
-                object.addValidation(compiledValidation);
-                serverValidations.add(compiledValidation);
-                if (compiledValidation.getSide() == null || compiledValidation.getSide().contains("client"))
-                    clientValidations.add(compiledValidation);
-            }
-        }
-    }
 
     /**
      * Компиляция зависимостей между полями

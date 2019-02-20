@@ -42,6 +42,7 @@
                 {
                   "fields": [
                     {
+                      "id": "name",
                       "src": "StandardField",
                       "label": "Поле №1 . Тип зависимости: блокировка",
                       "control": {
@@ -55,6 +56,7 @@
                 {
                   "fields": [
                     {
+                      "id": "surname",
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
@@ -83,6 +85,7 @@
                   "size": "6",
                   "fields": [
                     {
+                      "id": "email",
                       "src": "StandardField",
                       "label": "Поле №2. Тип зависимости: видимость",
                       "control": {
@@ -97,6 +100,7 @@
                   "size": "6",
                   "fields": [
                     {
+                      "id": "date",
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
@@ -125,6 +129,7 @@
                   "size": "4",
                   "fields": [
                     {
+                      "id": "f3",
                       "src": "StandardField",
                       "label": "Поле №3. Комбинированная зависимость",
                       "control": {
@@ -139,6 +144,7 @@
                   "size": "4",
                   "fields": [
                     {
+                      "id": "f4",
                       "src": "StandardField",
                       "label": "Поле №4. Комбинированная зависимость",
                       "control": {
@@ -153,6 +159,7 @@
                   "size": "4",
                   "fields": [
                     {
+                      "id": "depend3",
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
@@ -189,6 +196,7 @@
                   "size": "5",
                   "fields": [
                     {
+                      "id": "f9",
                       "src": "StandardField",
                       "label": "Поле №9. Тип зависимости: Установка значения",
                       "control": {
@@ -203,6 +211,7 @@
                   "size": "3",
                   "fields": [
                     {
+                      "id": "f10",
                       "src": "StandardField",
                       "label": "Поле №10. Тип зависимости: Сброс значения",
                       "control": {
@@ -217,6 +226,7 @@
                   "size": "4",
                   "fields": [
                     {
+                      "id": "depend4",
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
