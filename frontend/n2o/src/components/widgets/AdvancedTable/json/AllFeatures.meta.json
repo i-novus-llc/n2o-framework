@@ -1,6 +1,5 @@
 {
   "rowSelection": true,
-  "bordered": true,
   "scroll": {
     "x": false,
     "y": false

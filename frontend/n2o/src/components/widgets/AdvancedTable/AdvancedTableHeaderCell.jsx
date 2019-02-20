@@ -20,7 +20,6 @@ import AdvancedTableFilter from './AdvancedTableFilter';
  * @param onSort - функция вызова сортировки
  * @param sorting - настройки сортировки
  * @param title - компонент в ячейки заголовка
- * @param widgetId - id виджета
  *  @param width - длина колонки
  *  @param resizable - флаг функции resize колонки
  *  @param selectionHead - флаг чекбокса в заголовке
@@ -36,17 +35,7 @@ class AdvancedTableHeaderCell extends Component {
   }
 
   renderMultiCell() {
-    const {
-      colSpan,
-      rowSpan,
-      className,
-      columnId,
-      id,
-      label,
-      sorting,
-      onSort,
-      widgetId
-    } = this.props;
+    const { colSpan, rowSpan, className, columnId, id, label, sorting, onSort } = this.props;
     return (
       <th
         {...this.props}
@@ -56,13 +45,13 @@ class AdvancedTableHeaderCell extends Component {
         rowSpan={rowSpan}
       >
         {React.createElement(this.props.component, {
+          ...this.props,
           className,
           columnId,
           id,
           label,
           sorting: sorting && sorting[id],
-          onSort,
-          widgetId
+          onSort
         })}
       </th>
     );
@@ -160,7 +149,6 @@ AdvancedTableHeaderCell.propTypes = {
   onSort: PropTypes.func,
   sorting: PropTypes.object,
   title: PropTypes.oneOf(PropTypes.string, PropTypes.func),
-  widgetId: PropTypes.string,
   width: PropTypes.number,
   resizable: PropTypes.bool,
   selectionHead: PropTypes.bool,

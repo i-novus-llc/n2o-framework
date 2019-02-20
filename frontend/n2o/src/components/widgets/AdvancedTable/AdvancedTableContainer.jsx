@@ -70,8 +70,6 @@ class AdvancedTableContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {}
-
   renderCell(props) {
     const propStyles = pick(props, ['width']);
     return <ReduxCell {...propStyles} {...props} />;
