@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field as ReduxFormField } from 'redux-form';
 import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 import { some } from 'lodash';
 import withDependency from '../../../core/dependencies/withDependency';
 
@@ -37,7 +37,12 @@ class ReduxField extends React.Component {
     super(props);
 
     this.setRef = this.setRef.bind(this);
-    this.Field = compose(withFieldContainer)(props.component);
+    this.Field = compose(
+      withProps(() => ({
+        setReRenderRef: props.setReRenderRef
+      })),
+      withFieldContainer
+    )(props.component);
   }
 
   setRef(el) {

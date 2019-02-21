@@ -18,6 +18,7 @@ export default (config = {}) => WrappedComponent => {
       this.reRenderDependencyAction = this.reRenderDependencyAction.bind(this);
       this.setObserveState = this.setObserveState.bind(this);
       this.unsubscribe = this.unsubscribe.bind(this);
+      this.setReRenderRef = this.setReRenderRef.bind(this);
     }
 
     componentDidMount() {
@@ -40,7 +41,7 @@ export default (config = {}) => WrappedComponent => {
     }
 
     reRenderDependencyAction() {
-      this.forceUpdate(() => {
+      this._reRenderRef.forceUpdate(() => {
         if (isFunction(config.onChange)) {
           config.onChange.apply(this._componentRef, [this.props]);
         }
@@ -49,6 +50,10 @@ export default (config = {}) => WrappedComponent => {
 
     setComponentRef(el) {
       this._componentRef = el;
+    }
+
+    setReRenderRef(el) {
+      this._reRenderRef = el;
     }
 
     observeState(dependencyType, dependencyAction) {
@@ -76,7 +81,13 @@ export default (config = {}) => WrappedComponent => {
     }
 
     render() {
-      return <WrappedComponent {...this.props} ref={this.setComponentRef} />;
+      return (
+        <WrappedComponent
+          {...this.props}
+          setReRenderRef={this.setReRenderRef}
+          ref={this.setComponentRef}
+        />
+      );
     }
   }
 
