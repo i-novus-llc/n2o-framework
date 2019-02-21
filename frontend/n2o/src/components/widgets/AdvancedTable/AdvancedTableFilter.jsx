@@ -32,7 +32,9 @@ class AdvancedTableFilter extends Component {
   }
 
   onChangeFilter(value) {
-    this.setState({ value });
+    this.setState({
+      value: value ? value.toString() : ''
+    });
   }
 
   onResetFilter() {
@@ -52,7 +54,7 @@ class AdvancedTableFilter extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, component } = this.props;
     const { filterOpen, value } = this.state;
     return (
       <React.Fragment>
@@ -72,6 +74,7 @@ class AdvancedTableFilter extends Component {
               onChange={this.onChangeFilter}
               onResetFilter={this.onResetFilter}
               onSetFilter={this.onSetFilter}
+              component={component}
             />
           </DropdownMenu>
         </Dropdown>
@@ -84,7 +87,7 @@ AdvancedTableFilter.propTypes = {
   children: PropTypes.object,
   id: PropTypes.string,
   onFilter: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.oneOf(PropTypes.string, PropTypes.number)
 };
 
 AdvancedTableFilter.defaultProps = {

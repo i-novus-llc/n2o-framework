@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
+import onClickOutside from 'react-onclickoutside';
 import Calendar from './Calendar';
 import { parseDate } from './utils';
 import DateTimeControl from './DateTimeControl';
@@ -24,6 +24,10 @@ import DateTimeControl from './DateTimeControl';
  * @reactProps {object} time
  */
 class PopUp extends React.PureComponent {
+  handleClickOutside(e) {
+    console.log(e);
+  }
+
   render() {
     const {
       dateFormat,
@@ -90,4 +94,4 @@ PopUp.propTypes = {
   })
 };
 
-export default PopUp;
+export default onClickOutside(PopUp);

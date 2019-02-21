@@ -54,6 +54,7 @@
       "sorting": {
         "birthday": "ASC"
       },
+      "expandedFieldId": "expandedContent",
       "expandable": true,
       "cells": [
         {

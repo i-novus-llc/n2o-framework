@@ -1,4 +1,15 @@
 .n2o-advanced-table {
+
+  & .n2o-calendar-table {
+    & td {
+      padding: 0;
+      border: none;
+    }
+
+    & tr:hover {
+      background-color: transparent;
+    }
+  }
   
   &-content {
     position: relative;
@@ -180,14 +191,19 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     border-radius: 5px;
 
-    & .n2o-input {
-      height: 32px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
+    &-popup {
+      max-width: 100%;
     }
 
     &-btn {
       border-radius: 5px;
+    }
+
+    &-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 15px;
     }
   }
 }

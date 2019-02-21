@@ -5,12 +5,13 @@ import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 
 /**
  * Компонент контента в подстроке text/html/table
- * @param record
+ * @param record - модель строки
+ * @param expandedFieldId - id поля в настройками подстроки
  * @returns {*}
  * @constructor
  */
-function AdvancedTableExpandedRenderer(record) {
-  const { expandedContent } = record;
+function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
+  const expandedContent = record[expandedFieldId];
   if (expandedContent) {
     if (expandedContent.type === 'table') {
       return (

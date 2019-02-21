@@ -44,7 +44,8 @@ class AdvancedTableWidget extends Component {
       onFetch,
       multiHeader,
       bordered,
-      rowClick
+      rowClick,
+      expandedFieldId
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -67,7 +68,8 @@ class AdvancedTableWidget extends Component {
       onFetch,
       multiHeader,
       bordered,
-      rowClick
+      rowClick,
+      expandedFieldId
     };
   }
 
@@ -114,7 +116,8 @@ AdvancedTableWidget.contextTypes = {
 AdvancedTableWidget.defaultProps = {
   toolbar: {},
   filter: {},
-  bordered: false
+  bordered: false,
+  expandFieldId: 'expandedContent'
 };
 
 AdvancedTableWidget.propTypes = {
@@ -146,7 +149,8 @@ AdvancedTableWidget.propTypes = {
   useFixedHeader: PropTypes.bool,
   tableSize: PropTypes.string,
   rowSelection: PropTypes.bool,
-  rowColor: PropTypes.string
+  rowColor: PropTypes.string,
+  expandFieldId: PropTypes.string
 };
 
 export default dependency(AdvancedTableWidget);

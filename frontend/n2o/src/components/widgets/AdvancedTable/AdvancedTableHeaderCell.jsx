@@ -35,7 +35,7 @@ class AdvancedTableHeaderCell extends Component {
   }
 
   renderMultiCell() {
-    const { colSpan, rowSpan, className, columnId, id, label, sorting, onSort } = this.props;
+    const { colSpan, rowSpan, className, id, label, sorting } = this.props;
     return (
       <th
         {...this.props}
@@ -46,12 +46,7 @@ class AdvancedTableHeaderCell extends Component {
       >
         {React.createElement(this.props.component, {
           ...this.props,
-          className,
-          columnId,
-          id,
-          label,
-          sorting: sorting && sorting[id],
-          onSort
+          sorting: sorting && sorting[id]
         })}
       </th>
     );
@@ -75,7 +70,8 @@ class AdvancedTableHeaderCell extends Component {
       onFilter,
       filters,
       label,
-      title
+      title,
+      filterControl
     } = this.props;
 
     let cellContent = null;
@@ -103,7 +99,12 @@ class AdvancedTableHeaderCell extends Component {
       >
         <div className="n2o-advanced-table-header-cell-content">
           {filterable ? (
-            <AdvancedTableFilter id={id} onFilter={onFilter} value={filters && filters[id]}>
+            <AdvancedTableFilter
+              id={id}
+              onFilter={onFilter}
+              value={filters && filters[id]}
+              component={filterControl.component}
+            >
               {cellContent}
             </AdvancedTableFilter>
           ) : (
@@ -118,7 +119,6 @@ class AdvancedTableHeaderCell extends Component {
 
   render() {
     const { width, onResize, resizable } = this.props;
-
     return (
       <React.Fragment>
         {resizable && width ? (
@@ -152,10 +152,12 @@ AdvancedTableHeaderCell.propTypes = {
   width: PropTypes.number,
   resizable: PropTypes.bool,
   selectionHead: PropTypes.bool,
-  selectionClass: PropTypes.string
+  selectionClass: PropTypes.string,
+  filterControl: PropTypes.object
 };
 
 AdvancedTableHeaderCell.defaultProps = {
+  filterControl: {},
   multiHeader: false,
   resizable: false,
   selectionHead: false,

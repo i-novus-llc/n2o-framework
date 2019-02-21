@@ -360,7 +360,8 @@ class AdvancedTable extends Component {
       bordered,
       isActive,
       onFocus,
-      rowSelection
+      rowSelection,
+      expandedFieldId
     } = this.props;
 
     const columns = this.mapColumns(this.state.columns);
@@ -394,7 +395,17 @@ class AdvancedTable extends Component {
           rowKey={record => record.key}
           expandIcon={AdvancedTableExpandIcon}
           expandIconAsCell={rowSelection && expandable}
-          expandedRowRender={expandable && AdvancedTableExpandedRenderer}
+          expandedRowRender={
+            expandable &&
+            ((record, index, indent) => (
+              <AdvancedTableExpandedRenderer
+                record={record}
+                index={index}
+                indent={indent}
+                expandedFieldId={expandedFieldId}
+              />
+            ))
+          }
           expandedRowKeys={this.state.expandedRowKeys}
           onExpandedRowsChange={this.handleExpandedRowsChange}
           onExpand={onExpand}
@@ -419,10 +430,12 @@ AdvancedTable.propTypes = {
   hotKeys: PropTypes.object,
   bordered: PropTypes.bool,
   rowSelection: PropTypes.bool,
-  expandable: PropTypes.bool
+  expandable: PropTypes.bool,
+  expandedFieldId: PropTypes.string
 };
 
 AdvancedTable.defaultProps = {
+  expandedFieldId: 'expandedContent',
   data: [],
   bordered: false,
   rowSelection: false,
