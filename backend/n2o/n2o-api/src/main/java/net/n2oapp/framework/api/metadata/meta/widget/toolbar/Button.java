@@ -18,6 +18,5 @@ public class Button extends MenuItem {
     private String dropdownSrc;
     @JsonProperty
     private String color;
-    @JsonProperty
-    private String widgetNeedToValidate;
+
 }
