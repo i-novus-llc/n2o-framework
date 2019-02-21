@@ -28,6 +28,7 @@ import java.util.Set;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.register.route.RouteUtil.convertPathToId;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 import static net.n2oapp.framework.config.register.route.RouteUtil.parent;
 
@@ -56,7 +57,9 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
 
     @Override
     protected PageContext constructContext(String pageId, String route) {
-        return new ModalPageContext(pageId, route);
+        ModalPageContext modalPageContext = new ModalPageContext(pageId, route);
+        modalPageContext.setClientPageId(convertPathToId(route));
+        return modalPageContext;
     }
 
     @Override
@@ -64,7 +67,7 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
                                  String route,
                                  Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping) {
         ShowModalPayload payload = compiled.getOptions().getPayload();
-        String modalPageId = RouteUtil.convertPathToId(route);
+        String modalPageId = convertPathToId(route);
         payload.setName(modalPageId);
         payload.setPageId(modalPageId);
         payload.setPageUrl(route);

@@ -81,12 +81,12 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String clientPageId;
 
-    public PageContext(String clientPageId) {
-        super(clientPageId, N2oPage.class, Page.class);
+    public PageContext(String sourcePageId) {
+        super(sourcePageId, N2oPage.class, Page.class);
     }
 
-    public PageContext(String clientPageId, String route) {
-        super(route, clientPageId, N2oPage.class, Page.class);
+    public PageContext(String sourcePageId, String route) {
+        super(route, sourcePageId, N2oPage.class, Page.class);
     }
 
     public PageContext(PageContext context, CompileProcessor p) {
