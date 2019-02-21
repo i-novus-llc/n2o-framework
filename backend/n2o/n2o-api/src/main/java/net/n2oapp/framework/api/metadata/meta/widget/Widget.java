@@ -7,9 +7,9 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.meta.FetchDependency;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 
@@ -49,7 +49,9 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     @JsonProperty
     private Map<String, Action> actions;
     @JsonProperty
-    private FetchDependency dependency;
+    private WidgetDependency dependency;
+    @JsonProperty
+    private Boolean visible;
 
     public Widget() {
     }

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
@@ -11,7 +10,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -20,14 +18,16 @@ import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
-import net.n2oapp.framework.config.metadata.compile.widget.*;
+import net.n2oapp.framework.config.metadata.compile.widget.FiltersScope;
+import net.n2oapp.framework.config.metadata.compile.widget.MomentScope;
+import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
 import java.util.*;
@@ -125,7 +125,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             MandatoryValidation mandatory = new MandatoryValidation(source.getId(), p.getMessage(REQUIRED_MESSAGE), field.getId());
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
-            collectEnablingConditions(mandatory, source, N2oField.VisibilityDependency.class);
+            mandatory.addEnablingConditions(collectConditions(source, N2oField.VisibilityDependency.class));
             mandatory.addEnablingConditions(visibilityConditions);
             serverValidations.add(mandatory);
             clientValidations.add(mandatory);
@@ -135,7 +135,14 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             if (momentScope != null)
                 mandatory.setMoment(momentScope.getMoment());
             mandatory.addEnablingConditions(visibilityConditions);
-            collectEnablingConditions(mandatory, source, N2oField.RequiringDependency.class, N2oField.VisibilityDependency.class);
+            mandatory.addEnablingConditions(
+                    collectConditions(
+                            source,
+                            N2oField.RequiringDependency.class,
+                            N2oField.VisibilityDependency.class
+                    )
+            );
+            mandatory.setEnablingExpression(ScriptProcessor.and(collectConditions(source, N2oField.RequiringDependency.class)));
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
                 serverValidations.add(mandatory);
                 clientValidations.add(mandatory);
@@ -147,16 +154,18 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setClientValidations(clientValidations.isEmpty() ? null : clientValidations);
     }
 
-    private void collectEnablingConditions(Validation v, S source, Class ... types) {
+    private List<String> collectConditions(S source, Class... types) {
+        List<String> result = new ArrayList<>();
         if (source.getDependencies() != null && types != null) {
             for (N2oField.Dependency dependency : source.getDependencies()) {
                 for (Class clazz : types) {
                     if (dependency.getClass().equals(clazz)) {
-                        v.addEnablingCondition(dependency.getValue());
+                        result.add(dependency.getValue());
                     }
                 }
             }
         }
+        return result.isEmpty() ? null : result;
     }
 
     private void initWhiteListValidation(String fieldId,
@@ -249,6 +258,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             for (N2oValidation v : validations.getInlineValidations()) {
                 v.setFieldId(field.getId());
                 Validation compiledValidation = p.compile(v, context);
+                MomentScope momentScope = p.getScope(MomentScope.class);
+                if (momentScope != null)
+                    compiledValidation.setMoment(momentScope.getMoment());
                 if (field.getVisible() != null && !field.getVisible()) {
                     continue;
                 } else if (!enablingConditions.isEmpty()) {

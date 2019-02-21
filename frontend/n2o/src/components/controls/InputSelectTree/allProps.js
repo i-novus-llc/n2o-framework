@@ -31,7 +31,7 @@ export const defaultProps = {
   dropdownPopupAlign: {
     points: ['tl', 'bl'],
     overflow: {
-      adjustY: false
+      adjustY: true
     }
   },
   onSearch: () => {},

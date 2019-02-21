@@ -48,6 +48,7 @@ class InputSelectTreeContainer extends Component {
     }
     return { data: nextProps.data };
   }
+
   render() {
     return (
       <InputSelectTree {...this.props} data={this.state.data} loading={this.props.isLoading} />

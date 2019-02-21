@@ -46,6 +46,7 @@ stories
       open: boolean('open', PanelRegionJson.open),
       collapsible: boolean('collapsible', PanelRegionJson.collapsible),
       fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
+      header: boolean('header', PanelRegionJson.header),
       panels: PanelRegionJson.panels
     };
 
@@ -66,7 +67,8 @@ stories
   .add('Компоновки', () => {
     const panelParams = [
       { ...defaultProps, headerTitle: 'Только заголовок' },
-      { ...defaultProps, headerTitle: 'Заголовок и подвал', footerTitle: 'Подвал' }
+      { ...defaultProps, headerTitle: 'Заголовок и подвал', footerTitle: 'Подвал' },
+      { ...defaultProps, header: false, footerTitle: 'Без заголовка' }
     ];
 
     return (
