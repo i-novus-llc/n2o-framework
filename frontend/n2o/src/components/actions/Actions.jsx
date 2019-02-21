@@ -106,7 +106,7 @@ class Actions extends React.Component {
       confirm,
       actions,
       resolve,
-      button.widgetNeedToValidate,
+      button.validatedWidgetId,
       button.validate,
       options
     );
@@ -196,14 +196,14 @@ class Actions extends React.Component {
     confirm,
     actions,
     resolve,
-    widgetNeedToValidate,
+    validatedWidgetId,
     validate = true,
     options = {}
   ) {
     if (confirm) {
       this.setState({ confirmVisibleId: id });
     } else {
-      resolve(actions[actionId].src, widgetNeedToValidate, {
+      resolve(actions[actionId].src, validatedWidgetId, {
         ...actions[actionId].options,
         actionId,
         buttonId: id,
@@ -322,8 +322,8 @@ Actions.propTypes = {
  */
 const mapDispatchToProps = dispatch => {
   return {
-    resolve: (actionSrc, widgetNeedToValidate, options) => {
-      dispatch(callActionImpl(actionSrc, { ...options, dispatch, widgetNeedToValidate }));
+    resolve: (actionSrc, validatedWidgetId, options) => {
+      dispatch(callActionImpl(actionSrc, { ...options, dispatch, validatedWidgetId }));
     }
   };
 };
