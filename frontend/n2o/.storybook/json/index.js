@@ -20,6 +20,7 @@ import FormFieldsetCollapseVE from './FormFieldsetCollapseVE';
 import FormFieldsetStandartVE from './FormFieldsetStandartVE';
 import PlaceholderBreadCrumb from './PlaceholderBreadCrumb';
 import tableActions from './tableActions';
+import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
 
 export {
   filterMetadata,
@@ -43,5 +44,6 @@ export {
   FormFieldsetCollapseVE,
   FormFieldsetStandartVE,
   PlaceholderBreadCrumb,
-  tableActions
+  tableActions,
+  InputSelectTreeDefaultValue
 };
