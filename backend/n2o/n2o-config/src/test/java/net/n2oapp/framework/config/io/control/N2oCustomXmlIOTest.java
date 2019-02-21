@@ -22,7 +22,6 @@ public class N2oCustomXmlIOTest extends N2oStandardControlReaderTestBase {
                     N2oCustomField customField = (N2oCustomField) fieldSet.getItems()[0];
                     assertStandardAttribute(customField);
                     assert customField.getSrc().equals("test");
-                    assert customField.getDefaultValue().equals("test");
                 });
     }
 }
