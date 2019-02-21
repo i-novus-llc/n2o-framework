@@ -12,9 +12,7 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.metadata.meta.control.ListControl;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -66,6 +64,24 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         values.setValues(new HashMap<>());
         source.getDefValue().forEach((f, v) -> values.getValues().put(f, p.resolve(v)));
         return source.isSingle() ? values : Collections.singletonList(values);
+    }
+
+    protected StandardField<T> compileFetchDependencies(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
+        StandardField<T> result = compileListControl(listControl, source, context, p);
+        if (source.getPreFilters() != null) {
+
+            for (N2oPreFilter filter : source.getPreFilters()) {
+                if (StringUtils.hasLink(filter.getValue()) &&
+                        result.getDependencies().stream().noneMatch(d -> d.getType() == ValidationType.fetch &&
+                                d.getOn().contains(filter.getFieldId()))) {
+                    ControlDependency fetchCD = new ControlDependency();
+                    fetchCD.setType(ValidationType.fetch);
+                    fetchCD.setOn(Collections.singletonList(filter.getFieldId()));
+                    result.addDependency(fetchCD);
+                }
+            }
+        }
+        return result;
     }
 
     private void initSubModel(S source, SubModelsScope scope) {

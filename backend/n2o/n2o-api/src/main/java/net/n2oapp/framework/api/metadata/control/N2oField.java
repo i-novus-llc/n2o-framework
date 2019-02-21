@@ -87,6 +87,9 @@ public abstract class N2oField extends N2oComponent {
     public static class SetValueDependency extends Dependency {
     }
 
+    public static class FetchDependency extends Dependency {
+    }
+
     @Getter
     @Setter
     public static class VisibilityDependency extends Dependency {

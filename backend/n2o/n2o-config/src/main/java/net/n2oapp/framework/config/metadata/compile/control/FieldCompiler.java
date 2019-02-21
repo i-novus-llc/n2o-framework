@@ -294,6 +294,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     dependency.setType(ValidationType.visible);
                 else if (d instanceof N2oField.SetValueDependency)
                     dependency.setType(ValidationType.setValue);
+                else if (d instanceof N2oField.FetchDependency)
+                    dependency.setType(ValidationType.fetch);
 
                 dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
                 dependency.setApplyOnInit(p.cast(d.getApplyOnInit(), true));

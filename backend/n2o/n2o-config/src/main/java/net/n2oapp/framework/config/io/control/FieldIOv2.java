@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationCondition;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
 import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
 import org.jdom.Element;
@@ -34,7 +33,8 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
                 .add("enabling", N2oField.EnablingDependency.class, this::dependency)
                 .add("visibility", N2oField.VisibilityDependency.class, this::visibilityDependency)
                 .add("requiring", N2oField.RequiringDependency.class, this::dependency)
-                .add("set-value", N2oField.SetValueDependency.class, this::dependency));
+                .add("set-value", N2oField.SetValueDependency.class, this::dependency)
+                .add("fetch", N2oField.FetchDependency.class, this::dependency));
         p.child(e, null, "validations", m::getValidations, m::setValidations,
                 N2oField.Validations.class, this::inlineValidations);
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
