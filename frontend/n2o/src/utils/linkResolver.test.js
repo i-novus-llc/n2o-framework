@@ -41,7 +41,7 @@ describe('Проверка linkResolver', () => {
     const res = linkResolver(state, {
       value: '`2+2`'
     });
-    expect(4).toBe(4);
+    expect(res).toBe(4);
   });
   it('value и link', () => {
     const res = linkResolver(state, {
@@ -214,5 +214,12 @@ describe('Проверка linkResolver', () => {
       begin: moment().format('DD.MM.YYYY HH:mm:ss'),
       end: moment().format('DD.MM.YYYY HH:mm:ss')
     });
+  });
+  it('value и link (кривой), value обьект', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: { key: '`this.x`' }
+    });
+    expect(res).toEqual({});
   });
 });
