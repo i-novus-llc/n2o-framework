@@ -222,4 +222,29 @@ describe('Проверка linkResolver', () => {
     });
     expect(res).toEqual({});
   });
+
+  it('value обьект с массивом и обьектами с js выражением', () => {
+    const res = linkResolver(state, {
+      link: 'a.b.c',
+      value: {
+        key: {
+          key1: [
+            {
+              key10: '`1+2`'
+            }
+          ]
+        },
+        key3: {
+          key4: {
+            key5: "`(function(){ return 'hi' })()`",
+            key6: ['`this+"-n2o"`', '`123`']
+          }
+        }
+      }
+    });
+    expect(res).toEqual({
+      key: { key1: [{ key10: 3 }] },
+      key3: { key4: { key5: 'hi', key6: ['test-n2o', 123] } }
+    });
+  });
 });
