@@ -1,0 +1,21 @@
+{
+  "className": "n2o",
+  "preset": "money",
+  "dictionary": {},
+  "guide": true,
+  "keepCharPositions": false,
+  "resetOnNotValid": true,
+  "presetConfig": {
+    "prefix": "# ",
+    "suffix": " руб.",
+    "includeThousandsSeparator": true,
+    "thousandsSeparatorSymbol": " ",
+    "allowDecimal": true,
+    "decimalSymbol": ",",
+    "decimalLimit": 2,
+    "integerLimit": null,
+    "requireDecimal": false,
+    "allowNegative": false,
+    "allowLeadingZeroes": false
+  }
+}
