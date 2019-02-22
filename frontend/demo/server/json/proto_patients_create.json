@@ -181,7 +181,8 @@
             },
             "color": "primary",
             "title": "Сохранить",
-            "validate": true
+            "validate": true,
+            "validatedWidgetId": "main"
           },
           {
             "id": "close",
