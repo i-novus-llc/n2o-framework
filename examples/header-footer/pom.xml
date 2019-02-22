@@ -4,7 +4,7 @@
 
     <groupId>net.n2oapp.framework.examples</groupId>
     <artifactId>header-footer</artifactId>
-    <version>7.0.2</version>
+    <version>7.0.5</version>
     <packaging>jar</packaging>
     <name>header-footer</name>
 

@@ -1,6 +1,7 @@
 {
   "Page_Table": {
     "src": "TableWidget",
+    "className": "n2o",
     "dataProvider": {
       "url": "n2o/data/test",
       "pathMapping": {
@@ -166,8 +167,7 @@
       "size": 10,
       "fetchOnInit": true,
       "hasSelect": true,
-      "className": "n2o",
-      "rowColor": "`gender.id == '1' ? 'red' : gender.id == '2' ? 'blue' : gender.id == '3' ? 'white' : 'green'`",
+      "rowColor": "`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`",
       "style": {},
       "hasFocus": true,
       "autoFocus": false,

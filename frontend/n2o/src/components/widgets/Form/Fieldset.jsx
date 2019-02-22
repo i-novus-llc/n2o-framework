@@ -196,14 +196,17 @@ class Fieldset extends React.Component {
   }
 
   render() {
-    const { component: ElementType, children, ...rest } = this.props;
+    const { className, style, component: ElementType, children, ...rest } = this.props;
     this.fields = [];
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
     }
 
     return (
-      <div className={cx('n2o-fieldset', { 'd-none': !this.state.visibleFieldset })}>
+      <div
+        className={cx('n2o-fieldset', className, { 'd-none': !this.state.visibleFieldset })}
+        style={style}
+      >
         <ElementType {...rest} render={rows => rows.map((row, id) => this.renderRow(id, row))} />
       </div>
     );

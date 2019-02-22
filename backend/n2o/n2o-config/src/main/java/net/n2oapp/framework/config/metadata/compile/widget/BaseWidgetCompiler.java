@@ -25,6 +25,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -61,6 +62,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         String localWidgetId = initLocalWidgetId(source, p);
         source.setId(localWidgetId);
         compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
+        compiled.setClassName(source.getCssClass());
+        compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
         compiled.setQueryId(source.getQueryId());
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
@@ -71,7 +74,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setIcon(source.getIcon());
         compiled.setProperties(p.mapAttributes(source));
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
-        compileFetchDependency(compiled, source, p);
+        compileDependencies(compiled, source, p);
         initFilters(compiled, source, p);
     }
 
@@ -389,19 +392,38 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
     }
 
-    private void compileFetchDependency(D compiled, S source, CompileProcessor p) {
+    private void compileDependencies(D compiled, S source, CompileProcessor p) {
+        WidgetDependency dependency = new WidgetDependency();
+        String masterWidgetId = null;
         if (source.getDependsOn() != null) {
-            FetchDependency dependency = new FetchDependency();
-            List<FetchDependency.On> fetch = new ArrayList<>();
+            List<WidgetDependency.Condition> fetch = new ArrayList<>();
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
-                String masterWidgetId = widgetScope.getDependsOnWidgetId();
+                masterWidgetId = widgetScope.getDependsOnWidgetId();
                 ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
-                fetch.add(new FetchDependency.On(bindLink.getBindLink()));
+                WidgetDependency.Condition condition = new WidgetDependency.Condition();
+                condition.setOn(bindLink.getBindLink());
+                fetch.add(condition);
             }
             dependency.setFetch(fetch);
-            compiled.setDependency(dependency);
         }
+        if (source.getVisible() != null) {
+            Object condition = p.resolveJS(source.getVisible(), Boolean.class);
+            if (StringUtils.isJs(condition)) {
+                WidgetDependency.Condition visibilityCondition = new WidgetDependency.Condition();
+                List<WidgetDependency.Condition> visible = new ArrayList<>();
+                if (masterWidgetId != null) {
+                    visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
+                }
+                visibilityCondition.setCondition(((String) condition).substring(1, ((String) condition).length() - 1));
+                visible.add(visibilityCondition);
+                dependency.setVisible(visible);
+            } else if (condition instanceof Boolean) {
+                compiled.setVisible((Boolean) condition);
+            }
+        }
+        if (!dependency.isEmpty())
+            compiled.setDependency(dependency);
     }
 
     /**
@@ -476,7 +498,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            ModelsScope modelsScope,
                                            FiltersScope filtersScope,
                                            SubModelsScope subModelsScope,
-                                           UploadScope uploadScope) {
+                                           UploadScope uploadScope,
+                                           MomentScope momentScope) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -500,7 +523,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 fieldSet = newFieldset;
             }
             fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
-                    widgetScope, fieldSetScope, modelsScope, filtersScope, indexScope, subModelsScope, uploadScope));
+                    widgetScope, fieldSetScope, modelsScope, filtersScope,
+                    indexScope, subModelsScope, uploadScope, momentScope));
         }
         return fieldSets;
     }

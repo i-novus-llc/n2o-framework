@@ -25,6 +25,7 @@
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "id": "surname",
                           "placeholder": "Введите значение",
                           "src": "InputText"
                         }
@@ -40,6 +41,7 @@
                         "label": "Имя",
                         "dependency": [],
                         "control": {
+                          "id": "name",
                           "src": "InputText"
                         }
                       }
@@ -53,6 +55,7 @@
                         "label": "Отчество",
                         "dependency": [],
                         "control": {
+                          "id": "patrName",
                           "src": "InputText"
                         }
                       }
@@ -71,6 +74,7 @@
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -95,6 +99,7 @@
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
+                          "id": "birthday",
                           "src": "DatePicker",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
@@ -119,6 +124,7 @@
                           }
                         ],
                         "control": {
+                          "id": "vip",
                           "label": "VIP",
                           "src": "Checkbox"
                         }
@@ -180,7 +186,8 @@
             },
             "color": "primary",
             "title": "Сохранить",
-            "validate": true
+            "validate": true,
+            "validatedWidgetId": "main"
           },
           {
             "id": "close",
@@ -201,6 +208,7 @@
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
           "widgetId": "proto_patients_update_main",
+          "pageId":"proto_patients_update",
           "dataProvider": {
             "url": "n2o/data/proto/patients/5607677/update/submit",
             "pathMapping": {},

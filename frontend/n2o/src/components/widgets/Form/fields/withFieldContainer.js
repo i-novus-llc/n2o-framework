@@ -40,10 +40,11 @@ export default Field => {
         isInit,
         visible,
         disabled,
-        dependency
+        dependency,
+        required
       } = props;
       if (!isInit) {
-        dispatch(registerFieldExtra(form, name, { visible, disabled, dependency }));
+        dispatch(registerFieldExtra(form, name, { visible, disabled, dependency, required }));
       }
     }
 
@@ -130,12 +131,13 @@ export default Field => {
     const { name } = ownProps.input;
     const isVisible = isVisibleSelector(form, name)(state);
     const isDisabled = isDisabledSelector(form, name)(state);
+    const isRequired = requiredSelector(form, name)(state);
     return {
       isInit: isInitSelector(form, name)(state),
       visible: isBoolean(isVisible) ? isVisible : ownProps.visible,
       disabled: isBoolean(isDisabled) ? isDisabled : ownProps.disabled,
       message: messageSelector(form, name)(state),
-      required: requiredSelector(form, name)(state),
+      required: isBoolean(isRequired) ? isRequired : ownProps.required,
       filterValues: filterSelector(form, name)(state)
     };
   };

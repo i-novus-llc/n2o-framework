@@ -1,19 +1,15 @@
 package net.n2oapp.framework.api.metadata.meta.widget;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.aware.SrcAware;
+import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
-import net.n2oapp.framework.api.metadata.meta.FetchDependency;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 
@@ -24,7 +20,7 @@ import java.util.*;
  */
 @Getter
 @Setter
-public abstract class Widget<T extends WidgetComponent> implements Compiled, SrcAware, PropertiesAware {
+public abstract class Widget<T extends WidgetComponent> extends Component {
     private String id;
     private String route;
     /**
@@ -47,35 +43,21 @@ public abstract class Widget<T extends WidgetComponent> implements Compiled, Src
     private Set<String> notCopiedFields;
     private List<Validation> validations = new ArrayList<>();
     @JsonProperty
-    private String src;
-    @JsonProperty
     private WidgetDataProvider dataProvider;
     @JsonProperty
     private Toolbar toolbar;
     @JsonProperty
     private Map<String, Action> actions;
     @JsonProperty
-    private FetchDependency dependency;
-    private Map<String, Object> properties;
+    private WidgetDependency dependency;
+    @JsonProperty
+    private Boolean visible;
 
     public Widget() {
     }
 
     public Widget(T component) {
         this.component = component;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getJsonProperties() {
-        return properties;
-    }
-
-    public List<SubModelQuery> getSubModelQueriesForField() {
-        return Collections.emptyList();//todo
-    }
-
-    public List<SubModelQuery> getSubModelQueriesForFilter() {
-        return Collections.emptyList();//todo
     }
 
     public Filter getFilter(String filterId) {

@@ -2,7 +2,9 @@ package net.n2oapp.framework.config.reader.widget;
 
 import net.n2oapp.context.CacheTemplateByMapMock;
 import net.n2oapp.context.StaticSpringContext;
+import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
@@ -104,7 +106,8 @@ public class WidgetXmlReaderTest {
 
     protected void assertStandardForm(N2oForm form) {
         assert form.getItems().length == 1;
-        assert  ((N2oField)((N2oFieldsetRow)((N2oFieldSet)form.getItems()[0]).getItems()[0]).getItems()[0]).getId().equals("id");
+        NamespaceUriAware field = ((N2oFieldsetRow) ((N2oFieldSet) form.getItems()[0]).getItems()[0]).getItems()[0];
+        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
     }
 
     protected void assertFieldSetAttribute(N2oForm form, boolean isRow) {
@@ -114,7 +117,8 @@ public class WidgetXmlReaderTest {
         assert fieldSet.getFieldLabelLocation().name().toLowerCase().equals("left");
         assert fieldSet.getLabel().equals("test");
         assert ((N2oFieldsetRow)fieldSet.getItems()[0]).getClass().equals(N2oFieldsetRow.class);
-        assert (((N2oField)((N2oFieldsetRow)fieldSet.getItems()[0]).getItems()[0]).getId().equals("id"));
+        NamespaceUriAware field =((N2oFieldsetRow)fieldSet.getItems()[0]).getItems()[0];
+        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
     }
 
     protected void assertStandardTable(N2oTable table) {
@@ -175,7 +179,9 @@ public class WidgetXmlReaderTest {
 
         assert table.getFilterOpened().equals(true);
         assert table.getFilterPosition().name().toLowerCase().equals("left");
-        assert ((N2oField)((N2oFieldSet)((N2oFieldSet)table.getFilters()[0]).getItems()[1]).getItems()[0]).getId().equals("id");
+
+        NamespaceUriAware field = ((N2oFieldSet) ((N2oFieldSet) table.getFilters()[0]).getItems()[1]).getItems()[0];
+        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
 
         assert table.getColumns()[0].getSortingDirection().toString().toLowerCase().equals("asc");
 

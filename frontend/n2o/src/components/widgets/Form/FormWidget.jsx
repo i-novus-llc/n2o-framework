@@ -42,10 +42,17 @@ class FormWidget extends React.Component {
    * @return {XML}
    */
   render() {
-    const { id: widgetId, disabled, toolbar, actions, pageId } = this.props;
+    const { id: widgetId, disabled, toolbar, actions, pageId, className, style } = this.props;
 
     return (
-      <StandardWidget disabled={disabled} widgetId={widgetId} toolbar={toolbar} actions={actions}>
+      <StandardWidget
+        disabled={disabled}
+        widgetId={widgetId}
+        toolbar={toolbar}
+        actions={actions}
+        className={className}
+        style={style}
+      >
         <FormContainer widgetId={widgetId} pageId={pageId} {...this.getWidgetProps()} />
       </StandardWidget>
     );
@@ -57,6 +64,8 @@ FormWidget.defaultProps = {
 };
 
 FormWidget.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
   containerId: PropTypes.string.isRequired,
   pageId: PropTypes.string.isRequired,
   widgetId: PropTypes.string,

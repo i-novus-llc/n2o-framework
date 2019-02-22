@@ -24,12 +24,12 @@ import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 export function* validate(options) {
   const isTouched = true;
   const state = yield select();
-  const validationConfig = yield select(makeWidgetValidationSelector(options.containerKey));
-  const values = (yield select(getFormValues(options.containerKey))) || {};
+  const validationConfig = yield select(makeWidgetValidationSelector(options.widgetNeedToValidate));
+  const values = (yield select(getFormValues(options.widgetNeedToValidate))) || {};
   const notValid =
     options.validate &&
     (yield call(
-      validateField(validationConfig, options.containerKey, state, isTouched),
+      validateField(validationConfig, options.widgetNeedToValidate, state, isTouched),
       values,
       options.dispatch
     ));
@@ -87,9 +87,9 @@ export function* fetchInvoke(dataProvider, model) {
   return response;
 }
 
-export function* handleFailInvoke(action, widgetId, err) {
-  const meta = merge(action.meta.fail, (err.body && err.body.meta) || {});
-  yield put(createActionHelper(FAIL_INVOKE)({ widgetId, err }, meta));
+export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
+  const meta = merge(metaInvokeFail, metaResponse);
+  yield put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta));
 }
 
 /**
@@ -128,7 +128,11 @@ export function* handleInvoke(action) {
       )
     );
   } catch (err) {
-    yield* handleFailInvoke(action, widgetId, err);
+    yield* handleFailInvoke(
+      action.meta.fail || {},
+      widgetId,
+      err.json && err.json.meta ? err.json.meta : {}
+    );
   } finally {
     if (pageId) {
       yield put(enablePage(pageId));

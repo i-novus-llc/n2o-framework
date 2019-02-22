@@ -4,9 +4,6 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 
 import java.io.Serializable;
 
-/**
- * @author V. Alexeev.
- */
 public class N2oWizard extends N2oWidget {
 
     private Step[] steps;

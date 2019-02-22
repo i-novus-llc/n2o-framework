@@ -25,6 +25,7 @@ import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
@@ -66,6 +67,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.getOptions().getMeta().setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId));
         invokeAction.getOptions().getMeta().setFail(initFailMeta(invokeAction, source, context, p, targetWidgetId));
         invokeAction.getOptions().getPayload().setWidgetId(targetWidgetId);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope == null) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            invokeAction.getOptions().getPayload().setPageId(pageScope.getPageId());
+        }
         initDataProvider(invokeAction, source, context, p, targetWidgetModel);
         return invokeAction;
     }

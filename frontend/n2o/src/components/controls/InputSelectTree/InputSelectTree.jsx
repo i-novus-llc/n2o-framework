@@ -1,5 +1,6 @@
 import React from 'react';
 import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
+import ReactDOM from 'react-dom';
 import {
   difference,
   filter as filterF,
@@ -7,6 +8,7 @@ import {
   every,
   find,
   isArray,
+  isNumber,
   isString,
   isEmpty,
   keys,
@@ -68,7 +70,7 @@ import cx from 'classnames';
  * @returns {*}
  * @constructor
  */
-
+//TODO переделать в класс
 function InputSelectTree({
   onOpen,
   onFocus,
@@ -144,8 +146,13 @@ function InputSelectTree({
     );
 
     keys(itemsByID).forEach(key => {
-      if (itemsByID[key][parentFieldId])
+      if (
+        itemsByID[key][parentFieldId] &&
+        itemsByID[itemsByID[key][parentFieldId]] &&
+        itemsByID[itemsByID[key][parentFieldId]].children
+      ) {
         itemsByID[itemsByID[key][parentFieldId]].children.push({ ...itemsByID[key] });
+      }
     });
 
     return keys(itemsByID)
@@ -255,6 +262,17 @@ function InputSelectTree({
     return buff;
   };
 
+  const getSingleValue = value => find(data, [valueFieldId, value]);
+  const getMultiValue = value => {
+    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
+      return getChildWithParenId(value, data);
+    } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
+      return getParentsWithChildId(value, data);
+    } else {
+      // стратегия SHOW_ALL
+      return getDataByIds(value);
+    }
+  };
   /**
    * Функция преобразования value rcTreeSelect в формат n2o
    * Производит поиск по родителям и потомкам.
@@ -266,20 +284,10 @@ function InputSelectTree({
    */
   const getItemByValue = value => {
     if (!value) return null;
-    if (isString(value)) {
-      return find(data, [valueFieldId, value]);
+    if (!multiSelect) {
+      return getSingleValue(value);
     }
-
-    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
-      return getChildWithParenId(value, data);
-    }
-
-    if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
-      return getParentsWithChildId(value, data);
-    }
-
-    // стратегия SHOW_ALL
-    return getDataByIds(value);
+    return getMultiValue(value);
   };
 
   /**
@@ -327,6 +335,11 @@ function InputSelectTree({
    * @returns {boolean}
    */
   const handleDropdownVisibleChange = visible => {
+    if (visible) {
+      onFocus();
+    } else {
+      onBlur();
+    }
     onToggle(visible);
     visible ? onOpen() : onClose();
     if (ajax) setTreeExpandedKeys([]);
@@ -351,6 +364,8 @@ function InputSelectTree({
 
   const inputIcon = loading ? <InlineSpinner /> : <Icon name="fa fa-chevron-down" />;
 
+  const getPopupContainer = container => container;
+
   return (
     <TreeSelect
       tabIndex={-1}
@@ -374,6 +389,7 @@ function InputSelectTree({
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
       showCheckedStrategy={showCheckedStrategy}
+      getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
         defaultMessage: notFoundContent || ' '
@@ -386,19 +402,6 @@ function InputSelectTree({
         id: 'inputSelectTree.searchPlaceholder',
         defaultMessage: searchPlaceholder || ' '
       })}
-      ref={e => {
-        if (e) {
-          ref && ref(e);
-          e.onSelectorBlur = event => {
-            onBlur(event);
-            return true;
-          };
-          e.onSelectorFocus = event => {
-            onFocus(event);
-            return true;
-          };
-        }
-      }}
       {...rest}
     >
       {children}

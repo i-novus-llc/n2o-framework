@@ -127,4 +127,16 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         InvokeAction a1 = (InvokeAction) page.getWidgets().get("p_create_w1").getActions().get("a1");
         assertThat(a1.getOptions().getMeta().getSuccess().getRedirect().getPath(), is("/p/123"));
     }
+
+    @Test
+    public void pageAction() {
+        Page page = (Page) compile("net/n2oapp/framework/config/metadata/compile/action/testPageInvokeAction.page.xml")
+                .get(new PageContext("testPageInvokeAction", "/p"));
+        InvokeAction testAction = (InvokeAction) page.getActions().get("test");
+        assertThat(testAction.getSrc(), is("perform"));
+        assertThat(testAction.getOptions().getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getOptions().getPayload().getModelLink(), is("models.filter['p_w']"));
+        assertThat(testAction.getOptions().getPayload().getWidgetId(), is("p_w"));
+        assertThat(testAction.getOptions().getPayload().getPageId(), is("p"));
+    }
 }

@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Abstrac
 
 @Getter
 @Setter
-public abstract class N2oAbstractTable<T extends N2oAbstractTable> extends N2oWidget<T> {
+public abstract class N2oAbstractTable extends N2oWidget {
     private AbstractColumn[] columns;
     private N2oRow rows;
     private N2oPagination pagination;
@@ -17,18 +17,6 @@ public abstract class N2oAbstractTable<T extends N2oAbstractTable> extends N2oWi
     private Boolean hasCheckboxes;
     private Boolean autoSelect;
     private Boolean selected;
-
-    @Override
-    public boolean isNavSupport() {
-        return true;
-    }
-
-
-    public enum DirectionType {
-        NONE,
-        ASC,
-        DESC
-    }
 
     public enum PagingMode {
         on, off, lazy

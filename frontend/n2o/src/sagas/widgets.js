@@ -201,14 +201,16 @@ export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId)
       dataFailWidget(
         widgetId,
         err,
-        err.body || {
-          meta: generateErrorMeta({
-            id: id(),
-            text: `Произошла внутренняя ошибка`,
-            stacktrace: err.stack,
-            closeButton: true
-          })
-        }
+        err.json && err.json.meta
+          ? err.json.meta
+          : {
+              meta: generateErrorMeta({
+                id: id(),
+                text: `Произошла внутренняя ошибка`,
+                stacktrace: err.stack,
+                closeButton: true
+              })
+            }
       )
     );
   }

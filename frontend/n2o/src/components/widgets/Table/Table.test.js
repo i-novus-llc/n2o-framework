@@ -36,6 +36,7 @@ const setup = propOverrides => {
       datasource={tableData}
       headers={headers}
       cells={cells}
+      redux={false}
       isActive={true}
       {...propOverrides}
     />
