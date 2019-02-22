@@ -1,18 +1,21 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import fetchMock from 'fetch-mock';
-import { uniqueId } from 'lodash';
 import InputSelectTreeContainer from './InputSelectTreeContainer';
 import InputSelectTreeContainerJson from './InputSelectTreeContainer.meta';
 import { parseUrl } from 'N2oStorybook/fetchMock';
 import withForm from 'N2oStorybook/decorators/withForm';
-import { Col, Button, Form, FormGroup, Label, Input, Row } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { withState } from 'recompose';
-import InputSelectTree from './InputSelectTree';
+import { WIDGETS } from '../../../core/factory/factoryLevels';
+import { InputSelectTreeDefaultValue } from 'N2oStorybook/json';
+import Factory from '../../../core/factory/Factory';
+
 const stories = storiesOf('Контролы/InputSelectTree', module);
 const form = withForm({ src: 'InputSelectTree' });
+
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelectTree'));
 
@@ -772,4 +775,41 @@ stories
 
       return props;
     })
-  );
+  )
+  .add('Предустановленные данные', () => {
+    const delay = ms => new Promise(r => setTimeout(() => r(), ms));
+
+    fetchMock.restore().get('begin:n2o/formData', {
+      list: [
+        {
+          field: [
+            {
+              id: '1',
+              name: 'Алексей Николаев',
+              icon: 'fa fa-address-card',
+              image: 'https://img.faceyourmanga.com/mangatars/0/2/2729/large_3206.png',
+              dob: '11.09.1992',
+              country: 'Россия',
+              hasChildren: true
+            },
+            {
+              id: '5',
+              name: 'Николай Патухов',
+              icon: 'fa fa-address-card',
+              image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_9319.png',
+              dob: '20.11.1991',
+              country: 'Беларусь',
+              parentId: '4',
+              hasChildren: false
+            }
+          ]
+        }
+      ]
+    });
+    fetchMock.get(dataUrl, async () => {
+      await delay(1000);
+      return handleData(data);
+    });
+
+    return <Factory level={WIDGETS} {...InputSelectTreeDefaultValue['Page_Form']} id="Page_Form" />;
+  });
