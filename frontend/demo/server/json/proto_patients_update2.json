@@ -282,7 +282,7 @@
             "color": "primary",
             "title": "Сохранить",
             "validate": true,
-            "validatedWidgetId": "main"
+            "validatedWidgetId": "proto_patients_update2_main"
           },
           {
             "id": "close",
