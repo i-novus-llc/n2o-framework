@@ -71,12 +71,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         if (source.getPreFilters() != null) {
 
             for (N2oPreFilter filter : source.getPreFilters()) {
+                String resolveOnJS = p.resolveJS(filter.getValue());
                 if (StringUtils.hasLink(filter.getValue()) &&
                         result.getDependencies().stream().noneMatch(d -> d.getType() == ValidationType.fetch &&
-                                d.getOn().contains(filter.getFieldId()))) {
+                                d.getOn().contains(resolveOnJS))) {
                     ControlDependency fetchCD = new ControlDependency();
                     fetchCD.setType(ValidationType.fetch);
-                    fetchCD.setOn(Collections.singletonList(filter.getFieldId()));
+                    fetchCD.setOn(Collections.singletonList(resolveOnJS));
                     result.addDependency(fetchCD);
                 }
             }

@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.control.CheckboxGroupCompiler;
+import net.n2oapp.framework.config.metadata.compile.control.InputSelectCompiler;
 import net.n2oapp.framework.config.metadata.compile.control.RadioGroupCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -30,7 +31,7 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(),
                 new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack());
-        builder.compilers(new CheckboxGroupCompiler(), new RadioGroupCompiler());
+        builder.compilers(new CheckboxGroupCompiler(), new RadioGroupCompiler(), new InputSelectCompiler());
     }
 
     @Test
@@ -43,14 +44,14 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(checkboxGrp1.getDependencies().size(), is(1));
         assertThat(checkboxGrp1.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(checkboxGrp1.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(checkboxGrp1.getDependencies().get(0).getOn().get(0), is("testFieldId1"));
+        assertThat(checkboxGrp1.getDependencies().get(0).getOn().get(0), is("`type`"));
 
         Field checkboxGrp2 = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(checkboxGrp2.getId(), is("chb2"));
         assertThat(checkboxGrp2.getDependencies().size(), is(1));
         assertThat(checkboxGrp2.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(checkboxGrp2.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(checkboxGrp2.getDependencies().get(0).getOn().get(0), is("testFieldId2"));
+        assertThat(checkboxGrp2.getDependencies().get(0).getOn().get(0), is("`type`"));
 
         Field checkboxGrp3 = form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(checkboxGrp3.getId(), is("chb3"));
@@ -62,18 +63,32 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(radioGrp1.getDependencies().size(), is(1));
         assertThat(radioGrp1.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(radioGrp1.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(radioGrp1.getDependencies().get(0).getOn().get(0), is("testFieldId3"));
+        assertThat(radioGrp1.getDependencies().get(0).getOn().get(0), is("`type`"));
 
         Field radioGrp2 = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
         assertThat(radioGrp2.getId(), is("rg2"));
-        assertThat(radioGrp2.getDependencies().size(), is(1));
+        assertThat(radioGrp2.getDependencies().size(), is(2));
         assertThat(radioGrp2.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(radioGrp2.getDependencies().get(0).getOn().size(), is(1));
         assertThat(radioGrp2.getDependencies().get(0).getOn().get(0), is("testFieldId4"));
+        assertThat(radioGrp2.getDependencies().get(1).getType(), is(ValidationType.fetch));
+        assertThat(radioGrp2.getDependencies().get(1).getOn().size(), is(1));
+        assertThat(radioGrp2.getDependencies().get(1).getOn().get(0), is("`type`"));
 
         Field radioGrp3 = form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
         assertThat(radioGrp3.getId(), is("rg3"));
         assertThat(radioGrp3.getDependencies().size(), is(0));
+
+        Field inputSelect1 = form.getComponent().getFieldsets().get(0).getRows().get(6).getCols().get(0).getFields().get(0);
+        assertThat(inputSelect1.getId(), is("is1"));
+        assertThat(inputSelect1.getDependencies().size(), is(0));
+
+        Field inputSelect2 = form.getComponent().getFieldsets().get(0).getRows().get(7).getCols().get(0).getFields().get(0);
+        assertThat(inputSelect2.getId(), is("is2"));
+        assertThat(inputSelect2.getDependencies().size(), is(1));
+        assertThat(inputSelect2.getDependencies().get(0).getType(), is(ValidationType.fetch));
+        assertThat(inputSelect2.getDependencies().get(0).getOn().size(), is(1));
+        assertThat(inputSelect2.getDependencies().get(0).getOn().get(0), is("testFetchOn"));
     }
 
 }

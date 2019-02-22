@@ -23,12 +23,8 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
                 .add("enabling", N2oField.EnablingDependency.class, this::dependency)
                 .add("visibility", N2oField.VisibilityDependency.class, this::visibilityDependency)
                 .add("requiring", N2oField.RequiringDependency.class, this::dependency)
-                .add("set-value", N2oField.SetValueDependency.class, this::dependency));
-
                 .add("set-value", N2oField.SetValueDependency.class, this::dependency)
                 .add("fetch", N2oField.FetchDependency.class, this::dependency));
-        p.child(e, null, "validations", m::getValidations, m::setValidations,
-                N2oField.Validations.class, this::inlineValidations);
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
     }
 
