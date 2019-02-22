@@ -51,33 +51,4 @@ describe('<FieldSelts />', () => {
     const { wrapper } = setup();
     expect(wrapper.find(StandardFieldset).exists()).toBeTruthy();
   });
-
-  // it('Проверяем изменение видимости элемента', () => {
-  //   const { wrapper, store } = setup({
-  //     models: {
-  //       resolve: {
-  //         __form: {
-  //           id: 2
-  //         }
-  //       }
-  //     }
-  //   });
-  //   wrapper.update();
-  //   expect(store.getActions()[0].type).toEqual(DISABLE_FIELDS);
-  //   expect(store.getActions()[1].type).toEqual(SHOW_FIELDS);
-  // });
-  // it('Проверяем изменение enable элемента', () => {
-  //   const { wrapper, store } = setup({
-  //     models: {
-  //       resolve: {
-  //         __form: {
-  //           id: 3
-  //         }
-  //       }
-  //     }
-  //   });
-  //   wrapper.update();
-  //   expect(store.getActions()[0].type).toEqual(ENABLE_FIELDS);
-  //   expect(store.getActions()[1].type).toEqual(HIDE_FIELDS);
-  // });
 });

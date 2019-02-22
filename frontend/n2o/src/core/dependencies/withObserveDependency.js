@@ -5,7 +5,7 @@ import observeStore from '../../utils/observeStore';
 import { setWatchDependency } from '../../components/widgets/Form/utils';
 import { DEPENDENCY_TYPES } from '../dependencyTypes';
 
-export default (config = {}) => WrappedComponent => {
+export default config => WrappedComponent => {
   class ReRenderComponent extends Component {
     constructor(props) {
       super(props);
@@ -41,11 +41,10 @@ export default (config = {}) => WrappedComponent => {
     }
 
     reRenderDependencyAction() {
-      this._reRenderRef.forceUpdate(() => {
-        if (isFunction(config.onChange)) {
-          config.onChange.apply(this._componentRef, [this.props]);
-        }
-      });
+      this._reRenderRef && this._reRenderRef.forceUpdate();
+      if (isFunction(config.onChange)) {
+        config.onChange.apply(this._componentRef, [this.props]);
+      }
     }
 
     setComponentRef(el) {
