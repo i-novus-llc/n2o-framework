@@ -1,4 +1,5 @@
 import linkResolver from './linkResolver';
+import moment from 'moment';
 
 const config = {
   link: '',
@@ -199,5 +200,19 @@ describe('Проверка linkResolver', () => {
       value: [{ key: { key1: '`1+3`' } }, { key: { key1: '`1+4`' } }]
     });
     expect(res).toEqual([{ key: { key1: 4 } }, { key: { key1: 5 } }]);
+  });
+
+  it('value с типом коллекция (вложенные обьекты) с js data', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: {
+        end: "`$.now({ dateFormat: 'DD.MM.YYYY', timeFormat: 'HH:mm:ss' })`",
+        begin: "`$.now({ dateFormat: 'DD.MM.YYYY', timeFormat: 'HH:mm:ss' })`"
+      }
+    });
+    expect(res).toEqual({
+      begin: moment().format('DD.MM.YYYY HH:mm:ss'),
+      end: moment().format('DD.MM.YYYY HH:mm:ss')
+    });
   });
 });

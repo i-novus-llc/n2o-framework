@@ -3,7 +3,8 @@ import evalExpression, { parseExpression } from './evalExpression';
 
 function parseAndReplace(string, context) {
   return string.replace(/\"\`([^`]*)\`\"/gim, (_, expression) => {
-    return evalExpression(expression, context);
+    const res = evalExpression(expression, context);
+    return isString(res) ? `"${res}"` : res;
   });
 }
 
