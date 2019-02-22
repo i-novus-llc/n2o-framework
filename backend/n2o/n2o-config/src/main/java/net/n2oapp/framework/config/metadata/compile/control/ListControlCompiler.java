@@ -66,24 +66,24 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         return source.isSingle() ? values : Collections.singletonList(values);
     }
 
-    protected StandardField<T> compileFetchDependencies(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        StandardField<T> result = compileListControl(listControl, source, context, p);
-        if (source.getPreFilters() != null) {
-
+    protected StandardField<T> compileFetchDependencies(StandardField<T> field, S source, CompileProcessor p) {
+        if (source.getPreFilters() != null && field.getDependencies().stream().noneMatch(d -> d.getType() == ValidationType.fetch)) {
+            Set<String> setOn = new HashSet<>();
             for (N2oPreFilter filter : source.getPreFilters()) {
-                String preOnJS = p.resolveJS(filter.getValue());
-                String resolveOnJS = preOnJS.substring(1, preOnJS.length() - 1);
-                if (StringUtils.hasLink(filter.getValue()) &&
-                        result.getDependencies().stream().noneMatch(d -> d.getType() == ValidationType.fetch &&
-                                d.getOn().contains(resolveOnJS))) {
-                    ControlDependency fetchCD = new ControlDependency();
-                    fetchCD.setType(ValidationType.fetch);
-                    fetchCD.setOn(Collections.singletonList(resolveOnJS));
-                    result.addDependency(fetchCD);
+                if (StringUtils.hasLink(filter.getValue())) {
+                    String resolveOnJS = p.resolveJS(filter.getValue());
+                    resolveOnJS = resolveOnJS.substring(1, resolveOnJS.length() - 1);
+                    setOn.add(resolveOnJS);
                 }
             }
+            if (!setOn.isEmpty()) {
+                ControlDependency fetchCD = new ControlDependency();
+                fetchCD.setType(ValidationType.fetch);
+                fetchCD.setOn(new ArrayList<>(setOn));
+                field.addDependency(fetchCD);
+            }
         }
-        return result;
+        return field;
     }
 
     private void initSubModel(S source, SubModelsScope scope) {

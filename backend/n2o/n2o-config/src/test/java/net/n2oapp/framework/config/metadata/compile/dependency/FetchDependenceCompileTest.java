@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.hasItems;
 
 /**
  * Тест на автоматическое добавление fetch для radio-group и checkbox-group
@@ -62,18 +63,15 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(radioGrp1.getId(), is("rg1"));
         assertThat(radioGrp1.getDependencies().size(), is(1));
         assertThat(radioGrp1.getDependencies().get(0).getType(), is(ValidationType.fetch));
-        assertThat(radioGrp1.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(radioGrp1.getDependencies().get(0).getOn().get(0), is("type"));
+        assertThat(radioGrp1.getDependencies().get(0).getOn().size(), is(2));
+        assertThat(radioGrp1.getDependencies().get(0).getOn(), hasItems("type","type2"));
 
         Field radioGrp2 = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
         assertThat(radioGrp2.getId(), is("rg2"));
-        assertThat(radioGrp2.getDependencies().size(), is(2));
+        assertThat(radioGrp2.getDependencies().size(), is(1));
         assertThat(radioGrp2.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(radioGrp2.getDependencies().get(0).getOn().size(), is(1));
         assertThat(radioGrp2.getDependencies().get(0).getOn().get(0), is("testFieldId4"));
-        assertThat(radioGrp2.getDependencies().get(1).getType(), is(ValidationType.fetch));
-        assertThat(radioGrp2.getDependencies().get(1).getOn().size(), is(1));
-        assertThat(radioGrp2.getDependencies().get(1).getOn().get(0), is("type"));
 
         Field radioGrp3 = form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
         assertThat(radioGrp3.getId(), is("rg3"));
