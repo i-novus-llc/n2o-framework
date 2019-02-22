@@ -1,9 +1,8 @@
 package net.n2oapp.framework.api.metadata.local.view;
 
-import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -11,7 +10,7 @@ import java.util.stream.Collectors;
  */
 public abstract class BindingsUtil {
 
-    public static Collection<String> getBindings(Collection<N2oField> fields) {
+    public static Collection<String> getBindings(Collection<N2oStandardField> fields) {
         return fields.stream().map(f -> {
             int idx = f.getId().indexOf(".");
             if (idx > 0) {

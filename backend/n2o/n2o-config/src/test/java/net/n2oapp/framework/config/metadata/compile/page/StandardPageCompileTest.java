@@ -154,6 +154,12 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(dataProvider.getQueryMapping().get("parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
 
         assertThat(page.getRoutes().getQueryMapping().size(), is(6));
+
+        //Условия видимости виджетов
+        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getVisible(), is(true));
+        assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
+        assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
+
     }
 
     @Test

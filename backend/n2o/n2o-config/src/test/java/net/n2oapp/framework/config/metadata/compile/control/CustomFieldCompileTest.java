@@ -36,7 +36,6 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testCustomFieldCompile.widget.xml")
                 .get(new WidgetContext("testCustomFieldCompile"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("testSrc"));
 
         ControlDependency dependency = field.getDependencies().get(0);

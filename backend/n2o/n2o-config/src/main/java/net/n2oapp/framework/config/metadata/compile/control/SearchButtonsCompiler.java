@@ -27,6 +27,7 @@ public class SearchButtonsCompiler extends ComponentCompiler<SearchButtons, N2oS
 
         compileComponent(field, source, context, p);
 
+        field.setId(source.getId());
         field.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.searchButtons.src"), String.class)));
         field.setResetLabel(source.getResetLabel());
         field.setSearchLabel(source.getSearchLabel());
