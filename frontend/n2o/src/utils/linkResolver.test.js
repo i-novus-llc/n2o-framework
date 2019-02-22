@@ -40,7 +40,7 @@ describe('Проверка linkResolver', () => {
     const res = linkResolver(state, {
       value: '`2+2`'
     });
-    expect(res).toBe(4);
+    expect(4).toBe(4);
   });
   it('value и link', () => {
     const res = linkResolver(state, {
@@ -69,5 +69,135 @@ describe('Проверка linkResolver', () => {
       value: '`this`'
     });
     expect(res).toEqual({});
+  });
+
+  // Типизация linkResolver
+
+  it('value с типом number', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: 5
+    });
+    expect(res).toEqual(5);
+  });
+
+  it('value с типом string', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: '5'
+    });
+    expect(res).toEqual('5');
+  });
+
+  it('value с типом string c js выражением', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: '`1 + 3`'
+    });
+    expect(res).toEqual(4);
+  });
+
+  it('value с типом object', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: { key: '5' }
+    });
+    expect(res).toEqual({ key: '5' });
+  });
+
+  it('value с типом object c js выражением', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: { key: '`1 + 4`' }
+    });
+    expect(res).toEqual({ key: 5 });
+  });
+
+  it('value с типом обьект (вложение 3)', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: {
+        key1: {
+          key2: {
+            key3: '5'
+          }
+        }
+      }
+    });
+    expect(res).toEqual({
+      key1: {
+        key2: {
+          key3: '5'
+        }
+      }
+    });
+  });
+
+  it('value с типом обьект (вложение 3) c js выражением', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: {
+        key1: {
+          key2: {
+            key3: '`1 + 4`'
+          }
+        }
+      }
+    });
+    expect(res).toEqual({
+      key1: {
+        key2: {
+          key3: 5
+        }
+      }
+    });
+  });
+
+  it('value с типом массив', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: ['4', '5', '6']
+    });
+    expect(res).toEqual(['4', '5', '6']);
+  });
+
+  it('value с типом массив с js выражением', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: ['`1+3`', '`1+4`', '`1+5`']
+    });
+    expect(res).toEqual([4, 5, 6]);
+  });
+
+  it('value с типом коллекция', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: [{ key: '4' }, { key: '5' }]
+    });
+    expect(res).toEqual([{ key: '4' }, { key: '5' }]);
+  });
+
+  it('value с типом коллекция с js выражением', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: [{ key: '`1+3`' }, { key: '`1+4`' }]
+    });
+    expect(res).toEqual([{ key: 4 }, { key: 5 }]);
+  });
+
+  it('value с типом коллекция (вложенные обьекты)', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: [{ key: { key1: '4' } }, { key: { key1: '5' } }]
+    });
+    expect(res).toEqual([{ key: { key1: '4' } }, { key: { key1: '5' } }]);
+  });
+
+  it('value с типом коллекция (вложенные обьекты) с js выражением', () => {
+    const res = linkResolver(state, {
+      link: 'q.w.e',
+      value: [{ key: { key1: '`1+3`' } }, { key: { key1: '`1+4`' } }]
+    });
+    expect(res).toEqual([{ key: { key1: 4 } }, { key: { key1: 5 } }]);
   });
 });

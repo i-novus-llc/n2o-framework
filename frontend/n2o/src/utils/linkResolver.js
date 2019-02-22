@@ -1,5 +1,11 @@
-import { get } from 'lodash';
+import { get, isNumber, isString } from 'lodash';
 import evalExpression, { parseExpression } from './evalExpression';
+
+function parseAndReplace(string, context) {
+  return string.replace(/\"\`([^`]*)\`\"/gim, (_, expression) => {
+    return evalExpression(expression, context);
+  });
+}
 
 /**
  * Получение значения по ссылке и выражению.
@@ -9,15 +15,18 @@ import evalExpression, { parseExpression } from './evalExpression';
  * @returns {*}
  */
 export default function linkResolver(state, { link, value }) {
-  const parsedValue = parseExpression(value);
-  let linkValue;
-  if (link) {
-    linkValue = get(state, link);
+  if (!link && !value) return;
+
+  if (isNumber(value)) return value;
+  const context = get(state, link);
+  if (!value && link) return context;
+
+  if (isString(value)) {
+    const parsedValue = parseExpression(value);
+    return parsedValue ? evalExpression(parsedValue, context) : value;
   }
 
-  if (parsedValue) {
-    return evalExpression(parsedValue, linkValue);
-  } else {
-    return value ? value : linkValue;
-  }
+  const json = JSON.stringify(value);
+  const resultString = parseAndReplace(json, context);
+  return JSON.parse(resultString);
 }
