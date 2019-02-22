@@ -38,7 +38,7 @@ function hasError(messages) {
 export default function createValidator(validationConfig = {}, formName, state) {
   return {
     asyncValidate: validateField(validationConfig, formName, state),
-    asyncChangeFields: Object.keys(validationConfig || {})
+    asyncBlurFields: Object.keys(validationConfig || {})
   };
 }
 
