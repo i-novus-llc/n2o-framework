@@ -5,15 +5,12 @@
     <ctrl:custom id="id" label="test" required="false" domain="test"
                  visible="true" depends-on="test" css-class="test" label-style="test"
                  dependency-condition="test"
-                 src="test" default-value="test">
+                 src="test">
         <ctrl:description>test</ctrl:description>
-        <ctrl:set-value-expression on="id">test</ctrl:set-value-expression>
-        <ctrl:validations>
-            <ctrl:validation ref-id="key" />
-        </ctrl:validations>
         <ctrl:dependencies>
             <ctrl:enabling-condition on="id">test</ctrl:enabling-condition>
             <ctrl:required-condition on="id">test</ctrl:required-condition>
         </ctrl:dependencies>
+        <ctrl:set-value-expression on="id">test</ctrl:set-value-expression>
     </ctrl:custom>
 </set>
