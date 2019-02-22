@@ -64,6 +64,10 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         Button b4 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
         assertThat(b4.getId(), is("testId4"));
         assertThat(b4.getValidatedWidgetId(), is("testWidgetId"));
+
+        Button b5 = f.getToolbar().get("topLeft").get(0).getButtons().get(2);
+        assertThat(b5.getId(), is("testId5"));
+        assertThat(b5.getValidatedWidgetId(), is("testToolbar"));
     }
 
     @Test
