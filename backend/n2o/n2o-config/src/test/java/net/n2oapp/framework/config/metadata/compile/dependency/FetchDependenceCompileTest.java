@@ -44,14 +44,14 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(checkboxGrp1.getDependencies().size(), is(1));
         assertThat(checkboxGrp1.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(checkboxGrp1.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(checkboxGrp1.getDependencies().get(0).getOn().get(0), is("`type`"));
+        assertThat(checkboxGrp1.getDependencies().get(0).getOn().get(0), is("type"));
 
         Field checkboxGrp2 = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(checkboxGrp2.getId(), is("chb2"));
         assertThat(checkboxGrp2.getDependencies().size(), is(1));
         assertThat(checkboxGrp2.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(checkboxGrp2.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(checkboxGrp2.getDependencies().get(0).getOn().get(0), is("`type`"));
+        assertThat(checkboxGrp2.getDependencies().get(0).getOn().get(0), is("type"));
 
         Field checkboxGrp3 = form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(checkboxGrp3.getId(), is("chb3"));
@@ -63,7 +63,7 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(radioGrp1.getDependencies().size(), is(1));
         assertThat(radioGrp1.getDependencies().get(0).getType(), is(ValidationType.fetch));
         assertThat(radioGrp1.getDependencies().get(0).getOn().size(), is(1));
-        assertThat(radioGrp1.getDependencies().get(0).getOn().get(0), is("`type`"));
+        assertThat(radioGrp1.getDependencies().get(0).getOn().get(0), is("type"));
 
         Field radioGrp2 = form.getComponent().getFieldsets().get(0).getRows().get(4).getCols().get(0).getFields().get(0);
         assertThat(radioGrp2.getId(), is("rg2"));
@@ -73,7 +73,7 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
         assertThat(radioGrp2.getDependencies().get(0).getOn().get(0), is("testFieldId4"));
         assertThat(radioGrp2.getDependencies().get(1).getType(), is(ValidationType.fetch));
         assertThat(radioGrp2.getDependencies().get(1).getOn().size(), is(1));
-        assertThat(radioGrp2.getDependencies().get(1).getOn().get(0), is("`type`"));
+        assertThat(radioGrp2.getDependencies().get(1).getOn().get(0), is("type"));
 
         Field radioGrp3 = form.getComponent().getFieldsets().get(0).getRows().get(5).getCols().get(0).getFields().get(0);
         assertThat(radioGrp3.getId(), is("rg3"));

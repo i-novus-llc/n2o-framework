@@ -11,7 +11,7 @@
                 <eq field-id="testFieldId2" value="{type}" />
             </pre-filters>
             <dependencies>
-                <fetch on="`type`"/>
+                <fetch on="type"/>
             </dependencies>
         </checkbox-group>
 
@@ -29,7 +29,7 @@
             </pre-filters>
             <dependencies>
                 <fetch on="testFieldId4"/>
-                <fetch on="`type`"/>
+                <fetch on="type"/>
             </dependencies>
         </radio-group>
 

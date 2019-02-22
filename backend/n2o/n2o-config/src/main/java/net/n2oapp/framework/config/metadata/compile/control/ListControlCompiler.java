@@ -71,7 +71,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         if (source.getPreFilters() != null) {
 
             for (N2oPreFilter filter : source.getPreFilters()) {
-                String resolveOnJS = p.resolveJS(filter.getValue());
+                String preOnJS = p.resolveJS(filter.getValue());
+                String resolveOnJS = preOnJS.substring(1, preOnJS.length() - 1);
                 if (StringUtils.hasLink(filter.getValue()) &&
                         result.getDependencies().stream().noneMatch(d -> d.getType() == ValidationType.fetch &&
                                 d.getOn().contains(resolveOnJS))) {
