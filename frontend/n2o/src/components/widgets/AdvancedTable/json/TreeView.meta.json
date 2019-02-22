@@ -1,4 +1,55 @@
 {
+  "datasource": [
+    {
+      "id": 1,
+      "name": "Афанасий",
+      "surname": "Ревин",
+      "birthday": "01.01.1950 00:00"
+    },
+    {
+      "id": 2,
+      "name": "Иннокентий",
+      "surname": "Тестировский",
+      "birthday": "01.01.1950 00:00",
+      "children": [
+        {
+          "id": "2.1",
+          "key": "2.1",
+          "name": "Test",
+          "surname": "Surname test",
+          "children": [
+            {
+              "id": "2.1.1",
+              "name": "More test",
+              "surname": "More surname test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Афанасий",
+      "surname": "Ревин",
+      "birthday": "01.01.1950 00:00",
+      "children": [
+        {
+          "id": "3.1",
+          "key": "3.1",
+          "name": "Test",
+          "surname": "Surname test",
+          "children": [
+            {
+              "id": "3.1.1",
+              "key": "3.1.1",
+              "name": "More test",
+              "surname": "More surname test"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "Page_Table": {
     "src": "AdvancedTableWidget",
     "dataProvider": {
