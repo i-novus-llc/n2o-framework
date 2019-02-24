@@ -194,7 +194,7 @@ class InputMask extends React.Component {
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
           delete props.defaultValue;
-          return <input ref={ref} {...props} onChange={props.onChange} />;
+          return <input ref={ref} {...props} />;
         }}
       />
     );

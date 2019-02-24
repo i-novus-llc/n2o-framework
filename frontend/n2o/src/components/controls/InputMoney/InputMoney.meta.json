@@ -6,7 +6,7 @@
   "keepCharPositions": false,
   "resetOnNotValid": true,
   "presetConfig": {
-    "prefix": "# ",
+    "prefix": "",
     "suffix": " руб.",
     "includeThousandsSeparator": true,
     "thousandsSeparatorSymbol": " ",

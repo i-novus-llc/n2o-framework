@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEqual, forOwn, map, reverse } from 'lodash';
+import cn from 'classnames';
+import { isEqual, forOwn, isEmpty, split } from 'lodash';
 import InputMask from '../InputMask/InputMask';
 
 const ReplaceableChar = {
@@ -10,6 +11,26 @@ const ReplaceableChar = {
   DECIMAL_SYMBOL: 'decimalSymbol'
 };
 
+/**
+ * Компонент ввода денег
+ * @reactProps {string} value - значение
+ * @reactProps {string} className - класс компонента
+ * @reactProps {object} presetConfig - настройка для ввода денег
+ * @example
+ * presetConfig: {
+ *  prefix - вывод валюты в начале
+ *  suffix - вывод валюты в конце
+ *  includeThousandsSeparator - флаг включения разделителя тысяч
+ *  thousandsSeparatorSymbol - разделитель тысяч
+ *  allowDecimal - флаг разрешения float
+ *  decimalSymbol - разделитель float
+ *  decimalLimit - лимит float
+ *  integerLimit - целочисленный лимит
+ *  requireDecimal - флаг обязательного включения float
+ *  allowNegative - флаг включения отрицательных чисел
+ *  allowLeadingZeroes - флаг разрешения нулей вначале
+ * }
+ */
 class InputMoney extends React.Component {
   constructor(props) {
     super(props);
@@ -26,47 +47,40 @@ class InputMoney extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!isEqual(prevProps.value, this.props.value)) {
-      // this.setState({ value: this.props.value });
+      this.setState({ value: this.props.value });
     }
   }
 
   convertToMoney(value) {
     const { presetConfig } = this.props;
-    let newValue = value;
-    if (presetConfig[ReplaceableChar.THOUSANDS_SYMBOL]) {
-      let intValue = newValue.split(presetConfig[ReplaceableChar.DECIMAL_SYMBOL])[0];
-      console.log(intValue.split(''));
-      intValue = intValue.split('').reverse();
-      map(intValue, (letter, index) => {
-        if (index % 3 === 0) intValue.splice(index + 1, 0, ` `);
-      });
-      console.log(intValue);
-      console.log(intValue.reverse().join(''));
+
+    if (!isEmpty(value) && presetConfig[ReplaceableChar.DECIMAL_SYMBOL] !== '.') {
+      value = value.replace('.', presetConfig[ReplaceableChar.DECIMAL_SYMBOL]);
     }
-    let splittedValue = value.toString().split('');
-    if (presetConfig[ReplaceableChar.PREFIX]) {
-      splittedValue.unshift(presetConfig[ReplaceableChar.PREFIX]);
-    }
-    if (presetConfig[ReplaceableChar.SUFFIX]) {
-      splittedValue.push(presetConfig[ReplaceableChar.SUFFIX]);
-    }
-    let stingValue = splittedValue.join('');
-    // return stingValue;
+
+    return value;
+  }
+
+  replaceSpecialSymbol(value, searchValue, replaceValue) {
+    return value.replace(searchValue, replaceValue);
   }
 
   convertToFloat(value) {
     const { presetConfig } = this.props;
     let convertedValue = value.toString();
     forOwn(ReplaceableChar, char => {
-      if (presetConfig[char] && char !== ReplaceableChar.DECIMAL_SYMBOL) {
+      if (!isEmpty(presetConfig[char])) {
         const regExp = new RegExp(presetConfig[char], 'g');
-        convertedValue = convertedValue.replace(regExp, '');
+        const replaceableValue = char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : '';
+        convertedValue = this.replaceSpecialSymbol(convertedValue, regExp, replaceableValue);
       }
     });
-    if (presetConfig[ReplaceableChar.DECIMAL_SYMBOL] === ',') {
-      convertedValue = convertedValue.replace(',', '.');
+
+    const splitValue = split(convertedValue, '.');
+    if (splitValue.length === 2 && isEmpty(splitValue[1])) {
+      return split(convertedValue, '.')[0] + '.' + '0';
     }
-    convertedValue = convertedValue.replace(/ /g, '');
+
     return convertedValue;
   }
 
@@ -78,12 +92,13 @@ class InputMoney extends React.Component {
   }
 
   getInputMoneyProps() {
-    const { value } = this.props;
+    const { value, className } = this.props;
 
     return {
       ...this.props,
       value: this.convertToMoney(value),
-      onChange: this.onChange
+      onChange: this.onChange,
+      className: cn('n2o-input-money', className)
     };
   }
 
@@ -94,7 +109,8 @@ class InputMoney extends React.Component {
 
 InputMoney.propTypes = {
   value: PropTypes.string,
-  presetConfig: PropTypes.object
+  presetConfig: PropTypes.object,
+  className: PropTypes.string
 };
 
 InputMoney.defaultProps = {
