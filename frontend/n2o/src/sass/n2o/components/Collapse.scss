@@ -5,6 +5,10 @@
   border: 0;
   background-color: transparent;
 
+  & .rc-collapse-item-active .rc-collapse-content {
+    overflow: initial;
+  }
+
   .n2o-collapse-icon-wrapper{
     width: 16px;
     height: 16px;
