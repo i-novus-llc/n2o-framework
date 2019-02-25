@@ -210,7 +210,7 @@
             "color": "primary",
             "title": "Сохранить",
             "validate": true,
-            "validatedWidgetId": "main"
+            "validatedWidgetId": "proto_create2_main"
           },
           {
             "id": "close",

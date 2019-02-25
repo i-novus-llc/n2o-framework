@@ -187,7 +187,7 @@
             "color": "primary",
             "title": "Сохранить",
             "validate": true,
-            "validatedWidgetId": "main"
+            "validatedWidgetId": "proto_patients_update_main"
           },
           {
             "id": "close",
