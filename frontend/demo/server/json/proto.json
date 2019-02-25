@@ -53,9 +53,9 @@
         "isOtherPage": true
       },
       {
-        "path": "/proto/patients/:proto_patients_id/contacts",
-        "exact": true,
-        "isOtherPage": false
+        "path":"/proto/patients/:proto_patients_id/contacts",
+        "exact":true,
+        "isOtherPage":false
       },
       {
         "path": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id",
@@ -73,14 +73,14 @@
         "isOtherPage": true
       },
       {
-        "path": "/proto/patients/:patient_id/card",
-        "exact": true,
-        "isOtherPage": false
+        "path":"/proto/patients/:patient_id/card",
+        "exact":true,
+        "isOtherPage":false
       },
       {
-        "path": "/proto/patients/:patient_id/card/:proto_form_id",
-        "exact": true,
-        "isOtherPage": false
+        "path":"/proto/patients/:patient_id/card/:proto_form_id",
+        "exact":true,
+        "isOtherPage":false
       }
     ],
     "pathMapping": {
@@ -98,18 +98,18 @@
           "value": ":proto_contacts_id"
         }
       },
-      "patient_id": {
-        "type": "n2o/widgets/CHANGE_SELECTED_ID",
-        "payload": {
-          "widgetId": "proto_patients",
-          "value": ":patient_id"
+      "patient_id":{
+        "type":"n2o/widgets/CHANGE_SELECTED_ID",
+        "payload":{
+          "widgetId":"proto_patients",
+          "value":":patient_id"
         }
       },
-      "proto_form_id": {
-        "type": "n2o/widgets/CHANGE_SELECTED_ID",
-        "payload": {
-          "widgetId": "proto_form",
-          "value": ":proto_form_id"
+      "proto_form_id":{
+        "type":"n2o/widgets/CHANGE_SELECTED_ID",
+        "payload":{
+          "widgetId":"proto_form",
+          "value":":proto_form_id"
         }
       }
     },

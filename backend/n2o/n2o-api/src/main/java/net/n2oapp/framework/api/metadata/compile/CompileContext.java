@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.compile;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
@@ -58,4 +59,13 @@ public interface CompileContext<D extends Compiled, S> {
      * @return Класс собранной метаданной
      */
     Class<D> getCompiledClass();
+
+
+    /**
+     * Получение данных из url, учитывая route в контексте и query параметры
+     * @param url           реальный url со значениями
+     * @param queryParams   query параметры
+     * @return              данные из url
+     */
+    DataSet getParams(String url, Map<String, String[]> queryParams);
 }

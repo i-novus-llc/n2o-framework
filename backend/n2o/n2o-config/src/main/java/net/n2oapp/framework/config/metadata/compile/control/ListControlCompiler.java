@@ -92,7 +92,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
         String route = query.getRoute();
-        p.addRoute(route, queryContext);
+        p.addRoute(new QueryContext(source.getQueryId(), route));
         dataProvider.setUrl(p.resolveText(property("n2o.config.data.route")) + route);
 
         String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());

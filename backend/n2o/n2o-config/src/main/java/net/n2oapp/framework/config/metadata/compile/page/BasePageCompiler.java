@@ -38,10 +38,9 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
      * @param p       Процессор сборки
      */
     protected void registerRoutes(PageRoutes routes, PageContext context, CompileProcessor p) {
-        PageContext pageContext = new PageContext(context, p);
         for (PageRoutes.Route route : routes.getList()) {
             if (!route.getIsOtherPage())
-                p.addRoute(route.getPath(), pageContext);
+                p.addRoute(route.getPath(), context);
         }
     }
 

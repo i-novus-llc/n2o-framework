@@ -74,10 +74,18 @@ public interface CompileProcessor {
     /**
      * Зарегистрировать новый маршрут метаданных под контекст
      *
-     * @param urlPattern Шаблон URL
      * @param context    Контекст сборки
      */
-    <D extends Compiled> void addRoute(String urlPattern, CompileContext<D, ?> context);
+    <D extends Compiled> void addRoute(CompileContext<D, ?> context);
+
+    /**
+     * Зарегистрировать новый маршрут метаданных под контекст
+     *
+     * @param route      Шаблон URL
+     * @param context    Контекст сборки
+     */
+    <D extends Compiled> void addRoute(String route, CompileContext<D, ?> context);
+
 
     /**
      * Заменить плейсхолдер на значение
