@@ -50,6 +50,9 @@ stories
         <Panel key="1" header="Первый">
           <InputSelect {...InputSelectJson} options={InputSelectJson.value} />
         </Panel>
+        <Panel key="2" header="Второй">
+          <InputSelect {...InputSelectJson} options={InputSelectJson.value} />
+        </Panel>
       </Collapse>
     );
   });

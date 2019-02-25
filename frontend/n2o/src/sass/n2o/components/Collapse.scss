@@ -9,6 +9,10 @@
     overflow: initial;
   }
 
+  & .rc-collapse-item-active .rc-collapse-anim {
+    overflow: hidden;
+  }
+
   .n2o-collapse-icon-wrapper{
     width: 16px;
     height: 16px;
