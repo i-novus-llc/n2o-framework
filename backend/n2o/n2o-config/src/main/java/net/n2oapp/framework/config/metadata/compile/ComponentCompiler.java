@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Component;
-import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -15,7 +14,6 @@ public abstract class ComponentCompiler<D extends Component, S extends N2oCompon
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     protected void compileComponent(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        compiled.setId(source.getId());
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(Placeholders.property(getSrcProperty()), String.class)));
         if (compiled.getSrc() == null)
             throw new N2oException("component src is required");

@@ -406,51 +406,61 @@ public class N2oMetadataConfiguration {
     static class PipelineOperationConfiguration {
 
         @Bean
+        @ConditionalOnMissingBean
         ReadOperation readOperation(MetadataRegister configRegister, SourceLoaderFactory readerFactory) {
             return new ReadOperation(configRegister, readerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         MergeOperation mergeOperation(SourceMergerFactory sourceMergerFactory) {
             return new MergeOperation(sourceMergerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         ValidateOperation validateOperation(SourceValidatorFactory sourceValidatorFactory) {
             return new ValidateOperation(sourceValidatorFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         SourceCacheOperation sourceCacheOperation(CacheManager cacheManager, MetadataRegister metadataRegister) {
             return new SourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileCacheOperation compileCacheOperation(CacheManager cacheManager) {
             return new CompileCacheOperation(new SyncCacheTemplate(cacheManager));
         }
 
         @Bean
+        @ConditionalOnMissingBean
         SourceTransformOperation sourceTransformOperation(SourceTransformerFactory factory) {
             return new SourceTransformOperation(factory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileTransformOperation compileTransformOperation(CompileTransformerFactory factory) {
             return new CompileTransformOperation(factory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileOperation compileOperation(SourceCompilerFactory sourceCompilerFactory) {
             return new CompileOperation(sourceCompilerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         BindOperation bindOperation(MetadataBinderFactory binderFactory) {
             return new BindOperation(binderFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CopyOperation cloneOperation() {
             return new CopyOperation();
         }

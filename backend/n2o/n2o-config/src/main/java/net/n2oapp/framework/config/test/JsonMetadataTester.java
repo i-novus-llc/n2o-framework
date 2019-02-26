@@ -59,8 +59,9 @@ public class JsonMetadataTester {
                       Map<String, String> jsonChangeNodePaths, DataSet queryParams) throws IOException {
         RoutingResult routeResult = builder.route(route);
         CompileContext<?,?> context = routeResult.getContext(compiledClass);
-        routeResult.getParams().merge(queryParams);
-        check(jsonUri, context, routeResult.getParams(),
+        DataSet params = context.getParams(route, null);
+        params.merge(queryParams);
+        check(jsonUri, context, params,
                 xmlCutPath, jsonCutPath, jsonExcludePath,
                 jsonChangeValuePaths, jsonChangeNodePaths);
     }

@@ -25,6 +25,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -277,7 +278,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (routes == null)
             return;
         String widgetRoute = widgetRouteScope.getUrl();
-
         //Регистрация основного маршрута виджета для страницы
         routes.addRoute(widgetRouteScope.getUrl(), compiled.getId());
         if (compiled.getMasterLink() != null)
@@ -348,7 +348,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
-        p.addRoute(widgetRoute, getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
+        p.addRoute(getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
         return dataProvider;
     }
 

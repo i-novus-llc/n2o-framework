@@ -370,7 +370,8 @@ class InputSelect extends React.Component {
       expandPopUp,
       style,
       alerts,
-      flip
+      flip,
+      autoFocus
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
 
@@ -430,6 +431,7 @@ class InputSelect extends React.Component {
               multiSelect={multiSelect}
               onClick={this._handleClick}
               onSelect={this._handleItemSelect}
+              autoFocus={autoFocus}
             />
           </InputSelectGroup>
         </DropdownToggle>
@@ -503,7 +505,8 @@ InputSelect.propTypes = {
   onSearch: PropTypes.func,
   expandPopUp: PropTypes.bool,
   alerts: PropTypes.array,
-  flip: PropTypes.bool
+  flip: PropTypes.bool,
+  autoFocus: PropTypes.bool
 };
 
 InputSelect.defaultProps = {
@@ -522,6 +525,7 @@ InputSelect.defaultProps = {
   hasCheckboxes: false,
   expandPopUp: false,
   flip: false,
+  autoFocus: false,
   onSearch() {},
   onSelect() {},
   onToggle() {},

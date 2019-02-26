@@ -45,52 +45,24 @@ public class DemoJsonTest extends JsonMetadataTestBase {
     @Test
     public void proto() {
         check(new FileSystemResource("../../frontend/demo/server/json/proto.json"))
-                .exclude("widgets.proto_patients.filter.filterFieldsets[0].rows[0].cols[0].fields[0].control.id",
-                        "widgets.proto_patients.filter.filterFieldsets[0].rows[0].cols[1].fields[0].control.id",
-                        "widgets.proto_patients.filter.filterFieldsets[0].rows[0].cols[2].fields[0].control.id",
-                        "widgets.proto_patients.filter.filterFieldsets[0].rows[1].cols[0].fields[0].control.id",
-                        "widgets.proto_patients.filter.filterFieldsets[0].rows[1].cols[1].fields[0].control.id",
-                        "widgets.proto_contacts.filter.filterFieldsets[0].rows[0].cols[0].fields[0].control.id",
-                        "widgets.proto_form.form.fieldsets[0].rows[0].cols[0].fields[0].control.id",
-                        "widgets.proto_form.form.fieldsets[0].rows[0].cols[1].fields[0].control.id",
-                        "widgets.proto_form.form.fieldsets[0].rows[1].cols[0].fields[0].control.id",
-                        "widgets.proto_form.form.fieldsets[0].rows[1].cols[1].fields[0].control.id")
                 .assertEquals("/proto", Page.class);
     }
 
     @Test
     public void proto_patients_create() {
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_create.json"))
-                .exclude("widgets.proto_patients_create_main.form.fieldsets[0].rows[0].cols[0].fields[0].control.id",
-                        "widgets.proto_patients_create_main.form.fieldsets[0].rows[0].cols[1].fields[0].control.id",
-                        "widgets.proto_patients_create_main.form.fieldsets[0].rows[0].cols[2].fields[0].control.id",
-                        "widgets.proto_patients_create_main.form.fieldsets[0].rows[1].cols[0].fields[0].control.id",
-                        "widgets.proto_patients_create_main.form.fieldsets[0].rows[1].cols[1].fields[0].control.id",
-                        "widgets.proto_patients_create_main.form.fieldsets[0].rows[1].cols[2].fields[0].control.id")
                 .assertEquals("/proto/patients/create", Page.class);
     }
 
     @Test
     public void proto_patients_update() {
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_update.json"))
-                .exclude("widgets.proto_patients_update_main.form.fieldsets[0].rows[0].cols[0].fields[0].control.id",
-                        "widgets.proto_patients_update_main.form.fieldsets[0].rows[0].cols[1].fields[0].control.id",
-                        "widgets.proto_patients_update_main.form.fieldsets[0].rows[0].cols[2].fields[0].control.id",
-                        "widgets.proto_patients_update_main.form.fieldsets[0].rows[1].cols[0].fields[0].control.id",
-                        "widgets.proto_patients_update_main.form.fieldsets[0].rows[1].cols[1].fields[0].control.id",
-                        "widgets.proto_patients_update_main.form.fieldsets[0].rows[1].cols[2].fields[0].control.id")
                 .assertEquals("/proto/patients/5607677/update", Page.class);
     }
 
     @Test
     public void proto_patients_create2() {
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_create2.json"))
-                .exclude("widgets.proto_create2_main.form.fieldsets[0].rows[0].cols[0].fields[0].control.id",
-                        "widgets.proto_create2_main.form.fieldsets[0].rows[0].cols[1].fields[0].control.id",
-                        "widgets.proto_create2_main.form.fieldsets[0].rows[0].cols[2].fields[0].control.id",
-                        "widgets.proto_create2_main.form.fieldsets[0].rows[1].cols[0].fields[0].control.id",
-                        "widgets.proto_create2_main.form.fieldsets[0].rows[1].cols[1].fields[0].control.id",
-                        "widgets.proto_create2_main.form.fieldsets[0].rows[1].cols[2].fields[0].control.id")
                 .assertEquals("/proto/create2", Page.class);
     }
 
@@ -99,12 +71,6 @@ public class DemoJsonTest extends JsonMetadataTestBase {
         DataSet data = new DataSet();
         data.put("id", 5607677);
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_update2.json"))
-                .exclude("widgets.proto_patients_update2_main.form.fieldsets[0].rows[0].cols[0].fields[0].control.id",
-                        "widgets.proto_patients_update2_main.form.fieldsets[0].rows[0].cols[1].fields[0].control.id",
-                        "widgets.proto_patients_update2_main.form.fieldsets[0].rows[0].cols[2].fields[0].control.id",
-                        "widgets.proto_patients_update2_main.form.fieldsets[0].rows[1].cols[0].fields[0].control.id",
-                        "widgets.proto_patients_update2_main.form.fieldsets[0].rows[1].cols[1].fields[0].control.id",
-                        "widgets.proto_patients_update2_main.form.fieldsets[0].rows[1].cols[2].fields[0].control.id")
                 .assertEquals("/proto/patients/5607677/update2", Page.class, data);
     }
 }

@@ -217,6 +217,9 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setColor(but.getColor());
             button.setDropdownSrc(but.getDropdownSrc());
             initItem(button, but, idx, context, p);
+            if (but.getValidate() != null && but.getValidate()) {
+                button.setValidatedWidgetId(initWidgetId(but, context, p));
+            }
         } else if (item instanceof N2oSubmenu) {
             N2oSubmenu sub = (N2oSubmenu) item;
             button.setId(sub.getId() == null ? "subMenu" + idx.get() : sub.getId());

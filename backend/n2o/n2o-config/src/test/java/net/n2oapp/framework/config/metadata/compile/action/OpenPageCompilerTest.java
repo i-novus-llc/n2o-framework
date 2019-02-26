@@ -129,6 +129,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(pathMapping.get("page_widget_action2_main_id").getPayload().get("widgetId"), is("page_widget_action2_main"));
         assertThat(pathMapping.get("page_widget_action2_main_id").getPayload().get("value"), is(":page_widget_action2_main_id"));
 
+
         assertThat(openPage.getActions().size(), is(2));
         InvokeAction submit = (InvokeAction) openPage.getActions().get("submit");
         assertThat(submit.getId(), is("submit"));
@@ -275,6 +276,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(pathMapping.get("page_widget_masterDetail_main_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
         assertThat(pathMapping.get("page_widget_masterDetail_main_id").getPayload().get("widgetId"), is("page_widget_masterDetail_main"));
         assertThat(pathMapping.get("page_widget_masterDetail_main_id").getPayload().get("value"), is(":page_widget_masterDetail_main_id"));
+
         PageContext detailContext = (PageContext)result.getContext(Page.class);
         assertThat(detailContext.getQueryRouteMapping().size(), is(3));
         DataSet data = new DataSet();
@@ -318,14 +320,14 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second"));
 
-        assertThat(openPage.getLayout().getRegions().get("single").get(0).getItems().get(0).getWidgetId(), is("page_widget_id1_w0"));
+        assertThat(openPage.getLayout().getRegions().get("single").get(0).getItems().get(0).getWidgetId(), is("page_widget_testOpenPageSimplePageAction1_id1_w0"));
 
         assertThat(openPage.getRoutes().getList().get(0).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1"));
         assertThat(openPage.getRoutes().getList().get(1).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1/w0"));
-        assertThat(openPage.getRoutes().getList().get(2).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1/w0/:page_widget_id1_w0_id"));
+        assertThat(openPage.getRoutes().getList().get(2).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1/w0/:page_widget_testOpenPageSimplePageAction1_id1_w0_id"));
 
         assertThat(openPage.getWidgets().size(), is(1));
-        assertThat(openPage.getWidgets().get("page_widget_id1_w0"), instanceOf(Form.class));
+        assertThat(openPage.getWidgets().get("page_widget_testOpenPageSimplePageAction1_id1_w0"), instanceOf(Form.class));
 
         context = (PageContext) route("/page/widget/testOpenPageSimplePageAction2/id1").getContext(Page.class);
         data = new DataSet();
@@ -336,13 +338,13 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second2"));
 
-        assertThat(openPage.getLayout().getRegions().get("topLeft").get(0).getItems().get(0).getWidgetId(), is("page_widget_id1_main"));
+        assertThat(openPage.getLayout().getRegions().get("topLeft").get(0).getItems().get(0).getWidgetId(), is("page_widget_testOpenPageSimplePageAction2_id1_main"));
 
         assertThat(openPage.getRoutes().getList().get(0).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1"));
         assertThat(openPage.getRoutes().getList().get(1).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1/main"));
-        assertThat(openPage.getRoutes().getList().get(2).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1/main/:page_widget_id1_main_id"));
+        assertThat(openPage.getRoutes().getList().get(2).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1/main/:page_widget_testOpenPageSimplePageAction2_id1_main_id"));
 
         assertThat(openPage.getWidgets().size(), is(1));
-        assertThat(openPage.getWidgets().get("page_widget_id1_main"), instanceOf(Form.class));
+        assertThat(openPage.getWidgets().get("page_widget_testOpenPageSimplePageAction2_id1_main"), instanceOf(Form.class));
     }
 }

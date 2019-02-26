@@ -47,7 +47,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         else
             welcomePageId = p.resolve(property("n2o.ui.homepage.id"), String.class);
         PageContext context = new PageContext(welcomePageId, "/");
-        p.addRoute("/", context);
+        p.addRoute(context);
     }
 
     @Override

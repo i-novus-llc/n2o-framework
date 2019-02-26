@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.local.context;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.DynamicUtil;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
@@ -66,6 +67,11 @@ public abstract class BaseCompileContext<T extends SourceMetadata, P extends Com
 //        if (id == null)
 //            throw new IllegalArgumentException("id can not be null" + (parentContext != null ? ", parent context [" + parentContext.getId() + "]" : ""));
         this.metadataId = id;
+    }
+
+    @Override
+    public DataSet getParams(String url, Map<String, String[]> queryParams) {
+        return null;
     }
 
     protected BaseCompileContext(P parentContext, String id, Class<T> metadataClass) {

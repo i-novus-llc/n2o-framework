@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.register.route;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
-import net.n2oapp.framework.api.register.route.RouteInfoValue;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,22 +18,22 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class N2oRouteRegister implements RouteRegister {
     private static final Logger logger = LoggerFactory.getLogger(N2oRouteRegister.class);
 
-    private final SortedMap<RouteInfoKey, RouteInfoValue> register = new ConcurrentSkipListMap<>();
+    private final SortedMap<RouteInfoKey, CompileContext> register = new ConcurrentSkipListMap<>();
 
     @Override
     public void addRoute(String urlPattern, CompileContext<? extends Compiled, ?> context) {
         RouteInfoKey key = new RouteInfoKey(urlPattern, context.getCompiledClass());
         if (!key.getUrlMatching().startsWith("/"))
             throw new IncorrectRouteException(key.getUrlMatching());
-        if (register.containsKey(key) && !register.get(key).getContext().equals(context))
+        if (register.containsKey(key) && !register.get(key).equals(context))
             throw new RouteAlreadyExistsException(urlPattern, context.getCompiledClass());
-        register.put(key, new RouteInfoValue(urlPattern, context));
+        register.put(key, context);
 
         logger.info(String.format("Register route: '%s' to [%s]", context, urlPattern));
     }
 
     @Override
-    public Iterator<Map.Entry<RouteInfoKey, RouteInfoValue>> iterator() {
+    public Iterator<Map.Entry<RouteInfoKey, CompileContext>> iterator() {
         return register.entrySet().iterator();
     }
 
