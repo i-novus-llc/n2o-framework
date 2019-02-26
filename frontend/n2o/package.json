@@ -84,6 +84,7 @@
     "rc-switch": "~1.8.0",
     "rc-table": "^6.4.3",
     "rc-tree-select": "^2.3.1",
+    "rc-tree": "^1.15.2",
     "react-ace": "^5.9.0",
     "react-dropzone": "^7.0.1",
     "react-helmet": "^5.2.0",

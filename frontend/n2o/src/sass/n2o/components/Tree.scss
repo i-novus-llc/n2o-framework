@@ -1,0 +1,19 @@
+
+
+
+.tree-filter{
+  margin-left: auto;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  .tree-filter-clear{
+    margin-left: auto;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    cursor: pointer;
+    justify-content: center;
+    right: 50px;
+  }
+}

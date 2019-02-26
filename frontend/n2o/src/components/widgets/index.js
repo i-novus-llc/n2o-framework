@@ -10,6 +10,8 @@ import WireframeWidget from './Wireframe/WireframeWidget';
 
 import AdvancedTableWidget from './AdvancedTable/AdvancedTableWidget';
 
+import TreeWidget from './Tree/TreeWidget';
+
 export default {
   HtmlWidget,
 
@@ -21,5 +23,7 @@ export default {
 
   WireframeWidget,
 
-  AdvancedTableWidget
+  AdvancedTableWidget,
+
+  TreeWidget
 };
