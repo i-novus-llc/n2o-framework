@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
 import java.io.Serializable;
@@ -9,33 +11,12 @@ import java.io.Serializable;
  * Date: 04.03.14
  * Time: 12:12
  */
+@Getter
+@Setter
 public class N2oRow implements Serializable, NamespaceUriAware {
-    N2oSwitch color;
+    private N2oSwitch color;
+    private N2oRowClick rowClick;
     private String colorFieldId;
     private String namespaceUri;
 
-    public N2oSwitch getColor() {
-        return color;
-    }
-
-    public void setColor(N2oSwitch color) {
-        this.color = color;
-    }
-
-    public String getColorFieldId() {
-        return colorFieldId;
-    }
-
-    public void setColorFieldId(String colorFieldId) {
-        this.colorFieldId = colorFieldId;
-    }
-
-    @Override
-    public String getNamespaceUri() {
-        return namespaceUri;
-    }
-    @Override
-    public void setNamespaceUri(String namespaceUri) {
-        this.namespaceUri = namespaceUri;
-    }
 }

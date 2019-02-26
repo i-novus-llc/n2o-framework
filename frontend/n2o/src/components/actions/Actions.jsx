@@ -99,14 +99,14 @@ class Actions extends React.Component {
    * @param confirm
    */
   onClickHelper(button, confirm) {
-    const { actions, resolve, options, containerKey } = this.props;
+    const { actions, resolve, options } = this.props;
     this.onClick(
       button.actionId,
       button.id,
       confirm,
       actions,
       resolve,
-      containerKey,
+      button.widgetNeedToValidate,
       button.validate,
       options
     );
@@ -190,11 +190,20 @@ class Actions extends React.Component {
   /**
    * резолв экшена
    */
-  onClick(actionId, id, confirm, actions, resolve, containerKey, validate = true, options = {}) {
+  onClick(
+    actionId,
+    id,
+    confirm,
+    actions,
+    resolve,
+    widgetNeedToValidate,
+    validate = true,
+    options = {}
+  ) {
     if (confirm) {
       this.setState({ confirmVisibleId: id });
     } else {
-      resolve(actions[actionId].src, containerKey, {
+      resolve(actions[actionId].src, widgetNeedToValidate, {
         ...actions[actionId].options,
         actionId,
         buttonId: id,
@@ -276,7 +285,7 @@ class Actions extends React.Component {
           const buttonGroup = (
             <ButtonGroup
               style={style}
-              className={cx({ 'mr-2': toolbar.lenght === i + 1 }, className)}
+              className={cx({ 'mr-2': toolbar.length === i + 1 }, className)}
             >
               {this.renderButtons(buttons)}
             </ButtonGroup>
@@ -313,8 +322,8 @@ Actions.propTypes = {
  */
 const mapDispatchToProps = dispatch => {
   return {
-    resolve: (actionSrc, containerKey, options) => {
-      dispatch(callActionImpl(actionSrc, { ...options, dispatch, containerKey }));
+    resolve: (actionSrc, widgetNeedToValidate, options) => {
+      dispatch(callActionImpl(actionSrc, { ...options, dispatch, widgetNeedToValidate }));
     }
   };
 };

@@ -49,6 +49,7 @@
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "id": "surname",
                           "placeholder": "Введите значение",
                           "src": "InputText"
                         }
@@ -64,6 +65,7 @@
                         "label": "Имя",
                         "dependency": [],
                         "control": {
+                          "id": "name",
                           "src": "InputText"
                         }
                       }
@@ -77,6 +79,7 @@
                         "label": "Отчество",
                         "dependency": [],
                         "control": {
+                          "id": "patrName",
                           "src": "InputText"
                         }
                       }
@@ -95,6 +98,7 @@
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -119,6 +123,7 @@
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
+                          "id": "birthday",
                           "src": "DatePicker",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
@@ -143,6 +148,7 @@
                           }
                         ],
                         "control": {
+                          "id": "vip",
                           "label": "VIP",
                           "src": "Checkbox"
                         }
@@ -204,7 +210,8 @@
             },
             "color": "primary",
             "title": "Сохранить",
-            "validate": true
+            "validate": true,
+            "validatedWidgetId": "proto_create2_main"
           },
           {
             "id": "close",
