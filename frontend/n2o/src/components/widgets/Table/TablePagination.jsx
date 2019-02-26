@@ -26,7 +26,7 @@ class TablePagination extends Component {
     const { count, size, activePage, onChangePage, datasource } = this.props;
 
     if (isEmpty(datasource) && count > 0 && activePage > 1) {
-      onChangePage(activePage - 1);
+      onChangePage(Math.floor(count / size));
     }
 
     return (
