@@ -4,9 +4,30 @@ services:
   frontend:
     ports:
       - "30010:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 700M
+      placement:
+        constraints:
+          - node.labels.dc == hetzner
   docs:
     ports:
       - "30009:80"
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+      placement:
+        constraints:
+          - node.labels.dc == hetzner
   storybook:
     ports:
       - "30011:80"
+    deploy:
+      resources:
+        limits:
+          memory: 700M
+      placement:
+        constraints:
+          - node.labels.dc == hetzner
