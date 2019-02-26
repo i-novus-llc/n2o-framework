@@ -16,12 +16,10 @@ describe('Проверка компонента InputMoney', () => {
   });
   it('правильно переводит из формата денег во float', () => {
     const wrapper = setup({
-      presetConfig: {
-        prefix: '# ',
-        includeThousandsSeparator: true,
-        thousandsSeparatorSymbol: ' ',
-        decimalSymbol: ','
-      }
+      prefix: '# ',
+      includeThousandsSeparator: true,
+      thousandsSeparatorSymbol: ' ',
+      decimalSymbol: ','
     });
     expect(wrapper.instance().convertToFloat('# 1 234,55')).toEqual('1234.55');
   });
