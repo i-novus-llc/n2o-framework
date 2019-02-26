@@ -17,7 +17,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 300M
+          memory: 256M
       placement:
         constraints:
           - node.labels.dc == hetzner
@@ -27,7 +27,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 700M
+          memory: 256M
       placement:
         constraints:
           - node.labels.dc == hetzner
