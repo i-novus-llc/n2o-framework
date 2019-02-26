@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 
 
@@ -149,7 +150,9 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             component.setHeaders(headers);
             component.setCells(cells);
             component.setSorting(sortings);
-            component.setHasSelect(source.getSelected() == null || source.getSelected());
+            Boolean hasSelect = p.cast(source.getSelected(), p.resolve(property("n2o.api.widget.table.selected"), Boolean.class));
+            component.setHasSelect(hasSelect);
+            component.setHasFocus(hasSelect);
         }
     }
 
