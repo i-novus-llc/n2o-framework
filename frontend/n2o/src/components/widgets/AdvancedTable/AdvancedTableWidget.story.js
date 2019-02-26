@@ -190,30 +190,7 @@ stories
       const data = getStubData(url);
       return {
         ...data,
-        list: data.list.map(i => ({
-          ...i,
-          children: [
-            {
-              id: i.id + Math.floor(Math.random()) + 123,
-              key: i.id + Math.floor(Math.random()) + 123,
-              name: 'test',
-              children: [
-                {
-                  id: i.id + Math.floor(Math.random()) + 55,
-                  key: i.id + Math.floor(Math.random()) + 55,
-                  name: 'more test',
-                  children: [
-                    {
-                      id: i.id + Math.floor(Math.random()) + 11,
-                      key: i.id + Math.floor(Math.random()) + 11,
-                      name: 'more test'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }))
+        list: treeView.datasource
       };
     });
 

@@ -9,25 +9,37 @@ import { Button } from 'reactstrap';
  * @param onChange - callback на изменение
  * @param onResetFilter - callback на сброс фильтра
  * @param onSetFilter - callback на поиск
+ * @param component - компонент контрол фильтра
  * @returns {*}
  * @constructor
  */
-function AdvancedTableFilterPopup({ value, onChange, onResetFilter, onSetFilter }) {
+function AdvancedTableFilterPopup({ value, onChange, onResetFilter, onSetFilter, component }) {
   return (
     <React.Fragment>
-      <InputText value={value} onChange={onChange} />
-      <Button color={'primary'} size={'sm'} onClick={onSetFilter}>
-        Искать
-      </Button>
-      <Button size={'sm'} onClick={onResetFilter}>
-        Сбросить
-      </Button>
+      <div className="n2o-advanced-table-filter-dropdown-popup">
+        {component ? (
+          React.createElement(component, {
+            value,
+            onChange
+          })
+        ) : (
+          <InputText value={value} onChange={onChange} />
+        )}
+      </div>
+      <div className="n2o-advanced-table-filter-dropdown-buttons">
+        <Button color={'primary'} size={'sm'} onClick={onSetFilter}>
+          Искать
+        </Button>
+        <Button size={'sm'} onClick={onResetFilter}>
+          Сбросить
+        </Button>
+      </div>
     </React.Fragment>
   );
 }
 
 AdvancedTableFilterPopup.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.oneOf(PropTypes.string, PropTypes.number),
   onChange: PropTypes.func,
   onResetFilter: PropTypes.func,
   onSetFilter: PropTypes.func

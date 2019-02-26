@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { lifecycle, compose } from 'recompose';
-import { map, isEqual, find, isEmpty, debounce, pick, forOwn } from 'lodash';
+import { map, isEqual, find, isEmpty, debounce, pick, forOwn, is } from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -29,6 +29,8 @@ class AdvancedTableContainer extends React.Component {
     this.state = {
       data: this.mapData(props.datasource)
     };
+
+    this._filter = props.filters;
 
     this.getTableProps = this.getTableProps.bind(this);
     this.mapColumns = this.mapColumns.bind(this);
@@ -93,54 +95,38 @@ class AdvancedTableContainer extends React.Component {
   }
 
   mapColumns() {
-    const { columns, cells, headers, widgetId, sorting, onSort, rowSelection } = this.props;
-    const { resolveProps } = this.context;
-    if (columns) {
-      return map(columns, (column, index) => {
-        return {
-          ...column,
-          index,
-          dataIndex: column.dataIndex || column.id,
-          key: column.key || column.id,
-          title: resolveProps(column.headerSrc),
-          label: column.title,
-          cell: resolveProps(column.cellSrc),
-          edit: resolveProps(column.editSrc)
-        };
-      });
-    } else {
-      return headers.map((header, columnIndex) => {
-        const cell = find(cells, c => c.id === header.id);
-        return {
+    const { cells, headers, widgetId, sorting, onSort } = this.props;
+    return headers.map(header => {
+      const cell = find(cells, c => c.id === header.id);
+      return {
+        ...header,
+        title: this.renderCell({
           ...header,
-          title: this.renderCell({
-            ...header,
-            key: header.id,
-            columnId: header.id,
-            widgetId,
-            as: 'div',
-            sorting: sorting && sorting[header.id],
-            onSort
-          }),
-          label: header.title,
-          dataIndex: header.id,
-          columnId: header.id,
           key: header.id,
-          hasSpan: cell.hasSpan,
-          render: (value, record, index) => ({
-            children: this.renderCell({
-              index,
-              key: cell.id,
-              widgetId,
-              columnId: cell.id,
-              model: record,
-              as: 'div',
-              ...cell
-            })
+          columnId: header.id,
+          widgetId,
+          as: 'div',
+          sorting: sorting && sorting[header.id],
+          onSort
+        }),
+        label: header.title,
+        dataIndex: header.id,
+        columnId: header.id,
+        key: header.id,
+        hasSpan: cell.hasSpan,
+        render: (value, record, index) => ({
+          children: this.renderCell({
+            index,
+            key: cell.id,
+            widgetId,
+            columnId: cell.id,
+            model: record,
+            as: 'div',
+            ...cell
           })
-        };
-      });
-    }
+        })
+      };
+    });
   }
 
   mapData(datasource) {
@@ -169,7 +155,8 @@ class AdvancedTableContainer extends React.Component {
 }
 
 AdvancedTableContainer.contextTypes = {
-  resolveProps: PropTypes.func
+  resolveProps: PropTypes.func,
+  expandedFieldId: PropTypes.string
 };
 
 AdvancedTableContainer.defaultProps = {
@@ -226,7 +213,8 @@ export default compose(
           multiHeader: props.multiHeader,
           bordered: props.bordered,
           rowClick: props.rowClick,
-          onActionImpl: props.onActionImpl
+          onActionImpl: props.onActionImpl,
+          expandedFieldId: props.expandedFieldId
         };
       }
     },

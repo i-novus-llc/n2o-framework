@@ -127,7 +127,6 @@ class DateTimeControl extends React.Component {
         };
       },
       () => {
-        this.props.onBlur();
         this.onChange(inputName);
       }
     );
@@ -223,13 +222,13 @@ class DateTimeControl extends React.Component {
    * Обработка клика за пределами попапа
    */
   onClickOutside(e) {
-    const popUp = findDOMNode(this.popUp);
+    const datePicker = findDOMNode(this.datePicker);
     const dateInput = findDOMNode(this.inputGroup);
 
-    if (!popUp) return;
+    if (!datePicker) return;
     if (
       e.target.className.includes('n2o-pop-up') ||
-      (!popUp.contains(e.target) && !dateInput.contains(e.target))
+      (!datePicker.contains(e.target) && !dateInput.contains(e.target))
     ) {
       this.setVisibility(false);
       if (this.props.type === 'date-interval') {
@@ -237,6 +236,7 @@ class DateTimeControl extends React.Component {
         const end = this.state.inputs[DateTimeControl.endInputName];
         this.onChange([start, end]);
       }
+      this.props.onBlur();
     }
   }
   /**
@@ -270,11 +270,11 @@ class DateTimeControl extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, className, onFocus, onBlur } = this.props;
+    const { disabled, placeholder, className, onFocus, onBlur, autoFocus } = this.props;
     const { inputs } = this.state;
     return (
       <div className="n2o-date-picker-container">
-        <div className="n2o-date-picker">
+        <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
           <DateInputGroup
             inputRef={c => {
               this.inputGroup = c;
@@ -289,6 +289,7 @@ class DateTimeControl extends React.Component {
             setWidth={this.setWidth}
             onBlur={this.onBlur}
             onFocus={onFocus}
+            autoFocus={autoFocus}
           />
           {this.renderPopUp(this.width)}
         </div>
@@ -308,7 +309,8 @@ DateTimeControl.defaultProps = {
   dateDivider: ' ',
   dateFormat: 'DD/MM/YYYY',
   outputFormat: 'DD.MM.YYYY HH:mm:ss',
-  locale: 'ru'
+  locale: 'ru',
+  autoFocus: false
 };
 
 DateTimeControl.propTypes = {
@@ -350,7 +352,8 @@ DateTimeControl.propTypes = {
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   locale: PropTypes.oneOf(['en', 'ru']),
-  timeFormat: PropTypes.string
+  timeFormat: PropTypes.string,
+  autoFocus: PropTypes.bool
 };
 
 export default DateTimeControl;

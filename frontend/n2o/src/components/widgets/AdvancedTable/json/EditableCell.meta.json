@@ -36,15 +36,35 @@
           }
         },
         {
-          "src": "IconCell",
+          "src": "EditableCell",
           "id": "surname",
           "icon": "fa fa-plus",
           "type": "iconAndText",
-          "textPlace": "right"
+          "textPlace": "right",
+          "editable": true,
+          "control": {
+            "src": "InputNumber",
+            "visible": true,
+            "disabled": false,
+            "step": "0.01",
+            "min": 0,
+            "max": 555,
+            "name": "InputNumber",
+            "showButtons": true
+          }
         },
         {
-          "src": "TextCell",
-          "id": "birthday"
+          "src": "EditableCell",
+          "id": "birthday",
+          "editable": true,
+          "control": {
+            "src": "DatePicker",
+            "dateFormat": "DD/MM/YYYY",
+            "timeFormat": "HH:mm",
+            "disabled": false,
+            "placeholder": "Введите дату",
+            "locale": "ru"
+          }
         }
       ],
       "headers": [
