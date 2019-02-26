@@ -9,5 +9,23 @@
                 <control id="ctrl" src="MyCOntrol"/>
             </controls>
         </field>
+
+        <field id="testId2" no-label="true">
+            <controls>
+                <search-buttons id="sbId"/>
+                <text id="textId"/>
+            </controls>
+        </field>
+
+        <field id="testId3">
+            <controls>
+                <field id="testId31">
+                    <controls>
+                        <input-text id="inputTextId"/>
+                    </controls>
+                </field>
+            </controls>
+        </field>
+
     </fields>
 </form>
