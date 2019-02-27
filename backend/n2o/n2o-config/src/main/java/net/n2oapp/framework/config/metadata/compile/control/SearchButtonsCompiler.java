@@ -26,14 +26,12 @@ public class SearchButtonsCompiler extends StandardFieldCompiler<SearchButtons, 
 
         field.setResetLabel(source.getResetLabel());
         field.setSearchLabel(source.getSearchLabel());
+        if (source.getNoLabel() == null) {
+            source.setNoLabel(true);
+        }
 
         return compileStandardField(field, source, context, p);
     }
-
-//    @Override
-//    protected String getSrcProperty() {
-//        return "n2o.api.control.searchButtons.src";
-//    }
 
     @Override
     protected String getControlSrcProperty() {
