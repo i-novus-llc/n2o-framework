@@ -2,6 +2,7 @@
       xmlns:test="http://n2oapp.net/framework/config/schema/testAttrs">
     <fields>
         <field id="testId" src="testSrc" depends-on="name,type"
+               label="testLabel" description="testDescription"
                test:sendEmailUrl="/send/email"
                test:sendCodeUrl="/send/code"
                test:codeVerified="{emailSender.status=='send'}">

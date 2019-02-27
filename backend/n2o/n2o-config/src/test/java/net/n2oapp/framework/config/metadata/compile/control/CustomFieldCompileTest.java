@@ -39,6 +39,8 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         CustomField field = (CustomField)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("testSrc"));
+        assertThat(field.getLabel(), is("testLabel"));
+        assertThat(field.getDescription(), is("testDescription"));
 
         ControlDependency dependency = field.getDependencies().get(0);
         assertThat(dependency.getType(), is(ValidationType.reRender));
@@ -74,8 +76,7 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         assertThat(customField31.getId(), is("testId31"));
         assertThat(customField31.getSrc(), is("StandardField"));
 
-        assertThat(customField31.getControl(), instanceOf(StandardField.class));
-        assertThat(((StandardField)customField31.getControl()).getControl(), instanceOf(InputText.class));
+        assertThat(customField31.getControl(), instanceOf(InputText.class));
     }
 
 }
