@@ -147,7 +147,6 @@
                     {
                       "id": "testId",
                       "src": "StandardField",
-                      "label": "testId",
                       "dependency": [],
                       "control": {
                         "id": "testId",
