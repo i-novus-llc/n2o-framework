@@ -12,9 +12,7 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.metadata.meta.control.ListControl;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -66,6 +64,26 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         values.setValues(new HashMap<>());
         source.getDefValue().forEach((f, v) -> values.getValues().put(f, p.resolve(v)));
         return source.isSingle() ? values : Collections.singletonList(values);
+    }
+
+    protected StandardField<T> compileFetchDependencies(StandardField<T> field, S source, CompileProcessor p) {
+        if (source.getPreFilters() != null && field.getDependencies().stream().noneMatch(d -> d.getType() == ValidationType.fetch)) {
+            Set<String> setOn = new HashSet<>();
+            for (N2oPreFilter filter : source.getPreFilters()) {
+                if (StringUtils.hasLink(filter.getValue())) {
+                    String resolveOnJS = p.resolveJS(filter.getValue());
+                    resolveOnJS = resolveOnJS.substring(1, resolveOnJS.length() - 1);
+                    setOn.add(resolveOnJS);
+                }
+            }
+            if (!setOn.isEmpty()) {
+                ControlDependency fetchCD = new ControlDependency();
+                fetchCD.setType(ValidationType.fetch);
+                fetchCD.setOn(new ArrayList<>(setOn));
+                field.addDependency(fetchCD);
+            }
+        }
+        return field;
     }
 
     private void initSubModel(S source, SubModelsScope scope) {

@@ -102,17 +102,11 @@ describe('<DateTimeControl />', () => {
     expect(onChange.calledOnce).toEqual(true);
   });
 
-  it('проверка onBlur своиства контролла', () => {
-    const onBlur = sinon.spy();
-    const { wrapper } = setup({ onBlur, dateFormat: 'DD/MM/YYYY' });
-    wrapper.find('input').simulate('blur');
-    expect(onBlur.calledOnce).toEqual(true);
-  });
-
   it('проверка onFocus своиства контролла', () => {
     const onFocus = sinon.spy();
     const { wrapper } = setup({ onFocus, dateFormat: 'DD/MM/YYYY' });
     wrapper.find('input').simulate('focus');
+
     expect(onFocus.calledOnce).toEqual(true);
   });
 
