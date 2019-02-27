@@ -6,32 +6,51 @@
     <xs:element name="object-access" type="objectAccessDef"/>
     <xs:element name="url-access" type="urlAccessDef"/>
     <xs:element name="page-access" type="pageAccessDef"/>
+    <xs:element name="object-filters" type="objectFiltersDef"/>
 
     <xs:complexType name="objectAccessDef">
-        <xs:sequence>
-            <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="object-id" type="xs:string" use="required"/>
-        <xs:attribute name="operations" use="optional" type="a:actionGroupEnum"/>
+        <xs:attribute name="object-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор объекта, к которому даётся доступ.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="operations" type="a:actionGroupEnum">
+            <xs:annotation>
+                <xs:documentation>Идентификаторы операций через запятую, которым даётся доступ.
+                    Можно использовать символ * (звездочка) для доступа ко всем операциям.
+                    Если операции не указаны, доступ даётся только на чтение..</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="remove-filters" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Список фильтров(через запятую), которые необходимо отменить(тем самым датб больше доступ).</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="urlAccessDef">
-        <xs:attribute name="pattern" type="xs:string" use="required"/>
+        <xs:attribute name="pattern" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Шаблон URL, которому даётся доступ. Можно использовать символ * (звездочка) для доступа ко всем подмножествам пути.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="pageAccessDef">
-        <xs:attribute name="page-id" type="xs:string" use="required"/>
+        <xs:attribute name="page-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор страницы, к которой даётся доступ.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="preFiltersDefinition">
+    <xs:complexType name="objectFiltersDef">
         <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
+            <xs:documentation>Фильтры для объекта</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="in" type="preFilterDefValuesWithBody" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="like" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="likeStart" type="preFilterDefValue" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="contains" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="overlaps" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
@@ -41,6 +60,11 @@
             <xs:element name="notIn" type="preFilterDefValues" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNotNull" type="preFilterDefBase" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="object-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор объекта</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFilterDefBase">
@@ -56,10 +80,15 @@
 
     <xs:complexType name="preFilterDefValue">
         <xs:complexContent>
-            <xs:extension base="preFieldDefBase">
+            <xs:extension base="preFilterDefBase">
                 <xs:annotation>
                     <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор фильтра, должен быть уникален в рамках фильтров одного объекта по всей схеме.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="value" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
@@ -104,20 +133,9 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="preFieldDefBase">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string" use="required">
-            <xs:annotation>
-                <xs:documentation>Поле ввода в виджете, по которому будет предустановка.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-    </xs:complexType>
-
     <xs:complexType name="preFieldDefValue">
         <xs:complexContent>
-            <xs:extension base="preFieldDefBase">
+            <xs:extension base="preFilterDefBase">
                 <xs:annotation>
                     <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
                 </xs:annotation>
@@ -129,5 +147,4 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
 </xs:schema>
