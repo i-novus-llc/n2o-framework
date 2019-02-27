@@ -152,6 +152,9 @@ export default Field => {
       visible: true,
       disabled: false
     }),
+    withProps(props => ({
+      ref: props.setReRenderRef
+    })),
     pure
   )(FieldContainer);
 };
