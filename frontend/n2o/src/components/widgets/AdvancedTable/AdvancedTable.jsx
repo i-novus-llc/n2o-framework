@@ -7,7 +7,18 @@ import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
-import _, { find, some, isEqual, isEmpty, map, forOwn, every, flattenDeep, isArray } from 'lodash';
+import _, {
+  find,
+  some,
+  isEqual,
+  isEmpty,
+  map,
+  forOwn,
+  every,
+  flattenDeep,
+  isArray,
+  get
+} from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
@@ -30,6 +41,7 @@ export const getIndex = (data, selectedId) => {
  * @reactProps {Object} components - компоненты обертки
  * @reactProps {Node} emptyText - компонент пустых данных
  * @reactProps {object} hotKeys - настройка hot keys
+ * @reactProps {any} expandedComponent - кастомный компонент подстроки
  */
 class AdvancedTable extends Component {
   constructor(props) {
@@ -38,8 +50,8 @@ class AdvancedTable extends Component {
     this.state = {
       focusIndex: props.autoFocus
         ? props.data && props.data[props.selectedId]
-          ? props.data[props.selectedId].id
-          : props.data[0].id
+          ? get(props.data[props.selectedId], 'id')
+          : get(props.data[0], 'id')
         : props.hasFocus
           ? 0
           : 1,
@@ -361,7 +373,8 @@ class AdvancedTable extends Component {
       isActive,
       onFocus,
       rowSelection,
-      expandedFieldId
+      expandedFieldId,
+      expandedComponent
     } = this.props;
 
     const columns = this.mapColumns(this.state.columns);
@@ -393,18 +406,28 @@ class AdvancedTable extends Component {
             }
           }}
           rowKey={record => record.key}
-          expandIcon={AdvancedTableExpandIcon}
+          expandIcon={({ record, expanded, onExpand }) => (
+            <AdvancedTableExpandIcon
+              record={record}
+              expanded={expanded}
+              onExpand={onExpand}
+              expandedFieldId={expandedFieldId}
+              expandedComponent={expandedComponent}
+            />
+          )}
           expandIconAsCell={rowSelection && expandable}
           expandedRowRender={
             expandable &&
-            ((record, index, indent) => (
-              <AdvancedTableExpandedRenderer
-                record={record}
-                index={index}
-                indent={indent}
-                expandedFieldId={expandedFieldId}
-              />
-            ))
+            (expandedComponent
+              ? expandedComponent
+              : (record, index, indent) => (
+                  <AdvancedTableExpandedRenderer
+                    record={record}
+                    index={index}
+                    indent={indent}
+                    expandedFieldId={expandedFieldId}
+                  />
+                ))
           }
           expandedRowKeys={this.state.expandedRowKeys}
           onExpandedRowsChange={this.handleExpandedRowsChange}
@@ -431,7 +454,8 @@ AdvancedTable.propTypes = {
   bordered: PropTypes.bool,
   rowSelection: PropTypes.bool,
   expandable: PropTypes.bool,
-  expandedFieldId: PropTypes.string
+  expandedFieldId: PropTypes.string,
+  expandedComponent: PropTypes.any
 };
 
 AdvancedTable.defaultProps = {
