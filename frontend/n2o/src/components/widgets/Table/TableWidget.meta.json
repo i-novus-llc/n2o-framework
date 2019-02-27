@@ -146,10 +146,15 @@
                   "fields": [
                     {
                       "id": "testId",
-                      "src": "FilterButtonsField",
-                      "searchLabel": "searchLabel",
-                      "resetLabel": "resetLabel",
-                      "dependency": []
+                      "src": "StandardField",
+                      "label": "testId",
+                      "dependency": [],
+                      "control": {
+                        "id": "testId",
+                        "src": "FilterButtonsField",
+                        "searchLabel": "searchLabel",
+                        "resetLabel": "resetLabel"
+                      }
                     }
                   ]
                 }
