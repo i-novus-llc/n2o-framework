@@ -7,16 +7,26 @@ import cn from 'classnames';
  * @param record - модель строки
  * @param expanded - флаг открытия
  * @param onExpand - callback на открытие
+ * @param expandedFieldId - ключ с expandableContent
+ * @param expandedComponent - кастомный компонент
  * @returns {*}
  * @constructor
  */
-function AdvancedTableExpandIcon({ record, expanded, onExpand }) {
+function AdvancedTableExpandIcon({
+  record,
+  expanded,
+  onExpand,
+  expandedFieldId,
+  expandedComponent
+}) {
   return (
     <span
-      className={cn({ 'n2o-advanced-table-expand': record.children || record.expandedContent })}
+      className={cn({
+        'n2o-advanced-table-expand': record.children || record[expandedFieldId] || expandedComponent
+      })}
       onClick={e => onExpand(record, e)}
     >
-      {(record.expandedContent || record.children) && (
+      {(record[expandedFieldId] || record.children || expandedComponent) && (
         <i
           className={cn('fa', 'n2o-advanced-table-expand-icon', {
             'n2o-advanced-table-expand-icon-expanded': expanded,

@@ -221,6 +221,36 @@ stories
     }));
     return <Factory level={WIDGETS} {...nested['Page_Table']} id="Page_Table" />;
   })
+  .add('Компонент с кастомным Expanded компонентом', () => {
+    const props = {
+      expandable: true,
+      expandedFieldId: 'expandedContent',
+      columns: [
+        {
+          id: 'test',
+          key: 'test',
+          dataIndex: 'test',
+          title: 'test'
+        },
+        {
+          id: 'anotherTest',
+          key: 'anotherTest',
+          dataIndex: 'anotherTest',
+          title: 'anotherTest'
+        }
+      ],
+      data: [
+        {
+          test: 'test1',
+          anotherTest: 'anotherTest1'
+        }
+      ]
+    };
+
+    const expandedComponent = () => <div>any custom content</div>;
+
+    return <AdvancedTable {...props} expandedComponent={expandedComponent} />;
+  })
   .add('Экшен AdvancedTable', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     fetchMock.get('begin:n2o/page', page);
