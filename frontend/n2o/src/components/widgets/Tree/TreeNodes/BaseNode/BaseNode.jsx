@@ -14,7 +14,7 @@ function BaseNode({
   data
 }) {
   return (
-    <span className={`${prefixCls}-content-wrapper`}>
+    <span className={`${prefixCls}-content-wrapper`} tabIndex="-1">
       {[
         has(data, iconFieldId) && <Icon key={uniqueId('tree_icon_')} name={data[iconFieldId]} />,
         has(data, imageFieldId) && (
