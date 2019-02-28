@@ -212,6 +212,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="search-label" type="xs:string"/>
                 <xs:attribute name="reset-label" type="xs:string"/>
+                <xs:attribute name="no-label" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
