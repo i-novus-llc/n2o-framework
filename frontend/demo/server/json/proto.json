@@ -367,7 +367,7 @@
   },
   "widgets": {
     "proto_patients": {
-      "src": "TableWidget",
+      "src": "AdvancedTableWidget",
       "dataProvider": {
         "url": "n2o/data/proto/patients",
         "pathMapping": {},
@@ -1109,7 +1109,7 @@
       }
     },
     "proto_contacts": {
-      "src": "TableWidget",
+      "src": "AdvancedTableWidget",
       "dataProvider": {
         "url": "n2o/data/proto/patients/:proto_patients_id/contacts",
         "pathMapping": {
