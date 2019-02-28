@@ -422,7 +422,13 @@ class AdvancedTable extends Component {
           expandedRowRender={
             expandable &&
             (expandedComponent
-              ? expandedComponent
+              ? (record, index, indent) =>
+                  React.createElement(expandedComponent, {
+                    record,
+                    index,
+                    indent,
+                    expandedFieldId
+                  })
               : (record, index, indent) => (
                   <AdvancedTableExpandedRenderer
                     record={record}
