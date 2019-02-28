@@ -89,14 +89,17 @@ class AdvancedTable extends Component {
     !isAnyTableFocused &&
       isActive &&
       !rowClick &&
-      this.setSelectAndFocus(data[selectIndex].id, data[focusIndex].id);
+      this.setSelectAndFocus(get(data[selectIndex], 'id'), get(data[focusIndex], 'id'));
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { hasSelect, data, isAnyTableFocused, isActive } = this.props;
     const { selectedId } = this.state;
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
-      const id = data && data[selectedId] && data[selectedId].id ? data[selectedId].id : data[0].id;
+      const id =
+        data && data[selectedId] && get(data[selectedId], 'id')
+          ? get(data[selectedId], 'id')
+          : data[0].id;
       isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
     }
     if (!isEqual(prevProps, this.props)) {
