@@ -82,4 +82,13 @@ describe('<N2OSelect />', () => {
       .simulate('click');
     expect(wrapper.find('N2OSelect').state().selected).toEqual([]);
   });
+  it('проверяет cleanable в N2OSelect', () => {
+    const { wrapper } = setup({ cleanable: false });
+    wrapper
+      .find('button.n2o-eclipse-content')
+      .last()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-clear')).toHaveLength(0);
+  });
 });
