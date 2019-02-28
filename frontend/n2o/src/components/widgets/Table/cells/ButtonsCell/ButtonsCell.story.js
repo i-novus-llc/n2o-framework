@@ -141,7 +141,8 @@ const examplesDataSource = [
           {
             id: '15',
             title: 'Первый',
-            icon: ''
+            icon: '',
+            color: 'primary'
           },
           {
             id: '16',
