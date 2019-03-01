@@ -303,8 +303,7 @@ class AdvancedTable extends Component {
       color: rowColor && propsResolver(rowColor, model),
       model,
       setRef: this.setRowRef,
-      onClick: () => this.handleRowClick(model.id, model.id),
-      onFocus: !isActive ? () => this.handleRowClick(model.id, model.id, true) : undefined
+      onClick: () => this.handleRowClick(model.id, model.id)
     };
   }
 
@@ -440,7 +439,7 @@ class AdvancedTable extends Component {
           useFixedHeader={useFixedHeader}
           indentSize={20}
           emptyText={AdvancedTableEmptyText}
-          scroll={scroll}
+          scroll={!isEmpty(this.state.data) && scroll}
         />
       </HotKeys>
     );
