@@ -4,6 +4,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
@@ -21,6 +22,7 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -178,7 +180,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public String getMessage(String messageCode, Object... arguments) {
-        return env.getMessageSource().getMessage(messageCode, arguments);
+        String defaultMessage = messageCode.contains("{0}") ? MessageFormat.format(messageCode, arguments) : messageCode;
+        return env.getMessageSource().getMessage(messageCode, arguments, defaultMessage);
     }
 
     @Override
@@ -292,14 +295,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <T extends SourceMetadata> T getByRef(T t) {
-        if (t instanceof RefIdAware && ((RefIdAware) t).getRefId() != null) {
-            String refId = ((RefIdAware) t).getRefId();
-            if (refId != null) {
-                return (T) getSource(refId, (Class<SourceMetadata>) t.getClass());
-            }
-        }
-        return t;
+    public <T extends Source> void validate(T metadata) {
+        if (metadata == null)
+            return;
+        env.getSourceValidatorFactory().validate(metadata, this);
     }
 
     @Override

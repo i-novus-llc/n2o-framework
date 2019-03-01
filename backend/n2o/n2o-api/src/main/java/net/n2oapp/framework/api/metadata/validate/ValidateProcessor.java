@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.validate;
 
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -15,11 +16,11 @@ import java.util.stream.Stream;
 public interface ValidateProcessor {
 
     /**
-     * Получить метаданную по ссылке, если она есть, или вернуть исходную
-     * @param t Исходная метаданная
+     * Провалидировать вложенную метаданную
+     * @param metadata Исходная метаданная
      * @param <T> Тип метаданной
      */
-    <T extends SourceMetadata> T getByRef(T t);
+    <T extends Source> void validate(T metadata);
 
     /**
      * Получить исходную метаданную по идентификатору или вернуть null, если метаданная невалидна
