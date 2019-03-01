@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -15,6 +16,8 @@ import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
@@ -26,7 +29,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 /**
  * Реализация процессора сборки метаданных
  */
-public class N2oCompileProcessor implements CompileProcessor, BindProcessor {
+public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
 
     private MetadataEnvironment env;
     private Map<Class<?>, Object> scope = Collections.emptyMap();
@@ -287,6 +290,48 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor {
         }
         return text;
     }
+
+    @Override
+    public <T extends SourceMetadata> T getByRef(T t) {
+        if (t instanceof RefIdAware && ((RefIdAware) t).getRefId() != null) {
+            String refId = ((RefIdAware) t).getRefId();
+            if (refId != null) {
+                return (T) getSource(refId, (Class<SourceMetadata>) t.getClass());
+            }
+        }
+        return t;
+    }
+
+    @Override
+    public <T extends SourceMetadata> T getOrNull(String id, Class<T> metadataClass) {
+        if (id == null)
+            return null;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            return null;
+        try {
+            return getSource(id, metadataClass);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public <T extends SourceMetadata> T getOrThrow(String id, Class<T> metadataClass) {
+        if (id == null)
+            return null;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            return null;
+        return getSource(id, metadataClass);
+    }
+
+    @Override
+    public <T extends SourceMetadata> void checkForExists(String id, Class<T> metadataClass, String errorMessage) {
+        if (id == null)
+            return;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            throw new N2oMetadataValidationException(getMessage(errorMessage, id));
+    }
+
 
     private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
         if (linkMap != null) {

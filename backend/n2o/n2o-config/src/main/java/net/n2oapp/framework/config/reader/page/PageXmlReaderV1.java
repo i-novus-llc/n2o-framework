@@ -48,7 +48,6 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
             readRegions(n2oPage, regions, regionsElem);
         }
         n2oPage.setN2oRegions(regions.toArray(new N2oRegion[regions.size()]));
-        n2oPage.setProperties(PropertiesReaderV1.getInstance().read(root, namespace));
         n2oPage.setModalWidth(ReaderJdomUtil.getElementString(root, "modal-width"));
         n2oPage.setMinModalWidth(ReaderJdomUtil.getElementString(root, "modal-min-width"));
         n2oPage.setMaxModalWidth(ReaderJdomUtil.getElementString(root, "modal-max-width"));

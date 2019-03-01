@@ -53,9 +53,9 @@ public abstract class N2oPipeline implements Pipeline {
         PipelineOperation<O, I> operation = (PipelineOperation<O, I>) iterator.next();
         if (iterator.hasNext()) {
             return operation.execute(context, data, () -> execute(iterator, context, data, input, processor),
-                    processor, processor);
+                    processor, processor, processor);
         } else {
-            return operation.execute(context, data, () -> input, processor, processor);
+            return operation.execute(context, data, () -> input, processor, processor, processor);
         }
     }
 }

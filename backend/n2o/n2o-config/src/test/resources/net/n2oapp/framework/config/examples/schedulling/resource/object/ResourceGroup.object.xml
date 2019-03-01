@@ -5,13 +5,7 @@
     <id>ResourceGroup</id>
     <name>Составной ресурс</name>
     <scope>ORGANIZATION</scope>
-    <properties>
-        <catalogization>true</catalogization>
-        <customization>true</customization>
-        <logging>true</logging>
-        <processing>true</processing>
-        <reporting>true</reporting>
-    </properties>
+
     <actions>
         <action id="create" name="Создание ресурса">
             <java-method bean="ResourceGroupService" name="insertResGroup"/>

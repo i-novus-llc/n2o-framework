@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata;
 
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 
-import java.io.Serializable;
 
 /**
  * Метаданная считанная из исходника (например, из xml)

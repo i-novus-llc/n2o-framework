@@ -19,13 +19,10 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
-import net.n2oapp.framework.api.metadata.local.CompilerHolder;
-import net.n2oapp.framework.api.metadata.local.N2oCompiler;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineSupport;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -48,15 +45,12 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineOperationFactory;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import net.n2oapp.framework.config.metadata.CompileProcessorAdapter;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.CrudGenerator;
-import net.n2oapp.framework.config.metadata.transformer.factory.TransformerFactory;
 import net.n2oapp.framework.config.persister.MetadataPersister;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
 import net.n2oapp.framework.config.reader.*;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
-import net.n2oapp.framework.config.register.CacheControl;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
@@ -139,11 +133,6 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
-    public CacheControl n2oCacheControl(CacheManager cacheManager) {
-        return new CacheControl(cacheManager);
-    }
-
-    @Bean
     public PropertiesInfoCollector propertiesMetaInfoCollector() {
         return new PropertiesInfoCollector("classpath*:META-INF/n2o.properties");
     }
@@ -176,23 +165,6 @@ public class N2oMetadataConfiguration {
                 .read().transform().validate().cache().copy().compile().transform());
     }
 
-    @Bean
-    public TransformerFactory transformerFactory(ApplicationContext context) {
-        TransformerFactory transformerFactory = new TransformerFactory();
-        transformerFactory.setApplicationContext(context);
-        return transformerFactory;
-    }
-
-    @Bean
-    public N2oCompiler metadataCompiler(MetadataEnvironment environment, MetadataRegister metadataRegister) {
-        PipelineSupport p = new N2oPipelineSupport(environment);
-        return new CompileProcessorAdapter(new N2oCompileProcessor(environment), metadataRegister);
-    }
-
-    @Bean
-    public CompilerHolder compilerHolder(N2oCompiler compiler) {
-        return new CompilerHolder(compiler);
-    }
 
     @Bean
     @ConditionalOnMissingBean

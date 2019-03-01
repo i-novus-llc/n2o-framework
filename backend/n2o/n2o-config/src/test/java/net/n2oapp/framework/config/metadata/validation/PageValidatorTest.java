@@ -26,6 +26,11 @@ public class PageValidatorTest extends SourceValidationTestBase {
     }
 
     @Test(expected = N2oMetadataValidationException.class)
+    public void testObjectNotExists() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/testObjectNotExists.page.xml");
+    }
+
+    @Test(expected = N2oMetadataValidationException.class)
     public void testDependsWidgetFind() {
         validate("net/n2oapp/framework/config/metadata/validation/page/testDependsWidgetFind.page.xml");
     }

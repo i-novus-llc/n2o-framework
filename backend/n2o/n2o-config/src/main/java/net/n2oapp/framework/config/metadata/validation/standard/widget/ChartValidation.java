@@ -4,8 +4,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oChart;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.Display;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oChartValue;
-import net.n2oapp.framework.api.metadata.local.CompilerHolder;
-import net.n2oapp.framework.api.metadata.validation.Level;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
@@ -17,21 +16,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author V. Alexeev.
- * @date 03.03.2016
+ * Валидация графиков
  */
 @Component
 public class ChartValidation extends TypedMetadataValidator<N2oChart> {
 
     @Override
-    public Class<N2oChart> getMetadataClass() {
+    public Class<N2oChart> getSourceClass() {
         return N2oChart.class;
     }
 
     @Override
-    public void check(N2oChart metadata) {
+    public void validate(N2oChart metadata, ValidateProcessor p) {
         Display display = metadata.getDisplay();
-        N2oQuery query = CompilerHolder.get().getGlobal(metadata.getQueryId(), N2oQuery.class);
+        N2oQuery query = p.getOrNull(metadata.getQueryId(), N2oQuery.class);
         if(query == null) throw new ReferentialIntegrityViolationException(metadata.getQueryId(), metadata.getClass());
         List<N2oQuery.Field> fields = Arrays.asList(query.getFields());
 

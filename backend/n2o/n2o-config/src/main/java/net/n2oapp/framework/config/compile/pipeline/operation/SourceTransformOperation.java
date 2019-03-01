@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceTransformerFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 
 import java.util.function.Supplier;
 
@@ -29,7 +30,8 @@ public class SourceTransformOperation<S> implements PipelineOperation<S, S>, Pip
     
     @Override
     public S execute(CompileContext<?,?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
-                     BindProcessor bindProcessor) {
+                     BindProcessor bindProcessor,
+                     ValidateProcessor validateProcessor) {
         S value = supplier.get();
         if (value == null)
             return null;

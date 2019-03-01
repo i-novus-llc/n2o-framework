@@ -10,8 +10,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.SourceCompilerFactory;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 
 import java.util.function.Supplier;
 
@@ -31,7 +30,8 @@ public class CompileOperation<D extends Compiled, S> implements PipelineOperatio
 
     @Override
     public D execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
-                     BindProcessor bindProcessor) {
+                     BindProcessor bindProcessor,
+                     ValidateProcessor validateProcessor) {
         S value = supplier.get();
         return sourceCompilerFactory.compile(value, context, compileProcessor);
     }
