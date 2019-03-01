@@ -20,7 +20,6 @@ import java.util.*;
 @Getter
 @Setter
 public class CompiledObject implements CompiledMetadata {
-    public static final String READ_ACTION = "read";
     public static final String VALIDATION_RESULT_PARAM = "validation";
 
     private String id;

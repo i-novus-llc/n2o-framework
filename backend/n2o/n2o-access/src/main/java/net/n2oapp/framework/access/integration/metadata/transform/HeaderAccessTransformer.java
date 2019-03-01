@@ -34,13 +34,13 @@ public class HeaderAccessTransformer extends BaseAccessTransformer<CompiledHeade
             if (item.getPageId() == null) continue;
             collectPageAccess(item, item.getPageId(), schema);
             String objectId = p.getSource(item.getPageId(), N2oPage.class).getObjectId();
-            collectObjectAccess(item, objectId, "read", schema);
+            collectObjectAccess(item, objectId, null, schema);
         }
         for (HeaderItem item : compiled.getExtraItems()) {
             if (item.getPageId() == null) continue;
             collectPageAccess(item, item.getPageId(), schema);
             String objectId = p.getSource(item.getPageId(), N2oPage.class).getObjectId();
-            collectObjectAccess(item, objectId, "read", schema);
+            collectObjectAccess(item, objectId, null, schema);
         }
     }
 }

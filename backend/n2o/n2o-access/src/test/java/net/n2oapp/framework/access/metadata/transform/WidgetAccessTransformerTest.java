@@ -53,7 +53,7 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions().contains("permission"), is(true));
         assertThat(securityObject.getPermissions().contains("test2"), is(true));
         assertThat(securityObject.getUsernames().contains("user"), is(true));
-        assertThat(securityObject.getRoles(), nullValue());
+        assertThat(securityObject.getRoles().contains("role"), is(true));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions().contains("permission"), is(true));
         assertThat(securityObject.getPermissions().contains("test2"), is(true));
         assertThat(securityObject.getUsernames().contains("user"), is(true));
-        assertThat(securityObject.getRoles(), nullValue());
+        assertThat(securityObject.getRoles().contains("role"), is(true));
         assertThat(securityObject.getAnonymous(), is(true));
     }
 }

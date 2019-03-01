@@ -27,7 +27,7 @@ public class PermissionAndRoleCollector {
 
     public final static BiFunction<String, String, Predicate<N2oObjectAccessPoint>> OBJECT_ACCESS = (objectId, actionId) ->
             ac -> StringUtils.maskMatch(ac.getObjectId(), objectId) &&
-                    ((ac.getAction() == null && "read".equals(actionId)) || StringUtils.maskMatch(ac.getAction(), actionId));
+                    (actionId == null || StringUtils.maskMatch(ac.getAction(), actionId));
 
     public final static Function<String, Predicate<N2oUrlAccessPoint>> URL_ACCESS = pattern -> ac -> ac.getMatcher().matches(pattern);
 

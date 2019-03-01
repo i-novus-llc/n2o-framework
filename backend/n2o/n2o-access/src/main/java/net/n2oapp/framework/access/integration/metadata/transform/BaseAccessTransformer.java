@@ -63,12 +63,11 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             schema.getPermitAllPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
                             && StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getObjectId(), objectId)
-                            && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
-                            StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
+                            && (operationId == null || StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
-                                if (list.size() == 1) {
+                                if (list.size() > 0) {
                                     securityObject.setPermitAll(true);
                                     securityObject.setAnonymous(false);
                                     securityObject.setAuthenticated(false);
@@ -82,12 +81,11 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             schema.getAuthenticatedPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
                             && StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getObjectId(), objectId)
-                            && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
-                            StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
+                            && (operationId == null || StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
-                                if (list.size() == 1) {
+                                if (list.size() > 0) {
                                     securityObject.setPermitAll(false);
                                     securityObject.setAnonymous(false);
                                     securityObject.setAuthenticated(true);
@@ -101,12 +99,11 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             schema.getAnonymousPoints().stream()
                     .filter(ap -> ap instanceof N2oObjectAccessPoint
                             && StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getObjectId(), objectId)
-                            && ((((N2oObjectAccessPoint) ap).getAction() == null && "read".equals(operationId)) ||
-                            StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
+                            && (operationId == null || StringUtils.maskMatch(((N2oObjectAccessPoint) ap).getAction(), operationId)))
                     .collect(Collectors.collectingAndThen(
                             Collectors.toList(),
                             list -> {
-                                if (list.size() == 1) {
+                                if (list.size() > 0) {
                                     securityObject.setPermitAll(false);
                                     securityObject.setAnonymous(true);
                                     securityObject.setAuthenticated(false);
