@@ -93,13 +93,9 @@ class AdvancedTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { hasSelect, data, isAnyTableFocused, isActive } = this.props;
-    const { selectedId } = this.state;
+    const { hasSelect, data, isAnyTableFocused, isActive, selectedId } = this.props;
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
-      const id =
-        data && data[selectedId] && get(data[selectedId], 'id')
-          ? get(data[selectedId], 'id')
-          : data[0].id;
+      const id = selectedId || data[0].id;
       isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
     }
     if (!isEqual(prevProps, this.props)) {
@@ -307,7 +303,7 @@ class AdvancedTable extends Component {
       color: rowColor && propsResolver(rowColor, model),
       model,
       setRef: this.setRowRef,
-      onClick: isActive ? () => this.handleRowClick(model.id, model.id) : undefined,
+      onClick: () => this.handleRowClick(model.id, model.id),
       onFocus: !isActive ? () => this.handleRowClick(model.id, model.id, true) : undefined
     };
   }
@@ -471,8 +467,10 @@ AdvancedTable.defaultProps = {
   expandedFieldId: 'expandedContent',
   data: [],
   bordered: false,
+  tableSize: 'sm',
   rowSelection: false,
   expandable: false,
+  scroll: { x: '100%' },
   onFocus: () => {},
   onSetSelection: () => {}
 };
