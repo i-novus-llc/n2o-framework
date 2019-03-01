@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.event.MetadataChangeListener;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
@@ -35,8 +36,9 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
     }
 
     @Override
-    public S execute(CompileContext<?,?> context, DataSet data, Supplier<S> supplier, CompileProcessor processor) {
-        String key = getKey(context, processor);
+    public S execute(CompileContext<?,?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
+                     BindProcessor bindProcessor) {
+        String key = getKey(context, compileProcessor);
         S compiled = (S) cacheTemplate.execute(cacheRegion, key, () -> supplier.get());
         return compiled;
     }

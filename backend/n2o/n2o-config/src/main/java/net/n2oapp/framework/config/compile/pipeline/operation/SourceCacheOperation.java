@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.event.MetadataChangeListener;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
@@ -45,8 +46,9 @@ public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChan
     }
 
     @Override
-    public S execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier, CompileProcessor processor) {
-        String sourceId = context.getSourceId(processor);
+    public S execute(CompileContext<?, ?> context, DataSet data, Supplier<S> supplier, CompileProcessor compileProcessor,
+                     BindProcessor bindProcessor) {
+        String sourceId = context.getSourceId(compileProcessor);
         SourceInfo info = metadataRegister.get(sourceId, (Class<? extends SourceMetadata>) context.getSourceClass());
         String key = getKey(sourceId, info.getBaseSourceClass());
         S source = (S) cacheTemplate.execute(cacheRegion, key, () -> supplier.get());

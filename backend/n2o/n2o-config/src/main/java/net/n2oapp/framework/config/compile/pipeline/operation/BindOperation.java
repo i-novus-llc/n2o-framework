@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.MetadataBinderFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -29,8 +30,10 @@ public class BindOperation<D extends Compiled> implements PipelineOperation<D, D
     }
 
     @Override
-    public D execute(CompileContext<?,?> context, DataSet data, Supplier<D> supplier, CompileProcessor processor) {
-        return binderFactory.bind(supplier.get(), processor);
+    public D execute(CompileContext<?,?> context, DataSet data, Supplier<D> supplier,
+                     CompileProcessor compileProcessor,
+                     BindProcessor bindProcessor) {
+        return binderFactory.bind(supplier.get(), bindProcessor);
     }
 
     @Override

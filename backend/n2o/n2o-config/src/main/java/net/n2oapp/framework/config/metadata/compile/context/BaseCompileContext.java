@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -88,7 +89,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
             return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
-            return p.resolveText(sourceId, parentModelLink);
+            return ((BindProcessor)p).resolveText(sourceId, parentModelLink);
         }
         return sourceId;
     }
@@ -103,7 +104,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getSourceId(CompileProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveText(sourceId, parentModelLink);
+            return ((BindProcessor)p).resolveText(sourceId, parentModelLink);
         }
         return sourceId;
     }
@@ -111,7 +112,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getRoute(CompileProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveUrlParams(route, parentModelLink);
+            return ((BindProcessor)p).resolveUrl(route, parentModelLink);
         }
         return route;
     }

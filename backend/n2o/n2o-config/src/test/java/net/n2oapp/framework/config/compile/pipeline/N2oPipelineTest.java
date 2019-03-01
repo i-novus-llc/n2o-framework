@@ -303,7 +303,7 @@ public class N2oPipelineTest {
     class MockBinderFactory extends MockMetadataFactory<MetadataBinder> implements MetadataBinderFactory {
 
         @Override
-        public <D extends Compiled> D bind(D compiled, CompileProcessor processor) {
+        public <D extends Compiled> D bind(D compiled, BindProcessor processor) {
             ((Page) compiled).getPageProperty().setTitle("binding " + ((Page) compiled).getPageProperty().getTitle());
             return compiled;
         }
