@@ -1,12 +1,9 @@
 package net.n2oapp.demo;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.local.CompilerHolder;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.CompileProcessorAdapter;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -26,8 +23,6 @@ public class DemoJsonTest extends JsonMetadataTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        new CompilerHolder(new CompileProcessorAdapter(new N2oCompileProcessor(builder.getEnvironment()),
-                builder.getEnvironment().getMetadataRegister()));
         tester.setPipelineFunc((p) -> p.read().merge().transform().cache().copy().compile().transform().cache().copy().bind());
         tester.setPrintJsonOnFail(true);
     }

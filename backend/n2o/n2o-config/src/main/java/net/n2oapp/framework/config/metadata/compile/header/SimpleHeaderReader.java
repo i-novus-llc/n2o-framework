@@ -7,12 +7,14 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuReader;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 
 /**
  * Чтение простого хедера
  */
+@Component
 public class SimpleHeaderReader extends AbstractFactoredReader<N2oSimpleHeader> {
     private SimpleMenuReader menuReader = new SimpleMenuReader();
 

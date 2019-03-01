@@ -119,8 +119,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         ParentRouteScope widgetRouteScope;
         if (parentRouteScope != null) {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams, parentRouteScope);
-        } else if (context.getRoute(p) != null) {
-            widgetRouteScope = new ParentRouteScope(context.getRoute(p), additionalPathParams, additionalQueryParams);
+        } else if (context.getRoute((N2oCompileProcessor)p) != null) {
+            widgetRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor)p), additionalPathParams, additionalQueryParams);
         } else {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams);
         }
@@ -184,7 +184,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (pageScope != null) {
             return pageScope.getGlobalWidgetId(localWidgetId);
         } else {
-            return context.getCompiledId(p);
+            return context.getCompiledId((N2oCompileProcessor)p);
         }
     }
 

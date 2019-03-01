@@ -1,8 +1,6 @@
 package net.n2oapp.framework.config.register;
 
-import net.n2oapp.framework.api.metadata.MetaModel;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.local.context.CompileContext;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.MetaType;
 
@@ -21,7 +19,6 @@ public final class InfoConstructor extends XmlInfo {
     public InfoConstructor(XmlInfo info) {
         override = info.isOverride();
         configId = info.getConfigId();
-        context = info.getContext();
         dependents = new HashSet<>(info.getDependents());
         localPath = info.getLocalPath();
         origin = info.getOrigin();
@@ -53,10 +50,6 @@ public final class InfoConstructor extends XmlInfo {
         this.configId = configId;
     }
 
-
-    public void setContext(CompileContext context) {
-        this.context = context;
-    }
 
     public void setReaderClass(Class<? extends SourceLoader> readerClass) {
     }

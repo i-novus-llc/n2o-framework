@@ -131,10 +131,10 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
         // все необходимые данные есть и плейсхолдер заменился заменился
         ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
-        String resultText = processor.resolveUrlParams("http://page/widget/:w_id/action?versionId=:versionId", testML);
+        String resultText = processor.resolveUrl("http://page/widget/:w_id/action?versionId=:versionId", testML);
         assertThat(resultText, is("http://page/widget/1/action?versionId=2"));
         // нет подходящего по widgetId
-        resultText = processor.resolveUrlParams("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
+        resultText = processor.resolveUrl("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
         assertThat(resultText, is("http://page/widget/:w_id/action?versionId=:versionId"));
         // нет подходящего по model
         resultText = processor.resolveText("http://page/widget/:w_id/action?versionId=:versionId", new ModelLink(ReduxModel.FILTER, "widgetId"));
