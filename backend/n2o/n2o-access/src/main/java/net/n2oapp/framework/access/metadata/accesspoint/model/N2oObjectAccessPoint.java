@@ -42,7 +42,6 @@ public class N2oObjectAccessPoint extends AccessPoint {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         N2oObjectAccessPoint that = (N2oObjectAccessPoint) o;
         return Objects.equals(objectId, that.objectId) &&
                 Objects.equals(action, that.action) &&

@@ -2,6 +2,7 @@ package net.n2oapp.framework.access.metadata.transform;
 
 import net.n2oapp.framework.access.integration.metadata.transform.QueryAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -15,8 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 public class QueryAccessTransformerTest extends SourceCompileTestBase {
 
@@ -58,7 +58,69 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
         CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new QueryContext("testQueryAccessTransformer"));
         assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getRoles().contains("role"), is(true));
         assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getPermissions(), nullValue());
+        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getPermissions(), notNullValue());
         assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getAnonymous(), is(true));
+
+        SecurityFilters securityFilters = (SecurityFilters) query.getProperties().get("securityFilters");
+        //filters
+        assertThat(securityFilters.getRoleFilters().size(), is(2));
+        assertThat(securityFilters.getRoleFilters().get("role").size(), is(2));
+        assertThat(securityFilters.getRoleFilters().get("role").get(0).getId(), is("idFilter"));
+        assertThat(securityFilters.getRoleFilters().get("role").get(1).getId(), is("nameFilter"));
+        assertThat(securityFilters.getRoleFilters().get("role2").size(), is(2));
+
+        assertThat(securityFilters.getPermissionFilters().size(), is(2));
+        assertThat(securityFilters.getPermissionFilters().get("permission").size(), is(2));
+        assertThat(securityFilters.getPermissionFilters().get("permission").get(0).getId(), is("permIdFilter"));
+        assertThat(securityFilters.getPermissionFilters().get("permission").get(1).getId(), is("permNameFilter"));
+        assertThat(securityFilters.getPermissionFilters().get("permission2").size(), is(2));
+
+        assertThat(securityFilters.getUserFilters().size(), is(1));
+        assertThat(securityFilters.getUserFilters().get("user2").size(), is(2));
+        assertThat(securityFilters.getUserFilters().get("user2").get(0).getId(), is("userIdFilter2"));
+        assertThat(securityFilters.getUserFilters().get("user2").get(1).getId(), is("userNameFilter2"));
+
+        assertThat(securityFilters.getAnonymousFilters().size(), is(2));
+        assertThat(securityFilters.getAnonymousFilters().get(0).getId(), is("anonymIdFilter"));
+        assertThat(securityFilters.getAnonymousFilters().get(1).getId(), is("anonymNameFilter"));
+
+        assertThat(securityFilters.getPermitAllFilters().size(), is(2));
+        assertThat(securityFilters.getPermitAllFilters().get(0).getId(), is("permitAllIdFilter"));
+        assertThat(securityFilters.getPermitAllFilters().get(1).getId(), is("permitAllNameFilter"));
+
+        assertThat(securityFilters.getAuthenticatedFilters().size(), is(2));
+        assertThat(securityFilters.getAuthenticatedFilters().get(0).getId(), is("authIdFilter"));
+        assertThat(securityFilters.getAuthenticatedFilters().get(1).getId(), is("authNameFilter"));
+
+        //remove filters
+        assertThat(securityFilters.getRemoveRoleFilters().size(), is(2));
+        assertThat(securityFilters.getRemoveRoleFilters().get("role").size(), is(2));
+        assertThat(securityFilters.getRemoveRoleFilters().get("role").contains("idFilter"), is(true));
+        assertThat(securityFilters.getRemoveRoleFilters().get("role").contains("nameFilter"), is(true));
+        assertThat(securityFilters.getRemoveRoleFilters().get("role2").size(), is(2));
+
+        assertThat(securityFilters.getRemovePermissionFilters().size(), is(2));
+        assertThat(securityFilters.getRemovePermissionFilters().get("permission").size(), is(2));
+        assertThat(securityFilters.getRemovePermissionFilters().get("permission").contains("permIdFilter"), is(true));
+        assertThat(securityFilters.getRemovePermissionFilters().get("permission").contains("permNameFilter"), is(true));
+        assertThat(securityFilters.getRemovePermissionFilters().get("permission2").size(), is(2));
+
+        assertThat(securityFilters.getRemoveUserFilters().size(), is(1));
+        assertThat(securityFilters.getRemoveUserFilters().get("user2").size(), is(2));
+        assertThat(securityFilters.getRemoveUserFilters().get("user2").contains("userIdFilter2"), is(true));
+        assertThat(securityFilters.getRemoveUserFilters().get("user2").contains("userNameFilter2"), is(true));
+
+        assertThat(securityFilters.getRemoveAnonymousFilters().size(), is(2));
+        assertThat(securityFilters.getRemoveAnonymousFilters().contains("anonymIdFilter"), is(true));
+        assertThat(securityFilters.getRemoveAnonymousFilters().contains("anonymNameFilter"), is(true));
+
+        assertThat(securityFilters.getRemovePermitAllFilters().size(), is(2));
+        assertThat(securityFilters.getRemovePermitAllFilters().contains("permitAllIdFilter"), is(true));
+        assertThat(securityFilters.getRemovePermitAllFilters().contains("permitAllNameFilter"), is(true));
+
+        assertThat(securityFilters.getRemoveAuthenticatedFilters().size(), is(2));
+        assertThat(securityFilters.getRemoveAuthenticatedFilters().contains("authIdFilter"), is(true));
+        assertThat(securityFilters.getRemoveAuthenticatedFilters().contains("authNameFilter"), is(true));
+
     }
 }

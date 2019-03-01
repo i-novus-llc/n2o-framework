@@ -3,7 +3,11 @@ package net.n2oapp.framework.access.integration.metadata.transform;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityFilters;
+import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoint;
+import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
+import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFiltersAccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oPageAccessPoint;
 import net.n2oapp.framework.access.metadata.schema.permission.N2oPermission;
 import net.n2oapp.framework.access.metadata.schema.role.N2oRole;
@@ -20,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.OBJECT_ACCESS;
 import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.PAGE_ACCESS;
@@ -276,6 +281,142 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
             if (destination.getProperties() == null)
                 destination.setProperties(new HashMap<>());
             destination.getProperties().put("security", security);
+        }
+    }
+
+    protected void collectObjectFilters(PropertiesAware compiled, String objectId,
+                                        String operationId, SimpleCompiledAccessSchema schema) {
+        if (objectId == null) return;
+        if (compiled.getProperties() == null) {
+            compiled.setProperties(new HashMap<>());
+        }
+        if (compiled.getProperties().get("securityFilters") == null) {
+            compiled.getProperties().put("securityFilters", new SecurityFilters());
+        }
+        SecurityFilters securityFilters = (SecurityFilters) compiled.getProperties().get("securityFilters");
+        //roleFilters
+        Map<String, List<N2oObjectFilter>> roleFilters = new HashMap<>();
+        schema.getN2oRoles().stream().filter(r -> r.getAccessPoints() != null).forEach(r -> {
+            collectFiltersFromAccessPoints(objectId, roleFilters, r.getAccessPoints(), r.getId());
+        });
+        if (!roleFilters.isEmpty()) {
+            securityFilters.setRoleFilters(roleFilters);
+        }
+        //permissionFilters
+        Map<String, List<N2oObjectFilter>> permissionFilters = new HashMap<>();
+        schema.getN2oPermissions().stream().filter(p -> p.getAccessPoints() != null).forEach(p -> {
+            collectFiltersFromAccessPoints(objectId, permissionFilters, p.getAccessPoints(), p.getId());
+        });
+        if (!permissionFilters.isEmpty()) {
+            securityFilters.setPermissionFilters(permissionFilters);
+        }
+        //userFilters
+        Map<String, List<N2oObjectFilter>> userFilters = new HashMap<>();
+        schema.getN2oUserAccesses().stream().filter(u -> u.getAccessPoints() != null).forEach(u -> {
+            collectFiltersFromAccessPoints(objectId, userFilters, u.getAccessPoints(), u.getId());
+        });
+        if (!userFilters.isEmpty()) {
+            securityFilters.setUserFilters(userFilters);
+        }
+        //authenticatedFilters
+        if (schema.getAuthenticatedPoints() != null) {
+            securityFilters.setAuthenticatedFilters(schema.getAuthenticatedPoints().stream()
+                    .filter(ap -> checkByObject(objectId, ap))
+                    .flatMap(ap -> Stream.of(((N2oObjectFiltersAccessPoint) ap).getFilters()))
+                    .collect(Collectors.toList()));
+        }
+        //anonymousFilters
+        if (schema.getAnonymousPoints() != null) {
+            securityFilters.setAnonymousFilters(schema.getAnonymousPoints().stream()
+                    .filter(ap -> checkByObject(objectId, ap))
+                    .flatMap(ap -> Stream.of(((N2oObjectFiltersAccessPoint) ap).getFilters()))
+                    .collect(Collectors.toList()));
+        }
+        //permitAllFilters
+        if (schema.getPermitAllPoints() != null) {
+            securityFilters.setPermitAllFilters(schema.getPermitAllPoints().stream()
+                    .filter(ap -> checkByObject(objectId, ap))
+                    .flatMap(ap -> Stream.of(((N2oObjectFiltersAccessPoint) ap).getFilters()))
+                    .collect(Collectors.toList()));
+        }
+
+        //removeRoleFilters
+        Map<String, Set<String>> removeRoleFilters = new HashMap<>();
+        schema.getN2oRoles().stream().filter(r -> r.getAccessPoints() != null).forEach(r -> {
+            collectRemoveFilters(objectId, operationId, removeRoleFilters, r.getAccessPoints(), r.getId());
+        });
+        if (!removeRoleFilters.isEmpty()) {
+            securityFilters.setRemoveRoleFilters(removeRoleFilters);
+        }
+        //removePermissionFilters
+        Map<String, Set<String>> removePermissionFilters = new HashMap<>();
+        schema.getN2oPermissions().stream().filter(r -> r.getAccessPoints() != null).forEach(r -> {
+            collectRemoveFilters(objectId, operationId, removePermissionFilters, r.getAccessPoints(), r.getId());
+        });
+        if (!removePermissionFilters.isEmpty()) {
+            securityFilters.setRemovePermissionFilters(removePermissionFilters);
+        }
+        //removeUserFilters
+        Map<String, Set<String>> removeUserFilters = new HashMap<>();
+        schema.getN2oUserAccesses().stream().filter(r -> r.getAccessPoints() != null).forEach(r -> {
+            collectRemoveFilters(objectId, operationId, removeUserFilters, r.getAccessPoints(), r.getId());
+        });
+        if (!removeUserFilters.isEmpty()) {
+            securityFilters.setRemoveUserFilters(removeUserFilters);
+        }
+        //removeAuthenticatedFilters
+        if (schema.getAuthenticatedPoints() != null) {
+            securityFilters.setRemoveAuthenticatedFilters(schema.getAuthenticatedPoints().stream()
+                    .filter(ap -> checkByObjectAndOperation(objectId, operationId, ap))
+                    .flatMap(ap -> Stream.of(((N2oObjectAccessPoint) ap).getRemoveFilters()))
+                    .collect(Collectors.toSet()));
+        }
+        //removeAnonymousFilters
+        if (schema.getAnonymousPoints() != null) {
+            securityFilters.setRemoveAnonymousFilters(schema.getAnonymousPoints().stream()
+                    .filter(ap -> checkByObjectAndOperation(objectId, operationId, ap))
+                    .flatMap(ap -> Stream.of(((N2oObjectAccessPoint) ap).getRemoveFilters()))
+                    .collect(Collectors.toSet()));
+        }
+        //removePermitAllFilters
+        if (schema.getPermitAllPoints() != null) {
+            securityFilters.setRemovePermitAllFilters(schema.getPermitAllPoints().stream()
+                    .filter(ap -> checkByObjectAndOperation(objectId, operationId, ap))
+                    .flatMap(ap -> Stream.of(((N2oObjectAccessPoint) ap).getRemoveFilters()))
+                    .collect(Collectors.toSet()));
+        }
+    }
+
+    private boolean checkByObject(String objectId, AccessPoint ap) {
+        return ap instanceof N2oObjectFiltersAccessPoint
+                && StringUtils.maskMatch(((N2oObjectFiltersAccessPoint) ap).getObjectId(), objectId)
+                && ((N2oObjectFiltersAccessPoint) ap).getFilters() != null;
+    }
+
+    private boolean checkByObjectAndOperation(String objectId, String operationId, AccessPoint ap) {
+        return ap instanceof N2oObjectAccessPoint
+                && StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getObjectId(), objectId)
+                && (operationId == null || StringUtils.maskMatch(((N2oObjectAccessPoint)ap).getAction(), operationId))
+                && ((N2oObjectAccessPoint)ap).getRemoveFilters() != null;
+    }
+
+    private void collectRemoveFilters(String objectId, String operationId, Map<String, Set<String>> removePermissionFilters, AccessPoint[] accessPoints, String id) {
+        Set<String> rf = new HashSet<>();
+        for (AccessPoint ap : accessPoints) {
+            if (checkByObjectAndOperation(objectId, operationId, ap)) {
+                rf.addAll(Arrays.asList(((N2oObjectAccessPoint) ap).getRemoveFilters()));
+            }
+        }
+        if (!rf.isEmpty()) {
+            removePermissionFilters.put(id, rf);
+        }
+    }
+
+    private void collectFiltersFromAccessPoints(String objectId, Map<String, List<N2oObjectFilter>> filters, AccessPoint[] accessPoints, String id) {
+        for (AccessPoint ap : accessPoints) {
+            if (checkByObject(objectId, ap)) {
+                filters.put(id, Arrays.asList(((N2oObjectFiltersAccessPoint) ap).getFilters()));
+            }
         }
     }
 

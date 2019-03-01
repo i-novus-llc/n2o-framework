@@ -127,7 +127,9 @@ public class PermissionAndRoleCollector {
     }
 
     private static <T> List<N2oAccessFilter> collectFilters(List<T> list, Function<T, AccessPoint[]> getter, String objectId, String actionId) {
-        return list.stream()
+        return null;
+        //todo изменилась логика сборки фильтров. данный код надо удалить или переписать с учетом новой логики
+        /*return list.stream()
                 .map(getter)
                 .filter(Objects::nonNull)
                 .flatMap(Arrays::stream)
@@ -143,6 +145,6 @@ public class PermissionAndRoleCollector {
                         return new N2oAccessFilter(ac.getFieldId(), ac.getValue(), ac.getType());
                     }
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 }

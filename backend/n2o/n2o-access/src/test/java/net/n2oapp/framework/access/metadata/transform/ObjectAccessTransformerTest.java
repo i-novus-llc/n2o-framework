@@ -2,6 +2,7 @@ package net.n2oapp.framework.access.metadata.transform;
 
 import net.n2oapp.framework.access.integration.metadata.transform.ObjectAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -81,5 +82,10 @@ public class ObjectAccessTransformerTest extends SourceCompileTestBase {
         assertThat(((Security) update.getProperties().get("security")).getSecurityMap().get("object").getUsernames().size(), is(1));
         assertThat(((Security) update.getProperties().get("security")).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
         assertThat(((Security) update.getProperties().get("security")).getSecurityMap().get("object").getAnonymous(), is(true));
+
+        SecurityFilters securityFilters = (SecurityFilters) update.getProperties().get("securityFilters");
+        assertThat(securityFilters.getRemoveUserFilters().size(), is(1));
+        assertThat(securityFilters.getRemoveUserFilters().get("user").size(), is(1));
+        assertThat(securityFilters.getRemoveUserFilters().get("user").contains("nameFilter"), is(true));
     }
 }

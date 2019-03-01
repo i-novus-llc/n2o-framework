@@ -31,6 +31,7 @@ public class QueryAccessTransformer extends BaseAccessTransformer<CompiledQuery,
     private void mapSecurity(CompiledQuery compiled, SimpleCompiledAccessSchema schema) {
         if (compiled.getObject() != null) {
             collectObjectAccess(compiled, compiled.getObject().getId(), "read", schema);
+            collectObjectFilters(compiled, compiled.getObject().getId(), null, schema);
         }
     }
 }
