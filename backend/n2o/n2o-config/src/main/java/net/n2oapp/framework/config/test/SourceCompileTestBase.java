@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.test;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -46,12 +47,14 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
 
     public <D extends Compiled> D route(String url, Class<D> compiledClass) {
         RoutingResult route = builder.route(url);
-        return read().compile().bind().get(route.getContext(compiledClass), route.getParams());
+        CompileContext<D, ?> context = route.getContext(compiledClass);
+        return read().compile().bind().get(context, context.getParams(url, null));
     }
 
     public <D extends Compiled> D route(String url, Class<D> compiledClass, DataSet data) {
         RoutingResult route = builder.route(url);
-        route.getParams().forEach((k, v) -> data.put(k, v));
-        return read().compile().bind().get(route.getContext(compiledClass), data);
+        CompileContext<D, ?> context = route.getContext(compiledClass);
+        context.getParams(url, null).forEach((k, v) -> data.put(k, v));
+        return read().compile().bind().get(context, data);
     }
 }

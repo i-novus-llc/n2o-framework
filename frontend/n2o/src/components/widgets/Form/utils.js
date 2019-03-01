@@ -56,10 +56,10 @@ export function fetchIfChangeDependencyValue(prevState, state, ref) {
 const pickByPath = (object, arrayToPath) =>
   reduce(arrayToPath, (o, p) => set(o, p, get(object, p)), {});
 
-export const setWatchDependency = (state, props) => {
+export const setWatchDependency = (state, props, dependencyType) => {
   const { dependency, form, modelPrefix } = props;
   const pickByReRender = (acc, { type, on }) => {
-    if (on && type === DEPENDENCY_TYPES.RE_RENDER) {
+    if (on && type === dependencyType) {
       const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'));
       return { ...acc, ...pickByPath(state, formOn) };
     }

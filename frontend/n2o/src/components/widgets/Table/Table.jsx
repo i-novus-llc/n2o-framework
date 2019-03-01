@@ -144,8 +144,11 @@ class Table extends React.Component {
   }
 
   setSelectAndFocus(selectIndex, focusIndex) {
+    const { hasFocus } = this.props;
     this.setState({ selectIndex, focusIndex }, () => {
-      this.focusActiveRow();
+      if (hasFocus) {
+        this.focusActiveRow();
+      }
     });
   }
 
@@ -165,13 +168,13 @@ class Table extends React.Component {
           newFocusIndex < datasource.length && newFocusIndex >= 0 ? newFocusIndex : focusIndex;
         if (hasSelect && autoFocus) {
           this.setSelectAndFocus(newFocusIndex, newFocusIndex);
-          this.props.onResolve(datasource[newFocusIndex]);
+          onResolve(datasource[newFocusIndex]);
         } else {
           this.setNewFocusIndex(newFocusIndex);
         }
       }
     } else if (keyNm === ' ' && hasSelect && !autoFocus) {
-      this.props.onResolve(datasource[this.state.focusIndex]);
+      onResolve(datasource[this.state.focusIndex]);
       this.setNewSelectIndex(this.state.focusIndex);
     }
   }

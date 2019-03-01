@@ -176,7 +176,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
         initOtherPageRoute(p, route);
-        p.addRoute(route, pageContext);
+        p.addRoute(pageContext);
         return pageContext;
     }
 

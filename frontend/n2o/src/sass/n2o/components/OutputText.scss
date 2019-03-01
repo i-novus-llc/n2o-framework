@@ -9,7 +9,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    order: 2
+    order: 2;
+    min-height: 1.4rem;
   }
 
   & > .icon {

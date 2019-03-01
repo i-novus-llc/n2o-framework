@@ -39,7 +39,7 @@ public class BindLink implements Compiled {
     }
 
     /**
-     * Кстановить значение как ссылку на поле модели
+     * Установить значение как ссылку на поле модели
      * @param field Поле модели
      */
     public void setFieldValue(String field) {

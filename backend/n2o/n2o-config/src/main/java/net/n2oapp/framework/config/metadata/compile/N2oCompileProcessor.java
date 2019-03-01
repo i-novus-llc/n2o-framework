@@ -125,8 +125,13 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public <D extends Compiled> void addRoute(String urlPattern, CompileContext<D, ?> context) {
-        env.getRouteRegister().addRoute(urlPattern, context);
+    public <D extends Compiled> void addRoute(CompileContext<D, ?> context) {
+        env.getRouteRegister().addRoute(context.getRoute(this), context);
+    }
+
+    @Override
+    public <D extends Compiled> void addRoute(String route, CompileContext<D, ?> context) {
+        env.getRouteRegister().addRoute(route, context);
     }
 
     @SuppressWarnings("unchecked")
@@ -329,6 +334,9 @@ public class N2oCompileProcessor implements CompileProcessor {
         if (linkMap != null) {
             linkMap.forEach((k, v) -> {
                 if (v.equalsLink(link)) {
+                    // для данных, которые мапятся напрямую
+                    resultMap.put(k, k);
+                    // для данных, которые мапятся через параметр
                     resultMap.put(v.getFieldId(), k);
                 }
             });

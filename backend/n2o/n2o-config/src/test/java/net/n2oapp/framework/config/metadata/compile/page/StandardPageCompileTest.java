@@ -119,7 +119,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(((PageContext)route("/page/master/1/detail/2").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
         assertThat(((PageContext)route("/page/master/1/detail/2/detail4").getContext(Page.class)).getClientPageId(), is(context.getClientPageId()));
         assertThat(((PageContext)route("/page/master/1/detail/2/detail4/3").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
-
     }
 
     @Test
