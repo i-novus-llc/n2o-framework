@@ -1,28 +1,26 @@
 package net.n2oapp.framework.config.metadata.compile.header;
 
 import net.n2oapp.framework.api.metadata.header.N2oSimpleHeader;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
-import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
-
-import static net.n2oapp.framework.config.metadata.validation.ValidationUtil.isExists;
+import org.springframework.stereotype.Component;
 
 /**
- * @author V. Alexeev.
+ * Валидатор хедера
  */
+@Component
 public class SimpleHeaderValidator extends TypedMetadataValidator<N2oSimpleHeader> {
 
     @Override
-    public Class<N2oSimpleHeader> getMetadataClass() {
+    public Class<N2oSimpleHeader> getSourceClass() {
         return N2oSimpleHeader.class;
     }
 
     @Override
-    public void check(N2oSimpleHeader simpleHeader) {
-        if ((simpleHeader.getMenu() != null) &&
-                (simpleHeader.getMenu().getRefId() != null) &&
-                (!isExists(simpleHeader.getMenu().getRefId(), N2oSimpleMenu.class))) {
-            throw new N2oMetadataValidationException("Ref-id doesn't exist");
+    public void validate(N2oSimpleHeader simpleHeader, ValidateProcessor p) {
+        if (simpleHeader.getMenu() != null) {
+           p.checkForExists(simpleHeader.getMenu().getRefId(), N2oSimpleMenu.class, "Menu {0} doesn't exists for header " + simpleHeader.getId());
         }
     }
 

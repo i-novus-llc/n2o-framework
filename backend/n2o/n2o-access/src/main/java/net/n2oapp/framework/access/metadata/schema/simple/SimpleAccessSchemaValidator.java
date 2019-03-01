@@ -6,35 +6,31 @@ import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoi
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFiltersAccessPoint;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
-import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.validation.ValidationUtil;
 import net.n2oapp.framework.access.functions.StreamUtil;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpleAccessSchema> {
     @Override
-    public Class<N2oSimpleAccessSchema> getMetadataClass() {
+    public Class<N2oSimpleAccessSchema> getSourceClass() {
         return N2oSimpleAccessSchema.class;
     }
 
     @Override
-    public void check(N2oSimpleAccessSchema metadata) {
-        StreamUtil.safeStreamOf(metadata.getN2oPermissions()).flatMap(p -> StreamUtil.safeStreamOf(p.getAccessPoints())).forEach(this::validate);
-        StreamUtil.safeStreamOf(metadata.getN2oRoles()).flatMap(p -> StreamUtil.safeStreamOf(p.getAccessPoints())).forEach(this::validate);
-        StreamUtil.safeStreamOf(metadata.getN2oUserAccesses()).flatMap(p -> StreamUtil.safeStreamOf(p.getAccessPoints())).forEach(this::validate);
-        StreamUtil.safeStreamOf(metadata.getPermitAllPoints()).forEach(this::validate);
-        StreamUtil.safeStreamOf(metadata.getAuthenticatedPoints()).forEach(this::validate);
+    public void validate(N2oSimpleAccessSchema metadata, ValidateProcessor p) {
+        StreamUtil.safeStreamOf(metadata.getN2oPermissions()).flatMap(ap -> p.safeStreamOf(ap.getAccessPoints())).forEach(ap -> validate(ap, p));
+        StreamUtil.safeStreamOf(metadata.getN2oRoles()).flatMap(ap -> StreamUtil.safeStreamOf(ap.getAccessPoints())).forEach(ap -> validate(ap, p));
+        StreamUtil.safeStreamOf(metadata.getN2oUserAccesses()).flatMap(ap -> p.safeStreamOf(ap.getAccessPoints())).forEach(ap -> validate(ap, p));
+        StreamUtil.safeStreamOf(metadata.getPermitAllPoints()).forEach(ap -> validate(ap, p));
+        StreamUtil.safeStreamOf(metadata.getAuthenticatedPoints()).forEach(ap -> validate(ap, p));
     }
 
-    private void validate(AccessPoint accessPoint) {
+    private void validate(AccessPoint accessPoint, ValidateProcessor processor) {
         if (accessPoint instanceof N2oObjectAccessPoint) {
-            checkObjectAccess(((N2oObjectAccessPoint) accessPoint));
+            checkObjectAccess(((N2oObjectAccessPoint) accessPoint), processor);
         }
         if (accessPoint instanceof N2oObjectFiltersAccessPoint) {
             checkObjectFiltersAccess(((N2oObjectFiltersAccessPoint) accessPoint));
@@ -52,37 +48,8 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
         }
     }
 
-    private void checkObjectAccess(N2oObjectAccessPoint accessPoint) {
-        if (accessPoint.getObjectId() == null)
-            throw new N2oMetadataValidationException("n2o.idNotSpecified");
-        N2oObject n2oObject = ValidationUtil.getOrNull(accessPoint.getObjectId(), N2oObject.class);
-        if (n2oObject == null) {
-            throw new N2oMetadataValidationException("n2o.objectNotExists").addData(accessPoint.getObjectId());
-        }
-        if(accessPoint.getAction() == null || accessPoint.getAction().isEmpty()) {
-            return;
-        }
-        String[] actions = accessPoint.getAction().split(",");
-        if(n2oObject.getOperations() != null) {
-            List<String> objectActionsIds = getActionsIds(Arrays.asList(n2oObject.getOperations()));
-            for (String action : actions) {
-                if (!action.trim().equals("*") && !action.trim().equals("read")) {
-                    if (!objectActionsIds.contains(action.trim())) {
-                        throw new N2oMetadataValidationException("n2o.actionNotSpecified").addData(n2oObject.getName(), n2oObject.getId(), action);
-                    }
-                }
-            }
-        }
+    private void checkObjectAccess(N2oObjectAccessPoint accessPoint, ValidateProcessor p) {
+        p.checkNotNull(accessPoint.getObjectId(), "Не задан object-id в object-access");
+        p.checkForExists(accessPoint.getObjectId(), N2oObject.class, "Объект {0} заданный в object-access не существует");
     }
-
-    private List<String> getActionsIds(List<N2oObject.Operation> operations) {
-        List<String> ids = new ArrayList<>();
-        if(operations != null) {
-            for(N2oObject.Operation operation : operations) {
-                ids.add(operation.getId());
-            }
-        }
-        return ids;
-    }
-
 }

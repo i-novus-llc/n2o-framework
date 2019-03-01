@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.*;
@@ -36,22 +37,25 @@ public abstract class N2oPipeline implements Pipeline {
     }
 
     protected <O, I> O execute(CompileContext<?, ?> context, DataSet data, I input) {
-        CompileProcessor processor = new N2oCompileProcessor(env, context, data);
+        N2oCompileProcessor processor = new N2oCompileProcessor(env, context, data);
         return execute(context, data, input, processor);
     }
 
-    protected <O, I> O execute(CompileContext<?, ?> context, DataSet data, I input, CompileProcessor processor) {
+    protected <O, I> O execute(CompileContext<?, ?> context, DataSet data, I input,
+                               N2oCompileProcessor processor) {
         return execute(ops(), context, data, input, processor);
     }
 
     protected <O, I> O execute(Iterator<PipelineOperation<?, ?>> iterator,
                                CompileContext<?, ?> context,
-                               DataSet data, I input, CompileProcessor processor) {
+                               DataSet data, I input,
+                               N2oCompileProcessor processor) {
         PipelineOperation<O, I> operation = (PipelineOperation<O, I>) iterator.next();
         if (iterator.hasNext()) {
-            return operation.execute(context, data, () -> execute(iterator, context, data, input, processor), processor);
+            return operation.execute(context, data, () -> execute(iterator, context, data, input, processor),
+                    processor, processor, processor);
         } else {
-            return operation.execute(context, data, () -> input, processor);
+            return operation.execute(context, data, () -> input, processor, processor, processor);
         }
     }
 }

@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolit
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.local.N2oMetadataMerger;
 
 import java.util.ArrayList;
 import java.util.Arrays;

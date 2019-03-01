@@ -388,7 +388,7 @@ class AdvancedTable extends Component {
       >
         <Table
           ref={this.setTableRef}
-          onFocus={!isActive ? onFocus() : undefined}
+          onFocus={!isActive ? onFocus : undefined}
           prefixCls={'n2o-advanced-table'}
           className={cx('n2o-table table table-hover', className, {
             'has-focus': hasFocus,

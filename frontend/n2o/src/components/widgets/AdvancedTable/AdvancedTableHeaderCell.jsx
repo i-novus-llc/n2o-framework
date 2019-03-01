@@ -38,7 +38,6 @@ class AdvancedTableHeaderCell extends Component {
     const { colSpan, rowSpan, className, id, label, sorting } = this.props;
     return (
       <th
-        {...this.props}
         title={label}
         className={cn('n2o-advanced-table-header-text-center', className)}
         colSpan={colSpan}
@@ -88,7 +87,6 @@ class AdvancedTableHeaderCell extends Component {
 
     const cell = (
       <th
-        {...this.props}
         title={label}
         rowSpan={rowSpan}
         colSpan={colSpan}

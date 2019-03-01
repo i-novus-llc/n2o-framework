@@ -3,8 +3,8 @@ package net.n2oapp.framework.api.metadata.validate;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 
 /**
- * Валидатор исходных метаданных
- * @param <S> Тип исходной метаданной
+ * Валидатор метаданных
+ * @param <S> Тип метаданной
  */
 @FunctionalInterface
 public interface SourceValidator<S> {
@@ -13,5 +13,5 @@ public interface SourceValidator<S> {
      * @param source Исходная метаданная
      * @throws N2oMetadataValidationException Иключение при ошибке валидации
      */
-    void validate(S source) throws N2oMetadataValidationException;
+    void validate(S source, ValidateProcessor p);
 }

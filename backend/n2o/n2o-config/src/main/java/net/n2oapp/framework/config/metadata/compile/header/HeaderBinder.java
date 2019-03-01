@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.header;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class HeaderBinder implements BaseMetadataBinder<CompiledHeader> {
     }
 
     @Override
-    public CompiledHeader bind(CompiledHeader compiled, CompileProcessor p) {
+    public CompiledHeader bind(CompiledHeader compiled, BindProcessor p) {
         if (compiled.getExtraItems() != null)
             compiled.getExtraItems()
                     .stream()
