@@ -2,7 +2,7 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        xmlns:ctr="http://n2oapp.net/framework/config/schema/control-2.0"
        name="Моя таблица" query-id="stub" src="testSrc"
-       object-id="stub" icon="testIcon" class="testClass" route="testRoute" selected="false">
+       object-id="stub" icon="testIcon" class="testClass" route="testRoute" selected="false" master-param="uid" >
     <columns>
         <column text-field-id="buttons" label="buttonsTest">
             <toolbar generate="update,delete" src="test">

@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -63,7 +62,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
             filter.setRefWidgetId(widgetId);
             if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
-                filter.setParam(p.cast(masterIdParam, filter.getFieldId()));
+                filter.setParam(p.cast(source.getMasterParam(), masterIdParam, filter.getFieldId()));
             } else {
                 filter.setParam(filter.getFieldId());
             }
@@ -184,11 +183,10 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
     /**
      * Инициализация ссылки на идентификатор модели текущего виджета
      *
-     * @param actionRoute Маршрут с параметром
-     * @param pathMapping Параметры, в которые добавится ссылка
+     * @param actionRoute     Маршрут с параметром
+     * @param pathMapping     Параметры, в которые добавится ссылка
      * @param actionModelLink Модель данных действия
      * @param p
-     *
      * @return Наименование параметра ссылки
      */
     private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink,
@@ -213,8 +211,8 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
      * Добавление идентификатора текущего виджета в параметры маршрута.
      * Если текущий виджет и виджет из модели действия совпадают и модель resolve, то добавляем.
      *
-     * @param source                Действие
-     * @param actionModelLink       Ссылка на модель действия
+     * @param source          Действие
+     * @param actionModelLink Ссылка на модель действия
      * @return Маршрут с добавкой идентификатора или без
      */
     private String initActionRoute(S source, ModelLink actionModelLink) {
@@ -223,7 +221,8 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             actionRoute = normalize(source.getId());
             if (actionModelLink != null
                     && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
-                String masterIdParam = actionModelLink.getWidgetId() + "_id";
+                String masterIdParam = source.getMasterParam() != null
+                        ? source.getMasterParam() : actionModelLink.getWidgetId() + "_id";
                 actionRoute = normalize(colon(masterIdParam)) + actionRoute;
             }
         }
