@@ -26,4 +26,28 @@ stories
 
       return props;
     })
-  );
+  )
+  .add('Включенные копейки', () => {
+    const props = {
+      ...InputMoneyJson,
+      allowDecimal: true
+    };
+
+    return <InputMoney {...props} />;
+  })
+  .add('Обязательные копейки', () => {
+    const props = {
+      ...InputMoneyJson,
+      requireDecimal: true
+    };
+
+    return <InputMoney {...props} />;
+  })
+  .add('Раделитель тысяч', () => {
+    const props = {
+      ...InputMoneyJson,
+      thousandsSeparatorSymbol: '$'
+    };
+
+    return <InputMoney {...props} />;
+  });

@@ -25,7 +25,7 @@ const ReplaceableChar = {
  * @reactProps {number}  integerLimit - целочисленный лимит
  * @reactProps {boolean}  requireDecimal - флаг обязательного включения float
  * @reactProps {boolean}  allowNegative - флаг включения отрицательных чисел
- * @reactProps {boolea}  allowLeadingZeroes - флаг разрешения нулей вначале
+ * @reactProps {boolean}  allowLeadingZeroes - флаг разрешения нулей вначале
  * @example
  */
 class InputMoney extends React.Component {
@@ -150,11 +150,11 @@ InputMoney.defaultProps = {
   suffix: ' руб.',
   includeThousandsSeparator: true,
   thousandsSeparatorSymbol: ' ',
-  allowDecimal: true,
+  allowDecimal: false,
   decimalSymbol: ',',
   decimalLimit: 2,
   integerLimit: null,
-  requireDecimal: true,
+  requireDecimal: false,
   allowNegative: false,
   allowLeadingZeroes: false
 };
