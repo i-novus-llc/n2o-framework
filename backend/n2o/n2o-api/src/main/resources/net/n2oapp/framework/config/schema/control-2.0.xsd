@@ -430,6 +430,7 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:attribute name="type" type="inputSelectType"/>
+                <xs:attribute name="cleanable" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
