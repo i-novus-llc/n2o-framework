@@ -7,6 +7,7 @@ import net.n2oapp.framework.access.metadata.schema.simple.SimpleAccessSchemaVali
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -44,13 +45,4 @@ public class SimpleAccessSchemaValidationTest extends SourceValidationTestBase {
        validate("net/n2oapp/framework/access/metadata/validation2.access.xml");
     }
 
-    @Test (expected = N2oMetadataValidationException.class)
-    public void testInvalid3() throws Exception {
-        validate("net/n2oapp/framework/access/metadata/validation3.access.xml");
-    }
-
-    @Test (expected = N2oMetadataValidationException.class)
-    public void testInvalid4() throws Exception {
-       validate("net/n2oapp/framework/access/metadata/validation4.access.xml");
-    }
 }

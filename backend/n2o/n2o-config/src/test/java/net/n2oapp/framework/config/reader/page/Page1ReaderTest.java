@@ -41,8 +41,6 @@ public class Page1ReaderTest {
         assert ((N2oPreFilter) page.getN2oRegions()[0].getWidgets()[0].getPreFilters()[0]).getType().equals(FilterType.eq);
         assert page.getN2oRegions()[0].getWidgets()[0].getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
         assert page.getN2oRegions()[0].getWidgets()[0].getCounter().getPreFilters()[0].getValue().equals("true");
-        assert page.getN2oRegions()[0].getProperties().containsKey("keyRegion");
-        assert page.getN2oRegions()[0].getProperties().containsValue("valueRegion");
     }
 
     @Test
