@@ -45,14 +45,21 @@ public class ModelLink extends BindLink {
     }
 
     /**
+     * Получить ссылку на модель виджета*
+     */
+    public ModelLink getWidgetLink() {
+        if (getModel() == null || getWidgetId() == null)
+            return null;
+        return new ModelLink(getModel(), getWidgetId());
+    }
+
+    /**
      * Проверяет является ли BindLink ссылкой на другой объект в redux или это константное значение
      *
      * @return true, если является ссылкой
      */
     public boolean isLink() {
-        if (getBindLink() == null && !StringUtils.isJs(getValue()))
-            return false;
-        return true;
+        return getBindLink() != null || StringUtils.isJs(getValue());
     }
 
     /**
@@ -61,6 +68,7 @@ public class ModelLink extends BindLink {
      * @param o Ссылка
      * @return true - эквивалентны, false - нет
      */
+    @Override
     public boolean equalsLink(Object o) {
         if (o == null || o.getClass() != this.getClass())
             return false;

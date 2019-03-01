@@ -2,17 +2,16 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
@@ -33,17 +32,33 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
  */
 public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
 
+    private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
+
+    /**
+     * Сервисы окружения
+     */
     private MetadataEnvironment env;
+    /**
+     * Переменные влияющие на сборку
+     */
     private Map<Class<?>, Object> scope = Collections.emptyMap();
-    private DataSet data;
-    private BindTerminalPipeline bindPipeline;
-    private CompileTerminalPipeline<?> compilePipeline;
-    private ReadCompileTerminalPipeline<?> readCompilePipeline;
-    private ReadTerminalPipeline<?> readPipeline;
     /**
      * Контекст на входе в pipeline, используется не для компиляции, а для bind
      */
     private CompileContext<?, ?> context;
+    /**
+     * Параметры текущего запроса
+     */
+    private DataSet data;
+    /**
+     * Виртуальная модель данных клиента
+     */
+    private DataModel model;
+
+    private BindTerminalPipeline bindPipeline;
+    private CompileTerminalPipeline<?> compilePipeline;
+    private ReadCompileTerminalPipeline<?> readCompilePipeline;
+    private ReadTerminalPipeline<?> readPipeline;
 
     /**
      * Конструктор процессора сборки метаданных
@@ -68,8 +83,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      */
     public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet data) {
         this(env);
-        this.data = data;
         this.context = context;
+        this.data = data;
+        model = new DataModel();
+        model.addAll(context.getQueryRouteMapping(), data);
+        model.addAll(context.getPathRouteMapping(), data);
     }
 
     /**
@@ -237,8 +255,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (params == null || params.isEmpty() || data == null)
             return url;
         Map<String, String> valueParamMap = new HashMap<>();
-        collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
-        collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
+        collectModelLinks(context.getPathRouteMapping(), link.getWidgetLink(), valueParamMap);
+        collectModelLinks(context.getQueryRouteMapping(), link.getWidgetLink(), valueParamMap);
         for (String param : params) {
             if (valueParamMap.containsKey(param) && data.containsKey(valueParamMap.get(param))) {
                 url = url.replace(":" + param, data.get(valueParamMap.get(param)).toString());
@@ -280,18 +298,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public String resolveText(String text, ModelLink link) {
-        Set<String> links = StringUtils.collectLinks(text);
-        if (links == null || links.isEmpty() || data == null)
-            return text;
-        Map<String, String> valueParamMap = new HashMap<>();
-        collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
-        collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
-        for (String l : links) {
-            if (valueParamMap.containsKey(l) && data.containsKey(valueParamMap.get(l))) {
-                text = text.replace(Placeholders.ref(l), data.get(valueParamMap.get(l)).toString());
-            }
-        }
-        return text;
+        return LINK_RESOLVER.resolve(text, model.getData(link));
     }
 
     @Override
@@ -337,7 +344,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             linkMap.forEach((k, v) -> {
                 if (v.equalsLink(link)) {
                     // для данных, которые мапятся напрямую
-                    resultMap.put(k, k);
+                    resultMap.put(k, k);//todo это нужно для resolve url нужно вынести в другой метод
                     // для данных, которые мапятся через параметр
                     resultMap.put(v.getFieldId(), k);
                 }

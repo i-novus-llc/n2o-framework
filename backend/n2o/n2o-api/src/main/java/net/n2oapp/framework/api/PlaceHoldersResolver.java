@@ -189,7 +189,7 @@ public class PlaceHoldersResolver {
     }
 
     private Function<String, Object> notReplaceNull(Object data) {
-        return (key) -> {
+        return key -> {
             Object result = function(data).apply(key);
             return result != null ? result.toString() : prefix.concat(key).concat(suffix);
         };
@@ -199,7 +199,7 @@ public class PlaceHoldersResolver {
      * Возвращает json-валидное значение в строке
      */
     public static Function<String, Object> replaceByJson(Function<String, Object> callback, ObjectMapper mapper) {
-        return (key) -> {
+        return key -> {
             Object result = callback.apply(key);
             try {
                 if (result instanceof String)
@@ -212,7 +212,7 @@ public class PlaceHoldersResolver {
     }
 
     public static Function<String, Object> replaceNullByEmpty(Function<String, Object> callback) {
-        return (key) -> {
+        return key -> {
             Object result = callback.apply(key);
             return result != null ? result.toString() : "";
         };
@@ -223,7 +223,7 @@ public class PlaceHoldersResolver {
     }
 
     public static Function<String, Object> replaceRequired(Function<String, Object> callback) {
-        return (key) -> {
+        return key -> {
             Object value = callback.apply(key);
             if (value == null)
                 throw new NotFoundPlaceholderException(key);
@@ -236,7 +236,7 @@ public class PlaceHoldersResolver {
     }
 
     public static Function<String, Object> replaceOptional(Function<String, Object> data) {
-        return (key) -> {
+        return key -> {
             String placeholder = extractPlaceholder(key);
             Object value = data.apply(placeholder);
             if (value == null) {

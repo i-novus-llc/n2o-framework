@@ -2,19 +2,27 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.test.N2oTestBase;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 
 public class N2oCompileProcessorTest extends N2oTestBase {
 
@@ -85,29 +93,66 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     @Test
     public void testResolveText() {
         PageContext context = new PageContext("test");
-        Map<String, ModelLink> routeInfos = new HashMap<>();
-        ModelLink value = new ModelLink(ReduxModel.RESOLVE, "widgetId");
-        value.setFieldValue("name");
-        routeInfos.put("paramName", value);
-        routeInfos.put("secondParam", new ModelLink("secondParamValue"));
-        context.setQueryRouteMapping(routeInfos);
+        Map<String, ModelLink> queryMapping = new HashMap<>();
+        ModelLink nameLink = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        nameLink.setFieldValue("name");
+        queryMapping.put("param", nameLink);
+        context.setQueryRouteMapping(queryMapping);
         DataSet data = new DataSet();
-        data.put("paramName", "Joe");
+        data.put("param", "Joe");
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        // все необходимые данные есть и плейсхолдер заменился заменился
-        ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
-        String resultText = processor.resolveText("Hello, {name}", testML);
+
+        // совпадают модель и виджет
+        String resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId"));
         assertThat(resultText, is("Hello, Joe"));
-        // нет подходящего по widgetId
+
+        // совпадают модель и виджет и поле
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId", "name"));
+        assertThat(resultText, is("Hello, Joe"));
+
+        // не совпадает поле (главное чтобы совпал виджет и модель)
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId", "name2"));
+        assertThat(resultText, is("Hello, Joe"));
+
+        // не совпадает виджет
         resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "otherWidgetId"));
         assertThat(resultText, is("Hello, {name}"));
-        // нет подходящего по model
+
+        // не совпадает модель
         resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.FILTER, "widgetId"));
         assertThat(resultText, is("Hello, {name}"));
-        // нет подходящего значения в data
+
+        // нет данных (на null или пустую строку не заменяется)
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, new DataSet());
-        resultText = processor.resolveText("Hello, {name}", testML);
+        resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widgetId", "name"));
         assertThat(resultText, is("Hello, {name}"));
+    }
+
+    @Test
+    public void testResolveTextSubModels() {
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
+
+        doAnswer(invocation -> {
+            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            data.put("name", "Joe");
+            return null;
+        }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+
+
+        PageContext context = new PageContext("test");
+        Map<String, ModelLink> queryMapping = new HashMap<>();
+        ModelLink linkId = new ModelLink(ReduxModel.RESOLVE, "widget1", "id");
+        linkId.setSubModelQuery(new SubModelQuery("query1"));
+        queryMapping.put("param_id", linkId);
+        context.setQueryRouteMapping(queryMapping);
+        DataSet data = new DataSet();
+        data.put("paramId", 123);
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+
+        // совпадают модель и виджет
+        String resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widget1"));
+        assertThat(resultText, is("Hello, Joe"));
     }
 
     @Test
