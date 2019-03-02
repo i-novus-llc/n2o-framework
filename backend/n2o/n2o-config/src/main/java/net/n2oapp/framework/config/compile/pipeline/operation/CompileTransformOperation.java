@@ -5,11 +5,13 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.aware.PipelineOperationTypeAware;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileTransformerFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 
 import java.util.function.Supplier;
 
@@ -28,9 +30,11 @@ public class CompileTransformOperation<D extends Compiled> implements PipelineOp
     }
 
     @Override
-    public D execute(CompileContext<?, ?> context, DataSet data, Supplier<D> supplier, CompileProcessor processor) {
+    public D execute(CompileContext<?, ?> context, DataSet data, Supplier<D> supplier, CompileProcessor compileProcessor,
+                     BindProcessor bindProcessor,
+                     ValidateProcessor validateProcessor) {
         D value = supplier.get();
-        return compileTransformerFactory.transform(value, context, processor);
+        return compileTransformerFactory.transform(value, context, compileProcessor);
     }
 
     @Override

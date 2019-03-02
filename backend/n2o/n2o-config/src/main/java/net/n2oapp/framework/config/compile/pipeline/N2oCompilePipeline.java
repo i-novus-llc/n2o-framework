@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.CompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.CompilePipeline;
 import net.n2oapp.framework.api.metadata.pipeline.CompileTerminalPipeline;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 
 import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
 
@@ -29,7 +30,7 @@ public class N2oCompilePipeline extends N2oPipeline implements CompilePipeline {
 
             @Override
             public <D extends Compiled, S> D get(S input, CompileContext<?, ?> ctx, CompileProcessor p) {
-                return execute(ctx, null, input, p);
+                return execute(ctx, null, input, (N2oCompileProcessor) p);
             }
 
             @Override

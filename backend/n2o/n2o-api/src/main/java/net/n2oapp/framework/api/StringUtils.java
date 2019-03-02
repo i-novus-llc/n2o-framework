@@ -3,8 +3,6 @@ package net.n2oapp.framework.api;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 import net.n2oapp.framework.api.util.RefUtil;
-import net.n2oapp.framework.api.util.link.GlobalLinkUtil;
-import net.n2oapp.framework.api.util.link.PageLinkUtil;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -261,56 +259,6 @@ public abstract class StringUtils {
             }
         }
         return sb.toString();
-    }
-
-    /**
-     * Проверка, что строка - это ссылка
-     * Примеры:
-     *      isRef("{id}");      //true
-     *      isRef("{a -> b}");  //true
-     *      isRef("text{id}");  //false
-     *      isRef("id");        //false
-     *      isRef("${id}");     //false
-     * @param s - строка
-     * @return true - ссылка, false - не ссылка
-     */
-    @Deprecated
-    public static boolean isRef(String s) {
-        return RefUtil.isRef(s);
-    }
-
-    /**
-     * Проверка, что строка - глобальная ссылка
-     * Примеры:
-     *      isGlobalLink("{a->b}");             //true
-     *      isGlobalLink("{ a -> b }");         //true
-     *      isGlobalLink("{ a -> b.c:d }");     //true
-     *      isGlobalLink("{ a - > b }");        //false
-     *      isGlobalLink("{a.b}");              //false
-     *      isGlobalLink("{->a.b}");            //false
-     *      isGlobalLink("${a->b}");            //false
-     * @param s - строка
-     * @return true - глобальная ссылка, false - не глобальная ссылка
-     */
-    @Deprecated
-    public static boolean isGlobalLink(String s) {
-        return GlobalLinkUtil.isLink(s);
-    }
-
-    // создание global-линков
-    @Deprecated //use PageLinkUtil.createSelectLink
-    public static String toLink(String containerId, String fieldId) {
-        return PageLinkUtil.createSelectLink(containerId, fieldId);
-    }
-
-    @Deprecated //use PageLinkUtil.createSelectLink
-    public static String toLink(String pageId, String containerId, String fieldId) {
-        return toLink(pageId + "." + containerId, fieldId);
-    }
-
-    @Deprecated //use PageLinkUtil.createSelectLink
-    public static String toLinkWithoutField(String pageId, String containerId) {
-        return toLink(pageId, containerId, null);
     }
 
 }

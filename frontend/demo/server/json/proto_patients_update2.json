@@ -8,22 +8,21 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/5607677/update2/main",
-        "exact": true,
-        "isOtherPage": false
+        "path":"/proto/patients/5607677/update2/main",
+        "exact":true,
+        "isOtherPage":false
       },
       {
-        "path": "/proto/patients/5607677/update2/main/:proto_patients_update2_main_id",
-        "exact": true,
-        "isOtherPage": false
-      }
-    ],
-    "pathMapping": {
-      "proto_patients_update2_main_id": {
-        "type": "n2o/widgets/CHANGE_SELECTED_ID",
-        "payload": {
-          "widgetId": "proto_patients_update2_main",
-          "value": ":proto_patients_update2_main_id"
+        "path":"/proto/patients/5607677/update2/main/:proto_patients_update2_main_id",
+        "exact":true,
+        "isOtherPage":false
+      }],
+    "pathMapping":{
+      "proto_patients_update2_main_id":{
+        "type":"n2o/widgets/CHANGE_SELECTED_ID",
+        "payload":{
+          "widgetId":"proto_patients_update2_main",
+          "value":":proto_patients_update2_main_id"
         }
       }
     },

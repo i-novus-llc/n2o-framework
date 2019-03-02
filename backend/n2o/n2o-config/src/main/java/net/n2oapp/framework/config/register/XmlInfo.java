@@ -1,12 +1,10 @@
 package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.local.context.CompileContext;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 
-import java.net.URI;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,7 +16,6 @@ import java.util.Set;
 public class XmlInfo extends FileInfo {
     protected boolean override;
     @Deprecated protected ConfigId configId;
-    @Deprecated protected CompileContext context;
     protected Set<ConfigId> dependents = new HashSet<>();//ссылки на контекстныальные метаданные, которые нужно сбросить, при изменении этого файла
     @Deprecated protected Origin origin = Origin.xml;
     protected XmlInfo ancestor;
@@ -46,7 +43,6 @@ public class XmlInfo extends FileInfo {
         this.uri = constructor.getUri();
         this.localPath = constructor.getLocalPath();
         configId = constructor.getConfigId();
-        context = constructor.getContext();
         dependents = Collections.unmodifiableSet(constructor.getDependents());
         origin = constructor.getOrigin();
         ancestor = constructor.getAncestor();
@@ -63,10 +59,6 @@ public class XmlInfo extends FileInfo {
         return configId.getType();
     }
 
-    public String getKey() {
-        return CacheControl.Key.createSourceKey(getId(), getBaseSourceClass());
-    }
-
     @SuppressWarnings("unchecked")
     @Deprecated
     public static Class getClass(String cacheKey) {
@@ -81,10 +73,6 @@ public class XmlInfo extends FileInfo {
         return cacheKey.split("\\$")[1];
     }
 
-    public CacheControl.Key getKey(String contextId) {
-        return new CacheControl.Key(null, contextId, getKey());
-    }
-
     public XmlInfo getAncestor() {
         return ancestor;
     }
@@ -95,11 +83,6 @@ public class XmlInfo extends FileInfo {
 
     public Origin getOrigin() {
         return origin;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <C extends CompileContext> C getContext() {
-        return (C) context;
     }
 
     @Override

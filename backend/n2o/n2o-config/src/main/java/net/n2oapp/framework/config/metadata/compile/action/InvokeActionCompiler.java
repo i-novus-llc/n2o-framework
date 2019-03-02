@@ -20,6 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
@@ -58,7 +59,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware!= null && modelAware.getModel() != null) {
+            if (modelAware != null && modelAware.getModel() != null) {
                 targetWidgetModel = modelAware.getModel();
             }
         }
@@ -86,7 +87,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
 
     private MetaSaga initSuccessMeta(InvokeAction invokeAction, N2oInvokeAction source,
-                                   CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId) {
+                                     CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId) {
         MetaSaga meta = new MetaSaga();
         boolean closeOnSuccess = p.cast(source.getCloseAfterSuccess(), false);
         boolean refresh = p.cast(source.getRefreshOnSuccess(), true);
@@ -137,14 +138,12 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         Map<String, BindLink> pathMapping = new StrictMap<>();
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute(p), "");
+        String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor)p), "");
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            if (model.equals(ReduxModel.RESOLVE)) {
-                String widgetSelectedId = widgetScope.getClientWidgetId() + "_id";
-                path = path + normalize(colon(widgetSelectedId));
-                pathMapping.put(widgetSelectedId, Redux.createBindLink(widgetScope.getClientWidgetId(), ReduxModel.RESOLVE, "id"));
-            }
+        if (widgetScope != null && model.equals(ReduxModel.RESOLVE)) {
+            String widgetSelectedId = widgetScope.getClientWidgetId() + "_id";
+            path = path + normalize(colon(widgetSelectedId));
+            pathMapping.put(widgetSelectedId, Redux.createBindLink(widgetScope.getClientWidgetId(), ReduxModel.RESOLVE, "id"));
         }
         path = path + normalize(p.cast(source.getRoute(), source.getId()));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + path);
@@ -168,7 +167,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContext.setFailAlertWidgetId(metaSaga.getFail().getMessageWidgetId());
         actionContext.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
         actionContext.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
-        p.addRoute(path, actionContext);
+        p.addRoute(actionContext);
     }
 
     private RedirectSaga initServerRedirect(AsyncMetaSaga meta) {

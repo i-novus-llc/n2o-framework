@@ -1,12 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.context;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
@@ -60,20 +62,29 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this.route = route;
     }
 
-    public BaseCompileContext(BaseCompileContext<D, S> context, CompileProcessor p) {
+    public BaseCompileContext(BaseCompileContext<D, S> context) {
         this(context.sourceId, context.sourceClass, context.compiledClass);
-        if (context.route != null) {
-            this.route = context.getRoute(p);
-        }
+        this.route = context.route;
+        this.pathRouteMapping = context.pathRouteMapping;
+        this.queryRouteMapping = context.queryRouteMapping;
+        this.parentModelLink = context.parentModelLink;
+    }
+
+    public BaseCompileContext(String route, BaseCompileContext<D, S> context) {
+        this(context.sourceId, context.sourceClass, context.compiledClass);
+        this.route = route;
         this.pathRouteMapping = context.pathRouteMapping;
         this.queryRouteMapping = context.queryRouteMapping;
         this.parentModelLink = context.parentModelLink;
     }
 
     @Override
-    public String getCompiledId(CompileProcessor p) {
+    public String getCompiledId(BindProcessor p) {
         if (route != null) {
             String url = getRoute(p);
+            if (StringUtils.hasLink(sourceId) && p != null) {
+                return RouteUtil.convertPathToId(url) + getSourceId(p);
+            }
             return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
@@ -82,14 +93,8 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         return sourceId;
     }
 
-    private void checkProcessor(CompileProcessor p) {
-        if (p == null) {
-            throw new IllegalArgumentException("You try to get CompiledId for dynamic metadata without CompileProcessor!");
-        }
-    }
-
     @Override
-    public String getSourceId(CompileProcessor p) {
+    public String getSourceId(BindProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
             return p.resolveText(sourceId, parentModelLink);
@@ -97,12 +102,32 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         return sourceId;
     }
 
-    public String getRoute(CompileProcessor p) {
+    public String getRoute(BindProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveUrlParams(route, parentModelLink);
+            return ((BindProcessor)p).resolveUrl(route, parentModelLink);
         }
         return route;
+    }
+
+    @Override
+    public DataSet getParams(String url, Map<String, String[]> queryParams) {
+        DataSet data;
+        if (route == null) {
+            data = new DataSet();
+        } else {
+            data = getResultData(url, route);
+        }
+        if (queryParams != null) {
+            queryParams.forEach((k, v) -> {
+                if (v.length == 1) {
+                    data.put(k, v[0]);
+                } else {
+                    data.put(k, Arrays.asList(v));
+                }
+            });
+        }
+        return data;
     }
 
     @Override
@@ -160,8 +185,26 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         return this.sourceId.equals(that.sourceId) && this.compiledClass.equals(that.compiledClass);
     }
 
+    private void checkProcessor(BindProcessor p) {
+        if (p == null) {
+            throw new IllegalArgumentException("You try to get CompiledId for dynamic metadata without CompileProcessor!");
+        }
+    }
+
     @Override
     public final int hashCode() {
         return Objects.hash(sourceId, compiledClass);
+    }
+
+    private DataSet getResultData(String url, String urlPattern) {
+        DataSet data = new DataSet();
+        String[] splitUrl = url.split("/");
+        String[] splitPattern = urlPattern.split("/");
+        for (int i = 0; i < splitUrl.length && i < splitPattern.length; i++) {
+            if (splitPattern[i].startsWith(":")) {
+                data.put(splitPattern[i].substring(1), splitUrl[i]);
+            }
+        }
+        return data;
     }
 }

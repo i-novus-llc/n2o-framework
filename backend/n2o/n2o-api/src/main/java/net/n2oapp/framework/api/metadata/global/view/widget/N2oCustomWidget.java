@@ -1,7 +1,5 @@
 package net.n2oapp.framework.api.metadata.global.view.widget;
 
-import net.n2oapp.framework.api.metadata.global.N2oError;
-
 /**
  * User: operhod
  * Date: 21.01.14

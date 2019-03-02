@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://atria.cz/n2o/config/schema/page-1.0">
-
-    <object-id>object</object-id>
-    <layout>n2o/layout/single</layout>
-
-</page>

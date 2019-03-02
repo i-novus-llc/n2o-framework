@@ -119,8 +119,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         ParentRouteScope widgetRouteScope;
         if (parentRouteScope != null) {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams, parentRouteScope);
-        } else if (context.getRoute(p) != null) {
-            widgetRouteScope = new ParentRouteScope(context.getRoute(p), additionalPathParams, additionalQueryParams);
+        } else if (context.getRoute((N2oCompileProcessor)p) != null) {
+            widgetRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor)p), additionalPathParams, additionalQueryParams);
         } else {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams);
         }
@@ -184,7 +184,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (pageScope != null) {
             return pageScope.getGlobalWidgetId(localWidgetId);
         } else {
-            return context.getCompiledId(p);
+            return context.getCompiledId((N2oCompileProcessor)p);
         }
     }
 
@@ -278,7 +278,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (routes == null)
             return;
         String widgetRoute = widgetRouteScope.getUrl();
-
         //Регистрация основного маршрута виджета для страницы
         routes.addRoute(widgetRouteScope.getUrl(), compiled.getId());
         if (compiled.getMasterLink() != null)
@@ -349,7 +348,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
-        p.addRoute(widgetRoute, getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
+        p.addRoute(getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
         return dataProvider;
     }
 

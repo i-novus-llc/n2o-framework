@@ -1,32 +1,27 @@
 package net.n2oapp.framework.config.metadata.compile.menu;
 
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
-import net.n2oapp.framework.config.metadata.validation.ValidationUtil;
-
-import java.util.stream.Stream;
 
 /**
- * Validating simple menu items, including sub menu
- *
- * @author igafurov
- * @since 20.04.2017
+ * Валидатор меню
  */
 public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
 
     @Override
-    public Class<N2oSimpleMenu> getMetadataClass() {
+    public Class<N2oSimpleMenu> getSourceClass() {
         return N2oSimpleMenu.class;
     }
 
     @Override
-    public void check(N2oSimpleMenu simpleMenu) {
+    public void validate(N2oSimpleMenu simpleMenu, ValidateProcessor p) {
         if (simpleMenu.getMenuItems() == null) {
             return;
         }
 
-        ValidationUtil.safeStreamOf(simpleMenu.getMenuItems()).forEach(menuItem -> {
+        p.safeStreamOf(simpleMenu.getMenuItems()).forEach(menuItem -> {
             if (menuItem.getHref() != null && menuItem.getLabel() == null) {
                 throw new N2oMetadataValidationException(String.format("Unspecified label for %s", menuItem.getHref()));
             }
@@ -44,7 +39,7 @@ public class SimpleMenuValidator extends TypedMetadataValidator<N2oSimpleMenu> {
                 if (menuItem.getLabel() == null)
                     throw new N2oMetadataValidationException("Unspecified label for sub-menu");
 
-                ValidationUtil.safeStreamOf(menuItem.getSubMenu()).forEach(subMenuItem -> {
+                p.safeStreamOf(menuItem.getSubMenu()).forEach(subMenuItem -> {
                     if (subMenuItem.getSubMenu() != null)
                         throw new N2oMetadataValidationException("sub-menu in sub-menu not supported");
 
