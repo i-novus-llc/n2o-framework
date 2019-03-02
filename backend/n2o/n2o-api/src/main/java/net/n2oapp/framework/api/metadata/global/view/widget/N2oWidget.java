@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolit
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.local.N2oMetadataMerger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +55,7 @@ public abstract class N2oWidget extends N2oMetadata
     private Boolean opened;
     private String masterFieldId;
     private String detailFieldId;
+    private String visible;
     private Boolean refreshDependentContainer;
     private N2oPreFilter[] preFilters;
     private N2oCounter counter;

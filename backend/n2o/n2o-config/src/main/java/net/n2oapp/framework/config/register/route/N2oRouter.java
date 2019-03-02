@@ -1,10 +1,12 @@
 package net.n2oapp.framework.config.register.route;
 
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.register.route.*;
+import net.n2oapp.framework.api.register.route.MetadataRouter;
+import net.n2oapp.framework.api.register.route.RouteInfoKey;
+import net.n2oapp.framework.api.register.route.RouteRegister;
+import net.n2oapp.framework.api.register.route.RoutingResult;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
@@ -12,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Поиск по URL подходящего контекста для компиляции метаданных.
@@ -36,23 +37,18 @@ public class N2oRouter implements MetadataRouter {
      */
     public RoutingResult get(String url) {
         url = url != null ? url : "/";
-        List<RouteInfoValue> infos = findRoutes(url);
+        List<CompileContext<?, ?>> infos = findRoutes(url);
         if (infos.isEmpty())
             tryToFindDeep(url);
         infos = findRoutes(url);
         if (infos.isEmpty())
             throw new RouteNotFoundException(url);
-        String urlPattern = infos.get(0).getUrlPattern();
-        return new RoutingResult(urlPattern, getContexts(infos), getResultData(url, urlPattern));
+        return new RoutingResult(infos);
     }
 
-    private List<CompileContext<?, ?>> getContexts(List<RouteInfoValue> infos) {
-        return infos.stream().map(RouteInfoValue::getContext).collect(Collectors.toList());
-    }
-
-    private List<RouteInfoValue> findRoutes(String url) {
-        List<RouteInfoValue> infos = null;
-        for (Map.Entry<RouteInfoKey, RouteInfoValue> routeEntry : register) {
+    private List<CompileContext<?, ?>> findRoutes(String url) {
+        List<CompileContext<?, ?>> infos = null;
+        for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : register) {
             if (matchInfo(routeEntry.getKey(), url)) {
                 if (infos == null)
                     infos = new ArrayList<>();
@@ -77,7 +73,7 @@ public class N2oRouter implements MetadataRouter {
     private void tryToFindDeep(String url) {
         if (url.length() > 1) {
             String subUrl;
-            List<RouteInfoValue> subInfo;
+            List<CompileContext<?, ?>> subInfo;
             int idx = url.lastIndexOf("/");
             if (idx > 0)
                 subUrl = url.substring(0, idx);
@@ -88,20 +84,8 @@ public class N2oRouter implements MetadataRouter {
                 tryToFindDeep(subUrl);
                 subInfo = findRoutes(subUrl);
             }
-            subInfo.forEach(i -> pipeline.get(i.getContext()));//warm up
+            subInfo.forEach(i -> pipeline.get(i));//warm up
         }
-    }
-
-    private DataSet getResultData(String url, String urlPattern) {
-        DataSet data = new DataSet();
-        String[] splitUrl = url.split("/");
-        String[] splitPattern = urlPattern.split("/");
-        for (int i = 0; i < splitUrl.length && i < splitPattern.length; i++) {
-            if (splitPattern[i].startsWith(":")) {
-                data.put(splitPattern[i].substring(1), splitUrl[i]);
-            }
-        }
-        return data;
     }
 
 }

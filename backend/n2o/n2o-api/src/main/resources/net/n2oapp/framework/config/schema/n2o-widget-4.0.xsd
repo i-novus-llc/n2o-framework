@@ -131,6 +131,11 @@
                 <xs:documentation>Количество записей, которое отображает виджет</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Видимость виджета</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -387,6 +392,7 @@
     <xs:complexType name="rowsTableDefinition">
         <xs:sequence>
             <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="click" type="clickDefinition" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="color-field-id" type="xs:string">
             <xs:annotation>
@@ -423,6 +429,30 @@
                 <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="clickDefinition">
+        <xs:annotation>
+            <xs:documentation>Клик по строке.</xs:documentation>
+        </xs:annotation>
+
+        <xs:complexContent>
+        <xs:extension base="act:actions">
+
+            <xs:attribute name="action-id" type="xs:string" use="optional">
+                <xs:annotation>
+                    <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+
+            <xs:anyAttribute>
+                <xs:annotation>
+                    <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                </xs:annotation>
+            </xs:anyAttribute>
+        </xs:extension>
+        </xs:complexContent>
+
     </xs:complexType>
 
     <xs:complexType name="paginationDefinition">

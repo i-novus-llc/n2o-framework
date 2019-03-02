@@ -7,9 +7,11 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -83,6 +85,15 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testTable4RowColorCompile"));
         assertThat(table.getComponent().getRowColor(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
         assertThat(table.getComponent().getHasSelect(), is(true));
+    }
+
+    @Test
+    public void testRowClick() {
+        Table table = (Table)compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.widget.xml")
+                .get(new WidgetContext("testTable4RowClickCompile"));
+
+        assertThat(table.getComponent().getRowClick(), notNullValue());
+        assertThat(table.getComponent().getRowClick(), instanceOf(Action.class));
     }
 
     @Test
@@ -200,9 +211,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getFilter().getHideButtons(), is(true));
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("sb"));
-        assertThat(field.getSrc(), is("FilterButtonsField"));
-        assertThat(((SearchButtons) field).getResetLabel(), is("resetLabel"));
-        assertThat(((SearchButtons) field).getSearchLabel(), is("searchLabel"));
+        assertThat(field.getSrc(), is("StandardField"));
+        assertThat(((StandardField)field).getControl(), instanceOf(SearchButtons.class));
+        assertThat(((StandardField)field).getControl().getSrc(), is("FilterButtonsField"));
+
+        assertThat(((StandardField<SearchButtons>) field).getControl().getResetLabel(), is("resetLabel"));
+        assertThat(((StandardField<SearchButtons>) field).getControl().getSearchLabel(), is("searchLabel"));
     }
 
     @Test

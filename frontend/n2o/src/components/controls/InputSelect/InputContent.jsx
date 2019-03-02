@@ -61,7 +61,8 @@ function InputContent({
   options,
   onSelect,
   onClick,
-  isExpanded
+  isExpanded,
+  autoFocus
 }) {
   /**
    * Обработчик изменения инпута при нажатии на клавишу
@@ -148,6 +149,7 @@ function InputContent({
         onBlur={onBlur}
         type="text"
         className="n2o-inp"
+        autoFocus={autoFocus}
       />
     </React.Fragment>
   );
@@ -178,13 +180,15 @@ InputContent.propTypes = {
   onSelect: PropTypes.func,
   onClick: PropTypes.func,
   isSelected: PropTypes.bool,
-  valueFieldId: PropTypes.string
+  valueFieldId: PropTypes.string,
+  autoFocus: PropTypes.bool
 };
 
 InputContent.defaultProps = {
   multiSelect: false,
   disabled: false,
-  collapseSelected: true
+  collapseSelected: true,
+  autoFocus: false
 };
 
 export default InputContent;

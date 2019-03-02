@@ -1,8 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.MetadataBinder;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -20,7 +19,7 @@ import java.util.Map;
 @Component
 public class WidgetBinder implements BaseMetadataBinder<Widget> {
     @Override
-    public Widget bind(Widget widget, CompileProcessor p) {
+    public Widget bind(Widget widget, BindProcessor p) {
         if (widget.getActions() != null)
             ((Map<String, Action>) widget.getActions()).values().forEach(p::bind);
         if (widget.getDataProvider() != null) {

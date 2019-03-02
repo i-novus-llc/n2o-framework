@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceMerger;
 import org.springframework.stereotype.Component;
@@ -33,6 +32,7 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         setIfNotNull(source::setQueryId, override::getQueryId);
         setIfNotNull(source::setObjectId, override::getObjectId);
         setIfNotNull(source::setDefaultValuesQueryId, override::getDefaultValuesQueryId);
+        setIfNotNull(source::setVisible, override::getVisible);
         addIfNotNull(source, override, N2oWidget::setToolbars, N2oWidget::getToolbars);
         addIfNotNull(source, override, N2oWidget::setPreFilters, N2oWidget::getPreFilters);
         addIfNotNull(source, override, N2oWidget::setPreFields, N2oWidget::getPreFields);

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.MetadataBinder;
 import net.n2oapp.framework.api.metadata.compile.MetadataBinderFactory;
@@ -20,7 +21,7 @@ public class N2oMetadataBinderFactory extends BaseMetadataFactory<MetadataBinder
     }
 
     @Override
-    public <D extends Compiled> D bind(D compiled, CompileProcessor processor) {
+    public <D extends Compiled> D bind(D compiled, BindProcessor processor) {
         List<MetadataBinder> binders = produceList(FactoryPredicates::isCompiledAssignableFrom, compiled);
         D result = compiled;
         for (MetadataBinder binder : binders) {

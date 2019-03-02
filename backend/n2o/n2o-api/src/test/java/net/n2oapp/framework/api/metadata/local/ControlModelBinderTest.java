@@ -3,9 +3,9 @@ package net.n2oapp.framework.api.metadata.local;
 import net.n2oapp.context.CacheTemplateByMapMock;
 import net.n2oapp.context.StaticSpringContext;
 
+import net.n2oapp.framework.api.metadata.control.N2oField;
 import org.junit.Before;
 import org.junit.Test;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
 import net.n2oapp.framework.api.metadata.control.list.N2oClassifier;
 import net.n2oapp.framework.api.metadata.control.multi.N2oMultiClassifier;

@@ -119,7 +119,6 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(((PageContext)route("/page/master/1/detail/2").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
         assertThat(((PageContext)route("/page/master/1/detail/2/detail4").getContext(Page.class)).getClientPageId(), is(context.getClientPageId()));
         assertThat(((PageContext)route("/page/master/1/detail/2/detail4/3").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
-
     }
 
     @Test
@@ -154,6 +153,12 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(dataProvider.getQueryMapping().get("parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
 
         assertThat(page.getRoutes().getQueryMapping().size(), is(6));
+
+        //Условия видимости виджетов
+        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getVisible(), is(true));
+        assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
+        assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
+
     }
 
     @Test

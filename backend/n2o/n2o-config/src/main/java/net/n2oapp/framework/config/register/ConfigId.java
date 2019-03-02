@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.register;
 
-import net.n2oapp.framework.api.metadata.MetaModel;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.MetaType;
 

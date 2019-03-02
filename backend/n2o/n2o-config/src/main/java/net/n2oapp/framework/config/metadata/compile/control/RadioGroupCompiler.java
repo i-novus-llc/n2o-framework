@@ -29,6 +29,7 @@ public class RadioGroupCompiler extends ListControlCompiler<RadioGroup, N2oRadio
         radioGroup.setInline(source.getInline());
         radioGroup.setType(p.cast(source.getType(), p.resolve(property("n2o.api.control.alt.type"), String.class)));
         radioGroup.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.control.list.size"), Integer.class)));
-        return compileListControl(radioGroup, source, context, p);
+        StandardField<RadioGroup> result = compileListControl(radioGroup, source, context, p);
+        return compileFetchDependencies(result, source, p);
     }
 }

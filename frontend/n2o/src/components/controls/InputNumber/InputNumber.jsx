@@ -126,7 +126,18 @@ class InputNumber extends React.Component {
    * Базовый рендер
    * */
   render() {
-    const { visible, disabled, name, step, min, max, showButtons, className, onFocus } = this.props;
+    const {
+      visible,
+      disabled,
+      name,
+      step,
+      min,
+      max,
+      showButtons,
+      className,
+      onFocus,
+      autoFocus
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -150,6 +161,7 @@ class InputNumber extends React.Component {
             onChange={({ target }) => this.onChange(target.value)}
             onPaste={this.onPaste}
             disabled={disabled}
+            autoFocus={autoFocus}
           />
           {showButtons && (
             <div className="n2o-input-number-buttons">
@@ -171,6 +183,7 @@ InputNumber.defaultProps = {
   disabled: false,
   visible: true,
   step: '0.1',
+  autoFocus: false,
   showButtons: true,
   onChange: val => {},
   onBlur: val => {},
@@ -187,7 +200,8 @@ InputNumber.propTypes = {
   name: PropTypes.string,
   showButtons: PropTypes.bool,
   onChange: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  autoFocus: PropTypes.bool
 };
 
 export default InputNumber;

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
+import ReactDOM from 'react-dom';
 import {
   difference,
   filter as filterF,
@@ -76,12 +77,15 @@ function InputSelectTree({
   value,
   onBlur,
   searchPlaceholder,
+  dropdownExpanded,
+  setDropdownExpanded,
   placeholder,
   setTreeExpandedKeys,
   notFoundContent,
   treeExpandedKeys,
   closePopupOnSelect,
   loading,
+  isLoading,
   parentFieldId,
   valueFieldId,
   labelFieldId,
@@ -158,20 +162,6 @@ function InputSelectTree({
       .filter(key => !itemsByID[key][parentFieldId])
       .reduce((acc, key) => [...acc, { ...itemsByID[key] }], []);
   });
-
-  /**
-   * Если нет data но есть value
-   * строим дерево из value иначе будет неправильное отображение
-   * @param items
-   * @returns {*}
-   */
-  const setData = items => {
-    const newValue = isArray(value) ? value : [value];
-    if (isEmpty(items) && !isEmpty(value)) {
-      return createTree(newValue);
-    }
-    return createTree(items);
-  };
 
   /**
    * Функция для поиска.
@@ -327,7 +317,6 @@ function InputSelectTree({
     onSearch(value);
     return true;
   };
-
   /**
    * Функция для контроля открытия/закрытия popup
    * @param visible
@@ -340,9 +329,10 @@ function InputSelectTree({
       onBlur();
     }
     onToggle(visible);
+    setDropdownExpanded(visible);
     visible ? onOpen() : onClose();
     if (ajax) setTreeExpandedKeys([]);
-    return true;
+    return false;
   };
 
   /**
@@ -363,17 +353,22 @@ function InputSelectTree({
 
   const inputIcon = loading ? <InlineSpinner /> : <Icon name="fa fa-chevron-down" />;
 
+  const getPopupContainer = container => container;
+
+  const open = !loading ? dropdownExpanded : false;
+
   return (
     <TreeSelect
       tabIndex={-1}
       {...value && { value: setValue(value) }}
+      open={open}
       onDropdownVisibleChange={handleDropdownVisibleChange}
-      className={cx('n2o', className)}
+      className={cx('n2o', className, { loading })}
       switcherIcon={renderSwitcherIcon}
       inputIcon={inputIcon}
       multiple={multiSelect}
       treeCheckable={hasCheckboxes && <CheckboxN2O inline />}
-      treeData={setData(data)}
+      treeData={createTree(data)}
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
       removeIcon={clearIcon}
@@ -386,6 +381,7 @@ function InputSelectTree({
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
       showCheckedStrategy={showCheckedStrategy}
+      getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
         defaultMessage: notFoundContent || ' '
@@ -412,5 +408,6 @@ export { SHOW_ALL, SHOW_CHILD, SHOW_PARENT, TreeNode };
 
 export default compose(
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
+  withState('dropdownExpanded', 'setDropdownExpanded', false),
   injectIntl
 )(InputSelectTree);

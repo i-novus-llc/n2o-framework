@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
@@ -20,7 +20,7 @@ import java.util.Map;
 @Component
 public class PageBinder implements BaseMetadataBinder<Page> {
     @Override
-    public Page bind(Page page, CompileProcessor p) {
+    public Page bind(Page page, BindProcessor p) {
         if (page.getWidgets() != null) {
             page.getWidgets().values().forEach(p::bind);
         }
@@ -81,7 +81,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
         return links;
     }
 
-    private void resolveLinks(Models models, List<ModelLink> filterLinks, CompileProcessor p) {
+    private void resolveLinks(Models models, List<ModelLink> filterLinks, BindProcessor p) {
         models.keySet().forEach(param -> {
                     ModelLink link = p.resolveLink(models.get(param));
                     p.resolveSubModels(link, filterLinks);

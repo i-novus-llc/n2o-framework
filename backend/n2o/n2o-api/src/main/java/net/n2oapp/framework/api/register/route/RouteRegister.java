@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Реестр URL адресов метаданных
  */
-public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, RouteInfoValue>> {
+public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, CompileContext>> {
 
     /**
      * Регистрация URL адреса метаданной

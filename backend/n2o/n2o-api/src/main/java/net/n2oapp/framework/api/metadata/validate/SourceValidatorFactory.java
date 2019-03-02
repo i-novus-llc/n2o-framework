@@ -13,6 +13,6 @@ public interface SourceValidatorFactory extends MetadataFactory<SourceValidator>
      * @param source Исходная метаданная
      * @throws N2oMetadataValidationException Иключение при ошибке валидации
      */
-    <S> void validate(S source) throws N2oMetadataValidationException;
+    <S> void validate(S source, ValidateProcessor p);
 
 }

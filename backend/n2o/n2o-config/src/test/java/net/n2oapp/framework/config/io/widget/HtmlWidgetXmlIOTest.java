@@ -31,8 +31,6 @@ public class HtmlWidgetXmlIOTest extends BaseWidgetReaderTest {
                     assert htmlWidget.getUrl().equals("test.html");
                     assert htmlWidget.getName().equals("Test");
                     assert htmlWidget.getObjectId().equals("test");
-                    assert htmlWidget.getProperties().size() == 1;
-                    assert htmlWidget.getProperties().get("test").equals("test");
                 });
     }
 }

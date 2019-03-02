@@ -17,13 +17,13 @@ public class MockBindPipeline implements ReadCompileTerminalPipeline<ReadCompile
     @Override
     public <D extends Compiled> D get(CompileContext<D, ?> context) {
         if (context.getSourceId(null).equals("pWc")) {
-            register.addRoute("/p/w/:id/c/b", new MockCompileContext<>("pWcB", null, Page.class));
+            register.addRoute("/p/w/:id/c/b", new MockCompileContext<>("/p/w/:id/c/b", "pWcB", null, Page.class));
         } else if (context.getSourceId(null).equals("pW1")) {
-            register.addRoute("/p/w1/:id/c", new MockCompileContext<>("pW1c", null, Page.class));
+            register.addRoute("/p/w1/:id/c", new MockCompileContext<>("/p/w1/:id/c", "pW1c", null, Page.class));
         } else if (context.getSourceId(null).equals("pW1c")) {
-            register.addRoute("/p/w1/:id/c/b", new MockCompileContext<>("pW1cB", null, Page.class));
+            register.addRoute("/p/w1/:id/c/b", new MockCompileContext<>("/p/w1/:id/c/b", "pW1cB", null, Page.class));
         } else if (context.getSourceId(null).equals("pW1cB")) {
-            register.addRoute("/p/w1/:id/c/b/:name", new MockCompileContext<>("pW1cB", null, Page.class));
+            register.addRoute("/p/w1/:id/c/b/:name", new MockCompileContext<>("/p/w1/:id/c/b/:name", "pW1cB", null, Page.class));
         }
         return null;
     }

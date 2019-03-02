@@ -21,7 +21,6 @@ export default function configureStore(initialState, history, config) {
         batchDispatchMiddleware,
         thunkMiddleware,
         sagaMiddleware,
-        loggerMiddleware,
         routerMiddleware(history)
       )
     )
