@@ -1,31 +1,80 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { lifecycle, compose, withHandlers } from 'recompose';
+import { isEqual, find, isEmpty, debounce } from 'lodash';
+
 import Tree from '../component/Tree';
-import dependency from '../../../../core/dependency';
+import widgetContainer from '../../WidgetContainer';
+import { setTableSelectedId } from '../../../../actions/widgets';
+import { SET_TABLE_SELECTED_ID } from '../../../../constants/widgets';
+import { TREE } from '../../widgetTypes';
 
-import { treeToCollection } from '../until';
-import { defaultProps, propTypes } from './allProps';
+const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
+  const predicate = ({ id }) => id == selectedId;
+  return isEqual(find(data1, predicate), find(data2, predicate));
+};
 
-import { keys, pick } from 'lodash';
+export const withWidgetContainer = widgetContainer(
+  {
+    mapProps: props => {
+      return {
+        widgetId: props.widgetId,
+        pageId: props.pageId,
+        isActive: props.isActive,
+        hasFocus: props.hasFocus,
+        hasSelect: props.hasSelect,
+        autoFocus: props.autoFocus,
+        datasource: props.datasource,
+        selectedId: props.selectedId,
+        onResolve: debounce(newModel => {
+          props.onResolve(newModel);
+          if (props.selectedId != newModel.id) {
+            props.dispatch(setTableSelectedId(props.widgetId, newModel.id));
+          }
+        }, 100),
+        onFocus: props.onFocus,
+        size: props.size,
+        actions: props.actions,
+        redux: true,
+        onActionImpl: props.onActionImpl,
+        rowClick: props.rowClick
+      };
+    }
+  },
+  TREE
+);
 
-class TreeContainer extends Component {
-  constructor(props) {
-    super(props);
+export const withContainerLiveCycle = lifecycle({
+  componentWillReceiveProps(nextProps) {
+    const { selectedId: prevSelectedId, datasource: prevDatasource, onResolve } = this.props;
+    const { hasSelect, datasource, selectedId } = nextProps;
+
+    if (
+      hasSelect &&
+      !isEmpty(datasource) &&
+      !isEqual(prevDatasource, datasource) &&
+      (!selectedId ||
+        !isEqual(prevSelectedId, selectedId) ||
+        !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
+    ) {
+      const selectedModel = find(datasource, model => model.id == selectedId);
+      const resolveModel = selectedModel || datasource[0];
+      onResolve(resolveModel);
+    }
   }
+});
 
-  render() {
-    const { bulkData, parentFieldId, valueFieldId, datasource, childrenFieldId } = this.props;
-
-    const datasourceForTree = bulkData
-      ? treeToCollection(datasource, { parentFieldId, valueFieldId, childrenFieldId })
-      : datasource;
-
-    const treeProps = pick(this.props, keys(propTypes));
-
-    return <Tree {...treeProps} datasource={datasourceForTree} />;
+export const withWidgetHandlers = withHandlers({
+  onRowClickAction: ({ rowClick, onActionImpl }) => () => {
+    onActionImpl(rowClick);
   }
-}
+});
 
-TreeContainer.defaultProps = defaultProps;
-TreeContainer.propTypes = propTypes;
+/**
+ * Обертка в widgetContainer, мэппинг пропсов
+ */
 
-export default dependency(TreeContainer);
+export default compose(
+  withWidgetContainer,
+  withContainerLiveCycle,
+  withWidgetHandlers
+)(Tree);

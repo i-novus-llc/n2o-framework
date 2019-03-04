@@ -2,12 +2,13 @@
   "Page_Tree": {
     "src": "TreeWidget",
     "dataProvider": {
-      "url": "n2o/data/test",
+      "url": "n2o/data",
       "pathMapping": {
       },
       "queryMapping": {
       }
     },
+    "fetchOnInit": true,
     "disabled": false,
     "parentIcon": "",
     "childIcon": "",
@@ -26,6 +27,7 @@
     "hasCheckboxes": false,
     "draggable": true,
     "icon": "",
-    "childrenFieldId": "children"
+    "childrenFieldId": "children",
+    "hasFocus": true
   }
 }
