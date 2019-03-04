@@ -109,6 +109,9 @@
 |<object-access>
 |Доступ к объекту и операциям
 
+|<object-filters>
+|Фильтрация доступа к объекту. Идет в связке с атрибутом remove-filters у object-access.
+
 |<url-access>
 |Доступ к ссылке
 
@@ -137,17 +140,44 @@
 Атрибут `operations` задаёт право выполнять указанные операции объекта.
 Если указан знак `*` (звёздочка), позволяется выполнять любые операции.
 
-С помощью фильтров доступа можно ограничить доступ к данным объекта:
+==== Фильтрация доступа к объекту
 
-.Правила доступа к данным объекта
+С помощью точки доступа `<object-filters>` можно задать фильтры для объектов,
+которые будут действовать если их не отключить с помощью атрибута
+`remove-filters` в `<object-access>`.
+
+Пример:
+
+Фильтры `genderFilter` и `positionFilter` прописанные у `authenticated` будут
+действовать для всех авторизованных пользователей, кроме тех у кого есть роль
+`allPersons` или `allGenders`. Пользователям с ролью `allGenders` будут доступны
+пользователи любого пола. Пользователям с ролью `allPersons` будут доступны
+все пользователи.
+
+.Правила фильтрации доступа к данным объекта
 [source,xml]
 ----
 <authenticated>
-  <object-access object-id="person">
-    <eq field-id="gender" value="man"/>
+  <object-filters object-id="person">
     <!-- Достпуны данные только мужского пола -->
-  </object-access>
+    <eq id="genderFilter" field-id="gender" value="man"/>
+    <!-- Достпуны данные только разработчики -->
+    <eq id="positionFilter" field-id="position" value="Software developer"/>
+  </object-filters>
 </authenticated>
+
+<!-- Данная роль отключает фильтр genderFilters и
+    тем самым дает право просмотреть пользователей любого пола  -->
+<role id="allGenders">
+  <object-access object-id="person" remove-filters="genderFilters"/>
+</role>
+
+<!-- Данная роль отключает фильтры genderFilters и positionFilter,
+    тем самым дает право просмотреть всех пользователей  -->
+<role id="allPersons">
+  <object-access object-id="person" remove-filters="genderFilters,positionFilter"/>
+</role>
+
 ----
 
 ==== Доступ к ссылке
