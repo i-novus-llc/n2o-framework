@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
+import PanelsWithDependency from 'N2oStorybook/json/PanelsWithDependency';
 import { set, pullAt } from 'lodash';
 
 import PanelRegion from './PanelRegion';
@@ -16,6 +17,7 @@ import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import { makeStore } from '../../../../.storybook/decorators/utils';
 import cloneObject from '../../../utils/cloneObject';
 import panelStyles from '../../snippets/Panel/panelStyles';
+import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 
 const stories = storiesOf('Регионы/Панель', module);
 
@@ -162,4 +164,46 @@ stories
         ))}
       </div>
     );
+  })
+  .add('Зависимости в панелях', () => {
+    class PanelStory extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { show: true };
+        this.onChange = this.onChange.bind(this);
+      }
+      onChange() {
+        this.setState({ show: !this.state.show });
+      }
+      render() {
+        const { show } = this.state;
+        const dependency = {
+          visible: [
+            {
+              bindLink: "models.resolve['Page_First']",
+              condition: 'true'
+            },
+            {
+              bindLink: "models.resolve['Page_First']",
+              condition: show ? 'true' : 'false'
+            }
+          ]
+        };
+        return (
+          <div className="row">
+            <div className="col-md-6">
+              <CheckboxN2O
+                checked={show}
+                onChange={this.onChange}
+                inline={true}
+                label={'Показать/Скрыть панель по зависимости'}
+              />
+              <PanelRegion {...PanelsWithDependency} dependency={dependency} pageId="Page" />
+            </div>
+          </div>
+        );
+      }
+    }
+
+    return <PanelStory />;
   });
