@@ -151,7 +151,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
 
         // совпадают модель и виджет
-        String resultText = processor.resolveText("Hello, {name}", new ModelLink(ReduxModel.RESOLVE, "widget1"));
+        String resultText = processor.resolveText("Hello, {name}", linkId);
         assertThat(resultText, is("Hello, Joe"));
     }
 
