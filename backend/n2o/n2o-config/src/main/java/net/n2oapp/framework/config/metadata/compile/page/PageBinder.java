@@ -70,7 +70,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
                             link.setSubModelQuery(f.getLink().getSubModelQuery());
                             if (models.get(model, widgetId, fieldId) != null)
                                 link.setValue(models.get(model, widgetId, fieldId).getValue());
-                            if (link.isConst())
+                            if (link.getValue() == null || link.isConst())
                                 models.add(model, widgetId, fieldId, link);
                             links.add(f.getLink());
                         }
