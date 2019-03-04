@@ -593,9 +593,9 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |===
 Пример::
 [source,xml]
-    <select id="gender" label="Пол" required="true" query-id="ProtoGender"
-            label-field-id="name" cleanable="false" />
-
+----
+<select id="gender" label="Пол" query-id="genders" cleanable="false" />
+----
 
 
 === <input-select>
