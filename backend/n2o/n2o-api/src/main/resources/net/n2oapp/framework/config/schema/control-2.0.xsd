@@ -454,9 +454,19 @@
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
                 <xs:attribute name="search" type="xs:boolean" use="optional" default="false"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all"/>
+                <xs:attribute name="max-tag-count" type="xs:integer" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="checkingStrategyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="all"/>
+            <xs:enumeration value="parent"/>
+            <xs:enumeration value="child"/>
+        </xs:restriction>
+    </xs:simpleType>
 
 
     <xs:complexType name="thenSetValue">
