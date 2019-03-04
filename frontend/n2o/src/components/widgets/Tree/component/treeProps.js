@@ -14,16 +14,14 @@ export const defaultProps = {
   datasource: [],
   parentIcon: '',
   childIcon: '',
-
-  checkable: true,
-  draggable: false,
-  multiple: false,
+  draggable: true,
+  multiselect: true,
   prefixCls: 'n2o-rc-tree',
   icon: '',
   selectable: true,
-  showLine: true,
+  showLine: false,
   filter: '',
-  expandBtn: true
+  expandBtn: false
 };
 
 export const propTypes = {
@@ -41,9 +39,8 @@ export const propTypes = {
   parentIcon: PropTypes.string,
   childIcon: PropTypes.string,
   prefixCls: PropTypes.string,
-  checkable: PropTypes.bool,
   draggable: PropTypes.bool,
-  multiple: PropTypes.bool,
+  multiselect: PropTypes.bool,
   icon: PropTypes.string,
   selectable: PropTypes.bool,
   showLine: PropTypes.bool,
@@ -55,7 +52,6 @@ export const TREE_PROPS = [
   'loading',
   'disabled',
   'draggable',
-  'multiple',
   'selectable',
   'showLine',
   'prefixCls'
