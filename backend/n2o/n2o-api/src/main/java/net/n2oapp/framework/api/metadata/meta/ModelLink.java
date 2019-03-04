@@ -50,7 +50,11 @@ public class ModelLink extends BindLink {
     public ModelLink getWidgetLink() {
         if (getModel() == null || getWidgetId() == null)
             return null;
-        return new ModelLink(getModel(), getWidgetId());
+        ModelLink widgetLink = new ModelLink(getModel(), getWidgetId());
+        if (getFieldId() == null || getFieldId().equals("id")) {
+            widgetLink.setSubModelQuery(getSubModelQuery());
+        }
+        return widgetLink;
     }
 
     /**
@@ -104,7 +108,7 @@ public class ModelLink extends BindLink {
     }
 
     public boolean isConst() {
-        return !StringUtils.isJs(getValue());
+        return getValue() != null && !StringUtils.isJs(getValue());
     }
 
     @Override

@@ -2,16 +2,25 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 
 /**
  * Тесты для {@link DataModel}
@@ -48,4 +57,22 @@ public class DataModelTest {
         assertThat(model.getData(new ModelLink(ReduxModel.RESOLVE, "detail")), hasEntry("id", 2));
     }
 
+    @Test
+    public void getDataIfAbsent() {
+        N2oSubModelsProcessor p = mock(N2oSubModelsProcessor.class);
+        doAnswer(invocation -> {
+            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            if (data.get("id").equals(123))
+                data.put("name", "Joe");
+            return null;
+        }).when(p).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+
+        DataModel model = new DataModel();
+        model.add(new ModelLink(ReduxModel.RESOLVE, "widget", "id"), 123);
+        ModelLink nameLink = new ModelLink(ReduxModel.RESOLVE, "widget");
+        nameLink.setSubModelQuery(new SubModelQuery("query"));
+
+        Function<String, Object> dataFunc = model.getDataIfAbsent(nameLink, p);
+        assertThat(dataFunc.apply("name"), is("Joe"));
+    }
 }
