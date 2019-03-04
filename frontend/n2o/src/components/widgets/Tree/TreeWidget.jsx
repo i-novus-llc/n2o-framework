@@ -1,3 +1,3 @@
-import Tree from './component/Tree';
+import TreeContainer from './container/TreeContainer';
 
-export default Tree;
+export default TreeContainer;

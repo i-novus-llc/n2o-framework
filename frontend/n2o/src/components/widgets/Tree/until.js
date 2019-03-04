@@ -1,7 +1,28 @@
 import React from 'react';
-import { forEach, keys, map, filter, eq } from 'lodash';
+import { forEach, keys, map, filter, eq, omit } from 'lodash';
 import { KEY_CODES } from './component/constants';
 import { findDOMNode } from 'react-dom';
+
+/**
+ * Создаем коллекцию из дерева tree -> [{ id: ..., parentId: ... }, ...]
+ * @param tree
+ * @param parentFieldId
+ * @param valueFieldId
+ */
+export const treeToCollection = (tree, { parentFieldId, valueFieldId, childrenFieldId }) => {
+  let buf = [...tree];
+
+  buf.forEach(el => {
+    if (el[childrenFieldId]) {
+      const elems = el[childrenFieldId].map(v => ({ ...v, [parentFieldId]: el[valueFieldId] }));
+      buf.push(...elems);
+    } else {
+      buf.push(...el);
+    }
+  });
+
+  return buf.map(v => omit(v, [childrenFieldId]));
+};
 /**
  * Превращаем коллекцию в обьект с ключами id и value Element
  * [{ id: 1, ...}, { id: 2, ... }] => { 1: {...}, 2: {...} }

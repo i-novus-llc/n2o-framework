@@ -9,7 +9,20 @@ export const defaultProps = {
   multiselect: true,
   showLine: false,
   filter: '',
-  expandBtn: true
+  expandBtn: true,
+  bulkData: false,
+  parentFieldId: 'parentId',
+  valueFieldId: 'id',
+  labelFieldId: 'label',
+  iconFieldId: 'icon',
+  imageFieldId: 'image',
+  badgeFieldId: 'badge',
+  badgeColorFieldId: 'color',
+  hasCheckboxes: false,
+  draggable: true,
+  prefixCls: 'n2o-rc-tree',
+  icon: '',
+  childrenFieldId: 'children'
 };
 
 export const propTypes = {
@@ -21,5 +34,19 @@ export const propTypes = {
   multiple: PropTypes.bool,
   showLine: PropTypes.bool,
   filter: PropTypes.string,
-  expandBtn: PropTypes.bool
+  expandBtn: PropTypes.bool,
+  bulkData: PropTypes.bool,
+  parentFieldId: PropTypes.string,
+  valueFieldId: PropTypes.string,
+  labelFieldId: PropTypes.string,
+  iconFieldId: PropTypes.string,
+  imageFieldId: PropTypes.string,
+  badgeFieldId: PropTypes.string,
+  badgeColorFieldId: PropTypes.string,
+  hasCheckboxes: PropTypes.bool,
+  prefixCls: PropTypes.string,
+  draggable: PropTypes.bool,
+  icon: PropTypes.string,
+  selectable: PropTypes.bool,
+  childrenFieldId: PropTypes.string
 };

@@ -1,0 +1,31 @@
+{
+  "Page_Tree": {
+    "src": "TreeWidget",
+    "dataProvider": {
+      "url": "n2o/data/test",
+      "pathMapping": {
+      },
+      "queryMapping": {
+      }
+    },
+    "disabled": false,
+    "parentIcon": "",
+    "childIcon": "",
+    "multiselect": true,
+    "showLine": false,
+    "filter": "",
+    "expandBtn": true,
+    "bulkData": false,
+    "parentFieldId": "parentId",
+    "valueFieldId": "id",
+    "labelFieldId": "label",
+    "iconFieldId": "icon",
+    "imageFieldId": "image",
+    "badgeFieldId": "badge",
+    "badgeColorFieldId": "color",
+    "hasCheckboxes": false,
+    "draggable": true,
+    "icon": "",
+    "childrenFieldId": "children"
+  }
+}
