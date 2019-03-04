@@ -25,7 +25,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -61,6 +60,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                  CompiledObject object) {
         String localWidgetId = initLocalWidgetId(source, p);
         source.setId(localWidgetId);
+        compiled.setMasterParam(source.getMasterParam());
         compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
         compiled.setClassName(source.getCssClass());
         compiled.setProperties(p.mapAttributes(source));
@@ -90,7 +90,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
                 //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
-                String selectedId = normalizeParam(widgetScope.getDependsOnWidgetId() + "_id");
+                String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
                 return normalize(colon(selectedId)) + normalize(source.getId());
             } else {
                 return normalize(source.getId());

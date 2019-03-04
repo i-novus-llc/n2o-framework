@@ -68,6 +68,11 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="master-param" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Параметр фильтра</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="depends-on" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Ссылка на master виджет
@@ -437,20 +442,21 @@
         </xs:annotation>
 
         <xs:complexContent>
-        <xs:extension base="act:actions">
+            <xs:extension base="act:actions">
 
-            <xs:attribute name="action-id" type="xs:string" use="optional">
-                <xs:annotation>
-                    <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
 
-            <xs:anyAttribute>
-                <xs:annotation>
-                    <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-                </xs:annotation>
-            </xs:anyAttribute>
-        </xs:extension>
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
         </xs:complexContent>
 
     </xs:complexType>
@@ -691,6 +697,8 @@
             <xs:annotation>
                 <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="param" type="xs:string" use="optional">
         </xs:attribute>
         <xs:attribute name="ref-model" type="reduxModel" use="optional">
             <xs:annotation>
