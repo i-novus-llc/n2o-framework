@@ -32,7 +32,29 @@ class TreeWidget extends React.Component {
    * Замена src на компонент
    */
   getWidgetProps() {
-    const { hasFocus, hasSelect, autoFocus, rowColor, rowClick } = this.props;
+    const {
+      hasFocus,
+      hasSelect,
+      autoFocus,
+      rowColor,
+      rowClick,
+      childIcon,
+      multiselect,
+      showLine,
+      filter,
+      expandBtn,
+      bulkData,
+      parentFieldId,
+      valueFieldId,
+      labelFieldId,
+      iconFieldId,
+      imageFieldIdd,
+      badgeFieldId,
+      badgeColorFieldId,
+      hasCheckboxes,
+      draggable,
+      childrenFieldId
+    } = this.props;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
     return {
@@ -43,7 +65,24 @@ class TreeWidget extends React.Component {
       hasSelect,
       autoFocus,
       dataProvider,
-      rowClick
+      rowClick,
+
+      childIcon,
+      multiselect,
+      showLine,
+      filter,
+      expandBtn,
+      bulkData,
+      parentFieldId,
+      valueFieldId,
+      labelFieldId,
+      iconFieldId,
+      imageFieldIdd,
+      badgeFieldId,
+      badgeColorFieldId,
+      hasCheckboxes,
+      draggable,
+      childrenFieldId
     };
   }
 

@@ -10,11 +10,16 @@ function BaseNode({
   imageFieldId,
   labelFieldId,
   badgeFieldId,
+  valueFieldId,
   badgeColorFieldId,
   data
 }) {
   return (
-    <span className={`${prefixCls}-content-wrapper`} tabIndex="-1">
+    <span
+      data-id={data[valueFieldId]}
+      className={`${prefixCls}-content-wrapper cls-${data[valueFieldId]}`}
+      tabIndex="-1"
+    >
       {[
         has(data, iconFieldId) && <Icon key={uniqueId('tree_icon_')} name={data[iconFieldId]} />,
         has(data, imageFieldId) && (

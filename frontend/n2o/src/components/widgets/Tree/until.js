@@ -1,5 +1,5 @@
 import React from 'react';
-import { forEach, keys, map, filter, eq, omit } from 'lodash';
+import { forEach, keys, map, filter, eq, omit, isFunction } from 'lodash';
 import { KEY_CODES } from './component/constants';
 import { findDOMNode } from 'react-dom';
 
@@ -123,7 +123,8 @@ export const keyDownAction = ({
   expandedKeys,
   prefixCls,
   valueFieldId,
-  parentFieldId
+  parentFieldId,
+  hasCheckboxes
 }) => {
   const node = findDOMNode(treeRef.current);
 
@@ -183,4 +184,13 @@ export const keyDownAction = ({
     }
   }
   return false;
+};
+
+export const autoBind = context => {
+  console.log(keys(context));
+  keys(context).forEach(key => {
+    if (isFunction(context[key]) && !eq(key.indexOf('_'), -1)) {
+      context[key].bind(context);
+    }
+  });
 };

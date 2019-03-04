@@ -1,13 +1,19 @@
 import React, { Component, Fragment } from 'react';
 import TreeBase from 'rc-tree';
-import { pick, isEqual, map, eq, difference } from 'lodash';
+import { pick, isEqual, map, eq, difference, filter, isArray, isFunction } from 'lodash';
 import { HotKeys } from 'react-hotkeys';
 //components
 import { BaseNode } from '../treeNodes';
 import Filter from './Filter';
 import ExpandBtn from './ExpandBtn';
 //fns
-import { createTreeFn, takeKeysWhenSearching, keyDownAction, FILTER_MODE } from '../until';
+import {
+  createTreeFn,
+  takeKeysWhenSearching,
+  keyDownAction,
+  FILTER_MODE,
+  autoBind
+} from '../until';
 import { propTypes, defaultProps, TREE_NODE_PROPS, TREE_PROPS } from './treeProps';
 import Icon from '../../../snippets/Icon/Icon';
 import CheckboxN2O from '../../../controls/Checkbox/CheckboxN2O';
@@ -22,10 +28,14 @@ class Tree extends Component {
       expandedKeys: [],
       autoExpandParent: true,
       searchValue: '',
+      checkedKeys: [],
       selectedKeys: []
     };
 
+    this.elems = [];
+
     this.createTree = createTreeFn(BaseNode);
+
     this.onFilter = this.onFilter.bind(this);
     this.onExpand = this.onExpand.bind(this);
     this.onHideAllTreeItem = this.onHideAllTreeItem.bind(this);
@@ -34,7 +44,15 @@ class Tree extends Component {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onCheck = this.onCheck.bind(this);
     this.onSelect = this.onSelect.bind(this);
-    this.elems = [];
+    this.prepareDataToResolve = this.prepareDataToResolve.bind(this);
+    this.createSelectedKeys = this.createSelectedKeys.bind(this);
+    this.selectedObjToTreeKeys = this.selectedObjToTreeKeys.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.resolveModel, this.props.resolveModel)) {
+      this.createSelectedKeys();
+    }
   }
 
   onFilter(value) {
@@ -83,6 +101,16 @@ class Tree extends Component {
     return <CheckboxN2O inline />;
   }
 
+  prepareDataToResolve(keys) {
+    const { onResolve, datasource, valueFieldId, multiselect } = this.props;
+    const value = filter(datasource, data => keys.includes(data[valueFieldId]));
+    if (multiselect) {
+      onResolve(value);
+    } else {
+      onResolve(value ? value[0] : null);
+    }
+  }
+
   onSelect(keys, { nativeEvent }) {
     const { multiselect, hasCheckboxes } = this.props;
     const { selectedKeys } = this.state;
@@ -93,24 +121,34 @@ class Tree extends Component {
 
     const multiOnlySelect = multiselect && !hasCheckboxes;
 
+    let selectedKeysForResolve = null;
+
     if (multiOnlySelect && keys.length > 1) {
       if (nativeEvent.ctrlKey) {
-        this.setState({ selectedKeys: keys });
+        selectedKeysForResolve = keys;
       } else {
-        this.setState({ selectedKeys: difference(keys, selectedKeys) });
+        selectedKeysForResolve = difference(keys, selectedKeys);
       }
     } else {
-      this.setState({ selectedKeys: keys });
+      selectedKeysForResolve = keys;
     }
+
+    this.prepareDataToResolve(selectedKeysForResolve);
   }
 
   onCheck(keys) {
-    // this.setState({ selectedKeys: keys });
+    this.prepareDataToResolve(keys);
   }
 
   onKeyDown(_, key) {
     const inState = pick(this.state, ['expandedKeys']);
-    const inProps = pick(this.props, ['prefixCls', 'valueFieldId', 'parentFieldId', 'datasource']);
+    const inProps = pick(this.props, [
+      'prefixCls',
+      'valueFieldId',
+      'parentFieldId',
+      'datasource',
+      'hasCheckboxes'
+    ]);
     keyDownAction({
       key,
       treeRef: this.treeRef,
@@ -119,11 +157,32 @@ class Tree extends Component {
     });
   }
 
+  selectedObjToTreeKeys() {
+    const { resolveModel, datasource, valueFieldId } = this.props;
+
+    if (isArray(resolveModel)) {
+      return map(resolveModel, valueFieldId);
+    }
+    if (!resolveModel) {
+      return [];
+    }
+    return resolveModel[valueFieldId];
+  }
+
+  createSelectedKeys() {
+    const { hasCheckboxes, multiselect } = this.props;
+    if (hasCheckboxes && multiselect) {
+      this.setState({ selectedKeys: [], checkedKeys: this.selectedObjToTreeKeys() });
+    } else {
+      this.setState({ selectedKeys: this.selectedObjToTreeKeys(), checkedKeys: [] });
+    }
+  }
+
   render() {
     const nodeProps = pick(this.props, TREE_NODE_PROPS);
     const treeOtherProps = pick(this.props, TREE_PROPS);
 
-    const { expandedKeys, autoExpandParent, selectedKeys } = this.state;
+    const { expandedKeys, autoExpandParent, selectedKeys, checkedKeys } = this.state;
     const { filter, expandBtn, datasource, hasCheckboxes, multiselect } = this.props;
 
     const checkable = hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false;
@@ -144,6 +203,7 @@ class Tree extends Component {
             treeData={this.createTree({ datasource, ...nodeProps })}
             expandedKeys={expandedKeys}
             selectedKeys={selectedKeys}
+            checkedKeys={checkedKeys}
             onCheck={this.onCheck}
             onSelect={this.onSelect}
             multiple={multiselect}

@@ -21,7 +21,8 @@ export const defaultProps = {
   selectable: true,
   showLine: false,
   filter: '',
-  expandBtn: false
+  expandBtn: false,
+  onResolve: () => {}
 };
 
 export const propTypes = {
@@ -45,7 +46,8 @@ export const propTypes = {
   selectable: PropTypes.bool,
   showLine: PropTypes.bool,
   filter: PropTypes.string,
-  expandBtn: PropTypes.bool
+  expandBtn: PropTypes.bool,
+  onResolve: PropTypes.func
 };
 
 export const TREE_PROPS = [
