@@ -353,17 +353,16 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     public void testMasterParam() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile("net/n2oapp/framework/config/metadata/compile/action/testMasterParam.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterParam.page.xml");
-        pipeline.get(new PageContext("testMasterParam", "/page"));
-        assertThat(route("/page/master/*/menuItem0").getUrlPattern(), is("/page/master/:sid/menuItem0"));
-        assertThat(route("/page/master/*/detail/*/menuItem0").getUrlPattern(), is("/page/master/:sid/detail/:sid/menuItem0"));
-        assertThat(route("/page/master/*/detail/*").getUrlPattern(), is("/page/master/:sid/detail/:page_detail_id"));
-        assertThat(route("/page/master/*/detail").getUrlPattern(), is("/page/master/:sid/detail"));
+
+        Page p1 = pipeline.get(new PageContext("testMasterParam", "/page"));
+        assertThat(p1.getRoutes().getList().get(3).getPath(), is("/page/master/:sid/menuItem0"));
+        assertThat(p1.getRoutes().getList().get(4).getPath(), is("/page/master/:sid/detail"));
+        assertThat(p1.getRoutes().getList().get(5).getPath(), is("/page/master/:sid/detail/:page_detail_id"));
+        assertThat(p1.getRoutes().getList().get(6).getPath(), is("/page/master/:sid/detail/:sid/menuItem0"));
 
         Page p2 = pipeline.get(new PageContext("testOpenPageMasterParam"));
         assertThat(((Filter) p2.getWidgets().get("testOpenPageMasterParam_modalDetail").getFilters().get(0)).getParam(), is("sid"));
-
-        assertThat(route("/testOpenPageMasterParam/form/*").getUrlPattern(), is("/testOpenPageMasterParam/form/:testOpenPageMasterParam_form_id"));
-        assertThat(route("/testOpenPageMasterParam/detail2/*").getUrlPattern(), is("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"));
-        assertThat(route("/testOpenPageMasterParam/form/*").getUrlPattern(), is("/testOpenPageMasterParam/form/:testOpenPageMasterParam_form_id"));
+        assertThat(p2.getRoutes().getList().get(2).getPath(), is("/testOpenPageMasterParam/form/:testOpenPageMasterParam_form_id"));
+        assertThat(p2.getRoutes().getList().get(5).getPath(), is("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"));
     }
 }
