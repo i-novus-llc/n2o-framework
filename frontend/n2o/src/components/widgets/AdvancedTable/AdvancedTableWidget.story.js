@@ -75,7 +75,7 @@ class AdvancedTableWidgetStory extends React.Component {
     if (name === 'x') {
       newScroll = this.state.scroll.x ? false : '200%';
     } else {
-      newScroll = this.state.scroll.y ? false : 400;
+      newScroll = this.state.scroll.y ? false : 200;
     }
     this.setState({
       scroll: {
