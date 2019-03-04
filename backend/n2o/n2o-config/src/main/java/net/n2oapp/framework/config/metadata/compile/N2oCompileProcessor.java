@@ -4,8 +4,11 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
@@ -14,9 +17,12 @@ import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -25,7 +31,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 /**
  * Реализация процессора сборки метаданных
  */
-public class N2oCompileProcessor implements CompileProcessor {
+public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
 
     private MetadataEnvironment env;
     private Map<Class<?>, Object> scope = Collections.emptyMap();
@@ -149,12 +155,12 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public Object resolve(String value, String domain) {
-        return env.getDomainProcessor().doDomainConversion(domain, value);
+        return env.getDomainProcessor().deserialize(value, domain);
     }
 
     @Override
     public Object resolve(String value) {
-        return env.getDomainProcessor().doDomainConversion(null, value);
+        return env.getDomainProcessor().deserialize(value);
     }
 
     @Override
@@ -167,19 +173,34 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public String resolveParams(String text) {
-        return StringUtils.resolveLinks(text, data);
+    public String resolveUrl(String url) {
+        return StringUtils.resolveLinks(url, data);
+    }
+
+
+    @Override
+    public String getMessage(String messageCode, Object... arguments) {
+        String defaultMessage = messageCode.contains("{0}") ? MessageFormat.format(messageCode, arguments) : messageCode;
+        return env.getMessageSource().getMessage(messageCode, arguments, defaultMessage);
     }
 
     @Override
-    public String resolveUrl(String url, Map<String, ? extends BindLink> pathMappings, Map<String, ? extends BindLink> queryMappings) {
+    public Object resolveJS(String text, Class<?> clazz) {
+        String value = ScriptProcessor.resolveLinks(text);
+        return env.getDomainProcessor().deserialize(value, clazz);
+    }
+
+    @Override
+    public String resolveUrl(String url,
+                             Map<String, ? extends BindLink> pathMappings,
+                             Map<String, ? extends BindLink> queryMappings) {
         Set<String> params = new HashSet<>(getParams(url));
         Set<String> paramsForRemove = new HashSet<>();
         Set<String> except = new HashSet<>();
         if (pathMappings != null) {
             if (context.getPathRouteMapping() != null) {
                 pathMappings.keySet().stream().filter(k -> !context.getPathRouteMapping().containsKey(k))
-                        .forEach(k -> except.add(k));
+                        .forEach(except::add);
             } else {
                 except.addAll(pathMappings.keySet());
             }
@@ -187,7 +208,7 @@ public class N2oCompileProcessor implements CompileProcessor {
         if (queryMappings != null) {
             if (context.getQueryRouteMapping() != null) {
                 queryMappings.keySet().stream().filter(k -> !context.getQueryRouteMapping().containsKey(k))
-                        .forEach(k -> except.add(k));
+                        .forEach(except::add);
             } else {
                 except.addAll(queryMappings.keySet());
             }
@@ -202,20 +223,16 @@ public class N2oCompileProcessor implements CompileProcessor {
             }
         }
         if (pathMappings != null) {
-            paramsForRemove.forEach(k -> {
-                pathMappings.remove(k);
-            });
+            paramsForRemove.forEach(pathMappings::remove);
         }
         if (queryMappings != null) {
-            paramsForRemove.forEach(k -> {
-                queryMappings.remove(k);
-            });
+            paramsForRemove.forEach(queryMappings::remove);
         }
         return url;
     }
 
     @Override
-    public String resolveUrlParams(String url, ModelLink link) {
+    public String resolveUrl(String url, ModelLink link) {
         List<String> params = getParams(url);
         if (params == null || params.isEmpty() || data == null)
             return url;
@@ -229,7 +246,6 @@ public class N2oCompileProcessor implements CompileProcessor {
         }
         return url;
     }
-
 
     @Override
     public ModelLink resolveLink(ModelLink link) {
@@ -262,26 +278,70 @@ public class N2oCompileProcessor implements CompileProcessor {
         executeSubModels(link);
     }
 
-    private void resolveDefaultValues(ModelLink src, ModelLink dst) {
-        if (src.getParam() != null && data.containsKey(src.getParam())) {
-            if (data.get(src.getParam()) instanceof List) {
-                List<DefaultValues> values = new ArrayList<>();
-                for (Object value : (List) data.get(src.getParam())) {
-                    DefaultValues defaultValues = new DefaultValues();
-                    defaultValues.setValues(new HashMap<>());
-                    defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), value);
-                    values.add(defaultValues);
-                }
-                if (!values.isEmpty())
-                    dst.setValue(values);
-            } else {
-                DefaultValues defaultValues = new DefaultValues();
-                defaultValues.setValues(new HashMap<>());
-                defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), data.get(src.getParam()));
-                dst.setValue(src.getSubModelQuery().getMulti() != null && src.getSubModelQuery().getMulti()
-                        ? Collections.singletonList(defaultValues)
-                        : defaultValues);
+    @Override
+    public String resolveText(String text, ModelLink link) {
+        Set<String> links = StringUtils.collectLinks(text);
+        if (links == null || links.isEmpty() || data == null)
+            return text;
+        Map<String, String> valueParamMap = new HashMap<>();
+        collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
+        collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
+        for (String l : links) {
+            if (valueParamMap.containsKey(l) && data.containsKey(valueParamMap.get(l))) {
+                text = text.replace(Placeholders.ref(l), data.get(valueParamMap.get(l)).toString());
             }
+        }
+        return text;
+    }
+
+    @Override
+    public <T extends Source> void validate(T metadata) {
+        if (metadata == null)
+            return;
+        env.getSourceValidatorFactory().validate(metadata, this);
+    }
+
+    @Override
+    public <T extends SourceMetadata> T getOrNull(String id, Class<T> metadataClass) {
+        if (id == null)
+            return null;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            return null;
+        try {
+            return getSource(id, metadataClass);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public <T extends SourceMetadata> T getOrThrow(String id, Class<T> metadataClass) {
+        if (id == null)
+            return null;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            return null;
+        return getSource(id, metadataClass);
+    }
+
+    @Override
+    public <T extends SourceMetadata> void checkForExists(String id, Class<T> metadataClass, String errorMessage) {
+        if (id == null)
+            return;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            throw new N2oMetadataValidationException(getMessage(errorMessage, id));
+    }
+
+
+    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
+        if (linkMap != null) {
+            linkMap.forEach((k, v) -> {
+                if (v.equalsLink(link)) {
+                    // для данных, которые мапятся напрямую
+                    resultMap.put(k, k);
+                    // для данных, которые мапятся через параметр
+                    resultMap.put(v.getFieldId(), k);
+                }
+            });
         }
     }
 
@@ -303,43 +363,26 @@ public class N2oCompileProcessor implements CompileProcessor {
         }
     }
 
-    @Override
-    public String resolveText(String text, ModelLink link) {
-        Set<String> links = StringUtils.collectLinks(text);
-        if (links == null || links.isEmpty() || data == null)
-            return text;
-        Map<String, String> valueParamMap = new HashMap<>();
-        collectModelLinks(context.getPathRouteMapping(), link, valueParamMap);
-        collectModelLinks(context.getQueryRouteMapping(), link, valueParamMap);
-        for (String l : links) {
-            if (valueParamMap.containsKey(l) && data.containsKey(valueParamMap.get(l))) {
-                text = text.replace(Placeholders.ref(l), data.get(valueParamMap.get(l)).toString());
-            }
-        }
-        return text;
-    }
-
-    @Override
-    public String getMessage(String messageCode, Object... arguments) {
-        return env.getMessageSource().getMessage(messageCode, arguments);
-    }
-
-    @Override
-    public Object resolveJS(String text, Class<?> clazz) {
-        String value = ScriptProcessor.resolveLinks(text);
-        return env.getDomainProcessor().deserialize(value, clazz);
-    }
-
-    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
-        if (linkMap != null) {
-            linkMap.forEach((k, v) -> {
-                if (v.equalsLink(link)) {
-                    // для данных, которые мапятся напрямую
-                    resultMap.put(k, k);
-                    // для данных, которые мапятся через параметр
-                    resultMap.put(v.getFieldId(), k);
+    private void resolveDefaultValues(ModelLink src, ModelLink dst) {
+        if (src.getParam() != null && data.containsKey(src.getParam())) {
+            if (data.get(src.getParam()) instanceof List) {
+                List<DefaultValues> values = new ArrayList<>();
+                for (Object value : (List) data.get(src.getParam())) {
+                    DefaultValues defaultValues = new DefaultValues();
+                    defaultValues.setValues(new HashMap<>());
+                    defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), value);
+                    values.add(defaultValues);
                 }
-            });
+                if (!values.isEmpty())
+                    dst.setValue(values);
+            } else {
+                DefaultValues defaultValues = new DefaultValues();
+                defaultValues.setValues(new HashMap<>());
+                defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), data.get(src.getParam()));
+                dst.setValue(src.getSubModelQuery().getMulti() != null && src.getSubModelQuery().getMulti()
+                        ? Collections.singletonList(defaultValues)
+                        : defaultValues);
+            }
         }
     }
 }

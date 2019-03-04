@@ -3,7 +3,7 @@ package net.n2oapp.framework.access.metadata;
 import net.n2oapp.framework.access.data.SecurityProvider;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.CompiledClassAware;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.MetadataBinder;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.user.StaticUserContext;
@@ -24,7 +24,7 @@ public class SecurityPageBinder implements MetadataBinder<Page>, CompiledClassAw
     }
 
     @Override
-    public Page bind(Page compiled, CompileProcessor p) {
+    public Page bind(Page compiled, BindProcessor p) {
         securityProvider.checkAccess(compiled, StaticUserContext.getUserContext());
 
         return compiled;

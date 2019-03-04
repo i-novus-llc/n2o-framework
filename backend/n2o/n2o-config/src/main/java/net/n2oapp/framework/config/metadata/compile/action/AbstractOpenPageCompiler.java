@@ -18,6 +18,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -98,7 +99,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         String pageId = source.getPageId();
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute(p), "");
+        String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor)p), "");
         Map<String, ModelLink> pathMapping = new StrictMap<>();
         Map<String, ModelLink> queryMapping = new StrictMap<>();
         if (routeScope != null) {

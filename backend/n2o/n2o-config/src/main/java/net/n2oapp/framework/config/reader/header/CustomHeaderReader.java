@@ -19,7 +19,6 @@ public class CustomHeaderReader extends AbstractFactoredReader<N2oCustomHeader> 
     public N2oCustomHeader read(Element element, Namespace namespace) {
         N2oCustomHeader res = new N2oCustomHeader();
         res.setSrc(ReaderJdomUtil.getElementString(element, "src"));
-        res.setProperties(PropertiesReaderV1.getInstance().readFromPropertiesElement(element, namespace));
         return res;
     }
 

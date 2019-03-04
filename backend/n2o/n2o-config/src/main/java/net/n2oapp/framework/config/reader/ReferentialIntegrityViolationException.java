@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.reader;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.MetaModel;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.config.register.ConfigId;
 

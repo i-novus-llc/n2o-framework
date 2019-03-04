@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
+import TreeSelect from 'rc-tree-select';
 import ReactDOM from 'react-dom';
 import {
   difference,
@@ -28,7 +28,7 @@ import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import { defaultProps, propTypes } from './allProps';
 import { compose, withState } from 'recompose';
 import propsResolver from '../../../utils/propsResolver';
-import { visiblePartPopup } from './until';
+import { visiblePartPopup, getCheckedStrategy } from './until';
 import TreeNode from './TreeSelectNode';
 import { injectIntl } from 'react-intl';
 import cx from 'classnames';
@@ -253,14 +253,13 @@ function InputSelectTree({
 
   const getSingleValue = value => find(data, [valueFieldId, value]);
   const getMultiValue = value => {
-    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
-      return getChildWithParenId(value, data);
-    } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
-      return getParentsWithChildId(value, data);
-    } else {
-      // стратегия SHOW_ALL
-      return getDataByIds(value);
-    }
+    // if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
+    //   return getChildWithParenId(value, data);
+    // } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
+    //   return getParentsWithChildId(value, data);
+    // } else {
+    // стратегия SHOW_ALL
+    return getDataByIds(value);
   };
   /**
    * Функция преобразования value rcTreeSelect в формат n2o
@@ -380,7 +379,7 @@ function InputSelectTree({
       onTreeExpand={onTreeExpand}
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
-      showCheckedStrategy={showCheckedStrategy}
+      showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
       getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
@@ -404,7 +403,7 @@ function InputSelectTree({
 InputSelectTree.defaultProps = defaultProps;
 InputSelectTree.propTypes = propTypes;
 
-export { SHOW_ALL, SHOW_CHILD, SHOW_PARENT, TreeNode };
+export { TreeNode };
 
 export default compose(
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
