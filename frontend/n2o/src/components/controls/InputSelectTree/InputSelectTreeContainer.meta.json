@@ -14,7 +14,7 @@
   "multiSelect": true,
   "closePopupOnSelect": false,
   "notFoundContent": "Ничего не найдено",
-  "showCheckedStrategy": "SHOW_СHILD",
+  "showCheckedStrategy": "all",
   "allowClear": true,
   "placeholder": "Выберите значение",
   "showSearch": true,
