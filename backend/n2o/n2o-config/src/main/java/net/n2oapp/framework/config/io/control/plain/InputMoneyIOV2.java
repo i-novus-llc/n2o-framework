@@ -6,6 +6,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись компонента input-money
+ */
 @Component
 public class InputMoneyIOV2 extends PlainFieldIOv2<N2oInputMoney> {
 

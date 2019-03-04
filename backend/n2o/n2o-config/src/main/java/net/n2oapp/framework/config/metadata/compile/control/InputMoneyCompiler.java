@@ -9,6 +9,9 @@ import net.n2oapp.framework.api.metadata.meta.control.InputMoney;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+/**
+ * Компиляция компонента input-money
+ */
 @Component
 public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInputMoney> {
     @Override
