@@ -93,12 +93,11 @@ public interface BindProcessor {
     String resolveUrl(String url, ModelLink link);
 
     /**
-     * Попытаться разрешить значение ModelLink
+     * Пытается превратить ссылку в константное значение.
      *
-     * @param link исходная ссылка на значение
-     * @return ссылка с константой(если получилось разрешить ссылку) или исходная ссылка
+     * @param link Ссылка
      */
-    ModelLink resolveLink(ModelLink link);
+    <L extends BindLink> void resolveLink(L link);
 
     /**
      * Попытаться разрешить вложенные модели ссылки

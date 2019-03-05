@@ -107,10 +107,6 @@ public class ModelLink extends BindLink {
                 : String.format("models.%s['%s'].%s", model.getId(), widgetId, fieldId);
     }
 
-    public boolean isConst() {
-        return getValue() != null && !StringUtils.isJs(getValue());
-    }
-
     @Override
     public boolean equals(Object o) {
         return super.equals(o);

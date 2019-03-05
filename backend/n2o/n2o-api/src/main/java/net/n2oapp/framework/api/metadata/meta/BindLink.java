@@ -34,6 +34,14 @@ public class BindLink implements Compiled {
         return value == null;
     }
 
+    public boolean isConst() {
+        return !isEmpty() && !StringUtils.isJs(getValue());
+    }
+
+    public boolean isLink() {
+        return !isConst();
+    }
+
     public void setValue(Object value) {
         this.value = value;
     }

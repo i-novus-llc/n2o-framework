@@ -20,9 +20,11 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
@@ -33,6 +35,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
+    private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "");
 
     /**
      * Сервисы окружения
@@ -190,11 +193,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         return text;
     }
 
-    @Override
-    public String resolveUrl(String url) {
-        return StringUtils.resolveLinks(url, data);
-    }
-
 
     @Override
     public String getMessage(String messageCode, Object... arguments) {
@@ -209,44 +207,23 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
+    public String resolveUrl(String url) {
+        return URL_RESOLVER.resolve(url, data);
+    }
+
+    @Override
     public String resolveUrl(String url,
                              Map<String, ? extends BindLink> pathMappings,
                              Map<String, ? extends BindLink> queryMappings) {
-        Set<String> params = new HashSet<>(getParams(url));
-        Set<String> paramsForRemove = new HashSet<>();
-        Set<String> except = new HashSet<>();
+        String resultUrl = resolveUrl(url);
+        List<String> params = getParams(resultUrl);
         if (pathMappings != null) {
-            if (context.getPathRouteMapping() != null) {
-                pathMappings.keySet().stream().filter(k -> !context.getPathRouteMapping().containsKey(k))
-                        .forEach(except::add);
-            } else {
-                except.addAll(pathMappings.keySet());
-            }
+            pathMappings.keySet().stream().filter(k -> !params.contains(k)).collect(Collectors.toList()).forEach(pathMappings::remove);
         }
         if (queryMappings != null) {
-            if (context.getQueryRouteMapping() != null) {
-                queryMappings.keySet().stream().filter(k -> !context.getQueryRouteMapping().containsKey(k))
-                        .forEach(except::add);
-            } else {
-                except.addAll(queryMappings.keySet());
-            }
+           queryMappings.keySet().stream().filter(k -> !params.contains(k)).collect(Collectors.toList()).forEach(queryMappings::remove);
         }
-        for (String param : params) {
-            if (!except.contains(param)) {
-                Object value = data.get(param);
-                if (value != null) {
-                    url = url.replace(":" + param, value.toString());
-                    paramsForRemove.add(param);
-                }
-            }
-        }
-        if (pathMappings != null) {
-            paramsForRemove.forEach(pathMappings::remove);
-        }
-        if (queryMappings != null) {
-            paramsForRemove.forEach(queryMappings::remove);
-        }
-        return url;
+        return resultUrl;
     }
 
     @Override
@@ -266,9 +243,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public ModelLink resolveLink(ModelLink link) {
+    public <L extends BindLink> void resolveLink(L link) {
         if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
-            return link;
+            return;
         Optional<String> res = Optional.empty();
         if (context.getQueryRouteMapping() != null) {
             res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
@@ -278,11 +255,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
         if (res.isPresent()) {
             Object value = data.get(res.get());
+            if (value instanceof String)
+                value = resolveText((String) value);
             if (value != null) {
-                return new ModelLink(value);
+                link.setValue(value);
             }
         }
-        return link;
     }
 
     @Override

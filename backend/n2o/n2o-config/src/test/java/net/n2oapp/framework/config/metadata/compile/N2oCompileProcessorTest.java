@@ -51,43 +51,13 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
         testML.setValue("`testField`");
         //проверяем, что заменился линк
-        ModelLink link = processor.resolveLink(testML);
-        assertThat(link.getBindLink(), nullValue());
-        assertThat(link.getValue(), is("testValue"));
+        processor.resolveLink(testML);
+//        assertThat(testML.getBindLink(), nullValue());todo может можно оставить bindLink с конктантой?
+        assertThat(testML.getValue(), is("testValue"));
+        testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
+        processor.resolveLink(testML);
         //проверяем, что замена не произошла
-        assertThat(processor.resolveLink(new ModelLink(ReduxModel.RESOLVE, "widgetId")).getBindLink(), is("models.resolve['widgetId']"));
-    }
-
-    @Test
-    public void testResolveUrl() {
-        PageContext context = new PageContext("test");
-        DataSet data = new DataSet();
-        data.put("param1", "testValue");
-        Map<String, ModelLink> pathParams = new HashMap<>();
-        pathParams.put("param1", new ModelLink("param1value"));
-        Map<String, ModelLink> queryParams = new HashMap<>();
-        queryParams.put("paramQ1", new ModelLink("paramQ1"));
-        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        String url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
-        assertThat(url, is("/p/w/:param1/a?paramQ1=:paramQ1"));
-        assertThat(pathParams.size(), is(1));
-        assertThat(queryParams.size(), is(1));
-
-        context = new PageContext("test");
-        context.setQueryRouteMapping(queryParams);
-        context.setPathRouteMapping(pathParams);
-        processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
-        assertThat(url, is("/p/w/testValue/a?paramQ1=:paramQ1"));
-        assertThat(pathParams.size(), is(0));
-        assertThat(queryParams.size(), is(1));
-
-        data.put("paramQ1", "testValueQ");
-        processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
-        assertThat(url, is("/p/w/testValue/a?paramQ1=testValueQ"));
-        assertThat(pathParams.size(), is(0));
-        assertThat(queryParams.size(), is(0));
+        assertThat(testML.getBindLink(), is("models.resolve['widgetId']"));
     }
 
     @Test
@@ -156,7 +126,50 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testResolveUrlParam() {
+    public void testResolveUrl() {
+        PageContext context = new PageContext("test");
+        DataSet data = new DataSet();
+        data.put("path_param", "test1");
+        data.put("query_param", "test2");
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+        String url = processor.resolveUrl("/a/:path_param/b?query_param=:query_param");
+        assertThat(url, is("/a/test1/b?query_param=test2"));
+    }
+
+    @Test
+    public void testResolveUrlWithMapping() {
+        PageContext context = new PageContext("test");
+        DataSet data = new DataSet();
+        data.put("param1", "testValue");
+        Map<String, ModelLink> pathParams = new HashMap<>();
+        pathParams.put("param1", new ModelLink("param1value"));
+        Map<String, ModelLink> queryParams = new HashMap<>();
+        queryParams.put("paramQ1", new ModelLink("paramQ1"));
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+        String url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
+        assertThat(url, is("/p/w/testValue/a?paramQ1=:paramQ1"));
+        assertThat(pathParams.size(), is(0));
+        assertThat(queryParams.size(), is(1));
+
+        context = new PageContext("test");
+        context.setQueryRouteMapping(queryParams);
+        context.setPathRouteMapping(pathParams);
+        processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+        url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
+        assertThat(url, is("/p/w/testValue/a?paramQ1=:paramQ1"));
+        assertThat(pathParams.size(), is(0));
+        assertThat(queryParams.size(), is(1));
+
+        data.put("paramQ1", "testValueQ");
+        processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+        url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
+        assertThat(url, is("/p/w/testValue/a?paramQ1=testValueQ"));
+        assertThat(pathParams.size(), is(0));
+        assertThat(queryParams.size(), is(0));
+    }
+
+    @Test
+    public void testResolveUrlWithLink() {
         PageContext context = new PageContext("test");
 
         Map<String, ModelLink> routeInfos = new HashMap<>();

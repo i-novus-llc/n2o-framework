@@ -83,9 +83,8 @@ public class PageBinder implements BaseMetadataBinder<Page> {
 
     private void resolveLinks(Models models, List<ModelLink> filterLinks, BindProcessor p) {
         models.keySet().forEach(param -> {
-                    ModelLink link = p.resolveLink(models.get(param));
-                    p.resolveSubModels(link, filterLinks);
-                    models.put(param, link);
+                    p.resolveLink(models.get(param));
+                    p.resolveSubModels(models.get(param), filterLinks);
                 }
         );
     }

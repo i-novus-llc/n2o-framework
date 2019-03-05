@@ -170,12 +170,21 @@ public class PlaceHoldersResolver {
             return text;
         sb.append(split[0]);
         for (int i = 1; i < split.length; i++) {
-            int idxSuffix = split[i].indexOf(suffix);
+            int idxSuffix;
+            int idxNext;
+            if (suffix != null && !suffix.isEmpty()) {
+                idxSuffix = split[i].indexOf(suffix);
+                idxNext = idxSuffix + 1;
+            } else {
+                String[] ends = split[i].split("\\W");
+                idxSuffix = ends[0].length();
+                idxNext = idxSuffix;
+            }
             if (idxSuffix > 0) {
                 String placeholder = split[i].substring(0, idxSuffix);
                 Object value = callback.apply(placeholder);
                 sb.append(value);
-                sb.append(split[i].substring(idxSuffix + 1));
+                sb.append(split[i].substring(idxNext));
             }
         }
         return sb.toString();
