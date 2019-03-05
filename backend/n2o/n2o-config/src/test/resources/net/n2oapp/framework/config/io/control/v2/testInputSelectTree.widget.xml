@@ -1,6 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <input-select-tree id="testId" label-field-id="testId">
+        <input-select-tree id="testId" label-field-id="testId" checking-strategy="child">
             <inheritance-nodes query-id="queryId"
                                parent-field-id="testId"
                                value-field-id="testId"

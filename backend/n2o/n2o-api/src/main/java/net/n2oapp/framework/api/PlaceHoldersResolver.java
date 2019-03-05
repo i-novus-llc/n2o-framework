@@ -203,7 +203,7 @@ public class PlaceHoldersResolver {
             Object result = callback.apply(key);
             try {
                 if (result instanceof String)
-                    return result;
+                    return ((String) result).replace("\"", "\\\"");
                 return mapper.writeValueAsString(result);
             } catch (JsonProcessingException e) {
                 throw new N2oException(e);

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.control.list;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelectTree;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
@@ -18,6 +19,8 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attributeBoolean(e, "ajax", m::getAjax, m::setAjax);
         p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
+        p.attributeEnum(e, "checking-strategy", m::getCheckingStrategy, m::setCheckingStrategy, CheckingStrategy.class);
+        p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
 //        p.child(e, null, "grouping-nodes", m::getGroupingNodes, m::setGroupingNodes, GroupingNodes.class, this::groupingNodes);
     }

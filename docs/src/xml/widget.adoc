@@ -37,6 +37,11 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 |Ссылка на поле выборки в текущем виджете. Используется вместе с depends-on
 |
 
+|master-param
+|Строка
+|Параметр фильтра
+|
+
 |src
 |React компонент
 |Реализация виджета
