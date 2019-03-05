@@ -1,29 +1,13 @@
 package net.n2oapp.criteria.filters;
 
-/**
- * User: operehod
- * Date: 18.11.2014
- * Time: 17:11
- */
 public class Result {
 
-
-    public static enum Type {
+    public enum Type {
         success, conflict, failure;
-
-
     }
 
     public boolean isSuccess() {
         return getType().equals(Type.success);
-    }
-
-    public boolean isError() {
-        return getType().equals(Type.conflict);
-    }
-
-    public boolean isFail() {
-        return getType().equals(Type.failure);
     }
 
     private Filter leftFilter;

@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.user.StaticUserContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 /**
  * Проверка прав доступа на элемент Page
  */
@@ -25,8 +27,9 @@ public class SecurityPageBinder implements MetadataBinder<Page>, CompiledClassAw
 
     @Override
     public Page bind(Page compiled, BindProcessor p) {
-        securityProvider.checkAccess(compiled, StaticUserContext.getUserContext());
-
+        Map<String, Object> properties = compiled.getProperties();
+        if (properties != null && properties.containsKey("security") && ((Security) properties.get("security")).getSecurityMap() != null)
+            securityProvider.checkAccess(((Security) properties.get("security")).getSecurityMap(), StaticUserContext.getUserContext());
         return compiled;
     }
 
