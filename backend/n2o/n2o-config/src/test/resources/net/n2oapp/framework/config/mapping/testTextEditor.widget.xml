@@ -1,5 +1,5 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <text-editor id="test1" visible="true" label="TextEditor" height="15" class="n2o"/>
+        <text-editor id="test1" toolbar-url="net/n2oapp/framework/config/mapping/toolbar.json" visible="true" label="TextEditor" height="15" class="n2o"/>
     </fields>
 </form>

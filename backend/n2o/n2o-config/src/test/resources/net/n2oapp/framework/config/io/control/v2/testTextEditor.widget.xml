@@ -1,5 +1,5 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <text-editor id="id" rows="100500" height="height" config-url="url"/>
+        <text-editor id="id" toolbar-url="url"/>
     </fields>
 </form>
