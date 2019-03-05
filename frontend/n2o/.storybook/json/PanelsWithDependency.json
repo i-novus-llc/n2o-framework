@@ -1,0 +1,41 @@
+{
+  "src": "PanelRegion",
+  "className": "test",
+  "color": "secondary",
+  "icon": "fa fa-exclamation",
+  "hasTabs": false,
+  "headerTitle": "Заголовок панели",
+  "footerTitle": "Подвал панели",
+  "open": true,
+  "collapsible": true,
+  "fullScreen": false,
+  "header": true,
+  "dependency": {
+    "visible": [
+      {
+        "bindLink": "models.resolve['Page_First']",
+        "condition": "true"
+      },
+      {
+        "bindLink": "models.resolve['Page_First']",
+        "condition": "false"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "icon": "fa fa-plus",
+      "label": "Первый таб",
+      "id": "panel1",
+      "opened": true,
+      "widgetId": "Page_Html"
+    },
+    {
+      "icon": "fa fa-plus",
+      "label": "Второй таб",
+      "id": "panel2",
+      "opened": true,
+      "widgetId": "Page_Html"
+    }
+  ]
+}
