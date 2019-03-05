@@ -1,20 +1,27 @@
-
-.tree-filter{
-  margin-left: auto;
-  align-items: center;
-  display: flex;
-  cursor: pointer;
-  justify-content: center;
-  .tree-filter-clear{
-    margin-left: auto;
-    align-items: center;
-    display: flex;
-    position: absolute;
-    cursor: pointer;
-    justify-content: center;
-    right: 50px;
+.n2o-rc-tree-wrapper{
+  .expand-btn{
+    padding-bottom: 10px;
+  }
+  .tree-filter{
+     display: block;
+      position: relative;
+     cursor: pointer;
+      padding-bottom: 10px;
+     .tree-filter-clear{
+       display: inline;
+       position: absolute;
+       cursor: pointer;
+       right: 10px;
+       top: 5px;
+     }
+   }
+  .search-text{
+    color: $search-text-color;
   }
 }
+
+
+
 
 .n2o-rc-tree-treenode-disabled{
   opacity: 0.8;

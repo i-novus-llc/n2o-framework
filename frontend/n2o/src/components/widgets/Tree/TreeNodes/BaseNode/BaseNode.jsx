@@ -4,6 +4,9 @@ import { Badge } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 //components
 
+//fns
+import { splitSearchText } from '../../until';
+
 function BaseNode({
   prefixCls,
   iconFieldId,
@@ -12,8 +15,12 @@ function BaseNode({
   badgeFieldId,
   valueFieldId,
   badgeColorFieldId,
+  searchValue,
+  searchKeys,
   data
 }) {
+  console.log(searchValue, searchKeys, searchKeys.includes(data[valueFieldId]));
+
   return (
     <span
       data-id={data[valueFieldId]}
@@ -29,7 +36,9 @@ function BaseNode({
         ),
         has(data, labelFieldId) && (
           <span key={uniqueId('tree_label_')} className={`${prefixCls}-label`}>
-            {data[labelFieldId]}
+            {searchKeys.includes(data[valueFieldId]) && searchValue
+              ? splitSearchText(data[labelFieldId], searchValue)
+              : data[labelFieldId]}
           </span>
         ),
         has(data, badgeFieldId) && (

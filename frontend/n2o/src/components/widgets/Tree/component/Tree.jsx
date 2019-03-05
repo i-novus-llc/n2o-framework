@@ -29,7 +29,8 @@ class Tree extends Component {
       autoExpandParent: true,
       searchValue: '',
       checkedKeys: [],
-      selectedKeys: []
+      selectedKeys: [],
+      searchKeys: []
     };
 
     this.elems = [];
@@ -69,7 +70,9 @@ class Tree extends Component {
 
     this.setState({
       expandedKeys,
-      autoExpandParent: true
+      autoExpandParent: true,
+      searchKeys: expandedKeys,
+      searchValue: value
     });
   }
 
@@ -158,7 +161,7 @@ class Tree extends Component {
   }
 
   selectedObjToTreeKeys() {
-    const { resolveModel, datasource, valueFieldId } = this.props;
+    const { resolveModel, valueFieldId } = this.props;
 
     if (isArray(resolveModel)) {
       return map(resolveModel, valueFieldId);
@@ -182,13 +185,20 @@ class Tree extends Component {
     const nodeProps = pick(this.props, TREE_NODE_PROPS);
     const treeOtherProps = pick(this.props, TREE_PROPS);
 
-    const { expandedKeys, autoExpandParent, selectedKeys, checkedKeys } = this.state;
-    const { filter, expandBtn, datasource, hasCheckboxes, multiselect } = this.props;
+    const {
+      expandedKeys,
+      autoExpandParent,
+      selectedKeys,
+      checkedKeys,
+      searchValue,
+      searchKeys
+    } = this.state;
+    const { filter, expandBtn, datasource, hasCheckboxes, multiselect, prefixCls } = this.props;
 
     const checkable = hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false;
 
     return (
-      <Fragment>
+      <div className={`${prefixCls}-wrapper`}>
         {filter && FILTER_MODE.includes(filter) && <Filter onFilter={this.onFilter} />}
         {expandBtn && (
           <ExpandBtn onShowAll={this.onShowAllTreeItem} onHideAll={this.onHideAllTreeItem} />
@@ -200,7 +210,7 @@ class Tree extends Component {
         >
           <TreeBase
             ref={this.treeRef}
-            treeData={this.createTree({ datasource, ...nodeProps })}
+            treeData={this.createTree({ datasource, ...nodeProps, searchKeys, searchValue })}
             expandedKeys={expandedKeys}
             selectedKeys={selectedKeys}
             checkedKeys={checkedKeys}
@@ -214,7 +224,7 @@ class Tree extends Component {
             {...treeOtherProps}
           />
         </HotKeys>
-      </Fragment>
+      </div>
     );
   }
 }

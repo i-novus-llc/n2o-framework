@@ -2,7 +2,7 @@ import React from 'react';
 
 function ExpandBtn({ onShowAll, onHideAll }) {
   return (
-    <div className="btn-group" role="group" aria-label="Basic example">
+    <div className="btn-group expand-btn" role="group" aria-label="Basic example">
       <button type="button" className="btn" onClick={onShowAll}>
         Открыть
       </button>

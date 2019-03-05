@@ -32,7 +32,7 @@ export const collectionToComponentObject = (
   { valueFieldId, parentFieldId, datasource, ...rest }
 ) => {
   let buf = {};
-  // forEach быстрее reduce и for in
+
   if (valueFieldId && datasource) {
     datasource.forEach(data => {
       buf[data[valueFieldId]] = {
@@ -186,11 +186,7 @@ export const keyDownAction = ({
   return false;
 };
 
-export const autoBind = context => {
-  console.log(keys(context));
-  keys(context).forEach(key => {
-    if (isFunction(context[key]) && !eq(key.indexOf('_'), -1)) {
-      context[key].bind(context);
-    }
-  });
+export const splitSearchText = (text, searchText) => {
+  const html = text.replace(searchText, `<span class='search-text'>${searchText}</span>`);
+  return <span dangerouslySetInnerHTML={{ __html: html }} />;
 };
