@@ -14,11 +14,15 @@
   }
 
   .n2o-collapse-icon-wrapper{
-    width: 16px;
-    height: 16px;
+    min-width: 16px;
+    max-width: 16px;
+    min-height: 16px;
+    max-height: 16px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    align-self: flex-start;
+    margin-top: 6px;
     border-radius: 50%;
   }
 
@@ -56,13 +60,13 @@
 
     // header
     .n2o-panel-header{
+      display: flex;
+      align-items: center;
+      height: auto;
       padding: 0;
       color: #474747;
       text-indent: initial;
-      height: 30px;
       line-height: 28px;
-      white-space: nowrap;
-      overflow: hidden;
       font-weight: $font-weight-bold;
 
       &:hover {
