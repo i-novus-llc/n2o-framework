@@ -13,6 +13,7 @@ public class SelectIOv2 extends ListFieldIOv2<N2oSelect> {
     public void io(Element e, N2oSelect m, IOProcessor p) {
         super.io(e, m, p);
         p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
+        p.attributeBoolean(e, "cleanable", m::getCleanable, m::setCleanable);
     }
 
     @Override

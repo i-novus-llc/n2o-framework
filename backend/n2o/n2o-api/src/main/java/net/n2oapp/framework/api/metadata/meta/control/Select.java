@@ -9,4 +9,6 @@ import lombok.Setter;
 public class Select extends ListControl {
     @JsonProperty
     private Boolean hasCheckboxes;
+    @JsonProperty
+    private Boolean cleanable;
 }
