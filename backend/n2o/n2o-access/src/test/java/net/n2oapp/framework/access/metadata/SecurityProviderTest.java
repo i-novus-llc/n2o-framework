@@ -7,9 +7,7 @@ import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.test.TestContextEngine;
-import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,6 +21,9 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Тесты для {@link SecurityProvider}
+ */
 public class SecurityProviderTest {
 
     private PermissionApi permissionApi;
@@ -39,14 +40,15 @@ public class SecurityProviderTest {
         securityObject.setDenied(true);
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
-        securityProvider.checkAccess(securityObjectMap, null);
+        Security security = new Security();
+        security.setSecurityMap(securityObjectMap);
+        securityProvider.checkAccess(security, null);
         Assert.fail("Expected exception to be thrown");
     }
 
     @Test
     public void testPermitAll() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(true);
@@ -54,8 +56,7 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
-        securityProvider.checkAccess(securityObjectMap, null);
+        securityProvider.checkAccess(security, null);
     }
 
     @Test
@@ -63,7 +64,6 @@ public class SecurityProviderTest {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
@@ -73,11 +73,10 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
-        securityProvider.checkAccess(securityObjectMap, userContext);
+        securityProvider.checkAccess(security, userContext);
         securityObject.setAnonymous(false);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(UnauthorizedException.class));
@@ -89,7 +88,6 @@ public class SecurityProviderTest {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
@@ -99,8 +97,7 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
-        securityProvider.checkAccess(securityObjectMap, userContext);
+        securityProvider.checkAccess(security, userContext);
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -108,7 +105,6 @@ public class SecurityProviderTest {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
@@ -118,8 +114,7 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
-        securityProvider.checkAccess(securityObjectMap, userContext);
+        securityProvider.checkAccess(security, userContext);
         Assert.fail("Expected exception to be thrown");
     }
 
@@ -131,7 +126,6 @@ public class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "admin")).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(false);
         when(permissionApi.hasRole(userContext, "role2")).thenReturn(false);
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
@@ -142,16 +136,15 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasRole(userContext, "admin")).thenReturn(false);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -162,13 +155,10 @@ public class SecurityProviderTest {
     public void testHasPermission() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
-
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "p0")).thenReturn(false);
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "p2")).thenReturn(false);
-
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
@@ -179,16 +169,15 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(false);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -203,7 +192,6 @@ public class SecurityProviderTest {
         when(permissionApi.hasUsername(userContext, "n0")).thenReturn(false);
         when(permissionApi.hasUsername(userContext, "n1")).thenReturn(true);
         when(permissionApi.hasUsername(userContext, "n2")).thenReturn(true);
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
@@ -214,23 +202,22 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n1")).thenReturn(false);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n2")).thenReturn(false);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -248,7 +235,6 @@ public class SecurityProviderTest {
         when(permissionApi.hasRole(userContext, "r1")).thenReturn(false);
         when(permissionApi.hasPermission(userContext, "p0")).thenReturn(false);
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(false);
-        Map<String, Object> properties = new HashMap<>();
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(false);
@@ -258,33 +244,32 @@ public class SecurityProviderTest {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        properties.put("security", security);
         securityObject.setUsernames(new HashSet<>(Arrays.asList("n0", "n1")));
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p0", "p1")));
         securityObject.setRoles(new HashSet<>(Arrays.asList("r0", "r1")));
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasUsername(userContext, "n0")).thenReturn(true);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasPermission(userContext, "p1")).thenReturn(true);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         when(permissionApi.hasRole(userContext, "r0")).thenReturn(true);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -293,14 +278,14 @@ public class SecurityProviderTest {
         securityObject.setPermissions(new HashSet<>(Arrays.asList("p0")));
         securityObject.setRoles(new HashSet<>(Arrays.asList("r1")));
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
         }
         securityObject.setRoles(new HashSet<>(Arrays.asList("r0", "r1")));
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -309,7 +294,7 @@ public class SecurityProviderTest {
         securityObject.setPermissions(null);
         securityObject.setUsernames(null);
         try {
-            securityProvider.checkAccess(securityObjectMap, userContext);
+            securityProvider.checkAccess(security, userContext);
             Assert.fail("Expected exception to be thrown");
         } catch (Exception e) {
             assertThat(e, instanceOf(AccessDeniedException.class));
@@ -320,7 +305,7 @@ public class SecurityProviderTest {
     public void testEmptySecurity() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
-        securityProvider.checkAccess(new Security().getSecurityMap(), userContext);
+        securityProvider.checkAccess(new Security(), userContext);
     }
 
     @Test

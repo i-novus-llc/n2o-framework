@@ -17,6 +17,12 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import java.util.Map;
 import java.util.Set;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
+import static net.n2oapp.framework.access.metadata.SecurityFilters.SECURITY_FILTERS_PROP_NAME;
+
+/**
+ * Проверка прав доступа на вызов действий и выборок N2O
+ */
 public class N2oSecurityModule extends N2oModule {
 
     private SecurityProvider securityProvider;
@@ -31,15 +37,15 @@ public class N2oSecurityModule extends N2oModule {
 
     @Override
     public void processAction(ActionRequestInfo requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
-        securityProvider.checkAccess(getSecurityObjectMap(requestInfo.getOperation()), requestInfo.getUser());
+        securityProvider.checkAccess(getSecurityObject(requestInfo.getOperation()), requestInfo.getUser());
     }
 
     @Override
     public void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         if (requestInfo.getUpload().equals(UploadType.query)) {
-            Map<String, Security.SecurityObject> securityObjectMap = getSecurityObjectMap(requestInfo.getQuery());
-            if (securityObjectMap != null) {
-                securityProvider.checkAccess(securityObjectMap, requestInfo.getUser());
+            Security security = getSecurityObject(requestInfo.getQuery());
+            if (security != null) {
+                securityProvider.checkAccess(security, requestInfo.getUser());
                 if (requestInfo.getSize() != 1) {
                     Set<Restriction> filters = securityProvider.collectRestrictions(getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
                     requestInfo.getCriteria().getRestrictions().addAll(filters);
@@ -51,24 +57,24 @@ public class N2oSecurityModule extends N2oModule {
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
         if (requestInfo.getUpload().equals(UploadType.query) && requestInfo.getSize() == 1) {
-            securityProvider.checkAccess(getSecurityObjectMap(requestInfo.getQuery()), requestInfo.getUser());
+            securityProvider.checkAccess(getSecurityObject(requestInfo.getQuery()), requestInfo.getUser());
             // todo проверка результата на соответсвие фильтрам
         }
     }
 
 
-    private Map<String, Security.SecurityObject> getSecurityObjectMap(PropertiesAware propertiesAware) {
+    private Security getSecurityObject(PropertiesAware propertiesAware) {
         Map<String, Object> properties = propertiesAware.getProperties();
-        if (properties == null || !properties.containsKey("security")
-                || ((Security) properties.get("security")).getSecurityMap() == null)
+        if (properties == null || !properties.containsKey(SECURITY_PROP_NAME)
+                || ((Security) properties.get(SECURITY_PROP_NAME)).getSecurityMap() == null)
             return null;
-        return ((Security) properties.get("security")).getSecurityMap();
+        return (Security) properties.get(SECURITY_PROP_NAME);
     }
 
     private SecurityFilters getSecurityFilters(PropertiesAware propertiesAware) {
         Map<String, Object> properties = propertiesAware.getProperties();
-        if (properties == null || !properties.containsKey("securityFilter"))
+        if (properties == null || !properties.containsKey(SECURITY_FILTERS_PROP_NAME))
             return null;
-        return (SecurityFilters) properties.get("securityFilter");
+        return (SecurityFilters) properties.get(SECURITY_FILTERS_PROP_NAME);
     }
 }

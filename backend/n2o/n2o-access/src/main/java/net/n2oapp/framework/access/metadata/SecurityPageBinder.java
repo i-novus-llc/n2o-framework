@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
+
 /**
  * Проверка прав доступа на элемент Page
  */
@@ -28,8 +30,8 @@ public class SecurityPageBinder implements MetadataBinder<Page>, CompiledClassAw
     @Override
     public Page bind(Page compiled, BindProcessor p) {
         Map<String, Object> properties = compiled.getProperties();
-        if (properties != null && properties.containsKey("security") && ((Security) properties.get("security")).getSecurityMap() != null)
-            securityProvider.checkAccess(((Security) properties.get("security")).getSecurityMap(), StaticUserContext.getUserContext());
+        if (properties != null && properties.containsKey(SECURITY_PROP_NAME) && ((Security) properties.get(SECURITY_PROP_NAME)).getSecurityMap() != null)
+            securityProvider.checkAccess((Security) properties.get(SECURITY_PROP_NAME), StaticUserContext.getUserContext());
         return compiled;
     }
 

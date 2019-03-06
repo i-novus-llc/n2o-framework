@@ -15,6 +15,10 @@ import java.util.Set;
 @Setter
 @Getter
 public class SecurityFilters implements Serializable {
+    /**
+     * Ключ объекта Security в properties
+     */
+    public static String SECURITY_FILTERS_PROP_NAME = "securityFilters";
 
     /**
      * Фильтры объектов, соответствующие ролям

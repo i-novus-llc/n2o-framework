@@ -18,6 +18,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertFalse;
@@ -48,8 +49,8 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml");
         Page page = pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
-                .getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
-        Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get("security")).getSecurityMap().get("object");
+                .getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
         assertThat(securityObjectToolbar.getPermissions().contains("permission"), is(true));
@@ -59,9 +60,9 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObjectToolbar.getRoles().contains("admin"), is(true));
 
         securityObjectToolbar = ((Security) page.getWidgets().get("testToolbarAccessTransformer_test").getToolbar()
-                .get("topLeft").get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
+                .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         securityObjectAction = ((Security) ((Action) page.getWidgets().get("testToolbarAccessTransformer_test").getActions()
-                .get("update")).getProperties().get("security")).getSecurityMap().get("object");
+                .get("update")).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
         assertThat(securityObjectToolbar.getPermissions().contains("permission"), is(true));
@@ -79,8 +80,8 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml");
         Page page = pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
-                .getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
-        Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get("security")).getSecurityMap().get("object");
+                .getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectAction.getAnonymous(), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
@@ -92,9 +93,9 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObjectToolbar.getAnonymous(), is(true));
 
         securityObjectToolbar = ((Security) page.getWidgets().get("testToolbarAccessTransformer_test").getToolbar()
-                .get("topLeft").get(0).getButtons().get(0).getProperties().get("security")).getSecurityMap().get("object");
+                .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         securityObjectAction = ((Security) ((Action) page.getWidgets().get("testToolbarAccessTransformer_test").getActions()
-                .get("update")).getProperties().get("security")).getSecurityMap().get("object");
+                .get("update")).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectAction.getAnonymous(), nullValue());
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
@@ -117,22 +118,22 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
 
         //permitAll в одном из menuItem делает доступным subMenu
         Button subMenu1 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(0);
-        assertTrue(((Security) subMenu1.getProperties().get("security")).getSecurityMap().get("object").getPermitAll());
+        assertTrue(((Security) subMenu1.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermitAll());
 
         Button subMenu2 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(1);
-        assertTrue(((Security) subMenu2.getProperties().get("security")).getSecurityMap().get("object").getAnonymous());
-        assertTrue(((Security) subMenu2.getProperties().get("security")).getSecurityMap().get("object").getAuthenticated());
+        assertTrue(((Security) subMenu2.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous());
+        assertTrue(((Security) subMenu2.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAuthenticated());
 
         Button subMenu3 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(2);
-        assertTrue(((Security) subMenu2.getProperties().get("security")).getSecurityMap().get("object").getAuthenticated());
-        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getAnonymous());
-        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getRoles().isEmpty());
-        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getUsernames().isEmpty());
-        assertFalse(((Security) subMenu3.getProperties().get("security")).getSecurityMap().get("object").getPermissions().isEmpty());
+        assertTrue(((Security) subMenu2.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAuthenticated());
+        assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous());
+        assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().isEmpty());
+        assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().isEmpty());
+        assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().isEmpty());
 
         //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security
         Button subMenu4 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(3);
-        assertThat(subMenu4.getSubMenu().get(0).getProperties().get("security"), notNullValue());
+        assertThat(subMenu4.getSubMenu().get(0).getProperties().get(SECURITY_PROP_NAME), notNullValue());
         assertThat(subMenu4.getSubMenu().get(1).getProperties(), nullValue());
         assertThat(subMenu4.getProperties(), nullValue());
     }

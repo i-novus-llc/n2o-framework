@@ -13,22 +13,35 @@ import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для проверки наличия прав доступа у пользователя
+ */
 public class SecurityProvider {
-
     private PermissionApi permissionApi;
 
     public SecurityProvider(PermissionApi permissionApi) {
         this.permissionApi = permissionApi;
     }
 
-    public void checkAccess(Map<String, Security.SecurityObject> securityObjectMap, UserContext userContext) {
-        if (securityObjectMap == null)
+    /**
+     * Проверка есть ли у пользователя из userContext доступ к объекту, права к которуму регулирует security
+     * @param security      права доступа для проверки
+     * @param userContext   информация о пользователе
+     */
+    public void checkAccess(Security security, UserContext userContext) {
+        if (security == null || security.getSecurityMap() == null)
             return;
-        for (Security.SecurityObject securityObject : securityObjectMap.values()) {
+        for (Security.SecurityObject securityObject : security.getSecurityMap().values()) {
             check(userContext, securityObject);
         }
     }
 
+    /**
+     * Сборка ограничений прав доступа актуальных для пользователя из userContext из общего списка фильтров
+     * @param securityFilters   фильтрация объекта
+     * @param userContext       информация о пользователе
+     * @return  список ограничений прав доступа к объекту
+     */
     public Set<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
         if (securityFilters == null)
             return null;

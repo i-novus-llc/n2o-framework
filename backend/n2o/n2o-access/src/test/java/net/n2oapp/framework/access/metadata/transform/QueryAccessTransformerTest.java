@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -43,9 +44,9 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testQueryAccessTransformer.query.xml");
 
         CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new QueryContext("testQueryAccessTransformer"));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getRoles().contains("role"), is(true));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getPermissions(), nullValue());
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), nullValue());
     }
 
     @Test
@@ -56,12 +57,12 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testQueryAccessTransformer.query.xml");
 
         CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new QueryContext("testQueryAccessTransformer"));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getRoles().contains("role"), is(true));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getPermissions(), notNullValue());
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("object").getAnonymous(), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), notNullValue());
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous(), is(true));
 
-        SecurityFilters securityFilters = (SecurityFilters) query.getProperties().get("securityFilters");
+        SecurityFilters securityFilters = (SecurityFilters) query.getProperties().get(SecurityFilters.SECURITY_FILTERS_PROP_NAME);
         //filters
         assertThat(securityFilters.getRoleFilters().size(), is(2));
         assertThat(securityFilters.getRoleFilters().get("role").size(), is(2));

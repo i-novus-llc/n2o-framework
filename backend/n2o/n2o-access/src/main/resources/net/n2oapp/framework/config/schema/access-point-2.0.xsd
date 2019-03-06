@@ -23,7 +23,7 @@
         </xs:attribute>
         <xs:attribute name="remove-filters" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Список фильтров(через запятую), которые необходимо отменить(тем самым датб больше доступ).</xs:documentation>
+                <xs:documentation>Список фильтров(через запятую), которые необходимо отменить(тем самым дать больше доступ).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

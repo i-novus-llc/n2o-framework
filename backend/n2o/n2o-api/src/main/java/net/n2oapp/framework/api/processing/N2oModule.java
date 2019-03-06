@@ -11,9 +11,7 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.user.UserContext;
 
 /**
- * User: operhod
- * Date: 23.11.13
- * Time: 14:51
+ * Абстрактная реализация обработки вызовов действий и выборок N2O
  */
 public abstract class N2oModule implements DataProcessing, LocatedBean {
 
