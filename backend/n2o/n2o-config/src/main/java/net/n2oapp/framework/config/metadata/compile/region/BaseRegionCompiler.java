@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.region;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.meta.WidgetDependency;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
+import net.n2oapp.framework.api.metadata.meta.region.RegionDependency;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -58,7 +58,7 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         WidgetDependencyScope scope = p.getScope(WidgetDependencyScope.class);
         for (Region.Item item : items) {
             if (scope.containsKey(item.getWidgetId())) {
-                WidgetDependency dependency = new WidgetDependency();
+                RegionDependency dependency = new RegionDependency();
                 dependency.setVisible(scope.get(item.getWidgetId()).getVisible());
                 item.setDependency(dependency);
             }

@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.aware.SrcAware;
-import net.n2oapp.framework.api.metadata.meta.WidgetDependency;
 
 import java.util.List;
 import java.util.Map;
@@ -49,7 +48,7 @@ public abstract class Region implements Compiled, SrcAware, NameAware, IdAware {
         private Map<String, Object> properties;
         private String objectId;
         @JsonProperty
-        private WidgetDependency dependency;
+        private RegionDependency dependency;
 
         @JsonAnyGetter
         public Map<String, Object> getJsonProperties() {

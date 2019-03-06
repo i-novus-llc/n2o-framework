@@ -27,8 +27,10 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
+import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -397,12 +399,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         WidgetDependency dependency = new WidgetDependency();
         String masterWidgetId = null;
         if (source.getDependsOn() != null) {
-            List<WidgetDependency.Condition> fetch = new ArrayList<>();
+            List<DependencyCondition> fetch = new ArrayList<>();
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
                 masterWidgetId = widgetScope.getDependsOnWidgetId();
                 ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
-                WidgetDependency.Condition condition = new WidgetDependency.Condition();
+                DependencyCondition condition = new DependencyCondition();
                 condition.setOn(bindLink.getBindLink());
                 fetch.add(condition);
             }
@@ -411,8 +413,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (source.getVisible() != null) {
             Object condition = p.resolveJS(source.getVisible(), Boolean.class);
             if (StringUtils.isJs(condition)) {
-                WidgetDependency.Condition visibilityCondition = new WidgetDependency.Condition();
-                List<WidgetDependency.Condition> visible = new ArrayList<>();
+                DependencyCondition visibilityCondition = new DependencyCondition();
+                List<DependencyCondition> visible = new ArrayList<>();
                 if (masterWidgetId != null) {
                     visibilityCondition.setOn(new ModelLink(ReduxModel.RESOLVE, masterWidgetId).getBindLink());
                 }

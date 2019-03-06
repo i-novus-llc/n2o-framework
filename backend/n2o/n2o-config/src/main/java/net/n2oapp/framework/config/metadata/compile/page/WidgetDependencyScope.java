@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.meta.WidgetDependency;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 
 import java.util.HashMap;
 

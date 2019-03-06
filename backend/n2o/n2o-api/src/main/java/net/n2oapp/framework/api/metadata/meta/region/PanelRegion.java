@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.metadata.meta.region;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.WidgetDependency;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class PanelRegion extends Region {
     @JsonProperty
     private Boolean header;
     @JsonProperty
-    private WidgetDependency dependency;
+    private RegionDependency dependency;
 
     @Override
     @JsonProperty("panels")

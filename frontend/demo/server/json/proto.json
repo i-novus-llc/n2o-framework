@@ -1541,7 +1541,15 @@
               "opened": true,
               "widgetId": "proto_contacts"
             }
-          ]
+          ],
+          "dependency": {
+            "visible" : [
+              {
+                "on" : "models.resolve['proto_patients']",
+                "condition": "name != 'Мария'"
+              }
+            ]
+          }
         },
         {
           "src": "PanelRegion",
