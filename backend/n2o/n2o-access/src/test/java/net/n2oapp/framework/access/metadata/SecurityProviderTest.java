@@ -318,7 +318,7 @@ public class SecurityProviderTest {
         permitAllFilters.add(new N2oObjectFilter("gender", "man", FilterType.eq, "genderFilter"));
         permitAllFilters.add(new N2oObjectFilter("position", "developer", FilterType.eq, "positionFilter"));
         securityFilters.setPermitAllFilters(permitAllFilters);
-        Set<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(2));
         assertThat(restrictions.contains(new Restriction("gender", "man", FilterType.eq)), is(true));
         assertThat(restrictions.contains(new Restriction("position", "developer", FilterType.eq)), is(true));

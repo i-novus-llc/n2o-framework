@@ -42,7 +42,7 @@ public class SecurityProvider {
      * @param userContext       информация о пользователе
      * @return  список ограничений прав доступа к объекту
      */
-    public Set<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
+    public List<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
         if (securityFilters == null)
             return null;
         Set<N2oObjectFilter> filters = new HashSet<>();
@@ -93,7 +93,7 @@ public class SecurityProvider {
                     .forEach(u -> removeFilters.addAll(securityFilters.getRemoveUserFilters().get(u)));
         }
         filters.removeIf(f -> removeFilters.contains(f.getId()));
-        return filters.stream().map(f -> new Restriction(f.getFieldId(), f.getValue(), f.getType())).collect(Collectors.toSet());
+        return filters.stream().map(f -> new Restriction(f.getFieldId(), f.getValue(), f.getType())).collect(Collectors.toList());
     }
 
     /**

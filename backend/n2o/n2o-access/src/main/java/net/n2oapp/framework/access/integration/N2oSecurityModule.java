@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.ui.ActionResponseInfo;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -47,8 +48,8 @@ public class N2oSecurityModule extends N2oModule {
             if (security != null) {
                 securityProvider.checkAccess(security, requestInfo.getUser());
                 if (requestInfo.getSize() != 1) {
-                    Set<Restriction> filters = securityProvider.collectRestrictions(getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
-                    requestInfo.getCriteria().getRestrictions().addAll(filters);
+                    List<Restriction> filters = securityProvider.collectRestrictions(getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
+                    requestInfo.getCriteria().addRestrictions(filters);
                 }
             }
         }
