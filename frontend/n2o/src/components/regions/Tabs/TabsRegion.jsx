@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, each } from 'lodash';
-
+import { isEmpty, each, map } from 'lodash';
+import { compose } from 'recompose';
+import withVisibleDependency from '../withVisibleDependency';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import WidgetFactory from '../../widgets/WidgetFactory';
@@ -16,6 +17,7 @@ import SecurityCheck from '../../../core/auth/SecurityCheck';
  * @reactProps {array} tabs - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
+ * @reactProps {function} resolveVisibleDependency - резол видимости таба
  */
 class TabRegion extends React.Component {
   constructor(props) {
@@ -45,7 +47,7 @@ class TabRegion extends React.Component {
   }
 
   render() {
-    const { tabs, getWidget, pageId } = this.props;
+    const { tabs, getWidget, pageId, resolveVisibleDependency } = this.props;
     return (
       <Tabs ref={el => (this._tabsEl = el)} onChangeActive={this.handleChangeActive}>
         {tabs.map(tab => {
@@ -55,7 +57,7 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: true
+            visible: tab.dependency ? resolveVisibleDependency(tab.dependency) : true
           };
           const tabEl = (
             <Tab {...tabProps}>
@@ -95,7 +97,8 @@ TabRegion.propTypes = {
   getWidget: PropTypes.func.isRequired,
   pageId: PropTypes.string.isRequired,
   alwaysRefresh: PropTypes.bool,
-  mode: PropTypes.oneOf(['single', 'all'])
+  mode: PropTypes.oneOf(['single', 'all']),
+  resolveVisibleDependency: PropTypes.func
 };
 
 TabRegion.defaultProps = {
@@ -103,4 +106,7 @@ TabRegion.defaultProps = {
   mode: 'single'
 };
 
-export default withGetWidget(TabRegion);
+export default compose(
+  withVisibleDependency,
+  withGetWidget
+)(TabRegion);

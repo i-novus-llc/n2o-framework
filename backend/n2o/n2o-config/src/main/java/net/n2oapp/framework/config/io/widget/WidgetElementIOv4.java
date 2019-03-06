@@ -27,6 +27,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
     public void io(Element e, T m, IOProcessor p) {
         p.attribute(e, "id", m::getId, m::setId);
         p.attribute(e, "ref-id", m::getRefId, m::setRefId);
+        p.attribute(e, "master-param", m::getMasterParam, m::setMasterParam);
         p.attribute(e, "depends-on", m::getDependsOn, m::setDependsOn);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
@@ -56,7 +57,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "name", a::getLabel, a::setLabel);
         p.attribute(e, "icon", a::getIcon, a::setIcon);
         p.attribute(e, "hotkey", a::getHotkey, a::setHotkey);
-        p.attribute(e,"widget-id",a::getWidgetId,a::setWidgetId);
+        p.attribute(e, "widget-id", a::getWidgetId, a::setWidgetId);
         p.attributeEnum(e, "model", a::getModel, a::setModel, ReduxModel.class);
         p.attributeBoolean(e, "default", a::getDefaultValue, a::setDefaultValue);
         p.attribute(e, "visible", a::getVisible, a::setVisible);
@@ -66,6 +67,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
 
     private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
+        p.attribute(e, "param", pf::getParam, pf::setParam);
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);

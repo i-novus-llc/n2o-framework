@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import { compose, getContext } from 'recompose';
-
+import withDependency from '../withVisibleDependency';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
@@ -30,6 +30,8 @@ import { SECURITY_CHECK } from '../../../core/auth/authTypes';
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {object} user - пользователь !!! не используется
  * @reactProps {function} authProvider - провайдер аутентификации !!! не используется
+ * @reactProps {function} resolveVisibleDependency - резол видимости региона
+ * @reactProps {object} dependency - зависимость видимости панели
  */
 
 class PanelRegion extends React.Component {
@@ -106,11 +108,14 @@ class PanelRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { panels } = this.props;
+    const { panels, resolveVisibleDependency, dependency } = this.props;
+    const visible = dependency ? resolveVisibleDependency(dependency) : true;
     return (
-      <PanelShortHand tabs={this.state.tabs} {...this.props}>
-        {panels.map(container => this.getContent(container))}
-      </PanelShortHand>
+      visible && (
+        <PanelShortHand tabs={this.state.tabs} {...this.props}>
+          {panels.map(container => this.getContent(container))}
+        </PanelShortHand>
+      )
     );
   }
 }
@@ -128,7 +133,9 @@ PanelRegion.propTypes = {
   collapsible: PropTypes.bool,
   hasTabs: PropTypes.bool,
   fullScreen: PropTypes.bool,
-  getWidget: PropTypes.func.isRequired
+  getWidget: PropTypes.func.isRequired,
+  resolveVisibleDependency: PropTypes.func,
+  dependency: PropTypes.object
 };
 
 PanelRegion.defaultProps = {
@@ -139,6 +146,7 @@ PanelRegion.defaultProps = {
 };
 
 export default compose(
+  withDependency,
   withSecurity,
   withGetWidget
 )(PanelRegion);

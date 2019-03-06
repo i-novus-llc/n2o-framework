@@ -84,30 +84,19 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
 
         CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new HeaderContext("testHeaderAccessTransformer"));
+        assertAccess(((Security) header.getItems().get(0).getProperties().get("security")).getSecurityMap());
+        assertAccess(((Security) header.getItems().get(1).getSubItems().get(0).getProperties().get("security")).getSecurityMap());
+        assertAccess(((Security) header.getExtraItems().get(0).getProperties().get("security")).getSecurityMap());
+        assertAccess(((Security) header.getExtraItems().get(1).getSubItems().get(0).getProperties().get("security")).getSecurityMap());
+    }
 
-        Map<String, Security.SecurityObject> secMap = ((Security) header.getItems().get(0).getProperties().get("security")).getSecurityMap();
-
+    private void assertAccess(Map<String, Security.SecurityObject> secMap) {
         assertThat(secMap.get("page").getUsernames().size(), is(1));
         assertThat(secMap.get("page").getUsernames().contains("user"), is(true));
         assertThat(secMap.get("page").getRoles().size(), is(2));
         assertThat(secMap.get("page").getRoles().contains("role"), is(true));
         assertThat(secMap.get("page").getRoles().contains("admin"), is(true));
         assertThat(secMap.get("page").getPermissions(), nullValue());
-
-        assertThat(secMap.get("object").getPermissions(), nullValue());
-        assertThat(secMap.get("object").getRoles(), nullValue());
-        assertThat(secMap.get("object").getUsernames().size(), is(1));
-        assertThat(secMap.get("object").getUsernames().contains("user"), is(true));
-        assertThat(secMap.get("object").getAnonymous(), is(true));
-
-        secMap = ((Security) header.getExtraItems().get(0).getProperties().get("security")).getSecurityMap();
-        assertThat(secMap.get("page").getUsernames().size(), is(1));
-        assertThat(secMap.get("page").getUsernames().contains("user"), is(true));
-        assertThat(secMap.get("page").getRoles().size(), is(2));
-        assertThat(secMap.get("page").getRoles().contains("role"), is(true));
-        assertThat(secMap.get("page").getRoles().contains("admin"), is(true));
-        assertThat(secMap.get("page").getPermissions(), nullValue());
-
         assertThat(secMap.get("object").getPermissions(), nullValue());
         assertThat(secMap.get("object").getRoles(), nullValue());
         assertThat(secMap.get("object").getUsernames().size(), is(1));
