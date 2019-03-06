@@ -14,14 +14,13 @@
                   {
                     "fields": [
                       {
-                        "id": "select-input-1",
+                        "id": "input-1",
                         "src": "StandardField",
                         "label": "Компонент",
                         "dependency": [],
                         "control": {
-                          "id": "surname",
                           "placeholder": "Введите значение",
-                          "src": "InputSelect"
+                          "src": "Input"
                         }
                       }
                     ]
@@ -29,34 +28,14 @@
                   {
                     "fields": [
                       {
-                        "id": "select-input-2",
+                        "id": "input-2",
                         "src": "StandardField",
-                        "label": "C dataProvider",
+                        "label": "allowClear",
                         "dependency": [],
                         "control": {
                           "id": "name",
-                          "dataProvider": {
-                            "url": "n2o/data/input-select-data"
-                          },
-                          "src": "InputSelect"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "fields": [
-                      {
-                        "id": "select-input-3",
-                        "src": "StandardField",
-                        "label": "Мульти режим",
-                        "dependency": [],
-                        "control": {
-                          "id": "patrName",
-                          "dataProvider": {
-                            "url": "n2o/data/input-select-data"
-                          },
-                          "mode": "multiple",
-                          "src": "InputSelect"
+                          "src": "Input",
+                          "allowClear": true
                         }
                       }
                     ]

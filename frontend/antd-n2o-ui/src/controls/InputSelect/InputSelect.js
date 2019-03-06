@@ -11,7 +11,7 @@ export default compose(
     disabled: false,
     placeholder: "Введите значение",
     valueFieldId: "id",
-    labelFieldId: "name",
+    labelFieldId: "label",
     iconFieldId: "icon",
     imageFieldId: "image",
     badgeFieldId: "badge",
@@ -22,19 +22,20 @@ export default compose(
     queryId: "list",
     multiSelect: false
   }),
-  withProps({
-    children: ({
+  withProps(
+    ({
       data,
       valueFieldId,
       labelFieldId,
       iconFieldId,
-      badgeFieldId
-    }) =>
-      map(data, (item, index) => (
+      badgeFieldId,
+      value
+    }) => ({
+      children: map(data, (item, index) => (
         <Select.Option key={index} value={item[valueFieldId]}>
           {item[iconFieldId] && <Icon type="step-backward" />}
           {item[iconFieldId] && (
-            <Avatar shape="square" src={item[iconFieldId]} />
+            <Avatar size="small" shape="square" src={item[iconFieldId]} />
           )}
           {item[labelFieldId]}
           {item[badgeFieldId] && (
@@ -42,11 +43,13 @@ export default compose(
           )}
         </Select.Option>
       )),
-    style: { width: "100%" }
-  }),
-
+      style: { width: "100%" },
+      value: isArray(value) ? map(value, valueFieldId) : value[valueFieldId]
+    })
+  ),
   withHandlers({
     onChange: ({ data, valueFieldId, onChange }) => value => {
+      console.log(value);
       if (!value) {
         onChange(null);
       } else if (isArray(value)) {
@@ -54,6 +57,14 @@ export default compose(
       } else {
         onChange(find(data, [valueFieldId, value]));
       }
+    },
+    onDropdownVisibleChange: props => visible => {
+      if (visible) {
+        props._fetchData();
+      }
+    },
+    onBlur: props => () => {
+      //props.onBlur(null);
     }
   })
 )(Select);

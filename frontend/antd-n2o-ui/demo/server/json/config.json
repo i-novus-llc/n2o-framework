@@ -18,6 +18,11 @@
           "label":"InputSelect",
           "href":"/controls/input-select",
           "linkType":"inner"
+        }, {
+          "id":"menuItem01",
+          "label":"Input",
+          "href":"/controls/input",
+          "linkType":"inner"
         }]
       }
     ],

@@ -1,3 +1,7 @@
-import { Tree } from 'antd';
+import controls from "./controls";
+import widgets from "./widgets";
 
-export default Tree;
+export default {
+  controls,
+  widgets
+};
