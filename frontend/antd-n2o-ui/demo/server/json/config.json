@@ -1,0 +1,31 @@
+{
+  "messages":{
+
+  },
+  "menu":{
+    "brand":"N2O",
+    "color":"inverse",
+    "fixed":false,
+    "collapsed":true,
+    "search":false,
+    "items":[
+      {
+        "id":"menuItem0",
+        "label":"Controls",
+        "type":"dropdown",
+        "subItems": [{
+          "id":"menuItem01",
+          "label":"InputSelect",
+          "href":"/controls/input-select",
+          "linkType":"inner"
+        }]
+      }
+    ],
+    "extraItems":[
+
+    ]
+  },
+  "user":{
+    "username":"null"
+  }
+}
