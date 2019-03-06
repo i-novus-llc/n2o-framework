@@ -35,7 +35,10 @@ public class PageBinder implements BaseMetadataBinder<Page> {
         }
         if (page.getBreadcrumb() != null)
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
-                    .forEach(b -> b.setPath(p.resolveUrl(b.getPath(), null, null)));
+                    .forEach(b -> {
+                        b.setPath(p.resolveUrl(b.getPath()));
+                        b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
+                    });
         if (page.getModels() != null) {
             page.getModels().values().forEach(bl -> {
                 if (bl.getValue() instanceof String) {
@@ -45,7 +48,8 @@ public class PageBinder implements BaseMetadataBinder<Page> {
             resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), page.getWidgets()), p);
         }
         if (page.getPageProperty() != null) {
-            page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(), page.getPageProperty().getModelLink()));
+            page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
+                    page.getPageProperty().getModelLink()));
         }
         if (page.getBreadcrumb() != null) {
             for (Breadcrumb crumb : page.getBreadcrumb()) {

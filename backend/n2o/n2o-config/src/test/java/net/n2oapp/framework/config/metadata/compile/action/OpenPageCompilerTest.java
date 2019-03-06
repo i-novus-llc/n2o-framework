@@ -111,6 +111,9 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
         assertThat(context.getPreFilters().get(0).getParam(), is("page_test_id"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
+        assertThat(context.getParentModelLink().getFieldId(), is("id"));
+        assertThat(context.getParentModelLink().getWidgetId(), is("page_test"));
+        assertThat(context.getParentModelLink().getSubModelQuery().getQueryId(), is("testShowModal"));
 
         Page openPage = read().compile().get(context);
         assertThat(openPage.getId(), is("page_widget_action2"));
@@ -286,24 +289,19 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(detailPage.getRoutes().getList().get(0).getPath(), is("/page/widget/:page_test_id/masterDetail"));
         assertThat(detailPage.getRoutes().getList().get(0).getPath(), is("/page/widget/:page_test_id/masterDetail"));
         Map<String, BindLink> queryMapping = detailPage.getWidgets().get("page_widget_masterDetail_main").getDataProvider().getQueryMapping();
-        assertThat(queryMapping.get("detailId").getBindLink(), nullValue());
         assertThat(queryMapping.get("detailId").getValue(), is(222));
-        assertThat(queryMapping.get("name").getBindLink(), nullValue());
         assertThat(queryMapping.get("name").getValue(), is("testName"));
         filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(0);
         assertThat(filter.getParam(), is("detailId"));
         assertThat(filter.getFilterId(), is("detailId"));
-        assertThat(filter.getLink().getBindLink(), nullValue());
         assertThat(filter.getLink().getValue(), is(222));
         filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(1);
         assertThat(filter.getParam(), is("name"));
         assertThat(filter.getFilterId(), is("name"));
-        assertThat(filter.getLink().getBindLink(), nullValue());
         assertThat(filter.getLink().getValue(), is("testName"));
         filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(2);
         assertThat(filter.getParam(), is("secondName"));
         assertThat(filter.getFilterId(), is("secondName"));
-        assertThat(filter.getLink().getBindLink(), nullValue());
         assertThat(filter.getLink().getValue(), is("test"));
     }
 

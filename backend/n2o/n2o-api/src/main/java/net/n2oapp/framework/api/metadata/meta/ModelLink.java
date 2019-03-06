@@ -58,15 +58,6 @@ public class ModelLink extends BindLink {
     }
 
     /**
-     * Проверяет является ли BindLink ссылкой на другой объект в redux или это константное значение
-     *
-     * @return true, если является ссылкой
-     */
-    public boolean isLink() {
-        return getBindLink() != null || StringUtils.isJs(getValue());
-    }
-
-    /**
      * Эквивалентны ли ссылки на модели.
      *
      * @param o Ссылка

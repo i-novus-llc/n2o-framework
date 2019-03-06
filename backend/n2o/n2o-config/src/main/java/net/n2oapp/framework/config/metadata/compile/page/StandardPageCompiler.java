@@ -210,12 +210,11 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
         //compile detail widgets
         ParentRouteScope parentRouteScope = new ParentRouteScope(compiledWidget.getRoute(), parentRoute);
-        getDetails(w.getId(), sourceWidgets).forEach(detWgt -> {
-            compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
-                    sourceWidgets, compiledWidgets,
-                    context, p,
-                    pageScope, breadcrumbs, validationList, models, indexScope);
-        });
+        getDetails(w.getId(), sourceWidgets).forEach(detWgt -> compileWidget(detWgt, routes,
+                parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
+                sourceWidgets, compiledWidgets,
+                context, p,
+                pageScope, breadcrumbs, validationList, models, indexScope));
     }
 
     private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context, PageScope pageScope) {

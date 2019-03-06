@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 
@@ -28,7 +29,7 @@ public class DataModel {
      * @param data Данные привязанные к ключам
      */
     public void addAll(Map<String, ModelLink> links, DataSet data) {
-        if (links == null)
+        if (links == null || data == null)
             return;
         for (Map.Entry<String, ModelLink> entry : links.entrySet()) {
             add(entry.getValue(), data.get(entry.getKey()));
@@ -42,9 +43,9 @@ public class DataModel {
      * @return Предыдущее значение по ссылке
      */
     public Object add(ModelLink link, Object value) {
-        if (link.isConst())
+        ModelLink widgetLink = link.getWidgetLink();
+        if (widgetLink == null)
             return null;
-        ModelLink widgetLink = getAndCheckWidgetLink(link);
         String fieldId = link.getFieldId();
         if (fieldId != null) {
             DataSet data = store.get(widgetLink);
@@ -66,7 +67,14 @@ public class DataModel {
      * @return Значение поля
      */
     public Object getValue(ModelLink link) {
-        DataSet data = store.get(getAndCheckWidgetLink(link));
+        if (link == null)
+            return null;
+        ModelLink widgetLink = link.getWidgetLink();
+        if (widgetLink == null && link.isConst())
+            return link.getValue();
+        if (widgetLink == null)
+            return null;
+        DataSet data = store.get(widgetLink);
         if (data == null)
             return null;
         String fieldId = link.getFieldId();
@@ -92,7 +100,12 @@ public class DataModel {
      * @return Данные модели
      */
     public DataSet getData(ModelLink link) {
-        return store.get(getAndCheckWidgetLink(link));
+        if (link == null)
+            return null;
+        ModelLink widgetLink = link.getWidgetLink();
+        if (widgetLink == null)
+            return null;
+        return store.get(widgetLink);
     }
 
     /**
@@ -103,7 +116,11 @@ public class DataModel {
      * @return Функция данных модели
      */
     public Function<String, Object> getDataIfAbsent(ModelLink link, SubModelsProcessor processor) {
-        ModelLink widgetLink = getAndCheckWidgetLink(link);
+        if (link == null)
+            return key -> null;
+        ModelLink widgetLink = link.getWidgetLink();
+        if (widgetLink == null)
+            return key -> null;
         DataSet data = store.get(widgetLink);
         if (data == null) {
             return key -> null;
@@ -122,12 +139,4 @@ public class DataModel {
         }
     }
 
-    private ModelLink getAndCheckWidgetLink(ModelLink link) {
-        if (link == null)
-            throw new IllegalArgumentException("Link is null");
-        ModelLink widgetLink = link.getWidgetLink();
-        if (widgetLink == null)
-            throw new IllegalArgumentException("Link " + link + " doesn't contains model and widget");
-        return widgetLink;
-    }
 }

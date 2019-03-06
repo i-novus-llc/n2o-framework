@@ -138,33 +138,53 @@ public class N2oCompileProcessorTest extends N2oTestBase {
 
     @Test
     public void testResolveUrlWithMapping() {
+        //Константы в mapping
         PageContext context = new PageContext("test");
         DataSet data = new DataSet();
         data.put("param1", "testValue");
         Map<String, ModelLink> pathParams = new HashMap<>();
         pathParams.put("param1", new ModelLink("param1value"));
         Map<String, ModelLink> queryParams = new HashMap<>();
-        queryParams.put("paramQ1", new ModelLink("paramQ1"));
+        queryParams.put("paramQ1", new ModelLink("param2Value"));
         N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        String url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
-        assertThat(url, is("/p/w/testValue/a?paramQ1=:paramQ1"));
-        assertThat(pathParams.size(), is(0));
-        assertThat(queryParams.size(), is(1));
 
+        String url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
+        assertThat(url, is("/p/w/param1value/a?paramQ1=param2Value"));
+        assertThat(pathParams.size(), is(0));
+        assertThat(queryParams.size(), is(0));
+
+        //Данные в контексте path mapping
+        data = new DataSet();
+        data.put("param1", "testValue");
+        pathParams = new HashMap<>();
+        pathParams.put("param1", new ModelLink(ReduxModel.RESOLVE, "wgt", "field1"));
+        queryParams = new HashMap<>();
+        queryParams.put("param2", new ModelLink(ReduxModel.RESOLVE, "wgt", "field2"));
         context = new PageContext("test");
         context.setQueryRouteMapping(queryParams);
         context.setPathRouteMapping(pathParams);
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
-        assertThat(url, is("/p/w/testValue/a?paramQ1=:paramQ1"));
+
+        url = processor.resolveUrl("/p/w/:param1/a?param2=:param2", pathParams, queryParams);
+        assertThat(url, is("/p/w/testValue/a?param2=:param2"));
         assertThat(pathParams.size(), is(0));
         assertThat(queryParams.size(), is(1));
 
-        data.put("paramQ1", "testValueQ");
+
+        //Данные в контексте query mapping
+        data = new DataSet();
+        data.put("param2", "testValue2");
+        pathParams = new HashMap<>();
+        pathParams.put("param1", new ModelLink(ReduxModel.RESOLVE, "wgt", "field1"));
+        queryParams = new HashMap<>();
+        queryParams.put("param2", new ModelLink(ReduxModel.RESOLVE, "wgt", "field2"));
+        context = new PageContext("test");
+        context.setQueryRouteMapping(queryParams);
+        context.setPathRouteMapping(pathParams);
         processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
-        url = processor.resolveUrl("/p/w/:param1/a?paramQ1=:paramQ1", pathParams, queryParams);
-        assertThat(url, is("/p/w/testValue/a?paramQ1=testValueQ"));
-        assertThat(pathParams.size(), is(0));
+        url = processor.resolveUrl("/p/w/:param1/a?param2=:param2", pathParams, queryParams);
+        assertThat(url, is("/p/w/:param1/a?param2=testValue2"));
+        assertThat(pathParams.size(), is(1));
         assertThat(queryParams.size(), is(0));
     }
 

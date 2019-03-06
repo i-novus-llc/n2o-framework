@@ -21,7 +21,9 @@ import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidat
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import org.springframework.util.StreamUtils;
 
+import javax.xml.crypto.Data;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -215,14 +217,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     public String resolveUrl(String url,
                              Map<String, ? extends BindLink> pathMappings,
                              Map<String, ? extends BindLink> queryMappings) {
-        String resultUrl = resolveUrl(url);
-        List<String> params = getParams(resultUrl);
-        if (pathMappings != null) {
-            pathMappings.keySet().stream().filter(k -> !params.contains(k)).collect(Collectors.toList()).forEach(pathMappings::remove);
-        }
-        if (queryMappings != null) {
-           queryMappings.keySet().stream().filter(k -> !params.contains(k)).collect(Collectors.toList()).forEach(queryMappings::remove);
-        }
+        String resultUrl = url;
+        if (pathMappings != null)
+            resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
+        if (queryMappings != null)
+            resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
+        resultUrl = URL_RESOLVER.resolve(resultUrl, data);
         return resultUrl;
     }
 
@@ -372,5 +372,18 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
                         : defaultValues);
             }
         }
+    }
+
+    private Object getValue(Map<String, ? extends BindLink> mapping, String key) {
+        if (!mapping.containsKey(key))
+            return null;
+        BindLink bindLink = mapping.get(key);
+        if (bindLink instanceof ModelLink) {
+            Object value = model.getValue((ModelLink) bindLink);
+            if (value != null)
+                mapping.remove(key);
+            return value;
+        } else
+            return null;
     }
 }
