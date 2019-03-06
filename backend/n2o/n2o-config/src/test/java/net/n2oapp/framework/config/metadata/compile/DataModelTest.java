@@ -4,12 +4,10 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -68,11 +66,10 @@ public class DataModelTest {
         }).when(p).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
 
         DataModel model = new DataModel();
-        model.add(new ModelLink(ReduxModel.RESOLVE, "widget", "id"), 123);
-        ModelLink nameLink = new ModelLink(ReduxModel.RESOLVE, "widget");
-        nameLink.setSubModelQuery(new SubModelQuery("query"));
-
-        Function<String, Object> dataFunc = model.getDataIfAbsent(nameLink, p);
+        ModelLink link = new ModelLink(ReduxModel.RESOLVE, "widget", "id");
+        link.setSubModelQuery(new SubModelQuery("query"));
+        model.add(link, 123);
+        Function<String, Object> dataFunc = model.getDataIfAbsent(new ModelLink(ReduxModel.RESOLVE, "widget"), p);
         assertThat(dataFunc.apply("name"), is("Joe"));
     }
 }

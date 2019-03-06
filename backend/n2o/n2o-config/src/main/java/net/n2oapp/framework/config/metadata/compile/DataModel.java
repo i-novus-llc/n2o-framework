@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.util.SubModelsProcessor;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -116,27 +117,31 @@ public class DataModel {
      * @return Функция данных модели
      */
     public Function<String, Object> getDataIfAbsent(ModelLink link, SubModelsProcessor processor) {
-        if (link == null)
+        Map.Entry<ModelLink, DataSet> entry = getKeyEntry(link);
+        if (entry == null) {
             return key -> null;
-        ModelLink widgetLink = link.getWidgetLink();
-        if (widgetLink == null)
-            return key -> null;
-        DataSet data = store.get(widgetLink);
-        if (data == null) {
-            return key -> null;
-        } else if (widgetLink.getSubModelQuery() != null) {
+        } else if (entry.getKey().getSubModelQuery() != null) {
             return key -> {
-                Object value = data.get(key);
-                if (value == null && widgetLink.getSubModelQuery() != null) {
-                    processor.executeSubModels(Collections.singletonList(widgetLink.getSubModelQuery()), data);
-                    return data.get(key);
+                Object value = entry.getValue().get(key);
+                if (value == null && entry.getKey().getSubModelQuery() != null) {
+                    processor.executeSubModels(Collections.singletonList(entry.getKey().getSubModelQuery()), entry.getValue());
+                    return entry.getValue().get(key);
                 } else {
                     return value;
                 }
             };
         } else {
-            return data::get;
+            return entry.getValue()::get;
         }
+    }
+
+    private Map.Entry<ModelLink, DataSet> getKeyEntry(ModelLink link) {
+        if (link == null)
+            return null;
+        ModelLink widgetLink = link.getWidgetLink();
+        Optional<Map.Entry<ModelLink, DataSet>> first = store.entrySet().stream()
+                .filter(e -> e.getKey().equals(widgetLink)).findFirst();
+        return first.orElse(null);
     }
 
 }
