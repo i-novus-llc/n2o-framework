@@ -8,6 +8,10 @@ import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
 
 import java.util.List;
 
+/**
+ * Клиентская модель зависимости.
+ * visible - зависимость видимости региона
+ */
 @Getter
 @Setter
 public class RegionDependency implements Compiled {

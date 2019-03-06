@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
+/**
+ * Клиентская модель условия зависимости
+ */
 @Getter
 @Setter
 @NoArgsConstructor
