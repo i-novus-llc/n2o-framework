@@ -6,14 +6,7 @@
       "url": "n2o/data/test",
       "pathMapping": {
       },
-      "queryMapping": {
-        "filter.name": {
-          "link": "models.filter['Page_Table'].name"
-        },
-        "filter.surname": {
-          "link": "models.filter['Page_Table'].surname"
-        }
-      }
+      "queryMapping": {}
     },
     "toolbar": {
       "topRight": [
@@ -166,6 +159,45 @@
       "blackResetList": [],
       "validation": {},
       "hideButtons": true
+    },
+    "hasMoreButton": true,
+    "list": {
+      "image": {
+        "src": "ImageCell",
+        "id": "image",
+        "className": "list-image",
+        "title": "It's a cat!"
+      },
+      "header": {
+        "src": "BadgeCell",
+        "id": "header"
+      },
+      "body": {
+        "src": "TextCell",
+        "id": "body",
+        "visible": true
+      },
+      "subHeader": {
+        "src": "TextCell",
+        "id": "subHeader",
+        "className": "list-subheader",
+        "visible": true
+      },
+      "rightTop": {
+        "src": "TextCell",
+        "id": "rightTop",
+        "visible": true
+      },
+      "rightBottom": {
+        "src": "TextCell",
+        "id": "rightBottom",
+        "visible": true
+      },
+      "extra": {
+        "src": "TextCell",
+        "id": "extra",
+        "visible": true
+      }
     }
   }
 }

@@ -1,17 +1,38 @@
 import React from 'react';
+import { values } from 'lodash';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import dependency from '../../../core/dependency';
 import StandardWidget from '../StandardWidget';
 import ListContainer from './ListContainer';
 import Fieldsets from '../Form/fieldsets';
+import Pagination from '../Table/TablePagination';
 
 function ListWidget(
-  { id: widgetId, toolbar, disabled, actions, pageId, paging, className, style, filter },
+  {
+    id: widgetId,
+    toolbar,
+    disabled,
+    actions,
+    pageId,
+    paging,
+    className,
+    style,
+    filter,
+    dataProvider,
+    fetchOnInit,
+    list,
+    rowClick,
+    hasMoreButton
+  },
   context
 ) {
   const prepareFilters = () => {
     return context.resolveProps(filter, Fieldsets.StandardFieldset);
+  };
+
+  const resolveSections = () => {
+    return context.resolveProps(list);
   };
 
   return (
@@ -21,14 +42,32 @@ function ListWidget(
       toolbar={toolbar}
       actions={actions}
       filter={prepareFilters()}
+      bottomLeft={paging && <Pagination widgetId={widgetId} />}
     >
-      <ListContainer />
+      <ListContainer
+        page={1}
+        pageId={pageId}
+        hasMoreButton={hasMoreButton}
+        list={resolveSections()}
+        disabled={disabled}
+        dataProvider={dataProvider}
+        widgetId={widgetId}
+        fetchOnInit={fetchOnInit}
+        actions={actions}
+        rowClick={rowClick}
+      />
     </StandardWidget>
   );
 }
 
-ListWidget.propTypes = {};
-ListWidget.defaultProps = {};
+ListWidget.propTypes = {
+  rowClick: PropTypes.func,
+  hasMoreButton: PropTypes.bool
+};
+ListWidget.defaultProps = {
+  rowClick: null,
+  hasMoreButton: false
+};
 ListWidget.contextTypes = {
   resolveProps: PropTypes.func
 };

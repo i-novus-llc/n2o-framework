@@ -1,0 +1,91 @@
+.n2o-widget-list {
+  padding: 1rem 0;
+
+  &-more-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1rem 0;
+
+    & button {
+      min-width: 150px;
+    }
+
+    & .spinner.spinner-inline {
+      margin: 0;
+    }
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+
+    padding: 0.5rem;
+
+    border-bottom: 1px solid #cfd8dc;
+
+    &--active {
+      background-color: rgba(0, 0, 0, 0.075);
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.075);
+    }
+
+    & h4,
+    & h3,
+    & p {
+      margin-bottom: 0;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &-image {
+      width: 100px;
+
+      & img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    &-main-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+
+      padding: 0 0.5rem;
+      text-align: center;
+
+      & .n2o-widget-list-cell {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    &-right-container {
+      padding: 0 0.5rem;
+    }
+
+    &-extra-container {
+      padding: 0 0.5rem;
+    }
+
+    &-header {
+      width: 50%;
+    }
+
+    &-subheader {
+      width: 50%;
+    }
+
+    &-body {
+      width: 100%;
+    }
+
+  }
+}
