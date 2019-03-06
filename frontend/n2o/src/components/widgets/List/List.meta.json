@@ -161,6 +161,8 @@
       "hideButtons": true
     },
     "hasMoreButton": true,
+    "maxHeight": null,
+    "maxWidth": null,
     "list": {
       "image": {
         "src": "ImageCell",

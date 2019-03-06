@@ -81,24 +81,27 @@ class ListContainer extends React.Component {
   }
 
   getWidgetProps() {
-    const { hasMoreButton, rowClick, isLoading } = this.props;
+    const { hasMoreButton, rowClick, isLoading, maxWidth, maxHeight } = this.props;
     return {
       onFetchMore: this.handleFetchMore,
       onItemClick: this.handleItemClick,
       data: this.mapSectionComponents(),
       rowClick,
       hasMoreButton,
-      isLoading
+      isLoading,
+      maxHeight,
+      maxWidth
     };
   }
   render() {
-    console.log(this.state);
     return <List {...this.getWidgetProps()} />;
   }
 }
 
 ListContainer.propTypes = {
-  datasource: PropTypes.array
+  datasource: PropTypes.array,
+  maxHeight: PropTypes.number,
+  maxWidth: PropTypes.number
 };
 
 ListContainer.defaultProps = {

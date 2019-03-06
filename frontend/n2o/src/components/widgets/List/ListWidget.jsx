@@ -23,7 +23,9 @@ function ListWidget(
     fetchOnInit,
     list,
     rowClick,
-    hasMoreButton
+    hasMoreButton,
+    maxHeight,
+    maxWidth
   },
   context
 ) {
@@ -46,6 +48,8 @@ function ListWidget(
     >
       <ListContainer
         page={1}
+        maxWidth={maxWidth}
+        maxHeight={maxHeight}
         pageId={pageId}
         hasMoreButton={hasMoreButton}
         list={resolveSections()}
@@ -62,7 +66,9 @@ function ListWidget(
 
 ListWidget.propTypes = {
   rowClick: PropTypes.func,
-  hasMoreButton: PropTypes.bool
+  hasMoreButton: PropTypes.bool,
+  maxHeight: PropTypes.number,
+  maxWidth: PropTypes.number
 };
 ListWidget.defaultProps = {
   rowClick: null,

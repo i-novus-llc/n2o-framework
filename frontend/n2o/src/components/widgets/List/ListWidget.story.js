@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { pick } from 'lodash';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry, tableActions } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -59,7 +60,6 @@ stories
       });
     }
     fetchMock.restore().get(urlPattern, url => {
-      console.log(url);
       return {
         ...getStubData(url),
         list: data
@@ -108,10 +108,12 @@ stories
         }
       }
     };
-    return <Factory level={WIDGETS} {...metadata['List']} {...rowClick} id="List" />;
+    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider']);
+    return <Factory level={WIDGETS} {...props} hasMoreButton={false} {...rowClick} id="List" />;
   })
   .add('Кнопка "Еще"', () => {
     fetchMock.restore().get(urlPattern, url => ({
+      ...getStubData(url),
       list: [
         {
           image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
@@ -133,6 +135,31 @@ stories
         }
       ]
     }));
-
-    return <Factory level={WIDGETS} {...metadata['List']} id="List" />;
+    const props = pick({ ...metadata['List'] }, [
+      'src',
+      'list',
+      'dataProvider',
+      'paging',
+      'hasMoreButton'
+    ]);
+    return <Factory level={WIDGETS} {...props} id="List" />;
+  })
+  .add('Скролл в компоненте', () => {
+    let data = [];
+    for (let i = 0; i < 10; i++) {
+      data.push({
+        image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        header: "It's a cat",
+        subHeader: 'The cat is stupid',
+        body: 'Some words about cats',
+        rightTop: 'What do you know about cats?',
+        rightBottom: "But cats aren't only stupid they're still so sweet",
+        extra: 'Extra?!'
+      });
+    }
+    fetchMock.restore().get(urlPattern, url => ({
+      list: data
+    }));
+    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider', 'paging']);
+    return <Factory level={WIDGETS} maxHeight={200} maxWidth={300} {...props} id="List" />;
   });

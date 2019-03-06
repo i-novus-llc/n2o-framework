@@ -31,9 +31,15 @@ class List extends Component {
   }
 
   render() {
-    const { className, data, hasMoreButton, isLoading } = this.props;
+    const { className, data, hasMoreButton, isLoading, maxWidth, maxHeight } = this.props;
     return (
-      <div className={cn('n2o-widget-list', className)}>
+      <div
+        className={cn('n2o-widget-list', className)}
+        style={{
+          maxWidth: maxWidth,
+          maxHeight: maxHeight
+        }}
+      >
         <div className="n2o-widget-list-container">
           {map(data, (item, index) => (
             <ListItem
@@ -56,7 +62,9 @@ List.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object),
   rowClick: PropTypes.object,
   hasMoreButton: PropTypes.bool,
-  onFetchMore: PropTypes.func
+  onFetchMore: PropTypes.func,
+  maxWidth: PropTypes.number,
+  maxHeight: PropTypes.number
 };
 List.defaultProps = {
   onItemClick: () => {},
