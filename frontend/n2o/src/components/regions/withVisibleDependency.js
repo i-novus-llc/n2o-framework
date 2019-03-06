@@ -16,13 +16,13 @@ export default Region => {
       this.resolveVisibleDependency = this.resolveVisibleDependency.bind(this);
     }
 
-    getModel(bindLink) {
-      return get(this.props.state, bindLink);
+    getModel(on) {
+      return get(this.props.state, on);
     }
 
     resolveVisibleDependency(dependency) {
-      return every(dependency.visible, ({ condition, bindLink }) =>
-        evalExpression(condition, this.getModel(bindLink))
+      return every(dependency.visible, ({ condition, on }) =>
+        evalExpression(condition, this.getModel(on))
       );
     }
 
