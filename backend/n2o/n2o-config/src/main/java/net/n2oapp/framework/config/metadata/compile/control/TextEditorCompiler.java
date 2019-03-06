@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.plain.N2oTextEditor;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.TextEditor;
@@ -38,17 +39,17 @@ public class TextEditorCompiler extends StandardFieldCompiler<TextEditor, N2oTex
     public StandardField<TextEditor> compile(N2oTextEditor source, CompileContext<?, ?> context, CompileProcessor p) {
         TextEditor textEditor = new TextEditor();
         textEditor.setName(p.resolveJS(source.getLabel()));
-        compileToolbar(source, textEditor);
+        compileToolbar(source, textEditor, p);
         return compileStandardField(textEditor, source, context, p);
     }
 
-    private void compileToolbar(N2oTextEditor source,  TextEditor compiled){
-        if (source.getToolbarUrl() == null) return;
+    private void compileToolbar(N2oTextEditor source, TextEditor compiled, CompileProcessor p) {
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         ObjectMapper mapper = new ObjectMapper();
         Map toolbarConfig;
         try {
-            InputStream is = r.getResource(PathUtil.convertPathToClasspathUri(source.getToolbarUrl())).getInputStream();
+            String toolbarUrl = p.cast(source.getToolbarUrl(), p.resolve(Placeholders.property("n2o.config.text_editor.toolbar.url"), String.class));
+            InputStream is = r.getResource(PathUtil.convertPathToClasspathUri(toolbarUrl)).getInputStream();
             String json = IOUtils.toString(is, "UTF-8");
             toolbarConfig = mapper.readValue(json, Map.class);
         } catch (IOException e) {
