@@ -30,7 +30,7 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
         CustomRegion region = new CustomRegion();
         build(region, source, context, p);
         region.setPlace(source.getPlace());
-        region.setItems(initItems(source, context, p, Region.Item.class));
+        region.setItems(initItems(source, p, Region.Item.class));
         return region;
     }
 

@@ -35,6 +35,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.page.WidgetDependencyScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -119,8 +120,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         ParentRouteScope widgetRouteScope;
         if (parentRouteScope != null) {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams, parentRouteScope);
-        } else if (context.getRoute((N2oCompileProcessor)p) != null) {
-            widgetRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor)p), additionalPathParams, additionalQueryParams);
+        } else if (context.getRoute((N2oCompileProcessor) p) != null) {
+            widgetRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor) p), additionalPathParams, additionalQueryParams);
         } else {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams);
         }
@@ -184,7 +185,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (pageScope != null) {
             return pageScope.getGlobalWidgetId(localWidgetId);
         } else {
-            return context.getCompiledId((N2oCompileProcessor)p);
+            return context.getCompiledId((N2oCompileProcessor) p);
         }
     }
 
@@ -422,8 +423,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 compiled.setVisible((Boolean) condition);
             }
         }
-        if (!dependency.isEmpty())
+        if (!dependency.isEmpty()) {
+            WidgetDependencyScope widgetDependencyScope = p.getScope(WidgetDependencyScope.class);
+            if (widgetDependencyScope != null)
+                widgetDependencyScope.put(compiled.getId(), dependency);
             compiled.setDependency(dependency);
+
+        }
     }
 
     /**
