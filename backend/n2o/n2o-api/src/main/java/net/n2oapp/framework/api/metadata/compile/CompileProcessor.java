@@ -23,14 +23,6 @@ public interface CompileProcessor {
     <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope);
 
     /**
-     * Связать метаданные с данными
-     *
-     * @param compiled Метаданная
-     * @param <D>      Тип метаданной
-     */
-    <D extends Compiled> void bind(D compiled);
-
-    /**
      * Собрать дополнительные атрибуты
      *
      * @param source исходный объект с атрибутами
