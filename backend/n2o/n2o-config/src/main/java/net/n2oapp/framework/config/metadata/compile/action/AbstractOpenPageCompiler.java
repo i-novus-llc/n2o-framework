@@ -78,7 +78,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             for (N2oPreFilter preFilter : source.getPreFilters()) {
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(preFilter.getFieldId());
-                filter.setParam(filter.getFieldId());
+                filter.setParam(p.cast(preFilter.getParam(), filter.getFieldId()));
                 filter.setType(preFilter.getType());
                 filter.setValueAttr(preFilter.getValueAttr());
                 filter.setValuesAttr(preFilter.getValuesAttr());
