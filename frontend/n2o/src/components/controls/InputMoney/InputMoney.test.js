@@ -11,7 +11,7 @@ describe('Проверка компонента InputMoney', () => {
     expect(wrapper.find('.n2o-input-money').exists()).toEqual(true);
   });
   it('правильно переводит из float в формат денег', () => {
-    const wrapper = setup();
+    const wrapper = setup({ allowDecimal: true });
     expect(wrapper.instance().convertToMoney('123.33')).toEqual('123,33');
   });
   it('правильно переводит из формата денег во float', () => {

@@ -49,8 +49,18 @@ class InputMoney extends React.Component {
   }
 
   convertToMoney(value) {
+    const { allowDecimal } = this.props;
     if (!isEmpty(value) && this.props[ReplaceableChar.DECIMAL_SYMBOL] !== '.') {
       value = value.replace('.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
+    }
+
+    const splitBySymbol = value.split(this.props[ReplaceableChar.DECIMAL_SYMBOL]);
+
+    if (!allowDecimal) {
+      value = splitBySymbol[0];
+    } else if (splitBySymbol.length === 2 && splitBySymbol[1].length === 1) {
+      value =
+        splitBySymbol[0] + this.props[ReplaceableChar.DECIMAL_SYMBOL] + splitBySymbol[1] + '0';
     }
 
     return value;
@@ -101,9 +111,9 @@ class InputMoney extends React.Component {
       allowNegative,
       allowLeadingZeroes
     } = this.props;
-
     return {
       ...this.props,
+      preset: 'money',
       value: this.convertToMoney(value || this.state.value),
       onChange: this.onChange,
       className: cn('n2o-input-money', className),
