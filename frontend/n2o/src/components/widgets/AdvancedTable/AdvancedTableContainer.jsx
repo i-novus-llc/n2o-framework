@@ -5,7 +5,7 @@ import { map, isEqual, find, isEmpty, debounce, pick, forOwn, is } from 'lodash'
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
-import { ADVANCED_TABLE } from '../widgetTypes';
+import { TABLE } from '../widgetTypes';
 import _ from 'lodash';
 import columnHOC from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
@@ -218,7 +218,7 @@ export default compose(
         };
       }
     },
-    ADVANCED_TABLE
+    TABLE
   ),
   withWidgetHandlers,
   connect(
