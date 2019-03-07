@@ -50,7 +50,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     /**
      * Параметры текущего запроса
      */
-    private DataSet data;
+    private DataSet params;
     /**
      * Виртуальная модель данных клиента
      */
@@ -79,16 +79,16 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      * Конструктор процессора сборки метаданных со связыванием
      *
      * @param env     Окружение сборки метаданных
-     * @param data    Данные для связывания
+     * @param params  Параметры запроса
      * @param context Входной контекст сборки(не используется для компиляции метаданных)
      */
-    public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet data) {
+    public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params) {
         this(env);
         this.context = context;
-        this.data = data;
+        this.params = params;
         model = new DataModel();
-        model.addAll(context.getQueryRouteMapping(), data);
-        model.addAll(context.getPathRouteMapping(), data);
+        model.addAll(context.getQueryRouteMapping(), params);
+        model.addAll(context.getPathRouteMapping(), params);
     }
 
     /**
@@ -105,7 +105,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         this.readPipeline = parent.readPipeline;
         this.readCompilePipeline = parent.readCompilePipeline;
         this.compilePipeline = parent.compilePipeline;
-        this.data = parent.data;
+        this.params = parent.params;
         this.context = parent.context;
     }
 
@@ -116,7 +116,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public <D extends Compiled> void bind(D compiled) {
-        bindPipeline.get(compiled, context, data);
+        bindPipeline.get(compiled, context, params);
     }
 
     @Override
@@ -206,7 +206,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public String resolveUrl(String url) {
-        return URL_RESOLVER.resolve(url, data);
+        return URL_RESOLVER.resolve(url, params);
     }
 
     @Override
@@ -218,21 +218,21 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
         if (queryMappings != null)
             resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
-        resultUrl = URL_RESOLVER.resolve(resultUrl, data);
+        resultUrl = URL_RESOLVER.resolve(resultUrl, params);
         return resultUrl;
     }
 
     @Override
     public String resolveUrl(String url, ModelLink link) {
-        List<String> params = getParams(url);
-        if (params == null || params.isEmpty() || data == null)
+        List<String> paramNames = getParams(url);
+        if (paramNames == null || paramNames.isEmpty() || params == null)
             return url;
         Map<String, String> valueParamMap = new HashMap<>();
         collectModelLinks(context.getPathRouteMapping(), link.getWidgetLink(), valueParamMap);
         collectModelLinks(context.getQueryRouteMapping(), link.getWidgetLink(), valueParamMap);
-        for (String param : params) {
-            if (valueParamMap.containsKey(param) && data.containsKey(valueParamMap.get(param))) {
-                url = url.replace(":" + param, data.get(valueParamMap.get(param)).toString());
+        for (String param : paramNames) {
+            if (valueParamMap.containsKey(param) && params.containsKey(valueParamMap.get(param))) {
+                url = url.replace(":" + param, params.get(valueParamMap.get(param)).toString());
             }
         }
         return url;
@@ -250,7 +250,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             res = context.getPathRouteMapping().keySet().stream().filter(ri -> context.getPathRouteMapping().get(ri).equals(link)).findAny();
         }
         if (res.isPresent()) {
-            Object value = data.get(res.get());
+            Object value = params.get(res.get());
             if (value instanceof String)
                 value = resolveText((String) value);
             if (value != null) {
@@ -348,10 +348,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     private void resolveDefaultValues(ModelLink src, ModelLink dst) {
-        if (src.getParam() != null && data.containsKey(src.getParam())) {
-            if (data.get(src.getParam()) instanceof List) {
+        if (src.getParam() != null && params.containsKey(src.getParam())) {
+            if (params.get(src.getParam()) instanceof List) {
                 List<DefaultValues> values = new ArrayList<>();
-                for (Object value : (List) data.get(src.getParam())) {
+                for (Object value : (List) params.get(src.getParam())) {
                     DefaultValues defaultValues = new DefaultValues();
                     defaultValues.setValues(new HashMap<>());
                     defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), value);
@@ -362,7 +362,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             } else {
                 DefaultValues defaultValues = new DefaultValues();
                 defaultValues.setValues(new HashMap<>());
-                defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), data.get(src.getParam()));
+                defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), params.get(src.getParam()));
                 dst.setValue(src.getSubModelQuery().getMulti() != null && src.getSubModelQuery().getMulti()
                         ? Collections.singletonList(defaultValues)
                         : defaultValues);
@@ -370,6 +370,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
     }
 
+    /**
+     * Получает значение по ключу и если оно существует, удаляет этот ключ из маппинга
+     * @param mapping Маппинг
+     * @param key Ключ
+     * @return Значение
+     */
     private Object getValue(Map<String, ? extends BindLink> mapping, String key) {
         if (!mapping.containsKey(key))
             return null;
