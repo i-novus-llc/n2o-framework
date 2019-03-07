@@ -20,6 +20,7 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
+import DropdownCustomItem from '../snippets/DropdownCustomItem/DropdownCustomItem';
 
 /**
  * Компонент redux-обертка для тулбара
@@ -219,7 +220,6 @@ class Actions extends React.Component {
    */
   renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
     const dropdownProps = { size, title, color, hint, icon, visible, disabled };
-
     return (
       <ButtonContainer
         id={id}
@@ -227,7 +227,7 @@ class Actions extends React.Component {
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
       >
-        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
+        {subMenu.map(item => this.renderButton(DropdownCustomItem, item, id))}
       </ButtonContainer>
     );
   }

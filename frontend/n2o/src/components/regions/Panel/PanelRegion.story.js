@@ -180,11 +180,11 @@ stories
         const dependency = {
           visible: [
             {
-              bindLink: "models.resolve['Page_First']",
+              on: "models.resolve['Page_First']",
               condition: 'true'
             },
             {
-              bindLink: "models.resolve['Page_First']",
+              on: "models.resolve['Page_First']",
               condition: show ? 'true' : 'false'
             }
           ]
