@@ -116,7 +116,6 @@
                                 <option id="7" name="Факс"/>
                             </options>
                         </input-select>
-                        `
                     </row>
                 </filters>
                 <toolbar generate="crud"/>
