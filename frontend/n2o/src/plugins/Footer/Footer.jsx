@@ -7,7 +7,7 @@ class Footer extends React.Component {
     return (
       <footer className={cx(s.footer, 'bg-dark', 'py-2')}>
         <div className="container-fluid">
-          <span className="text-muted text-left">N2O 7.0-beta &copy; 2013-2017</span>
+          <span className="text-muted text-left">N2O 7.1 &copy; 2013-2019</span>
         </div>
       </footer>
     );
