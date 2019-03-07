@@ -11,6 +11,14 @@
 .n2o-file-uploader {
   outline: none;
 
+  &-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-right: 5px;
+    overflow: hidden;
+  }
+
   &-container {
     width: 100%;
   }
@@ -34,6 +42,7 @@
   }
 
   &-item-size {
+    margin-left: auto;
     color: $gray-500;
   }
 
@@ -42,9 +51,6 @@
   }
 
   &-file-name {
-    display: flex;
-    align-items: center;
-
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -57,7 +63,6 @@
     &-info {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       white-space: nowrap;
     }
   }
@@ -73,7 +78,6 @@
 
   &-external-link {
     margin-left: 5px;
-    margin-top: 4px;
 
     font-size: 14px;
   }
