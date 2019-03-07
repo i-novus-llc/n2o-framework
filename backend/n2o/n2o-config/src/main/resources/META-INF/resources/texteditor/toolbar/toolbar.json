@@ -1,8 +1,4 @@
 {
-  "disabled": false,
-  "visible": true,
-  "className": "n2o",
-  "toolbarConfig": {
     "options": ["inline", "fontSize", "list", "textAlign", "link", "image"],
     "inline": {
       "visible": true,
@@ -34,5 +30,4 @@
       "alignmentEnabled": true,
       "inputAccept": "image/gif,image/jpeg,image/jpg,image/png,image/svg"
     }
-  }
 }
