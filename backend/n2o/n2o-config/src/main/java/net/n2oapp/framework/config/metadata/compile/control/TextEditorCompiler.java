@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oTextEditor;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.TextEditor;
 import net.n2oapp.framework.config.register.storage.PathUtil;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
@@ -50,8 +49,7 @@ public class TextEditorCompiler extends StandardFieldCompiler<TextEditor, N2oTex
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         ObjectMapper mapper = new ObjectMapper();
         Map toolbarConfig;
-        try {
-            InputStream is = r.getResource(PathUtil.convertPathToClasspathUri(toolbarUrl)).getInputStream();
+        try (InputStream is = r.getResource(PathUtil.convertPathToClasspathUri(toolbarUrl)).getInputStream()) {
             toolbarConfig = mapper.readValue(is, Map.class);
         } catch (IOException e) {
             throw new N2oException(e);
