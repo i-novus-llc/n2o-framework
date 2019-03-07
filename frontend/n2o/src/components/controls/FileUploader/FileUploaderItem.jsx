@@ -38,14 +38,15 @@ class FileUploaderItem extends React.Component {
       <div className="n2o-file-uploader-files-item">
         <span className="n2o-file-uploader-files-item-info">
           <a
+            title={file.name}
             href={file.link}
             target="_blank"
             id={`tooltip-${file.id}`}
-            className={cn('n2o-file-uploader-file-name', {
+            className={cn('n2o-file-uploader-link', {
               'n2o-file-uploader-item-error': file.error
             })}
           >
-            {file.name}
+            <span className="n2o-file-uploader-file-name">{file.name}</span>
             {file.link && <i className=" n2o-file-uploader-external-link fa fa-external-link" />}
           </a>
           {(!isEmpty(file.error) || !isEmpty(file.response)) && (
@@ -57,10 +58,8 @@ class FileUploaderItem extends React.Component {
               {file.response || file.error}
             </Tooltip>
           )}
-          <span>
-            {showSize && (
-              <span className={'n2o-file-uploader-item-size'}>{convertSize(file.size)}</span>
-            )}
+          <span className="n2o-file-uploader-item-size">
+            {showSize && <span>{convertSize(file.size)}</span>}
             {!disabled &&
               !loading && (
                 <i

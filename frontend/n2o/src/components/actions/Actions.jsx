@@ -20,6 +20,7 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
+import DropdownCustomItem from '../snippets/DropdownCustomItem/DropdownCustomItem';
 
 /**
  * Компонент redux-обертка для тулбара
@@ -106,7 +107,7 @@ class Actions extends React.Component {
       confirm,
       actions,
       resolve,
-      button.widgetNeedToValidate,
+      button.validatedWidgetId,
       button.validate,
       options
     );
@@ -196,14 +197,14 @@ class Actions extends React.Component {
     confirm,
     actions,
     resolve,
-    widgetNeedToValidate,
+    validatedWidgetId,
     validate = true,
     options = {}
   ) {
     if (confirm) {
       this.setState({ confirmVisibleId: id });
     } else {
-      resolve(actions[actionId].src, widgetNeedToValidate, {
+      resolve(actions[actionId].src, validatedWidgetId, {
         ...actions[actionId].options,
         actionId,
         buttonId: id,
@@ -219,7 +220,6 @@ class Actions extends React.Component {
    */
   renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
     const dropdownProps = { size, title, color, hint, icon, visible, disabled };
-
     return (
       <ButtonContainer
         id={id}
@@ -227,7 +227,7 @@ class Actions extends React.Component {
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
       >
-        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
+        {subMenu.map(item => this.renderButton(DropdownCustomItem, item, id))}
       </ButtonContainer>
     );
   }
@@ -322,8 +322,8 @@ Actions.propTypes = {
  */
 const mapDispatchToProps = dispatch => {
   return {
-    resolve: (actionSrc, widgetNeedToValidate, options) => {
-      dispatch(callActionImpl(actionSrc, { ...options, dispatch, widgetNeedToValidate }));
+    resolve: (actionSrc, validatedWidgetId, options) => {
+      dispatch(callActionImpl(actionSrc, { ...options, dispatch, validatedWidgetId }));
     }
   };
 };

@@ -1,0 +1,33 @@
+{
+  "options": ["inline", "fontSize", "list", "textAlign", "link", "image"],
+  "inline": {
+    "visible": true,
+    "inDropdown": false,
+    "options": ["bold", "italic", "underline"]
+  },
+  "fontSize": {
+    "inDropdown": true,
+    "options": [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96]
+  },
+  "list": {
+    "visible": true,
+    "inDropdown": false,
+    "options": ["unordered", "ordered"]
+  },
+  "textAlign": {
+    "visible": true,
+    "inDropdown": false,
+    "options": ["left", "center", "right", "justify"]
+  },
+  "link": {
+    "visible": true,
+    "options": ["link", "unlink"]
+  },
+  "image": {
+    "visible": true,
+    "urlEnabled": true,
+    "uploadEnabled": true,
+    "alignmentEnabled": true,
+    "inputAccept": "image/gif,image/jpeg,image/jpg,image/png,image/svg"
+  }
+}

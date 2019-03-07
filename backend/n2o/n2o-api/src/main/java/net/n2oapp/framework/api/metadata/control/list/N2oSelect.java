@@ -15,4 +15,5 @@ public class N2oSelect extends N2oSingleListFieldAbstract {
     private Boolean wordWrap;
     private N2oClassifier.Mode mode;
     private ListType type;
+    private Boolean cleanable;
 }
