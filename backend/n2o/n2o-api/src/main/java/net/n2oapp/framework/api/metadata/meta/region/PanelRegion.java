@@ -3,12 +3,8 @@ package net.n2oapp.framework.api.metadata.meta.region;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Клиентская модель региона в виде панелей.
@@ -36,6 +32,8 @@ public class PanelRegion extends Region {
     private Boolean fullScreen;
     @JsonProperty
     private Boolean header;
+    @JsonProperty
+    private RegionDependency dependency;
 
     @Override
     @JsonProperty("panels")

@@ -37,6 +37,7 @@
             <!--<xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>-->
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
+            <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
             <xs:element name="masked-input" type="controlMaskedInputDefinition" minOccurs="0"/>
             <xs:element name="checkbox" type="controlSimpleFieldDefinition" minOccurs="0"/>
@@ -157,6 +158,7 @@
             <xs:element name="visibility" type="visibilityDependencyDefinition"  minOccurs="0"/>
             <xs:element name="set-value" type="baseDependencyDefinition"  minOccurs="0"/>
             <xs:element name="requiring" type="baseDependencyDefinition"  minOccurs="0"/>
+            <xs:element name="fetch" type="baseDependencyDefinition"  minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -211,6 +213,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="search-label" type="xs:string"/>
                 <xs:attribute name="reset-label" type="xs:string"/>
+                <xs:attribute name="no-label" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -324,6 +327,19 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlInputMoneyDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:attribute name="suffix" type="xs:string"/>
+                <xs:attribute name="prefix" type="xs:string"/>
+                <xs:attribute name="thousands-separator" type="xs:string"/>
+                <xs:attribute name="decimal-separator" type="xs:string"/>
+                <xs:attribute name="integer-limit" type="xs:integer"/>
+                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="controlHtml">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
@@ -342,6 +358,14 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="fractionFormattingType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="off"/>
+            <xs:enumeration value="manual"/>
+            <xs:enumeration value="auto"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="positionType">
         <xs:restriction base="xs:string">
@@ -428,6 +452,7 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:attribute name="type" type="inputSelectType"/>
+                <xs:attribute name="cleanable" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -452,9 +477,19 @@
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
                 <xs:attribute name="search" type="xs:boolean" use="optional" default="false"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all"/>
+                <xs:attribute name="max-tag-count" type="xs:integer" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="checkingStrategyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="all"/>
+            <xs:enumeration value="parent"/>
+            <xs:enumeration value="child"/>
+        </xs:restriction>
+    </xs:simpleType>
 
 
     <xs:complexType name="thenSetValue">

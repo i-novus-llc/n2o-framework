@@ -64,8 +64,9 @@ public class ModelLink extends BindLink {
     public boolean equalsLink(Object o) {
         if (o == null || o.getClass() != this.getClass())
             return false;
-
         ModelLink that = (ModelLink) o;
+        if (model == null || widgetId == null || that.model == null || that.widgetId == null)
+            return false;
 
         String thisSubModelQueryLink;
         String thatSubModelQueryLink;

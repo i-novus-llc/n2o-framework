@@ -219,7 +219,7 @@ public class ApacheRestClient implements RestClient {
                     request = new HttpDelete(url);
                     break;
                 default:
-                    return null;
+                    throw new UnsupportedOperationException("Http method is not specified");
             }
             if (logger.isDebugEnabled()) {
                 logger.debug("Request to remote http service.\r\n  URL: {}\r\n  Method: {}\r\n  Headers: {}", url.trim(),

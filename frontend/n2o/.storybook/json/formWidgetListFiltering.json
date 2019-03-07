@@ -138,7 +138,7 @@
                       "description": "При type=1 должно быть 2 значения",
                       "dependency": [
                         {
-                          "type": "reRender",
+                          "type": "fetch",
                           "on": [
                             "type"
                           ]

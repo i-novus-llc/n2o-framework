@@ -39,24 +39,25 @@ public class MappingProcessor {
     }
 
     /**
-     * Исходящее преобразование value согласно mapping выражению
+     * Исходящее преобразование target согласно mapping выражению
      *
-     * @param value   исходное значение
+     * @param target   исходное значение
      * @param mapping выражения преобразования
      * @return результат преобразования
      */
-    public static <T> T outMap(Object value, String mapping, Class<T> clazz) {
-        if (value == null)
-            return null;
-        if (mapping == null) {
-            if (clazz.isAssignableFrom(value.getClass()))
-                //noinspection unchecked
-                return (T) value;
-            else
-                throw new N2oException("Incompatible value type. Expected is " + clazz + ", but actual is " + value.getClass());
+    public static <T> T outMap(Object target, String mapping, Class<T> clazz) {
+        T result;
+        if (mapping != null) {
+            Expression expression = readParser.parseExpression(mapping);
+            result = expression.getValue(target, clazz);
+        } else {
+            result = (T) target;
         }
-        Expression expression = readParser.parseExpression(mapping);
-        return expression.getValue(value, clazz);
+        if (clazz != null && result == null)
+            throw new N2oException("Expected is " + clazz + ", but actual is null");
+        if (clazz != null && !clazz.isAssignableFrom(result.getClass()))
+            throw new N2oException("Expected is " + clazz + ", but actual is " + result.getClass());
+        return result;
     }
 
     /**

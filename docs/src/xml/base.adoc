@@ -161,6 +161,11 @@
 |resolve, filters, multi, edit
 |
 
+|param
+|Строка
+|Параметр фильтра
+|
+
 |===
 
 

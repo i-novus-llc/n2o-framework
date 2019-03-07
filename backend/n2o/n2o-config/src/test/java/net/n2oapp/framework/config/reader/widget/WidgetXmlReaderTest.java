@@ -213,7 +213,6 @@ public class WidgetXmlReaderTest {
 
     protected void assertCustomWidget(N2oCustomWidget custom) {
         assert custom.getSrc().equals("test");
-        assert custom.getProperties().get("key").equals("value");
     }
 
     protected void assertRefWidget(N2oPage page) {

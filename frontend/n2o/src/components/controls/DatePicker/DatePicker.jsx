@@ -43,7 +43,8 @@ DatePicker.defaultProps = {
   placeholder: '',
   disabled: false,
   className: '',
-  defaultTime: '00:00'
+  defaultTime: '00:00',
+  autoFocus: false
 };
 
 DatePicker.propTypes = {
@@ -71,7 +72,8 @@ DatePicker.propTypes = {
   outputFormat: PropTypes.string,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
-  locale: PropTypes.oneOf(['en', 'ru'])
+  locale: PropTypes.oneOf(['en', 'ru']),
+  autoFocus: PropTypes.bool
 };
 
 export default DatePicker;

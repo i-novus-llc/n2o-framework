@@ -63,8 +63,8 @@ public abstract class AbstractController {
     @SuppressWarnings("unchecked")
     protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
         RoutingResult result = router.get(path);
-        DataSet queryData = getQueryData(params, result);
         ActionContext actionCtx = (ActionContext) result.getContext(CompiledObject.class);
+        DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(actionCtx, queryData);
@@ -146,8 +146,8 @@ public abstract class AbstractController {
     protected QueryRequestInfo createQueryRequestInfo(HttpServletRequest request) {
         CompiledQuery query;
         RoutingResult result = getRoutingResult(request);
-        DataSet data = getQueryData(request, result);
         QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        DataSet data = queryCtx.getParams(request.getPathInfo(), request.getParameterMap());
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(queryCtx, data);
@@ -168,8 +168,8 @@ public abstract class AbstractController {
     protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
         CompiledQuery query;
         RoutingResult result = router.get(path);
-        DataSet data = getQueryData(params, result);
         QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        DataSet data = queryCtx.getParams(path, params);
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(queryCtx, data);
@@ -187,22 +187,6 @@ public abstract class AbstractController {
         return requestInfo;
     }
 
-    private Object getBody(HttpServletRequest request) {
-        try {
-            if (request.getReader() == null) return new DataSet();
-            String body = IOUtils.toString(request.getReader()).trim();
-            if (body.startsWith("[")) {
-                return objectMapper.<List<DataSet>>readValue(body,
-                        objectMapper.getTypeFactory().constructCollectionType(List.class, DataSet.class)
-                );
-            } else {
-                return objectMapper.readValue(body, DataSet.class);
-            }
-        } catch (IOException e) {
-            throw new N2oException(e);
-        }
-    }
-
     private UserContext getUser(HttpServletRequest req) {
         UserContext user = (UserContext) req.getAttribute(USER);
         if (user == null)
@@ -213,35 +197,5 @@ public abstract class AbstractController {
     private <D extends Compiled> RoutingResult getRoutingResult(HttpServletRequest req) {
         String path = req.getPathInfo();
         return router.get(path);
-    }
-
-    private <D extends Compiled> RoutingResult getRoutingResult(String url) {
-        return router.get(url);
-    }
-
-    private <D extends Compiled> DataSet getQueryData(HttpServletRequest req, RoutingResult routingResult) {
-        DataSet data = new DataSet();
-        data.putAll(routingResult.getParams());
-        req.getParameterMap().forEach((k, v) -> {
-            if (v.length == 1) {
-                data.put(k, v[0]);
-            } else {
-                data.put(k, Arrays.asList(v));
-            }
-        });
-        return data;
-    }
-
-    private <D extends Compiled> DataSet getQueryData(Map<String, String[]> params, RoutingResult routingResult) {
-        DataSet data = new DataSet();
-        data.putAll(routingResult.getParams());
-        params.forEach((k, v) -> {
-            if (v.length == 1) {
-                data.put(k, v[0]);
-            } else {
-                data.put(k, Arrays.asList(v));
-            }
-        });
-        return data;
     }
 }

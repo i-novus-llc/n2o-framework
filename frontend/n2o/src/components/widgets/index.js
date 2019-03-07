@@ -8,6 +8,8 @@ import TableWidget from './Table/TableWidget';
 
 import WireframeWidget from './Wireframe/WireframeWidget';
 
+import AdvancedTableWidget from './AdvancedTable/AdvancedTableWidget';
+
 export default {
   HtmlWidget,
 
@@ -17,5 +19,7 @@ export default {
 
   TableWidget,
 
-  WireframeWidget
+  WireframeWidget,
+
+  AdvancedTableWidget
 };

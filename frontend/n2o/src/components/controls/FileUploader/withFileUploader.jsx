@@ -50,6 +50,7 @@ const FileUploaderControl = WrappedComponent => {
     }
 
     mapFiles(files) {
+      if (!files) return;
       let currentFiles = [];
       if (!isArray(files)) {
         currentFiles = [files];

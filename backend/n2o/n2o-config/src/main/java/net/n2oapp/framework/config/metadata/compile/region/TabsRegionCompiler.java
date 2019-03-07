@@ -32,7 +32,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         build(region, source, context, p);
         region.setTabs(new ArrayList<>());
         region.setPlace(source.getPlace());
-        region.setItems(initItems(source, context, p, TabsRegion.Tab.class));
+        region.setItems(initItems(source, p, TabsRegion.Tab.class));
         return region;
     }
 

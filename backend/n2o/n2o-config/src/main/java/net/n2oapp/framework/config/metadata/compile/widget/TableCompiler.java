@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
 
 
@@ -80,14 +81,15 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                     component.setRowColor(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
-            compileRowClick(source, component, context, p);
+            compileRowClick(source, component, context, p, widgetScope, widgetRouteScope);
         }
         compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions);
         table.setPaging(createPaging(source, p));
         return table;
     }
 
-    private void compileRowClick(N2oTable source, TableWidgetComponent component, CompileContext<?, ?> context, CompileProcessor p) {
+    private void compileRowClick(N2oTable source, TableWidgetComponent component, CompileContext<?, ?> context,
+                                 CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope) {
         N2oRowClick rowClick = source.getRows().getRowClick();
         if (rowClick != null) {
             if (rowClick.getActionId() != null) {
@@ -95,7 +97,8 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 Action action = actions.get(rowClick.getActionId());
                 component.setRowClick(action);
             } else if (rowClick.getAction() != null) {
-                Action action = p.compile(rowClick.getAction(), context, new ComponentScope(source));
+                Action action = p.compile(rowClick.getAction(), context, widgetScope,
+                        widgetRouteScope, new ComponentScope(source));
                 component.setRowClick(action);
             }
         }
@@ -147,7 +150,9 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             component.setHeaders(headers);
             component.setCells(cells);
             component.setSorting(sortings);
-            component.setHasSelect(source.getSelected() == null || source.getSelected());
+            Boolean hasSelect = p.cast(source.getSelected(), p.resolve(property("n2o.api.widget.table.selected"), Boolean.class));
+            component.setHasSelect(hasSelect);
+            component.setHasFocus(hasSelect);
         }
     }
 

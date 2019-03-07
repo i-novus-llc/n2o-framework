@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class SearchButtons extends Field {
+public class SearchButtons extends Control {
     @JsonProperty
     private String searchLabel;
     @JsonProperty

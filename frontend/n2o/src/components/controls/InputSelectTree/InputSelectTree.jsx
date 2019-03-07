@@ -1,5 +1,5 @@
-import React from 'react';
-import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
+import React, { Fragment } from 'react';
+import TreeSelect from 'rc-tree-select';
 import ReactDOM from 'react-dom';
 import {
   difference,
@@ -28,7 +28,7 @@ import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import { defaultProps, propTypes } from './allProps';
 import { compose, withState } from 'recompose';
 import propsResolver from '../../../utils/propsResolver';
-import { visiblePartPopup } from './until';
+import { visiblePartPopup, getCheckedStrategy } from './until';
 import TreeNode from './TreeSelectNode';
 import { injectIntl } from 'react-intl';
 import cx from 'classnames';
@@ -77,12 +77,15 @@ function InputSelectTree({
   value,
   onBlur,
   searchPlaceholder,
+  dropdownExpanded,
+  setDropdownExpanded,
   placeholder,
   setTreeExpandedKeys,
   notFoundContent,
   treeExpandedKeys,
   closePopupOnSelect,
   loading,
+  isLoading,
   parentFieldId,
   valueFieldId,
   labelFieldId,
@@ -159,20 +162,6 @@ function InputSelectTree({
       .filter(key => !itemsByID[key][parentFieldId])
       .reduce((acc, key) => [...acc, { ...itemsByID[key] }], []);
   });
-
-  /**
-   * Если нет data но есть value
-   * строим дерево из value иначе будет неправильное отображение
-   * @param items
-   * @returns {*}
-   */
-  const setData = items => {
-    const newValue = isArray(value) ? value : [value];
-    if (isEmpty(items) && !isEmpty(value)) {
-      return createTree(newValue);
-    }
-    return createTree(items);
-  };
 
   /**
    * Функция для поиска.
@@ -264,14 +253,13 @@ function InputSelectTree({
 
   const getSingleValue = value => find(data, [valueFieldId, value]);
   const getMultiValue = value => {
-    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
-      return getChildWithParenId(value, data);
-    } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
-      return getParentsWithChildId(value, data);
-    } else {
-      // стратегия SHOW_ALL
-      return getDataByIds(value);
-    }
+    // if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
+    //   return getChildWithParenId(value, data);
+    // } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
+    //   return getParentsWithChildId(value, data);
+    // } else {
+    // стратегия SHOW_ALL
+    return getDataByIds(value);
   };
   /**
    * Функция преобразования value rcTreeSelect в формат n2o
@@ -328,7 +316,6 @@ function InputSelectTree({
     onSearch(value);
     return true;
   };
-
   /**
    * Функция для контроля открытия/закрытия popup
    * @param visible
@@ -341,9 +328,10 @@ function InputSelectTree({
       onBlur();
     }
     onToggle(visible);
+    setDropdownExpanded(visible);
     visible ? onOpen() : onClose();
     if (ajax) setTreeExpandedKeys([]);
-    return true;
+    return false;
   };
 
   /**
@@ -366,17 +354,20 @@ function InputSelectTree({
 
   const getPopupContainer = container => container;
 
+  const open = !loading ? dropdownExpanded : false;
+
   return (
     <TreeSelect
       tabIndex={-1}
       {...value && { value: setValue(value) }}
+      open={open}
       onDropdownVisibleChange={handleDropdownVisibleChange}
-      className={cx('n2o', className)}
+      className={cx('n2o', className, { loading })}
       switcherIcon={renderSwitcherIcon}
       inputIcon={inputIcon}
       multiple={multiSelect}
       treeCheckable={hasCheckboxes && <CheckboxN2O inline />}
-      treeData={setData(data)}
+      treeData={createTree(data)}
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
       removeIcon={clearIcon}
@@ -388,7 +379,7 @@ function InputSelectTree({
       onTreeExpand={onTreeExpand}
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
-      showCheckedStrategy={showCheckedStrategy}
+      showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
       getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
@@ -412,9 +403,10 @@ function InputSelectTree({
 InputSelectTree.defaultProps = defaultProps;
 InputSelectTree.propTypes = propTypes;
 
-export { SHOW_ALL, SHOW_CHILD, SHOW_PARENT, TreeNode };
+export { TreeNode };
 
 export default compose(
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
+  withState('dropdownExpanded', 'setDropdownExpanded', false),
   injectIntl
 )(InputSelectTree);

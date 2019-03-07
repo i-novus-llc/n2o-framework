@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.N2oSingleListFieldAbstract;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
-import net.n2oapp.framework.api.metadata.event.action.UpdateModelAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.N2oShowModalForm;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
@@ -165,16 +164,6 @@ public abstract class N2oStandardControlReaderTestBase {
         assert showModal.getWidth().equals("100");
         assert showModal.getPreFilters().length == 1;
         assertPreFilter(showModal.getPreFilters()[0], true);
-    }
-
-    private void assertUpdateModel(UpdateModelAction updateModel) {
-        assert updateModel.getQueryId().equals("blank");
-        assert updateModel.getMasterFieldId().equals("id");
-        assert updateModel.getDetailFieldId().equals("id");
-        assert updateModel.getValueFieldId().equals("id");
-        assert updateModel.getTargetFieldId().equals("id");
-        assert updateModel.getTarget().name().toLowerCase().equals("field");
-        assertPreFilter(updateModel.getPreFilters()[0], false);
     }
 
     private void assertConditions(N2oField field) {

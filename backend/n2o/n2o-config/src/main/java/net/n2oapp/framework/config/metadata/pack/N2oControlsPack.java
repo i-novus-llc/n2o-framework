@@ -9,6 +9,7 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
     public void build(N2oApplicationBuilder b) {
         b.packs(new N2oControlsV1IOPack(), new N2oControlsV2IOPack());
         b.compilers(new InputTextCompiler(),
+                new InputMoneyCompiler(),
                 new DatePickerCompiler(),
                 new DateIntervalCompiler(),
                 new PasswordCompiler(),
@@ -23,7 +24,6 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new HtmlControlCompiler(),
                 new TextAreaCompiler(),
                 new RadioGroupCompiler(),
-                new OutputTextCompiler(),
                 new OutputTextCompiler(),
                 new HiddenCompiler(),
                 new FileUploadCompiler(),

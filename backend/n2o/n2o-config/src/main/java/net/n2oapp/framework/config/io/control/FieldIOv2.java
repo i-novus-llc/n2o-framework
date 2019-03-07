@@ -18,13 +18,19 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attributeBoolean(e, "required", m::getRequired, m::setRequired);
         p.attributeBoolean(e, "visible", m::getVisible, m::setVisible);
         p.attributeBoolean(e, "enabled", m::getEnabled, m::setEnabled);
+        p.attribute(e, "label", m::getLabel, m::setLabel);
+        p.attribute(e, "label-class", m::getLabelClass, m::setLabelClass);
+        p.attributeBoolean(e, "no-label", m::getNoLabel, m::setNoLabel);
+        p.attribute(e, "description", m::getDescription, m::setDescription);
+        p.attribute(e, "domain", m::getDomain, m::setDomain);
+        p.attribute(e, "help", m::getHelp, m::setHelp);
         p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new ToolbarIO());
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies, p.oneOf(N2oField.Dependency.class)
                 .add("enabling", N2oField.EnablingDependency.class, this::dependency)
                 .add("visibility", N2oField.VisibilityDependency.class, this::visibilityDependency)
                 .add("requiring", N2oField.RequiringDependency.class, this::dependency)
-                .add("set-value", N2oField.SetValueDependency.class, this::dependency));
-
+                .add("set-value", N2oField.SetValueDependency.class, this::dependency)
+                .add("fetch", N2oField.FetchDependency.class, this::dependency));
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
     }
 
