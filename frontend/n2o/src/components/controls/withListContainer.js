@@ -70,11 +70,11 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleSearch = debounce((value, delay = 400) => {
+    const handleSearch = debounce(value => {
       const quickSearchParam = (dataProvider && dataProvider.quickSearchParam) || 'search';
 
       callApiWithParams({ [quickSearchParam]: value, page: 1 });
-    }, 200);
+    }, 300);
 
     const handleItemOpen = value => {
       callApiWithParams({ 'filter.parent_id': value }, true);
