@@ -31,13 +31,18 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         build(region, source, context, p);
         region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
-        region.setItems(initItems(source, context, p, PanelRegion.Panel.class));
+        region.setItems(initItems(source, p, PanelRegion.Panel.class));
         //  region.setColor();
         //region.setIcon();
-        if (source.getWidgets() != null && source.getWidgets().length > 1)
-            region.setHasTabs(true);
-        else
-            region.setHasTabs(false);
+        if (region.getItems() != null) {
+            if (region.getItems().size() > 1)
+                region.setHasTabs(true);
+            else if (region.getItems().size() == 1) {
+                region.setHasTabs(false);
+                region.setDependency(region.getItems().get(0).getDependency());
+                region.getItems().get(0).setDependency(null);
+            }
+        }
         region.setHeader(source.getHeader());
         //  region.setFooterTitle();
         region.setOpen(true);
