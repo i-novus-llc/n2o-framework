@@ -25,11 +25,6 @@ public class N2oAnchor extends N2oAbstractAction implements N2oAction {
         this.href = href;
     }
 
-    @Override
-    public String getOperationId() {
-        return "read";
-    }
-
     @Getter
     @Setter
     public static class Param implements Serializable {

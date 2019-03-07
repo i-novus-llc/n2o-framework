@@ -48,6 +48,6 @@ public class HeaderAccessTransformer extends BaseAccessTransformer<CompiledHeade
     private void mapSecurityItem(SimpleCompiledAccessSchema schema, CompileProcessor p, HeaderItem si) {
         collectPageAccess(si, si.getPageId(), schema);
         String objectId = p.getSource(si.getPageId(), N2oPage.class).getObjectId();
-        collectObjectAccess(si, objectId, "read", schema);
+        collectObjectAccess(si, objectId, null, schema);
     }
 }

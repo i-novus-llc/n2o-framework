@@ -1,5 +1,7 @@
 package net.n2oapp.framework.access.api.model.filter;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.List;
 /**
  * Фильтр доступа
  */
+@Getter
+@Setter
 public class N2oAccessFilter {
 
     private String fieldId;
@@ -34,40 +38,6 @@ public class N2oAccessFilter {
         this.type = type;
         this.values = values;
     }
-
-    public FilterType getType() {
-        return type;
-    }
-
-    public void setType(FilterType type) {
-        this.type = type;
-    }
-
-    public List<String> getValues() {
-        return values;
-    }
-
-    public void setValues(List<String> values) {
-        this.values = values;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getFieldId() {
-        return fieldId;
-    }
-
-    public void setFieldId(String fieldId) {
-        this.fieldId = fieldId;
-    }
-
 
     @Override
     public boolean equals(Object o) {

@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -47,13 +48,13 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
 
         Security.SecurityObject securityObject = ((Security) page.getWidgets()
                 .get("testRegionAccessTransformer_testTable").getProperties()
-                .get("security")).getSecurityMap().get("object");
+                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(securityObject.getPermissions().size(), is(2));
         assertThat(securityObject.getPermissions().contains("permission"), is(true));
         assertThat(securityObject.getPermissions().contains("test2"), is(true));
         assertThat(securityObject.getUsernames().contains("user"), is(true));
-        assertThat(securityObject.getRoles(), nullValue());
+        assertThat(securityObject.getRoles().contains("role"), is(true));
     }
 
     @Test
@@ -68,13 +69,13 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
 
         Security.SecurityObject securityObject = ((Security) page.getWidgets()
                 .get("testRegionAccessTransformer_testTable").getProperties()
-                .get("security")).getSecurityMap().get("object");
+                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(securityObject.getPermissions().size(), is(2));
         assertThat(securityObject.getPermissions().contains("permission"), is(true));
         assertThat(securityObject.getPermissions().contains("test2"), is(true));
         assertThat(securityObject.getUsernames().contains("user"), is(true));
-        assertThat(securityObject.getRoles(), nullValue());
+        assertThat(securityObject.getRoles().contains("role"), is(true));
         assertThat(securityObject.getAnonymous(), is(true));
     }
 }

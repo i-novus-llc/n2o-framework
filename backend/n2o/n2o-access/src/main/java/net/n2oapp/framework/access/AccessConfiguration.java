@@ -1,16 +1,13 @@
 package net.n2oapp.framework.access;
 
-import net.n2oapp.framework.access.api.AuthorizationApi;
 import net.n2oapp.framework.access.data.SecurityProvider;
 import net.n2oapp.framework.access.integration.N2oSecurityModule;
 import net.n2oapp.framework.access.metadata.schema.N2oAccessSchema;
 import net.n2oapp.framework.access.mock.PermissionApiMock;
 import net.n2oapp.framework.access.simple.PermissionApi;
-import net.n2oapp.framework.access.simple.SimpleAuthorizationApi;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -77,17 +74,6 @@ public class AccessConfiguration {
     @ConditionalOnMissingBean
     public PermissionApi permissionApi() {
         return new PermissionApiMock();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public AuthorizationApi simpleAuthorizationApi(PermissionApi permissionApi, AdminService adminService,
-                                                   N2oApplicationBuilder builder) {
-        return new SimpleAuthorizationApi(permissionApi, adminService,
-                builder.read().transform().validate().cache().copy().compile().transform().cache().copy().bind(),
-                accessSchemaId,
-                defaultObjectAccess, defaultReferenceAccess, defaultPageAccess,
-                defaultUrlAccess, defaultColumnAccess, defaultFilterAccess);
     }
 
     @Bean

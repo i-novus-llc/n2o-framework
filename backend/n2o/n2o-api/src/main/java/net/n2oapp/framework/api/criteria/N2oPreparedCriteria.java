@@ -92,7 +92,7 @@ public class N2oPreparedCriteria extends Criteria {
         return false;
     }
 
-    public Collection<Restriction> getRestrictions(String fieldId) {
+    public List<Restriction> getRestrictions(String fieldId) {
         List<Restriction> res = new ArrayList<>();
         for (Restriction restriction : getRestrictions()) {
             if (restriction.getFieldId().equals(fieldId))
