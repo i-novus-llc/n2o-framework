@@ -148,7 +148,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     public void testTestDataProvider() {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
                 .transformers(new TestEngineQueryTransformer());
-        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testQuerySourceTransformer"));
+        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
         assertThat(query.getFieldsMap().get("id").getSelectBody(), is("id"));
         assertThat(query.getFieldsMap().get("id").getSortingBody(), is("id :idDirection"));
         assertThat(query.getFieldsMap().get("id").getFilterList()[0].getText(), is("id :eq :id"));
