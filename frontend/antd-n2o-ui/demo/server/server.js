@@ -3,6 +3,10 @@ const values = require("lodash").values;
 
 app.get("/n2o/*", (req, res) => {
   const params = values(req.params).join("/");
+  if (params === "page/") {
+    const mainPage = require(`./json/main.json`);
+    return res.json(mainPage);
+  }
   try {
     const json = require(`./json/${params}.json`);
     return res.json(json);

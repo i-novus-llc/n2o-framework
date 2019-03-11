@@ -23,6 +23,27 @@
           "label":"Input",
           "href":"/controls/input",
           "linkType":"inner"
+        },{
+          "id":"menuItem03",
+          "label":"InputNumber",
+          "href":"/controls/input-number",
+          "linkType":"inner"
+        },{
+          "id":"menuItem04",
+          "label":"DatePicker",
+          "href":"/controls/date-picker",
+          "linkType":"inner"
+        }]
+      },
+      {
+        "id":"menuItem11",
+        "label":"Widgets",
+        "type":"dropdown",
+        "subItems": [{
+          "id":"menuItem01",
+          "label":"Table",
+          "href":"/widgets/widget-table",
+          "linkType":"inner"
         }]
       }
     ],
