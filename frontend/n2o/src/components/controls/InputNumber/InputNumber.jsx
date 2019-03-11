@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { findDOMNode } from 'react-dom';
-import { toNumber, toString, isNil, isString } from 'lodash';
+import { toNumber, toString, isNil, isNaN } from 'lodash';
 
 import Input from '../Input/Input';
 
@@ -32,7 +32,8 @@ class InputNumber extends React.Component {
     this.precision = getPrecision(props.step);
     this.pasted = false;
     this.state = {
-      value: !isNil(value) && !isString(value) ? toNumber(value).toFixed(this.precision) : null
+      value:
+        !isNil(value) && !isNaN(toNumber(value)) ? toNumber(value).toFixed(this.precision) : null
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
