@@ -65,8 +65,6 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                             list -> {
                                 if (list.size() > 0) {
                                     securityObject.setPermitAll(true);
-                                    securityObject.setAnonymous(false);
-                                    securityObject.setAuthenticated(false);
                                 }
                                 return list;
                             }
@@ -82,8 +80,6 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                             Collectors.toList(),
                             list -> {
                                 if (list.size() > 0) {
-                                    securityObject.setPermitAll(false);
-                                    securityObject.setAnonymous(false);
                                     securityObject.setAuthenticated(true);
                                 }
                                 return list;
@@ -100,9 +96,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                             Collectors.toList(),
                             list -> {
                                 if (list.size() > 0) {
-                                    securityObject.setPermitAll(false);
                                     securityObject.setAnonymous(true);
-                                    securityObject.setAuthenticated(false);
                                 }
                                 return list;
                             }
