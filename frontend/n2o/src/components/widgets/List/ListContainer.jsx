@@ -13,6 +13,25 @@ import { createStructuredSelector } from 'reselect';
 
 const ReduxCell = withColumn(TableCell);
 
+/**
+ * Контейнер виджета ListWidget
+ * @reactProps {string} widgetId - id виджета
+ * @reactProps {object} toolbar - конфиг тулбара
+ * @reactProps {boolean} disabled - флаг активности
+ * @reactProps {object} actions - объект экшенов
+ * @reactProps {string} pageId - id страницы
+ * @reactProps {object} paging - конфиг пагинации
+ * @reactProps {string} className - класс
+ * @reactProps {object} style - объект стилей
+ * @reactProps {object} filter - конфиг фильтра
+ * @reactProps {object} dataProvider - конфиг dataProvider
+ * @reactProps {boolean} fetchOnInit - флаг запроса при инициализации
+ * @reactProps {object} list - объект конфиг секций в виджете
+ * @reactProps {object|null} rowClick - кастомный клик
+ * @reactProps {boolean} hasMoreButton - флаг включения загрузки по нажатию на кнопку
+ * @reactProps {number} maxHeight - максимальная высота виджета
+ * @reactProps {boolean} fetchOnScroll - запрос при скролле
+ */
 class ListContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -81,7 +100,7 @@ class ListContainer extends React.Component {
   }
 
   getWidgetProps() {
-    const { hasMoreButton, rowClick, maxWidth, maxHeight, fetchOnScroll } = this.props;
+    const { hasMoreButton, rowClick, maxHeight, fetchOnScroll } = this.props;
     return {
       onFetchMore: this.handleFetchMore,
       onItemClick: this.handleItemClick,
@@ -89,7 +108,6 @@ class ListContainer extends React.Component {
       rowClick,
       hasMoreButton,
       maxHeight,
-      maxWidth,
       fetchOnScroll
     };
   }
@@ -99,13 +117,36 @@ class ListContainer extends React.Component {
 }
 
 ListContainer.propTypes = {
-  datasource: PropTypes.array,
+  widgetId: PropTypes.string,
+  toolbar: PropTypes.object,
+  disabled: PropTypes.bool,
+  actions: PropTypes.object,
+  pageId: PropTypes.string,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  filter: PropTypes.object,
+  dataProvider: PropTypes.object,
+  fetchOnInit: PropTypes.bool,
+  list: PropTypes.object,
+  fetchOnScroll: PropTypes.bool,
+  rowClick: PropTypes.func,
+  hasMoreButton: PropTypes.bool,
   maxHeight: PropTypes.number,
-  maxWidth: PropTypes.number
+  datasource: PropTypes.array
 };
 
 ListContainer.defaultProps = {
-  datasource: []
+  datasource: [],
+  rowClick: null,
+  hasMoreButton: false,
+  toolbar: {},
+  disabled: false,
+  actions: {},
+  className: '',
+  style: {},
+  filter: {},
+  list: {},
+  fetchOnScroll: false
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -5,6 +5,14 @@ import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
 
+/**
+ * Компонент List
+ * @reactProps {number|string} selectedId - id выбранной записи
+ * @reactProps {boolean} autoFocus - фокус при инициализации на перой или на selectedId строке
+ * @reactProps {function} onItemClick - callback при клике на строку
+ * @reactProps {object} rowClick - кастомное действие клика
+ * @reactProps {function} onFetchMore - callback при клика на "Загрузить еще" или скролле
+ */
 class List extends Component {
   constructor(props) {
     super(props);
