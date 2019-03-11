@@ -28,12 +28,6 @@
             <version>${version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-header</artifactId>
-            <version>${version}</version>
-        </dependency>
-
     </dependencies>
 
 </project>
