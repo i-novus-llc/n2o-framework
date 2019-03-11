@@ -62,13 +62,6 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-header</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!--<dependency>-->
             <!--<groupId>net.n2oapp.framework</groupId>-->
             <!--<artifactId>n2o-access</artifactId>-->

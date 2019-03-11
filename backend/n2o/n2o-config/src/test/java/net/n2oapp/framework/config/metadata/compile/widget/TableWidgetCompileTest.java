@@ -77,6 +77,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getSuccessAlertWidgetId(), is("testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("testTable4Compile_filter"));
         assertThat(table.getComponent().getHasSelect(), is(true));
+        assertThat(table.getComponent().getFetchOnInit(), is(false));
     }
 
     @Test

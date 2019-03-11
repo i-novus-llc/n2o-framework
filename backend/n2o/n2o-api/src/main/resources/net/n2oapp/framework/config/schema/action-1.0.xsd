@@ -553,6 +553,11 @@
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="param" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Параметр фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefValue">

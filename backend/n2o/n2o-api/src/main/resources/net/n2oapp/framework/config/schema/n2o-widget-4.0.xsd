@@ -56,6 +56,12 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="fetch-on-init" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Настройка получения данных виджета при инициализации
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="upload" type="act:uploadType" use="optional">
             <xs:annotation>
                 <xs:documentation>Источник данных виджета

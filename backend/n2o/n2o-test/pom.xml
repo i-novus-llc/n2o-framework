@@ -59,13 +59,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-header</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>

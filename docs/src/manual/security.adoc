@@ -110,7 +110,7 @@
 |Доступ к объекту и операциям
 
 |<object-filters>
-|Фильтрация доступа к объекту. Идет в связке с атрибутом remove-filters у object-access.
+|Фильтрация доступа к объекту
 
 |<url-access>
 |Доступ к ссылке
@@ -140,44 +140,44 @@
 Атрибут `operations` задаёт право выполнять указанные операции объекта.
 Если указан знак `*` (звёздочка), позволяется выполнять любые операции.
 
+Если есть право на выполнение операций объекта, то на чтение объекта доступ даётся автоматически.
+
 ==== Фильтрация доступа к объекту
 
-С помощью точки доступа `<object-filters>` можно задать фильтры для объектов,
-которые будут действовать если их не отключить с помощью атрибута
-`remove-filters` в `<object-access>`.
+Точка доступа `<object-filters>` задаёт фильтрацию объекта.
+Фильтры будут действовать на объект, доступ к которому уже дан с помощью `<object-access>`.
 
-Пример:
-
-Фильтры `genderFilter` и `positionFilter` прописанные у `authenticated` будут
-действовать для всех авторизованных пользователей, кроме тех у кого есть роль
-`allPersons` или `allGenders`. Пользователям с ролью `allGenders` будут доступны
-пользователи любого пола. Пользователям с ролью `allPersons` будут доступны
-все пользователи.
-
-.Правила фильтрации доступа к данным объекта
+.Фильтры доступа к объекту
 [source,xml]
 ----
-<authenticated>
-  <object-filters object-id="person">
-    <!-- Достпуны данные только мужского пола -->
-    <eq id="genderFilter" field-id="gender" value="man"/>
-    <!-- Достпуны данные только разработчики -->
-    <eq id="positionFilter" field-id="position" value="Software developer"/>
+<permit-all>
+  <object-filters object-id="contract">
+    <!-- Достпуны договора только созданные мной -->
+    <eq id="onlyMyself"
+      field-id="creator" value="#{username}"/>
+    <!-- Достпуны договора моей организации -->
+    <eq id="onlyMyOrg"
+      field-id="org" value="#{orgId}"/>
   </object-filters>
-</authenticated>
+</permit-all>
+----
 
-<!-- Данная роль отключает фильтр genderFilters и
-    тем самым дает право просмотреть пользователей любого пола  -->
-<role id="allGenders">
-  <object-access object-id="person" remove-filters="genderFilters"/>
-</role>
+Фильтрам можно задать идентификатор `id`.
+Идентификатор используется в атрибуте `remove-filters` в `<object-access>`.
+С помощью `remove-filters` можно удалить один или несколько фильтров у объекта,
+чтобы пользователю с определенными правами получить больше данных.
 
-<!-- Данная роль отключает фильтры genderFilters и positionFilter,
-    тем самым дает право просмотреть всех пользователей  -->
-<role id="allPersons">
-  <object-access object-id="person" remove-filters="genderFilters,positionFilter"/>
-</role>
-
+.Удаление фильтров доступа
+[source,xml]
+----
+<permission id="MyContracts">
+  <!-- Действует фильтр onlyMyself и onlyMyOrg -->
+  <object-access object-id="contract"/>
+</permission>
+<permission id="MyOrgContracts">
+  <!-- Действует фильтр onlyMyOrg -->
+  <object-access object-id="contract" remove-filters="onlyMyself"/>
+</permission>
 ----
 
 ==== Доступ к ссылке

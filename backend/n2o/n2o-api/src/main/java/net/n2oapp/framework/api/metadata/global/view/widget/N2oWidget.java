@@ -42,6 +42,7 @@ public abstract class N2oWidget extends N2oMetadata
     private Boolean border;
     private String refId;
     private String masterParam;
+    private Boolean fetchOnInit;
 
     /**
      * Источник данных виджета

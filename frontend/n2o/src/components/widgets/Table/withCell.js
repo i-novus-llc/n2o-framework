@@ -41,7 +41,6 @@ export default function(WrappedComponent) {
     ...rest
   }) {
     const callActionImpl = (e, { action, model }) => {
-      e && e.stopPropagation();
       const currentModel = model || defaultModel;
       const currentAction = action || defaultAction;
       currentModel && resolveWidget(currentModel);
