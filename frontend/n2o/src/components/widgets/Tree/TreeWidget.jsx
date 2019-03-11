@@ -36,7 +36,6 @@ class TreeWidget extends React.Component {
       hasFocus,
       hasSelect,
       autoFocus,
-      rowColor,
       rowClick,
       childIcon,
       multiselect,
@@ -59,14 +58,12 @@ class TreeWidget extends React.Component {
     const { resolveProps } = this.context;
     return {
       toolbar,
-      rowColor,
       actions,
       hasFocus,
       hasSelect,
       autoFocus,
       dataProvider,
       rowClick,
-
       childIcon,
       multiselect,
       showLine,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { forEach, keys, map, filter, eq, omit, isFunction } from 'lodash';
+import { forEach, keys, map, filter, eq, omit, isFunction, get } from 'lodash';
 import { KEY_CODES } from './component/constants';
 import { findDOMNode } from 'react-dom';
 
@@ -27,18 +27,17 @@ export const treeToCollection = (tree, { parentFieldId, valueFieldId, childrenFi
  * Превращаем коллекцию в обьект с ключами id и value Element
  * [{ id: 1, ...}, { id: 2, ... }] => { 1: {...}, 2: {...} }
  */
-export const collectionToComponentObject = (
-  Component,
-  { valueFieldId, parentFieldId, datasource, ...rest }
-) => {
+export const collectionToComponentObject = (Component, props) => {
   let buf = {};
+  const valueFieldId = get(props, 'valueFieldId');
+  const datasource = get(props, 'datasource');
 
   if (valueFieldId && datasource) {
     datasource.forEach(data => {
       buf[data[valueFieldId]] = {
         ...data,
         key: data[valueFieldId],
-        title: React.createElement(Component, { data, ...rest, valueFieldId }),
+        title: React.createElement(Component, { data, ...props }),
         children: []
       };
     });
@@ -49,7 +48,7 @@ export const collectionToComponentObject = (
 export const createTreeFn = Component => props => {
   const itemsByID = collectionToComponentObject(Component, props);
 
-  const { parentFieldId } = props;
+  const parentFieldId = get(props, 'parentFieldId');
 
   keys(itemsByID).forEach(key => {
     const elem = itemsByID[key];
@@ -71,13 +70,13 @@ export const createTreeFn = Component => props => {
 
 export const FILTER_MODE = ['includes', 'startsWith', 'endsWith'];
 
-export const takeKeysWhenSearching = ({
-  filter,
-  value,
-  datasource,
-  valueFieldId,
-  labelFieldId
-}) => {
+export const takeKeysWhenSearching = props => {
+  const filter = get(props, 'filter');
+  const value = get(props, 'value');
+  const datasource = get(props, 'datasource', []);
+  const valueFieldId = get(props, 'valueFieldId');
+  const labelFieldId = get(props, 'labelFieldId');
+
   if (filter && FILTER_MODE.includes(filter) && value) {
     const filterFunc = item => String.prototype[filter].call(item, value);
     const expandedKeys = datasource
@@ -88,7 +87,16 @@ export const takeKeysWhenSearching = ({
   return [];
 };
 
-//
+/**
+ * Вспомогогательная функция для клавиатуры
+ * Определяет путь по которому будет двигаться клавиатура
+ * возвращает массив из id
+ * @param data
+ * @param expandedKeys - открытые ключи
+ * @param parentFieldId
+ * @param valueFieldId
+ * @returns {Array}
+ */
 export const getTreeLinerRoute = (data, expandedKeys, { parentFieldId, valueFieldId }) => {
   //берем всех родителей
   const parenIds = filter(data, dt => !dt[parentFieldId]).map(dt => dt[valueFieldId]);

@@ -74,10 +74,13 @@ export const withWidgetContainer = widgetContainer(
 //   }
 // });
 //
-// export const withWidgetHandlers = withHandlers({
-//   onRowClickAction: ({ rowClick, onActionImpl }) => () => {
-//     onActionImpl(rowClick);
-//   }
-// });
+export const withWidgetHandlers = withHandlers({
+  onRowClickAction: ({ rowClick, onActionImpl }) => () => {
+    onActionImpl(rowClick);
+  }
+});
 
-export default compose(withWidgetContainer)(Tree);
+export default compose(
+  withWidgetContainer,
+  withWidgetHandlers
+)(Tree);

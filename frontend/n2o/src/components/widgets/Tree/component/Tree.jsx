@@ -3,17 +3,11 @@ import TreeBase from 'rc-tree';
 import { pick, isEqual, map, eq, difference, filter, isArray, isFunction } from 'lodash';
 import { HotKeys } from 'react-hotkeys';
 //components
-import { BaseNode } from '../treeNodes';
+import { BaseNode } from '../TreeNodes';
 import Filter from './Filter';
 import ExpandBtn from './ExpandBtn';
 //fns
-import {
-  createTreeFn,
-  takeKeysWhenSearching,
-  keyDownAction,
-  FILTER_MODE,
-  autoBind
-} from '../until';
+import { createTreeFn, takeKeysWhenSearching, keyDownAction, FILTER_MODE } from '../until';
 import { propTypes, defaultProps, TREE_NODE_PROPS, TREE_PROPS } from './treeProps';
 import Icon from '../../../snippets/Icon/Icon';
 import CheckboxN2O from '../../../controls/Checkbox/CheckboxN2O';
@@ -115,8 +109,12 @@ class Tree extends Component {
   }
 
   onSelect(keys, { nativeEvent }) {
-    const { multiselect, hasCheckboxes } = this.props;
+    const { multiselect, hasCheckboxes, rowClick, onRowClickAction } = this.props;
     const { selectedKeys } = this.state;
+
+    if (rowClick) {
+      onRowClickAction();
+    }
 
     if (multiselect && hasCheckboxes) {
       return false;
