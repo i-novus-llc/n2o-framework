@@ -61,6 +61,7 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), notNullValue());
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous(), is(true));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermitAll(), is(true));
 
         SecurityFilters securityFilters = (SecurityFilters) query.getProperties().get(SecurityFilters.SECURITY_FILTERS_PROP_NAME);
         //filters
