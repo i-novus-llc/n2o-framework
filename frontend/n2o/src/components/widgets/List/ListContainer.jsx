@@ -81,16 +81,16 @@ class ListContainer extends React.Component {
   }
 
   getWidgetProps() {
-    const { hasMoreButton, rowClick, isLoading, maxWidth, maxHeight } = this.props;
+    const { hasMoreButton, rowClick, maxWidth, maxHeight, fetchOnScroll } = this.props;
     return {
       onFetchMore: this.handleFetchMore,
       onItemClick: this.handleItemClick,
       data: this.mapSectionComponents(),
       rowClick,
       hasMoreButton,
-      isLoading,
       maxHeight,
-      maxWidth
+      maxWidth,
+      fetchOnScroll
     };
   }
   render() {

@@ -13,8 +13,24 @@ class List extends Component {
       selectedIndex: props.selectedId || (props.autoSelect ? 0 : null)
     };
 
+    this._scrollTimeoutId = null;
+
     this.onItemClick = this.onItemClick.bind(this);
     this.fetchMore = this.fetchMore.bind(this);
+    this.onScroll = this.onScroll.bind(this);
+    this.setListContainerRef = this.setListContainerRef.bind(this);
+  }
+
+  componentDidMount() {
+    this._listContainer.addEventListener('scroll', this.onScroll, true);
+  }
+
+  componentWillUnmount() {
+    this._listContainer.removeEventListener('scroll', this.onScroll);
+  }
+
+  setListContainerRef(el) {
+    this._listContainer = el;
   }
 
   onItemClick(index) {
@@ -30,13 +46,23 @@ class List extends Component {
     onFetchMore();
   }
 
+  onScroll(event) {
+    clearTimeout(this._scrollTimeoutId);
+
+    this._scrollTimeoutId = setTimeout(() => {
+      if (event.target.scrollTop + event.target.clientHeight === event.target.scrollHeight) {
+        this.fetchMore();
+      }
+    }, 300);
+  }
+
   render() {
-    const { className, data, hasMoreButton, isLoading, maxWidth, maxHeight } = this.props;
+    const { className, data, hasMoreButton, maxHeight, fetchOnScroll } = this.props;
     return (
       <div
+        ref={this.setListContainerRef}
         className={cn('n2o-widget-list', className)}
         style={{
-          maxWidth: maxWidth,
           maxHeight: maxHeight
         }}
       >
@@ -49,7 +75,7 @@ class List extends Component {
             />
           ))}
         </div>
-        {hasMoreButton && <ListMoreButton onClick={this.fetchMore} isLoading={isLoading} />}
+        {hasMoreButton && !fetchOnScroll && <ListMoreButton onClick={this.fetchMore} />}
       </div>
     );
   }
@@ -63,8 +89,8 @@ List.propTypes = {
   rowClick: PropTypes.object,
   hasMoreButton: PropTypes.bool,
   onFetchMore: PropTypes.func,
-  maxWidth: PropTypes.number,
-  maxHeight: PropTypes.number
+  maxHeight: PropTypes.number,
+  fetchOnScroll: PropTypes.bool
 };
 List.defaultProps = {
   onItemClick: () => {},
@@ -72,7 +98,8 @@ List.defaultProps = {
   autoSelect: false,
   data: [],
   rowClick: false,
-  hasMoreButton: false
+  hasMoreButton: false,
+  fetchOnScroll: false
 };
 
 export default List;

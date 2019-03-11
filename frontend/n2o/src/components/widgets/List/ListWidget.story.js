@@ -15,7 +15,7 @@ import customRowClick from '../AdvancedTable/json/CustomRowClick.meta';
 const stories = storiesOf('Виджеты/Лист', module);
 
 const urlPattern = 'begin:n2o/data';
-
+const delay = ms => new Promise(r => setTimeout(() => r(), ms));
 stories
   .addDecorator(withPage(metadata))
   .add('Компонент со стандартной реализацией', () => {
@@ -112,29 +112,31 @@ stories
     return <Factory level={WIDGETS} {...props} hasMoreButton={false} {...rowClick} id="List" />;
   })
   .add('Кнопка "Еще"', () => {
-    fetchMock.restore().get(urlPattern, url => ({
-      ...getStubData(url),
-      list: [
-        {
-          image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
-          header: "It's a cat",
-          subHeader: 'The cat is stupid',
-          body: 'Some words about cats',
-          rightTop: 'What do you know about cats?',
-          rightBottom: "But cats aren't only stupid they're still so sweet",
-          extra: 'Extra?!'
-        },
-        {
-          image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
-          header: "It's a cat",
-          subHeader: 'The cat is stupid',
-          body: 'Some words about cats',
-          rightTop: 'What do you know about cats?',
-          rightBottom: "But cats aren't only stupid they're still so sweet",
-          extra: 'Extra?!'
-        }
-      ]
-    }));
+    fetchMock.restore().get(urlPattern, url =>
+      delay(1000).then(() => ({
+        ...getStubData(url),
+        list: [
+          {
+            image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+            header: "It's a cat",
+            subHeader: 'The cat is stupid',
+            body: 'Some words about cats',
+            rightTop: 'What do you know about cats?',
+            rightBottom: "But cats aren't only stupid they're still so sweet",
+            extra: 'Extra?!'
+          },
+          {
+            image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+            header: "It's a cat",
+            subHeader: 'The cat is stupid',
+            body: 'Some words about cats',
+            rightTop: 'What do you know about cats?',
+            rightBottom: "But cats aren't only stupid they're still so sweet",
+            extra: 'Extra?!'
+          }
+        ]
+      }))
+    );
     const props = pick({ ...metadata['List'] }, [
       'src',
       'list',
@@ -157,9 +159,19 @@ stories
         extra: 'Extra?!'
       });
     }
-    fetchMock.restore().get(urlPattern, url => ({
-      list: data
-    }));
-    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider', 'paging']);
-    return <Factory level={WIDGETS} maxHeight={200} maxWidth={300} {...props} id="List" />;
+    fetchMock.restore().get(urlPattern, url =>
+      delay(1000).then(() => {
+        return {
+          list: data
+        };
+      })
+    );
+    const props = pick({ ...metadata['List'] }, [
+      'src',
+      'list',
+      'dataProvider',
+      'paging',
+      'fetchOnScroll'
+    ]);
+    return <Factory level={WIDGETS} maxHeight={290} {...props} fetchOnScroll={true} id="List" />;
   });

@@ -25,7 +25,8 @@ function ListWidget(
     rowClick,
     hasMoreButton,
     maxHeight,
-    maxWidth
+    maxWidth,
+    fetchOnScroll
   },
   context
 ) {
@@ -59,6 +60,8 @@ function ListWidget(
         fetchOnInit={fetchOnInit}
         actions={actions}
         rowClick={rowClick}
+        fetchOnScroll={fetchOnScroll}
+        deferredSpinnerStart={0}
       />
     </StandardWidget>
   );

@@ -1,5 +1,6 @@
 .n2o-widget-list {
   padding: 1rem 0;
+  overflow: auto;
 
   &-more-button {
     display: flex;
@@ -86,6 +87,5 @@
     &-body {
       width: 100%;
     }
-
   }
 }

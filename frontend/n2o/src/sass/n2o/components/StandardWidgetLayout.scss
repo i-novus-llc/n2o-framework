@@ -12,6 +12,11 @@
     }
   }
 
+  & .spinner {
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+
   &-center {
     flex: 1;
     width: 100%;
