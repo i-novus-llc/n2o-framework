@@ -63,7 +63,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(testAction.getOptions().getPayload().getDataProvider().getUrl(), is("n2o/data/w/test"));
         assertThat(testAction.getOptions().getPayload().getDataProvider().getQueryMapping(), is(nullValue()));
         assertThat(testAction.getOptions().getMeta().getSuccess().getRefresh(), notNullValue());
-        assertThat(testAction.getOptions().getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
+        assertThat(testAction.getOptions().getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("testW"));
         assertThat(testAction.getOptions().getMeta().getSuccess().getCloseLastModal(), nullValue());
 
         //resolve model

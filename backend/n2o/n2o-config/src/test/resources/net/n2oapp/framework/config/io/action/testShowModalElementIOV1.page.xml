@@ -4,8 +4,8 @@
         <action model="filter">
             <show-modal src="test"
                         page-id="test"
-                        submit-operation-id="create"
-                        submit-label="Отправить"
+                        submit-operation-id="create" submit-label="Отправить"
+                        refresh-on-close="false" refresh-widget-id="testWidget"
                         upload="query" modal-size="lg" submit-model="resolve">
                 <pre-filters>
                     <contains field-id="test" value="test" values="test1 , test2"/>

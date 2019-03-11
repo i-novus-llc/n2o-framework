@@ -56,6 +56,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean refreshOnSuccessSubmit;
     /**
+     * Идентификатор виджета, который необходимо обновить после успешной отправки формы
+     */
+    private String refreshClientWidgetId;
+    /**
      * Обновить данные родительского виджета после закрытия страницы
      */
     private Boolean refreshOnClose;

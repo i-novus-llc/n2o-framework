@@ -81,6 +81,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(submitPayload.getWidgetId(), is("page_widget_action1_w0"));
         AsyncMetaSaga meta = submit.getOptions().getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("page_test"));
+        assertThat(meta.getSuccess().getMessageWidgetId(), is("page_test"));
         assertThat(meta.getSuccess().getCloseLastModal(), nullValue());
         assertThat(meta.getSuccess().getRedirect().getPath(), is("/page/widget"));
         ActionContext submitContext = (ActionContext) route("/page/widget/action1/submit").getContext(CompiledObject.class);
