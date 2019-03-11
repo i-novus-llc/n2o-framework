@@ -63,16 +63,9 @@ function LinkCell({
     );
   };
 
-  const ActionLinkCell = () => {
-    return (
-      <Button color="link" onClick={handleClick} {...props}>
-        {getLinkContent()}
-      </Button>
-    );
-  };
-
-  const UrlLinkCell = () => {
-    return (
+  return (
+    visible &&
+    (url ? (
       <React.Fragment>
         {target === LinkType.APPLICATION && (
           <Link to={url} {...props}>
@@ -85,9 +78,12 @@ function LinkCell({
           </a>
         )}
       </React.Fragment>
-    );
-  };
-  return visible && (url ? <UrlLinkCell /> : <ActionLinkCell />);
+    ) : (
+      <Button color="link" onClick={handleClick} {...props}>
+        {getLinkContent()}
+      </Button>
+    ))
+  );
 }
 
 LinkCell.propTypes = {
