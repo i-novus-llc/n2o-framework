@@ -290,7 +290,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="refresh-on-success" type="xs:boolean">
+                <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>
                             Необходимо ли обновлять виджет (по умолчанию true)
