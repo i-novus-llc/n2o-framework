@@ -93,13 +93,9 @@ class AdvancedTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { hasSelect, data, isAnyTableFocused, isActive } = this.props;
-    const { selectedId } = this.state;
+    const { hasSelect, data, isAnyTableFocused, isActive, selectedId } = this.props;
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
-      const id =
-        data && data[selectedId] && get(data[selectedId], 'id')
-          ? get(data[selectedId], 'id')
-          : data[0].id;
+      const id = selectedId || data[0].id;
       isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
     }
     if (!isEqual(prevProps, this.props)) {
@@ -173,11 +169,13 @@ class AdvancedTable extends Component {
     const { focusIndex } = this.state;
     if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
       if (!React.Children.count(children) && hasFocus) {
-        let newFocusIndex = keyNm === 'ArrowUp' ? focusIndex - 1 : focusIndex + 1;
-        newFocusIndex =
-          newFocusIndex < data.length && newFocusIndex >= 0 ? newFocusIndex : focusIndex;
-        if (hasSelect && autoFocus) {
-          this.setSelectAndFocus(newFocusIndex, newFocusIndex);
+        const modelIndex = _.findIndex(data, i => i.id === focusIndex);
+        let newFocusIndex = keyNm === 'ArrowUp' ? modelIndex - 1 : modelIndex + 1;
+        if (hasSelect && autoFocus && data[newFocusIndex]) {
+          this.setSelectAndFocus(
+            get(data, `[${newFocusIndex}].id`),
+            get(data, `[${newFocusIndex}].id`)
+          );
           this.props.onResolve(data[newFocusIndex]);
         } else {
           this.setNewFocusIndex(newFocusIndex);
@@ -379,73 +377,73 @@ class AdvancedTable extends Component {
       expandedFieldId,
       expandedComponent
     } = this.props;
-
     const columns = this.mapColumns(this.state.columns);
     return (
       <HotKeys
         keyMap={{ events: ['up', 'down', 'space'] }}
         handlers={{ events: this.handleKeyDown }}
       >
-        <Table
-          ref={this.setTableRef}
-          onFocus={!isActive ? onFocus() : undefined}
-          prefixCls={'n2o-advanced-table'}
-          className={cx('n2o-table table table-hover', className, {
-            'has-focus': hasFocus,
-            [`table-${tableSize}`]: tableSize,
-            'table-bordered': bordered
-          })}
-          columns={columns}
-          data={this.state.data}
-          onRow={this.getRowProps}
-          components={{
-            header: {
-              row: AdvancedTableHeaderRow,
-              cell: AdvancedTableHeaderCell
-            },
-            body: {
-              row: AdvancedTableRow,
-              cell: AdvancedTableCell
+        <div onFocus={!isActive ? onFocus : undefined}>
+          <Table
+            ref={this.setTableRef}
+            prefixCls={'n2o-advanced-table'}
+            className={cx('n2o-table table table-hover', className, {
+              'has-focus': hasFocus,
+              [`table-${tableSize}`]: tableSize,
+              'table-bordered': bordered
+            })}
+            columns={columns}
+            data={this.state.data}
+            onRow={this.getRowProps}
+            components={{
+              header: {
+                row: AdvancedTableHeaderRow,
+                cell: AdvancedTableHeaderCell
+              },
+              body: {
+                row: AdvancedTableRow,
+                cell: AdvancedTableCell
+              }
+            }}
+            rowKey={record => record.key}
+            expandIcon={({ record, expanded, onExpand }) => (
+              <AdvancedTableExpandIcon
+                record={record}
+                expanded={expanded}
+                onExpand={onExpand}
+                expandedFieldId={expandedFieldId}
+                expandedComponent={expandedComponent}
+              />
+            )}
+            expandIconAsCell={rowSelection && expandable}
+            expandedRowRender={
+              expandable &&
+              (expandedComponent
+                ? (record, index, indent) =>
+                    React.createElement(expandedComponent, {
+                      record,
+                      index,
+                      indent,
+                      expandedFieldId
+                    })
+                : (record, index, indent) => (
+                    <AdvancedTableExpandedRenderer
+                      record={record}
+                      index={index}
+                      indent={indent}
+                      expandedFieldId={expandedFieldId}
+                    />
+                  ))
             }
-          }}
-          rowKey={record => record.key}
-          expandIcon={({ record, expanded, onExpand }) => (
-            <AdvancedTableExpandIcon
-              record={record}
-              expanded={expanded}
-              onExpand={onExpand}
-              expandedFieldId={expandedFieldId}
-              expandedComponent={expandedComponent}
-            />
-          )}
-          expandIconAsCell={rowSelection && expandable}
-          expandedRowRender={
-            expandable &&
-            (expandedComponent
-              ? (record, index, indent) =>
-                  React.createElement(expandedComponent, {
-                    record,
-                    index,
-                    indent,
-                    expandedFieldId
-                  })
-              : (record, index, indent) => (
-                  <AdvancedTableExpandedRenderer
-                    record={record}
-                    index={index}
-                    indent={indent}
-                    expandedFieldId={expandedFieldId}
-                  />
-                ))
-          }
-          expandedRowKeys={this.state.expandedRowKeys}
-          onExpandedRowsChange={this.handleExpandedRowsChange}
-          onExpand={onExpand}
-          useFixedHeader={useFixedHeader}
-          indentSize={20}
-          emptyText={AdvancedTableEmptyText}
-          scroll={scroll}
-        />
+            expandedRowKeys={this.state.expandedRowKeys}
+            onExpandedRowsChange={this.handleExpandedRowsChange}
+            onExpand={onExpand}
+            useFixedHeader={useFixedHeader}
+            indentSize={20}
+            emptyText={AdvancedTableEmptyText}
+            scroll={!isEmpty(this.state.data) && scroll ? scroll : { x: false, y: false }}
+          />
+        </div>
       </HotKeys>
     );
   }
@@ -471,8 +469,10 @@ AdvancedTable.defaultProps = {
   expandedFieldId: 'expandedContent',
   data: [],
   bordered: false,
+  tableSize: 'sm',
   rowSelection: false,
   expandable: false,
+  scroll: { x: '100%' },
   onFocus: () => {},
   onSetSelection: () => {}
 };

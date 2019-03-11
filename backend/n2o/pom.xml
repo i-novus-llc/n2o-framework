@@ -25,10 +25,8 @@
         <module>n2o-engine-sqlt</module>
         <module>n2o-engine-ejb</module>
         <module>n2o-rest</module>
-        <module>n2o-header</module>
         <module>n2o-access</module>
         <module>n2o-context</module>
-        <module>n2o-config-audit</module>
         <module>n2o-test</module>
         <module>n2o-spring-boot-starter</module>
         <module>n2o-export</module>

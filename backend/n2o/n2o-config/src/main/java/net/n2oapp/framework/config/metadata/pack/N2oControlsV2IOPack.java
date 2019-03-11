@@ -20,6 +20,7 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new InputSelectIOv2(),
                 new InputSelectTreeIOv2(),
                 new InputTextIOv2(),
+                new InputMoneyIOV2(),
                 new MaskedInputIOv2(),
                 new OutputTextIOv2(),
                 new PasswordIOv2(),

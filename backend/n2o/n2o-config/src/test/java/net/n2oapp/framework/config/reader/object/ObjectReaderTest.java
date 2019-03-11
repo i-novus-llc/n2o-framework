@@ -49,12 +49,6 @@ public class ObjectReaderTest {
         assert field1.getName().equals("test");
         assert field1.getMapping().equals("testMapping");
 
-        assert !((Boolean) object.getProperties().get("catalogization"));
-        assert !((Boolean) object.getProperties().get("customization"));
-        assert !((Boolean) object.getProperties().get("logging"));
-        assert !((Boolean) object.getProperties().get("processing"));
-        assert !((Boolean) object.getProperties().get("reporting"));
-
         N2oValidationCondition condition = (N2oValidationCondition) object.getN2oValidations()[0];
         assert condition.getId().equals("id");
         assert condition.getLevel().name().equals("error");

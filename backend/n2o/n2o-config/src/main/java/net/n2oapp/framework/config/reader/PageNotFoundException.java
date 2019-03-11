@@ -9,7 +9,7 @@ public class PageNotFoundException extends ReferentialIntegrityViolationExceptio
 
     public PageNotFoundException(String pageId) {
         super(pageId, N2oPage.class);
-        setUserMessage("pageNotFound");
+        setUserMessage("n2o.pageNotFound");
         setHttpStatus(404);
     }
 

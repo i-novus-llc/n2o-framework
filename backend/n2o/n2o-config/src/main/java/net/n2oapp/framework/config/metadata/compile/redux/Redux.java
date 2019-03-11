@@ -170,7 +170,7 @@ public abstract class Redux {
 
     public static ModelLink linkQuery(String clientWidgetId, String fieldId, String queryId) {
         ModelLink link = new ModelLink(ReduxModel.RESOLVE, clientWidgetId, fieldId);
-        if (PK.equals(fieldId))
+        if (PK.equals(fieldId) && queryId != null)
             link.setSubModelQuery(new SubModelQuery(queryId));
         return link;
     }

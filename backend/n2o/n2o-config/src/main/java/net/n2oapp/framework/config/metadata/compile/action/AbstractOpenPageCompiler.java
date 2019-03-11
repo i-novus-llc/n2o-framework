@@ -19,6 +19,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -63,7 +64,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
             filter.setRefWidgetId(widgetId);
             if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
-                filter.setParam(p.cast(masterIdParam, filter.getFieldId()));
+                filter.setParam(p.cast(source.getMasterParam(), masterIdParam, filter.getFieldId()));
             } else {
                 filter.setParam(filter.getFieldId());
             }
@@ -78,7 +79,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             for (N2oPreFilter preFilter : source.getPreFilters()) {
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(preFilter.getFieldId());
-                filter.setParam(filter.getFieldId());
+                filter.setParam(p.cast(preFilter.getParam(), filter.getFieldId()));
                 filter.setType(preFilter.getType());
                 filter.setValueAttr(preFilter.getValueAttr());
                 filter.setValuesAttr(preFilter.getValuesAttr());
@@ -99,7 +100,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         String pageId = source.getPageId();
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute(p), "");
+        String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor)p), "");
         Map<String, ModelLink> pathMapping = new StrictMap<>();
         Map<String, ModelLink> queryMapping = new StrictMap<>();
         if (routeScope != null) {
@@ -108,9 +109,11 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         }
 
         String currentClientWidgetId = null;
+        String currentWidgetQueryId = null;
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null) {
             currentClientWidgetId = widgetScope.getClientWidgetId();
+            currentWidgetQueryId = widgetScope.getQueryId();
         }
 
         ModelLink actionModelLink = null;
@@ -129,8 +132,15 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             } else {
                 actionDataModelClientWidgetId = currentClientWidgetId;
             }
-            if (actionDataModel != null && actionDataModelClientWidgetId != null)
-                actionModelLink = new ModelLink(actionDataModel, actionDataModelClientWidgetId);
+            if (actionDataModel != null && actionDataModelClientWidgetId != null) {
+                if (currentClientWidgetId != null && currentClientWidgetId.equals(actionDataModelClientWidgetId)
+                        && ReduxModel.RESOLVE.equals(actionDataModel)) {
+                    //Получаем query для actionModelLink
+                    actionModelLink = Redux.linkQuery(actionDataModelClientWidgetId, N2oQuery.Field.PK, currentWidgetQueryId);
+                } else {
+                    actionModelLink = new ModelLink(actionDataModel, actionDataModelClientWidgetId, N2oQuery.Field.PK);
+                }
+            }
         }
         if (actionModelLink == null)
             throw new N2oException("widget-id for action " + source.getId() + " not specified");
@@ -139,7 +149,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             currentClientWidgetId = actionModelLink.getWidgetId();
 
         String actionRoute = initActionRoute(source, actionModelLink);
-        String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink, p);
+        String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
         route = normalize(route + actionRoute);
         String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
 
@@ -184,15 +194,13 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
     /**
      * Инициализация ссылки на идентификатор модели текущего виджета
      *
-     * @param actionRoute Маршрут с параметром
-     * @param pathMapping Параметры, в которые добавится ссылка
+     * @param actionRoute     Маршрут с параметром
+     * @param pathMapping     Параметры, в которые добавится ссылка
      * @param actionModelLink Модель данных действия
      * @param p
-     *
      * @return Наименование параметра ссылки
      */
-    private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink,
-                                  CompileProcessor p) {
+    private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {
         List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
         String masterIdParam = null;
         if (!actionRouteParams.isEmpty()) {
@@ -201,10 +209,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             if (actionRouteParams.size() > 1)
                 throw new N2oException("Action route can not contain more then one param: " + actionRoute);
             masterIdParam = actionRouteParams.get(0);
-            CompiledQuery query = p.getScope(CompiledQuery.class);//todo для кнопок страницы будет null
-            String queryId = query != null ? query.getId() : null;
-            ModelLink masterLink = Redux.linkQuery(actionModelLink.getWidgetId(), PK, queryId);
-            pathMapping.put(masterIdParam, masterLink);
+            pathMapping.put(masterIdParam, actionModelLink);
         }
         return masterIdParam;
     }
@@ -213,8 +218,8 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
      * Добавление идентификатора текущего виджета в параметры маршрута.
      * Если текущий виджет и виджет из модели действия совпадают и модель resolve, то добавляем.
      *
-     * @param source                Действие
-     * @param actionModelLink       Ссылка на модель действия
+     * @param source          Действие
+     * @param actionModelLink Ссылка на модель действия
      * @return Маршрут с добавкой идентификатора или без
      */
     private String initActionRoute(S source, ModelLink actionModelLink) {
@@ -223,7 +228,8 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             actionRoute = normalize(source.getId());
             if (actionModelLink != null
                     && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
-                String masterIdParam = actionModelLink.getWidgetId() + "_id";
+                String masterIdParam = source.getMasterParam() != null
+                        ? source.getMasterParam() : actionModelLink.getWidgetId() + "_id";
                 actionRoute = normalize(colon(masterIdParam)) + actionRoute;
             }
         }

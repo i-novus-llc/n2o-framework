@@ -6,7 +6,7 @@ import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Имплементация IO для доступа к странице 'page-access' v2.0
+ * Реализация IO для доступа к странице 'page-access' v2.0
  * net/n2oapp/framework/config/schema/access-point-2.0.xsd
  */
 

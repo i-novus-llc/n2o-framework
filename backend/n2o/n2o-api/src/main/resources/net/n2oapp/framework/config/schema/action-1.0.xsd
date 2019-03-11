@@ -149,6 +149,11 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="master-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -170,6 +175,11 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string" use="optional"/>
+                <xs:attribute name="master-param" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -541,6 +551,11 @@
         <xs:attribute name="ref-model" type="reduxModel" use="optional">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="param" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Параметр фильтра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

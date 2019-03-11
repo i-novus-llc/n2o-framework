@@ -56,6 +56,9 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("end"), is("11.11.2018"));
     }
 
+    /**
+     * Разрешение имени страницы через параметр в path
+     */
     @Test
     public void pageNameResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
@@ -67,6 +70,37 @@ public class PageBinderTest extends SourceCompileTestBase {
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
                 .get(context, new DataSet().add("name_param", "Joe"));
+        assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
+    }
+
+    /**
+     * Разрешение имени страницы через процессор вложенных моделей в параметре в path
+     */
+    @Test
+    public void pageNameResolveSubModels() {
+        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
+        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
+        doAnswer(invocation -> {
+            List<SubModelQuery> subModelQueries = invocation.getArgumentAt(0, List.class);
+            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            if (!subModelQueries.isEmpty()
+                    && subModelQueries.get(0).getQueryId().equals("query1")
+                    && data.get("id").equals(123)) {
+                data.put("name", "Joe");
+            }
+            return null;
+        }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+
+        PageContext context = new PageContext("testPageBinders", "/page/:id_param/view");
+        context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
+        context.setParentWidgetId("page_master");
+        context.setParentRoute("/page");
+        ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master", "id");
+        modelLink.setSubModelQuery(new SubModelQuery("query1"));
+        context.setPathRouteMapping(Collections.singletonMap("id_param", modelLink));
+        context.setParentModelLink(modelLink);
+        Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
+                .get(context, new DataSet().add("id_param", 123));
         assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
     }
 

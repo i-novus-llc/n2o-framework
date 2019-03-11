@@ -8,9 +8,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
-/**
- * @author V. Alexeev.
- */
 public class AccessPointXmlIOTest {
 
     final static ION2oMetadataTester tester = new ION2oMetadataTester()
@@ -24,13 +21,6 @@ public class AccessPointXmlIOTest {
                 (N2oObjectAccessPoint access) -> {
                     assert access.getObjectId().equals("test");
                     assert access.getAction().equals("create");
-
-                    assert access.getAccessFilters().length == 1;
-                    N2oPreFilter accessFilter = access.getAccessFilters()[0];
-                    assert accessFilter.getFieldId().equals("test");
-                    assert accessFilter.getValue().equals("test");
-                    assert accessFilter.getType().equals(FilterType.overlaps);
-
                 });
     }
 

@@ -18,6 +18,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
  * @reactProps {boolean} guide - @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
  * @reactProps {boolean} keepCharPositions - @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
  * @reactProps {boolean} resetOnNotValid - сбрасывать / оставлять невалижное значение при потере фокуса
+ * @reactProps {object} presetConfig - настройки пресета для InputMoney
  * @example
  * <InputMask onChange={this.onChange}
  *             mask="99 x 99"
@@ -66,6 +67,7 @@ class InputMask extends React.Component {
    * @returns (number) возвращает массив-маску для пресета-аргумента
    */
   preset(preset) {
+    const { presetConfig } = this.props;
     switch (preset) {
       case 'phone':
         return this._mapToArray('+9 (999)-999-99-99');
@@ -74,7 +76,7 @@ class InputMask extends React.Component {
       case 'date':
         return this._mapToArray('99.99.9999');
       case 'money':
-        return createNumberMask({ prefix: '', suffix: 'Р' });
+        return createNumberMask(presetConfig);
       case 'percentage':
         return createNumberMask({ prefix: '', suffix: '%' });
       case 'card':
@@ -192,7 +194,7 @@ class InputMask extends React.Component {
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
           delete props.defaultValue;
-          return <input ref={ref} {...props} onChange={props.onChange} />;
+          return <input ref={ref} {...props} />;
         }}
       />
     );
@@ -207,7 +209,8 @@ InputMask.defaultProps = {
   resetOnNotValid: true,
   value: '',
   dictionary: {},
-  mask: ''
+  mask: '',
+  presetConfig: {}
 };
 
 InputMask.propTypes = {
@@ -221,7 +224,8 @@ InputMask.propTypes = {
   dictionary: PropTypes.object,
   guide: PropTypes.bool,
   keepCharPositions: PropTypes.bool,
-  resetOnNotValid: PropTypes.bool
+  resetOnNotValid: PropTypes.bool,
+  presetConfig: PropTypes.object
 };
 
 export default InputMask;

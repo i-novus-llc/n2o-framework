@@ -12,7 +12,6 @@ import java.util.Objects;
 /**
  * Ссылка на модель Redux
  */
-@Getter
 public class BindLink implements Compiled {
     @JsonProperty("link")
     private String bindLink;
@@ -30,8 +29,24 @@ public class BindLink implements Compiled {
         this.value = value;
     }
 
+    public String getBindLink() {
+        return bindLink;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
     public boolean isEmpty() {
         return value == null;
+    }
+
+    public boolean isConst() {
+        return !isEmpty() && !StringUtils.isJs(getValue());
+    }
+
+    public boolean isLink() {
+        return getBindLink() != null || StringUtils.isJs(getValue());
     }
 
     public void setValue(Object value) {

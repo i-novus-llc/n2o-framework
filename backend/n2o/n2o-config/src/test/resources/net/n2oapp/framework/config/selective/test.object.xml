@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <object xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:sql="http://n2oapp.net/framework/config/schema/n2o-invocations-2.0"
-        xmlns="http://n2oapp.net/framework/config/schema/object-1.0"
-        xsi:schemaLocation="http://n2oapp.net/framework/config/schema/object-1.0 http://localhost:8080/n2o/config/schema/object/object-1.0.xsd">
+        xmlns="http://n2oapp.net/framework/config/schema/object-2.0"
+        xsi:schemaLocation="http://n2oapp.net/framework/config/schema/object-2.0 http://localhost:8080/n2o/config/schema/object/object-1.0.xsd">
 
     <name>Человек</name>
 

@@ -3,12 +3,7 @@ package net.n2oapp.framework.api.metadata.compile;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
-
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Процессор сборки метаданных
@@ -26,14 +21,6 @@ public interface CompileProcessor {
      * @return Собранный объект
      */
     <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope);
-
-    /**
-     * Связать метаданные с данными
-     *
-     * @param compiled Метаданная
-     * @param <D>      Тип метаданной
-     */
-    <D extends Compiled> void bind(D compiled);
 
     /**
      * Собрать дополнительные атрибуты
@@ -113,7 +100,6 @@ public interface CompileProcessor {
      */
     Object resolve(String value);
 
-
     /**
      * Заменить в тексте плейсхолдеры на значения
      *
@@ -121,58 +107,6 @@ public interface CompileProcessor {
      * @return Текст со значениями вместо плейсхолдеров
      */
     String resolveText(String text);
-
-    /**
-     * Заменить в строке плейсхолдеры {...} на значения, кроме исключений
-     *
-     * @param text Строка с плейсхолдерами
-     * @return Строка со значениями вместо плейсхолдеров
-     */
-    String resolveParams(String text);
-
-    /**
-     * Заменить в адресе плейсхолдеры на значения
-     *
-     * @param url           Адрес
-     * @param pathMappings  path параметры
-     * @param queryMappings query параметры
-     * @return Адрес со значениями вместо плейсхолдеров
-     */
-    String resolveUrl(String url, Map<String, ? extends BindLink> pathMappings, Map<String, ? extends BindLink> queryMappings);
-
-    /**
-     * Заменить в адресе параметры, которые ссылаются на переданную модель
-     *
-     * @param url    Адрес
-     * @param link   Ссылка на модель, по которой определяем какие параметры необходимо заменить
-     * @return Измененный адрес
-     */
-    String resolveUrlParams(String url, ModelLink link);
-
-    /**
-     * Попытаться разрешить значение ModelLink
-     *
-     * @param link исходная ссылка на значение
-     * @return ссылка с константой(если получилось разрешить ссылку) или исходная ссылка
-     */
-    ModelLink resolveLink(ModelLink link);
-
-    /**
-     * Попытаться разрешить вложенные модели ссылки
-     *
-     * @param link  ссылка на значение
-     * @param links исходный список ссылок
-     */
-    void resolveSubModels(ModelLink link, List<ModelLink> links);
-
-    /**
-     * Заменить в тексте плейсхолдеры на значения, используя модель
-     *
-     * @param text Текст с плейсхолдерами
-     * @param link Ссылка на модель, на которую ссылаются плейсхолдеры
-     * @return Текст со значениями вместо плейсхолдеров
-     */
-    String resolveText(String text, ModelLink link);
 
     /**
      * Превратить текст с ссылками в JS код

@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
+import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import org.springframework.stereotype.Component;
 
@@ -30,17 +31,23 @@ public class HeaderAccessTransformer extends BaseAccessTransformer<CompiledHeade
     }
 
     private void mapSecurity(CompiledHeader compiled, SimpleCompiledAccessSchema schema, CompileProcessor p) {
-        for (HeaderItem item : compiled.getItems()) {
-            if (item.getPageId() == null) continue;
-            collectPageAccess(item, item.getPageId(), schema);
-            String objectId = p.getSource(item.getPageId(), N2oPage.class).getObjectId();
-            collectObjectAccess(item, objectId, "read", schema);
+        mapSecurityItems(compiled.getItems(), schema, p);
+        mapSecurityItems(compiled.getExtraItems(), schema, p);
+    }
+
+    private void mapSecurityItems(SimpleMenu items, SimpleCompiledAccessSchema schema, CompileProcessor p) {
+        for (HeaderItem item : items) {
+            if (item.getSubItems() == null) {
+                mapSecurityItem(schema, p, item);
+            } else {
+                item.getSubItems().forEach(si -> mapSecurityItem(schema, p, si));
+            }
         }
-        for (HeaderItem item : compiled.getExtraItems()) {
-            if (item.getPageId() == null) continue;
-            collectPageAccess(item, item.getPageId(), schema);
-            String objectId = p.getSource(item.getPageId(), N2oPage.class).getObjectId();
-            collectObjectAccess(item, objectId, "read", schema);
-        }
+    }
+
+    private void mapSecurityItem(SimpleCompiledAccessSchema schema, CompileProcessor p, HeaderItem si) {
+        collectPageAccess(si, si.getPageId(), schema);
+        String objectId = p.getSource(si.getPageId(), N2oPage.class).getObjectId();
+        collectObjectAccess(si, objectId, null, schema);
     }
 }

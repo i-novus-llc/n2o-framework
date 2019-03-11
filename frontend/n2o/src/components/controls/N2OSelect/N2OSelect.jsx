@@ -292,6 +292,7 @@ class N2OSelect extends React.Component {
       badgeColorFieldId,
       onScrollEnd,
       hasSearch,
+      cleanable,
       style,
       onBlur
     } = this.props;
@@ -309,6 +310,7 @@ class N2OSelect extends React.Component {
           onButtonClick={this._handleButtonClick}
           iconFieldId={iconFieldId}
           imageFieldId={imageFieldId}
+          cleanable={cleanable}
           selected={this.state.selected}
           onClearClick={this._clearSelected}
         >
@@ -353,6 +355,7 @@ N2OSelect.propTypes = {
   options: PropTypes.array.isRequired,
   valueFieldId: PropTypes.string.isRequired,
   labelFieldId: PropTypes.string.isRequired,
+  cleanable: PropTypes.bool,
   iconFieldId: PropTypes.string,
   imageFieldId: PropTypes.string,
   badgeFieldId: PropTypes.string,
@@ -377,6 +380,7 @@ N2OSelect.propTypes = {
 
 N2OSelect.defaultProps = {
   parentFieldId: 'parentId',
+  cleanable: true,
   valueFieldId: 'id',
   labelFieldId: 'name',
   iconFieldId: 'icon',

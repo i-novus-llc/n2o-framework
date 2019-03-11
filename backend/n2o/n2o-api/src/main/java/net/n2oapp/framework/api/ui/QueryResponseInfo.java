@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.ParametrizedMessagePlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
 
 import java.util.Collection;

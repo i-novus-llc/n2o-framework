@@ -79,6 +79,7 @@ stories
         imageFieldId: text('imageFieldId', N2OSelectContainerJson.imageFieldId),
         groupFieldId: text('groupFieldId', N2OSelectContainerJson.groupFieldId),
         hasCheckboxes: boolean('hasCheckboxes', N2OSelectContainerJson.hasCheckboxes),
+        cleanable: boolean('cleanable', N2OSelectContainerJson.cleanable),
         closePopupOnSelect: boolean(
           'closePopupOnSelect',
           N2OSelectContainerJson.closePopupOnSelect

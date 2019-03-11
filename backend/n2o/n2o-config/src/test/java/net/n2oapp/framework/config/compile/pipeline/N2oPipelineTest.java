@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
@@ -247,7 +248,7 @@ public class N2oPipelineTest {
     class MockSourceValidatorFactory extends MockMetadataFactory<SourceValidator> implements SourceValidatorFactory {
 
         @Override
-        public <S> void validate(S source) throws N2oMetadataValidationException {
+        public <S> void validate(S source, ValidateProcessor p) throws N2oMetadataValidationException {
             if (((N2oSimplePage)source).getId() == null)
                 throw new N2oMetadataValidationException("validated " + ((N2oSimplePage)source).getName());
         }
@@ -303,7 +304,7 @@ public class N2oPipelineTest {
     class MockBinderFactory extends MockMetadataFactory<MetadataBinder> implements MetadataBinderFactory {
 
         @Override
-        public <D extends Compiled> D bind(D compiled, CompileProcessor processor) {
+        public <D extends Compiled> D bind(D compiled, BindProcessor processor) {
             ((Page) compiled).getPageProperty().setTitle("binding " + ((Page) compiled).getPageProperty().getTitle());
             return compiled;
         }
