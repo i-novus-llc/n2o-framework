@@ -1,10 +1,12 @@
 import React from 'react';
 import sinon from 'sinon';
+import { isEmpty } from 'lodash';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from '../../reducers';
 import withObserveDependency from './withObserveDependency';
 import { registerFieldDependency } from '../../actions/formPlugin';
+import { setModel } from '../../actions/models';
 
 const setup = (store, props = {}, onChange) => {
   const Component = withObserveDependency({
@@ -36,12 +38,13 @@ describe('Проверка хока withObserveDependency', () => {
         dependency: [
           {
             type: 'reRender',
-            on: ['testForm']
+            on: ['testField']
           }
         ]
       },
       () => {}
     );
-    // expect(wrapper._observers).toEqual([])
+    expect(isEmpty(wrapper.find('ReRenderComponent').instance()._observers)).toEqual(false);
+    expect(typeof wrapper.find('ReRenderComponent').instance()._observers[0]).toEqual('function');
   });
 });
