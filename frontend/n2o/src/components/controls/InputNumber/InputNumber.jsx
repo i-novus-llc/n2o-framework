@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { findDOMNode } from 'react-dom';
 import { toNumber, toString, isNil, isNaN } from 'lodash';
 
 import Input from '../Input/Input';
@@ -106,7 +105,7 @@ class InputNumber extends React.Component {
     } else {
       this.setState({ value: null });
     }
-    this.props.onBlur(e);
+    this.props.onBlur();
   }
 
   /**
