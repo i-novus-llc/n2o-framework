@@ -327,7 +327,7 @@
 
     <xs:complexType name="controlInputMoneyDefinition">
         <xs:complexContent>
-            <xs:extension base="controlDefinition">
+            <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="suffix" type="xs:string"/>
                 <xs:attribute name="prefix" type="xs:string"/>
                 <xs:attribute name="thousands-separator" type="xs:string"/>
