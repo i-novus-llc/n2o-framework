@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -100,6 +99,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         String pageId = source.getPageId();
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+        PageScope pageScope = p.getScope(PageScope.class);
         String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor)p), "");
         Map<String, ModelLink> pathMapping = new StrictMap<>();
         Map<String, ModelLink> queryMapping = new StrictMap<>();
@@ -127,7 +127,6 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
             String actionDataModelClientWidgetId = null;
             if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
-                PageScope pageScope = p.getScope(PageScope.class);
                 actionDataModelClientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
             } else {
                 actionDataModelClientWidgetId = currentClientWidgetId;
@@ -166,6 +165,9 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping.keySet()));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
+        if (source.getRefreshWidgetId() != null) {
+            pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
+        }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
         if (source.getSubmitOperationId() != null
                 && source.getRedirectUrlAfterSubmit() == null
