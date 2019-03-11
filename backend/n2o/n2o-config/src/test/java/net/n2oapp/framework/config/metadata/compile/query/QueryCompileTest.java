@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QueryCompileTest extends SourceCompileTestBase {
@@ -74,6 +75,15 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(testFilter.getFilterList()[0].getFilterField(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterField(), is("testFilter_in"));
     }
+
+//    @Test
+//    public void testEmptyBody() {
+//        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
+//                .get(new QueryContext("testEmptyBody"));
+//        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
+//    }
 
     @Test
     public void testFieldNames() {
