@@ -12,10 +12,11 @@ import java.util.Arrays;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 
 /**
- * Трансформация исходной модели query
+ * Трансформация query для тестового провайдера данных.
+ * Генерирует тело для фильтров, <select/>, <sorting/>.
  */
 @Component
-public class N2oQueryTransformer implements SourceTransformer<N2oQuery>, SourceClassAware {
+public class TestEngineQueryTransformer implements SourceTransformer<N2oQuery>, SourceClassAware {
     @Override
     public N2oQuery transform(N2oQuery source) {
         if (!isTest(source))

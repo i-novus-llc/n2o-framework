@@ -11,7 +11,10 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class QuerySourceTransformTest extends SourceTransformTestBase {
+/**
+ * Тест {@link TestEngineQueryTransformer}
+ */
+public class TestInvocationTransformTest extends SourceTransformTestBase {
 
     @Before
     @Override
@@ -23,13 +26,13 @@ public class QuerySourceTransformTest extends SourceTransformTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oQueriesPack(), new N2oDataProvidersPack())
-                .transformers(new N2oQueryTransformer());
+                .transformers(new TestEngineQueryTransformer());
     }
 
     @Test
     public void test() {
-        N2oQuery query = transform("net/n2oapp/framework/config/metadata/compile/query/testQuerySourceTransformer.query.xml")
-                .get("testQuerySourceTransformer", N2oQuery.class);
+        N2oQuery query = transform("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml")
+                .get("testTestInvocationTransformer", N2oQuery.class);
         assertThat(query.getFields()[0].getSelectBody(), is(":expression"));
         assertThat(query.getFields()[0].getSortingBody(), is(":expression :idDirection"));
         assertThat(query.getFields()[0].getFilterList()[0].getText(), is(":expression :eq :id"));
