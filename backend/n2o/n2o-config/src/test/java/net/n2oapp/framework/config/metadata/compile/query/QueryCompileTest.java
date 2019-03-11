@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QueryCompileTest extends SourceCompileTestBase {
@@ -140,5 +139,18 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(query.getValidations().get(0).getFieldId(), is("test"));
         assertThat(query.getValidations().get(0).getSeverity(), is(SeverityType.danger));
         assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
+    }
+
+    /**
+     * Для тестового провайдера тело для <select/>, <sorting/>, <filter/> генерируется автоматически
+     */
+    @Test
+    public void testTestDataProvider() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testQuerySourceTransformer.query.xml"))
+                .transformers(new N2oQueryTransformer());
+        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testQuerySourceTransformer"));
+        assertThat(query.getFieldsMap().get("id").getSelectBody(), is("id"));
+        assertThat(query.getFieldsMap().get("id").getSortingBody(), is("id :idDirection"));
+        assertThat(query.getFieldsMap().get("id").getFilterList()[0].getText(), is("id :eq :id"));
     }
 }
