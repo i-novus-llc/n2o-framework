@@ -211,11 +211,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     private void compileFetchOnInit(S source, D compiled) {
         if (compiled.getComponent() == null)
             return;
-        if (source.getDependsOn() == null && compiled.getDataProvider() != null) {
-            compiled.getComponent().setFetchOnInit(true);
-        } else {
-            compiled.getComponent().setFetchOnInit(false);
-        }
+
+        boolean fetchOnInit;
+        if (source.getFetchOnInit() != null)
+            fetchOnInit = source.getFetchOnInit();
+        else
+            fetchOnInit = source.getDependsOn() == null && compiled.getDataProvider() != null;
+
+        compiled.getComponent().setFetchOnInit(fetchOnInit);
     }
 
     private void actionsToToolbar(S source) {

@@ -20,7 +20,7 @@ public class WidgetDependency implements Compiled {
      */
     @JsonProperty
     private List<DependencyCondition> fetch;
-
+    @JsonProperty
     private List<DependencyCondition> visible;
 
     public boolean isEmpty() {

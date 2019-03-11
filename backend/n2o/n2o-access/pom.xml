@@ -23,11 +23,6 @@
         </dependency>
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-header</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-config</artifactId>
             <version>${project.version}</version>
         </dependency>
