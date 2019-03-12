@@ -1,11 +1,17 @@
 package net.n2oapp.framework.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.fasterxml.jackson.databind.node.TextNode;
 import net.n2oapp.framework.api.exception.N2oException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.core.env.PropertyResolver;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Function;
@@ -60,10 +66,25 @@ public class PlaceHoldersResolver {
     }
 
     /**
+     * Заменить плейсхолдеры в json
+     *
+     * @param json - строка json
+     * @param func Функция замены
+     * @return Текст с заменёнными плейсхолдерами, если замена нашлась
+     */
+    public String resolveJson(String json, Function<String, Object> func, ObjectMapper objectMapper) {
+        try {
+            return resolvePlaceholders(objectMapper.readTree(json), notReplaceNull(func)).toString();
+        } catch (IOException e) {
+            throw new N2oException(e);
+        }
+    }
+
+    /**
      * Заменить плейсхолдер на значение
      *
      * @param placeholder Плейсхолдер
-     * @param func Функция замены
+     * @param func        Функция замены
      * @return Значение или то, что пришло, если это не плейсхолдер
      */
     public Object resolveValue(Object placeholder, Function<String, Object> func) {
@@ -190,6 +211,44 @@ public class PlaceHoldersResolver {
         return sb.toString();
     }
 
+    private JsonNode resolvePlaceholders(JsonNode json, Function<String, Object> callback) {
+        if (json == null) return null;
+        if (json.isObject()) {
+            ObjectNode root = (ObjectNode) json;
+            Iterator<Map.Entry<String, JsonNode>> fields = root.fields();
+            while (fields.hasNext()) {
+                Map.Entry<String, JsonNode> field = fields.next();
+                if (field.getValue().isTextual()) {
+                    String value = field.getValue().textValue();
+                    if (value.contains(prefix) && value.contains(suffix)) {
+                        String placeholder = value.substring(value.indexOf(prefix) + prefix.length(), value.indexOf(suffix));
+                        String result = value.replace(prefix + placeholder + suffix, callback.apply(placeholder).toString());
+                        boolean isString = !(result.startsWith("[") || result.endsWith("]"))
+                                && !"true".equals(result)
+                                && !"false".equals(result)
+                                && !result.matches("-?\\d+(\\.\\d+)?");
+                        field.setValue(isString ? new TextNode(result) : new POJONode(result));
+                    }
+                } else if (field.getValue().isObject()) {
+                    resolvePlaceholders(field.getValue(), callback);
+                } else if (field.getValue().isArray()) {
+                    ArrayNode array = (ArrayNode) field.getValue();
+                    for (JsonNode jsonNode : array) {
+                        resolvePlaceholders(jsonNode, callback);
+                    }
+                }
+            }
+            return root;
+        } else if (json.isArray()) {
+            ArrayNode array = (ArrayNode) json;
+            for (JsonNode jsonNode : array) {
+                resolvePlaceholders(jsonNode, callback);
+            }
+            return array;
+        }
+        return null;
+    }
+
     private Object safeResolveValue(Object placeholder, Function<String, Object> func) {
         if (!isPlaceHolder(placeholder))
             return placeholder;
@@ -212,7 +271,7 @@ public class PlaceHoldersResolver {
             Object result = callback.apply(key);
             try {
                 if (result instanceof String)
-                    return ((String) result).replace("\"", "\\\"");
+                    return result;
                 return mapper.writeValueAsString(result);
             } catch (JsonProcessingException e) {
                 throw new N2oException(e);

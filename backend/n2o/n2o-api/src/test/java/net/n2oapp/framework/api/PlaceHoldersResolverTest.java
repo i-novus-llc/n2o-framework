@@ -1,11 +1,14 @@
 package net.n2oapp.framework.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.Context;
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.*;
 
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
@@ -157,5 +160,102 @@ public class PlaceHoldersResolverTest {
         Assert.assertEquals("99", PlaceHoldersResolver.replaceByJson(replaceOptional(context::get), mapper).apply("age"));
         Assert.assertEquals("[\"user\",\"looser\"]", PlaceHoldersResolver.replaceByJson(replaceOptional(context::get), mapper).apply("roles"));
         Assert.assertEquals("true", PlaceHoldersResolver.replaceByJson(replaceOptional(context::get), mapper).apply("isActive"));
+    }
+
+    @Test
+    public void testResolveJsonObject() throws IOException {
+        Context context = mock(Context.class);
+        List<String> strings = Arrays.asList("\"user\"", "\"looser\"");
+        List<Integer> ints = Arrays.asList(1, 2);
+        when(context.get("int")).thenReturn(1);
+        when(context.get("double")).thenReturn(1.0);
+        when(context.get("bool")).thenReturn(false);
+        when(context.get("text")).thenReturn("text");
+        when(context.get("strings")).thenReturn(strings);
+        when(context.get("ints")).thenReturn(ints);
+        when(context.get("combined")).thenReturn("Value");
+        PlaceHoldersResolver resolver = new PlaceHoldersResolver("#{", "}");
+        ObjectMapper mapper = new ObjectMapper();
+        String input = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("net/n2oapp/framework/api/testObject.json"), "UTF-8");
+        String result = resolver.resolveJson(input, replaceOptional(context::get), mapper);
+        JsonNode root = mapper.readTree(result);
+
+        assertThat(root.get("test").size(), is(7));
+        assertThat(root.get("test").get("int").isInt(), is(true));
+        assertThat(root.get("test").get("int").numberValue(), is(1));
+        assertThat(root.get("test").get("double").isDouble(), is(true));
+        assertThat(root.get("test").get("double").numberValue(), is(1.0));
+        assertThat(root.get("test").get("bool").isBoolean(), is(true));
+        assertThat(root.get("test").get("bool").booleanValue(), is(false));
+        assertThat(root.get("test").get("text").isTextual(), is(true));
+        assertThat(root.get("test").get("text").textValue(), is("text"));
+
+        assertThat(root.get("test").get("strings").isArray(), is(true));
+        assertThat(root.get("test").get("strings").size(), is(2));
+        assertThat(root.get("test").get("strings").get(0).isTextual(), is(true));
+        assertThat(root.get("test").get("strings").get(0).textValue(), is("user"));
+        assertThat(root.get("test").get("strings").get(1).isTextual(), is(true));
+        assertThat(root.get("test").get("strings").get(1).textValue(), is("looser"));
+
+        assertThat(root.get("test").get("ints").isArray(), is(true));
+        assertThat(root.get("test").get("ints").size(), is(2));
+        assertThat(root.get("test").get("ints").get(0).isNumber(), is(true));
+        assertThat(root.get("test").get("ints").get(0).numberValue(), is(1));
+        assertThat(root.get("test").get("ints").get(1).isNumber(), is(true));
+        assertThat(root.get("test").get("ints").get(1).numberValue(), is(2));
+
+        assertThat(root.get("test").get("combined").isTextual(), is(true));
+        assertThat(root.get("test").get("combined").textValue(), is("testValue"));
+    }
+
+
+    @Test
+    public void testResolveJsonArray() throws IOException {
+        Context context = mock(Context.class);
+        List<String> strings = Arrays.asList("\"user\"", "\"looser\"");
+        List<Integer> ints = Arrays.asList(1, 2);
+        when(context.get("int")).thenReturn(1);
+        when(context.get("double")).thenReturn(1.0);
+        when(context.get("bool")).thenReturn(false);
+        when(context.get("text")).thenReturn("text");
+        when(context.get("strings")).thenReturn(strings);
+        when(context.get("ints")).thenReturn(ints);
+        when(context.get("combined")).thenReturn("Value");
+        PlaceHoldersResolver resolver = new PlaceHoldersResolver("#{", "}");
+
+        ObjectMapper mapper = new ObjectMapper();
+        String input = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("net/n2oapp/framework/api/testArray.json"), "UTF-8");
+        String result = resolver.resolveJson(input, replaceOptional(context::get), mapper);
+        JsonNode root = mapper.readTree(result);
+
+        assertThat(root.get(0).size(), is(7));
+        assertThat(root.get(0).get("int").isInt(), is(true));
+        assertThat(root.get(0).get("int").numberValue(), is(1));
+        assertThat(root.get(0).get("double").isDouble(), is(true));
+        assertThat(root.get(0).get("double").numberValue(), is(1.0));
+        assertThat(root.get(0).get("bool").isBoolean(), is(true));
+        assertThat(root.get(0).get("bool").booleanValue(), is(false));
+        assertThat(root.get(0).get("text").isTextual(), is(true));
+        assertThat(root.get(0).get("text").textValue(), is("text"));
+
+        assertThat(root.get(0).get("strings").isArray(), is(true));
+        assertThat(root.get(0).get("strings").size(), is(2));
+        assertThat(root.get(0).get("strings").get(0).isTextual(), is(true));
+        assertThat(root.get(0).get("strings").get(0).textValue(), is("user"));
+        assertThat(root.get(0).get("strings").get(1).isTextual(), is(true));
+        assertThat(root.get(0).get("strings").get(1).textValue(), is("looser"));
+
+        assertThat(root.get(0).get("ints").isArray(), is(true));
+        assertThat(root.get(0).get("ints").size(), is(2));
+        assertThat(root.get(0).get("ints").get(0).isNumber(), is(true));
+        assertThat(root.get(0).get("ints").get(0).numberValue(), is(1));
+        assertThat(root.get(0).get("ints").get(1).isNumber(), is(true));
+        assertThat(root.get(0).get("ints").get(1).numberValue(), is(2));
+
+        assertThat(root.get(0).get("combined").isTextual(), is(true));
+        assertThat(root.get(0).get("combined").textValue(), is("testValue"));
+
+        assertThat(root.get(0).equals(root.get(1)), is(true));
+        assertThat(root.get(1).equals(root.get(2)), is(true));
     }
 }
