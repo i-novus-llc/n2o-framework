@@ -2,7 +2,6 @@ import React from "react";
 import { DatePicker as BaseDatePicker } from "antd";
 import { compose, defaultProps, withHandlers, withProps } from "recompose";
 import moment from "moment";
-import { filter, find, isArray } from "lodash";
 
 export default compose(
   defaultProps({
@@ -14,18 +13,23 @@ export default compose(
     disabled: false,
     className: "",
     defaultTime: "00:00",
-    autoFocus: false
+    autoFocus: false,
+    value: null
   }),
   withProps(props => {
     return {
-      value: moment(props.value).format(
-        `${props.dateFormat} ${props.timeFormat}`
-      )
+      value:
+        props.value &&
+        moment(props.value, `${props.dateFormat} ${props.timeFormat}`),
+      style: { width: "100%" }
     };
   }),
   withHandlers({
-    onChange: ({ data, valueFieldId, onChange }) => value => {
-      onChange();
+    onChange: ({ data, valueFieldId, onChange, outputFormat }) => value => {
+      onChange(value.format(outputFormat));
+    },
+    onBlur: props => value => {
+      props.onBlur();
     }
   })
 )(BaseDatePicker);
