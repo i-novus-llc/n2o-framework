@@ -189,12 +189,12 @@ export default compose(
           rowColor: props.rowColor,
           onFetch: props.onFetch,
           onSort: props.onSort,
-          onResolve: debounce(newModel => {
+          onResolve: newModel => {
             props.onResolve(newModel);
             if (props.selectedId != newModel.id) {
               props.dispatch(setTableSelectedId(props.widgetId, newModel.id));
             }
-          }, 100),
+          },
           onSetSelection: model => {
             props.dispatch(setModel(PREFIXES.multi, props.widgetId, model));
           },
