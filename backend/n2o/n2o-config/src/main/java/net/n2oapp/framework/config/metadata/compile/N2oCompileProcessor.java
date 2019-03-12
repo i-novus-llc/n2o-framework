@@ -272,10 +272,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public String resolveText(String text, ModelLink link) {
+        String resolved = resolveText(text);
         if (link != null)
-            return LINK_RESOLVER.resolve(text, model.getDataIfAbsent(link, env.getSubModelsProcessor()));
+            return LINK_RESOLVER.resolve(resolved, model.getDataIfAbsent(link, env.getSubModelsProcessor()));
         else
-            return text;
+            return resolved;
     }
 
     @Override
