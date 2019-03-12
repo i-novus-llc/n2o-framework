@@ -13,6 +13,8 @@ import cn from 'classnames';
  * @param {Node|String} extra - extra секция
  * @param {boolean} selected - флаг активности строки
  * @param {function} onClick - callback на клик по строке
+ * @param {boolean} divider - разделить между строками
+ * @param {object} style - стили
  * @returns {*}
  * @constructor
  */
@@ -26,7 +28,8 @@ function ListItem({
   extra,
   selected,
   onClick,
-  divider
+  divider,
+  style
 }) {
   const renderImage = image => {
     return React.isValidElement(image) ? (
@@ -39,6 +42,7 @@ function ListItem({
   return (
     <div
       onClick={onClick}
+      style={style}
       className={cn('n2o-widget-list-item', {
         'n2o-widget-list-item--active': selected,
         'n2o-widget-list-item--divider': divider

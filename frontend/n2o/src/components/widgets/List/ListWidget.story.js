@@ -204,7 +204,7 @@ stories
   })
   .add('Компонент с paging', () => {
     let data = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 500; i++) {
       data.push({
         image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         header: "It's a cat",

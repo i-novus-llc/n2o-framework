@@ -4,6 +4,10 @@ import { map } from 'lodash';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
+import { List as Virtualizer } from 'react-virtualized';
+
+const listHeight = 600;
+const rowHeight = 50;
 
 /**
  * Компонент List
@@ -18,11 +22,13 @@ class List extends Component {
     super(props);
 
     this.state = {
-      selectedIndex: props.selectedId || (props.autoSelect ? 0 : null)
+      selectedIndex: props.selectedId || (props.autoSelect ? 0 : null),
+      rowWidth: 0
     };
 
     this._scrollTimeoutId = null;
 
+    this.renderRow = this.renderRow.bind(this);
     this.onItemClick = this.onItemClick.bind(this);
     this.fetchMore = this.fetchMore.bind(this);
     this.onScroll = this.onScroll.bind(this);
@@ -31,6 +37,9 @@ class List extends Component {
 
   componentDidMount() {
     this._listContainer.addEventListener('scroll', this.onScroll, true);
+    this.setState({
+      rowWidth: this._listContainer.clientWidth
+    });
   }
 
   componentWillUnmount() {
@@ -64,25 +73,47 @@ class List extends Component {
     }, 300);
   }
 
+  renderRow({ index, key, style }) {
+    const { divider, data } = this.props;
+    return (
+      <ListItem
+        {...data[index]}
+        key={key}
+        style={style}
+        divider={divider}
+        selected={this.state.selectedIndex === index}
+        onClick={() => this.onItemClick(index)}
+      />
+    );
+  }
+
   render() {
     const { className, data, hasMoreButton, maxHeight, fetchOnScroll, divider } = this.props;
+    const { rowWidth } = this.state;
+    let heightProps = {};
     return (
-      <div
-        ref={this.setListContainerRef}
-        className={cn('n2o-widget-list', className)}
-        style={{
-          maxHeight: maxHeight
-        }}
-      >
+      <div ref={this.setListContainerRef} className={cn('n2o-widget-list', className)}>
         <div className="n2o-widget-list-container">
-          {map(data, (item, index) => (
-            <ListItem
-              {...item}
-              divider={divider}
-              selected={this.state.selectedIndex === index}
-              onClick={() => this.onItemClick(index)}
+          {maxHeight ? (
+            <Virtualizer
+              width={rowWidth}
+              height={maxHeight}
+              rowHeight={92}
+              rowRenderer={this.renderRow}
+              rowCount={data.length}
+              overscanRowCount={5}
             />
-          ))}
+          ) : (
+            map(data, (item, index) => (
+              <ListItem
+                {...item}
+                key={index}
+                divider={divider}
+                selected={this.state.selectedIndex === index}
+                onClick={() => this.onItemClick(index)}
+              />
+            ))
+          )}
         </div>
         {hasMoreButton && !fetchOnScroll && <ListMoreButton onClick={this.fetchMore} />}
       </div>
