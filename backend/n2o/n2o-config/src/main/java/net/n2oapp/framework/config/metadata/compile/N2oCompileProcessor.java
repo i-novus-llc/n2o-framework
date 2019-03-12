@@ -162,23 +162,19 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
-        Object value = placeholder;
-        if (StringUtils.isProperty(placeholder)) {
-            value = env.getSystemProperties().resolvePlaceholders(placeholder);
-        }
-        if (StringUtils.isContext(placeholder)) {
-            value = env.getContextProcessor().resolve(placeholder);
-        }
+        Object value = resolvePlaceholder(placeholder);
         return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override
-    public Object resolve(String value, String domain) {
+    public Object resolve(String placeholder, String domain) {
+        Object value = resolvePlaceholder(placeholder);
         return env.getDomainProcessor().deserialize(value, domain);
     }
 
     @Override
-    public Object resolve(String value) {
+    public Object resolve(String placeholder) {
+        Object value = resolvePlaceholder(placeholder);
         return env.getDomainProcessor().deserialize(value);
     }
 
@@ -316,6 +312,17 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             throw new N2oMetadataValidationException(getMessage(errorMessage, id));
     }
 
+
+    private Object resolvePlaceholder(String placeholder) {
+        Object value = placeholder;
+        if (StringUtils.isProperty(placeholder)) {
+            value = env.getSystemProperties().resolvePlaceholders(placeholder);
+        }
+        if (StringUtils.isContext(placeholder)) {
+            value = env.getContextProcessor().resolve(placeholder);
+        }
+        return value;
+    }
 
     private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
         if (linkMap != null) {
