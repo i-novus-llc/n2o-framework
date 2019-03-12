@@ -55,6 +55,7 @@
 
 - Для перерисовки опций в компонентах <radio-group>, <checkbox-group> вместо depends-on необходимо использовать <dependencies> <fetch>.
 - Фильтры доступа в access-schema-1.0 больше не считываются, вместо них необходимо использовать <object-filters> в access-2.0
+- Для query-4.0 больше нет автогенерации тела фильтров и элементов <select/> и <sorting/>.
 
 *Изменения в java api*
 

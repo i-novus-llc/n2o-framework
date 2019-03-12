@@ -11,21 +11,21 @@
     </list>
     <fields>
         <field id="id">
-            <select/>
+            <select>id</select>
             <filters>
-                <eq filter-id="id"/>
+                <eq filter-id="id">id=:id</eq>
             </filters>
         </field>
         <field id="code">
-            <select/>
+            <select>code</select>
             <filters>
-                <eq filter-id="code"/>
+                <eq filter-id="code">code=:code</eq>
             </filters>
         </field>
         <field id="type">
-            <select/>
+            <select>type</select>
             <filters>
-                <eq filter-id="type"/>
+                <eq filter-id="type">type=:type</eq>
             </filters>
         </field>
     </fields>

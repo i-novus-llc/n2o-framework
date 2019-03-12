@@ -81,7 +81,8 @@ public class InvocationParametersMapping {
         List<String> where = new ArrayList<>();
         for (Restriction r : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
-            where.add(filter.getText());
+            if (filter.getText() != null)
+                where.add(filter.getText());
             inMap(map, filter.getMapping(), r.getValue());
             N2oQuery.Field field = query.getFieldsMap().get(r.getFieldId());
             if (!field.getNoJoin())
