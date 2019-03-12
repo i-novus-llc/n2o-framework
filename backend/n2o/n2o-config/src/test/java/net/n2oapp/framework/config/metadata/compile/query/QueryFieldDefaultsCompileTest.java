@@ -17,6 +17,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
@@ -50,11 +51,11 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     public void defaultsBodyAndMapping() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
         N2oQuery.Field field = query.getFieldsMap().get("gender.id");
-        assertThat(field.getSelectBody(), is("gender.id"));
+        assertThat(field.getSelectBody(), nullValue());
         assertThat(field.getSelectMapping(), is("['gender.id']"));
-        assertThat(field.getSortingBody(), is("gender.id :gender.idDirection"));
+        assertThat(field.getSortingBody(), nullValue());
         assertThat(query.getFiltersMap().get("gender.id").get(FilterType.eq).getMapping(), is("['gender.id']"));
-        assertThat(query.getFiltersMap().get("gender.id").get(FilterType.eq).getText(), is("gender.id :eq :gender.id"));
+        assertThat(query.getFiltersMap().get("gender.id").get(FilterType.eq).getText(), nullValue());
     }
 
 
@@ -62,12 +63,12 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
     public void defaultsBodyAndMappingWithExpression() {
         CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
         N2oQuery.Field name = query.getFieldsMap().get("name");
-        assertThat(name.getSelectBody(), is("test"));
+        assertThat(name.getSelectBody(), nullValue());
         assertThat(name.getSelectMapping(), is("['name']"));
-        assertThat(name.getSortingBody(), is("test :nameDirection"));
+        assertThat(name.getSortingBody(), nullValue());
         assertThat(name.getSortingMapping(), is("['nameDirection']"));
         N2oQuery.Filter filter = query.getFiltersMap().get("name").get(FilterType.eq);
-        assertThat(filter.getText(), is("test :eq :filter"));
+        assertThat(filter.getText(), nullValue());
         assertThat(filter.getMapping(), is("['filter']"));
     }
 
