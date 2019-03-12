@@ -162,14 +162,14 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
-//        Object value = resolvePlaceholder(placeholder);
-        return (T) env.getDomainProcessor().deserialize(placeholder, clazz);
+        Object value = resolvePlaceholder(placeholder);
+        return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override
     public Object resolve(String placeholder, String domain) {
-//        Object value = resolvePlaceholder(placeholder);
-        return env.getDomainProcessor().deserialize(placeholder, domain);
+        Object value = resolvePlaceholder(placeholder);
+        return env.getDomainProcessor().deserialize(value, domain);
     }
 
     @Override
