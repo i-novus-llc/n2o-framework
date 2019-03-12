@@ -130,7 +130,7 @@ class Table extends React.Component {
     } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(index);
     }
-    if (rowClick) {
+    if (!noResolve && rowClick) {
       onRowClickAction();
     }
   }
