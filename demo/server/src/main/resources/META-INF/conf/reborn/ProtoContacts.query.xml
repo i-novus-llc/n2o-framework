@@ -83,7 +83,7 @@
             <id>type.id</id>
             <domain>Integer</domain>
             <expression>c.id</expression>
-            <display/>
+            <display>c.id</display>
             <filters>
                 <filter type="eq" filter-field="type.id">ic.type_id = :type.id</filter>
             </filters>
@@ -93,7 +93,7 @@
             <domain>string</domain>
             <name>Тип</name>
             <expression>c.name</expression>
-            <display/>
+            <display>c.name</display>
         </field>
     </fields>
 </query>

@@ -4,8 +4,11 @@
        name="Список товаров">
 
     <list count-mapping="[count]" result-mapping="[collection]">
-        <rest>${n2o.backend.url}/products/</rest>
+        <rest filters-separator="&amp;">${n2o.backend.url}/products?{filters}&amp;page={page}</rest>
     </list>
+    <unique>
+        <rest>${n2o.backend.url}/products/{id}</rest>
+    </unique>
     <count>
         <rest>${n2o.backend.url}/products/{id}</rest>
     </count>
@@ -15,9 +18,8 @@
 
         <field id="id" domain="long">
             <select/>
-            <sorting/>
             <filters>
-                <eq filter-id="id">:id</eq>
+                <eq filter-id="id">id={id}</eq>
             </filters>
         </field>
 
@@ -33,8 +35,8 @@
             <select/>
             <sorting>sortingColumn=price&amp;sortingOrder=:direction</sorting>
             <filters>
-                <more filter-id="minPrice"/>
-                <less filter-id="maxPrice"/>
+                <more filter-id="minPrice">minPrice={minPrice}</more>
+                <less filter-id="maxPrice">maxPrice={maxPrice}</less>
             </filters>
         </field>
 
@@ -50,8 +52,8 @@
             <select/>
             <sorting/>
             <filters>
-                <eq filter-id="category.id">categoryId=:category.id</eq>
-                <in filter-id="categories*.id">categoryId=:categories*.id</in>
+                <eq filter-id="category.id">categoryId={categoryId}</eq>
+                <in filter-id="categories*.id" domain="long">categoryId={categories*.id}</in>
             </filters>
         </field>
 

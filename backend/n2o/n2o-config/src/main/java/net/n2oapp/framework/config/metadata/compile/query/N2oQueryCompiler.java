@@ -57,7 +57,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         fields = initDefaultFields(fields);
         fields = initDefaultFilters(fields, p);
         fields = initDefaultMapping(fields);
-        fields = initDefaultBody(fields);
+        fields = initDefaultExpression(fields);
         fields = replaceExpression(fields);
         compilePreFilters(source, p, context.getFilters());
         query.setDisplayValues(Collections.unmodifiableMap(initDisplayValues(fields)));
@@ -150,7 +150,8 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         List<String> select = new ArrayList<>();
         List<String> join = new ArrayList<>();
         query.getDisplayFields().forEach(f -> {
-            select.add(f.getSelectBody());
+            if (f.getSelectBody() != null)
+                select.add(f.getSelectBody());
             if ((f.getNoJoin() == null || !f.getNoJoin()) && f.getJoinBody() != null) {
                 join.add(f.getJoinBody());
             }
@@ -269,20 +270,10 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         return fields;
     }
 
-    private List<N2oQuery.Field> initDefaultBody(List<N2oQuery.Field> fields) {
+    private List<N2oQuery.Field> initDefaultExpression(List<N2oQuery.Field> fields) {
         for (N2oQuery.Field field : fields) {
             if (field.getExpression() == null) {
                 field.setExpression(field.getId());
-            }
-            if (!field.getNoDisplay() && field.getSelectBody() == null) {
-                field.setSelectBody(colon("expression"));
-            }
-            if (!field.getNoSorting() && field.getSortingBody() == null) {
-                field.setSortingBody(colon("expression") + " " + colon(field.getId() + "Direction"));
-            }
-            for (N2oQuery.Filter filter : field.getFilterList()) {
-                if (filter.getText() == null)
-                    filter.setText(colon("expression") + " " + colon(filter.getType().name()) + " " + colon(filter.getFilterField()));
             }
         }
         return fields;
