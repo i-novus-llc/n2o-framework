@@ -178,7 +178,7 @@ class AdvancedTable extends Component {
           );
           this.props.onResolve(data[newFocusIndex]);
         } else {
-          this.setNewFocusIndex(newFocusIndex);
+          this.setNewFocusIndex(get(data, `[${newFocusIndex}].id`));
         }
       }
     } else if (keyNm === ' ' && hasSelect && !autoFocus) {
@@ -462,7 +462,8 @@ AdvancedTable.propTypes = {
   rowSelection: PropTypes.bool,
   expandable: PropTypes.bool,
   expandedFieldId: PropTypes.string,
-  expandedComponent: PropTypes.any
+  expandedComponent: PropTypes.any,
+  autoFocus: PropTypes.bool
 };
 
 AdvancedTable.defaultProps = {
@@ -474,7 +475,8 @@ AdvancedTable.defaultProps = {
   expandable: false,
   scroll: { x: '100%' },
   onFocus: () => {},
-  onSetSelection: () => {}
+  onSetSelection: () => {},
+  autoFocus: false
 };
 
 export default AdvancedTable;

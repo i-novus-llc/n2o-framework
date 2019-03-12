@@ -34,6 +34,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;
     private Boolean refreshAfterSubmit;
+    private String refreshWidgetId;
     //on resolve
     private String labelFieldId;
     private String targetFieldId;

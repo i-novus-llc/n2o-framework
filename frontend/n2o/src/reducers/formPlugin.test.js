@@ -30,7 +30,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: true,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           dependency: null,
@@ -56,7 +56,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           dependency: null,
@@ -82,7 +82,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           dependency: null,
@@ -108,7 +108,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: false,
           dependency: null,
@@ -135,7 +135,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: {
             0: 'message'
           },
@@ -164,7 +164,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           dependency: null,
@@ -194,7 +194,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: true,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: false,
           dependency: null,
@@ -221,7 +221,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           required: false,
@@ -253,7 +253,7 @@ describe('Тесты formPlugin reducer', () => {
           dependency: null,
           required: false,
           disabled: false,
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           filter: [
@@ -282,7 +282,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           dependency: null,
@@ -308,7 +308,7 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: true,
+          isInit: false,
           message: null,
           visible: true,
           dependency: null,

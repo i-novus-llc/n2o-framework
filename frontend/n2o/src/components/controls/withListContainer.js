@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy, throttle } from 'lodash';
+import { pickBy, throttle, debounce } from 'lodash';
 import { connect } from 'react-redux';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 
@@ -38,14 +38,12 @@ function withListContainer(WrappedComponent) {
     labelFieldId,
     ...rest
   }) => {
-    let timer = '';
-
     /**
      * Совершает вызов апи с параметрами
      * @param optionalParams {object} - дополнительные параметра запроса
      * @param concat {boolean} - флаг добавления новых данных к текущим
      */
-    const callApiWithParams = async (optionalParams = {}, concat = false) => {
+    const callApiWithParams = (optionalParams = {}, concat = false) => {
       const params = {
         size,
         page,
@@ -60,8 +58,8 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleOpen = async () => {
-      await callApiWithParams({ page: 1 });
+    const handleOpen = () => {
+      callApiWithParams({ page: 1 });
       onOpen && onOpen();
     };
 
@@ -72,18 +70,14 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleSearch = (value, delay = 400) => {
+    const handleSearch = debounce(value => {
       const quickSearchParam = (dataProvider && dataProvider.quickSearchParam) || 'search';
-      if (timer) clearTimeout(timer);
 
-      timer = setTimeout(async () => {
-        await callApiWithParams({ [quickSearchParam]: value, page: 1 });
-        timer = null;
-      }, delay);
-    };
+      callApiWithParams({ [quickSearchParam]: value, page: 1 });
+    }, 300);
 
-    const handleItemOpen = async value => {
-      await callApiWithParams({ 'filter.parent_id': value }, true);
+    const handleItemOpen = value => {
+      callApiWithParams({ 'filter.parent_id': value }, true);
     };
 
     /**
