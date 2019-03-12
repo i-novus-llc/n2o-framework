@@ -1,25 +1,51 @@
 .n2o-rc-tree-wrapper{
+
+  & .n2o-rc-tree{
+    margin: 0;
+    padding: 0;
+  }
+
   .expand-btn{
     padding-bottom: 10px;
   }
   .tree-filter{
      display: block;
       position: relative;
-     cursor: pointer;
+      cursor: pointer;
       padding-bottom: 10px;
+
      .tree-filter-clear{
-       display: inline;
+       display: inline-block;
        position: absolute;
        cursor: pointer;
        right: 10px;
        top: 5px;
+
+       & i{
+
+         font-size: 12px;
+         border-radius: 50%;
+
+         &:hover{
+            background: $n2o-tree-hover-color;
+          }
+       }
      }
    }
   .search-text{
     color: $search-text-color;
   }
-}
 
+  .collapse {
+    overflow: hidden;
+    display: block;
+  }
+
+  .collapse-active {
+    transition: height 0.3s ease-out;
+  }
+
+}
 
 
 
@@ -68,17 +94,9 @@
   margin: 0;
   padding: 0 0 0 18px;
 }
-.n2o-rc-tree li .n2o-rc-tree-node-content-wrapper {
-  display: inline-block;
-  padding: 1px 3px 0 0;
-  margin: 0;
-  cursor: pointer;
-  text-decoration: none;
-  vertical-align: top;
-}
 
 .n2o-rc-tree li span.n2o-rc-tree-switcher.n2o-rc-tree-switcher-noop {
-  cursor: auto;
+  cursor: pointer;
 }
 
 //////////////////////////////////////////////////////////////
@@ -93,6 +111,7 @@
 
 .n2o-rc-tree-switcher {
   display: inline-block;
+  cursor: pointer;
   vertical-align: top;
   & i {
     font-size: 12px;
@@ -111,7 +130,7 @@
 
     transition: transform $tree-animation-speed linear;
   }
-  &.n2o-rc-tree-switcher-noop > i{
+  &.n2o-rc-tree-switcher-noop > i {
     opacity: 0;
   }
 

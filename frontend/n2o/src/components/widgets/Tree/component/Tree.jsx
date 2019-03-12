@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import TreeBase from 'rc-tree';
 import { pick, isEqual, map, eq, difference, filter, isArray, isFunction } from 'lodash';
 import { HotKeys } from 'react-hotkeys';
@@ -7,7 +7,13 @@ import { BaseNode } from '../TreeNodes';
 import Filter from './Filter';
 import ExpandBtn from './ExpandBtn';
 //fns
-import { createTreeFn, takeKeysWhenSearching, keyDownAction, FILTER_MODE } from '../until';
+import {
+  createTreeFn,
+  takeKeysWhenSearching,
+  keyDownAction,
+  FILTER_MODE,
+  animationTree
+} from '../until';
 import { propTypes, defaultProps, TREE_NODE_PROPS, TREE_PROPS } from './treeProps';
 import Icon from '../../../snippets/Icon/Icon';
 import CheckboxN2O from '../../../controls/Checkbox/CheckboxN2O';
@@ -179,6 +185,8 @@ class Tree extends Component {
     }
   }
 
+  animation;
+
   render() {
     const nodeProps = pick(this.props, TREE_NODE_PROPS);
     const treeOtherProps = pick(this.props, TREE_PROPS);
@@ -207,6 +215,7 @@ class Tree extends Component {
           handlers={{ events: this.onKeyDown }}
         >
           <TreeBase
+            openAnimation={animationTree}
             ref={this.treeRef}
             treeData={this.createTree({ datasource, ...nodeProps, searchKeys, searchValue })}
             expandedKeys={expandedKeys}
