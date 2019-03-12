@@ -1,5 +1,5 @@
-import Table from "./Table/Table";
+import TableWidget from "./Table/Table";
 
 export default {
-  Table
+  TableWidget
 };

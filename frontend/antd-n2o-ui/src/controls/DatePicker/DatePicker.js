@@ -18,6 +18,7 @@ export default compose(
   }),
   withProps(props => {
     return {
+      showTime: { format: props.timeFormat },
       value:
         props.value &&
         moment(props.value, `${props.dateFormat} ${props.timeFormat}`),
@@ -28,7 +29,7 @@ export default compose(
     onChange: ({ data, valueFieldId, onChange, outputFormat }) => value => {
       onChange(value.format(outputFormat));
     },
-    onBlur: props => value => {
+    onBlur: props => () => {
       props.onBlur();
     }
   })
