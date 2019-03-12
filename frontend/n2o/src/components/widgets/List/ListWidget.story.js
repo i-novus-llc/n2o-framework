@@ -46,6 +46,34 @@ stories
 
     return <List data={data} />;
   })
+  .add('Компонент без разделителя строк', () => {
+    const data = [
+      {
+        image: {
+          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
+        },
+        header: "It's a cat",
+        subHeader: 'The cat is stupid',
+        body: 'Some words about cats',
+        rightTop: 'What do you know about cats?',
+        rightBottom: "But cats aren't only stupid they're still so sweet",
+        extra: 'Extra?!'
+      },
+      {
+        image: {
+          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
+        },
+        header: "It's a cat",
+        subHeader: 'The cat is stupid',
+        body: 'Some words about cats',
+        rightTop: 'What do you know about cats?',
+        rightBottom: "But cats aren't only stupid they're still so sweet",
+        extra: 'Extra?!'
+      }
+    ];
+
+    return <List data={data} divider={false} />;
+  })
   .add('Метаданные с cells', () => {
     let data = [];
     for (let i = 0; i < 3; i++) {
@@ -114,7 +142,6 @@ stories
   .add('Кнопка "Еще"', () => {
     fetchMock.restore().get(urlPattern, url =>
       delay(1000).then(() => ({
-        ...getStubData(url),
         list: [
           {
             image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
@@ -174,4 +201,28 @@ stories
       'fetchOnScroll'
     ]);
     return <Factory level={WIDGETS} maxHeight={290} {...props} fetchOnScroll={true} id="List" />;
+  })
+  .add('Компонент с paging', () => {
+    let data = [];
+    for (let i = 0; i < 5; i++) {
+      data.push({
+        image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        header: "It's a cat",
+        subHeader: 'The cat is stupid',
+        body: 'Some words about cats',
+        rightTop: 'What do you know about cats?',
+        rightBottom: "But cats aren't only stupid they're still so sweet",
+        extra: 'Extra?!'
+      });
+    }
+    fetchMock.restore().get(urlPattern, url =>
+      delay(1000).then(() => {
+        return {
+          ...getStubData(url),
+          list: data
+        };
+      })
+    );
+    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider', 'paging']);
+    return <Factory level={WIDGETS} {...props} showPagination={true} id="List" />;
   });

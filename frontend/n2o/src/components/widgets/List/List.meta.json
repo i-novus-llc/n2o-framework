@@ -20,28 +20,10 @@
               "icon": "fa fa-filter"
             },
             {
-              "id": "menuItem1",
-              "icon": "fa fa-table",
-              "hint": "Изменить видимость колонок",
-              "dropdownSrc": "ToggleColumn"
-            },
-            {
               "id": "menuItem2",
               "hint": "Обновить данные",
               "icon": "fa fa-refresh",
               "actionId": "menuItem2"
-            },
-            {
-              "id": "menuItem3",
-              "icon": "fa fa-bars",
-              "hint": "Изменить размер",
-              "dropdownSrc": "ChangeSize"
-            },
-            {
-              "id": "menuItem4",
-              "hint": "Экспортировать данные",
-              "icon": "fa fa-download",
-              "actionId": "exportModal"
             }
           ]
         }
@@ -127,43 +109,12 @@
       "prev": true,
       "next": true
     },
-    "filter": {
-      "filterPlace": "top",
-      "filterFieldsets": [
-        {
-          "src": "StandardFieldset",
-          "rows": [
-            {
-              "cols": [
-                {
-                  "fields": [
-                    {
-                      "id": "testId",
-                      "src": "StandardField",
-                      "dependency": [],
-                      "control": {
-                        "id": "testId",
-                        "src": "FilterButtonsField",
-                        "searchLabel": "searchLabel",
-                        "resetLabel": "resetLabel"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "filterButtonId": "filter",
-      "blackResetList": [],
-      "validation": {},
-      "hideButtons": true
-    },
     "hasMoreButton": true,
     "fetchOnScroll": false,
     "maxHeight": null,
     "maxWidth": null,
+    "showPagination": false,
+    "divider": true,
     "list": {
       "image": {
         "src": "ImageCell",
@@ -172,7 +123,7 @@
         "title": "It's a cat!"
       },
       "header": {
-        "src": "BadgeCell",
+        "src": "TextCell",
         "id": "header"
       },
       "body": {
@@ -181,15 +132,14 @@
         "visible": true
       },
       "subHeader": {
-        "src": "TextCell",
-        "id": "subHeader",
-        "className": "list-subheader",
-        "visible": true
+        "src": "BadgeCell",
+        "id": "subHeader"
       },
       "rightTop": {
-        "src": "TextCell",
+        "src": "IconCell",
         "id": "rightTop",
-        "visible": true
+        "visible": true,
+        "icon": "fa fa-question"
       },
       "rightBottom": {
         "src": "TextCell",
@@ -197,9 +147,43 @@
         "visible": true
       },
       "extra": {
-        "src": "TextCell",
         "id": "extra",
-        "visible": true
+        "src": "ButtonsCell",
+        "fieldKey": "name",
+        "className" : "n2o",
+        "style" : {},
+        "buttons": [
+          {
+            "id": "1",
+            "title": "",
+            "icon": "fa fa-plus",
+            "hint": "Make a cat clever",
+            "size": "md",
+            "visible": true,
+            "disabled": false,
+            "action": {
+              "src": "dummyImpl",
+              "options": {
+                "testProp": "testValueProp"
+              }
+            }
+          },
+          {
+            "id": "2",
+            "title": "",
+            "icon": "fa fa-trash",
+            "hint": "Delete",
+            "size": "md",
+            "visible": true,
+            "disabled": false,
+            "action": {
+              "src": "dummyImpl",
+              "options": {
+                "testProp": "testValueProp"
+              }
+            }
+          }
+        ]
       }
     }
   }

@@ -23,7 +23,24 @@ import { PREFIXES } from '../../../constants/models';
  */
 class TablePagination extends Component {
   render() {
-    const { count, size, activePage, onChangePage, datasource } = this.props;
+    const {
+      count,
+      size,
+      activePage,
+      onChangePage,
+      datasource,
+      prev,
+      next,
+      first,
+      last,
+      lazy,
+      showCountRecords,
+      hideSinglePage,
+      maxButtons,
+      withoutBody,
+      prevText,
+      nextText
+    } = this.props;
 
     if (isEmpty(datasource) && count > 0 && activePage > 1) {
       onChangePage(Math.ceil(count / size));
@@ -35,8 +52,18 @@ class TablePagination extends Component {
         activePage={activePage}
         count={count}
         size={size}
-        maxButtons={4}
+        maxButtons={maxButtons}
         stepIncrement={10}
+        prev={prev}
+        prevText={prevText}
+        next={next}
+        nextText={nextText}
+        first={first}
+        last={last}
+        lazy={lazy}
+        showCountRecords={showCountRecords}
+        hideSinglePage={hideSinglePage}
+        withoutBody={withoutBody}
       />
     );
   }
@@ -48,11 +75,13 @@ TablePagination.propTypes = {
   size: PropTypes.number,
   activePage: PropTypes.number,
   onChangePage: PropTypes.func,
-  datasource: PropTypes.array
+  datasource: PropTypes.array,
+  maxButtons: PropTypes.number
 };
 
 TablePagination.defaultProps = {
-  datasource: []
+  datasource: [],
+  maxButtons: 4
 };
 
 const mapStateToProps = createStructuredSelector({

@@ -1,5 +1,6 @@
 .n2o-widget-list {
   padding: 1rem 0;
+  margin-bottom: 1rem;
   overflow: auto;
 
   &-more-button {
@@ -24,7 +25,13 @@
 
     padding: 0.5rem;
 
-    border-bottom: 1px solid #cfd8dc;
+    &--divider {
+      border-bottom: 1px solid #cfd8dc;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
 
     &--active {
       background-color: rgba(0, 0, 0, 0.075);
@@ -40,10 +47,6 @@
       margin-bottom: 0;
     }
 
-    &:last-child {
-      border-bottom: none;
-    }
-
     &-image {
       width: 100px;
 
@@ -57,31 +60,23 @@
     &-main-container {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: baseline;
 
       padding: 0 0.5rem;
-      text-align: center;
 
-      & .n2o-widget-list-cell {
-        display: flex;
-        justify-content: center;
+      & .n2o-widget-list-item-header + .n2o-widget-list-item-subheader {
+        margin-left: 0.5rem;
       }
     }
 
     &-right-container {
+      margin-left: auto;
       padding: 0 0.5rem;
+      text-align: right;
     }
 
     &-extra-container {
       padding: 0 0.5rem;
-    }
-
-    &-header {
-      width: 50%;
-    }
-
-    &-subheader {
-      width: 50%;
     }
 
     &-body {

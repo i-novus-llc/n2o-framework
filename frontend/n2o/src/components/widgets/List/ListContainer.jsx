@@ -100,7 +100,7 @@ class ListContainer extends React.Component {
   }
 
   getWidgetProps() {
-    const { hasMoreButton, rowClick, maxHeight, fetchOnScroll } = this.props;
+    const { hasMoreButton, rowClick, maxHeight, fetchOnScroll, divider } = this.props;
     return {
       onFetchMore: this.handleFetchMore,
       onItemClick: this.handleItemClick,
@@ -108,7 +108,8 @@ class ListContainer extends React.Component {
       rowClick,
       hasMoreButton,
       maxHeight,
-      fetchOnScroll
+      fetchOnScroll,
+      divider
     };
   }
   render() {
@@ -158,9 +159,7 @@ export default compose(
     {
       mapProps: props => {
         return {
-          ...props,
-          onActionImpl: props.onActionImpl,
-          rowClick: props.rowClick
+          ...props
         };
       }
     },

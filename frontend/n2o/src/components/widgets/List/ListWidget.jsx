@@ -25,6 +25,10 @@ import Pagination from '../Table/TablePagination';
  * @param {boolean} hasMoreButton - флаг включения загрузки по нажатию на кнопку
  * @param {number} maxHeight - максимальная высота виджета
  * @param {boolean} fetchOnScroll - запрос при скролле
+ * @param {boolean} showPagination - флаг включения пагинации
+ * @param {string} prevText - текст previous кнопки пагинации
+ * @param {string} nextText - текст next кнопки пагинации
+ * @param {boolean} divider - флаг разделителя между строками
  * @param {object} context - контекст
  * @returns {*}
  * @constructor
@@ -46,7 +50,11 @@ function ListWidget(
     rowClick,
     hasMoreButton,
     maxHeight,
-    fetchOnScroll
+    fetchOnScroll,
+    showPagination,
+    prevText,
+    nextText,
+    divider
   },
   context
 ) {
@@ -65,7 +73,19 @@ function ListWidget(
       toolbar={toolbar}
       actions={actions}
       filter={prepareFilters()}
-      bottomLeft={paging && <Pagination widgetId={widgetId} />}
+      bottomLeft={
+        showPagination &&
+        paging && (
+          <Pagination
+            prev={true}
+            next={true}
+            widgetId={widgetId}
+            withoutBody={true}
+            prevText={prevText}
+            nextText={nextText}
+          />
+        )
+      }
     >
       <ListContainer
         page={1}
@@ -81,6 +101,7 @@ function ListWidget(
         rowClick={rowClick}
         fetchOnScroll={fetchOnScroll}
         deferredSpinnerStart={0}
+        divider={divider}
       />
     </StandardWidget>
   );
@@ -101,7 +122,10 @@ ListWidget.propTypes = {
   fetchOnScroll: PropTypes.bool,
   rowClick: PropTypes.func,
   hasMoreButton: PropTypes.bool,
-  maxHeight: PropTypes.number
+  maxHeight: PropTypes.number,
+  showPagination: PropTypes.bool,
+  prevText: PropTypes.string,
+  nextText: PropTypes.string
 };
 ListWidget.defaultProps = {
   rowClick: null,
@@ -113,7 +137,10 @@ ListWidget.defaultProps = {
   style: {},
   filter: {},
   list: {},
-  fetchOnScroll: false
+  fetchOnScroll: false,
+  showPagination: false,
+  prevText: 'Назад',
+  nextText: 'Вперед'
 };
 ListWidget.contextTypes = {
   resolveProps: PropTypes.func

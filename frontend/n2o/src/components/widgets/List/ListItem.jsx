@@ -25,7 +25,8 @@ function ListItem({
   rightBottom,
   extra,
   selected,
-  onClick
+  onClick,
+  divider
 }) {
   const renderImage = image => {
     return React.isValidElement(image) ? (
@@ -39,7 +40,8 @@ function ListItem({
     <div
       onClick={onClick}
       className={cn('n2o-widget-list-item', {
-        'n2o-widget-list-item--active': selected
+        'n2o-widget-list-item--active': selected,
+        'n2o-widget-list-item--divider': divider
       })}
     >
       <div className="n2o-widget-list-item-image-container">

@@ -65,7 +65,7 @@ class List extends Component {
   }
 
   render() {
-    const { className, data, hasMoreButton, maxHeight, fetchOnScroll } = this.props;
+    const { className, data, hasMoreButton, maxHeight, fetchOnScroll, divider } = this.props;
     return (
       <div
         ref={this.setListContainerRef}
@@ -78,6 +78,7 @@ class List extends Component {
           {map(data, (item, index) => (
             <ListItem
               {...item}
+              divider={divider}
               selected={this.state.selectedIndex === index}
               onClick={() => this.onItemClick(index)}
             />
@@ -98,7 +99,8 @@ List.propTypes = {
   hasMoreButton: PropTypes.bool,
   onFetchMore: PropTypes.func,
   maxHeight: PropTypes.number,
-  fetchOnScroll: PropTypes.bool
+  fetchOnScroll: PropTypes.bool,
+  divider: PropTypes.bool
 };
 List.defaultProps = {
   onItemClick: () => {},
@@ -107,7 +109,8 @@ List.defaultProps = {
   data: [],
   rowClick: false,
   hasMoreButton: false,
-  fetchOnScroll: false
+  fetchOnScroll: false,
+  divider: true
 };
 
 export default List;
