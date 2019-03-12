@@ -29,7 +29,7 @@ describe('Проверка хока withRegisterDependency', function() {
     expect(store.getState().form).toEqual({});
     const wrapper = setup(store);
     expect(store.getState().form.testForm.registeredFields.test).toEqual({
-      isInit: true,
+      isInit: false,
       visible: true,
       disabled: false,
       message: null,

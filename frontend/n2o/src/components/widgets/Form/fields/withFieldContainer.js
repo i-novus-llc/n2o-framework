@@ -161,14 +161,16 @@ export default Field => {
       mapDispatchToProps
     ),
     withProps(props => ({
-      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
-      ref: props.setReRenderRef
+      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled
     })),
     defaultProps({
       isInit: false,
       visible: true,
       disabled: false
     }),
+    withProps(props => ({
+      ref: props.setReRenderRef
+    })),
     pure
   )(FieldContainer);
 };

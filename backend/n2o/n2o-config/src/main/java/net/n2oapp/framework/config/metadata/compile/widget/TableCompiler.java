@@ -99,7 +99,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 component.setRowClick(action);
             } else if (rowClick.getAction() != null) {
                 Action action = p.compile(rowClick.getAction(), context, widgetScope,
-                        widgetRouteScope, new ComponentScope(source));
+                        widgetRouteScope, new ComponentScope(rowClick));
                 component.setRowClick(action);
             }
         }
