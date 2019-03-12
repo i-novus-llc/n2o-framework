@@ -1,5 +1,9 @@
 .n2o-advanced-table {
 
+  & .row-click{
+    cursor: pointer;
+  }
+
   & .n2o-calendar-table {
     & td {
       padding: 0;
@@ -10,7 +14,7 @@
       background-color: transparent;
     }
   }
-  
+
   &-content {
     position: relative;
   }
