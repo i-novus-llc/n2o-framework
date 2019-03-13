@@ -45,7 +45,7 @@ class Tree extends Component {
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onCheck = this.onCheck.bind(this);
     this.onSelect = this.onSelect.bind(this);
-    this.prepareDataToResolve = this.prepareDataToResolve.bind(this);
+    this.prepareDataAndResolve = this.prepareDataAndResolve.bind(this);
     this.createSelectedKeys = this.createSelectedKeys.bind(this);
     this.selectedObjToTreeKeys = this.selectedObjToTreeKeys.bind(this);
   }
@@ -104,23 +104,28 @@ class Tree extends Component {
     return <CheckboxN2O inline />;
   }
 
-  prepareDataToResolve(keys) {
-    const { onResolve, datasource, valueFieldId, multiselect } = this.props;
+  prepareDataAndResolve(keys) {
+    const {
+      onResolve,
+      datasource,
+      valueFieldId,
+      multiselect,
+      rowClick,
+      onRowClickAction
+    } = this.props;
     const value = filter(datasource, data => keys.includes(data[valueFieldId]));
     if (multiselect) {
       onResolve(value);
     } else {
       onResolve(value ? value[0] : null);
     }
+
+    if (rowClick) onRowClickAction();
   }
 
   onSelect(keys, { nativeEvent }) {
-    const { multiselect, hasCheckboxes, rowClick, onRowClickAction } = this.props;
+    const { multiselect, hasCheckboxes } = this.props;
     const { selectedKeys } = this.state;
-
-    if (rowClick) {
-      onRowClickAction();
-    }
 
     if (multiselect && hasCheckboxes) {
       return false;
@@ -140,11 +145,11 @@ class Tree extends Component {
       selectedKeysForResolve = keys;
     }
 
-    this.prepareDataToResolve(selectedKeysForResolve);
+    this.prepareDataAndResolve(selectedKeysForResolve);
   }
 
   onCheck(keys) {
-    this.prepareDataToResolve(keys);
+    this.prepareDataAndResolve(keys);
   }
 
   onKeyDown(_, key) {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { has, uniqueId } from 'lodash';
 import { Badge } from 'reactstrap';
-import Icon from '../../../../snippets/Icon/Icon';
 //components
 
 //fns
@@ -19,8 +18,6 @@ function BaseNode({
   searchKeys,
   data
 }) {
-  console.log(searchValue, searchKeys, searchKeys.includes(data[valueFieldId]));
-
   return (
     <span
       data-id={data[valueFieldId]}
@@ -28,7 +25,6 @@ function BaseNode({
       tabIndex="-1"
     >
       {[
-        has(data, iconFieldId) && <Icon key={uniqueId('tree_icon_')} name={data[iconFieldId]} />,
         has(data, imageFieldId) && (
           <div className={`${prefixCls}-image-tree-wrapper`}>
             <img alt="not found" key={uniqueId('tree_img_')} src={data[imageFieldId]} />

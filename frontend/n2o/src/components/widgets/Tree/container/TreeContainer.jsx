@@ -19,12 +19,12 @@ export const withWidgetContainer = widgetContainer(
         autoFocus: props.autoFocus,
         datasource: props.datasource,
         resolveModel: props.resolveModel,
-        onResolve: debounce(newModel => {
+        onResolve: newModel => {
           props.onResolve(newModel);
           if (props.selectedId != newModel.id) {
             props.dispatch(setTableSelectedId(props.widgetId, newModel.id));
           }
-        }, 100),
+        },
         onFocus: props.onFocus,
         size: props.size,
         actions: props.actions,

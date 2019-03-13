@@ -1,8 +1,10 @@
 import React from 'react';
-import { forEach, keys, map, filter, eq, omit, isFunction, get } from 'lodash';
+import { forEach, keys, map, filter, eq, omit, isFunction, get, has, uniqueId } from 'lodash';
 import { KEY_CODES } from './component/constants';
 import { findDOMNode } from 'react-dom';
 import cssAnimation from 'css-animation';
+
+import Icon from '../../snippets/Icon/Icon';
 
 /**
  * Создаем коллекцию из дерева tree -> [{ id: ..., parentId: ... }, ...]
@@ -32,11 +34,15 @@ export const collectionToComponentObject = (Component, props) => {
   let buf = {};
   const valueFieldId = get(props, 'valueFieldId');
   const datasource = get(props, 'datasource');
+  const iconFieldId = get(props, 'iconFieldId');
 
   if (valueFieldId && datasource) {
     datasource.forEach(data => {
       buf[data[valueFieldId]] = {
         ...data,
+        icon: has(data, iconFieldId) && (
+          <Icon key={uniqueId('tree_icon_')} name={data[iconFieldId]} />
+        ),
         key: data[valueFieldId],
         title: React.createElement(Component, { data, ...props }),
         children: []

@@ -1,4 +1,19 @@
 .n2o-rc-tree-wrapper{
+  & .n2o-rc-tree-label{
+    padding: 0 5px;
+  }
+
+  & .n2o-rc-tree-image-tree-wrapper {
+    display: inline-block;
+    padding: 0 5px;
+
+    & > img{
+      width: 24px;
+    }
+
+
+
+  }
 
   & .n2o-rc-tree{
     margin: 0;

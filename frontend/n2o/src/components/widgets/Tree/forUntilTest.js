@@ -5,6 +5,7 @@ export const Component = () => null;
 export const toCollectionObject = {
   '1': {
     children: [],
+    icon: false,
     id: 1,
     key: 1,
     title: (
@@ -17,6 +18,7 @@ export const toCollectionObject = {
   },
   '2': {
     children: [],
+    icon: false,
     id: 2,
     key: 2,
     title: (
@@ -29,6 +31,7 @@ export const toCollectionObject = {
   },
   '3': {
     children: [],
+    icon: false,
     id: 3,
     key: 3,
     title: (
@@ -44,6 +47,7 @@ export const toCollectionObject = {
 export const linerTree = [
   {
     children: [],
+    icon: false,
     id: 1,
     key: 1,
     title: (
@@ -57,6 +61,7 @@ export const linerTree = [
   },
   {
     children: [],
+    icon: false,
     id: 2,
     key: 2,
     title: (
@@ -70,6 +75,7 @@ export const linerTree = [
   },
   {
     children: [],
+    icon: false,
     id: 3,
     key: 3,
     title: (
@@ -88,6 +94,7 @@ export const tree = [
     children: [
       {
         children: [],
+        icon: false,
         id: 2,
         key: 2,
         parent: 1,
@@ -102,6 +109,7 @@ export const tree = [
       },
       {
         children: [],
+        icon: false,
         id: 3,
         key: 3,
         parent: 1,
@@ -115,6 +123,7 @@ export const tree = [
         )
       }
     ],
+    icon: false,
     id: 1,
     key: 1,
     title: (
