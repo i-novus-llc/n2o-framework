@@ -43,14 +43,12 @@ export default Field => {
         registerFieldExtra,
         requiredToRegister
       } = props;
-      if (!isInit) {
-        registerFieldExtra(form, name, {
-          visible: visibleToRegister,
-          disabled: disabledToRegister,
-          dependency,
-          required: requiredToRegister
-        });
-      }
+      registerFieldExtra(form, name, {
+        visible: visibleToRegister,
+        disabled: disabledToRegister,
+        dependency,
+        required: requiredToRegister
+      });
     }
 
     /**
@@ -150,7 +148,6 @@ export default Field => {
 
   return compose(
     defaultProps({
-      isInit: true,
       visible: true,
       disabled: false
     }),
