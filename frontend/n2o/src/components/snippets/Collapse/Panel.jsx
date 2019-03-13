@@ -1,4 +1,5 @@
 import React from 'react';
+import { isString } from 'lodash';
 import PropTypes from 'prop-types';
 import { Panel as BasePanel } from 'rc-collapse';
 import cx from 'classnames';
@@ -16,7 +17,11 @@ import cx from 'classnames';
  */
 const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
   <BasePanel
-    header={<span className="n2o-panel-header-text">{header}</span>}
+    header={
+      <span title={isString(header) && header} className="n2o-panel-header-text">
+        {header}
+      </span>
+    }
     className={cx('n2o-collapse-panel', type, className)}
     headerClass={cx('n2o-panel-header', headerClass)}
     {...rest}
