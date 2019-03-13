@@ -143,8 +143,18 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setActionId(source.getActionId());
         }
         button.setClassName(source.getClassName());
-        if (p.cast(source.getDescription(), source.getLabel()) != null)
-            button.setHint(p.cast(source.getDescription(), source.getLabel()).trim());
+        if (source.getDescription() != null) {
+            button.setHint(source.getDescription().trim());
+            if (source.getTooltipPosition() != null) {
+                button.setHintPosition(source.getTooltipPosition());
+            } else {
+                button.setHintPosition(
+                        source instanceof N2oButton
+                                ? p.resolve(property("n2o.api.button.tooltip_position"), String.class)
+                                : p.resolve(property("n2o.api.menuitem.tooltip_position"), String.class)
+                );
+            }
+        }
         button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
         if (source.getModel() == null)

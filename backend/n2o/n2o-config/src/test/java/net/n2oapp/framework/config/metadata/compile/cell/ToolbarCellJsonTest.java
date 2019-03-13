@@ -30,7 +30,7 @@ public class ToolbarCellJsonTest extends JsonMetadataTestBase {
                 .exclude("id", "className", "style", "buttons[0].label", "buttons[0].action.options",
                         "buttons[0].size", "buttons[0].color",
                         "buttons[0].disabled", "buttons[0].actionId", "buttons[0].action.id",
-                        "buttons[0].confirm", "buttons[0].conditions", "buttons[0].title")
+                        "buttons[0].confirm", "buttons[0].conditions", "buttons[0].title", "buttons[0].hintPosition")
                 .assertEquals();
     }
 }

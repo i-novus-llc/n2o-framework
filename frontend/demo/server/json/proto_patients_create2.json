@@ -198,7 +198,6 @@
           {
             "id": "submit",
             "actionId": "submit",
-            "hint": "Сохранить",
             "conditions": {
               "enabled": [
                 {
@@ -215,7 +214,6 @@
           {
             "id": "close",
             "actionId": "close",
-            "hint": "Закрыть",
             "conditions": {},
             "title": "Закрыть"
           }
