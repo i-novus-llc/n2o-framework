@@ -208,6 +208,11 @@
   }
 }
 
+.n2o-rc-tree-content-wrapper{
+  padding: 0.1rem;
+  display: inline-block;
+}
+
 .n2o-rc-tree-content-wrapper:hover{
   background-color: $n2o-tree-hover-color;
 }
