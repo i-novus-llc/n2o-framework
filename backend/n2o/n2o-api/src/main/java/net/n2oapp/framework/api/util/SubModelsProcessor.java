@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Процессор для вычисления вложенных справочных значений свойств модели.
+ * Процессор для вычисления вложенных моделей
  */
 public interface SubModelsProcessor extends MetadataEnvironmentAware {
 

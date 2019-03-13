@@ -58,7 +58,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
                     item.setHref(mi.getRoute());
                 }
                 PageContext pageContext = new PageContext(mi.getPageId(), item.getHref());
-                p.addRoute(item.getHref(), pageContext);
+                p.addRoute(pageContext);
             }
             item.setType("link");
         } else {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty, isEqual } from 'lodash';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Pagination from '../../snippets/Pagination/Pagination';
@@ -8,7 +9,9 @@ import {
   makeWidgetSizeSelector,
   makeWidgetPageSelector
 } from '../../../selectors/widgets';
+import { makeGetModelByPrefixSelector } from '../../../selectors/models';
 import { dataRequestWidget, changePageWidget } from '../../../actions/widgets';
+import { PREFIXES } from '../../../constants/models';
 
 /**
  * Компонент табличной пейджинации. По `widgetId` автоматически определяет все свойства для `Paging`
@@ -19,6 +22,17 @@ import { dataRequestWidget, changePageWidget } from '../../../actions/widgets';
  * @reactProps {function} onChangePage
  */
 class TablePagination extends Component {
+  componentDidUpdate(prevProps) {
+    const { datasource, onChangePage, activePage, count, size } = this.props;
+    if (
+      datasource &&
+      !isEqual(prevProps.datasource, datasource) &&
+      (isEmpty(datasource) && count > 0 && activePage > 1)
+    ) {
+      onChangePage(Math.ceil(count / size));
+    }
+  }
+
   render() {
     const { count, size, activePage, onChangePage } = this.props;
 
@@ -40,15 +54,20 @@ TablePagination.propTypes = {
   count: PropTypes.number,
   size: PropTypes.number,
   activePage: PropTypes.number,
-  onChangePage: PropTypes.func
+  onChangePage: PropTypes.func,
+  datasource: PropTypes.array
 };
 
-TablePagination.defaultProps = {};
+TablePagination.defaultProps = {
+  datasource: []
+};
 
 const mapStateToProps = createStructuredSelector({
   count: (state, props) => makeWidgetCountSelector(props.widgetId)(state, props),
   size: (state, props) => makeWidgetSizeSelector(props.widgetId)(state, props),
-  activePage: (state, props) => makeWidgetPageSelector(props.widgetId)(state, props)
+  activePage: (state, props) => makeWidgetPageSelector(props.widgetId)(state, props),
+  datasource: (state, props) =>
+    makeGetModelByPrefixSelector(PREFIXES.datasource, props.widgetId)(state, props)
 });
 
 function mapDispatchToProps(dispatch, ownProps) {

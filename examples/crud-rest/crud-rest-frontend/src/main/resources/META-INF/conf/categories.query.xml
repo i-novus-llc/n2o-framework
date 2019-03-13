@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" name="categories">
-    <list>
+    <list result-mapping="[collection]">
         <rest>${n2o.backend.url}/products/categories/</rest>
     </list>
     <unique>

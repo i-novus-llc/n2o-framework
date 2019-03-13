@@ -477,6 +477,54 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 ----
 
 === <input-text>
+=== <input-money>
+Компонент ввода денежных единиц
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|suffix
+|Строка
+|Суффикс
+|
+
+|prefix
+|Строка
+|Префикс
+|
+
+|thousands-separator
+|Строка
+|Знак, отделяющий группу из трех разрядов
+|
+
+|decimal-separator
+|Строка
+|Знак, отделяющий дробную часть
+|
+
+|integer-limit
+|Число
+|Ограничение по количеству знаков целой части
+|
+
+|fraction-formatting
+|off, manual, auto
+|Форматирование дробной части
+|off
+
+|===
+
+Пример::
+[source,xml]
+----
+<input-money id="money" prefix="$" thousands-separator=" "
+    decimal-separator="," integer-limit="100" fraction-formatting="manual">
+</input-money>
+----
+
 === <output-text>
 === <masked-input>
 === <checkbox>
@@ -579,8 +627,54 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 
 
 === <select>
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|cleanable
+|true false
+|Опция очистки компонента
+|true
+
+|===
+Пример::
+[source,xml]
+----
+<select id="gender" label="Пол" query-id="genders" cleanable="false" />
+----
+
+
 === <input-select>
 === <select-tree>
+=== <input-select-tree>
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|checking-strategy
+|child, parent, all
+|Стратегия выбора данных из дерева
+|all
+
+|max-tag-count
+|Число
+|Максимальное количество элементов в поле
+|
+
+|===
+Пример::
+[source,xml]
+    <input-select-tree id="address" label="Адрес" checkboxes="true" checking-strategy="child">
+        <inheritance-nodes parent-field-id="parent_id" label-field-id="name" value-field-id="id"
+                           query-id="address" has-children-field-id="hasChildren"
+                           search-field-id="name">
+        </inheritance-nodes>
+    </input-select-tree>
+
 === <radio-group>
 === <checkbox-group>
 === <list>

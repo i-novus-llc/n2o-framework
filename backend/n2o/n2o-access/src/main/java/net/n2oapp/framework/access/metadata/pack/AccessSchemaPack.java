@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.metadata.pack;
 
 
+import net.n2oapp.framework.access.metadata.accesspoint.io.ObjectFiltersAccessPointIOv2;
 import net.n2oapp.framework.access.metadata.accesspoint.io.PageAccessPointIOv2;
 import net.n2oapp.framework.access.metadata.accesspoint.io.ObjectAccessPointIOv2;
 import net.n2oapp.framework.access.metadata.accesspoint.io.UrlAccessPointIOv2;
@@ -22,6 +23,7 @@ public class AccessSchemaPack implements MetadataPack<N2oApplicationBuilder> {
                 .ios(new PageAccessPointIOv2())
                 .ios(new ObjectAccessPointIOv2())
                 .ios(new UrlAccessPointIOv2())
+                .ios(new ObjectFiltersAccessPointIOv2())
                 .readers(new SimpleAccessSchemaReaderV1())
                 .persisters(new SimpleAccessSchemaPersister())
                 .compilers(new SimpleAccessSchemaCompiler())

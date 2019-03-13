@@ -22,7 +22,6 @@ public class HtmlWidgetXmlReaderV3 extends WidgetBaseXmlReaderV3<N2oWidget> {
         N2oHtmlWidget htmlWidget = new N2oHtmlWidget();
         htmlWidget.setName(getElementString(element, "name"));
         htmlWidget.setObjectId(getElementString(element, "object-id"));
-        htmlWidget.setProperties(PropertiesReaderV1.getInstance().read(element, namespace));
         htmlWidget.setUrl(getAttributeString(element, "url"));
         htmlWidget.setNamespaceUri(namespace.getURI());
         return htmlWidget;

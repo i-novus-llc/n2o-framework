@@ -29,8 +29,5 @@
             <wgt:table ref-id="ResourceGroupRelationships" detail-field-id="resourceGroupId" master-field-id="id"/>
         </container>
     </containers>
-    <properties>
-        <property key="prop1" value="val1"/>
-        <property key="prop2" value="val2"/>
-    </properties>
+
 </page>

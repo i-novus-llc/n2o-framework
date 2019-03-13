@@ -4,7 +4,6 @@ package net.n2oapp.framework.access.simple;
 import net.n2oapp.framework.api.user.UserContext;
 
 /**
- * @author V. Alexeev.
  * Интерфейс для проверки прав и ролей пользователя
  */
 public interface PermissionApi {

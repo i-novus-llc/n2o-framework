@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Компиляция простого региона
+ *
  * @Deprecated replaced by {@link CustomRegionCompiler}
  */
 @Deprecated
@@ -32,7 +33,7 @@ public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRe
         NoneRegion region = new NoneRegion();
         build(region, source, context, p);
         region.setPlace(source.getPlace());
-        region.setItems(initItems(source, context, p, Region.Item.class));
+        region.setItems(initItems(source, p, Region.Item.class));
         return region;
     }
 

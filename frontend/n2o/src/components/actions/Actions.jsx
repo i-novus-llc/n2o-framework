@@ -20,6 +20,7 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
+import DropdownCustomItem from '../snippets/DropdownCustomItem/DropdownCustomItem';
 
 /**
  * Компонент redux-обертка для тулбара
@@ -99,14 +100,14 @@ class Actions extends React.Component {
    * @param confirm
    */
   onClickHelper(button, confirm) {
-    const { actions, resolve, options, containerKey } = this.props;
+    const { actions, resolve, options } = this.props;
     this.onClick(
       button.actionId,
       button.id,
       confirm,
       actions,
       resolve,
-      containerKey,
+      button.validatedWidgetId,
       button.validate,
       options
     );
@@ -190,11 +191,20 @@ class Actions extends React.Component {
   /**
    * резолв экшена
    */
-  onClick(actionId, id, confirm, actions, resolve, containerKey, validate = true, options = {}) {
+  onClick(
+    actionId,
+    id,
+    confirm,
+    actions,
+    resolve,
+    validatedWidgetId,
+    validate = true,
+    options = {}
+  ) {
     if (confirm) {
       this.setState({ confirmVisibleId: id });
     } else {
-      resolve(actions[actionId].src, containerKey, {
+      resolve(actions[actionId].src, validatedWidgetId, {
         ...actions[actionId].options,
         actionId,
         buttonId: id,
@@ -210,15 +220,15 @@ class Actions extends React.Component {
    */
   renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
     const dropdownProps = { size, title, color, hint, icon, visible, disabled };
-
     return (
       <ButtonContainer
         id={id}
         component={DropdownMenu}
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
+        color={color}
       >
-        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
+        {subMenu.map(item => this.renderButton(DropdownCustomItem, item, id))}
       </ButtonContainer>
     );
   }
@@ -276,7 +286,7 @@ class Actions extends React.Component {
           const buttonGroup = (
             <ButtonGroup
               style={style}
-              className={cx({ 'mr-2': toolbar.lenght === i + 1 }, className)}
+              className={cx({ 'mr-2': toolbar.length === i + 1 }, className)}
             >
               {this.renderButtons(buttons)}
             </ButtonGroup>
@@ -313,8 +323,8 @@ Actions.propTypes = {
  */
 const mapDispatchToProps = dispatch => {
   return {
-    resolve: (actionSrc, containerKey, options) => {
-      dispatch(callActionImpl(actionSrc, { ...options, dispatch, containerKey }));
+    resolve: (actionSrc, validatedWidgetId, options) => {
+      dispatch(callActionImpl(actionSrc, { ...options, dispatch, validatedWidgetId }));
     }
   };
 };

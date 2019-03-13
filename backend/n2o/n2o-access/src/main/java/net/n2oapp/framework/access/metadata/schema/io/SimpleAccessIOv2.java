@@ -1,6 +1,12 @@
 package net.n2oapp.framework.access.metadata.schema.io;
 
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
+import net.n2oapp.framework.access.metadata.accesspoint.io.ObjectAccessPointIOv2;
+import net.n2oapp.framework.access.metadata.accesspoint.io.PageAccessPointIOv2;
+import net.n2oapp.framework.access.metadata.accesspoint.io.UrlAccessPointIOv2;
+import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoint;
+import net.n2oapp.framework.access.metadata.accesspoint.model.N2oPageAccessPoint;
+import net.n2oapp.framework.access.metadata.accesspoint.model.N2oUrlAccessPoint;
 import net.n2oapp.framework.access.metadata.schema.permission.N2oPermission;
 import net.n2oapp.framework.access.metadata.schema.role.N2oRole;
 import net.n2oapp.framework.access.metadata.schema.simple.N2oSimpleAccessSchema;
@@ -12,7 +18,7 @@ import org.jdom.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- * Имплементация IO для схемы доступа 'access' v2.0
+ * Реализация IO для схемы доступа 'access' v2.0
  * net/n2oapp/framework/config/schema/access-2.0.xsd
  */
 

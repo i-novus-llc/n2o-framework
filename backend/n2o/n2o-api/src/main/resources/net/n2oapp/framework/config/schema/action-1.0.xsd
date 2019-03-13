@@ -149,6 +149,11 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="master-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -170,6 +175,18 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string" use="optional"/>
+                <xs:attribute name="master-param" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции (по умолчанию widget-id у button, а если нет, текущий виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -259,10 +276,24 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="redirect-target" type="redirectTargetType" use="optional">
+                <xs:attribute name="redirect-target" type="redirectTargetType">
                     <xs:annotation>
                         <xs:documentation>Сценарий открытия ссылки сразу после успешного выполнения операции. По
                             умолчанию self.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции (по умолчанию widget-id у button, а если нет, текущий виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Необходимо ли обновлять виджет (по умолчанию true)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -541,6 +572,11 @@
         <xs:attribute name="ref-model" type="reduxModel" use="optional">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="param" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Параметр фильтра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

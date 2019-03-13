@@ -13,6 +13,7 @@
   "hasCheckboxes": false,
   "closePopupOnSelect": true,
   "format": "",
+  "cleanable": true,
   "searchByTap": true,
   "hasSearch": true,
   "dataProvider": {

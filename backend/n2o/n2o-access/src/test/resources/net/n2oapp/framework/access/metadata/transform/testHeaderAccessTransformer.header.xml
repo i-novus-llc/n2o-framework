@@ -1,8 +1,16 @@
 <header xmlns="http://n2oapp.net/framework/config/schema/header-2.0">
     <nav welcome-page-id="testHeaderAccessTransformer">
         <page page-id="testHeaderAccessTransformer" route="/main"/>
+        <sub-menu label="Test Sub Menu">
+            <page page-id="testHeaderAccessTransformer" route="/main"/>
+        </sub-menu>
+        <a label="#{username}" href="#"/>
     </nav>
     <extra-menu>
         <page page-id="testHeaderAccessTransformer" route="/main"/>
+        <sub-menu label="Test Sub Menu">
+            <page page-id="testHeaderAccessTransformer" route="/main"/>
+        </sub-menu>
+        <a label="#{username}" href="#"/>
     </extra-menu>
 </header>

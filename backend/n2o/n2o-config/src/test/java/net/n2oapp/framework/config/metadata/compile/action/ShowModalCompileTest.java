@@ -119,7 +119,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getModelLink(), is("models.edit['p_main_create_main']"));
         assertThat(submitPayload.getWidgetId(), is("p_main_create_main"));
         AsyncMetaSaga meta = submit.getOptions().getMeta();
-        assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+        assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_second"));
         assertThat(meta.getSuccess().getCloseLastModal(), is(true));
         assertThat(meta.getFail().getMessageWidgetId(), is("p_main_create_main"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));

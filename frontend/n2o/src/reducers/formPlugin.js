@@ -19,7 +19,7 @@ import {
 } from '../constants/formPlugin';
 
 const defaultState = {
-  isInit: true,
+  isInit: false,
   visible: true,
   disabled: false,
   message: null,

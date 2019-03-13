@@ -184,6 +184,11 @@
                 <xs:documentation>Стиль кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="color" type="colorDefinition" use="optional">
+            <xs:annotation>
+                <xs:documentation>Цвет кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="generate" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>

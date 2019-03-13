@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose } from 'recompose';
+import withVisibleDependency from '../withVisibleDependency';
 import { isEmpty, filter, map, pick, difference, pullAll, first } from 'lodash';
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
 import withGetWidget from '../withGetWidget';
@@ -12,6 +14,7 @@ import SecurityCheck from '../../../core/auth/SecurityCheck';
  * @reactProps {array} items - массив из объектов, которые описывают виджет{id, name, opened, pageId, fetchOnInit, widget}
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} getWidget - функция получения виджета
+ * @reactProps {function} resolveVisibleDependency - резол видимости листа
  */
 
 class ListRegion extends React.Component {
@@ -31,7 +34,7 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { items, getWidget, pageId } = this.props;
+    const { items, getWidget, pageId, resolveVisibleDependency } = this.props;
 
     this.activeKeys = map(filter(items, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
@@ -40,6 +43,9 @@ class ListRegion extends React.Component {
     return (
       <Collapse defaultActiveKey={this.activeKeys} onChange={this.handleChange} {...collapseProps}>
         {items.map(item => {
+          if (item.dependency && !resolveVisibleDependency(item.dependency)) {
+            return null;
+          }
           const listItem = (
             <Panel
               key={item.widgetId}
@@ -73,7 +79,11 @@ ListRegion.propTypes = {
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
   pageId: PropTypes.string.isRequired,
-  forceRender: PropTypes.bool
+  forceRender: PropTypes.bool,
+  resolveVisibleDependency: PropTypes.func
 };
 
-export default withGetWidget(ListRegion);
+export default compose(
+  withVisibleDependency,
+  withGetWidget
+)(ListRegion);

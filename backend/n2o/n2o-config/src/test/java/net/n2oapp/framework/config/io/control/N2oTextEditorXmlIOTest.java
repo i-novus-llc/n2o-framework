@@ -39,7 +39,7 @@ public class N2oTextEditorXmlIOTest extends N2oStandardControlReaderTestBase {
                     N2oTextEditor textEditor = (N2oTextEditor) fieldSet.getItems()[0];
                     assertStandardAttribute(textEditor);
                     assert textEditor.getHeight().equals("100px");
-                    assert textEditor.getConfigUrl().equals("test");
+                    assert textEditor.getToolbarUrl().equals("test");
                 });
     }
 }

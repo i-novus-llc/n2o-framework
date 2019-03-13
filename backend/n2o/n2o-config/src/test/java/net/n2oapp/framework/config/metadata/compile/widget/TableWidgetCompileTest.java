@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -76,6 +77,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getSuccessAlertWidgetId(), is("testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("testTable4Compile_filter"));
         assertThat(table.getComponent().getHasSelect(), is(true));
+        assertThat(table.getComponent().getFetchOnInit(), is(false));
     }
 
     @Test
@@ -210,9 +212,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getFilter().getHideButtons(), is(true));
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("sb"));
-        assertThat(field.getSrc(), is("FilterButtonsField"));
-        assertThat(((SearchButtons) field).getResetLabel(), is("resetLabel"));
-        assertThat(((SearchButtons) field).getSearchLabel(), is("searchLabel"));
+        assertThat(field.getSrc(), is("StandardField"));
+        assertThat(((StandardField)field).getControl(), instanceOf(SearchButtons.class));
+        assertThat(((StandardField)field).getControl().getSrc(), is("FilterButtonsField"));
+
+        assertThat(((StandardField<SearchButtons>) field).getControl().getResetLabel(), is("resetLabel"));
+        assertThat(((StandardField<SearchButtons>) field).getControl().getSearchLabel(), is("searchLabel"));
     }
 
     @Test

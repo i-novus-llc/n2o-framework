@@ -31,7 +31,8 @@ class DateInputGroup extends React.Component {
       onInputChange,
       setVisibility,
       onFocus,
-      onBlur
+      onBlur,
+      autoFocus
     } = this.props;
     const style = { display: 'flex', flexGrow: 1 };
     return (
@@ -49,6 +50,7 @@ class DateInputGroup extends React.Component {
               setVisibility={setVisibility}
               onFocus={onFocus}
               onBlur={onBlur}
+              autoFocus={autoFocus}
             />
           );
         })}
@@ -78,10 +80,12 @@ DateInput.propTypes = {
   onInputChange: PropTypes.func,
   setVisibility: PropTypes.func,
   onFocus: PropTypes.func,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  autoFocus: PropTypes.bool
 };
 
 DateInput.defaultProps = {
+  autoFocus: false,
   onFocus: () => {},
   onBlur: () => {}
 };

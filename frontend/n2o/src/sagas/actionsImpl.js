@@ -24,12 +24,12 @@ import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 export function* validate(options) {
   const isTouched = true;
   const state = yield select();
-  const validationConfig = yield select(makeWidgetValidationSelector(options.containerKey));
-  const values = (yield select(getFormValues(options.containerKey))) || {};
+  const validationConfig = yield select(makeWidgetValidationSelector(options.validatedWidgetId));
+  const values = (yield select(getFormValues(options.validatedWidgetId))) || {};
   const notValid =
     options.validate &&
     (yield call(
-      validateField(validationConfig, options.containerKey, state, isTouched),
+      validateField(validationConfig, options.validatedWidgetId, state, isTouched),
       values,
       options.dispatch
     ));

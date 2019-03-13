@@ -3,31 +3,97 @@ package net.n2oapp.framework.access.data;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.SecurityFilters;
+import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
-import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
+import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.user.UserContext;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
+/**
+ * Сервис для проверки наличия прав доступа у пользователя
+ */
 public class SecurityProvider {
-
     private PermissionApi permissionApi;
 
     public SecurityProvider(PermissionApi permissionApi) {
         this.permissionApi = permissionApi;
     }
 
-    public void checkAccess(PropertiesAware propertiesAware, UserContext userContext) {
-        Map<String, Object> properties = propertiesAware.getProperties();
-
-        if (properties == null || !properties.containsKey("security")
-                || ((Security) properties.get("security")).getSecurityMap() == null)
+    /**
+     * Проверка есть ли у пользователя из userContext доступ к объекту, права к которуму регулирует security
+     * @param security      права доступа для проверки
+     * @param userContext   информация о пользователе
+     */
+    public void checkAccess(Security security, UserContext userContext) {
+        if (security == null || security.getSecurityMap() == null)
             return;
-        for (Security.SecurityObject securityObject : ((Security) properties.get("security")).getSecurityMap().values()) {
+        for (Security.SecurityObject securityObject : security.getSecurityMap().values()) {
             check(userContext, securityObject);
         }
+    }
+
+    /**
+     * Сборка ограничений прав доступа актуальных для пользователя из userContext из общего списка фильтров
+     * @param securityFilters   фильтрация объекта
+     * @param userContext       информация о пользователе
+     * @return  список ограничений прав доступа к объекту
+     */
+    public List<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
+        if (securityFilters == null)
+            return null;
+        Set<N2oObjectFilter> filters = new HashSet<>();
+        Set<String> removeFilters = new HashSet<>();
+        if (securityFilters.getPermitAllFilters() != null) {
+            filters.addAll(securityFilters.getPermitAllFilters());
+        }
+        if (securityFilters.getRemovePermitAllFilters() != null) {
+            removeFilters.addAll(securityFilters.getRemovePermitAllFilters());
+        }
+        if (permissionApi.hasAuthentication(userContext)) {
+            if (securityFilters.getAuthenticatedFilters() != null) {
+                filters.addAll(securityFilters.getAuthenticatedFilters());
+            }
+            if (securityFilters.getRemoveAuthenticatedFilters() != null) {
+                removeFilters.addAll(securityFilters.getRemoveAuthenticatedFilters());
+            }
+        } else {
+            if (securityFilters.getAnonymousFilters() != null) {
+                filters.addAll(securityFilters.getAnonymousFilters());
+            }
+            if (securityFilters.getRemoveAnonymousFilters() != null) {
+                removeFilters.addAll(securityFilters.getRemoveAnonymousFilters());
+            }
+        }
+        if (securityFilters.getRoleFilters() != null) {
+            securityFilters.getRoleFilters().keySet().stream().filter(r -> permissionApi.hasRole(userContext, r))
+                    .forEach(r -> filters.addAll(securityFilters.getRoleFilters().get(r)));
+        }
+        if (securityFilters.getRemoveRoleFilters() != null) {
+            securityFilters.getRemoveRoleFilters().keySet().stream().filter(r -> permissionApi.hasRole(userContext, r))
+                    .forEach(r -> removeFilters.addAll(securityFilters.getRemoveRoleFilters().get(r)));
+        }
+        if (securityFilters.getPermissionFilters() != null) {
+            securityFilters.getPermissionFilters().keySet().stream().filter(p -> permissionApi.hasPermission(userContext, p))
+                    .forEach(p -> filters.addAll(securityFilters.getPermissionFilters().get(p)));
+        }
+        if (securityFilters.getRemovePermissionFilters() != null) {
+            securityFilters.getRemovePermissionFilters().keySet().stream().filter(p -> permissionApi.hasPermission(userContext, p))
+                    .forEach(p -> removeFilters.addAll(securityFilters.getRemovePermissionFilters().get(p)));
+        }
+        if (securityFilters.getUserFilters() != null) {
+            securityFilters.getUserFilters().keySet().stream().filter(u -> permissionApi.hasUsername(userContext, u))
+                    .forEach(u -> filters.addAll(securityFilters.getUserFilters().get(u)));
+        }
+        if (securityFilters.getRemoveUserFilters() != null) {
+            securityFilters.getRemoveUserFilters().keySet().stream().filter(u -> permissionApi.hasUsername(userContext, u))
+                    .forEach(u -> removeFilters.addAll(securityFilters.getRemoveUserFilters().get(u)));
+        }
+        filters.removeIf(f -> removeFilters.contains(f.getId()));
+        return filters.stream().map(f -> new Restriction(f.getFieldId(), f.getValue(), f.getType())).collect(Collectors.toList());
     }
 
     /**

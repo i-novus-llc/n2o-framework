@@ -24,7 +24,6 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
     public void io(Element e, N2oObject t, IOProcessor p) {
         p.element(e, "name", t::getName, t::setName);
         p.element(e, "parent", t::getParent, t::setParent);
-        p.childrenToMap(e, "properties", "property", "key", "value", t::getProperties, t::setProperties);
         p.element(e, "table-name", t::getTableName, t::setTableName);
         p.element(e, "entity-class", t::getEntityClass, t::setEntityClass);
         p.element(e, "app-name", t::getAppName, t::setAppName);

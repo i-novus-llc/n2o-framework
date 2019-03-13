@@ -69,7 +69,7 @@ class DateInput extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { onClick, disabled, placeholder, name } = this.props;
+    const { onClick, disabled, placeholder, name, autoFocus } = this.props;
     const inputStyle = { flexGrow: 1 };
     const dashStyle = { alignSelf: 'center' };
     return (
@@ -91,6 +91,7 @@ class DateInput extends React.Component {
           style={inputStyle}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
+          autoFocus={autoFocus}
         />
         {(name === DateTimeControl.defaultInputName || name === DateTimeControl.endInputName) && (
           <button
@@ -118,6 +119,7 @@ class DateInput extends React.Component {
 DateInput.defaultProps = {
   value: moment(),
   dateFormat: 'DD/MM/YYYY',
+  autoFocus: false,
   onFocus: () => {},
   onBlur: () => {}
 };
@@ -133,6 +135,7 @@ DateInput.propTypes = {
   inputOnClick: PropTypes.func,
   inputClassName: PropTypes.string,
   name: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  autoFocus: PropTypes.bool
 };
 export default DateInput;

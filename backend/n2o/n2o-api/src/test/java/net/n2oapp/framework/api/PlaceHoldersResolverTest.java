@@ -9,6 +9,8 @@ import org.junit.Test;
 import java.util.*;
 
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,6 +31,37 @@ public class PlaceHoldersResolverTest {
         Assert.assertEquals("bla {noname} bla", resolver.resolve("bla {noname} bla", data));
         Assert.assertEquals("bla Foo bla Bar bla", resolver.resolve("bla {name} bla {surname} bla", data));
         Assert.assertEquals("bla test bla test bla", resolver.resolve("bla {name} bla {surname} bla", p -> "test"));
+    }
+
+    @Test
+    public void resolve2() {
+        String prefix = "${";
+        String suffix = "}";
+        PlaceHoldersResolver resolver = new PlaceHoldersResolver(prefix, suffix);
+        DataSet data = new DataSet();
+        data.put("name", "Foo");
+        data.put("surname", "Bar");
+
+        assertThat(resolver.resolve("${name}", data), is("Foo"));
+        assertThat(resolver.resolve("a${name}b", data), is("aFoob"));
+        assertThat(resolver.resolve("${name} ${surname}", data), is("Foo Bar"));
+        assertThat(resolver.resolve("{name}", data), is("{name}"));
+        assertThat(resolver.resolve("a${name}b{surname}", data), is("aFoob{surname}"));
+    }
+
+    @Test
+    public void resolveWithoutEnd() {
+        String prefix = ":";
+        String suffix = "";
+        PlaceHoldersResolver resolver = new PlaceHoldersResolver(prefix, suffix);
+        DataSet data = new DataSet();
+        data.put("b", 1);
+        data.put("abc", 2);
+
+        assertThat(resolver.resolve(":b", data), is("1"));
+        assertThat(resolver.resolve(":a", data), is(":a"));
+        assertThat(resolver.resolve("/:abc", data), is("/2"));
+        assertThat(resolver.resolve("/a/:b/c", data), is("/a/1/c"));
     }
 
     @Test

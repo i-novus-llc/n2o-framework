@@ -11,7 +11,7 @@ import {
   requiredSelector
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import { compose, pure, defaultProps, withProps } from 'recompose';
+import { compose, pure, withProps, defaultProps } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 
 /**
@@ -34,17 +34,23 @@ export default Field => {
      */
     initIfNeeded(props) {
       const {
-        dispatch,
         meta: { form },
         input: { name },
         isInit,
         visible,
         disabled,
         dependency,
+        registerFieldExtra,
+        requiredToRegister,
         required
       } = props;
       if (!isInit) {
-        dispatch(registerFieldExtra(form, name, { visible, disabled, dependency, required }));
+        registerFieldExtra(form, name, {
+          visible,
+          disabled,
+          dependency,
+          required: isBoolean(requiredToRegister) ? requiredToRegister : required
+        });
       }
     }
 
@@ -142,8 +148,18 @@ export default Field => {
     };
   };
 
+  const mapDispatchToProps = {
+    registerFieldExtra
+  };
+
   return compose(
-    connect(mapStateToProps),
+    withProps(props => ({
+      requiredToRegister: props.required
+    })),
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    ),
     withProps(props => ({
       disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled
     })),
@@ -152,6 +168,9 @@ export default Field => {
       visible: true,
       disabled: false
     }),
+    withProps(props => ({
+      ref: props.setReRenderRef
+    })),
     pure
   )(FieldContainer);
 };

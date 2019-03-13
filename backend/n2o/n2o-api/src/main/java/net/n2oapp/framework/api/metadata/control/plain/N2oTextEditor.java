@@ -9,5 +9,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oTextEditor extends N2oText {
-    private String configUrl;
+    private String toolbarUrl;
 }

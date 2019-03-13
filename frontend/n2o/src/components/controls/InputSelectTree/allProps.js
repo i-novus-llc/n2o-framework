@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
 import { intlShape } from 'react-intl';
 
 export const defaultProps = {
@@ -24,14 +23,14 @@ export const defaultProps = {
   searchPlaceholder: '',
   transitionName: 'slide-up',
   choiceTransitionName: 'zoom',
-  showCheckedStrategy: SHOW_ALL,
+  showCheckedStrategy: 'all',
   allowClear: true,
   placeholder: '',
   showSearch: true,
   dropdownPopupAlign: {
     points: ['tl', 'bl'],
     overflow: {
-      adjustY: false
+      adjustY: true
     }
   },
   onSearch: () => {},
@@ -76,5 +75,6 @@ export const propTypes = {
   expandPopUp: PropTypes.bool,
   ajax: PropTypes.bool,
   handleItemOpen: PropTypes.func,
-  dropdownPopupAlign: PropTypes.object
+  dropdownPopupAlign: PropTypes.object,
+  showCheckedStrategy: PropTypes.string
 };

@@ -20,6 +20,7 @@ import panelStyles from './panelStyles';
  * @reactProps {boolean} hasTabs - флаг наличия табов
  * @reactProps {boolean} fullScreen - флаг возможности открывать на полный экран
  * @reactProps {node} children - элемент вставляемый в PanelContainer
+ * @reactProps {boolean} - флаг показа заголовка
  * @example <caption>Структура tabs</caption>
  * {
  *  id - id таба
@@ -111,7 +112,8 @@ class PanelContainer extends React.Component {
       footerTitle,
       collapsible,
       hasTabs,
-      fullScreen
+      fullScreen,
+      header
     } = this.props;
 
     const fullScreenIcon = this.state.isFullScreen ? 'compress' : 'expand';
@@ -124,45 +126,47 @@ class PanelContainer extends React.Component {
         isFullScreen={this.state.isFullScreen}
         onKeyPress={this.handleKeyPress}
       >
-        <Panel.Heading>
-          <Panel.Title collapsible={collapsible} icon={icon} onToggle={this.toggleCollapse}>
-            {headerTitle}
-          </Panel.Title>
-          <Panel.Menu
-            fullScreen={fullScreen}
-            onFullScreenClick={this.handleFullScreen}
-            fullScreenIcon={fullScreenIcon}
-          >
-            {hasTabs &&
-              tabs.map(tab => {
-                return (
+        {header && (
+          <Panel.Heading>
+            <Panel.Title collapsible={collapsible} icon={icon} onToggle={this.toggleCollapse}>
+              {headerTitle}
+            </Panel.Title>
+            <Panel.Menu
+              fullScreen={fullScreen}
+              onFullScreenClick={this.handleFullScreen}
+              fullScreenIcon={fullScreenIcon}
+            >
+              {hasTabs &&
+                tabs.map(tab => {
+                  return (
+                    <Panel.NavItem
+                      id={tab.id}
+                      active={this.state.activeTab === tab.id}
+                      disabled={tab.disabled}
+                      className={tab.className}
+                      style={tab.style}
+                      onClick={() => this.changeActiveTab(tab.id)}
+                    >
+                      {tab.header}
+                    </Panel.NavItem>
+                  );
+                })}
+              {toolbar &&
+                toolbar.map(item => (
                   <Panel.NavItem
-                    id={tab.id}
-                    active={this.state.activeTab === tab.id}
-                    disabled={tab.disabled}
-                    className={tab.className}
-                    style={tab.style}
-                    onClick={() => this.changeActiveTab(tab.id)}
+                    id={item.id}
+                    disabled={item.disabled}
+                    className={item.className}
+                    style={item.style}
+                    onClick={item.onClick}
+                    isToolBar={true}
                   >
-                    {tab.header}
+                    {item.header}
                   </Panel.NavItem>
-                );
-              })}
-            {toolbar &&
-              toolbar.map(item => (
-                <Panel.NavItem
-                  id={item.id}
-                  disabled={item.disabled}
-                  className={item.className}
-                  style={item.style}
-                  onClick={item.onClick}
-                  isToolBar={true}
-                >
-                  {item.header}
-                </Panel.NavItem>
-              ))}
-          </Panel.Menu>
-        </Panel.Heading>
+                ))}
+            </Panel.Menu>
+          </Panel.Heading>
+        )}
         <Panel.Collapse isOpen={this.state.open}>
           <Panel.Body hasTabs={hasTabs} activeKey={this.state.activeTab}>
             {hasTabs
@@ -191,7 +195,8 @@ PanelContainer.propTypes = {
   collapsible: PropTypes.bool,
   hasTabs: PropTypes.bool,
   fullScreen: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  header: PropTypes.bool
 };
 
 PanelContainer.defaultProps = {
@@ -200,7 +205,8 @@ PanelContainer.defaultProps = {
   hasTabs: false,
   fullScreen: false,
   tabs: [],
-  color: panelStyles.DEFAULT
+  color: panelStyles.DEFAULT,
+  header: true
 };
 
 export default PanelContainer;

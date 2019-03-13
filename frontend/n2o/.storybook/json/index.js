@@ -21,6 +21,7 @@ import FormFieldsetStandartVE from './FormFieldsetStandartVE';
 import PlaceholderBreadCrumb from './PlaceholderBreadCrumb';
 import tableActions from './tableActions';
 import FormHighlyLoadedTest from './FormHighlyLoadedTest';
+import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
 
 export {
   filterMetadata,
@@ -46,4 +47,6 @@ export {
   PlaceholderBreadCrumb,
   tableActions,
   FormHighlyLoadedTest
+  tableActions,
+  InputSelectTreeDefaultValue
 };
