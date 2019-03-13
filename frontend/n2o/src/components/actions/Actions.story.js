@@ -72,6 +72,7 @@ stories
           {
             id: 'testBtn28',
             title: 'Дропдаун',
+            color: 'primary',
             subMenu: [
               {
                 id: 'testBtn29',

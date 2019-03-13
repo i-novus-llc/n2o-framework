@@ -39,7 +39,7 @@ image::images\components-ca427.png[]
 У стандартного футера нет файла определяющего его структуру.
 
 [TIP]
-Пример подключения хедера и футера https://git.i-novus.ru/framework/examples/tree/master/header-footer
+Пример подключения хедера и футера https://github.com/i-novus-llc/n2o-framework/tree/master/examples/header-footer
 
 === Меню навигации
 
@@ -75,10 +75,6 @@ image::images\components-ca427.png[]
   </nav>
 </header>
 ----
-
-[TIP]
-Пример подключения бокового меню https://git.i-novus.ru/framework/n2o-tutorial/tree/master/sidebar
-
 
 === Страница
 
@@ -119,11 +115,12 @@ image::images\components-08085.png[]
 
 === Регионы
 
-Регион - это способ скомпоновать виджеты в определенной области `place` страницы. Например, с помощью вкладок:
+Регион - это способ скомпоновать виджеты в определенной области `place` страницы.
+Например, с помощью вкладок:
 [source,xml]
 ----
 <page>
-    <regions layout="left-right">
+    <regions layout="LeftRightLayout">
       <tabs place="left">
         <table>...</table>
         <table>...</table>
@@ -137,6 +134,8 @@ image::images\components-08085.png[]
     </regions>
 </page>
 ----
+
+Атрибутом `layout` является React компонент, задающий макет разметки регионов.
 
 [NOTE]
 См. link:../xml/index.html#_Регионы[Справочник регионов]

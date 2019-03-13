@@ -53,6 +53,7 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
     private void dropdown(Element e, N2oSubmenu s, IOProcessor p) {
         p.attribute(e, "id", s::getId, s::setId);
         p.attribute(e, "label", s::getLabel, s::setLabel);
+        p.attribute(e, "color", s::getColor, s::setColor);
         p.attributeBoolean(e, "visible", s::getVisible, s::setVisible);
         p.attribute(e, "description", s::getDescription, s::setDescription);
         p.attribute(e, "icon", s::getIcon, s::setIcon);
