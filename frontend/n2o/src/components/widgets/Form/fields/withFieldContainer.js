@@ -37,19 +37,18 @@ export default Field => {
         meta: { form },
         input: { name },
         isInit,
-        visible,
-        disabled,
+        visibleToRegister,
+        disabledToRegister,
         dependency,
         registerFieldExtra,
-        requiredToRegister,
-        required
+        requiredToRegister
       } = props;
       if (!isInit) {
         registerFieldExtra(form, name, {
-          visible,
-          disabled,
+          visible: visibleToRegister,
+          disabled: disabledToRegister,
           dependency,
-          required: isBoolean(requiredToRegister) ? requiredToRegister : required
+          required: requiredToRegister
         });
       }
     }
@@ -135,15 +134,12 @@ export default Field => {
   const mapStateToProps = (state, ownProps) => {
     const { form } = ownProps.meta;
     const { name } = ownProps.input;
-    const isVisible = isVisibleSelector(form, name)(state);
-    const isDisabled = isDisabledSelector(form, name)(state);
-    const isRequired = requiredSelector(form, name)(state);
     return {
       isInit: isInitSelector(form, name)(state),
-      visible: isBoolean(isVisible) ? isVisible : ownProps.visible,
-      disabled: isBoolean(isDisabled) ? isDisabled : ownProps.disabled,
+      visible: isVisibleSelector(form, name)(state),
+      disabled: isDisabledSelector(form, name)(state),
       message: messageSelector(form, name)(state),
-      required: isBoolean(isRequired) ? isRequired : ownProps.required,
+      required: requiredSelector(form, name)(state),
       filterValues: filterSelector(form, name)(state)
     };
   };
@@ -153,22 +149,22 @@ export default Field => {
   };
 
   return compose(
+    defaultProps({
+      isInit: true,
+      visible: true,
+      disabled: false
+    }),
     withProps(props => ({
-      requiredToRegister: props.required
+      requiredToRegister: props.required,
+      disabledToRegister: props.disabled,
+      visibleToRegister: props.visible
     })),
     connect(
       mapStateToProps,
       mapDispatchToProps
     ),
     withProps(props => ({
-      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled
-    })),
-    defaultProps({
-      isInit: false,
-      visible: true,
-      disabled: false
-    }),
-    withProps(props => ({
+      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
       ref: props.setReRenderRef
     })),
     pure
