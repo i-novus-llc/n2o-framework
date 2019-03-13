@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
-import { map } from 'lodash';
+import { map, isEqual } from 'lodash';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
-import { List as Virtualizer } from 'react-virtualized';
-
-const listHeight = 600;
-const rowHeight = 50;
+import { WindowScroller, AutoSizer, List as Virtualizer } from 'react-virtualized';
 
 /**
  * Компонент List
@@ -33,27 +30,58 @@ class List extends Component {
     this.fetchMore = this.fetchMore.bind(this);
     this.onScroll = this.onScroll.bind(this);
     this.setListContainerRef = this.setListContainerRef.bind(this);
+    this._setVirtualizerRef = this._setVirtualizerRef.bind(this);
+    this._setWindowScrollerRef = this._setWindowScrollerRef.bind(this);
   }
 
   componentDidMount() {
-    this._listContainer.addEventListener('scroll', this.onScroll, true);
+    const { fetchOnScroll } = this.props;
+    if (fetchOnScroll) {
+      this._listContainer.addEventListener('scroll', this.onScroll, true);
+    }
     this.setState({
       rowWidth: this._listContainer.clientWidth
     });
   }
 
+  componentDidUpdate(prevProps) {
+    const { data, hasMoreButton, fetchOnScroll, maxHeight } = this.props;
+    if (hasMoreButton && !fetchOnScroll && !isEqual(prevProps.data, data)) {
+      if (maxHeight) {
+        this._virtualizer.scrollToRow(data.length);
+      } else {
+        this._windowScroller.updatePosition();
+      }
+    }
+  }
+
   componentWillUnmount() {
-    this._listContainer.removeEventListener('scroll', this.onScroll);
+    const { fetchOnScroll } = this.props;
+    if (fetchOnScroll) {
+      this._listContainer.removeEventListener('scroll', this.onScroll);
+    }
   }
 
   setListContainerRef(el) {
     this._listContainer = el;
   }
 
+  _setWindowScrollerRef(el) {
+    this._windowScroller = el;
+  }
+
+  _setVirtualizerRef(el) {
+    this._virtualizer = el;
+  }
+
   onItemClick(index) {
     const { onItemClick, rowClick } = this.props;
     if (!rowClick) {
-      this.setState({ selectedIndex: index });
+      this.setState({ selectedIndex: index }, () => {
+        if (this._virtualizer) {
+          this._virtualizer.forceUpdateGrid();
+        }
+      });
     }
     onItemClick(index);
   }
@@ -74,7 +102,10 @@ class List extends Component {
   }
 
   renderRow({ index, key, style }) {
-    const { divider, data } = this.props;
+    const { divider, data, hasMoreButton, fetchOnScroll } = this.props;
+    if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
+      return <ListMoreButton style={style} onClick={this.fetchMore} />;
+    }
     return (
       <ListItem
         {...data[index]}
@@ -88,14 +119,14 @@ class List extends Component {
   }
 
   render() {
-    const { className, data, hasMoreButton, maxHeight, fetchOnScroll, divider } = this.props;
+    const { className, data, maxHeight } = this.props;
     const { rowWidth } = this.state;
-    let heightProps = {};
     return (
       <div ref={this.setListContainerRef} className={cn('n2o-widget-list', className)}>
         <div className="n2o-widget-list-container">
           {maxHeight ? (
             <Virtualizer
+              ref={this._setVirtualizerRef}
               width={rowWidth}
               height={maxHeight}
               rowHeight={92}
@@ -104,18 +135,25 @@ class List extends Component {
               overscanRowCount={5}
             />
           ) : (
-            map(data, (item, index) => (
-              <ListItem
-                {...item}
-                key={index}
-                divider={divider}
-                selected={this.state.selectedIndex === index}
-                onClick={() => this.onItemClick(index)}
-              />
-            ))
+            <WindowScroller ref={this._setWindowScrollerRef} scrollElement={window}>
+              {({ height, isScrolling, registerChild, onChildScroll, scrollTop }) => (
+                <Virtualizer
+                  ref={this._setVirtualizerRef}
+                  autoHeight
+                  height={height}
+                  isScrolling={isScrolling}
+                  onScroll={onChildScroll}
+                  overscanRowCount={5}
+                  rowCount={data.length}
+                  rowHeight={92}
+                  rowRenderer={this.renderRow}
+                  scrollTop={scrollTop}
+                  width={rowWidth}
+                />
+              )}
+            </WindowScroller>
           )}
         </div>
-        {hasMoreButton && !fetchOnScroll && <ListMoreButton onClick={this.fetchMore} />}
       </div>
     );
   }

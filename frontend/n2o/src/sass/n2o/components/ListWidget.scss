@@ -3,6 +3,10 @@
   margin-bottom: 1rem;
   overflow: auto;
 
+  & .ReactVirtualized__Grid {
+    outline: none;
+  }
+
   &-more-button {
     display: flex;
     align-items: center;

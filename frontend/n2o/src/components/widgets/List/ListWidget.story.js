@@ -173,7 +173,7 @@ stories
     ]);
     return <Factory level={WIDGETS} {...props} id="List" />;
   })
-  .add('Скролл в компоненте', () => {
+  .add('Загрузка по скроллу', () => {
     let data = [];
     for (let i = 0; i < 10; i++) {
       data.push({
@@ -204,7 +204,7 @@ stories
   })
   .add('Компонент с paging', () => {
     let data = [];
-    for (let i = 0; i < 500; i++) {
+    for (let i = 0; i < 5; i++) {
       data.push({
         image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         header: "It's a cat",
@@ -225,4 +225,28 @@ stories
     );
     const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider', 'paging']);
     return <Factory level={WIDGETS} {...props} showPagination={true} id="List" />;
+  })
+  .add('Компонент с 1000 записей', () => {
+    let data = [];
+    for (let i = 0; i < 1000; i++) {
+      data.push({
+        image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        header: "It's a cat",
+        subHeader: 'The cat is stupid',
+        body: 'Some words about cats',
+        rightTop: 'What do you know about cats?',
+        rightBottom: "But cats aren't only stupid they're still so sweet",
+        extra: 'Extra?!'
+      });
+    }
+    fetchMock.restore().get(urlPattern, url =>
+      delay(1000).then(() => {
+        return {
+          ...getStubData(url),
+          list: data
+        };
+      })
+    );
+    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider', 'paging']);
+    return <Factory level={WIDGETS} {...props} id="List" />;
   });

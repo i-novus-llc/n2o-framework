@@ -13,12 +13,13 @@ ListMoreButton.defaultProps = {
 /**
  * Кнопка "Загрузить еще"
  * @param {function} onClick - callback на клик по кнопке
+ * @param {object} style - стили кнопки
  * @returns {*}
  * @constructor
  */
-function ListMoreButton({ onClick }) {
+function ListMoreButton({ onClick, style }) {
   return (
-    <div className="n2o-widget-list-more-button">
+    <div style={style} className="n2o-widget-list-more-button">
       <Button onClick={onClick}>Загрузить еще</Button>
     </div>
   );
