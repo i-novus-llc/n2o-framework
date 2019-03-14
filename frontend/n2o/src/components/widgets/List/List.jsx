@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
+import ReactDom from 'react-dom';
 import { map, isEqual } from 'lodash';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
-import { WindowScroller, AutoSizer, List as Virtualizer } from 'react-virtualized';
+import {
+  WindowScroller,
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+  List as Virtualizer
+} from 'react-virtualized';
 
 /**
  * Компонент List
@@ -20,8 +27,14 @@ class List extends Component {
 
     this.state = {
       selectedIndex: props.selectedId || (props.autoSelect ? 0 : null),
-      rowWidth: 0
+      rowWidth: 0,
+      data: props.data
     };
+
+    this.cache = new CellMeasurerCache({
+      fixedWidth: true,
+      defaultHeight: 90
+    });
 
     this._scrollTimeoutId = null;
 
@@ -50,8 +63,13 @@ class List extends Component {
       if (maxHeight) {
         this._virtualizer.scrollToRow(data.length);
       } else {
-        this._windowScroller.updatePosition();
+        const scrollHeight = ReactDom.findDOMNode(this._virtualizer).scrollHeight;
+        window.scrollTo(0, scrollHeight);
       }
+    }
+
+    if (!isEqual(prevProps.data, data)) {
+      this.setState({ data: hasMoreButton ? [...data, {}] : data });
     }
   }
 
@@ -101,55 +119,79 @@ class List extends Component {
     }, 300);
   }
 
-  renderRow({ index, key, style }) {
-    const { divider, data, hasMoreButton, fetchOnScroll } = this.props;
+  renderRow({ index, key, style, parent }) {
+    const { divider, hasMoreButton, fetchOnScroll } = this.props;
+    const { data } = this.state;
+    let moreBtn = null;
     if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
-      return <ListMoreButton style={style} onClick={this.fetchMore} />;
+      return (
+        <CellMeasurer key={key} cache={this.cache} parent={parent} columnIndex={0} rowIndex={index}>
+          <ListMoreButton style={style} onClick={this.fetchMore} />
+        </CellMeasurer>
+      );
     }
     return (
-      <ListItem
-        {...data[index]}
-        key={key}
-        style={style}
-        divider={divider}
-        selected={this.state.selectedIndex === index}
-        onClick={() => this.onItemClick(index)}
-      />
+      <React.Fragment>
+        <CellMeasurer key={key} cache={this.cache} parent={parent} columnIndex={0} rowIndex={index}>
+          <ListItem
+            {...data[index]}
+            key={key}
+            style={style}
+            divider={divider}
+            selected={this.state.selectedIndex === index}
+            onClick={() => this.onItemClick(index)}
+          />
+        </CellMeasurer>
+        {moreBtn}
+      </React.Fragment>
     );
   }
 
   render() {
-    const { className, data, maxHeight } = this.props;
-    const { rowWidth } = this.state;
+    const { className, maxHeight } = this.props;
+    const { data } = this.state;
     return (
       <div ref={this.setListContainerRef} className={cn('n2o-widget-list', className)}>
         <div className="n2o-widget-list-container">
           {maxHeight ? (
-            <Virtualizer
-              ref={this._setVirtualizerRef}
-              width={rowWidth}
-              height={maxHeight}
-              rowHeight={92}
-              rowRenderer={this.renderRow}
-              rowCount={data.length}
-              overscanRowCount={5}
-            />
+            <AutoSizer
+              style={{
+                height: '100%'
+              }}
+            >
+              {({ width }) => (
+                <Virtualizer
+                  ref={this._setVirtualizerRef}
+                  width={width}
+                  height={maxHeight}
+                  deferredMeasurementCache={this.cache}
+                  rowHeight={this.cache.rowHeight}
+                  rowRenderer={this.renderRow}
+                  rowCount={data.length}
+                  overscanRowCount={5}
+                />
+              )}
+            </AutoSizer>
           ) : (
             <WindowScroller ref={this._setWindowScrollerRef} scrollElement={window}>
               {({ height, isScrolling, registerChild, onChildScroll, scrollTop }) => (
-                <Virtualizer
-                  ref={this._setVirtualizerRef}
-                  autoHeight
-                  height={height}
-                  isScrolling={isScrolling}
-                  onScroll={onChildScroll}
-                  overscanRowCount={5}
-                  rowCount={data.length}
-                  rowHeight={92}
-                  rowRenderer={this.renderRow}
-                  scrollTop={scrollTop}
-                  width={rowWidth}
-                />
+                <AutoSizer style={{ height: '100%' }}>
+                  {({ width }) => (
+                    <Virtualizer
+                      ref={this._setVirtualizerRef}
+                      autoHeight
+                      height={height}
+                      isScrolling={isScrolling}
+                      onScroll={onChildScroll}
+                      overscanRowCount={5}
+                      rowCount={data.length}
+                      rowHeight={this.cache.rowHeight}
+                      rowRenderer={this.renderRow}
+                      scrollTop={scrollTop}
+                      width={width}
+                    />
+                  )}
+                </AutoSizer>
               )}
             </WindowScroller>
           )}

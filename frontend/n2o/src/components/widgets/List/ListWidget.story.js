@@ -180,9 +180,12 @@ stories
         image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         header: "It's a cat",
         subHeader: 'The cat is stupid',
-        body: 'Some words about cats',
+        body:
+          i % 2 === 0
+            ? 'Some words about cats'
+            : 'Some words about cats Some words about cats Some words about cats Some words about cats Some words about cats Some words about cats Some words about cats Some words about cats Some words about cats Some words about cats',
         rightTop: 'What do you know about cats?',
-        rightBottom: "But cats aren't only stupid they're still so sweet",
+        rightBottom: "But cats aren't only stupid they're still so sweet ",
         extra: 'Extra?!'
       });
     }
@@ -235,7 +238,10 @@ stories
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
         rightTop: 'What do you know about cats?',
-        rightBottom: "But cats aren't only stupid they're still so sweet",
+        rightBottom:
+          i % 2 === 0
+            ? "But cats aren't only stupid they're still so sweet"
+            : "But cats aren't only stupid they're still so sweet \"But cats aren't only stupid they're still so sweet\"\"But cats aren't only stupid they're still so sweet\"\"But cats aren't only stupid they're still so sweet\"",
         extra: 'Extra?!'
       });
     }

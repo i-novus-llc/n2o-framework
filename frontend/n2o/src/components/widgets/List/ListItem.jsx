@@ -52,16 +52,18 @@ function ListItem({
         {image && <div className="n2o-widget-list-item-image">{renderImage(image)}</div>}
       </div>
       <div className="n2o-widget-list-item-main-container">
-        {header && (
-          <div className="n2o-widget-list-item-header">
-            <h3>{header}</h3>
-          </div>
-        )}
-        {subHeader && (
-          <div className="n2o-widget-list-item-subheader text-muted">
-            <h4>{subHeader}</h4>
-          </div>
-        )}
+        <div className="n2o-widget-list-item-header-row">
+          {header && (
+            <div className="n2o-widget-list-item-header">
+              <h3>{header}</h3>
+            </div>
+          )}
+          {subHeader && (
+            <div className="n2o-widget-list-item-subheader text-muted">
+              <h4>{subHeader}</h4>
+            </div>
+          )}
+        </div>
         {body && <div className="n2o-widget-list-item-body">{body}</div>}
       </div>
       <div className="n2o-widget-list-item-right-container">

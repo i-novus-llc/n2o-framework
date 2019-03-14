@@ -29,6 +29,11 @@
 
     padding: 0.5rem;
 
+    &-header-row {
+      display: flex;
+      align-items: baseline;
+    }
+
     &--divider {
       border-bottom: 1px solid #cfd8dc;
 
