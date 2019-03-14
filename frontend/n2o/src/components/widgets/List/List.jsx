@@ -27,7 +27,6 @@ class List extends Component {
 
     this.state = {
       selectedIndex: props.selectedId || (props.autoSelect ? 0 : null),
-      rowWidth: 0,
       data: props.data
     };
 
@@ -52,9 +51,6 @@ class List extends Component {
     if (fetchOnScroll) {
       this._listContainer.addEventListener('scroll', this.onScroll, true);
     }
-    this.setState({
-      rowWidth: this._listContainer.clientWidth
-    });
   }
 
   componentDidUpdate(prevProps) {
@@ -154,11 +150,7 @@ class List extends Component {
       <div ref={this.setListContainerRef} className={cn('n2o-widget-list', className)}>
         <div className="n2o-widget-list-container">
           {maxHeight ? (
-            <AutoSizer
-              style={{
-                height: '100%'
-              }}
-            >
+            <AutoSizer style={{ height: '100%' }}>
               {({ width }) => (
                 <Virtualizer
                   ref={this._setVirtualizerRef}
