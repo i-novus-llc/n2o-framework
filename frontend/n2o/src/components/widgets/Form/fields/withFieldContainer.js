@@ -7,7 +7,6 @@ import {
   isVisibleSelector,
   isDisabledSelector,
   messageSelector,
-  filterSelector,
   requiredSelector
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
@@ -40,15 +39,16 @@ export default Field => {
         visibleToRegister,
         disabledToRegister,
         dependency,
-        registerFieldExtra,
-        requiredToRegister
+        requiredToRegister,
+        registerFieldExtra
       } = props;
-      registerFieldExtra(form, name, {
-        visible: visibleToRegister,
-        disabled: disabledToRegister,
-        dependency,
-        required: requiredToRegister
-      });
+      !isInit &&
+        registerFieldExtra(form, name, {
+          visible: visibleToRegister,
+          disabled: disabledToRegister,
+          dependency,
+          required: requiredToRegister
+        });
     }
 
     /**
@@ -137,8 +137,7 @@ export default Field => {
       visible: isVisibleSelector(form, name)(state),
       disabled: isDisabledSelector(form, name)(state),
       message: messageSelector(form, name)(state),
-      required: requiredSelector(form, name)(state),
-      filterValues: filterSelector(form, name)(state)
+      required: requiredSelector(form, name)(state)
     };
   };
 
@@ -149,19 +148,20 @@ export default Field => {
   return compose(
     defaultProps({
       visible: true,
-      disabled: false
+      disabled: false,
+      required: false
     }),
     withProps(props => ({
-      requiredToRegister: props.required,
-      disabledToRegister: props.disabled,
-      visibleToRegister: props.visible
+      visibleToRegister: props.visible,
+      disabledToRegister:
+        isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
+      requiredToRegister: props.required
     })),
     connect(
       mapStateToProps,
       mapDispatchToProps
     ),
     withProps(props => ({
-      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
       ref: props.setReRenderRef
     })),
     pure
