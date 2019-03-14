@@ -22,7 +22,7 @@ public class HeaderBinder implements BaseMetadataBinder<CompiledHeader> {
             compiled.getExtraItems()
                     .stream()
                     .filter(item -> item.getLabel() != null)
-                    .forEach(item -> item.setLabel(p.resolve(item.getLabel(), String.class)));
+                    .forEach(item -> item.setLabel(p.resolveText(item.getLabel())));
         return compiled;
     }
 }
