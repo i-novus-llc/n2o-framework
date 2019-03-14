@@ -442,7 +442,7 @@ class AdvancedTable extends Component {
             useFixedHeader={useFixedHeader}
             indentSize={20}
             emptyText={AdvancedTableEmptyText}
-            scroll={!isEmpty(this.state.data) && scroll ? scroll : { x: false, y: false }}
+            scroll={scroll}
           />
         </div>
       </HotKeys>
@@ -474,7 +474,6 @@ AdvancedTable.defaultProps = {
   tableSize: 'sm',
   rowSelection: false,
   expandable: false,
-  scroll: { x: '100%' },
   onFocus: () => {},
   onSetSelection: () => {},
   autoFocus: false
