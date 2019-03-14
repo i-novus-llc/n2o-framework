@@ -12,11 +12,12 @@ public class Result {
 
     /**
      * Тип результата слития
-     * success - успешно, conflict - фильтры несовместимы(дают пустое множество),
-     * failure - не найдено правило для слития
+     * success - успешно,
+     * conflict - фильтры несовместимы(дают пустое множество),
+     * notMergeable - не найдено правило для слития
      */
     public enum Type {
-        success, conflict, failure;
+        success, conflict, notMergeable;
     }
 
     public boolean isSuccess() {

@@ -178,14 +178,10 @@ public class QueryProcessorTest {
         assertThat(collectionPage.getCount(), is(0));
 
         criteria = new N2oPreparedCriteria();
-        criteria.addRestriction(new Restriction("id", "1", FilterType.like));
-        criteria.addRestriction(new Restriction("id", "45", FilterType.overlaps));
-        try {
-            collectionPage = queryProcessor.execute(query, criteria);
-            assertThat(true, is(false));
-        } catch (N2oException e) {
-            assertThat(e.getMessage(), is("Rule for merge filter with type like and overlaps for field id not found!"));
-        }
+        criteria.addRestriction(new Restriction("id", "1", FilterType.more));
+        criteria.addRestriction(new Restriction("id", "45", FilterType.less));
+        collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(10));
 
         criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("id", "0", FilterType.eq));
