@@ -1,219 +1,143 @@
 {
-  "id": "proto_patients_create",
+  "id": "proto",
   "widgets": {
-    "proto_patients_create_main": {
+    "proto_patients": {
       "src": "TableWidget",
       "dataProvider": {
-        "url": "n2o/data/table-widget-data",
-        "pathMapping": {
-        },
-        "queryMapping": {
-          "filter.name": {
-            "link": "models.filter['Page_Table'].name"
-          },
-          "filter.surname": {
-            "link": "models.filter['Page_Table'].surname"
-          }
-        }
-      },
-      "toolbar": {
-        "topRight": [
-          {
-            "id": "topRight0",
-            "buttons": [
-              {
-                "id": "menuItem0",
-                "actionId": "menuItem0",
-                "hint": "Изменить видимость фильтров",
-                "icon": "fa fa-filter"
-              },
-              {
-                "id": "menuItem1",
-                "icon": "fa fa-table",
-                "hint": "Изменить видимость колонок",
-                "dropdownSrc": "ToggleColumn"
-              },
-              {
-                "id": "menuItem2",
-                "hint": "Обновить данные",
-                "icon": "fa fa-refresh",
-                "actionId": "menuItem2"
-              },
-              {
-                "id": "menuItem3",
-                "icon": "fa fa-bars",
-                "hint": "Изменить размер",
-                "dropdownSrc": "ChangeSize"
-              },
-              {
-                "id": "menuItem4",
-                "hint": "Экспортировать данные",
-                "icon": "fa fa-download",
-                "actionId": "exportModal"
-              }
-            ]
-          }
-        ]
-      },
-      "actions": {
-        "menuItem0": {
-          "src": "perform",
-          "options": {
-            "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
-            "payload": {
-              "widgetId": "Page_Table"
-            }
-          }
-        },
-        "menuItem2": {
-          "src": "perform",
-          "options": {
-            "type": "n2o/widgets/DATA_REQUEST",
-            "payload": {
-              "widgetId": "Page_Table"
-            }
-          }
-        },
-        "exportModal": {
-          "widgetId": "Page_Table",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "widgetId": "Page_Table",
-              "type": "n2o/modals/INSERT",
-              "name": "test2",
-              "src": "exportModal",
-              "title": "Экспортровать",
-              "size": "sm",
-              "visible": true,
-              "closeButton": false,
-              "actions": {
-                "export": {
-                  "src": "exportTable",
-                  "notification": {
-                    "severity": "danger",
-                    "text": "Это сообщение будет отображаться 10 секунд",
-                    "timeout": 10000
-                  },
-                  "redirectTo": "/test",
-                  "options": {
-                    "widgetId": "Page_Table"
-                  }
-                },
-                "destroyModal": {
-                  "src": "perform",
-                  "options": {
-                    "type": "n2o/modals/DESTROY"
-                  }
-                }
-              },
-              "toolbar": [
-                {
-                  "buttons": [
-                    {
-                      "id": "export",
-                      "title": "Загрузить",
-                      "actionId": "export",
-                      "className": "btn-primary",
-                      "icon": "fa fa-download"
-                    },
-                    {
-                      "id": "cancelExport",
-                      "title": "Отменить",
-                      "actionId": "destroyModal"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
+        "url": "n2o/data/for-table",
+        "pathMapping": {},
+        "queryMapping": {}
       },
       "paging": {
-        "size": 10,
-        "prev": true,
-        "next": true
+        "size": 10
       },
-      "filter": {
-        "filterPlace": "top",
-        "filterFieldsets": [
+      "table": {
+        "fetchOnInit": true,
+        "size": 10,
+        "autoFocus": true,
+        "hasFocus": true,
+        "cells": [
           {
-            "src": "StandardFieldset",
-            "rows": [
+            "id": "surname",
+            "fieldKey": "surname",
+            "src": "LinkCell"
+          },
+          {
+            "id": "name",
+            "fieldKey": "name",
+            "src": "LinkCell"
+          },
+          {
+            "id": "patrName",
+            "fieldKey": "patrName",
+            "src": "LinkCell"
+          },
+          {
+            "id": "birthday",
+            "fieldKey": "birthday",
+            "src": "TextCell",
+            "format": "date DD.MM.YYYY"
+          },
+          {
+            "id": "genderName",
+            "fieldKey": "genderName",
+            "src": "BadgeCell",
+            "color": "`gender.id==1?'danger':'success'`"
+          },
+          {
+            "id": "vip",
+            "fieldKey": "vip",
+            "src": "CheckboxCell"
+          },
+          {
+            "id": "",
+            "fieldKey": "",
+            "src": "ButtonsCell",
+            "buttons": [
               {
-                "cols": [
+                "id": "subMenu0",
+                "icon": "fa fa-ellipsis-v",
+                "conditions": {},
+                "subMenu": [
                   {
-                    "fields": [
-                      {
-                        "id": "testId",
-                        "src": "FilterButtonsField",
-                        "searchLabel": "searchLabel",
-                        "resetLabel": "resetLabel",
-                        "dependency": []
-                      }
-                    ]
+                    "id": "delete",
+                    "icon": "fa fa-trash",
+                    "title": "Удалить"
+                  },
+                  {
+                    "id": "update",
+                    "icon": "fa fa-pencil",
+                    "title": "Изменить"
                   }
                 ]
               }
             ]
           }
         ],
-        "filterButtonId": "filter",
-        "blackResetList": [],
-        "validation": {},
-        "hideButtons": true
-      },
-      "table": {
-        "size": 10,
-        "fetchOnInit": true,
-        "hasSelect": true,
-        "className": "n2o",
-        "style": {},
-        "hasFocus": true,
-        "autoFocus": false,
-        "tableSize": "sm",
+        "headers": [
+          {
+            "id": "surname",
+            "label": "Фамилия",
+            "src": "TextTableHeader",
+            "sortable": true
+          },
+          {
+            "id": "name",
+            "label": "Имя",
+            "src": "TextTableHeader",
+            "sortable": true
+          },
+          {
+            "id": "patrName",
+            "label": "Отчество",
+            "src": "TextTableHeader",
+            "sortable": true
+          },
+          {
+            "id": "birthday",
+            "label": "Дата рождения",
+            "src": "TextTableHeader",
+            "sortable": true
+          },
+          {
+            "id": "genderName",
+            "label": "Пол",
+            "src": "TextTableHeader",
+            "sortable": false
+          },
+          {
+            "id": "vip",
+            "label": "VIP",
+            "src": "TextTableHeader",
+            "sortable": false
+          },
+          {
+            "id": "",
+            "src": "TextTableHeader"
+          }
+        ],
         "sorting": {
           "birthday": "ASC"
         },
-        "cells": [
-          {
-            "src": "TextCell",
-            "id": "name"
-          },
-          {
-            "src": "IconCell",
-            "id": "surname",
-            "icon": "fa fa-plus",
-            "type": "iconAndText",
-            "textPlace": "right"
-          },
-          {
-            "src": "TextCell",
-            "id": "birthday"
-          }
-        ],
-        "headers": [
-          {
-            "src": "TextTableHeader",
-            "id": "name",
-            "sortable": false,
-            "label": "Имя"
-          },
-          {
-            "src": "TextTableHeader",
-            "id": "surname",
-            "sortable": true,
-            "label": "Фамилия"
-          },
-          {
-            "src": "TextTableHeader",
-            "id": "birthday",
-            "sortable": true,
-            "label": "Дата рождения"
-          }
-        ]
+        "hasSelect": true
       }
+    }
+  },
+  "layout": {
+    "src": "SingleLayout",
+    "regions": {
+      "single": [
+        {
+          "src": "NoneRegion",
+          "items": [
+            {
+              "id": "none1",
+              "label": "Карточка пациента",
+              "widgetId": "proto_patients"
+            }
+          ]
+        }
+      ]
     }
   }
 }

@@ -1,4 +1,4 @@
-import TableWidget from "./Table/Table";
+import TableWidget from "./Table/TableWidget";
 
 export default {
   TableWidget

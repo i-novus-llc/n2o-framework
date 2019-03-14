@@ -1,6 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Table } from "antd";
-import { compose, defaultProps, withHandlers, withProps } from "recompose";
+import { values, pick, map, find } from "lodash";
+import { compose, withProps } from "recompose";
 import {
   withWidgetContainer,
   withWidgetHandlers,
@@ -10,5 +12,15 @@ import {
 export default compose(
   withWidgetContainer,
   withWidgetHandlers,
-  withContainerLiveCycle
+  withContainerLiveCycle,
+  withProps(props => {
+    return {
+      columns: map(props.headers, item => ({
+        title: item.label,
+        key: item.id,
+        dataIndex: item.id
+      })),
+      dataSource: props.datasource
+    };
+  })
 )(Table);
