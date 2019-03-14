@@ -79,6 +79,11 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 component.setRowColor(p.resolveJS(source.getRows().getColorFieldId()));
             } else {
                 if (source.getRows().getColor() != null) {
+                    Map<Object, String> resolvedCases = new HashMap<>();
+                    for (String key : source.getRows().getColor().getCases().keySet()) {
+                        resolvedCases.put(p.resolve(key), source.getRows().getColor().getCases().get(key));
+                    }
+                    source.getRows().getColor().setResolvedCases(resolvedCases);
                     component.setRowColor(buildSwitchExpression(source.getRows().getColor()));
                 }
             }

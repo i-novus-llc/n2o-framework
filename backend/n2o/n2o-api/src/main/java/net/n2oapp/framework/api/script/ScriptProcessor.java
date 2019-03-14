@@ -252,10 +252,10 @@ public class ScriptProcessor {
 
     public static String buildSwitchExpression(N2oSwitch n2oSwitch) {
         if (n2oSwitch == null
-                || (n2oSwitch.getCases() == null && n2oSwitch.getDefaultCase() == null)
+                || (n2oSwitch.getCases() == null && n2oSwitch.getResolvedCases() == null && n2oSwitch.getDefaultCase() == null)
                 || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().length() == 0))
             return null;
-        Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getCases());
+        Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getResolvedCases() != null ? n2oSwitch.getResolvedCases() : n2oSwitch.getCases());
         StringBuilder b = new StringBuilder("`");
         for (Object key : cases.keySet()) {
             b.append(n2oSwitch.getValueFieldId() + " == " + key + " ? ");
@@ -650,10 +650,12 @@ public class ScriptProcessor {
         return momentFuncs.stream().anyMatch(f -> script.contains(f));
     }
 
-    private static Map<Object, String> resolveSwitchCases(Map<String, String> cases) {
+    private static Map<Object, String> resolveSwitchCases(Map<?, String> cases) {
         Map<Object, String> result = new HashMap<>();
-        for (Map.Entry<String, String> entry : cases.entrySet()) {
-            Object resultKey = ScriptProcessor.resolveExpression(entry.getKey());
+        for (Map.Entry<?, String> entry : cases.entrySet()) {
+            Object resultKey = entry.getKey();
+            if (resultKey instanceof String)
+                resultKey = "'" + resultKey + "'";
             String resultValue;
             if (StringUtils.hasLink(entry.getValue())) {
                 resultValue = ScriptProcessor.resolveLinks(entry.getValue());
