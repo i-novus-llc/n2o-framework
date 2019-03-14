@@ -54,11 +54,10 @@ export const validateField = (validationConfig, formName, state, isTouched = fal
   values,
   dispatch
 ) => {
-  const registeredFields = get(state, [formName, 'registeredFields']);
+  const registeredFields = get(state, ['form', formName, 'registeredFields']);
   const validation = pickBy(validationConfig, (value, key) =>
     get(registeredFields, `${key}.visible`, true)
   );
-
   const errors = {};
   const promiseList = [Promise.resolve()];
   const addError = (fieldId, { text = true, severity = true }, options = {}) => {

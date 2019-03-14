@@ -101,14 +101,6 @@ public interface CompileProcessor {
     Object resolve(String placeholder);
 
     /**
-     * Заменить в тексте плейсхолдеры на значения
-     *
-     * @param text Текст с плейсхолдерами
-     * @return Текст со значениями вместо плейсхолдеров
-     */
-    String resolveText(String text);
-
-    /**
      * Превратить текст с ссылками в JS код
      *
      * @param text  Текст

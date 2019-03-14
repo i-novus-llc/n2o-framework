@@ -51,7 +51,7 @@ export function* handleAction(action) {
     const state = yield select();
     const notValid = yield validate(options);
     if (notValid) {
-      throw Error('Ошибка валидации');
+      console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`);
     } else {
       yield actionFunc &&
         call(actionFunc, {
@@ -112,7 +112,6 @@ export function* handleInvoke(action) {
       model = yield select(getModelSelector(modelLink));
     }
     const response = yield call(fetchInvoke, dataProvider, model);
-
     const meta = merge(action.meta.success || {}, response.meta || {});
 
     if (!meta.redirect && !meta.closeLastModal) {

@@ -202,7 +202,7 @@ class AdvancedTable extends Component {
     } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(id);
     }
-    if (rowClick) {
+    if (!noResolve && rowClick) {
       onRowClickAction();
     }
   }
@@ -298,9 +298,10 @@ class AdvancedTable extends Component {
   }
 
   getRowProps(model, index) {
-    const { isActive, rowColor } = this.props;
+    const { isActive, rowColor, rowClick } = this.props;
     return {
       index,
+      rowClick,
       isRowActive: model.id === this.state.selectIndex,
       color: rowColor && propsResolver(rowColor, model),
       model,
@@ -441,7 +442,7 @@ class AdvancedTable extends Component {
             useFixedHeader={useFixedHeader}
             indentSize={20}
             emptyText={AdvancedTableEmptyText}
-            scroll={!isEmpty(this.state.data) && scroll ? scroll : { x: false, y: false }}
+            scroll={scroll}
           />
         </div>
       </HotKeys>
@@ -473,7 +474,6 @@ AdvancedTable.defaultProps = {
   tableSize: 'sm',
   rowSelection: false,
   expandable: false,
-  scroll: { x: '100%' },
   onFocus: () => {},
   onSetSelection: () => {},
   autoFocus: false

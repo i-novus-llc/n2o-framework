@@ -196,7 +196,7 @@ public class N2oBuildProcessor<O, I> implements BuildProcessor<O, I> {
 
         @Override
         public FieldBuildProcessor<D, S, String> resolve() {
-            addMapper((v, d, s, c, p) -> v instanceof String ? p.resolveText((String) v) : v);
+            addMapper((v, d, s, c, p) -> v instanceof String ? p.resolve((String) v) : v);
             return new FieldCompileBuilderImpl<>(this);
         }
 

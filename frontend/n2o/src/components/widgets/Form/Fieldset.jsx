@@ -2,13 +2,14 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { isBoolean, isString } from 'lodash';
 import { bindActionCreators } from 'redux';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import ReduxField from './ReduxField';
 import { showFields, hideFields, enableFields, disableFields } from '../../../actions/formPlugin';
 import propsResolver from '../../../utils/propsResolver';
-import withDependency from '../../../core/dependencies/withDependency';
+import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
 
 const config = {
@@ -252,9 +253,12 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-const FieldsetContainer = connect(
-  null,
-  mapDispatchToProps
-)(withDependency(Fieldset, config));
+const FieldsetContainer = compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withObserveDependency(config)
+)(Fieldset);
 
 export default FieldsetContainer;
