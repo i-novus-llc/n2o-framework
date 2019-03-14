@@ -1,15 +1,76 @@
 <access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
     <role id="role">
-        <object-access object-id="testObjectAccessTransformer"/>
+        <object-access object-id="testObjectAccessTransformer" remove-filters="idFilter"/>
+        <object-access object-id="testObjectAccessTransformer" operations="create,update" remove-filters="nameFilter"/>
         <object-access object-id="test"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="idFilter"/>
+            <eq field-id="name" id="nameFilter"/>
+        </object-filters>
     </role>
-    <permission id="permission">
+    <role id="role2">
+        <object-access object-id="testObjectAccessTransformer" remove-filters="idFilter2,nameFilter2"/>
         <object-access object-id="test"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="idFilter2"/>
+            <eq field-id="name" id="nameFilter2"/>
+        </object-filters>
+    </role>
+
+    <permission id="permission">
+        <object-access object-id="testObjectAccessTransformer" remove-filters="permIdFilter"/>
+        <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="permNameFilter"/>
+        <object-access object-id="test"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="permIdFilter"/>
+            <eq field-id="name" id="permNameFilter"/>
+        </object-filters>
     </permission>
+    <permission id="permission2">
+        <object-access object-id="testObjectAccessTransformer" remove-filters="permIdFilter2,permNameFilter2"/>
+        <object-access object-id="test"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="permIdFilter2"/>
+            <eq field-id="name" id="permNameFilter2"/>
+        </object-filters>
+    </permission>
+
     <user username="user">
         <object-access object-id="testObjectAccessTransformer" operations="*"/>
     </user>
+    <user username="user2">
+        <object-access object-id="testObjectAccessTransformer" operations="*" remove-filters="userIdFilter2,userNameFilter2"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="userIdFilter2"/>
+            <eq field-id="name" id="userNameFilter2"/>
+        </object-filters>
+    </user>
+
     <anonymous>
-        <object-access object-id="testObjectAccessTransformer" operations="*"/>
+        <object-access object-id="testObjectAccessTransformer" remove-filters="anonymIdFilter"/>
+        <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="anonymNameFilter"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="anonymIdFilter"/>
+            <eq field-id="name" id="anonymNameFilter"/>
+        </object-filters>
     </anonymous>
+
+    <permit-all>
+        <object-access object-id="testObjectAccessTransformer" remove-filters="permitAllIdFilter"/>
+        <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="permitAllNameFilter"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="permitAllIdFilter"/>
+            <eq field-id="name" id="permitAllNameFilter"/>
+        </object-filters>
+    </permit-all>
+
+    <authenticated>
+        <object-access object-id="testObjectAccessTransformer" remove-filters="authIdFilter"/>
+        <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="authNameFilter"/>
+        <object-filters object-id="testObjectAccessTransformer">
+            <eq field-id="id" id="authIdFilter"/>
+            <eq field-id="name" id="authNameFilter"/>
+        </object-filters>
+    </authenticated>
+
 </access>

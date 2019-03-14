@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Pagination from '../../snippets/Pagination/Pagination';
@@ -22,13 +22,23 @@ import { PREFIXES } from '../../../constants/models';
  * @reactProps {function} onChangePage
  */
 class TablePagination extends Component {
+  componentDidUpdate(prevProps) {
+    const { datasource, onChangePage, activePage, count, size } = this.props;
+    if (
+      datasource &&
+      !isEqual(prevProps.datasource, datasource) &&
+      (isEmpty(datasource) && count > 0 && activePage > 1)
+    ) {
+      onChangePage(Math.ceil(count / size));
+    }
+  }
+
   render() {
     const {
       count,
       size,
       activePage,
       onChangePage,
-      datasource,
       prev,
       next,
       first,
@@ -41,10 +51,6 @@ class TablePagination extends Component {
       prevText,
       nextText
     } = this.props;
-
-    if (isEmpty(datasource) && count > 0 && activePage > 1) {
-      onChangePage(Math.ceil(count / size));
-    }
 
     return (
       <Pagination

@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.register.MetaType;
@@ -163,6 +164,37 @@ public class QueryProcessorTest {
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
         //case with page request (spring data) todo
+    }
+
+
+    @Test
+    public void testCriteriaRestrictionMerge() {
+        when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("id", "1", FilterType.eq));
+        criteria.addRestriction(new Restriction("id", "45", FilterType.eq));
+        CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(0));
+
+        criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("id", "1", FilterType.like));
+        criteria.addRestriction(new Restriction("id", "45", FilterType.overlaps));
+        try {
+            collectionPage = queryProcessor.execute(query, criteria);
+            assertThat(true, is(false));
+        } catch (N2oException e) {
+            assertThat(e.getMessage(), is("Rule for merge filter with type like and overlaps for field id not found!"));
+        }
+
+        criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("id", "0", FilterType.eq));
+        criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
+        collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(10));
+        DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        assertThat(dataSet.get("id"), is(0));
+        assertThat(dataSet.get("name"), is("test"));
     }
 
     @Test

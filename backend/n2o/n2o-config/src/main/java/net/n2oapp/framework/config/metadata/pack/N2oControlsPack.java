@@ -25,7 +25,6 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TextAreaCompiler(),
                 new RadioGroupCompiler(),
                 new OutputTextCompiler(),
-                new OutputTextCompiler(),
                 new HiddenCompiler(),
                 new FileUploadCompiler(),
                 new CustomFieldCompiler(),

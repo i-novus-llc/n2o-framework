@@ -12,4 +12,6 @@ import lombok.Setter;
 public class TextEditor extends InputText {
     @JsonProperty
     private String name;
+    @JsonProperty
+    private Object toolbarConfig;
 }

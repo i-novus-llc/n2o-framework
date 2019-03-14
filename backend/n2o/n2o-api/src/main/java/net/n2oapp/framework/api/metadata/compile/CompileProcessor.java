@@ -23,14 +23,6 @@ public interface CompileProcessor {
     <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope);
 
     /**
-     * Связать метаданные с данными
-     *
-     * @param compiled Метаданная
-     * @param <D>      Тип метаданной
-     */
-    <D extends Compiled> void bind(D compiled);
-
-    /**
      * Собрать дополнительные атрибуты
      *
      * @param source исходный объект с атрибутами
@@ -83,7 +75,7 @@ public interface CompileProcessor {
 
 
     /**
-     * Заменить плейсхолдер на значение
+     * Заменить плейсхолдер на значение и конвертировать в класс
      *
      * @param placeholder Плейсхолдер
      * @param <T>         Тип значения
@@ -92,29 +84,21 @@ public interface CompileProcessor {
     <T> T resolve(String placeholder, Class<T> clazz);
 
     /**
-     * Конвентировать значение в объект по домену
+     * Заменить плейсхолдер на значение конвертировать по домену
      *
-     * @param value  значение для конвертации
+     * @param placeholder  значение для конвертации
      * @param domain Домен значения
      * @return значение
      */
-    Object resolve(String value, String domain);
+    Object resolve(String placeholder, String domain);
 
     /**
-     * Конвентировать значение в объект
+     * Заменить плейсхолдер на значение и конвертировать с автоподбором типа
      *
-     * @param value значение для конвертации
+     * @param placeholder значение для конвертации
      * @return значение
      */
-    Object resolve(String value);
-
-    /**
-     * Заменить в тексте плейсхолдеры на значения
-     *
-     * @param text Текст с плейсхолдерами
-     * @return Текст со значениями вместо плейсхолдеров
-     */
-    String resolveText(String text);
+    Object resolve(String placeholder);
 
     /**
      * Превратить текст с ссылками в JS код

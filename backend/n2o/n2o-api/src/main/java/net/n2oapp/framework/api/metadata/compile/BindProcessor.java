@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.metadata.compile;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
@@ -19,6 +20,26 @@ public interface BindProcessor {
      * @param <D>      Тип метаданной
      */
     <D extends Compiled> void bind(D compiled);
+
+    /**
+     * Получить собранный объект по идентификатору
+     *
+     * @param context Контекст сборки
+     * @param <D>     Тип собранного объекта
+     * @return Собранный объект
+     */
+    <D extends Compiled> D getCompiled(CompileContext<D, ?> context);
+
+    /**
+     * Получить исходный объект по идентификатору
+     *
+     * @param id          Идентификатор
+     * @param sourceClass Класс исходного объекта
+     * @param <S>         Тип исходного объекта
+     * @return Исходный объект
+     */
+    <S extends SourceMetadata> S getSource(String id, Class<S> sourceClass);
+
 
     /**
      * Заменить плейсхолдер на значение
@@ -93,12 +114,11 @@ public interface BindProcessor {
     String resolveUrl(String url, ModelLink link);
 
     /**
-     * Попытаться разрешить значение ModelLink
+     * Пытается превратить ссылку в константное значение.
      *
-     * @param link исходная ссылка на значение
-     * @return ссылка с константой(если получилось разрешить ссылку) или исходная ссылка
+     * @param link Ссылка
      */
-    ModelLink resolveLink(ModelLink link);
+    <L extends BindLink> void resolveLink(L link);
 
     /**
      * Попытаться разрешить вложенные модели ссылки
@@ -107,5 +127,14 @@ public interface BindProcessor {
      * @param links исходный список ссылок
      */
     void resolveSubModels(ModelLink link, List<ModelLink> links);
+
+    /**
+     * Получить локализованное сообщение по коду и аргументам
+     *
+     * @param messageCode Код сообщения
+     * @param arguments   Аргументы сообщения
+     * @return Локализованное сообщение
+     */
+    String getMessage(String messageCode, Object... arguments);
 
 }

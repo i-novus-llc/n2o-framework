@@ -44,6 +44,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         compileWidget(form, source, context, p, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
+        widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(form.getId());
         MetaActions widgetActions = new MetaActions();
         ParentRouteScope widgetRoute = initWidgetRouteScope(form, context, p);

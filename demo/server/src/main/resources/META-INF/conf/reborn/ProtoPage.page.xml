@@ -101,7 +101,7 @@
         </panel>
         <panel place="right" title="Контакты">
             <table id="contacts" detail-field-id="individualId" depends-on="patients"
-                   name="Контакты" query-id="ProtoContacts">
+                   name="Контакты" query-id="ProtoContacts" visible="{name != 'Мария'}">
                 <columns>
                     <column text-field-id="value"/>
                     <column text-field-id="typeId"/>
@@ -116,7 +116,6 @@
                                 <option id="7" name="Факс"/>
                             </options>
                         </input-select>
-                        `
                     </row>
                 </filters>
                 <toolbar generate="crud"/>

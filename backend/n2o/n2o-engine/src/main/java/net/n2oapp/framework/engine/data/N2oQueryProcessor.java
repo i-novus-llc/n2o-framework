@@ -2,7 +2,10 @@ package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.Filter;
+import net.n2oapp.criteria.filters.FilterReducer;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.Result;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -168,6 +171,30 @@ public class N2oQueryProcessor implements QueryProcessor {
     }
 
     private CollectionPage<DataSet> executePageQuery(N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
+        if (criteria != null && criteria.getRestrictions() != null) {
+            Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(r -> r.getFieldId()).collect(Collectors.toSet());
+            for (String fieldId : restrictionFieldIds) {
+                List<Restriction> restrictionsByField = criteria.getRestrictions(fieldId);
+                if (restrictionsByField.size() > 1) {
+                    Filter result = restrictionsByField.get(0);
+                    for (int i = 1; i < restrictionsByField.size(); i++) {
+                        Result reduceResult = FilterReducer.reduce(result, restrictionsByField.get(i));
+                        if (reduceResult.isSuccess()) {
+                            result = reduceResult.getResultFilter();
+                        } else {
+                            if (reduceResult.getType().equals(Result.Type.conflict)) {
+                                return new CollectionPage<>(0, Collections.emptyList(), criteria);
+                            } else {
+                                throw new N2oException(String.format("Rule for merge filter with type %s and %s for field %s not found!",
+                                        result.getType(), restrictionsByField.get(i).getType(), fieldId));
+                            }
+                        }
+                    }
+                    criteria.removeFilterForField(fieldId);
+                    criteria.addRestriction(new Restriction(fieldId, result));
+                }
+            }
+        }
         Object result = executeQuery(selection, query, criteria);
         CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
         addIdIfNotPresent(query, page);

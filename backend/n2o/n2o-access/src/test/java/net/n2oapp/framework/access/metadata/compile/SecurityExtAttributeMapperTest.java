@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -58,8 +59,8 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        assertThat(header.getItems().get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) header.getItems().get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test
@@ -76,12 +77,12 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
-        assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test
@@ -102,8 +103,8 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
 
-        assertThat(operation.getProperties().get("security"), is(security));
-        assertThat(((Security) operation.getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(operation.getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) operation.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test
@@ -123,7 +124,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
 
-        assertThat(query.getProperties().get("security"), is(security));
-        assertThat(((Security) query.getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(query.getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 }

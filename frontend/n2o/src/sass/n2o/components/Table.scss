@@ -6,8 +6,12 @@
 
   .n2o-table-row {
     box-sizing: border-box;
-    border-left: 0.2rem solid transparent;
+    border-left: 0.3rem solid transparent;
     outline: none;
+  }
+
+  .row-click{
+    cursor: pointer;
   }
 
   &.has-focus {

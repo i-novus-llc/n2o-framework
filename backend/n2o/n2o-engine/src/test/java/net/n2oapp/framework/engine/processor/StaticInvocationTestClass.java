@@ -76,6 +76,7 @@ public class StaticInvocationTestClass {
     @Getter
     @Setter
     public static class MyCriteria extends Criteria {
+        private String id;
         private String name;
     }
 }

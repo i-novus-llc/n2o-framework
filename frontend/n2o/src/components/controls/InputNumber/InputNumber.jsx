@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { findDOMNode } from 'react-dom';
-import { toNumber, toString, isNil, isString } from 'lodash';
+import { toNumber, toString, isNil, isNaN, isEqual } from 'lodash';
 
 import Input from '../Input/Input';
 
@@ -32,7 +31,10 @@ class InputNumber extends React.Component {
     this.precision = getPrecision(props.step);
     this.pasted = false;
     this.state = {
-      value: !isNil(value) && !isString(value) ? toNumber(value).toFixed(this.precision) : null
+      value:
+        !isNil(value) && !isNaN(toNumber(value)) && value !== ''
+          ? toNumber(value).toFixed(this.precision)
+          : null
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
@@ -41,12 +43,15 @@ class InputNumber extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { value } = this.props;
     if (
-      prevProps.value !== this.props.value &&
-      !isNil(this.props.value) &&
-      toNumber(this.props.value) !== toNumber(this.state.value)
+      prevProps.value !== value &&
+      !isNil(value) &&
+      toNumber(value) !== toNumber(this.state.value)
     ) {
-      this.setState({ value: formatToFloat(this.props.value, this.precision) });
+      this.setState({ value: formatToFloat(value, this.precision) });
+    } else if (!isEqual(prevProps.value, value) && (value === '' || isNil(value))) {
+      this.setState({ value: null });
     }
   }
 
@@ -105,7 +110,7 @@ class InputNumber extends React.Component {
     } else {
       this.setState({ value: null });
     }
-    this.props.onBlur(e);
+    this.props.onBlur();
   }
 
   /**

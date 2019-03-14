@@ -18,7 +18,7 @@ public class N2oTextEditorPersister extends N2oControlXmlPersister<N2oTextEditor
         setControl(element, textEditor);
         setField(element, textEditor);
         setText(element, textEditor);
-        PersisterJdomUtil.setAttribute(element, "config-url", textEditor.getConfigUrl());
+        PersisterJdomUtil.setAttribute(element, "config-url", textEditor.getToolbarUrl());
         return element;
     }
 

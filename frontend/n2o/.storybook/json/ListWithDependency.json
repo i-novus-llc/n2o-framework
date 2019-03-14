@@ -1,0 +1,24 @@
+{
+  "src": "ListRegion",
+  "collapsible": false,
+  "items": [
+    {
+      "widgetId": "Page_Html",
+      "label": "HTML",
+      "opened": true
+    },
+    {
+      "widgetId": "Page_Html1",
+      "label": "HTML",
+      "opened": true,
+      "dependency": {
+        "visible": [
+          {
+            "bindLink": "models.resolve['Page_First']",
+            "condition": "true"
+          }
+        ]
+      }
+    }
+  ]
+}

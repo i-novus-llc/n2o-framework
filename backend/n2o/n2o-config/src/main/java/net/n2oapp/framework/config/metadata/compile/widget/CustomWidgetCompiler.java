@@ -30,6 +30,7 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
         compileDataProviderAndRoutes(widget, source, p, null, widgetRoute, null);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
+        widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(widget.getId());
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);

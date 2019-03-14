@@ -55,6 +55,7 @@ stories.add('N2O вариант', () => {
     groupFieldId: text('groupFieldId', N2OSelectJson.groupFieldId),
     hasCheckboxes: boolean('hasCheckboxes', N2OSelectJson.hasCheckboxes),
     closePopupOnSelect: boolean('closePopupOnSelect', N2OSelectJson.closePopupOnSelect),
+    cleanable: boolean('cleanable', N2OSelectJson.cleanable),
     format: text('format', N2OSelectJson.format)
   };
 

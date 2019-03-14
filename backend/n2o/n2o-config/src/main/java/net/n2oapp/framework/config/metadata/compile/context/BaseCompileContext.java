@@ -105,7 +105,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public String getRoute(BindProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return ((BindProcessor)p).resolveUrl(route, parentModelLink);
+            return p.resolveUrl(route, parentModelLink);
         }
         return route;
     }

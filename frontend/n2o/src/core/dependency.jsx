@@ -70,24 +70,10 @@ const dependency = WrappedComponent => {
      * Вызывается в резолве при зависимости типа fetch, диспатчит экшен фетча
      */
     [DEPENDENCY_TYPES.fetch](models, prevModels) {
-      const {
-        onDependencyFetch,
-        onDependencyDisable,
-        onDependencyEnable,
-        id: widgetId,
-        isEnabled,
-        isVisible
-      } = this.props;
+      const { onDependencyFetch, isVisible } = this.props;
       if (isEqual(models, prevModels)) return;
-      if (models.some(({ model }) => model)) {
-        if (!isEnabled) {
-          onDependencyEnable();
-        }
-        if (isVisible) {
-          onDependencyFetch();
-        }
-      } else {
-        onDependencyDisable();
+      if (isVisible) {
+        onDependencyFetch();
       }
     }
 

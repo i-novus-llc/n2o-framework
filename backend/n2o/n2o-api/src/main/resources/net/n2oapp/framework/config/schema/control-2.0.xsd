@@ -34,7 +34,7 @@
         <xs:sequence>
             <xs:element name="hidden" type="controlHiddenDefinition" minOccurs="0"/>
             <xs:element name="text-area" type="controlTextArea" minOccurs="0"/>
-            <!--<xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>-->
+            <xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
@@ -308,9 +308,7 @@
     <xs:complexType name="controlTextEditor">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="height" type="xs:string" use="optional"/>
-                <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
-                <xs:attribute name="config-url" type="xs:string" use="optional"/>
+                <xs:attribute name="toolbar-url" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -329,7 +327,7 @@
 
     <xs:complexType name="controlInputMoneyDefinition">
         <xs:complexContent>
-            <xs:extension base="controlDefinition">
+            <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="suffix" type="xs:string"/>
                 <xs:attribute name="prefix" type="xs:string"/>
                 <xs:attribute name="thousands-separator" type="xs:string"/>
@@ -452,6 +450,7 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:attribute name="type" type="inputSelectType"/>
+                <xs:attribute name="cleanable" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

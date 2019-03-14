@@ -16,7 +16,7 @@ public class N2oTextEditorReaderV1 extends N2oStandardControlReaderV1<N2oTextEdi
     public N2oTextEditor read(Element element, Namespace namespace) {
         N2oTextEditor textEditor = new N2oTextEditor();
         readControlTextDefinition(element, textEditor);
-        textEditor.setConfigUrl(ReaderJdomUtil.getAttributeString(element, "config-url"));
+        textEditor.setToolbarUrl(ReaderJdomUtil.getAttributeString(element, "config-url"));
         return textEditor;
     }
 

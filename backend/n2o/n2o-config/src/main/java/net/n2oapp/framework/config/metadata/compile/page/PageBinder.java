@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -35,17 +36,28 @@ public class PageBinder implements BaseMetadataBinder<Page> {
         }
         if (page.getBreadcrumb() != null)
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
-                    .forEach(b -> b.setPath(p.resolveUrl(b.getPath(), null, null)));
+                    .forEach(b -> {
+                        b.setPath(p.resolveUrl(b.getPath()));
+                        b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
+                    });
         if (page.getModels() != null) {
             page.getModels().values().forEach(bl -> {
                 if (bl.getValue() instanceof String) {
                     bl.setValue(p.resolveText((String) bl.getValue()));
+                } else if (bl.getValue() instanceof DefaultValues) {
+                    DefaultValues dv = (DefaultValues) bl.getValue();
+                    for (String key : dv.getValues().keySet()) {
+                        if (dv.getValues().get(key) instanceof String) {
+                            dv.getValues().put(key, p.resolveText((String) dv.getValues().get(key)));
+                        }
+                    }
                 }
             });
             resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), page.getWidgets()), p);
         }
         if (page.getPageProperty() != null) {
-            page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(), page.getPageProperty().getModelLink()));
+            page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
+                    page.getPageProperty().getModelLink()));
         }
         if (page.getBreadcrumb() != null) {
             for (Breadcrumb crumb : page.getBreadcrumb()) {
@@ -70,7 +82,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
                             link.setSubModelQuery(f.getLink().getSubModelQuery());
                             if (models.get(model, widgetId, fieldId) != null)
                                 link.setValue(models.get(model, widgetId, fieldId).getValue());
-                            if (link.isConst())
+                            if (link.getValue() == null || link.isConst())
                                 models.add(model, widgetId, fieldId, link);
                             links.add(f.getLink());
                         }
@@ -83,9 +95,8 @@ public class PageBinder implements BaseMetadataBinder<Page> {
 
     private void resolveLinks(Models models, List<ModelLink> filterLinks, BindProcessor p) {
         models.keySet().forEach(param -> {
-                    ModelLink link = p.resolveLink(models.get(param));
-                    p.resolveSubModels(link, filterLinks);
-                    models.put(param, link);
+                    p.resolveLink(models.get(param));
+                    p.resolveSubModels(models.get(param), filterLinks);
                 }
         );
     }

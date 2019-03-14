@@ -57,6 +57,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setClientWidgetId(table.getId());
         widgetScope.setWidgetId(source.getId());
+        widgetScope.setQueryId(source.getQueryId());
         Models models = p.getScope(Models.class);
         SubModelsScope subModelsScope = new SubModelsScope();
         UploadScope uploadScope = new UploadScope();
@@ -78,6 +79,11 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 component.setRowColor(p.resolveJS(source.getRows().getColorFieldId()));
             } else {
                 if (source.getRows().getColor() != null) {
+                    Map<Object, String> resolvedCases = new HashMap<>();
+                    for (String key : source.getRows().getColor().getCases().keySet()) {
+                        resolvedCases.put(p.resolve(key), source.getRows().getColor().getCases().get(key));
+                    }
+                    source.getRows().getColor().setResolvedCases(resolvedCases);
                     component.setRowColor(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
@@ -98,7 +104,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 component.setRowClick(action);
             } else if (rowClick.getAction() != null) {
                 Action action = p.compile(rowClick.getAction(), context, widgetScope,
-                        widgetRouteScope, new ComponentScope(source));
+                        widgetRouteScope, new ComponentScope(rowClick));
                 component.setRowClick(action);
             }
         }

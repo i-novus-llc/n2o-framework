@@ -7,11 +7,10 @@ import {
   isVisibleSelector,
   isDisabledSelector,
   messageSelector,
-  filterSelector,
   requiredSelector
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import { compose, pure, defaultProps, withProps } from 'recompose';
+import { compose, pure, withProps, defaultProps } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 
 /**
@@ -34,18 +33,22 @@ export default Field => {
      */
     initIfNeeded(props) {
       const {
-        dispatch,
         meta: { form },
         input: { name },
         isInit,
-        visible,
-        disabled,
+        visibleToRegister,
+        disabledToRegister,
         dependency,
-        required
+        requiredToRegister,
+        registerFieldExtra
       } = props;
-      if (!isInit) {
-        dispatch(registerFieldExtra(form, name, { visible, disabled, dependency, required }));
-      }
+      !isInit &&
+        registerFieldExtra(form, name, {
+          visible: visibleToRegister,
+          disabled: disabledToRegister,
+          dependency,
+          required: requiredToRegister
+        });
     }
 
     /**
@@ -129,29 +132,35 @@ export default Field => {
   const mapStateToProps = (state, ownProps) => {
     const { form } = ownProps.meta;
     const { name } = ownProps.input;
-    const isVisible = isVisibleSelector(form, name)(state);
-    const isDisabled = isDisabledSelector(form, name)(state);
-    const isRequired = requiredSelector(form, name)(state);
     return {
       isInit: isInitSelector(form, name)(state),
-      visible: isBoolean(isVisible) ? isVisible : ownProps.visible,
-      disabled: isBoolean(isDisabled) ? isDisabled : ownProps.disabled,
+      visible: isVisibleSelector(form, name)(state),
+      disabled: isDisabledSelector(form, name)(state),
       message: messageSelector(form, name)(state),
-      required: isBoolean(isRequired) ? isRequired : ownProps.required,
-      filterValues: filterSelector(form, name)(state)
+      required: requiredSelector(form, name)(state)
     };
   };
 
+  const mapDispatchToProps = {
+    registerFieldExtra
+  };
+
   return compose(
-    connect(mapStateToProps),
-    withProps(props => ({
-      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled
-    })),
     defaultProps({
-      isInit: false,
       visible: true,
-      disabled: false
+      disabled: false,
+      required: false
     }),
+    withProps(props => ({
+      visibleToRegister: props.visible,
+      disabledToRegister:
+        isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
+      requiredToRegister: props.required
+    })),
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    ),
     withProps(props => ({
       ref: props.setReRenderRef
     })),
