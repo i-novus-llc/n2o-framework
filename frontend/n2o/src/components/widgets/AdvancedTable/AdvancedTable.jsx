@@ -202,7 +202,7 @@ class AdvancedTable extends Component {
     } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(id);
     }
-    if (rowClick) {
+    if (!noResolve && rowClick) {
       onRowClickAction();
     }
   }
