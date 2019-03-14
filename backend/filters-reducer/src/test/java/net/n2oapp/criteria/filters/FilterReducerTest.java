@@ -5,12 +5,10 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static net.n2oapp.criteria.filters.FilterReducer.*;
+import static net.n2oapp.criteria.filters.FilterReducer.reduce;
 
 /**
- * User: operehod
- * Date: 19.11.2014
- * Time: 11:15
+ * Тесты простых случаев в {@link FilterReducer}
  */
 public class FilterReducerTest {
 
@@ -131,7 +129,7 @@ public class FilterReducerTest {
         Result result = reduce(
                 new Filter(1, FilterType.eq),
                 new Filter(1, FilterType.simple));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
         assert result.getResultFilter() == null;
     }
 
@@ -279,14 +277,14 @@ public class FilterReducerTest {
         result = reduce(
                 new Filter(Arrays.asList(2, 3, 4, 5), FilterType.overlaps),
                 new Filter(3, FilterType.more));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
         assert result.getResultFilter() == null;
 
         //ошибка - less with overlap всегда
         result = reduce(
                 new Filter(Arrays.asList(2, 3, 4), FilterType.overlaps),
                 new Filter(4, FilterType.less));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
         assert result.getResultFilter() == null;
 
         //ошибка
@@ -341,14 +339,14 @@ public class FilterReducerTest {
         result = reduce(
                 new Filter(Arrays.asList(2, 3, 4, 5), FilterType.contains),
                 new Filter(1, FilterType.more));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
         assert result.getResultFilter() == null;
 
         //ошибка - less with contains всегда
         result = reduce(
                 new Filter(Arrays.asList(2, 3, 4), FilterType.contains),
                 new Filter(5, FilterType.less));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
         assert result.getResultFilter() == null;
 
         //ошибка
@@ -473,7 +471,7 @@ public class FilterReducerTest {
         result = reduce(
                 new Filter(1, FilterType.more),
                 new Filter(10, FilterType.less));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
         assert result.getResultFilter() == null;
 
         //ошибка

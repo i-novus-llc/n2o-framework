@@ -176,22 +176,31 @@ public class N2oQueryProcessor implements QueryProcessor {
             for (String fieldId : restrictionFieldIds) {
                 List<Restriction> restrictionsByField = criteria.getRestrictions(fieldId);
                 if (restrictionsByField.size() > 1) {
-                    Filter result = restrictionsByField.get(0);
+                    List<Filter> resFilters = new ArrayList<>();
+                    resFilters.add(restrictionsByField.get(0));
                     for (int i = 1; i < restrictionsByField.size(); i++) {
-                        Result reduceResult = FilterReducer.reduce(result, restrictionsByField.get(i));
-                        if (reduceResult.isSuccess()) {
-                            result = reduceResult.getResultFilter();
-                        } else {
-                            if (reduceResult.getType().equals(Result.Type.conflict)) {
-                                return new CollectionPage<>(0, Collections.emptyList(), criteria);
+                        boolean notMergeable = false;
+                        for (Filter result : resFilters) {
+                            Result reduceResult = FilterReducer.reduce(result, restrictionsByField.get(i));
+                            if (reduceResult.isSuccess()) {
+                                resFilters.remove(result);
+                                resFilters.add(reduceResult.getResultFilter());
+                                notMergeable = false;
+                                break;
                             } else {
-                                throw new N2oException(String.format("Rule for merge filter with type %s and %s for field %s not found!",
-                                        result.getType(), restrictionsByField.get(i).getType(), fieldId));
+                                if (reduceResult.getType().equals(Result.Type.notMergeable)) {
+                                    notMergeable = true;
+                                } else {
+                                    return new CollectionPage<>(0, Collections.emptyList(), criteria);
+                                }
                             }
+                        }
+                        if (notMergeable) {
+                            resFilters.add(restrictionsByField.get(i));
                         }
                     }
                     criteria.removeFilterForField(fieldId);
-                    criteria.addRestriction(new Restriction(fieldId, result));
+                    resFilters.forEach(result -> criteria.addRestriction(new Restriction(fieldId, result)));
                 }
             }
         }
@@ -229,7 +238,8 @@ public class N2oQueryProcessor implements QueryProcessor {
         return mapFields(result, query.getDisplayFields());
     }
 
-    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection selection,
+    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
+            selection,
                                                       N2oPreparedCriteria criteria) {
         Collection<?> result = outMap(res, selection.getResultMapping(), Collection.class);
 
@@ -247,7 +257,8 @@ public class N2oQueryProcessor implements QueryProcessor {
         });
     }
 
-    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, List<String> filterFields, String queryId) {
+    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, List<String> filterFields, String
+            queryId) {
         if (selections == null) {
             return null;
         }
