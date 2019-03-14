@@ -341,7 +341,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return null;
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
-        dataProvider.setUrl(p.resolveText(property("n2o.config.data.route")) + normalize(widgetRoute));
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + normalize(widgetRoute));
         //Копируем соответствие параметров URL из маршрута страницы в провайдер данных виджета
         Map<String, BindLink> pathMap = new StrictMap<>();
         if (parentRouteScope != null && parentRouteScope.getPathMapping() != null) {
