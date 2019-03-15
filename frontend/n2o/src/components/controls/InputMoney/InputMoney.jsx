@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { isEqual, forOwn, isEmpty, split } from 'lodash';
+import { isEqual, forOwn, isEmpty, split, replace } from 'lodash';
 import InputMask from '../InputMask/InputMask';
 
 const ReplaceableChar = {
@@ -51,10 +51,10 @@ class InputMoney extends React.Component {
   convertToMoney(value) {
     const { allowDecimal } = this.props;
     if (!isEmpty(value) && this.props[ReplaceableChar.DECIMAL_SYMBOL] !== '.') {
-      value = value.replace('.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
+      value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
     }
 
-    const splitBySymbol = value.split(this.props[ReplaceableChar.DECIMAL_SYMBOL]);
+    const splitBySymbol = split(value, this.props[ReplaceableChar.DECIMAL_SYMBOL]);
 
     if (!allowDecimal) {
       value = splitBySymbol[0];
