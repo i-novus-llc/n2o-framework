@@ -18,13 +18,14 @@ import net.n2oapp.framework.engine.util.TestEntity;
 import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.AdditionalAnswers;
+import org.mockito.stubbing.Answer;
 
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -43,7 +44,10 @@ public class InvocationProcessorTest {
         SqlInvocationEngine sqlInvocationEngine = new SqlInvocationEngine();
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
         ContextProcessor processor = mock(ContextProcessor.class);
-        when(processor.resolve(anyString())).then(AdditionalAnswers.returnsFirstArg());
+        when(processor.resolve(anyMap())).thenAnswer((Answer<DataSet>) invocation -> (DataSet) invocation.getArguments()[0]);
+        when(processor.resolve(anyString())).thenAnswer((Answer<String>) invocation -> (String) invocation.getArguments()[0]);
+        when(processor.resolve(anyInt())).thenAnswer((Answer<Integer>) invocation -> (Integer) invocation.getArguments()[0]);
+        when(processor.resolve(anyList())).thenAnswer((Answer<List>) invocation -> (List) invocation.getArguments()[0]);
         invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor, new DomainProcessor());
     }
 

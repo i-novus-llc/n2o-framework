@@ -12,8 +12,8 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
@@ -280,8 +280,8 @@ public class DataTest {
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody().getList().size(), is(1));
         assertThat(response.getBody().getList().get(0).get("id"), is(11));
-        assertThat(((Map)response.getBody().getList().get(0).get("subModel")).get("id"), is(123));
-        assertThat(((Map)response.getBody().getList().get(0).get("subModel")).get("name"), is("testName"));
+        assertThat(((Map) response.getBody().getList().get(0).get("subModel")).get("id"), is(123));
+        assertThat(((Map) response.getBody().getList().get(0).get("subModel")).get("name"), is("testName"));
     }
 
     @Getter

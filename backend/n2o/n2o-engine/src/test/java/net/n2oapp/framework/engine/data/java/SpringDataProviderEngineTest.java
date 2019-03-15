@@ -8,9 +8,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.engine.test.source.SpringInvocationTestClass;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Arrays;
@@ -18,19 +15,20 @@ import java.util.Arrays;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
  * Тестирование вызова spring метода
  */
-@RunWith(MockitoJUnitRunner.class)
 public class SpringDataProviderEngineTest {
-    @Mock
+
     private ApplicationContext applicationContext;
 
     @Before
     public void setUp() throws Exception {
         SpringInvocationTestClass testCase = new SpringInvocationTestClass();
+        applicationContext = mock(ApplicationContext.class);
         when(applicationContext.getBean("testBean")).thenReturn(testCase);
         when(applicationContext.getBean("testBean", SpringInvocationTestClass.class)).thenReturn(testCase);
         when(applicationContext.getBean(SpringInvocationTestClass.class)).thenReturn(testCase);

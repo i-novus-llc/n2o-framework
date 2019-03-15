@@ -43,11 +43,6 @@ public class SimplePropertyResolver implements PropertyResolver {
     }
 
     @Override
-    public <T> Class<T> getPropertyAsClass(String key, Class<T> targetType) {
-        return targetType;
-    }
-
-    @Override
     public String getRequiredProperty(String key) throws IllegalStateException {
         String value = properties.getProperty(key);
         if (value == null)
