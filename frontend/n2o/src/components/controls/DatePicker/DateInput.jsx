@@ -44,8 +44,11 @@ class DateInput extends React.Component {
   }
 
   onFocus(e) {
-    const { onFocus } = this.props;
+    const { setVisibility, onFocus, openOnFocus } = this.props;
     onFocus && onFocus(e);
+    if (openOnFocus) {
+      setVisibility(true);
+    }
   }
 
   onBlur(e) {
@@ -127,7 +130,8 @@ DateInput.defaultProps = {
   dateFormat: 'DD/MM/YYYY',
   autoFocus: false,
   onFocus: () => {},
-  onBlur: () => {}
+  onBlur: () => {},
+  openOnFocus: false
 };
 
 DateInput.propTypes = {
@@ -142,6 +146,7 @@ DateInput.propTypes = {
   inputClassName: PropTypes.string,
   name: PropTypes.string,
   onClick: PropTypes.func,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool
 };
 export default DateInput;
