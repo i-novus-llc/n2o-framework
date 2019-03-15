@@ -28,6 +28,7 @@ class DateInput extends React.Component {
     this.onFocus = this.onFocus.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
+    this.onInputClick = this.onInputClick.bind(this);
   }
 
   onChange(e) {
@@ -43,9 +44,8 @@ class DateInput extends React.Component {
   }
 
   onFocus(e) {
-    const { setVisibility, onFocus } = this.props;
+    const { onFocus } = this.props;
     onFocus && onFocus(e);
-    setVisibility(true);
   }
 
   onBlur(e) {
@@ -65,11 +65,17 @@ class DateInput extends React.Component {
     this.props.setVisibility(true);
   }
 
+  onInputClick(event) {
+    const { setVisibility, onClick } = this.props;
+    setVisibility(true);
+    onClick && onClick(event);
+  }
+
   /**
    * Базовый рендер
    */
   render() {
-    const { onClick, disabled, placeholder, name, autoFocus } = this.props;
+    const { disabled, placeholder, name, autoFocus } = this.props;
     const inputStyle = { flexGrow: 1 };
     const dashStyle = { alignSelf: 'center' };
     return (
@@ -87,7 +93,7 @@ class DateInput extends React.Component {
           disabled={disabled}
           value={this.state.value}
           onChange={this.onChange}
-          onClick={onClick}
+          onClick={this.onInputClick}
           style={inputStyle}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
