@@ -10,9 +10,10 @@ import ExpandBtn from './ExpandBtn';
 import {
   createTreeFn,
   takeKeysWhenSearching,
-  keyDownAction,
+  customTreeActions,
   FILTER_MODE,
-  animationTree
+  animationTree,
+  singleDoubleClickFilter
 } from '../until';
 import { propTypes, defaultProps, TREE_NODE_PROPS, TREE_PROPS } from './treeProps';
 import Icon from '../../../snippets/Icon/Icon';
@@ -43,12 +44,13 @@ class Tree extends Component {
     this.onHideAllTreeItem = this.onHideAllTreeItem.bind(this);
     this.onShowAllTreeItem = this.onShowAllTreeItem.bind(this);
     this.renderSwitcherIcon = this.renderSwitcherIcon.bind(this);
-    this.onKeyDown = this.onKeyDown.bind(this);
+    this.onCustomActions = this.onCustomActions.bind(this);
     this.onCheck = this.onCheck.bind(this);
     this.onSelect = this.onSelect.bind(this);
     this.prepareDataAndResolve = this.prepareDataAndResolve.bind(this);
     this.createSelectedKeys = this.createSelectedKeys.bind(this);
     this.selectedObjToTreeKeys = this.selectedObjToTreeKeys.bind(this);
+    this.onDoubleClickHandler = this.onDoubleClickHandler.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -153,7 +155,8 @@ class Tree extends Component {
     this.prepareDataAndResolve(keys);
   }
 
-  onKeyDown(_, key) {
+  onCustomActions(_, key) {
+    console.log(key);
     const inState = pick(this.state, ['expandedKeys']);
     const inProps = pick(this.props, [
       'prefixCls',
@@ -162,7 +165,7 @@ class Tree extends Component {
       'datasource',
       'hasCheckboxes'
     ]);
-    keyDownAction({
+    customTreeActions({
       key,
       treeRef: this.treeRef,
       ...inProps,
@@ -191,7 +194,9 @@ class Tree extends Component {
     }
   }
 
-  animation;
+  onDoubleClickHandler() {
+    this.onCustomActions(null, 'DB_CLICK');
+  }
 
   render() {
     const nodeProps = pick(this.props, TREE_NODE_PROPS);
@@ -205,20 +210,31 @@ class Tree extends Component {
       searchValue,
       searchKeys
     } = this.state;
-    const { filter, expandBtn, datasource, hasCheckboxes, multiselect, prefixCls } = this.props;
+    const {
+      filter,
+      expandBtn,
+      datasource,
+      hasCheckboxes,
+      multiselect,
+      prefixCls,
+      filterPlaceholder
+    } = this.props;
 
     const checkable = hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false;
 
     return (
       <div className={`${prefixCls}-wrapper`}>
-        {filter && FILTER_MODE.includes(filter) && <Filter onFilter={this.onFilter} />}
+        {filter &&
+          FILTER_MODE.includes(filter) && (
+            <Filter onFilter={this.onFilter} filterPlaceholder={filterPlaceholder} />
+          )}
         {expandBtn && (
           <ExpandBtn onShowAll={this.onShowAllTreeItem} onHideAll={this.onHideAllTreeItem} />
         )}
         <HotKeys
           className="hotkey"
           keyMap={{ events: values(KEY_CODES) }}
-          handlers={{ events: this.onKeyDown }}
+          handlers={{ events: this.onCustomActions }}
         >
           <TreeBase
             openAnimation={animationTree}
@@ -228,7 +244,8 @@ class Tree extends Component {
             selectedKeys={selectedKeys}
             checkedKeys={checkedKeys}
             onCheck={this.onCheck}
-            onSelect={this.onSelect}
+            onSelect={singleDoubleClickFilter(this.onSelect, null, 200)}
+            onDoubleClick={this.onDoubleClickHandler}
             multiple={multiselect}
             checkable={checkable}
             switcherIcon={this.renderSwitcherIcon}

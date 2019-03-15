@@ -227,3 +227,16 @@
   }
 }
 
+.tree-exp-btn{
+  .btn-link:not(:first-child),
+  .btn-group:not(:first-child) > .btn-link  {
+    &::before{
+      content: "|";
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      color: $gray;
+    }
+  }
+}
+

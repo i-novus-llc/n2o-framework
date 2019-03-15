@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Icon from '../../../snippets/Icon/Icon';
 import InputText from '../../../controls/InputText/InputText';
 
-function Filter({ value, setValue, onFilter }) {
+function Filter({ value, setValue, onFilter, filterPlaceholder }) {
   const onFilterFn = debounce(onFilter, 200);
 
   const onChange = value => {
@@ -21,7 +21,7 @@ function Filter({ value, setValue, onFilter }) {
 
   return (
     <div className="tree-filter">
-      <InputText value={value} onChange={onChange} />
+      <InputText value={value} onChange={onChange} placeholder={filterPlaceholder} />
       {value && (
         <div className="tree-filter-clear" onClick={onClear}>
           <Icon name="fa fa-times" />

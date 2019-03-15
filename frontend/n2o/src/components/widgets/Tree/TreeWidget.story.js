@@ -122,6 +122,26 @@ stories
 
     return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
   })
+  .add('Drag and drop', () => {
+    fetchMock.restore().get('begin:n2o/data', dataBadge);
+
+    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+  })
+  .add('Multi режим', () => {
+    fetchMock.restore().get('begin:n2o/data', dataBadge);
+
+    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+  })
+  .add('блокировка ноды и чекбокса', () => {
+    fetchMock.restore().get('begin:n2o/data', dataBadge);
+
+    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+  })
+  .add('showLine', () => {
+    fetchMock.restore().get('begin:n2o/data', dataBadge);
+
+    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+  })
   .add('Экшен на клик', () => {
     fetchMock.restore().get('begin:n2o/data', dataBadge);
     fetchMock.get('begin:n2o/page', page);
@@ -141,7 +161,9 @@ stories
       }
     };
 
-    metadata['Page_Tree'].rowClick = rowClick;
+    const meta = { ...metadata };
+
+    meta['Page_Tree'].rowClick = rowClick;
 
     return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
   });

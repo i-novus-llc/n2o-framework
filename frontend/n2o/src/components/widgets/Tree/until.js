@@ -204,7 +204,7 @@ const checked = (focusedElement, node, { prefixCls }) => {
 
 /// end base fns
 
-export const keyDownAction = ({
+export const customTreeActions = ({
   key,
   treeRef,
   datasource,
@@ -258,6 +258,9 @@ export const keyDownAction = ({
       up(focusedElement, route, node);
     }
   }
+  if (eq(key, 'DB_CLICK')) {
+    toggle(focusedElement, node, { prefixCls });
+  }
   return false;
 };
 
@@ -294,4 +297,22 @@ export const animationTree = {
   leave(node, done) {
     return animate(node, false, done);
   }
+};
+
+export const singleDoubleClickFilter = (singleCallback, doubleCallback, timeout) => {
+  let timer = 0;
+
+  return (...args) => {
+    timer++;
+    if (timer === 1) {
+      setTimeout(() => {
+        if (timer === 1) {
+          singleCallback && singleCallback(...args);
+        } else {
+          doubleCallback && doubleCallback(...args);
+        }
+        timer = 0;
+      }, timeout || 100);
+    }
+  };
 };

@@ -22,7 +22,8 @@ export const defaultProps = {
   showLine: false,
   filter: '',
   expandBtn: false,
-  onResolve: () => {}
+  onResolve: () => {},
+  filterPlaceholder: 'Поиск...'
 };
 
 export const propTypes = {
@@ -47,7 +48,8 @@ export const propTypes = {
   showLine: PropTypes.bool,
   filter: PropTypes.string,
   expandBtn: PropTypes.bool,
-  onResolve: PropTypes.func
+  onResolve: PropTypes.func,
+  filterPlaceholder: PropTypes.string
 };
 
 export const TREE_PROPS = [
