@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import TreeBase from 'rc-tree';
-import { pick, isEqual, map, eq, difference, filter, isArray, isFunction } from 'lodash';
+import { pick, isEqual, map, eq, difference, filter, isArray, isFunction, values } from 'lodash';
 import { HotKeys } from 'react-hotkeys';
 //components
 import { BaseNode } from '../TreeNodes';
@@ -17,6 +17,7 @@ import {
 import { propTypes, defaultProps, TREE_NODE_PROPS, TREE_PROPS } from './treeProps';
 import Icon from '../../../snippets/Icon/Icon';
 import CheckboxN2O from '../../../controls/Checkbox/CheckboxN2O';
+import { KEY_CODES } from './constants';
 
 class Tree extends Component {
   constructor(props) {
@@ -216,7 +217,7 @@ class Tree extends Component {
         )}
         <HotKeys
           className="hotkey"
-          keyMap={{ events: ['up', 'down', 'space', 'enter', 'ctrl+enter'] }}
+          keyMap={{ events: values(KEY_CODES) }}
           handlers={{ events: this.onKeyDown }}
         >
           <TreeBase

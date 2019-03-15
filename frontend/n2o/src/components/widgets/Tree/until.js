@@ -1,5 +1,18 @@
 import React from 'react';
-import { forEach, keys, map, filter, eq, omit, isFunction, get, has, uniqueId } from 'lodash';
+import {
+  forEach,
+  keys,
+  map,
+  filter,
+  eq,
+  omit,
+  isFunction,
+  get,
+  has,
+  uniqueId,
+  find,
+  some
+} from 'lodash';
 import { KEY_CODES } from './component/constants';
 import { findDOMNode } from 'react-dom';
 import cssAnimation from 'css-animation';
@@ -131,6 +144,66 @@ export const getTreeLinerRoute = (data, expandedKeys, { parentFieldId, valueFiel
   return buff;
 };
 
+///Key base fns
+
+const down = (focusedElement, route, node) => {
+  if (eq(focusedElement.className, 'hotkey')) {
+    const child = node.querySelector(`.cls-${route[0]}`);
+    child.focus();
+  }
+  if (focusedElement.dataset.id) {
+    const id = focusedElement.dataset.id;
+    const inx = route.indexOf(id);
+    if (route.length > inx + 1) {
+      const child = node.querySelector(`.cls-${route[inx + 1]}`);
+      child.focus();
+    }
+  }
+};
+
+const up = (focusedElement, route, node) => {
+  if (focusedElement.dataset.id) {
+    const id = focusedElement.dataset.id;
+    const inx = route.indexOf(id);
+    if (inx - 1 >= 0) {
+      const child = node.querySelector(`.cls-${route[inx - 1]}`);
+      child.focus();
+    }
+  }
+};
+
+const select = (focusedElement, node) => {
+  if (focusedElement.dataset.id) {
+    const id = focusedElement.dataset.id;
+    const child = node.querySelector(`.cls-${id}`);
+    child.click();
+  }
+};
+
+const toggle = (focusedElement, node, { prefixCls }) => {
+  if (focusedElement.dataset.id) {
+    const id = focusedElement.dataset.id;
+    const child = node
+      .querySelector(`.cls-${id}`)
+      .closest('li')
+      .querySelector(`.${prefixCls}-switcher`);
+    child.click();
+  }
+};
+
+const checked = (focusedElement, node, { prefixCls }) => {
+  if (focusedElement.dataset.id) {
+    const id = focusedElement.dataset.id;
+    const child = node
+      .querySelector(`.cls-${id}`)
+      .closest('li')
+      .querySelector(`.${prefixCls}-checkbox`);
+    child && child.click();
+  }
+};
+
+/// end base fns
+
 export const keyDownAction = ({
   key,
   treeRef,
@@ -147,55 +220,42 @@ export const keyDownAction = ({
 
   const focusedElement = document.activeElement;
 
+  const isParent = id => some(datasource, [parentFieldId, id]);
+
+  const isRootParent = id => {
+    const elem = find(datasource, [valueFieldId, id]);
+    if (elem && !has(elem, parentFieldId) && !find(datasource, [parentFieldId, id])) {
+      return true;
+    }
+    return false;
+  };
+
   if (eq(key, KEY_CODES.KEY_DOWN)) {
-    if (eq(focusedElement.className, 'hotkey')) {
-      const child = node.querySelector(`.cls-${route[0]}`);
-      child.focus();
-    }
-    if (focusedElement.dataset.id) {
-      const id = focusedElement.dataset.id;
-      const inx = route.indexOf(id);
-      if (route.length > inx + 1) {
-        const child = node.querySelector(`.cls-${route[inx + 1]}`);
-        child.focus();
-      }
-    }
+    down(focusedElement, route, node);
   }
   if (eq(key, KEY_CODES.KEY_UP)) {
-    if (focusedElement.dataset.id) {
-      const id = focusedElement.dataset.id;
-      const inx = route.indexOf(id);
-      if (inx - 1 >= 0) {
-        const child = node.querySelector(`.cls-${route[inx - 1]}`);
-        child.focus();
-      }
-    }
-  }
-  if (eq(key, KEY_CODES.ENTER)) {
-    if (focusedElement.dataset.id) {
-      const id = focusedElement.dataset.id;
-      const child = node.querySelector(`.cls-${id}`);
-      child.click();
-    }
+    up(focusedElement, route, node);
   }
   if (eq(key, KEY_CODES.KEY_SPACE)) {
-    if (focusedElement.dataset.id) {
-      const id = focusedElement.dataset.id;
-      const child = node
-        .querySelector(`.cls-${id}`)
-        .closest('li')
-        .querySelector(`.${prefixCls}-switcher`);
-      child.click();
-    }
+    select(focusedElement, node);
   }
   if (eq(key, KEY_CODES.CTRL_ENTER)) {
-    if (focusedElement.dataset.id) {
-      const id = focusedElement.dataset.id;
-      const child = node
-        .querySelector(`.cls-${id}`)
-        .closest('li')
-        .querySelector(`.${prefixCls}-checkbox`);
-      child && child.click();
+    checked(focusedElement, node, { prefixCls });
+  }
+  if (eq(key, KEY_CODES.RIGHT)) {
+    const id = focusedElement.dataset.id;
+    if (!expandedKeys.includes(id) && isParent(id) && !isRootParent(id) && route.includes(id)) {
+      toggle(focusedElement, node, { prefixCls });
+    } else {
+      down(focusedElement, route, node);
+    }
+  }
+  if (eq(key, KEY_CODES.LEFT)) {
+    const id = focusedElement.dataset.id;
+    if (expandedKeys.includes(id) && isParent(id) && !isRootParent(id) && route.includes(id)) {
+      toggle(focusedElement, node, { prefixCls });
+    } else {
+      up(focusedElement, route, node);
     }
   }
   return false;
