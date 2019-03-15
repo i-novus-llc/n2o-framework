@@ -46,7 +46,6 @@ export {
   FormFieldsetStandartVE,
   PlaceholderBreadCrumb,
   tableActions,
-  FormHighlyLoadedTest
-  tableActions,
+  FormHighlyLoadedTest,
   InputSelectTreeDefaultValue
 };
