@@ -31,6 +31,7 @@ public class ObjectAccessTransformer extends BaseAccessTransformer<CompiledObjec
 
     private void mapObjectAccess(SimpleCompiledAccessSchema schema, CompiledObject.Operation compiled, String objectId) {
         collectObjectAccess(compiled, objectId, compiled.getId(), schema);
+        collectObjectFilters(compiled, objectId, compiled.getId(), schema);
     }
 
     @Override

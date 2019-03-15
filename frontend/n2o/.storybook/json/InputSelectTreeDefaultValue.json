@@ -1,0 +1,39 @@
+{
+  "Page_Form": {
+    "src": "FormWidget",
+    "dataProvider": {
+      "url": "n2o/formData"
+    },
+    "form": {
+      "fetchOnInit": true,
+      "fieldsets": [
+        {
+          "src": "StandardFieldset",
+          "rows": [
+            {
+              "cols": [
+                {
+                  "fields": [
+                    {
+                      "id": "field",
+                      "src": "StandardField",
+                      "label": "Поле",
+                      "control": {
+                        "src": "InputSelectTree",
+                        "multiSelect": true,
+                        "dataProvider": {
+                          "url": "n2o/data"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "modelPrefix": "resolve"
+    }
+  }
+}

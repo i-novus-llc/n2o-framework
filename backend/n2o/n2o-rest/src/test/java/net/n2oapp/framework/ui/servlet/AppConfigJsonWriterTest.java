@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.test.TestContextEngine;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -54,17 +55,25 @@ public class AppConfigJsonWriterTest {
     @Test
     public void overrideValues() throws IOException {
         AppConfigJsonWriter writer = new AppConfigJsonWriter();
-        List<String> configs = Collections.singletonList("{\"test\":{\"inner-value\":123}}");
+        TestContextEngine testContextEngine = new TestContextEngine();
+        testContextEngine.put("name", "some text \"text in quotes\"");
+        ContextProcessor processor = new ContextProcessor(testContextEngine);
+        writer.setContextProcessor(processor);
+        List<String> configs = Arrays.asList("{\"test\":{\"inner-value\":123}}",  "{\"test2\":{\"inner-value\":\"#{name}\"}}");
         writer.setConfigs(configs);
         writer.setObjectMapper(new ObjectMapper());
         Map<String, Object> added = new HashMap<>();
         added.put("test", new Sub("test"));
+        added.put("test2", new Sub("test2"));
 
         StringWriter sw = new StringWriter();
         writer.writeValues(new PrintWriter(sw), added);
         ObjectNode result = (ObjectNode) new ObjectMapper().readTree(sw.toString());
         assertThat(result.get("test").get("inner-value").asInt(), is(123));
         assertThat(result.get("test").get("inner-class").asText(), is("test"));
+
+        assertThat(result.get("test2").get("inner-value").asText(), is("some text \"text in quotes\""));
+        assertThat(result.get("test2").get("inner-class").asText(), is("test2"));
     }
 
     public static class Sub {

@@ -5,12 +5,12 @@ import {
   UncontrolledButtonDropdown,
   UncontrolledTooltip,
   DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  DropdownMenu
 } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';
 import SecurityCheck from '../../../../../core/auth/SecurityCheck';
+import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem';
 
 /**
  * @param label - Название компонента dropdown
@@ -29,15 +29,15 @@ function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security
   const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
   const dropdownProps = pick(rest, ['disabled', 'direction', 'active', 'color', 'size']);
 
-  const createDropDownMenu = ({ title, visible, icon, action, security, ...itemProps }) => {
+  const createDropDownMenu = ({ title, visible, icon, action, security, color, ...itemProps }) => {
     const handleClick = action => e => onClick(e, action);
 
     const renderItem = () =>
       defaultTo(visible, true) ? (
-        <DropdownItem {...itemProps} onClick={handleClick(action)}>
+        <DropdownCustomItem color={color} onClick={handleClick(action)} {...itemProps}>
           {icon && <Icon name={icon} />}
           {title}
-        </DropdownItem>
+        </DropdownCustomItem>
       ) : null;
 
     return isEmpty(security) ? (

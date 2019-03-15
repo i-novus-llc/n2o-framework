@@ -22,6 +22,8 @@ public class N2oSelectTree extends N2oListField implements N2oSingleListField, N
     private String hasChildrenFieldId;
     private Boolean search;
     private Boolean checkboxes;
+    private CheckingStrategy checkingStrategy;
+    private Integer maxTagCount;
 
 
     private boolean hasCheckboxes() {

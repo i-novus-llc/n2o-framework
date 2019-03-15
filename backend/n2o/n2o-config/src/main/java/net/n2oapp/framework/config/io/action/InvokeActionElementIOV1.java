@@ -17,6 +17,8 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
         p.attribute(e, "operation-id", ia::getOperationId, ia::setOperationId);
         p.attribute(e,"route", ia::getRoute, ia::setRoute);
         p.attributeBoolean(e, "close-after-success", ia::getCloseAfterSuccess, ia::setCloseAfterSuccess);
+        p.attribute(e,"refresh-widget-id", ia::getRefreshWidgetId, ia::setRefreshWidgetId);
+        p.attributeBoolean(e, "refresh-on-success", ia::getRefreshOnSuccess, ia::setRefreshOnSuccess);
         p.attribute(e, "redirect-url", ia::getRedirectUrl, ia::setRedirectUrl);
         p.attributeEnum(e, "redirect-target", ia::getRedirectTarget, ia::setRedirectTarget, Target.class);
     }

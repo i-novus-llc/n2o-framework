@@ -262,7 +262,7 @@ describe('Тестирование HOC', () => {
   };
   it('Зависимость регистрируется', () => {
     const store = mockStore(initialState);
-    const Component = withDependency('input');
+    const Component = withDependency({})('input');
     const wrapper = mount(
       <Provider store={store}>
         <Component form="mockForm" id="field1" dependency={mockData.fields.field1.dependency} />

@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv1;
+import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -38,7 +38,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
-                .ios(new ObjectElementIOv1(), new QueryElementIOv4())
+                .ios(new QueryElementIOv4(), new ObjectElementIOv2())
                 .packs(new N2oDataProvidersPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oInvocationV2ReadersPack())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler());
     }
@@ -74,6 +74,15 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(testFilter.getFilterList()[0].getFilterField(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterField(), is("testFilter_in"));
     }
+
+//    @Test
+//    public void testEmptyBody() {
+//        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
+//                .get(new QueryContext("testEmptyBody"));
+//        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
+//    }
 
     @Test
     public void testFieldNames() {
@@ -130,5 +139,18 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(query.getValidations().get(0).getFieldId(), is("test"));
         assertThat(query.getValidations().get(0).getSeverity(), is(SeverityType.danger));
         assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
+    }
+
+    /**
+     * Для тестового провайдера тело для <select/>, <sorting/>, <filter/> генерируется автоматически
+     */
+    @Test
+    public void testTestDataProvider() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
+                .transformers(new TestEngineQueryTransformer());
+        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
+        assertThat(query.getFieldsMap().get("id").getSelectBody(), is("id"));
+        assertThat(query.getFieldsMap().get("id").getSortingBody(), is("id :idDirection"));
+        assertThat(query.getFieldsMap().get("id").getFilterList()[0].getText(), is("id :eq :id"));
     }
 }

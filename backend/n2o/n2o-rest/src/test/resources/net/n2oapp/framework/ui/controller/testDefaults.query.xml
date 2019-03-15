@@ -5,11 +5,11 @@
     </list>
     <fields>
         <field id="id">
-            <select/>
+            <select>id</select>
             <filters>
-                <eq filter-id="id"/>
+                <eq filter-id="id">id:eq:id</eq>
             </filters>
         </field>
-        <field id="name"><select/></field>
+        <field id="name"><select>name</select></field>
     </fields>
 </query>

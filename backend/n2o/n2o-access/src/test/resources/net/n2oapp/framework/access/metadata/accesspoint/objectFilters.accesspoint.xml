@@ -1,0 +1,3 @@
+<object-filters xmlns="http://n2oapp.net/framework/config/schema/access-point-2.0" object-id="test">
+    <eq field-id="test" id="test" value="test"/>
+</object-filters>

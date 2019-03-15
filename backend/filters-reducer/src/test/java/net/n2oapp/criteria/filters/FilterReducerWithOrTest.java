@@ -8,9 +8,7 @@ import static java.util.Arrays.asList;
 import static net.n2oapp.criteria.filters.FilterReducer.reduce;
 
 /**
- * User: operehod
- * Date: 19.11.2014
- * Time: 11:15
+ * Тесты для {@link FilterReducer}
  */
 public class FilterReducerWithOrTest {
 
@@ -396,25 +394,25 @@ public class FilterReducerWithOrTest {
         result = reduce(
                 new Filter("te", FilterType.like),
                 new Filter(Arrays.asList("test"), FilterType.inOrIsNull));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
 
         //likeStart
         result = reduce(
                 new Filter("te", FilterType.likeStart),
                 new Filter(Arrays.asList("test"), FilterType.inOrIsNull));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
 
         //overlap
         result = reduce(
                 new Filter(Arrays.asList(1, 2), FilterType.overlaps),
                 new Filter(Arrays.asList(1, 2), FilterType.inOrIsNull));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
 
         //contains
         result = reduce(
                 new Filter(Arrays.asList(1, 2), FilterType.contains),
                 new Filter(Arrays.asList(1, 2), FilterType.inOrIsNull));
-        assert result.getType().equals(Result.Type.failure);
+        assert result.getType().equals(Result.Type.notMergeable);
     }
 
 

@@ -5,10 +5,10 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolit
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.tools.N2oCounter;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.local.N2oMetadataMerger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +41,8 @@ public abstract class N2oWidget extends N2oMetadata
     private String style;
     private Boolean border;
     private String refId;
+    private String masterParam;
+    private Boolean fetchOnInit;
 
     /**
      * Источник данных виджета
@@ -56,6 +57,7 @@ public abstract class N2oWidget extends N2oMetadata
     private Boolean opened;
     private String masterFieldId;
     private String detailFieldId;
+    private String visible;
     private Boolean refreshDependentContainer;
     private N2oPreFilter[] preFilters;
     private N2oCounter counter;
@@ -82,6 +84,7 @@ public abstract class N2oWidget extends N2oMetadata
 
     /**
      * Добавить предустановленные фильтры
+     *
      * @param preFilters Список предустановленных фильтров
      */
     public void addPreFilters(List<N2oPreFilter> preFilters) {

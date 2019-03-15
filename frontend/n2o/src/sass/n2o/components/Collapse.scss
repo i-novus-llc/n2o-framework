@@ -5,12 +5,24 @@
   border: 0;
   background-color: transparent;
 
+  & .rc-collapse-item-active .rc-collapse-content {
+    overflow: initial;
+  }
+
+  & .rc-collapse-item-active .rc-collapse-anim {
+    overflow: hidden;
+  }
+
   .n2o-collapse-icon-wrapper{
-    width: 16px;
-    height: 16px;
+    min-width: 16px;
+    max-width: 16px;
+    min-height: 16px;
+    max-height: 16px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    align-self: flex-start;
+    margin-top: 6px;
     border-radius: 50%;
   }
 
@@ -26,10 +38,18 @@
         display: inline-block;
         vertical-align: middle;
         box-sizing: border-box;
-        width: 100%;
+        flex-grow: 1;
+        min-width: 40px;
         height: $collapse-line-height;
         background: $collapse-line-color;
         margin-left: 5px;
+      }
+
+      & .n2o-panel-header .n2o-panel-header-text {
+        white-space: nowrap;
+        max-width: calc(100% - 40px);
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -48,13 +68,13 @@
 
     // header
     .n2o-panel-header{
+      display: flex;
+      align-items: center;
+      height: auto;
       padding: 0;
       color: #474747;
       text-indent: initial;
-      height: 30px;
       line-height: 28px;
-      white-space: nowrap;
-      overflow: hidden;
       font-weight: $font-weight-bold;
 
       &:hover {

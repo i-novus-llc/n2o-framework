@@ -1,0 +1,11 @@
+.n2o-editable-cell {
+  &:hover {
+    transition: 0.3s;
+    color: #263238;
+    background-color: #fff;
+    border-color: #317db5;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(22, 56, 81, 0.25);
+    cursor: text;
+  }
+}

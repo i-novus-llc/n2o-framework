@@ -31,7 +31,7 @@ public class InputSelectTreeJsonTest extends JsonMetadataTestBase {
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
                 .exclude("src", "id", "loading", "value", "disabled", "valueFieldId", "imageFieldId",
                         "badgeFieldId", "badgeColorFieldId", "filter", "groupFieldId", "format", "notFoundContent",
-                        "showCheckedStrategy", "hasChildrenFieldId", "hasSearch", "readOnly", "allowClear", "showSearch")
+                        "hasChildrenFieldId", "hasSearch", "readOnly", "allowClear", "showSearch")
                 .assertEquals();
     }
 }

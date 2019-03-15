@@ -45,6 +45,8 @@ public class MenuItem implements IdAware, Serializable, PropertiesAware {
     private Confirm confirm;
     @JsonProperty
     private Boolean validate;
+    @JsonProperty
+    private String validatedWidgetId;
 
     private Map<String, Object> properties;
 

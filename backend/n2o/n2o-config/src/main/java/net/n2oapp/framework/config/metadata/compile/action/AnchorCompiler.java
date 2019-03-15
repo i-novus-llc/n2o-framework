@@ -67,9 +67,10 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         }
 
         WidgetScope scope = p.getScope(WidgetScope.class);
-        if (scope != null && scope.getClientWidgetId() != null &&
-                p.getScope(ComponentScope.class).unwrap(ModelAware.class) != null) {
-            ReduxModel model = p.getScope(ComponentScope.class).unwrap(ModelAware.class).getModel();
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (scope != null && scope.getClientWidgetId() != null && componentScope != null &&
+                componentScope.unwrap(ModelAware.class) != null) {
+            ReduxModel model = componentScope.unwrap(ModelAware.class).getModel();
             if (source.getPathParams() != null) {
                 for (N2oAnchor.Param pathParam : source.getPathParams()) {
                     ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), scope.getClientWidgetId());

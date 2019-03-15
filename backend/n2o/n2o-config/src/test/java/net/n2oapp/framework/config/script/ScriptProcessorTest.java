@@ -98,18 +98,26 @@ public class ScriptProcessorTest {
         N2oSwitch n2oSwitch = new N2oSwitch();
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), nullValue());
         n2oSwitch.setValueFieldId("status");
-        Map<String, String> cases = new HashMap<>();
-        cases.put("1", "blue");
-        cases.put("2", "red");
-        n2oSwitch.setCases(cases);
+        Map<Object, String> cases = new HashMap<>();
+        cases.put(1, "blue");
+        cases.put(2, "red");
+        n2oSwitch.setResolvedCases(cases);
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : null`"));
 
         n2oSwitch.setDefaultCase("gray");
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : 'gray'`"));
 
-        cases.put("3", "{name == 'Нина' ? 'black' : 'white'}");
+        cases.put(3, "{name == 'Нина' ? 'black' : 'white'}");
         assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
                 is("`status == 1 ? 'blue' : status == 2 ? 'red' : status == 3 ? name == 'Нина' ? 'black' : 'white' : 'gray'`"));
+
+        cases = new HashMap<>();
+        cases.put("ok", "blue");
+        cases.put("failed", "red");
+        n2oSwitch.setResolvedCases(cases);
+        n2oSwitch.setDefaultCase("gray");
+
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 'ok' ? 'blue' : status == 'failed' ? 'red' : 'gray'`"));
     }
 
 

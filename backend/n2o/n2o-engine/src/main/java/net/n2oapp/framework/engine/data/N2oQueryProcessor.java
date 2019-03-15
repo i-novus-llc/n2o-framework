@@ -2,7 +2,10 @@ package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.Filter;
+import net.n2oapp.criteria.filters.FilterReducer;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.Result;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -98,7 +101,7 @@ public class N2oQueryProcessor implements QueryProcessor {
             return page;
         } else if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
             DataSet single = prepareSingleResult(result, query, selection);
-            if (single == null) {
+            if (single.isEmpty()) {
                 throw new N2oRecordNotFoundException();
             }
             return new CollectionPage<>(1, Collections.singletonList(single), criteria);
@@ -168,10 +171,47 @@ public class N2oQueryProcessor implements QueryProcessor {
     }
 
     private CollectionPage<DataSet> executePageQuery(N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
+        if (criteria != null && criteria.getRestrictions() != null) {
+            Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(r -> r.getFieldId()).collect(Collectors.toSet());
+            for (String fieldId : restrictionFieldIds) {
+                if (reduceFiltersByField(criteria, fieldId))
+                    return new CollectionPage<>(0, Collections.emptyList(), criteria);
+            }
+        }
         Object result = executeQuery(selection, query, criteria);
         CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
         addIdIfNotPresent(query, page);
         return page;
+    }
+
+    private boolean reduceFiltersByField(N2oPreparedCriteria criteria, String fieldId) {
+        List<Restriction> restrictionsByField = criteria.getRestrictions(fieldId);
+        if (restrictionsByField.size() > 1) {
+            List<Filter> resFilters = new ArrayList<>();
+            resFilters.add(restrictionsByField.get(0));
+            for (int i = 1; i < restrictionsByField.size(); i++) {
+                boolean notMergeable = false;
+                for (Filter result : resFilters) {
+                    Result reduceResult = FilterReducer.reduce(result, restrictionsByField.get(i));
+                    if (reduceResult.isSuccess()) {
+                        resFilters.remove(result);
+                        resFilters.add(reduceResult.getResultFilter());
+                        notMergeable = false;
+                        break;
+                    } else if (reduceResult.getType().equals(Result.Type.notMergeable)) {
+                        notMergeable = true;
+                    } else {
+                        return true;
+                    }
+                }
+                if (notMergeable) {
+                    resFilters.add(restrictionsByField.get(i));
+                }
+            }
+            criteria.removeFilterForField(fieldId);
+            resFilters.forEach(result -> criteria.addRestriction(new Restriction(fieldId, result)));
+        }
+        return false;
     }
 
     private void addDefaultFilters(CompiledQuery query, N2oPreparedCriteria criteria) {
@@ -202,7 +242,8 @@ public class N2oQueryProcessor implements QueryProcessor {
         return mapFields(result, query.getDisplayFields());
     }
 
-    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection selection,
+    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
+            selection,
                                                       N2oPreparedCriteria criteria) {
         Collection<?> result = outMap(res, selection.getResultMapping(), Collection.class);
 
@@ -220,7 +261,8 @@ public class N2oQueryProcessor implements QueryProcessor {
         });
     }
 
-    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, List<String> filterFields, String queryId) {
+    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, List<String> filterFields, String
+            queryId) {
         if (selections == null) {
             return null;
         }

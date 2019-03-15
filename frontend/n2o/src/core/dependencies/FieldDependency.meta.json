@@ -46,6 +46,7 @@
                       "src": "StandardField",
                       "label": "Поле №1 . Тип зависимости: блокировка",
                       "control": {
+                        "id": "name",
                         "src": "InputText"
                       },
                       "description": "Введите 'test'"
@@ -59,6 +60,7 @@
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
+                        "id": "surname",
                         "src": "InputText"
                       },
                       "description": "Зависит от поля №1. Тип зависимости: блокировка",
@@ -87,6 +89,7 @@
                       "src": "StandardField",
                       "label": "Поле №2. Тип зависимости: видимость",
                       "control": {
+                        "id": "email",
                         "src": "InputText"
                       },
                       "description": "Введите 'test'"
@@ -101,6 +104,7 @@
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
+                        "id": "date",
                         "src": "InputText"
                       },
                       "description": "Зависит от поля №2. Тип зависимости: видимость",
@@ -129,6 +133,7 @@
                       "src": "StandardField",
                       "label": "Поле №3. Комбинированная зависимость",
                       "control": {
+                        "id": "f3",
                         "src": "InputText"
                       },
                       "description": "Введите 'test'. Это сделает зависимое поле видимым"
@@ -143,6 +148,7 @@
                       "src": "StandardField",
                       "label": "Поле №4. Комбинированная зависимость",
                       "control": {
+                        "id": "f4",
                         "src": "InputText"
                       },
                       "description": "Введите 'test'. Это уберет блокировку"
@@ -157,6 +163,7 @@
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
+                        "id": "depend3",
                         "src": "InputText"
                       },
                       "description": "Зависит от  полей № 3,4. Тип зависимости: комбинированная",
@@ -193,6 +200,7 @@
                       "src": "StandardField",
                       "label": "Поле №9. Тип зависимости: Установка значения",
                       "control": {
+                        "id": "f9",
                         "src": "InputText"
                       },
                       "description": "Введите значение"
@@ -207,6 +215,7 @@
                       "src": "StandardField",
                       "label": "Поле №10. Тип зависимости: Сброс значения",
                       "control": {
+                        "id": "f10",
                         "src": "InputText"
                       },
                       "description": "Введите 'test'. Это сбросит значение зависимого поля"
@@ -221,6 +230,7 @@
                       "src": "StandardField",
                       "label": "Зависимое поле",
                       "control": {
+                        "id": "depend4",
                         "src": "InputText"
                       },
                       "description": "Зависит от полей №9, 10",

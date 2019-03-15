@@ -3,6 +3,8 @@ package net.n2oapp.framework.api.criteria;
 import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.criteria.filters.FilterType;
 
+import java.util.Objects;
+
 /**
  * User: operehod
  * Date: 12.11.2014
@@ -29,5 +31,19 @@ public class Restriction extends Filter {
 
     public String getFieldId() {
         return fieldId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Restriction that = (Restriction) o;
+        return Objects.equals(fieldId, that.fieldId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), fieldId);
     }
 }

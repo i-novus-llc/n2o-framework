@@ -21,6 +21,7 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String route;
     private String redirectUrl;
     private Target redirectTarget;
+    private String refreshWidgetId;
 
     public N2oInvokeAction() {
     }

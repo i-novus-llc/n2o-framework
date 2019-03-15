@@ -22,16 +22,10 @@ import net.n2oapp.watchdir.WatchDir;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
-import static net.n2oapp.context.StaticSpringContext.getBean;
 import static net.n2oapp.framework.config.register.RegisterUtil.createXmlInfo;
 import static net.n2oapp.framework.config.register.storage.PathUtil.convertRootPathToUrl;
 import static net.n2oapp.framework.config.register.storage.PathUtil.normalize;
@@ -42,14 +36,10 @@ import static net.n2oapp.framework.config.util.FileSystemUtil.saveContentToFile;
  * Сохраняет метаданные в файлы
  */
 public class MetadataPersister {
-    private static final Logger logger = LoggerFactory.getLogger(RegisterUtil.class);
-
     @Autowired
     private N2oEventBus eventBus;
     @Autowired
     private ConfigMetadataLocker configMetadataLocker;
-    @Autowired
-    private SourceValidatorFactory metadataValidationFactory;
     @Autowired
     private NamespacePersisterFactory persisterFactory;
     @Autowired
@@ -91,7 +81,6 @@ public class MetadataPersister {
     public <T extends N2oMetadata> void persist(T n2o, String directory) {
         boolean isCreate = metadataRegister.contains(n2o.getId(), n2o.getClass());
         checkLock();
-        validate(n2o);
         Element element = persisterFactory.produce(n2o).persist(n2o, n2o.getNamespace());
         Document doc = new Document();
         doc.addContent(element);
@@ -119,11 +108,10 @@ public class MetadataPersister {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends SourceMetadata> void persist(String id, Class<T> metadataClass, String xml, String directory) {
+    public <T extends SourceMetadata> void persist(String id, Class<T> metadataClass, InputStream xml, String directory) {
         boolean isCreate = !metadataRegister.contains(id, metadataClass);
         checkLock();
         T n2o = metadataReader.read(id, xml, metadataClass);
-        validate(n2o);
         InfoConstructor infoC = findOrCreateXmlInfo(n2o, directory);
         String path = PathUtil.convertUrlToAbsolutePath(infoC.getURI());
         if (path == null)
@@ -167,9 +155,6 @@ public class MetadataPersister {
         return createXmlInfo(localPath, uri, metaModelRegister);
     }
 
-    public <T extends SourceMetadata> void validate(T n2o) {
-        metadataValidationFactory.validate(n2o);
-    }
 
     public void remove(String id, Class<? extends N2oMetadata> metadataClass) {
         checkLock();
@@ -203,10 +188,6 @@ public class MetadataPersister {
 
     public void setConfigMetadataLocker(ConfigMetadataLocker configMetadataLocker) {
         this.configMetadataLocker = configMetadataLocker;
-    }
-
-    public void setMetadataValidationFactory(SourceValidatorFactory metadataValidationFactory) {
-        this.metadataValidationFactory = metadataValidationFactory;
     }
 
     public void setPersisterFactory(NamespacePersisterFactory persisterFactory) {

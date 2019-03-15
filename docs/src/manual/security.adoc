@@ -109,6 +109,9 @@
 |<object-access>
 |Доступ к объекту и операциям
 
+|<object-filters>
+|Фильтрация доступа к объекту
+
 |<url-access>
 |Доступ к ссылке
 
@@ -137,17 +140,44 @@
 Атрибут `operations` задаёт право выполнять указанные операции объекта.
 Если указан знак `*` (звёздочка), позволяется выполнять любые операции.
 
-С помощью фильтров доступа можно ограничить доступ к данным объекта:
+Если есть право на выполнение операций объекта, то на чтение объекта доступ даётся автоматически.
 
-.Правила доступа к данным объекта
+==== Фильтрация доступа к объекту
+
+Точка доступа `<object-filters>` задаёт фильтрацию объекта.
+Фильтры будут действовать на объект, доступ к которому уже дан с помощью `<object-access>`.
+
+.Фильтры доступа к объекту
 [source,xml]
 ----
-<authenticated>
-  <object-access object-id="person">
-    <eq field-id="gender" value="man"/>
-    <!-- Достпуны данные только мужского пола -->
-  </object-access>
-</authenticated>
+<permit-all>
+  <object-filters object-id="contract">
+    <!-- Достпуны договора только созданные мной -->
+    <eq id="onlyMyself"
+      field-id="creator" value="#{username}"/>
+    <!-- Достпуны договора моей организации -->
+    <eq id="onlyMyOrg"
+      field-id="org" value="#{orgId}"/>
+  </object-filters>
+</permit-all>
+----
+
+Фильтрам можно задать идентификатор `id`.
+Идентификатор используется в атрибуте `remove-filters` в `<object-access>`.
+С помощью `remove-filters` можно удалить один или несколько фильтров у объекта,
+чтобы пользователю с определенными правами получить больше данных.
+
+.Удаление фильтров доступа
+[source,xml]
+----
+<permission id="MyContracts">
+  <!-- Действует фильтр onlyMyself и onlyMyOrg -->
+  <object-access object-id="contract"/>
+</permission>
+<permission id="MyOrgContracts">
+  <!-- Действует фильтр onlyMyOrg -->
+  <object-access object-id="contract" remove-filters="onlyMyself"/>
+</permission>
 ----
 
 ==== Доступ к ссылке

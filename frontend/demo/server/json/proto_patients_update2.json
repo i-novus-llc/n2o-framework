@@ -8,22 +8,21 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/5607677/update2/main",
-        "exact": true,
-        "isOtherPage": false
+        "path":"/proto/patients/5607677/update2/main",
+        "exact":true,
+        "isOtherPage":false
       },
       {
-        "path": "/proto/patients/5607677/update2/main/:proto_patients_update2_main_id",
-        "exact": true,
-        "isOtherPage": false
-      }
-    ],
-    "pathMapping": {
-      "proto_patients_update2_main_id": {
-        "type": "n2o/widgets/CHANGE_SELECTED_ID",
-        "payload": {
-          "widgetId": "proto_patients_update2_main",
-          "value": ":proto_patients_update2_main_id"
+        "path":"/proto/patients/5607677/update2/main/:proto_patients_update2_main_id",
+        "exact":true,
+        "isOtherPage":false
+      }],
+    "pathMapping":{
+      "proto_patients_update2_main_id":{
+        "type":"n2o/widgets/CHANGE_SELECTED_ID",
+        "payload":{
+          "widgetId":"proto_patients_update2_main",
+          "value":":proto_patients_update2_main_id"
         }
       }
     },
@@ -120,6 +119,7 @@
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "id": "surname",
                           "placeholder": "Введите значение",
                           "src": "InputText"
                         }
@@ -135,6 +135,7 @@
                         "label": "Имя",
                         "dependency": [],
                         "control": {
+                          "id": "name",
                           "src": "InputText"
                         }
                       }
@@ -148,6 +149,7 @@
                         "label": "Отчество",
                         "dependency": [],
                         "control": {
+                          "id": "patrName",
                           "src": "InputText"
                         }
                       }
@@ -166,6 +168,7 @@
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -190,6 +193,7 @@
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
+                          "id": "birthday",
                           "src": "DatePicker",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
@@ -214,6 +218,7 @@
                           }
                         ],
                         "control": {
+                          "id": "vip",
                           "label": "VIP",
                           "src": "Checkbox"
                         }
@@ -275,7 +280,8 @@
             },
             "color": "primary",
             "title": "Сохранить",
-            "validate": true
+            "validate": true,
+            "validatedWidgetId": "proto_patients_update2_main"
           },
           {
             "id": "close",

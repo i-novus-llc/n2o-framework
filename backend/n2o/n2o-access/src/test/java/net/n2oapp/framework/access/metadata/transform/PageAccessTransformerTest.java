@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -45,13 +46,13 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
         Security.SecurityObject regionSecurityObject = ((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0)
                 .getProperties()
-                .get("security"))
+                .get(SECURITY_PROP_NAME))
                 .getSecurityMap()
                 .get("object");
 
         Security.SecurityObject widgetSecurityObject = ((Security) page.getWidgets()
                 .get("testRegionAccessTransformer_testTable").getProperties()
-                .get("security")).getSecurityMap().get("object");
+                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(regionSecurityObject, equalTo(widgetSecurityObject));
     }
 
@@ -65,13 +66,13 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
         Security.SecurityObject regionSecurityObject = ((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0)
                 .getProperties()
-                .get("security"))
+                .get(SECURITY_PROP_NAME))
                 .getSecurityMap()
                 .get("object");
 
         Security.SecurityObject widgetSecurityObject = ((Security) page.getWidgets()
                 .get("testRegionAccessTransformer_testTable").getProperties()
-                .get("security")).getSecurityMap().get("object");
+                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(regionSecurityObject, equalTo(widgetSecurityObject));
     }
 }

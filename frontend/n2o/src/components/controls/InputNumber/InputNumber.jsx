@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { findDOMNode } from 'react-dom';
-import { toNumber, toString, isNil, isString } from 'lodash';
+import { toNumber, toString, isNil, isNaN, isEqual } from 'lodash';
 
 import Input from '../Input/Input';
 
@@ -32,7 +31,10 @@ class InputNumber extends React.Component {
     this.precision = getPrecision(props.step);
     this.pasted = false;
     this.state = {
-      value: !isNil(value) && !isString(value) ? toNumber(value).toFixed(this.precision) : null
+      value:
+        !isNil(value) && !isNaN(toNumber(value)) && value !== ''
+          ? toNumber(value).toFixed(this.precision)
+          : null
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
@@ -41,12 +43,15 @@ class InputNumber extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { value } = this.props;
     if (
-      prevProps.value !== this.props.value &&
-      !isNil(this.props.value) &&
-      toNumber(this.props.value) !== toNumber(this.state.value)
+      prevProps.value !== value &&
+      !isNil(value) &&
+      toNumber(value) !== toNumber(this.state.value)
     ) {
-      this.setState({ value: formatToFloat(this.props.value, this.precision) });
+      this.setState({ value: formatToFloat(value, this.precision) });
+    } else if (!isEqual(prevProps.value, value) && (value === '' || isNil(value))) {
+      this.setState({ value: null });
     }
   }
 
@@ -105,7 +110,7 @@ class InputNumber extends React.Component {
     } else {
       this.setState({ value: null });
     }
-    this.props.onBlur(e);
+    this.props.onBlur();
   }
 
   /**
@@ -126,7 +131,18 @@ class InputNumber extends React.Component {
    * Базовый рендер
    * */
   render() {
-    const { visible, disabled, name, step, min, max, showButtons, className, onFocus } = this.props;
+    const {
+      visible,
+      disabled,
+      name,
+      step,
+      min,
+      max,
+      showButtons,
+      className,
+      onFocus,
+      autoFocus
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -150,6 +166,7 @@ class InputNumber extends React.Component {
             onChange={({ target }) => this.onChange(target.value)}
             onPaste={this.onPaste}
             disabled={disabled}
+            autoFocus={autoFocus}
           />
           {showButtons && (
             <div className="n2o-input-number-buttons">
@@ -171,6 +188,7 @@ InputNumber.defaultProps = {
   disabled: false,
   visible: true,
   step: '0.1',
+  autoFocus: false,
   showButtons: true,
   onChange: val => {},
   onBlur: val => {},
@@ -187,7 +205,8 @@ InputNumber.propTypes = {
   name: PropTypes.string,
   showButtons: PropTypes.bool,
   onChange: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  autoFocus: PropTypes.bool
 };
 
 export default InputNumber;

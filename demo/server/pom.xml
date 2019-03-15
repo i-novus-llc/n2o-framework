@@ -3,13 +3,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>n2o-demo-server</artifactId>
-    <version>7.0.6-SNAPSHOT</version>
+    <version>7.2.0-SNAPSHOT</version>
     <packaging>${packaging.type}</packaging>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>demo</artifactId>
-        <version>7.0.6-SNAPSHOT</version>
+        <version>7.2.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -38,6 +38,13 @@
         </dependency>
 
         <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-config</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
@@ -55,13 +62,6 @@
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
-
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-header</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!--<dependency>-->
             <!--<groupId>net.n2oapp.framework</groupId>-->
             <!--<artifactId>n2o-access</artifactId>-->
@@ -74,11 +74,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>net.n2oapp.framework</groupId>-->
-            <!--<artifactId>n2o-config-audit</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>

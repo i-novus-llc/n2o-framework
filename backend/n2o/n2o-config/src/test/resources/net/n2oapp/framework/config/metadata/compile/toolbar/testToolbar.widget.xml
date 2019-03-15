@@ -6,6 +6,8 @@
     </actions>
     <toolbar place="topLeft">
         <button id="testId1" action-id="testActionId1"/>
+        <button id="testId4" validate="true" widget-id="testWidgetId"/>
+        <button id="testId5" validate="true"/>
     </toolbar>
     <toolbar place="bottomLeft" >
         <button id="testId2" action-id="testActionId1" label="Label1" model="filter"/>

@@ -1,8 +1,6 @@
 package net.n2oapp.demo;
 
-import net.n2oapp.framework.api.metadata.local.CompilerHolder;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.CompileProcessorAdapter;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
@@ -19,8 +17,6 @@ public class DemoMetadataTest extends N2oTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        new CompilerHolder(new CompileProcessorAdapter(new N2oCompileProcessor(builder.getEnvironment()),
-                builder.getEnvironment().getMetadataRegister()));
     }
 
     @Override

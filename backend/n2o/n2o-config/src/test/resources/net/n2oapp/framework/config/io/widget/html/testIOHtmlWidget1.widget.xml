@@ -3,7 +3,5 @@
         url="test.html">
     <name>Test</name>
     <object-id>test</object-id>
-    <properties>
-        <property key="test" value="test"/>
-    </properties>
+
 </html>

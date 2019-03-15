@@ -31,15 +31,10 @@
                     </fs:field-set>
                 </wgt:form>
             </container>
-            <properties>
-                <property key="keyRegion" value="valueRegion"/>
-            </properties>
+
         </region>
     </regions>
 
-    <properties>
-        <property key="keyRegions" value="valueRegions"/>
-    </properties>
 
 
 </page>

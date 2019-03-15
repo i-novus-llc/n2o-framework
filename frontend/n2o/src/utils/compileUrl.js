@@ -6,7 +6,8 @@ import linkResolver from './linkResolver';
 export function getParams(mapping, state) {
   const params = {};
   each(mapping, (options, key) => {
-    params[key] = linkResolver(state, options);
+    const value = linkResolver(state, options);
+    params[key] = value || undefined;
   });
   return params;
 }

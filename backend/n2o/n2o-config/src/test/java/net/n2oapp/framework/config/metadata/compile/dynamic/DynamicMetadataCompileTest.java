@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -64,24 +65,30 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(dynamicCreatePage.getId(), is("test_route_main_create"));
         assertThat(dynamicCreatePage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicCreatePage.getWidgets().get("test_route_main_create_main"), instanceOf(Form.class));
-        assertThat(((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id"));
+        assertThat((((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
+        assertThat(((StandardField)((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
         // динамическая страница в контекстной кнопке
         Page dynamicPage = route("/test/route/main/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_main_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicPage.getWidgets().get("test_route_main_update_main"), instanceOf(Form.class));
         assertThat(dynamicPage.getWidgets().get("test_route_main_update_main").getName(), is("Dummy"));
-        assertThat(((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id"));
+        assertThat((((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
+        assertThat(((StandardField)((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
 
 
         dynamicPage = route("/test/route/second/123/update", Page.class);
-        assertThat(dynamicPage.getId(), is("test_route_second_update"));
+        assertThat(dynamicPage.getId(), is("test_route_second_123_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
-        assertThat(dynamicPage.getWidgets().get("test_route_second_update_main"), instanceOf(Form.class));
-        assertThat(dynamicPage.getWidgets().get("test_route_second_update_main").getName(), is("123"));
-        assertThat(((Form) dynamicPage.getWidgets().get("test_route_second_update_main")).getComponent().getFieldsets().get(0)
-                .getRows().get(0).getCols().get(0).getFields().get(0).getId(), is("id"));
+        assertThat(dynamicPage.getWidgets().get("test_route_second_123_update_main"), instanceOf(Form.class));
+        assertThat(dynamicPage.getWidgets().get("test_route_second_123_update_main").getName(), is("123"));
+        assertThat((((Form) dynamicPage.getWidgets().get("test_route_second_123_update_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
+        assertThat(((StandardField)((Form) dynamicPage.getWidgets().get("test_route_second_123_update_main")).getComponent().getFieldsets().get(0)
+                .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
     }
 }

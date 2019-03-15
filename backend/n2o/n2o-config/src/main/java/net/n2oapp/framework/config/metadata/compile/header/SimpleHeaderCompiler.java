@@ -25,7 +25,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         CompiledHeader header = new CompiledHeader();
         header.setSrc(source.getSrc());
         header.setBrand(p.cast(source.getProjectName(),
-                p.resolveText(property("n2o.ui.project.name")), "N<sub>2</sub>O"));
+                p.resolve(property("n2o.ui.project.name"), String.class), "N<sub>2</sub>O"));
         header.setBrandImage(source.getProjectImageSrc());
         header.setColor(p.cast(source.getColor(), "default"));
         header.setFixed(p.resolve(property("n2o.api.default.header.fixed"), Boolean.class));
@@ -47,7 +47,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         else
             welcomePageId = p.resolve(property("n2o.ui.homepage.id"), String.class);
         PageContext context = new PageContext(welcomePageId, "/");
-        p.addRoute("/", context);
+        p.addRoute(context);
     }
 
     @Override
