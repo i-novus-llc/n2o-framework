@@ -15,7 +15,13 @@ import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
-import { CHANGE_SIZE, DATA_REQUEST, DISABLE, RESOLVE } from '../constants/widgets';
+import {
+  CHANGE_SIZE,
+  DATA_REQUEST,
+  DISABLE,
+  RESOLVE,
+  RESOLVE_DEPENDENCY
+} from '../constants/widgets';
 import { CLEAR, PREFIXES } from '../constants/models';
 import {
   changeCountWidget,
@@ -24,7 +30,12 @@ import {
   dataSuccessWidget,
   resetWidgetState,
   setTableSelectedId,
-  setWidgetMetadata
+  setWidgetMetadata,
+  showWidget,
+  hideWidget,
+  enableWidget,
+  disableWidget,
+  dataRequestWidget
 } from '../actions/widgets';
 import { setModel } from '../actions/models';
 import {
@@ -34,12 +45,14 @@ import {
 } from '../selectors/widgets';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { getLocation, rootPageSelector } from '../selectors/global';
-import { makeGetModelByPrefixSelector } from '../selectors/models';
+import { makeGetModelByPrefixSelector, getModelsByDependency } from '../selectors/models';
 import fetchSaga from './fetch.js';
 import { FETCH_WIDGET_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
 import { generateErrorMeta } from '../utils/generateErrorMeta';
 import { id } from '../utils/id';
+import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
+import propsResolver from '../utils/propsResolver';
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST
@@ -234,6 +247,83 @@ export function* clearOnDisable(action) {
 }
 
 /**
+ * Резолв зависимостей виджета
+ * @param action
+ * @returns {IterableIterator<*>}
+ */
+export function* resolveWidgetDependency(action) {
+  try {
+    const { widgetId, dependencyType, dependency } = action.payload;
+    let model = select(getModelsByDependency(dependency));
+    if (dependencyType === DEPENDENCY_TYPES.visible) {
+      yield call(resolveVisibleDependency, model, widgetId, dependency);
+    } else if (dependencyType === DEPENDENCY_TYPES.enabled) {
+      yield call(resolveEnabledDependency, model, widgetId, dependency);
+    } else if (dependencyType === DEPENDENCY_TYPES.fetch) {
+      yield call(resolveFetchDependency, model, widgetId, dependency);
+    }
+  } catch (e) {}
+}
+
+/**
+ * Резолв видимости
+ * @param models
+ * @param widgetId
+ * @param options
+ * @returns {IterableIterator<PutEffect<Action> | *>}
+ */
+export function* resolveVisibleDependency(models, widgetId, options) {
+  try {
+    const reduceFunction = (isVisible, { model, config }) => {
+      return isVisible && propsResolver('`' + config.condition + '`', model);
+    };
+    const visible = models.reduce(reduceFunction, true);
+    if (visible) {
+      yield put(showWidget(widgetId));
+    } else {
+      yield put(hideWidget(widgetId));
+    }
+  } catch (e) {}
+}
+
+/**
+ * Резолв активности
+ * @param state
+ * @param widgetId
+ * @param options
+ * @returns {IterableIterator<PutEffect<Action> | *>}
+ */
+export function* resolveEnabledDependency(state, widgetId, options) {
+  try {
+    const { models } = options;
+    const reduceFunction = (isDisabled, { model, config }) =>
+      isDisabled && propsResolver('`' + config.condition + '`', model);
+    const enabled = models.reduce(reduceFunction, true);
+    if (enabled) {
+      yield put(enableWidget(widgetId));
+    } else {
+      yield put(disableWidget(widgetId));
+    }
+  } catch (e) {}
+}
+
+/**
+ * Резолв fetch зависимости
+ * @param state
+ * @param widgetId
+ * @param options
+ * @returns {IterableIterator<PutEffect<Action> | *>}
+ */
+export function* resolveFetchDependency(state, widgetId, options) {
+  try {
+    const { prevModels, models, isVisible } = options;
+    if (!isEqual(prevModels, models) && isVisible) {
+      yield put(dataRequestWidget(widgetId));
+    }
+  } catch (e) {}
+}
+
+/**
  * Сайд-эффекты для виджет редюсера
  * @ignore
  */
@@ -241,5 +331,6 @@ export const widgetsSagas = [
   fork(getData),
   takeEvery(CLEAR, clearForm),
   takeEvery(RESOLVE, runResolve),
-  takeEvery(DISABLE, clearOnDisable)
+  takeEvery(DISABLE, clearOnDisable),
+  takeEvery(RESOLVE_DEPENDENCY, resolveWidgetDependency)
 ];

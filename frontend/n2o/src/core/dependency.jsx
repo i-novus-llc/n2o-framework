@@ -2,32 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEqual, omit, get, forEach, chain, compact, pickBy, pick, isEmpty } from 'lodash';
-import { createStructuredSelector } from 'reselect';
-import {
-  dataRequestWidget,
-  showWidget,
-  hideWidget,
-  enableWidget,
-  disableWidget
-} from '../actions/widgets';
+import { resolveWidgetDependency } from '../actions/widgets';
 import {
   makeWidgetVisibleSelector,
   makeWidgetEnabledSelector,
   makeWidgetIsInitSelector
 } from '../selectors/widgets';
 
-import propsResolver from '../utils/propsResolver';
 import { DEPENDENCY_TYPES } from './dependencyTypes';
 import { getModelsByDependency } from '../selectors/models';
 
-const omittedProps = [
-  'onDependencyFetch',
-  'onDependencyShow',
-  'onDependencyHide',
-  'onDependencyEnable',
-  'onDependencyDisable',
-  'models'
-];
+const omittedProps = ['models'];
 /**
  * НОС - создает зависимость
  *
@@ -70,34 +55,32 @@ const dependency = WrappedComponent => {
      * Вызывается в резолве при зависимости типа fetch, диспатчит экшен фетча
      */
     [DEPENDENCY_TYPES.fetch](models, prevModels) {
-      const { onDependencyFetch, isVisible } = this.props;
-      if (isEqual(models, prevModels)) return;
-      if (isVisible) {
-        onDependencyFetch();
-      }
+      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.fetch, {
+        models,
+        prevModels,
+        isVisible: this.props.isVisible,
+        dependency: this.props.dependency
+      });
     }
 
     /**
      * Вызывается в резолве при зависимости типа visible, диспатчит экшены изменния видимости виджета
      */
     [DEPENDENCY_TYPES.visible](models) {
-      const { onDependencyShow, onDependencyHide } = this.props;
-      const reduceFunction = (isVisible, { model, config }) => {
-        return isVisible && propsResolver('`' + config.condition + '`', model);
-      };
-      const visible = models.reduce(reduceFunction, true);
-      visible ? onDependencyShow() : onDependencyHide();
+      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.visible, {
+        models,
+        dependency: this.props.dependency
+      });
     }
 
     /**
      * Вызывается в резолве при зависимости типа enabled, диспатчит enable/disable экшены
      */
     [DEPENDENCY_TYPES.enabled](models) {
-      const { onDependencyEnable, onDependencyDisable } = this.props;
-      const reduceFunction = (isDisabled, { model, config }) =>
-        isDisabled && propsResolver('`' + config.condition + '`', model);
-      const enabled = models.reduce(reduceFunction, true);
-      enabled ? onDependencyEnable() : onDependencyDisable();
+      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.enabled, {
+        models,
+        dependency: this.props.dependency
+      });
     }
 
     /**
@@ -120,11 +103,7 @@ const dependency = WrappedComponent => {
     isVisible: PropTypes.bool,
     isEnabled: PropTypes.bool,
     models: PropTypes.obj,
-    onDependencyFetch: PropTypes.func,
-    onDependencyShow: PropTypes.func,
-    onDependencyHide: PropTypes.func,
-    onDependencyEnable: PropTypes.func,
-    onDependencyDisable: PropTypes.func
+    resolveWidgetDependency: PropTypes.func
   };
 
   UniversalDependency.defaultProps = {
@@ -153,14 +132,8 @@ const dependency = WrappedComponent => {
   const mapDispatchToProps = (dispatch, ownProps) => {
     const { id: widgetId } = ownProps;
     return {
-      onDependencyFetch: () => dispatch(dataRequestWidget(widgetId)),
-      onDependencyShow: () => dispatch(showWidget(widgetId)),
-      onDependencyHide: () => dispatch(hideWidget(widgetId)),
-      onDependencyEnable: () => {
-        dispatch(enableWidget(widgetId));
-      },
-      onDependencyDisable: () => {
-        dispatch(disableWidget(widgetId));
+      resolveWidgetDependency: (dependencyType, options) => {
+        dispatch(resolveWidgetDependency(widgetId, dependencyType, options));
       }
     };
   };

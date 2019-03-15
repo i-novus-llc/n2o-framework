@@ -23,7 +23,8 @@ import {
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH
+  DISABLE_ON_FETCH,
+  RESOLVE_DEPENDENCY
 } from '../constants/widgets';
 import { CHANGE_BUTTON_CLASS } from '../constants/toolbar';
 import createActionHelper from './createActionHelper';
@@ -275,6 +276,16 @@ export function setWidgetMetadata(pageId, widgetId, metadata) {
  */
 export function setTableSelectedId(widgetId, selectedId) {
   return createActionHelper(SET_TABLE_SELECTED_ID)({ widgetId, value: selectedId });
+}
+
+/**
+ * Резолв зависимости виджета
+ * @param widgetId
+ * @param dependencyType
+ * @param dependency
+ */
+export function resolveWidgetDependency(widgetId, dependencyType, dependency) {
+  return createActionHelper(RESOLVE_DEPENDENCY)({ widgetId, dependencyType, dependency });
 }
 
 export function setActive(widgetId) {

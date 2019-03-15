@@ -23,7 +23,8 @@ import {
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH
+  DISABLE_ON_FETCH,
+  RESOLVE_DEPENDENCY
 } from '../constants/widgets';
 import {
   registerWidget,
@@ -52,8 +53,10 @@ import {
   setWidgetMetadata,
   setTableSelectedId,
   setActive,
-  disableWidgetOnFetch
+  disableWidgetOnFetch,
+  resolveWidgetDependency
 } from '../actions/widgets';
+import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 
 const widgetId = ' widgetId';
 const initProps = {
@@ -404,4 +407,32 @@ describe('Тесты экшенов widgets', () => {
       expect(action.payload.widgetId).toEqual(widgetId);
     });
   });
+  // describe('Проерка resolveWidgetDependency', () => {
+  //   it('Генирирует правильное событие', () => {
+  //     const action = resolveWidgetDependency('test', DEPENDENCY_TYPES.fetch, {
+  //       models: {},
+  //       test: 'yes'
+  //     });
+  //     expect(action.type).toEqual(RESOLVE_DEPENDENCY);
+  //   });
+  //
+  //   it('Генирирует правильный payload', () => {
+  //     const action = resolveWidgetDependency('test', DEPENDENCY_TYPES.visible, {
+  //       models: {
+  //         value: 'model value'
+  //       },
+  //       test: 'test'
+  //     });
+  //     expect(action.payload).toEqual({
+  //       dependencyType: DEPENDENCY_TYPES.visible,
+  //       widgetId: 'test',
+  //       options: {
+  //         models: {
+  //           value: 'model value'
+  //         },
+  //         test: 'test'
+  //       }
+  //     });
+  //   });
+  // });
 });
