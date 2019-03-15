@@ -215,7 +215,6 @@ export default compose(
   withPropsOnChange(['pageId', 'pageUrl'], ({ pageId, pageUrl }) => ({
     pageId: pageId ? pageId : pageUrl ? pageUrl.substr(1) : null
   })),
-
   connect(
     mapStateToProps,
     mapDispatchToProps
