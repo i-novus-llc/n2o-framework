@@ -32,12 +32,14 @@ function ListItem({
   style
 }) {
   const renderImage = image => {
-    return React.isValidElement(image) ? (
+    return checkOnReactElement(image) ? (
       image
     ) : (
       <img src={image.src} alt={image.alt || ''} {...image} />
     );
   };
+
+  const checkOnReactElement = element => React.isValidElement(element);
 
   return (
     <div
@@ -53,15 +55,16 @@ function ListItem({
       </div>
       <div className="n2o-widget-list-item-main-container">
         <div className="n2o-widget-list-item-header-row">
-          {header && (
-            <div className="n2o-widget-list-item-header">
-              <h3>{header}</h3>
-            </div>
-          )}
-          {subHeader && (
-            <div className="n2o-widget-list-item-subheader text-muted">
-              <h4>{subHeader}</h4>
-            </div>
+          {checkOnReactElement(header) && checkOnReactElement(subHeader) ? (
+            <React.Fragment>
+              <div className="n2o-widget-list-item-header">{header}</div>
+              <div className="n2o-widget-list-item-subheader text-muted">{subHeader}</div>
+            </React.Fragment>
+          ) : (
+            <h3 className="n2o-widget-list-item-header">
+              {header}
+              <small className="n2o-widget-list-item-subheader text-muted">{subHeader}</small>
+            </h3>
           )}
         </div>
         {body && <div className="n2o-widget-list-item-body">{body}</div>}

@@ -31,7 +31,15 @@
 
     &-header-row {
       display: flex;
-      align-items: baseline;
+      align-items: center;
+
+      & small {
+        margin-left: 5px;
+      }
+
+      & .badge {
+        margin-left: 0;
+      }
     }
 
     &--divider {

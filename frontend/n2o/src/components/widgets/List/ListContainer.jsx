@@ -69,7 +69,7 @@ class ListContainer extends React.Component {
 
   renderCell(section) {
     if (!section) return;
-    return <ReduxCell {...section} className={'n2o-widget-list-cell'} as={'div'} />;
+    return <ReduxCell {...section} className={'n2o-widget-list-cell'} />;
   }
 
   handleItemClick(index) {

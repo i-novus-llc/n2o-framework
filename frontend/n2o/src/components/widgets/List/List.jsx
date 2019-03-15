@@ -13,6 +13,8 @@ import {
   List as Virtualizer
 } from 'react-virtualized';
 
+const SCROLL_OFFSET = 100;
+
 /**
  * Компонент List
  * @reactProps {number|string} selectedId - id выбранной записи
@@ -109,7 +111,9 @@ class List extends Component {
     clearTimeout(this._scrollTimeoutId);
 
     this._scrollTimeoutId = setTimeout(() => {
-      if (event.target.scrollTop + event.target.clientHeight === event.target.scrollHeight) {
+      const scrollPosition = event.target.scrollTop + event.target.clientHeight;
+      const minScrollToLoad = event.target.scrollHeight - SCROLL_OFFSET;
+      if (scrollPosition >= minScrollToLoad || scrollPosition === event.target.scrollHeight) {
         this.fetchMore();
       }
     }, 300);

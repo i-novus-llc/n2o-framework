@@ -124,7 +124,8 @@
       },
       "header": {
         "src": "TextCell",
-        "id": "header"
+        "id": "header",
+        "as": "h3"
       },
       "body": {
         "src": "TextCell",
@@ -133,13 +134,14 @@
       },
       "subHeader": {
         "src": "BadgeCell",
-        "id": "subHeader"
+        "id": "subHeader",
+        "as": "h4"
       },
       "rightTop": {
         "src": "IconCell",
         "id": "rightTop",
         "visible": true,
-        "icon": "fa fa-question"
+        "icon": "fa fa-comment"
       },
       "rightBottom": {
         "src": "TextCell",
