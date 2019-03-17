@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isEqual, omit, get, forEach, chain, compact, pickBy, pick, isEmpty } from 'lodash';
+import { isEqual, omit, get, forEach, isEmpty } from 'lodash';
 import { resolveWidgetDependency } from '../actions/widgets';
 import {
   makeWidgetVisibleSelector,
   makeWidgetEnabledSelector,
   makeWidgetIsInitSelector
 } from '../selectors/widgets';
+import { getModelsByDependency } from '../selectors/models';
 
 import { DEPENDENCY_TYPES } from './dependencyTypes';
-import { getModelsByDependency } from '../selectors/models';
 
 const omittedProps = ['models'];
 /**
@@ -21,10 +21,8 @@ const dependency = WrappedComponent => {
   class UniversalDependency extends React.Component {
     constructor(props) {
       super(props);
-      forEach(props.models, (models = [], type) => {
-        if (!isEmpty(models)) {
-          this[type](models);
-        }
+      forEach(props.dependency, (dependency, type) => {
+        this[type](dependency);
       });
     }
     /**
@@ -32,15 +30,10 @@ const dependency = WrappedComponent => {
      * @param prevProps
      */
     componentDidUpdate(prevProps) {
-      const currentModels = pickBy(this.props.models);
-      const prevModels = pickBy(prevProps.models);
-      forEach(currentModels, (models, type) => {
-        if (!isEmpty(currentModels[type])) this[type](currentModels[type], prevModels[type]);
+      const { dependency } = this.props;
+      forEach(dependency, (dependency, type) => {
+        this[type](dependency);
       });
-    }
-
-    componentDidMount() {
-      this.isInitialized = true;
     }
 
     shouldComponentUpdate(nextProps) {
@@ -54,33 +47,22 @@ const dependency = WrappedComponent => {
     /**
      * Вызывается в резолве при зависимости типа fetch, диспатчит экшен фетча
      */
-    [DEPENDENCY_TYPES.fetch](models, prevModels) {
-      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.fetch, {
-        models,
-        prevModels,
-        isVisible: this.props.isVisible,
-        dependency: this.props.dependency
-      });
+    [DEPENDENCY_TYPES.fetch](dependency) {
+      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.fetch, dependency, this.props.isVisible);
     }
 
     /**
      * Вызывается в резолве при зависимости типа visible, диспатчит экшены изменния видимости виджета
      */
-    [DEPENDENCY_TYPES.visible](models) {
-      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.visible, {
-        models,
-        dependency: this.props.dependency
-      });
+    [DEPENDENCY_TYPES.visible](dependency) {
+      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.visible, dependency);
     }
 
     /**
      * Вызывается в резолве при зависимости типа enabled, диспатчит enable/disable экшены
      */
-    [DEPENDENCY_TYPES.enabled](models) {
-      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.enabled, {
-        models,
-        dependency: this.props.dependency
-      });
+    [DEPENDENCY_TYPES.enabled](dependency) {
+      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.enabled, dependency);
     }
 
     /**
@@ -102,7 +84,7 @@ const dependency = WrappedComponent => {
     isInit: PropTypes.bool,
     isVisible: PropTypes.bool,
     isEnabled: PropTypes.bool,
-    models: PropTypes.obj,
+    models: PropTypes.object,
     resolveWidgetDependency: PropTypes.func
   };
 
@@ -132,8 +114,8 @@ const dependency = WrappedComponent => {
   const mapDispatchToProps = (dispatch, ownProps) => {
     const { id: widgetId } = ownProps;
     return {
-      resolveWidgetDependency: (dependencyType, options) => {
-        dispatch(resolveWidgetDependency(widgetId, dependencyType, options));
+      resolveWidgetDependency: (dependencyType, dependency, isVisible) => {
+        dispatch(resolveWidgetDependency(widgetId, dependencyType, dependency, isVisible));
       }
     };
   };

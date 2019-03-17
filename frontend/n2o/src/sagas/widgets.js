@@ -1,4 +1,4 @@
-import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import { call, fork, put, select, take, takeEvery, actionChannel } from 'redux-saga/effects';
 import {
   isEmpty,
   isEqual,
@@ -248,79 +248,98 @@ export function* clearOnDisable(action) {
 
 /**
  * Резолв зависимостей виджета
- * @param action
  * @returns {IterableIterator<*>}
  */
-export function* resolveWidgetDependency(action) {
+export function* resolveWidgetDependency() {
   try {
-    const { widgetId, dependencyType, dependency } = action.payload;
-    let model = select(getModelsByDependency(dependency));
-    if (dependencyType === DEPENDENCY_TYPES.visible) {
-      yield call(resolveVisibleDependency, model, widgetId, dependency);
-    } else if (dependencyType === DEPENDENCY_TYPES.enabled) {
-      yield call(resolveEnabledDependency, model, widgetId, dependency);
-    } else if (dependencyType === DEPENDENCY_TYPES.fetch) {
-      yield call(resolveFetchDependency, model, widgetId, dependency);
+    const channels = yield actionChannel(RESOLVE_DEPENDENCY);
+    while (true) {
+      const prevState = yield select();
+      const action = yield take(channels);
+      const state = yield select();
+      const { widgetId, dependencyType, dependency, isVisible } = action.payload;
+      const model = getModelsByDependency(dependency)(state);
+      const prevModel = getModelsByDependency(dependency)(prevState);
+      switch (dependencyType) {
+        case DEPENDENCY_TYPES.visible: {
+          yield call(resolveVisibleDependency, model, widgetId);
+          break;
+        }
+        case DEPENDENCY_TYPES.enabled: {
+          yield call(resolveEnabledDependency, model, widgetId);
+          break;
+        }
+        case DEPENDENCY_TYPES.fetch: {
+          yield call(resolveFetchDependency, model, prevModel, widgetId, isVisible);
+          break;
+        }
+        default:
+          break;
+      }
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 /**
  * Резолв видимости
- * @param models
+ * @param model
  * @param widgetId
- * @param options
  * @returns {IterableIterator<PutEffect<Action> | *>}
  */
-export function* resolveVisibleDependency(models, widgetId, options) {
+export function* resolveVisibleDependency(model, widgetId) {
   try {
     const reduceFunction = (isVisible, { model, config }) => {
       return isVisible && propsResolver('`' + config.condition + '`', model);
     };
-    const visible = models.reduce(reduceFunction, true);
+    const visible = model.reduce(reduceFunction, true);
     if (visible) {
       yield put(showWidget(widgetId));
     } else {
       yield put(hideWidget(widgetId));
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 /**
  * Резолв активности
- * @param state
+ * @param model
  * @param widgetId
- * @param options
  * @returns {IterableIterator<PutEffect<Action> | *>}
  */
-export function* resolveEnabledDependency(state, widgetId, options) {
+export function* resolveEnabledDependency(model, widgetId) {
   try {
-    const { models } = options;
     const reduceFunction = (isDisabled, { model, config }) =>
       isDisabled && propsResolver('`' + config.condition + '`', model);
-    const enabled = models.reduce(reduceFunction, true);
+    const enabled = model.reduce(reduceFunction, true);
     if (enabled) {
       yield put(enableWidget(widgetId));
     } else {
       yield put(disableWidget(widgetId));
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 /**
  * Резолв fetch зависимости
- * @param state
+ * @param model
+ * @param prevModel
  * @param widgetId
- * @param options
+ * @param isVisible
  * @returns {IterableIterator<PutEffect<Action> | *>}
  */
-export function* resolveFetchDependency(state, widgetId, options) {
+export function* resolveFetchDependency(model, prevModel, widgetId, isVisible) {
   try {
-    const { prevModels, models, isVisible } = options;
-    if (!isEqual(prevModels, models) && isVisible) {
-      yield put(dataRequestWidget(widgetId));
-    }
-  } catch (e) {}
+    yield put(dataRequestWidget(widgetId));
+  } catch (e) {
+    console.log('point');
+    console.error(e);
+  }
 }
 
 /**
@@ -329,8 +348,8 @@ export function* resolveFetchDependency(state, widgetId, options) {
  */
 export const widgetsSagas = [
   fork(getData),
+  fork(resolveWidgetDependency),
   takeEvery(CLEAR, clearForm),
   takeEvery(RESOLVE, runResolve),
-  takeEvery(DISABLE, clearOnDisable),
-  takeEvery(RESOLVE_DEPENDENCY, resolveWidgetDependency)
+  takeEvery(DISABLE, clearOnDisable)
 ];

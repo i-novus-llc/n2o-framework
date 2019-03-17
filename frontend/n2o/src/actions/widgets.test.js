@@ -407,32 +407,35 @@ describe('Тесты экшенов widgets', () => {
       expect(action.payload.widgetId).toEqual(widgetId);
     });
   });
-  // describe('Проерка resolveWidgetDependency', () => {
-  //   it('Генирирует правильное событие', () => {
-  //     const action = resolveWidgetDependency('test', DEPENDENCY_TYPES.fetch, {
-  //       models: {},
-  //       test: 'yes'
-  //     });
-  //     expect(action.type).toEqual(RESOLVE_DEPENDENCY);
-  //   });
-  //
-  //   it('Генирирует правильный payload', () => {
-  //     const action = resolveWidgetDependency('test', DEPENDENCY_TYPES.visible, {
-  //       models: {
-  //         value: 'model value'
-  //       },
-  //       test: 'test'
-  //     });
-  //     expect(action.payload).toEqual({
-  //       dependencyType: DEPENDENCY_TYPES.visible,
-  //       widgetId: 'test',
-  //       options: {
-  //         models: {
-  //           value: 'model value'
-  //         },
-  //         test: 'test'
-  //       }
-  //     });
-  //   });
-  // });
+  describe('Проерка resolveWidgetDependency', () => {
+    it('Генирирует правильное событие', () => {
+      const action = resolveWidgetDependency('test', DEPENDENCY_TYPES.fetch, [{ on: 'modelLink' }]);
+      expect(action.type).toEqual(RESOLVE_DEPENDENCY);
+    });
+
+    it('Генирирует правильный payload', () => {
+      const action = resolveWidgetDependency(
+        'test',
+        DEPENDENCY_TYPES.visible,
+        [
+          {
+            on: 'modelLink',
+            condition: 'widgetCondition'
+          }
+        ],
+        true
+      );
+      expect(action.payload).toEqual({
+        dependencyType: DEPENDENCY_TYPES.visible,
+        widgetId: 'test',
+        dependency: [
+          {
+            on: 'modelLink',
+            condition: 'widgetCondition'
+          }
+        ],
+        isVisible: true
+      });
+    });
+  });
 });

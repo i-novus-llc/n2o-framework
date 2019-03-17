@@ -283,9 +283,15 @@ export function setTableSelectedId(widgetId, selectedId) {
  * @param widgetId
  * @param dependencyType
  * @param dependency
+ * @param isVisible
  */
-export function resolveWidgetDependency(widgetId, dependencyType, dependency) {
-  return createActionHelper(RESOLVE_DEPENDENCY)({ widgetId, dependencyType, dependency });
+export function resolveWidgetDependency(widgetId, dependencyType, dependency, isVisible) {
+  return createActionHelper(RESOLVE_DEPENDENCY)({
+    widgetId,
+    dependencyType,
+    dependency,
+    isVisible
+  });
 }
 
 export function setActive(widgetId) {
