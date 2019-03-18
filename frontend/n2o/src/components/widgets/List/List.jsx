@@ -12,6 +12,7 @@ import {
   CellMeasurerCache,
   List as Virtualizer
 } from 'react-virtualized';
+import { getIndex } from '../Table/Table';
 
 const SCROLL_OFFSET = 100;
 
@@ -22,16 +23,15 @@ const SCROLL_OFFSET = 100;
  * @reactProps {function} onItemClick - callback при клике на строку
  * @reactProps {object} rowClick - кастомное действие клика
  * @reactProps {function} onFetchMore - callback при клика на "Загрузить еще" или скролле
+ * @reactProps {string|number} selectedId - id выбранной записи
  */
 class List extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      selectedIndex: props.selectedId || (props.autoSelect ? 0 : null),
+      selectedIndex: props.hasSelect ? getIndex(props.data, props.selectedId) : null,
       data: props.data
     };
-
     this.cache = new CellMeasurerCache({
       fixedWidth: true,
       defaultHeight: 90
@@ -56,18 +56,33 @@ class List extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { data, hasMoreButton, fetchOnScroll, maxHeight } = this.props;
-    if (hasMoreButton && !fetchOnScroll && !isEqual(prevProps.data, data)) {
-      if (maxHeight) {
-        this._virtualizer.scrollToRow(data.length);
-      } else {
-        const scrollHeight = ReactDom.findDOMNode(this._virtualizer).scrollHeight;
-        window.scrollTo(0, scrollHeight);
+    const { data, hasMoreButton, fetchOnScroll, maxHeight, selectedId } = this.props;
+    if (!isEqual(prevProps, this.props)) {
+      let state = {};
+      if (hasMoreButton && !fetchOnScroll && !isEqual(prevProps.data, data)) {
+        if (maxHeight) {
+          this._virtualizer.scrollToRow(data.length);
+        } else {
+          const scrollHeight = ReactDom.findDOMNode(this._virtualizer).scrollHeight;
+          window.scrollTo(0, scrollHeight);
+        }
       }
-    }
 
-    if (!isEqual(prevProps.data, data)) {
-      this.setState({ data: hasMoreButton ? [...data, {}] : data });
+      if (!isEqual(prevProps.data, data)) {
+        state = {
+          ...state,
+          data: hasMoreButton ? [...data, {}] : data
+        };
+      }
+
+      if (selectedId && !isEqual(prevProps.selectedId, selectedId)) {
+        state = {
+          ...state,
+          selectedIndex: getIndex(data, selectedId)
+        };
+      }
+
+      this.setState(state);
     }
   }
 
@@ -130,6 +145,7 @@ class List extends Component {
         </CellMeasurer>
       );
     }
+
     return (
       <React.Fragment>
         <CellMeasurer key={key} cache={this.cache} parent={parent} columnIndex={0} rowIndex={index}>
@@ -199,7 +215,7 @@ class List extends Component {
 
 List.propTypes = {
   onItemClick: PropTypes.func,
-  autoSelect: PropTypes.bool,
+  hasSelect: PropTypes.bool,
   className: PropTypes.string,
   data: PropTypes.arrayOf(PropTypes.object),
   rowClick: PropTypes.object,
@@ -207,12 +223,13 @@ List.propTypes = {
   onFetchMore: PropTypes.func,
   maxHeight: PropTypes.number,
   fetchOnScroll: PropTypes.bool,
-  divider: PropTypes.bool
+  divider: PropTypes.bool,
+  selectedId: PropTypes.oneOf(PropTypes.string, PropTypes.number)
 };
 List.defaultProps = {
   onItemClick: () => {},
   onFetchMore: () => {},
-  autoSelect: false,
+  hasSelect: true,
   data: [],
   rowClick: false,
   hasMoreButton: false,

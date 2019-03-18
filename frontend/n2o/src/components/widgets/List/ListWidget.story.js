@@ -21,6 +21,7 @@ stories
   .add('Компонент со стандартной реализацией', () => {
     const data = [
       {
+        id: 1,
         image: {
           src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
         },
@@ -32,6 +33,7 @@ stories
         extra: 'Extra?!'
       },
       {
+        id: 2,
         image: {
           src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
         },
@@ -44,7 +46,7 @@ stories
       }
     ];
 
-    return <List data={data} />;
+    return <List data={data} selectedId={2} />;
   })
   .add('Компонент без разделителя строк', () => {
     const data = [

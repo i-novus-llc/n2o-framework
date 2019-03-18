@@ -29,6 +29,7 @@ import Pagination from '../Table/TablePagination';
  * @param {string} prevText - текст previous кнопки пагинации
  * @param {string} nextText - текст next кнопки пагинации
  * @param {boolean} divider - флаг разделителя между строками
+ * @param {boolean} hasSelect - флаг включения выбора строк
  * @param {object} context - контекст
  * @returns {*}
  * @constructor
@@ -54,7 +55,8 @@ function ListWidget(
     showPagination,
     prevText,
     nextText,
-    divider
+    divider,
+    hasSelect
   },
   context
 ) {
@@ -102,6 +104,7 @@ function ListWidget(
         fetchOnScroll={fetchOnScroll}
         deferredSpinnerStart={0}
         divider={divider}
+        hasSelect={hasSelect}
       />
     </StandardWidget>
   );
@@ -125,7 +128,8 @@ ListWidget.propTypes = {
   maxHeight: PropTypes.number,
   showPagination: PropTypes.bool,
   prevText: PropTypes.string,
-  nextText: PropTypes.string
+  nextText: PropTypes.string,
+  hasSelect: PropTypes.bool
 };
 ListWidget.defaultProps = {
   rowClick: null,
@@ -140,7 +144,8 @@ ListWidget.defaultProps = {
   fetchOnScroll: false,
   showPagination: false,
   prevText: 'Назад',
-  nextText: 'Вперед'
+  nextText: 'Вперед',
+  hasSelect: true
 };
 ListWidget.contextTypes = {
   resolveProps: PropTypes.func

@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { makeWidgetPageSelector } from '../../../selectors/widgets';
-import { map, forOwn, isEmpty, isEqual } from 'lodash';
+import { map, forOwn, isEmpty, isEqual, debounce } from 'lodash';
 import widgetContainer from '../WidgetContainer';
 import List from './List';
 import withColumn from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
-import { withWidgetHandlers } from '../Table/TableContainer';
+import { withContainerLiveCycle, withWidgetHandlers } from '../Table/TableContainer';
 import { createStructuredSelector } from 'reselect';
+import { setTableSelectedId } from '../../../actions/widgets';
 
 const ReduxCell = withColumn(TableCell);
 
@@ -31,6 +32,7 @@ const ReduxCell = withColumn(TableCell);
  * @reactProps {boolean} hasMoreButton - флаг включения загрузки по нажатию на кнопку
  * @reactProps {number} maxHeight - максимальная высота виджета
  * @reactProps {boolean} fetchOnScroll - запрос при скролле
+ * @reactProps {boolean} hasSelect - флаг выбора строк
  */
 class ListContainer extends React.Component {
   constructor(props) {
@@ -100,7 +102,15 @@ class ListContainer extends React.Component {
   }
 
   getWidgetProps() {
-    const { hasMoreButton, rowClick, maxHeight, fetchOnScroll, divider } = this.props;
+    const {
+      hasMoreButton,
+      rowClick,
+      maxHeight,
+      fetchOnScroll,
+      divider,
+      hasSelect,
+      selectedId
+    } = this.props;
     return {
       onFetchMore: this.handleFetchMore,
       onItemClick: this.handleItemClick,
@@ -109,7 +119,9 @@ class ListContainer extends React.Component {
       hasMoreButton,
       maxHeight,
       fetchOnScroll,
-      divider
+      divider,
+      hasSelect,
+      selectedId
     };
   }
   render() {
@@ -133,7 +145,8 @@ ListContainer.propTypes = {
   rowClick: PropTypes.func,
   hasMoreButton: PropTypes.bool,
   maxHeight: PropTypes.number,
-  datasource: PropTypes.array
+  datasource: PropTypes.array,
+  hasSelect: PropTypes.bool
 };
 
 ListContainer.defaultProps = {
@@ -147,7 +160,8 @@ ListContainer.defaultProps = {
   style: {},
   filter: {},
   list: {},
-  fetchOnScroll: false
+  fetchOnScroll: false,
+  hasSelect: true
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -159,12 +173,19 @@ export default compose(
     {
       mapProps: props => {
         return {
-          ...props
+          ...props,
+          onResolve: debounce(newModel => {
+            props.onResolve(newModel);
+            if (props.selectedId != newModel.id) {
+              props.dispatch(setTableSelectedId(props.widgetId, newModel.id));
+            }
+          }, 100)
         };
       }
     },
     'ListWidget'
   ),
+  withContainerLiveCycle,
   withWidgetHandlers,
   connect(mapStateToProps)
 )(ListContainer);
