@@ -220,9 +220,8 @@ public class PlaceHoldersResolver {
                 Map.Entry<String, JsonNode> field = fields.next();
                 if (field.getValue().isTextual()) {
                     String value = field.getValue().textValue();
-                    if (value.contains(prefix) && value.contains(suffix)) {
-                        String placeholder = value.substring(value.indexOf(prefix) + prefix.length(), value.indexOf(suffix));
-                        String result = value.replace(prefix + placeholder + suffix, callback.apply(placeholder).toString());
+                    if (hasPlaceHolders(value)) {
+                        String result = safeResolve(value, callback);
                         boolean isString = !(result.startsWith("[") || result.endsWith("]"))
                                 && !"true".equals(result)
                                 && !"false".equals(result)
