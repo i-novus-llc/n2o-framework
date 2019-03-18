@@ -13,6 +13,7 @@ import DateInput from './DateInput';
  * @reactProps {moment} value
  * @reactProps {function} onInputChange
  * @reactProps {function} setVisibility
+ * @reactProps {boolean} openOnFocus
  */
 class DateInputGroup extends React.Component {
   constructor(props) {
@@ -32,7 +33,8 @@ class DateInputGroup extends React.Component {
       setVisibility,
       onFocus,
       onBlur,
-      autoFocus
+      autoFocus,
+      openOnFocus
     } = this.props;
     const style = { display: 'flex', flexGrow: 1 };
     return (
@@ -51,6 +53,7 @@ class DateInputGroup extends React.Component {
               onFocus={onFocus}
               onBlur={onBlur}
               autoFocus={autoFocus}
+              openOnFocus={openOnFocus}
             />
           );
         })}
@@ -81,11 +84,13 @@ DateInput.propTypes = {
   setVisibility: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool
 };
 
 DateInput.defaultProps = {
   autoFocus: false,
+  openOnFocus: false,
   onFocus: () => {},
   onBlur: () => {}
 };

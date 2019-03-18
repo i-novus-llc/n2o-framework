@@ -38,10 +38,18 @@
         display: inline-block;
         vertical-align: middle;
         box-sizing: border-box;
-        width: 100%;
+        flex-grow: 1;
+        min-width: 40px;
         height: $collapse-line-height;
         background: $collapse-line-color;
         margin-left: 5px;
+      }
+
+      & .n2o-panel-header .n2o-panel-header-text {
+        white-space: nowrap;
+        max-width: calc(100% - 40px);
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 

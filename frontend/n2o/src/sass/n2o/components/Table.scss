@@ -10,6 +10,10 @@
     outline: none;
   }
 
+  .row-click{
+    cursor: pointer;
+  }
+
   &.has-focus {
     tbody {
       .n2o-table-row:focus {

@@ -226,6 +226,7 @@ class Actions extends React.Component {
         component={DropdownMenu}
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
+        color={color}
       >
         {subMenu.map(item => this.renderButton(DropdownCustomItem, item, id))}
       </ButtonContainer>

@@ -63,12 +63,14 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 targetWidgetModel = modelAware.getModel();
             }
         }
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String currentWidgetId = widgetScope == null ? targetWidgetId : widgetScope.getClientWidgetId();
         String modalLink = Redux.createBindLink(targetWidgetId, targetWidgetModel).getBindLink();
         invokeAction.getOptions().getPayload().setModelLink(modalLink);
-        invokeAction.getOptions().getMeta().setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId));
-        invokeAction.getOptions().getMeta().setFail(initFailMeta(invokeAction, source, context, p, targetWidgetId));
+        invokeAction.getOptions().getMeta()
+                .setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId, currentWidgetId));
+        invokeAction.getOptions().getMeta().setFail(initFailMeta(currentWidgetId));
         invokeAction.getOptions().getPayload().setWidgetId(targetWidgetId);
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope == null) {
             PageScope pageScope = p.getScope(PageScope.class);
             invokeAction.getOptions().getPayload().setPageId(pageScope.getPageId());
@@ -77,26 +79,25 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return invokeAction;
     }
 
-    private MetaSaga initFailMeta(InvokeAction invokeAction, N2oInvokeAction source,
-                                  CompileContext<?, ?> context, CompileProcessor p,
-                                  String targetWidgetId) {
+    private MetaSaga initFailMeta(String currentWidgetId) {
         MetaSaga metaSaga = new MetaSaga();
-        metaSaga.setMessageWidgetId(targetWidgetId);
+        metaSaga.setMessageWidgetId(currentWidgetId);
         return metaSaga;
     }
 
 
     private MetaSaga initSuccessMeta(InvokeAction invokeAction, N2oInvokeAction source,
-                                     CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId) {
+                                     CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId,
+                                     String currentWidgetId) {
         MetaSaga meta = new MetaSaga();
         boolean closeOnSuccess = p.cast(source.getCloseAfterSuccess(), false);
         boolean refresh = p.cast(source.getRefreshOnSuccess(), true);
         boolean redirect = source.getRedirectUrl() != null;
-        String refreshWidgetId = targetWidgetId;
+        String messageWidgetId = currentWidgetId;
         if ((closeOnSuccess) && (context instanceof PageContext)) {
-            refreshWidgetId = ((PageContext) context).getParentWidgetId();
+            messageWidgetId = ((PageContext) context).getParentWidgetId();
         }
-        meta.setMessageWidgetId(refreshWidgetId);
+        meta.setMessageWidgetId(messageWidgetId);
         if (closeOnSuccess) {
             if (context instanceof ModalPageContext)
                 meta.setCloseLastModal(true);
@@ -115,6 +116,15 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         if (refresh) {
             meta.setRefresh(new RefreshSaga());
             meta.getRefresh().setType(RefreshSaga.Type.widget);
+            String refreshWidgetId = messageWidgetId;
+            if (source.getRefreshWidgetId() != null) {
+                PageScope pageScope = p.getScope(PageScope.class);
+                refreshWidgetId = pageScope == null ? source.getRefreshWidgetId() : pageScope.getGlobalWidgetId(source.getRefreshWidgetId());
+            } else {
+                if ((closeOnSuccess) && (context instanceof PageContext) && ((PageContext) context).getRefreshClientWidgetId() != null) {
+                    refreshWidgetId = ((PageContext) context).getRefreshClientWidgetId();
+                }
+            }
             meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
         }
         if (redirect) {

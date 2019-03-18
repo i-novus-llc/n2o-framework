@@ -7,11 +7,10 @@ import {
   isVisibleSelector,
   isDisabledSelector,
   messageSelector,
-  filterSelector,
   requiredSelector
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import { compose, pure, withProps } from 'recompose';
+import { compose, pure, withProps, defaultProps } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 
 /**
@@ -20,24 +19,6 @@ import propsResolver from '../../../../utils/propsResolver';
  * @returns {*}
  */
 export default Field => {
-  const mapStateToProps = (state, ownProps) => {
-    const { form } = ownProps.meta;
-    const { name } = ownProps.input;
-    const isVisible = isVisibleSelector(form, name)(state);
-    const isDisabled = isDisabledSelector(form, name)(state);
-    const isRequired = requiredSelector(form, name)(state);
-    return {
-      isInit: isInitSelector(form, name)(state),
-      visible: isBoolean(isVisible) ? isVisible : ownProps.visible,
-      disabled: isBoolean(isDisabled) ? isDisabled : ownProps.disabled,
-      message: messageSelector(form, name)(state),
-      required: isBoolean(isRequired) ? isRequired : ownProps.required,
-      filterValues: filterSelector(form, name)(state)
-    };
-  };
-
-  const ConnectedField = connect(mapStateToProps)(Field);
-
   class FieldContainer extends React.Component {
     constructor(props) {
       super(props);
@@ -52,19 +33,22 @@ export default Field => {
      */
     initIfNeeded(props) {
       const {
-        dispatch,
         meta: { form },
         input: { name },
         isInit,
-        visible,
-        disabled,
+        visibleToRegister,
+        disabledToRegister,
         dependency,
-        registerFieldExtra,
-        required
+        requiredToRegister,
+        registerFieldExtra
       } = props;
-      if (!isInit) {
-        registerFieldExtra(form, name, { visible, disabled, dependency, required });
-      }
+      !isInit &&
+        registerFieldExtra(form, name, {
+          visible: visibleToRegister,
+          disabled: disabledToRegister,
+          dependency,
+          required: requiredToRegister
+        });
     }
 
     /**
@@ -137,7 +121,7 @@ export default Field => {
      * @returns {*}
      */
     render() {
-      return <ConnectedField {...this.mapProps()} />;
+      return <Field {...this.mapProps()} />;
     }
   }
 
@@ -145,10 +129,16 @@ export default Field => {
     _reduxForm: PropTypes.object
   };
 
-  FieldContainer.defaultProps = {
-    isInit: false,
-    visible: true,
-    disabled: false
+  const mapStateToProps = (state, ownProps) => {
+    const { form } = ownProps.meta;
+    const { name } = ownProps.input;
+    return {
+      isInit: isInitSelector(form, name)(state),
+      visible: isVisibleSelector(form, name)(state),
+      disabled: isDisabledSelector(form, name)(state),
+      message: messageSelector(form, name)(state),
+      required: requiredSelector(form, name)(state)
+    };
   };
 
   const mapDispatchToProps = {
@@ -156,12 +146,22 @@ export default Field => {
   };
 
   return compose(
+    defaultProps({
+      visible: true,
+      disabled: false,
+      required: false
+    }),
+    withProps(props => ({
+      visibleToRegister: props.visible,
+      disabledToRegister:
+        isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
+      requiredToRegister: props.required
+    })),
     connect(
-      null,
+      mapStateToProps,
       mapDispatchToProps
     ),
     withProps(props => ({
-      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
       ref: props.setReRenderRef
     })),
     pure

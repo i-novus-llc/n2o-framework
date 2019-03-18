@@ -75,6 +75,15 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(testFilter.getFilterList()[1].getFilterField(), is("testFilter_in"));
     }
 
+//    @Test
+//    public void testEmptyBody() {
+//        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
+//                .get(new QueryContext("testEmptyBody"));
+//        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
+//    }
+
     @Test
     public void testFieldNames() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
@@ -130,5 +139,18 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(query.getValidations().get(0).getFieldId(), is("test"));
         assertThat(query.getValidations().get(0).getSeverity(), is(SeverityType.danger));
         assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
+    }
+
+    /**
+     * Для тестового провайдера тело для <select/>, <sorting/>, <filter/> генерируется автоматически
+     */
+    @Test
+    public void testTestDataProvider() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
+                .transformers(new TestEngineQueryTransformer());
+        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
+        assertThat(query.getFieldsMap().get("id").getSelectBody(), is("id"));
+        assertThat(query.getFieldsMap().get("id").getSortingBody(), is("id :idDirection"));
+        assertThat(query.getFieldsMap().get("id").getFilterList()[0].getText(), is("id :eq :id"));
     }
 }
