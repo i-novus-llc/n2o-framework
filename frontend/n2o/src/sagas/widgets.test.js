@@ -5,7 +5,11 @@ import {
   clearOnDisable,
   setWidgetDataSuccess,
   routesQueryMapping,
-  handleFetch
+  handleFetch,
+  resolveVisibleDependency,
+  resolveEnabledDependency,
+  resolveFetchDependency,
+  resolveWidgetDependency
 } from './widgets';
 import { runSaga } from 'redux-saga';
 import { put } from 'redux-saga/effects';
@@ -21,6 +25,7 @@ import {
 import * as api from './fetch';
 import { UPDATE } from '../constants/models';
 import { dataFailWidget } from '../actions/widgets';
+import { DATA_REQUEST, DISABLE, ENABLE, HIDE, SHOW } from '../constants/widgets';
 
 describe('Проверка саги widgets', () => {
   it('handleFetch должен выпасть с ошибкой', async () => {
@@ -191,5 +196,148 @@ describe('Проверка саги widgets', () => {
       },
       widgetState: widgets[widgetId]
     });
+  });
+
+  it('resolveVisibleDependency должен показать виджет', async () => {
+    const dispatched = [];
+    const model = [
+      {
+        model: {
+          name: 'invisible'
+        },
+        config: {
+          on: "models.resolve['testWidget']",
+          condition: "name !== 'visible'"
+        }
+      }
+    ];
+    const widgetId = 'testWidget';
+    const fakeStore = {
+      getState: () => ({}),
+      dispatch: action => dispatched.push(action)
+    };
+    const saga = await runSaga(fakeStore, resolveVisibleDependency, model, widgetId);
+    expect(dispatched[0].type).toEqual(SHOW);
+    expect(dispatched[0].payload).toEqual({
+      widgetId
+    });
+    expect(dispatched[0].meta).toEqual({});
+  });
+
+  it('resolveVisibleDependency должен скрыть виджет', async () => {
+    const dispatched = [];
+    const model = [
+      {
+        model: {
+          name: 'visible'
+        },
+        config: {
+          on: "models.resolve['testWidget']",
+          condition: "name !== 'visible'"
+        }
+      }
+    ];
+    const widgetId = 'testWidget';
+    const fakeStore = {
+      getState: () => ({}),
+      dispatch: action => dispatched.push(action)
+    };
+    const saga = await runSaga(fakeStore, resolveVisibleDependency, model, widgetId);
+    expect(dispatched[0].type).toEqual(HIDE);
+    expect(dispatched[0].payload).toEqual({
+      widgetId
+    });
+    expect(dispatched[0].meta).toEqual({});
+  });
+
+  it('resolveEnabledDependency должен разблокировать виджет', async () => {
+    const dispatched = [];
+    const model = [
+      {
+        model: {
+          name: 'enabled'
+        },
+        config: {
+          on: "models.resolve['testWidget']",
+          condition: "name !== 'disabled'"
+        }
+      }
+    ];
+    const widgetId = 'testWidget';
+    const fakeStore = {
+      getState: () => ({}),
+      dispatch: action => dispatched.push(action)
+    };
+    const saga = await runSaga(fakeStore, resolveEnabledDependency, model, widgetId);
+    expect(dispatched[0].type).toEqual(ENABLE);
+    expect(dispatched[0].payload).toEqual({
+      widgetId
+    });
+    expect(dispatched[0].meta).toEqual({});
+  });
+
+  it('resolveEnabledDependency должен заблокировать виджет', async () => {
+    const dispatched = [];
+    const model = [
+      {
+        model: {
+          name: 'disabled'
+        },
+        config: {
+          on: "models.resolve['testWidget']",
+          condition: "name !== 'disabled'"
+        }
+      }
+    ];
+    const widgetId = 'testWidget';
+    const fakeStore = {
+      getState: () => ({}),
+      dispatch: action => dispatched.push(action)
+    };
+    const saga = await runSaga(fakeStore, resolveEnabledDependency, model, widgetId);
+    expect(dispatched[0].type).toEqual(DISABLE);
+    expect(dispatched[0].payload).toEqual({
+      widgetId
+    });
+    expect(dispatched[0].meta).toEqual({});
+  });
+
+  it('resolveFetchDependency должен запустить fetch', async () => {
+    const dispatched = [];
+    const model = [
+      {
+        model: {
+          name: 'fetch'
+        },
+        config: {
+          on: "models.resolve['testWidget']",
+          condition: "name === 'fetch'"
+        }
+      }
+    ];
+
+    const prevModel = [
+      {
+        model: {
+          name: 'prevFetch'
+        },
+        config: {
+          on: "models.resolve['testWidget']",
+          condition: "name === 'fetch'"
+        }
+      }
+    ];
+    const widgetId = 'testWidget';
+    const fakeStore = {
+      getState: () => ({}),
+      dispatch: action => dispatched.push(action)
+    };
+    const saga = await runSaga(fakeStore, resolveFetchDependency, model, prevModel, widgetId, true);
+    expect(dispatched[0].type).toEqual(DATA_REQUEST);
+    expect(dispatched[0].payload).toEqual({
+      widgetId,
+      options: {}
+    });
+    expect(dispatched[0].meta).toEqual({});
   });
 });

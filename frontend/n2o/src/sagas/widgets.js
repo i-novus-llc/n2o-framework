@@ -337,7 +337,6 @@ export function* resolveFetchDependency(model, prevModel, widgetId, isVisible) {
   try {
     yield put(dataRequestWidget(widgetId));
   } catch (e) {
-    console.log('point');
     console.error(e);
   }
 }

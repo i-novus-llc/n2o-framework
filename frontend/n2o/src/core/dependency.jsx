@@ -30,9 +30,14 @@ const dependency = WrappedComponent => {
      * @param prevProps
      */
     componentDidUpdate(prevProps) {
-      const { dependency } = this.props;
+      const { dependency, models } = this.props;
       forEach(dependency, (dependency, type) => {
-        this[type](dependency);
+        if (
+          type !== DEPENDENCY_TYPES.fetch ||
+          (type === DEPENDENCY_TYPES.fetch &&
+            !isEqual(prevProps.models[DEPENDENCY_TYPES.fetch], models[DEPENDENCY_TYPES.fetch]))
+        )
+          this[type](dependency);
       });
     }
 
