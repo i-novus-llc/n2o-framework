@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -43,6 +44,13 @@ public class PageBinder implements BaseMetadataBinder<Page> {
             page.getModels().values().forEach(bl -> {
                 if (bl.getValue() instanceof String) {
                     bl.setValue(p.resolveText((String) bl.getValue()));
+                } else if (bl.getValue() instanceof DefaultValues) {
+                    DefaultValues dv = (DefaultValues) bl.getValue();
+                    for (String key : dv.getValues().keySet()) {
+                        if (dv.getValues().get(key) instanceof String) {
+                            dv.getValues().put(key, p.resolveText((String) dv.getValues().get(key)));
+                        }
+                    }
                 }
             });
             resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), page.getWidgets()), p);

@@ -25,7 +25,7 @@ public class IconCellCompiler extends AbstractCellCompiler<N2oIconCell, N2oIconC
         N2oIconCell cell = new N2oIconCell();
         build(cell, source, context, p, property("n2o.default.cell.icon.src"));
         cell.setIconType(source.getIconType());
-        cell.setIcon(p.cast(source.getIcon(), ScriptProcessor.buildSwitchExpression(source.getIconSwitch())));
+        cell.setIcon(p.cast(source.getIcon(), compileSwitch(source.getIconSwitch(), p)));
         if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());
         }

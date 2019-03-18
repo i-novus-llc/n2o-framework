@@ -318,9 +318,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (StringUtils.isProperty(placeholder)) {
             value = env.getSystemProperties().resolvePlaceholders(placeholder);
         }
-        if (StringUtils.isContext(placeholder)) {
-            value = env.getContextProcessor().resolve(placeholder);
-        }
         return value;
     }
 

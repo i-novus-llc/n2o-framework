@@ -2,15 +2,7 @@ package net.n2oapp.criteria.filters;
 
 import net.n2oapp.criteria.filters.rule.*;
 import net.n2oapp.criteria.filters.rule.base.Rule;
-import net.n2oapp.criteria.filters.rule.like.Eq_Like;
-import net.n2oapp.criteria.filters.rule.like.Eq_LikeStart;
-import net.n2oapp.criteria.filters.rule.like.LikeStart_IsNotNull;
-import net.n2oapp.criteria.filters.rule.like.LikeStart_IsNull;
-import net.n2oapp.criteria.filters.rule.like.LikeStart_LikeStart;
-import net.n2oapp.criteria.filters.rule.like.Like_IsNotNull;
-import net.n2oapp.criteria.filters.rule.like.Like_IsNull;
-import net.n2oapp.criteria.filters.rule.like.Like_Like;
-import net.n2oapp.criteria.filters.rule.like.Like_LikeStart;
+import net.n2oapp.criteria.filters.rule.like.*;
 import net.n2oapp.criteria.filters.rule.or.*;
 
 import java.util.Arrays;
@@ -72,7 +64,7 @@ public class FilterReducer {
         res.setRightFilter(right);
         Rule rule = rulesMap.get(new Pair<>(left.getType(), right.getType()));
         if (rule == null)
-            res.setType(Result.Type.failure);
+            res.setType(Result.Type.notMergeable);
         else {
             Filter filter = rule.simplify(left, right);
             res.setResultFilter(filter);

@@ -40,8 +40,8 @@
             <select mapping="testField"/>
             <filters>
                 <eq filter-id="id" mapping="id"/>
-                <like filter-id="id"/>
-                <overlaps filter-id="id"/>
+                <more filter-id="id"/>
+                <less filter-id="id"/>
             </filters>
         </field>
 

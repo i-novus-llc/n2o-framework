@@ -151,7 +151,7 @@ const FileUploaderControl = WrappedComponent => {
       this.setState({
         files: [...newFiles]
       });
-      onChange(multi ? value.filter(f => f[valueFieldId] !== id) : {});
+      onChange(multi ? value.filter(f => f[valueFieldId] !== id) : null);
     }
 
     /**
