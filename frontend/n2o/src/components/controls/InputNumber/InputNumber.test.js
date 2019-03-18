@@ -215,4 +215,15 @@ describe('<InputNumber />', () => {
     wrapper.find('input').simulate('change', { target: { value: '-100.999999' } });
     expect(onChange.calledOnce).toBe(true);
   });
+
+  it('оботражает 0 после обновления', () => {
+    const { wrapper } = setup({
+      value: ''
+    });
+    expect(wrapper.state().value).toEqual(null);
+    wrapper.setProps({
+      value: 0
+    });
+    expect(wrapper.state().value).toEqual('0.0');
+  });
 });
