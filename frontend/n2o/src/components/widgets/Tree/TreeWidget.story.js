@@ -122,25 +122,33 @@ stories
 
     return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
   })
-  .add('Drag and drop', () => {
+  .add('Multi режим (ctrl+click)', () => {
     fetchMock.restore().get('begin:n2o/data', dataBadge);
 
-    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
-  })
-  .add('Multi режим', () => {
-    fetchMock.restore().get('begin:n2o/data', dataBadge);
+    const meta = { ...metadata['Page_Tree'], multiselect: true };
 
-    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+    return <Factory level={WIDGETS} {...meta} id="Page_Tree" />;
   })
   .add('блокировка ноды и чекбокса', () => {
-    fetchMock.restore().get('begin:n2o/data', dataBadge);
+    fetchMock.restore().get('begin:n2o/data', () => {
+      const data = { ...dataBadge };
 
-    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+      data.list[0].disabled = true;
+      data.list[6].disabled = true;
+
+      return data;
+    });
+
+    const meta = { ...metadata['Page_Tree'], hasCheckboxes: true, multiselect: true };
+
+    return <Factory level={WIDGETS} {...meta} id="Page_Tree" />;
   })
   .add('showLine', () => {
     fetchMock.restore().get('begin:n2o/data', dataBadge);
 
-    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+    const meta = { ...metadata['Page_Tree'], showLine: true };
+
+    return <Factory level={WIDGETS} {...meta} id="Page_Tree" />;
   })
   .add('Экшен на клик', () => {
     fetchMock.restore().get('begin:n2o/data', dataBadge);
@@ -161,9 +169,7 @@ stories
       }
     };
 
-    const meta = { ...metadata };
+    const meta = { ...metadata['Page_Tree'], rowClick };
 
-    meta['Page_Tree'].rowClick = rowClick;
-
-    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
+    return <Factory level={WIDGETS} {...meta} id="Page_Tree" />;
   });

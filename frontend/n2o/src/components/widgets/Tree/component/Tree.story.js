@@ -3,6 +3,23 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs/react';
 import Tree from './Tree';
 import { withState } from 'recompose';
+import { findIndex } from 'lodash';
+
+const datasource = [
+  { id: '1', label: 'Система подогрева' },
+  { id: '12', label: 'Обогреватель', parentId: '1' },
+  { id: '13', label: 'Корпус', parentId: '1' },
+  { id: '2', label: 'Система вентиляции и охлаждения' },
+  { id: '21', label: 'Вентиляторы', parentId: '2' },
+  { id: '22', label: 'Фильтры', parentId: '2' },
+  { id: '23', label: 'Теплообменники', parentId: '2' },
+  { id: '3', label: 'Аварийное охлаждение' },
+  { id: '4', label: 'Система конденсации охл. жидкости' },
+  { id: '41', label: 'Дренажные трубы', parentId: '4' },
+  { id: '42', label: 'Отстойники', parentId: '4' },
+  { id: '44', label: 'Внутренние', parentId: '42' },
+  { id: '45', label: 'Внешние', parentId: '42' }
+];
 
 const stories = storiesOf('Виджеты/Дерево', module);
 stories.addDecorator(withKnobs);
@@ -28,22 +45,6 @@ stories
       expandBtn: boolean('expandBtn', false)
     };
 
-    const datasource = [
-      { id: '1', label: 'Система подогрева' },
-      { id: '12', label: 'Обогреватель', parentId: '1' },
-      { id: '13', label: 'Корпус', parentId: '1' },
-      { id: '2', label: 'Система вентиляции и охлаждения' },
-      { id: '21', label: 'Вентиляторы', parentId: '2' },
-      { id: '22', label: 'Фильтры', parentId: '2' },
-      { id: '23', label: 'Теплообменники', parentId: '2' },
-      { id: '3', label: 'Аварийное охлаждение' },
-      { id: '4', label: 'Система конденсации охл. жидкости' },
-      { id: '41', label: 'Дренажные трубы', parentId: '4' },
-      { id: '42', label: 'Отстойники', parentId: '4' },
-      { id: '44', label: 'Внутренние', parentId: '42' },
-      { id: '45', label: 'Внешние', parentId: '42' }
-    ];
-
     return <Tree datasource={datasource} {...props} />;
   })
   .add('Работа с клавиатурой', () => {
@@ -53,29 +54,12 @@ stories
       showLine: boolean('showLine', false)
     };
 
-    const datasource = [
-      { id: '1', label: 'Система подогрева' },
-      { id: '12', label: 'Обогреватель', parentId: '1' },
-      { id: '13', label: 'Корпус', parentId: '1' },
-      { id: '2', label: 'Система вентиляции и охлаждения' },
-      { id: '21', label: 'Вентиляторы', parentId: '2' },
-      { id: '22', label: 'Фильтры', parentId: '2' },
-      { id: '23', label: 'Теплообменники', parentId: '2' },
-      { id: '3', label: 'Аварийное охлаждение' },
-      { id: '4', label: 'Система конденсации охл. жидкости' },
-      { id: '41', label: 'Дренажные трубы', parentId: '4' },
-      { id: '42', label: 'Отстойники', parentId: '4' },
-      { id: '44', label: 'Внутренние', parentId: '42' },
-      { id: '45', label: 'Внешние', parentId: '42' }
-    ];
-
     const Comp = withState('resolveModel', 'onResolve', null)(({ resolveModel, onResolve }) => (
       <div>
         <div>
           <h6>Горячие клавиши</h6>
           <pre>Down/Up - фокус на след/пред элемент</pre>
-          <pre>Space - Раскрыть дерево</pre>
-          <pre>Enter - Выбрать</pre>
+          <pre>Space - Выбрать</pre>
           <pre>ctrl + click - Выбрать в мульти режиме несколько значений hasCheckboxes=false</pre>
           <pre>ctrl + Enter - Выбрать в мульти несколько значений hasCheckboxes=true</pre>
         </div>
@@ -95,21 +79,20 @@ stories
       filter: select('filter', ['includes', 'startsWith', 'endsWith'], 'includes')
     };
 
-    const datasource = [
-      { id: '1', label: 'Система подогрева' },
-      { id: '12', label: 'Обогреватель', parentId: '1' },
-      { id: '13', label: 'Корпус', parentId: '1' },
-      { id: '2', label: 'Система вентиляции и охлаждения' },
-      { id: '21', label: 'Вентиляторы', parentId: '2' },
-      { id: '22', label: 'Фильтры', parentId: '2' },
-      { id: '23', label: 'Теплообменники', parentId: '2' },
-      { id: '3', label: 'Аварийное охлаждение' },
-      { id: '4', label: 'Система конденсации охл. жидкости' },
-      { id: '41', label: 'Дренажные трубы', parentId: '4' },
-      { id: '42', label: 'Отстойники', parentId: '4' },
-      { id: '44', label: 'Внутренние', parentId: '42' },
-      { id: '45', label: 'Внешние', parentId: '42' }
-    ];
-
     return <Tree datasource={datasource} {...props} />;
+  })
+
+  .add('Drag and drop', () => {
+    const Comp = withState('stateDataSource', 'setNewDataSource', datasource)(
+      ({ stateDataSource, setNewDataSource }) => {
+        const onDrop = ({ dragKey, dropKey }) => {
+          const index = findIndex(stateDataSource, ['id', dragKey]);
+          stateDataSource[index].parentId = dropKey;
+          setNewDataSource(stateDataSource);
+        };
+        return <Tree datasource={stateDataSource} onDrop={onDrop} />;
+      }
+    );
+
+    return <Comp />;
   });

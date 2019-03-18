@@ -23,6 +23,7 @@ export const defaultProps = {
   filter: '',
   expandBtn: false,
   onResolve: () => {},
+  onDrop: () => {},
   filterPlaceholder: 'Поиск...'
 };
 
@@ -49,6 +50,7 @@ export const propTypes = {
   filter: PropTypes.string,
   expandBtn: PropTypes.bool,
   onResolve: PropTypes.func,
+  onDrop: PropTypes.func,
   filterPlaceholder: PropTypes.string
 };
 

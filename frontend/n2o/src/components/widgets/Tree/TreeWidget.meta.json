@@ -12,7 +12,7 @@
     "disabled": false,
     "parentIcon": "",
     "childIcon": "",
-    "multiselect": true,
+    "multiselect": false,
     "showLine": false,
     "filter": "",
     "expandBtn": true,
