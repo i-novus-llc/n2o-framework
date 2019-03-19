@@ -6,7 +6,9 @@
     "text": "#{text}",
     "strings": "#{strings}",
     "ints": "#{ints}",
-    "combined": "test#{combined}"
+    "combined": "test#{combined}",
+    "nullable": "#{nullable}",
+    "pojo": "#{pojo}"
   },
   "testDefault": {
     "int": 1,

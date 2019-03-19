@@ -44,14 +44,22 @@ public class AppConfigJsonWriterTest {
         appConfigJsonWriter.loadValues();
         StringWriter sw = new StringWriter();
         appConfigJsonWriter.writeValues(new PrintWriter(sw), new HashMap<>());
-
         ObjectNode result = (ObjectNode) objectMapper.readTree(sw.toString());
-        assertThat(result.get("user").get("username").toString(), is("\"testUsername\""));
-        assertThat(result.get("user").get("roles").toString(), is("[\"user\",\"looser\"]"));
+        assertThat(result.get("user").get("username").isTextual(), is(true));
+        assertThat(result.get("user").get("username").textValue(), is("testUsername"));
+        assertThat(result.get("user").get("roles").isArray(), is(true));
+        assertThat(result.get("user").get("roles").get(0).isTextual(), is(true));
+        assertThat(result.get("user").get("roles").get(0).textValue(), is("user"));
+        assertThat(result.get("user").get("roles").get(1).isTextual(), is(true));
+        assertThat(result.get("user").get("roles").get(1).textValue(), is("looser"));
+        assertThat(result.get("user").get("age").isInt(), is(true));
         assertThat(result.get("user").get("age").intValue(), is(99));
+        assertThat(result.get("user").get("isActive").isBoolean(), is(true));
         assertThat(result.get("user").get("isActive").booleanValue(), is(true));
-        assertThat(result.get("user").get("combined").toString(), is("\"testValue\""));
-        assertThat(result.get("prop").toString(), is("\"Test_Props\""));
+        assertThat(result.get("user").get("combined").isTextual(), is(true));
+        assertThat(result.get("user").get("combined").textValue(), is("testValue"));
+        assertThat(result.get("prop").isTextual(), is(true));
+        assertThat(result.get("prop").textValue(), is("Test_Props"));
     }
 
     @Test

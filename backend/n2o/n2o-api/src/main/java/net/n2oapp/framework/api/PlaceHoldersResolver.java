@@ -74,7 +74,7 @@ public class PlaceHoldersResolver {
      */
     public String resolveJson(String json, Function<String, Object> func, ObjectMapper objectMapper) {
         try {
-            return resolvePlaceholders(objectMapper.readTree(json), notReplaceNull(func)).toString();
+            return objectMapper.writeValueAsString(resolvePlaceholders(objectMapper.readTree(json), func::apply));
         } catch (IOException e) {
             throw new N2oException(e);
         }
@@ -220,13 +220,13 @@ public class PlaceHoldersResolver {
                 Map.Entry<String, JsonNode> field = fields.next();
                 if (field.getValue().isTextual()) {
                     String value = field.getValue().textValue();
-                    if (hasPlaceHolders(value)) {
+                    if (isPlaceHolder(value)) {
+                        Object result = safeResolveValue(value, callback);
+                        field.setValue(new POJONode(result));
+                    }
+                    else if (hasPlaceHolders(value)) {
                         String result = safeResolve(value, callback);
-                        boolean isString = !(result.startsWith("[") || result.endsWith("]"))
-                                && !"true".equals(result)
-                                && !"false".equals(result)
-                                && !result.matches("-?\\d+(\\.\\d+)?");
-                        field.setValue(isString ? new TextNode(result) : new POJONode(result));
+                        field.setValue(new TextNode(result));
                     }
                 } else if (field.getValue().isObject()) {
                     resolvePlaceholders(field.getValue(), callback);
@@ -258,8 +258,12 @@ public class PlaceHoldersResolver {
     private Function<String, Object> notReplaceNull(Object data) {
         return key -> {
             Object result = function(data).apply(key);
-            return result != null ? result.toString() : prefix.concat(key).concat(suffix);
+            return result != null ? result : prefix.concat(key).concat(suffix);
         };
+    }
+
+    private Function<String, Object> replaceNull(Object data) {
+        return key -> function(data).apply(key);
     }
 
     /**

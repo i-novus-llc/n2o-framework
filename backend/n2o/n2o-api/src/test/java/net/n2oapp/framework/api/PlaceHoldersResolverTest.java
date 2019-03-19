@@ -1,7 +1,9 @@
 package net.n2oapp.framework.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.Context;
 import org.apache.commons.io.IOUtils;
@@ -9,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import static net.n2oapp.framework.api.PlaceHoldersResolver.replaceOptional;
@@ -165,7 +168,7 @@ public class PlaceHoldersResolverTest {
     @Test
     public void testResolveJsonObject() throws IOException {
         Context context = mock(Context.class);
-        List<String> strings = Arrays.asList("\"user\"", "\"looser\"");
+        List<String> strings = Arrays.asList("user", "looser");
         List<Integer> ints = Arrays.asList(1, 2);
         when(context.get("int")).thenReturn(1);
         when(context.get("double")).thenReturn(1.0);
@@ -174,13 +177,15 @@ public class PlaceHoldersResolverTest {
         when(context.get("strings")).thenReturn(strings);
         when(context.get("ints")).thenReturn(ints);
         when(context.get("combined")).thenReturn("Value");
+        when(context.get("nullable")).thenReturn(null);
+        when(context.get("pojo")).thenReturn(new TestPOJO(1, "name", true, null));
         PlaceHoldersResolver resolver = new PlaceHoldersResolver("#{", "}");
         ObjectMapper mapper = new ObjectMapper();
         String input = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("net/n2oapp/framework/api/testObject.json"), "UTF-8");
         String result = resolver.resolveJson(input, replaceOptional(context::get), mapper);
         JsonNode root = mapper.readTree(result);
 
-        assertThat(root.get("test").size(), is(7));
+        assertThat(root.get("test").size(), is(9));
         assertThat(root.get("test").get("int").isInt(), is(true));
         assertThat(root.get("test").get("int").numberValue(), is(1));
         assertThat(root.get("test").get("double").isDouble(), is(true));
@@ -206,13 +211,24 @@ public class PlaceHoldersResolverTest {
 
         assertThat(root.get("test").get("combined").isTextual(), is(true));
         assertThat(root.get("test").get("combined").textValue(), is("testValue"));
+
+        assertThat(root.get("test").get("nullable").isNull(), is(true));
+
+
+        assertThat(root.get("test").get("pojo").get("id").isInt(), is(true));
+        assertThat(root.get("test").get("pojo").get("id").intValue(), is(1));
+        assertThat(root.get("test").get("pojo").get("name").isTextual(), is(true));
+        assertThat(root.get("test").get("pojo").get("name").textValue(), is("name"));
+        assertThat(root.get("test").get("pojo").get("gender").isBoolean(), is(true));
+        assertThat(root.get("test").get("pojo").get("gender").booleanValue(), is(true));
+        assertThat(root.get("test").get("pojo").get("nullable").isNull(), is(true));
     }
 
 
     @Test
     public void testResolveJsonArray() throws IOException {
         Context context = mock(Context.class);
-        List<String> strings = Arrays.asList("\"user\"", "\"looser\"");
+        List<String> strings = Arrays.asList("user", "looser");
         List<Integer> ints = Arrays.asList(1, 2);
         when(context.get("int")).thenReturn(1);
         when(context.get("double")).thenReturn(1.0);
@@ -257,5 +273,17 @@ public class PlaceHoldersResolverTest {
 
         assertThat(root.get(0).equals(root.get(1)), is(true));
         assertThat(root.get(1).equals(root.get(2)), is(true));
+    }
+
+    @AllArgsConstructor
+    private static class TestPOJO implements Serializable {
+        @JsonProperty
+        private int id;
+        @JsonProperty
+        private String name;
+        @JsonProperty
+        private boolean gender;
+        @JsonProperty
+        private Object nullable;
     }
 }
