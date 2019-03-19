@@ -34,6 +34,7 @@
     "test": "jest --noStackTrace --coverage",
     "test:watch": "jest --watch --noStackTrace",
     "test:hook": "jest --bail --findRelatedTests",
+    "test:update": "jest --updateSnapshot",
     "test:generate-output": "jest --json --outputFile=./.storybook/jest-test-results.json || echo 'jest: generate-output finished'",
     "start": "node scripts/run.js",
     "styles": "cpy src/less lib/less",
