@@ -803,7 +803,26 @@ public final class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void extensionAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
+    public void childAnyAttributes(Element element, String childName, Supplier<Map<N2oNamespace, Map<String, String>>> getter, Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
+        if (r) {
+            Element child = element.getChild(childName, element.getNamespace());
+            if (child == null) return;
+            anyAttributes(child, getter, setter);
+        } else {
+            if (getter.get() == null) return;
+            Element childElement = element.getChild(childName, element.getNamespace());
+            if (childElement == null) {
+                childElement = new Element(childName, element.getNamespace());
+                anyAttributes(childElement, getter, setter);
+                element.addContent(childElement);
+            } else {
+                anyAttributes(childElement, getter, setter);
+            }
+        }
+    }
+
+    @Override
+    public void anyAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
                                     Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
         if (r) {
             N2oNamespace elementNamespace = new N2oNamespace(element.getNamespace());

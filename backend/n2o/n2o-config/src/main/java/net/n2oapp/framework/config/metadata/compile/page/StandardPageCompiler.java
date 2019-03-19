@@ -224,9 +224,9 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         Layout layout = new Layout();
         layout.setSrc(p.cast(source.getLayout(), p.resolve(property("n2o.api.page.layout.src"), String.class)));
         Map<String, List<Region>> regionMap = new HashMap<>();
-        if (source.getN2oRegions() != null) {
+        if (source.getRegions() != null) {
             IndexScope index = new IndexScope();
-            for (N2oRegion n2oRegion : source.getN2oRegions()) {
+            for (N2oRegion n2oRegion : source.getRegions().getRegions()) {
                 Region region = p.compile(n2oRegion, context, index, pageScope, widgetDependencyScope);
                 String place = p.cast(n2oRegion.getPlace(), "single");
                 if (regionMap.get(place) != null) {
@@ -238,6 +238,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                 }
             }
             layout.setRegions(regionMap);
+            layout.setProperties(p.mapAttributes(source.getRegions()));
         }
         return layout;
     }

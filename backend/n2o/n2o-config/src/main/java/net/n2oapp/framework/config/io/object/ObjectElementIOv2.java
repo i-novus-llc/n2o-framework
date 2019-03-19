@@ -53,7 +53,7 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
         p.element(e, "description", t::getDescription, t::setDescription);
         p.element(e, "success-text", t::getSuccessText, t::setSuccessText);
         p.element(e, "note", t::getNote, t::setNote);
-        p.extensionAttributes(e, t::getExtAttributes, t::setExtAttributes);
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::actionValidations);
         p.read(e, t, (element, entity) -> {
             if (entity.getValidations() == null) {
