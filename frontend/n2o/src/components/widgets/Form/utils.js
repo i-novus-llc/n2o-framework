@@ -63,6 +63,8 @@ export const setWatchDependency = (state, props, dependencyType) => {
       const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'));
       return { ...acc, ...pickByPath(state, formOn) };
     }
+    return acc;
   };
+
   return reduce(dependency, pickByReRender, {});
 };
