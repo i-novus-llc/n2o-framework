@@ -94,6 +94,42 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
         assertAccess(((Security) header.getExtraItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }
 
+    @Test
+    public void testHeaderTransformV2permitAll() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeaderV2permitAll");
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2permitAll.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+        CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new HeaderContext("testHeaderAccessTransformer"));
+        Map<String, Security.SecurityObject> securityMap = ((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
+        assertThat(securityMap.get("page").getPermitAll(), is(true));
+        assertThat(securityMap.get("page").getAnonymous(), nullValue());
+        assertThat(securityMap.get("page").getAuthenticated(), nullValue());
+    }
+
+    @Test
+    public void testHeaderTransformV2Anonym() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeaderV2anonym");
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2anonym.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+        CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new HeaderContext("testHeaderAccessTransformer"));
+        Map<String, Security.SecurityObject> securityMap = ((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
+        assertThat(securityMap.get("page").getPermitAll(), nullValue());
+        assertThat(securityMap.get("page").getAnonymous(), is(true));
+        assertThat(securityMap.get("page").getAuthenticated(), nullValue());
+    }
+
+    @Test
+    public void testHeaderTransformV2Auth() {
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testHeaderV2auth");
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testHeaderV2auth.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.header.xml");
+        CompiledHeader header = (CompiledHeader) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new HeaderContext("testHeaderAccessTransformer"));
+        Map<String, Security.SecurityObject> securityMap = ((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap();
+        assertThat(securityMap.get("page").getPermitAll(), nullValue());
+        assertThat(securityMap.get("page").getAnonymous(), nullValue());
+        assertThat(securityMap.get("page").getAuthenticated(), is(true));
+    }
+
     private void assertAccess(Map<String, Security.SecurityObject> secMap) {
         assertThat(secMap.get("page").getUsernames().size(), is(1));
         assertThat(secMap.get("page").getUsernames().contains("user"), is(true));

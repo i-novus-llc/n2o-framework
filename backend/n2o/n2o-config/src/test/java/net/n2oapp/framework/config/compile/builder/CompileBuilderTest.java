@@ -140,7 +140,7 @@ public class CompileBuilderTest {
     @Test
     public void resolve() {
         CompileProcessor mockProcessor = mock(CompileProcessor.class);
-        when(mockProcessor.resolveText("one")).thenReturn("two");
+        when(mockProcessor.resolve("one")).thenReturn("two");
         when(mockProcessor.resolve("1", Integer.class)).thenReturn(2);
         MySource source = new MySource();
         source.name = "one";

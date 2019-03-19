@@ -111,7 +111,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         CompiledQuery query = p.getCompiled(queryContext);
         String route = query.getRoute();
         p.addRoute(new QueryContext(source.getQueryId(), route));
-        dataProvider.setUrl(p.resolveText(property("n2o.config.data.route")) + route);
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
 
         String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
         if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {

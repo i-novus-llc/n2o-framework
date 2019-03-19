@@ -31,8 +31,9 @@ public class BadgeCellCompiler extends AbstractCellCompiler<N2oBadgeCell, N2oBad
             cell.setText(p.resolveJS(source.getText()));
             cell.setTextFormat(source.getTextFormat());
         }
-        if (source.getN2oSwitch() != null)
-            cell.setColor(ScriptProcessor.buildSwitchExpression(source.getN2oSwitch()));
+        if (source.getN2oSwitch() != null) {
+            cell.setColor(compileSwitch(source.getN2oSwitch(), p));
+        }
         else
             cell.setColor(p.resolveJS(source.getColor()));
         if (source.getFormat() != null)

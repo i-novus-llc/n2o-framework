@@ -64,7 +64,7 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
         p.attribute(e, "action-id", mi::getActionId, mi::setActionId);
         p.attribute(e, "class", mi::getClassName, mi::setClassName);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
-        p.extensionAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
+        p.anyAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
     }
 
     private void submenu(Element e, N2oMenuItem mi, IOProcessor p) {

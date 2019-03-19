@@ -22,7 +22,6 @@ public class Page1ReaderTest {
         assert page.getModalWidth().equals("500px");
         assert page.getMaxModalWidth().equals("1000px");
         assert page.getMinModalWidth().equals("200px");
-        assert page.getNavigation().equals(true);
         assert page.getResultContainer().equals("test");
         assert page.getN2oRegions()[0].getPlace().equals("single");
         assert page.getN2oRegions()[0].getSrc().equals("test");
@@ -54,7 +53,6 @@ public class Page1ReaderTest {
         assert page.getModalWidth().equals("500px");
         assert page.getMaxModalWidth().equals("1000px");
         assert page.getMinModalWidth().equals("200px");
-        assert page.getNavigation().equals(true);
         assert page.getResultContainer().equals("test");
         assert page.getN2oRegions()[0].getPlace().equals("bottom");
         assert page.getContainers().get(0).getId().equals("tabBottom");

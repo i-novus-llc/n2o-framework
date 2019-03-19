@@ -15,10 +15,12 @@ public class ToolbarCellAccessTransformer extends BaseAccessTransformer<ToolbarC
     @Override
     public ToolbarCell transform(ToolbarCell compiled, CompileContext<?, ?> context, CompileProcessor p) {
         MetaActions actions = p.getScope(MetaActions.class);
-        for (Button button : compiled.getButtons()) {
-            if (actions.containsKey(button.getAction().getId())) {
-                Action action = actions.get(button.getAction().getId());
-                transfer(action, button);
+        if (actions != null) {
+            for (Button button : compiled.getButtons()) {
+                if (button.getAction() != null && actions.containsKey(button.getAction().getId())) {
+                    Action action = actions.get(button.getAction().getId());
+                    transfer(action, button);
+                }
             }
         }
         return compiled;

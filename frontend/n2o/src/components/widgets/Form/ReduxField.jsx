@@ -5,7 +5,7 @@ import StandardField from '../../widgets/Form/fields/StandardField/StandardField
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
 import { compose, withProps } from 'recompose';
 import { some } from 'lodash';
-import withDependency from '../../../core/dependencies/withDependency';
+import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 
 const config = {
   onChange: function({ dependency }, dependencyType) {
@@ -41,7 +41,8 @@ class ReduxField extends React.Component {
       withProps(() => ({
         setReRenderRef: props.setReRenderRef
       })),
-      withFieldContainer
+      withFieldContainer,
+      withObserveDependency(config)
     )(props.component);
   }
 
@@ -74,4 +75,4 @@ ReduxField.propTypes = {
   component: PropTypes.node
 };
 
-export default withDependency(ReduxField, config);
+export default ReduxField;

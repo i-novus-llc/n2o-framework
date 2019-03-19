@@ -1,4 +1,11 @@
 .n2o-advanced-table {
+  & .n2o-advanced-table-content {
+    overflow-x: auto;
+  }
+
+  & .row-click{
+    cursor: pointer;
+  }
 
   & .n2o-calendar-table {
     & td {
@@ -10,7 +17,7 @@
       background-color: transparent;
     }
   }
-  
+
   &-content {
     position: relative;
   }
