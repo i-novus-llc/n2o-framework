@@ -11,13 +11,13 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.1.5</version>
+    <version>7.1.6-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</connection>
         <url>https://git.i-novus.ru/open/n2o-framework</url>
         <developerConnection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</developerConnection>
-        <tag>7.1.5</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
