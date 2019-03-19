@@ -353,7 +353,7 @@ public class IOProcessorTest {
         IOProcessor io = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor1.xml");
         ExtAttributesEntity extAttrEntity = new ExtAttributesEntity();
-        io.extensionAttributes(in, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
+        io.anyAttributes(in, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
         Assert.assertEquals(2, extAttrEntity.getExtAttributes().size());
         Assert.assertEquals("extAttr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0"))).get("att1"));
         Assert.assertEquals("ext2Attr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att1"));
@@ -361,7 +361,7 @@ public class IOProcessorTest {
 
         io = new IOProcessorImpl(false);
         Element element = new Element("test");
-        io.extensionAttributes(element, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
+        io.anyAttributes(element, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
         Assert.assertEquals(3, element.getAttributes().size());
         Assert.assertEquals("extAttr1", element.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
         Assert.assertEquals("ext2Attr1", element.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));

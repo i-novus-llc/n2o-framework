@@ -807,16 +807,16 @@ public final class IOProcessorImpl implements IOProcessor {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
             if (child == null) return;
-            extensionAttributes(child, getter, setter);
+            anyAttributes(child, getter, setter);
         } else {
             if (getter.get() == null) return;
             Element childElement = element.getChild(childName, element.getNamespace());
             if (childElement == null) {
                 childElement = new Element(childName, element.getNamespace());
-                extensionAttributes(childElement, getter, setter);
+                anyAttributes(childElement, getter, setter);
                 element.addContent(childElement);
             } else {
-                extensionAttributes(childElement, getter, setter);
+                anyAttributes(childElement, getter, setter);
             }
         }
     }

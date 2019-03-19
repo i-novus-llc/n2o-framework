@@ -37,7 +37,7 @@ public class StandardPageElementIOv2 implements NamespaceIO<N2oStandardPage> {
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
-        p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
     private void action(Element e, ActionsBar a, IOProcessor p) {
