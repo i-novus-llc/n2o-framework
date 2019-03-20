@@ -2,7 +2,7 @@ import React from 'react';
 import {
   forEach,
   keys,
-  map,
+  upperCase,
   filter,
   eq,
   omit,
@@ -38,6 +38,22 @@ export const treeToCollection = (tree, { parentFieldId, valueFieldId, childrenFi
   });
 
   return buf.map(v => omit(v, [childrenFieldId]));
+};
+
+export const FILTER_MODE = ['includes', 'startsWith', 'endsWith'];
+
+export const createRegExp = (searchText, filter) => {
+  let regExp;
+  if (eq(filter, 'includes')) {
+    regExp = new RegExp(searchText, 'i');
+  }
+  if (eq(filter, 'startsWith')) {
+    regExp = new RegExp(`^${searchText}`, 'i');
+  }
+  if (eq(filter, 'endsWith')) {
+    regExp = new RegExp(`${searchText}$`, 'i');
+  }
+  return regExp;
 };
 /**
  * Превращаем коллекцию в обьект с ключами id и value Element
@@ -88,8 +104,6 @@ export const createTreeFn = Component => props => {
   return buf;
 };
 
-export const FILTER_MODE = ['includes', 'startsWith', 'endsWith'];
-
 export const takeKeysWhenSearching = props => {
   const filter = get(props, 'filter');
   const value = get(props, 'value');
@@ -98,7 +112,8 @@ export const takeKeysWhenSearching = props => {
   const labelFieldId = get(props, 'labelFieldId');
 
   if (filter && FILTER_MODE.includes(filter) && value) {
-    const filterFunc = item => String.prototype[filter].call(item, value);
+    const regExp = createRegExp(value, filter);
+    const filterFunc = searchStr => searchStr.search(regExp) + 1;
     const expandedKeys = datasource
       .filter(item => filterFunc(item[labelFieldId]))
       .map(v => v[valueFieldId]);
@@ -264,9 +279,13 @@ export const customTreeActions = ({
   return false;
 };
 
-export const splitSearchText = (text, searchText) => {
-  const html = text.replace(searchText, `<span class='search-text'>${searchText}</span>`);
-  return <span dangerouslySetInnerHTML={{ __html: html }} />;
+export const splitSearchText = (text, searchText, filter) => {
+  if (FILTER_MODE.includes(filter)) {
+    const regExp = createRegExp(searchText, filter);
+    const html = text.replace(regExp, str => `<span class='search-text'>${str}</span>`);
+    return <span dangerouslySetInnerHTML={{ __html: html }} />;
+  }
+  return text;
 };
 
 const animate = (node, show, done) => {

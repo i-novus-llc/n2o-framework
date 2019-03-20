@@ -16,7 +16,8 @@ function BaseNode({
   badgeColorFieldId,
   searchValue,
   searchKeys,
-  data
+  data,
+  filter
 }) {
   return (
     <span
@@ -33,7 +34,7 @@ function BaseNode({
         has(data, labelFieldId) && (
           <span key={uniqueId('tree_label_')} className={`${prefixCls}-label`}>
             {searchKeys.includes(data[valueFieldId]) && searchValue
-              ? splitSearchText(data[labelFieldId], searchValue)
+              ? splitSearchText(data[labelFieldId], searchValue, filter)
               : data[labelFieldId]}
           </span>
         ),

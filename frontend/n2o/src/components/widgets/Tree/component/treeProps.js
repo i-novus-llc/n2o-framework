@@ -73,5 +73,6 @@ export const TREE_NODE_PROPS = [
   'parentIcon',
   'valueFieldId',
   'parentFieldId',
-  'prefixCls'
+  'prefixCls',
+  'filter'
 ];
