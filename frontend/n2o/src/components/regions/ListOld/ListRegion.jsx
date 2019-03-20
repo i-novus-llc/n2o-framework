@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 
 import ListOld from './List';
 import ListItem from './ListItem';
-import withGetWidget from '../withGetWidget';
+import withWidgetMetadata from '../withWidgetMetadata';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -68,4 +68,4 @@ ListRegion.propTypes = {
   pageId: PropTypes.string.isRequired
 };
 
-export default withGetWidget(ListRegion);
+export default withWidgetMetadata(ListRegion);

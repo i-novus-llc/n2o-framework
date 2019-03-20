@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
-import withGetWidget from '../withGetWidget';
+import withWidgetMetadata from '../withWidgetMetadata';
 import { compose, pure } from 'recompose';
 
 /**
@@ -37,5 +37,5 @@ NoneRegion.propTypes = {
 
 export default compose(
   pure,
-  withGetWidget
+  withWidgetMetadata
 )(NoneRegion);

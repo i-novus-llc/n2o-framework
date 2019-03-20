@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty, each, map } from 'lodash';
 import { compose } from 'recompose';
-import withVisibleDependency from '../withVisibleDependency';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import WidgetFactory from '../../widgets/WidgetFactory';
-import withGetWidget from '../withGetWidget';
+import withWidgetMetadata from '../withWidgetMetadata';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 
 import Factory from '../../../core/factory/Factory';
@@ -47,7 +46,7 @@ class TabRegion extends React.Component {
   }
 
   render() {
-    const { tabs, getWidget, pageId, resolveVisibleDependency } = this.props;
+    const { tabs, getWidget, pageId } = this.props;
     return (
       <Tabs ref={el => (this._tabsEl = el)} onChangeActive={this.handleChangeActive}>
         {tabs.map(tab => {
@@ -57,7 +56,7 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: tab.dependency ? resolveVisibleDependency(tab.dependency) : true
+            visible: true
           };
           const tabEl = (
             <Tab {...tabProps}>
@@ -106,7 +105,4 @@ TabRegion.defaultProps = {
   mode: 'single'
 };
 
-export default compose(
-  withVisibleDependency,
-  withGetWidget
-)(TabRegion);
+export default compose(withWidgetMetadata)(TabRegion);

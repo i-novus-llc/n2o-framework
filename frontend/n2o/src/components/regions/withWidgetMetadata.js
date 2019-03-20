@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { pick } from 'lodash';
-
+import { pick, get } from 'lodash';
 import { pagesSelector } from '../../selectors/pages';
 import { hideWidget, showWidget, disableWidget, enableWidget } from '../../actions/widgets';
 
@@ -12,16 +11,21 @@ import { hideWidget, showWidget, disableWidget, enableWidget } from '../../actio
  * @param WrappedComponent - оборачиваемый компонент
  */
 
-function withGetWidget(WrappedComponent) {
+function withWidgetMetadata(WrappedComponent) {
   class WithGetWidget extends React.Component {
     constructor(props) {
       super(props);
 
       this.getWidget = this.getWidget.bind(this);
+      this.getWidgetProps = this.getWidgetProps.bind(this);
     }
 
     getWidget(pageId, widgetId) {
       return this.props.pages[pageId].metadata.widgets[widgetId];
+    }
+
+    getWidgetProps(widgetId) {
+      return get(this.props.widgets, widgetId);
     }
 
     /**
@@ -29,12 +33,19 @@ function withGetWidget(WrappedComponent) {
      */
 
     render() {
-      return <WrappedComponent {...this.props} getWidget={this.getWidget} />;
+      return (
+        <WrappedComponent
+          {...this.props}
+          getWidget={this.getWidget}
+          getWidgetProps={this.getWidgetProps}
+        />
+      );
     }
   }
 
   WithGetWidget.propTypes = {
     pages: PropTypes.object,
+    widgets: PropTypes.object,
     hideWidget: PropTypes.func,
     showWidget: PropTypes.func,
     disableWidget: PropTypes.func,
@@ -64,4 +75,4 @@ function withGetWidget(WrappedComponent) {
   )(WithGetWidget);
 }
 
-export default withGetWidget;
+export default withWidgetMetadata;

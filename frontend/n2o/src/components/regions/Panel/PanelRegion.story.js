@@ -164,46 +164,4 @@ stories
         ))}
       </div>
     );
-  })
-  .add('Зависимости в панелях', () => {
-    class PanelStory extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = { show: true };
-        this.onChange = this.onChange.bind(this);
-      }
-      onChange() {
-        this.setState({ show: !this.state.show });
-      }
-      render() {
-        const { show } = this.state;
-        const dependency = {
-          visible: [
-            {
-              on: "models.resolve['Page_First']",
-              condition: 'true'
-            },
-            {
-              on: "models.resolve['Page_First']",
-              condition: show ? 'true' : 'false'
-            }
-          ]
-        };
-        return (
-          <div className="row">
-            <div className="col-md-6">
-              <CheckboxN2O
-                checked={show}
-                onChange={this.onChange}
-                inline={true}
-                label={'Показать/Скрыть панель по зависимости'}
-              />
-              <PanelRegion {...PanelsWithDependency} dependency={dependency} pageId="Page" />
-            </div>
-          </div>
-        );
-      }
-    }
-
-    return <PanelStory />;
   });
