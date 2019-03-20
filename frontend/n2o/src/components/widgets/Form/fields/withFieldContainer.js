@@ -108,9 +108,10 @@ export default Field => {
      * @returns {{validationClass: string, value: *, onChange: FieldContainer.onChange, onFocus: FieldContainer.onFocus, onBlur: FieldContainer.onBlur}}
      */
     mapProps() {
-      const { input, value, message, meta, model } = this.props;
+      const { input, message, meta, model, ...rest } = this.props;
+
       return {
-        ...propsResolver(this.props, model),
+        ...propsResolver(rest, model),
         ...meta,
         validationClass: this.getValidationState(message),
         ...input
@@ -125,10 +126,6 @@ export default Field => {
       return <Field {...this.mapProps()} />;
     }
   }
-
-  FieldContainer.contextTypes = {
-    _reduxForm: PropTypes.object
-  };
 
   const mapStateToProps = (state, ownProps) => {
     const { form } = ownProps.meta;
