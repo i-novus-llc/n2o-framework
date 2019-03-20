@@ -224,6 +224,14 @@ describe('<InputNumber />', () => {
     wrapper.setProps({
       value: 0
     });
-    expect(wrapper.state().value).toEqual('0.0');
+    expect(wrapper.state().value).toEqual(0);
+  });
+
+  it('отображает целое число при вводе', () => {
+    const { wrapper } = setup({
+      value: '2'
+    });
+    wrapper.setProps({ value: 5 });
+    expect(wrapper.state().value).toEqual(5);
   });
 });
