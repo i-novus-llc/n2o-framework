@@ -50,7 +50,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.childrenByEnum(e, "pre-fields", m::getPreFields, m::setPreFields, N2oPreField::getType,
                 N2oPreField::setType, N2oPreField::new, FilterType.class, this::prefield);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
-        p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
     private void action(Element e, ActionsBar a, IOProcessor p) {

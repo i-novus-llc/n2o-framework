@@ -5,9 +5,10 @@
   },
   "user": {
     "username": "#{username}",
-    "roles": #{roles},
-    "age": #{age},
-    "isActive": #{isActive}
+    "roles": "#{roles}",
+    "age": "#{age}",
+    "isActive": "#{isActive}",
+    "combined": "test#{value}"
   },
   "context": "#{testContext}",
   "prop": "${testProp}"

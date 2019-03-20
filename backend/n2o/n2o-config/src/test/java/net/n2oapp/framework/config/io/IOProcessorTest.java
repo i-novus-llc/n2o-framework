@@ -90,6 +90,7 @@ public class IOProcessorTest {
 
     static public class ExtAttributesEntity extends BaseEntity  implements ExtensionAttributesAware {
         private Map<N2oNamespace, Map<String, String>> extensions;
+        private Map<N2oNamespace, Map<String, String>> childExtensions;
 
         @Override
         public Map<N2oNamespace, Map<String, String>> getExtAttributes() {
@@ -99,6 +100,14 @@ public class IOProcessorTest {
         @Override
         public void setExtAttributes(Map<N2oNamespace, Map<String, String>> extAttributes) {
             this.extensions = extAttributes;
+        }
+
+        public Map<N2oNamespace, Map<String, String>> getChildExtensions() {
+            return childExtensions;
+        }
+
+        public void setChildExtensions(Map<N2oNamespace, Map<String, String>> childExtensions) {
+            this.childExtensions = childExtensions;
         }
     }
 
@@ -344,7 +353,7 @@ public class IOProcessorTest {
         IOProcessor io = new IOProcessorImpl(true);
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor1.xml");
         ExtAttributesEntity extAttrEntity = new ExtAttributesEntity();
-        io.extensionAttributes(in, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
+        io.anyAttributes(in, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
         Assert.assertEquals(2, extAttrEntity.getExtAttributes().size());
         Assert.assertEquals("extAttr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0"))).get("att1"));
         Assert.assertEquals("ext2Attr1", extAttrEntity.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att1"));
@@ -352,12 +361,35 @@ public class IOProcessorTest {
 
         io = new IOProcessorImpl(false);
         Element element = new Element("test");
-        io.extensionAttributes(element, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
+        io.anyAttributes(element, extAttrEntity::getExtAttributes, extAttrEntity::setExtAttributes);
         Assert.assertEquals(3, element.getAttributes().size());
         Assert.assertEquals("extAttr1", element.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
         Assert.assertEquals("ext2Attr1", element.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
         Assert.assertEquals("ext2Attr2", element.getAttributeValue("att2", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
     }
+
+    @Test
+    public void testChildAnyAttributes() throws Exception {
+        IOProcessor io = new IOProcessorImpl(true);
+        Element in = dom("net/n2oapp/framework/config/io/ioprocessor21.xml");
+        ExtAttributesEntity entity = new ExtAttributesEntity();
+        io.childAnyAttributes(in, "sub", entity::getChildExtensions, entity::setChildExtensions);
+        Assert.assertEquals(2, entity.getChildExtensions().size());
+        Assert.assertEquals("extAttr1", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0"))).get("att1"));
+        Assert.assertEquals("ext2Attr1", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att1"));
+        Assert.assertEquals("ext2Attr2", entity.getChildExtensions().get(new N2oNamespace(Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0"))).get("att2"));
+
+
+        io = new IOProcessorImpl(false);
+        Element element = new Element("test");
+        io.childAnyAttributes(element, "sub", entity::getChildExtensions, entity::setChildExtensions);
+        Element child = element.getChild("sub", element.getNamespace());
+        Assert.assertEquals(3, child.getAttributes().size());
+        Assert.assertEquals("extAttr1", child.getAttributeValue("att1", Namespace.getNamespace("ext", "http://example.com/n2o/ext-2.0")));
+        Assert.assertEquals("ext2Attr1", child.getAttributeValue("att1", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
+        Assert.assertEquals("ext2Attr2", child.getAttributeValue("att2", Namespace.getNamespace("ext2", "http://example.com/n2o/ext-3.0")));
+    }
+
 
     @Test
     public void testOtherAttributes() throws Exception {

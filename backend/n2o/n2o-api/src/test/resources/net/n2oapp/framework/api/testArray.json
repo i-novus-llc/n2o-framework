@@ -1,0 +1,29 @@
+[
+  {
+    "int": "#{int}",
+    "double": "#{double}",
+    "bool": "#{bool}",
+    "text": "#{text}",
+    "strings": "#{strings}",
+    "ints": "#{ints}",
+    "combined": "test#{combined}"
+  },
+  {
+    "int": "#{int}",
+    "double": "#{double}",
+    "bool": "#{bool}",
+    "text": "#{text}",
+    "strings": "#{strings}",
+    "ints": "#{ints}",
+    "combined": "test#{combined}"
+  },
+  {
+    "int": 1,
+    "double": 1.0,
+    "bool": false,
+    "text": "text",
+    "strings": ["user", "looser"],
+    "ints": [1, 2],
+    "combined": "testValue"
+  }
+]

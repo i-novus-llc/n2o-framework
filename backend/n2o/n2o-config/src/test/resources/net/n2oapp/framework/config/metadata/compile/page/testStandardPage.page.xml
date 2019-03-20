@@ -30,7 +30,7 @@
             <invoke operation-id="create" />
         </action>
     </actions>
-    <regions>
+    <regions test:attr1="val1">
         <line place="single" test:attr1="testAttribute">
             <html name="test1" test:attr1="htmlTestAttribute"/>
             <html name="test2" />

@@ -37,7 +37,6 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         n2oPage.setObjectId(ReaderJdomUtil.getElementString(root, "object-id"));
         n2oPage.setName(ReaderJdomUtil.getElementString(root, "name"));
         n2oPage.setLayout(convertLayoutToReact(ReaderJdomUtil.getElementString(root, "layout")));
-        n2oPage.setNavigation(ReaderJdomUtil.getElementBoolean(root, "navigation"));
         List<N2oRegion> regions = new ArrayList<>();
         Element containers = root.getChild("containers", namespace);
         if (containers != null) {

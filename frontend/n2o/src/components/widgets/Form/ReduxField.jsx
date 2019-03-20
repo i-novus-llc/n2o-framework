@@ -41,8 +41,7 @@ class ReduxField extends React.Component {
       withProps(() => ({
         setReRenderRef: props.setReRenderRef
       })),
-      withFieldContainer,
-      withObserveDependency(config)
+      withFieldContainer
     )(props.component);
   }
 
@@ -75,4 +74,4 @@ ReduxField.propTypes = {
   component: PropTypes.node
 };
 
-export default ReduxField;
+export default withObserveDependency(config)(ReduxField);
