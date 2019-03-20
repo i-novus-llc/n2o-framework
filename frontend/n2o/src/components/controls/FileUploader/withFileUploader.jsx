@@ -25,6 +25,7 @@ const FileUploaderControl = WrappedComponent => {
       this.onDragEnter = this.onDragEnter.bind(this);
       this.onDragLeave = this.onDragLeave.bind(this);
       this.onError = this.onError.bind(this);
+      this.clearState = this.clearState.bind(this);
     }
 
     componentDidMount() {
@@ -39,14 +40,18 @@ const FileUploaderControl = WrappedComponent => {
       if (!isEqual(prevProps.value, value)) {
         this.setState(() => {
           return {
-            files: mapper ? mapper(value) : this.mapFiles(value)
+            files: mapper ? mapper(value || []) : this.mapFiles(value || [])
           };
         });
       } else if (!isEqual(prevProps.files, files)) {
         this.setState({
-          files: mapper ? mapper(files) : this.mapFiles(files)
+          files: mapper ? mapper(files || []) : this.mapFiles(files || [])
         });
       }
+    }
+
+    clearState() {
+      this.setState({ files: [] });
     }
 
     mapFiles(files) {
@@ -151,7 +156,9 @@ const FileUploaderControl = WrappedComponent => {
       this.setState({
         files: [...newFiles]
       });
-      onChange(multi ? value.filter(f => f[valueFieldId] !== id) : null);
+      if (value) {
+        onChange(multi ? value.filter(f => f[valueFieldId] !== id) : null);
+      }
     }
 
     /**
