@@ -43,6 +43,9 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         field.setClassName(null);//для StandardField className должен попасть в control, а не field
         initValidations(source, field, context, p);
         compileFilters(source, p);
+        if (Boolean.TRUE.equals(source.getCopied())) {
+            compileCopied(source, p);
+        }
         compileControl(control, source, p, field);
         field.setControl(control);
         return field;
@@ -171,6 +174,16 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 filter.setLink(link);
                 filtersScope.getFilters().add(filter);
             });
+        }
+    }
+
+    private void compileCopied(S source, CompileProcessor p) {
+        CopiedFieldScope scope = p.getScope(CopiedFieldScope.class);
+        if (scope != null) {
+            if (scope.getCopiedFields() == null) {
+                scope.setCopiedFields(new HashSet<>());
+            }
+            scope.getCopiedFields().add(source.getId());
         }
     }
 
