@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -43,6 +44,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -370,6 +372,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (source instanceof N2oForm) {
             queryContext.setSubModelQueries(subModelsScope);
             queryContext.setQuerySize(1);
+            if (((N2oForm) source).getItems() != null) {
+                queryContext.setCopiedFields(Arrays.stream(((N2oForm) source).getItems())
+                        .filter(f -> f instanceof N2oField && Boolean.TRUE.equals(((N2oField) f).getCopied()))
+                        .map(f -> ((N2oField) f).getId()).collect(Collectors.toSet()));
+            }
         } else {
             queryContext.setQuerySize(10);
         }

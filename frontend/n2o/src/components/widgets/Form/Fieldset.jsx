@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import { isBoolean, isString } from 'lodash';
+import { isBoolean, isString, each, concat } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
@@ -144,6 +144,24 @@ class Fieldset extends React.Component {
     return makeGetResolveModelSelector(this.props.form)(state);
   }
 
+  calculateAllFields(rows) {
+    let fields = [];
+    each(rows, row => {
+      each(row.cols, col => {
+        if (col.fieldsets) {
+          each(col.fieldsets, fieldset => {
+            fields = concat(fields, this.calculateAllFields(fieldset.rows));
+          });
+        } else if (col.fields) {
+          each(col.fields, field => {
+            fields.push(field.id);
+          });
+        }
+      });
+    });
+    return fields;
+  }
+
   renderRow(rowId, row) {
     const {
       labelPosition,
@@ -162,7 +180,9 @@ class Fieldset extends React.Component {
               <Col xs={col.size || defaultCol} key={colId} className={col.className}>
                 {col.fields &&
                   col.fields.map((field, i) => {
-                    this.fields.push(field.id);
+                    {
+                      /*this.fields.push(field.id);*/
+                    }
                     const autoFocus = field.id && autoFocusId && field.id === autoFocusId;
                     const key = 'field' + i;
                     return (
@@ -206,7 +226,13 @@ class Fieldset extends React.Component {
         className={cx('n2o-fieldset', className, { 'd-none': !this.state.visibleFieldset })}
         style={style}
       >
-        <ElementType {...rest} render={rows => rows.map((row, id) => this.renderRow(id, row))} />
+        <ElementType
+          {...rest}
+          render={rows => {
+            this.fields = this.calculateAllFields(rows);
+            return rows.map((row, id) => this.renderRow(id, row));
+          }}
+        />
       </div>
     );
   }

@@ -23,6 +23,7 @@ import PopUp from './PopUp';
  * @reactProps {string} placeholder
  * @reactProps {string} locale
  * @reactProps {string} timeFormat
+ * @reactProps {string} openOnFocus
  */
 class DateTimeControl extends React.Component {
   constructor(props) {
@@ -270,7 +271,15 @@ class DateTimeControl extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, className, onFocus, onBlur, autoFocus } = this.props;
+    const {
+      disabled,
+      placeholder,
+      className,
+      onFocus,
+      onBlur,
+      autoFocus,
+      openOnFocus
+    } = this.props;
     const { inputs } = this.state;
     return (
       <div className="n2o-date-picker-container">
@@ -290,6 +299,7 @@ class DateTimeControl extends React.Component {
             onBlur={this.onBlur}
             onFocus={onFocus}
             autoFocus={autoFocus}
+            openOnFocus={openOnFocus}
           />
           {this.renderPopUp(this.width)}
         </div>
@@ -310,7 +320,8 @@ DateTimeControl.defaultProps = {
   dateFormat: 'DD/MM/YYYY',
   outputFormat: 'DD.MM.YYYY HH:mm:ss',
   locale: 'ru',
-  autoFocus: false
+  autoFocus: false,
+  openOnFocus: false
 };
 
 DateTimeControl.propTypes = {
@@ -353,7 +364,8 @@ DateTimeControl.propTypes = {
   placeholder: PropTypes.string,
   locale: PropTypes.oneOf(['en', 'ru']),
   timeFormat: PropTypes.string,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool
 };
 
 export default DateTimeControl;

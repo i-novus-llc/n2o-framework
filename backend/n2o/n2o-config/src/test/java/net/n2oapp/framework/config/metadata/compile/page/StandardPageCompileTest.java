@@ -51,7 +51,9 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
         assertThat(page.getId(), is("testRoute"));
         assertThat(page.getObject().getId(), is("utObjectField"));
+
         assertThat(page.getLayout().getSrc(), is("SingleLayout"));
+        assertThat(page.getLayout().getProperties(), hasEntry("attr1", "val1"));
         assertThat(page.getLayout().getRegions().get("single").size(), is(3));
         assertThat(page.getLayout().getRegions().get("left").size(), is(1));
         assertThat(page.getLayout().getRegions().size(), is(2));

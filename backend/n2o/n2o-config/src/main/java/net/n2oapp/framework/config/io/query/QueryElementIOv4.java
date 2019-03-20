@@ -23,7 +23,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.attribute(e, "name", t::getName, t::setName);
         p.attribute(e, "object-id", t::getObjectId, t::setObjectId);
         p.attribute(e, "route", t::getRoute, t::setRoute);
-        p.extensionAttributes(e, t::getExtAttributes, t::setExtAttributes);
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.children(e, null, "list", t::getLists, t::setLists, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.list), this::selection);
         p.children(e, null, "count", t::getCounts, t::setCounts, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.count), this::selection);
         p.children(e, null, "unique", t::getUniques, t::setUniques, () -> new N2oQuery.Selection(N2oQuery.Selection.Type.unique), this::selection);
