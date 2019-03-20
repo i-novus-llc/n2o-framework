@@ -4,7 +4,7 @@
     "proto_patients_update_main": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "${n2o.config.data.route}/proto/patients/5607677/update/main",
+        "url": "n2o/data/proto/patients/5607677/update/main",
         "pathMapping": {},
         "queryMapping": {}
       },
@@ -82,7 +82,7 @@
                           "hasSearch": false,
                           "size": 30,
                           "dataProvider": {
-                            "url": "${n2o.config.data.route}/ProtoGender",
+                            "url": "n2o/data/ProtoGender",
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
@@ -103,7 +103,7 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "${n2o.format.date.client}"
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }
                     ]
@@ -210,7 +210,7 @@
           "widgetId": "proto_patients_update_main",
           "pageId": "proto_patients_update",
           "dataProvider": {
-            "url": "${n2o.config.data.route}/proto/patients/5607677/update/submit",
+            "url": "n2o/data/proto/patients/5607677/update/submit",
             "pathMapping": {},
             "method": "POST"
           },

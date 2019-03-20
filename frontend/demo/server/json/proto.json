@@ -369,7 +369,7 @@
     "proto_patients": {
       "src": "AdvancedTableWidget",
       "dataProvider": {
-        "url": "${n2o.config.data.route}/proto/patients",
+        "url": "n2o/data/proto/patients",
         "pathMapping": {},
         "queryMapping": {
           "proto_patients_surname": {
@@ -578,7 +578,7 @@
             "payload": {
               "widgetId": "proto_patients",
               "dataProvider": {
-                "url": "${n2o.config.data.route}/proto/patients/:proto_patients_id/delete",
+                "url": "n2o/data/proto/patients/:proto_patients_id/delete",
                 "pathMapping": {
                   "proto_patients_id": {
                     "link": "models.resolve['proto_patients'].id"
@@ -697,7 +697,7 @@
             "payload": {
               "widgetId": "proto_patients",
               "dataProvider": {
-                "url": "${n2o.config.data.route}/proto/patients/:proto_patients_id/vip",
+                "url": "n2o/data/proto/patients/:proto_patients_id/vip",
                 "pathMapping": {
                   "proto_patients_id": {
                     "link": "models.resolve['proto_patients'].id"
@@ -790,7 +790,7 @@
                           "src": "DateInterval",
                           "id": "bdate",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "${n2o.format.date.client}"
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }
                     ]
@@ -814,7 +814,7 @@
                           "labelFieldId": "name",
                           "hasSearch": false,
                           "dataProvider": {
-                            "url": "${n2o.config.data.route}/ProtoGender",
+                            "url": "n2o/data/ProtoGender",
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
@@ -934,7 +934,7 @@
                 "payload": {
                   "widgetId": "proto_patients",
                   "dataProvider": {
-                    "url": "${n2o.config.data.route}/proto/patients/:proto_patients_id/vip",
+                    "url": "n2o/data/proto/patients/:proto_patients_id/vip",
                     "pathMapping": {
                       "proto_patients_id": {
                         "link": "models.resolve['proto_patients'].id"
@@ -980,7 +980,7 @@
                         "payload": {
                           "widgetId": "proto_patients",
                           "dataProvider": {
-                            "url": "${n2o.config.data.route}/proto/patients/:proto_patients_id/delete",
+                            "url": "n2o/data/proto/patients/:proto_patients_id/delete",
                             "pathMapping": {
                               "proto_patients_id": {
                                 "link": "models.resolve['proto_patients'].id"
@@ -1111,7 +1111,7 @@
     "proto_contacts": {
       "src": "AdvancedTableWidget",
       "dataProvider": {
-        "url": "${n2o.config.data.route}/proto/patients/:proto_patients_id/contacts",
+        "url": "n2o/data/proto/patients/:proto_patients_id/contacts",
         "pathMapping": {
           "proto_patients_id": {
             "link": "models.resolve['proto_patients'].id"
@@ -1229,7 +1229,7 @@
             "payload": {
               "widgetId": "proto_contacts",
               "dataProvider": {
-                "url": "${n2o.config.data.route}/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/delete",
+                "url": "n2o/data/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/delete",
                 "pathMapping": {
                   "proto_contacts_id": {
                     "link": "models.resolve['proto_contacts'].id"
@@ -1362,7 +1362,7 @@
     "proto_form": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "${n2o.config.data.route}/proto/patients/:patient_id/card",
+        "url": "n2o/data/proto/patients/:patient_id/card",
         "pathMapping": {
           "patient_id": {
             "link": "models.resolve['proto_patients'].id"
@@ -1434,7 +1434,7 @@
                           "hasSearch": false,
                           "size": 30,
                           "dataProvider": {
-                            "url": "${n2o.config.data.route}/ProtoGender",
+                            "url": "n2o/data/ProtoGender",
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
