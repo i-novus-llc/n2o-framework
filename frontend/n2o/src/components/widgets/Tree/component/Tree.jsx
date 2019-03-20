@@ -89,8 +89,10 @@ class Tree extends Component {
 
   onShowAllTreeItem() {
     const { valueFieldId, datasource } = this.props;
+    const filteredData = filter(datasource, item => !item.disabled);
+
     this.setState({
-      expandedKeys: map(datasource, valueFieldId)
+      expandedKeys: map(filteredData, valueFieldId)
     });
   }
 
