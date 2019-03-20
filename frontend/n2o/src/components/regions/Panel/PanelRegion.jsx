@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import { isEmpty, every } from 'lodash';
 import { compose, getContext } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
-import withWidgetMetadata from '../withWidgetMetadata';
+import withWidgetProps from '../withWidgetProps';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 import withSecurity from '../../../core/auth/withSecurity';
 import { userSelector } from '../../../selectors/auth';
@@ -107,9 +107,14 @@ class PanelRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { panels } = this.props;
+    const { panels, getWidgetProps } = this.props;
+    const isInvisible = every(panels, item => !getWidgetProps(item.widgetId).isVisible);
     return (
-      <PanelShortHand tabs={this.state.tabs} {...this.props}>
+      <PanelShortHand
+        tabs={this.state.tabs}
+        {...this.props}
+        style={{ display: isInvisible && 'none' }}
+      >
         {panels.map(container => this.getContent(container))}
       </PanelShortHand>
     );
@@ -143,5 +148,5 @@ PanelRegion.defaultProps = {
 
 export default compose(
   withSecurity,
-  withWidgetMetadata
+  withWidgetProps
 )(PanelRegion);

@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import WidgetFactory from '../../widgets/WidgetFactory';
-import withWidgetMetadata from '../withWidgetMetadata';
+import withWidgetProps from '../withWidgetProps';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 
 import Factory from '../../../core/factory/Factory';
@@ -46,7 +46,7 @@ class TabRegion extends React.Component {
   }
 
   render() {
-    const { tabs, getWidget, pageId } = this.props;
+    const { tabs, getWidget, getWidgetProps, pageId } = this.props;
     return (
       <Tabs ref={el => (this._tabsEl = el)} onChangeActive={this.handleChangeActive}>
         {tabs.map(tab => {
@@ -56,7 +56,7 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: true
+            visible: getWidgetProps(tab.widgetId).isVisible
           };
           const tabEl = (
             <Tab {...tabProps}>
@@ -105,4 +105,4 @@ TabRegion.defaultProps = {
   mode: 'single'
 };
 
-export default compose(withWidgetMetadata)(TabRegion);
+export default compose(withWidgetProps)(TabRegion);
