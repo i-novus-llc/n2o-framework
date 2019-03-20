@@ -790,7 +790,7 @@
                           "src": "DateInterval",
                           "id": "bdate",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "${n2o.format.date.client}"
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }
                     ]
