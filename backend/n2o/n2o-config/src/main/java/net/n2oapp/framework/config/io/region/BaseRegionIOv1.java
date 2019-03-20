@@ -22,7 +22,7 @@ public abstract class BaseRegionIOv1<T extends N2oRegion & NamespaceUriAware> im
         p.attribute(e, "src", r::getSrc, r::setSrc);
         p.attribute(e, "class", r::getClassName, r::setClassName);
         p.anyChildren(e, null, r::getWidgets, r::setWidgets, p.anyOf(N2oWidget.class), widgetDefaultNamespace);
-        p.extensionAttributes(e, r::getExtAttributes, r::setExtAttributes);
+        p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }
 
     @Override

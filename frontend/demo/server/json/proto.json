@@ -459,15 +459,15 @@
                 "actionId": "update2",
                 "hint": "Кнопка скрывается, если в строке имя Мария",
                 "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_patients']"
-                    }
-                  ],
                   "visible": [
                     {
                       "expression": "name!='Мария'",
+                      "modelLink": "models.resolve['proto_patients']"
+                    }
+                  ],
+                  "enabled": [
+                    {
+                      "expression": "!_.isEmpty(this)",
                       "modelLink": "models.resolve['proto_patients']"
                     }
                   ]
@@ -1489,8 +1489,7 @@
   },
   "breadcrumb": [
     {
-      "label": "Список контактов",
-      "pathMapping": {}
+      "label": "Список контактов"
     }
   ],
   "actions": {

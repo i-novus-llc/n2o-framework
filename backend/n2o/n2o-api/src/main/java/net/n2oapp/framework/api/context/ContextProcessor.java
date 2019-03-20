@@ -55,7 +55,7 @@ public class ContextProcessor {
      */
     public String resolveJson(String json, ObjectMapper objectMapper) {
         try {
-            return contextResolver.resolve(json, replaceByJson(replaceOptional(context::get), objectMapper));
+            return contextResolver.resolveJson(json, replaceOptional(context::get), objectMapper);
         } catch (NotFoundPlaceholderException e) {
             throw new NotFoundContextPlaceholderException(e.getPlaceholder());
         }

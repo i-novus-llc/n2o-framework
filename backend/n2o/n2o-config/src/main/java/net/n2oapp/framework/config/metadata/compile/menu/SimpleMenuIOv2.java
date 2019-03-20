@@ -44,7 +44,7 @@ public class SimpleMenuIOv2 implements NamespaceIO<N2oSimpleMenu> {
         p.attribute(e, "page-id", m::getPageId, m::setPageId);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attribute(e, "route", m::getRoute, m::setRoute);
-        p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
     private void anchor(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
@@ -52,13 +52,13 @@ public class SimpleMenuIOv2 implements NamespaceIO<N2oSimpleMenu> {
         p.attribute(e, "href", m::getHref, m::setHref);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
         p.attributeEnum(e, "target", m::getTarget, m::setTarget, Target.class);
-        p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
 
     private void subMenu(Element e, N2oSimpleMenu.MenuItem m, IOProcessor p) {
         p.attribute(e, "label", m::getLabel, m::setLabel);
         p.attribute(e, "icon", m::getIcon, m::setIcon);
-        p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getSubMenu, m::setSubMenu, p.oneOf(N2oSimpleMenu.MenuItem.class)
                 .add("page", N2oSimpleMenu.PageItem.class, this::page)
                 .add("a", N2oSimpleMenu.AnchorItem.class, this::anchor));
