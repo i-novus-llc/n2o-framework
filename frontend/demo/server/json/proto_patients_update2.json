@@ -99,7 +99,7 @@
     "proto_patients_update2_main": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "${n2o.config.data.route}/proto/patients/5607677/update2/main",
+        "url": "n2o/data/proto/patients/5607677/update2/main",
         "pathMapping": {},
         "queryMapping": {}
       },
@@ -177,7 +177,7 @@
                           "hasSearch": false,
                           "size": 30,
                           "dataProvider": {
-                            "url": "${n2o.config.data.route}/ProtoGender",
+                            "url": "n2o/data/ProtoGender",
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
@@ -314,7 +314,7 @@
           "widgetId": "proto_patients_update2_main",
           "pageId": "proto_patients_update2",
           "dataProvider": {
-            "url": "${n2o.config.data.route}/proto/patients/5607677/update2/submit",
+            "url": "n2o/data/proto/patients/5607677/update2/submit",
             "pathMapping": {},
             "method": "POST"
           },
