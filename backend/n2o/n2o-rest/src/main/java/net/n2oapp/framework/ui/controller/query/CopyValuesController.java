@@ -30,7 +30,7 @@ public class CopyValuesController extends DefaultValuesController {
             try {
                 queryDefaultPage = executeQuery(requestInfo, responseInfo);
                 DataSet queryDefaultModel = queryDefaultPage.getCollection().iterator().next();
-                merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getFieldsToCopy());
+                merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getCopiedFields());
                 return defaultModel;
             } catch (N2oException e) {
                 responseInfo.addMessage(errorMessageBuilder.build(e));

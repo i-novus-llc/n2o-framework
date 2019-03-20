@@ -73,7 +73,7 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         query.setSubModelQueries(context.getSubModelQueries());
         initExpressions(query);
         query.setProperties(p.mapAttributes(source));
-        query.setFieldsToCopy(context.getFieldsToCopy());
+        query.setCopiedFields(context.getCopiedFields());
         return query;
     }
 
