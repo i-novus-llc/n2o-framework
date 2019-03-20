@@ -77,7 +77,7 @@
                           "hasSearch": false,
                           "size": 30,
                           "dataProvider": {
-                            "url": "${n2o.config.data.route}/ProtoGender",
+                            "url": "n2o/data/ProtoGender",
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
@@ -205,7 +205,7 @@
           "widgetId": "proto_patients_create_main",
           "pageId": "proto_patients_create",
           "dataProvider": {
-            "url": "${n2o.config.data.route}/proto/patients/create/submit",
+            "url": "n2o/data/proto/patients/create/submit",
             "pathMapping": {},
             "method": "POST"
           },
