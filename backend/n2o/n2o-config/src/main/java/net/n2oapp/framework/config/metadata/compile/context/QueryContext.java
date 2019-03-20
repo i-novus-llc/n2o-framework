@@ -25,7 +25,7 @@ public class QueryContext extends BaseCompileContext<CompiledQuery, N2oQuery> {
     private Integer querySize;
     private Map<String, String> sortingMap;
     private List<SubModelQuery> subModelQueries;
-    private Set<String> fieldsToCopy;
+    private Set<String> copiedFields;
 
     public QueryContext(String queryId) {
         super(queryId, N2oQuery.class, CompiledQuery.class);

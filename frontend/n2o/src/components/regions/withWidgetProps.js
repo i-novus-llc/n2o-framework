@@ -33,7 +33,6 @@ function withGetWidget(WrappedComponent) {
     /**
      * Рендер
      */
-
     render() {
       const props = omit(this.props, ['widgets']);
       return (

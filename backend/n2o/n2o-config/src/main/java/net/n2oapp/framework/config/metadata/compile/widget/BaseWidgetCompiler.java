@@ -373,7 +373,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             queryContext.setSubModelQueries(subModelsScope);
             queryContext.setQuerySize(1);
             if (((N2oForm) source).getItems() != null) {
-                queryContext.setFieldsToCopy(Arrays.stream(((N2oForm) source).getItems())
+                queryContext.setCopiedFields(Arrays.stream(((N2oForm) source).getItems())
                         .filter(f -> f instanceof N2oField && Boolean.TRUE.equals(((N2oField) f).getCopied()))
                         .map(f -> ((N2oField) f).getId()).collect(Collectors.toSet()));
             }

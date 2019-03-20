@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
-import { isEmpty, filter, map, pick, difference, pullAll, first } from 'lodash';
+import { isEmpty, filter, map, pick, difference, pullAll, first, isNil } from 'lodash';
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
@@ -40,27 +40,46 @@ class ListRegion extends React.Component {
     return (
       <Collapse defaultActiveKey={this.activeKeys} onChange={this.handleChange} {...collapseProps}>
         {items.map(item => {
-          const listItem = (
+          const widgetProps = getWidgetProps(item.widgetId);
+
+          const listItemProps = {
+            key: item.widgetId,
+            id: item.widgetId,
+            header: item.label || item.widgetId,
+            active: item.opened
+          };
+
+          const { security } = item;
+          return isEmpty(security) ? (
             <Panel
-              key={item.widgetId}
-              id={item.widgetId}
-              header={item.label || item.widgetId}
+              {...listItemProps}
               {...panelProps}
+              style={{ display: widgetProps.isVisible === false ? 'none' : '' }}
             >
               <Factory id={item.widgetId} level={WIDGETS} {...getWidget(pageId, item.widgetId)} />
             </Panel>
-          );
-          const { security } = item;
-          return isEmpty(security) ? (
-            listItem
           ) : (
             <SecurityCheck
+              {...listItemProps}
               config={security}
               active={item.opened}
               id={item.widgetId}
-              render={({ permissions, onClick, active }) =>
-                permissions ? React.cloneElement(listItem, { onClick, active }) : null
-              }
+              render={({ permissions, ...rest }) => {
+                return permissions ? (
+                  <Panel
+                    {...panelProps}
+                    {...listItemProps}
+                    {...rest}
+                    style={{ display: widgetProps.isVisible === false ? 'none' : '' }}
+                  >
+                    <Factory
+                      id={item.widgetId}
+                      level={WIDGETS}
+                      {...getWidget(pageId, item.widgetId)}
+                    />
+                  </Panel>
+                ) : null;
+              }}
             />
           );
         })}
