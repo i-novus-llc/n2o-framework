@@ -143,8 +143,15 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setActionId(source.getActionId());
         }
         button.setClassName(source.getClassName());
-        if (source.getDescription() != null) {
-            button.setHint(source.getDescription().trim());
+
+        String hint;
+        if (LabelType.icon.equals(source.getType()))
+            hint = p.cast(source.getDescription(), source.getLabel());
+        else
+            hint = source.getDescription();
+
+        if (hint != null) {
+            button.setHint(hint.trim());
             if (source.getTooltipPosition() != null) {
                 button.setHintPosition(source.getTooltipPosition());
             } else {
@@ -155,6 +162,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 );
             }
         }
+
         button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
         button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
         if (source.getModel() == null)
