@@ -53,8 +53,7 @@ import {
   setWidgetMetadata,
   setTableSelectedId,
   setActive,
-  disableWidgetOnFetch,
-  resolveWidgetDependency
+  disableWidgetOnFetch
 } from '../actions/widgets';
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 
@@ -405,37 +404,6 @@ describe('Тесты экшенов widgets', () => {
     it('Генирирует правильный payload', () => {
       const action = disableWidgetOnFetch(widgetId);
       expect(action.payload.widgetId).toEqual(widgetId);
-    });
-  });
-  describe('Проерка resolveWidgetDependency', () => {
-    it('Генирирует правильное событие', () => {
-      const action = resolveWidgetDependency('test', DEPENDENCY_TYPES.fetch, [{ on: 'modelLink' }]);
-      expect(action.type).toEqual(RESOLVE_DEPENDENCY);
-    });
-
-    it('Генирирует правильный payload', () => {
-      const action = resolveWidgetDependency(
-        'test',
-        DEPENDENCY_TYPES.visible,
-        [
-          {
-            on: 'modelLink',
-            condition: 'widgetCondition'
-          }
-        ],
-        true
-      );
-      expect(action.payload).toEqual({
-        dependencyType: DEPENDENCY_TYPES.visible,
-        widgetId: 'test',
-        dependency: [
-          {
-            on: 'modelLink',
-            condition: 'widgetCondition'
-          }
-        ],
-        isVisible: true
-      });
     });
   });
 });

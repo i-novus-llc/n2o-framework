@@ -1,118 +1,76 @@
-import { actionChannel, call, fork, put, select, take } from 'redux-saga/effects';
-import { RESOLVE_DEPENDENCY } from '../constants/widgets';
-import { getModelsByDependency } from '../selectors/models';
-import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
-import propsResolver from '../utils/propsResolver';
-import {
-  dataRequestWidget,
-  disableWidget,
-  enableWidget,
-  hideWidget,
-  showWidget
-} from '../actions/widgets';
+import { select, fork, actionChannel, take, call } from 'redux-saga/effects';
+import { isEmpty, keys } from 'lodash';
+import { REGISTER_DEPENDENCY } from '../constants/dependency';
+import { SET } from '../constants/models';
 
-export function* resolveWidgetDependencies(options) {
-  const { widgetId, dependency, isVisible } = options;
-  const objectKeys = Object.keys(dependency);
-  for (let i = 0; i < objectKeys.length; i++) {
-    yield modify({
+/**
+ * Добавляет в хранилище новопришедший виджет с его widgetId и dependency
+ * @param widgetsDependencies
+ * @param widgetId
+ * @param dependency
+ * @returns {{}}
+ */
+export function* registerWidgetDependency(widgetsDependencies, widgetId, dependency) {
+  return {
+    ...widgetsDependencies,
+    [widgetId]: {
       widgetId,
-      dependency,
-      dependencyType: objectKeys[i],
-      isVisible
-    });
+      dependency
+    }
+  };
+}
+
+export function* resolveWidgetDependency(
+  prevState,
+  state,
+  widgetsDependencies,
+  actionWidgetId,
+  isVisible
+) {
+  const dependenciesKeys = keys(widgetsDependencies);
+  for (let i = 0; i < dependenciesKeys.length; i++) {
+    const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]];
+    const widgetDependenciesKeys = keys(dependency);
+    console.log('point');
+    console.log(widgetDependenciesKeys);
   }
 }
 
-/**
- * Резолв зависимостей виджета
- * @returns {IterableIterator<*>}
- */
-export function* modify(options) {
-  try {
-    // const prevState = yield select();
+export function* resolveDependency() {}
+
+export function* watchDependency() {
+  let widgetsDependencies = {};
+  const channel = yield actionChannel([REGISTER_DEPENDENCY, SET]);
+  while (true) {
+    const prevState = yield select();
+    const action = yield take(channel);
+    const { type, payload } = action;
+    const { widgetId, options = {}, prefix, key, model } = payload;
+    const { dependency, dependencyType, isVisible } = options;
     const state = yield select();
-    const { widgetId, dependencyType, dependency, isVisible } = options;
-    const model = getModelsByDependency(dependency)(state);
-    // const prevModel = getModelsByDependency(dependency)(prevState);
-    switch (dependencyType) {
-      case DEPENDENCY_TYPES.visible: {
-        yield call(resolveVisibleDependency, model, widgetId);
+    switch (type) {
+      case REGISTER_DEPENDENCY: {
+        widgetsDependencies = yield call(
+          registerWidgetDependency,
+          widgetsDependencies,
+          widgetId,
+          dependency
+        );
+        yield fork(
+          resolveWidgetDependency,
+          prevState,
+          state,
+          widgetsDependencies,
+          widgetId,
+          isVisible
+        );
         break;
       }
-      case DEPENDENCY_TYPES.enabled: {
-        yield call(resolveEnabledDependency, model, widgetId);
-        break;
-      }
-      case DEPENDENCY_TYPES.fetch: {
-        yield call(resolveFetchDependency, model, {}, widgetId, isVisible);
-        break;
-      }
+
       default:
         break;
     }
-  } catch (e) {
-    console.error(e);
   }
 }
 
-/**
- * Резолв видимости
- * @param model
- * @param widgetId
- * @returns {IterableIterator<PutEffect<Action> | *>}
- */
-export function* resolveVisibleDependency(model, widgetId) {
-  try {
-    const reduceFunction = (isVisible, { model, config }) => {
-      return isVisible && propsResolver('`' + config.condition + '`', model);
-    };
-    const visible = model.reduce(reduceFunction, true);
-    if (visible) {
-      yield put(showWidget(widgetId));
-    } else {
-      yield put(hideWidget(widgetId));
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-/**
- * Резолв активности
- * @param model
- * @param widgetId
- * @returns {IterableIterator<PutEffect<Action> | *>}
- */
-export function* resolveEnabledDependency(model, widgetId) {
-  try {
-    const reduceFunction = (isDisabled, { model, config }) =>
-      isDisabled && propsResolver('`' + config.condition + '`', model);
-    const enabled = model.reduce(reduceFunction, true);
-    if (enabled) {
-      yield put(enableWidget(widgetId));
-    } else {
-      yield put(disableWidget(widgetId));
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-/**
- * Резолв fetch зависимости
- * @param model
- * @param prevModel
- * @param widgetId
- * @param isVisible
- * @returns {IterableIterator<PutEffect<Action> | *>}
- */
-export function* resolveFetchDependency(model, prevModel, widgetId, isVisible) {
-  try {
-    yield put(dataRequestWidget(widgetId));
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-export const widgetDependencySaga = [fork(modify)];
+export const widgetDependencySagas = [fork(watchDependency)];

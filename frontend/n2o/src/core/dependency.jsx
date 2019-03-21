@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEqual, omit, get, forEach, isEmpty } from 'lodash';
-import { resolveWidgetDependency } from '../actions/widgets';
 import {
   makeWidgetVisibleSelector,
   makeWidgetEnabledSelector,
@@ -24,9 +23,9 @@ const dependency = WrappedComponent => {
     }
 
     initIfNeeded(props) {
-      const { registerDependency, dependency, isVisible, isInit } = props;
+      const { id: widgetId, registerDependency, dependency, isVisible, isInit } = props;
       !isInit &&
-        registerDependency({
+        registerDependency(widgetId, {
           dependencyType: 'widget',
           dependency,
           isVisible
@@ -52,8 +51,7 @@ const dependency = WrappedComponent => {
     isInit: PropTypes.bool,
     isVisible: PropTypes.bool,
     isEnabled: PropTypes.bool,
-    models: PropTypes.object,
-    resolveWidgetDependency: PropTypes.func
+    models: PropTypes.object
   };
 
   UniversalDependency.defaultProps = {
@@ -74,9 +72,6 @@ const dependency = WrappedComponent => {
   const mapDispatchToProps = (dispatch, ownProps) => {
     const { id: widgetId } = ownProps;
     return {
-      resolveWidgetDependency: (dependencyType, dependency, isVisible) => {
-        dispatch(resolveWidgetDependency(widgetId, dependencyType, dependency, isVisible));
-      },
       registerDependency: (widgetId, options) => dispatch(registerDependency(widgetId, options))
     };
   };

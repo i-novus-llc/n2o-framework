@@ -9,7 +9,7 @@ import { fieldDependencySagas } from './sagas/fieldDependency';
 import { metaSagas } from './sagas/meta';
 import { globalSagas } from './sagas/global';
 import { toolbarSagas } from './sagas/toolbar';
-import { dependencies } from './sagas/dependency';
+import { widgetDependencySagas } from './sagas/widgetDependency';
 
 export default function generateSagas(dispatch, config) {
   return function* rootSaga() {
@@ -19,12 +19,12 @@ export default function generateSagas(dispatch, config) {
       ...actionsImplSagas,
       ...alertsSagas(config.messages),
       ...formPluginSagas,
-      ...dependencies,
       ...fieldDependencySagas.map(saga => saga(dispatch)),
       ...authSagas(config.security),
       ...metaSagas,
       ...globalSagas,
-      ...toolbarSagas
+      ...toolbarSagas,
+      ...widgetDependencySagas
     ]);
   };
 }

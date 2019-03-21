@@ -278,22 +278,6 @@ export function setTableSelectedId(widgetId, selectedId) {
   return createActionHelper(SET_TABLE_SELECTED_ID)({ widgetId, value: selectedId });
 }
 
-/**
- * Резолв зависимости виджета
- * @param widgetId
- * @param dependencyType
- * @param dependency
- * @param isVisible
- */
-export function resolveWidgetDependency(widgetId, dependencyType, dependency, isVisible) {
-  return createActionHelper(RESOLVE_DEPENDENCY)({
-    widgetId,
-    dependencyType,
-    dependency,
-    isVisible
-  });
-}
-
 export function setActive(widgetId) {
   return createActionHelper(SET_ACTIVE)({ widgetId });
 }

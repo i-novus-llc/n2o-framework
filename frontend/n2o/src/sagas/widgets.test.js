@@ -5,11 +5,7 @@ import {
   clearOnDisable,
   setWidgetDataSuccess,
   routesQueryMapping,
-  handleFetch,
-  resolveVisibleDependency,
-  resolveEnabledDependency,
-  resolveFetchDependency,
-  resolveWidgetDependency
+  handleFetch
 } from './widgets';
 import { runSaga } from 'redux-saga';
 import { put } from 'redux-saga/effects';
