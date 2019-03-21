@@ -16,7 +16,7 @@ import { REGISTER_FIELD_EXTRA } from '../../constants/formPlugin';
 import { showField, hideField } from '../../actions/formPlugin';
 import { enableField, disableField } from '../../actions/formPlugin';
 import formPluginReducer from '../../reducers/formPlugin';
-import { checkAndModify, modify } from '../../sagas/dependency';
+import { checkAndModify, modify } from '../../sagas/fieldDependency';
 import withDependency from './withDependency';
 
 const mockStore = configureMockStore();

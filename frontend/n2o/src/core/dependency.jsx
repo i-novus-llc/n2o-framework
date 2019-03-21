@@ -8,9 +8,7 @@ import {
   makeWidgetEnabledSelector,
   makeWidgetIsInitSelector
 } from '../selectors/widgets';
-import { getModelsByDependency } from '../selectors/models';
-
-import { DEPENDENCY_TYPES } from './dependencyTypes';
+import { registerDependency } from '../actions/dependency';
 
 const omittedProps = ['models'];
 /**
@@ -21,53 +19,18 @@ const dependency = WrappedComponent => {
   class UniversalDependency extends React.Component {
     constructor(props) {
       super(props);
-      forEach(props.dependency, (dependency, type) => {
-        this[type](dependency);
-      });
-    }
-    /**
-     * Вызов resolveDependency при изменении пропсов(пришла новая модель)
-     * @param prevProps
-     */
-    componentDidUpdate(prevProps) {
-      const { dependency, models } = this.props;
-      forEach(dependency, (dependency, type) => {
-        if (
-          type !== DEPENDENCY_TYPES.fetch ||
-          (type === DEPENDENCY_TYPES.fetch &&
-            !isEqual(prevProps.models[DEPENDENCY_TYPES.fetch], models[DEPENDENCY_TYPES.fetch]))
-        )
-          this[type](dependency);
-      });
+
+      this.initIfNeeded(props);
     }
 
-    shouldComponentUpdate(nextProps) {
-      return (
-        !isEqual(nextProps.models, this.props.models) ||
-        nextProps.isVisible !== this.props.isVisible ||
-        nextProps.isEnabled !== this.props.isEnabled
-      );
-    }
-
-    /**
-     * Вызывается в резолве при зависимости типа fetch, диспатчит экшен фетча
-     */
-    [DEPENDENCY_TYPES.fetch](dependency) {
-      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.fetch, dependency, this.props.isVisible);
-    }
-
-    /**
-     * Вызывается в резолве при зависимости типа visible, диспатчит экшены изменния видимости виджета
-     */
-    [DEPENDENCY_TYPES.visible](dependency) {
-      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.visible, dependency);
-    }
-
-    /**
-     * Вызывается в резолве при зависимости типа enabled, диспатчит enable/disable экшены
-     */
-    [DEPENDENCY_TYPES.enabled](dependency) {
-      this.props.resolveWidgetDependency(DEPENDENCY_TYPES.enabled, dependency);
+    initIfNeeded(props) {
+      const { registerDependency, dependency, isVisible, isInit } = props;
+      !isInit &&
+        registerDependency({
+          dependencyType: 'widget',
+          dependency,
+          isVisible
+        });
     }
 
     /**
@@ -104,15 +67,7 @@ const dependency = WrappedComponent => {
     return {
       isInit: makeWidgetIsInitSelector(props.id)(state, props),
       isVisible: makeWidgetVisibleSelector(props.id)(state, props),
-      isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
-      models: {
-        [DEPENDENCY_TYPES.fetch]:
-          dependency && getModelsByDependency(dependency.fetch)(state, props),
-        [DEPENDENCY_TYPES.visible]:
-          dependency && getModelsByDependency(dependency.visible)(state, props),
-        [DEPENDENCY_TYPES.enabled]:
-          dependency && getModelsByDependency(dependency.enabled)(state, props)
-      }
+      isEnabled: makeWidgetEnabledSelector(props.id)(state, props)
     };
   };
 
@@ -121,7 +76,8 @@ const dependency = WrappedComponent => {
     return {
       resolveWidgetDependency: (dependencyType, dependency, isVisible) => {
         dispatch(resolveWidgetDependency(widgetId, dependencyType, dependency, isVisible));
-      }
+      },
+      registerDependency: (widgetId, options) => dispatch(registerDependency(widgetId, options))
     };
   };
 
