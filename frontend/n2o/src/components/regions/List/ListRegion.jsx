@@ -39,34 +39,39 @@ class ListRegion extends React.Component {
     this.activeKeys = map(filter(items, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, 'type', 'forceRender');
-
     return (
       <Collapse defaultActiveKey={this.activeKeys} onChange={this.handleChange} {...collapseProps}>
         {items.map(item => {
+          const listItemProps = {
+            key: item.widgetId,
+            id: item.widgetId,
+            header: item.label || item.widgetId,
+            active: item.opened
+          };
+
           if (item.dependency && !resolveVisibleDependency(item.dependency)) {
             return null;
           }
-          const listItem = (
-            <Panel
-              key={item.widgetId}
-              id={item.widgetId}
-              header={item.label || item.widgetId}
-              {...panelProps}
-            >
-              <Factory id={item.widgetId} level={WIDGETS} {...getWidget(pageId, item.widgetId)} />
-            </Panel>
-          );
+
+          const ListItem = props => {
+            return (
+              <Panel {...props} {...panelProps}>
+                <Factory id={props.id} level={WIDGETS} {...getWidget(pageId, props.id)} />
+              </Panel>
+            );
+          };
           const { security } = item;
           return isEmpty(security) ? (
-            listItem
+            React.createElement(ListItem, listItemProps)
           ) : (
             <SecurityCheck
+              {...listItemProps}
               config={security}
               active={item.opened}
               id={item.widgetId}
-              render={({ permissions, onClick, active }) =>
-                permissions ? React.cloneElement(listItem, { onClick, active }) : null
-              }
+              render={({ permissions, ...rest }) => {
+                return permissions ? React.createElement(ListItem, rest) : null;
+              }}
             />
           );
         })}

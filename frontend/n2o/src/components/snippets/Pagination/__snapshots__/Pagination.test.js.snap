@@ -19,11 +19,14 @@ exports[`<Pagination /> проверяет работы вызова callback п
       lazy={false}
       maxButtons={4}
       next={false}
+      nextText={null}
       onSelect={[Function]}
       prev={false}
+      prevText={null}
       showCountRecords={true}
       size={10}
       stepIncrement={10}
+      withoutBody={false}
     >
       <nav
         className="n2o-pagination"
@@ -50,10 +53,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": 1,
+                  }
+                }
                 href="#"
-              >
-                1
-              </a>
+              />
             </li>
           </PaginationButton>
           <PaginationButton
@@ -69,10 +75,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": 2,
+                  }
+                }
                 href="#"
-              >
-                2
-              </a>
+              />
             </li>
           </PaginationButton>
           <PaginationButton
@@ -88,10 +97,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": 3,
+                  }
+                }
                 href="#"
-              >
-                3
-              </a>
+              />
             </li>
           </PaginationButton>
           <PaginationButton
@@ -107,10 +119,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": 4,
+                  }
+                }
                 href="#"
-              >
-                4
-              </a>
+              />
             </li>
           </PaginationButton>
           <PaginationButton
@@ -126,10 +141,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": 5,
+                  }
+                }
                 href="#"
-              >
-                5
-              </a>
+              />
             </li>
           </PaginationButton>
           <PaginationButton
@@ -144,10 +162,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link no-border"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "...",
+                  }
+                }
                 href="#"
-              >
-                ...
-              </a>
+              />
             </li>
           </PaginationButton>
           <PaginationButton
@@ -162,10 +183,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": 11,
+                  }
+                }
                 href="#"
-              >
-                11
-              </a>
+              />
             </li>
           </PaginationButton>
           <PaginationButton
@@ -180,10 +204,13 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link no-border"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "...",
+                  }
+                }
                 href="#"
-              >
-                ...
-              </a>
+              />
             </li>
           </PaginationButton>
         </ul>
@@ -227,9 +254,12 @@ exports[`<Pagination /> проверяет рендер с дефолтными 
     lazy={false}
     maxButtons={4}
     next={false}
+    nextText={null}
     prev={false}
+    prevText={null}
     showCountRecords={true}
     size={1}
+    withoutBody={false}
   />
 </IntlProvider>
 `;
@@ -245,10 +275,13 @@ exports[`<Pagination /> проверяет рендер с классическ�
     lazy={false}
     maxButtons={4}
     next={false}
+    nextText={null}
     prev={false}
+    prevText={null}
     showCountRecords={true}
     size={10}
     stepIncrement={10}
+    withoutBody={false}
   />
 </IntlProvider>
 `;
@@ -264,10 +297,13 @@ exports[`<Pagination /> проверяет рендер с полным функ
     lazy={false}
     maxButtons={4}
     next={true}
+    nextText={null}
     prev={true}
+    prevText={null}
     showCountRecords={true}
     size={10}
     stepIncrement={10}
+    withoutBody={false}
   />
 </IntlProvider>
 `;

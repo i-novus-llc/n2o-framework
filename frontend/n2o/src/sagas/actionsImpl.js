@@ -143,6 +143,6 @@ export function* handleInvoke(action) {
 }
 
 export const actionsImplSagas = [
-  takeLatest(CALL_ACTION_IMPL, handleAction),
+  throttle(500, CALL_ACTION_IMPL, handleAction),
   throttle(500, START_INVOKE, handleInvoke)
 ];

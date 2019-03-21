@@ -8,10 +8,13 @@ import { FormattedPlural } from 'react-intl';
 /**
  * Компонент интерфейса разбивки по страницам
  * @reactProps {boolean} prev - показать/скрыть кнопку быстрого перехода на предыдущую страницу
+ * @reactProps {boolean} prevText - текс кнопки
  * @reactProps {boolean} next - показать/скрыть кнопку быстрого перехода на следующую страницу
+ * @reactProps {boolean} nextText - текст кнопки
  * @reactProps {boolean} first - показать/скрыть кнопку быстрого перехода на первую страницу
  * @reactProps {boolean} last - показать/скрыть кнопку быстрого перехода на последнюю страницу
  * @reactProps {boolean} lazy - активировать режим "ленивой" пейджинации
+ * @reactProps {boolean} withoutBody - скрыть тело пагинации
  * @reactProps {boolean} showCountRecords - показать индикатор общего кол-ва записей
  * @reactProps {boolean} hideSinglePage - скрывать компонент, если страница единственная
  * @reactProps {number} maxButtons - максимальное кол-во кнопок перехода между страницами
@@ -120,6 +123,9 @@ export default class Pagination extends React.Component {
       lazy,
       onSelect,
       className,
+      withoutBody,
+      prevText,
+      nextText,
       ...props
     } = this.props;
     const pages = Math.ceil(count / size, 10) || 1;
@@ -138,16 +144,17 @@ export default class Pagination extends React.Component {
             {prev && (
               <PaginationButton
                 eventKey={activePage - 1}
-                label="&lsaquo;"
+                label={prevText || '&lsaquo;'}
                 disabled={activePage === 1}
                 onSelect={onSelect}
               />
             )}
-            {this.renderBodyPaging(activePage, pages, maxButtons, stepIncrement, onSelect)}
+            {!withoutBody &&
+              this.renderBodyPaging(activePage, pages, maxButtons, stepIncrement, onSelect)}
             {next && (
               <PaginationButton
                 eventKey={activePage + 1}
-                label="&rsaquo;"
+                label={nextText || '&rsaquo;'}
                 disabled={activePage >= count}
                 onSelect={onSelect}
               />
@@ -182,10 +189,13 @@ export default class Pagination extends React.Component {
 
 Pagination.propTypes = {
   prev: PropTypes.bool,
+  prevText: PropTypes.string,
   next: PropTypes.bool,
+  nextText: PropTypes.string,
   first: PropTypes.bool,
   last: PropTypes.bool,
   lazy: PropTypes.bool,
+  withoutBody: PropTypes.bool,
   showCountRecords: PropTypes.bool,
   hideSinglePage: PropTypes.bool,
   maxButtons: PropTypes.number,
@@ -199,10 +209,13 @@ Pagination.propTypes = {
 
 Pagination.defaultProps = {
   prev: false,
+  prevText: null,
   next: false,
+  nextText: null,
   first: false,
   last: false,
   lazy: false,
+  withoutBody: false,
   showCountRecords: true,
   hideSinglePage: true,
   maxButtons: 4,

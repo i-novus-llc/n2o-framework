@@ -6,7 +6,11 @@ import Page from './Page';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 import { createStructuredSelector } from 'reselect';
-import { makePageLoadingByIdSelector, makePageTitleByIdSelector } from '../../selectors/pages';
+import {
+  makePageDisabledByIdSelector,
+  makePageLoadingByIdSelector,
+  makePageTitleByIdSelector
+} from '../../selectors/pages';
 import Actions from '../actions/Actions';
 import factoryResolver from '../../utils/factoryResolver';
 import withActions from './withActions';
@@ -23,6 +27,7 @@ import CoverSpinner from '../snippets/Spinner/CoverSpinner';
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
+ * @reactProps {boolean}  disabled - блокировка модалки
  * @example
  *  <ModalPage props={props}
  *             actions={actions}
@@ -50,7 +55,8 @@ class ModalPage extends React.Component {
       visible,
       title,
       close,
-      loading
+      loading,
+      disabled
     } = this.props;
 
     const pageMapping = {
@@ -61,7 +67,7 @@ class ModalPage extends React.Component {
     const showSpinner = !visible || loading || typeof loading === 'undefined';
     const classes = cn({ 'd-none': loading });
     return (
-      <div className={'modal-page-overlay'}>
+      <div className={cn('modal-page-overlay')}>
         {showSpinner && <CoverSpinner mode="transparent" />}
         <Modal
           isOpen={visible}
@@ -84,7 +90,7 @@ class ModalPage extends React.Component {
           </ModalBody>
           {toolbar && (
             <ModalFooter className={classes}>
-              <div className="n2o-modal-actions">
+              <div className={cn('n2o-modal-actions', { 'n2o-disabled': disabled })}>
                 <Actions
                   toolbar={toolbar.bottomLeft}
                   actions={actions}
@@ -118,16 +124,19 @@ ModalPage.propTypes = {
   name: PropTypes.string,
   actions: PropTypes.object,
   props: PropTypes.object,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  disabled: PropTypes.bool
 };
 
 ModalPage.defaultProps = {
-  size: 'lg'
+  size: 'lg',
+  disabled: false
 };
 
 const mapStateToProps = createStructuredSelector({
   title: (state, { pageId }) => makePageTitleByIdSelector(pageId)(state),
-  loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state)
+  loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
+  disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state)
 });
 
 export default compose(

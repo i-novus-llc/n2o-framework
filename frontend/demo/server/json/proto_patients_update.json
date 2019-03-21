@@ -19,15 +19,15 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
+                        "id": "surname",
                         "required": true,
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "src": "InputText",
                           "id": "surname",
-                          "placeholder": "Введите значение",
-                          "src": "InputText"
+                          "placeholder": "Введите значение"
                         }
                       }
                     ]
@@ -35,14 +35,14 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
+                        "id": "name",
                         "required": true,
                         "label": "Имя",
                         "dependency": [],
                         "control": {
-                          "id": "name",
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "name"
                         }
                       }
                     ]
@@ -50,13 +50,13 @@
                   {
                     "fields": [
                       {
-                        "id": "patrName",
                         "src": "StandardField",
+                        "id": "patrName",
                         "label": "Отчество",
                         "dependency": [],
                         "control": {
-                          "id": "patrName",
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "patrName"
                         }
                       }
                     ]
@@ -66,14 +66,16 @@
               {
                 "cols": [
                   {
+                    "size": 5,
                     "fields": [
                       {
-                        "id": "gender",
                         "src": "StandardField",
+                        "id": "gender",
                         "required": true,
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "src": "RadioGroup",
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
@@ -84,35 +86,33 @@
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
-                          "type": "n2o",
-                          "src": "RadioGroup"
+                          "type": "n2o"
                         }
                       }
-                    ],
-                    "size": 5
+                    ]
                   },
                   {
+                    "size": 5,
                     "fields": [
                       {
-                        "id": "birthday",
                         "src": "StandardField",
+                        "id": "birthday",
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
-                          "id": "birthday",
                           "src": "DatePicker",
+                          "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }
-                    ],
-                    "size": 5
+                    ]
                   },
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
+                        "id": "vip",
                         "dependency": [
                           {
                             "type": "setValue",
@@ -124,9 +124,9 @@
                           }
                         ],
                         "control": {
+                          "src": "Checkbox",
                           "id": "vip",
-                          "label": "VIP",
-                          "src": "Checkbox"
+                          "label": "VIP"
                         }
                       }
                     ]
@@ -183,10 +183,10 @@
                 }
               ]
             },
-            "color": "primary",
-            "title": "Сохранить",
             "validate": true,
-            "validatedWidgetId": "proto_patients_update_main"
+            "validatedWidgetId": "proto_patients_update_main",
+            "color": "primary",
+            "title": "Сохранить"
           },
           {
             "id": "close",
@@ -206,7 +206,7 @@
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
           "widgetId": "proto_patients_update_main",
-          "pageId":"proto_patients_update",
+          "pageId": "proto_patients_update",
           "dataProvider": {
             "url": "n2o/data/proto/patients/5607677/update/submit",
             "pathMapping": {},
