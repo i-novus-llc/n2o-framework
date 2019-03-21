@@ -183,7 +183,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        *Базовый рендер
        */
       render() {
-        const { visible, isLoading } = this.props;
+        const { visible, isLoading, deferredSpinnerStart } = this.props;
         const propsToPass = mapProps({
           ...this.props,
           onSetModel: this.onSetModel,
@@ -200,7 +200,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             className={cx(visible ? s.visible : s.hidden, isLoading ? s.loading : '')}
             style={style}
           >
-            {isLoading && <CoverSpinner deferredSpinnerStart={1000} />}
+            {isLoading && <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />}
             <WrappedComponent {...propsToPass} />
           </div>
         );
@@ -229,7 +229,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       onFetch: PropTypes.func,
       dispatch: PropTypes.func,
       isInit: PropTypes.bool,
-      isActive: PropTypes.bool
+      isActive: PropTypes.bool,
+      deferredSpinnerStart: PropTypes.number
     };
 
     WidgetContainer.defaultProps = {
@@ -237,7 +238,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       visible: true,
       isLoading: false,
       resolveModel: {},
-      defaultSorting: {}
+      defaultSorting: {},
+      deferredSpinnerStart: 1000
     };
 
     WidgetContainer.contextTypes = {

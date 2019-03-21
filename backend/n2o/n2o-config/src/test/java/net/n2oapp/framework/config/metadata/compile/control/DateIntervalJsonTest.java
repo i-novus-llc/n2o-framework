@@ -26,7 +26,7 @@ public class DateIntervalJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testDateInterval.widget.xml",
                 "components/controls/DatePicker/DateInterval.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "id", "value", "defaultValue", "outputFormat", "placeholder", "readOnly", "popupPlacement", "disabled", "locale", "value", "timeFormat", "defaultTime", "min", "max") /// TODO: ждем, когда будет реализовано на сервере
+                .exclude("src", "id", "openOnFocus", "value", "defaultValue", "outputFormat", "placeholder", "readOnly", "popupPlacement", "disabled", "locale", "value", "timeFormat", "defaultTime", "min", "max") /// TODO: ждем, когда будет реализовано на сервере
                 .assertEquals();
     }
 }

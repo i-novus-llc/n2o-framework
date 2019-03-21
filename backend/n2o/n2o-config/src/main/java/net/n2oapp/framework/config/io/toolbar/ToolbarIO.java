@@ -83,7 +83,7 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
         p.attribute(e, "enabling-condition", mi::getEnablingCondition, mi::setEnablingCondition);
         p.attribute(e, "visibility-condition", mi::getVisibilityCondition, mi::setVisibilityCondition);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
-        p.extensionAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
+        p.anyAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
     }
 
 
