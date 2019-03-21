@@ -1,7 +1,7 @@
-package net.n2oapp.framework.engine.rest;
+package net.n2oapp.framework.engine.data.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.framework.engine.rest.json.RestEngineTimeModule;
+import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import org.junit.Assert;
 import org.junit.Test;
 
