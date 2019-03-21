@@ -203,7 +203,10 @@ class Tree extends Component {
   onDrop(info) {
     const dropKey = info.node.props.eventKey;
     const dragKey = info.dragNode.props.eventKey;
-    this.props.onDrop({ dragKey, dropKey });
+    const dropPos = info.node.props.pos.split('-');
+    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+
+    this.props.onDrop({ dragKey, dropKey, dropPosition });
   }
 
   render() {
@@ -255,6 +258,7 @@ class Tree extends Component {
             onSelect={singleDoubleClickFilter(this.onSelect, null, 200)}
             onDoubleClick={this.onDoubleClickHandler}
             multiple={multiselect}
+            onDragEnter={this.onDragEnter}
             checkable={checkable}
             switcherIcon={this.renderSwitcherIcon}
             onExpand={this.onExpand}

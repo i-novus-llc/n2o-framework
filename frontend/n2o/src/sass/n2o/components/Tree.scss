@@ -10,9 +10,6 @@
     & > img{
       width: 24px;
     }
-
-
-
   }
 
   & .n2o-rc-tree{
@@ -90,7 +87,7 @@
 .n2o-rc-tree li.drag-over > .draggable {
   background-color: $n2o-tree-draggable-color;
   color: white;
-  border: 1px $n2o-tree-draggable-color solid;
+  border: 2px $n2o-tree-draggable-color solid;
   opacity: 0.8;
 }
 .n2o-rc-tree li.drag-over-gap-top > .draggable {
