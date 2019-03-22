@@ -61,19 +61,18 @@ export class EditableCell extends React.Component {
               <Text text={value} {...rest} />
             </div>
           )}
-          {editable &&
-            editing && (
-              <div className="n2o-editable-cell-control">
-                {React.createElement(control.component, {
-                  ...control,
-                  className: 'n2o-advanced-table-edit-control',
-                  onChange: this.onChange,
-                  onBlur: this.toggleEdit,
-                  autoFocus: true,
-                  value: value
-                })}
-              </div>
-            )}
+          {editable && editing && (
+            <div className="n2o-editable-cell-control">
+              {React.createElement(control.component, {
+                ...control,
+                className: 'n2o-advanced-table-edit-control',
+                onChange: this.onChange,
+                onBlur: this.toggleEdit,
+                autoFocus: true,
+                value: value
+              })}
+            </div>
+          )}
         </div>
       )
     );
