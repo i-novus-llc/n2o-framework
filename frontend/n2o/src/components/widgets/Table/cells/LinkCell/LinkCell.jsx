@@ -53,10 +53,9 @@ function LinkCell({
   const getLinkContent = () => {
     return (
       <React.Fragment>
-        {icon &&
-          (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) && (
-            <i style={{ marginRight: 5 }} className={icon} />
-          )}
+        {icon && (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) && (
+          <i style={{ marginRight: 5 }} className={icon} />
+        )}
         {(type === LinkCellType.ICONANDTEXT || type === LinkCellType.TEXT) &&
           get(model, fieldKey || id)}
       </React.Fragment>
