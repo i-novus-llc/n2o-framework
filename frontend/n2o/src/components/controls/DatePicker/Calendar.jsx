@@ -481,9 +481,11 @@ class Calendar extends React.Component {
   render() {
     const { calendarType } = this.state;
     const { inputValue, inputOnClick, inputClassName, format, calRef } = this.props;
-    const calendarStyle = { height: this.props.timeFormat ? 256 : 220 };
     return (
-      <div className="n2o-calendar calenadar" style={calendarStyle} tabIndex="0">
+      <div
+        className={cx('n2o-calendar', 'calenadar', { time: this.props.timeFormat })}
+        tabIndex="0"
+      >
         {this.renderHeader(calendarType)}
         {this.renderBody(calendarType)}
       </div>
