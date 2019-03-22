@@ -82,21 +82,20 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
                                 Integer proxyPort) {
         query = getURL(proxyHost, proxyPort, query);
         HttpHeaders headers = initHeaders(args);
-        args = new HashMap<>(args);
+        Map<String, Object> body = new HashMap<>(args);
 
         switch (method) {
             case "GET": {
-                return restTemplate.getForObject(query, DataSet.class);
+                return restTemplate.exchange(query, HttpMethod.GET, new HttpEntity<>(headers), DataSet.class).getBody();
             }
             case "POST": {
-                return restTemplate.postForObject(query, new HttpEntity<>(args, headers), DataSet.class);
+                return restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<>(body, headers), DataSet.class).getBody();
             }
             case "PUT": {
-                return restTemplate.exchange(query, HttpMethod.PUT, new HttpEntity<>(args, headers), DataSet.class).getBody();
+                return restTemplate.exchange(query, HttpMethod.PUT, new HttpEntity<>(body, headers), DataSet.class).getBody();
             }
             case "DELETE": {
-                restTemplate.delete(query);
-                return null;
+                return restTemplate.exchange(query, HttpMethod.DELETE, new HttpEntity<>(headers), DataSet.class).getBody();
             }
             default:
                 throw new UnsupportedOperationException("Method " + method + " unsupported");
