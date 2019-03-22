@@ -108,7 +108,7 @@ class PanelRegion extends React.Component {
    */
   render() {
     const { panels, getWidgetProps } = this.props;
-    const isInvisible = every(panels, item => !getWidgetProps(item.widgetId).isVisible);
+    const isInvisible = every(panels, item => getWidgetProps(item.widgetId).isVisible === false);
     return (
       <PanelShortHand
         tabs={this.state.tabs}

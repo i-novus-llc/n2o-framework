@@ -69,15 +69,14 @@ function InputSelectGroup({
         {children}
       </div>
       <div className="n2o-input-control">
-        {(selected.length || input) &&
-          cleanable && (
-            <div
-              className={cx('n2o-input-clear', { 'input-in-focus': isInputInFocus })}
-              onClick={onClearClick}
-            >
-              <i className="fa fa-times" aria-hidden="true" />
-            </div>
-          )}
+        {(selected.length || input) && cleanable && (
+          <div
+            className={cx('n2o-input-clear', { 'input-in-focus': isInputInFocus })}
+            onClick={onClearClick}
+          >
+            <i className="fa fa-times" aria-hidden="true" />
+          </div>
+        )}
         <div className={cx('n2o-popup-control', { isExpanded })}>{renderButton(loading)}</div>
       </div>
     </div>
