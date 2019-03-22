@@ -255,6 +255,49 @@
                   ]
                 }
               ]
+            },
+            {
+              "cols": [
+                {
+                  "size": "6",
+                  "fields": [
+                    {
+                      "id": "f11.item",
+                      "src": "StandardField",
+                      "label": "Поле №12. Тип зависимости: видимость, id поля через точку",
+                      "control": {
+                        "id": "f9",
+                        "src": "InputText"
+                      },
+                      "description": "Введите 'test'"
+                    }
+                  ]
+                },
+                {
+                  "size": "6",
+                  "fields": [
+                    {
+                      "id": "f12",
+                      "src": "StandardField",
+                      "label": "Поле №10. Тип зависимости: Сброс значения",
+                      "control": {
+                        "id": "f10",
+                        "src": "InputText"
+                      },
+                      "dependency": [
+                        {
+                          "type": "visible",
+                          "applyOnInit": true,
+                          "on": [
+                            "f11.item"
+                          ],
+                          "expression": "f11.item == 'test'"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             }
           ]
         }

@@ -317,4 +317,29 @@ describe('Тесты formPlugin reducer', () => {
       }
     });
   });
+  it('Проверка если название чарез точку на примере SHOW_FIELD', () => {
+    expect(
+      formPlugin(
+        {},
+        {
+          type: SHOW_FIELD,
+          payload: {
+            name: 'testName.id'
+          }
+        }
+      )
+    ).toEqual({
+      registeredFields: {
+        'testName.id': {
+          disabled: false,
+          filter: [],
+          isInit: true,
+          message: null,
+          visible: true,
+          dependency: null,
+          required: false
+        }
+      }
+    });
+  });
 });
