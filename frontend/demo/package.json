@@ -6,7 +6,7 @@
   "dependencies": {
     "@atlaskit/select": "^1.2.0",
     "@atlaskit/table-tree": "^1.0.0",
-    "bootstrap": "^4.1.0",
+    "bootstrap": "~4.3.0",
     "moment": "^2.21.0",
     "n2o": "^7.0.6",
     "react": "^16.2.0",
@@ -20,7 +20,7 @@
     "react-trend": "^1.2.4",
     "react-widgets": "^4.2.2",
     "react-widgets-moment": "^4.0.9",
-    "reactstrap": "^5.0.0",
+    "reactstrap": "^7.0.0",
     "recharts": "^1.0.0-beta.10"
   },
   "scripts": {
