@@ -11,7 +11,8 @@ import {
   FormServerMessage,
   FormCollapseFieldset,
   FormFieldsetCollapseVE,
-  FormFieldsetStandartVE
+  FormFieldsetStandartVE,
+  FormHighlyLoadedTest
 } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 import InputSelectContainerJson from '../../controls/InputSelect/InputSelectContainer.meta';
@@ -99,5 +100,36 @@ stories
   .add('Видимость и блокировка филдсета', () =>
     withPage(FormFieldsetStandartVE)(() => {
       return renderForm(FormFieldsetStandartVE);
+    })
+  )
+
+  .add('Тест на нагруженную форму', () =>
+    withPage(FormHighlyLoadedTest)(() => {
+      fetchMock.restore().post('begin:n2o/data', url => ({
+        status: 500,
+        body: {
+          meta: {
+            messages: {
+              form: 'Page_Form',
+              fields: {
+                nameSerValid: {
+                  text: 'Ошибка',
+                  severity: 'danger'
+                },
+                surnameSerValid: {
+                  text: 'Предупреждение',
+                  severity: 'warning'
+                },
+                ageSerValid: {
+                  text: 'Успех',
+                  severity: 'success'
+                }
+              }
+            }
+          }
+        }
+      }));
+
+      return renderForm(FormHighlyLoadedTest);
     })
   );
