@@ -22,6 +22,7 @@ import PlaceholderBreadCrumb from './PlaceholderBreadCrumb';
 import tableActions from './tableActions';
 import FormHighlyLoadedTest from './FormHighlyLoadedTest';
 import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
+import placeholderToConfirm from './placeholderToConfirm';
 
 export {
   filterMetadata,
@@ -47,5 +48,6 @@ export {
   PlaceholderBreadCrumb,
   tableActions,
   FormHighlyLoadedTest,
-  InputSelectTreeDefaultValue
+  InputSelectTreeDefaultValue,
+  placeholderToConfirm
 };
