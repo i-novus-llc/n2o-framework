@@ -4,10 +4,10 @@ import net.n2oapp.context.StaticServletContext;
 import net.n2oapp.context.StaticSpringContext;
 import net.n2oapp.properties.StaticProperties;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.task.TaskExecutor;
@@ -70,20 +70,4 @@ public class N2oCommonConfiguration {
         scheduler.setPoolSize(schedulerPoolSize);
         return scheduler;
     }
-
-    @Configuration
-    @AutoConfigureAfter(N2oContextConfiguration.class)
-    @Import({N2oEngineConfiguration.class, N2oMetadataConfiguration.class, N2oRestConfiguration.class})
-    static class InnerConfiguration {
-
-        private StaticSpringContext staticSpringContext;
-        private StaticProperties staticProperties;
-
-        public InnerConfiguration(StaticSpringContext staticSpringContext, StaticProperties staticProperties) {
-            this.staticSpringContext = staticSpringContext;
-            this.staticProperties = staticProperties;
-        }
-    }
-
-
 }

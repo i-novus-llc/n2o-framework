@@ -6,6 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.7.RELEASE</version>
+        <relativePath/>
     </parent>
 
     <artifactId>crud-rest-backend</artifactId>
@@ -34,7 +35,7 @@
         <dependency>
             <groupId>net.n2oapp.criteria</groupId>
             <artifactId>criteria-api</artifactId>
-            <version>${version}</version>
+            <version>${project.version}</version>
         </dependency>
 
 

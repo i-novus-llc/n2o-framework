@@ -13,14 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.anyObject;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
@@ -104,10 +102,10 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
 
         doAnswer(invocation -> {
-            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            DataSet data = invocation.getArgument(1);
             data.put("name", "Joe");
             return null;
-        }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());
+        }).when(subModelsProcessor).executeSubModels(anyList(), any());
 
 
         PageContext context = new PageContext("test");
