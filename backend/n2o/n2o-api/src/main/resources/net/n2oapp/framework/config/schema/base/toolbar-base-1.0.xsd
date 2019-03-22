@@ -148,6 +148,11 @@
                         <xs:documentation>Текст кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="tooltip-position" type="tooltipPositionType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Позиция подсказки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -247,6 +252,11 @@
                         <xs:documentation>Условие доступности.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="tooltip-position" type="tooltipPositionType">
+                    <xs:annotation>
+                        <xs:documentation>Позиция подсказки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="widget-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Идентификатор виджета над которым будет выполнена операция. По умолчанию
@@ -313,6 +323,18 @@
             <xs:enumeration value="filter"/>
             <xs:enumeration value="edit"/>
             <xs:enumeration value="multi"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="tooltipPositionType">
+        <xs:annotation>
+            <xs:documentation>Тип места расположения подсказки.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
