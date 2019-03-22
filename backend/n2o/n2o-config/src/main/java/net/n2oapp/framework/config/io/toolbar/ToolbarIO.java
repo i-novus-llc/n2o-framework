@@ -42,9 +42,10 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
         p.attributeEnum(e, "type", b::getType, b::setType, LabelType.class);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
         p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
-        p.attributeBoolean(e,"confirm", b::getConfirm, b::setConfirm);
+        p.attributeBoolean(e, "confirm", b::getConfirm, b::setConfirm);
         p.attribute(e, "confirm-text", b::getConfirmText, b::setConfirmText);
         p.attribute(e, "confirm-title", b::getConfirmTitle, b::setConfirmTitle);
+        p.attribute(e, "tooltip-position", b::getTooltipPosition, b::setTooltipPosition);
         p.attribute(e, "confirm-ok-label", b::getConfirmOkLabel, b::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", b::getConfirmCancelLabel, b::setConfirmCancelLabel);
         p.anyChild(e, null, b::getAction, b::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
@@ -83,7 +84,8 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
         p.attribute(e, "enabling-condition", mi::getEnablingCondition, mi::setEnablingCondition);
         p.attribute(e, "visibility-condition", mi::getVisibilityCondition, mi::setVisibilityCondition);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
-        p.extensionAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
+        p.anyAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
+        p.attribute(e, "tooltip-position", mi::getTooltipPosition, mi::setTooltipPosition);
     }
 
 

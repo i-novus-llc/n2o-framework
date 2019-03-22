@@ -152,8 +152,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                             Collectors.toList(),
                             list -> {
                                 if (list.size() == 1) {
-                                    securityObject.setAnonymous(true);
-                                    securityObject.setAuthenticated(false);
+                                    securityObject.setPermitAll(true);
                                 }
                                 return list;
                             }
@@ -168,8 +167,22 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
                             Collectors.toList(),
                             list -> {
                                 if (list.size() == 1) {
-                                    securityObject.setAnonymous(false);
                                     securityObject.setAuthenticated(true);
+                                }
+                                return list;
+                            }
+                    ));
+        }
+
+        if (schema.getAnonymousPoints() != null) {
+            schema.getAnonymousPoints().stream()
+                    .filter(ap -> ap instanceof N2oPageAccessPoint
+                            && ((N2oPageAccessPoint) ap).getPage().equals(pageId))
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            list -> {
+                                if (list.size() == 1) {
+                                    securityObject.setAnonymous(true);
                                 }
                                 return list;
                             }

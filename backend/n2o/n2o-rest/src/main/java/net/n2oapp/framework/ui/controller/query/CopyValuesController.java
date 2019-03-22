@@ -30,7 +30,8 @@ public class CopyValuesController extends DefaultValuesController {
             try {
                 queryDefaultPage = executeQuery(requestInfo, responseInfo);
                 DataSet queryDefaultModel = queryDefaultPage.getCollection().iterator().next();
-                merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getNotCopiedFields());
+                merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getCopiedFields());
+                return defaultModel;
             } catch (N2oException e) {
                 responseInfo.addMessage(errorMessageBuilder.build(e));
             }
@@ -41,10 +42,13 @@ public class CopyValuesController extends DefaultValuesController {
 
 
     @SuppressWarnings("unchecked")
-    private static void merge(DataSet defaultModel, DataSet queryModel, Set<String> notCopiedFields) {
-        //удаляем те поля из выборки, которые по мнению виджета не подходят для копирования
-        notCopiedFields.forEach(queryModel::remove);
-        defaultModel.merge(queryModel);
+    private static void merge(DataSet defaultModel, DataSet queryModel, Set<String> fieldsToCopy) {
+        if (fieldsToCopy != null) {
+            defaultModel.merge(queryModel);
+            defaultModel.entrySet().removeIf(stringObjectEntry -> !fieldsToCopy.contains(stringObjectEntry.getKey()));
+        } else {
+            defaultModel.clear();
+        }
     }
 
     @Override

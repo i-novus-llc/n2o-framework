@@ -7,19 +7,18 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.event.EventListener;
 
 /**
  * Конфигурация N2O
  */
 @Configuration
-@Import({N2oPropertiesConfiguration.class,
-        N2oMessagesConfiguration.class,
+@Import({N2oMessagesConfiguration.class,
         N2oContextConfiguration.class,
-        N2oCommonConfiguration.class})
-@ImportResource({"classpath*:META-INF/n2o-auth-ext-context.xml",
-        "classpath*:META-INF/n2o-ext-context.xml"})
+        N2oCommonConfiguration.class,
+        N2oEngineConfiguration.class,
+        N2oMetadataConfiguration.class,
+        N2oRestConfiguration.class})
 @ServletComponentScan("net.n2oapp.framework")
 @ComponentScan(basePackages = "net.n2oapp.framework.api", lazyInit = true)
 public class N2oAutoConfiguration {

@@ -24,7 +24,7 @@ import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
-import net.n2oapp.framework.ui.controller.query.CopyValuesController;
+import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.Before;
@@ -96,6 +96,8 @@ public class DefaultValuesControllerTest {
         params.put("id", new String[]{"2"});
         GetDataResponse response = testQuery("/testDefaults", pipeline, params);
         assertThat(response.getList().size(), is(1));
+        assertThat(response.getList().get(0).size(), is(2));
+        assertThat(response.getList().get(0).get("id"), is(2L));
         assertThat(response.getList().get(0).get("name"), is("testName2"));
     }
 
@@ -115,12 +117,12 @@ public class DefaultValuesControllerTest {
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
-        CopyValuesController copyValuesController = new CopyValuesController();
-        copyValuesController.setQueryProcessor(queryProcessor);
-        copyValuesController.setSubModelsProcessor(subModelsProcessor);
-        copyValuesController.setDataProcessingStack(dataProcessingStack);
+        SimpleDefaultValuesController valuesController = new SimpleDefaultValuesController();
+        valuesController.setQueryProcessor(queryProcessor);
+        valuesController.setSubModelsProcessor(subModelsProcessor);
+        valuesController.setDataProcessingStack(dataProcessingStack);
         Map<String, Object> map = new HashMap<>();
-        map.put("CopyValuesController", copyValuesController);
+        map.put("SimpleDefaultValuesController", valuesController);
 
         N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
         N2oControllerFactory factory = new N2oControllerFactory(map);

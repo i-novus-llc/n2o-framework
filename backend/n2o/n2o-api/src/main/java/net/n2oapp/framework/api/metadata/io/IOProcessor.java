@@ -95,7 +95,7 @@ public interface IOProcessor {
             R extends TypedElementReader<? extends T>,
             P extends TypedElementPersister<? super T>> void anyChild(Element element, String sequences,
                                                                       Supplier<? extends T> getter, Consumer<? super T> setter,
-                                                              ElementIOFactory<T, R, P> factory);
+                                                                      ElementIOFactory<T, R, P> factory);
 
     /**
      * Считывание\запись произвольного дочернего элемента по неймспейсу
@@ -155,15 +155,15 @@ public interface IOProcessor {
      * @param setter       запись списка дочерних элементов
      */
     void childrenToStringMap(Element element, String sequences, String childrenName,
-                       String keyName, String valueName,
-                       Supplier<Map<String, String>> getter, Consumer<Map<String, String>> setter);
+                             String keyName, String valueName,
+                             Supplier<Map<String, String>> getter, Consumer<Map<String, String>> setter);
 
     /**
      * Считывание\запись списка содержимого дочерних элементов в String[]
      * Пример
      * <values>
-     *     <value>test1</value>
-     *     <value>test2</value>
+     * <value>test1</value>
+     * <value>test2</value>
      * </values>
      * считывается в список [test1, test2]
      *
@@ -174,7 +174,7 @@ public interface IOProcessor {
      * @param setter       запись списка дочерних элементов
      */
     void childrenToStringArray(Element element, String sequences, String childrenName,
-                             Supplier<String[]> getter, Consumer<String[]> setter);
+                               Supplier<String[]> getter, Consumer<String[]> setter);
 
     /**
      * Считывание\запись списка дочерних элементов
@@ -306,7 +306,7 @@ public interface IOProcessor {
      * @param getter  получение текста
      * @param setter  запись текста
      */
-    void childrenText(Element element,String childrenName, Supplier<String> getter, Consumer<String> setter);
+    void childrenText(Element element, String childrenName, Supplier<String> getter, Consumer<String> setter);
 
     /**
      * Считывание\запись атрибута у дочернего элемента
@@ -351,13 +351,37 @@ public interface IOProcessor {
     void otherAttributes(Element element, Namespace namespace, Map<String, String> map);
 
     /**
+     * Считывание / запись любых атрибутов с внешней схемой из дочернего элемента
+     *
+     * @param element   элемент
+     * @param childName Имя дочернего элемента
+     * @param getter    получение аттрибутов
+     * @param setter    запись аттрибутов
+     */
+    void childAnyAttributes(Element element, String childName, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
+                            Consumer<Map<N2oNamespace, Map<String, String>>> setter);
+
+    /**
+     * Считывание / запись любых атрибутов с внешней схемой
+     *
+     * @param element элемент
+     * @param getter  получение аттрибутов
+     * @param setter  запись аттрибутов
+     */
+    void anyAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
+                       Consumer<Map<N2oNamespace, Map<String, String>>> setter);
+
+    /**
      * Считывание / запись дополнительных атрибутов(те, у которых namespace отличается от namespace элемента)
      *
      * @param element элемент
      * @param getter  получение доп.аттрибутов
      */
-    void extensionAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
-                             Consumer<Map<N2oNamespace, Map<String, String>>> setter);
+    @Deprecated
+    default void extensionAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
+                             Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
+        anyAttributes(element, getter, setter);
+    }
 
     /**
      * Считывание\запись атрибута с типом boolean
@@ -382,11 +406,11 @@ public interface IOProcessor {
     /**
      * Считывание\запись атрибута с типом integer
      *
-     * @param element элемент
-     * @param name    имя атрибута
+     * @param element   элемент
+     * @param name      имя атрибута
      * @param separator знак разделителя
-     * @param getter  получение атрибута
-     * @param setter  запись атрибута
+     * @param getter    получение атрибута
+     * @param setter    запись атрибута
      */
     void attributeArray(Element element, String name, String separator, Supplier<String[]> getter, Consumer<String[]> setter);
 
@@ -447,7 +471,7 @@ public interface IOProcessor {
     /**
      * Фабрика считывателей элементов по неймспейсу
      *
-     * @param <T>              тип элементов
+     * @param <T> тип элементов
      * @return фабрика
      */
     <T extends NamespaceUriAware,

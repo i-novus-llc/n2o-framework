@@ -12,6 +12,7 @@ import {
 import { registerFieldExtra } from '../../../../actions/formPlugin';
 import { compose, pure, withProps, defaultProps } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
+import { getFormValues } from 'redux-form';
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -107,9 +108,10 @@ export default Field => {
      * @returns {{validationClass: string, value: *, onChange: FieldContainer.onChange, onFocus: FieldContainer.onFocus, onBlur: FieldContainer.onBlur}}
      */
     mapProps() {
-      const { input, value, message, meta } = this.props;
+      const { input, message, meta, model, ...rest } = this.props;
+
       return {
-        ...propsResolver(this.props, this.context._reduxForm.getValues()),
+        ...propsResolver(rest, model),
         ...meta,
         validationClass: this.getValidationState(message),
         ...input
@@ -125,10 +127,6 @@ export default Field => {
     }
   }
 
-  FieldContainer.contextTypes = {
-    _reduxForm: PropTypes.object
-  };
-
   const mapStateToProps = (state, ownProps) => {
     const { form } = ownProps.meta;
     const { name } = ownProps.input;
@@ -137,7 +135,8 @@ export default Field => {
       visible: isVisibleSelector(form, name)(state),
       disabled: isDisabledSelector(form, name)(state),
       message: messageSelector(form, name)(state),
-      required: requiredSelector(form, name)(state)
+      required: requiredSelector(form, name)(state),
+      model: getFormValues(form)(state)
     };
   };
 

@@ -1,17 +1,16 @@
-package net.n2oapp.framework.engine.rest.json;
+package net.n2oapp.framework.engine.data.rest.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import org.apache.commons.lang.time.DateUtils;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.text.ParseException;
 
 /**
- * Десириализиует даты, указанных форматов
+ * Десериализиует даты, указанных форматов
  */
 public class CustomDateDeserializer extends StdDeserializer<Object> {
 
@@ -25,7 +24,7 @@ public class CustomDateDeserializer extends StdDeserializer<Object> {
     }
 
     /**
-     * Десерелизует строку в дату, если она соответствует указанным форматам, если нет, то вызывается дефолтный десериализатор.
+     * Десериализует строку в дату, если она соответствует указанным форматам, если нет, то вызывается дефолтный десериализатор.
      */
     @Override
     public Object deserialize(JsonParser jsonparser, DeserializationContext context) throws IOException {

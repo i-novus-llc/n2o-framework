@@ -18,14 +18,14 @@
        </group>
    </toolbar>
     <regions>
-        <none place="single" src="NoneRegion">
+        <region place="single" src="NoneRegion">
             <table>
                 <columns>
                     <column id="test1" text-field-id="test1"/>
                     <column id="test2" text-field-id="test2"/>
                 </columns>
             </table>
-        </none>
+        </region>
         <tabs place="single" src="TabsRegion">
             <table>
                 <columns>

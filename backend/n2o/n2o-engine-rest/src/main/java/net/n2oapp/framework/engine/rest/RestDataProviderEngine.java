@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
-import net.n2oapp.framework.api.util.RestClient;
 
 import java.util.*;
 import java.util.function.BinaryOperator;

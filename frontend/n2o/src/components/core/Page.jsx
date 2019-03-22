@@ -125,7 +125,7 @@ class PageContainer extends React.Component {
           )}
         <div className="n2o-page">
           {has(metadata, 'layout') && (
-            <Factory level={LAYOUTS} src={metadata.layout.src}>
+            <Factory level={LAYOUTS} src={metadata.layout.src} {...metadata.layout}>
               {Object.keys(metadata.layout.regions).map((place, i) => {
                 return (
                   <Section place={place} key={'section' + i}>

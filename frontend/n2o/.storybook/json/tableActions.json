@@ -54,11 +54,35 @@
           "textPlace": "right"
         },
         {
-          "src": "LinkCell",
           "id": "birthday",
-          "action": {
-            "src": "dummyImpl"
-          }
+          "src": "ButtonsCell",
+          "fieldKey": "name",
+          "className" : "n2o",
+          "style" : {},
+          "buttons": [
+            {
+              "id": "1",
+              "title": "Кнопка",
+              "icon": "fa fa-vk",
+              "hint": "Подсказка",
+              "size": "md",
+              "color": "primary",
+              "visible": true,
+              "disabled": false,
+
+              "subMenu": [{
+                "id": "122",
+                "title": "Кнопка",
+                "icon": "fa fa-vk",
+                "action": {
+                  "src": "dummyImpl",
+                  "options": {
+                    "testProp": "testValueProp"
+                  }
+                }
+              }]
+            }
+          ]
         }
       ],
       "headers": [

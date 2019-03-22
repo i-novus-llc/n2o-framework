@@ -17,6 +17,7 @@ import DateTimeControl from './DateTimeControl';
  * @reactProps {boolean} disabled - задизейблен пикер / нет
  * @reactProps {string} placeholder - плэйсхолдер для поля
  * @reactProps {string} locale - Локаль. Варианты: 'en', 'ru'
+ * @reactProps {boolean} openOnFocus - открывать при фокусе
  * @example
  * <DatePicker  defaultTime = '12:11'/>
  */
@@ -62,7 +63,8 @@ DateInterval.defaultProps = {
   disabled: false,
   dateDivider: ' ',
   className: '',
-  locale: 'ru'
+  locale: 'ru',
+  openOnFocus: false
 };
 
 DateInterval.propTypes = {
@@ -86,7 +88,8 @@ DateInterval.propTypes = {
   outputFormat: PropTypes.string,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
-  locale: PropTypes.oneOf(['en', 'ru'])
+  locale: PropTypes.oneOf(['en', 'ru']),
+  openOnFocus: PropTypes.bool
 };
 
 export default DateInterval;
