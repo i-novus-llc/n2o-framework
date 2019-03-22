@@ -2,7 +2,6 @@ package net.n2oapp.framework.engine.rest;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.framework.api.util.RestClient;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
