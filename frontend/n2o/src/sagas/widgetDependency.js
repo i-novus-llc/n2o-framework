@@ -19,6 +19,40 @@ export const reduceFunction = (isTrue, { model, config }) => {
 };
 
 /**
+ * Наблюдение за регистрацией зависимостей виджетов и изменением модели
+ * @returns {IterableIterator<*>}
+ */
+export function* watchDependency() {
+  let widgetsDependencies = {};
+  const channel = yield actionChannel([REGISTER_DEPENDENCY, SET]);
+  while (true) {
+    const prevState = yield select();
+    const action = yield take(channel);
+    const { type, payload } = action;
+    const { widgetId, dependency, key } = payload;
+    const state = yield select();
+    switch (type) {
+      case REGISTER_DEPENDENCY: {
+        widgetsDependencies = yield call(
+          registerWidgetDependency,
+          widgetsDependencies,
+          widgetId,
+          dependency
+        );
+        yield fork(resolveWidgetDependency, prevState, state, widgetsDependencies, widgetId);
+        break;
+      }
+      case SET: {
+        yield fork(resolveWidgetDependency, prevState, state, widgetsDependencies, key);
+        break;
+      }
+      default:
+        break;
+    }
+  }
+}
+
+/**
  * Добавляет в хранилище новопришедший виджет с его widgetId и dependency
  * @param widgetsDependencies
  * @param widgetId
@@ -40,10 +74,9 @@ export function* registerWidgetDependency(widgetsDependencies, widgetId, depende
  * @param prevState
  * @param state
  * @param widgetsDependencies
- * @param actionWidgetId
  * @returns {IterableIterator<*|CallEffect>}
  */
-export function* resolveWidgetDependency(prevState, state, widgetsDependencies, actionWidgetId) {
+export function* resolveWidgetDependency(prevState, state, widgetsDependencies) {
   const dependenciesKeys = keys(widgetsDependencies);
   for (let i = 0; i < dependenciesKeys.length; i++) {
     const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]];
@@ -52,15 +85,17 @@ export function* resolveWidgetDependency(prevState, state, widgetsDependencies, 
     for (let j = 0; j < widgetDependenciesKeys.length; j++) {
       const prevModel = getModelsByDependency(dependency[widgetDependenciesKeys[j]])(prevState);
       const model = getModelsByDependency(dependency[widgetDependenciesKeys[j]])(state);
-      yield fork(
-        resolveDependency,
-        widgetDependenciesKeys[j],
-        dependency[widgetDependenciesKeys[j]],
-        widgetId,
-        model,
-        prevModel,
-        isVisible
-      );
+      if (!isEqual(prevModel, model)) {
+        yield fork(
+          resolveDependency,
+          widgetDependenciesKeys[j],
+          dependency[widgetDependenciesKeys[j]],
+          widgetId,
+          model,
+          prevModel,
+          isVisible
+        );
+      }
     }
   }
 }
@@ -111,9 +146,7 @@ export function* resolveDependency(
  * @returns {IterableIterator<*>}
  */
 export function* resolveFetchDependency(dependency, widgetId, model, prevModel, isVisible) {
-  if (!isEqual(prevModel, model) && isVisible) {
-    yield put(dataRequestWidget(widgetId));
-  }
+  yield put(dataRequestWidget(widgetId));
 }
 
 /**
@@ -125,13 +158,11 @@ export function* resolveFetchDependency(dependency, widgetId, model, prevModel, 
  * @returns {IterableIterator<*>}
  */
 export function* resolveVisibleDependency(dependency, widgetId, model, prevModel) {
-  if (!isEqual(prevModel, model)) {
-    const visible = reduce(model, reduceFunction, true);
-    if (visible) {
-      yield put(showWidget(widgetId));
-    } else {
-      yield put(hideWidget(widgetId));
-    }
+  const visible = reduce(model, reduceFunction, true);
+  if (visible) {
+    yield put(showWidget(widgetId));
+  } else {
+    yield put(hideWidget(widgetId));
   }
 }
 
@@ -144,48 +175,11 @@ export function* resolveVisibleDependency(dependency, widgetId, model, prevModel
  * @returns {IterableIterator<*>}
  */
 export function* resolveEnabledDependency(dependency, widgetId, model, prevModel) {
-  if (!isEqual(prevModel, model)) {
-    const enabled = reduce(model, reduceFunction, true);
-    if (enabled) {
-      yield put(enableWidget(widgetId));
-    } else {
-      yield put(disableWidget(widgetId));
-    }
-  }
-}
-
-/**
- * Наблюдение за регистрацией зависимостей виджетов и изменением модели
- * @returns {IterableIterator<*>}
- */
-export function* watchDependency() {
-  let widgetsDependencies = {};
-  const channel = yield actionChannel([REGISTER_DEPENDENCY, SET]);
-  while (true) {
-    const prevState = yield select();
-    const action = yield take(channel);
-    const { type, payload } = action;
-    const { widgetId, options = {}, prefix, key, model } = payload;
-    const { dependency, isVisible } = options;
-    const state = yield select();
-    switch (type) {
-      case REGISTER_DEPENDENCY: {
-        widgetsDependencies = yield call(
-          registerWidgetDependency,
-          widgetsDependencies,
-          widgetId,
-          dependency
-        );
-        yield fork(resolveWidgetDependency, prevState, state, widgetsDependencies, widgetId);
-        break;
-      }
-      case SET: {
-        yield fork(resolveWidgetDependency, prevState, state, widgetsDependencies, key);
-        break;
-      }
-      default:
-        break;
-    }
+  const enabled = reduce(model, reduceFunction, true);
+  if (enabled) {
+    yield put(enableWidget(widgetId));
+  } else {
+    yield put(disableWidget(widgetId));
   }
 }
 

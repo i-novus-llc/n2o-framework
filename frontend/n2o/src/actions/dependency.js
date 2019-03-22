@@ -5,10 +5,10 @@ import createActionHelper from './createActionHelper';
 /**
  * Регистрация зависимости
  * @param widgetId
- * @param options
+ * @param dependency
  */
-export function registerDependency(widgetId, options) {
-  return createActionHelper(REGISTER_DEPENDENCY)({ widgetId, options });
+export function registerDependency(widgetId, dependency) {
+  return createActionHelper(REGISTER_DEPENDENCY)({ widgetId, dependency });
 }
 
 export function startDependency(dependency, values, widget, fieldName) {

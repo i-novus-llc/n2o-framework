@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isEqual, omit, get, forEach, isEmpty } from 'lodash';
 import {
   makeWidgetVisibleSelector,
   makeWidgetEnabledSelector,
@@ -9,7 +8,6 @@ import {
 } from '../selectors/widgets';
 import { registerDependency } from '../actions/dependency';
 
-const omittedProps = ['models'];
 /**
  * НОС - создает зависимость
  *
@@ -23,13 +21,8 @@ const dependency = WrappedComponent => {
     }
 
     initIfNeeded(props) {
-      const { id: widgetId, registerDependency, dependency, isVisible, isInit } = props;
-      !isInit &&
-        registerDependency(widgetId, {
-          dependencyType: 'widget',
-          dependency,
-          isVisible
-        });
+      const { registerDependency, dependency, isInit } = props;
+      !isInit && registerDependency(dependency);
     }
 
     /**
@@ -37,11 +30,10 @@ const dependency = WrappedComponent => {
      */
     render() {
       const { isVisible, isEnabled } = this.props;
-      const provProps = omit(this.props, omittedProps);
       const style = { display: !isVisible ? 'none' : 'block' };
       return (
         <div style={style}>
-          <WrappedComponent {...provProps} disabled={!isEnabled} visible={isVisible} />
+          <WrappedComponent {...this.props} disabled={!isEnabled} visible={isVisible} />
         </div>
       );
     }
@@ -72,7 +64,7 @@ const dependency = WrappedComponent => {
   const mapDispatchToProps = (dispatch, ownProps) => {
     const { id: widgetId } = ownProps;
     return {
-      registerDependency: (widgetId, options) => dispatch(registerDependency(widgetId, options))
+      registerDependency: dependency => dispatch(registerDependency(widgetId, dependency))
     };
   };
 
