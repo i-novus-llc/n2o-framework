@@ -22,9 +22,13 @@ function Filter({ value, setValue, onFilter, filterPlaceholder }) {
   return (
     <div className="tree-filter">
       <InputText value={value} onChange={onChange} placeholder={filterPlaceholder} />
-      {value && (
-        <div className="tree-filter-clear" onClick={onClear}>
+      {value ? (
+        <div className="filter-icon tree-filter-clear" onClick={onClear}>
           <Icon name="fa fa-times" />
+        </div>
+      ) : (
+        <div className="filter-icon tree-filter" onClick={onClear}>
+          <Icon name="fa fa-filter" />
         </div>
       )}
     </div>

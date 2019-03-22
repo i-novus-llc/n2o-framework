@@ -1,4 +1,10 @@
 .n2o-rc-tree-wrapper{
+  & .custom-control-label{
+    margin-bottom: 0.5rem;
+  }
+  & .custom-control-inline{
+    padding-left: 1.8rem;
+  }
   & .n2o-rc-tree-label{
     padding: 0 5px;
   }
@@ -26,23 +32,23 @@
       cursor: pointer;
       padding-bottom: 10px;
 
-     .tree-filter-clear{
+     .filter-icon{
        display: inline-block;
        position: absolute;
        cursor: pointer;
        right: 10px;
        top: 5px;
-
-       & i{
-
-         font-size: 12px;
-         border-radius: 50%;
-
-         &:hover{
-            background: $n2o-tree-hover-color;
-          }
-       }
      }
+
+    .tree-filter-clear {
+      & i{
+        border-radius: 50%;
+        font-size: 12px;
+        &:hover{
+          background: $n2o-tree-hover-color;
+        }
+      }
+    }
    }
   .search-text{
     color: $search-text-color;
@@ -57,9 +63,24 @@
     transition: height 0.3s ease-out;
   }
 
+  .n2o-rc-tree{
+    &:not(.n2o-rc-tree-show-line) .n2o-rc-tree-switcher-noop {
+      background: none;
+    }
+    &.n2o-rc-tree-show-line li:not(:last-child) > ul {
+      background: url('data:image/gif;base64,R0lGODlhCQACAIAAAMzMzP///yH5BAEAAAEALAAAAAAJAAIAAAIEjI9pUAA7') 4px 0 repeat-y;
+    }
+    &.n2o-rc-tree-show-line li:not(:last-child)  .n2o-rc-tree-switcher-noop {
+      background-position: -56px -18px;
+    }
+    &.n2o-rc-tree-show-line li:last-child  .n2o-rc-tree-switcher-noop {
+      background-position: -56px -36px;
+    }
+  }
+
 }
 
-
+/// drug and drop
 
 .n2o-rc-tree-treenode-disabled{
   opacity: 0.8;
@@ -102,9 +123,18 @@
   font-weight: bold!important;
 }
 
+
+
+
+//////////////////////////////
+
+
+
+
+
 .n2o-rc-tree li ul {
   margin: 0;
-  padding: 0 0 0 18px;
+  padding: 0 0 0 24px;
 }
 
 .n2o-rc-tree li span.n2o-rc-tree-switcher.n2o-rc-tree-switcher-noop {
@@ -126,7 +156,7 @@
   cursor: pointer;
   vertical-align: top;
   & i {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   & .custom-control{
