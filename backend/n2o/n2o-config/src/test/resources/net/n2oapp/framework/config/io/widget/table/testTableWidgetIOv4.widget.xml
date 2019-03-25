@@ -45,8 +45,8 @@
             </image>
         </column>
         <column text-field-id="test7">
-            <edit src="test" invoke-action-id="update" type="inline">
-                <ctr:input-text id="test"/>
+            <edit src="test" action-id="update">
+                <input-text id="test"/>
             </edit>
         </column>
         <column text-field-id="test8">
