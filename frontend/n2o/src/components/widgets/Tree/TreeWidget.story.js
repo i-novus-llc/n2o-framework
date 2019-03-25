@@ -11,19 +11,19 @@ const stories = storiesOf('Виджеты/Дерево', module);
 
 const data = {
   list: [
-    { id: '1', label: 'Система подогрева' },
-    { id: '12', label: 'Обогреватель', parentId: '1' },
-    { id: '13', label: 'Корпус', parentId: '1' },
-    { id: '2', label: 'Система вентиляции и охлаждения' },
-    { id: '21', label: 'Вентиляторы', parentId: '2' },
-    { id: '22', label: 'Фильтры', parentId: '2' },
-    { id: '23', label: 'Теплообменники', parentId: '2' },
-    { id: '3', label: 'Аварийное охлаждение' },
-    { id: '4', label: 'Система конденсации охл. жидкости' },
-    { id: '41', label: 'Дренажные трубы', parentId: '4' },
-    { id: '42', label: 'Отстойники', parentId: '4' },
-    { id: '44', label: 'Внутренние', parentId: '42' },
-    { id: '45', label: 'Внешние', parentId: '42' }
+    { id: '1', label: '0-0-0' },
+    { id: '12', label: '0-0-1', parentId: '1' },
+    { id: '13', label: '0-0-2', parentId: '1' },
+    { id: '2', label: '0-1-0' },
+    { id: '21', label: '0-1-1', parentId: '2' },
+    { id: '22', label: '0-1-2', parentId: '2' },
+    { id: '23', label: '0-1-3', parentId: '2' },
+    { id: '3', label: '0-2-0' },
+    { id: '4', label: '0-3-0' },
+    { id: '41', label: '0-3-1', parentId: '4' },
+    { id: '42', label: '0-3-2', parentId: '4' },
+    { id: '44', label: '0-4-1', parentId: '42' },
+    { id: '45', label: '0-4-1', parentId: '42' }
   ]
 };
 

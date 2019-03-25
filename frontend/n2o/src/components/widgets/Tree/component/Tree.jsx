@@ -92,7 +92,8 @@ class Tree extends Component {
     const filteredData = filter(datasource, item => !item.disabled);
 
     this.setState({
-      expandedKeys: map(filteredData, valueFieldId)
+      expandedKeys: map(filteredData, valueFieldId),
+      autoExpandParent: false
     });
   }
 
