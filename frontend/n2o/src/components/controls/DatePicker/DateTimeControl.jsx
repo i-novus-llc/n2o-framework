@@ -169,7 +169,7 @@ class DateTimeControl extends React.Component {
             inputName === DateTimeControl.endInputName ||
             !close
         },
-        () => inputName === DateTimeControl.defaultInputName && this.onChange(inputName)
+        () => this.onChange(inputName)
       );
     }
   }
