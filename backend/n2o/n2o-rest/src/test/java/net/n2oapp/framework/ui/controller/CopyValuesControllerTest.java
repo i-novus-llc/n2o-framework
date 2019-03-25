@@ -24,7 +24,7 @@ import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
-import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
+import net.n2oapp.framework.ui.controller.query.CopyValuesController;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.Before;
@@ -41,7 +41,7 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class DefaultValuesControllerTest {
+public class CopyValuesControllerTest {
 
     private N2oApplicationBuilder builder;
 
@@ -83,22 +83,23 @@ public class DefaultValuesControllerTest {
     private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> createPipelineForQuery() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/ui/controller/testDefaults.query.xml",
-                "net/n2oapp/framework/ui/controller/testDefaults.widget.xml"
+                "net/n2oapp/framework/ui/controller/testCopy.query.xml",
+                "net/n2oapp/framework/ui/controller/testCopy.widget.xml"
         );
-        pipeline.get(new WidgetContext("testDefaults"));
+        pipeline.get(new WidgetContext("testCopy"));
         return pipeline;
     }
 
     @Test
-    public void testUniqueSelection() {
+    public void testCopyValues() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipelineForQuery();
         Map<String, String[]> params = new HashMap<>();
-        params.put("id", new String[]{"2"});
-        GetDataResponse response = testQuery("/testDefaults", pipeline, params);
+        params.put("id", new String[]{"1"});
+        GetDataResponse response = testQuery("/testCopy", pipeline, params);
         assertThat(response.getList().size(), is(1));
         assertThat(response.getList().get(0).size(), is(2));
-        assertThat(response.getList().get(0).get("id"), is(2L));
-        assertThat(response.getList().get(0).get("name"), is("testName2"));
+        assertThat(response.getList().get(0).get("id"), is(1L));
+        assertThat(response.getList().get(0).get("surname"), is("testSurname1"));
     }
 
     private GetDataResponse testQuery(String path,
@@ -117,12 +118,12 @@ public class DefaultValuesControllerTest {
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
-        SimpleDefaultValuesController valuesController = new SimpleDefaultValuesController();
-        valuesController.setQueryProcessor(queryProcessor);
-        valuesController.setSubModelsProcessor(subModelsProcessor);
-        valuesController.setDataProcessingStack(dataProcessingStack);
+        CopyValuesController copyValuesController = new CopyValuesController();
+        copyValuesController.setQueryProcessor(queryProcessor);
+        copyValuesController.setSubModelsProcessor(subModelsProcessor);
+        copyValuesController.setDataProcessingStack(dataProcessingStack);
         Map<String, Object> map = new HashMap<>();
-        map.put("SimpleDefaultValuesController", valuesController);
+        map.put("CopyValuesController", copyValuesController);
 
         N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
         N2oControllerFactory factory = new N2oControllerFactory(map);

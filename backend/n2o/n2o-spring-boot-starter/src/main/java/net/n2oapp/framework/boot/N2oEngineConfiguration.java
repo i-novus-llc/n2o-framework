@@ -1,22 +1,30 @@
 package net.n2oapp.framework.boot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
+import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
+import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +38,18 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.pageStartsWith0}")
     private boolean pageStartsWith0;
+
+    @Value("${n2o.engine.rest.url}")
+    private String baseRestUrl;
+
+    @Value("${n2o.engine.rest.dateformat.serialize}")
+    private String serializingFormat;
+
+    @Value("${n2o.engine.rest.dateformat.deserialize}")
+    private String[] deserializingFormats;
+
+    @Value("${n2o.engine.timeout}")
+    private String timeoutInMillis;
 
     @Bean
     @ConditionalOnMissingBean
@@ -107,6 +127,37 @@ public class N2oEngineConfiguration {
         JavaDataProviderEngine javaDataProviderEngine = new JavaDataProviderEngine();
         javaDataProviderEngine.setLocators(locators.orElse(Collections.EMPTY_LIST));
         return javaDataProviderEngine;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(name = "restDataProviderEngine")
+    public SpringRestDataProviderEngine springRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper restObjectMapper) {
+        SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(restTemplate, restObjectMapper);
+        springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
+        return springRestDataProviderEngine;
+    }
+
+    @Bean(name = "restObjectMapper")
+    public ObjectMapper restObjectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
+        RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats);
+        objectMapper.registerModules(module);
+        return objectMapper;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(@Qualifier("restObjectMapper") ObjectMapper restObjectMapper) {
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(restObjectMapper);
+        return converter;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RestTemplate restTemplate(RestTemplateBuilder builder, MappingJackson2HttpMessageConverter converter) {
+        return builder.messageConverters(converter).build();
     }
 
 }

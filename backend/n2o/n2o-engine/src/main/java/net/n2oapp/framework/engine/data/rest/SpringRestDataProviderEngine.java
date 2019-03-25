@@ -1,11 +1,19 @@
-package net.n2oapp.framework.engine.rest;
+package net.n2oapp.framework.engine.data.rest;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.function.BinaryOperator;
 
@@ -14,16 +22,16 @@ import static net.n2oapp.framework.engine.data.QueryUtil.replaceListPlaceholder;
 
 
 /**
- * Сервис вызова rest клиента
+ * Сервис вызова Spring RestTemplate
  */
-public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataProvider> {
+public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRestDataProvider> {
 
-    private RestClient restClient;
-    private String baseRestUrl;
+    private RestTemplate restTemplate;
     private ObjectMapper objectMapper;
+    private String baseRestUrl;
 
-    public RestDataProviderEngine(RestClient restClient, ObjectMapper objectMapper) {
-        this.restClient = restClient;
+    public SpringRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper objectMapper) {
+        this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
 
@@ -66,27 +74,29 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
      * @param args Аргументы запроса
      * @return Заголовки
      */
-    protected Map<String, String> initHeaders(Map<String, Object> args) {
-        return new HashMap<>();
+    protected HttpHeaders initHeaders(Map<String, Object> args) {
+        return new HttpHeaders();
     }
 
     private Object executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
                                 Integer proxyPort) {
-
-        Map<String, String> headers = initHeaders(args);
-        args = new HashMap<>(args);
+        query = getURL(proxyHost, proxyPort, query);
+        HttpHeaders headers = initHeaders(args);
+        Map<String, Object> body = new HashMap<>(args);
 
         switch (method) {
-            case "GET":
-                return restClient.GET(query, Collections.emptyMap(), headers, proxyHost, proxyPort);
-            case "POST":
-                return restClient.POST(query, args, headers, proxyHost, proxyPort);
-            case "PUT":
-                return restClient.PUT(query, args, headers, proxyHost, proxyPort);
-            case "DELETE":
-                return restClient.DELETE(query, Collections.emptyMap(), headers, proxyHost, proxyPort);
-            case "HEAD":
-                return restClient.HEAD(query, Collections.emptyMap(), headers, proxyHost, proxyPort);
+            case "GET": {
+                return restTemplate.exchange(query, HttpMethod.GET, new HttpEntity<>(headers), DataSet.class).getBody();
+            }
+            case "POST": {
+                return restTemplate.exchange(query, HttpMethod.POST, new HttpEntity<>(body, headers), DataSet.class).getBody();
+            }
+            case "PUT": {
+                return restTemplate.exchange(query, HttpMethod.PUT, new HttpEntity<>(body, headers), DataSet.class).getBody();
+            }
+            case "DELETE": {
+                return restTemplate.exchange(query, HttpMethod.DELETE, new HttpEntity<>(headers), DataSet.class).getBody();
+            }
             default:
                 throw new UnsupportedOperationException("Method " + method + " unsupported");
         }
@@ -120,11 +130,26 @@ public class RestDataProviderEngine implements MapInvocationEngine<N2oRestDataPr
         try {
             return target.replace(
                     "{" + key + "}",
-                    RestUtil.encode(objectMapper.writeValueAsString(value).replace("\"", ""))
+                    encode(objectMapper.writeValueAsString(value).replace("\"", ""))
             );
         } catch (JsonProcessingException e) {
             throw new N2oException(e);
         }
+    }
+
+    private String encode(String value) {
+        try {
+            return URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return value;
+        }
+    }
+
+    private static String getURL(String host, Integer port, String url) {
+        if (host == null || port == null)
+            return url;
+        else
+            return "http://" + host + ":" + port + url;
     }
 
     @Override

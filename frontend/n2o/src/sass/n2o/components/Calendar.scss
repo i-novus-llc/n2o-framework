@@ -4,7 +4,7 @@
   background: white;
   min-width: $calendar-min-width;
   max-width: $calendar-max-width;
-  height: $calendar-height;
+  min-height: $calendar-height;
   padding: 5px;
   .n2o-calendar-body {
     display: flex;

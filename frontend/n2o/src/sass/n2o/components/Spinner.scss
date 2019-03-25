@@ -85,6 +85,10 @@
   align-content: center;
   background-color: fade-out($white, 0.4);
   color: $black;
+
+  & .spinner {
+    position: absolute;
+  }
 }
 
 .spinner-none-background{

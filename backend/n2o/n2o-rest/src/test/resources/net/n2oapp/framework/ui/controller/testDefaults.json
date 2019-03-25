@@ -1,10 +1,12 @@
 [
   {
     "id": 1,
-    "name": "testName1"
+    "name": "testName1",
+    "surname": "testSurname1"
   },
   {
     "id": 2,
-    "name": "testName2"
+    "name": "testName2",
+    "surname": "testSurname2"
   }
 ]

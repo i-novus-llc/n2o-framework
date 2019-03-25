@@ -59,7 +59,7 @@ public class DataModelTest {
     public void getDataIfAbsent() {
         N2oSubModelsProcessor p = mock(N2oSubModelsProcessor.class);
         doAnswer(invocation -> {
-            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            DataSet data = invocation.getArgument(1);
             if (data.get("id").equals(123))
                 data.put("name", "Joe");
             return null;
