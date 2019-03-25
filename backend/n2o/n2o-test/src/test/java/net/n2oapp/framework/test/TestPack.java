@@ -53,7 +53,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
 
     private QueryContext getQueryContextWithSubModel() {
         QueryContext context = new QueryContext("testModel", "/test/subModels");
-        SubModelQuery subModel = new SubModelQuery("subModel", "testSubModel", "id", "name", false);
+        SubModelQuery subModel = new SubModelQuery("subModel", "testSubModel", "id", "name", false, null);
         context.setSubModelQueries(Collections.singletonList(subModel));
         context.setQuerySize(1);
         return context;

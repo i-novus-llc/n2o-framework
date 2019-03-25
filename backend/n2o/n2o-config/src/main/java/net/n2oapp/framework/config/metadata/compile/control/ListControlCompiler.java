@@ -89,7 +89,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     private void initSubModel(S source, SubModelsScope scope) {
         if (scope == null)
             return;
-        if (source.getQueryId() != null)
+        if (source.getQueryId() != null || source.getOptions() != null)
             scope.add(createSubModel(source));
     }
 
@@ -99,7 +99,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",
                 item.getLabelFieldId() != null ? item.getLabelFieldId() : "name",
-                !item.isSingle()
+                !item.isSingle(),
+                item.getOptions() == null ? null : Arrays.asList(item.getOptions())
         );
     }
 

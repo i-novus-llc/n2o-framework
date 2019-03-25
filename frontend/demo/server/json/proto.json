@@ -1507,6 +1507,9 @@
   "models": {
     "filter['proto_patients'].genders": {
       "link": "models.filter['proto_patients'].genders"
+    },
+    "filter['proto_contacts'].type": {
+      "link": "models.filter['proto_contacts'].type"
     }
   },
   "layout": {
