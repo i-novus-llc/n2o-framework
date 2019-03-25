@@ -40,6 +40,8 @@ public class MenuItem implements IdAware, Serializable, PropertiesAware {
     @JsonProperty
     private String hint;
     @JsonProperty
+    private String hintPosition;
+    @JsonProperty
     private Map<ValidationType, List<ButtonCondition>> conditions = new HashMap<>();
     @JsonProperty
     private Confirm confirm;

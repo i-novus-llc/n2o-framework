@@ -1,2 +1,6 @@
+# Environment Post Processors
+org.springframework.boot.env.EnvironmentPostProcessor=\
+net.n2oapp.framework.boot.N2oPropertiesPostProcessor
+
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 net.n2oapp.framework.boot.N2oAutoConfiguration

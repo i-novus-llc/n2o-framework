@@ -73,18 +73,17 @@ public class OverrideProperties extends Properties {
 
     @Override
     public synchronized boolean contains(Object value) {
-        boolean res = super.contains(value);
-        if (!res)
-            res = getBaseProperties().contains(value);
-        return res;
+        return super.contains(value) || getBaseProperties().contains(value);
     }
 
     @Override
     public synchronized boolean containsKey(Object key) {
-        boolean res = super.containsKey(key);
-        if (!res)
-            res = getBaseProperties().containsKey(key);
-        return res;
+        return super.containsKey(key) || getBaseProperties().containsKey(key);
+    }
+
+    @Override
+    public synchronized boolean containsValue(Object value) {
+        return super.containsValue(value) || getBaseProperties().containsValue(value);
     }
 
     private static final Properties EMPTY_PROPERTIES = new Properties();

@@ -109,7 +109,7 @@
         <contains field-id="test" values="test1,test2" value="test"/>
     </pre-filters>
     <toolbar place="bottomLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true">
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true" tooltip-position="bottom">
             <close src="test"/>
         </button>
         <button action-id="test2" class="test" icon="test" label="test" type="icon">
@@ -117,7 +117,7 @@
         </button>
         <sub-menu>
             <menu-item action-id="test1" icon="test" label="test" class="test" validate="true"/>
-            <menu-item action-id="test2" icon="test" label="test" class="test"/>
+            <menu-item action-id="test2" icon="test" label="test" class="test" tooltip-position="left"/>
             <menu-item action-id="test3" icon="test" label="test" class="test"/>
         </sub-menu>
         <group>
