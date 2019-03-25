@@ -102,6 +102,7 @@ public class N2oMetadataConfiguration {
     @Value("${n2o.config.readonly}")
     private boolean readonly;
 
+    @Primary
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
