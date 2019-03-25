@@ -60,26 +60,24 @@ class FileUploaderItem extends React.Component {
           )}
           <span className="n2o-file-uploader-item-size">
             {showSize && <span>{convertSize(file.size)}</span>}
-            {!disabled &&
-              !loading && (
-                <i
-                  onClick={() => onRemove(index, file.id)}
-                  className={'n2o-file-uploader-remove fa fa-times'}
-                />
-              )}
+            {!disabled && !loading && (
+              <i
+                onClick={() => onRemove(index, file.id)}
+                className={'n2o-file-uploader-remove fa fa-times'}
+              />
+            )}
             {loading && <InlineSpinner />}
           </span>
         </span>
         {loading ||
-          (!autoUpload &&
-            !file.status && (
-              <Progress
-                className="n2o-file-uploader-progress-bar"
-                value={percentage}
-                animated={true}
-                color={statusBarColor}
-              />
-            ))}
+          (!autoUpload && !file.status && (
+            <Progress
+              className="n2o-file-uploader-progress-bar"
+              value={percentage}
+              animated={true}
+              color={statusBarColor}
+            />
+          ))}
       </div>
     );
   }
