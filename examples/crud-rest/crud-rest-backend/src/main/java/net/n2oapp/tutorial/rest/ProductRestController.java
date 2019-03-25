@@ -35,7 +35,7 @@ class ProductRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/categories/{categoryId}")
     public Category getCategory(@PathVariable Long categoryId) {
-        Category result = categoryRepository.findOne(categoryId);
+        Category result = categoryRepository.findById(categoryId).get();
         return result;
     }
 
@@ -57,7 +57,7 @@ class ProductRestController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{productId}")
     public Product getProduct(@PathVariable Long productId) {
-        return this.productRepository.findOne(productId);
+        return this.productRepository.findById(productId).get();
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -72,6 +72,6 @@ class ProductRestController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{productId}")
     public void delete(@PathVariable Long productId) {
-        productRepository.delete(productId);
+        productRepository.deleteById(productId);
     }
 }
