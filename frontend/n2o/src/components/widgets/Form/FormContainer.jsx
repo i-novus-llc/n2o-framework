@@ -33,6 +33,7 @@ export const withWidgetContainer = widgetContainer(
         activeModel: props.activeModel,
         validation: props.validation,
         modelPrefix: props.modelPrefix,
+        prompt: props.prompt
       };
     },
   },

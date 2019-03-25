@@ -34,6 +34,8 @@
     },
     "form": {
       "fetchOnInit": false,
+      "prompt": false,
+      "promptMessage": "",
       "fieldDefaultValues": {
         "surname2": "moscow"
       },

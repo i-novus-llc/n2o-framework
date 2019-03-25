@@ -255,7 +255,7 @@ describe('FormContainer', () => {
     expect(
       wrapper
         .find(
-          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(ReduxForm)))))))'
+          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(getContext(withProps(ReduxForm)))))))))'
         )
         .exists()
     ).toBe(true);
