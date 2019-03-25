@@ -86,15 +86,7 @@ export function* resolveWidgetDependency(prevState, state, widgetsDependencies) 
       const prevModel = getModelsByDependency(dependency[widgetDependenciesKeys[j]])(prevState);
       const model = getModelsByDependency(dependency[widgetDependenciesKeys[j]])(state);
       if (!isEqual(prevModel, model)) {
-        yield fork(
-          resolveDependency,
-          widgetDependenciesKeys[j],
-          dependency[widgetDependenciesKeys[j]],
-          widgetId,
-          model,
-          prevModel,
-          isVisible
-        );
+        yield fork(resolveDependency, widgetDependenciesKeys[j], widgetId, model, isVisible);
       }
     }
   }
@@ -103,32 +95,25 @@ export function* resolveWidgetDependency(prevState, state, widgetsDependencies) 
 /**
  * Резолв конкретной зависимости по типу
  * @param dependencyType
- * @param dependency
  * @param widgetId
  * @param model
- * @param prevModel
  * @param isVisible
  * @returns {IterableIterator<*|CallEffect>}
  */
-export function* resolveDependency(
-  dependencyType,
-  dependency,
-  widgetId,
-  model,
-  prevModel,
-  isVisible
-) {
+export function* resolveDependency(dependencyType, widgetId, model, isVisible) {
   switch (dependencyType) {
     case DEPENDENCY_TYPES.fetch: {
-      yield call(resolveFetchDependency, dependency, widgetId, model, prevModel, isVisible);
+      if (isVisible) {
+        yield call(resolveFetchDependency, widgetId);
+      }
       break;
     }
     case DEPENDENCY_TYPES.visible: {
-      yield call(resolveVisibleDependency, dependency, widgetId, model, prevModel);
+      yield call(resolveVisibleDependency, widgetId, model);
       break;
     }
     case DEPENDENCY_TYPES.enabled: {
-      yield call(resolveEnabledDependency, dependency, widgetId, model, prevModel);
+      yield call(resolveEnabledDependency, widgetId, model);
       break;
     }
     default:
@@ -138,26 +123,20 @@ export function* resolveDependency(
 
 /**
  * Резолв запросов
- * @param dependency
  * @param widgetId
- * @param model
- * @param prevModel
- * @param isVisible
  * @returns {IterableIterator<*>}
  */
-export function* resolveFetchDependency(dependency, widgetId, model, prevModel, isVisible) {
+export function* resolveFetchDependency(widgetId) {
   yield put(dataRequestWidget(widgetId));
 }
 
 /**
  * Резолв видимости
- * @param dependency
  * @param widgetId
  * @param model
- * @param prevModel
  * @returns {IterableIterator<*>}
  */
-export function* resolveVisibleDependency(dependency, widgetId, model, prevModel) {
+export function* resolveVisibleDependency(widgetId, model) {
   const visible = reduce(model, reduceFunction, true);
   if (visible) {
     yield put(showWidget(widgetId));
@@ -168,13 +147,11 @@ export function* resolveVisibleDependency(dependency, widgetId, model, prevModel
 
 /**
  * Резолв активности
- * @param dependency
  * @param widgetId
  * @param model
- * @param prevModel
  * @returns {IterableIterator<*>}
  */
-export function* resolveEnabledDependency(dependency, widgetId, model, prevModel) {
+export function* resolveEnabledDependency(widgetId, model) {
   const enabled = reduce(model, reduceFunction, true);
   if (enabled) {
     yield put(enableWidget(widgetId));
