@@ -41,7 +41,7 @@ public class MappingProcessor {
     /**
      * Исходящее преобразование target согласно mapping выражению
      *
-     * @param target   исходное значение
+     * @param target  исходное значение
      * @param mapping выражения преобразования
      * @return результат преобразования
      */
@@ -106,8 +106,8 @@ public class MappingProcessor {
         if (arguments == null) return null;
         Object[] argumentInstances = new Object[arguments.size()];
         for (int k = 0; k < arguments.size(); k++) {
-            Class argumentClass = null;
-            if (primitiveTypes.contains(arguments.get(k))) {
+            Class argumentClass;
+            if (arguments.get(k) == null || primitiveTypes.contains(arguments.get(k))) {
                 argumentInstances[k] = null;
             } else {
                 try {
