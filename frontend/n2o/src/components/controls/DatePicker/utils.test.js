@@ -10,7 +10,8 @@ import {
   parseDate,
   mapToValue,
   mapToDefaultTime,
-  calculateMaxFreeSpace
+  calculateMaxFreeSpace,
+  formatToMask
 } from './utils';
 
 describe('utils', () => {
@@ -102,5 +103,19 @@ describe('utils', () => {
       mins: 5,
       seconds: 33
     });
+  });
+  it('тестирует formatToMask', () => {
+    /*eslint-disable */
+    expect(formatToMask('DD.MM.YY HH:mm'))
+      .toEqual([/[0-3]/, /\d/, ".", /[0-1]/, /\d/, ".", /\d/, /\d/, " ", /[0-2]/, /\d/, ":", /[0-5]/, /\d/]);
+    expect(formatToMask('DD/MM/YYYY HH:mm'))
+      .toEqual([/[0-3]/, /\d/, "/", /[0-1]/, /\d/, "/", /[0-2]/, /\d/, /\d/, /\d/, " ", /[0-2]/, /\d/, ":", /[0-5]/, /\d/]);
+    expect(formatToMask('DD.MM.YY HH:mm:ss'))
+      .toEqual([/[0-3]/, /\d/, ".", /[0-1]/, /\d/, ".", /\d/, /\d/, " ", /[0-2]/, /\d/, ":", /[0-5]/, /\d/, ":", /[0-5]/, /\d/]);
+    expect(formatToMask('DD.MM.YY'))
+      .toEqual([/[0-3]/, /\d/, ".", /[0-1]/, /\d/, ".", /\d/, /\d/]);
+    expect(formatToMask('HH/mm'))
+      .toEqual([/[0-2]/, /\d/, "/", /[0-5]/, /\d/]);
+    /*eslint-enable */
   });
 });
