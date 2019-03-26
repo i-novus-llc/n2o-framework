@@ -1,4 +1,4 @@
-package net.n2oapp.framework.engine.rest.json;
+package net.n2oapp.framework.engine.data.rest.json;
 
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.DeserializationConfig;

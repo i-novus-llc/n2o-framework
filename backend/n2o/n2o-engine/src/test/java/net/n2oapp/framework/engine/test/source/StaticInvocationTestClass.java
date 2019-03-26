@@ -58,8 +58,8 @@ public class StaticInvocationTestClass {
         return new CollectionPage<>(100, list, criteria);
     }
 
-    public static Integer sum(Model entityTypeArgument, Integer primitiveTypeArgument, Model classTypeArgument) {
-        return entityTypeArgument.getTestField() + primitiveTypeArgument + classTypeArgument.getTestField();
+    public static Integer sum(Model entityTypeArgument, Integer primitiveTypeArgument, Integer primitiveTypeArgument2, Model classTypeArgument) {
+        return entityTypeArgument.getTestField() + primitiveTypeArgument + primitiveTypeArgument2 + classTypeArgument.getTestField();
     }
 
     /**

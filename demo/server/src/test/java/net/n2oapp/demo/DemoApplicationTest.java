@@ -2,8 +2,8 @@ package net.n2oapp.demo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -63,7 +63,7 @@ public class DemoApplicationTest {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/patients/create", Map.class);
         assertThat(page.get("layout"), notNullValue());
-        assertThat(((Map)((Map)page.get("layout")).get("regions")).get("single"), notNullValue());
+        assertThat(((Map) ((Map) page.get("layout")).get("regions")).get("single"), notNullValue());
     }
 
     @Test
@@ -71,9 +71,9 @@ public class DemoApplicationTest {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/patients/1/update", Map.class);
         assertThat(page.get("layout"), notNullValue());
-        assertThat(((Map)((Map)page.get("layout")).get("regions")).get("single"), notNullValue());
+        assertThat(((Map) ((Map) page.get("layout")).get("regions")).get("single"), notNullValue());
 
         Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/patients/1/update/main", Map.class);
-        assertThat(((List)data.get("list")).size(), is(1));
+        assertThat(((List) data.get("list")).size(), is(1));
     }
 }

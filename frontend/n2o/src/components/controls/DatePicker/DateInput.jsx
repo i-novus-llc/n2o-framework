@@ -4,6 +4,8 @@ import moment from 'moment';
 import cx from 'classnames';
 
 import DateTimeControl from './DateTimeControl';
+import MaskedInput from 'react-text-mask';
+import { formatToMask } from './utils';
 
 /**
  * Компонент DateInput
@@ -78,7 +80,7 @@ class DateInput extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, name, autoFocus } = this.props;
+    const { disabled, placeholder, name, autoFocus, dateFormat } = this.props;
     const inputStyle = { flexGrow: 1 };
     const dashStyle = { alignSelf: 'center' };
     return (
@@ -89,18 +91,22 @@ class DateInput extends React.Component {
         })}
       >
         {name === DateTimeControl.endInputName && <span style={dashStyle}>-</span>}
-        <input
+        <MaskedInput
+          value={this.state.value}
           type="text"
+          mask={formatToMask(dateFormat)}
           className="form-control"
           placeholder={placeholder}
           disabled={disabled}
-          value={this.state.value}
           onChange={this.onChange}
           onClick={this.onInputClick}
           style={inputStyle}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           autoFocus={autoFocus}
+          render={(ref, props) => {
+            return <input ref={ref} {...props} />;
+          }}
         />
         {(name === DateTimeControl.defaultInputName || name === DateTimeControl.endInputName) && (
           <button

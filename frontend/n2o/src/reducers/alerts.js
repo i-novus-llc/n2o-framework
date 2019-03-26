@@ -28,7 +28,6 @@ function resolve(state = defaultState, { type, payload }) {
       ];
     case ADD_MULTI:
       return [
-        ...state,
         ...payload.alerts.map(item => ({
           ...item
         }))

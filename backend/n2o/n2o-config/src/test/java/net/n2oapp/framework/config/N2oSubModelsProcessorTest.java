@@ -44,7 +44,7 @@ public class N2oSubModelsProcessorTest {
     @Test
     public void testSingleListSubModel() {
         //успех
-        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false);
+        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false, null);
         DataSet dataSet = new DataSet("gender.id", 1);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert ((Map) dataSet.get("gender")).size() == 3;
@@ -53,7 +53,7 @@ public class N2oSubModelsProcessorTest {
         assert dataSet.get("gender.someField").equals("someFieldValue");
 
         //label уже есть
-        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false);
+        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false, null);
         dataSet = new DataSet("gender.id", 1).add("gender.label", "someLabel");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert ((Map) dataSet.get("gender")).size() == 2;
@@ -61,7 +61,7 @@ public class N2oSubModelsProcessorTest {
         assert dataSet.get("gender.label").equals("someLabel");
 
         //value == null
-        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false);
+        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", false, null);
         dataSet = new DataSet("gender.id", null);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert ((Map) dataSet.get("gender")).size() == 1;
@@ -72,7 +72,7 @@ public class N2oSubModelsProcessorTest {
     @Test
     public void testSingleListSubModelError() {
         //в query нету поля для value
-        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", false);
+        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", false, null);
         DataSet dataSet = new DataSet("gender.wrong", 1);
         N2oTestUtil.assertOnException(() -> processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet), RuntimeException.class);
     }
@@ -81,7 +81,7 @@ public class N2oSubModelsProcessorTest {
     @Test
     public void tesMultiListSubModel() {
         //успех
-        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true);
+        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
         DataSet dataSet = new DataSet("gender[0].id", 1).add("gender[1].id", 2);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert ((List) dataSet.get("gender")).size() == 2;
@@ -93,7 +93,7 @@ public class N2oSubModelsProcessorTest {
         assert dataSet.get("gender[1].someField").equals("someFieldValue");
 
         //label уже есть
-        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true);
+        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
         dataSet = new DataSet("gender[0].id", 1).add("gender[1].id", 2).add("gender[0].label", "someLabel").add("gender[1].label", "someLabel");
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert ((List) dataSet.get("gender")).size() == 2;
@@ -103,19 +103,29 @@ public class N2oSubModelsProcessorTest {
         assert dataSet.get("gender[1].label").equals("someLabel");
         assert dataSet.get("gender[0].someField") == null;
         assert dataSet.get("gender[1].someField") == null;
-//
+
         //value == null
-        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true);
+        subModelQuery = new SubModelQuery("gender", "someQuery", "id", "label", true, null);
         dataSet = new DataSet("gender[0].id", null).add("gender[1].id", null);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert ((List) dataSet.get("gender")).isEmpty();
+
+        //компонент с <options>
+        Map<String, String> optionsMap = new HashMap<>();
+        optionsMap.put("id", "1");
+        optionsMap.put("name", "test");
+        List<Map<String, String>> options = Collections.singletonList(optionsMap);
+        subModelQuery = new SubModelQuery("gender", null, "id", "name", true, options);
+        dataSet = new DataSet("gender[0].id", "1");
+        processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
+        assert "test".equals(((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
     }
 
 
     @Test
     public void testMultiListSubModelError() {
         //в query нету поля для value
-        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", true);
+        SubModelQuery subModelQuery = new SubModelQuery("gender", "someQuery", "wrong", "label", true, null);
         DataSet dataSet = new DataSet("gender[0].wrong", 1);
         N2oTestUtil.assertOnException(() -> processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet), RuntimeException.class);
     }

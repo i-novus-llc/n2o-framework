@@ -1,5 +1,8 @@
 import {
   isObject,
+  omit,
+  pick,
+  isEqual,
   isArray,
   isBoolean,
   isFunction,
@@ -101,15 +104,17 @@ export const validateField = (validationConfig, formName, state, isTouched = fal
   });
   return Promise.all(promiseList).then(() => {
     const messagesAction = compact(
-      map(
-        errors,
-        (messages, fieldId) =>
-          !isEmpty(messages) &&
-          addFieldMessage(formName, fieldId, findPriorityMessage(messages), isTouched)
-      )
+      map(errors, (messages, fieldId) => {
+        if (!isEmpty(messages)) {
+          const message = findPriorityMessage(messages);
+          if (!isEqual(message, get(registeredFields, [fieldId, 'message']))) {
+            return addFieldMessage(formName, fieldId, message, isTouched);
+          }
+        }
+      })
     );
 
-    dispatch(batchActions(messagesAction));
+    messagesAction && dispatch(batchActions(messagesAction));
 
     return hasError(errors);
   });

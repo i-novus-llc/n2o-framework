@@ -166,7 +166,7 @@ const FileUploaderControl = WrappedComponent => {
      */
     handleChange(newFile) {
       const { value, multi, onChange } = this.props;
-      onChange(multi ? [...value, newFile] : newFile);
+      onChange(multi ? [...(value ? value : []), newFile] : newFile);
     }
 
     /**
