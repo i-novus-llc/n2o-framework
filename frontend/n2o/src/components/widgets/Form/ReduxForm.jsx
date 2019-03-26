@@ -7,6 +7,15 @@ import ReduxField from './ReduxField';
 import createValidator from '../../../core/validation/createValidator';
 import PropTypes from 'prop-types';
 
+/**
+ *
+ * @reactProps {object} props.prompt - флаг включения обработки выхода с несохраненной формы
+ * @reactProps {object} props.promptMessage - сообщение prompt
+ * @reactProps {object} props.promptMessage - сообщение prompt
+ * @reactProps {object} props.dirty - флаг отличия формы от initialState
+ * @returns {*}
+ * @constructor
+ */
 function ReduxForm(props) {
   return (
     <React.Fragment>

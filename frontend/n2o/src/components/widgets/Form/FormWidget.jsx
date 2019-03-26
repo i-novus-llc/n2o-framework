@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { values } from 'lodash';
-import { Prompt } from 'react-router';
 import StandardWidget from '../StandardWidget';
 import FormContainer from './FormContainer';
 import Fieldsets from './fieldsets';
@@ -19,6 +18,8 @@ import dependency from '../../../core/dependency';
  * @reactProps {number} form.size - размер выборки
  * @reactProps {array} form.fieldsets
  * @reactProps {object} form.validation
+ * @reactProps {object} form.prompt - флаг включения обработки выхода с несохраненной формы
+ * @reactProps {object} form.promptMessage - сообщение prompt
  */
 class FormWidget extends React.Component {
   /**
@@ -79,7 +80,8 @@ FormWidget.propTypes = {
     fetchOnInit: PropTypes.bool,
     fieldsets: PropTypes.array,
     validation: PropTypes.object,
-    prompt: PropTypes.bool
+    prompt: PropTypes.bool,
+    promptMessage: PropTypes.bool
   })
 };
 

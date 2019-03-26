@@ -161,7 +161,7 @@ stories
             </div>
             <div className="col-6">
               <Switch>
-                <Route path={'/'} exact component={() => renderForm(FormWithPrompt)} />
+                <Route component={() => renderForm(FormWithPrompt)} />
                 <Route path={'/another'} component={() => <div>test</div>} />
               </Switch>
             </div>

@@ -29,6 +29,7 @@ import CoverSpinner from '../snippets/Spinner/CoverSpinner';
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
  * @reactProps {boolean}  disabled - блокировка модалки
+ * @reactProps {object}  prompt - настройка обработки выхода из модального окна
  * @example
  *  <ModalPage props={props}
  *             actions={actions}
@@ -46,6 +47,7 @@ class ModalPage extends React.Component {
 
     this.close = this.close.bind(this);
     this.togglePrompt = this.togglePrompt.bind(this);
+    this.closeOnPrompt = this.closeOnPrompt.bind(this);
   }
 
   renderFromSrc(src) {
@@ -68,6 +70,11 @@ class ModalPage extends React.Component {
     }
   }
 
+  closeOnPrompt() {
+    this.togglePrompt();
+    this.props.close();
+  }
+
   render() {
     const {
       pageUrl,
@@ -81,7 +88,6 @@ class ModalPage extends React.Component {
       toolbar,
       visible,
       title,
-      close,
       loading,
       disabled,
       prompt
@@ -103,7 +109,7 @@ class ModalPage extends React.Component {
             {...prompt}
             close={this.togglePrompt}
             visible={showPrompt}
-            onConfirm={close}
+            onConfirm={this.closeOnPrompt}
             onDeny={this.togglePrompt}
           />
         )}
@@ -164,7 +170,8 @@ ModalPage.propTypes = {
   actions: PropTypes.object,
   props: PropTypes.object,
   close: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  prompt: PropTypes.object
 };
 
 ModalPage.defaultProps = {
