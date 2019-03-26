@@ -19,6 +19,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -38,7 +39,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/page/utObjectField.page.xml"),
+                        new CompileInfo("net/n2oapp/framework/config/metadata/compile/page/utObjectField.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"));
 
     }
@@ -115,10 +116,10 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getPathMapping().get("master_id").getPayload().get("value"), is(":master_id"));
         assertThat(page.getWidgets().get("page_detail").getFilter("parent.id").getParam(), is("master_id"));
 
-        assertThat(((PageContext)route("/page/master/1").getContext(Page.class)).getClientPageId(), is(context.getClientPageId()));
-        assertThat(((PageContext)route("/page/master/1/detail/2").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
-        assertThat(((PageContext)route("/page/master/1/detail/2/detail4").getContext(Page.class)).getClientPageId(), is(context.getClientPageId()));
-        assertThat(((PageContext)route("/page/master/1/detail/2/detail4/3").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
+        assertThat(((PageContext) route("/page/master/1").getContext(Page.class)).getClientPageId(), is(context.getClientPageId()));
+        assertThat(((PageContext) route("/page/master/1/detail/2").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
+        assertThat(((PageContext) route("/page/master/1/detail/2/detail4").getContext(Page.class)).getClientPageId(), is(context.getClientPageId()));
+        assertThat(((PageContext) route("/page/master/1/detail/2/detail4/3").getContext(Page.class)).getBreadcrumbs(), is(context.getBreadcrumbs()));
     }
 
     @Test
@@ -141,8 +142,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(preFilters.get(0).getLink().getValue(), nullValue());
         WidgetDataProvider dataProvider = page.getWidgets().get("testStandardPageDependency_detail").getDataProvider();
         assertThat(dataProvider.getPathMapping().get("testStandardPageDependency_master_id").getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
-        assertThat(((QueryContext)route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().size(), is(1));
-        assertThat(((QueryContext)route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
+        assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().size(), is(1));
+        assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
 
         preFilters = page.getWidgets().get("testStandardPageDependency_w0").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
@@ -216,5 +217,30 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_detail3_genders_id"));
         assertThat(preFilters.get(0).getLink().getBindLink(), is("models.filter['testWidgetPrefilters_master2']"));
         assertThat(preFilters.get(0).getLink().getValue(), is("`gender.map(function(t){return t.id})`"));
+    }
+
+
+    /**
+     * Если в роуте виджета есть параметры от предыдущих виджетов,
+     * то этот виджет должен иметь ссылки на эти параметры
+     */
+    @Test
+    public void testChainFetching() {
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
+                .get(new PageContext("testChainWidgetFetching"));
+
+        assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().size(), is(1));
+        assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
+
+        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().size(), is(2));
+        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
+        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['__form'].id"));
+
+        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().size(), is(3));
+        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
+        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['__form'].id"));
+        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['__form2'].id"));
+
     }
 }
