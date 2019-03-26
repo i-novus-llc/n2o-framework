@@ -45,9 +45,12 @@ export default compose(
   getContext({
     state: PropTypes.object
   }),
-  withProps(props => ({
-    ...createValidator(props.validation, props.form, props.state)
-  })),
+  withProps(props => {
+    return {
+      ...createValidator(props.validation, props.form, props.state),
+      ...props
+    };
+  }),
   reduxForm({
     destroyOnUnmount: true,
     enableReinitialize: true

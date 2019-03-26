@@ -33,7 +33,8 @@ export const withWidgetContainer = widgetContainer(
         activeModel: props.activeModel,
         validation: props.validation,
         modelPrefix: props.modelPrefix,
-        prompt: props.prompt
+        prompt: props.prompt,
+        promptMessage: props.promptMessage
       };
     },
   },
@@ -108,7 +109,13 @@ export const withWidgetHandlers = withHandlers({
 
 export default compose(
   withWidgetContainer,
-  withProps(props => ({ form: props.widgetId })),
+  withProps(props => {
+    return {
+      form: props.widgetId,
+      prompt: props.prompt,
+      promptMessage: props.promptMessage
+    };
+  }),
   connect(mapStateToProps),
   withState('defaultValues', 'setDefaultValues', null),
   withLiveCycleMethods,
