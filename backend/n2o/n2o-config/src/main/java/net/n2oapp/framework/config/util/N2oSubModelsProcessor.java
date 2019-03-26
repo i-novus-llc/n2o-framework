@@ -55,9 +55,9 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
 
         if (subModels == null) return;
 
-        if (subQuery != null && subQuery.containsFilter("id", FilterType.eq)) {
+        if (subQuery != null && subQuery.containsFilter("id", FilterType.eq))
             executeQuery(subQuery, subModelQuery, subModels, labelFieldId, valueFieldId);
-        } else
+        else
             resolveOptions(subModelQuery, subModels, labelFieldId, valueFieldId);
     }
 
@@ -99,7 +99,7 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
     }
 
     private List<Map<String, Object>> prepareSubModels(SubModelQuery subModelQuery, Map<String, Object> dataSet, String labelFieldId, String valueFieldId) {
-        Object subModelValue = null;
+        Object subModelValue;
         if (subModelQuery.getSubModel() != null)
             subModelValue = dataSet.get(subModelQuery.getSubModel());
         else
