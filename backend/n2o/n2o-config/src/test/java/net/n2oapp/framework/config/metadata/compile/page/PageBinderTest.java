@@ -84,7 +84,7 @@ public class PageBinderTest extends SourceCompileTestBase {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
             DataSet data = invocation.getArgument(1);
             if (!subModelQueries.isEmpty()
-                    && subModelQueries.get(0).getQueryId().equals("query1")
+                    && "query1".equals(subModelQueries.get(0).getQueryId())
                     && data.get("id").equals(123)) {
                 data.put("name", "Joe");
             }
