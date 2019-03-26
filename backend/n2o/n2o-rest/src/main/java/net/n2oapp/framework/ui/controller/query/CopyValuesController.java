@@ -43,13 +43,12 @@ public class CopyValuesController extends DefaultValuesController {
 
     @SuppressWarnings("unchecked")
     private static void merge(DataSet defaultModel, DataSet queryModel, Set<String> fieldsToCopy) {
-        //удаляем те поля из выборки, которые по мнению виджета не подходят для копирования
-
         if (fieldsToCopy != null) {
-            queryModel.entrySet().removeIf(stringObjectEntry -> !fieldsToCopy.contains(stringObjectEntry.getKey()));
+            defaultModel.merge(queryModel);
+            defaultModel.entrySet().removeIf(stringObjectEntry -> !fieldsToCopy.contains(stringObjectEntry.getKey()));
+        } else {
+            defaultModel.clear();
         }
-
-        defaultModel.merge(queryModel);
     }
 
     @Override

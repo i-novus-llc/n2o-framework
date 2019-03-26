@@ -15,9 +15,12 @@ export const formsSelector = state => {
  * @param name
  */
 export const makeFormByName = name =>
-  createSelector(formsSelector, formsState => {
-    return _.get(formsState, name) || {};
-  });
+  createSelector(
+    formsSelector,
+    formsState => {
+      return _.get(formsState, name) || {};
+    }
+  );
 
 /**
  * селктор для поля формы
@@ -25,9 +28,12 @@ export const makeFormByName = name =>
  * @param fieldName
  */
 export const makeFieldByName = (formName, fieldName) =>
-  createSelector(makeFormByName(formName), form => {
-    return (form && form.registeredFields && form.registeredFields[fieldName]) || {};
-  });
+  createSelector(
+    makeFormByName(formName),
+    form => {
+      return (form && form.registeredFields && form.registeredFields[fieldName]) || {};
+    }
+  );
 
 /**
  * селектор для значения видимости поля
@@ -35,9 +41,12 @@ export const makeFieldByName = (formName, fieldName) =>
  * @param fieldName
  */
 export const isVisibleSelector = (formName, fieldName) =>
-  createSelector(makeFieldByName(formName, fieldName), field => {
-    return field.visible;
-  });
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => {
+      return field.visible;
+    }
+  );
 
 /**
  * селектор для значения активности поля
@@ -45,9 +54,12 @@ export const isVisibleSelector = (formName, fieldName) =>
  * @param fieldName
  */
 export const isDisabledSelector = (formName, fieldName) =>
-  createSelector(makeFieldByName(formName, fieldName), field => {
-    return field.disabled;
-  });
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => {
+      return field.disabled;
+    }
+  );
 
 /**
  * селектор для свойства, отвечающего за инициализацию дополнительных свойств
@@ -55,26 +67,41 @@ export const isDisabledSelector = (formName, fieldName) =>
  * @param fieldName
  */
 export const isInitSelector = (formName, fieldName) =>
-  createSelector(makeFieldByName(formName, fieldName), field => {
-    return field.isInit;
-  });
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => {
+      return field.isInit;
+    }
+  );
 
 export const messageSelector = (formName, fieldName) =>
-  createSelector(makeFieldByName(formName, fieldName), field => {
-    return field.message;
-  });
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => {
+      return field.message;
+    }
+  );
 
 export const dependencySelector = (formName, fieldName) =>
-  createSelector(makeFieldByName(formName, fieldName), field => {
-    return field.dependency;
-  });
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => {
+      return field.dependency;
+    }
+  );
 
 export const filterSelector = (formName, fieldName) =>
-  createSelector(makeFieldByName(formName, fieldName), field => {
-    return field.filter;
-  });
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => {
+      return field.filter;
+    }
+  );
 
 export const requiredSelector = (formName, fieldName) =>
-  createSelector(makeFieldByName(formName, fieldName), field => {
-    return field.required;
-  });
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => {
+      return field.required;
+    }
+  );

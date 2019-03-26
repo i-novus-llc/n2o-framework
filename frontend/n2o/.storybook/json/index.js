@@ -20,6 +20,7 @@ import FormFieldsetCollapseVE from './FormFieldsetCollapseVE';
 import FormFieldsetStandartVE from './FormFieldsetStandartVE';
 import PlaceholderBreadCrumb from './PlaceholderBreadCrumb';
 import tableActions from './tableActions';
+import FormHighlyLoadedTest from './FormHighlyLoadedTest';
 import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
 
 export {
@@ -45,5 +46,6 @@ export {
   FormFieldsetStandartVE,
   PlaceholderBreadCrumb,
   tableActions,
+  FormHighlyLoadedTest,
   InputSelectTreeDefaultValue
 };

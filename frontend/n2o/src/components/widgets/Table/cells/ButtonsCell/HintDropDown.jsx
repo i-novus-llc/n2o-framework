@@ -1,14 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { map, defaultTo, pick, isEmpty } from 'lodash';
-import {
-  UncontrolledButtonDropdown,
-  UncontrolledTooltip,
-  DropdownToggle,
-  DropdownMenu
-} from 'reactstrap';
+import { Dropdown, UncontrolledTooltip, DropdownToggle, DropdownMenu } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';
+import { compose, withState } from 'recompose';
 import SecurityCheck from '../../../../../core/auth/SecurityCheck';
 import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem';
 
@@ -25,12 +21,27 @@ import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/Dropdown
  * @returns {*}
  * @constructor
  */
-function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security, ...rest }) {
+function HintDropDown({
+  uId,
+  open,
+  onToggle,
+  title,
+  hint,
+  visible,
+  menu,
+  icon,
+  onClick,
+  security,
+  ...rest
+}) {
   const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
   const dropdownProps = pick(rest, ['disabled', 'direction', 'active', 'color', 'size']);
 
   const createDropDownMenu = ({ title, visible, icon, action, security, color, ...itemProps }) => {
-    const handleClick = action => e => onClick(e, action);
+    const handleClick = action => e => {
+      e.stopPropagation();
+      onClick(e, action);
+    };
 
     const renderItem = () =>
       defaultTo(visible, true) ? (
@@ -52,9 +63,14 @@ function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security
     );
   };
 
+  const onToggleDropdown = e => {
+    e.stopPropagation();
+    onToggle(!open);
+  };
+
   const renderDropdown = () =>
     visible ? (
-      <UncontrolledButtonDropdown direction="down">
+      <Dropdown direction="down" isOpen={open} toggle={onToggleDropdown}>
         {hint && (
           <UncontrolledTooltip target={uId} modifiers={MODIFIERS} {...otherToltipProps}>
             {hint}
@@ -68,7 +84,7 @@ function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security
         <DropdownMenu positionFixed={true} modifiers={MODIFIERS}>
           {map(menu, createDropDownMenu)}
         </DropdownMenu>
-      </UncontrolledButtonDropdown>
+      </Dropdown>
     ) : null;
 
   return isEmpty(security) ? (
@@ -129,4 +145,7 @@ HintDropDown.defaultProps = {
   offset: 0
 };
 
-export default initUid(HintDropDown);
+export default compose(
+  withState('open', 'onToggle', false),
+  initUid
+)(HintDropDown);
