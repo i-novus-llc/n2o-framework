@@ -95,12 +95,14 @@ class Tabs extends React.Component {
       <div className={className} style={style}>
         <TabNav className={navClassName}>{tabNavItems}</TabNav>
         <TabContent>
-          {React.Children.map(children, child =>
-            child.props.visible !== false || !_.isEmpty(child.props.config)
-              ? React.cloneElement(child, {
-                  active: activeId === child.props.id
-                })
-              : null
+          {React.Children.map(
+            children,
+            child =>
+              child.props.visible !== false || !_.isEmpty(child.props.config)
+                ? React.cloneElement(child, {
+                    active: activeId === child.props.id
+                  })
+                : null
           )}
         </TabContent>
       </div>
