@@ -23,6 +23,7 @@ import tableActions from './tableActions';
 import FormHighlyLoadedTest from './FormHighlyLoadedTest';
 import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
 import alertStackedErrors from './alertStackedErrors';
+import placeholderToConfirm from './placeholderToConfirm';
 
 export {
   filterMetadata,
@@ -49,5 +50,6 @@ export {
   tableActions,
   FormHighlyLoadedTest,
   InputSelectTreeDefaultValue,
-  alertStackedErrors
+  alertStackedErrors,
+  placeholderToConfirm
 };
