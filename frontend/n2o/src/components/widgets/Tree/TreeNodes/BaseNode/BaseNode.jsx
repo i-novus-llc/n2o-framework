@@ -28,18 +28,18 @@ function BaseNode({
       {[
         has(data, imageFieldId) && (
           <div className={`${prefixCls}-image-tree-wrapper`}>
-            <img alt="not found" key={uniqueId('tree_img_')} src={data[imageFieldId]} />
+            <img alt="not found" key={`tree_img_${data[valueFieldId]}`} src={data[imageFieldId]} />
           </div>
         ),
         has(data, labelFieldId) && (
-          <span key={uniqueId('tree_label_')} className={`${prefixCls}-label`}>
+          <span key={`tree_label_${data[valueFieldId]}`} className={`${prefixCls}-label`}>
             {searchKeys.includes(data[valueFieldId]) && searchValue
               ? splitSearchText(data[labelFieldId], searchValue, filter)
               : data[labelFieldId]}
           </span>
         ),
         has(data, badgeFieldId) && (
-          <Badge key={uniqueId('tree_badge_')} color={data[badgeColorFieldId]}>
+          <Badge key={`tree_badge_${data[valueFieldId]}`} color={data[badgeColorFieldId]}>
             {data[badgeFieldId]}
           </Badge>
         )
