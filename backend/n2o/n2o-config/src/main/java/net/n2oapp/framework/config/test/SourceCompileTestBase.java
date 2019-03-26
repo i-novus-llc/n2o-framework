@@ -4,7 +4,6 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.selective.CompileInfo;
 
@@ -41,19 +40,17 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
         return N2oPipelineSupport.bindPipeline(builder.getEnvironment()).bind();
     }
 
-    public RoutingResult route(String url) {
-        return builder.route(url);
+    public <D extends Compiled> CompileContext<D, ?> routeContext(String url, Class<D> compiledClass) {
+        return builder.route(url, compiledClass);
     }
 
     public <D extends Compiled> D route(String url, Class<D> compiledClass) {
-        RoutingResult route = builder.route(url);
-        CompileContext<D, ?> context = route.getContext(compiledClass);
+        CompileContext<D, ?> context = builder.route(url, compiledClass);
         return read().compile().bind().get(context, context.getParams(url, null));
     }
 
     public <D extends Compiled> D route(String url, Class<D> compiledClass, DataSet data) {
-        RoutingResult route = builder.route(url);
-        CompileContext<D, ?> context = route.getContext(compiledClass);
+        CompileContext<D, ?> context = builder.route(url, compiledClass);
         context.getParams(url, null).forEach((k, v) -> data.put(k, v));
         return read().compile().bind().get(context, data);
     }

@@ -68,7 +68,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 is("password"));
         assertThat(table.getActions().containsKey("but"), is(true));
         assertThat(table.getComponent().getRowColor(), is("red"));
-        QueryContext queryContext = (QueryContext) route("/testTable4Compile").getContext(CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) routeContext("/testTable4Compile", CompiledQuery.class);
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
@@ -125,7 +125,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(4).getId(), is("notInQuery"));
         assertThat(headers.get(4).getLabel(), is("notInQueryLabel"));
 
-        QueryContext context = (QueryContext) route("/testTable4SortableCompile").getContext(CompiledQuery.class);
+        QueryContext context = (QueryContext) routeContext("/testTable4SortableCompile", CompiledQuery.class);
         assertThat(context.getSortingMap().get("id"), is("id"));
         assertThat(context.getSortingMap().get("col"), is("col_id"));
         assertThat(context.getSortingMap().get("name"), is("id"));
@@ -254,7 +254,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
                 .get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext) builder.route("/testTableRequiredPrefilters/main").getContext(CompiledQuery.class));
+        QueryContext queryContext = ((QueryContext) builder.route("/testTableRequiredPrefilters/main", CompiledQuery.class));
 
         assertThat(queryContext.getValidations().get(0).getId(), is("gender*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));

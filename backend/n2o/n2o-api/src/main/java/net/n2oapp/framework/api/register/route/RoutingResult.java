@@ -8,6 +8,7 @@ import java.util.List;
 /**
  * Результат поиска метаданных по URL.
  */
+@Deprecated
 public class RoutingResult {
 
     /**

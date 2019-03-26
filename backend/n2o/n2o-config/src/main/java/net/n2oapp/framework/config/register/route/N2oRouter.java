@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
@@ -35,7 +34,7 @@ public class N2oRouter implements MetadataRouter {
      * @param url url для которого необходимо найти контекст
      * @return результат поиска
      */
-    public RoutingResult get(String url) {
+    public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass) {
         url = url != null ? url : "/";
         List<CompileContext<?, ?>> infos = findRoutes(url);
         if (infos.isEmpty())
@@ -43,7 +42,7 @@ public class N2oRouter implements MetadataRouter {
         infos = findRoutes(url);
         if (infos.isEmpty())
             throw new RouteNotFoundException(url);
-        return new RoutingResult(infos);
+        return getContext(infos, compiledClass);
     }
 
     private List<CompileContext<?, ?>> findRoutes(String url) {
@@ -86,6 +85,12 @@ public class N2oRouter implements MetadataRouter {
             }
             subInfo.forEach(i -> pipeline.get(i));//warm up
         }
+    }
+
+    private <D extends Compiled> CompileContext<D, ?> getContext(List<CompileContext<?, ?>> contexts, Class<D> compiledClass) {
+        return (CompileContext<D, ?>) contexts.stream()
+                .filter(c -> compiledClass.isAssignableFrom(c.getCompiledClass()))
+                .findAny().orElse(null);
     }
 
 }

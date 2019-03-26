@@ -49,10 +49,10 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.widget.xml");
         Form form = (Form) pipeline.get(new WidgetContext("testToolbarCrudCompile"));
 
-        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/create")
-                .getContext(Page.class)).getPageName(), is("Пустой объект для unit тестов - Создание"));
-        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/1/update")
-                .getContext(Page.class)).getPageName(), is("Пустой объект для unit тестов - Изменение"));
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/create", Page.class))
+                .getPageName(), is("Пустой объект для unit тестов - Создание"));
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/1/update", Page.class))
+                .getPageName(), is("Пустой объект для unit тестов - Изменение"));
 
         assertThat(form.getToolbar().size(), is(2));
         assertThat(form.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));

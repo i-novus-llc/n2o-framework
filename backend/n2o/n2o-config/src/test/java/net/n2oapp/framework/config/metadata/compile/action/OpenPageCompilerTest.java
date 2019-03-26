@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -64,7 +63,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     public void filterModel() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
                 .get(new PageContext("testOpenPageSimplePage"));
-        PageContext context = (PageContext) route("/page/widget/action1").getContext(Page.class);
+        PageContext context = (PageContext) routeContext("/page/widget/action1", Page.class);
         Page openPage = read().compile().get(context);
 
         assertThat(openPage.getBreadcrumb().size(), is(2));
@@ -84,7 +83,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(meta.getSuccess().getMessageWidgetId(), is("page_test"));
         assertThat(meta.getSuccess().getCloseLastModal(), nullValue());
         assertThat(meta.getSuccess().getRedirect().getPath(), is("/page/widget"));
-        ActionContext submitContext = (ActionContext) route("/page/widget/action1/submit").getContext(CompiledObject.class);
+        ActionContext submitContext = (ActionContext) routeContext("/page/widget/action1/submit", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
 
         LinkAction close = (LinkAction) openPage.getActions().get("close");
@@ -105,8 +104,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(((LinkAction) page.getWidgets().get("page_test").getActions().get("id2")).getOptions().getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
         assertThat(((LinkAction) page.getWidgets().get("page_test").getActions().get("id2")).getOptions().getQueryMapping().size(), is(0));
 
-        RoutingResult route = route("/page/widget/123/action2");
-        PageContext context = (PageContext) route.getContext(Page.class);
+        PageContext context = (PageContext) routeContext("/page/widget/123/action2", Page.class);
         assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getRefWidgetId(), is("test"));
@@ -147,7 +145,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("page_test"));
         assertThat(meta.getSuccess().getCloseLastModal(), nullValue());
         assertThat(meta.getSuccess().getRedirect().getPath(), is("/page/widget/:page_test_id"));
-        ActionContext submitContext = (ActionContext) route("/page/widget/123/action2/submit").getContext(CompiledObject.class);
+        ActionContext submitContext = (ActionContext) routeContext("/page/widget/123/action2/submit", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
 
         LinkAction close = (LinkAction) openPage.getActions().get("close");
@@ -228,8 +226,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(linkAction.getOptions().getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkAction.getOptions().getQueryMapping().get("secondName").getBindLink(), nullValue());
 
-        RoutingResult result = route("/page/widget/gender/masterDetail");
-        PageContext context = (PageContext) result.getContext(Page.class);
+        PageContext context = (PageContext) routeContext("/page/widget/gender/masterDetail", Page.class);
         assertThat(context.getPreFilters().size(), is(3));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getRefWidgetId(), is("test"));
@@ -282,7 +279,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(pathMapping.get("page_widget_masterDetail_main_id").getPayload().get("widgetId"), is("page_widget_masterDetail_main"));
         assertThat(pathMapping.get("page_widget_masterDetail_main_id").getPayload().get("value"), is(":page_widget_masterDetail_main_id"));
 
-        PageContext detailContext = (PageContext) result.getContext(Page.class);
+        PageContext detailContext = (PageContext) routeContext("/page/widget/gender/masterDetail", Page.class);
         assertThat(detailContext.getQueryRouteMapping().size(), is(3));
         DataSet data = new DataSet();
         data.put("detailId", 222);
@@ -311,7 +308,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     public void dynamicPage() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.page.xml")
                 .get(new PageContext("testOpenPageDynamicPage", "/page"));
-        PageContext context = (PageContext) route("/page/widget/testOpenPageSimplePageAction1/id1").getContext(Page.class);
+        PageContext context = (PageContext) routeContext("/page/widget/testOpenPageSimplePageAction1/id1", Page.class);
         DataSet data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction1");
         Page openPage = read().compile().bind().get(context, data);
@@ -329,7 +326,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(openPage.getWidgets().size(), is(1));
         assertThat(openPage.getWidgets().get("page_widget_testOpenPageSimplePageAction1_id1_w0"), instanceOf(Form.class));
 
-        context = (PageContext) route("/page/widget/testOpenPageSimplePageAction2/id1").getContext(Page.class);
+        context = (PageContext) routeContext("/page/widget/testOpenPageSimplePageAction2/id1", Page.class);
         data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction2");
         openPage = read().compile().bind().get(context, data);
