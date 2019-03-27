@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
+import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -61,7 +62,8 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         ValidationList validationList = new ValidationList(new HashMap<>());
         if (context.getUpload() != null)
             widget.setUpload(context.getUpload());
-        Widget compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs, validationList, models);
+        PageRoutesScope pageRoutesScope = new PageRoutesScope();
+        Widget compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs, validationList, models, pageRoutesScope);
         page.getWidgets().put(compiledWidget.getId(), compiledWidget);
         registerRoutes(routes, context, p);
         if (!(context instanceof ModalPageContext))

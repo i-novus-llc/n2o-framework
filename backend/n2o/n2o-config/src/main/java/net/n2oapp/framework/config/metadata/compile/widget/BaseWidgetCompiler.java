@@ -27,7 +27,6 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
@@ -119,6 +118,18 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             additionalPathParams.put(compiled.getMasterParam(), compiled.getMasterLink());
         }
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
+        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
+        if (compiled.getDependency() != null && compiled.getDependency().getFetch() != null) {
+            for (DependencyCondition fetch : compiled.getDependency().getFetch()) {
+                if (fetch.getGlobalMasterWidgetId() != null) {
+                    ParentRouteScope masterRouteScope = pageRoutesScope.get(fetch.getGlobalMasterWidgetId());
+                    if (masterRouteScope != null) {
+                        masterRouteScope.getPathMapping().forEach(parentRouteScope.getPathMapping()::putIfAbsent);
+                        masterRouteScope.getQueryMapping().forEach(parentRouteScope.getQueryMapping()::putIfAbsent);
+                    }
+                }
+            }
+        }
         ParentRouteScope widgetRouteScope;
         if (parentRouteScope != null) {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams, parentRouteScope);
@@ -412,6 +423,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 masterWidgetId = widgetScope.getDependsOnWidgetId();
                 ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
                 DependencyCondition condition = new DependencyCondition();
+                condition.setGlobalMasterWidgetId(masterWidgetId);
                 condition.setOn(bindLink.getBindLink());
                 fetch.add(condition);
             }
