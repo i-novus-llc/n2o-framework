@@ -17,5 +17,5 @@ public class DependencyCondition implements Compiled {
     private String on;
     @JsonProperty
     private Object condition;
-    private String masterWidgetId;
+    private String globalMasterWidgetId;
 }

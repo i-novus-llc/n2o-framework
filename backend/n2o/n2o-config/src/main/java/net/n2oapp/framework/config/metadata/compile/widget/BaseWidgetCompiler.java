@@ -121,8 +121,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
         if (compiled.getDependency() != null && compiled.getDependency().getFetch() != null) {
             for (DependencyCondition fetch : compiled.getDependency().getFetch()) {
-                if (fetch.getMasterWidgetId() != null) {
-                    ParentRouteScope masterRouteScope = pageRoutesScope.get(fetch.getMasterWidgetId());
+                if (fetch.getGlobalMasterWidgetId() != null) {
+                    ParentRouteScope masterRouteScope = pageRoutesScope.get(fetch.getGlobalMasterWidgetId());
                     if (masterRouteScope != null) {
                         masterRouteScope.getPathMapping().forEach(parentRouteScope.getPathMapping()::putIfAbsent);
                         masterRouteScope.getQueryMapping().forEach(parentRouteScope.getQueryMapping()::putIfAbsent);
@@ -423,7 +423,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 masterWidgetId = widgetScope.getDependsOnWidgetId();
                 ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
                 DependencyCondition condition = new DependencyCondition();
-                condition.setMasterWidgetId(masterWidgetId);
+                condition.setGlobalMasterWidgetId(masterWidgetId);
                 condition.setOn(bindLink.getBindLink());
                 fetch.add(condition);
             }
