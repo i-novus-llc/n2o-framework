@@ -197,7 +197,8 @@ export function registerButton(
     className,
     style,
     containerKey,
-    conditions
+    conditions,
+    hintPosition
   }
 ) {
   return createActionHelper(REGISTER_BUTTON)({
@@ -216,6 +217,7 @@ export function registerButton(
     disabled,
     containerKey,
     conditions,
-    resolveEnabled
+    resolveEnabled,
+    hintPosition
   });
 }

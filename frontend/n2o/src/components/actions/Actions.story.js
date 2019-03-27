@@ -354,6 +354,93 @@ stories
       }
     ];
 
+    const hintPosition = [
+      {
+        buttons: [
+          {
+            id: 'Left1',
+            title: 'Left',
+            hintPosition: 'left',
+            hint: 'Left'
+          },
+          {
+            id: 'Right1',
+            title: 'Right',
+            hintPosition: 'right',
+            hint: 'Right'
+          },
+          {
+            id: 'Top1',
+            title: 'Top',
+            hintPosition: 'top',
+            hint: 'Top'
+          },
+          {
+            id: 'Bottom1',
+            title: 'Bottom',
+            hintPosition: 'bottom',
+            hint: 'Bottom'
+          },
+          {
+            id: 'Left2',
+            title: 'Left',
+            hintPosition: 'left',
+            icon: 'fa fa-vk',
+            hint: 'Left',
+            subMenu: [
+              {
+                id: '23',
+                header: true,
+                title: 'Заголовок'
+              }
+            ]
+          },
+          {
+            id: 'Right2',
+            title: 'Right',
+            icon: 'fa fa-vk',
+            hintPosition: 'right',
+            hint: 'Right',
+            subMenu: [
+              {
+                id: '23',
+                header: true,
+                title: 'Заголовок'
+              }
+            ]
+          },
+          {
+            id: 'Top2',
+            title: 'Top',
+            hintPosition: 'top',
+            icon: 'fa fa-vk',
+            hint: 'Top',
+            subMenu: [
+              {
+                id: '23',
+                header: true,
+                title: 'Заголовок'
+              }
+            ]
+          },
+          {
+            id: 'Bottom2',
+            title: 'Bottom',
+            hintPosition: 'bottom',
+            icon: 'fa fa-vk',
+            hint: 'Bottom',
+            subMenu: [
+              {
+                id: '23',
+                header: true,
+                title: 'Заголовок'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
     const actions = {
       dummy: {
         src: 'dummyImpl'
@@ -394,6 +481,9 @@ stories
         </div>
         <div className="row mb-2">
           <Actions actions={actions} toolbar={sizeToolbarSm} containerKey="sm" />
+        </div>
+        <div className="row mb-2">
+          <Actions actions={actions} toolbar={hintPosition} containerKey="sm" />
         </div>
       </React.Fragment>
     );

@@ -32,9 +32,10 @@ function HintDropDown({
   icon,
   onClick,
   security,
+  hintPosition,
   ...rest
 }) {
-  const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
+  const otherToltipProps = pick(rest, ['delay', 'hideArrow', 'offset']);
   const dropdownProps = pick(rest, ['disabled', 'direction', 'active', 'color', 'size']);
 
   const createDropDownMenu = ({ title, visible, icon, action, security, color, ...itemProps }) => {
@@ -72,7 +73,12 @@ function HintDropDown({
     visible ? (
       <Dropdown direction="down" isOpen={open} toggle={onToggleDropdown}>
         {hint && (
-          <UncontrolledTooltip target={uId} modifiers={MODIFIERS} {...otherToltipProps}>
+          <UncontrolledTooltip
+            target={uId}
+            modifiers={MODIFIERS}
+            placement={hintPosition}
+            {...otherToltipProps}
+          >
             {hint}
           </UncontrolledTooltip>
         )}
