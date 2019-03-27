@@ -19,7 +19,6 @@ export const defaultProps = {
   badgeFieldId: 'badge',
   badgeColorFieldId: 'color',
   hasCheckboxes: false,
-  draggable: true,
   prefixCls: 'n2o-rc-tree',
   icon: '',
   childrenFieldId: 'children'
@@ -45,7 +44,6 @@ export const propTypes = {
   badgeColorFieldId: PropTypes.string,
   hasCheckboxes: PropTypes.bool,
   prefixCls: PropTypes.string,
-  draggable: PropTypes.bool,
   icon: PropTypes.string,
   selectable: PropTypes.bool,
   childrenFieldId: PropTypes.string

@@ -25,7 +25,6 @@
     "badgeFieldId": "badge",
     "badgeColorFieldId": "color",
     "hasCheckboxes": false,
-    "draggable": true,
     "icon": "",
     "childrenFieldId": "children",
     "hasFocus": true

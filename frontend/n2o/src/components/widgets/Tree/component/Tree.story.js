@@ -4,6 +4,7 @@ import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs
 import Tree from './Tree';
 import { withState } from 'recompose';
 import { findIndex } from 'lodash';
+import { collectionToComponentObject } from '../until';
 
 const datasource = [
   { id: '1', label: 'Система подогрева' },
@@ -81,25 +82,33 @@ stories
 
     return <Tree datasource={datasource} {...props} />;
   });
+
+//
+// Если нужно будет оживить => заменить ключи на нечисловые индексы в until collectionToComponentObject
+// иначе позиция в массиве не будет учитываться
 //
 // .add('Drag and drop', () => {
+//   const move = (arr, from, to) => {
+//     arr.splice(to, 0, arr.splice(from, 1)[0]);
+//     return arr;
+//   };
 //   const Comp = withState('stateDataSource', 'setNewDataSource', datasource)(
 //     ({ stateDataSource, setNewDataSource }) => {
 //       const onDrop = ({ dragKey, dropKey, dropPosition }) => {
-//
 //         console.log(dragKey, dropKey, dropPosition);
 //
 //         if (!dropPosition) {
 //           const index = findIndex(stateDataSource, ['id', dragKey]);
 //           stateDataSource[index].parentId = dropKey;
+//           setNewDataSource(stateDataSource);
 //         } else {
 //           const indexDragKey = findIndex(stateDataSource, ['id', dragKey]);
 //           const indexDropKey = findIndex(stateDataSource, ['id', dropKey]);
+//
 //           stateDataSource[indexDragKey].parentId = stateDataSource[indexDropKey].parentId;
-//           stateDataSource.splice(indexDragKey, 0, stateDataSource[indexDropKey]);
-//           stateDataSource.splice(indexDropKey, 1);
+//           const newData = move([...stateDataSource], indexDragKey, indexDropKey);
+//           setNewDataSource(newData);
 //         }
-//         setNewDataSource(stateDataSource);
 //       };
 //       console.log(stateDataSource);
 //       return <Tree datasource={stateDataSource} onDrop={onDrop} />;

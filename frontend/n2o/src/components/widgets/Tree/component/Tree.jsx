@@ -51,7 +51,6 @@ class Tree extends Component {
     this.createSelectedKeys = this.createSelectedKeys.bind(this);
     this.selectedObjToTreeKeys = this.selectedObjToTreeKeys.bind(this);
     this.onDoubleClickHandler = this.onDoubleClickHandler.bind(this);
-    this.onDrop = this.onDrop.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -205,14 +204,15 @@ class Tree extends Component {
     this.onCustomActions(null, 'DB_CLICK');
   }
 
-  onDrop(info) {
-    const dropKey = info.node.props.eventKey;
-    const dragKey = info.dragNode.props.eventKey;
-    const dropPos = info.node.props.pos.split('-');
-    const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
-
-    this.props.onDrop({ dragKey, dropKey, dropPosition });
-  }
+  //
+  // onDrop(info) {
+  //   const dropKey = info.node.props.eventKey;
+  //   const dragKey = info.dragNode.props.eventKey;
+  //   const dropPos = info.node.props.pos.split('-');
+  //   const dropPosition = info.dropPosition - Number(dropPos[dropPos.length - 1]);
+  //
+  //   this.props.onDrop({ dragKey, dropKey, dropPosition });
+  // }
 
   render() {
     const nodeProps = pick(this.props, TREE_NODE_PROPS);
@@ -268,7 +268,6 @@ class Tree extends Component {
             switcherIcon={this.renderSwitcherIcon}
             onExpand={this.onExpand}
             autoExpandParent={autoExpandParent}
-            onDrop={this.onDrop}
             {...treeOtherProps}
           />
         </HotKeys>

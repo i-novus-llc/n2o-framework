@@ -42,7 +42,6 @@ export const propTypes = {
   parentIcon: PropTypes.string,
   childIcon: PropTypes.string,
   prefixCls: PropTypes.string,
-  draggable: PropTypes.bool,
   multiselect: PropTypes.bool,
   icon: PropTypes.string,
   selectable: PropTypes.bool,
@@ -54,14 +53,7 @@ export const propTypes = {
   filterPlaceholder: PropTypes.string
 };
 
-export const TREE_PROPS = [
-  'loading',
-  'disabled',
-  'draggable',
-  'selectable',
-  'showLine',
-  'prefixCls'
-];
+export const TREE_PROPS = ['loading', 'disabled', 'selectable', 'showLine', 'prefixCls'];
 
 export const TREE_NODE_PROPS = [
   'labelFieldId',
