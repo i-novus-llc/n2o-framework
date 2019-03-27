@@ -134,7 +134,9 @@ export const takeKeysWhenSearching = props => {
  */
 export const getTreeLinerRoute = (data, expandedKeys, { parentFieldId, valueFieldId }) => {
   //берем всех родителей
-  const parenIds = filter(data, dt => !dt[parentFieldId]).map(dt => dt[valueFieldId]);
+  const parenIds = filter(data, dt => !dt[parentFieldId] && !dt.disabled).map(
+    dt => dt[valueFieldId]
+  );
 
   let buff = [];
 
@@ -146,7 +148,7 @@ export const getTreeLinerRoute = (data, expandedKeys, { parentFieldId, valueFiel
 
       if (expandedKeys.includes(id)) {
         const childs = filter(data, dt => {
-          return dt[parentFieldId] === id;
+          return dt[parentFieldId] === id && !dt.disabled;
         }).map(dt => dt[valueFieldId]);
 
         if (childs) {
