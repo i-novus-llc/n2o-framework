@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { destroyModal } from '../../actions/modals';
+import { closeModal, destroyModal } from '../../actions/modals';
 import { modalsSelector } from '../../selectors/modals';
 import compileUrl from '../../utils/compileUrl';
 
@@ -24,12 +24,7 @@ class ModalPages extends React.Component {
     const modalPages = modals.map(
       modal =>
         modal.visible && (
-          <ModalPage
-            key={modal.pageId}
-            close={this.props.close}
-            {...modal}
-            {...modal.props}
-          />
+          <ModalPage key={modal.pageId} close={this.props.close} {...modal} {...modal.props} />
         )
     );
     return <div>{modalPages}</div>;
@@ -37,29 +32,29 @@ class ModalPages extends React.Component {
 }
 
 ModalPages.propTypes = {
-  modals: PropTypes.array,
+  modals: PropTypes.array
 };
 
 ModalPages.defaultProps = {
-  modals: {},
+  modals: {}
 };
 
 const mapStateToProps = createStructuredSelector({
-  modals: (state, props) => modalsSelector(state),
+  modals: (state, props) => modalsSelector(state)
 });
 
 function mapDispatchToProps(dispatch) {
   return {
-    close: name => {
-      dispatch(destroyModal());
-    },
+    close: (name, prompt) => {
+      dispatch(closeModal(name, prompt));
+    }
   };
 }
 
 ModalPages.propTypes = {
   modals: PropTypes.array,
   options: PropTypes.object,
-  actions: PropTypes.object,
+  actions: PropTypes.object
 };
 
 ModalPages = connect(

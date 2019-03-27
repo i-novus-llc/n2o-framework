@@ -14,9 +14,7 @@ import history from './history';
 import configureStore from './store';
 
 import FactoryProvider from './core/factory/FactoryProvider';
-import createFactoryConfig, {
-  factories,
-} from './core/factory/createFactoryConfig';
+import createFactoryConfig, { factories } from './core/factory/createFactoryConfig';
 import factoryConfigShape from './core/factory/factoryConfigShape';
 
 import SecurityProvider from './core/auth/SecurityProvider';
@@ -36,7 +34,7 @@ class N2o extends Component {
     super(props);
     const config = {
       security: props.security,
-      messages: props.messages,
+      messages: props.messages
     };
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);
@@ -54,9 +52,7 @@ class N2o extends Component {
           <Application
             render={(locale, messages) => (
               <IntlProvider locale={locale} messages={messages}>
-                <FactoryProvider
-                  config={createFactoryConfig(this.generateCustomConfig())}
-                >
+                <FactoryProvider config={createFactoryConfig(this.generateCustomConfig())}>
                   <ConnectedRouter history={history}>
                     <Switch>
                       {routes.map(route => (
@@ -79,16 +75,17 @@ N2o.propTypes = {
   ...factoryConfigShape,
   defaultTemplate: PropTypes.element,
   defaultBreadcrumb: PropTypes.element,
+  defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
-    timeFormat: PropTypes.string,
+    timeFormat: PropTypes.string
   }),
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string,
       component: PropTypes.element,
       exact: PropTypes.bool,
-      strict: PropTypes.bool,
+      strict: PropTypes.bool
     })
   ),
   security: PropTypes.shape({
@@ -97,38 +94,41 @@ N2o.propTypes = {
     externalLoginUrl: PropTypes.string,
     loginComponent: PropTypes.element,
     userMenuComponent: PropTypes.element,
-    forbiddenComponent: PropTypes.element,
+    forbiddenComponent: PropTypes.element
   }),
   messages: PropTypes.shape({
     timeout: PropTypes.shape({
       error: PropTypes.number,
       success: PropTypes.number,
       warning: PropTypes.number,
-      info: PropTypes.number,
-    }),
-  }),
+      info: PropTypes.number
+    })
+  })
 };
 
 export default compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
+    defaultPromptMessage: 'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     formats: {
       dateFormat: 'DD.MM.YYYY',
-      timeFormat: 'HH:mm:ss',
+      timeFormat: 'HH:mm:ss'
     },
     routes: [],
     security: {},
-    messages: {},
+    messages: {}
   }),
   withContext(
     {
       defaultTemplate: PropTypes.element,
       defaultBreadcrumb: PropTypes.element,
+      defaultPromptMessage: PropTypes.string
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
+      defaultPromptMessage: props.defaultPromptMessage
     })
   )
 )(N2o);

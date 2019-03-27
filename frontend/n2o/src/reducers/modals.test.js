@@ -7,84 +7,84 @@ describe('Тесты modals reducer', () => {
       modals(
         [
           {
-            name: 'stateModal',
-          },
+            name: 'stateModal'
+          }
         ],
         {
           type: INSERT,
           payload: {
             visible: true,
-            name: 'testName',
-          },
+            name: 'testName'
+          }
         }
       )
     ).toEqual([
       {
-        name: 'stateModal',
+        name: 'stateModal'
       },
       {
         name: 'testName',
         props: {},
-        visible: true,
-      },
+        visible: true
+      }
     ]);
   });
 
-  it('Проверка SHOW', () => {
-    expect(
-      modals(
-        [
-          {
-            modal: {
-              name: 'stateModal',
-            },
-            visible: false,
-          },
-        ],
-        {
-          type: SHOW,
-          payload: {
-            name: 'stateModal',
-          },
-        }
-      )
-    ).toEqual([
-      {
-        modal: {
-          name: 'stateModal',
-        },
-        visible: true,
-      },
-    ]);
-  });
-
-  it('Проверка HIDE', () => {
-    expect(
-      modals(
-        [
-          {
-            modal: {
-              name: 'stateModal',
-            },
-            visible: true,
-          },
-        ],
-        {
-          type: HIDE,
-          payload: {
-            name: 'stateModal',
-          },
-        }
-      )
-    ).toEqual([
-      {
-        modal: {
-          name: 'stateModal',
-        },
-        visible: false,
-      },
-    ]);
-  });
+  // it('Проверка SHOW', () => {
+  //   expect(
+  //     modals(
+  //       [
+  //         {
+  //           modal: {
+  //             name: 'stateModal'
+  //           },
+  //           visible: false
+  //         }
+  //       ],
+  //       {
+  //         type: SHOW,
+  //         payload: {
+  //           name: 'stateModal'
+  //         }
+  //       }
+  //     )
+  //   ).toEqual([
+  //     {
+  //       modal: {
+  //         name: 'stateModal'
+  //       },
+  //       visible: true
+  //     }
+  //   ]);
+  // });
+  //
+  // it('Проверка HIDE', () => {
+  //   expect(
+  //     modals(
+  //       [
+  //         {
+  //           modal: {
+  //             name: 'stateModal'
+  //           },
+  //           visible: true
+  //         }
+  //       ],
+  //       {
+  //         type: HIDE,
+  //         payload: {
+  //           name: 'stateModal'
+  //         }
+  //       }
+  //     )
+  //   ).toEqual([
+  //     {
+  //       modal: {
+  //         name: 'stateModal'
+  //       },
+  //       visible: false
+  //     }
+  //   ]);
+  // });
 
   it('Проверка DESTROY', () => {
     expect(
@@ -92,13 +92,13 @@ describe('Тесты modals reducer', () => {
         [
           {
             modal: {
-              name: 'stateModal',
+              name: 'stateModal'
             },
-            visible: true,
-          },
+            visible: true
+          }
         ],
         {
-          type: DESTROY,
+          type: DESTROY
         }
       )
     ).toEqual([]);

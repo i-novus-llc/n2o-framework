@@ -16,6 +16,7 @@ import factoryResolver from '../../utils/factoryResolver';
 import withActions from './withActions';
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import CoverSpinner from '../snippets/Spinner/CoverSpinner';
+import { makeShowPromptByName } from '../../selectors/modals';
 
 /**
  * Компонент, отображающий модальное окно
@@ -29,7 +30,6 @@ import CoverSpinner from '../snippets/Spinner/CoverSpinner';
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
  * @reactProps {boolean}  disabled - блокировка модалки
- * @reactProps {object}  prompt - настройка обработки выхода из модального окна
  * @example
  *  <ModalPage props={props}
  *             actions={actions}
@@ -38,41 +38,9 @@ import CoverSpinner from '../snippets/Spinner/CoverSpinner';
  *  />
  */
 class ModalPage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showPrompt: false
-    };
-
-    this.close = this.close.bind(this);
-    this.togglePrompt = this.togglePrompt.bind(this);
-    this.closeOnPrompt = this.closeOnPrompt.bind(this);
-  }
-
   renderFromSrc(src) {
     const Component = factoryResolver(src, null);
     return <Component />;
-  }
-
-  togglePrompt() {
-    this.setState({
-      showPrompt: !this.state.showPrompt
-    });
-  }
-
-  close() {
-    const { close, prompt } = this.props;
-    if (prompt) {
-      this.togglePrompt();
-    } else {
-      close();
-    }
-  }
-
-  closeOnPrompt() {
-    this.togglePrompt();
-    this.props.close();
   }
 
   render() {
@@ -90,7 +58,9 @@ class ModalPage extends React.Component {
       title,
       loading,
       disabled,
-      prompt
+      close,
+      name,
+      showPrompt
     } = this.props;
 
     const pageMapping = {
@@ -98,32 +68,31 @@ class ModalPage extends React.Component {
       queryMapping
     };
 
-    const { showPrompt } = this.state;
-
     const showSpinner = !visible || loading || typeof loading === 'undefined';
     const classes = cn({ 'd-none': loading });
     return (
       <div className={cn('modal-page-overlay')}>
         {showPrompt && (
           <ModalDialog
-            {...prompt}
-            close={this.togglePrompt}
+            closeButton={true}
+            text={'test'}
+            close={() => {}}
             visible={showPrompt}
-            onConfirm={this.closeOnPrompt}
-            onDeny={this.togglePrompt}
+            onConfirm={() => close(name, false)}
+            onDeny={() => {}}
           />
         )}
         {showSpinner && <CoverSpinner mode="transparent" />}
         <Modal
           isOpen={visible}
-          toggle={this.close}
+          toggle={() => close(name, true)}
           size={size}
           backdrop={false}
           style={{
             zIndex: 10
           }}
         >
-          <ModalHeader className={classes} toggle={this.close}>
+          <ModalHeader className={classes} toggle={() => close(name, true)}>
             {title}
           </ModalHeader>
           <ModalBody className={classes}>
@@ -170,8 +139,7 @@ ModalPage.propTypes = {
   actions: PropTypes.object,
   props: PropTypes.object,
   close: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  prompt: PropTypes.object
+  disabled: PropTypes.bool
 };
 
 ModalPage.defaultProps = {
@@ -182,7 +150,8 @@ ModalPage.defaultProps = {
 const mapStateToProps = createStructuredSelector({
   title: (state, { pageId }) => makePageTitleByIdSelector(pageId)(state),
   loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
-  disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state)
+  disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
+  showPrompt: (state, { name }) => makeShowPromptByName(name)(state)
 });
 
 export default compose(

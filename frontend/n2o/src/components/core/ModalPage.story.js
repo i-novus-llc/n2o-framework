@@ -63,14 +63,8 @@ stories
             visible: true,
             closeButton: true,
             pageId: 'Uid',
-            prompt: {
-              closeButton: true,
-              size: 'sm',
-              title: 'Кастомный title',
-              text: 'Вы уверены?',
-              okLabel: 'Хочу',
-              cancelLabel: 'Не хочу'
-            }
+            prompt: true,
+            promptMessage: 'Are you sure about this?'
           }
         }
       }
