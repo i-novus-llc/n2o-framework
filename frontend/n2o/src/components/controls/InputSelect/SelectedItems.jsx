@@ -15,6 +15,7 @@ function InputElements({
   onRemoveItem,
   selected,
   labelFieldId,
+  disabled,
   collapseSelected,
   lengthToGroup,
   onDeleteAll
@@ -22,7 +23,7 @@ function InputElements({
   const selectedItem = (id, title, callback) => (
     <span key={id} className="selected-item n2o-multiselect" title={title}>
       <span className="n2o-eclipse-content">{title}</span>
-      <button type="button" className="close" onClick={() => callback()}>
+      <button type="button" className="close" onClick={() => callback()} disabled={disabled}>
         <i className="fa fa-times fa-1" />
       </button>
     </span>
@@ -51,7 +52,8 @@ InputElements.propTypes = {
   onRemoveItem: PropTypes.func,
   onDeleteAll: PropTypes.func,
   collapseSelected: PropTypes.bool,
-  lengthToGroup: PropTypes.number
+  lengthToGroup: PropTypes.number,
+  disabled: PropTypes.bool
 };
 
 export default InputElements;
