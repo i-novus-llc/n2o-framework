@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,9 +35,9 @@ public class N2oRouter implements MetadataRouter {
      */
     public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass) {
         url = url != null ? url : "/";
-        CompileContext<D, ?> infos = findRoutes(url, compiledClass);
+        List<CompileContext<D, ?>> infos = findRoutes(url, compiledClass);
         if (infos != null) {
-            return infos;
+            return infos.get(0);
         }
 
         tryToFindDeep(url, compiledClass);
@@ -43,17 +45,21 @@ public class N2oRouter implements MetadataRouter {
         infos = findRoutes(url, compiledClass);
         if (infos == null)
             throw new RouteNotFoundException(url);
-        return infos;
+        return infos.get(0);
     }
 
     @SuppressWarnings("unchecked")
-    private <D extends Compiled> CompileContext<D, ?> findRoutes(String url, Class<D> compiledClass) {
+    private <D extends Compiled> List<CompileContext<D, ?>> findRoutes(String url, Class compiledClass) {
+        List<CompileContext<D, ?>> infos = null;
         for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : register) {
-            if (matchInfo(routeEntry.getKey(), url) && compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass())) {
-                return routeEntry.getValue();
+            if (matchInfo(routeEntry.getKey(), url) &&
+                    (compiledClass == null || compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass()))) {
+                if (infos == null)
+                    infos = new ArrayList<>();
+                infos.add(routeEntry.getValue());
             }
         }
-        return null;
+        return infos;
     }
 
     /**
@@ -76,13 +82,16 @@ public class N2oRouter implements MetadataRouter {
             else
                 subUrl = "/";
 
-            CompileContext<D, ?> subInfo = findRoutes(subUrl, compiledClass);
+            List<CompileContext<D, ?>> subInfo = findRoutes(subUrl, null);
             if (subInfo == null) {
                 tryToFindDeep(subUrl, compiledClass);
                 subInfo = findRoutes(subUrl, compiledClass);
             }
             if (subInfo != null) {
-                pipeline.get(subInfo); //warm up
+                subInfo.forEach(c -> pipeline.get(c)); //warm up
+            }
+            if (findRoutes(subUrl, compiledClass) == null) {
+                tryToFindDeep(subUrl, compiledClass);
             }
         }
     }
