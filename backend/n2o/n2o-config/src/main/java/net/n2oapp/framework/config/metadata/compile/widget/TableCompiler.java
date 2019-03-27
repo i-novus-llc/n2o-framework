@@ -70,6 +70,10 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
         ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
+        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
+        if (pageRoutesScope != null) {
+            pageRoutesScope.put(table.getId(), widgetRouteScope);
+        }
         compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null, null);
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         MetaActions widgetActions = new MetaActions();

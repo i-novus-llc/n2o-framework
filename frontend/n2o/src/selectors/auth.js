@@ -11,9 +11,15 @@ export const authSelector = state => {
 /**
  *
  */
-export const isLoggedInSelector = createSelector(authSelector, user => user.isLoggedIn);
+export const isLoggedInSelector = createSelector(
+  authSelector,
+  user => user.isLoggedIn
+);
 
 /**
  *
  */
-export const userSelector = createSelector(authSelector, user => omit(user, ['isLoggedIn']));
+export const userSelector = createSelector(
+  authSelector,
+  user => omit(user, ['isLoggedIn'])
+);
