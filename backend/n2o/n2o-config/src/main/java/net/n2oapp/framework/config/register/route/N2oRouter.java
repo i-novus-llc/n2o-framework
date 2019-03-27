@@ -9,9 +9,6 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,25 +33,27 @@ public class N2oRouter implements MetadataRouter {
      */
     public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass) {
         url = url != null ? url : "/";
-        List<CompileContext<?, ?>> infos = findRoutes(url);
-        if (infos.isEmpty())
-            tryToFindDeep(url);
-        infos = findRoutes(url);
-        if (infos.isEmpty())
+        CompileContext<D, ?> infos = findRoutes(url, compiledClass);
+        if (infos != null) {
+            return infos;
+        }
+
+        tryToFindDeep(url, compiledClass);
+
+        infos = findRoutes(url, compiledClass);
+        if (infos == null)
             throw new RouteNotFoundException(url);
-        return getContext(infos, compiledClass);
+        return infos;
     }
 
-    private List<CompileContext<?, ?>> findRoutes(String url) {
-        List<CompileContext<?, ?>> infos = null;
+    @SuppressWarnings("unchecked")
+    private <D extends Compiled> CompileContext<D, ?> findRoutes(String url, Class<D> compiledClass) {
         for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : register) {
-            if (matchInfo(routeEntry.getKey(), url)) {
-                if (infos == null)
-                    infos = new ArrayList<>();
-                infos.add(routeEntry.getValue());
+            if (matchInfo(routeEntry.getKey(), url) && compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass())) {
+                return routeEntry.getValue();
             }
         }
-        return infos == null ? Collections.emptyList() : infos;
+        return null;
     }
 
     /**
@@ -62,35 +61,30 @@ public class N2oRouter implements MetadataRouter {
      *
      * @param info        Информация об URL адресе
      * @param urlMatching URL шаблон в Ant стиле
-     * @param <D>         Тип собранной метаданной
      * @return Сопоставимы или нет
      */
-    private <D extends Compiled> boolean matchInfo(RouteInfoKey info, String urlMatching) {
+    private boolean matchInfo(RouteInfoKey info, String urlMatching) {
         return pathMatcher.match(info.getUrlMatching(), urlMatching);
     }
 
-    private void tryToFindDeep(String url) {
+    private <D extends Compiled> void tryToFindDeep(String url, Class<D> compiledClass) {
         if (url.length() > 1) {
             String subUrl;
-            List<CompileContext<?, ?>> subInfo;
             int idx = url.lastIndexOf("/");
             if (idx > 0)
                 subUrl = url.substring(0, idx);
             else
                 subUrl = "/";
-            subInfo = findRoutes(subUrl);
-            if (subInfo.isEmpty()) {
-                tryToFindDeep(subUrl);
-                subInfo = findRoutes(subUrl);
-            }
-            subInfo.forEach(i -> pipeline.get(i));//warm up
-        }
-    }
 
-    private <D extends Compiled> CompileContext<D, ?> getContext(List<CompileContext<?, ?>> contexts, Class<D> compiledClass) {
-        return (CompileContext<D, ?>) contexts.stream()
-                .filter(c -> compiledClass.isAssignableFrom(c.getCompiledClass()))
-                .findAny().orElse(null);
+            CompileContext<D, ?> subInfo = findRoutes(subUrl, compiledClass);
+            if (subInfo == null) {
+                tryToFindDeep(subUrl, compiledClass);
+                subInfo = findRoutes(subUrl, compiledClass);
+            }
+            if (subInfo != null) {
+                pipeline.get(subInfo); //warm up
+            }
+        }
     }
 
 }
