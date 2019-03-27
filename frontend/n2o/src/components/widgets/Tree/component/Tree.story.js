@@ -80,27 +80,31 @@ stories
     };
 
     return <Tree datasource={datasource} {...props} />;
-  })
-
-  .add('Drag and drop', () => {
-    const Comp = withState('stateDataSource', 'setNewDataSource', datasource)(
-      ({ stateDataSource, setNewDataSource }) => {
-        const onDrop = ({ dragKey, dropKey, dropPosition }) => {
-          if (!dropPosition) {
-            const index = findIndex(stateDataSource, ['id', dragKey]);
-            stateDataSource[index].parentId = dropKey;
-          } else {
-            const indexDragKey = findIndex(stateDataSource, ['id', dragKey]);
-            const indexDropKey = findIndex(stateDataSource, ['id', dropKey]);
-            stateDataSource[indexDragKey].parentId = stateDataSource[indexDropKey].parentId;
-            stateDataSource.splice(indexDragKey + 1, 0, stateDataSource[indexDropKey]);
-            stateDataSource.splice(dropKey, 1);
-          }
-          setNewDataSource(stateDataSource);
-        };
-        return <Tree datasource={stateDataSource} onDrop={onDrop} />;
-      }
-    );
-
-    return <Comp />;
   });
+//
+// .add('Drag and drop', () => {
+//   const Comp = withState('stateDataSource', 'setNewDataSource', datasource)(
+//     ({ stateDataSource, setNewDataSource }) => {
+//       const onDrop = ({ dragKey, dropKey, dropPosition }) => {
+//
+//         console.log(dragKey, dropKey, dropPosition);
+//
+//         if (!dropPosition) {
+//           const index = findIndex(stateDataSource, ['id', dragKey]);
+//           stateDataSource[index].parentId = dropKey;
+//         } else {
+//           const indexDragKey = findIndex(stateDataSource, ['id', dragKey]);
+//           const indexDropKey = findIndex(stateDataSource, ['id', dropKey]);
+//           stateDataSource[indexDragKey].parentId = stateDataSource[indexDropKey].parentId;
+//           stateDataSource.splice(indexDragKey, 0, stateDataSource[indexDropKey]);
+//           stateDataSource.splice(indexDropKey, 1);
+//         }
+//         setNewDataSource(stateDataSource);
+//       };
+//       console.log(stateDataSource);
+//       return <Tree datasource={stateDataSource} onDrop={onDrop} />;
+//     }
+//   );
+//
+//   return <Comp />;
+// });
