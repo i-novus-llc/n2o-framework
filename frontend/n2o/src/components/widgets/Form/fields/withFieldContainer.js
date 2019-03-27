@@ -109,11 +109,11 @@ export default Field => {
      */
     mapProps() {
       const { input, message, meta, model, ...rest } = this.props;
-
       return {
         ...propsResolver(rest, model),
         ...meta,
         validationClass: this.getValidationState(message),
+        message,
         ...input
       };
     }
