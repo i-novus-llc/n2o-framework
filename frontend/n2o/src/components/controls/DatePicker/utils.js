@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { keys, maxBy } from 'lodash';
+import { flattenDeep, keys, map, maxBy } from 'lodash';
 
 /**
  * Дата (date) была после конца месяца другой даты(displayedMonth) или нет
@@ -260,3 +260,45 @@ export function calculateMaxFreeSpace(input, popUp, window) {
 
   return maxBy(keys(placements), o => placements[o]);
 }
+
+export const replaceDictionary = tmp => {
+  switch (tmp) {
+    case 'DD':
+      return [/[0-3]/, /\d/];
+    case 'MM':
+      return [/[0-1]/, /\d/];
+    case 'YY':
+      return [/\d/, /\d/];
+    case 'YYYY':
+      return [/[0-2]/, /\d/, /\d/, /\d/];
+    case 'H':
+    case 'HH':
+      return [/[0-2]/, /\d/];
+    case 'h':
+    case 'hh':
+      return [/[0-1]/, /\d/];
+    case 'k':
+    case 'kk':
+      return [/[1-2]/, /\d/];
+    case 's':
+    case 'm':
+    case 'ss':
+    case 'mm':
+      return [/[0-5]/, /\d/];
+    default:
+      return [/\d/];
+  }
+};
+
+export const formatToMask = format => {
+  const splitedFormat = format.split(/\b/gi);
+
+  return flattenDeep(
+    map(splitedFormat, item => {
+      if (~item.search(/([A-Z]){1,}/gi)) {
+        return replaceDictionary(item);
+      }
+      return item;
+    })
+  );
+};

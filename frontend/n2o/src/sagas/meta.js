@@ -15,8 +15,8 @@ import { id } from '../utils/id';
 
 export function* alertEffect(action) {
   try {
-    const { alertKey = GLOBAL_KEY, messages } = action.meta.alert;
-    yield put(removeAlerts(alertKey));
+    const { alertKey = GLOBAL_KEY, messages, stacked } = action.meta.alert;
+    if (!stacked) yield put(removeAlerts(alertKey));
     const alerts = isArray(messages)
       ? messages.map(message => ({ ...message, id: message.id || id() }))
       : [{ ...messages, id: messages.id || id() }];
