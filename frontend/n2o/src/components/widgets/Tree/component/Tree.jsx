@@ -106,11 +106,7 @@ class Tree extends Component {
   renderSwitcherIcon() {
     const { showLine } = this.props;
     if (!showLine) {
-      return (
-        <div className="chevron-wrapper">
-          <Icon className="switcher" name="fa fa-angle-right" />
-        </div>
-      );
+      return <Icon className="switcher" name="fa fa-angle-right" />;
     }
     return <CheckboxN2O inline />;
   }

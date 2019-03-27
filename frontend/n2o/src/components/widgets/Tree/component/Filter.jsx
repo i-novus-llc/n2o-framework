@@ -28,7 +28,7 @@ function Filter({ value, setValue, onFilter, filterPlaceholder }) {
         </div>
       ) : (
         <div className="filter-icon tree-filter" onClick={onClear}>
-          <Icon name="fa fa-filter" />
+          <Icon name="fa fa-search" />
         </div>
       )}
     </div>
