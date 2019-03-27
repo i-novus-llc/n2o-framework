@@ -79,6 +79,8 @@ public class FieldDependencyJsonTest extends JsonMetadataTestBase {
                         "fieldsets[0].rows[3].cols[0].size",
                         "fieldsets[0].rows[3].cols[1].size",
                         "fieldsets[0].rows[3].cols[2].size",
+                        "fieldsets[0].rows[4].cols[0].size",
+                        "fieldsets[0].rows[4].cols[1].size",
                         "fieldsets[0].rows[3].cols[2].fields[0].dependency[1]",
                         "fieldsets[0].rows[3].cols[2].fields[0].dependency[0].applyOnInit",
                         "modelPrefix"

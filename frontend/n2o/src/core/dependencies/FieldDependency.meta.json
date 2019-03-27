@@ -264,9 +264,9 @@
                     {
                       "id": "f11.item",
                       "src": "StandardField",
-                      "label": "Поле №12. Тип зависимости: видимость, id поля через точку",
+                      "label": "Поле №11. Тип зависимости: видимость, id поля через точку",
                       "control": {
-                        "id": "f9",
+                        "id": "f11.item",
                         "src": "InputText"
                       },
                       "description": "Введите 'test'"
@@ -279,9 +279,9 @@
                     {
                       "id": "f12",
                       "src": "StandardField",
-                      "label": "Поле №10. Тип зависимости: Сброс значения",
+                      "label": "Поле №12. Тип зависимости: Сброс значения",
                       "control": {
-                        "id": "f10",
+                        "id": "f12",
                         "src": "InputText"
                       },
                       "dependency": [
