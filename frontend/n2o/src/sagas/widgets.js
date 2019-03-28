@@ -1,4 +1,4 @@
-import { call, fork, put, select, take, takeEvery, actionChannel } from 'redux-saga/effects';
+import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
 import {
   isEmpty,
   isEqual,
@@ -15,13 +15,7 @@ import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
-import {
-  CHANGE_SIZE,
-  DATA_REQUEST,
-  DISABLE,
-  RESOLVE,
-  RESOLVE_DEPENDENCY
-} from '../constants/widgets';
+import { DATA_REQUEST, DISABLE, RESOLVE } from '../constants/widgets';
 import { CLEAR, PREFIXES } from '../constants/models';
 import {
   changeCountWidget,
@@ -30,12 +24,7 @@ import {
   dataSuccessWidget,
   resetWidgetState,
   setTableSelectedId,
-  setWidgetMetadata,
-  showWidget,
-  hideWidget,
-  enableWidget,
-  disableWidget,
-  dataRequestWidget
+  setWidgetMetadata
 } from '../actions/widgets';
 import { setModel } from '../actions/models';
 import {
@@ -45,14 +34,12 @@ import {
 } from '../selectors/widgets';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { getLocation, rootPageSelector } from '../selectors/global';
-import { makeGetModelByPrefixSelector, getModelsByDependency } from '../selectors/models';
+import { makeGetModelByPrefixSelector } from '../selectors/models';
 import fetchSaga from './fetch.js';
 import { FETCH_WIDGET_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
 import { generateErrorMeta } from '../utils/generateErrorMeta';
 import { id } from '../utils/id';
-import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
-import propsResolver from '../utils/propsResolver';
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST

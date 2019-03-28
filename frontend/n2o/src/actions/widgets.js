@@ -23,10 +23,8 @@ import {
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH,
-  RESOLVE_DEPENDENCY
+  DISABLE_ON_FETCH
 } from '../constants/widgets';
-import { CHANGE_BUTTON_CLASS } from '../constants/toolbar';
 import createActionHelper from './createActionHelper';
 
 /**

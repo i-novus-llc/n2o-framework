@@ -1,5 +1,5 @@
 import { select, fork, actionChannel, take, call, put } from 'redux-saga/effects';
-import { isEmpty, keys, isEqual, reduce } from 'lodash';
+import { keys, isEqual, reduce } from 'lodash';
 import { REGISTER_DEPENDENCY } from '../constants/dependency';
 import { SET } from '../constants/models';
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes';

@@ -23,8 +23,7 @@ import {
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH,
-  RESOLVE_DEPENDENCY
+  DISABLE_ON_FETCH
 } from '../constants/widgets';
 import {
   registerWidget,
@@ -55,7 +54,6 @@ import {
   setActive,
   disableWidgetOnFetch
 } from '../actions/widgets';
-import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 
 const widgetId = ' widgetId';
 const initProps = {
