@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { closeModal, destroyModal } from '../../actions/modals';
+import { closeModal, hidePrompt } from '../../actions/modals';
 import { modalsSelector } from '../../selectors/modals';
 import compileUrl from '../../utils/compileUrl';
 
@@ -24,7 +24,13 @@ class ModalPages extends React.Component {
     const modalPages = modals.map(
       modal =>
         modal.visible && (
-          <ModalPage key={modal.pageId} close={this.props.close} {...modal} {...modal.props} />
+          <ModalPage
+            key={modal.pageId}
+            close={this.props.close}
+            hidePrompt={this.props.hidePrompt}
+            {...modal}
+            {...modal.props}
+          />
         )
     );
     return <div>{modalPages}</div>;
@@ -47,6 +53,9 @@ function mapDispatchToProps(dispatch) {
   return {
     close: (name, prompt) => {
       dispatch(closeModal(name, prompt));
+    },
+    hidePrompt: name => {
+      dispatch(hidePrompt(name));
     }
   };
 }

@@ -30,6 +30,7 @@ import { makeShowPromptByName } from '../../selectors/modals';
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
  * @reactProps {boolean}  disabled - блокировка модалки
+ * @reactProps {function}  hidePrompt - скрытие окна подтверждения
  * @example
  *  <ModalPage props={props}
  *             actions={actions}
@@ -38,9 +39,25 @@ import { makeShowPromptByName } from '../../selectors/modals';
  *  />
  */
 class ModalPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.closeModal = this.closeModal.bind(this);
+    this.closePrompt = this.closePrompt.bind(this);
+  }
+
   renderFromSrc(src) {
     const Component = factoryResolver(src, null);
     return <Component />;
+  }
+
+  closeModal(prompt = true) {
+    const { name, close } = this.props;
+    close(name, prompt);
+  }
+
+  closePrompt() {
+    const { name, hidePrompt } = this.props;
+    hidePrompt(name);
   }
 
   render() {
@@ -58,8 +75,6 @@ class ModalPage extends React.Component {
       title,
       loading,
       disabled,
-      close,
-      name,
       showPrompt
     } = this.props;
 
@@ -75,24 +90,24 @@ class ModalPage extends React.Component {
         {showPrompt && (
           <ModalDialog
             closeButton={true}
-            text={'test'}
-            close={() => {}}
+            text={this.context.defaultPromptMessage}
+            close={this.closePrompt}
             visible={showPrompt}
-            onConfirm={() => close(name, false)}
-            onDeny={() => {}}
+            onConfirm={() => this.closeModal(false)}
+            onDeny={this.closePrompt}
           />
         )}
         {showSpinner && <CoverSpinner mode="transparent" />}
         <Modal
           isOpen={visible}
-          toggle={() => close(name, true)}
+          toggle={this.closeModal}
           size={size}
           backdrop={false}
           style={{
             zIndex: 10
           }}
         >
-          <ModalHeader className={classes} toggle={() => close(name, true)}>
+          <ModalHeader className={classes} toggle={this.closeModal}>
             {title}
           </ModalHeader>
           <ModalBody className={classes}>
@@ -145,6 +160,10 @@ ModalPage.propTypes = {
 ModalPage.defaultProps = {
   size: 'lg',
   disabled: false
+};
+
+ModalPage.contextTypes = {
+  defaultPromptMessage: PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({

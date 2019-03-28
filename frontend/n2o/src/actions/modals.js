@@ -55,14 +55,27 @@ export function destroyModal() {
   return createActionHelper(DESTROY)();
 }
 
+/**
+ * События при попытке закрыть модальное окно
+ * @param name
+ * @param prompt
+ */
 export function closeModal(name, prompt) {
   return createActionHelper(CLOSE)({ name, prompt });
 }
 
+/**
+ * Показать подтверждение закрытия модального окна
+ * @param name
+ */
 export function showPrompt(name) {
   return createActionHelper(SHOW_PROMPT)({ name });
 }
 
+/**
+ * Скрыть подтверждение закрытия модального окна
+ * @param name
+ */
 export function hidePrompt(name) {
   return createActionHelper(HIDE_PROMPT)({ name });
 }
