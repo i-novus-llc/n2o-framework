@@ -44,4 +44,10 @@ JumbortonWidget.propTypes = {
   })
 };
 
+JumbortonWidget.defaultProps = {
+    btn: {
+        text: 'Кнопка'
+    }
+};
+
 export default JumbortonWidget;
