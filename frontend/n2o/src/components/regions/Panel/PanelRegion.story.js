@@ -2,7 +2,6 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
-import PanelsWithDependency from 'N2oStorybook/json/PanelsWithDependency';
 import { set, pullAt } from 'lodash';
 
 import PanelRegion from './PanelRegion';
@@ -10,14 +9,13 @@ import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import Wireframe from '../../snippets/Wireframe/Wireframe';
 
 import { metadataSuccess } from '../../../actions/pages';
-import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
 import ListMetadata from '../List/ListMetadata.meta';
 import SecurePanelRegion from './PanelRegion.meta';
 import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import { makeStore } from '../../../../.storybook/decorators/utils';
 import cloneObject from '../../../utils/cloneObject';
 import panelStyles from '../../snippets/Panel/panelStyles';
-import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import { dataSuccessWidget, hideWidget } from '../../../actions/widgets';
 
 const stories = storiesOf('Регионы/Панель', module);
 
@@ -163,5 +161,73 @@ stories
           </div>
         ))}
       </div>
+    );
+  })
+  .add('Скрытие панели при visible = false всех виджетов в ней', () => {
+    const props = {
+      className: text('className', PanelRegionJson.className),
+      color: text('color', PanelRegionJson.color),
+      icon: text('icon', PanelRegionJson.icon),
+      hasTabs: boolean('hasTabs', PanelRegionJson.hasTabs),
+      headerTitle: text('headerTitle', PanelRegionJson.headerTitle),
+      footerTitle: text('footerTitle', PanelRegionJson.footerTitle),
+      open: boolean('open', PanelRegionJson.open),
+      collapsible: boolean('collapsible', PanelRegionJson.collapsible),
+      fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
+      header: boolean('header', PanelRegionJson.header),
+      panels: PanelRegionJson.panels
+    };
+    store.dispatch(
+      metadataSuccess('Page', {
+        widgets: {
+          'visible-test': {
+            src: 'HtmlWidget',
+            html: {
+              url: null,
+              html: '<h1>Hello</h1>',
+              fetchOnInit: false
+            }
+          }
+        }
+      })
+    );
+    store.dispatch(
+      dataSuccessWidget('visible-test', {
+        widgets: {
+          'visible-test': {
+            src: 'HtmlWidget',
+            html: {
+              url: null,
+              html: '<h1>Hello</h1>',
+              fetchOnInit: false
+            }
+          }
+        }
+      })
+    );
+    store.dispatch(hideWidget('visible-test'));
+    const panels = [
+      {
+        icon: 'fa fa-plus',
+        label: 'Первый таб',
+        id: 'visible-test',
+        opened: true,
+        widgetId: 'visible-test',
+        isVisible: false,
+        dependency: {
+          visible: [
+            {
+              bindLink: 'models.resolve',
+              condition: false
+            }
+          ]
+        }
+      }
+    ];
+    return (
+      <React.Fragment>
+        <div>Панель полностью скрыта</div>
+        <PanelRegion {...props} panels={panels} pageId="Page" />
+      </React.Fragment>
     );
   });

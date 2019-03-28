@@ -64,4 +64,26 @@ stories
     store.dispatch(metadataSuccess('Page', { ...pick(InitWidgetsList, 'widgets') }));
 
     return <ListRegion {...omit(InitWidgetsList, 'widgets')} pageId="Page" />;
+  })
+  .add('Зависимость региона от виджета', () => {
+    fetchMock
+      .restore()
+      .get('begin:n2o/data/test', getStubData)
+      .get('begin:n2o/data2/test', async url => {
+        await new Promise(r =>
+          setTimeout(() => {
+            r();
+          }, 2000)
+        );
+        return getStubData(url);
+      });
+
+    store.dispatch(metadataSuccess('Page', { ...pick(ListWithDependency, 'widgets') }));
+
+    return (
+      <React.Fragment>
+        <div>Первый collapse скрыт по зависимости виджета</div>
+        <ListRegion {...ListWithDependency} pageId="Page" />
+      </React.Fragment>
+    );
   });

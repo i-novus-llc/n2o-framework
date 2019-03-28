@@ -66,4 +66,26 @@ stories
     store.dispatch(metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') }));
 
     return <TabsRegion {...omit(InitWidgentsTabs, 'widgets')} pageId="Page" />;
+  })
+  .add('Табы с зависимостью от виджета', () => {
+    fetchMock
+      .restore()
+      .get('begin:n2o/data/test', getStubData)
+      .get('begin:n2o/data2/test', async url => {
+        await new Promise(r =>
+          setTimeout(() => {
+            r();
+          }, 2000)
+        );
+        return getStubData(url);
+      });
+
+    store.dispatch(metadataSuccess('Page', { ...TabsWithDependency }));
+
+    return (
+      <React.Fragment>
+        <div>Второй таб скрыт полностью</div>
+        <TabsRegion {...TabsWithDependency} pageId="Page" />
+      </React.Fragment>
+    );
   });
