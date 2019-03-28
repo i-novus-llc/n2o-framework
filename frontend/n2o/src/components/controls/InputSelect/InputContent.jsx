@@ -133,6 +133,7 @@ function InputContent({
           labelFieldId={labelFieldId}
           onRemoveItem={onRemoveItem}
           onDeleteAll={clearSelected}
+          disabled={disabled}
           collapseSelected={collapseSelected}
           lengthToGroup={lengthToGroup}
         />

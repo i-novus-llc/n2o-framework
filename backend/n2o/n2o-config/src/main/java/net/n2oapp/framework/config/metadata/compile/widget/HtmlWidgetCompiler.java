@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oHtmlWidget;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
+import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,10 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         CompiledObject object = getObject(source, p);
         compileWidget(widget, source, context, p, object);
         ParentRouteScope widgetRoute = initWidgetRouteScope(widget, context, p);
+        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
+        if (pageRoutesScope != null) {
+            pageRoutesScope.put(widget.getId(), widgetRoute);
+        }
         compileDataProviderAndRoutes(widget, source, p, null, widgetRoute, null, null);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setClientWidgetId(widget.getId());

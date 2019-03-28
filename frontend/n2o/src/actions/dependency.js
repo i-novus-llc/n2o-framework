@@ -1,7 +1,12 @@
-import { START_DEPENDENCY } from '../constants/dependency';
+import { REGISTER_DEPENDENCY } from '../constants/dependency';
 
 import createActionHelper from './createActionHelper';
 
-export function startDependency(dependency, values, widget, fieldName) {
-  return createActionHelper(START_DEPENDENCY)({ dependency, values, widget, fieldName });
+/**
+ * Регистрация зависимости
+ * @param widgetId
+ * @param dependency
+ */
+export function registerDependency(widgetId, dependency) {
+  return createActionHelper(REGISTER_DEPENDENCY)({ widgetId, dependency });
 }

@@ -1,4 +1,4 @@
-import _, { isEqual, get, map, reduce, set } from 'lodash';
+import _, { isEqual, get, map, reduce, set, merge } from 'lodash';
 import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
 /**
@@ -58,10 +58,11 @@ const pickByPath = (object, arrayToPath) =>
 
 export const setWatchDependency = (state, props, dependencyType) => {
   const { dependency, form, modelPrefix } = props;
+
   const pickByReRender = (acc, { type, on }) => {
     if (on && type === dependencyType) {
       const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'));
-      return { ...acc, ...pickByPath(state, formOn) };
+      return merge(acc, pickByPath(state, formOn));
     }
     return acc;
   };

@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.ButtonGeneratorFactory;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -129,6 +131,14 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                         confirm.setTitle(p.cast(srcBtn.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
                         confirm.setOkLabel(p.cast(srcBtn.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
                         confirm.setCancelLabel(p.cast(srcBtn.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+                        if (StringUtils.hasLink(confirm.getText())) {
+                            Set<String> links = StringUtils.collectLinks(confirm.getText());
+                            String text = Placeholders.js("'" + confirm.getText() + "'");
+                            for (String link : links) {
+                                text = text.replace(Placeholders.ref(link), "' + this." + link + " + '");
+                            }
+                            confirm.setText(text);
+                        }
                         if (StringUtils.isJs(confirm.getText())) {
                             String widgetId = initWidgetId(source, context, p);
                             ReduxModel reduxModel = source.getModel();

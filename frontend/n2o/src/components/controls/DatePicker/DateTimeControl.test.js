@@ -56,13 +56,13 @@ describe('<DateTimeControl />', () => {
     expect(wrapper.find(PopUp)).toHaveLength(1);
   });
 
-  it('устанавливает value', () => {
+  it('устанавливает value для календаря', () => {
     const { wrapper } = setup({ value: '11/11/1111', dateFormat: 'DD/MM/YYYY' });
     expect(
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('11/11/1111');
   });
 
@@ -122,7 +122,7 @@ describe('<DateTimeControl />', () => {
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('11/11/1111 00:00');
   });
 
@@ -158,7 +158,7 @@ describe('<DateTimeControl />', () => {
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('22/12/2017 00:00');
   });
 
@@ -173,7 +173,7 @@ describe('<DateTimeControl />', () => {
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('22/12/2017 12:00');
   });
 
@@ -183,7 +183,7 @@ describe('<DateTimeControl />', () => {
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('11/11/1111');
   });
 
