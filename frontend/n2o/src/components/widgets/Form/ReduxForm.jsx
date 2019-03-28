@@ -36,7 +36,7 @@ ReduxForm.propTypes = {
 
 ReduxForm.defaultProps = {
   prompt: false,
-  promptMessage: 'Вы уверены, что хотите уйти?'
+  promptMessage: 'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?'
 };
 
 ReduxForm.Field = ReduxField;

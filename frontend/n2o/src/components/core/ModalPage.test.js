@@ -37,32 +37,4 @@ describe('Тесты ModalPage', function() {
 
     expect(wrapper.find('.spinner-container').exists()).toBeFalsy();
   });
-
-  // it('отрабаывает prompt', () => {
-  //   const wrapper = setup({
-  //     pageUrl: '/modalPage',
-  //     pageId: 'modalPage',
-  //     close: () => {},
-  //     pages: {},
-  //     loading: false,
-  //     prompt: true
-  //   });
-  //   expect(wrapper.find('ModalDialog').exists()).toBe(false);
-  //   wrapper.find('.close').simulate('click');
-  //   expect(wrapper.find('ModalDialog').exists()).toBe(true);
-  //   wrapper.find('ModalDialog .close').simulate('click');
-  //   expect(wrapper.find('ModalDialog').exists()).toBe(false);
-  //   wrapper.find('.close').simulate('click');
-  //   wrapper
-  //     .find('ModalDialog .btn')
-  //     .at(1)
-  //     .simulate('click');
-  //   expect(wrapper.find('ModalDialog').exists()).toBe(false);
-  //   wrapper.find('.close').simulate('click');
-  //   wrapper
-  //     .find('ModalDialog .btn')
-  //     .at(0)
-  //     .simulate('click');
-  //   expect(wrapper.find('ModalDialog').exists()).toBe(false);
-  // });
 });

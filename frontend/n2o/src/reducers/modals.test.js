@@ -30,61 +30,57 @@ describe('Тесты modals reducer', () => {
     ]);
   });
 
-  // it('Проверка SHOW', () => {
-  //   expect(
-  //     modals(
-  //       [
-  //         {
-  //           modal: {
-  //             name: 'stateModal'
-  //           },
-  //           visible: false
-  //         }
-  //       ],
-  //       {
-  //         type: SHOW,
-  //         payload: {
-  //           name: 'stateModal'
-  //         }
-  //       }
-  //     )
-  //   ).toEqual([
-  //     {
-  //       modal: {
-  //         name: 'stateModal'
-  //       },
-  //       visible: true
-  //     }
-  //   ]);
-  // });
-  //
-  // it('Проверка HIDE', () => {
-  //   expect(
-  //     modals(
-  //       [
-  //         {
-  //           modal: {
-  //             name: 'stateModal'
-  //           },
-  //           visible: true
-  //         }
-  //       ],
-  //       {
-  //         type: HIDE,
-  //         payload: {
-  //           name: 'stateModal'
-  //         }
-  //       }
-  //     )
-  //   ).toEqual([
-  //     {
-  //       modal: {
-  //         name: 'stateModal'
-  //       },
-  //       visible: false
-  //     }
-  //   ]);
-  // });
+  it('Проверка SHOW', () => {
+    expect(
+      modals(
+        [
+          {
+            name: 'stateModal',
+            modal: {},
+            visible: false
+          }
+        ],
+        {
+          type: SHOW,
+          payload: {
+            name: 'stateModal'
+          }
+        }
+      )
+    ).toEqual([
+      {
+        name: 'stateModal',
+        modal: {},
+        visible: true
+      }
+    ]);
+  });
+
+  it('Проверка HIDE', () => {
+    expect(
+      modals(
+        [
+          {
+            name: 'stateModal',
+            modal: {},
+            visible: true
+          }
+        ],
+        {
+          type: HIDE,
+          payload: {
+            name: 'stateModal'
+          }
+        }
+      )
+    ).toEqual([
+      {
+        name: 'stateModal',
+        modal: {},
+        visible: false
+      }
+    ]);
+  });
 
   it('Проверка DESTROY', () => {
     expect(

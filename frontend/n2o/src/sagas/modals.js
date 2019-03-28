@@ -2,7 +2,7 @@ import { takeEvery, select, put, call } from 'redux-saga/effects';
 import { isDirty } from 'redux-form';
 import { CLOSE } from '../constants/modals';
 import { keys } from 'lodash';
-import { makePageMetadataByIdSelector } from '../selectors/pages';
+import { makePageWidgetsByIdSelector } from '../selectors/pages';
 import { showPrompt, destroyModal } from '../actions/modals';
 
 /**
@@ -13,7 +13,7 @@ import { showPrompt, destroyModal } from '../actions/modals';
 export function* checkOnDirtyForm(name) {
   let someOneDirtyForm = false;
   const state = yield select();
-  const widgets = makePageMetadataByIdSelector(name)(state).widgets;
+  const widgets = makePageWidgetsByIdSelector(name)(state);
   const widgetsKeys = keys(widgets);
   for (let i = 0; i < widgetsKeys.length; i++) {
     if (widgets[widgetsKeys[i]].src === 'FormWidget') {
