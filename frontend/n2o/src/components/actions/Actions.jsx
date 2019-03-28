@@ -218,8 +218,19 @@ class Actions extends React.Component {
   /**
    * рендер кнопки-дропдауна
    */
-  renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
-    const dropdownProps = { size, title, color, hint, icon, visible, disabled };
+  renderDropdownButton({
+    title,
+    color,
+    id,
+    hint,
+    visible,
+    hintPosition,
+    subMenu,
+    icon,
+    size,
+    disabled
+  }) {
+    const dropdownProps = { size, title, color, hint, icon, visible, disabled, hintPosition };
     return (
       <ButtonContainer
         id={id}
@@ -239,6 +250,7 @@ class Actions extends React.Component {
    * @param color
    * @param id
    * @param hint
+   * @param hintPosition
    * @param visible
    * @param subMenu
    * @param dropdownSrc
@@ -252,6 +264,7 @@ class Actions extends React.Component {
     color,
     id,
     hint,
+    hintPosition,
     visible,
     subMenu,
     dropdownSrc,
@@ -261,7 +274,7 @@ class Actions extends React.Component {
   }) {
     const { containerKey } = this.props;
     const CustomMenu = factoryResolver(dropdownSrc);
-    const dropdownProps = { size, title, color, hint, visible, icon };
+    const dropdownProps = { size, title, color, hint, hintPosition, visible, icon };
     return (
       <ButtonContainer
         id={id}
