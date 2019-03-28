@@ -14,7 +14,6 @@ import {
 import Actions from '../actions/Actions';
 import factoryResolver from '../../utils/factoryResolver';
 import withActions from './withActions';
-import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import CoverSpinner from '../snippets/Spinner/CoverSpinner';
 import { makeShowPromptByName } from '../../selectors/modals';
 
@@ -43,6 +42,7 @@ class ModalPage extends React.Component {
     super(props);
     this.closeModal = this.closeModal.bind(this);
     this.closePrompt = this.closePrompt.bind(this);
+    this.showPrompt = this.showPrompt.bind(this);
   }
 
   renderFromSrc(src) {
@@ -50,7 +50,7 @@ class ModalPage extends React.Component {
     return <Component />;
   }
 
-  closeModal(prompt = true) {
+  closeModal(prompt) {
     const { name, close } = this.props;
     close(name, prompt);
   }
@@ -58,6 +58,14 @@ class ModalPage extends React.Component {
   closePrompt() {
     const { name, hidePrompt } = this.props;
     hidePrompt(name);
+  }
+
+  showPrompt() {
+    if (window.confirm(this.context.defaultPromptMessage)) {
+      this.closeModal(false);
+    } else {
+      this.closePrompt();
+    }
   }
 
   render() {
@@ -87,27 +95,18 @@ class ModalPage extends React.Component {
     const classes = cn({ 'd-none': loading });
     return (
       <div className={cn('modal-page-overlay')}>
-        {showPrompt && (
-          <ModalDialog
-            closeButton={true}
-            text={this.context.defaultPromptMessage}
-            close={this.closePrompt}
-            visible={showPrompt}
-            onConfirm={() => this.closeModal(false)}
-            onDeny={this.closePrompt}
-          />
-        )}
+        {showPrompt && this.showPrompt()}
         {showSpinner && <CoverSpinner mode="transparent" />}
         <Modal
           isOpen={visible}
-          toggle={this.closeModal}
+          toggle={() => this.closeModal(true)}
           size={size}
           backdrop={false}
           style={{
             zIndex: 10
           }}
         >
-          <ModalHeader className={classes} toggle={this.closeModal}>
+          <ModalHeader className={classes} toggle={() => this.closeModal(true)}>
             {title}
           </ModalHeader>
           <ModalBody className={classes}>

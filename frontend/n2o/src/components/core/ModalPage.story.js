@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { pageWithPrompt } from '../../../.storybook/fetchMock/pageWithPrompt';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { page } from 'N2oStorybook/fetchMock';
@@ -7,7 +8,6 @@ import { ShowModalTitle, ShowModal, ModalPage, PromptModal } from 'N2oStorybook/
 import fetchMock from 'fetch-mock';
 
 import ModalPages from './ModalPages';
-import Actions from '../actions/Actions';
 import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
@@ -44,7 +44,94 @@ stories
     return <ModalWindow />;
   })
   .add('Prompt в модальном окне', () => {
-    fetchMock.restore().get('begin:n2o/page', page);
+    fetchMock.restore().get('begin:n2o/page', {
+      id: 'Uid',
+      routes: {
+        list: [
+          {
+            path: '/',
+            exact: true
+          }
+        ],
+        pathMapping: {},
+        queryMapping: {}
+      },
+      widgets: {
+        Page_Html: {
+          src: 'FormWidget',
+          form: {
+            fieldsets: [
+              {
+                src: 'StandardFieldset',
+                rows: [
+                  {
+                    cols: [
+                      {
+                        fields: [
+                          {
+                            id: 'name',
+                            src: 'StandardField',
+                            label: 'Имя',
+                            control: {
+                              src: 'InputText'
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      actions: {
+        close: {
+          id: 'close',
+          src: 'perform',
+          options: {
+            type: 'n2o/modals/CLOSE',
+            payload: {
+              name: 'Uid',
+              prompt: true
+            },
+            meta: {
+              closeLastModal: true
+            }
+          }
+        }
+      },
+      toolbar: {
+        bottomRight: [
+          {
+            buttons: [
+              {
+                id: 'close',
+                actionId: 'close',
+                conditions: {},
+                title: 'Закрыть'
+              }
+            ]
+          }
+        ]
+      },
+      layout: {
+        src: 'SingleLayout',
+        regions: {
+          single: [
+            {
+              src: 'NoneRegion',
+              items: [
+                {
+                  widgetId: 'Page_Html'
+                }
+              ]
+            }
+          ]
+        }
+      }
+    });
     const props = {
       ...ShowModal['Page_Form']
     };
@@ -54,7 +141,7 @@ stories
         options: {
           type: 'n2o/modals/INSERT',
           payload: {
-            name: 'test',
+            name: 'Uid',
             pageUrl: '/Uid',
             pathMapping: {},
             modelLink: "models.resolve['Uid']",
@@ -63,8 +150,7 @@ stories
             visible: true,
             closeButton: true,
             pageId: 'Uid',
-            prompt: true,
-            promptMessage: 'Are you sure about this?'
+            prompt: true
           }
         }
       }
