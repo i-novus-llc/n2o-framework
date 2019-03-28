@@ -82,10 +82,9 @@ class ListItem extends React.Component {
         {imageFieldId && item[imageFieldId] && <img src={item[imageFieldId]} />}
         {iconFieldId && item[iconFieldId] && <Icon name={item[iconFieldId]} />}
         <span className="text-cropped">{displayTitle(item)}</span>
-        {badgeFieldId &&
-          item[badgeColorFieldId] && (
-            <Badge color={item[badgeColorFieldId]}>{item[badgeFieldId]}</Badge>
-          )}
+        {badgeFieldId && item[badgeColorFieldId] && (
+          <Badge color={item[badgeColorFieldId]}>{item[badgeFieldId]}</Badge>
+        )}
       </DropdownItem>
     );
   }

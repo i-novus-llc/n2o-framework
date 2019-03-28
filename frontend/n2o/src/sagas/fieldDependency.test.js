@@ -1,4 +1,4 @@
-import { modify, checkAndModify, resolveDependency } from './dependency';
+import { modify, checkAndModify, resolveDependency } from './fieldDependency';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
 import { DISABLE_FIELD, ENABLE_FIELD, SHOW_FIELD, HIDE_FIELD } from '../constants/formPlugin';
 import { put } from 'redux-saga/effects';
