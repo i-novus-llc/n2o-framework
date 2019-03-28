@@ -442,10 +442,11 @@
                   ]
                 },
                 "confirm": {
-                  "text": "Вы уверены, что хотите удалить пациента '{surname}'?",
+                  "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                   "title": "Предупреждение",
                   "okLabel": "Да",
-                  "cancelLabel": "Нет"
+                  "cancelLabel": "Нет",
+                  "modelLink": "models.resolve['proto_patients']"
                 },
                 "title": "Удалить"
               }
@@ -1021,10 +1022,11 @@
                       ]
                     },
                     "confirm": {
-                      "text": "Вы уверены, что хотите удалить пациента '{surname}'?",
+                      "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                       "title": "Предупреждение",
                       "okLabel": "Да",
-                      "cancelLabel": "Нет"
+                      "cancelLabel": "Нет",
+                      "modelLink": "models.resolve['proto_patients']"
                     },
                     "title": "Удалить"
                   },
