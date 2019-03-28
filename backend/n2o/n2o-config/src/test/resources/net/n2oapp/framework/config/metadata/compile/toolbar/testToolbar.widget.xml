@@ -11,7 +11,7 @@
     </toolbar>
     <toolbar place="bottomLeft" >
         <button id="testId2" action-id="testActionId1" label="Label1" model="filter"/>
-        <button id="testId3">
+        <button id="testId3" confirm-text="Test {test} Test" confirm="true">
             <invoke operation-id="create"/>
         </button>
     </toolbar>

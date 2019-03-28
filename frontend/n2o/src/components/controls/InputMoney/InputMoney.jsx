@@ -71,18 +71,23 @@ class InputMoney extends React.Component {
   }
 
   convertToFloat(value) {
+    const { requireDecimal } = this.props;
     let convertedValue = value.toString();
     forOwn(ReplaceableChar, char => {
       if (!isEmpty(this.props[char])) {
-        const regExp = new RegExp(this.props[char], 'g');
+        const pattern = this.props[char].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const regExp = new RegExp(pattern, 'g');
         const replaceableValue = char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : '';
         convertedValue = this.replaceSpecialSymbol(convertedValue, regExp, replaceableValue);
       }
     });
 
     const splitValue = split(convertedValue, '.');
-    if (splitValue.length === 2 && isEmpty(splitValue[1])) {
-      return split(convertedValue, '.')[0] + '.' + '00';
+    if (
+      (splitValue.length === 2 && isEmpty(splitValue[1])) ||
+      (requireDecimal && splitValue.length === 2 && isEmpty(splitValue[1]))
+    ) {
+      convertedValue = split(convertedValue, '.')[0] + '.' + '00';
     }
     this.setState({ value: convertedValue });
     return convertedValue;

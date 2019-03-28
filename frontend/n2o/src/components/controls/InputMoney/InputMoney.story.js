@@ -27,22 +27,29 @@ stories
       return props;
     })
   )
-  .add('Включенные копейки', () => {
-    const props = {
-      ...InputMoneyJson,
-      allowDecimal: true
-    };
+  .add(
+    'Включенные копейки',
+    form(() => {
+      const props = {
+        ...InputMoneyJson,
+        allowDecimal: true
+      };
 
-    return <InputMoney {...props} />;
-  })
-  .add('Обязательные копейки', () => {
-    const props = {
-      ...InputMoneyJson,
-      requireDecimal: true
-    };
+      return props;
+    })
+  )
+  .add(
+    'Обязательные копейки',
+    form(() => {
+      const props = {
+        ...InputMoneyJson,
+        allowDecimal: true,
+        requireDecimal: true
+      };
 
-    return <InputMoney {...props} />;
-  })
+      return props;
+    })
+  )
   .add('Раделитель тысяч', () => {
     const props = {
       ...InputMoneyJson,

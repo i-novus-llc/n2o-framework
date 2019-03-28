@@ -1,6 +1,8 @@
 import { modify, checkAndModify, resolveDependency } from './dependency';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
 import { DISABLE_FIELD, ENABLE_FIELD, SHOW_FIELD, HIDE_FIELD } from '../constants/formPlugin';
+import { put } from 'redux-saga/effects';
+import { showField } from '../actions/formPlugin';
 
 const setupModify = (type, options) => {
   const values = {
@@ -106,6 +108,24 @@ describe('Проверка саги dependency', () => {
       });
       let next = gen.next();
       expect(next.value.PUT.action.payload).toEqual(null);
+      expect(gen.next().done).toEqual(true);
+    });
+    it('Проверка on c точкой', () => {
+      const gen = modify(
+        {
+          field: {
+            id: 0
+          }
+        },
+        'testForm',
+        'field.id',
+        'visible',
+        {
+          expression: `field.id === 0`
+        }
+      );
+      let next = gen.next();
+      expect(next.value).toEqual(put(showField('testForm', 'field.id')));
       expect(gen.next().done).toEqual(true);
     });
   });
