@@ -10,6 +10,7 @@
       "title": "Кнопка",
       "icon": "fa fa-vk",
       "hint": "Подсказка",
+      "hintPosition": "top",
       "size": "md",
       "color": "primary",
       "visible": true,
