@@ -30,7 +30,7 @@ public class FieldDependencyJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/metadata/compile/dependency/testFieldDependency.widget.xml",
                 "core/dependencies/FieldDependency.meta.json")
                 .cutJson("Page_Form.form")
-                .exclude("fetchOnInit", "fieldDefaultValues", "filterDefaultValues",
+                .exclude("fetchOnInit", "fieldDefaultValues", "filterDefaultValues", "prompt",
                         "fieldsets[0].rows[0].cols[0].fields[0].control.readOnly",
                         "fieldsets[0].rows[0].cols[0].fields[0].control.disabled",
                         "fieldsets[0].rows[0].cols[0].fields[0].control.id",

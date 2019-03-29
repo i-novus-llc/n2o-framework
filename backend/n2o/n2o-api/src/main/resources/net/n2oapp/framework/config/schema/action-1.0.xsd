@@ -328,6 +328,11 @@
                 <xs:annotation>
                     <xs:documentation>Закрыть окно.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Показать предупреждение о наличии несохраненных данных. По умолчанию true.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

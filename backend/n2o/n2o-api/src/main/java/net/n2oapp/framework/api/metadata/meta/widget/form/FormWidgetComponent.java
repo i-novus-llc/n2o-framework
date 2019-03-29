@@ -23,4 +23,6 @@ public class FormWidgetComponent extends WidgetComponent {
     private Map<String, List<Validation>> validation;
     @JsonProperty
     private String modelPrefix;
+    @JsonProperty
+    private Boolean prompt;
 }
