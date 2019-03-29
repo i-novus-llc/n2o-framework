@@ -40,7 +40,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>src/main/resources/public</outputDirectory>
+                            <outputDirectory>target/classes/public</outputDirectory>
                             <overwrite>true</overwrite>
                             <resources>
                                 <resource>
