@@ -49,7 +49,7 @@
                 <param id="id" mapping="['id']"/>
             </in-parameters>
         </operation>
-        <operation id="delete" name="Удалить" confirm-text="Вы уверены, что хотите удалить пациента '{surname}'?" confirm="true"
+        <operation id="delete" name="Удалить" confirm-text="Вы уверены, что хотите удалить пациента {surname} {name}?" confirm="true"
                    success-text="Пациент {surname} удален" fail-text="Не удалось удалить пациента '{surname}'">
             <invocation>
                 <sql data-source="jdbc/test">

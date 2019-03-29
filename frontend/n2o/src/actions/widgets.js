@@ -23,9 +23,8 @@ import {
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH
+  DISABLE_ON_FETCH,
 } from '../constants/widgets';
-import { CHANGE_BUTTON_CLASS } from '../constants/toolbar';
 import createActionHelper from './createActionHelper';
 
 /**
@@ -60,10 +59,10 @@ export function dataSuccessWidget(widgetId, json) {
   return createActionHelper(DATA_SUCCESS)(
     {
       widgetId,
-      query: json
+      query: json,
     },
     {
-      ...json.meta
+      ...json.meta,
     }
   );
 }
@@ -79,7 +78,7 @@ export function dataFailWidget(widgetId, err, meta) {
   return createActionHelper(DATA_FAIL)(
     {
       widgetId,
-      err
+      err,
     },
     meta
   );
@@ -249,7 +248,10 @@ export function hideWidgetFilters(widgetId) {
  * @returns {*}
  */
 export function changeFiltersVisibility(widgetId, isFilterVisible) {
-  return createActionHelper(CHANGE_FILTERS_VISIBILITY)({ widgetId, isFilterVisible });
+  return createActionHelper(CHANGE_FILTERS_VISIBILITY)({
+    widgetId,
+    isFilterVisible,
+  });
 }
 
 /**
@@ -265,7 +267,11 @@ export function resetWidgetState(widgetId) {
 }
 
 export function setWidgetMetadata(pageId, widgetId, metadata) {
-  return createActionHelper(SET_WIDGET_METADATA)({ pageId, widgetId, metadata });
+  return createActionHelper(SET_WIDGET_METADATA)({
+    pageId,
+    widgetId,
+    metadata,
+  });
 }
 
 /**
@@ -274,7 +280,10 @@ export function setWidgetMetadata(pageId, widgetId, metadata) {
  * @param selectedId
  */
 export function setTableSelectedId(widgetId, selectedId) {
-  return createActionHelper(SET_TABLE_SELECTED_ID)({ widgetId, value: selectedId });
+  return createActionHelper(SET_TABLE_SELECTED_ID)({
+    widgetId,
+    value: selectedId,
+  });
 }
 
 export function setActive(widgetId) {
