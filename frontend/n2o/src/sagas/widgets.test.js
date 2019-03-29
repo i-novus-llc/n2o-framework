@@ -4,7 +4,6 @@ import {
   runResolve,
   clearOnDisable,
   setWidgetDataSuccess,
-  routesQueryMapping,
   handleFetch
 } from './widgets';
 import { runSaga } from 'redux-saga';
@@ -19,7 +18,6 @@ import {
   dataSuccessWidget
 } from '../actions/widgets';
 import * as api from './fetch';
-import { UPDATE } from '../constants/models';
 import { dataFailWidget } from '../actions/widgets';
 
 describe('Проверка саги widgets', () => {

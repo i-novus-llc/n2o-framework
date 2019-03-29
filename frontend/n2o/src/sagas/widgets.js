@@ -15,7 +15,7 @@ import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
-import { CHANGE_SIZE, DATA_REQUEST, DISABLE, RESOLVE } from '../constants/widgets';
+import { DATA_REQUEST, DISABLE, RESOLVE } from '../constants/widgets';
 import { CLEAR, PREFIXES } from '../constants/models';
 import {
   changeCountWidget,
