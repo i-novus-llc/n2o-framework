@@ -8,7 +8,7 @@ const setup = propsOverride => {
     title: 'title',
     subTitle: 'subTitle',
     showLine: true,
-    collapsible: false,
+    collapsible: false
   };
 
   return mount(<LineFieldset {...props} {...propsOverride} />);
@@ -27,7 +27,7 @@ describe('Тесты LineFieldset', () => {
       label: 'label',
       expand: true,
       hasArrow: true,
-      collapsible: true,
+      collapsible: true
     });
     expect(wrapper.find('.n2o-collapse').exists()).toEqual(true);
   });

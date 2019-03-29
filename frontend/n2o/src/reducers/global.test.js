@@ -3,7 +3,7 @@ import {
   REQUEST_CONFIG,
   REQUEST_CONFIG_SUCCESS,
   REQUEST_CONFIG_FAIL,
-  CHANGE_ROOT_PAGE,
+  CHANGE_ROOT_PAGE
 } from '../constants/global';
 import global from './global';
 
@@ -13,21 +13,21 @@ describe('Тесты global reducer', () => {
       global(null, {
         type: CHANGE_LOCALE,
         payload: {
-          locale: 'EN_en',
-        },
+          locale: 'EN_en'
+        }
       })
     ).toEqual({
-      locale: 'EN_en',
+      locale: 'EN_en'
     });
   });
 
   it('Должен сменить статус запроса на "загрузку"', () => {
     expect(
       global(null, {
-        type: REQUEST_CONFIG,
+        type: REQUEST_CONFIG
       })
     ).toEqual({
-      loading: true,
+      loading: true
     });
   });
 
@@ -38,14 +38,14 @@ describe('Тесты global reducer', () => {
         payload: {
           config: {
             messages: ['message1', 'message2'],
-            menu: ['menu1', 'menu2'],
-          },
-        },
+            menu: ['menu1', 'menu2']
+          }
+        }
       })
     ).toEqual({
       loading: false,
       messages: ['message1', 'message2'],
-      menu: ['menu1', 'menu2'],
+      menu: ['menu1', 'menu2']
     });
   });
 
@@ -56,16 +56,16 @@ describe('Тесты global reducer', () => {
         payload: {
           error: {
             text: 'ERROR',
-            status: 500,
-          },
-        },
+            status: 500
+          }
+        }
       })
     ).toEqual({
       loading: false,
       error: {
         text: 'ERROR',
-        status: 500,
-      },
+        status: 500
+      }
     });
   });
 
@@ -74,11 +74,11 @@ describe('Тесты global reducer', () => {
       global(null, {
         type: CHANGE_ROOT_PAGE,
         payload: {
-          rootPageId: 'new root page',
-        },
+          rootPageId: 'new root page'
+        }
       })
     ).toEqual({
-      rootPageId: 'new root page',
+      rootPageId: 'new root page'
     });
   });
 });

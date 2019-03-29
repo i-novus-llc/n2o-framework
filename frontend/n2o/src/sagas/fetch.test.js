@@ -14,22 +14,20 @@ describe('Проверка саги fetch', () => {
 
     const fakeStore = {
       getState: () => ({ value: 'some value' }),
-      dispatch: action => dispatched.push(action),
+      dispatch: action => dispatched.push(action)
     };
 
     api.default = jest.fn(() =>
       Promise.resolve({
-        some: 'value',
+        some: 'value'
       })
     );
 
     await runSaga(fakeStore, fetchSaga, FETCH_APP_CONFIG, { locale: 'ru_RU' });
 
-    const startFetch = put(fetchStart(FETCH_APP_CONFIG, { locale: 'ru_RU' }))
-      .PUT.action;
-    const endFetch = put(
-      fetchEnd(FETCH_APP_CONFIG, { locale: 'ru_RU' }, { some: 'value' })
-    ).PUT.action;
+    const startFetch = put(fetchStart(FETCH_APP_CONFIG, { locale: 'ru_RU' })).PUT.action;
+    const endFetch = put(fetchEnd(FETCH_APP_CONFIG, { locale: 'ru_RU' }, { some: 'value' })).PUT
+      .action;
 
     expect(dispatched[0]).toEqual(startFetch);
     expect(dispatched[1]).toEqual(endFetch);

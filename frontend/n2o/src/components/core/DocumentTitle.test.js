@@ -14,9 +14,9 @@ const setupContainer = propOverrides => {
   const initialState = {
     models: {
       test: {
-        test: 'test',
-      },
-    },
+        test: 'test'
+      }
+    }
   };
   const mockStore = configureMockStore();
   const store = mockStore(initialState);
@@ -28,7 +28,7 @@ const setupContainer = propOverrides => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 
@@ -36,7 +36,7 @@ describe('<DocumentTitle />', () => {
   it('тестирует резолв в DocumentTitle', () => {
     const { wrapper } = setupContainer({
       title: "`test ? test : 'dummy'`",
-      modelLink: 'models.test',
+      modelLink: 'models.test'
     });
     expect(wrapper.find(Helmet).props().title).toBe('test');
   });

@@ -23,8 +23,8 @@ const data = {
     { id: '41', label: '0-3-1', parentId: '4' },
     { id: '42', label: '0-3-2', parentId: '4' },
     { id: '44', label: '0-4-1', parentId: '42' },
-    { id: '45', label: '0-4-1', parentId: '42' },
-  ],
+    { id: '45', label: '0-4-1', parentId: '42' }
+  ]
 };
 
 const dataIcons = {
@@ -34,50 +34,20 @@ const dataIcons = {
       id: '12',
       label: 'fa fa-volume-control-phone',
       parentId: '1',
-      icon: 'fa fa-volume-control-phone',
+      icon: 'fa fa-volume-control-phone'
     },
     { id: '13', label: 'fa fa-blind', parentId: '1', icon: 'fa fa-blind' },
     { id: '15', label: 'fa fa-deaf', parentId: '1', icon: 'fa fa-deaf' },
     { id: '2', label: 'Hand Icons' },
-    {
-      id: '21',
-      label: 'fa fa-hand-o-right',
-      parentId: '2',
-      icon: 'fa fa-hand-o-right',
-    },
-    {
-      id: '22',
-      label: 'fa fa-hand-pointer-o',
-      parentId: '2',
-      icon: 'fa fa-hand-pointer-o',
-    },
-    {
-      id: '23',
-      label: 'fa fa-thumbs-up',
-      parentId: '2',
-      icon: 'fa fa-thumbs-up',
-    },
+    { id: '21', label: 'fa fa-hand-o-right', parentId: '2', icon: 'fa fa-hand-o-right' },
+    { id: '22', label: 'fa fa-hand-pointer-o', parentId: '2', icon: 'fa fa-hand-pointer-o' },
+    { id: '23', label: 'fa fa-thumbs-up', parentId: '2', icon: 'fa fa-thumbs-up' },
     { id: '4', label: 'Transportation Icons' },
-    {
-      id: '41',
-      label: 'fa fa-ambulance',
-      parentId: '4',
-      icon: 'fa fa-ambulance',
-    },
+    { id: '41', label: 'fa fa-ambulance', parentId: '4', icon: 'fa fa-ambulance' },
     { id: '42', label: 'fa fa-taxi', parentId: '4', icon: 'fa fa-taxi' },
-    {
-      id: '44',
-      label: 'fa fa-wheelchair-alt',
-      parentId: '4',
-      icon: 'fa fa-wheelchair-alt',
-    },
-    {
-      id: '45',
-      label: 'fa fa-space-shuttle',
-      parentId: '4',
-      icon: 'fa fa-space-shuttle',
-    },
-  ],
+    { id: '44', label: 'fa fa-wheelchair-alt', parentId: '4', icon: 'fa fa-wheelchair-alt' },
+    { id: '45', label: 'fa fa-space-shuttle', parentId: '4', icon: 'fa fa-space-shuttle' }
+  ]
 };
 
 const dataBadge = {
@@ -89,7 +59,7 @@ const dataBadge = {
       parentId: '1',
       badge: 'online',
       color: 'primary',
-      icon: 'fa fa-user-o',
+      icon: 'fa fa-user-o'
     },
     {
       id: '13',
@@ -97,7 +67,7 @@ const dataBadge = {
       parentId: '1',
       badge: 'offline',
       color: 'danger',
-      icon: 'fa fa-user-o',
+      icon: 'fa fa-user-o'
     },
     {
       id: '15',
@@ -105,7 +75,7 @@ const dataBadge = {
       parentId: '1',
       badge: 'offline',
       color: 'danger',
-      icon: 'fa fa-user-o',
+      icon: 'fa fa-user-o'
     },
     { id: '2', label: 'Admins', icon: 'fa fa-users' },
     {
@@ -114,7 +84,7 @@ const dataBadge = {
       parentId: '2',
       icon: 'fa fa-hand-o-right',
       badge: 'online',
-      color: 'primary',
+      color: 'primary'
     },
     {
       id: '22',
@@ -122,7 +92,7 @@ const dataBadge = {
       parentId: '2',
       icon: 'fa fa-hand-pointer-o',
       badge: 'online',
-      color: 'primary',
+      color: 'primary'
     },
     {
       id: '23',
@@ -130,9 +100,9 @@ const dataBadge = {
       parentId: '2',
       icon: 'fa fa-thumbs-up',
       badge: 'online',
-      color: 'primary',
-    },
-  ],
+      color: 'primary'
+    }
+  ]
 };
 
 stories
@@ -140,23 +110,17 @@ stories
   .add('Метаданные', () => {
     fetchMock.restore().get('begin:n2o/data', data);
 
-    return (
-      <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />
-    );
+    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
   })
   .add('Иконки', () => {
     fetchMock.restore().get('begin:n2o/data', dataIcons);
 
-    return (
-      <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />
-    );
+    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
   })
   .add('Баджи', () => {
     fetchMock.restore().get('begin:n2o/data', dataBadge);
 
-    return (
-      <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />
-    );
+    return <Factory level={WIDGETS} {...metadata['Page_Tree']} id="Page_Tree" />;
   })
   .add('Multi режим (ctrl+click)', () => {
     fetchMock.restore().get('begin:n2o/data', dataBadge);
@@ -175,11 +139,7 @@ stories
       return data;
     });
 
-    const meta = {
-      ...metadata['Page_Tree'],
-      hasCheckboxes: true,
-      multiselect: true,
-    };
+    const meta = { ...metadata['Page_Tree'], hasCheckboxes: true, multiselect: true };
 
     return <Factory level={WIDGETS} {...meta} id="Page_Tree" />;
   })
@@ -204,9 +164,9 @@ stories
           visible: true,
           closeButton: true,
           title: 'Новое модальное окно',
-          pageId: 'Uid',
-        },
-      },
+          pageId: 'Uid'
+        }
+      }
     };
 
     const meta = { ...metadata['Page_Tree'], rowClick };

@@ -1,13 +1,7 @@
 import React, { Fragment } from 'react';
 import { map } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import {
-  number,
-  text,
-  withKnobs,
-  select,
-  boolean,
-} from '@storybook/addon-knobs/react';
+import { number, text, withKnobs, select, boolean } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import Table from '../../Table';
 import TextTableHeader from '../../headers/TextTableHeader';
@@ -27,23 +21,23 @@ const examplesDataSource = [
         title: 'Первая',
         hint: 'Первая',
         size: 'md',
-        color: 'primary',
+        color: 'primary'
       },
       {
         id: '2',
         title: 'Вторая',
         hint: 'Вторая',
         size: 'md',
-        color: 'secondary',
+        color: 'secondary'
       },
       {
         id: '3',
         title: 'Третья',
         hint: 'Третья',
         size: 'md',
-        color: 'warning',
-      },
-    ],
+        color: 'warning'
+      }
+    ]
   },
   {
     description: 'Кнопки в виде ссылок',
@@ -53,21 +47,21 @@ const examplesDataSource = [
         id: '4',
         title: 'Первая',
         hint: 'Первая',
-        size: 'md',
+        size: 'md'
       },
       {
         id: '5',
         title: 'Вторая',
         hint: 'Вторая',
-        size: 'md',
+        size: 'md'
       },
       {
         id: '6',
         title: 'Третья',
         hint: 'Третья',
-        size: 'md',
-      },
-    ],
+        size: 'md'
+      }
+    ]
   },
   {
     description: 'Кнопки с иконками',
@@ -79,7 +73,7 @@ const examplesDataSource = [
         hint: 'Первая',
         size: 'md',
         icon: 'fa fa-telegram',
-        color: 'primary',
+        color: 'primary'
       },
       {
         id: '8',
@@ -87,7 +81,7 @@ const examplesDataSource = [
         hint: 'Вторая',
         size: 'md',
         icon: 'fa fa-vk',
-        color: 'secondary',
+        color: 'secondary'
       },
       {
         id: '9',
@@ -95,9 +89,9 @@ const examplesDataSource = [
         hint: 'Третья',
         size: 'md',
         icon: 'fa fa-facebook',
-        color: 'warning',
-      },
-    ],
+        color: 'warning'
+      }
+    ]
   },
   {
     description: 'Кнопки в виде ссылок с иконками',
@@ -108,23 +102,23 @@ const examplesDataSource = [
         title: 'Первая',
         hint: 'Первая',
         icon: 'fa fa-telegram',
-        size: 'md',
+        size: 'md'
       },
       {
         id: '11',
         title: 'Вторая',
         hint: 'Вторая',
         icon: 'fa fa-vk',
-        size: 'md',
+        size: 'md'
       },
       {
         id: '12',
         title: 'Третья',
         hint: 'Третья',
         icon: 'fa fa-facebook',
-        size: 'md',
-      },
-    ],
+        size: 'md'
+      }
+    ]
   },
   {
     description: 'Кнопка с выпадающим списком',
@@ -135,7 +129,7 @@ const examplesDataSource = [
         title: 'Первая',
         icon: '',
         hint: 'Первая',
-        color: 'primary',
+        color: 'primary'
       },
       {
         id: '14',
@@ -148,16 +142,16 @@ const examplesDataSource = [
             id: '15',
             title: 'Первый',
             icon: '',
-            color: 'primary',
+            color: 'primary'
           },
           {
             id: '16',
             title: 'Второй',
-            icon: '',
-          },
-        ],
-      },
-    ],
+            icon: ''
+          }
+        ]
+      }
+    ]
   },
   {
     description: 'Кнопки в виде ссылок с выпадающим списком',
@@ -166,7 +160,7 @@ const examplesDataSource = [
         id: '17',
         title: 'Первая',
         icon: '',
-        hint: 'Первая',
+        hint: 'Первая'
       },
       {
         id: '18',
@@ -177,25 +171,24 @@ const examplesDataSource = [
           {
             id: '19',
             title: 'Первый',
-            icon: '',
+            icon: ''
           },
           {
             id: '20',
-            title: 'Второй',
-          },
-        ],
+            title: 'Второй'
+          }
+        ]
       },
       {
         id: '21',
         title: 'Третья',
         icon: 'fa fa-vk',
-        hint: 'Третья',
-      },
-    ],
+        hint: 'Третья'
+      }
+    ]
   },
   {
-    description:
-      'Использование разделителей, заголовок и иконок в выпадающем списке',
+    description: 'Использование разделителей, заголовок и иконок в выпадающем списке',
     buttons: [
       {
         id: '22',
@@ -206,20 +199,20 @@ const examplesDataSource = [
           {
             id: '23',
             header: true,
-            title: 'Заголовок',
+            title: 'Заголовок'
           },
           {
             id: '24',
-            divider: true,
+            divider: true
           },
           {
             id: '25',
             title: 'С иконкой',
-            icon: 'fa fa-telegram',
-          },
-        ],
-      },
-    ],
+            icon: 'fa fa-telegram'
+          }
+        ]
+      }
+    ]
   },
   {
     description: 'Позиция тултипа',
@@ -228,25 +221,25 @@ const examplesDataSource = [
         id: 'Left21',
         title: 'Left',
         hintPosition: 'left',
-        hint: 'Left',
+        hint: 'Left'
       },
       {
         id: 'Right21',
         title: 'Right',
         hintPosition: 'right',
-        hint: 'Right',
+        hint: 'Right'
       },
       {
         id: 'Top21',
         title: 'Top',
         hintPosition: 'top',
-        hint: 'Top',
+        hint: 'Top'
       },
       {
         id: 'Bottom21',
         title: 'Bottom',
         hintPosition: 'bottom',
-        hint: 'Bottom',
+        hint: 'Bottom'
       },
       {
         id: 'Left22',
@@ -258,9 +251,9 @@ const examplesDataSource = [
           {
             id: '23',
             header: true,
-            title: 'Заголовок',
-          },
-        ],
+            title: 'Заголовок'
+          }
+        ]
       },
       {
         id: 'Right22',
@@ -272,9 +265,9 @@ const examplesDataSource = [
           {
             id: '23',
             header: true,
-            title: 'Заголовок',
-          },
-        ],
+            title: 'Заголовок'
+          }
+        ]
       },
       {
         id: 'Top22',
@@ -286,9 +279,9 @@ const examplesDataSource = [
           {
             id: '23',
             header: true,
-            title: 'Заголовок',
-          },
-        ],
+            title: 'Заголовок'
+          }
+        ]
       },
       {
         id: 'Bottom22',
@@ -300,11 +293,11 @@ const examplesDataSource = [
           {
             id: '23',
             header: true,
-            title: 'Заголовок',
-          },
-        ],
-      },
-    ],
+            title: 'Заголовок'
+          }
+        ]
+      }
+    ]
   },
   {
     description: 'Вызов действия',
@@ -317,11 +310,11 @@ const examplesDataSource = [
           {
             id: '27',
             title: 'Модальное окно',
-            header: true,
+            header: true
           },
           {
             id: '28',
-            divider: true,
+            divider: true
           },
           {
             id: '29',
@@ -336,15 +329,15 @@ const examplesDataSource = [
                   visible: true,
                   closeButton: true,
                   title: 'Новое модальное окно',
-                  pageId: 'undefined',
-                },
-              },
-            },
-          },
-        ],
-      },
-    ],
-  },
+                  pageId: 'undefined'
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 const createTable = data =>
@@ -354,28 +347,28 @@ const createTable = data =>
         {
           component: TextCell,
           id: 'description',
-          style: { width: '200px' },
+          style: { width: '200px' }
         },
         {
           component: ButtonsCell,
           id: 'buttonCells',
           fieldKey: 'buttonCells',
-          buttons,
-        },
+          buttons
+        }
       ],
       headers: [
         {
           component: TextTableHeader,
           id: 'description',
-          label: 'Свойства',
+          label: 'Свойства'
         },
         {
           component: TextTableHeader,
           id: 'buttonCells',
-          label: 'Отображение',
-        },
+          label: 'Отображение'
+        }
       ],
-      datasource: [{ description }],
+      datasource: [{ description }]
     };
 
     return <Table {...tableProps} />;
@@ -398,43 +391,43 @@ stories
           visible: boolean('visible', metadata.buttons[0].visible),
           disabled: boolean('disabled', metadata.buttons[0].disabled),
           color: text('color', metadata.buttons[0].color),
-          action: metadata.buttons[0].action,
+          action: metadata.buttons[0].action
         },
         {
           title: 'Скрытая кнопка',
           color: 'success',
           security: {
-            roles: ['admin'],
-          },
+            roles: ['admin']
+          }
         },
         {
           title: 'Скрытый dropdown',
           color: 'warning',
           subMenu: [
             {
-              title: 'Элемент 1',
-            },
+              title: 'Элемент 1'
+            }
           ],
           security: {
-            roles: ['admin'],
-          },
+            roles: ['admin']
+          }
         },
         {
           title: 'Еще',
           color: 'secondary',
           subMenu: [
             {
-              title: 'Элемент 1 (не скрыт)',
+              title: 'Элемент 1 (не скрыт)'
             },
             {
               title: 'Элемент 2 (скрыт)',
               security: {
-                roles: ['admin'],
-              },
-            },
-          ],
-        },
-      ],
+                roles: ['admin']
+              }
+            }
+          ]
+        }
+      ]
     };
 
     return (
@@ -447,14 +440,12 @@ stories
         {createTable([
           {
             description: 'Кнопки',
-            buttons: props.buttons,
-          },
+            buttons: props.buttons
+          }
         ])}
       </div>
     );
   })
   .add('Примеры', () => {
-    return (
-      <div style={{ paddingBottom: 50 }}>{createTable(examplesDataSource)}</div>
-    );
+    return <div style={{ paddingBottom: 50 }}>{createTable(examplesDataSource)}</div>;
   });

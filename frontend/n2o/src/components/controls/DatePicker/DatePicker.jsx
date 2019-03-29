@@ -46,24 +46,24 @@ DatePicker.defaultProps = {
   className: '',
   defaultTime: '00:00',
   autoFocus: false,
-  openOnFocus: false,
+  openOnFocus: false
 };
 
 DatePicker.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string,
+    PropTypes.string
   ]),
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string,
+    PropTypes.string
   ]),
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string,
+    PropTypes.string
   ]),
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
@@ -76,7 +76,7 @@ DatePicker.propTypes = {
   placeholder: PropTypes.string,
   locale: PropTypes.oneOf(['en', 'ru']),
   autoFocus: PropTypes.bool,
-  openOnFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool
 };
 
 export default DatePicker;

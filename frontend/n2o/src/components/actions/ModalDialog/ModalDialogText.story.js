@@ -15,7 +15,7 @@ stories.add(
       title: 'Подтвердите действие',
       text: 'Вы уверены?',
       confirmText: 'Да',
-      denyText: 'Нет',
+      denyText: 'Нет'
     },
     store => {
       return (
@@ -61,9 +61,7 @@ stories.add(
               />
             </FormGroup>
             <FormGroup>
-              <Button onClick={() => store.set({ visible: true })}>
-                Показать диалог
-              </Button>
+              <Button onClick={() => store.set({ visible: true })}>Показать диалог</Button>
             </FormGroup>
           </Form>
 

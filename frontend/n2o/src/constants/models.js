@@ -19,5 +19,5 @@ export const PREFIXES = {
   resolve: 'resolve',
   edit: 'edit',
   read: 'read',
-  datasource: 'datasource',
+  datasource: 'datasource'
 };

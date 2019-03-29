@@ -19,15 +19,11 @@ stories.add('Компонент', () => {
     disabled: boolean('disabled', false),
     visible: boolean('visible', true),
     className: text('className', ''),
-    inline: boolean('inline', false),
+    inline: boolean('inline', false)
   };
 
   return (
-    <CheckboxGroup
-      name="numbers"
-      onChange={action('checkbox-on-change')}
-      {...props}
-    >
+    <CheckboxGroup name="numbers" onChange={action('checkbox-on-change')} {...props}>
       <Checkbox value="1" label="Первый" />
       <Checkbox value="2" label="Второй" />
       <Checkbox value="3" label="Третий" />

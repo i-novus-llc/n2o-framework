@@ -1,16 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { lifecycle, compose } from 'recompose';
-import {
-  map,
-  isEqual,
-  find,
-  isEmpty,
-  debounce,
-  pick,
-  forOwn,
-  is,
-} from 'lodash';
+import { map, isEqual, find, isEmpty, debounce, pick, forOwn, is } from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -36,7 +27,7 @@ class AdvancedTableContainer extends React.Component {
     super(props);
 
     this.state = {
-      data: this.mapData(props.datasource),
+      data: this.mapData(props.datasource)
     };
 
     this._filter = props.filters;
@@ -50,16 +41,12 @@ class AdvancedTableContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      selectedId: prevSelectedId,
-      datasource: prevDatasource,
-      onResolve,
-    } = prevProps;
+    const { selectedId: prevSelectedId, datasource: prevDatasource, onResolve } = prevProps;
     const { hasSelect, datasource, selectedId } = this.props;
 
     if (!isEqual(prevProps.datasource, this.props.datasource)) {
       this.setState({
-        data: this.mapData(this.props.datasource),
+        data: this.mapData(this.props.datasource)
       });
     }
 
@@ -80,7 +67,7 @@ class AdvancedTableContainer extends React.Component {
   componentDidMount(prevProps) {
     if (this.props.datasource) {
       this.setState({
-        data: this.mapData(this.props.datasource),
+        data: this.mapData(this.props.datasource)
       });
     }
   }
@@ -94,7 +81,7 @@ class AdvancedTableContainer extends React.Component {
     const { onSetFilter, onFetch } = this.props;
     this._filter = {
       ...this._filter,
-      [filter.id]: filter.value,
+      [filter.id]: filter.value
     };
     forOwn(this._filter, (v, k) => {
       if (!v || isEmpty(v)) delete this._filter[k];
@@ -120,7 +107,7 @@ class AdvancedTableContainer extends React.Component {
           widgetId,
           as: 'div',
           sorting: sorting && sorting[header.id],
-          onSort,
+          onSort
         }),
         label: header.title,
         dataIndex: header.id,
@@ -135,9 +122,9 @@ class AdvancedTableContainer extends React.Component {
             columnId: cell.id,
             model: record,
             as: 'div',
-            ...cell,
-          }),
-        }),
+            ...cell
+          })
+        })
       };
     });
   }
@@ -147,7 +134,7 @@ class AdvancedTableContainer extends React.Component {
     return datasource.map(item => {
       return {
         ...item,
-        key: item.id,
+        key: item.id
       };
     });
   }
@@ -158,7 +145,7 @@ class AdvancedTableContainer extends React.Component {
       onEdit: this.onEdit,
       columns: this.mapColumns(),
       data: this.state.data,
-      onFilter: this.handleSetFilter,
+      onFilter: this.handleSetFilter
     };
   }
 
@@ -169,16 +156,16 @@ class AdvancedTableContainer extends React.Component {
 
 AdvancedTableContainer.contextTypes = {
   resolveProps: PropTypes.func,
-  expandedFieldId: PropTypes.string,
+  expandedFieldId: PropTypes.string
 };
 
 AdvancedTableContainer.defaultProps = {
-  filters: {},
+  filters: {}
 };
 
 const mapStateToProps = (state, props) => {
   return {
-    filters: makeGetFilterModelSelector(props.widgetId)(state, props),
+    filters: makeGetFilterModelSelector(props.widgetId)(state, props)
   };
 };
 
@@ -227,9 +214,9 @@ export default compose(
           bordered: props.bordered,
           rowClick: props.rowClick,
           onActionImpl: props.onActionImpl,
-          expandedFieldId: props.expandedFieldId,
+          expandedFieldId: props.expandedFieldId
         };
-      },
+      }
     },
     TABLE
   ),

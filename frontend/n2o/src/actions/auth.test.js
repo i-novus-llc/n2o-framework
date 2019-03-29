@@ -7,7 +7,7 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
   USER_LOGOUT_ERROR,
-  USER_LOGOUT_SUCCESS,
+  USER_LOGOUT_SUCCESS
 } from '../constants/auth';
 import {
   userCheck,
@@ -18,16 +18,16 @@ import {
   userLoginSuccess,
   userLogout,
   userLogoutError,
-  userLogoutSuccess,
+  userLogoutSuccess
 } from './auth';
 
 const payload = {
   login: 'test',
-  password: 'test',
+  password: 'test'
 };
 
 const meta = {
-  auth: true,
+  auth: true
 };
 
 describe('Тесты для экшенов auth', () => {

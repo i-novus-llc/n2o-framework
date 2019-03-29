@@ -9,7 +9,7 @@ import {
   omit,
   keys,
   pickBy,
-  identity,
+  identity
 } from 'lodash';
 import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
@@ -24,13 +24,13 @@ import {
   dataSuccessWidget,
   resetWidgetState,
   setTableSelectedId,
-  setWidgetMetadata,
+  setWidgetMetadata
 } from '../actions/widgets';
 import { setModel } from '../actions/models';
 import {
   makeWidgetByIdSelector,
   makeWidgetDataProviderSelector,
-  makeWidgetPageIdSelector,
+  makeWidgetPageIdSelector
 } from '../selectors/widgets';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { getLocation, rootPageSelector } from '../selectors/global';
@@ -57,7 +57,7 @@ function* getData() {
   };
   while (true) {
     const {
-      payload: { widgetId, options },
+      payload: { widgetId, options }
     } = yield take(DATA_REQUEST);
     const withoutSelectedId = !options ? null : options.withoutSelectedId;
 
@@ -76,8 +76,7 @@ export function* prepareFetch(widgetId) {
   // selectors options: size, page, filters, sorting
   const widgetState = yield select(makeWidgetByIdSelector(widgetId));
   const currentPageId =
-    (yield select(makeWidgetPageIdSelector(widgetId))) ||
-    (yield select(rootPageSelector));
+    (yield select(makeWidgetPageIdSelector(widgetId))) || (yield select(rootPageSelector));
   const routes = yield select(makePageRoutesByIdSelector(currentPageId));
   const dataProvider = yield select(makeWidgetDataProviderSelector(widgetId));
   const currentDatasource = yield select(
@@ -89,30 +88,21 @@ export function* prepareFetch(widgetId) {
     widgetState,
     routes,
     dataProvider,
-    currentDatasource,
+    currentDatasource
   };
 }
 
 export function* routesQueryMapping(state, routes, location) {
-  const queryObject = yield call(
-    getParams,
-    mapValues(routes.queryMapping, 'set'),
-    state
-  );
+  const queryObject = yield call(getParams, mapValues(routes.queryMapping, 'set'), state);
   const currentQueryObject = queryString.parse(location.search);
-  const pageQueryObject = pick(
-    queryString.parse(location.search),
-    keys(queryObject)
-  );
+  const pageQueryObject = pick(queryString.parse(location.search), keys(queryObject));
   if (!isEqual(pickBy(queryObject, identity), pageQueryObject)) {
     const newQuery = queryString.stringify(queryObject);
-    const tailQuery = queryString.stringify(
-      omit(currentQueryObject, keys(queryObject))
-    );
+    const tailQuery = queryString.stringify(omit(currentQueryObject, keys(queryObject)));
     yield put(
       replace({
         search: newQuery + (tailQuery ? `&${tailQuery}` : ''),
-        state: { silent: true },
+        state: { silent: true }
       })
     );
   }
@@ -135,11 +125,11 @@ export function* resolveUrl(state, dataProvider, widgetState, options) {
     page: get(options, 'page', widgetState.page),
     sorting: widgetState.sorting,
     ...options,
-    ...queryParams,
+    ...queryParams
   };
   return {
     basePath,
-    baseQuery,
+    baseQuery
   };
 }
 
@@ -152,7 +142,7 @@ export function* setWidgetDataSuccess(
 ) {
   const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
     basePath,
-    baseQuery,
+    baseQuery
   });
   if (isEqual(data.list, currentDatasource)) {
     yield put(setModel(PREFIXES.datasource, widgetId, null));
@@ -172,21 +162,12 @@ export function* setWidgetDataSuccess(
   yield put(dataSuccessWidget(widgetId, data));
 }
 
-export function* handleFetch(
-  widgetId,
-  options,
-  isQueryEqual,
-  withoutSelectedId
-) {
+export function* handleFetch(widgetId, options, isQueryEqual, withoutSelectedId) {
   try {
-    const {
-      state,
-      location,
-      widgetState,
-      routes,
-      dataProvider,
-      currentDatasource,
-    } = yield call(prepareFetch, widgetId);
+    const { state, location, widgetState, routes, dataProvider, currentDatasource } = yield call(
+      prepareFetch,
+      widgetId
+    );
     if (!isEmpty(dataProvider) && dataProvider.url) {
       const { basePath, baseQuery } = yield call(
         resolveUrl,
@@ -227,8 +208,8 @@ export function* handleFetch(
                 id: id(),
                 text: `Произошла внутренняя ошибка`,
                 stacktrace: err.stack,
-                closeButton: true,
-              }),
+                closeButton: true
+              })
             }
       )
     );
@@ -260,5 +241,5 @@ export const widgetsSagas = [
   fork(getData),
   takeEvery(CLEAR, clearForm),
   takeEvery(RESOLVE, runResolve),
-  takeEvery(DISABLE, clearOnDisable),
+  takeEvery(DISABLE, clearOnDisable)
 ];

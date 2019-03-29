@@ -21,7 +21,7 @@ const metadata = {
     dataProvider: {
       url: 'n2o/data/test',
       pathMapping: {},
-      queryMapping: {},
+      queryMapping: {}
     },
     paging: {},
     table: {
@@ -34,41 +34,41 @@ const metadata = {
       hasFocus: true,
       autoFocus: false,
       sorting: {
-        birthday: 'ASC',
+        birthday: 'ASC'
       },
       cells: [
         {
           src: 'TextCell',
-          id: 'description',
+          id: 'description'
         },
         {
-          ...CheckboxCellJson,
+          ...CheckboxCellJson
         },
         {
           ...CheckboxCellJson,
           id: 'checkBox2',
-          fieldKey: 'checkBox2',
-        },
+          fieldKey: 'checkBox2'
+        }
       ],
       headers: [
         {
           src: 'TextTableHeader',
           id: 'description',
-          label: 'Свойства',
+          label: 'Свойства'
         },
         {
           src: 'TextTableHeader',
           id: 'checkBox',
-          label: 'Отображение',
+          label: 'Отображение'
         },
         {
           src: 'TextTableHeader',
           id: 'checkBox2',
-          label: 'Отображение',
-        },
-      ],
-    },
-  },
+          label: 'Отображение'
+        }
+      ]
+    }
+  }
 };
 
 stories.addDecorator(withKnobs);
@@ -77,7 +77,7 @@ stories.addDecorator(withTests('CheckboxCell'));
 stories.addDecorator(withPage(metadata)).add('Метаданные', () => {
   let data = {
     list: [{ id: 0, description: 'Чекбокс', checkBox: false, checkBox2: true }],
-    count: 1,
+    count: 1
   };
 
   const getStub = () => {
@@ -95,7 +95,5 @@ stories.addDecorator(withPage(metadata)).add('Метаданные', () => {
     .get('begin:n2o/data', getStub)
     .post('begin:n2o/data', postStub);
 
-  return (
-    <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
-  );
+  return <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />;
 });

@@ -6,27 +6,27 @@ import {
   makeGetFilterModelSelector,
   getModelSelector,
   getModelsByDependency,
-  makeModelsByPrefixSelector,
+  makeModelsByPrefixSelector
 } from './models';
 
 const state = {
   models: {
     resolve: {
       widgetId: {
-        some: 'value',
-      },
+        some: 'value'
+      }
     },
     filter: {
       widgetId: {
-        other: 'value',
-      },
+        other: 'value'
+      }
     },
     edit: {
       testWidgetId: {
-        value: 'value',
-      },
-    },
-  },
+        value: 'value'
+      }
+    }
+  }
 };
 
 describe('Проверка селекторов models', () => {
@@ -37,9 +37,7 @@ describe('Проверка селекторов models', () => {
     expect(resolveSelector(state)).toEqual(state.models.resolve);
   });
   it('makeModelsByPrefixSelector должен вернуть модель по префиксу', () => {
-    expect(makeModelsByPrefixSelector('edit')(state)).toEqual(
-      state.models.edit
-    );
+    expect(makeModelsByPrefixSelector('edit')(state)).toEqual(state.models.edit);
   });
   it('makeGetModelByPrefixSelector должен вернуть модель по префиксу и ключу', () => {
     expect(makeGetModelByPrefixSelector('edit', 'testWidgetId')(state)).toEqual(
@@ -47,14 +45,10 @@ describe('Проверка селекторов models', () => {
     );
   });
   it('makeGetResolveModelSelector должен вернуть модель resolve по ключу', () => {
-    expect(makeGetResolveModelSelector('widgetId')(state)).toEqual(
-      state.models.resolve.widgetId
-    );
+    expect(makeGetResolveModelSelector('widgetId')(state)).toEqual(state.models.resolve.widgetId);
   });
   it('makeGetFilterModelSelector должен вернуть модель filter по ключу', () => {
-    expect(makeGetFilterModelSelector('widgetId')(state)).toEqual(
-      state.models.filter.widgetId
-    );
+    expect(makeGetFilterModelSelector('widgetId')(state)).toEqual(state.models.filter.widgetId);
   });
   it('getModelSelector должен вернуть модель по ссылке', () => {
     expect(getModelSelector('models.resolve.widgetId')(state)).toEqual(
@@ -65,18 +59,18 @@ describe('Проверка селекторов models', () => {
     expect(
       getModelsByDependency([
         {
-          on: 'models.edit.testWidgetId',
-        },
+          on: 'models.edit.testWidgetId'
+        }
       ])(state)
     ).toEqual([
       {
         config: {
-          on: 'models.edit.testWidgetId',
+          on: 'models.edit.testWidgetId'
         },
         model: {
-          value: 'value',
-        },
-      },
+          value: 'value'
+        }
+      }
     ]);
   });
 });

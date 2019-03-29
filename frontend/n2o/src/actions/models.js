@@ -7,7 +7,7 @@ import {
   UPDATE,
   UPDATE_MAP,
   MERGE,
-  CLEAR,
+  CLEAR
 } from '../constants/models';
 import createActionHelper from './createActionHelper';
 
@@ -75,7 +75,7 @@ export function syncModel(prefix, keys, model) {
 export function copyModel(source, target) {
   return createActionHelper(COPY)({
     source,
-    target,
+    target
   });
 }
 

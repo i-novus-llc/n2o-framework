@@ -27,7 +27,7 @@ class Select extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value,
+      value: props.value
     };
 
     this.onChange = this.onChange.bind(this);
@@ -40,23 +40,14 @@ class Select extends React.Component {
   }
 
   onChange({ target }) {
-    this.setState({ value: target.value }, () =>
-      this.props.onChange(target.value)
-    );
+    this.setState({ value: target.value }, () => this.props.onChange(target.value));
   }
 
   /**
    * Базовый рендер
    **/
   render() {
-    const {
-      children,
-      heightSize,
-      visible,
-      disabled,
-      autoFocus,
-      required,
-    } = this.props;
+    const { children, heightSize, visible, disabled, autoFocus, required } = this.props;
 
     return (
       visible !== false && (
@@ -85,7 +76,7 @@ Select.propTypes = {
   disabled: PropTypes.bool,
   visible: PropTypes.bool,
   heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 Select.defaultProps = {
@@ -94,7 +85,7 @@ Select.defaultProps = {
   required: false,
   visible: true,
   heightSize: '',
-  onChange: () => {},
+  onChange: () => {}
 };
 
 export default Select;

@@ -26,7 +26,7 @@ const setup = (store, component) => {
         icon={'fa fa-plus'}
         children={[]}
         initialProps={{
-          visible: false,
+          visible: false
         }}
       />
     </Provider>
@@ -40,10 +40,10 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            visible: true,
-          },
-        },
-      },
+            visible: true
+          }
+        }
+      }
     };
     const wrapper = setup(store, test);
     expect(wrapper.find('.btn-toolbar').exists()).toEqual(true);
@@ -54,10 +54,10 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            visible: false,
-          },
-        },
-      },
+            visible: false
+          }
+        }
+      }
     };
     const wrapper = setup(store, test);
     expect(wrapper.find('.btn-toolbar').exists()).toEqual(false);
@@ -68,10 +68,10 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            disabled: false,
-          },
-        },
-      },
+            disabled: false
+          }
+        }
+      }
     };
     const wrapper = setup(store, test);
     expect(wrapper.find('.disabled').exists()).toEqual(false);
@@ -82,10 +82,10 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            disabled: true,
-          },
-        },
-      },
+            disabled: true
+          }
+        }
+      }
     };
     const wrapper = setup(store, test);
     expect(wrapper.find('.disabled').exists()).toEqual(true);
@@ -96,10 +96,10 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            visible: true,
-          },
-        },
-      },
+            visible: true
+          }
+        }
+      }
     };
     const wrapper = setup(store, DropdownMenu);
     expect(wrapper.find('.dropdown-menu').exists()).toEqual(true);
@@ -110,10 +110,10 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            visible: false,
-          },
-        },
-      },
+            visible: false
+          }
+        }
+      }
     };
     const wrapper = setup(store, DropdownMenu);
     expect(wrapper.find('.dropdown-menu').exists()).toEqual(false);
@@ -124,10 +124,10 @@ describe('Проверка ButtonContainer', () => {
         test: {
           testId: {
             id: 'testId',
-            disabled: false,
-          },
-        },
-      },
+            disabled: false
+          }
+        }
+      }
     };
     const wrapper = setup(store, DropdownMenu);
     expect(wrapper.find('.disabled').exists()).toEqual(false);

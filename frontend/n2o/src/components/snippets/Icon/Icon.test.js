@@ -8,11 +8,11 @@ const props = {
   name: 'test-icon',
   disabled: false,
   style: {
-    color: 'red',
+    color: 'red'
   },
   spin: false,
   bordered: false,
-  circular: false,
+  circular: false
 };
 
 describe('<Icon />', () => {

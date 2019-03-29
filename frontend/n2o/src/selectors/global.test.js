@@ -8,7 +8,7 @@ import {
   errorSelector,
   rootPageSelector,
   routerSelector,
-  getLocation,
+  getLocation
 } from './global';
 
 const state = {
@@ -17,19 +17,19 @@ const state = {
     loading: false,
     messages: [
       {
-        some: 'value',
-      },
+        some: 'value'
+      }
     ],
     menu: {
-      some: 'config',
+      some: 'config'
     },
     error: false,
-    rootPageId: '_',
+    rootPageId: '_'
   },
   router: {
     router: 'config',
-    location: '/n2o',
-  },
+    location: '/n2o'
+  }
 };
 
 describe('Проверка селекторов global', () => {

@@ -30,19 +30,19 @@ export function GlobalAlerts({ alerts, onDismiss }) {
 }
 
 GlobalAlerts.propTypes = {
-  alerts: PropTypes.array,
+  alerts: PropTypes.array
 };
 
 GlobalAlerts.defaultProps = {
-  alerts: [],
+  alerts: []
 };
 
 const mapStateToProps = createStructuredSelector({
-  alerts: (state, props) => makeAlertsByKeySelector(GLOBAL_KEY)(state, props),
+  alerts: (state, props) => makeAlertsByKeySelector(GLOBAL_KEY)(state, props)
 });
 
 const mapDispatchToProps = dispatch => ({
-  onDismiss: alertId => dispatch(removeAlert(GLOBAL_KEY, alertId)),
+  onDismiss: alertId => dispatch(removeAlert(GLOBAL_KEY, alertId))
 });
 
 export default connect(

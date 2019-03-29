@@ -4,7 +4,7 @@ import { getFormValues } from 'redux-form';
 import {
   makeWidgetPageSelector,
   makeWidgetSizeSelector,
-  makeWidgetCountSelector,
+  makeWidgetCountSelector
 } from '../../../selectors/widgets';
 import { destroyModal } from '../../../actions/modals';
 
@@ -15,8 +15,7 @@ import { destroyModal } from '../../../actions/modals';
  */
 function encodeQueryData(data) {
   let ret = [];
-  for (let d in data)
-    ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
+  for (let d in data) ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]));
   return '/export?' + ret.join('&');
 }
 
@@ -28,19 +27,11 @@ function encodeQueryData(data) {
  */
 export default function resolveExportTable({ dispatch, state, widgetId }) {
   const values = getFormValues(exportFormName)(state);
-  const page =
-    values.size === 'all' ? 1 : makeWidgetPageSelector(widgetId)(state);
+  const page = values.size === 'all' ? 1 : makeWidgetPageSelector(widgetId)(state);
   const size = makeWidgetSizeSelector(widgetId)(state);
-  const count =
-    values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size;
+  const count = values.size === 'all' ? makeWidgetCountSelector(widgetId)(state) : size;
   window.open(
-    encodeQueryData({
-      widgetId,
-      contentType: values.type,
-      code: values.code,
-      page,
-      count,
-    }),
+    encodeQueryData({ widgetId, contentType: values.type, code: values.code, page, count }),
     '_blank'
   );
   dispatch(destroyModal());

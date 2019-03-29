@@ -22,7 +22,7 @@ class PanelHeading extends React.Component {
 }
 
 PanelHeading.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export default PanelHeading;

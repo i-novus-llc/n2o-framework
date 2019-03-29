@@ -7,7 +7,7 @@ import { getModelSelector } from '../../selectors/models';
 import {
   makePageActionsByIdSelector,
   makePageMetadataByIdSelector,
-  makePageToolbarByIdSelector,
+  makePageToolbarByIdSelector
 } from '../../selectors/pages';
 
 const withActions = Component => {
@@ -21,7 +21,7 @@ const withActions = Component => {
     return {
       containerKey: props.pageId,
       actions: makePageActionsByIdSelector(props.pageId)(state),
-      toolbar: makePageToolbarByIdSelector(props.pageId)(state),
+      toolbar: makePageToolbarByIdSelector(props.pageId)(state)
     };
   };
 

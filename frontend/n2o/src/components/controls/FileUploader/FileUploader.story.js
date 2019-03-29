@@ -27,8 +27,8 @@ stories
           customSize: config.data.get('avatar').size,
           customStatus: 'success',
           customResponse: 'File uploaded success!',
-          customLink: 'https://www.google.com',
-        },
+          customLink: 'https://www.google.com'
+        }
       ];
     });
 
@@ -44,8 +44,8 @@ stories
           customSize: config.data.get('avatar').size,
           customStatus: 'success',
           customResponse: 'File uploaded success!',
-          customLink: 'https://www.google.com',
-        },
+          customLink: 'https://www.google.com'
+        }
       ];
     });
 
@@ -72,9 +72,9 @@ stories
           name: 'image.png',
           size: '1202031',
           percentage: 10,
-          link: '#',
-        },
-      ],
+          link: '#'
+        }
+      ]
     };
 
     mockAxios.onPost('/n2o/data-multi').reply(function(config) {
@@ -86,8 +86,8 @@ stories
           customSize: config.data.get('avatar').size,
           customStatus: 'success',
           customResponse: 'File uploaded success!',
-          customLink: 'https://www.google.com',
-        },
+          customLink: 'https://www.google.com'
+        }
       ];
     });
 
@@ -108,7 +108,7 @@ stories
       sizeFieldId: 'size',
       responseFieldId: 'response',
       urlFieldId: 'link',
-      showSize: true,
+      showSize: true
     };
 
     return <ButtonUploader {...props} />;
@@ -128,7 +128,7 @@ stories
       sizeFieldId: 'size',
       responseFieldId: 'response',
       urlFieldId: 'link',
-      showSize: true,
+      showSize: true
     };
     return <DropZone {...props} />;
   })
@@ -152,14 +152,14 @@ stories
         {
           id: 1,
           name: 'first.jpg',
-          size: '231321',
+          size: '231321'
         },
         {
           id: 2,
           name: 'second.jpg',
-          size: '897978',
-        },
-      ],
+          size: '897978'
+        }
+      ]
     };
 
     return <ButtonUploader {...props} />;
@@ -184,14 +184,14 @@ stories
         {
           id: 1,
           name: 'first.jpg',
-          size: '231321',
+          size: '231321'
         },
         {
           id: 2,
           name: 'second.jpg',
-          size: '897978',
-        },
-      ],
+          size: '897978'
+        }
+      ]
     };
 
     return <ButtonUploader {...props} />;
@@ -213,8 +213,8 @@ stories
           customSize: config.data.get('avatar').size,
           customStatus: 'error',
           customResponse: 'Ошибка с файлов. Повторите позже.',
-          customLink: '#',
-        },
+          customLink: '#'
+        }
       ];
     });
 
@@ -233,14 +233,14 @@ stories
             customSize: config.data.get('avatar').size,
             customStatus: 'success',
             customResponse: 'File uploaded success!',
-            customLink: 'https://www.google.com',
-          },
+            customLink: 'https://www.google.com'
+          }
         ];
       });
       return {
         ...dropzoneMeta,
         multi: true,
-        autoUpload: true,
+        autoUpload: true
       };
     })
   );

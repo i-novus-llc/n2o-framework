@@ -28,19 +28,19 @@ function RootPage({ rootPageId, defaultTemplate, match: { params } }) {
 
 RootPage.propTypes = {
   defaultTemplate: PropTypes.element,
-  rootPageId: PropTypes.string,
+  rootPageId: PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({
-  rootPageId: rootPageSelector,
+  rootPageId: rootPageSelector
 });
 
 export default compose(
   defaultProps({
-    defaultTemplate: SimpleTemplate,
+    defaultTemplate: SimpleTemplate
   }),
   getContext({
-    defaultTemplate: PropTypes.element,
+    defaultTemplate: PropTypes.element
   }),
   connect(mapStateToProps)
 )(RootPage);

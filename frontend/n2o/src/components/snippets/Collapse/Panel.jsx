@@ -18,10 +18,7 @@ import cx from 'classnames';
 const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
   <BasePanel
     header={
-      <span
-        title={isString(header) && header}
-        className="n2o-panel-header-text"
-      >
+      <span title={isString(header) && header} className="n2o-panel-header-text">
         {header}
       </span>
     }
@@ -43,11 +40,11 @@ Panel.propTypes = {
   disabled: PropTypes.bool,
   forceRender: PropTypes.bool,
   children: PropTypes.node,
-  type: PropTypes.oneOf(['default', 'line', 'divider']),
+  type: PropTypes.oneOf(['default', 'line', 'divider'])
 };
 
 Panel.defaultProps = {
-  type: 'default',
+  type: 'default'
 };
 
 export default Panel;

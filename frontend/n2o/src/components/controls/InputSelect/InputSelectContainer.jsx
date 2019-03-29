@@ -42,7 +42,7 @@ class InputSelectContainer extends React.Component {
     super(props);
     this.key = props.filterValues;
     this.state = {
-      resetMode: false,
+      resetMode: false
     };
   }
 
@@ -109,7 +109,7 @@ InputSelectContainer.propTypes = {
   lengthToGroup: PropTypes.number,
   fetchData: PropTypes.func,
   onSearch: PropTypes.func,
-  autoFocus: PropTypes.bool,
+  autoFocus: PropTypes.bool
 };
 
 InputSelectContainer.defaultProps = {
@@ -127,7 +127,7 @@ InputSelectContainer.defaultProps = {
   expandPopUp: true,
   valueFieldId: 'id',
   flip: false,
-  autoFocus: false,
+  autoFocus: false
 };
 
 export default listContainer(InputSelectContainer);

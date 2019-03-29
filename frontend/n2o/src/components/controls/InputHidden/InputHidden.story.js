@@ -10,7 +10,7 @@ stories.addDecorator(withKnobs);
 stories
   .add('Компонент', () => {
     const props = {
-      value: text('Значение', 'InputHidden value'),
+      value: text('Значение', 'InputHidden value')
     };
 
     return (

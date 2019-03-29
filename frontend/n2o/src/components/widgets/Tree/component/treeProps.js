@@ -24,7 +24,7 @@ export const defaultProps = {
   expandBtn: false,
   onResolve: () => {},
   onDrop: () => {},
-  filterPlaceholder: 'Поиск...',
+  filterPlaceholder: 'Поиск...'
 };
 
 export const propTypes = {
@@ -50,16 +50,10 @@ export const propTypes = {
   expandBtn: PropTypes.bool,
   onResolve: PropTypes.func,
   onDrop: PropTypes.func,
-  filterPlaceholder: PropTypes.string,
+  filterPlaceholder: PropTypes.string
 };
 
-export const TREE_PROPS = [
-  'loading',
-  'disabled',
-  'selectable',
-  'showLine',
-  'prefixCls',
-];
+export const TREE_PROPS = ['loading', 'disabled', 'selectable', 'showLine', 'prefixCls'];
 
 export const TREE_NODE_PROPS = [
   'labelFieldId',
@@ -72,5 +66,5 @@ export const TREE_NODE_PROPS = [
   'valueFieldId',
   'parentFieldId',
   'prefixCls',
-  'filter',
+  'filter'
 ];

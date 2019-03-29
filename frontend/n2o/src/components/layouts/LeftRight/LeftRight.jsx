@@ -39,13 +39,13 @@ LeftRight.propTypes = {
   className: PropTypes.string,
   leftSize: PropTypes.number,
   rightSize: PropTypes.number,
-  style: PropTypes.object,
+  style: PropTypes.object
 };
 
 LeftRight.defaultProps = {
   leftSize: 6,
   rightSize: 6,
-  style: {},
+  style: {}
 };
 
 export default layoutPlaceResolver(LeftRight);

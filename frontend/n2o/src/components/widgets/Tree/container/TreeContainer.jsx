@@ -47,9 +47,9 @@ export const withWidgetContainer = widgetContainer(
         badgeColorFieldId: props.badgeColorFieldId,
         hasCheckboxes: props.hasCheckboxes,
         draggable: props.draggable,
-        childrenFieldId: props.childrenFieldId,
+        childrenFieldId: props.childrenFieldId
       };
-    },
+    }
   },
   TREE
 );
@@ -77,7 +77,7 @@ export const withWidgetContainer = widgetContainer(
 export const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => () => {
     onActionImpl(rowClick);
-  },
+  }
 });
 
 export default compose(

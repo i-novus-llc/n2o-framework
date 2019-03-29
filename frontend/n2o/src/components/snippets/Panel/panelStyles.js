@@ -8,5 +8,5 @@ export default {
   SUCCESS: 'success',
   INFO: 'info',
   WARNING: 'warning',
-  DANGER: 'danger',
+  DANGER: 'danger'
 };

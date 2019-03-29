@@ -4,7 +4,7 @@ import {
   REQUEST_CONFIG,
   REQUEST_CONFIG_SUCCESS,
   REQUEST_CONFIG_FAIL,
-  CHANGE_ROOT_PAGE,
+  CHANGE_ROOT_PAGE
 } from '../constants/global';
 
 const defaultState = {
@@ -13,38 +13,38 @@ const defaultState = {
   locale: 'ru_RU',
   messages: {},
   menu: {},
-  rootPageId: null,
+  rootPageId: null
 };
 
 export default handleActions(
   {
     [CHANGE_LOCALE]: (state, action) => ({
       ...state,
-      locale: action.payload.locale,
+      locale: action.payload.locale
     }),
     [REQUEST_CONFIG]: state => ({
       ...state,
-      loading: true,
+      loading: true
     }),
     [REQUEST_CONFIG_SUCCESS]: (state, action) => ({
       ...state,
       loading: false,
-      ...action.payload.config,
+      ...action.payload.config
     }),
     [REQUEST_CONFIG_FAIL]: (state, action) => ({
       ...state,
       loading: false,
-      error: action.payload.error,
+      error: action.payload.error
     }),
     [REQUEST_CONFIG_FAIL]: (state, action) => ({
       ...state,
       loading: false,
-      error: action.payload.error,
+      error: action.payload.error
     }),
     [CHANGE_ROOT_PAGE]: (state, action) => ({
       ...state,
-      rootPageId: action.payload.rootPageId,
-    }),
+      rootPageId: action.payload.rootPageId
+    })
   },
   defaultState
 );

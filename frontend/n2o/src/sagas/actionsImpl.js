@@ -1,21 +1,10 @@
-import {
-  call,
-  put,
-  select,
-  takeEvery,
-  throttle,
-  takeLatest,
-} from 'redux-saga/effects';
+import { call, put, select, takeEvery, throttle, takeLatest } from 'redux-saga/effects';
 import { getFormValues } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
 import { isFunction } from 'lodash';
 import merge from 'deepmerge';
 
-import {
-  START_INVOKE,
-  SUCCESS_INVOKE,
-  FAIL_INVOKE,
-} from '../constants/actionImpls';
+import { START_INVOKE, SUCCESS_INVOKE, FAIL_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
 
 import createActionHelper from '../actions/createActionHelper';
@@ -35,19 +24,12 @@ import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 export function* validate(options) {
   const isTouched = true;
   const state = yield select();
-  const validationConfig = yield select(
-    makeWidgetValidationSelector(options.validatedWidgetId)
-  );
+  const validationConfig = yield select(makeWidgetValidationSelector(options.validatedWidgetId));
   const values = (yield select(getFormValues(options.validatedWidgetId))) || {};
   const notValid =
     options.validate &&
     (yield call(
-      validateField(
-        validationConfig,
-        options.validatedWidgetId,
-        state,
-        isTouched
-      ),
+      validateField(validationConfig, options.validatedWidgetId, state, isTouched),
       values,
       options.dispatch
     ));
@@ -74,7 +56,7 @@ export function* handleAction(action) {
       yield actionFunc &&
         call(actionFunc, {
           ...options,
-          state,
+          state
         });
     }
   } catch (err) {
@@ -100,7 +82,7 @@ export function* fetchInvoke(dataProvider, model) {
     basePath: path,
     baseQuery: {},
     baseMethod: dataProvider.method,
-    model,
+    model
   });
   return response;
 }
@@ -140,7 +122,7 @@ export function* handleInvoke(action) {
         { widgetId },
         {
           ...meta,
-          withoutSelectedId: true,
+          withoutSelectedId: true
         }
       )
     );
@@ -162,5 +144,5 @@ export function* handleInvoke(action) {
 
 export const actionsImplSagas = [
   throttle(500, CALL_ACTION_IMPL, handleAction),
-  throttle(500, START_INVOKE, handleInvoke),
+  throttle(500, START_INVOKE, handleInvoke)
 ];

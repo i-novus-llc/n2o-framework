@@ -6,7 +6,7 @@ import {
   integer,
   minLength,
   maxLength,
-  match,
+  match
 } from './presets';
 
 describe('Проверка presets', () => {
@@ -30,7 +30,7 @@ describe('Проверка presets', () => {
         'test',
         { test: 'test' },
         {
-          expression: "`test === 'test'`",
+          expression: "`test === 'test'`"
         }
       )
     ).toEqual(true);

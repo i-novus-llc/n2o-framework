@@ -26,7 +26,7 @@ const setup = (propOverrides, method) => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 
@@ -35,7 +35,7 @@ const classicN2oProps = {
   count: 151,
   size: 10,
   maxButtons: 4,
-  stepIncrement: 10,
+  stepIncrement: 10
 };
 
 describe('<Pagination />', () => {
@@ -54,7 +54,7 @@ describe('<Pagination />', () => {
       stepIncrement: 10,
       count: 151,
       size: 10,
-      activePage: 1,
+      activePage: 1
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -80,10 +80,7 @@ describe('<Pagination />', () => {
   it('проверяет работы вызова callback при смене страницы', () => {
     const value = 3;
     const onSelect = jest.fn();
-    const { wrapper } = setup(
-      { ...classicN2oProps, onSelect: onSelect },
-      'mount'
-    );
+    const { wrapper } = setup({ ...classicN2oProps, onSelect: onSelect }, 'mount');
 
     expect(wrapper).toMatchSnapshot();
 

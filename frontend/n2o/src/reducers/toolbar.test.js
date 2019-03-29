@@ -11,7 +11,7 @@ import {
   CHANGE_BUTTON_HINT,
   CHANGE_BUTTON_ICON,
   CHANGE_BUTTON_CLASS,
-  CHANGE_BUTTON_STYLE,
+  CHANGE_BUTTON_STYLE
 } from '../constants/toolbar';
 import { RESET_STATE } from '../constants/widgets';
 import toolbar from './toolbar';
@@ -21,7 +21,7 @@ describe('Проверка toolbar reducer', () => {
     expect(
       toolbar(
         {
-          buttonKey: {},
+          buttonKey: {}
         },
         {
           type: REGISTER_BUTTON,
@@ -29,8 +29,8 @@ describe('Проверка toolbar reducer', () => {
             key: 'buttonKey',
             id: 'buttonId',
             color: 'red',
-            icon: 'fa fa-plus',
-          },
+            icon: 'fa fa-plus'
+          }
         }
       )
     ).toEqual({
@@ -49,9 +49,9 @@ describe('Проверка toolbar reducer', () => {
           key: 'buttonKey',
           loading: false,
           size: null,
-          title: null,
-        },
-      },
+          title: null
+        }
+      }
     });
   });
 
@@ -61,25 +61,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              visible: false,
-            },
-          },
+              visible: false
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_VISIBILITY,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            visible: true,
-          },
+            visible: true
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          visible: true,
-        },
-      },
+          visible: true
+        }
+      }
     });
   });
 
@@ -89,25 +89,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              title: 'title',
-            },
-          },
+              title: 'title'
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_TITLE,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            title: 'new title',
-          },
+            title: 'new title'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          title: 'new title',
-        },
-      },
+          title: 'new title'
+        }
+      }
     });
   });
 
@@ -117,25 +117,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              count: 20,
-            },
-          },
+              count: 20
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_COUNT,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            count: 30,
-          },
+            count: 30
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          count: 30,
-        },
-      },
+          count: 30
+        }
+      }
     });
   });
 
@@ -145,25 +145,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              size: 'sm',
-            },
-          },
+              size: 'sm'
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_SIZE,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            size: 'lg',
-          },
+            size: 'lg'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          size: 'lg',
-        },
-      },
+          size: 'lg'
+        }
+      }
     });
   });
 
@@ -173,25 +173,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              color: 'red',
-            },
-          },
+              color: 'red'
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_COLOR,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            color: 'blue',
-          },
+            color: 'blue'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          color: 'blue',
-        },
-      },
+          color: 'blue'
+        }
+      }
     });
   });
 
@@ -201,25 +201,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              disabled: true,
-            },
-          },
+              disabled: true
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_DISABLED,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            disabled: false,
-          },
+            disabled: false
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          disabled: false,
-        },
-      },
+          disabled: false
+        }
+      }
     });
   });
 
@@ -229,24 +229,24 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              disabled: true,
-            },
-          },
+              disabled: true
+            }
+          }
         },
         {
           type: TOGGLE_BUTTON_DISABLED,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
-          },
+            id: 'buttonId'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          disabled: false,
-        },
-      },
+          disabled: false
+        }
+      }
     });
   });
 
@@ -256,24 +256,24 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              visible: true,
-            },
-          },
+              visible: true
+            }
+          }
         },
         {
           type: TOGGLE_BUTTON_VISIBILITY,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
-          },
+            id: 'buttonId'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          visible: false,
-        },
-      },
+          visible: false
+        }
+      }
     });
   });
 
@@ -283,25 +283,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              hint: 'hint',
-            },
-          },
+              hint: 'hint'
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_HINT,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            hint: 'new hint',
-          },
+            hint: 'new hint'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          hint: 'new hint',
-        },
-      },
+          hint: 'new hint'
+        }
+      }
     });
   });
 
@@ -313,10 +313,10 @@ describe('Проверка toolbar reducer', () => {
             buttonId: {
               style: {
                 color: 'red',
-                fontSize: 18,
-              },
-            },
-          },
+                fontSize: 18
+              }
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_STYLE,
@@ -325,9 +325,9 @@ describe('Проверка toolbar reducer', () => {
             id: 'buttonId',
             style: {
               position: 'relative',
-              left: '-4px',
-            },
-          },
+              left: '-4px'
+            }
+          }
         }
       )
     ).toEqual({
@@ -335,10 +335,10 @@ describe('Проверка toolbar reducer', () => {
         buttonId: {
           style: {
             position: 'relative',
-            left: '-4px',
-          },
-        },
-      },
+            left: '-4px'
+          }
+        }
+      }
     });
   });
 
@@ -348,25 +348,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              icon: 'fa fa-minus',
-            },
-          },
+              icon: 'fa fa-minus'
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_ICON,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            icon: 'fa fa-plus',
-          },
+            icon: 'fa fa-plus'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          icon: 'fa fa-plus',
-        },
-      },
+          icon: 'fa fa-plus'
+        }
+      }
     });
   });
 
@@ -376,25 +376,25 @@ describe('Проверка toolbar reducer', () => {
         {
           buttonKey: {
             buttonId: {
-              className: 'old-class',
-            },
-          },
+              className: 'old-class'
+            }
+          }
         },
         {
           type: CHANGE_BUTTON_CLASS,
           payload: {
             key: 'buttonKey',
             id: 'buttonId',
-            className: 'new-class',
-          },
+            className: 'new-class'
+          }
         }
       )
     ).toEqual({
       buttonKey: {
         buttonId: {
-          className: 'new-class',
-        },
-      },
+          className: 'new-class'
+        }
+      }
     });
   });
 
@@ -405,29 +405,29 @@ describe('Проверка toolbar reducer', () => {
           WidgetId: {
             buttonKey: {
               buttonId: {
-                color: 'red',
-              },
-            },
-          },
+                color: 'red'
+              }
+            }
+          }
         },
         {
           type: RESET_STATE,
           payload: {
             widgetId: 'WidgetId',
             buttonId: 'buttonId',
-            buttonKey: 'buttonKey',
-          },
+            buttonKey: 'buttonKey'
+          }
         }
       )
     ).toEqual({
       WidgetId: {
         buttonKey: {
           buttonId: {
-            color: 'red',
+            color: 'red'
           },
-          isInit: false,
-        },
-      },
+          isInit: false
+        }
+      }
     });
   });
 });

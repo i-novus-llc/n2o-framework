@@ -22,7 +22,7 @@ function Card({ linear, circle, items, children, outline, inverse, ...rest }) {
     linear,
     circle,
     outline,
-    inverse,
+    inverse
   });
 
   return (
@@ -45,13 +45,13 @@ Card.propTypes = {
   circle: PropTypes.bool,
   children: PropTypes.node,
   outline: PropTypes.bool,
-  inverse: PropTypes.bool,
+  inverse: PropTypes.bool
 };
 
 Card.defaultProps = {
   linear: false,
   inverse: false,
-  outline: false,
+  outline: false
 };
 
 Card.Layout = CardLayout;

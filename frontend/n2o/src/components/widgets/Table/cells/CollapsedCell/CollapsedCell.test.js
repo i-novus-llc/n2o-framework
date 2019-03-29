@@ -7,10 +7,10 @@ const setup = (propOverrides = {}) => {
   const props = Object.assign(
     {
       model: {
-        data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
+        data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон']
       },
       fieldKey: 'data',
-      amountToGroup: 3,
+      amountToGroup: 3
     },
     propOverrides
   );
@@ -19,7 +19,7 @@ const setup = (propOverrides = {}) => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 
@@ -44,9 +44,7 @@ describe('<InputSelectContainer />', () => {
       .find('a.collapsed-cell-control')
       .last()
       .simulate('click');
-    expect(wrapper.find('span.badge')).toHaveLength(
-      props.model[props.fieldKey].length
-    );
+    expect(wrapper.find('span.badge')).toHaveLength(props.model[props.fieldKey].length);
 
     // скрытие
     wrapper
@@ -67,12 +65,10 @@ describe('<InputSelectContainer />', () => {
       amountToGroup: 1,
       fieldKey: 'data',
       model: {
-        data: ['testData'],
-      },
+        data: ['testData']
+      }
     });
 
-    expect(wrapper.find('span.badge')).toHaveLength(
-      props.model[props.fieldKey].length
-    );
+    expect(wrapper.find('span.badge')).toHaveLength(props.model[props.fieldKey].length);
   });
 });

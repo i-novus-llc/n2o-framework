@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Button,
-  ButtonGroup,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from 'reactstrap';
+import { Button, ButtonGroup, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
 /**
@@ -48,35 +41,24 @@ class ModalDialog extends React.Component {
       onDeny,
       visible,
       close,
-      closeButton,
+      closeButton
     } = this.props;
 
     return (
       <Modal isOpen={visible} size={size} toggle={close}>
         <ModalHeader toggle={closeButton ? close : null}>
-          {title || (
-            <FormattedMessage
-              id="dialog.title"
-              defaultMessage="Подтвердите действие"
-            />
-          )}
+          {title || <FormattedMessage id="dialog.title" defaultMessage="Подтвердите действие" />}
         </ModalHeader>
         <ModalBody>
-          {text || (
-            <FormattedMessage id="dialog.text" defaultMessage="Вы уверены?" />
-          )}
+          {text || <FormattedMessage id="dialog.text" defaultMessage="Вы уверены?" />}
         </ModalBody>
         <ModalFooter>
           <ButtonGroup>
             <Button onClick={onConfirm} color="primary">
-              {okLabel || (
-                <FormattedMessage id="dialog.confirm" defaultMessage="Да" />
-              )}
+              {okLabel || <FormattedMessage id="dialog.confirm" defaultMessage="Да" />}
             </Button>
             <Button onClick={onDeny}>
-              {cancelLabel || (
-                <FormattedMessage id="dialog.deny" defaultMessage="Нет" />
-              )}
+              {cancelLabel || <FormattedMessage id="dialog.deny" defaultMessage="Нет" />}
             </Button>
           </ButtonGroup>
         </ModalFooter>
@@ -95,7 +77,7 @@ ModalDialog.propTypes = {
   visible: PropTypes.bool,
   onConfirm: PropTypes.func,
   onDeny: PropTypes.func,
-  close: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired
 };
 
 export default ModalDialog;

@@ -4,12 +4,12 @@
 
 const textPlaceTypes = {
   LEFT: 'left',
-  RIGHT: 'right',
+  RIGHT: 'right'
 };
 
 const iconCellTypes = {
   ICON: 'icon',
-  ICONANDTEXT: 'iconAndText',
+  ICONANDTEXT: 'iconAndText'
 };
 
 export { iconCellTypes, textPlaceTypes };

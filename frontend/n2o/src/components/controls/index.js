@@ -45,5 +45,5 @@ export default {
   ButtonUploader: ButtonUploader,
   DropZone: DropZone,
   Switch: Switch,
-  InputMoney: InputMoney,
+  InputMoney: InputMoney
 };

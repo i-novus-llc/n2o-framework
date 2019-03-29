@@ -26,11 +26,11 @@ const Single = ({ className, style }) => {
 
 Single.propTypes = {
   className: PropTypes.string,
-  style: PropTypes.object,
+  style: PropTypes.object
 };
 
 Single.defaultProps = {
-  style: {},
+  style: {}
 };
 
 export default layoutPlaceResolver(Single);

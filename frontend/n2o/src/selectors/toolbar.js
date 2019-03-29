@@ -130,12 +130,9 @@ const hintSelector = (key, id) =>
  */
 
 const hintPositionSelector = (key, id) =>
-  createSelector(
-    makeButtonByKeyAndIdSelector(key, id),
-    button => {
-      return button.hintPosition;
-    }
-  );
+  createSelector(makeButtonByKeyAndIdSelector(key, id), button => {
+    return button.hintPosition;
+  });
 
 /**
  * селектор иконки кнопки
@@ -212,5 +209,5 @@ export {
   isLoading,
   errorSelector,
   getContainerButtons,
-  hintPositionSelector,
+  hintPositionSelector
 };

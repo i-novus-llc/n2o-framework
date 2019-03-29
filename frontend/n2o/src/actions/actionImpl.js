@@ -7,10 +7,10 @@ export function startInvoke(widgetId, dataProvider, data, modelLink) {
       widgetId,
       dataProvider,
       data,
-      modelLink,
+      modelLink
     },
     {
-      refresh: true,
+      refresh: true
     }
   );
 }

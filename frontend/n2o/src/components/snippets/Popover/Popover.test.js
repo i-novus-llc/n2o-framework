@@ -4,7 +4,7 @@ import Popover from './Popover';
 const setupPopover = propsOverride => {
   const props = {
     id: 'test',
-    help: 'подсказка',
+    help: 'подсказка'
   };
   return shallow(<Popover {...props} {...propsOverride} />);
 };

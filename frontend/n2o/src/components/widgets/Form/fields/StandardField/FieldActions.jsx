@@ -16,11 +16,11 @@ const FieldActions = ({ actions }) => {
 };
 
 FieldActions.propTypes = {
-  actions: FieldActionsPropTypes,
+  actions: FieldActionsPropTypes
 };
 
 FieldActions.defaultProps = {
-  actions: [],
+  actions: []
 };
 
 export default FieldActions;

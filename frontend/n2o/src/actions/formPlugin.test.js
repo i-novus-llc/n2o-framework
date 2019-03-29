@@ -11,7 +11,7 @@ import {
   ADD_FIELD_MESSAGE,
   REMOVE_FIELD_MESSAGE,
   REGISTER_DEPENDENCY,
-  SET_FIELD_FILTER,
+  SET_FIELD_FILTER
 } from '../constants/formPlugin';
 import {
   hideField,
@@ -26,21 +26,21 @@ import {
   removeFieldMessage,
   registerFieldExtra,
   registerFieldDependency,
-  setFilterValue,
+  setFilterValue
 } from './formPlugin';
 
 const form = {
-  id: 'test',
+  id: 'test'
 };
 const message = 'Hello world!';
 const name = 'formName';
 const names = ['field1', 'field2'];
 const filter = {
-  'filter.name': 'Олег',
+  'filter.name': 'Олег'
 };
 const dependency = {
   id: 'test',
-  dependency: 'dependency',
+  dependency: 'dependency'
 };
 
 describe('Тесты экшенов formPlugin', () => {
@@ -211,16 +211,10 @@ describe('Тесты экшенов formPlugin', () => {
       expect(action.type).toEqual(REGISTER_FIELD_EXTRA);
     });
     it('Проверяет правильность payload', () => {
-      const action = registerFieldExtra(form, name, {
-        visible: false,
-        disabled: true,
-      });
+      const action = registerFieldExtra(form, name, { visible: false, disabled: true });
       expect(action.payload.name).toEqual(name);
       expect(action.payload.form).toEqual(form);
-      expect(action.payload.initialState).toEqual({
-        visible: false,
-        disabled: true,
-      });
+      expect(action.payload.initialState).toEqual({ visible: false, disabled: true });
     });
     it('Проверяет правильность meta', () => {
       const action = registerFieldExtra(form, name);

@@ -8,7 +8,7 @@ import {
   isNaN,
   isString,
   isObject,
-  get,
+  get
 } from 'lodash';
 import evalExpression from '../../utils/evalExpression';
 import fetchSaga from '../../sagas/fetch.js';
@@ -22,8 +22,7 @@ import { FETCH_VALIDATE } from '../api.js';
  */
 export function email(fieldId, values) {
   return (
-    isString(values[fieldId]) &&
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values[fieldId])
+    isString(values[fieldId]) && /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values[fieldId])
   );
 }
 
@@ -44,11 +43,7 @@ export function required(fieldId, values, options = {}) {
   } else if (isObject(value)) {
     return !isEmpty(value);
   } else {
-    return (
-      !isUndefined(values[fieldId]) &&
-      !isNull(values[fieldId]) &&
-      !isNaN(values[fieldId])
-    );
+    return !isUndefined(values[fieldId]) && !isNull(values[fieldId]) && !isNaN(values[fieldId]);
   }
 }
 
@@ -75,7 +70,7 @@ export async function constraint(fieldId, values, options, dispatch) {
   if (!isEmpty(values[fieldId])) {
     return await runSaga(
       {
-        dispatch,
+        dispatch
       },
       fetchSaga,
       FETCH_VALIDATE,
@@ -127,7 +122,5 @@ export function maxLength(fieldId, values, options) {
  * @returns {boolean}
  */
 export function match(fieldId, values, options) {
-  return (
-    values[fieldId] && toString(values[fieldId]) === toString(options.field)
-  );
+  return values[fieldId] && toString(values[fieldId]) === toString(options.field);
 }

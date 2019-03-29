@@ -31,20 +31,12 @@ class StoryModal extends React.Component {
           </Row>
           <Row>
             <Col md={12}>
-              <ReduxForm.Field
-                control={inputControl}
-                name="surname"
-                label="Фамилия"
-              />
+              <ReduxForm.Field control={inputControl} name="surname" label="Фамилия" />
             </Col>
           </Row>
           <Row>
             <Col md={12}>
-              <ReduxForm.Field
-                control={dateControl}
-                name="birthday"
-                label="Дата рождения"
-              />
+              <ReduxForm.Field control={dateControl} name="birthday" label="Дата рождения" />
             </Col>
           </Row>
         </Fieldset>
@@ -55,7 +47,7 @@ class StoryModal extends React.Component {
 
 StoryModal.propTypes = {
   type: PropTypes.object,
-  code: PropTypes.code,
+  code: PropTypes.code
 };
 
 export default StoryModal;

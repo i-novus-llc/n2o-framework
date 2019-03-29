@@ -29,7 +29,7 @@ const setup = (groupOverrides, checkboxOverrides) => {
   return {
     groupProps,
     checkboxProps,
-    wrapper,
+    wrapper
   };
 };
 
@@ -71,10 +71,7 @@ describe('<CheckboxGroup />', () => {
   });
 
   it('проверяет изменение value', () => {
-    const { wrapper } = setup({
-      value: [{ id: 1 }, { id: 2 }],
-      valueFieldId: 'id',
-    });
+    const { wrapper } = setup({ value: [{ id: 1 }, { id: 2 }], valueFieldId: 'id' });
     expect(
       wrapper
         .find('input[type="checkbox"]')

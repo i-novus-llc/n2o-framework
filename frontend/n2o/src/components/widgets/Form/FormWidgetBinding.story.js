@@ -25,10 +25,10 @@ stories.add('Биндинги', () => {
                     label: 'Поле 1',
                     control: {
                       src: 'InputText',
-                      readOnly: false,
-                    },
-                  },
-                ],
+                      readOnly: false
+                    }
+                  }
+                ]
               },
               {
                 size: 6,
@@ -39,16 +39,16 @@ stories.add('Биндинги', () => {
                     label: 'Поле 2',
                     control: {
                       src: 'InputText',
-                      readOnly: false,
-                    },
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
+                      readOnly: false
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   };
 
   return (

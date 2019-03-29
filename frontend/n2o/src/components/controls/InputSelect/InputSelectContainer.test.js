@@ -19,7 +19,7 @@ const props = {
   disabledValues: [],
   queryId: 'options',
   size: 50,
-  options: [],
+  options: []
 };
 
 const setup = (propOverrides, defaultProps = props) => {
@@ -33,7 +33,7 @@ const setup = (propOverrides, defaultProps = props) => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 

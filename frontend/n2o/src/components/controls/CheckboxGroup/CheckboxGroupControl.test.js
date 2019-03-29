@@ -1,10 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { CheckboxGroupControl } from './CheckboxGroupControl';
-import setupFormTest, {
-  toMathInCollection,
-  getField,
-} from '../../../../test/formTestHelper';
+import setupFormTest, { toMathInCollection, getField } from '../../../../test/formTestHelper';
 import { focus, blur, change } from 'redux-form';
 
 const setup = overrideProps => {
@@ -21,7 +18,7 @@ const setup = overrideProps => {
 describe('<CheckboxGroupControl />', () => {
   it('creates checkboxes ', () => {
     const wrapper = setup({
-      data: [{ id: 1, label: 'label' }, { id: 2, label: 'label' }],
+      data: [{ id: 1, label: 'label' }, { id: 2, label: 'label' }]
     });
     expect(wrapper.find('Checkbox')).toHaveLength(2);
   });
@@ -32,13 +29,13 @@ describe('<CheckboxGroupControl />', () => {
     expect(
       _fetchData.calledWith({
         size: 10,
-        'sorting.label': 'ASC',
+        'sorting.label': 'ASC'
       })
     ).toBe(true);
   });
   it('проверка лодера ', () => {
     const wrapper = setup({
-      isLoading: true,
+      isLoading: true
     });
     expect(wrapper.find('Spinner')).toBeTruthy();
   });
@@ -48,7 +45,7 @@ describe('Работа с reduxForm', () => {
   it('onFocus && onBlur', () => {
     const { wrapper, store, actions } = setupFormTest({
       src: 'CheckboxGroup',
-      data: [{ id: 1, label: 'test' }, { id: 2, label: 'test2' }],
+      data: [{ id: 1, label: 'test' }, { id: 2, label: 'test2' }]
     });
 
     expect(getField(store)).toBe(false);
@@ -57,9 +54,7 @@ describe('Работа с reduxForm', () => {
       .at(0)
       .simulate('focus');
 
-    expect(toMathInCollection(actions, focus('Page_Form', 'testControl'))).toBe(
-      true
-    );
+    expect(toMathInCollection(actions, focus('Page_Form', 'testControl'))).toBe(true);
     expect(getField(store)).toEqual({ visited: true, active: true });
 
     wrapper
@@ -67,15 +62,13 @@ describe('Работа с reduxForm', () => {
       .at(0)
       .simulate('blur');
 
-    expect(
-      toMathInCollection(actions, blur('Page_Form', 'testControl', '', true))
-    ).toBe(true);
+    expect(toMathInCollection(actions, blur('Page_Form', 'testControl', '', true))).toBe(true);
     expect(getField(store)).toEqual({ visited: true, touched: true });
   });
   it('Эмуляция onChange', () => {
     const { wrapper, store, actions } = setupFormTest({
       src: 'CheckboxGroup',
-      data: [{ id: 1, label: 'test' }, { id: 2, label: 'test2' }],
+      data: [{ id: 1, label: 'test' }, { id: 2, label: 'test2' }]
     });
     wrapper
       .find('input[type="checkbox"]')
@@ -90,13 +83,7 @@ describe('Работа с reduxForm', () => {
     expect(
       toMathInCollection(
         actions,
-        change(
-          'Page_Form',
-          'testControl',
-          [{ id: 1, label: 'test' }],
-          false,
-          false
-        )
+        change('Page_Form', 'testControl', [{ id: 1, label: 'test' }], false, false)
       )
     ).toBe(true);
   });

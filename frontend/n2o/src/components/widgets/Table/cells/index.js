@@ -19,5 +19,5 @@ export default {
   CheckboxCell: CheckboxCell,
   CollapsedCell: CollapsedCell,
   ButtonsCell: ButtonsCell,
-  EditableCell: EditableCell,
+  EditableCell: EditableCell
 };

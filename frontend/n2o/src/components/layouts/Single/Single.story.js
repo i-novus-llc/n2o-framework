@@ -17,12 +17,7 @@ stories.add('Одна колонка', () => {
       <Single>
         <Section place="single">
           <div
-            style={{
-              height: 150,
-              position: 'relative',
-              marginLeft: '-1em',
-              marginRight: '-1em',
-            }}
+            style={{ height: 150, position: 'relative', marginLeft: '-1em', marginRight: '-1em' }}
           >
             <Wireframe title="single" />
           </div>

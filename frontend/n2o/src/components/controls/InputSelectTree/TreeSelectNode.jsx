@@ -21,11 +21,7 @@ function TreeNode({ options, disabled, key, format, children, ...rest }) {
       disabled={disabled}
       key={key}
       value={rest[options.valueFieldId]}
-      title={
-        format
-          ? propsResolver({ format }, rest).format
-          : visiblePartPopup(rest, options)
-      }
+      title={format ? propsResolver({ format }, rest).format : visiblePartPopup(rest, options)}
       isLeaf={true}
     >
       {children}
@@ -39,7 +35,7 @@ TreeNode.propTypes = {
   key: PropTypes.string,
   format: PropTypes.string,
   children: PropTypes.node,
-  rest: PropTypes.object,
+  rest: PropTypes.object
 };
 TreeNode.defaultProps = {
   options: {
@@ -50,10 +46,10 @@ TreeNode.defaultProps = {
     imageFieldId: 'image',
     badgeFieldId: 'badge',
     badgeColorFieldId: 'color',
-    hasChildrenFieldId: 'hasChildren',
+    hasChildrenFieldId: 'hasChildren'
   },
   disabled: false,
-  key: '',
+  key: ''
 };
 
 export default TreeNode;

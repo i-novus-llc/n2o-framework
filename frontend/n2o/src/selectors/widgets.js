@@ -167,9 +167,7 @@ const makeWidgetDataProviderSelector = widgetId =>
 const isAnyTableFocusedSelector = createSelector(
   widgetsSelector,
   widgetsState => {
-    return Object.values(widgetsState).some(
-      widget => widget.type === TABLE && widget.isActive
-    );
+    return Object.values(widgetsState).some(widget => widget.type === TABLE && widget.isActive);
   }
 );
 /*
@@ -194,5 +192,5 @@ export {
   makeWidgetPageIdSelector,
   makeTypeSelector,
   makeWidgetDataProviderSelector,
-  isAnyTableFocusedSelector,
+  isAnyTableFocusedSelector
 };

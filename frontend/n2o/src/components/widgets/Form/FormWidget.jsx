@@ -27,15 +27,13 @@ class FormWidget extends React.Component {
   getWidgetProps() {
     const { resolveProps } = this.context;
     return {
-      fieldsets: values(
-        resolveProps(this.props.form.fieldsets, Fieldsets.StandardFieldset)
-      ),
+      fieldsets: values(resolveProps(this.props.form.fieldsets, Fieldsets.StandardFieldset)),
       toolbar: this.props.toolbar,
       actions: this.props.actions,
       validation: this.props.form.validation,
       fetchOnInit: this.props.form.fetchOnInit,
       modelPrefix: this.props.form.modelPrefix,
-      dataProvider: this.props.dataProvider,
+      dataProvider: this.props.dataProvider
     };
   }
 
@@ -44,15 +42,7 @@ class FormWidget extends React.Component {
    * @return {XML}
    */
   render() {
-    const {
-      id: widgetId,
-      disabled,
-      toolbar,
-      actions,
-      pageId,
-      className,
-      style,
-    } = this.props;
+    const { id: widgetId, disabled, toolbar, actions, pageId, className, style } = this.props;
 
     return (
       <StandardWidget
@@ -63,18 +53,14 @@ class FormWidget extends React.Component {
         className={className}
         style={style}
       >
-        <FormContainer
-          widgetId={widgetId}
-          pageId={pageId}
-          {...this.getWidgetProps()}
-        />
+        <FormContainer widgetId={widgetId} pageId={pageId} {...this.getWidgetProps()} />
       </StandardWidget>
     );
   }
 }
 
 FormWidget.defaultProps = {
-  toolbar: {},
+  toolbar: {}
 };
 
 FormWidget.propTypes = {
@@ -90,12 +76,12 @@ FormWidget.propTypes = {
   form: PropTypes.shape({
     fetchOnInit: PropTypes.bool,
     fieldsets: PropTypes.array,
-    validation: PropTypes.object,
-  }),
+    validation: PropTypes.object
+  })
 };
 
 FormWidget.contextTypes = {
-  resolveProps: PropTypes.func,
+  resolveProps: PropTypes.func
 };
 
 FormWidget = dependency(FormWidget);

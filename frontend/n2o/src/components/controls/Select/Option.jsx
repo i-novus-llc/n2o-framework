@@ -26,7 +26,7 @@ class Option extends React.Component {
 Option.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  disabled: PropTypes.bool,
+  disabled: PropTypes.bool
 };
 
 export default Option;

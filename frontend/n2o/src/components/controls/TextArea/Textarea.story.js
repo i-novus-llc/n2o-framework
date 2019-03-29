@@ -20,7 +20,7 @@ stories
         placeholder: text('placeholder', 'Введите значение'),
         disabled: boolean('disabled', false),
         rows: number('rows', 5),
-        maxRows: number('maxRows', 10),
+        maxRows: number('maxRows', 10)
       };
       return (
         <TextArea
@@ -39,7 +39,7 @@ stories
         placeholder: text('placeholder', TextAreaJson.placeholder),
         disabled: boolean('disabled', TextAreaJson.disabled),
         rows: number('rows', TextAreaJson.rows),
-        maxRows: number('maxRows', TextAreaJson.maxRows),
+        maxRows: number('maxRows', TextAreaJson.maxRows)
       };
     })
   );

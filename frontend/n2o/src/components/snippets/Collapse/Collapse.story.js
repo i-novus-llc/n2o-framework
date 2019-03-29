@@ -33,7 +33,7 @@ stories
       activeKey: text('activeKey', ''),
       defaultActiveKey: text('defaultActiveKey', ''),
       destroyInactivePanel: boolean('destroyInactivePanel', false),
-      accordion: boolean('accordion', false),
+      accordion: boolean('accordion', false)
     };
 
     return <CollapseToStory {...props} />;

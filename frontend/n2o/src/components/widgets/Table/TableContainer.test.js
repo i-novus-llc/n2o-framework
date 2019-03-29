@@ -20,7 +20,7 @@ function setupToProvider(props, hocName, overrideStore) {
   const mockStore = configureMockStore();
   const store = mockStore({
     models: { resolve: {} },
-    ...overrideStore,
+    ...overrideStore
   });
   return mount(
     <Provider store={store}>
@@ -33,7 +33,7 @@ function setupToProviderToDefault(props, overrideStore = {}) {
   const mockStore = configureMockStore();
   const store = mockStore({
     models: { resolve: {} },
-    ...overrideStore,
+    ...overrideStore
   });
   return mount(
     <Provider store={store}>
@@ -63,7 +63,7 @@ describe('TableContainer', () => {
         size: 10,
         actions: { anyActions: {} },
         redux: true,
-        rowClick: { src: 'dummy' },
+        rowClick: { src: 'dummy' }
       };
 
       const stateData = {
@@ -71,20 +71,16 @@ describe('TableContainer', () => {
           widgetId: {
             isActive: true,
             selectedId: 1,
-            sorting: 'DESC',
-          },
+            sorting: 'DESC'
+          }
         },
         models: {
           datasource: {
-            widgetId: [{ id: 'datasource' }],
-          },
-        },
+            widgetId: [{ id: 'datasource' }]
+          }
+        }
       };
-      const wrapper = setupToProvider(
-        testPropsData,
-        'withWidgetContainer',
-        stateData
-      );
+      const wrapper = setupToProvider(testPropsData, 'withWidgetContainer', stateData);
 
       expect(wrapper.find(NullComponent).props()).toEqual({
         ...testPropsData,
@@ -93,7 +89,7 @@ describe('TableContainer', () => {
         onFocus: expect.any(Function),
         onResolve: expect.any(Function),
         onSort: expect.any(Function),
-        onActionImpl: expect.any(Function),
+        onActionImpl: expect.any(Function)
       });
     });
   });
@@ -109,7 +105,7 @@ describe('TableContainer', () => {
         {
           hasSelect: true,
           datasource: ['datasource'],
-          onResolve,
+          onResolve
         },
         'withContainerLiveCycle'
       );
@@ -127,7 +123,7 @@ describe('TableContainer', () => {
         hasSelect: true,
         datasource: ['datasource'],
         onResolve,
-        selectedId: 1,
+        selectedId: 1
       },
       'withContainerLiveCycle'
     );
@@ -144,14 +140,12 @@ describe('TableContainer', () => {
         hasSelect: true,
         datasource: [{ id: 1, test: 'datasource' }],
         onResolve,
-        selectedId: 1,
+        selectedId: 1
       },
       'withContainerLiveCycle'
     );
 
-    wrapper
-      .setProps({ datasource: [{ id: 1, test: 'newdatasource' }] })
-      .update();
+    wrapper.setProps({ datasource: [{ id: 1, test: 'newdatasource' }] }).update();
     expect(onResolve.calledOnce).toBe(true);
     expect(onResolve.calledWith({ id: 1, test: 'newdatasource' })).toBe(true);
   });
@@ -172,7 +166,7 @@ describe('TableContainer', () => {
     const wrapper = setup(
       {
         onActionImpl,
-        rowClick: { src: 'dummy' },
+        rowClick: { src: 'dummy' }
       },
       'withWidgetHandlers'
     );

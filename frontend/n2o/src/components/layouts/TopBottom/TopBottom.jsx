@@ -29,11 +29,11 @@ const TopBottom = ({ className, style }) => {
 
 TopBottom.propTypes = {
   className: PropTypes.string,
-  style: PropTypes.object,
+  style: PropTypes.object
 };
 
 TopBottom.defaultProps = {
-  style: {},
+  style: {}
 };
 
 export default layoutPlaceResolver(TopBottom);

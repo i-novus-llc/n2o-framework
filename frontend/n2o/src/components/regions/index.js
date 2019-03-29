@@ -7,5 +7,5 @@ export default {
   NoneRegion: NoneRegion,
   TabsRegion: TabsRegion,
   ListRegion: ListRegion,
-  PanelRegion: PanelRegion,
+  PanelRegion: PanelRegion
 };

@@ -9,7 +9,7 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem,
+  DropdownItem
 } from 'reactstrap';
 import SidebarDropdown from '../../SideBar/SidebarDropdown';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -58,9 +58,7 @@ const NavItemContainer = ({ item, activeId, type, sidebarOpen, options }) => {
         <DropdownToggle nav caret>
           {item.label}
         </DropdownToggle>
-        <DropdownMenu right={get(options, 'right', false)}>
-          {dropdownItems}
-        </DropdownMenu>
+        <DropdownMenu right={get(options, 'right', false)}>{dropdownItems}</DropdownMenu>
       </UncontrolledDropdown>
     );
   };
@@ -70,16 +68,12 @@ const NavItemContainer = ({ item, activeId, type, sidebarOpen, options }) => {
     dropdownItems = item.subItems.map((child, i) => (
       <DropdownItem>{handleLink(child, 'dropdown-item')}</DropdownItem>
     ));
-    if (
-      item.type === 'dropdown' &&
-      item.subItems.length > 1 &&
-      type === 'sidebar'
-    ) {
+    if (item.type === 'dropdown' && item.subItems.length > 1 && type === 'sidebar') {
       dropdownItems = [
         <DropdownItem key={-1} onClick={e => e.preventDefault()}>
           <a className="dropdown-item">{item.oldLabel || item.label}</a>
         </DropdownItem>,
-        ...dropdownItems,
+        ...dropdownItems
       ];
     }
   } else if (type === 'sidebar' && item.type === 'dropdown' && sidebarOpen) {
@@ -89,27 +83,23 @@ const NavItemContainer = ({ item, activeId, type, sidebarOpen, options }) => {
       </Link>
     );
     const linkItem = item =>
-      item.linkType === 'outer'
-        ? defaultLink(item)
-        : getInnerLink(item, 'dropdown-item');
-    dropdownItems = item.subItems.map((item, i) => (
-      <DropdownItem> {linkItem(item)} </DropdownItem>
-    ));
+      item.linkType === 'outer' ? defaultLink(item) : getInnerLink(item, 'dropdown-item');
+    dropdownItems = item.subItems.map((item, i) => <DropdownItem> {linkItem(item)} </DropdownItem>);
   }
 
   return (
-    (item.type === 'dropdown' &&
-      !sidebarOpen &&
-      handleLinkDropdown(item, dropdownItems)) ||
+    (item.type === 'dropdown' && !sidebarOpen && handleLinkDropdown(item, dropdownItems)) ||
     (item.type === 'link' && handleLink(item)) ||
     (item.type === 'text' && (
       <NavItem>
         <span className="nav-link">{item.label}</span>
       </NavItem>
     )) ||
-    (type === 'sidebar' && sidebarOpen && item.type === 'dropdown' && (
-      <SidebarDropdown title={item.label}>{dropdownItems}</SidebarDropdown>
-    )) ||
+    (type === 'sidebar' &&
+      sidebarOpen &&
+      item.type === 'dropdown' && (
+        <SidebarDropdown title={item.label}>{dropdownItems}</SidebarDropdown>
+      )) ||
     null
   );
 };
@@ -120,10 +110,10 @@ NavItemContainer.propTypes = {
     href: PropTypes.string,
     linkType: PropTypes.oneOf(['inner', 'outer']),
     withSubMenu: PropTypes.bool,
-    subItems: PropTypes.array,
+    subItems: PropTypes.array
   }),
   type: PropTypes.oneOf(['header', 'sidebar']),
-  open: PropTypes.bool,
+  open: PropTypes.bool
 };
 
 export default NavItemContainer;

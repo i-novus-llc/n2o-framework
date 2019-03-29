@@ -14,40 +14,40 @@ stories.add('Анимация', () => {
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'С анимацией',
+        label: 'С анимацией'
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Без анимацией',
-      },
+        label: 'Без анимацией'
+      }
     ],
     cells: [
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55,
+          now: 55
         },
         color: progressBarStyles.DEFAULT,
-        animated: true,
+        animated: true
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55,
+          now: 55
         },
         color: progressBarStyles.DEFAULT,
-        animated: false,
-      },
+        animated: false
+      }
     ],
     datasource: [
       {
         id: 'now',
-        now: 55,
-      },
-    ],
+        now: 55
+      }
+    ]
   };
 
   return (

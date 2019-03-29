@@ -23,15 +23,12 @@ stories
         title: text('title', 'Подтвердите действие'),
         text: text('text', 'Сохранить изменения'),
         confirmText: text('confirmText', 'Сохранить'),
-        denyText: text('denyText', 'Отмена'),
+        denyText: text('denyText', 'Отмена')
       };
 
       return (
         <React.Fragment>
-          <button
-            className="btn btn-secondary"
-            onClick={() => store.set({ visible: true })}
-          >
+          <button className="btn btn-secondary" onClick={() => store.set({ visible: true })}>
             Показать диалог
           </button>
           <ModalDialog
@@ -54,15 +51,12 @@ stories
         title: text('title', ModalDialogJson.title),
         text: text('text', ModalDialogJson.text),
         confirmText: text('confirmText', ModalDialogJson.confirmText),
-        denyText: text('denyText', ModalDialogJson.denyText),
+        denyText: text('denyText', ModalDialogJson.denyText)
       };
 
       return (
         <React.Fragment>
-          <button
-            className="btn btn-default"
-            onClick={() => store.set({ visible: true })}
-          >
+          <button className="btn btn-default" onClick={() => store.set({ visible: true })}>
             Показать диалог
           </button>
           <ModalDialog

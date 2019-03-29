@@ -1,9 +1,4 @@
-import {
-  METADATA_REQUEST,
-  METADATA_SUCCESS,
-  METADATA_FAIL,
-  RESET,
-} from '../constants/pages';
+import { METADATA_REQUEST, METADATA_SUCCESS, METADATA_FAIL, RESET } from '../constants/pages';
 import { SET_WIDGET_METADATA } from '../constants/widgets';
 import pages from './pages';
 
@@ -13,14 +8,14 @@ describe('Тесты pages reducer', () => {
       pages(
         {
           Page_Table: {
-            name: 'table',
-          },
+            name: 'table'
+          }
         },
         {
           type: METADATA_REQUEST,
           payload: {
-            pageId: 'Page_Table',
-          },
+            pageId: 'Page_Table'
+          }
         }
       )
     ).toEqual({
@@ -28,8 +23,8 @@ describe('Тесты pages reducer', () => {
         error: false,
         loading: true,
         metadata: {},
-        name: 'table',
-      },
+        name: 'table'
+      }
     });
   });
 
@@ -38,15 +33,15 @@ describe('Тесты pages reducer', () => {
       pages(
         {
           Page_ID: {
-            name: 'test',
-          },
+            name: 'test'
+          }
         },
         {
           type: METADATA_SUCCESS,
           payload: {
             pageId: 'Page_ID',
-            json: 'metadata-json',
-          },
+            json: 'metadata-json'
+          }
         }
       )
     ).toEqual({
@@ -54,8 +49,8 @@ describe('Тесты pages reducer', () => {
         error: false,
         name: 'test',
         loading: false,
-        metadata: 'metadata-json',
-      },
+        metadata: 'metadata-json'
+      }
     });
   });
 
@@ -63,25 +58,25 @@ describe('Тесты pages reducer', () => {
     expect(
       pages(
         {
-          pageId: {},
+          pageId: {}
         },
         {
           type: METADATA_FAIL,
           payload: {
             pageId: 'pageId',
             err: {
-              message: 'error',
-            },
-          },
+              message: 'error'
+            }
+          }
         }
       )
     ).toEqual({
       pageId: {
         loading: false,
         error: {
-          message: 'error',
-        },
-      },
+          message: 'error'
+        }
+      }
     });
   });
 
@@ -91,14 +86,14 @@ describe('Тесты pages reducer', () => {
         {
           pageId: {
             name: 'name',
-            metadata: 'metadata',
-          },
+            metadata: 'metadata'
+          }
         },
         {
           type: RESET,
           payload: {
-            pageId: 'pageId',
-          },
+            pageId: 'pageId'
+          }
         }
       )
     ).toEqual({
@@ -106,8 +101,8 @@ describe('Тесты pages reducer', () => {
         loading: false,
         metadata: {},
         error: false,
-        disabled: false,
-      },
+        disabled: false
+      }
     });
   });
 
@@ -115,25 +110,25 @@ describe('Тесты pages reducer', () => {
     expect(
       pages(
         {
-          pageId: {},
+          pageId: {}
         },
         {
           type: SET_WIDGET_METADATA,
           payload: {
             pageId: 'pageId',
             widgetId: 'TestWidget',
-            metadata: 'json-metadata',
-          },
+            metadata: 'json-metadata'
+          }
         }
       )
     ).toEqual({
       pageId: {
         metadata: {
           widgets: {
-            TestWidget: 'json-metadata',
-          },
-        },
-      },
+            TestWidget: 'json-metadata'
+          }
+        }
+      }
     });
   });
 });

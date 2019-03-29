@@ -13,7 +13,7 @@ const setup = (propOverrides, storeOverrides) => {
     pageId: 'modalPage',
     visible: true,
     close: false,
-    pages: {},
+    pages: {}
   };
   return mount(
     <Provider store={{ ...store, ...storeOverrides }}>
@@ -32,7 +32,7 @@ describe('Тесты ModalPage', function() {
       pageId: 'modalPage',
       close: false,
       pages: {},
-      loading: false,
+      loading: false
     });
 
     expect(wrapper.find('.spinner-container').exists()).toBeFalsy();

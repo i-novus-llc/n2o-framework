@@ -11,8 +11,8 @@ describe('Тесты alerts reducer', function() {
           key: 'alerts',
           id: 2,
           label: 'second label',
-          text: 'second text',
-        },
+          text: 'second text'
+        }
       }
     );
     expect(reducer).toEqual({
@@ -23,16 +23,16 @@ describe('Тесты alerts reducer', function() {
           id: 2,
           label: 'second label',
           severity: undefined,
-          text: 'second text',
-        },
-      ],
+          text: 'second text'
+        }
+      ]
     });
   });
 
   it('Проверка ADD_MULTI', () => {
     const reducer = alerts(
       {
-        alerts: [],
+        alerts: []
       },
       {
         type: ADD_MULTI,
@@ -42,15 +42,15 @@ describe('Тесты alerts reducer', function() {
             {
               id: 2,
               label: 'second label',
-              text: 'second text',
+              text: 'second text'
             },
             {
               id: 3,
               label: 'third label',
-              text: 'third text',
-            },
-          ],
-        },
+              text: 'third text'
+            }
+          ]
+        }
       }
     );
     expect(reducer.alerts[0].label).toEqual('second label');
@@ -67,21 +67,21 @@ describe('Тесты alerts reducer', function() {
           {
             id: 2,
             label: 'second label',
-            text: 'second text',
+            text: 'second text'
           },
           {
             id: 3,
             label: 'third label',
-            text: 'third text',
-          },
-        ],
+            text: 'third text'
+          }
+        ]
       },
       {
         type: REMOVE,
         payload: {
           key: 'alerts',
-          id: 2,
-        },
+          id: 2
+        }
       }
     );
     expect(reducer).toEqual({
@@ -89,9 +89,9 @@ describe('Тесты alerts reducer', function() {
         {
           id: 3,
           label: 'third label',
-          text: 'third text',
-        },
-      ],
+          text: 'third text'
+        }
+      ]
     });
   });
 
@@ -102,21 +102,21 @@ describe('Тесты alerts reducer', function() {
           {
             id: 2,
             label: 'second label',
-            text: 'second text',
+            text: 'second text'
           },
           {
             id: 3,
             label: 'third label',
-            text: 'third text',
-          },
-        ],
+            text: 'third text'
+          }
+        ]
       },
       {
         type: REMOVE_ALL,
         payload: {
           key: 'alerts',
-          id: 2,
-        },
+          id: 2
+        }
       }
     );
     expect(reducer).toEqual({});

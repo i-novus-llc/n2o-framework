@@ -38,12 +38,12 @@ class Panel extends React.Component {
       open,
       color,
       onKeyPress,
-      children,
+      children
     } = this.props;
 
     // const fontBg = [panelStyles.DEFAULT].includes(color) ? 'text-dark' : 'text-white';
     const panelClass = cx('n2o-panel-region', className, 'text-dark', {
-      'panel-fullscreen': isFullScreen,
+      'panel-fullscreen': isFullScreen
     });
 
     return (
@@ -74,12 +74,12 @@ Panel.propTypes = {
   open: PropTypes.bool,
   onToggle: PropTypes.func,
   onKeyPress: PropTypes.func,
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 Panel.defaultProps = {
   isFullScreen: false,
-  color: panelStyles.DEFAULT,
+  color: panelStyles.DEFAULT
 };
 
 Object.assign(Panel, {
@@ -90,7 +90,7 @@ Object.assign(Panel, {
   Footer: PanelFooter,
   Body: PanelBody,
   TabBody: PanelTabBody,
-  Collapse: Collapse,
+  Collapse: Collapse
 });
 
 export default Panel;

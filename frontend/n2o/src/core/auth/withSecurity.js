@@ -17,12 +17,12 @@ const withSecurity = WrappedComponent => {
   Security.defaultProps = {};
 
   const mapStateToProps = createStructuredSelector({
-    user: userSelector,
+    user: userSelector
   });
 
   return compose(
     getContext({
-      authProvider: PropTypes.func,
+      authProvider: PropTypes.func
     }),
     connect(mapStateToProps)
   )(Security);

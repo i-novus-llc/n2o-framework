@@ -5,7 +5,7 @@ const widgetId = 'Widget_Id';
 const dataProvider = {
   url: '/n2o/test',
   pathMapping: {},
-  queryMapping: {},
+  queryMapping: {}
 };
 const data = {};
 const modelLink = 'modelLink';

@@ -6,15 +6,13 @@ import Icon from '../../snippets/Icon/Icon';
 
 const TypesComponents = {
   icon: ({ icon }) => <Icon className="icon" name={icon} />,
-  text: ({ value, format }) => (
-    <Text className="text" text={value} format={format} />
-  ),
+  text: ({ value, format }) => <Text className="text" text={value} format={format} />,
   iconAndText: ({ icon, value, format }) => (
     <Fragment>
       {icon && <Icon className="icon" name={icon} />}
       <Text className="text" text={value} format={format} />
     </Fragment>
-  ),
+  )
 };
 
 /**
@@ -46,7 +44,7 @@ OutPutText.propTypes = {
   textPlace: PropTypes.oneOf(['right', 'left']),
   icon: PropTypes.string,
   value: PropTypes.string,
-  format: PropTypes.string,
+  format: PropTypes.string
 };
 
 OutPutText.defaultProps = {
@@ -54,7 +52,7 @@ OutPutText.defaultProps = {
   className: 'n2o',
   style: {},
   type: 'iconAndText',
-  textPlace: 'left',
+  textPlace: 'left'
 };
 
 export default OutPutText;

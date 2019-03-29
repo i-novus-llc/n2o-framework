@@ -1,12 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  object,
-  select,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, object, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 
 import Table from '../../Table';
@@ -25,15 +19,11 @@ stories.add('Метаданные', () => {
     id: text('id', ProgressBarJson.id),
     animated: boolean('animated', ProgressBarJson.animated),
     striped: boolean('striped', ProgressBarJson.striped),
-    color: select(
-      'color',
-      Object.values(progressBarStyles),
-      ProgressBarJson.color
-    ),
+    color: select('color', Object.values(progressBarStyles), ProgressBarJson.color),
     size: select('size', ['mini', 'default', 'large'], ProgressBarJson.size),
     model: {
-      now: '12',
-    },
+      now: '12'
+    }
   };
 
   const tableProps = {
@@ -41,21 +31,21 @@ stories.add('Метаданные', () => {
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Прогресс бар',
-      },
+        label: 'Прогресс бар'
+      }
     ],
     cells: [
       {
         component: ProgressBarCell,
-        ...props,
-      },
+        ...props
+      }
     ],
     datasource: [
       {
         id: 'now',
-        now: 55,
-      },
-    ],
+        now: 55
+      }
+    ]
   };
 
   return (

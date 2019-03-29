@@ -4,7 +4,7 @@ export function generateErrorMeta(msg) {
   const metaMsg = { ...defaultState, ...msg };
   return {
     alert: {
-      messages: [metaMsg],
-    },
+      messages: [metaMsg]
+    }
   };
 }

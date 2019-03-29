@@ -16,7 +16,7 @@ stories.add('Компонент', () => {
     name: text('name', 'fa fa-user'),
     spin: boolean('spin', false),
     bordered: boolean('bordered', false),
-    circular: boolean('circular', false),
+    circular: boolean('circular', false)
   };
 
   return <Icon {...props} />;

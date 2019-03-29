@@ -1,14 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number, array, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import Select from './Select';
 import Option from './Option';
@@ -23,13 +16,13 @@ stories.add('Компонент', () => {
     value: number('value', 2),
     disabled: boolean('disabled', false),
     visible: boolean('visible', true),
-    heightSize: select('heightSize', ['input-lg', 'input-sm', ''], ''),
+    heightSize: select('heightSize', ['input-lg', 'input-sm', ''], '')
   };
 
   const options = [
     { value: 1, label: 'Первый' },
     { value: 2, label: 'Второй' },
-    { value: 3, label: 'Третий' },
+    { value: 3, label: 'Третий' }
   ];
 
   return (

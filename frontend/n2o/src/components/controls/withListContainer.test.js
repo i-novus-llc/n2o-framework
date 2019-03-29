@@ -25,7 +25,7 @@ const setup = (props = {}) => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 
@@ -38,21 +38,13 @@ describe('withListContainer HOC test', () => {
 
   it('handleScrollEnd с идеальными параметрами', async () => {
     const _fetchData = sinon.spy();
-    const { wrapper } = setup({
-      page: 1,
-      size: 10,
-      count: 300,
-      labelFieldId: 'label',
-      _fetchData,
-    });
+    const { wrapper } = setup({ page: 1, size: 10, count: 300, labelFieldId: 'label', _fetchData });
     wrapper
       .find('EmptyComponent')
       .props()
       .onScrollEnd();
     expect(_fetchData.calledOnce).toBe(true);
-    expect(
-      _fetchData.calledWith({ page: 2, size: 10, 'sorting.label': 'ASC' }, true)
-    ).toBe(true);
+    expect(_fetchData.calledWith({ page: 2, size: 10, 'sorting.label': 'ASC' }, true)).toBe(true);
   });
 
   it('handleScrollEnd без page', async () => {
@@ -87,34 +79,19 @@ describe('withListContainer HOC test', () => {
 
   it('handleOpen', () => {
     const _fetchData = sinon.spy();
-    const { wrapper } = setup({
-      page: 1,
-      size: 10,
-      labelFieldId: 'label',
-      _fetchData,
-    });
+    const { wrapper } = setup({ page: 1, size: 10, labelFieldId: 'label', _fetchData });
     wrapper
       .find('EmptyComponent')
       .props()
       .onOpen();
 
     expect(_fetchData.calledOnce).toBe(true);
-    expect(
-      _fetchData.calledWith(
-        { size: 10, page: 1, 'sorting.label': 'ASC' },
-        false
-      )
-    ).toBe(true);
+    expect(_fetchData.calledWith({ size: 10, page: 1, 'sorting.label': 'ASC' }, false)).toBe(true);
   });
 
   it('handleSearch', async () => {
     const _fetchData = sinon.spy();
-    const { wrapper } = setup({
-      page: 1,
-      size: 10,
-      labelFieldId: 'label',
-      _fetchData,
-    });
+    const { wrapper } = setup({ page: 1, size: 10, labelFieldId: 'label', _fetchData });
     wrapper
       .find('EmptyComponent')
       .props()
@@ -128,7 +105,7 @@ describe('withListContainer HOC test', () => {
           size: 10,
           page: 1,
           'sorting.label': 'ASC',
-          search: 'search string',
+          search: 'search string'
         },
         false
       )
@@ -137,12 +114,7 @@ describe('withListContainer HOC test', () => {
 
   it('handleSearch проверка таймера вврода', async () => {
     const _fetchData = sinon.spy();
-    const { wrapper } = setup({
-      page: 1,
-      size: 10,
-      labelFieldId: 'label',
-      _fetchData,
-    });
+    const { wrapper } = setup({ page: 1, size: 10, labelFieldId: 'label', _fetchData });
     const searchFn = wrapper.find('EmptyComponent').props().onSearch;
 
     searchFn();
@@ -155,12 +127,7 @@ describe('withListContainer HOC test', () => {
 
   it('handleItemOpen', () => {
     const _fetchData = sinon.spy();
-    const { wrapper } = setup({
-      page: 1,
-      size: 10,
-      labelFieldId: 'label',
-      _fetchData,
-    });
+    const { wrapper } = setup({ page: 1, size: 10, labelFieldId: 'label', _fetchData });
     wrapper
       .find('EmptyComponent')
       .props()
@@ -173,7 +140,7 @@ describe('withListContainer HOC test', () => {
           size: 10,
           page: 1,
           'sorting.label': 'ASC',
-          'filter.parent_id': 'parent_id_value',
+          'filter.parent_id': 'parent_id_value'
         },
         true
       )

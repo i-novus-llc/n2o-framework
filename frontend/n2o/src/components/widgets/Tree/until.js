@@ -11,7 +11,7 @@ import {
   has,
   uniqueId,
   find,
-  some,
+  some
 } from 'lodash';
 import { KEY_CODES } from './component/constants';
 import { findDOMNode } from 'react-dom';
@@ -25,18 +25,12 @@ import Icon from '../../snippets/Icon/Icon';
  * @param parentFieldId
  * @param valueFieldId
  */
-export const treeToCollection = (
-  tree,
-  { parentFieldId, valueFieldId, childrenFieldId }
-) => {
+export const treeToCollection = (tree, { parentFieldId, valueFieldId, childrenFieldId }) => {
   let buf = [...tree];
 
   buf.forEach(el => {
     if (el[childrenFieldId]) {
-      const elems = el[childrenFieldId].map(v => ({
-        ...v,
-        [parentFieldId]: el[valueFieldId],
-      }));
+      const elems = el[childrenFieldId].map(v => ({ ...v, [parentFieldId]: el[valueFieldId] }));
       buf.push(...elems);
     } else {
       buf.push(...el);
@@ -80,7 +74,7 @@ export const collectionToComponentObject = (Component, props) => {
         ),
         key: data[valueFieldId],
         title: React.createElement(Component, { data, ...props }),
-        children: [],
+        children: []
       };
     });
   }
@@ -138,11 +132,7 @@ export const takeKeysWhenSearching = props => {
  * @param valueFieldId
  * @returns {Array}
  */
-export const getTreeLinerRoute = (
-  data,
-  expandedKeys,
-  { parentFieldId, valueFieldId }
-) => {
+export const getTreeLinerRoute = (data, expandedKeys, { parentFieldId, valueFieldId }) => {
   //берем всех родителей
   const parenIds = filter(data, dt => !dt[parentFieldId] && !dt.disabled).map(
     dt => dt[valueFieldId]
@@ -239,14 +229,11 @@ export const customTreeActions = ({
   prefixCls,
   valueFieldId,
   parentFieldId,
-  hasCheckboxes,
+  hasCheckboxes
 }) => {
   const node = findDOMNode(treeRef.current);
 
-  const route = getTreeLinerRoute(datasource, expandedKeys, {
-    valueFieldId,
-    parentFieldId,
-  });
+  const route = getTreeLinerRoute(datasource, expandedKeys, { valueFieldId, parentFieldId });
 
   const focusedElement = document.activeElement;
 
@@ -254,11 +241,7 @@ export const customTreeActions = ({
 
   const isRootParent = id => {
     const elem = find(datasource, [valueFieldId, id]);
-    if (
-      elem &&
-      !has(elem, parentFieldId) &&
-      !find(datasource, [parentFieldId, id])
-    ) {
+    if (elem && !has(elem, parentFieldId) && !find(datasource, [parentFieldId, id])) {
       return true;
     }
     return false;
@@ -278,12 +261,7 @@ export const customTreeActions = ({
   }
   if (eq(key, KEY_CODES.RIGHT)) {
     const id = focusedElement.dataset.id;
-    if (
-      !expandedKeys.includes(id) &&
-      isParent(id) &&
-      !isRootParent(id) &&
-      route.includes(id)
-    ) {
+    if (!expandedKeys.includes(id) && isParent(id) && !isRootParent(id) && route.includes(id)) {
       toggle(focusedElement, node, { prefixCls });
     } else {
       down(focusedElement, route, node);
@@ -291,12 +269,7 @@ export const customTreeActions = ({
   }
   if (eq(key, KEY_CODES.LEFT)) {
     const id = focusedElement.dataset.id;
-    if (
-      expandedKeys.includes(id) &&
-      isParent(id) &&
-      !isRootParent(id) &&
-      route.includes(id)
-    ) {
+    if (expandedKeys.includes(id) && isParent(id) && !isRootParent(id) && route.includes(id)) {
       toggle(focusedElement, node, { prefixCls });
     } else {
       up(focusedElement, route, node);
@@ -311,10 +284,7 @@ export const customTreeActions = ({
 export const splitSearchText = (text, searchText, filter) => {
   if (FILTER_MODE.includes(filter)) {
     const regExp = createRegExp(searchText, filter);
-    const html = text.replace(
-      regExp,
-      str => `<span class='search-text'>${str}</span>`
-    );
+    const html = text.replace(regExp, str => `<span class='search-text'>${str}</span>`);
     return <span dangerouslySetInnerHTML={{ __html: html }} />;
   }
   return text;
@@ -337,7 +307,7 @@ const animate = (node, show, done) => {
     end() {
       node.style.height = '';
       done();
-    },
+    }
   });
 };
 
@@ -347,14 +317,10 @@ export const animationTree = {
   },
   leave(node, done) {
     return animate(node, false, done);
-  },
+  }
 };
 
-export const singleDoubleClickFilter = (
-  singleCallback,
-  doubleCallback,
-  timeout
-) => {
+export const singleDoubleClickFilter = (singleCallback, doubleCallback, timeout) => {
   let timer = 0;
 
   return (...args) => {

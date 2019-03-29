@@ -13,5 +13,5 @@ export default {
 
   LeftRightLayout: LeftRight,
 
-  LeftTopBottomLayout: LeftTopBottom,
+  LeftTopBottomLayout: LeftTopBottom
 };

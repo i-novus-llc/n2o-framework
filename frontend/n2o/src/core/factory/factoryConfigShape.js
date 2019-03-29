@@ -8,7 +8,7 @@ const factoryConfigShape = PropTypes.shape({
   cells: PropTypes.objectOf(PropTypes.element),
   headers: PropTypes.objectOf(PropTypes.element),
   fieldsets: PropTypes.objectOf(PropTypes.element),
-  fields: PropTypes.objectOf(PropTypes.element),
+  fields: PropTypes.objectOf(PropTypes.element)
 });
 
 export default factoryConfigShape;

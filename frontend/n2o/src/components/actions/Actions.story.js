@@ -15,10 +15,10 @@ stories
           {
             id: 'testBtn21',
             title: 'Кнопка',
-            actionId: 'dummy',
-          },
-        ],
-      },
+            actionId: 'dummy'
+          }
+        ]
+      }
     ];
     const toolbar2 = [
       {
@@ -26,15 +26,15 @@ stories
           {
             id: 'testBtn22',
             title: 'Кнопка',
-            actionId: 'dummy',
+            actionId: 'dummy'
           },
           {
             id: 'testBtn23',
             title: 'Еще кнопка',
-            actionId: 'dummy',
-          },
-        ],
-      },
+            actionId: 'dummy'
+          }
+        ]
+      }
     ];
     const toolbar3 = [
       {
@@ -42,29 +42,29 @@ stories
           {
             id: 'testBtn24',
             title: 'Кнопка',
-            actionId: 'dummy',
+            actionId: 'dummy'
           },
           {
             id: 'testBtn25',
             title: 'Еще кнопка',
-            actionId: 'dummy',
-          },
-        ],
+            actionId: 'dummy'
+          }
+        ]
       },
       {
         buttons: [
           {
             id: 'testBtn26',
             title: 'Кнопка',
-            actionId: 'dummy',
+            actionId: 'dummy'
           },
           {
             id: 'testBtn27',
             title: 'Еще кнопка',
-            actionId: 'dummy',
-          },
-        ],
-      },
+            actionId: 'dummy'
+          }
+        ]
+      }
     ];
     const toolbar4 = [
       {
@@ -77,17 +77,17 @@ stories
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка',
+                title: 'Элемент списка'
               },
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка',
-              },
-            ],
-          },
-        ],
-      },
+                title: 'Элемент списка'
+              }
+            ]
+          }
+        ]
+      }
     ];
 
     const toolbar5 = [
@@ -96,7 +96,7 @@ stories
           {
             id: 'testBtn30',
             title: 'Кнопка',
-            actionId: 'dummy',
+            actionId: 'dummy'
           },
           {
             id: 'testBtn31',
@@ -105,11 +105,11 @@ stories
               {
                 id: 'testBtn32',
                 actionId: 'dummy',
-                title: 'Элемент списка',
-              },
-            ],
-          },
-        ],
+                title: 'Элемент списка'
+              }
+            ]
+          }
+        ]
       },
       {
         buttons: [
@@ -120,17 +120,17 @@ stories
               {
                 id: 'testBtn34',
                 actionId: 'dummy',
-                title: 'Элемент списка',
-              },
-            ],
+                title: 'Элемент списка'
+              }
+            ]
           },
           {
             id: 'testBtn35',
             title: 'Кнопка',
-            actionId: 'dummy',
-          },
-        ],
-      },
+            actionId: 'dummy'
+          }
+        ]
+      }
     ];
 
     const colorToolbar = [
@@ -140,9 +140,9 @@ stories
             id: 'testBtn1',
             title: 'Кнопка',
             actionId: 'dummy',
-            color: 'default',
-          },
-        ],
+            color: 'default'
+          }
+        ]
       },
       {
         buttons: [
@@ -150,9 +150,9 @@ stories
             id: 'testBtn2',
             title: 'Кнопка',
             actionId: 'dummy',
-            color: 'primary',
-          },
-        ],
+            color: 'primary'
+          }
+        ]
       },
       {
         buttons: [
@@ -160,9 +160,9 @@ stories
             id: 'testBtn3',
             title: 'Кнопка',
             actionId: 'dummy',
-            color: 'success',
-          },
-        ],
+            color: 'success'
+          }
+        ]
       },
       {
         buttons: [
@@ -170,9 +170,9 @@ stories
             id: 'testBtn4',
             title: 'Кнопка',
             actionId: 'dummy',
-            color: 'info',
-          },
-        ],
+            color: 'info'
+          }
+        ]
       },
       {
         buttons: [
@@ -180,9 +180,9 @@ stories
             id: 'testBtn5',
             title: 'Кнопка',
             actionId: 'dummy',
-            color: 'warning',
-          },
-        ],
+            color: 'warning'
+          }
+        ]
       },
       {
         buttons: [
@@ -190,10 +190,10 @@ stories
             id: 'testBtn6',
             title: 'Кнопка',
             actionId: 'dummy',
-            color: 'danger',
-          },
-        ],
-      },
+            color: 'danger'
+          }
+        ]
+      }
     ];
 
     const iconToolbar = [
@@ -203,9 +203,9 @@ stories
             id: 'testBtn7',
             title: 'Apple',
             actionId: 'dummy',
-            icon: 'fa fa-apple',
-          },
-        ],
+            icon: 'fa fa-apple'
+          }
+        ]
       },
       {
         buttons: [
@@ -213,9 +213,9 @@ stories
             id: 'testBtn8',
             title: 'Github',
             actionId: 'dummy',
-            icon: 'fa fa-github',
-          },
-        ],
+            icon: 'fa fa-github'
+          }
+        ]
       },
       {
         buttons: [
@@ -223,9 +223,9 @@ stories
             id: 'testBtn9',
             title: 'Telegram',
             actionId: 'dummy',
-            icon: 'fa fa-telegram',
-          },
-        ],
+            icon: 'fa fa-telegram'
+          }
+        ]
       },
       {
         buttons: [
@@ -233,9 +233,9 @@ stories
             id: 'testBtn10',
             title: 'Vk',
             actionId: 'dummy',
-            icon: 'fa fa-vk',
-          },
-        ],
+            icon: 'fa fa-vk'
+          }
+        ]
       },
       {
         buttons: [
@@ -243,9 +243,9 @@ stories
             id: 'testBtn11',
             title: 'Imdb',
             actionId: 'dummy',
-            icon: 'fa fa-imdb',
-          },
-        ],
+            icon: 'fa fa-imdb'
+          }
+        ]
       },
       {
         buttons: [
@@ -253,10 +253,10 @@ stories
             id: 'testBtn12',
             title: 'Facebook',
             actionId: 'dummy',
-            icon: 'fa fa-facebook',
-          },
-        ],
-      },
+            icon: 'fa fa-facebook'
+          }
+        ]
+      }
     ];
 
     const iconOnlyToolbar = [
@@ -265,55 +265,55 @@ stories
           {
             id: 'testBtn13',
             actionId: 'dummy',
-            icon: 'fa fa-apple',
-          },
-        ],
+            icon: 'fa fa-apple'
+          }
+        ]
       },
       {
         buttons: [
           {
             id: 'testBtn14',
             actionId: 'dummy',
-            icon: 'fa fa-github',
-          },
-        ],
+            icon: 'fa fa-github'
+          }
+        ]
       },
       {
         buttons: [
           {
             id: 'testBtn15',
             actionId: 'dummy',
-            icon: 'fa fa-telegram',
-          },
-        ],
+            icon: 'fa fa-telegram'
+          }
+        ]
       },
       {
         buttons: [
           {
             id: 'testBtn16',
             actionId: 'dummy',
-            icon: 'fa fa-vk',
-          },
-        ],
+            icon: 'fa fa-vk'
+          }
+        ]
       },
       {
         buttons: [
           {
             id: 'testBtn17',
             actionId: 'dummy',
-            icon: 'fa fa-imdb',
-          },
-        ],
+            icon: 'fa fa-imdb'
+          }
+        ]
       },
       {
         buttons: [
           {
             id: 'testBtn18',
             actionId: 'dummy',
-            icon: 'fa fa-facebook',
-          },
-        ],
-      },
+            icon: 'fa fa-facebook'
+          }
+        ]
+      }
     ];
 
     const sizeToolbarLg = [
@@ -323,10 +323,10 @@ stories
             id: 'small',
             actionId: 'dummy',
             title: 'Большая',
-            size: 'lg',
-          },
-        ],
-      },
+            size: 'lg'
+          }
+        ]
+      }
     ];
 
     const sizeToolbar = [
@@ -335,10 +335,10 @@ stories
           {
             id: 'small',
             actionId: 'dummy',
-            title: 'Стандартная',
-          },
-        ],
-      },
+            title: 'Стандартная'
+          }
+        ]
+      }
     ];
 
     const sizeToolbarSm = [
@@ -348,10 +348,10 @@ stories
             id: 'small',
             actionId: 'dummy',
             title: 'Маленькая',
-            size: 'sm',
-          },
-        ],
-      },
+            size: 'sm'
+          }
+        ]
+      }
     ];
 
     const hintPosition = [
@@ -361,25 +361,25 @@ stories
             id: 'Left1',
             title: 'Left',
             hintPosition: 'left',
-            hint: 'Left',
+            hint: 'Left'
           },
           {
             id: 'Right1',
             title: 'Right',
             hintPosition: 'right',
-            hint: 'Right',
+            hint: 'Right'
           },
           {
             id: 'Top1',
             title: 'Top',
             hintPosition: 'top',
-            hint: 'Top',
+            hint: 'Top'
           },
           {
             id: 'Bottom1',
             title: 'Bottom',
             hintPosition: 'bottom',
-            hint: 'Bottom',
+            hint: 'Bottom'
           },
           {
             id: 'Left2',
@@ -391,9 +391,9 @@ stories
               {
                 id: '23',
                 header: true,
-                title: 'Заголовок',
-              },
-            ],
+                title: 'Заголовок'
+              }
+            ]
           },
           {
             id: 'Right2',
@@ -405,9 +405,9 @@ stories
               {
                 id: '23',
                 header: true,
-                title: 'Заголовок',
-              },
-            ],
+                title: 'Заголовок'
+              }
+            ]
           },
           {
             id: 'Top2',
@@ -419,9 +419,9 @@ stories
               {
                 id: '23',
                 header: true,
-                title: 'Заголовок',
-              },
-            ],
+                title: 'Заголовок'
+              }
+            ]
           },
           {
             id: 'Bottom2',
@@ -433,18 +433,18 @@ stories
               {
                 id: '23',
                 header: true,
-                title: 'Заголовок',
-              },
-            ],
-          },
-        ],
-      },
+                title: 'Заголовок'
+              }
+            ]
+          }
+        ]
+      }
     ];
 
     const actions = {
       dummy: {
-        src: 'dummyImpl',
-      },
+        src: 'dummyImpl'
+      }
     };
 
     return (
@@ -465,46 +465,22 @@ stories
           <Actions actions={actions} toolbar={toolbar5} containerKey="test" />
         </div>
         <div className="row mb-2">
-          <Actions
-            actions={actions}
-            toolbar={colorToolbar}
-            containerKey="test"
-          />
+          <Actions actions={actions} toolbar={colorToolbar} containerKey="test" />
         </div>
         <div className="row mb-2">
-          <Actions
-            actions={actions}
-            toolbar={iconToolbar}
-            containerKey="test"
-          />
+          <Actions actions={actions} toolbar={iconToolbar} containerKey="test" />
         </div>
         <div className="row mb-2">
-          <Actions
-            actions={actions}
-            toolbar={iconOnlyToolbar}
-            containerKey="test"
-          />
+          <Actions actions={actions} toolbar={iconOnlyToolbar} containerKey="test" />
         </div>
         <div className="row mb-2">
-          <Actions
-            actions={actions}
-            toolbar={sizeToolbarLg}
-            containerKey="large"
-          />
+          <Actions actions={actions} toolbar={sizeToolbarLg} containerKey="large" />
         </div>
         <div className="row mb-2">
-          <Actions
-            actions={actions}
-            toolbar={sizeToolbar}
-            containerKey="default"
-          />
+          <Actions actions={actions} toolbar={sizeToolbar} containerKey="default" />
         </div>
         <div className="row mb-2">
-          <Actions
-            actions={actions}
-            toolbar={sizeToolbarSm}
-            containerKey="sm"
-          />
+          <Actions actions={actions} toolbar={sizeToolbarSm} containerKey="sm" />
         </div>
         <div className="row mb-2">
           <Actions actions={actions} toolbar={hintPosition} containerKey="sm" />
@@ -526,18 +502,18 @@ stories
           {
             id: 'testBtn22',
             title: 'Кнопка',
-            actionId: 'dummy',
+            actionId: 'dummy'
           },
           {
             id: 'testBtn23',
             title: 'Защищенная кнопка',
             actionId: 'dummy',
             security: {
-              roles: ['admin'],
-            },
-          },
-        ],
-      },
+              roles: ['admin']
+            }
+          }
+        ]
+      }
     ];
     return (
       <div>
@@ -546,11 +522,7 @@ stories
         </small>
         <AuthButtonContainer />
         <br />
-        <Actions
-          actions={MetaJson.actions}
-          toolbar={toolbar}
-          containerKey="metaBtns"
-        />
+        <Actions actions={MetaJson.actions} toolbar={toolbar} containerKey="metaBtns" />
       </div>
     );
   })
@@ -568,21 +540,21 @@ stories
                 title: 'Защищенная кнопка',
                 actionId: 'dummy',
                 security: {
-                  roles: ['admin'],
-                },
+                  roles: ['admin']
+                }
               },
               {
                 id: 'testBtn23',
                 title: 'Защищенная кнопка 2',
                 actionId: 'dummy',
                 security: {
-                  roles: ['admin'],
-                },
-              },
-            ],
-          },
-        ],
-      },
+                  roles: ['admin']
+                }
+              }
+            ]
+          }
+        ]
+      }
     ];
     return (
       <div>
@@ -591,19 +563,15 @@ stories
         </small>
         <AuthButtonContainer />
         <br />
-        <Actions
-          actions={MetaJson.actions}
-          toolbar={toolbar}
-          containerKey="metaBtns"
-        />
+        <Actions actions={MetaJson.actions} toolbar={toolbar} containerKey="metaBtns" />
       </div>
     );
   })
   .add('Page Buttons с предустановленным visible/disabled', () => {
     const actions = {
       dummy: {
-        src: 'dummyImpl',
-      },
+        src: 'dummyImpl'
+      }
     };
     const toolbarNonVisible = [
       {
@@ -612,10 +580,10 @@ stories
             id: '111',
             title: 'Кнопка',
             actionId: 'dummy',
-            visible: false,
-          },
-        ],
-      },
+            visible: false
+          }
+        ]
+      }
     ];
     const toolbarDisabled = [
       {
@@ -624,10 +592,10 @@ stories
             id: '1112',
             title: 'Кнопка',
             actionId: 'dummy',
-            disabled: true,
-          },
-        ],
-      },
+            disabled: true
+          }
+        ]
+      }
     ];
     const dropDownNonVisisble = [
       {
@@ -640,17 +608,17 @@ stories
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка',
+                title: 'Элемент списка'
               },
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка',
-              },
-            ],
-          },
-        ],
-      },
+                title: 'Элемент списка'
+              }
+            ]
+          }
+        ]
+      }
     ];
     const dropDownDisabled = [
       {
@@ -663,36 +631,28 @@ stories
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка',
+                title: 'Элемент списка'
               },
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка',
-              },
-            ],
-          },
-        ],
-      },
+                title: 'Элемент списка'
+              }
+            ]
+          }
+        ]
+      }
     ];
 
     return (
       <React.Fragment>
         <div className="row mb-2">
           Кнопку не видно, потому что она скрыта
-          <Actions
-            actions={actions}
-            toolbar={toolbarNonVisible}
-            containerKey="visibleTest"
-          />
+          <Actions actions={actions} toolbar={toolbarNonVisible} containerKey="visibleTest" />
         </div>
         <div className="row mb-2">
           Кнопка неактивна
-          <Actions
-            actions={actions}
-            toolbar={toolbarDisabled}
-            containerKey="disabledTest"
-          />
+          <Actions actions={actions} toolbar={toolbarDisabled} containerKey="disabledTest" />
         </div>
         <div className="row mb-2">
           Дропдаун не видно, потому что он скрыт
@@ -704,11 +664,7 @@ stories
         </div>
         <div className="row mb-2">
           Дропдаун неактивен
-          <Actions
-            actions={actions}
-            toolbar={dropDownDisabled}
-            containerKey="dropdownDisabled"
-          />
+          <Actions actions={actions} toolbar={dropDownDisabled} containerKey="dropdownDisabled" />
         </div>
       </React.Fragment>
     );

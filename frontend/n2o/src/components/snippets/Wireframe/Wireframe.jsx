@@ -11,10 +11,7 @@ import cx from 'classnames';
 class Wireframe extends React.Component {
   render() {
     return (
-      <div
-        style={this.props.style}
-        className={cx('n2o-wireframe', this.props.className)}
-      >
+      <div style={this.props.style} className={cx('n2o-wireframe', this.props.className)}>
         {this.props.title}
       </div>
     );
@@ -24,7 +21,7 @@ class Wireframe extends React.Component {
 Wireframe.propTypes = {
   className: PropTypes.string,
   title: PropTypes.string,
-  style: PropTypes.object,
+  style: PropTypes.object
 };
 
 export default Wireframe;

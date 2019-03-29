@@ -2,19 +2,12 @@ import { push, replace } from 'connected-react-router';
 import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { USER_LOGIN, USER_LOGOUT } from '../constants/auth';
-import {
-  SECURITY_LOGIN,
-  SECURITY_LOGOUT,
-  SECURITY_ERROR,
-} from '../core/auth/authTypes';
+import { SECURITY_LOGIN, SECURITY_LOGOUT, SECURITY_ERROR } from '../core/auth/authTypes';
 import { userLoginSuccess, userLogoutSuccess } from '../actions/auth';
 
 import { FETCH_ERROR } from '../constants/fetch';
 
-export function* resolveAuth(
-  { authProvider, redirectPath, externalLoginUrl },
-  { type, payload }
-) {
+export function* resolveAuth({ authProvider, redirectPath, externalLoginUrl }, { type, payload }) {
   switch (type) {
     case USER_LOGIN:
       try {
@@ -54,6 +47,6 @@ export default config => {
   if (!config.authProvider) return [];
   return [
     takeEvery(action => action.meta && action.meta.auth, resolveAuth, config),
-    takeEvery(FETCH_ERROR, resolveAuth, config),
+    takeEvery(FETCH_ERROR, resolveAuth, config)
   ];
 };

@@ -5,5 +5,5 @@ import SimpleHeaderContainer from './Header/SimpleHeader/SimpleHeaderContainer';
 export default {
   simple: simple,
 
-  SimpleHeaderContainer: SimpleHeaderContainer,
+  SimpleHeaderContainer: SimpleHeaderContainer
 };

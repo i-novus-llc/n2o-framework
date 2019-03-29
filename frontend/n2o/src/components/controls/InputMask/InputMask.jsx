@@ -35,7 +35,7 @@ class InputMask extends React.Component {
       '9': /\d/,
       S: /[A-Za-z]/,
       Б: /[А-Яа-я]/,
-      ...props.dictionary,
+      ...props.dictionary
     };
     this.mask = this.mask.bind(this);
     this.preset = this.preset.bind(this);
@@ -101,9 +101,7 @@ class InputMask extends React.Component {
         .map(item => item instanceof RegExp)
         .lastIndexOf(true);
     } else if (typeof mask === 'string') {
-      return Math.max(
-        ...Object.keys(this.dict).map(char => mask.lastIndexOf(char))
-      );
+      return Math.max(...Object.keys(this.dict).map(char => mask.lastIndexOf(char)));
     } else if (Array.isArray(mask)) {
       return mask.map(item => item instanceof RegExp).lastIndexOf(true);
     }
@@ -117,9 +115,7 @@ class InputMask extends React.Component {
     if (guide) {
       return value && this._indexOfFirstPlaceHolder(value) === -1;
     }
-    return (
-      value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask)
-    );
+    return value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask);
   }
 
   /**
@@ -145,9 +141,7 @@ class InputMask extends React.Component {
     this.valid = this._isValid(value);
     if (!this.valid) {
       const newValue = resetOnNotValid ? '' : value;
-      this.setState({ value: newValue, guide: false }, () =>
-        this.props.onChange(newValue)
-      );
+      this.setState({ value: newValue, guide: false }, () => this.props.onChange(newValue));
     }
   }
 
@@ -159,15 +153,11 @@ class InputMask extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (
-      props.value &&
-      props.value !== state.prevPropsValue &&
-      props.value !== state.value
-    ) {
+    if (props.value && props.value !== state.prevPropsValue && props.value !== state.value) {
       return {
         ...state,
         prevPropsValue: props.value,
-        value: props.value,
+        value: props.value
       };
     }
     return null;
@@ -220,17 +210,13 @@ InputMask.defaultProps = {
   value: '',
   dictionary: {},
   mask: '',
-  presetConfig: {},
+  presetConfig: {}
 };
 
 InputMask.propTypes = {
   className: PropTypes.string,
   preset: PropTypes.string,
-  mask: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.func,
-  ]),
+  mask: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.func]),
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   placeholderChar: PropTypes.string,
@@ -239,7 +225,7 @@ InputMask.propTypes = {
   guide: PropTypes.bool,
   keepCharPositions: PropTypes.bool,
   resetOnNotValid: PropTypes.bool,
-  presetConfig: PropTypes.object,
+  presetConfig: PropTypes.object
 };
 
 export default InputMask;

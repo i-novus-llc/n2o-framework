@@ -20,7 +20,7 @@ import {
   uniq,
   uniqBy,
   unionWith,
-  isEqual,
+  isEqual
 } from 'lodash';
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
@@ -120,7 +120,7 @@ function InputSelectTree({
     imageFieldId,
     labelFieldId,
     badgeFieldId,
-    badgeColorFieldId,
+    badgeColorFieldId
   };
 
   /**
@@ -142,8 +142,8 @@ function InputSelectTree({
             ? propsResolver({ format }, item).format
             : visiblePartPopup(item, popupProps),
           ...(ajax && { isLeaf: !item[hasChildrenFieldId] }),
-          children: [],
-        },
+          children: []
+        }
       }),
       {}
     );
@@ -154,9 +154,7 @@ function InputSelectTree({
         itemsByID[itemsByID[key][parentFieldId]] &&
         itemsByID[itemsByID[key][parentFieldId]].children
       ) {
-        itemsByID[itemsByID[key][parentFieldId]].children.push({
-          ...itemsByID[key],
-        });
+        itemsByID[itemsByID[key][parentFieldId]].children.push({ ...itemsByID[key] });
       }
     });
 
@@ -186,8 +184,7 @@ function InputSelectTree({
    * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
    * @param ids
    */
-  const getDataByIds = ids =>
-    filterF(data, node => some(ids, v => v === node[valueFieldId]));
+  const getDataByIds = ids => filterF(data, node => some(ids, v => v === node[valueFieldId]));
 
   /**
    * Берет всех потомков у родителей
@@ -349,16 +346,11 @@ function InputSelectTree({
     setTreeExpandedKeys(keys);
   };
 
-  const renderSwitcherIcon = ({ isLeaf }) =>
-    isLeaf ? null : <Icon name="fa fa-chevron-right" />;
+  const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />);
 
   const clearIcon = <Icon name="fa fa-times" />;
 
-  const inputIcon = loading ? (
-    <InlineSpinner />
-  ) : (
-    <Icon name="fa fa-chevron-down" />
-  );
+  const inputIcon = loading ? <InlineSpinner /> : <Icon name="fa fa-chevron-down" />;
 
   const getPopupContainer = container => container;
 
@@ -391,15 +383,15 @@ function InputSelectTree({
       getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
-        defaultMessage: notFoundContent || ' ',
+        defaultMessage: notFoundContent || ' '
       })}
       placeholder={intl.formatMessage({
         id: 'inputSelectTree.placeholder',
-        defaultMessage: placeholder || ' ',
+        defaultMessage: placeholder || ' '
       })}
       searchPlaceholder={intl.formatMessage({
         id: 'inputSelectTree.searchPlaceholder',
-        defaultMessage: searchPlaceholder || ' ',
+        defaultMessage: searchPlaceholder || ' '
       })}
       {...rest}
     >

@@ -25,13 +25,13 @@ describe('Провера Factory', () => {
   it('Создает нужный компонент', () => {
     const wrapper = setup({
       src: 'InputText',
-      ...InputTextJson,
+      ...InputTextJson
     });
     expect(wrapper.find(InputText).exists()).toEqual(true);
   });
   it('Вернет null, если компонент не найден', () => {
     const wrapper = setup({
-      src: 'UnknownSrc',
+      src: 'UnknownSrc'
     });
     expect(wrapper.find(Factory).html()).toEqual(null);
   });

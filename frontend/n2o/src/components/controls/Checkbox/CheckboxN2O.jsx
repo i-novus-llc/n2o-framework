@@ -39,12 +39,12 @@ class CheckboxN2O extends React.Component {
       checked,
       onClick,
       onFocus,
-      onBlur,
+      onBlur
     } = this.props;
     return (
       <div
         className={cx('custom-control', 'custom-checkbox', className, {
-          'custom-control-inline': inline,
+          'custom-control-inline': inline
         })}
       >
         <Input
@@ -87,7 +87,7 @@ CheckboxN2O.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   onPaste: PropTypes.func,
-  onKeyDown: PropTypes.func,
+  onKeyDown: PropTypes.func
 };
 
 CheckboxN2O.defaultProps = {
@@ -98,7 +98,7 @@ CheckboxN2O.defaultProps = {
   onChange: () => {},
   onPaste: () => {},
   onClick: () => {},
-  onKeyDown: () => {},
+  onKeyDown: () => {}
 };
 
 export default setDisplayName('CheckboxN2O')(CheckboxN2O);

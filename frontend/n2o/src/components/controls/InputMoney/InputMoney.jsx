@@ -8,7 +8,7 @@ const ReplaceableChar = {
   PREFIX: 'prefix',
   SUFFIX: 'suffix',
   THOUSANDS_SYMBOL: 'thousandsSeparatorSymbol',
-  DECIMAL_SYMBOL: 'decimalSymbol',
+  DECIMAL_SYMBOL: 'decimalSymbol'
 };
 
 /**
@@ -33,7 +33,7 @@ class InputMoney extends React.Component {
     super(props);
 
     this.state = {
-      value: props.value,
+      value: props.value
     };
 
     this.onChange = this.onChange.bind(this);
@@ -54,19 +54,13 @@ class InputMoney extends React.Component {
       value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
     }
 
-    const splitBySymbol = split(
-      value,
-      this.props[ReplaceableChar.DECIMAL_SYMBOL]
-    );
+    const splitBySymbol = split(value, this.props[ReplaceableChar.DECIMAL_SYMBOL]);
 
     if (!allowDecimal) {
       value = splitBySymbol[0];
     } else if (splitBySymbol.length === 2 && splitBySymbol[1].length === 1) {
       value =
-        splitBySymbol[0] +
-        this.props[ReplaceableChar.DECIMAL_SYMBOL] +
-        splitBySymbol[1] +
-        '0';
+        splitBySymbol[0] + this.props[ReplaceableChar.DECIMAL_SYMBOL] + splitBySymbol[1] + '0';
     }
 
     return value;
@@ -81,18 +75,10 @@ class InputMoney extends React.Component {
     let convertedValue = value.toString();
     forOwn(ReplaceableChar, char => {
       if (!isEmpty(this.props[char])) {
-        const pattern = this.props[char].replace(
-          /[-\/\\^$*+?.()|[\]{}]/g,
-          '\\$&'
-        );
+        const pattern = this.props[char].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         const regExp = new RegExp(pattern, 'g');
-        const replaceableValue =
-          char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : '';
-        convertedValue = this.replaceSpecialSymbol(
-          convertedValue,
-          regExp,
-          replaceableValue
-        );
+        const replaceableValue = char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : '';
+        convertedValue = this.replaceSpecialSymbol(convertedValue, regExp, replaceableValue);
       }
     });
 
@@ -128,7 +114,7 @@ class InputMoney extends React.Component {
       integerLimit,
       requireDecimal,
       allowNegative,
-      allowLeadingZeroes,
+      allowLeadingZeroes
     } = this.props;
     return {
       ...this.props,
@@ -147,8 +133,8 @@ class InputMoney extends React.Component {
         integerLimit,
         requireDecimal,
         allowNegative,
-        allowLeadingZeroes,
-      },
+        allowLeadingZeroes
+      }
     };
   }
 
@@ -170,7 +156,7 @@ InputMoney.propTypes = {
   integerLimit: PropTypes.any,
   requireDecimal: PropTypes.bool,
   allowNegative: PropTypes.bool,
-  allowLeadingZeroes: PropTypes.bool,
+  allowLeadingZeroes: PropTypes.bool
 };
 
 InputMoney.defaultProps = {
@@ -185,7 +171,7 @@ InputMoney.defaultProps = {
   integerLimit: null,
   requireDecimal: false,
   allowNegative: false,
-  allowLeadingZeroes: false,
+  allowLeadingZeroes: false
 };
 
 export default InputMoney;

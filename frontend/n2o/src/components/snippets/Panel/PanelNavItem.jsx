@@ -43,7 +43,7 @@ class PanelNavItem extends React.Component {
           className={cx('nav-link panel-block-flex panel-heading-link', {
             'panel-toolbar-link': this.props.isToolBar,
             active,
-            disabled,
+            disabled
           })}
           onClick={this.handleClick}
           href="#"
@@ -62,13 +62,13 @@ PanelNavItem.propTypes = {
   onClick: PropTypes.func,
   className: PropTypes.string,
   isToolBar: PropTypes.bool,
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 PanelNavItem.defaultProps = {
   active: false,
   disabled: false,
-  isToolBar: false,
+  isToolBar: false
 };
 
 export default PanelNavItem;

@@ -22,11 +22,10 @@ import Actions from '../actions/Actions';
 class StandardWidget extends React.Component {
   renderSection(place) {
     const { widgetId, toolbar, actions, filter } = this.props;
-    if (this.props[place] && React.isValidElement(this.props[place]))
-      return this.props[place];
+    if (this.props[place] && React.isValidElement(this.props[place])) return this.props[place];
     const filterProps = {
       ...filter,
-      fieldsets: filter.filterFieldsets,
+      fieldsets: filter.filterFieldsets
     };
     switch (place) {
       case 'left':
@@ -34,37 +33,13 @@ class StandardWidget extends React.Component {
       case 'top':
         return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       case 'topLeft':
-        return (
-          <Actions
-            toolbar={toolbar.topLeft}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Actions toolbar={toolbar.topLeft} actions={actions} containerKey={widgetId} />;
       case 'topRight':
-        return (
-          <Actions
-            toolbar={toolbar.topRight}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Actions toolbar={toolbar.topRight} actions={actions} containerKey={widgetId} />;
       case 'bottomLeft':
-        return (
-          <Actions
-            toolbar={toolbar.bottomLeft}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Actions toolbar={toolbar.bottomLeft} actions={actions} containerKey={widgetId} />;
       case 'bottomRight':
-        return (
-          <Actions
-            toolbar={toolbar.bottomRight}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Actions toolbar={toolbar.bottomRight} actions={actions} containerKey={widgetId} />;
       case 'right':
         return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       default:
@@ -75,10 +50,7 @@ class StandardWidget extends React.Component {
   render() {
     const { widgetId, disabled, filter, className, style } = this.props;
     return (
-      <StandardWidgetLayout
-        className={cx(className, { 'n2o-disabled': disabled })}
-        style={style}
-      >
+      <StandardWidgetLayout className={cx(className, { 'n2o-disabled': disabled })} style={style}>
         {filter.filterPlace === 'left' && (
           <Section place="left">{this.renderSection('left')}</Section>
         )}
@@ -90,9 +62,7 @@ class StandardWidget extends React.Component {
         <Section place="topRight">{this.renderSection('topRight')}</Section>
         <Section place="center">{this.props.children}</Section>
         <Section place="bottomLeft">{this.renderSection('bottomLeft')}</Section>
-        <Section place="bottomRight">
-          {this.renderSection('bottomRight')}
-        </Section>
+        <Section place="bottomRight">{this.renderSection('bottomRight')}</Section>
         {filter.filterPlace === 'right' && this.renderSection('right')}
       </StandardWidgetLayout>
     );
@@ -101,7 +71,7 @@ class StandardWidget extends React.Component {
 
 StandardWidget.defaultProps = {
   toolbar: {},
-  filter: {},
+  filter: {}
 };
 
 StandardWidget.propTypes = {
@@ -118,7 +88,7 @@ StandardWidget.propTypes = {
   topRight: PropTypes.element,
   bottomLeft: PropTypes.element,
   bottomRight: PropTypes.element,
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export default pure(StandardWidget);

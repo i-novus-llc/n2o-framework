@@ -20,8 +20,8 @@ describe('Тест для createActionHelper', () => {
       {
         alert: {
           severity: 'danger',
-          label: 'test',
-        },
+          label: 'test'
+        }
       }
     );
     expect(action.meta.alert.severity).toEqual('danger');

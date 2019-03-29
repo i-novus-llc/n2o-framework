@@ -18,16 +18,12 @@ stories.add('Метаданные', () => {
   const props = {
     id: text('id', IconJson.id),
     type: select('type', Object.values(iconCellTypes), IconJson.type),
-    textPlace: select(
-      'textPlace',
-      Object.values(textPlaceTypes),
-      IconJson.textPlace
-    ),
+    textPlace: select('textPlace', Object.values(textPlaceTypes), IconJson.textPlace),
     icon: text('icon', IconJson.icon),
     model: {
       name: 'Иван',
-      age: '12',
-    },
+      age: '12'
+    }
   };
 
   const tableProps = {
@@ -35,21 +31,21 @@ stories.add('Метаданные', () => {
       {
         id: 'id',
         component: TextTableHeader,
-        label: 'Ячейка с иконкой',
-      },
+        label: 'Ячейка с иконкой'
+      }
     ],
     cells: [
       {
         component: IconCell,
-        ...props,
-      },
+        ...props
+      }
     ],
     datasource: [
       {
         id: 'id',
-        name: 'alesha',
-      },
-    ],
+        name: 'alesha'
+      }
+    ]
   };
 
   return (

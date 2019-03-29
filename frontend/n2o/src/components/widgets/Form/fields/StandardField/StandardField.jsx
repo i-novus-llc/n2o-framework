@@ -85,25 +85,21 @@ class StandardField extends React.Component {
     const validationMap = {
       'is-valid': 'text-success',
       'is-invalid': 'text-danger',
-      'has-warning': 'text-warning',
+      'has-warning': 'text-warning'
     };
     const styleHelper = { width: '100%' };
     const labelWidthPixels =
-      labelWidth === 'default'
-        ? 180
-        : labelWidth === 'min'
-        ? undefined
-        : labelWidth;
+      labelWidth === 'default' ? 180 : labelWidth === 'min' ? undefined : labelWidth;
     const extendedLabelStyle = {
       width: labelWidthPixels,
       flex: labelWidthPixels ? 'none' : undefined,
-      ...labelStyle,
+      ...labelStyle
     };
     return (
       visible && (
         <div
           className={cx('n2o-form-group', 'form-group', className, {
-            ['label-' + labelPosition]: labelPosition,
+            ['label-' + labelPosition]: labelPosition
           })}
           style={style}
         >
@@ -131,21 +127,14 @@ class StandardField extends React.Component {
                 onChange={onChange}
                 {...control}
                 {...props}
-                className={cx(control && control.className, {
-                  [validationClass]: touched,
-                })}
+                className={cx(control && control.className, { [validationClass]: touched })}
               />
               <Measure value={measure} />
               <FieldActions actions={fieldActions} />
               {loading && <InlineSpinner />}
             </div>
             <Description value={description} />
-            <div
-              className={cx(
-                'n2o-validation-message',
-                validationMap[validationClass]
-              )}
-            >
+            <div className={cx('n2o-validation-message', validationMap[validationClass])}>
               {touched && message && message.text}
             </div>
           </div>
@@ -175,7 +164,7 @@ StandardField.propTypes = {
   labelAlignment: PropTypes.oneOf(['left', 'right']),
   labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
   message: PropTypes.object,
-  help: PropTypes.oneOf(PropTypes.string, PropTypes.node),
+  help: PropTypes.oneOf(PropTypes.string, PropTypes.node)
 };
 
 StandardField.defaultProps = {
@@ -187,7 +176,7 @@ StandardField.defaultProps = {
   style: {},
   enabled: true,
   disabled: false,
-  onChange: () => {},
+  onChange: () => {}
 };
 
 export default StandardField;

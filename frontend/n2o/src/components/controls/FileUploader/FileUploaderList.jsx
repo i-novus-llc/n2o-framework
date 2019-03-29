@@ -31,7 +31,7 @@ class FileUploaderList extends React.Component {
 FileUploaderList.propTypes = {
   files: PropTypes.arrayOf(PropTypes.object),
   percentage: PropTypes.number,
-  onRemove: PropTypes.func,
+  onRemove: PropTypes.func
 };
 
 export default FileUploaderList;

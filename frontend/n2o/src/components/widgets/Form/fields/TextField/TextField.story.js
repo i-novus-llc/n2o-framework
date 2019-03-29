@@ -9,7 +9,5 @@ stories
     return <TextField text={'Обычный текст'} />;
   })
   .add('Отформатированный текст', () => {
-    return (
-      <TextField text={'20.04.1934 00:00:00'} format={'date DD.MM.YYYY'} />
-    );
+    return <TextField text={'20.04.1934 00:00:00'} format={'date DD.MM.YYYY'} />;
   });

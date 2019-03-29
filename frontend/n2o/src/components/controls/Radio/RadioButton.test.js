@@ -7,7 +7,7 @@ const setup = propsOverrides => {
   const props = Object.assign(
     {
       value: '123',
-      checked: false,
+      checked: false
     },
     propsOverrides
   );
@@ -16,7 +16,7 @@ const setup = propsOverrides => {
 
   return {
     wrapper,
-    props,
+    props
   };
 };
 

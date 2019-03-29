@@ -27,7 +27,7 @@ const layoutPlaceResolver = LayoutComponent => {
     getChildContext() {
       return {
         getSection: this.getSection,
-        getParentProps: this.getParentProps,
+        getParentProps: this.getParentProps
       };
     }
 
@@ -63,11 +63,7 @@ const layoutPlaceResolver = LayoutComponent => {
       } else if (isArray(children)) {
         let sections = [];
         for (let i = 0, c = children.length; i < c; i += 1) {
-          sections = Object.assign(
-            {},
-            sections,
-            this.parseSections(children[i])
-          );
+          sections = Object.assign({}, sections, this.parseSections(children[i]));
         }
         return sections;
       }
@@ -92,7 +88,7 @@ const layoutPlaceResolver = LayoutComponent => {
 
   LayoutComponentHOC.childContextTypes = {
     getSection: PropTypes.func.isRequired,
-    getParentProps: PropTypes.func.isRequired,
+    getParentProps: PropTypes.func.isRequired
   };
 
   return LayoutComponentHOC;

@@ -1,12 +1,4 @@
-import {
-  call,
-  put,
-  select,
-  takeLatest,
-  takeEvery,
-  take,
-  all,
-} from 'redux-saga/effects';
+import { call, put, select, takeLatest, takeEvery, take, all } from 'redux-saga/effects';
 import { delay } from 'redux-saga';
 
 import { ADD, ADD_MULTI } from '../constants/alerts';
@@ -26,10 +18,7 @@ export function* addAlertSideEffect(config, action) {
     for (let i = 0; i < alerts.length; i++) {
       const timeout = yield call(getTimeout, alerts[i], config);
       if (timeout) {
-        effects = [
-          ...effects,
-          removeAlertSideEffect(action, alerts[i], timeout),
-        ];
+        effects = [...effects, removeAlertSideEffect(action, alerts[i], timeout)];
       }
     }
     yield all(effects);

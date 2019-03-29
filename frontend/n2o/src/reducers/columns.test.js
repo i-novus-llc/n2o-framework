@@ -2,7 +2,7 @@ import {
   CHANGE_COLUMN_DISABLED,
   CHANGE_COLUMN_VISIBILITY,
   REGISTER_COLUMN,
-  TOGGLE_COLUMN_VISIBILITY,
+  TOGGLE_COLUMN_VISIBILITY
 } from '../constants/columns';
 import { RESET_STATE } from '../constants/widgets';
 import columns from './columns';
@@ -13,15 +13,15 @@ describe('Тесты columns reducer', () => {
       columns(
         {
           testKey: {
-            name: 'testColumns',
-          },
+            name: 'testColumns'
+          }
         },
         {
           type: REGISTER_COLUMN,
           payload: {
             key: 'testKey',
-            columnId: 'columnId',
-          },
+            columnId: 'columnId'
+          }
         }
       )
     ).toEqual({
@@ -29,10 +29,10 @@ describe('Тесты columns reducer', () => {
         columnId: {
           disabled: false,
           isInit: true,
-          visible: true,
+          visible: true
         },
-        name: 'testColumns',
-      },
+        name: 'testColumns'
+      }
     });
   });
 
@@ -41,16 +41,16 @@ describe('Тесты columns reducer', () => {
       columns(
         {
           testKey: {
-            name: 'testName',
-          },
+            name: 'testName'
+          }
         },
         {
           type: CHANGE_COLUMN_VISIBILITY,
           payload: {
             key: 'testKey',
             columnId: 'columnId',
-            visible: true,
-          },
+            visible: true
+          }
         }
       )
     ).toEqual({
@@ -58,10 +58,10 @@ describe('Тесты columns reducer', () => {
         columnId: {
           disabled: false,
           isInit: true,
-          visible: true,
+          visible: true
         },
-        name: 'testName',
-      },
+        name: 'testName'
+      }
     });
   });
 
@@ -70,16 +70,16 @@ describe('Тесты columns reducer', () => {
       columns(
         {
           testKey: {
-            name: 'testName',
-          },
+            name: 'testName'
+          }
         },
         {
           type: CHANGE_COLUMN_DISABLED,
           payload: {
             key: 'testKey',
             columnId: 'columnId',
-            disabled: true,
-          },
+            disabled: true
+          }
         }
       )
     ).toEqual({
@@ -87,10 +87,10 @@ describe('Тесты columns reducer', () => {
         columnId: {
           disabled: true,
           isInit: true,
-          visible: true,
+          visible: true
         },
-        name: 'testName',
-      },
+        name: 'testName'
+      }
     });
   });
 
@@ -99,15 +99,15 @@ describe('Тесты columns reducer', () => {
       columns(
         {
           testKey: {
-            name: 'testName',
-          },
+            name: 'testName'
+          }
         },
         {
           type: TOGGLE_COLUMN_VISIBILITY,
           payload: {
             key: 'testKey',
-            columnId: 'columnId',
-          },
+            columnId: 'columnId'
+          }
         }
       )
     ).toEqual({
@@ -115,10 +115,10 @@ describe('Тесты columns reducer', () => {
         columnId: {
           disabled: false,
           isInit: true,
-          visible: false,
+          visible: false
         },
-        name: 'testName',
-      },
+        name: 'testName'
+      }
     });
   });
 
@@ -128,24 +128,24 @@ describe('Тесты columns reducer', () => {
         {
           widgetId: {
             columnId: {
-              isInit: true,
-            },
-          },
+              isInit: true
+            }
+          }
         },
         {
           type: RESET_STATE,
           payload: {
             widgetId: 'widgetId',
-            columnId: 'columnId',
-          },
+            columnId: 'columnId'
+          }
         }
       )
     ).toEqual({
       widgetId: {
         columnId: {
-          isInit: false,
-        },
-      },
+          isInit: false
+        }
+      }
     });
   });
 });

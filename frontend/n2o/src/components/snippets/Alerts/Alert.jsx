@@ -23,7 +23,7 @@ class Alert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailsVisible: false,
+      detailsVisible: false
     };
     this.toggleDetails = this.toggleDetails.bind(this);
   }
@@ -33,7 +33,7 @@ class Alert extends React.Component {
    */
   toggleDetails() {
     this.setState({
-      detailsVisible: !this.state.detailsVisible,
+      detailsVisible: !this.state.detailsVisible
     });
   }
 
@@ -51,15 +51,12 @@ class Alert extends React.Component {
       icon,
       details,
       onDismiss,
-      visible,
+      visible
     } = this.props;
     const { detailsVisible } = this.state;
     return (
       visible !== false && (
-        <div
-          className={cx('alert', `alert-${severity}`, className)}
-          style={style}
-        >
+        <div className={cx('alert', `alert-${severity}`, className)} style={style}>
           {closeButton && (
             <button className="close n2o-alert-close" onClick={onDismiss}>
               <span>×</span>
@@ -74,10 +71,7 @@ class Alert extends React.Component {
           <div className={'n2o-alert-body'}>
             {text}
             {details && (
-              <a
-                className="alert-link details-label"
-                onClick={this.toggleDetails}
-              >
+              <a className="alert-link details-label" onClick={this.toggleDetails}>
                 {detailsVisible ? 'Скрыть' : 'Подробнее'}
               </a>
             )}
@@ -96,7 +90,7 @@ Alert.defaultProps = {
   details: '',
   closeButton: true,
   visible: true,
-  onDismiss: () => {},
+  onDismiss: () => {}
 };
 
 Alert.propTypes = {
@@ -109,7 +103,7 @@ Alert.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   icon: PropTypes.string,
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 };
 
 export default Alert;

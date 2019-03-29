@@ -48,14 +48,14 @@ BreadcrumbContainer.propTypes = {
     PropTypes.shape({
       label: PropTypes.string,
       modelLink: PropTypes.string,
-      path: PropTypes.string,
+      path: PropTypes.string
     })
-  ),
+  )
 };
 
 BreadcrumbContainer.defaultProps = {
   items: [],
-  defaultBreadcrumb: () => null,
+  defaultBreadcrumb: () => null
 };
 
 //const memoizedMap = memoize(map);
@@ -66,15 +66,12 @@ const mapStateToProps = (state, ownProps) => {
       if (item.modelLink) {
         return {
           ...item,
-          label: propsResolver(
-            item.label,
-            getModelSelector(item.modelLink)(state)
-          ),
+          label: propsResolver(item.label, getModelSelector(item.modelLink)(state))
         };
       }
 
       return item;
-    }),
+    })
   };
 };
 

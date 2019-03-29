@@ -15,7 +15,7 @@ const setup = propOverrides => {
       hasTabs: false,
       fullScreen: true,
       open: true,
-      collapsible: false,
+      collapsible: false
     },
     propOverrides
   );
@@ -28,7 +28,7 @@ const setup = propOverrides => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 

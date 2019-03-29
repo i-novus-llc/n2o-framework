@@ -17,14 +17,11 @@ stories.add(
     const props = {
       disabled: boolean('disabled', false),
       checked: boolean('checked', store.state.checked),
-      label: text('label', 'Label'),
+      label: text('label', 'Label')
     };
 
     return (
-      <CheckboxButton
-        {...props}
-        onChange={() => store.set({ checked: !store.state.checked })}
-      />
+      <CheckboxButton {...props} onChange={() => store.set({ checked: !store.state.checked })} />
     );
   })
 );

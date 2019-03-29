@@ -22,7 +22,7 @@ class ControlFactory extends React.Component {
 }
 
 ControlFactory.propTypes = {
-  src: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired
 };
 
 export default ControlFactory;

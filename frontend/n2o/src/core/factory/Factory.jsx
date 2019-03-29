@@ -14,9 +14,7 @@ function Factory(props, context) {
       <SecurityCheck
         config={security}
         render={({ permissions }) => {
-          return permissions
-            ? React.createElement(component, rest, children)
-            : null;
+          return permissions ? React.createElement(component, rest, children) : null;
         }}
       />
     );
@@ -29,11 +27,11 @@ function Factory(props, context) {
 Factory.propTypes = {
   src: PropTypes.string.isRequired,
   level: PropTypes.string,
-  security: PropTypes.object,
+  security: PropTypes.object
 };
 
 Factory.contextTypes = {
-  getComponent: PropTypes.func,
+  getComponent: PropTypes.func
 };
 
 export default Factory;

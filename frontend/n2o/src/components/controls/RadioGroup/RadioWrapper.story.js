@@ -1,12 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  select,
-  number,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, select, number } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
 import RadioWrapper from './RadioWrapper.meta.json';
@@ -22,16 +16,16 @@ stories.add(
     const list = [
       {
         id: 1,
-        label: 'One',
+        label: 'One'
       },
       {
         id: 2,
-        label: 'Two',
+        label: 'Two'
       },
       {
         id: 3,
-        label: 'Three',
-      },
+        label: 'Three'
+      }
     ];
 
     const props = {
@@ -43,7 +37,7 @@ stories.add(
       labelFieldId: text('labelFieldId', RadioWrapper.labelFieldId),
       size: RadioWrapper.size,
       type: select('type', ['default', 'n2o', 'btn'], RadioWrapper.type),
-      dataProvider: RadioWrapper.dataProvider,
+      dataProvider: RadioWrapper.dataProvider
     };
 
     fetchMock.restore().get('begin:n2o/data', { list });

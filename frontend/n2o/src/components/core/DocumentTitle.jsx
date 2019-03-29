@@ -17,11 +17,11 @@ function DocumentTitle({ title, model }) {
 
 DocumentTitle.propTypes = {
   title: PropTypes.string,
-  modelLink: PropTypes.string,
+  modelLink: PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({
-  model: (state, { modelLink }) => getModelSelector(modelLink)(state),
+  model: (state, { modelLink }) => getModelSelector(modelLink)(state)
 });
 
 export default connect(mapStateToProps)(DocumentTitle);

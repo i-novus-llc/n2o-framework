@@ -43,14 +43,14 @@ ProgressBarCell.propTypes = {
   striped: PropTypes.bool,
   color: PropTypes.oneOf(Object.values(progressBarStyles)),
   size: PropTypes.oneOf(['mini', 'default', 'large']),
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 };
 
 ProgressBarCell.defaultProps = {
   animated: false,
   striped: false,
   size: 'default',
-  visible: true,
+  visible: true
 };
 
 export default ProgressBarCell;

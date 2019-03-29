@@ -50,10 +50,7 @@ export default class Pagination extends React.Component {
 
     if (maxButtons && maxButtons < pages) {
       startPage = Math.max(
-        Math.min(
-          activePage - Math.floor(maxButtons / 2, 10),
-          pages - maxButtons + 1
-        ),
+        Math.min(activePage - Math.floor(maxButtons / 2, 10), pages - maxButtons + 1),
         1
       );
       endPage = startPage + maxButtons;
@@ -79,54 +76,29 @@ export default class Pagination extends React.Component {
     }
 
     if (stepIncrement && endPage < pages - 1) {
-      pageButtons.push(
-        <PaginationButton label="..." key="ellipsisMiddle" noBorder disabled />
-      );
+      pageButtons.push(<PaginationButton label="..." key="ellipsisMiddle" noBorder disabled />);
       pageButtons.push(
         <PaginationButton
-          key={
-            activePage + stepIncrement > pages
-              ? pages
-              : activePage + stepIncrement
-          }
-          eventKey={
-            activePage + stepIncrement > pages
-              ? pages
-              : activePage + stepIncrement
-          }
-          label={
-            activePage + stepIncrement > pages
-              ? pages
-              : activePage + stepIncrement
-          }
+          key={activePage + stepIncrement > pages ? pages : activePage + stepIncrement}
+          eventKey={activePage + stepIncrement > pages ? pages : activePage + stepIncrement}
+          label={activePage + stepIncrement > pages ? pages : activePage + stepIncrement}
           onSelect={onSelect}
         />
       );
       activePage + stepIncrement < pages &&
-        pageButtons.push(
-          <PaginationButton label="..." key="ellipsisLast" noBorder disabled />
-        );
+        pageButtons.push(<PaginationButton label="..." key="ellipsisLast" noBorder disabled />);
     } else if (stepIncrement && endPage == pages - 1) {
       pageButtons.push(
-        <PaginationButton
-          key={pages}
-          eventKey={pages}
-          label={pages}
-          onSelect={onSelect}
-        />
+        <PaginationButton key={pages} eventKey={pages} label={pages} onSelect={onSelect} />
       );
     }
 
     if (startPage > 1) {
       if (startPage > 2) {
-        pageButtons.unshift(
-          <PaginationButton label="..." key="ellipsisFirst" noBorder disabled />
-        );
+        pageButtons.unshift(<PaginationButton label="..." key="ellipsisFirst" noBorder disabled />);
       }
 
-      pageButtons.unshift(
-        <PaginationButton key={1} eventKey={1} label="1" onSelect={onSelect} />
-      );
+      pageButtons.unshift(<PaginationButton key={1} eventKey={1} label="1" onSelect={onSelect} />);
     }
 
     return pageButtons;
@@ -158,10 +130,7 @@ export default class Pagination extends React.Component {
     } = this.props;
     const pages = Math.ceil(count / size, 10) || 1;
     return (
-      <nav
-        className="n2o-pagination"
-        style={{ display: 'flex', alignItems: 'baseline' }}
-      >
+      <nav className="n2o-pagination" style={{ display: 'flex', alignItems: 'baseline' }}>
         {hideSinglePage && pages === 1 ? null : (
           <ul className={cx('pagination', 'd-inline-flex', className)}>
             {first && (
@@ -181,13 +150,7 @@ export default class Pagination extends React.Component {
               />
             )}
             {!withoutBody &&
-              this.renderBodyPaging(
-                activePage,
-                pages,
-                maxButtons,
-                stepIncrement,
-                onSelect
-              )}
+              this.renderBodyPaging(activePage, pages, maxButtons, stepIncrement, onSelect)}
             {next && (
               <PaginationButton
                 eventKey={activePage + 1}
@@ -211,17 +174,12 @@ export default class Pagination extends React.Component {
             className="n2o-pagination-info"
             style={{
               paddingLeft: hideSinglePage && pages === 1 ? 0 : '1rem',
-              display: 'inline-flex',
+              display: 'inline-flex'
             }}
           >
             {`Всего ${count}`}
             &nbsp;
-            <FormattedPlural
-              value={count}
-              one="запись"
-              few="записи"
-              other="записей"
-            />
+            <FormattedPlural value={count} one="запись" few="записи" other="записей" />
           </span>
         )}
       </nav>
@@ -246,7 +204,7 @@ Pagination.propTypes = {
   size: PropTypes.number,
   activePage: PropTypes.number,
   onSelect: PropTypes.func,
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 Pagination.defaultProps = {
@@ -263,5 +221,5 @@ Pagination.defaultProps = {
   maxButtons: 4,
   count: 1,
   size: 1,
-  activePage: 1,
+  activePage: 1
 };

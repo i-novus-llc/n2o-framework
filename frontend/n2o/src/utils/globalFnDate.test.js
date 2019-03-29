@@ -6,9 +6,7 @@ const testFormat = { timeFormat: 'HH', dateFormat: 'DD.MM' };
 const testFormatForArgs = { timeFormat: 'HH.mm.ss', dateFormat: 'DD.MM.YYYY' };
 
 const stringFormats = `${testFormat.dateFormat} ${testFormat.timeFormat}`;
-const stringFormatsToArgs = `${testFormatForArgs.dateFormat} ${
-  testFormatForArgs.timeFormat
-}`;
+const stringFormatsToArgs = `${testFormatForArgs.dateFormat} ${testFormatForArgs.timeFormat}`;
 
 const date = globalFnDate.getFns();
 globalFnDate.addFormat(testFormat);
@@ -16,15 +14,11 @@ globalFnDate.addFormat(testFormat);
 describe('Проверка globalFnDate', () => {
   it('now', () => {
     expect(date.now()).toEqual(moment().format(stringFormats));
-    expect(date.now(testFormatForArgs)).toEqual(
-      moment().format(stringFormatsToArgs)
-    );
+    expect(date.now(testFormatForArgs)).toEqual(moment().format(stringFormatsToArgs));
   });
   it('nowUTC', () => {
     expect(date.nowUTC()).toEqual(moment.utc().format(stringFormats));
-    expect(date.nowUTC(testFormatForArgs)).toEqual(
-      moment.utc().format(stringFormatsToArgs)
-    );
+    expect(date.nowUTC(testFormatForArgs)).toEqual(moment.utc().format(stringFormatsToArgs));
   });
   it('today', () => {
     expect(date.today()).toEqual(
@@ -192,16 +186,11 @@ describe('Проверка изменения глобального форма�
   it('Проверка работы в globalFnDate', () => {
     globalFnDate.addFormat({ timeFormat: 'hh:ss', dateFormat: 'DD.MM' });
     expect(date.now()).toEqual(moment().format('DD.MM hh:ss'));
-    globalFnDate.addFormat({
-      timeFormat: 'hh:mm:ss',
-      dateFormat: 'DD.MM.YYYY',
-    });
+    globalFnDate.addFormat({ timeFormat: 'hh:mm:ss', dateFormat: 'DD.MM.YYYY' });
     expect(date.now()).toEqual(moment().format('DD.MM.YYYY hh:mm:ss'));
   });
   it('Проверка работы evalExpression', () => {
     globalFnDate.addFormat({ timeFormat: 'HH:mm', dateFormat: 'DD.MM' });
-    expect(evalExpression('$.now()', {})).toEqual(
-      moment().format('DD.MM HH:mm')
-    );
+    expect(evalExpression('$.now()', {})).toEqual(moment().format('DD.MM HH:mm'));
   });
 });

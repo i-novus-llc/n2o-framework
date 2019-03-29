@@ -11,15 +11,7 @@ import createActionHelper from './createActionHelper';
  * @param pageId
  * @param src
  */
-export function insertModal(
-  name,
-  visible,
-  title,
-  size,
-  closeButton,
-  pageId,
-  src
-) {
+export function insertModal(name, visible, title, size, closeButton, pageId, src) {
   return createActionHelper(INSERT)({
     name,
     visible,
@@ -27,7 +19,7 @@ export function insertModal(
     size,
     closeButton,
     pageId,
-    src,
+    src
   });
 }
 

@@ -8,10 +8,7 @@ const stories = storiesOf('UI Компоненты/Иконка', module);
 stories.add('Использование иконок', () => {
   return (
     <React.Fragment>
-      <div
-        className="row"
-        style={{ marginBottom: '4px', display: 'flex', alignItems: 'flex-end' }}
-      >
+      <div className="row" style={{ marginBottom: '4px', display: 'flex', alignItems: 'flex-end' }}>
         <div className="col-md-2">
           <Icon name="fa fa-apple" />
         </div>

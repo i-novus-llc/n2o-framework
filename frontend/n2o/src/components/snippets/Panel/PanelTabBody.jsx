@@ -19,9 +19,8 @@ class PanelTabBody extends React.Component {
 }
 
 PanelTabBody.propTypes = {
-  eventKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
-  children: PropTypes.node,
+  eventKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  children: PropTypes.node
 };
 
 export default PanelTabBody;

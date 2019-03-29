@@ -53,20 +53,18 @@ class ChangeSize extends React.Component {
    * @returns {*}
    */
   render() {
-    return (
-      <React.Fragment>{this.renderSizeDropdown(this.sizes)}</React.Fragment>
-    );
+    return <React.Fragment>{this.renderSizeDropdown(this.sizes)}</React.Fragment>;
   }
 }
 
 ChangeSize.propTypes = {
   size: PropTypes.number,
-  widgetId: PropTypes.string,
+  widgetId: PropTypes.string
 };
 
 const mapStateToProps = (state, props) => {
   return {
-    size: makeWidgetSizeSelector(props.widgetId)(state),
+    size: makeWidgetSizeSelector(props.widgetId)(state)
   };
 };
 

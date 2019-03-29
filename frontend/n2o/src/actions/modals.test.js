@@ -6,27 +6,11 @@ const name = 'MODAL_NAME';
 describe('Тесты экшенов modals', () => {
   describe('Проверка экшена insertModal', () => {
     it('Генирирует правильное событие', () => {
-      const action = insertModal(
-        name,
-        true,
-        'TITLE',
-        'lg',
-        true,
-        'page_id',
-        'TableWidget'
-      );
+      const action = insertModal(name, true, 'TITLE', 'lg', true, 'page_id', 'TableWidget');
       expect(action.type).toEqual(INSERT);
     });
     it('Возвращает правильный payload', () => {
-      const action = insertModal(
-        name,
-        true,
-        'TITLE',
-        'lg',
-        true,
-        'page_id',
-        'TableWidget'
-      );
+      const action = insertModal(name, true, 'TITLE', 'lg', true, 'page_id', 'TableWidget');
       expect(action.payload.name).toEqual(name);
       expect(action.payload.visible).toEqual(true);
       expect(action.payload.title).toEqual('TITLE');

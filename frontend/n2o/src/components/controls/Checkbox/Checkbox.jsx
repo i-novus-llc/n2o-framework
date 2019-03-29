@@ -18,15 +18,7 @@ class Checkbox extends React.Component {
    * базовый рендер
    * */
   render() {
-    const {
-      label,
-      disabled,
-      value,
-      checked,
-      onChange,
-      onFocus,
-      onBlur,
-    } = this.props;
+    const { label, disabled, value, checked, onChange, onFocus, onBlur } = this.props;
     return (
       <div className="checkbox">
         <label>
@@ -65,7 +57,7 @@ Checkbox.propTypes = {
   onBlur: PropTypes.func,
   onPaste: PropTypes.func,
   onClick: PropTypes.func,
-  onKeyDown: PropTypes.func,
+  onKeyDown: PropTypes.func
 };
 
 Checkbox.defaultProps = {
@@ -75,7 +67,7 @@ Checkbox.defaultProps = {
   onChange: () => {},
   onPaste: () => {},
   onClick: () => {},
-  onKeyDown: () => {},
+  onKeyDown: () => {}
 };
 
 export default setDisplayName('Checkbox')(Checkbox);

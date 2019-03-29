@@ -14,77 +14,77 @@ stories.add('Цвета', () => {
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Стандратный',
+        label: 'Стандратный'
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Зелёный',
+        label: 'Зелёный'
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Голубой',
+        label: 'Голубой'
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Оранжевый',
+        label: 'Оранжевый'
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Красный',
-      },
+        label: 'Красный'
+      }
     ],
     cells: [
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55,
+          now: 55
         },
-        color: 'default',
+        color: 'default'
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55,
+          now: 55
         },
-        color: progressBarStyles.SUCCESS,
+        color: progressBarStyles.SUCCESS
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55,
+          now: 55
         },
-        color: progressBarStyles.INFO,
+        color: progressBarStyles.INFO
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55,
+          now: 55
         },
-        color: progressBarStyles.WARNING,
+        color: progressBarStyles.WARNING
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55,
+          now: 55
         },
-        color: progressBarStyles.DANGER,
-      },
+        color: progressBarStyles.DANGER
+      }
     ],
     datasource: [
       {
         id: 'now',
-        now: 55,
-      },
-    ],
+        now: 55
+      }
+    ]
   };
 
   return (

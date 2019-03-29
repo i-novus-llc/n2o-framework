@@ -136,5 +136,5 @@ export {
   makePageToolbarByIdSelector,
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
-  makePageDisabledByIdSelector,
+  makePageDisabledByIdSelector
 };

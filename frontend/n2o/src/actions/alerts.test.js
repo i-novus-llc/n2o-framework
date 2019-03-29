@@ -10,8 +10,8 @@ const alerts = [
     text: 'Это тестовый алерт',
     details: {},
     timeout: 1000,
-    closeButton: true,
-  },
+    closeButton: true
+  }
 ];
 
 describe('Тесты для экшенов alerts', () => {

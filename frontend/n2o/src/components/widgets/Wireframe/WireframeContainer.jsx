@@ -6,7 +6,7 @@ export default widgetContainer({
     return {
       title: props.title,
       className: props.className,
-      height: props.height,
+      height: props.height
     };
-  },
+  }
 })(Wireframe);

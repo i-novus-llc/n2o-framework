@@ -48,7 +48,7 @@ class RadioGroup extends React.Component {
         checked: isEqual(value, child.props.value),
         disabled: this.props.disabled || child.props.disabled,
         onChange: this._onChange,
-        inline: this.props.inline,
+        inline: this.props.inline
       });
     };
 
@@ -59,9 +59,7 @@ class RadioGroup extends React.Component {
 
     const isBtn =
       children &&
-      React.Children.map(children, child => child.type.displayName).includes(
-        'RadioButton'
-      );
+      React.Children.map(children, child => child.type.displayName).includes('RadioButton');
 
     return (
       <React.Fragment>
@@ -70,7 +68,7 @@ class RadioGroup extends React.Component {
             className={cx('n2o-radio-container', className, {
               [`btn-group${inline ? '' : '-vertical'}`]: isBtn,
               'btn-group-toggle': isBtn,
-              'n2o-radio-inline': inline,
+              'n2o-radio-inline': inline
             })}
             style={style}
           >
@@ -95,17 +93,17 @@ RadioGroup.propTypes = {
   children: PropTypes.node.isRequired,
   style: PropTypes.object,
   className: PropTypes.string,
-  inline: PropTypes.bool,
+  inline: PropTypes.bool
 };
 
 RadioGroup.defaultProps = {
   isBtnGroup: false,
   visible: true,
-  inline: false,
+  inline: false
 };
 
 RadioGroup.defaultProps = {
-  onChange: () => {},
+  onChange: () => {}
 };
 
 export default RadioGroup;

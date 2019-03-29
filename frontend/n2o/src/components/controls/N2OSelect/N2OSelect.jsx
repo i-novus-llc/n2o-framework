@@ -44,7 +44,7 @@ class N2OSelect extends React.Component {
       value: '',
       isExpanded: false,
       options: this.props.options,
-      selected: this.props.value ? [this.props.value] : [],
+      selected: this.props.value ? [this.props.value] : []
     };
 
     this._handleButtonClick = this._handleButtonClick.bind(this);
@@ -71,7 +71,7 @@ class N2OSelect extends React.Component {
 
     this.setState({
       options: nextProps.options,
-      selected,
+      selected
     });
   }
 
@@ -84,9 +84,7 @@ class N2OSelect extends React.Component {
   _removeSelectedItem(item) {
     const { valueFieldId } = this.props;
     this.setState({
-      selected: this.state.selected.filter(
-        i => i[valueFieldId] !== item[valueFieldId]
-      ),
+      selected: this.state.selected.filter(i => i[valueFieldId] !== item[valueFieldId])
     });
   }
 
@@ -102,7 +100,7 @@ class N2OSelect extends React.Component {
     if (isExpanded === newIsExpanded) return;
     this.setState(
       {
-        isExpanded: newIsExpanded,
+        isExpanded: newIsExpanded
       },
       newIsExpanded ? onOpen : onClose
     );
@@ -145,7 +143,7 @@ class N2OSelect extends React.Component {
 
   _setNewValue(newValue) {
     this.setState({
-      value: newValue,
+      value: newValue
     });
   }
 
@@ -157,7 +155,7 @@ class N2OSelect extends React.Component {
   _clearSelected() {
     if (!this.props.disabled) {
       this.setState({
-        selected: [],
+        selected: []
       });
       this.props.onChange(null);
     }
@@ -172,11 +170,8 @@ class N2OSelect extends React.Component {
   _handleDataSearch(input, delay = true, callback) {
     const { onSearch, filter, options: data, labelFieldId } = this.props;
     if (filter) {
-      const filterFunc = item =>
-        String.prototype[this.props.filter].call(item, input);
-      const options = data.filter(item =>
-        filterFunc(item[labelFieldId].toString())
-      );
+      const filterFunc = item => String.prototype[this.props.filter].call(item, input);
+      const options = data.filter(item => filterFunc(item[labelFieldId].toString()));
       this.setState({ options: options });
     } else {
       onSearch(input, delay, callback);
@@ -191,7 +186,7 @@ class N2OSelect extends React.Component {
 
   _insertSelected(item) {
     this.setState({
-      selected: [item],
+      selected: [item]
     });
   }
 
@@ -228,7 +223,7 @@ class N2OSelect extends React.Component {
   _clearSearchField() {
     this.setState({
       value: '',
-      options: this.props.options,
+      options: this.props.options
     });
   }
 
@@ -261,7 +256,7 @@ class N2OSelect extends React.Component {
     if (this.props.resetOnBlur && !this.state.selected) {
       this.setState({
         value: '',
-        options: this.props.options,
+        options: this.props.options
       });
     }
   }
@@ -299,19 +294,14 @@ class N2OSelect extends React.Component {
       hasSearch,
       cleanable,
       style,
-      onBlur,
+      onBlur
     } = this.props;
     const inputSelectStyle = { width: '100%', ...style };
 
     const { selected } = this.state;
 
     return (
-      <div
-        className="n2o-input-select"
-        style={inputSelectStyle}
-        tabIndex="-1"
-        onBlur={onBlur}
-      >
+      <div className="n2o-input-select" style={inputSelectStyle} tabIndex="-1" onBlur={onBlur}>
         <InputSelectGroup
           className={className}
           isExpanded={this.state.isExpanded}
@@ -385,7 +375,7 @@ N2OSelect.propTypes = {
   format: PropTypes.string,
   searchByTap: PropTypes.bool,
   onSearch: PropTypes.func,
-  hasSearch: PropTypes.func,
+  hasSearch: PropTypes.func
 };
 
 N2OSelect.defaultProps = {
@@ -409,7 +399,7 @@ N2OSelect.defaultProps = {
   onInput() {},
   onOpen() {},
   onClose() {},
-  onBlur() {},
+  onBlur() {}
 };
 
 export default onClickOutside(N2OSelect);

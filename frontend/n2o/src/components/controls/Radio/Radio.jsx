@@ -41,7 +41,7 @@ Radio.propTypes = {
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  label: PropTypes.string,
+  label: PropTypes.string
 };
 
 export default setDisplayName('Radio')(Radio);

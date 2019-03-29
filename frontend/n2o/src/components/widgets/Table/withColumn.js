@@ -8,11 +8,7 @@ import { createStructuredSelector } from 'reselect';
 import propsResolver from '../../../utils/propsResolver';
 import { registerColumn } from '../../../actions/columns';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
-import {
-  isInitSelector,
-  isVisibleSelector,
-  isDisabledSelector,
-} from '../../../selectors/columns';
+import { isInitSelector, isVisibleSelector, isDisabledSelector } from '../../../selectors/columns';
 
 /**
  * колонка-контейнер
@@ -36,27 +32,14 @@ const withColumn = WrappedComponent => {
         columnIsInit,
         columnVisible = true,
         columnDisabled = false,
-        dispatch,
+        dispatch
       } = this.props;
       !columnIsInit &&
-        dispatch(
-          registerColumn(
-            widgetId,
-            columnId,
-            label,
-            columnVisible,
-            columnDisabled
-          )
-        );
+        dispatch(registerColumn(widgetId, columnId, label, columnVisible, columnDisabled));
     }
 
     getPassProps() {
-      return omit(this.props, [
-        'columnIsInit',
-        'columnVisible',
-        'columnDisabled',
-        'security',
-      ]);
+      return omit(this.props, ['columnIsInit', 'columnVisible', 'columnDisabled', 'security']);
     }
 
     /**
@@ -82,12 +65,9 @@ const withColumn = WrappedComponent => {
   }
 
   const mapStateToProps = createStructuredSelector({
-    columnIsInit: (state, props) =>
-      isInitSelector(props.widgetId, props.columnId)(state),
-    columnVisible: (state, props) =>
-      isVisibleSelector(props.widgetId, props.columnId)(state),
-    columnDisabled: (state, props) =>
-      isDisabledSelector(props.widgetId, props.columnId)(state),
+    columnIsInit: (state, props) => isInitSelector(props.widgetId, props.columnId)(state),
+    columnVisible: (state, props) => isVisibleSelector(props.widgetId, props.columnId)(state),
+    columnDisabled: (state, props) => isDisabledSelector(props.widgetId, props.columnId)(state)
   });
 
   return compose(

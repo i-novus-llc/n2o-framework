@@ -16,7 +16,7 @@ stories.add('Компонент ', () => {
       icon: 'fa fa-address-card',
       image: 'https://img.faceyourmanga.com/mangatars/0/2/2729/large_3206.png',
       dob: '11.09.1992',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: '2у',
@@ -24,7 +24,7 @@ stories.add('Компонент ', () => {
       icon: 'fa fa-address-card',
       image: 'https://img.faceyourmanga.com/mangatars/0/2/2729/large_3156.png',
       dob: '24.04.1891',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: '3',
@@ -33,7 +33,7 @@ stories.add('Компонент ', () => {
       image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_511.png',
       dob: '03.12.1981',
       country: 'США',
-      parentId: '2у',
+      parentId: '2у'
     },
     {
       id: '4',
@@ -41,7 +41,7 @@ stories.add('Компонент ', () => {
       icon: 'fa fa-address-card',
       image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_140189.png',
       dob: '11.11.2003',
-      country: 'США',
+      country: 'США'
     },
     {
       id: '5',
@@ -50,7 +50,7 @@ stories.add('Компонент ', () => {
       image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_9319.png',
       dob: '20.11.1991',
       country: 'Беларусь',
-      parentId: '4',
+      parentId: '4'
     },
     {
       id: '6',
@@ -58,7 +58,7 @@ stories.add('Компонент ', () => {
       icon: 'fa fa-address-card',
       image: 'https://img.faceyourmanga.com/mangatars/0/2/2729/large_3156.png',
       dob: '11.11.2003',
-      country: 'США',
+      country: 'США'
     },
     {
       id: '7',
@@ -67,7 +67,7 @@ stories.add('Компонент ', () => {
       image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_9319.png',
       dob: '20.11.1991',
       country: 'Беларусь',
-      parentId: '6',
+      parentId: '6'
     },
     {
       id: '8',
@@ -75,7 +75,7 @@ stories.add('Компонент ', () => {
       icon: 'fa fa-address-card',
       image: 'https://img.faceyourmanga.com/mangatars/0/2/2729/large_3156.png',
       dob: '11.11.2003',
-      country: 'США',
+      country: 'США'
     },
     {
       id: '9',
@@ -84,8 +84,8 @@ stories.add('Компонент ', () => {
       image: 'https://img.faceyourmanga.com/mangatars/0/0/39/large_9319.png',
       dob: '20.11.1991',
       country: 'Беларусь',
-      parentId: '8',
-    },
+      parentId: '8'
+    }
   ];
 
   const props = {
@@ -94,11 +94,7 @@ stories.add('Компонент ', () => {
     placeholder: text('placeholder', ''),
     valueFieldId: text('valueFieldId', 'id'),
     labelFieldId: text('labelFieldId', 'name'),
-    filter: select(
-      'filter',
-      ['includes', 'startsWith', 'endsWith', 'server'],
-      'includes'
-    ),
+    filter: select('filter', ['includes', 'startsWith', 'endsWith', 'server'], 'includes'),
     iconFieldId: text('iconFieldId', 'icon'),
     imageFieldId: text('imageFieldId', 'image'),
     multiSelect: boolean('multiSelect', false),
@@ -122,7 +118,7 @@ stories.add('Компонент ', () => {
     resetOnBlur: boolean('resetOnBlur', false),
     groupFieldId: text('groupFieldId', ''),
     closePopupOnSelect: boolean('closePopupOnSelect', true),
-    data,
+    data
   };
 
   return (

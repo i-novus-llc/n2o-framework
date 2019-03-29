@@ -14,7 +14,7 @@ export function* getConfig(action) {
   try {
     const params = {
       locale: yield select(localeSelector),
-      ...action.payload.params,
+      ...action.payload.params
     };
     const { user, ...config } = yield call(fetchSaga, FETCH_APP_CONFIG, params);
     if (user) {
@@ -28,7 +28,7 @@ export function* getConfig(action) {
         label: 'Ошибка',
         text: 'Не удалось получить конфигурацию приложения',
         closeButton: false,
-        severity: 'danger',
+        severity: 'danger'
       })
     );
   }
@@ -38,6 +38,4 @@ export function* getConfig(action) {
  * Сайд-эффекты для global редюсера
  * @ignore
  */
-export const globalSagas = [
-  takeEvery([REQUEST_CONFIG, CHANGE_LOCALE], getConfig),
-];
+export const globalSagas = [takeEvery([REQUEST_CONFIG, CHANGE_LOCALE], getConfig)];

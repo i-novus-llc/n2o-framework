@@ -1,10 +1,5 @@
 import { call, put, cancelled } from 'redux-saga/effects';
-import {
-  fetchStart,
-  fetchEnd,
-  fetchCancel,
-  fetchError,
-} from '../actions/fetch';
+import { fetchStart, fetchEnd, fetchCancel, fetchError } from '../actions/fetch';
 import apiProvider from '../core/api.js';
 
 export default function* fetchSaga(fetchType, options) {

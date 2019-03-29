@@ -29,7 +29,7 @@ const setup = (groupOverrides, radioOverrides) => {
   return {
     groupProps,
     radioProps,
-    wrapper,
+    wrapper
   };
 };
 

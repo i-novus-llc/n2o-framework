@@ -91,7 +91,7 @@ InputSelectTreeContainer.propTypes = {
   fetchData: PropTypes.func,
   onSearch: PropTypes.func,
   handleItemOpen: PropTypes.func,
-  ajax: PropTypes.bool,
+  ajax: PropTypes.bool
 };
 
 InputSelectTreeContainer.defaultProps = {
@@ -104,7 +104,7 @@ InputSelectTreeContainer.defaultProps = {
   closePopupOnSelect: true,
   hasCheckboxes: false,
   collapseSelected: true,
-  lengthToGroup: 3,
+  lengthToGroup: 3
 };
 
 export default listContainer(InputSelectTreeContainer);

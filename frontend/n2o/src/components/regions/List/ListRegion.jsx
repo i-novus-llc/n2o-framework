@@ -40,17 +40,13 @@ class ListRegion extends React.Component {
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, 'type', 'forceRender');
     return (
-      <Collapse
-        defaultActiveKey={this.activeKeys}
-        onChange={this.handleChange}
-        {...collapseProps}
-      >
+      <Collapse defaultActiveKey={this.activeKeys} onChange={this.handleChange} {...collapseProps}>
         {items.map(item => {
           const listItemProps = {
             key: item.widgetId,
             id: item.widgetId,
             header: item.label || item.widgetId,
-            active: item.opened,
+            active: item.opened
           };
 
           if (item.dependency && !resolveVisibleDependency(item.dependency)) {
@@ -60,11 +56,7 @@ class ListRegion extends React.Component {
           const ListItem = props => {
             return (
               <Panel {...props} {...panelProps}>
-                <Factory
-                  id={props.id}
-                  level={WIDGETS}
-                  {...getWidget(pageId, props.id)}
-                />
+                <Factory id={props.id} level={WIDGETS} {...getWidget(pageId, props.id)} />
               </Panel>
             );
           };
@@ -93,7 +85,7 @@ ListRegion.propTypes = {
   getWidget: PropTypes.func.isRequired,
   pageId: PropTypes.string.isRequired,
   forceRender: PropTypes.bool,
-  resolveVisibleDependency: PropTypes.func,
+  resolveVisibleDependency: PropTypes.func
 };
 
 export default compose(

@@ -52,9 +52,7 @@ class ListRegion extends React.Component {
               active={item.opened}
               id={item.widgetId}
               render={({ permissions, onClick, active }) =>
-                permissions
-                  ? React.cloneElement(listItem, { onClick, active })
-                  : null
+                permissions ? React.cloneElement(listItem, { onClick, active }) : null
               }
             />
           );
@@ -67,7 +65,7 @@ class ListRegion extends React.Component {
 ListRegion.propTypes = {
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
-  pageId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired
 };
 
 export default withGetWidget(ListRegion);

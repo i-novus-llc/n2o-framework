@@ -13,10 +13,8 @@ const mapDispatchToProps = dispatch =>
         callActionImpl(src || component, { ...options, dispatch }),
       onInvoke: (widgetId, dataProvider, data, modelLink, meta) =>
         startInvoke(widgetId, dataProvider, data, modelLink, meta),
-      onUpdateModel: (prefix, key, field, values) =>
-        updateModel(prefix, key, field, values),
-      onResolveWidget: (widgetId, model) =>
-        setModel(PREFIXES.resolve, widgetId, model),
+      onUpdateModel: (prefix, key, field, values) => updateModel(prefix, key, field, values),
+      onResolveWidget: (widgetId, model) => setModel(PREFIXES.resolve, widgetId, model)
     },
     dispatch
   );

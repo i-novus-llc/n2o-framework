@@ -12,17 +12,17 @@ describe('Проверка саги auth', () => {
     const dispatched = [];
     const data = {
       login: 'admin',
-      password: '1234',
+      password: '1234'
     };
     const fakeStore = {
       getState: () => ({ some: 'value' }),
-      dispatch: action => dispatched.push(action),
+      dispatch: action => dispatched.push(action)
     };
     await runSaga(
       fakeStore,
       resolveAuth,
       {
-        authProvider: () => data,
+        authProvider: () => data
       },
       { type: USER_LOGIN, payload: null }
     );
@@ -32,14 +32,14 @@ describe('Проверка саги auth', () => {
   it('resolveAuth должен разлогинить пользователя', async () => {
     const dispatched = [];
     const fakeStore = {
-      dispatch: action => dispatched.push(action),
+      dispatch: action => dispatched.push(action)
     };
     await runSaga(
       fakeStore,
       resolveAuth,
       {
         authProvider: () => ({ logout: true }),
-        redirectPath: '/n2o/saga/test',
+        redirectPath: '/n2o/saga/test'
       },
       { type: USER_LOGOUT, payload: undefined }
     );
@@ -51,13 +51,11 @@ describe('Проверка саги auth', () => {
     const authProvider = () => ({ error: true });
     const gen = resolveAuth(
       {
-        authProvider,
+        authProvider
       },
       { type: FETCH_ERROR, payload: { error: 'request error' } }
     );
-    expect(gen.next().value.CALL).toEqual(
-      call(authProvider, SECURITY_ERROR, 'request error').CALL
-    );
+    expect(gen.next().value.CALL).toEqual(call(authProvider, SECURITY_ERROR, 'request error').CALL);
   });
 
   it('resolveAuth должен выпасть в исключение', () => {
@@ -66,7 +64,7 @@ describe('Проверка саги auth', () => {
     };
     const gen = resolveAuth(
       {
-        authProvider,
+        authProvider
       },
       { type: FETCH_ERROR }
     );

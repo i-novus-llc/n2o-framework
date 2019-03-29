@@ -23,10 +23,7 @@ const fetchData = fn => (...args) => {
 };
 
 const setup = (props = {}, fn = null) => {
-  const ComponentWithListContainer = withFetchData(
-    EmptyComponent,
-    fetchData(fn)
-  );
+  const ComponentWithListContainer = withFetchData(EmptyComponent, fetchData(fn));
 
   const wrapper = mount(
     <Provider store={store}>
@@ -36,7 +33,7 @@ const setup = (props = {}, fn = null) => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 
@@ -56,9 +53,7 @@ describe('fetchData HOC test', () => {
   it('Получение данных через dataProvider при вызове fetchData', async () => {
     fetchMock.get(dataUrl, { list: new Array(12) });
 
-    let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
-      list: new Array(12),
-    }));
+    let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({ list: new Array(12) }));
 
     wrapper
       .find('EmptyComponent')
@@ -73,7 +68,7 @@ describe('fetchData HOC test', () => {
   it('Вызов fetchData с параметрами', async () => {
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, params => ({
       ...params,
-      count: 20,
+      count: 20
     }));
     wrapper
       .find('EmptyComponent')
@@ -90,7 +85,7 @@ describe('fetchData HOC test', () => {
   it('Мердж данных при fetchData merge=true', async () => {
     const list = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, () => ({
-      list,
+      list
     }));
 
     wrapper
@@ -123,13 +118,13 @@ describe('fetchData HOC test', () => {
               messages: [
                 {
                   severity: 'danger',
-                  text: 'Произошла внутренняя ошибка',
-                },
-              ],
-            },
-          },
-        }),
-      },
+                  text: 'Произошла внутренняя ошибка'
+                }
+              ]
+            }
+          }
+        })
+      }
     }));
 
     wrapper
@@ -142,20 +137,15 @@ describe('fetchData HOC test', () => {
     expect(1).toBe(1);
 
     expect(store.getActions()[1].payload.severity).toBe('danger');
-    expect(store.getActions()[1].payload.text).toBe(
-      'Произошла внутренняя ошибка'
-    );
+    expect(store.getActions()[1].payload.text).toBe('Произошла внутренняя ошибка');
   });
 
   it('Проверка caching при fetchData', async () => {
     let count = 0;
-    let { wrapper } = setup(
-      { dataProvider: { url: dataUrl }, caching: true },
-      () => {
-        count += 1;
-        return { list: new Array(12) };
-      }
-    );
+    let { wrapper } = setup({ dataProvider: { url: dataUrl }, caching: true }, () => {
+      count += 1;
+      return { list: new Array(12) };
+    });
 
     wrapper
       .find('EmptyComponent')
@@ -169,11 +159,7 @@ describe('fetchData HOC test', () => {
     let err = false;
 
     let { wrapper } = setup(
-      {
-        dataProvider: { url: dataUrl },
-        form: 'form',
-        labelFieldId: 'labelFieldId',
-      },
+      { dataProvider: { url: dataUrl }, form: 'form', labelFieldId: 'labelFieldId' },
       () => {
         if (!err) {
           err = true;
@@ -186,17 +172,17 @@ describe('fetchData HOC test', () => {
                     messages: [
                       {
                         severity: 'danger',
-                        text: 'Произошла внутренняя ошибка',
-                      },
-                    ],
-                  },
-                },
-              }),
-            },
+                        text: 'Произошла внутренняя ошибка'
+                      }
+                    ]
+                  }
+                }
+              })
+            }
           };
         }
         return {
-          list: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }],
+          list: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
         };
       }
     );
@@ -208,9 +194,7 @@ describe('fetchData HOC test', () => {
 
     await delay(400);
     expect(store.getActions()[1].payload.severity).toBe('danger');
-    expect(store.getActions()[1].payload.text).toBe(
-      'Произошла внутренняя ошибка'
-    );
+    expect(store.getActions()[1].payload.text).toBe('Произошла внутренняя ошибка');
 
     wrapper
       .find('EmptyComponent')

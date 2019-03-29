@@ -29,7 +29,7 @@ function ListItem({
   selected,
   onClick,
   divider,
-  style,
+  style
 }) {
   const renderImage = image => {
     return checkOnReactElement(image) ? (
@@ -47,41 +47,31 @@ function ListItem({
       style={style}
       className={cn('n2o-widget-list-item', {
         'n2o-widget-list-item--active': selected,
-        'n2o-widget-list-item--divider': divider,
+        'n2o-widget-list-item--divider': divider
       })}
     >
       <div className="n2o-widget-list-item-image-container">
-        {image && (
-          <div className="n2o-widget-list-item-image">{renderImage(image)}</div>
-        )}
+        {image && <div className="n2o-widget-list-item-image">{renderImage(image)}</div>}
       </div>
       <div className="n2o-widget-list-item-main-container">
         <div className="n2o-widget-list-item-header-row">
           {checkOnReactElement(header) && checkOnReactElement(subHeader) ? (
             <React.Fragment>
               <div className="n2o-widget-list-item-header">{header}</div>
-              <div className="n2o-widget-list-item-subheader text-muted">
-                {subHeader}
-              </div>
+              <div className="n2o-widget-list-item-subheader text-muted">{subHeader}</div>
             </React.Fragment>
           ) : (
             <h3 className="n2o-widget-list-item-header">
               {header}
-              <small className="n2o-widget-list-item-subheader text-muted">
-                {subHeader}
-              </small>
+              <small className="n2o-widget-list-item-subheader text-muted">{subHeader}</small>
             </h3>
           )}
         </div>
         {body && <div className="n2o-widget-list-item-body">{body}</div>}
       </div>
       <div className="n2o-widget-list-item-right-container">
-        {rightTop && (
-          <div className="n2o-widget-list-item-right-top">{rightTop}</div>
-        )}
-        {rightBottom && (
-          <div className="n2o-widget-list-item-right-bottom">{rightBottom}</div>
-        )}
+        {rightTop && <div className="n2o-widget-list-item-right-top">{rightTop}</div>}
+        {rightBottom && <div className="n2o-widget-list-item-right-bottom">{rightBottom}</div>}
       </div>
       <div className="n2o-widget-list-item-extra-container">
         {extra && <div className="n2o-widget-list-item-extra">{extra}</div>}
@@ -99,7 +89,7 @@ ListItem.propTypes = {
   rightBottom: PropTypes.oneOf(PropTypes.node, PropTypes.string),
   extra: PropTypes.oneOf(PropTypes.node, PropTypes.string),
   selected: PropTypes.bool,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
 export default ListItem;

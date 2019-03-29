@@ -13,20 +13,14 @@ import { Button } from 'reactstrap';
  * @returns {*}
  * @constructor
  */
-function AdvancedTableFilterPopup({
-  value,
-  onChange,
-  onResetFilter,
-  onSetFilter,
-  component,
-}) {
+function AdvancedTableFilterPopup({ value, onChange, onResetFilter, onSetFilter, component }) {
   return (
     <React.Fragment>
       <div className="n2o-advanced-table-filter-dropdown-popup">
         {component ? (
           React.createElement(component, {
             value,
-            onChange,
+            onChange
           })
         ) : (
           <InputText value={value} onChange={onChange} />
@@ -48,13 +42,13 @@ AdvancedTableFilterPopup.propTypes = {
   value: PropTypes.oneOf(PropTypes.string, PropTypes.number),
   onChange: PropTypes.func,
   onResetFilter: PropTypes.func,
-  onSetFilter: PropTypes.func,
+  onSetFilter: PropTypes.func
 };
 
 AdvancedTableFilterPopup.defaultProps = {
   onChange: () => {},
   onResetFilter: () => {},
-  onSetFilter: () => {},
+  onSetFilter: () => {}
 };
 
 export default AdvancedTableFilterPopup;

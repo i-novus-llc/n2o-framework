@@ -34,7 +34,7 @@ class DateInputGroup extends React.Component {
       onFocus,
       onBlur,
       autoFocus,
-      openOnFocus,
+      openOnFocus
     } = this.props;
     const style = { display: 'flex', flexGrow: 1 };
     return (
@@ -66,11 +66,7 @@ class DateInputGroup extends React.Component {
    */
   render() {
     const { inputRef } = this.props;
-    const style = {
-      display: 'flex',
-      justifyContent: 'space-between',
-      flexGrow: 1,
-    };
+    const style = { display: 'flex', justifyContent: 'space-between', flexGrow: 1 };
     return (
       <div ref={inputRef} style={style}>
         {this.renderInputs()}
@@ -89,14 +85,14 @@ DateInput.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   autoFocus: PropTypes.bool,
-  openOnFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool
 };
 
 DateInput.defaultProps = {
   autoFocus: false,
   openOnFocus: false,
   onFocus: () => {},
-  onBlur: () => {},
+  onBlur: () => {}
 };
 
 export default DateInputGroup;

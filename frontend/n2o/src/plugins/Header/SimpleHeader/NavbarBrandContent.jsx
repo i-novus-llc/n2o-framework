@@ -17,7 +17,7 @@ const NavbarBrandContent = ({ brand, brandImage }) => {
           alignSelf: 'center',
           margin: 'auto',
           maxWidth: 40,
-          maxHeight: 40,
+          maxHeight: 40
         }}
         className="d-inline-block align-top"
       />
@@ -35,7 +35,7 @@ const NavbarBrandContent = ({ brand, brandImage }) => {
 
 NavbarBrandContent.propTypes = {
   brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
 };
 
 export default NavbarBrandContent;

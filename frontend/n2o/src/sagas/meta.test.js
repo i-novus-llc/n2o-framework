@@ -4,7 +4,7 @@ import {
   refreshEffect,
   alertEffect,
   redirectEffect,
-  messagesFormEffect,
+  messagesFormEffect
 } from './meta';
 import { DESTROY } from '../constants/modals';
 import { DATA_REQUEST } from '../constants/widgets';
@@ -14,11 +14,11 @@ import { ADD_FIELD_MESSAGE } from '../constants/formPlugin';
 const setupCloseModal = () => {
   return closeModalEffect({
     payload: {
-      widgetId: 'widget',
+      widgetId: 'widget'
     },
     meta: {
-      closeLastModal: true,
-    },
+      closeLastModal: true
+    }
   });
 };
 
@@ -28,14 +28,14 @@ const setupRefresh = () => {
       type: 'widget',
       options: {
         widgetId: 'widgetId',
-        options: {},
-      },
-    },
+        options: {}
+      }
+    }
   };
   const refresh = refreshEffect({ meta });
   return {
     meta,
-    refresh,
+    refresh
   };
 };
 
@@ -48,17 +48,17 @@ const setupAlertEffect = () => {
           label: 'Ошибка',
           text: 'Не удалось получить конфигурация приложения',
           closeButton: false,
-          severity: 'danger',
-        },
-      ],
-    },
+          severity: 'danger'
+        }
+      ]
+    }
   };
   const alert = alertEffect({
-    meta,
+    meta
   });
   return {
     meta,
-    alert,
+    alert
   };
 };
 
@@ -68,15 +68,15 @@ const setupRedirectEffect = () => {
       path: '/n2o/data/1',
       pathMapping: {},
       queryMapping: {},
-      target: 'application',
-    },
+      target: 'application'
+    }
   };
   const redirect = redirectEffect({
-    meta,
+    meta
   });
   return {
     meta,
-    redirect,
+    redirect
   };
 };
 
@@ -88,17 +88,17 @@ const setupMessageFormEffect = () => {
         name: 'field1',
         message: {
           severity: 'success',
-          text: 'Успешное действие',
-        },
-      },
-    ],
+          text: 'Успешное действие'
+        }
+      }
+    ]
   };
   const messageForm = messagesFormEffect({
-    meta,
+    meta
   });
   return {
     meta,
-    messageForm,
+    messageForm
   };
 };
 
@@ -120,12 +120,8 @@ describe('Сага для перехвата меты, сайд-эффектов
       expect(gen.value['PUT'].action.payload.alerts[0].closeButton).toEqual(
         meta.alert.messages[0].closeButton
       );
-      expect(gen.value['PUT'].action.payload.alerts[0].label).toEqual(
-        meta.alert.messages[0].label
-      );
-      expect(gen.value['PUT'].action.payload.alerts[0].text).toEqual(
-        meta.alert.messages[0].text
-      );
+      expect(gen.value['PUT'].action.payload.alerts[0].label).toEqual(meta.alert.messages[0].label);
+      expect(gen.value['PUT'].action.payload.alerts[0].text).toEqual(meta.alert.messages[0].text);
       expect(gen.value['PUT'].action.payload.alerts[0].severity).toEqual(
         meta.alert.messages[0].severity
       );
@@ -142,9 +138,7 @@ describe('Сага для перехвата меты, сайд-эффектов
     it('Проверяет payload саги refreshEffect', () => {
       const { refresh, meta } = setupRefresh();
       let { value } = refresh.next();
-      expect(value['PUT'].action.payload.widgetId).toEqual(
-        meta.refresh.options.widgetId
-      );
+      expect(value['PUT'].action.payload.widgetId).toEqual(meta.refresh.options.widgetId);
     });
   });
 
@@ -152,20 +146,16 @@ describe('Сага для перехвата меты, сайд-эффектов
     it('Проверка диспатча саги messagesFormEffect', () => {
       const { messageForm } = setupMessageFormEffect();
       let gen = messageForm.next();
-      expect(gen.value['PUT'].action.payload[0].type).toEqual(
-        ADD_FIELD_MESSAGE
-      );
+      expect(gen.value['PUT'].action.payload[0].type).toEqual(ADD_FIELD_MESSAGE);
     });
 
     it('Проверка payload саги messageFormEffect', () => {
       const { messageForm, meta } = setupMessageFormEffect();
       let gen = messageForm.next();
-      expect(gen.value['PUT'].action.payload[0].payload.form).toEqual(
-        meta['messages.form']
+      expect(gen.value['PUT'].action.payload[0].payload.form).toEqual(meta['messages.form']);
+      expect(gen.value['PUT'].action.payload[0].payload.message.severity).toEqual(
+        meta['messages.fields'].severity
       );
-      expect(
-        gen.value['PUT'].action.payload[0].payload.message.severity
-      ).toEqual(meta['messages.fields'].severity);
       expect(gen.value['PUT'].action.payload[0].payload.message.text).toEqual(
         meta['messages.fields'].text
       );

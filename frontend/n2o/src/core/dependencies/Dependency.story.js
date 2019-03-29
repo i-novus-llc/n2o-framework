@@ -9,11 +9,5 @@ import Factory from '../factory/Factory';
 const stories = storiesOf('Функциональность/Зависимость между полями', module);
 
 stories.add('Метаданные', () => {
-  return (
-    <Factory
-      level={WIDGETS}
-      id={'Page_Form'}
-      {...FieldDependency['Page_Form']}
-    />
-  );
+  return <Factory level={WIDGETS} id={'Page_Form'} {...FieldDependency['Page_Form']} />;
 });

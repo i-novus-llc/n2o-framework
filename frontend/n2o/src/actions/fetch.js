@@ -1,9 +1,4 @@
-import {
-  FETCH_START,
-  FETCH_END,
-  FETCH_ERROR,
-  FETCH_CANCEL,
-} from '../constants/fetch';
+import { FETCH_START, FETCH_END, FETCH_ERROR, FETCH_CANCEL } from '../constants/fetch';
 import createActionHelper from './createActionHelper';
 
 export function fetchStart(fetchType, options) {

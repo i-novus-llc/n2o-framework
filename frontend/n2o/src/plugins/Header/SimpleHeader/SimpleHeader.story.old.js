@@ -18,20 +18,17 @@ stories.addDecorator(withKnobs);
 
 const MenuContext = withContext(
   {
-    getMenu: PropTypes.func,
+    getMenu: PropTypes.func
   },
   props => ({
-    getMenu: () => simpleHeaderMetadata,
+    getMenu: () => simpleHeaderMetadata
   })
 )(MenuContainer);
 
 stories
   .addWithJSX('Компонент', () => {
     const props = {
-      brandImage: text(
-        'brandImage',
-        'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
-      ),
+      brandImage: text('brandImage', 'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'),
       activeId: text('activeId', 'link'),
       color: select('color', ['default', 'inverse'], 'inverse'),
       fixed: boolean('fixed', false),
@@ -39,7 +36,7 @@ stories
       className: text('className', 'n2o'),
       search: boolean('search', false),
       items: simpleHeaderMetadata.items,
-      extraItems: simpleHeaderMetadata.extraItems,
+      extraItems: simpleHeaderMetadata.extraItems
     };
 
     return (

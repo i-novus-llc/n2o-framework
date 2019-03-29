@@ -1,12 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  object,
-  select,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, object, select } from '@storybook/addon-knobs/react';
 import { Route, Switch } from 'react-router-dom';
 import Table from '../../Table';
 import LinkCell from './LinkCell';
@@ -26,7 +20,7 @@ stories
       id: text('id', LinkCellJson.id),
       fieldKey: boolean('animated', LinkCellJson.fieldKey),
       className: boolean('striped', LinkCellJson.className),
-      action: LinkCellJson.action,
+      action: LinkCellJson.action
     };
 
     const tableProps = {
@@ -34,21 +28,21 @@ stories
         {
           id: 'header',
           component: TextTableHeader,
-          label: 'Обычная ссылка',
-        },
+          label: 'Обычная ссылка'
+        }
       ],
       cells: [
         {
           component: LinkCell,
-          ...props,
-        },
+          ...props
+        }
       ],
       datasource: [
         {
           id: 'id',
-          name: 'Ссылка на /page/widget/test',
-        },
-      ],
+          name: 'Ссылка на /page/widget/test'
+        }
+      ]
     };
 
     return (
@@ -81,35 +75,35 @@ stories
         {
           id: 'header',
           component: TextTableHeader,
-          label: 'Текст и иконка',
+          label: 'Текст и иконка'
         },
         {
           id: 'header2',
           component: TextTableHeader,
-          label: 'Только иконка',
-        },
+          label: 'Только иконка'
+        }
       ],
       cells: [
         {
           component: LinkCell,
           ...LinkCellWithPerformJSON,
           icon: 'fa fa-pencil',
-          type: 'iconAndText',
+          type: 'iconAndText'
         },
         {
           component: LinkCell,
           ...LinkCellWithPerformJSON,
           icon: 'fa fa-download',
           fieldKey: 'none',
-          type: 'icon',
-        },
+          type: 'icon'
+        }
       ],
       datasource: [
         {
           id: 'id',
-          name: 'Изменить',
-        },
-      ],
+          name: 'Изменить'
+        }
+      ]
     };
 
     return (
@@ -128,22 +122,22 @@ stories
         {
           id: 'header',
           component: TextTableHeader,
-          label: 'Отправка экшена',
-        },
+          label: 'Отправка экшена'
+        }
       ],
       cells: [
         {
           component: LinkCell,
           ...LinkCellWithPerformJSON,
-          type: 'text',
-        },
+          type: 'text'
+        }
       ],
       datasource: [
         {
           id: 'id',
-          name: 'Ссылка на открытие модального окна',
-        },
-      ],
+          name: 'Ссылка на открытие модального окна'
+        }
+      ]
     };
 
     return (
@@ -160,22 +154,22 @@ stories
         {
           id: 'header',
           component: TextTableHeader,
-          label: 'Отправка экшена',
-        },
+          label: 'Отправка экшена'
+        }
       ],
       cells: [
         {
           component: LinkCell,
           ...LinkCellWithPerformJSON,
-          type: 'text',
-        },
+          type: 'text'
+        }
       ],
       datasource: [
         {
           id: 'id',
-          name: 'Ссылка с экшеном',
-        },
-      ],
+          name: 'Ссылка с экшеном'
+        }
+      ]
     };
 
     return (
@@ -192,8 +186,8 @@ stories
         {
           id: 'header',
           component: TextTableHeader,
-          label: 'Отправка экшена',
-        },
+          label: 'Отправка экшена'
+        }
       ],
       cells: [
         {
@@ -201,15 +195,15 @@ stories
           ...LinkCellWithPerformJSON,
           type: 'text',
           url: 'https://google.com/',
-          target: 'newWindow',
-        },
+          target: 'newWindow'
+        }
       ],
       datasource: [
         {
           id: 'id',
-          name: 'Ссылка с url',
-        },
-      ],
+          name: 'Ссылка с url'
+        }
+      ]
     };
 
     return (

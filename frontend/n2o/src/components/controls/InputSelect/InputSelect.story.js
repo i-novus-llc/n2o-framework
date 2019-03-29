@@ -14,92 +14,92 @@ stories.add('Компонент ', () => {
       id: 'Алексей Николаев',
       icon: 'fa fa-square',
       dob: '11.09.1992',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: 'Игонь Николаев',
       icon: 'fa fa-plus',
       dob: '24.04.1891',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: 'Владимир Серпухов',
       icon: 'fa fa-square',
       dob: '03.12.1981',
-      country: 'США',
+      country: 'США'
     },
     {
       id: 'Анатолий Петухов',
       icon: 'fa fa-square',
       dob: '11.11.2003',
-      country: 'США',
+      country: 'США'
     },
     {
       id: 'Николай Патухов',
       icon: 'fa fa-plus',
       dob: '20.11.1991',
-      country: 'Беларусь',
+      country: 'Беларусь'
     },
     {
       id: 'Алексей Николаев1',
       icon: 'fa fa-square',
       dob: '11.09.1992',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: 'Игонь Николаев1',
       icon: 'fa fa-plus',
       dob: '24.04.1891',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: 'Владимир Серпухов1',
       icon: 'fa fa-square',
       dob: '03.12.1981',
-      country: 'США',
+      country: 'США'
     },
     {
       id: 'Анатолий Петухов1',
       icon: 'fa fa-square',
       dob: '11.11.2003',
-      country: 'США',
+      country: 'США'
     },
     {
       id: 'Николай Патухов1',
       icon: 'fa fa-plus',
       dob: '20.11.1991',
-      country: 'Беларусь',
+      country: 'Беларусь'
     },
     {
       id: 'Алексей Николаев2',
       icon: 'fa fa-square',
       dob: '11.09.1992',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: 'Игонь Николаев2',
       icon: 'fa fa-plus',
       dob: '24.04.1891',
-      country: 'Россия',
+      country: 'Россия'
     },
     {
       id: 'Владимир Серпухов2',
       icon: 'fa fa-square',
       dob: '03.12.1981',
-      country: 'США',
+      country: 'США'
     },
     {
       id: 'Анатолий Петухов2',
       icon: 'fa fa-square',
       dob: '11.11.2003',
-      country: 'США',
+      country: 'США'
     },
     {
       id: 'Николай Патухов2',
       icon: 'fa fa-plus',
       dob: '20.11.1991',
-      country: 'Беларусь',
-    },
+      country: 'Беларусь'
+    }
   ];
 
   const props = {
@@ -108,11 +108,7 @@ stories.add('Компонент ', () => {
     placeholder: text('placeholder', 'Введите значение'),
     valueFieldId: text('valueFieldId', 'id'),
     labelFieldId: text('labelFieldId', 'id'),
-    filter: select(
-      'filter',
-      ['includes', 'startsWith', 'endsWith'],
-      'includes'
-    ),
+    filter: select('filter', ['includes', 'startsWith', 'endsWith'], 'includes'),
     resetOnBlur: boolean('resetOnBlur', false),
     iconFieldId: text('iconFieldId', 'icon'),
     imageFieldId: text('imageFieldId', 'image'),
@@ -122,7 +118,7 @@ stories.add('Компонент ', () => {
     closePopupOnSelect: boolean('closePopupOnSelect', true),
     format: text('format', ''),
     options: options,
-    expandPopUp: boolean('expandPopUp', false),
+    expandPopUp: boolean('expandPopUp', false)
   };
 
   return (

@@ -22,15 +22,10 @@ stories
         value: number('value', 2),
         disabled: boolean('disabled', false),
         checked: boolean('checked', store.state.checked),
-        label: text('label', 'Label'),
+        label: text('label', 'Label')
       };
 
-      return (
-        <Checkbox
-          {...props}
-          onChange={() => store.set({ checked: !store.state.checked })}
-        />
-      );
+      return <Checkbox {...props} onChange={() => store.set({ checked: !store.state.checked })} />;
     })
   )
   .add(
@@ -38,7 +33,7 @@ stories
     form(() => {
       const props = {
         disabled: boolean('disabled', false),
-        label: text('label', 'Label'),
+        label: text('label', 'Label')
       };
 
       return props;

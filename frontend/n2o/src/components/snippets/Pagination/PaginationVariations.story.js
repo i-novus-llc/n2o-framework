@@ -9,7 +9,7 @@ const initPages = {
   simple: 1,
   prevNext: 1,
   firstLast: 1,
-  combination: 1,
+  combination: 1
 };
 
 stories.add(

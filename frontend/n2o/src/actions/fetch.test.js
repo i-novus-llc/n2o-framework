@@ -1,33 +1,28 @@
 import { fetchStart, fetchEnd, fetchError, fetchCancel } from './fetch';
-import {
-  FETCH_START,
-  FETCH_END,
-  FETCH_ERROR,
-  FETCH_CANCEL,
-} from '../constants/fetch';
+import { FETCH_START, FETCH_END, FETCH_ERROR, FETCH_CANCEL } from '../constants/fetch';
 
 const options = {
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 };
 
 const response = {
   data: [
     {
-      name: 'Alex',
+      name: 'Alex'
     },
     {
-      name: 'Ben',
-    },
-  ],
+      name: 'Ben'
+    }
+  ]
 };
 
 const error = {
   error: {
     text: 'Not found',
-    status: 404,
-  },
+    status: 404
+  }
 };
 
 describe('Тесты для экшенов fetch', () => {

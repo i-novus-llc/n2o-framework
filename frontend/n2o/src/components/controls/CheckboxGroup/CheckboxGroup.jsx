@@ -55,26 +55,16 @@ class CheckboxGroup extends React.Component {
    */
 
   render() {
-    const {
-      children,
-      visible,
-      inline,
-      style,
-      className,
-      value,
-      valueFieldId,
-    } = this.props;
+    const { children, visible, inline, style, className, value, valueFieldId } = this.props;
     const element = child => {
       return React.cloneElement(child, {
         checked:
-          !isNull(value) &&
-          value &&
-          this._isIncludes(value, child.props.value, valueFieldId),
+          !isNull(value) && value && this._isIncludes(value, child.props.value, valueFieldId),
         disabled: this.props.disabled || child.props.disabled,
         onChange: this._onChange,
         onBlur: this._onBlur,
         onFocus: this.props.onFocus,
-        inline: this.props.inline,
+        inline: this.props.inline
       });
     };
 
@@ -85,9 +75,7 @@ class CheckboxGroup extends React.Component {
 
     const isBtn =
       children &&
-      React.Children.map(children, child => child.type.displayName).includes(
-        'CheckboxButton'
-      );
+      React.Children.map(children, child => child.type.displayName).includes('CheckboxButton');
 
     return (
       <React.Fragment>
@@ -96,7 +84,7 @@ class CheckboxGroup extends React.Component {
             className={cx(className, {
               [`btn-group${inline ? '' : '-vertical'}`]: isBtn,
               'btn-group-toggle': isBtn,
-              'n2o-checkbox-inline': inline,
+              'n2o-checkbox-inline': inline
             })}
             style={style}
           >
@@ -121,13 +109,13 @@ CheckboxGroup.propTypes = {
   children: PropTypes.node.isRequired,
   inline: PropTypes.bool,
   style: PropTypes.object,
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 CheckboxGroup.defaultProps = {
   value: [],
   visible: true,
-  onChange: () => {},
+  onChange: () => {}
 };
 
 export default CheckboxGroup;

@@ -5,7 +5,7 @@ import {
   MAP_URL,
   RESET,
   DISABLE,
-  ENABLE,
+  ENABLE
 } from '../constants/pages';
 import createActionHelper from './createActionHelper';
 
@@ -19,12 +19,7 @@ import createActionHelper from './createActionHelper';
  * dispatch(metadataRequest("Page"))
  */
 export function metadataRequest(pageId, rootPage, pageUrl, mapping) {
-  return createActionHelper(METADATA_REQUEST)({
-    pageId,
-    rootPage,
-    pageUrl,
-    mapping,
-  });
+  return createActionHelper(METADATA_REQUEST)({ pageId, rootPage, pageUrl, mapping });
 }
 
 /**

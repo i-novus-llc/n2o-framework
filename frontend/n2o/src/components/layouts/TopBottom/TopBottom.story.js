@@ -17,24 +17,14 @@ stories.add('Сверху-снизу', () => {
       <TopBottom>
         <Section place="top">
           <div
-            style={{
-              height: 75,
-              position: 'relative',
-              marginLeft: '-1em',
-              marginRight: '-1em',
-            }}
+            style={{ height: 75, position: 'relative', marginLeft: '-1em', marginRight: '-1em' }}
           >
             <Wireframe title="Top" />
           </div>
         </Section>
         <Section place="bottom">
           <div
-            style={{
-              height: 75,
-              position: 'relative',
-              marginLeft: '-1em',
-              marginRight: '-1em',
-            }}
+            style={{ height: 75, position: 'relative', marginLeft: '-1em', marginRight: '-1em' }}
           >
             <Wireframe title="Bottom" />
           </div>

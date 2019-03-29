@@ -24,7 +24,7 @@ export default config => WrappedComponent => {
     componentDidMount() {
       this.dependencyActions = {
         fetch: this.fetchDependencyAction,
-        reRender: this.reRenderDependencyAction,
+        reRender: this.reRenderDependencyAction
       };
 
       this.setObserveState();
@@ -37,10 +37,7 @@ export default config => WrappedComponent => {
     }
 
     fetchDependencyAction() {
-      config.onChange.apply(this._componentRef, [
-        this.props,
-        DEPENDENCY_TYPES.fetch,
-      ]);
+      config.onChange.apply(this._componentRef, [this.props, DEPENDENCY_TYPES.fetch]);
     }
 
     reRenderDependencyAction() {
@@ -72,10 +69,7 @@ export default config => WrappedComponent => {
       const { dependency } = this.props;
       map(dependency, d => {
         if (this.dependencyActions[d.type]) {
-          const observer = this.observeState(
-            d.type,
-            this.dependencyActions[d.type]
-          );
+          const observer = this.observeState(d.type, this.dependencyActions[d.type]);
           this._observers.push(observer);
         }
       });
@@ -97,15 +91,15 @@ export default config => WrappedComponent => {
   }
 
   ReRenderComponent.propTypes = {
-    dependencySelector: PropTypes.func,
+    dependencySelector: PropTypes.func
   };
 
   ReRenderComponent.defaultProps = {
-    dependencySelector: setWatchDependency,
+    dependencySelector: setWatchDependency
   };
 
   ReRenderComponent.contextTypes = {
-    store: PropTypes.object,
+    store: PropTypes.object
   };
 
   return ReRenderComponent;

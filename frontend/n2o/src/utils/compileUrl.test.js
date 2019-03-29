@@ -5,7 +5,7 @@ describe('Проверка compileUrl', () => {
     const expectedUrl = '/test/url';
     const url = compileUrl(expectedUrl, {
       pathMapping: {},
-      queryMapping: {},
+      queryMapping: {}
     });
     expect(url).toEqual(expectedUrl);
   });
@@ -16,22 +16,22 @@ describe('Проверка compileUrl', () => {
       {
         pathMapping: {
           param1: {
-            link: 'test.param1',
+            link: 'test.param1'
           },
           param2: {
-            link: 'test.param2',
+            link: 'test.param2'
           },
           param3: {
-            link: 'test.param3',
-          },
-        },
+            link: 'test.param3'
+          }
+        }
       },
       {
         test: {
           param1: 'test',
           param2: '123',
-          param3: '321',
-        },
+          param3: '321'
+        }
       }
     );
     expect(url).toEqual(expectedUrl);
@@ -45,14 +45,14 @@ describe('Проверка compileUrl', () => {
         queryMapping: {
           q: {
             link: 'test',
-            value: '`q`',
-          },
-        },
+            value: '`q`'
+          }
+        }
       },
       {
         test: {
-          q: 'test',
-        },
+          q: 'test'
+        }
       }
     );
     expect(url).toEqual(expectedUrl);
@@ -65,27 +65,27 @@ describe('Проверка compileUrl', () => {
       {
         pathMapping: {
           param1: {
-            link: 'test.param1',
+            link: 'test.param1'
           },
           param2: {
-            link: 'test.param2',
-          },
+            link: 'test.param2'
+          }
         },
         queryMapping: {
           q: {
             link: 'test.test',
-            value: '`q`',
-          },
-        },
+            value: '`q`'
+          }
+        }
       },
       {
         test: {
           param1: 'firstParam',
           param2: '123',
           test: {
-            q: 'value',
-          },
-        },
+            q: 'value'
+          }
+        }
       }
     );
     expect(url).toEqual(expectedUrl);

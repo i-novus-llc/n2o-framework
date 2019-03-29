@@ -22,7 +22,7 @@ import {
   RESET_STATE,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH,
+  DISABLE_ON_FETCH
 } from '../constants/widgets';
 
 /**
@@ -50,89 +50,89 @@ export const widgetState = {
   sorting: {},
   filter: {
     key: null,
-    type: null,
+    type: null
   },
   /* Query props */
   count: 0,
   /* System props */
   pageId: null,
   containerId: null,
-  validation: {},
+  validation: {}
 };
 
 function resolve(state = widgetState, action) {
   switch (action.type) {
     case DATA_REQUEST:
       return Object.assign({}, state, {
-        isLoading: true,
+        isLoading: true
       });
     case DATA_SUCCESS:
       return Object.assign({}, state, {
-        isLoading: false,
+        isLoading: false
       });
     case DATA_FAIL:
       return Object.assign({}, state, {
-        isLoading: false,
+        isLoading: false
       });
     case RESOLVE:
       return Object.assign({}, state, {
-        isResolved: true,
+        isResolved: true
       });
     case SHOW:
       return Object.assign({}, state, {
-        isVisible: true,
+        isVisible: true
       });
     case HIDE:
       return Object.assign({}, state, {
-        isVisible: false,
+        isVisible: false
       });
     case ENABLE:
       return Object.assign({}, state, {
-        isEnabled: true,
+        isEnabled: true
       });
     case DISABLE:
     case DISABLE_ON_FETCH:
       return Object.assign({}, state, {
-        isEnabled: false,
+        isEnabled: false
       });
     case LOADING:
       return Object.assign({}, state, {
-        isLoading: true,
+        isLoading: true
       });
     case UNLOADING:
       return Object.assign({}, state, {
-        isLoading: false,
+        isLoading: false
       });
     case SORT_BY:
       if (action.payload.sortDirection == 'NONE') {
         return {
           ...state,
-          sorting: {},
+          sorting: {}
         };
       }
       return {
         ...state,
-        sorting: { [action.payload.fieldKey]: action.payload.sortDirection },
+        sorting: { [action.payload.fieldKey]: action.payload.sortDirection }
       };
     case CHANGE_SIZE:
       return Object.assign({}, state, {
-        size: action.payload.size,
+        size: action.payload.size
       });
     case CHANGE_PAGE:
       return Object.assign({}, state, {
-        page: action.payload.page,
+        page: action.payload.page
       });
     case CHANGE_COUNT:
       return Object.assign({}, state, {
-        count: action.payload.count,
+        count: action.payload.count
       });
     case CHANGE_FILTERS_VISIBILITY:
       return Object.assign({}, state, {
-        isFilterVisible: action.payload.isFilterVisible,
+        isFilterVisible: action.payload.isFilterVisible
       });
     case TOGGLE_FILTERS_VISIBILITY:
       return Object.assign({}, state, {
-        isFilterVisible: !state.isFilterVisible,
+        isFilterVisible: !state.isFilterVisible
       });
     case RESET_STATE:
       return Object.assign({}, state, { isInit: false });
@@ -156,7 +156,7 @@ export default function widgets(state = {}, action) {
       const currentState = state[action.payload.widgetId] || {};
       if (!isEmpty(currentState)) {
         smartState = {
-          selectedId: currentState.selectedId ? currentState.selectedId : null,
+          selectedId: currentState.selectedId ? currentState.selectedId : null
         };
         if (!isEmpty(currentState.sorting)) {
           smartState.sorting = currentState.sorting;
@@ -168,8 +168,8 @@ export default function widgets(state = {}, action) {
           ...merge.all([widgetState, action.payload.initProps, currentState]),
           ...smartState,
           isInit: true,
-          type: action.payload.initProps.type,
-        },
+          type: action.payload.initProps.type
+        }
       };
       break;
     case DATA_REQUEST:
@@ -192,23 +192,13 @@ export default function widgets(state = {}, action) {
     case SET_TABLE_SELECTED_ID:
     case RESET_STATE:
       return Object.assign({}, state, {
-        [action.payload.widgetId]: resolve(
-          state[action.payload.widgetId],
-          action
-        ),
+        [action.payload.widgetId]: resolve(state[action.payload.widgetId], action)
       });
       break;
     case SET_ACTIVE:
-      return Object.assign(
-        {},
-        mapValues(state, value => ({ ...value, isActive: false })),
-        {
-          [action.payload.widgetId]: resolve(
-            state[action.payload.widgetId],
-            action
-          ),
-        }
-      );
+      return Object.assign({}, mapValues(state, value => ({ ...value, isActive: false })), {
+        [action.payload.widgetId]: resolve(state[action.payload.widgetId], action)
+      });
       break;
     case REMOVE:
       return omit(state, action.payload.widgetId);

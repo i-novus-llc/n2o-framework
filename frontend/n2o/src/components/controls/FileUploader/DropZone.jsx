@@ -17,20 +17,14 @@ class DropZone extends React.Component {
   render() {
     const { icon, label } = this.props;
     const children = this.props.children || defaultDropZone(icon, label);
-    return (
-      <FileUploader
-        {...this.props}
-        children={children}
-        componentClass={'n2o-drop-zone'}
-      />
-    );
+    return <FileUploader {...this.props} children={children} componentClass={'n2o-drop-zone'} />;
   }
 }
 
 DropZone.defaultProps = {
   saveBtnStyle: {
-    marginTop: '10px',
-  },
+    marginTop: '10px'
+  }
 };
 
 DropZone.propTypes = {
@@ -51,7 +45,7 @@ DropZone.propTypes = {
   minSize: PropTypes.number,
   multiple: PropTypes.bool,
   onChange: PropTypes.func,
-  children: PropTypes.oneOf(PropTypes.node, PropTypes.func),
+  children: PropTypes.oneOf(PropTypes.node, PropTypes.func)
 };
 
 export default withFileUploader(DropZone);

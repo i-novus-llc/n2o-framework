@@ -24,14 +24,14 @@ class ListItem extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.state = {
-      wasActive: false,
+      wasActive: false
     };
   }
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.active) {
       return {
-        wasActive: true,
+        wasActive: true
       };
     }
   }
@@ -59,17 +59,11 @@ class ListItem extends React.Component {
         <div className={cx('n2o-region-list__header', { active })}>
           <a href="#" onClick={this.handleClick}>
             <h6>
-              <span
-                className="fa fa-angle-right"
-                style={{ marginRight: '0.25rem' }}
-              />{' '}
-              {title}
+              <span className="fa fa-angle-right" style={{ marginRight: '0.25rem' }} /> {title}
             </h6>
           </a>
         </div>
-        <div className={cx('n2o-region-list__body', { active })}>
-          {wasActive ? children : null}
-        </div>
+        <div className={cx('n2o-region-list__body', { active })}>{wasActive ? children : null}</div>
       </div>
     );
   }
@@ -80,7 +74,7 @@ ListItem.propTypes = {
   active: PropTypes.bool,
   title: PropTypes.string,
   onClick: PropTypes.func,
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export default ListItem;

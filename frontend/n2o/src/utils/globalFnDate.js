@@ -2,7 +2,7 @@ import moment from 'moment';
 
 let formats = {
   dateFormat: 'DD.MM.YYYY',
-  timeFormat: 'HH:mm:ss',
+  timeFormat: 'HH:mm:ss'
 };
 
 /**
@@ -12,9 +12,7 @@ let formats = {
  * @returns {string}
  */
 const getFormat = overrideFormat =>
-  `${(overrideFormat || formats).dateFormat} ${
-    (overrideFormat || formats).timeFormat
-  }`;
+  `${(overrideFormat || formats).dateFormat} ${(overrideFormat || formats).timeFormat}`;
 
 const fns = {
   /**
@@ -148,14 +146,14 @@ const fns = {
   endYear: newFormat =>
     moment()
       .endOf('year')
-      .format(getFormat(newFormat)),
+      .format(getFormat(newFormat))
 };
 
 const dateFunctions = {
   addFormat: overrideFormat => {
     formats = overrideFormat;
   },
-  getFns: () => fns,
+  getFns: () => fns
 };
 
 export default Object.freeze(dateFunctions);

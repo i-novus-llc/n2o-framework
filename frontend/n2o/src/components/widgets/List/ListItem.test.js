@@ -7,7 +7,7 @@ const setup = propsOverride =>
     <ListItem
       image={{
         src: 'google.com',
-        alt: 'test',
+        alt: 'test'
       }}
       header={'header'}
       subHeader={'subHeader'}
@@ -24,23 +24,17 @@ describe('Проверка ListItem', () => {
     const wrapper = setup();
     expect(wrapper.find('.n2o-widget-list-item-image').exists()).toEqual(true);
     expect(wrapper.find('.n2o-widget-list-item-header').exists()).toEqual(true);
-    expect(wrapper.find('.n2o-widget-list-item-subheader').exists()).toEqual(
-      true
-    );
+    expect(wrapper.find('.n2o-widget-list-item-subheader').exists()).toEqual(true);
     expect(wrapper.find('.n2o-widget-list-item-body').exists()).toEqual(true);
-    expect(wrapper.find('.n2o-widget-list-item-right-top').exists()).toEqual(
-      true
-    );
-    expect(wrapper.find('.n2o-widget-list-item-right-bottom').exists()).toEqual(
-      true
-    );
+    expect(wrapper.find('.n2o-widget-list-item-right-top').exists()).toEqual(true);
+    expect(wrapper.find('.n2o-widget-list-item-right-bottom').exists()).toEqual(true);
     expect(wrapper.find('.n2o-widget-list-item-extra').exists()).toEqual(true);
   });
 
   it('срабатывает onClick', () => {
     const onClick = sinon.spy();
     const wrapper = setup({
-      onClick,
+      onClick
     });
     wrapper.find('.n2o-widget-list-item').simulate('click');
     expect(onClick.calledOnce).toEqual(true);

@@ -10,9 +10,7 @@ const stories = storiesOf('Действия/Ссылка Link', module);
 
 stories
   .add('Компонент', () => {
-    return (
-      <Actions toolbar={metadata.toolbar} containerKey={'linkContainer'} />
-    );
+    return <Actions toolbar={metadata.toolbar} containerKey={'linkContainer'} />;
   })
   .add('Метаданные', () => {
     return (

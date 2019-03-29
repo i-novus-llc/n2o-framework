@@ -33,11 +33,11 @@ PanelBody.propTypes = {
   id: PropTypes.string,
   hasTabs: PropTypes.bool,
   activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 PanelBody.defaultProps = {
-  hasTabs: false,
+  hasTabs: false
 };
 
 export default PanelBody;

@@ -15,7 +15,7 @@ import {
   ENABLE_FIELDS,
   DISABLE_FIELDS,
   SET_REQUIRED,
-  UNSET_REQUIRED,
+  UNSET_REQUIRED
 } from '../constants/formPlugin';
 
 const defaultState = {
@@ -25,7 +25,7 @@ const defaultState = {
   message: null,
   filter: [],
   dependency: null,
-  required: false,
+  required: false
 };
 
 const setValueByNames = (state, names, props) =>
@@ -37,7 +37,7 @@ const setValueByNames = (state, names, props) =>
       (result, name) => {
         return {
           ...result,
-          [name]: { ...state[name], ...props },
+          [name]: { ...state[name], ...props }
         };
       },
       {}
@@ -47,11 +47,7 @@ const setValueByNames = (state, names, props) =>
 function resolve(state = defaultState, action) {
   switch (action.type) {
     case REGISTER_FIELD_EXTRA:
-      return Object.assign(
-        {},
-        state,
-        merge(defaultState, action.payload.initialState || {})
-      );
+      return Object.assign({}, state, merge(defaultState, action.payload.initialState || {}));
     case DISABLE_FIELD:
       return Object.assign({}, state, { disabled: true });
     case ENABLE_FIELD:
@@ -61,20 +57,16 @@ function resolve(state = defaultState, action) {
     case HIDE_FIELD:
       return Object.assign({}, state, { visible: false });
     case ADD_FIELD_MESSAGE:
-      return Object.assign({}, state, {
-        message: { ...action.payload.message },
-      });
+      return Object.assign({}, state, { message: { ...action.payload.message } });
     case REMOVE_FIELD_MESSAGE:
       return Object.assign({}, state, { message: null });
     case REGISTER_DEPENDENCY:
-      return Object.assign({}, state, {
-        dependency: action.payload.dependency,
-      });
+      return Object.assign({}, state, { dependency: action.payload.dependency });
     case SET_FIELD_FILTER:
       return Object.assign({}, state, {
         filter: state.filter
           .filter(f => f.filterId !== action.payload.filter.filterId)
-          .concat(action.payload.filter),
+          .concat(action.payload.filter)
       });
     case SHOW_FIELDS:
       return setValueByNames(state, action.payload.names, { visible: true });
@@ -119,11 +111,7 @@ export default function formPlugin(state = {}, action) {
     case DISABLE_FIELDS:
     case ENABLE_FIELDS:
     case HIDE_FIELDS:
-      return _.set(
-        state,
-        'registeredFields',
-        resolve(_.get(state, 'registeredFields'), action)
-      );
+      return _.set(state, 'registeredFields', resolve(_.get(state, 'registeredFields'), action));
     default:
       return state;
   }

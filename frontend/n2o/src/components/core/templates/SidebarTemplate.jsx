@@ -26,20 +26,20 @@ class AppWithSideBar extends React.Component {
                 id: 's2',
                 label: '/ProtoPage/patients/123',
                 href: '/ProtoPage/patients/123',
-                type: 'link',
+                type: 'link'
               },
               {
                 id: 's3',
                 label: '/ProtoPage/patients/123/update',
                 href: '/ProtoPage/patients/123/update',
-                type: 'link',
+                type: 'link'
               },
               {
                 id: 's4',
                 label: '/ProtoPage/patients/123?name=Test&sorting.surname=ASC',
                 href: '/ProtoPage/patients/123?name=Test&sorting.surname=ASC',
-                type: 'link',
-              },
+                type: 'link'
+              }
             ]}
           />
           <div className="application-body container-fluid" {...this.props} />

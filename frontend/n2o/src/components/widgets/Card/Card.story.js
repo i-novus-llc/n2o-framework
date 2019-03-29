@@ -2,13 +2,7 @@ import React, { Fragment } from 'react';
 import { CardLink, Row, Col } from 'reactstrap';
 import { zip, map } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  select,
-  object,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, select, object } from '@storybook/addon-knobs/react';
 import Card from './Card';
 import Actions from '../../actions/Actions';
 import { items } from './Card.meta';
@@ -21,28 +15,28 @@ const btnAct = [
       {
         id: 'testBtn13',
         actionId: 'dummy',
-        icon: 'fa fa-apple',
-      },
-    ],
+        icon: 'fa fa-apple'
+      }
+    ]
   },
   {
     buttons: [
       {
         id: 'testBtn14',
         actionId: 'dummy',
-        icon: 'fa fa-github',
-      },
-    ],
+        icon: 'fa fa-github'
+      }
+    ]
   },
   {
     buttons: [
       {
         id: 'testBtn15',
         actionId: 'dummy',
-        icon: 'fa fa-telegram',
-      },
-    ],
-  },
+        icon: 'fa fa-telegram'
+      }
+    ]
+  }
 ];
 
 const colors = ['primary', 'success', 'info', 'warning', 'danger'];
@@ -63,7 +57,7 @@ stories
       circle: boolean('circle', false),
       color: select('color', [...colors, null]),
       inverse: boolean('inverse', false),
-      outline: boolean('outline', false),
+      outline: boolean('outline', false)
     };
     return <Card.Item {...props} />;
   })
@@ -80,7 +74,7 @@ stories
       circle: boolean('circle', items[1].circle),
       color: select('color', [...colors, null]),
       inverse: boolean('inverse', false),
-      outline: boolean('outline', true),
+      outline: boolean('outline', true)
     };
 
     return <Card.Item {...props} />;
@@ -106,10 +100,7 @@ stories
         }
       />
       <Card.Item {...items[1]} extra={<Actions toolbar={btnAct} />} />
-      <Card.Item
-        {...items[2]}
-        rows={['extra', 'text', 'header', 'meta', 'image']}
-      />
+      <Card.Item {...items[2]} rows={['extra', 'text', 'header', 'meta', 'image']} />
     </Card.Layout>
   ))
 
@@ -139,7 +130,7 @@ stories
   .add('Статусы', () => {
     const props = items.map((item, i) => ({
       ...item,
-      color: colors[i],
+      color: colors[i]
     }));
 
     return (

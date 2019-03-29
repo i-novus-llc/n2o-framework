@@ -9,16 +9,16 @@ const setup = propsOverride => {
       {
         image: {
           src: 'google.com',
-          alt: 'test',
+          alt: 'test'
         },
         header: 'header',
         subHeader: 'subHeader',
         rightTop: 'rightTop',
         rightBottom: 'rightBottom',
         body: 'body',
-        extra: 'extra',
-      },
-    ],
+        extra: 'extra'
+      }
+    ]
   };
 
   return mount(<List {...props} {...propsOverride} />);
@@ -32,9 +32,7 @@ describe('Проверка List', () => {
 
   it('renderRow отрисовывает строки', () => {
     const wrapper = setup();
-    const rowItem = wrapper
-      .instance()
-      .renderRow({ index: 0, key: 0, style: {}, parent: {} });
+    const rowItem = wrapper.instance().renderRow({ index: 0, key: 0, style: {}, parent: {} });
     expect(React.isValidElement(rowItem)).toEqual(true);
   });
 });

@@ -29,7 +29,7 @@ const setup = (selectOverrides, optionOverrides) => {
   return {
     optionProps,
     selectProps,
-    wrapper,
+    wrapper
   };
 };
 

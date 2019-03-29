@@ -8,7 +8,7 @@ import { Link, HashRouter } from 'react-router-dom';
 
 const setupLinkCell = propsOverride => {
   const props = {
-    ...meta,
+    ...meta
   };
   return mount(
     <Provider store={configureMockStore()({})}>
@@ -27,7 +27,7 @@ describe('Тесты LinkCell', () => {
   it('Отрисовывается icon', () => {
     const wrapper = setupLinkCell({
       icon: 'fa fa-plus',
-      type: 'icon',
+      type: 'icon'
     });
     expect(wrapper.find('.fa.fa-plus').exists()).toEqual(true);
   });
@@ -37,7 +37,7 @@ describe('Тесты LinkCell', () => {
     const wrapper = setupLinkCell({
       icon: 'fa fa-plus',
       model: model,
-      callActionImpl,
+      callActionImpl
     });
 
     wrapper
@@ -45,8 +45,8 @@ describe('Тесты LinkCell', () => {
       .at(0)
       .simulate('click', {
         nativeEvent: {
-          stopPropagation: () => {},
-        },
+          stopPropagation: () => {}
+        }
       });
     expect(callActionImpl.withArgs().calledOnce).toEqual(true);
   });
@@ -54,21 +54,21 @@ describe('Тесты LinkCell', () => {
   it('Отрисовыается ссылка по таргету "application"', () => {
     const wrapper = setupLinkCell({
       url: '/n2o/test',
-      target: 'application',
+      target: 'application'
     });
     expect(wrapper.find(Link).exists()).toEqual(true);
   });
   it('Отрисовывается ссылка по таргету "self"', () => {
     const wrapper = setupLinkCell({
       url: '/n2o/self/test',
-      target: 'self',
+      target: 'self'
     });
     expect(wrapper.find('a[href="/n2o/self/test"]').exists()).toEqual(true);
   });
   it('Отрисовывается ссылка по таргету "newWindow"', () => {
     const wrapper = setupLinkCell({
       url: 'https://google.com',
-      target: 'newWindow',
+      target: 'newWindow'
     });
     expect(wrapper.find('a[target="_blank"]').exists()).toEqual(true);
   });

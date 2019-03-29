@@ -23,7 +23,7 @@ stories.add(
       count: number('count', 100),
       size: number('size', 10),
       maxButtons: number('maxButtons', 4),
-      stepIncrement: number('stepIncrement', 10),
+      stepIncrement: number('stepIncrement', 10)
     };
 
     return (

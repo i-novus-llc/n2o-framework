@@ -5,7 +5,7 @@ function parseResponse(response) {
   return response.text().then(text => ({
     status: response.status,
     statusText: response.statusText,
-    body: text,
+    body: text
   }));
 }
 

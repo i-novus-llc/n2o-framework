@@ -2,7 +2,7 @@ import {
   CHANGE_COLUMN_DISABLED,
   CHANGE_COLUMN_VISIBILITY,
   REGISTER_COLUMN,
-  TOGGLE_COLUMN_VISIBILITY,
+  TOGGLE_COLUMN_VISIBILITY
 } from '../constants/columns';
 
 import createActionHelper from './createActionHelper';
@@ -15,11 +15,7 @@ import { generateKey } from '../utils/id';
  * @param visible
  */
 export function changeColumnVisiblity(widgetId, columnId, visible) {
-  return createActionHelper(CHANGE_COLUMN_VISIBILITY)({
-    visible,
-    key: widgetId,
-    columnId,
-  });
+  return createActionHelper(CHANGE_COLUMN_VISIBILITY)({ visible, key: widgetId, columnId });
 }
 
 /**
@@ -48,18 +44,11 @@ export function setColumnHidden(widgetId, columnId) {
  * @returns {*}
  */
 export function toggleColumnVisiblity(widgetId, columnId) {
-  return createActionHelper(TOGGLE_COLUMN_VISIBILITY)({
-    key: widgetId,
-    columnId,
-  });
+  return createActionHelper(TOGGLE_COLUMN_VISIBILITY)({ key: widgetId, columnId });
 }
 
 export function changeColumnDisabled(widgetId, columnId, disabled) {
-  return createActionHelper(CHANGE_COLUMN_DISABLED)({
-    key: widgetId,
-    columnId,
-    disabled,
-  });
+  return createActionHelper(CHANGE_COLUMN_DISABLED)({ key: widgetId, columnId, disabled });
 }
 
 /**
@@ -77,6 +66,6 @@ export function registerColumn(widgetId, columnId, label, visible, disabled) {
     columnId,
     label,
     visible,
-    disabled,
+    disabled
   });
 }

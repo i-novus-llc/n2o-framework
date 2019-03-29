@@ -55,9 +55,7 @@ class Alerts extends React.Component {
     const { text, severity, details, stacktrace, alerts } = this.props;
     const msgList = _.concat(alerts || [], this.alerts);
     if (msgList && msgList.length) {
-      msgTmp = msgList.map(m => (
-        <div className={cx('alert', `alert-${m.severity}`)}>{m.text}</div>
-      ));
+      msgTmp = msgList.map(m => <div className={cx('alert', `alert-${m.severity}`)}>{m.text}</div>);
     } else if (text && severity) {
       msgTmp = <div className={cx('alert', `alert-${severity}`)}>{text}</div>;
     }
@@ -72,12 +70,12 @@ Alerts.propTypes = {
   alerts: PropTypes.array,
   details: PropTypes.string,
   stacktrace: PropTypes.string,
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 };
 
 Alerts.defaultProps = {
   visible: true,
-  alerts: PropTypes.array,
+  alerts: PropTypes.array
 };
 
 export default Alerts;

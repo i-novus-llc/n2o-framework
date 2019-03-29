@@ -93,5 +93,5 @@ export {
   resolveSelector,
   alertsSelector,
   idsSelector,
-  sortingSelector,
+  sortingSelector
 };

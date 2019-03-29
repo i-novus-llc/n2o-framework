@@ -49,7 +49,7 @@ N2OSelectInput.propTypes = {
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   onSearch: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.string
 };
 
 export default N2OSelectInput;

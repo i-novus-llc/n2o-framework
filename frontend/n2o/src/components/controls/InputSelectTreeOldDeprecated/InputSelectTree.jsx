@@ -47,13 +47,7 @@ import { SHOW_CHILD } from 'rc-tree-select';
 class InputSelectTree extends React.Component {
   constructor(props) {
     super(props);
-    const {
-      value,
-      options,
-      valueFieldId,
-      labelFieldId,
-      multiSelect,
-    } = this.props;
+    const { value, options, valueFieldId, labelFieldId, multiSelect } = this.props;
     const valueArray = Array.isArray(value) ? value : value ? [value] : [];
     const input = value && !multiSelect ? value[labelFieldId] : '';
     this.state = {
@@ -63,7 +57,7 @@ class InputSelectTree extends React.Component {
       options,
       active: null,
       treeStates: this.getTreeItems(this.props.options),
-      input,
+      input
     };
 
     this._handleButtonClick = this._handleButtonClick.bind(this);
@@ -98,19 +92,12 @@ class InputSelectTree extends React.Component {
       ArrowUp: this._handleArrowUp,
       ArrowRight: this._handleArrowRight,
       ArrowLeft: this._handleArrowLeft,
-      Enter: this._handleEnter,
+      Enter: this._handleEnter
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    const {
-      multiSelect,
-      value,
-      valueFieldId,
-      labelFieldId,
-      options,
-      loading,
-    } = nextProps;
+    const { multiSelect, value, valueFieldId, labelFieldId, options, loading } = nextProps;
     if (!isEqual(nextProps.options, this.state.options)) {
       this.setState({ options, treeStates: this.getTreeItems(options) });
     }
@@ -222,7 +209,7 @@ class InputSelectTree extends React.Component {
     }
 
     this.setState({
-      isExpanded: newState,
+      isExpanded: newState
     });
   }
 
@@ -261,7 +248,7 @@ class InputSelectTree extends React.Component {
 
   _setNewValue(newValue) {
     this.setState({
-      value: newValue,
+      value: newValue
     });
   }
 
@@ -274,15 +261,12 @@ class InputSelectTree extends React.Component {
    */
 
   _makeSearch(options, searchValue) {
-    const filter = item =>
-      String.prototype[this.props.filter].call(item, searchValue);
+    const filter = item => String.prototype[this.props.filter].call(item, searchValue);
 
     const { valueFieldId, parentFieldId } = this.props;
 
     return options.filter(item => {
-      const childs = this.state.options.filter(
-        node => node[parentFieldId] === item[valueFieldId]
-      );
+      const childs = this.state.options.filter(node => node[parentFieldId] === item[valueFieldId]);
 
       return (
         filter(item[this.props.labelFieldId].toString()) ||
@@ -301,9 +285,7 @@ class InputSelectTree extends React.Component {
     const { onSearch, filter, labelFieldId, options } = this.props;
     if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
       const filterFunc = item => String.prototype[filter].call(item, input);
-      const filteredData = options.filter(item =>
-        filterFunc(item[labelFieldId])
-      );
+      const filteredData = options.filter(item => filterFunc(item[labelFieldId]));
       this.setState({ options: filteredData });
     } else {
       //серверная фильтрация
@@ -327,11 +309,11 @@ class InputSelectTree extends React.Component {
 
     if (this.props.multiSelect) {
       this.setState(prevState => ({
-        selected: unionBy(prevState.selected, items, valueFieldId),
+        selected: unionBy(prevState.selected, items, valueFieldId)
       }));
     } else {
       this.setState({
-        selected: items,
+        selected: items
       });
     }
   }
@@ -400,9 +382,7 @@ class InputSelectTree extends React.Component {
 
   _retrieveChilds(item) {
     const { valueFieldId, parentFieldId } = this.props;
-    const childs = this.state.options.filter(
-      node => node[parentFieldId] === item[valueFieldId]
-    );
+    const childs = this.state.options.filter(node => node[parentFieldId] === item[valueFieldId]);
 
     childs.length > 0 &&
       childs.map(child => {
@@ -421,9 +401,7 @@ class InputSelectTree extends React.Component {
   _removeChild(item) {
     const { valueFieldId, parentFieldId } = this.props;
     if (this.props.multiSelect) {
-      const childs = this.state.options.filter(
-        node => node[parentFieldId] === item[valueFieldId]
-      );
+      const childs = this.state.options.filter(node => node[parentFieldId] === item[valueFieldId]);
 
       childs.length > 0 &&
         childs.map(child => {
@@ -492,7 +470,7 @@ class InputSelectTree extends React.Component {
       labelFieldId,
       options,
       onSelect,
-      onChange,
+      onChange
     } = this.props;
     const selectCallback = () => {
       closePopupOnSelect && this._hideOptionsList();
@@ -505,7 +483,7 @@ class InputSelectTree extends React.Component {
       prevState => ({
         value: multiSelect ? [...prevState.value, item] : [item],
         input: multiSelect ? '' : item[labelFieldId],
-        options,
+        options
       }),
       selectCallback
     );
@@ -519,7 +497,7 @@ class InputSelectTree extends React.Component {
   _clearSearchField() {
     this.setState({
       value: '',
-      options: this.props.options,
+      options: this.props.options
     });
   }
 
@@ -539,7 +517,7 @@ class InputSelectTree extends React.Component {
           this.setState(
             {
               value: multiSelect ? [...value, createdValue] : [createdValue],
-              input: multiSelect ? '' : input,
+              input: multiSelect ? '' : input
             },
             () => onChange(this._getValue())
           );
@@ -549,10 +527,8 @@ class InputSelectTree extends React.Component {
         if (input) {
           this.setState(
             {
-              input: multiSelect
-                ? ''
-                : (value[0] && value[0][labelFieldId]) || '',
-              value,
+              input: multiSelect ? '' : (value[0] && value[0][labelFieldId]) || '',
+              value
             },
             () => onChange(this._getValue())
           );
@@ -560,7 +536,7 @@ class InputSelectTree extends React.Component {
           this.setState(
             {
               input: '',
-              value: multiSelect ? value : [],
+              value: multiSelect ? value : []
             },
             () => onChange(this._getValue())
           );
@@ -570,7 +546,7 @@ class InputSelectTree extends React.Component {
       this.setState(
         {
           value: multiSelect ? [...value, newValue] : [newValue],
-          input: multiSelect ? '' : input,
+          input: multiSelect ? '' : input
         },
         () => onChange(this._getValue())
       );
@@ -600,7 +576,7 @@ class InputSelectTree extends React.Component {
   _handleElementCreate() {
     const { valueFieldId } = this.props;
     const newElement = {
-      [this.props.labelFieldId]: this.state.value,
+      [this.props.labelFieldId]: this.state.value
     };
 
     if (this.props.onElementCreate) {
@@ -610,7 +586,7 @@ class InputSelectTree extends React.Component {
     newElement[valueFieldId] = `${newElement.value}_${new Date().getTime()}`;
 
     this.setState({
-      selected: [...this.state.selected, newElement],
+      selected: [...this.state.selected, newElement]
     });
 
     this._setNewValue('');
@@ -619,9 +595,7 @@ class InputSelectTree extends React.Component {
   inArray(array, item) {
     const { valueFieldId } = this.props;
     return (
-      array.filter(
-        disabledItem => disabledItem[valueFieldId] === item[valueFieldId]
-      ).length > 0
+      array.filter(disabledItem => disabledItem[valueFieldId] === item[valueFieldId]).length > 0
     );
   }
 
@@ -655,9 +629,7 @@ class InputSelectTree extends React.Component {
           loaded: false,
           selected: NODE_SELECTED.NOT_SELECTED,
           ref: React.createRef(),
-          [hasChildrenFieldId]: isNil(item[hasChildrenFieldId])
-            ? true
-            : item[hasChildrenFieldId],
+          [hasChildrenFieldId]: isNil(item[hasChildrenFieldId]) ? true : item[hasChildrenFieldId]
         })
     );
 
@@ -676,10 +648,7 @@ class InputSelectTree extends React.Component {
     );
 
     this.setState(prevState => ({
-      treeStates: {
-        ...prevState.treeStates,
-        ...this.getTreeItems(newElements),
-      },
+      treeStates: { ...prevState.treeStates, ...this.getTreeItems(newElements) }
     }));
   }
 
@@ -692,7 +661,7 @@ class InputSelectTree extends React.Component {
   overrideElement(itemState, id) {
     const newData = Object.assign({
       ...this.state.treeStates,
-      [id]: itemState,
+      [id]: itemState
     });
 
     this.setState({ treeStates: newData });
@@ -722,9 +691,7 @@ class InputSelectTree extends React.Component {
   selectParent(item) {
     const { valueFieldId, parentFieldId } = this.props;
     const parent = this.state.options[
-      this.state.options.findIndex(
-        parent => parent[valueFieldId] === item[parentFieldId]
-      )
+      this.state.options.findIndex(parent => parent[valueFieldId] === item[parentFieldId])
     ];
 
     if (!parent) {
@@ -751,20 +718,15 @@ class InputSelectTree extends React.Component {
   unselectParent(item) {
     const { valueFieldId, parentFieldId } = this.props;
     const parent = this.state.options[
-      this.state.options.findIndex(
-        parent => parent[valueFieldId] === item[parentFieldId]
-      )
+      this.state.options.findIndex(parent => parent[valueFieldId] === item[parentFieldId])
     ];
-    const parentState = parent
-      ? this.state.treeStates[parent[valueFieldId]]
-      : null;
+    const parentState = parent ? this.state.treeStates[parent[valueFieldId]] : null;
 
     if (parentState && parentState.selected === NODE_SELECTED.PARTIALLY) {
       const selectedChild = this.state.options.find(
         child =>
           child[parentFieldId] === parent[valueFieldId] &&
-          this.state.treeStates[child[valueFieldId]].selected ===
-            NODE_SELECTED.SELECTED
+          this.state.treeStates[child[valueFieldId]].selected === NODE_SELECTED.SELECTED
       );
 
       if (!selectedChild) {
@@ -849,7 +811,7 @@ class InputSelectTree extends React.Component {
     const { valueFieldId } = this.props;
     const activeItem = {
       ...this.state.active,
-      expanded: false,
+      expanded: false
     };
 
     this.overrideElement(activeItem, activeItem[valueFieldId]);
@@ -864,9 +826,7 @@ class InputSelectTree extends React.Component {
   _setFirstNodeActive() {
     const { valueFieldId, parentFieldId } = this.props;
     const rootNodes = this.state.options.filter(node => !node[parentFieldId]);
-    this.setState({
-      active: this.state.treeStates[rootNodes[0][valueFieldId]],
-    });
+    this.setState({ active: this.state.treeStates[rootNodes[0][valueFieldId]] });
   }
 
   /**
@@ -990,9 +950,7 @@ class InputSelectTree extends React.Component {
       return nextItem;
     }
     return this.state.options[
-      this.state.options.findIndex(
-        node => node[valueFieldId] === currentItem[parentFieldId]
-      )
+      this.state.options.findIndex(node => node[valueFieldId] === currentItem[parentFieldId])
     ];
   }
 
@@ -1005,9 +963,7 @@ class InputSelectTree extends React.Component {
 
   _getLowest(item) {
     const { valueFieldId, parentFieldId } = this.props;
-    const childs = this.state.options.filter(
-      node => node[parentFieldId] === item[valueFieldId]
-    );
+    const childs = this.state.options.filter(node => node[parentFieldId] === item[valueFieldId]);
     const lastChild = childs[childs.length - 1];
 
     if (this.state.treeStates[lastChild[valueFieldId]].expanded) {
@@ -1058,9 +1014,7 @@ class InputSelectTree extends React.Component {
       return nextItem;
     }
     const parent = this.state.options[
-      this.state.options.findIndex(
-        node => node[valueFieldId] === currentItem[parentFieldId]
-      )
+      this.state.options.findIndex(node => node[valueFieldId] === currentItem[parentFieldId])
     ];
 
     return this.getNextItem(parent, false);
@@ -1091,9 +1045,7 @@ class InputSelectTree extends React.Component {
 
   _findNextItem(nodes, active) {
     const { valueFieldId } = this.props;
-    const currentIndex = nodes.findIndex(
-      node => node[valueFieldId] === active[valueFieldId]
-    );
+    const currentIndex = nodes.findIndex(node => node[valueFieldId] === active[valueFieldId]);
     const nextIndex = currentIndex + 1;
 
     return nextIndex <= nodes.length ? nodes[nextIndex] : null;
@@ -1109,9 +1061,7 @@ class InputSelectTree extends React.Component {
 
   _findPrevItem(nodes, active) {
     const { valueFieldId } = this.props;
-    const currentIndex = nodes.findIndex(
-      node => node[valueFieldId] === active[valueFieldId]
-    );
+    const currentIndex = nodes.findIndex(node => node[valueFieldId] === active[valueFieldId]);
     const nextIndex = currentIndex - 1;
 
     return nextIndex >= 0 ? nodes[nextIndex] : null;
@@ -1188,7 +1138,7 @@ class InputSelectTree extends React.Component {
       style,
       expandPopUp,
       parentFieldId,
-      hasChildrenFieldId,
+      hasChildrenFieldId
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
 
@@ -1315,7 +1265,7 @@ InputSelectTree.propTypes = {
       );
     }
   },
-  handleItemOpen: PropTypes.func,
+  handleItemOpen: PropTypes.func
 };
 
 InputSelectTree.defaultProps = {
@@ -1346,7 +1296,7 @@ InputSelectTree.defaultProps = {
   onClose() {},
   onChange() {},
   onScrollEnd() {},
-  onElementCreate() {},
+  onElementCreate() {}
 };
 
 const fff = {
@@ -1392,7 +1342,7 @@ const fff = {
     { key: 121, pId: 0, label: 'test2', value: 'test2' },
     { key: 11, pId: 1, label: 'test11', value: 'test11' },
     { key: 12, pId: 1, label: 'test12', value: 'test12' },
-    { key: 111, pId: 11, label: 'test111', value: 'test111' },
+    { key: 111, pId: 11, label: 'test111', value: 'test111' }
   ],
   treeDataSimpleMode: false,
   loadData: null,
@@ -1401,7 +1351,7 @@ const fff = {
   inputIcon: null,
   clearIcon: null,
   removeIcon: null,
-  switcherIcon: null,
+  switcherIcon: null
 };
 
 export default onClickOutside(InputSelectTree);

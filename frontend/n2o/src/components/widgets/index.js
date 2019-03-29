@@ -29,5 +29,5 @@ export default {
 
   ListWidget,
 
-  TreeWidget,
+  TreeWidget
 };

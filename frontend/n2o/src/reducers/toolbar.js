@@ -12,7 +12,7 @@ import {
   CHANGE_BUTTON_HINT,
   CHANGE_BUTTON_ICON,
   CHANGE_BUTTON_CLASS,
-  CHANGE_BUTTON_STYLE,
+  CHANGE_BUTTON_STYLE
 } from '../constants/toolbar';
 import { RESET_STATE } from '../constants/widgets';
 import { generateKey } from '../utils/id';
@@ -29,58 +29,58 @@ export const buttonState = {
   disabled: false,
   loading: false,
   error: null,
-  conditions: null,
+  conditions: null
 };
 
 function resolve(state = buttonState, action) {
   switch (action.type) {
     case CHANGE_BUTTON_VISIBILITY:
       return Object.assign({}, state, {
-        visible: action.payload.visible,
+        visible: action.payload.visible
       });
     case TOGGLE_BUTTON_VISIBILITY:
       return Object.assign({}, state, {
-        visible: !state.visible,
+        visible: !state.visible
       });
     case TOGGLE_BUTTON_DISABLED:
       return Object.assign({}, state, {
-        disabled: !state.disabled,
+        disabled: !state.disabled
       });
     case CHANGE_BUTTON_TITLE:
       return Object.assign({}, state, {
-        title: action.payload.title,
+        title: action.payload.title
       });
     case CHANGE_BUTTON_DISABLED:
       return Object.assign({}, state, {
-        disabled: action.payload.disabled,
+        disabled: action.payload.disabled
       });
     case CHANGE_BUTTON_SIZE:
       return Object.assign({}, state, {
-        size: action.payload.size,
+        size: action.payload.size
       });
     case CHANGE_BUTTON_COLOR:
       return Object.assign({}, state, {
-        color: action.payload.color,
+        color: action.payload.color
       });
     case CHANGE_BUTTON_COUNT:
       return Object.assign({}, state, {
-        count: action.payload.count,
+        count: action.payload.count
       });
     case CHANGE_BUTTON_HINT:
       return Object.assign({}, state, {
-        hint: action.payload.hint,
+        hint: action.payload.hint
       });
     case CHANGE_BUTTON_ICON:
       return Object.assign({}, state, {
-        icon: action.payload.icon,
+        icon: action.payload.icon
       });
     case CHANGE_BUTTON_CLASS:
       return Object.assign({}, state, {
-        className: action.payload.className,
+        className: action.payload.className
       });
     case CHANGE_BUTTON_STYLE:
       return Object.assign({}, state, {
-        style: action.payload.style,
+        style: action.payload.style
       });
     case RESET_STATE:
       return Object.assign({}, state, { isInit: false });
@@ -98,10 +98,7 @@ export default function toolbar(state = {}, action) {
   switch (action.type) {
     case REGISTER_BUTTON:
       return Object.assign({}, state, {
-        [key]: {
-          ...state[key],
-          [buttonId]: Object.assign({}, buttonState, action.payload),
-        },
+        [key]: { ...state[key], [buttonId]: Object.assign({}, buttonState, action.payload) }
       });
     case CHANGE_BUTTON_VISIBILITY:
     case CHANGE_BUTTON_TITLE:
@@ -118,8 +115,8 @@ export default function toolbar(state = {}, action) {
       return Object.assign({}, state, {
         [key]: {
           ...state[key],
-          [buttonId]: resolve(state[key][buttonId], action),
-        },
+          [buttonId]: resolve(state[key][buttonId], action)
+        }
       });
     case RESET_STATE:
       const { widgetId } = action.payload;
@@ -127,7 +124,7 @@ export default function toolbar(state = {}, action) {
         ...state,
         [widgetId]: mapValues(state[widgetId], (button, buttonId) =>
           resolve(state[widgetId][buttonId], action)
-        ),
+        )
       };
     default:
       return state;

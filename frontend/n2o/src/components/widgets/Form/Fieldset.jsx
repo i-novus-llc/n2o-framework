@@ -7,12 +7,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import ReduxField from './ReduxField';
-import {
-  showFields,
-  hideFields,
-  enableFields,
-  disableFields,
-} from '../../../actions/formPlugin';
+import { showFields, hideFields, enableFields, disableFields } from '../../../actions/formPlugin';
 import propsResolver from '../../../utils/propsResolver';
 import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
@@ -26,7 +21,7 @@ const config = {
       visible && this.setVisible(propsResolver(visible, formValues));
       enabled && this.setEnabled(propsResolver(enabled, formValues));
     }
-  },
+  }
 };
 
 /**
@@ -108,7 +103,7 @@ class Fieldset extends React.Component {
     this.renderRow = this.renderRow.bind(this);
 
     this.state = {
-      visibleFieldset: true,
+      visibleFieldset: true
     };
 
     this.fields = [];
@@ -117,7 +112,7 @@ class Fieldset extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.visible !== state.visibleFieldset && isBoolean(props.visible)) {
       return {
-        visibleFieldset: props.visible,
+        visibleFieldset: props.visible
       };
     }
     return null;
@@ -175,25 +170,20 @@ class Fieldset extends React.Component {
       defaultCol,
       autoFocusId,
       form,
-      modelPrefix,
+      modelPrefix
     } = this.props;
     return (
       <Row key={rowId} {...row.props} className={row.className}>
         {row.cols &&
           row.cols.map((col, colId) => {
             return (
-              <Col
-                xs={col.size || defaultCol}
-                key={colId}
-                className={col.className}
-              >
+              <Col xs={col.size || defaultCol} key={colId} className={col.className}>
                 {col.fields &&
                   col.fields.map((field, i) => {
                     {
                       /*this.fields.push(field.id);*/
                     }
-                    const autoFocus =
-                      field.id && autoFocusId && field.id === autoFocusId;
+                    const autoFocus = field.id && autoFocusId && field.id === autoFocusId;
                     const key = 'field' + i;
                     return (
                       <ReduxField
@@ -225,13 +215,7 @@ class Fieldset extends React.Component {
   }
 
   render() {
-    const {
-      className,
-      style,
-      component: ElementType,
-      children,
-      ...rest
-    } = this.props;
+    const { className, style, component: ElementType, children, ...rest } = this.props;
     this.fields = [];
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
@@ -239,9 +223,7 @@ class Fieldset extends React.Component {
 
     return (
       <div
-        className={cx('n2o-fieldset', className, {
-          'd-none': !this.state.visibleFieldset,
-        })}
+        className={cx('n2o-fieldset', className, { 'd-none': !this.state.visibleFieldset })}
         style={style}
       >
         <ElementType
@@ -274,16 +256,16 @@ Fieldset.propTypes = {
   hideFields: PropTypes.func,
   enableFields: PropTypes.func,
   disableFields: PropTypes.func,
-  modelPrefix: PropTypes.string,
+  modelPrefix: PropTypes.string
 };
 
 Fieldset.defaultProps = {
   labelPosition: 'top-left',
-  component: 'div',
+  component: 'div'
 };
 
 Fieldset.contextTypes = {
-  store: PropTypes.object,
+  store: PropTypes.object
 };
 
 const mapDispatchToProps = dispatch =>
@@ -292,7 +274,7 @@ const mapDispatchToProps = dispatch =>
       showFields,
       hideFields,
       enableFields,
-      disableFields,
+      disableFields
     },
     dispatch
   );

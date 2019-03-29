@@ -8,17 +8,15 @@ describe('Проверка саги formPlugin', () => {
     const action = {
       meta: {
         form: {
-          form: 'test',
+          form: 'test'
         },
         field: {
-          field: 'test',
-        },
-      },
+          field: 'test'
+        }
+      }
     };
     const generator = removeMessage(action);
-    const removeFieldMessageAction = put(
-      removeFieldMessage(action.meta.form, action.meta.field)
-    );
+    const removeFieldMessageAction = put(removeFieldMessage(action.meta.form, action.meta.field));
     expect(generator.next().value).toEqual(removeFieldMessageAction);
     expect(generator.next().done).toEqual(true);
   });
@@ -30,16 +28,16 @@ describe('Проверка саги formPlugin', () => {
 
     const genWithoutForm = removeMessage({
       meta: {
-        field: {},
-      },
+        field: {}
+      }
     });
     expect(genWithoutForm.next().value).toEqual(undefined);
     expect(genWithoutForm.next().done).toEqual(true);
 
     const genWithoutField = removeMessage({
       meta: {
-        form: {},
-      },
+        form: {}
+      }
     });
     expect(genWithoutField.next().value).toEqual(undefined);
     expect(genWithoutField.next().done).toEqual(true);
@@ -49,8 +47,8 @@ describe('Проверка саги formPlugin', () => {
     const testData = {
       payload: {
         name: 'formField',
-        form: 'formName',
-      },
+        form: 'formName'
+      }
     };
 
     const genAddMessage = addTouched(testData);

@@ -16,12 +16,8 @@ const formHack = (state, action) => {
   return action.meta && action.meta.form
     ? formReducer.plugin({
         [action.meta.form]: (formState, formAction) => {
-          return Object.assign(
-            {},
-            formState,
-            formPlugin(formState, formAction)
-          );
-        },
+          return Object.assign({}, formState, formPlugin(formState, formAction));
+        }
       })(state, action)
     : formReducer(state, action);
 };
@@ -35,7 +31,7 @@ const rootReducer = combineReducers({
   modals,
   columns,
   toolbar,
-  user,
+  user
 });
 
 export default rootReducer;

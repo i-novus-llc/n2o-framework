@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 import TreeBase from 'rc-tree';
-import {
-  pick,
-  isEqual,
-  map,
-  eq,
-  difference,
-  filter,
-  isArray,
-  isFunction,
-  values,
-} from 'lodash';
+import { pick, isEqual, map, eq, difference, filter, isArray, isFunction, values } from 'lodash';
 import { HotKeys } from 'react-hotkeys';
 //components
 import { BaseNode } from '../TreeNodes';
@@ -23,14 +13,9 @@ import {
   customTreeActions,
   FILTER_MODE,
   animationTree,
-  singleDoubleClickFilter,
+  singleDoubleClickFilter
 } from '../until';
-import {
-  propTypes,
-  defaultProps,
-  TREE_NODE_PROPS,
-  TREE_PROPS,
-} from './treeProps';
+import { propTypes, defaultProps, TREE_NODE_PROPS, TREE_PROPS } from './treeProps';
 import Icon from '../../../snippets/Icon/Icon';
 import CheckboxN2O from '../../../controls/Checkbox/CheckboxN2O';
 import { KEY_CODES } from './constants';
@@ -47,7 +32,7 @@ class Tree extends Component {
       searchValue: '',
       checkedKeys: [],
       selectedKeys: [],
-      searchKeys: [],
+      searchKeys: []
     };
 
     this.elems = [];
@@ -79,25 +64,25 @@ class Tree extends Component {
       'labelFieldId',
       'filter',
       'valueFieldId',
-      'datasource',
+      'datasource'
     ]);
     const expandedKeys = takeKeysWhenSearching({
       value,
-      ...propsFromSearch,
+      ...propsFromSearch
     });
 
     this.setState({
       expandedKeys,
       autoExpandParent: true,
       searchKeys: expandedKeys,
-      searchValue: value,
+      searchValue: value
     });
   }
 
   onExpand(expandedKeys) {
     this.setState({
       expandedKeys,
-      autoExpandParent: false,
+      autoExpandParent: false
     });
   }
 
@@ -107,13 +92,13 @@ class Tree extends Component {
 
     this.setState({
       expandedKeys: map(filteredData, valueFieldId),
-      autoExpandParent: false,
+      autoExpandParent: false
     });
   }
 
   onHideAllTreeItem() {
     this.setState({
-      expandedKeys: [],
+      expandedKeys: []
     });
   }
 
@@ -136,7 +121,7 @@ class Tree extends Component {
       valueFieldId,
       multiselect,
       rowClick,
-      onRowClickAction,
+      onRowClickAction
     } = this.props;
     const value = filter(datasource, data => keys.includes(data[valueFieldId]));
     if (multiselect) {
@@ -184,13 +169,13 @@ class Tree extends Component {
       'valueFieldId',
       'parentFieldId',
       'datasource',
-      'hasCheckboxes',
+      'hasCheckboxes'
     ]);
     customTreeActions({
       key,
       treeRef: this.treeRef,
       ...inProps,
-      ...inState,
+      ...inState
     });
   }
 
@@ -209,15 +194,9 @@ class Tree extends Component {
   createSelectedKeys() {
     const { hasCheckboxes, multiselect } = this.props;
     if (hasCheckboxes && multiselect) {
-      this.setState({
-        selectedKeys: [],
-        checkedKeys: this.selectedObjToTreeKeys(),
-      });
+      this.setState({ selectedKeys: [], checkedKeys: this.selectedObjToTreeKeys() });
     } else {
-      this.setState({
-        selectedKeys: this.selectedObjToTreeKeys(),
-        checkedKeys: [],
-      });
+      this.setState({ selectedKeys: this.selectedObjToTreeKeys(), checkedKeys: [] });
     }
   }
 
@@ -245,7 +224,7 @@ class Tree extends Component {
       selectedKeys,
       checkedKeys,
       searchValue,
-      searchKeys,
+      searchKeys
     } = this.state;
     const {
       filter,
@@ -254,25 +233,19 @@ class Tree extends Component {
       hasCheckboxes,
       multiselect,
       prefixCls,
-      filterPlaceholder,
+      filterPlaceholder
     } = this.props;
 
-    const checkable =
-      hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false;
+    const checkable = hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false;
 
     return (
       <div className={`${prefixCls}-wrapper`}>
-        {filter && FILTER_MODE.includes(filter) && (
-          <Filter
-            onFilter={this.onFilter}
-            filterPlaceholder={filterPlaceholder}
-          />
-        )}
+        {filter &&
+          FILTER_MODE.includes(filter) && (
+            <Filter onFilter={this.onFilter} filterPlaceholder={filterPlaceholder} />
+          )}
         {expandBtn && (
-          <ExpandBtn
-            onShowAll={this.onShowAllTreeItem}
-            onHideAll={this.onHideAllTreeItem}
-          />
+          <ExpandBtn onShowAll={this.onShowAllTreeItem} onHideAll={this.onHideAllTreeItem} />
         )}
         <HotKeys
           className="hotkey"
@@ -282,12 +255,7 @@ class Tree extends Component {
           <TreeBase
             openAnimation={animationTree}
             ref={this.treeRef}
-            treeData={this.createTree({
-              datasource,
-              ...nodeProps,
-              searchKeys,
-              searchValue,
-            })}
+            treeData={this.createTree({ datasource, ...nodeProps, searchKeys, searchValue })}
             expandedKeys={expandedKeys}
             selectedKeys={selectedKeys}
             checkedKeys={checkedKeys}

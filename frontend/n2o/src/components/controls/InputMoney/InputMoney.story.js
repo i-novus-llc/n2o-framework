@@ -1,13 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number, array, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import InputMoney from './InputMoney';
@@ -28,7 +21,7 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        ...InputMoneyJson,
+        ...InputMoneyJson
       };
 
       return props;
@@ -39,7 +32,7 @@ stories
     form(() => {
       const props = {
         ...InputMoneyJson,
-        allowDecimal: true,
+        allowDecimal: true
       };
 
       return props;
@@ -51,7 +44,7 @@ stories
       const props = {
         ...InputMoneyJson,
         allowDecimal: true,
-        requireDecimal: true,
+        requireDecimal: true
       };
 
       return props;
@@ -60,7 +53,7 @@ stories
   .add('Раделитель тысяч', () => {
     const props = {
       ...InputMoneyJson,
-      thousandsSeparatorSymbol: '$',
+      thousandsSeparatorSymbol: '$'
     };
 
     return <InputMoney {...props} />;

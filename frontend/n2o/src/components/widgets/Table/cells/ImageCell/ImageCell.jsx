@@ -28,7 +28,7 @@ class ImageCell extends React.Component {
       const shapeToClass = {
         rounded: 'rounded',
         circle: 'rounded-circle',
-        thumbnail: 'img-thumbnail',
+        thumbnail: 'img-thumbnail'
       };
 
       return shape ? shapeToClass[shape] : '';
@@ -44,16 +44,12 @@ class ImageCell extends React.Component {
       shape,
       callActionImpl,
       action,
-      visible,
+      visible
     } = this.props;
 
     return (
       visible && (
-        <div
-          title={title}
-          style={{ ...style, ...this.setCursor(action) }}
-          className={className}
-        >
+        <div title={title} style={{ ...style, ...this.setCursor(action) }} className={className}>
           <img
             src={get(model, fieldKey || id)}
             alt={title}
@@ -73,11 +69,11 @@ ImageCell.propTypes = {
   style: PropTypes.object,
   className: PropTypes.string,
   title: PropTypes.string,
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 };
 
 ImageCell.defaultProps = {
-  visible: true,
+  visible: true
 };
 
 export default withCell(ImageCell);

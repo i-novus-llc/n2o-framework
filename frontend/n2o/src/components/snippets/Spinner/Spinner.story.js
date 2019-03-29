@@ -1,13 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number, array } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import Input from '../../controls/Input/Input';
 import InlineSpinner from './InlineSpinner';
@@ -23,7 +17,7 @@ stories.addDecorator(withTests('Spinner'));
 const tableData = [
   { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001' },
   { id: '2', name: 'X', surname: 'Y', birthday: '01.01.1001' },
-  { id: '3', name: 'Test', surname: 'Tset', birthday: '01.01.0001' },
+  { id: '3', name: 'Test', surname: 'Tset', birthday: '01.01.0001' }
 ];
 
 stories.add('Базовый функционал', () => {
@@ -63,21 +57,11 @@ stories.add('Базовый функционал', () => {
           <Table.Body>
             {tableData.map(data => (
               <Table.Row>
-                <Table.Cell
-                  component={TextCell}
-                  model={data}
-                  id="name"
-                  fieldKey="name"
-                />
+                <Table.Cell component={TextCell} model={data} id="name" fieldKey="name" />
                 <Table.Cell id="surname">
                   <TextCell model={data} fieldKey="surname" />
                 </Table.Cell>
-                <Table.Cell
-                  component={TextCell}
-                  model={data}
-                  id="birthday"
-                  fieldKey="birthday"
-                />
+                <Table.Cell component={TextCell} model={data} id="birthday" fieldKey="birthday" />
               </Table.Row>
             ))}
           </Table.Body>

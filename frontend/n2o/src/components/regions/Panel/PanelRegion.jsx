@@ -38,7 +38,7 @@ class PanelRegion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabs: [],
+      tabs: []
     };
     this.checkPanel = this.checkPanel.bind(this);
     this.getTab = this.getTab.bind(this);
@@ -73,7 +73,7 @@ class PanelRegion extends React.Component {
       content: this.getContent(panel),
       header: panel.label,
       ...panel,
-      ...getWidget(pageId, panel.widgetId),
+      ...getWidget(pageId, panel.widgetId)
     };
   }
 
@@ -84,7 +84,7 @@ class PanelRegion extends React.Component {
       try {
         const permissions = await authProvider(SECURITY_CHECK, {
           config,
-          user,
+          user
         });
         this.setState({ tabs: this.state.tabs.concat(this.getTab(panel)) });
       } catch (error) {
@@ -135,14 +135,14 @@ PanelRegion.propTypes = {
   fullScreen: PropTypes.bool,
   getWidget: PropTypes.func.isRequired,
   resolveVisibleDependency: PropTypes.func,
-  dependency: PropTypes.object,
+  dependency: PropTypes.object
 };
 
 PanelRegion.defaultProps = {
   open: true,
   collapsible: false,
   hasTabs: false,
-  fullScreen: false,
+  fullScreen: false
 };
 
 export default compose(

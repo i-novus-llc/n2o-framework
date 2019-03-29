@@ -14,8 +14,8 @@ const setup = (store, props = {}) => {
         dependency={[
           {
             type: 'reRender',
-            on: ['name'],
-          },
+            on: ['name']
+          }
         ]}
         {...props}
       />
@@ -37,10 +37,10 @@ describe('Проверка хока withRegisterDependency', function() {
       dependency: [
         {
           type: 'reRender',
-          on: ['name'],
-        },
+          on: ['name']
+        }
       ],
-      required: false,
+      required: false
     });
   });
 });

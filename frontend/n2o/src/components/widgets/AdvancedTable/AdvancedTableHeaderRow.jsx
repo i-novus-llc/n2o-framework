@@ -10,7 +10,7 @@ function AdvancedTableHeaderRow(props) {
     'tr',
     {
       ...props,
-      className: 'n2o-advanced-table-header-row',
+      className: 'n2o-advanced-table-header-row'
     },
     [...props.children]
   );

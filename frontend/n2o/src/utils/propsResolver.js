@@ -7,11 +7,7 @@ const blackList = ['dataProvider', 'action'];
 export function resolve(code) {
   return new Function(
     'data',
-    [
-      'try{ with(Object.assign({}, data)){',
-      'return ' + code,
-      '}}catch{ return false }',
-    ].join('\n')
+    ['try{ with(Object.assign({}, data)){', 'return ' + code, '}}catch{ return false }'].join('\n')
   );
 }
 
@@ -19,11 +15,7 @@ function resolveString(str, data) {
   try {
     return resolve(str.slice(1, -1))(Object.assign({}, functions, data));
   } catch (e) {
-    console.warn(
-      `Ошибка при парсинге propsResolver! ${
-        e.message
-      }. Проверьте modelLink и текст`
-    );
+    console.warn(`Ошибка при парсинге propsResolver! ${e.message}. Проверьте modelLink и текст`);
   }
 }
 

@@ -10,7 +10,7 @@ class Clock extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: moment(),
+      time: moment()
     };
   }
 
@@ -30,7 +30,7 @@ class Clock extends React.Component {
 }
 
 Clock.propTypes = {
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
 export default Clock;

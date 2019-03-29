@@ -9,8 +9,7 @@ import { flattenDeep, keys, map, maxBy } from 'lodash';
 export function isDateFromNextMonth(date, displayedMonth) {
   return (
     date.year() > displayedMonth.year() ||
-    (date.year() === displayedMonth.year() &&
-      date.month() > displayedMonth.month())
+    (date.year() === displayedMonth.year() && date.month() > displayedMonth.month())
   );
 }
 
@@ -22,8 +21,7 @@ export function isDateFromNextMonth(date, displayedMonth) {
 export function isDateFromPrevMonth(date, displayedMonth) {
   return (
     date.year() < displayedMonth.year() ||
-    (date.year() === displayedMonth.year() &&
-      date.month() < displayedMonth.month())
+    (date.year() === displayedMonth.year() && date.month() < displayedMonth.month())
   );
 }
 
@@ -131,13 +129,7 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
  * @param defaultTime
  * @param defaultName
  */
-export function mapToDefaultTime(
-  val,
-  defaultTime,
-  defaultName,
-  timeFormat,
-  format
-) {
+export function mapToDefaultTime(val, defaultTime, defaultName, timeFormat, format) {
   if (Array.isArray(val)) {
     let res = {};
     val.map(input => {
@@ -154,14 +146,9 @@ export function mapToDefaultTime(
           moment(input.value, format).second() ||
           moment(input.defaultTime || '00:00', timeFormat).second() ||
           0,
-        hasDefaultTime: false,
+        hasDefaultTime: false
       };
-      if (
-        res[input.name].hours ||
-        res[input.name].mins ||
-        res[input.name].seconds ||
-        timeFormat
-      ) {
+      if (res[input.name].hours || res[input.name].mins || res[input.name].seconds || timeFormat) {
         res[input.name].hasDefaultTime = true;
       }
     });
@@ -175,8 +162,8 @@ export function mapToDefaultTime(
         hours: moment(val, format).hour(),
         mins: moment(val, format).minute(),
         seconds: moment(val, format).second(),
-        hasDefaultTime: true,
-      },
+        hasDefaultTime: true
+      }
     };
   }
 
@@ -185,15 +172,11 @@ export function mapToDefaultTime(
       hours: moment(defaultTime, timeFormat).hour(),
       mins: moment(defaultTime, timeFormat).minute(),
       seconds: moment(defaultTime, timeFormat).second(),
-      hasDefaultTime: false,
-    },
+      hasDefaultTime: false
+    }
   };
 
-  if (
-    ress[defaultName].hours ||
-    ress[defaultName].mins ||
-    ress[defaultName].seconds
-  ) {
+  if (ress[defaultName].hours || ress[defaultName].mins || ress[defaultName].seconds) {
     ress[defaultName].hasDefaultTime = true;
   }
 
@@ -209,8 +192,7 @@ export function getAbsoluteHeight(el) {
   el = typeof el === 'string' ? document.querySelector(el) : el;
 
   let styles = window.getComputedStyle(el);
-  let margin =
-    parseFloat(styles['marginTop']) + parseFloat(styles['marginBottom']);
+  let margin = parseFloat(styles['marginTop']) + parseFloat(styles['marginBottom']);
 
   return Math.ceil(el.offsetHeight + margin);
 }
@@ -224,8 +206,7 @@ export function getAbsoluteWidth(el) {
   el = typeof el === 'string' ? document.querySelector(el) : el;
 
   let styles = window.getComputedStyle(el);
-  let margin =
-    parseFloat(styles['marginLeft']) + parseFloat(styles['marginRight']);
+  let margin = parseFloat(styles['marginLeft']) + parseFloat(styles['marginRight']);
 
   return Math.ceil(el.offsetWidth + margin);
 }
@@ -267,7 +248,7 @@ export function calculateMaxFreeSpace(input, popUp, window) {
     left: inputPosition.left,
     top: inputPosition.top,
     right: window.innerWidth - inputPosition.right,
-    bottom: window.innerHeight - inputPosition.bottom,
+    bottom: window.innerHeight - inputPosition.bottom
   };
 
   // Не даем открыться вниз или вверх если попап выходит за рамки экрана.

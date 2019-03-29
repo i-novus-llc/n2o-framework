@@ -23,27 +23,27 @@ stories
       {
         id: 1,
         image: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
         },
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
+        extra: 'Extra?!'
       },
       {
         id: 2,
         image: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
         },
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
-      },
+        extra: 'Extra?!'
+      }
     ];
 
     return <List data={data} selectedId={2} />;
@@ -52,26 +52,26 @@ stories
     const data = [
       {
         image: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
         },
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
+        extra: 'Extra?!'
       },
       {
         image: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg'
         },
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
-      },
+        extra: 'Extra?!'
+      }
     ];
 
     return <List data={data} divider={false} />;
@@ -86,24 +86,17 @@ stories
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
+        extra: 'Extra?!'
       });
     }
     fetchMock.restore().get(urlPattern, url => {
       return {
         ...getStubData(url),
-        list: data,
+        list: data
       };
     });
 
-    return (
-      <Factory
-        level={WIDGETS}
-        {...metadata['List']}
-        hasMoreNutton={true}
-        id="List"
-      />
-    );
+    return <Factory level={WIDGETS} {...metadata['List']} hasMoreNutton={true} id="List" />;
   })
   .add('Кастомный клик по строке', () => {
     fetchMock.restore().get(urlPattern, url => ({
@@ -115,7 +108,7 @@ stories
           body: 'Some words about cats',
           rightTop: '14',
           rightBottom: '01.01.2019',
-          extra: 'Extra?!',
+          extra: 'Extra?!'
         },
         {
           image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
@@ -124,9 +117,9 @@ stories
           body: 'Some words about cats',
           rightTop: '14',
           rightBottom: '01.01.2019',
-          extra: 'Extra?!',
-        },
-      ],
+          extra: 'Extra?!'
+        }
+      ]
     }));
     fetchMock.get('begin:n2o/page', page);
     const rowClick = {
@@ -140,25 +133,13 @@ stories
             visible: true,
             closeButton: true,
             title: 'Новое модальное окно',
-            pageId: 'Uid',
-          },
-        },
-      },
+            pageId: 'Uid'
+          }
+        }
+      }
     };
-    const props = pick({ ...metadata['List'] }, [
-      'src',
-      'list',
-      'dataProvider',
-    ]);
-    return (
-      <Factory
-        level={WIDGETS}
-        {...props}
-        hasMoreButton={false}
-        {...rowClick}
-        id="List"
-      />
-    );
+    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider']);
+    return <Factory level={WIDGETS} {...props} hasMoreButton={false} {...rowClick} id="List" />;
   })
   .add('Кнопка "Еще"', () => {
     fetchMock.restore().get(urlPattern, url =>
@@ -171,7 +152,7 @@ stories
             body: 'Some words about cats',
             rightTop: '14',
             rightBottom: '01.01.2019',
-            extra: 'Extra?!',
+            extra: 'Extra?!'
           },
           {
             image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
@@ -180,9 +161,9 @@ stories
             body: 'Some words about cats',
             rightTop: '14',
             rightBottom: '01.01.2019',
-            extra: 'Extra?!',
-          },
-        ],
+            extra: 'Extra?!'
+          }
+        ]
       }))
     );
     const props = pick({ ...metadata['List'] }, [
@@ -190,7 +171,7 @@ stories
       'list',
       'dataProvider',
       'paging',
-      'hasMoreButton',
+      'hasMoreButton'
     ]);
     return <Factory level={WIDGETS} {...props} id="List" />;
   })
@@ -204,13 +185,13 @@ stories
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
+        extra: 'Extra?!'
       });
     }
     fetchMock.restore().get(urlPattern, url =>
       delay(1000).then(() => {
         return {
-          list: data,
+          list: data
         };
       })
     );
@@ -219,17 +200,9 @@ stories
       'list',
       'dataProvider',
       'paging',
-      'fetchOnScroll',
+      'fetchOnScroll'
     ]);
-    return (
-      <Factory
-        level={WIDGETS}
-        maxHeight={290}
-        {...props}
-        fetchOnScroll={true}
-        id="List"
-      />
-    );
+    return <Factory level={WIDGETS} maxHeight={290} {...props} fetchOnScroll={true} id="List" />;
   })
   .add('Компонент с paging', () => {
     let data = [];
@@ -241,26 +214,19 @@ stories
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
+        extra: 'Extra?!'
       });
     }
     fetchMock.restore().get(urlPattern, url =>
       delay(1000).then(() => {
         return {
           ...getStubData(url),
-          list: data,
+          list: data
         };
       })
     );
-    const props = pick({ ...metadata['List'] }, [
-      'src',
-      'list',
-      'dataProvider',
-      'paging',
-    ]);
-    return (
-      <Factory level={WIDGETS} {...props} showPagination={true} id="List" />
-    );
+    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider', 'paging']);
+    return <Factory level={WIDGETS} {...props} showPagination={true} id="List" />;
   })
   .add('Компонент с 1000 записей', () => {
     let data = [];
@@ -272,22 +238,17 @@ stories
         body: 'Some words about cats',
         rightTop: '14',
         rightBottom: '01.01.2019',
-        extra: 'Extra?!',
+        extra: 'Extra?!'
       });
     }
     fetchMock.restore().get(urlPattern, url =>
       delay(1000).then(() => {
         return {
           ...getStubData(url),
-          list: data,
+          list: data
         };
       })
     );
-    const props = pick({ ...metadata['List'] }, [
-      'src',
-      'list',
-      'dataProvider',
-      'paging',
-    ]);
+    const props = pick({ ...metadata['List'] }, ['src', 'list', 'dataProvider', 'paging']);
     return <Factory level={WIDGETS} {...props} id="List" />;
   });

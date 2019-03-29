@@ -2,7 +2,7 @@ import {
   collectionToComponentObject,
   createTreeFn,
   takeKeysWhenSearching,
-  getTreeLinerRoute,
+  getTreeLinerRoute
 } from './until';
 import { toCollectionObject, Component, linerTree, tree } from './forUntilTest';
 
@@ -19,7 +19,7 @@ describe('Проверка функционала дерева', () => {
     it('Вызов c компонентом и свойствами компонента', () => {
       const props = {
         datasource: [{ id: 1 }, { id: 2 }, { id: 3 }],
-        valueFieldId: 'id',
+        valueFieldId: 'id'
       };
       const res = collectionToComponentObject(Component, props);
       expect(res).toEqual(toCollectionObject);
@@ -37,7 +37,7 @@ describe('Проверка функционала дерева', () => {
         createTree({
           datasource: [{ id: 1 }, { id: 2 }, { id: 3 }],
           parentFieldId: 'parent',
-          valueFieldId: 'id',
+          valueFieldId: 'id'
         })
       ).toEqual(linerTree);
     });
@@ -47,7 +47,7 @@ describe('Проверка функционала дерева', () => {
         createTree({
           datasource: [{ id: 1 }, { id: 2, parent: 1 }, { id: 3, parent: 1 }],
           parentFieldId: 'parent',
-          valueFieldId: 'id',
+          valueFieldId: 'id'
         })
       ).toEqual(tree);
     });
@@ -66,10 +66,10 @@ describe('Проверка функционала дерева', () => {
           datasource: [
             { id: '1', parent: '', label: 'text-Test-text' },
             { id: '2', parent: '1', label: 'texttext' },
-            { id: '3', parent: '1', label: 'texttext' },
+            { id: '3', parent: '1', label: 'texttext' }
           ],
           valueFieldId: 'id',
-          labelFieldId: 'label',
+          labelFieldId: 'label'
         })
       ).toEqual(['1']);
     });
@@ -82,10 +82,10 @@ describe('Проверка функционала дерева', () => {
           datasource: [
             { id: '1', parent: '', label: 'Test-text' },
             { id: '2', parent: '1', label: 'texttext' },
-            { id: '3', parent: '1', label: 'texttext' },
+            { id: '3', parent: '1', label: 'texttext' }
           ],
           valueFieldId: 'id',
-          labelFieldId: 'label',
+          labelFieldId: 'label'
         })
       ).toEqual(['1']);
     });
@@ -98,10 +98,10 @@ describe('Проверка функционала дерева', () => {
           datasource: [
             { id: '1', parent: '', label: 'test--Test' },
             { id: '2', parent: '1', label: 'texttext' },
-            { id: '3', parent: '1', label: 'texttext' },
+            { id: '3', parent: '1', label: 'texttext' }
           ],
           valueFieldId: 'id',
-          labelFieldId: 'label',
+          labelFieldId: 'label'
         })
       ).toEqual(['1']);
     });
@@ -113,12 +113,12 @@ describe('Проверка функционала дерева', () => {
         [
           { id: '1', parent: '', label: 'Test-text' },
           { id: '2', parent: '1', label: 'texttext' },
-          { id: '3', parent: '1', label: 'texttext' },
+          { id: '3', parent: '1', label: 'texttext' }
         ],
         ['1'],
         {
           parentFieldId: 'parent',
-          valueFieldId: 'id',
+          valueFieldId: 'id'
         }
       );
       expect(createTree).toEqual(['1', '2', '3']);
@@ -128,12 +128,12 @@ describe('Проверка функционала дерева', () => {
         [
           { id: '1', parent: '', label: 'Test-text' },
           { id: '2', parent: '1', label: 'texttext' },
-          { id: '3', parent: '1', label: 'texttext' },
+          { id: '3', parent: '1', label: 'texttext' }
         ],
         [],
         {
           parentFieldId: 'parent',
-          valueFieldId: 'id',
+          valueFieldId: 'id'
         }
       );
       expect(createTree).toEqual(['1']);

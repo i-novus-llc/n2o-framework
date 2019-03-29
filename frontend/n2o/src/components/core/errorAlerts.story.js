@@ -19,11 +19,11 @@ stories
           messages: [
             {
               severity: 'danger',
-              text: 'Произошла ошибка при сохранении данных',
-            },
-          ],
-        },
-      },
+              text: 'Произошла ошибка при сохранении данных'
+            }
+          ]
+        }
+      }
     };
 
     const selectError = {
@@ -32,11 +32,11 @@ stories
           messages: [
             {
               severity: 'danger',
-              text: 'Произошла ошибка при взятии данных',
-            },
-          ],
-        },
-      },
+              text: 'Произошла ошибка при взятии данных'
+            }
+          ]
+        }
+      }
     };
 
     const invokeError = {
@@ -46,34 +46,28 @@ stories
           messages: [
             {
               severity: 'danger',
-              text: 'Произошла ошибка при сохранении данных',
-            },
-          ],
-        },
-      },
+              text: 'Произошла ошибка при сохранении данных'
+            }
+          ]
+        }
+      }
     };
 
     fetchMock
       .restore()
       .post('begin:n2o/data', {
         status: 500,
-        ...invokeError,
+        ...invokeError
       })
       .get('begin:n2o/data', {
         status: 404,
-        body: widgetError,
+        body: widgetError
       })
       .get('begin:n2o/inputSelect', {
         status: 500,
-        body: selectError,
+        body: selectError
       });
-    return (
-      <Factory
-        level={WIDGETS}
-        id={'Page_Form'}
-        {...widgetWithErrors['Page_Form']}
-      />
-    );
+    return <Factory level={WIDGETS} id={'Page_Form'} {...widgetWithErrors['Page_Form']} />;
   })
   .add('Стратегия показа сообщений', () => {
     const widgetError = {
@@ -83,11 +77,11 @@ stories
           messages: [
             {
               severity: 'danger',
-              text: 'Произошла ошибка при сохранении данных',
-            },
-          ],
-        },
-      },
+              text: 'Произошла ошибка при сохранении данных'
+            }
+          ]
+        }
+      }
     };
 
     const widgetErrorStacked = {
@@ -98,28 +92,22 @@ stories
           messages: [
             {
               severity: 'danger',
-              text: 'Произошла дополнительная ошибка',
-            },
-          ],
-        },
-      },
+              text: 'Произошла дополнительная ошибка'
+            }
+          ]
+        }
+      }
     };
 
     fetchMock
       .restore()
       .post('begin:n2o/data/test', {
         status: 404,
-        body: widgetError,
+        body: widgetError
       })
       .post('begin:n2o/data/stacked-test', {
         status: 404,
-        body: widgetErrorStacked,
+        body: widgetErrorStacked
       });
-    return (
-      <Factory
-        level={WIDGETS}
-        id={'Page_Form'}
-        {...alertStackedErrors['Page_Form']}
-      />
-    );
+    return <Factory level={WIDGETS} id={'Page_Form'} {...alertStackedErrors['Page_Form']} />;
   });

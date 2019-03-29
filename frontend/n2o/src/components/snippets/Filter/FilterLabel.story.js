@@ -1,14 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, number, array, select } from '@storybook/addon-knobs/react';
 
 import Filter from './Filter';
 
@@ -17,7 +10,7 @@ stories.addDecorator(withKnobs);
 stories.add('Текст кнопок', () => {
   const knobs = {
     searchLabel: text('searchLabel', 'Свой текст поиска'),
-    resetLabel: text('resetLabel', 'Свой текст сброса'),
+    resetLabel: text('resetLabel', 'Свой текст сброса')
   };
 
   return (

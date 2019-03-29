@@ -9,7 +9,7 @@ import {
   integer,
   minLength,
   maxLength,
-  match,
+  match
 } from './presets';
 import formValidJson from '../../../.storybook/json/FormValidations.json';
 
@@ -18,12 +18,12 @@ const validConfig = {
     type: 'condition',
     expression: 'test == "test"',
     severity: 'danger',
-    text: 'Ошибка',
+    text: 'Ошибка'
   },
   constraint: {
     type: 'constraint',
-    validationKey: 'testValid',
-  },
+    validationKey: 'testValid'
+  }
 };
 
 describe('Проверка пресетов', () => {
@@ -51,14 +51,10 @@ describe('Проверка пресетов', () => {
   });
   describe('Проверка condition пресета', () => {
     it('валидное значение', () => {
-      expect(condition('test', { test: 'test' }, validConfig.condition)).toBe(
-        true
-      );
+      expect(condition('test', { test: 'test' }, validConfig.condition)).toBe(true);
     });
     it('не валидное значение', () => {
-      expect(condition('test', { test: 'test1' }, validConfig.condition)).toBe(
-        false
-      );
+      expect(condition('test', { test: 'test1' }, validConfig.condition)).toBe(false);
     });
     it('валидное - expression в виде функции', () => {
       expect(
@@ -67,7 +63,7 @@ describe('Проверка пресетов', () => {
           { test: 'test', test2: 'test2' },
           {
             expression:
-              '(function(values){ return test2 == "test2" && values.test == "test"; })(this)',
+              '(function(values){ return test2 == "test2" && values.test == "test"; })(this)'
           }
         )
       ).toBe(true);
@@ -83,25 +79,22 @@ describe('Проверка пресетов', () => {
           message: [
             {
               severity: 'danger',
-              text: 'Тест',
-            },
-          ],
-        },
+              text: 'Тест'
+            }
+          ]
+        }
       });
       expect(
-        await constraint(
-          'test',
-          { test: 'test' },
-          validConfig.constraint,
-          action => dispatched.push(action)
+        await constraint('test', { test: 'test' }, validConfig.constraint, action =>
+          dispatched.push(action)
         )
       ).toEqual({
         message: [
           {
             severity: 'danger',
-            text: 'Тест',
-          },
-        ],
+            text: 'Тест'
+          }
+        ]
       });
     });
   });
@@ -141,11 +134,7 @@ describe('Проверка пресетов', () => {
 
 describe('Проверка валидатора', () => {
   let validator = validateField(
-    pick(formValidJson['Page_Form'].form.validation, [
-      'field2',
-      'field4',
-      'field8',
-    ]),
+    pick(formValidJson['Page_Form'].form.validation, ['field2', 'field4', 'field8']),
     'testForm'
   );
   let dispatched = [];
@@ -157,10 +146,7 @@ describe('Проверка валидатора', () => {
   });
   it('есть ошибки', async () => {
     expect.assertions(2);
-    const res = await validator(
-      { field2: 'test1', field4: null, field8: 'qwe' },
-      dispatch
-    );
+    const res = await validator({ field2: 'test1', field4: null, field8: 'qwe' }, dispatch);
     expect(res).toBe(true);
     expect(dispatched.length).toBe(1);
   });

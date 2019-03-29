@@ -5,7 +5,7 @@ import Switch from './Switch';
 const setup = propsOverrides => {
   const props = Object.assign(
     {
-      checked: false,
+      checked: false
     },
     propsOverrides
   );
@@ -14,7 +14,7 @@ const setup = propsOverrides => {
 
   return {
     wrapper,
-    props,
+    props
   };
 };
 

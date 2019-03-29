@@ -7,7 +7,7 @@ const setup = (propOverrides = {}) => {
   const props = Object.assign(
     {
       visible: true,
-      disabled: false,
+      disabled: false
     },
     propOverrides
   );
@@ -16,7 +16,7 @@ const setup = (propOverrides = {}) => {
 
   return {
     props,
-    wrapper,
+    wrapper
   };
 };
 

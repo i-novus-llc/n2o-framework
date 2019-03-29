@@ -6,17 +6,17 @@ const testState = {
       formName: {
         field1: {
           item1: 'test',
-          item2: 'test2',
+          item2: 'test2'
         },
         field2: {
           item1: 'testtest',
           item2: {
-            id: 1,
-          },
-        },
-      },
-    },
-  },
+            id: 1
+          }
+        }
+      }
+    }
+  }
 };
 
 describe('Проверка until js', () => {
@@ -29,11 +29,11 @@ describe('Проверка until js', () => {
             dependency: [
               {
                 type: 'fetch',
-                on: ['field1'],
-              },
+                on: ['field1']
+              }
             ],
             form: 'formName',
-            modelPrefix: 'resolve',
+            modelPrefix: 'resolve'
           },
           'fetch'
         )
@@ -43,11 +43,11 @@ describe('Проверка until js', () => {
             formName: {
               field1: {
                 item1: 'test',
-                item2: 'test2',
-              },
-            },
-          },
-        },
+                item2: 'test2'
+              }
+            }
+          }
+        }
       });
     });
     it('dependency через точку', () => {
@@ -58,17 +58,15 @@ describe('Проверка until js', () => {
             dependency: [
               {
                 type: 'fetch',
-                on: ['field2.item2'],
-              },
+                on: ['field2.item2']
+              }
             ],
             form: 'formName',
-            modelPrefix: 'resolve',
+            modelPrefix: 'resolve'
           },
           'fetch'
         )
-      ).toEqual({
-        models: { resolve: { formName: { field2: { item2: { id: 1 } } } } },
-      });
+      ).toEqual({ models: { resolve: { formName: { field2: { item2: { id: 1 } } } } } });
     });
     it('несколько одинаковых dependency', () => {
       expect(
@@ -78,27 +76,24 @@ describe('Проверка until js', () => {
             dependency: [
               {
                 type: 'fetch',
-                on: ['field2.item2'],
+                on: ['field2.item2']
               },
               {
                 type: 'fetch',
-                on: ['field1'],
-              },
+                on: ['field1']
+              }
             ],
             form: 'formName',
-            modelPrefix: 'resolve',
+            modelPrefix: 'resolve'
           },
           'fetch'
         )
       ).toEqual({
         models: {
           resolve: {
-            formName: {
-              field1: { item1: 'test', item2: 'test2' },
-              field2: { item2: { id: 1 } },
-            },
-          },
-        },
+            formName: { field1: { item1: 'test', item2: 'test2' }, field2: { item2: { id: 1 } } }
+          }
+        }
       });
     });
   });

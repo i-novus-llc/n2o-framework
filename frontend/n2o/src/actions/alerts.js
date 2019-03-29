@@ -8,10 +8,7 @@ import createActionHelper from './createActionHelper';
  * @param key
  * @param alerts
  */
-export function addAlert(
-  key,
-  { severity, label, text, details, timeout, closeButton }
-) {
+export function addAlert(key, { severity, label, text, details, timeout, closeButton }) {
   return createActionHelper(ADD)({
     severity,
     label,
@@ -20,7 +17,7 @@ export function addAlert(
     timeout,
     closeButton,
     id: id(),
-    key,
+    key
   });
 }
 

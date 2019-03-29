@@ -4,33 +4,33 @@ describe('Проверка функции cacher', () => {
   it('добавляет и находит в кеше', () => {
     cachingStore.add(
       {
-        params: 'any params',
+        params: 'any params'
       },
       {
-        data: 'cached data',
+        data: 'cached data'
       }
     );
     expect(
       cachingStore.find({
-        params: 'any params',
+        params: 'any params'
       })
     ).toEqual({
-      data: 'cached data',
+      data: 'cached data'
     });
   });
 
   it('вернет false если на найдет значение в кеше', () => {
     cachingStore.add(
       {
-        anotherParams: '...params',
+        anotherParams: '...params'
       },
       {
-        anotherData: '...data',
+        anotherData: '...data'
       }
     );
     expect(
       cachingStore.find({
-        unknownParams: '...unknownParams',
+        unknownParams: '...unknownParams'
       })
     ).toEqual(false);
   });

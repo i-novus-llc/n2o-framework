@@ -48,7 +48,7 @@ function withListContainer(WrappedComponent) {
         size,
         page,
         [`sorting.${labelFieldId}`]: 'ASC',
-        ...optionalParams,
+        ...optionalParams
       };
       _fetchData(params, concat);
     };
@@ -71,8 +71,7 @@ function withListContainer(WrappedComponent) {
      */
 
     const handleSearch = debounce(value => {
-      const quickSearchParam =
-        (dataProvider && dataProvider.quickSearchParam) || 'search';
+      const quickSearchParam = (dataProvider && dataProvider.quickSearchParam) || 'search';
 
       callApiWithParams({ [quickSearchParam]: value, page: 1 });
     }, 300);
@@ -136,11 +135,11 @@ function withListContainer(WrappedComponent) {
     onOpen: PropTypes.func,
     onInput: PropTypes.func,
     onScrollEnd: PropTypes.func,
-    quickSearchParam: PropTypes.string,
+    quickSearchParam: PropTypes.string
   };
 
   WithListContainer.defaultProps = {
-    data: [],
+    data: []
   };
 
   return connect(
@@ -150,15 +149,13 @@ function withListContainer(WrappedComponent) {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(
-    state
-  ),
+  alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(state)
 });
 
 const mapDispatchToProps = dispatch => ({
   onDismiss: alertId => {
     // dispatch(removeAlert(ownProps.form + '.' + ownProps.labelFieldId, alertId));
-  },
+  }
 });
 
 export default withListContainer;

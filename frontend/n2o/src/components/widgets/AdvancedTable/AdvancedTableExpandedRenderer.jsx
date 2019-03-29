@@ -30,11 +30,7 @@ function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
         />
       );
     } else {
-      return (
-        <div className="n2o-advanced-table-expanded-row-content">
-          {expandedContent.value}
-        </div>
-      );
+      return <div className="n2o-advanced-table-expanded-row-content">{expandedContent.value}</div>;
     }
   }
 
@@ -42,7 +38,7 @@ function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
 }
 
 AdvancedTableExpandedRenderer.propTypes = {
-  record: PropTypes.object,
+  record: PropTypes.object
 };
 
 export default AdvancedTableExpandedRenderer;

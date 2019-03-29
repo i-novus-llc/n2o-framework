@@ -27,11 +27,11 @@ class SelectContainer extends React.Component {
 
 SelectContainer.propTypes = {
   options: PropTypes.array,
-  select: PropTypes.object,
+  select: PropTypes.object
 };
 
 SelectContainer.defaultProps = {
-  options: [],
+  options: []
 };
 
 export default SelectContainer;

@@ -39,23 +39,12 @@ class TablePanel extends React.Component {
   }
 
   render() {
-    const {
-      cells,
-      headers,
-      hasSelect,
-      datasource,
-      resolveModel,
-      onSort,
-      sorting,
-    } = this.props;
+    const { cells, headers, hasSelect, datasource, resolveModel, onSort, sorting } = this.props;
     let rows = null;
 
     if (!_.isEmpty(datasource)) {
       rows = datasource.map(model => (
-        <RowPure
-          id={model.id}
-          onClick={hasSelect && this.resolveTable.bind(this, model)}
-        >
+        <RowPure id={model.id} onClick={hasSelect && this.resolveTable.bind(this, model)}>
           {cells.map(cell => (
             <Cell model={model} metadata={cell} />
           ))}
@@ -83,6 +72,6 @@ class TablePanel extends React.Component {
 export default pure(
   hotkeys(TablePanel, {
     [KEY_UP_ARROW]: 'onPressArrowUp',
-    [KEY_DOWN_ARROW]: 'onPressArrowDown',
+    [KEY_DOWN_ARROW]: 'onPressArrowDown'
   })
 );

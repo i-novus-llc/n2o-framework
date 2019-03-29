@@ -17,42 +17,28 @@ import table from './err401.meta';
 
 const ProtectedPage = props => (
   <SecurityCheck
-    render={({ permissions }) =>
-      permissions ? <Protected {...props} /> : <Forbidden />
-    }
+    render={({ permissions }) => (permissions ? <Protected {...props} /> : <Forbidden />)}
   />
 );
 
 const AdminPage = props => (
   <SecurityCheck
     config={{ roles: ['admin'] }}
-    render={({ permissions }) =>
-      permissions ? <Admin {...props} /> : <Forbidden />
-    }
+    render={({ permissions }) => (permissions ? <Admin {...props} /> : <Forbidden />)}
   />
 );
 
-const Home = () => (
-  <Wireframe title="Главная страница" className="text-light bg-secondary" />
-);
-const Public = () => (
-  <Wireframe title="Публичная страница" className="text-light bg-primary" />
-);
-const Protected = () => (
-  <Wireframe title="Защищенная страница" className="text-light bg-success" />
-);
-const Admin = () => (
-  <Wireframe title="Администрирование" className="bg-warning" />
-);
-const Forbidden = () => (
-  <Wireframe title="Нет доступа" className="text-light bg-danger" />
-);
+const Home = () => <Wireframe title="Главная страница" className="text-light bg-secondary" />;
+const Public = () => <Wireframe title="Публичная страница" className="text-light bg-primary" />;
+const Protected = () => <Wireframe title="Защищенная страница" className="text-light bg-success" />;
+const Admin = () => <Wireframe title="Администрирование" className="bg-warning" />;
+const Forbidden = () => <Wireframe title="Нет доступа" className="text-light bg-danger" />;
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
@@ -92,8 +78,7 @@ storiesOf('Ограничение доступа', module)
     <div>
       <AuthButtonContainer />
       <small>
-        Введите <mark>admin</mark>, чтобы увидеть старницу{' '}
-        <mark>Администрирование</mark>
+        Введите <mark>admin</mark>, чтобы увидеть старницу <mark>Администрирование</mark>
       </small>
       <hr />
       <h5>Навигация</h5>
@@ -122,7 +107,7 @@ storiesOf('Ограничение доступа', module)
       <div
         style={{
           position: 'relative',
-          height: 200,
+          height: 200
         }}
       >
         <Route path="/" exact component={Home} />
@@ -160,13 +145,7 @@ storiesOf('Ограничение доступа', module)
           />
           <Route
             path="/"
-            component={() => (
-              <Factory
-                level={WIDGETS}
-                {...table['Page_Table']}
-                id="Page_Table"
-              />
-            )}
+            component={() => <Factory level={WIDGETS} {...table['Page_Table']} id="Page_Table" />}
           />
         </Switch>
       </React.Fragment>

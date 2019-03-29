@@ -3,7 +3,7 @@ import {
   REQUEST_CONFIG,
   REQUEST_CONFIG_SUCCESS,
   REQUEST_CONFIG_FAIL,
-  CHANGE_ROOT_PAGE,
+  CHANGE_ROOT_PAGE
 } from '../constants/global';
 import createActionHelper from './createActionHelper';
 
@@ -13,7 +13,7 @@ import createActionHelper from './createActionHelper';
  */
 export function changeLocale(locale) {
   return createActionHelper(CHANGE_LOCALE)({
-    locale,
+    locale
   });
 }
 
@@ -23,7 +23,7 @@ export function changeLocale(locale) {
  */
 export function requestConfig(params) {
   return createActionHelper(REQUEST_CONFIG)({
-    params,
+    params
   });
 }
 
@@ -33,7 +33,7 @@ export function requestConfig(params) {
  */
 export function requestConfigSuccess(config) {
   return createActionHelper(REQUEST_CONFIG_SUCCESS)({
-    config,
+    config
   });
 }
 
@@ -44,7 +44,7 @@ export function requestConfigSuccess(config) {
 
 export function requestConfigFail(error) {
   return createActionHelper(REQUEST_CONFIG_FAIL)({
-    error,
+    error
   });
 }
 
@@ -54,6 +54,6 @@ export function requestConfigFail(error) {
  */
 export function changeRootPage(rootPageId) {
   return createActionHelper(CHANGE_ROOT_PAGE)({
-    rootPageId,
+    rootPageId
   });
 }

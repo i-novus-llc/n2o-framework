@@ -15,7 +15,7 @@ class CollapsedCell extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: true,
+      collapsed: true
     };
 
     this._changeVisibility = this._changeVisibility.bind(this);
@@ -29,14 +29,7 @@ class CollapsedCell extends React.Component {
   }
 
   render() {
-    const {
-      model,
-      fieldKey,
-      color,
-      amountToGroup,
-      labelFieldId,
-      visible,
-    } = this.props;
+    const { model, fieldKey, color, amountToGroup, labelFieldId, visible } = this.props;
 
     const data = model[fieldKey] || [];
     const items = this.state.collapsed ? data.slice(0, amountToGroup) : data;
@@ -49,17 +42,11 @@ class CollapsedCell extends React.Component {
         <React.Fragment>
           {items.map(item => (
             <React.Fragment key={uniqueId('collapsed-cell')}>
-              <span className={labelClasses}>
-                {isString(item) ? item : item[labelFieldId]}
-              </span>{' '}
+              <span className={labelClasses}>{isString(item) ? item : item[labelFieldId]}</span>{' '}
             </React.Fragment>
           ))}
           {isButtonNeeded && (
-            <a
-              href="#"
-              onClick={this._changeVisibility}
-              className="collapsed-cell-control"
-            >
+            <a href="#" onClick={this._changeVisibility} className="collapsed-cell-control">
               {buttonTitle}
             </a>
           )}
@@ -75,13 +62,13 @@ CollapsedCell.propTypes = {
   color: PropTypes.string,
   amountToGroup: PropTypes.number,
   labelFieldId: PropTypes.string,
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 };
 
 CollapsedCell.defaultProps = {
   amountToGroup: 3,
   color: 'secondary',
-  visible: true,
+  visible: true
 };
 
 export default CollapsedCell;

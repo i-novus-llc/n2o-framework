@@ -29,9 +29,8 @@ class IconCell extends React.Component {
             <div
               className="n2o-cell-text"
               style={{
-                float:
-                  this.props.textPlace === textPlaceTypes.LEFT ? 'left' : null,
-                display: 'inline-block',
+                float: this.props.textPlace === textPlaceTypes.LEFT ? 'left' : null,
+                display: 'inline-block'
               }}
             >
               <Text text={text} />
@@ -49,13 +48,13 @@ IconCell.propTypes = {
   icon: PropTypes.string.isRequired,
   type: PropTypes.oneOf(Object.values(iconCellTypes)),
   textPlace: PropTypes.oneOf(Object.values(textPlaceTypes)),
-  visible: PropTypes.bool,
+  visible: PropTypes.bool
 };
 
 IconCell.defaultProps = {
   type: iconCellTypes.ICONANDTEXT,
   textPlace: textPlaceTypes.RIGHT,
-  visible: true,
+  visible: true
 };
 
 export default IconCell;

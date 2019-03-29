@@ -34,31 +34,23 @@ class ExportModal extends React.Component {
       xlsx: 'XLSX',
       xml: 'XML',
       txt: 'TXT',
-      ...props.type,
+      ...props.type
     };
     this.code = {
       cp1251: 'cp1251',
       'utf-8': 'UTF-8',
-      ...props.code,
+      ...props.code
     };
     this.size = {
-      all: (
-        <FormattedMessage
-          id="exportTable.downloadAll"
-          defaultMessage="Загрузить всё"
-        />
-      ),
+      all: <FormattedMessage id="exportTable.downloadAll" defaultMessage="Загрузить всё" />,
       current: (
-        <FormattedMessage
-          id="exportTable.downloadCurrent"
-          defaultMessage="Текущая страница"
-        />
-      ),
+        <FormattedMessage id="exportTable.downloadCurrent" defaultMessage="Текущая страница" />
+      )
     };
     this.defaults = {
       type: 'csv',
       code: 'cp1251',
-      size: 'all',
+      size: 'all'
     };
   }
 
@@ -69,11 +61,11 @@ class ExportModal extends React.Component {
   componentWillReceiveProps(newProps) {
     this.type = {
       ...this.type,
-      ...newProps.type,
+      ...newProps.type
     };
     this.code = {
       ...this.code,
-      ...newProps.code,
+      ...newProps.code
     };
   }
 
@@ -89,12 +81,7 @@ class ExportModal extends React.Component {
         <Fieldset>
           <Row>
             <Col md={12}>
-              <ReduxForm.Field
-                control={selectControl}
-                name="type"
-                label="Формат"
-                options={type}
-              />
+              <ReduxForm.Field control={selectControl} name="type" label="Формат" options={type} />
             </Col>
           </Row>
           <Row>
@@ -109,11 +96,7 @@ class ExportModal extends React.Component {
           </Row>
           <Row>
             <Col md={12}>
-              <ReduxForm.Field
-                control={radioControl}
-                name="size"
-                radios={size}
-              />
+              <ReduxForm.Field control={radioControl} name="size" radios={size} />
             </Col>
           </Row>
         </Fieldset>
@@ -124,7 +107,7 @@ class ExportModal extends React.Component {
 
 ExportModal.propTypes = {
   type: PropTypes.object,
-  code: PropTypes.code,
+  code: PropTypes.code
 };
 
 export default ExportModal;

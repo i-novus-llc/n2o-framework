@@ -23,7 +23,7 @@ const index = {
   storyModal,
   ToggleColumn,
   ChangeSize,
-  NotFoundFactory,
+  NotFoundFactory
 };
 
 const functionType = 'function';

@@ -3,16 +3,16 @@ import axios from 'axios';
 const Size = {
   0: 'Б',
   1: 'КБ',
-  2: 'МБ',
+  2: 'МБ'
 };
 
 export function post(url, file, onProgress, onUpload, onError) {
   axios
     .post(url, file, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data'
       },
-      onUploadProgress: onProgress,
+      onUploadProgress: onProgress
     })
     .then(function(response) {
       onUpload(response);

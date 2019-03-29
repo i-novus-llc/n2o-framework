@@ -17,12 +17,12 @@ describe('Проверка RequestError', () => {
       {},
       {
         meta: {
-          value: 'json meta',
-        },
+          value: 'json meta'
+        }
       }
     );
     expect(error.getMeta()).toEqual({
-      value: 'json meta',
+      value: 'json meta'
     });
   });
 });

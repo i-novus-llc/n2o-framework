@@ -32,7 +32,7 @@ const NoneRegion = ({ items, getWidget, pageId }) => {
 NoneRegion.propTypes = {
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
-  pageId: PropTypes.string.isRequired,
+  pageId: PropTypes.string.isRequired
 };
 
 export default compose(

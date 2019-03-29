@@ -5,12 +5,7 @@ import { toNumber, toString, isNil, isNaN, isEqual } from 'lodash';
 
 import Input from '../Input/Input';
 
-import {
-  formatToFloat,
-  isValid,
-  matchesWhiteList,
-  getPrecision,
-} from './utils';
+import { formatToFloat, isValid, matchesWhiteList, getPrecision } from './utils';
 
 /**
  * Компонент - инпут для ввода чисел с возможностью увеличения/уменьшения значения на шаг
@@ -39,7 +34,7 @@ class InputNumber extends React.Component {
       value:
         !isNil(value) && !isNaN(toNumber(value)) && value !== ''
           ? toNumber(value).toFixed(this.precision)
-          : null,
+          : null
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
@@ -51,10 +46,7 @@ class InputNumber extends React.Component {
     const { value } = this.props;
     if (prevProps.value !== value && !isNil(value)) {
       this.setState({ value });
-    } else if (
-      !isEqual(prevProps.value, value) &&
-      (value === '' || isNil(value))
-    ) {
+    } else if (!isEqual(prevProps.value, value) && (value === '' || isNil(value))) {
       this.setState({ value: null });
     }
   }
@@ -90,10 +82,7 @@ class InputNumber extends React.Component {
     const { min, max, step } = this.props;
     const { value } = this.state;
     const delta = toNumber(formatToFloat(step, this.precision));
-    const val =
-      !isNil(value) && value !== ''
-        ? toNumber(value).toFixed(this.precision)
-        : null;
+    const val = !isNil(value) && value !== '' ? toNumber(value).toFixed(this.precision) : null;
     const currentValue = toNumber(formatToFloat(val, this.precision));
     let newValue = currentValue;
     if (type === 'up') {
@@ -127,12 +116,7 @@ class InputNumber extends React.Component {
   onKeyDown(e) {
     const upKeyCode = 38;
     const downKeyCode = 40;
-    const type =
-      e.keyCode === upKeyCode
-        ? 'up'
-        : e.keyCode === downKeyCode
-        ? 'down'
-        : undefined;
+    const type = e.keyCode === upKeyCode ? 'up' : e.keyCode === downKeyCode ? 'down' : undefined;
     if (type) {
       e.preventDefault();
       this.buttonHandler(type);
@@ -153,7 +137,7 @@ class InputNumber extends React.Component {
       showButtons,
       className,
       onFocus,
-      autoFocus,
+      autoFocus
     } = this.props;
     const { value } = this.state;
 
@@ -182,16 +166,10 @@ class InputNumber extends React.Component {
           />
           {showButtons && (
             <div className="n2o-input-number-buttons">
-              <button
-                onClick={this.buttonHandler.bind(this, 'up')}
-                disabled={disabled}
-              >
+              <button onClick={this.buttonHandler.bind(this, 'up')} disabled={disabled}>
                 <i className="fa fa-angle-up" aria-hidden="true" />
               </button>
-              <button
-                onClick={this.buttonHandler.bind(this, 'down')}
-                disabled={disabled}
-              >
+              <button onClick={this.buttonHandler.bind(this, 'down')} disabled={disabled}>
                 <i className="fa fa-angle-down" aria-hidden="true" />
               </button>
             </div>
@@ -210,7 +188,7 @@ InputNumber.defaultProps = {
   showButtons: true,
   onChange: val => {},
   onBlur: val => {},
-  onFocus: val => {},
+  onFocus: val => {}
 };
 
 InputNumber.propTypes = {
@@ -224,7 +202,7 @@ InputNumber.propTypes = {
   showButtons: PropTypes.bool,
   onChange: PropTypes.func,
   className: PropTypes.string,
-  autoFocus: PropTypes.bool,
+  autoFocus: PropTypes.bool
 };
 
 export default InputNumber;

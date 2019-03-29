@@ -19,7 +19,7 @@ export class EditableCell extends React.Component {
 
     this.state = {
       value: this.getValueFromModel(props),
-      editing: false,
+      editing: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -69,7 +69,7 @@ export class EditableCell extends React.Component {
                 onChange: this.onChange,
                 onBlur: this.toggleEdit,
                 autoFocus: true,
-                value: value,
+                value: value
               })}
             </div>
           )}
@@ -84,12 +84,12 @@ EditableCell.propTypes = {
   control: PropTypes.object,
   editable: PropTypes.bool,
   value: PropTypes.string,
-  disabled: false,
+  disabled: false
 };
 
 EditableCell.defaultProps = {
   visible: true,
-  disabled: false,
+  disabled: false
 };
 
 export default compose(withEditableActions)(EditableCell);

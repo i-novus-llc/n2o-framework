@@ -30,7 +30,7 @@ class RadioGroupControl extends React.Component {
   componentDidMount() {
     this.props._fetchData({
       size: this.props.size,
-      [`sorting.${this.props.labelFieldId}`]: 'ASC',
+      [`sorting.${this.props.labelFieldId}`]: 'ASC'
     });
   }
 
@@ -44,7 +44,7 @@ class RadioGroupControl extends React.Component {
     const radioTypes = {
       default: Radio,
       n2o: RadioN2O,
-      btn: RadioButton,
+      btn: RadioButton
     };
 
     const RadioElement = radioTypes[type];
@@ -85,7 +85,7 @@ RadioGroupControl.propTypes = {
   fetchData: PropTypes.func,
   size: PropTypes.number.isRequired,
   type: PropTypes.oneOf(['default', 'n2o', 'btn']),
-  isLoading: PropTypes.bool,
+  isLoading: PropTypes.bool
 };
 
 RadioGroupControl.defaultProps = {
@@ -95,7 +95,7 @@ RadioGroupControl.defaultProps = {
   visible: true,
   type: 'default',
   onChange: () => {},
-  isLoading: false,
+  isLoading: false
 };
 
 export default withFetchData(RadioGroupControl);

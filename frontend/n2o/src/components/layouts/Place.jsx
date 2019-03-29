@@ -35,16 +35,16 @@ Place.propTypes = {
   name: PropTypes.string.isRequired,
   component: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 Place.defaultProps = {
-  component: 'div',
+  component: 'div'
 };
 
 Place.contextTypes = {
   getSection: PropTypes.func.isRequired,
-  getParentProps: PropTypes.func.isRequired,
+  getParentProps: PropTypes.func.isRequired
 };
 
 export default Place;

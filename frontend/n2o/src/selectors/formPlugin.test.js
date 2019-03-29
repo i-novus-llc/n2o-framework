@@ -7,7 +7,7 @@ import {
   isInitSelector,
   messageSelector,
   dependencySelector,
-  filterSelector,
+  filterSelector
 } from './formPlugin';
 
 const state = {
@@ -20,18 +20,18 @@ const state = {
           isInit: true,
           message: 'test',
           dependency: 'some dependency',
-          filter: 'field filter',
+          filter: 'field filter'
         },
         field2: {
           visible: false,
           disabled: true,
           isInit: false,
-          message: 'message',
-        },
-      },
+          message: 'message'
+        }
+      }
     },
-    otherForm: {},
-  },
+    otherForm: {}
+  }
 };
 
 describe('Проверка селекторов formPlugin', () => {

@@ -11,29 +11,24 @@ stories.add('Активные записи', () => {
   const tableData = [
     { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001' },
     { id: '2', name: 'X', surname: 'Y', birthday: '01.01.1001' },
-    { id: '3', name: 'Test', surname: 'Tset', birthday: '01.01.0001' },
+    { id: '3', name: 'Test', surname: 'Tset', birthday: '01.01.0001' }
   ];
 
   const headers = [
     { id: 'name', component: TextTableHeader, sortable: false, label: 'Имя' },
-    {
-      id: 'surname',
-      component: TextTableHeader,
-      sortable: false,
-      label: 'Фамилия',
-    },
+    { id: 'surname', component: TextTableHeader, sortable: false, label: 'Фамилия' },
     {
       id: 'birthday',
       component: TextTableHeader,
       sortable: false,
       sorting: 'ASC',
-      label: 'Дата рождения',
-    },
+      label: 'Дата рождения'
+    }
   ];
   const cells = [
     { id: 'name', component: TextCell, fieldKey: 'name' },
     { id: 'surname', component: TextCell, fieldKey: 'surname' },
-    { id: 'birthday', component: TextCell, fieldKey: 'birthday' },
+    { id: 'birthday', component: TextCell, fieldKey: 'birthday' }
   ];
 
   return (

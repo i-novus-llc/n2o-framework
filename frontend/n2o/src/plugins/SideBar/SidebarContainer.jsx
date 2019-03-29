@@ -15,7 +15,7 @@ class SidebarContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: [],
+      items: []
     };
   }
 
@@ -34,7 +34,7 @@ class SidebarContainer extends React.Component {
       try {
         const permissions = await authProvider(SECURITY_CHECK, {
           config,
-          user,
+          user
         });
         this.setState({ items: this.state.items.concat(item) });
       } catch (error) {
@@ -48,7 +48,7 @@ class SidebarContainer extends React.Component {
   getItemsWithAccess() {
     this.setState(
       {
-        items: [],
+        items: []
       },
       () => this.makeSecure(this.props)
     );
@@ -73,7 +73,7 @@ class SidebarContainer extends React.Component {
 }
 
 SidebarContainer.propTypes = {
-  items: PropTypes.array,
+  items: PropTypes.array
 };
 
 export default compose(withSecurity)(SidebarContainer);

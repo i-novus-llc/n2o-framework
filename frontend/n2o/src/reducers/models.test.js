@@ -1,12 +1,4 @@
-import {
-  SET,
-  REMOVE,
-  SYNC,
-  UPDATE,
-  UPDATE_MAP,
-  COPY,
-  REMOVE_ALL,
-} from '../constants/models';
+import { SET, REMOVE, SYNC, UPDATE, UPDATE_MAP, COPY, REMOVE_ALL } from '../constants/models';
 import models from './models';
 
 describe('Тесты models reducer', () => {
@@ -20,17 +12,17 @@ describe('Тесты models reducer', () => {
             prefix: 'prefix',
             key: 'key',
             model: {
-              name: 'modelName',
-            },
-          },
+              name: 'modelName'
+            }
+          }
         }
       )
     ).toEqual({
       prefix: {
         key: {
-          name: 'modelName',
-        },
-      },
+          name: 'modelName'
+        }
+      }
     });
   });
 
@@ -40,20 +32,20 @@ describe('Тесты models reducer', () => {
         {
           datasource: [
             {
-              name: 'test',
-            },
-          ],
+              name: 'test'
+            }
+          ]
         },
         {
           type: REMOVE,
           payload: {
             prefix: 'datasource',
-            key: 0,
-          },
+            key: 0
+          }
         }
       )
     ).toEqual({
-      datasource: {},
+      datasource: {}
     });
   });
 
@@ -68,9 +60,9 @@ describe('Тесты models reducer', () => {
             keys: ['Page.Widget1'],
             model: {
               id: 1,
-              name: 'test',
-            },
-          },
+              name: 'test'
+            }
+          }
         }
       )
     ).toEqual({
@@ -78,10 +70,10 @@ describe('Тесты models reducer', () => {
         0: {
           'Page.Widget1': {
             id: 1,
-            name: 'test',
-          },
-        },
-      },
+            name: 'test'
+          }
+        }
+      }
     });
   });
 
@@ -90,8 +82,8 @@ describe('Тесты models reducer', () => {
       models(
         {
           edit: {
-            editKey: [{ a: 1 }, { b: 2 }],
-          },
+            editKey: [{ a: 1 }, { b: 2 }]
+          }
         },
         {
           type: UPDATE,
@@ -99,21 +91,21 @@ describe('Тесты models reducer', () => {
             prefix: 'edit',
             key: 'editKey',
             field: '[1].field1',
-            value: 'value1',
-          },
+            value: 'value1'
+          }
         }
       )
     ).toEqual({
       edit: {
-        editKey: [{ a: 1 }, { b: 2, field1: 'value1' }],
-      },
+        editKey: [{ a: 1 }, { b: 2, field1: 'value1' }]
+      }
     });
     expect(
       models(
         {
           edit: {
-            editKey: {},
-          },
+            editKey: {}
+          }
         },
         {
           type: UPDATE,
@@ -121,21 +113,21 @@ describe('Тесты models reducer', () => {
             prefix: 'edit',
             key: 'editKey',
             field: 'field1',
-            value: 'value1',
-          },
+            value: 'value1'
+          }
         }
       )
     ).toEqual({
       edit: {
         editKey: {
-          field1: 'value1',
-        },
-      },
+          field1: 'value1'
+        }
+      }
     });
     expect(
       models(
         {
-          edit: {},
+          edit: {}
         },
         {
           type: UPDATE,
@@ -143,23 +135,23 @@ describe('Тесты models reducer', () => {
             prefix: 'edit',
             key: 'editKey',
             field: 'field1',
-            value: 'value1',
-          },
+            value: 'value1'
+          }
         }
       )
     ).toEqual({
       edit: {
         editKey: {
-          field1: 'value1',
-        },
-      },
+          field1: 'value1'
+        }
+      }
     });
     expect(
       models(
         {
           edit: {
-            editKey: { a: { b: 2 } },
-          },
+            editKey: { a: { b: 2 } }
+          }
         },
         {
           type: UPDATE,
@@ -167,21 +159,21 @@ describe('Тесты models reducer', () => {
             prefix: 'edit',
             key: 'editKey',
             field: 'a.b',
-            value: 'value1',
-          },
+            value: 'value1'
+          }
         }
       )
     ).toEqual({
       edit: {
-        editKey: { a: { b: 'value1' } },
-      },
+        editKey: { a: { b: 'value1' } }
+      }
     });
     expect(
       models(
         {
           edit: {
-            editKey: {},
-          },
+            editKey: {}
+          }
         },
         {
           type: UPDATE,
@@ -189,14 +181,14 @@ describe('Тесты models reducer', () => {
             prefix: 'edit',
             key: 'editKey',
             field: 'a.b',
-            value: 'value1',
-          },
+            value: 'value1'
+          }
         }
       )
     ).toEqual({
       edit: {
-        editKey: { a: { b: 'value1' } },
-      },
+        editKey: { a: { b: 'value1' } }
+      }
     });
   });
 
@@ -205,8 +197,8 @@ describe('Тесты models reducer', () => {
       models(
         {
           edit: {
-            editKey: {},
-          },
+            editKey: {}
+          }
         },
         {
           type: UPDATE_MAP,
@@ -215,8 +207,8 @@ describe('Тесты models reducer', () => {
             key: 'editKey',
             field: 'field',
             map: 'map',
-            value: [1, 2],
-          },
+            value: [1, 2]
+          }
         }
       )
     ).toEqual({
@@ -224,14 +216,14 @@ describe('Тесты models reducer', () => {
         editKey: {
           field: [
             {
-              map: 1,
+              map: 1
             },
             {
-              map: 2,
-            },
-          ],
-        },
-      },
+              map: 2
+            }
+          ]
+        }
+      }
     });
   });
 
@@ -241,38 +233,38 @@ describe('Тесты models reducer', () => {
         {
           resolve: {
             testKey: {
-              name: 'new name',
-            },
+              name: 'new name'
+            }
           },
           edit: {
-            testKey: {},
-          },
+            testKey: {}
+          }
         },
         {
           type: COPY,
           payload: {
             source: {
               prefix: 'resolve',
-              key: 'testKey',
+              key: 'testKey'
             },
             target: {
               prefix: 'edit',
-              key: 'testKey',
-            },
-          },
+              key: 'testKey'
+            }
+          }
         }
       )
     ).toEqual({
       edit: {
         testKey: {
-          name: 'new name',
-        },
+          name: 'new name'
+        }
       },
       resolve: {
         testKey: {
-          name: 'new name',
-        },
-      },
+          name: 'new name'
+        }
+      }
     });
   });
 
@@ -282,25 +274,25 @@ describe('Тесты models reducer', () => {
         {
           resolve: {
             testKey: {
-              name: 'new name',
-            },
+              name: 'new name'
+            }
           },
           edit: {
             testKey: {
-              name: 'new name',
-            },
-          },
+              name: 'new name'
+            }
+          }
         },
         {
           type: REMOVE_ALL,
           payload: {
-            key: 'testKey',
-          },
+            key: 'testKey'
+          }
         }
       )
     ).toEqual({
       resolve: {},
-      edit: {},
+      edit: {}
     });
   });
 });

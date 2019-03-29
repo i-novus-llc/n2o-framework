@@ -21,11 +21,7 @@ export function resolveLink(state, links) {
       if (val && isLinkedString(val)) {
         const parsedLink = parseLink(val);
         if (parsedLink) {
-          const model = getFromState(
-            widgets,
-            parsedLink.prefix,
-            parsedLink.widget
-          );
+          const model = getFromState(widgets, parsedLink.prefix, parsedLink.widget);
           if (model) {
             if (parsedLink.field) {
               result[key] = model[parsedLink.field];
@@ -57,7 +53,7 @@ function parseLink(link) {
     return {
       prefix: regExp[1],
       widget: regExp[2],
-      field: regExp[3],
+      field: regExp[3]
     };
   }
   console.warn('Global link not parsed! (?)'.format(link));

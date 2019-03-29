@@ -9,8 +9,8 @@ const defaultState = {
     closeButton: null,
     pageId: null,
     size: 'lg',
-    src: null,
-  },
+    src: null
+  }
 };
 
 function resolve(state = defaultState, action) {
@@ -20,15 +20,15 @@ function resolve(state = defaultState, action) {
       return Object.assign({}, state, {
         visible,
         name,
-        props: Object.assign({}, props),
+        props: Object.assign({}, props)
       });
     case SHOW:
       return Object.assign({}, state, {
-        visible: true,
+        visible: true
       });
     case HIDE:
       return Object.assign({}, state, {
-        visible: false,
+        visible: false
       });
     default:
       return state;

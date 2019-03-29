@@ -2,7 +2,7 @@ import {
   getContainerColumns,
   isDisabledSelector,
   isInitSelector,
-  isVisibleSelector,
+  isVisibleSelector
 } from './columns';
 
 const state = {
@@ -11,18 +11,16 @@ const state = {
       columnId: {
         visible: true,
         disabled: false,
-        isInit: true,
-      },
+        isInit: true
+      }
     },
-    otherKey: {},
-  },
+    otherKey: {}
+  }
 };
 
 describe('Проверка селекторов columns', () => {
   it('getContainerColumns должен вернуть columns по ключу', () => {
-    expect(getContainerColumns('testKey')(state)).toEqual(
-      state.columns.testKey
-    );
+    expect(getContainerColumns('testKey')(state)).toEqual(state.columns.testKey);
   });
   it('isVisibleSelector должен вернуть isVisible по key и id', () => {
     expect(isVisibleSelector('testKey', 'columnId')(state)).toEqual(

@@ -23,8 +23,8 @@ stories
         {
           id: 'BadgeCell',
           component: TextTableHeader,
-          label: 'BadgeCell',
-        },
+          label: 'BadgeCell'
+        }
       ],
       cells: [
         {
@@ -37,32 +37,22 @@ stories
             'secondary'
           ),
           fieldKey: 'test',
-          text: text('text', 'Мужской'),
-        },
+          text: text('text', 'Мужской')
+        }
       ],
       datasource: [
         {
-          test: 'Иванов',
-        },
-      ],
+          test: 'Иванов'
+        }
+      ]
     };
 
-    return (
-      <Table
-        headers={props.headers}
-        cells={props.cells}
-        datasource={props.datasource}
-      />
-    );
+    return <Table headers={props.headers} cells={props.cells} datasource={props.datasource} />;
   })
 
   .add('Метаданные', () => {
     const badgeProps = {
-      placement: select(
-        'placement',
-        ['left', 'right'],
-        BadgeCellJson.placement
-      ),
+      placement: select('placement', ['left', 'right'], BadgeCellJson.placement),
       color: select(
         'color',
         ['secondary', 'primary', 'danger', 'success', 'warning', 'info'],
@@ -71,7 +61,7 @@ stories
       fieldKey: BadgeCellJson.fieldKey,
       text: BadgeCellJson.text,
       format: BadgeCellJson.format,
-      badgeFormat: BadgeCellJson.badgeFormat,
+      badgeFormat: BadgeCellJson.badgeFormat
     };
 
     const props = {
@@ -79,37 +69,31 @@ stories
         {
           id: 'BadgeCell',
           component: TextTableHeader,
-          label: 'BadgeCell',
-        },
+          label: 'BadgeCell'
+        }
       ],
       cells: [
         Object.assign(
           {
             id: 'secondary',
-            component: BadgeCell,
+            component: BadgeCell
           },
           badgeProps
-        ),
+        )
       ],
       datasource: [
         {
           id: 1,
           name: 'Иван',
           my: {
-            date: '01.02.2003 04:05:06',
+            date: '01.02.2003 04:05:06'
           },
-          status: 1,
-        },
-      ],
+          status: 1
+        }
+      ]
     };
 
-    return (
-      <Table
-        headers={props.headers}
-        cells={props.cells}
-        datasource={props.datasource}
-      />
-    );
+    return <Table headers={props.headers} cells={props.cells} datasource={props.datasource} />;
   })
 
   .add('Примеры', () => {
@@ -119,33 +103,33 @@ stories
           {
             id: 'secondary',
             component: TextTableHeader,
-            label: 'secondary',
+            label: 'secondary'
           },
           {
             id: 'primary',
             component: TextTableHeader,
-            label: 'primary',
+            label: 'primary'
           },
           {
             id: 'danger',
             component: TextTableHeader,
-            label: 'danger',
+            label: 'danger'
           },
           {
             id: 'warning',
             component: TextTableHeader,
-            label: 'warning',
+            label: 'warning'
           },
           {
             id: 'info',
             component: TextTableHeader,
-            label: 'info',
+            label: 'info'
           },
           {
             id: 'success',
             component: TextTableHeader,
-            label: 'success',
-          },
+            label: 'success'
+          }
         ],
         cells: [
           {
@@ -153,62 +137,62 @@ stories
             component: BadgeCell,
             placement,
             ...props,
-            color: 'secondary',
+            color: 'secondary'
           },
           {
             id: 'primary',
             component: BadgeCell,
             placement,
             ...props,
-            color: 'primary',
+            color: 'primary'
           },
           {
             id: 'danger',
             component: BadgeCell,
             placement,
             ...props,
-            color: 'danger',
+            color: 'danger'
           },
           {
             id: 'warning',
             component: BadgeCell,
             placement,
             ...props,
-            color: 'warning',
+            color: 'warning'
           },
           {
             id: 'info',
             component: BadgeCell,
             placement,
             ...props,
-            color: 'info',
+            color: 'info'
           },
           {
             id: 'success',
             component: BadgeCell,
             placement,
             ...props,
-            color: 'success',
-          },
+            color: 'success'
+          }
         ],
         datasource: [
           {
-            test: 'Иванов',
-          },
-        ],
+            test: 'Иванов'
+          }
+        ]
       };
     };
 
     const rightProps = getProps('right', {
       fieldKey: 'test',
-      text: 'Мужской',
+      text: 'Мужской'
     });
     const leftProps = getProps('left', {
       fieldKey: 'test',
-      text: 'Женский',
+      text: 'Женский'
     });
     const nonTextProps = getProps('right', {
-      fieldKey: 'test',
+      fieldKey: 'test'
     });
     return (
       <div>
@@ -223,10 +207,7 @@ stories
         <Table cells={leftProps.cells} datasource={leftProps.datasource} />
         <hr />
         <h6>Без текста</h6>
-        <Table
-          cells={nonTextProps.cells}
-          datasource={nonTextProps.datasource}
-        />
+        <Table cells={nonTextProps.cells} datasource={nonTextProps.datasource} />
       </div>
     );
   });

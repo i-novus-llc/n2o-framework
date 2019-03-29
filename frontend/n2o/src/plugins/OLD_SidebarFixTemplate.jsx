@@ -12,14 +12,14 @@ export default ({ children, className }) => {
   return (
     <div
       className={cx('n2o-template', className, {
-        'fixed-scrollable-container': containsFixedSider,
+        'fixed-scrollable-container': containsFixedSider
       })}
     >
       {React.Children.map(children, child => {
         if (containsFixedSider) {
           return React.cloneElement(child, {
             ...child.props,
-            className: cx(child.props.className, 'fixed-scrollable'),
+            className: cx(child.props.className, 'fixed-scrollable')
           });
         }
         return child;

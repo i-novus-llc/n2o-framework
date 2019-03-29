@@ -3,7 +3,7 @@ import TextField from './TextField';
 
 const setupTextField = propsOverride => {
   const props = {
-    text: 'test',
+    text: 'test'
   };
 
   return mount(<TextField {...props} {...propsOverride} />);
@@ -17,14 +17,14 @@ describe('Проверка компонента TextField', () => {
   });
   it('Не должен отрисоваться', () => {
     const wrapper = setupTextField({
-      visible: false,
+      visible: false
     });
     expect(wrapper.find('.n2o-text-field').exists()).toEqual(false);
   });
   it('Должен отформатировать текст', () => {
     const wrapper = setupTextField({
       text: '20.04.1934 00:00:00',
-      format: 'date DD.MM.YYYY',
+      format: 'date DD.MM.YYYY'
     });
     expect(wrapper.text()).toEqual('20.04.1934');
   });
