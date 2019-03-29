@@ -17,38 +17,40 @@ import PropTypes from 'prop-types';
 function ReduxForm(props, context) {
   return (
     <React.Fragment>
-      {props.prompt && <Prompt when={props.dirty} message={context.defaultPromptMessage} />}
+      {props.prompt && (
+        <Prompt when={props.dirty} message={context.defaultPromptMessage} />
+      )}
       <Form {...props} />
     </React.Fragment>
   );
 }
 
 ReduxForm.contextTypes = {
-  defaultPromptMessage: PropTypes.string
+  defaultPromptMessage: PropTypes.string,
 };
 
 ReduxForm.propTypes = {
-  prompt: PropTypes.bool
+  prompt: PropTypes.bool,
 };
 
 ReduxForm.defaultProps = {
-  prompt: false
+  prompt: false,
 };
 
 ReduxForm.Field = ReduxField;
 
 export default compose(
   getContext({
-    state: PropTypes.object
+    state: PropTypes.object,
   }),
   withProps(props => {
     return {
       ...createValidator(props.validation, props.form, props.state),
-      ...props
+      ...props,
     };
   }),
   reduxForm({
     destroyOnUnmount: true,
-    enableReinitialize: true
+    enableReinitialize: true,
   })
 )(ReduxForm);

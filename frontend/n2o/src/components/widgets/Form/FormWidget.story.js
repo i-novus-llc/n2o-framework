@@ -149,10 +149,11 @@ stories
   .add('Форма с Prompt', () => {
     const FormWithContext = withContext(
       {
-        defaultPromptMessage: PropTypes.string
+        defaultPromptMessage: PropTypes.string,
       },
       props => ({
-        defaultPromptMessage: 'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?'
+        defaultPromptMessage:
+          'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
       })
     )(() => renderForm(FormWithPrompt));
     return (
