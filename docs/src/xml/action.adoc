@@ -354,7 +354,7 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 Пример::
 [source,xml]
 ----
-<close unsaved-data-prompt="true"/>
+<close unsaved-data-prompt="false"/>
 ----
 
 === <copy>
