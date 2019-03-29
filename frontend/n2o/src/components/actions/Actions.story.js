@@ -82,8 +82,7 @@ stories
               {
                 id: 'testBtn299',
                 actionId: 'dummy',
-                title: 'Элемент списка12',
-                color: 'danger',
+                title: 'Элемент списка',
               },
             ],
           },
