@@ -55,7 +55,7 @@ class StoryModal extends React.Component {
 
 StoryModal.propTypes = {
   type: PropTypes.object,
-  code: PropTypes.code,
+  code: PropTypes.string,
 };
 
 export default StoryModal;
