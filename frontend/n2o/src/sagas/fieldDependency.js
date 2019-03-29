@@ -83,4 +83,4 @@ export function* catchAction(dispatch) {
   yield takeEvery(actionTypes.CHANGE, resolveDependency);
 }
 
-export const dependenciesSagas = [catchAction];
+export const fieldDependencySagas = [catchAction];

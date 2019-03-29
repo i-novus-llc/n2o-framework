@@ -17,6 +17,7 @@ import {
   iconSelector,
   classSelector,
   hintSelector,
+  hintPositionSelector,
   styleSelector
 } from '../../selectors/toolbar';
 import withTooltip from '../../utils/withTooltip';
@@ -55,7 +56,8 @@ class ButtonContainer extends React.Component {
         className,
         style,
         conditions,
-        resolveEnabled
+        resolveEnabled,
+        hintPosition
       }
     } = props;
     !isInit &&
@@ -75,7 +77,8 @@ class ButtonContainer extends React.Component {
           style,
           conditions,
           containerKey,
-          resolveEnabled
+          resolveEnabled,
+          hintPosition
         })
       );
   }
@@ -166,13 +169,25 @@ class ButtonContainer extends React.Component {
    *Базовый рендер
    */
   render() {
-    const { visible, disabled, size, title, count, color, icon, hint, component } = this.props;
+    const {
+      visible,
+      disabled,
+      size,
+      title,
+      count,
+      color,
+      icon,
+      hint,
+      hintPosition,
+      component
+    } = this.props;
 
     return (
       visible &&
       withTooltip(
         component === DropdownMenu ? this.renderDropdown() : this.renderButton(),
         hint,
+        hintPosition,
         this.buttonId
       )
     );
@@ -189,6 +204,8 @@ const mapStateToProps = createStructuredSelector({
   count: (state, ownProps) => countSelector(ownProps.containerKey, ownProps.id)(state),
   icon: (state, ownProps) => iconSelector(ownProps.containerKey, ownProps.id)(state),
   hint: (state, ownProps) => hintSelector(ownProps.containerKey, ownProps.id)(state),
+  hintPosition: (state, ownProps) =>
+    hintPositionSelector(ownProps.containerKey, ownProps.id)(state),
   className: (state, ownProps) => classSelector(ownProps.containerKey, ownProps.id)(state),
   style: (state, ownProps) => styleSelector(ownProps.containerKey, ownProps.id)(state)
 });
@@ -203,6 +220,7 @@ ButtonContainer.propTypes = {
   count: PropTypes.number,
   icon: PropTypes.string,
   hint: PropTypes.string,
+  hintPosition: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object
 };

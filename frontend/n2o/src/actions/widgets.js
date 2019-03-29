@@ -25,7 +25,6 @@ import {
   SET_ACTIVE,
   DISABLE_ON_FETCH
 } from '../constants/widgets';
-import { CHANGE_BUTTON_CLASS } from '../constants/toolbar';
 import createActionHelper from './createActionHelper';
 
 /**

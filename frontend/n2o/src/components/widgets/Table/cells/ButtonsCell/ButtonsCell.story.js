@@ -215,6 +215,91 @@ const examplesDataSource = [
     ]
   },
   {
+    description: 'Позиция тултипа',
+    buttons: [
+      {
+        id: 'Left21',
+        title: 'Left',
+        hintPosition: 'left',
+        hint: 'Left'
+      },
+      {
+        id: 'Right21',
+        title: 'Right',
+        hintPosition: 'right',
+        hint: 'Right'
+      },
+      {
+        id: 'Top21',
+        title: 'Top',
+        hintPosition: 'top',
+        hint: 'Top'
+      },
+      {
+        id: 'Bottom21',
+        title: 'Bottom',
+        hintPosition: 'bottom',
+        hint: 'Bottom'
+      },
+      {
+        id: 'Left22',
+        title: 'Left',
+        hintPosition: 'left',
+        icon: 'fa fa-vk',
+        hint: 'Left',
+        subMenu: [
+          {
+            id: '23',
+            header: true,
+            title: 'Заголовок'
+          }
+        ]
+      },
+      {
+        id: 'Right22',
+        title: 'Right',
+        icon: 'fa fa-vk',
+        hintPosition: 'right',
+        hint: 'Right',
+        subMenu: [
+          {
+            id: '23',
+            header: true,
+            title: 'Заголовок'
+          }
+        ]
+      },
+      {
+        id: 'Top22',
+        title: 'Top',
+        hintPosition: 'top',
+        icon: 'fa fa-vk',
+        hint: 'Top',
+        subMenu: [
+          {
+            id: '23',
+            header: true,
+            title: 'Заголовок'
+          }
+        ]
+      },
+      {
+        id: 'Bottom22',
+        title: 'Bottom',
+        hintPosition: 'bottom',
+        icon: 'fa fa-vk',
+        hint: 'Bottom',
+        subMenu: [
+          {
+            id: '23',
+            header: true,
+            title: 'Заголовок'
+          }
+        ]
+      }
+    ]
+  },
+  {
     description: 'Вызов действия',
     buttons: [
       {

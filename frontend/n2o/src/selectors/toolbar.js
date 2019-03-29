@@ -113,6 +113,7 @@ const titleSelector = (key, id) =>
 /**
  * селектор посказаки кнопки
  * @param key
+ * @param id
  */
 const hintSelector = (key, id) =>
   createSelector(
@@ -121,6 +122,17 @@ const hintSelector = (key, id) =>
       return button.hint;
     }
   );
+
+/**
+ * селектор расположения посказаки кнопки
+ * @param key
+ * @param id
+ */
+
+const hintPositionSelector = (key, id) =>
+  createSelector(makeButtonByKeyAndIdSelector(key, id), button => {
+    return button.hintPosition;
+  });
 
 /**
  * селектор иконки кнопки
@@ -196,5 +208,6 @@ export {
   isInitSelector,
   isLoading,
   errorSelector,
-  getContainerButtons
+  getContainerButtons,
+  hintPositionSelector
 };
