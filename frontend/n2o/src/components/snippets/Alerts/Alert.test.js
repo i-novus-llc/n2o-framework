@@ -6,7 +6,7 @@ import Alert from './Alert';
 const setup = propOverrides => {
   const props = Object.assign(
     {
-      visible: true
+      visible: true,
     },
     propOverrides
   );
@@ -15,7 +15,7 @@ const setup = propOverrides => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -56,7 +56,7 @@ describe('<Alert />', () => {
 
   it('проверяет скрыт ли Alert', () => {
     const { wrapper } = setup({
-      visible: false
+      visible: false,
     });
     expect(wrapper.props().visible).toBe(false);
   });

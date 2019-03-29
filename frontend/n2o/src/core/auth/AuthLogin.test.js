@@ -18,8 +18,8 @@ describe('Проверка AuthLogin', () => {
     const wrapper = setup(store, {
       permissions: true,
       user: {
-        username: 'testName'
-      }
+        username: 'testName',
+      },
     });
     expect(
       wrapper
@@ -34,13 +34,13 @@ describe('Проверка AuthLogin', () => {
     const wrapper = setup(store, {
       permissions: true,
       user: {
-        username: 'testName'
-      }
+        username: 'testName',
+      },
     });
     wrapper.find('input').simulate('change', {
       target: {
-        value: 'userName'
-      }
+        value: 'userName',
+      },
     });
     expect(wrapper.find('Login').state().username).toEqual('userName');
   });

@@ -1,10 +1,13 @@
 import { prepareButton } from './toolbar';
-import { CHANGE_BUTTON_DISABLED, CHANGE_BUTTON_VISIBILITY } from '../constants/toolbar';
+import {
+  CHANGE_BUTTON_DISABLED,
+  CHANGE_BUTTON_VISIBILITY,
+} from '../constants/toolbar';
 import { put } from 'redux-saga/effects';
 import {
   resolveButton,
   resolveConditions,
-  setParentVisibleIfAllChildChangeVisible
+  setParentVisibleIfAllChildChangeVisible,
 } from './toolbar';
 import { changeButtonVisiblity } from '../actions/toolbar';
 
@@ -14,16 +17,16 @@ const setupResolveButton = () => {
       visible: [
         {
           expression: "test === 'test'",
-          modelLink: 'model'
-        }
+          modelLink: 'model',
+        },
       ],
       enabled: [
         {
           expression: "test !== 'test'",
-          modelLink: 'model'
-        }
-      ]
-    }
+          modelLink: 'model',
+        },
+      ],
+    },
   });
 };
 
@@ -32,24 +35,24 @@ describe('Проверка саги toolbar', () => {
     const buttons = {
       "models.resolve['__patients-update']": [
         {
-          name: 'buttonsButton'
-        }
-      ]
+          name: 'buttonsButton',
+        },
+      ],
     };
     const payload = {
       name: 'payloadButton',
       conditions: {
         visible: [
           {
-            modelLink: "models.resolve['__patients']"
-          }
+            modelLink: "models.resolve['__patients']",
+          },
         ],
         enabled: [
           {
-            modelLink: "model.resolve['__contacts']"
-          }
-        ]
-      }
+            modelLink: "model.resolve['__contacts']",
+          },
+        ],
+      },
     };
     expect(prepareButton(buttons, payload)).toEqual({
       ...buttons,
@@ -59,16 +62,16 @@ describe('Проверка саги toolbar', () => {
           conditions: {
             visible: [
               {
-                modelLink: "models.resolve['__patients']"
-              }
+                modelLink: "models.resolve['__patients']",
+              },
             ],
             enabled: [
               {
-                modelLink: "model.resolve['__contacts']"
-              }
-            ]
-          }
-        }
+                modelLink: "model.resolve['__contacts']",
+              },
+            ],
+          },
+        },
       ],
       "model.resolve['__contacts']": [
         {
@@ -76,17 +79,17 @@ describe('Проверка саги toolbar', () => {
           conditions: {
             visible: [
               {
-                modelLink: "models.resolve['__patients']"
-              }
+                modelLink: "models.resolve['__patients']",
+              },
             ],
             enabled: [
               {
-                modelLink: "model.resolve['__contacts']"
-              }
-            ]
-          }
-        }
-      ]
+                modelLink: "model.resolve['__contacts']",
+              },
+            ],
+          },
+        },
+      ],
     });
   });
   it('Тестирование вызова  экшена на саге', () => {
@@ -107,8 +110,8 @@ describe('Проверка саги toolbar', () => {
         [
           {
             expression: "test === 'test'",
-            modelLink: 'model'
-          }
+            modelLink: 'model',
+          },
         ],
         { model: { test: 'test' } }
       )
@@ -118,8 +121,8 @@ describe('Проверка саги toolbar', () => {
         [
           {
             expression: "test === 'test'",
-            modelLink: 'no_model'
-          }
+            modelLink: 'no_model',
+          },
         ],
         { model: { test: 'test' } }
       )
@@ -131,8 +134,8 @@ describe('Проверка саги toolbar', () => {
         [
           {
             expression: "test === 'test'",
-            modelLink: 'model'
-          }
+            modelLink: 'model',
+          },
         ],
         null
       )
@@ -144,18 +147,21 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
   it('Тестирование скрытия родителя если все потомки скрыты', () => {
     const testData = {
       btnId: {
-        visible: true
+        visible: true,
       },
       btnChild1Id: {
         visible: false,
-        parentId: 'btnId'
+        parentId: 'btnId',
       },
       btnChild2Id: {
         visible: false,
-        parentId: 'btnId'
-      }
+        parentId: 'btnId',
+      },
     };
-    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    const gen = setParentVisibleIfAllChildChangeVisible({
+      id: 'btnChild1Id',
+      key: 'fieldKey',
+    });
     gen.next();
     expect(gen.next(testData).value).toEqual(
       put(changeButtonVisiblity('fieldKey', 'btnId', false))
@@ -165,37 +171,45 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
   it('Тестирование показа родителя если все потомки видимы', () => {
     const testData = {
       btnId: {
-        visible: false
+        visible: false,
       },
       btnChild1Id: {
         visible: true,
-        parentId: 'btnId'
+        parentId: 'btnId',
       },
       btnChild2Id: {
         visible: true,
-        parentId: 'btnId'
-      }
+        parentId: 'btnId',
+      },
     };
-    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    const gen = setParentVisibleIfAllChildChangeVisible({
+      id: 'btnChild1Id',
+      key: 'fieldKey',
+    });
     gen.next();
-    expect(gen.next(testData).value).toEqual(put(changeButtonVisiblity('fieldKey', 'btnId', true)));
+    expect(gen.next(testData).value).toEqual(
+      put(changeButtonVisiblity('fieldKey', 'btnId', true))
+    );
     expect(gen.next().done).toBe(true);
   });
   it('Экшен не отправляется если родитель имеет такую же видимость как и потомки', () => {
     const testData = {
       btnId: {
-        visible: true
+        visible: true,
       },
       btnChild1Id: {
         visible: true,
-        parentId: 'btnId'
+        parentId: 'btnId',
       },
       btnChild2Id: {
         visible: true,
-        parentId: 'btnId'
-      }
+        parentId: 'btnId',
+      },
     };
-    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    const gen = setParentVisibleIfAllChildChangeVisible({
+      id: 'btnChild1Id',
+      key: 'fieldKey',
+    });
     gen.next();
     expect(gen.next().done).toBe(true);
   });

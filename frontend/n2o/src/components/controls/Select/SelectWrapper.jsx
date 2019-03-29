@@ -45,7 +45,11 @@ class SelectWrapper extends React.Component {
         {!isLoading && (
           <Select {...this.props}>
             {data.map(option => (
-              <Option key={option.id} value={option[valueFieldId]} label={option[labelFieldId]} />
+              <Option
+                key={option.id}
+                value={option[valueFieldId]}
+                label={option[labelFieldId]}
+              />
             ))}
           </Select>
         )}
@@ -69,13 +73,13 @@ SelectWrapper.propTypes = {
   fetchData: PropTypes.func,
   queryId: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
 };
 
 SelectWrapper.defaultProps = {
   value: '',
   visible: true,
-  isLoading: false
+  isLoading: false,
 };
 
 export default withFetchData(SelectWrapper);

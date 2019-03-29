@@ -12,7 +12,7 @@ stories.addDecorator(withKnobs);
 stories.add('Компонент', () => {
   const props = {
     className: text('className', 'n2o'),
-    title: text('title', 'Текст визуальной заглушки')
+    title: text('title', 'Текст визуальной заглушки'),
   };
 
   return (
@@ -20,7 +20,7 @@ stories.add('Компонент', () => {
       <CardBody
         style={{
           padding: '60px',
-          position: 'relative'
+          position: 'relative',
         }}
       >
         <Wireframe {...props} />

@@ -15,7 +15,7 @@ class Dropdown extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      dropdownOpen: false
+      dropdownOpen: false,
     };
   }
 
@@ -24,7 +24,7 @@ class Dropdown extends React.Component {
    */
   toggle(e) {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropdownOpen: !this.state.dropdownOpen,
     });
   }
 
@@ -36,7 +36,12 @@ class Dropdown extends React.Component {
 
     return (
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-        <DropdownToggle caret color={color} id={this.props.id} disabled={disabled}>
+        <DropdownToggle
+          caret
+          color={color}
+          id={this.props.id}
+          disabled={disabled}
+        >
           {title}
         </DropdownToggle>
         <DropdownMenu>{children}</DropdownMenu>
@@ -50,11 +55,11 @@ Dropdown.propTypes = {
   title: PropTypes.node,
   disabled: PropTypes.bool,
   id: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 Dropdown.defaultProps = {
-  disabled: false
+  disabled: false,
 };
 
 export default Dropdown;

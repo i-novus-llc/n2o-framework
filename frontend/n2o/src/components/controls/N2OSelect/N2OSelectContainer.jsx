@@ -78,7 +78,7 @@ N2OSelectContainer.propTypes = {
   format: PropTypes.string,
   searchByTap: PropTypes.bool,
   fetchData: PropTypes.func,
-  onSearch: PropTypes.func
+  onSearch: PropTypes.func,
 };
 
 N2OSelectContainer.defaultProps = {
@@ -88,7 +88,7 @@ N2OSelectContainer.defaultProps = {
   resetOnBlur: false,
   filter: false,
   hasCheckboxes: false,
-  searchByTap: false
+  searchByTap: false,
 };
 
 export default listContainer(N2OSelectContainer);

@@ -18,12 +18,12 @@ CollapseFieldSet.propTypes = {
   label: PropTypes.string,
   expand: PropTypes.boolean,
   hasArrow: PropTypes.boolean,
-  render: PropTypes.func
+  render: PropTypes.func,
 };
 
 CollapseFieldSet.defaultProps = {
   rows: [],
-  hasArrow: true
+  hasArrow: true,
 };
 
 export default CollapseFieldSet;

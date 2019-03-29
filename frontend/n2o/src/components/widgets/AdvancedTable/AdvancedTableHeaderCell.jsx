@@ -45,7 +45,7 @@ class AdvancedTableHeaderCell extends Component {
       >
         {React.createElement(this.props.component, {
           ...this.props,
-          sorting: sorting && sorting[id]
+          sorting: sorting && sorting[id],
         })}
       </th>
     );
@@ -53,7 +53,11 @@ class AdvancedTableHeaderCell extends Component {
 
   renderStringChild() {
     const { className, children } = this.props;
-    return <th className={cn('n2o-advanced-table-header-text-center', className)}>{children}</th>;
+    return (
+      <th className={cn('n2o-advanced-table-header-text-center', className)}>
+        {children}
+      </th>
+    );
   }
 
   renderCell() {
@@ -70,7 +74,7 @@ class AdvancedTableHeaderCell extends Component {
       filters,
       label,
       title,
-      filterControl
+      filterControl,
     } = this.props;
 
     let cellContent = null;
@@ -92,7 +96,7 @@ class AdvancedTableHeaderCell extends Component {
         colSpan={colSpan}
         className={cn('n2o-advanced-table-header-cel', {
           [selectionClass]: selectionHead,
-          'n2o-advanced-table-header-text-center': multiHeader
+          'n2o-advanced-table-header-text-center': multiHeader,
         })}
       >
         <div className="n2o-advanced-table-header-cell-content">
@@ -120,7 +124,12 @@ class AdvancedTableHeaderCell extends Component {
     return (
       <React.Fragment>
         {resizable && width ? (
-          <Resizable width={width} height={0} onResize={onResize} handleSize={[10, 10]}>
+          <Resizable
+            width={width}
+            height={0}
+            onResize={onResize}
+            handleSize={[10, 10]}
+          >
             {this.renderCell()}
           </Resizable>
         ) : (
@@ -132,7 +141,11 @@ class AdvancedTableHeaderCell extends Component {
 }
 
 AdvancedTableHeaderCell.propTypes = {
-  children: PropTypes.oneOf(PropTypes.array, PropTypes.string, PropTypes.object),
+  children: PropTypes.oneOf(
+    PropTypes.array,
+    PropTypes.string,
+    PropTypes.object
+  ),
   className: PropTypes.string,
   columnId: PropTypes.string,
   dataIndex: PropTypes.string,
@@ -151,7 +164,7 @@ AdvancedTableHeaderCell.propTypes = {
   resizable: PropTypes.bool,
   selectionHead: PropTypes.bool,
   selectionClass: PropTypes.string,
-  filterControl: PropTypes.object
+  filterControl: PropTypes.object,
 };
 
 AdvancedTableHeaderCell.defaultProps = {
@@ -162,7 +175,7 @@ AdvancedTableHeaderCell.defaultProps = {
   sorting: {},
   onResize: () => {},
   onSort: () => {},
-  onFilter: () => {}
+  onFilter: () => {},
 };
 
 export default AdvancedTableHeaderCell;

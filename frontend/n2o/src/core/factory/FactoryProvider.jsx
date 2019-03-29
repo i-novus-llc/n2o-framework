@@ -10,7 +10,7 @@ class FactoryProvider extends Component {
     return {
       factories: this.factories,
       getComponent: this.getComponent,
-      resolveProps: this.resolveProps
+      resolveProps: this.resolveProps,
     };
   }
 
@@ -35,7 +35,11 @@ class FactoryProvider extends Component {
     }
   }
 
-  resolveProps(props, defaultComponent = NotFoundFactory, paramName = 'component') {
+  resolveProps(
+    props,
+    defaultComponent = NotFoundFactory,
+    paramName = 'component'
+  ) {
     let obj = {};
     if (isObject(props)) {
       Object.keys(props).forEach(key => {
@@ -61,13 +65,13 @@ class FactoryProvider extends Component {
 
 FactoryProvider.propTypes = {
   config: factoryConfigShape.isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 };
 
 FactoryProvider.childContextTypes = {
   factories: factoryConfigShape.isRequired,
   getComponent: PropTypes.func,
-  resolveProps: PropTypes.func
+  resolveProps: PropTypes.func,
 };
 
 export default FactoryProvider;

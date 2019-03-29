@@ -16,7 +16,7 @@ const Measure = ({ value, ...props }) =>
   ) : null;
 
 Measure.propTypes = {
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 export default Measure;

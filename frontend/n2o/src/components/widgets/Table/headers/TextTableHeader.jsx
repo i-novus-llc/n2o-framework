@@ -32,7 +32,7 @@ TextTableHeader.propTypes = {
   sortable: PropTypes.bool,
   sorting: PropTypes.string,
   label: PropTypes.string,
-  onSort: PropTypes.func
+  onSort: PropTypes.func,
 };
 
 export default TextTableHeader;

@@ -15,7 +15,10 @@ import cn from 'classnames';
 function TextField({ text, visible, format, className, style }) {
   return (
     visible && (
-      <div className={cn('n2o-text-field', { [className]: className })} style={style}>
+      <div
+        className={cn('n2o-text-field', { [className]: className })}
+        style={style}
+      >
         {format ? parseFormatter(text, format) : text}
       </div>
     )
@@ -27,11 +30,11 @@ TextField.propTypes = {
   visible: PropTypes.bool,
   format: PropTypes.string,
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 TextField.defaultProps = {
-  visible: true
+  visible: true,
 };
 
 export default TextField;

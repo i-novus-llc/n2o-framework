@@ -11,7 +11,7 @@ stories.add(
   withState(
     {
       visible: false,
-      size: 'sm'
+      size: 'sm',
     },
     store => {
       return (
@@ -22,7 +22,7 @@ stories.add(
               onClick={() =>
                 store.set({
                   visible: true,
-                  size: 'sm'
+                  size: 'sm',
                 })
               }
             >
@@ -33,7 +33,7 @@ stories.add(
               onClick={() =>
                 store.set({
                   visible: true,
-                  size: 'lg'
+                  size: 'lg',
                 })
               }
             >

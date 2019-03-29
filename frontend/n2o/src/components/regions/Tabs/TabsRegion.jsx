@@ -49,7 +49,10 @@ class TabRegion extends React.Component {
   render() {
     const { tabs, getWidget, pageId, resolveVisibleDependency } = this.props;
     return (
-      <Tabs ref={el => (this._tabsEl = el)} onChangeActive={this.handleChangeActive}>
+      <Tabs
+        ref={el => (this._tabsEl = el)}
+        onChangeActive={this.handleChangeActive}
+      >
         {tabs.map(tab => {
           const tabProps = {
             key: tab.widgetId,
@@ -57,11 +60,17 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: tab.dependency ? resolveVisibleDependency(tab.dependency) : true
+            visible: tab.dependency
+              ? resolveVisibleDependency(tab.dependency)
+              : true,
           };
           const tabEl = (
             <Tab {...tabProps}>
-              <Factory id={tab.widgetId} level={WIDGETS} {...getWidget(pageId, tab.widgetId)} />
+              <Factory
+                id={tab.widgetId}
+                level={WIDGETS}
+                {...getWidget(pageId, tab.widgetId)}
+              />
             </Tab>
           );
 
@@ -69,7 +78,7 @@ class TabRegion extends React.Component {
 
           const onPermissionsSet = permissions => {
             this.setState({
-              [tab.widgetId]: permissions
+              [tab.widgetId]: permissions,
             });
           };
 
@@ -82,7 +91,9 @@ class TabRegion extends React.Component {
               config={security}
               onPermissionsSet={onPermissionsSet}
               render={({ permissions, active, visible }) => {
-                return permissions ? React.cloneElement(tabEl, { active, visible }) : null;
+                return permissions
+                  ? React.cloneElement(tabEl, { active, visible })
+                  : null;
               }}
             />
           );
@@ -98,12 +109,12 @@ TabRegion.propTypes = {
   pageId: PropTypes.string.isRequired,
   alwaysRefresh: PropTypes.bool,
   mode: PropTypes.oneOf(['single', 'all']),
-  resolveVisibleDependency: PropTypes.func
+  resolveVisibleDependency: PropTypes.func,
 };
 
 TabRegion.defaultProps = {
   alwaysRefresh: false,
-  mode: 'single'
+  mode: 'single',
 };
 
 export default compose(

@@ -27,11 +27,11 @@ class RadioGroupContainer extends React.Component {
 
 RadioGroupContainer.propTypes = {
   radioGroup: PropTypes.object,
-  radios: PropTypes.array
+  radios: PropTypes.array,
 };
 
 RadioGroupContainer.defaultProps = {
-  radios: []
+  radios: [],
 };
 
 export default RadioGroupContainer;

@@ -13,7 +13,7 @@ import {
   isInitSelector,
   isLoading,
   errorSelector,
-  getContainerButtons
+  getContainerButtons,
 } from './toolbar';
 
 const state = {
@@ -32,7 +32,7 @@ const state = {
         style: {},
         className: 'test 1',
         loading: false,
-        error: false
+        error: false,
       },
       delete: {
         isInit: false,
@@ -47,10 +47,10 @@ const state = {
         style: {},
         className: 'test 2',
         loading: true,
-        error: true
-      }
-    }
-  }
+        error: true,
+      },
+    },
+  },
 };
 
 describe('Проверка селекторов toolbar', () => {
@@ -63,10 +63,14 @@ describe('Проверка селекторов toolbar', () => {
     );
   });
   it('sizeSelector должен вернуть size кнопки', () => {
-    expect(sizeSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.size);
+    expect(sizeSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.size
+    );
   });
   it('colorSelector должен вернуть color кнопки', () => {
-    expect(colorSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.color);
+    expect(colorSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.color
+    );
   });
   it('isDisabledSelector должен вернуть disabled кнопки', () => {
     expect(isDisabledSelector('widgetId', 'create')(state)).toEqual(
@@ -74,16 +78,24 @@ describe('Проверка селекторов toolbar', () => {
     );
   });
   it('titleSelector должен вернуть title кнопки', () => {
-    expect(titleSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.title);
+    expect(titleSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.title
+    );
   });
   it('countSelector должен вернуть count кнопки', () => {
-    expect(countSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.count);
+    expect(countSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.count
+    );
   });
   it('hintSelector должен вернуть hint кнопки', () => {
-    expect(hintSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.hint);
+    expect(hintSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.hint
+    );
   });
   it('iconSelector должен вернуть icon кнопки', () => {
-    expect(iconSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.icon);
+    expect(iconSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.icon
+    );
   });
   it('classSelector должен вернуть class кнопки', () => {
     expect(classSelector('widgetId', 'create')(state)).toEqual(
@@ -91,7 +103,9 @@ describe('Проверка селекторов toolbar', () => {
     );
   });
   it('styleSelector должен вернуть style кнопки', () => {
-    expect(styleSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.style);
+    expect(styleSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.style
+    );
   });
   it('isInitSelector должен вернуть isInit кнопки', () => {
     expect(isInitSelector('widgetId', 'create')(state)).toEqual(
@@ -99,12 +113,18 @@ describe('Проверка селекторов toolbar', () => {
     );
   });
   it('isLoading должен вернуть loading кнопки', () => {
-    expect(isLoading('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.loading);
+    expect(isLoading('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.loading
+    );
   });
   it('errorSelector должен вернуть error кнопки', () => {
-    expect(errorSelector('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId.create.error);
+    expect(errorSelector('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId.create.error
+    );
   });
   it('getContainerButtons должен вернуть кнопки', () => {
-    expect(getContainerButtons('widgetId', 'create')(state)).toEqual(state.toolbar.widgetId);
+    expect(getContainerButtons('widgetId', 'create')(state)).toEqual(
+      state.toolbar.widgetId
+    );
   });
 });

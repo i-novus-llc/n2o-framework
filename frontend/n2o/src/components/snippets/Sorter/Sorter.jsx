@@ -4,7 +4,7 @@ import cx from 'classnames';
 const SORT_TYPE = {
   ASC: 'ASC',
   DESC: 'DESC',
-  NONE: 'NONE'
+  NONE: 'NONE',
 };
 
 /**
@@ -58,12 +58,14 @@ class Sorter extends React.Component {
     const { title, children, sorting } = this.props;
     const iconClass = cx({
       'fa fa-sort-amount-asc': sorting === SORT_TYPE.ASC,
-      'fa fa-sort-amount-desc': sorting === SORT_TYPE.DESC
+      'fa fa-sort-amount-desc': sorting === SORT_TYPE.DESC,
     });
     return (
       <a href="#" title={title} onClick={this.handleClick}>
         {children}{' '}
-        {iconClass && <i className={cx('n2o-sorting-icon', iconClass)} aria-hidden="true" />}
+        {iconClass && (
+          <i className={cx('n2o-sorting-icon', iconClass)} aria-hidden="true" />
+        )}
       </a>
     );
   }
@@ -74,11 +76,11 @@ Sorter.propTypes = {
   title: PropTypes.string,
   sorting: PropTypes.oneOf(Object.keys(SORT_TYPE)),
   columnKey: PropTypes.string,
-  onSort: PropTypes.func
+  onSort: PropTypes.func,
 };
 
 Sorter.defaultProps = {
-  sorting: 'NONE'
+  sorting: 'NONE',
 };
 
 export default Sorter;

@@ -1,5 +1,5 @@
 export default {
   ROUNDED: 'rounded',
   CIRCLE: 'circle',
-  THUMBNAIL: 'thumbnail'
+  THUMBNAIL: 'thumbnail',
 };
