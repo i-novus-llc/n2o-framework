@@ -19,7 +19,6 @@ import dependency from '../../../core/dependency';
  * @reactProps {array} form.fieldsets
  * @reactProps {object} form.validation
  * @reactProps {object} form.prompt - флаг включения обработки выхода с несохраненной формы
- * @reactProps {object} form.promptMessage - сообщение prompt
  */
 class FormWidget extends React.Component {
   /**
@@ -35,8 +34,7 @@ class FormWidget extends React.Component {
       fetchOnInit: this.props.form.fetchOnInit,
       modelPrefix: this.props.form.modelPrefix,
       dataProvider: this.props.dataProvider,
-      prompt: this.props.form.prompt,
-      promptMessage: this.props.form.promptMessage
+      prompt: this.props.form.prompt
     };
   }
 
@@ -80,8 +78,7 @@ FormWidget.propTypes = {
     fetchOnInit: PropTypes.bool,
     fieldsets: PropTypes.array,
     validation: PropTypes.object,
-    prompt: PropTypes.bool,
-    promptMessage: PropTypes.bool
+    prompt: PropTypes.bool
   })
 };
 

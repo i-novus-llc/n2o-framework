@@ -1,4 +1,5 @@
 import React from 'react';
+import { withContext } from 'recompose';
 import { storiesOf } from '@storybook/react';
 import { pageWithPrompt } from '../../../.storybook/fetchMock/pageWithPrompt';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';

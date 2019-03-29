@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { withContext } from 'recompose';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
@@ -24,6 +26,7 @@ import FormWidgetData from './FormWidget.meta.json';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Page from '../../core/Router';
+import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
 
 const stories = storiesOf('Виджеты/Форма', module);
 
@@ -144,6 +147,14 @@ stories
     })
   )
   .add('Форма с Prompt', () => {
+    const FormWithContext = withContext(
+      {
+        defaultPromptMessage: PropTypes.string
+      },
+      props => ({
+        defaultPromptMessage: 'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?'
+      })
+    )(() => renderForm(FormWithPrompt));
     return (
       <Router>
         <div>
@@ -161,7 +172,7 @@ stories
             </div>
             <div className="col-6">
               <Switch>
-                <Route exact path={'/'} component={() => renderForm(FormWithPrompt)} />
+                <Route exact path={'/'} component={FormWithContext} />
                 <Route path={'/another'} component={() => <div>test</div>} />
               </Switch>
             </div>
