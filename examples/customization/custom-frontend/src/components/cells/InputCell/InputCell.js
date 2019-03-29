@@ -17,7 +17,7 @@ class InputCell extends React.Component {
         const { id, model } = this.props;
         return (
             <div>
-                <input style={model[id].style} type={model[id].type} value={model[id].value} disabled={model[id].disabled} autoFocus={model[id].autoFocus} />
+                <input type={"text"} value={"Тестовое значение"} disabled={false} autoFocus={true} />
             </div>
         );
     }
