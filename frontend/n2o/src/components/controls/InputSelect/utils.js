@@ -14,25 +14,61 @@ export const groupData = (data, groupFieldId) =>
 export const isDisabled = (item, selected, disabled) =>
   inArray(disabled, item) || inArray(selected, item);
 
-const getNextNotDisabledId = (data, selected, disabled, initialId, distance, valueFieldId) => {
+const getNextNotDisabledId = (
+  data,
+  selected,
+  disabled,
+  initialId,
+  distance,
+  valueFieldId
+) => {
   let index = findIndex(data, item => item[valueFieldId] === initialId);
-  while (data[index + distance] && isDisabled(data[index + distance], selected, disabled)) {
+  while (
+    data[index + distance] &&
+    isDisabled(data[index + distance], selected, disabled)
+  ) {
     index += distance;
   }
   if (!data[index + distance]) return initialId;
   return data[index + distance][valueFieldId];
 };
 
-const getIdByDistance = (data, currentId, distance, valueFieldId, selected, disabled) => {
+const getIdByDistance = (
+  data,
+  currentId,
+  distance,
+  valueFieldId,
+  selected,
+  disabled
+) => {
   if (isEmpty(data)) return;
   const id = currentId ? currentId : data[0][valueFieldId];
-  return getNextNotDisabledId(data, selected, disabled, id, distance, valueFieldId);
+  return getNextNotDisabledId(
+    data,
+    selected,
+    disabled,
+    id,
+    distance,
+    valueFieldId
+  );
 };
 
-export const getFirstNotDisabledId = (data, selected, disabled, valueFieldId) => {
+export const getFirstNotDisabledId = (
+  data,
+  selected,
+  disabled,
+  valueFieldId
+) => {
   if (isEmpty(data)) return;
   if (!isDisabled(data[0], selected, disabled)) return data[0][valueFieldId];
-  return getNextNotDisabledId(data, selected, disabled, data[0][valueFieldId], 1, valueFieldId);
+  return getNextNotDisabledId(
+    data,
+    selected,
+    disabled,
+    data[0][valueFieldId],
+    1,
+    valueFieldId
+  );
 };
 
 export const getNextId = (data, currentId, valueFieldId, selected, disabled) =>

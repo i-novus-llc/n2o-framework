@@ -10,7 +10,7 @@ class WidgetFactory extends React.Component {
 }
 
 WidgetFactory.propTypes = {
-  src: PropTypes.string.isRequired
+  src: PropTypes.string.isRequired,
 };
 
 export default WidgetFactory;

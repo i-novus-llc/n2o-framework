@@ -43,16 +43,20 @@ export const withWidgetContainer = widgetContainer(
         actions: props.actions,
         redux: true,
         onActionImpl: props.onActionImpl,
-        rowClick: props.rowClick
+        rowClick: props.rowClick,
       };
-    }
+    },
   },
   TABLE
 );
 
 export const withContainerLiveCycle = lifecycle({
   componentWillReceiveProps(nextProps) {
-    const { selectedId: prevSelectedId, datasource: prevDatasource, onResolve } = this.props;
+    const {
+      selectedId: prevSelectedId,
+      datasource: prevDatasource,
+      onResolve,
+    } = this.props;
     const { hasSelect, datasource, selectedId } = nextProps;
 
     if (
@@ -67,13 +71,13 @@ export const withContainerLiveCycle = lifecycle({
       const resolveModel = selectedModel || datasource[0];
       onResolve(resolveModel);
     }
-  }
+  },
 });
 
 export const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => () => {
     onActionImpl(rowClick);
-  }
+  },
 });
 
 /**

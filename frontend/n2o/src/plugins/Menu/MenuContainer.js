@@ -1,6 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getContext, compose, mapProps, lifecycle, withHandlers, withState } from 'recompose';
+import {
+  getContext,
+  compose,
+  mapProps,
+  lifecycle,
+  withHandlers,
+  withState,
+} from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { isArray, isEqual, uniqBy, isEmpty } from 'lodash';
 import withSecurity from '../../core/auth/withSecurity';
@@ -11,24 +18,24 @@ function MenuContainer({ render, renderProps }) {
 }
 
 MenuContainer.propTypes = {
-  render: PropTypes.func
+  render: PropTypes.func,
 };
 
 MenuContainer.defaultProps = {
-  render: () => {}
+  render: () => {},
 };
 
 export default compose(
   getContext({
-    getMenu: PropTypes.func
+    getMenu: PropTypes.func,
   }),
   withRouter,
   withSecurity,
   mapProps(({ getMenu, ...rest }) => ({
     ...rest,
     ...(getMenu && {
-      ...getMenu()
-    })
+      ...getMenu(),
+    }),
   })),
 
   withState('menuProps', 'setMenuProps', { items: [], extraItems: [] }),
@@ -41,11 +48,11 @@ export default compose(
         try {
           await authProvider(SECURITY_CHECK, {
             config,
-            user
+            user,
           });
           props.setMenuProps(prevState => ({
             ...prevState,
-            [type]: uniqBy(prevState[type].concat(item), 'id')
+            [type]: uniqBy(prevState[type].concat(item), 'id'),
           }));
         } catch (error) {
           //...
@@ -53,10 +60,10 @@ export default compose(
       } else {
         props.setMenuProps(prevState => ({
           ...prevState,
-          [type]: uniqBy(prevState[type].concat(item), 'id')
+          [type]: uniqBy(prevState[type].concat(item), 'id'),
         }));
       }
-    }
+    },
   }),
 
   withHandlers({
@@ -71,14 +78,14 @@ export default compose(
       const { items, extraItems } = metadata;
       await makeSecure(items, 'items');
       await makeSecure(extraItems, 'extraItems');
-    }
+    },
   }),
 
   withHandlers({
     getItemsWithAccess: props => async () => {
       await props.setMenuProps({ items: [], extraItems: [] });
       await props.makeSecure(props);
-    }
+    },
   }),
 
   lifecycle({
@@ -94,10 +101,10 @@ export default compose(
 
     async componentDidMount() {
       await this.props.getItemsWithAccess();
-    }
+    },
   }),
   mapProps(({ render, menuProps, ...props }) => ({
     render,
-    renderProps: { ...props, ...menuProps }
+    renderProps: { ...props, ...menuProps },
   }))
 )(MenuContainer);

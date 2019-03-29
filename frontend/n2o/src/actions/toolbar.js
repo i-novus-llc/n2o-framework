@@ -12,7 +12,7 @@ import {
   CALL_ACTION_IMPL,
   TOGGLE_BUTTON_VISIBILITY,
   TOGGLE_BUTTON_DISABLED,
-  CHANGE_BUTTON_ICON
+  CHANGE_BUTTON_ICON,
 } from '../constants/toolbar';
 import createActionHelper from './createActionHelper';
 
@@ -198,7 +198,7 @@ export function registerButton(
     style,
     containerKey,
     conditions,
-    hintPosition
+    hintPosition,
   }
 ) {
   return createActionHelper(REGISTER_BUTTON)({
@@ -218,6 +218,6 @@ export function registerButton(
     containerKey,
     conditions,
     resolveEnabled,
-    hintPosition
+    hintPosition,
   });
 }

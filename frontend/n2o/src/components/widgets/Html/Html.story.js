@@ -11,7 +11,9 @@ const stories = storiesOf('Виджеты/HtmlWidget', module);
 stories.add('Метаданные', () => {
   const delay = () => new Promise((res, rej) => setTimeout(res, 1000));
 
-  fetchMock.restore().mock('begin:/html-data', delay().then(() => '<h1>Ответ с сервера</h1>'));
+  fetchMock
+    .restore()
+    .mock('begin:/html-data', delay().then(() => '<h1>Ответ с сервера</h1>'));
 
   return <Html {...HtmlJson} />;
 });

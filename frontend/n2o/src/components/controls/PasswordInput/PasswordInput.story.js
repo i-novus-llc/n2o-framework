@@ -18,7 +18,7 @@ stories
     const props = {
       placeholder: text('placeholder', 'Введите значение'),
       disabled: boolean('disabled', false),
-      length: number('length', 25)
+      length: number('length', 25),
     };
 
     return <PasswordInput {...props} />;
@@ -31,7 +31,7 @@ stories
         placeholder: text('placeholder', PasswordInputJson.placeholder),
         disabled: boolean('disabled', PasswordInputJson.disabled),
         length: number('length', PasswordInputJson.length),
-        value: text('value', PasswordInputJson.value)
+        value: text('value', PasswordInputJson.value),
       };
 
       return props;

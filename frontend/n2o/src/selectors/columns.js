@@ -42,4 +42,9 @@ const isDisabledSelector = (key, id) =>
     }
   );
 
-export { getContainerColumns, isVisibleSelector, isInitSelector, isDisabledSelector };
+export {
+  getContainerColumns,
+  isVisibleSelector,
+  isInitSelector,
+  isDisabledSelector,
+};

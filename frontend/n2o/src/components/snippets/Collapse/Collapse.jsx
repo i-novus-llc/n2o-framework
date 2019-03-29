@@ -7,7 +7,10 @@ import Icon from '../Icon/Icon';
 
 const expandIcon = ({ isActive }) => (
   <div className="n2o-collapse-icon-wrapper">
-    <Icon className={cx('n2o-collapse-icon', { isActive })} name="fa fa-angle-right" />
+    <Icon
+      className={cx('n2o-collapse-icon', { isActive })}
+      name="fa fa-angle-right"
+    />
   </div>
 );
 
@@ -22,7 +25,11 @@ const expandIcon = ({ isActive }) => (
  */
 
 const Collapse = ({ className, ...rest }) => (
-  <BaseCollapse className={cx('n2o-collapse', className)} expandIcon={expandIcon} {...rest} />
+  <BaseCollapse
+    className={cx('n2o-collapse', className)}
+    expandIcon={expandIcon}
+    {...rest}
+  />
 );
 
 Collapse.propTypes = {
@@ -32,12 +39,12 @@ Collapse.propTypes = {
   accordion: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 Collapse.defaultProps = {
   destroyInactivePanel: false,
-  accordion: false
+  accordion: false,
 };
 
 export { Panel };

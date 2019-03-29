@@ -33,7 +33,10 @@ class PanelTitle extends React.Component {
     const { icon, children, collapsible } = this.props;
 
     return (
-      <a onClick={this._handleToggle} className={cx({ collapsible: collapsible })}>
+      <a
+        onClick={this._handleToggle}
+        className={cx({ collapsible: collapsible })}
+      >
         {icon && <Icon name={icon} style={{ padding: '0 5px 0 0' }} />}
         {children}
       </a>
@@ -45,11 +48,11 @@ PanelTitle.propTypes = {
   icon: PropTypes.string,
   collapsible: PropTypes.bool,
   onToggle: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 PanelTitle.defaultProps = {
-  collapsible: false
+  collapsible: false,
 };
 
 export default PanelTitle;

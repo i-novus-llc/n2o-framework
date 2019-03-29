@@ -23,7 +23,7 @@ TableBody.propTypes = {
   /* Default props */
   className: PropTypes.string,
   style: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 TableBody = pure(TableBody);

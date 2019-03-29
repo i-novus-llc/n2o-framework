@@ -21,7 +21,7 @@ export const defaultProps = {
   hasCheckboxes: false,
   prefixCls: 'n2o-rc-tree',
   icon: '',
-  childrenFieldId: 'children'
+  childrenFieldId: 'children',
 };
 
 export const propTypes = {
@@ -46,5 +46,5 @@ export const propTypes = {
   prefixCls: PropTypes.string,
   icon: PropTypes.string,
   selectable: PropTypes.bool,
-  childrenFieldId: PropTypes.string
+  childrenFieldId: PropTypes.string,
 };

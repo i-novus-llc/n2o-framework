@@ -15,7 +15,7 @@ stories.add(
     const props = {
       style: object('style', {}),
       className: text('className', 'n2o'),
-      filters: array('filters', [])
+      filters: array('filters', []),
     };
 
     return (

@@ -16,7 +16,7 @@ const Description = ({ value, ...props }) => (
 );
 
 Description.propTypes = {
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 export default Description;

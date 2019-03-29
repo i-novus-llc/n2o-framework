@@ -7,5 +7,5 @@ export default {
   StandardFieldset: BlankFieldset,
   TitleFieldset: TitleFieldset,
   CollapseFieldset: CollapseFieldSet,
-  LineFieldset: LineFieldset
+  LineFieldset: LineFieldset,
 };

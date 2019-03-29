@@ -16,7 +16,16 @@ import TextareaAutosize from 'react-textarea-autosize';
  * @returns {*}
  * @constructor
  */
-function TextArea({ className, style, disabled, placeholder, rows, maxRows, value, onChange }) {
+function TextArea({
+  className,
+  style,
+  disabled,
+  placeholder,
+  rows,
+  maxRows,
+  value,
+  onChange,
+}) {
   const inputClass = `form-control ${className}`;
   return (
     <TextareaAutosize
@@ -40,7 +49,7 @@ TextArea.propTypes = {
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   rows: PropTypes.number,
-  maxRows: PropTypes.number
+  maxRows: PropTypes.number,
 };
 
 TextArea.defaultProps = {
@@ -48,7 +57,7 @@ TextArea.defaultProps = {
   className: '',
   disabled: false,
   rows: 3,
-  maxRows: 3
+  maxRows: 3,
 };
 
 export default TextArea;

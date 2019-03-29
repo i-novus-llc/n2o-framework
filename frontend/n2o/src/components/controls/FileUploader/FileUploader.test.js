@@ -22,7 +22,7 @@ const props = {
   statusFieldId: 'customStatus',
   sizeFieldId: 'customSize',
   responseFieldId: 'customResponse',
-  urlFieldId: 'customLink'
+  urlFieldId: 'customLink',
 };
 
 const setupButton = (propsOverride, context = {}) => {
@@ -38,7 +38,7 @@ describe('FileUploader Тесты', () => {
     it('Меняет состояние при update props value', () => {
       const button = setupButton();
       expect(button.state()).toEqual({
-        files: []
+        files: [],
       });
       button.setProps({
         value: {
@@ -46,8 +46,8 @@ describe('FileUploader Тесты', () => {
           customName: 'filename.test',
           customStatus: 'success',
           customSize: '1024',
-          customLink: '/test'
-        }
+          customLink: '/test',
+        },
       });
       expect(button.state()).toEqual({
         files: [
@@ -57,9 +57,9 @@ describe('FileUploader Тесты', () => {
             status: 'success',
             size: '1024',
             response: undefined,
-            link: '/test'
-          }
-        ]
+            link: '/test',
+          },
+        ],
       });
     });
 
@@ -77,9 +77,9 @@ describe('FileUploader Тесты', () => {
           {
             ID: 123,
             label: 'test',
-            size: 329184
-          }
-        ]
+            size: 329184,
+          },
+        ],
       });
 
       expect(button.state()).toEqual({
@@ -87,9 +87,9 @@ describe('FileUploader Тесты', () => {
           {
             id: 123,
             name: 'test',
-            size: 329184
-          }
-        ]
+            size: 329184,
+          },
+        ],
       });
     });
 
@@ -102,11 +102,13 @@ describe('FileUploader Тесты', () => {
           {
             ID: 123,
             label: 'test',
-            size: 329184
-          }
-        ]
+            size: 329184,
+          },
+        ],
       });
-      expect(button.find('.n2o-file-uploader-files-item').exists()).toEqual(true);
+      expect(button.find('.n2o-file-uploader-files-item').exists()).toEqual(
+        true
+      );
     });
 
     describe('Проверка режимов', () => {
@@ -116,14 +118,18 @@ describe('FileUploader Тесты', () => {
             {
               customId: 123,
               customName: 'test.png',
-              customSize: 12341234
-            }
+              customSize: 12341234,
+            },
           ],
-          disabled: true
+          disabled: true,
         });
         expect(button.find('.n2o-file-uploader-files-item').length).toEqual(1);
-        expect(button.find('.n2o-file-uploader-remove').exists()).toEqual(false);
-        expect(button.find('.n2o-file-uploader-control').exists()).toEqual(false);
+        expect(button.find('.n2o-file-uploader-remove').exists()).toEqual(
+          false
+        );
+        expect(button.find('.n2o-file-uploader-control').exists()).toEqual(
+          false
+        );
       });
 
       it('Single', () => {
@@ -132,10 +138,10 @@ describe('FileUploader Тесты', () => {
             {
               customId: 123,
               customName: 'test.png',
-              customSize: 12341234
-            }
+              customSize: 12341234,
+            },
           ],
-          multi: false
+          multi: false,
         });
         expect(button.find('.n2o-file-uploader-remove').exists()).toEqual(true);
       });
@@ -146,17 +152,19 @@ describe('FileUploader Тесты', () => {
             {
               customId: 1,
               customName: 'first.jpg',
-              customSize: '231321'
+              customSize: '231321',
             },
             {
               customId: 2,
               customName: 'second.jpg',
-              customSize: '897978'
-            }
+              customSize: '897978',
+            },
           ],
-          multi: true
+          multi: true,
         });
-        expect(button.find('.n2o-file-uploader-control').exists()).toEqual(true);
+        expect(button.find('.n2o-file-uploader-control').exists()).toEqual(
+          true
+        );
         expect(button.find('.n2o-file-uploader-files-item').length).toEqual(2);
       });
     });
@@ -177,18 +185,18 @@ describe('FileUploader Тесты', () => {
           {
             ID: 123,
             label: 'test',
-            size: 329184
-          }
-        ]
+            size: 329184,
+          },
+        ],
       });
       expect(dropZone.state()).toEqual({
         files: [
           {
             id: 123,
             name: 'test',
-            size: 329184
-          }
-        ]
+            size: 329184,
+          },
+        ],
       });
     });
 
@@ -201,11 +209,13 @@ describe('FileUploader Тесты', () => {
           {
             ID: 123,
             label: 'test',
-            size: 329184
-          }
-        ]
+            size: 329184,
+          },
+        ],
       });
-      expect(dropZone.find('.n2o-file-uploader-files-item').exists()).toEqual(true);
+      expect(dropZone.find('.n2o-file-uploader-files-item').exists()).toEqual(
+        true
+      );
     });
 
     describe('Проверка режимов', () => {
@@ -215,14 +225,20 @@ describe('FileUploader Тесты', () => {
             {
               customId: 123,
               customName: 'test.png',
-              customSize: 12341234
-            }
+              customSize: 12341234,
+            },
           ],
-          disabled: true
+          disabled: true,
         });
-        expect(dropZone.find('.n2o-file-uploader-files-item').length).toEqual(1);
-        expect(dropZone.find('.n2o-file-uploader-remove').exists()).toEqual(false);
-        expect(dropZone.find('.n2o-file-uploader-control').exists()).toEqual(false);
+        expect(dropZone.find('.n2o-file-uploader-files-item').length).toEqual(
+          1
+        );
+        expect(dropZone.find('.n2o-file-uploader-remove').exists()).toEqual(
+          false
+        );
+        expect(dropZone.find('.n2o-file-uploader-control').exists()).toEqual(
+          false
+        );
       });
 
       it('Single', () => {
@@ -231,12 +247,14 @@ describe('FileUploader Тесты', () => {
             {
               customId: 123,
               customName: 'test.png',
-              customSize: 12341234
-            }
+              customSize: 12341234,
+            },
           ],
-          multi: false
+          multi: false,
         });
-        expect(dropZone.find('.n2o-file-uploader-remove').exists()).toEqual(true);
+        expect(dropZone.find('.n2o-file-uploader-remove').exists()).toEqual(
+          true
+        );
       });
 
       it('Multi', () => {
@@ -245,23 +263,27 @@ describe('FileUploader Тесты', () => {
             {
               customId: 1,
               customName: 'first.jpg',
-              customSize: '231321'
+              customSize: '231321',
             },
             {
               customId: 2,
               customName: 'second.jpg',
-              customSize: '897978'
-            }
+              customSize: '897978',
+            },
           ],
-          multi: true
+          multi: true,
         });
-        expect(dropZone.find('.n2o-file-uploader-control').exists()).toEqual(true);
-        expect(dropZone.find('.n2o-file-uploader-files-item').length).toEqual(2);
+        expect(dropZone.find('.n2o-file-uploader-control').exists()).toEqual(
+          true
+        );
+        expect(dropZone.find('.n2o-file-uploader-files-item').length).toEqual(
+          2
+        );
       });
 
       it('AutoUpload', () => {
         const dropZone = setupDropZone({
-          autoUpload: false
+          autoUpload: false,
         });
         expect(dropZone.find('.n2o-drop-zone-save-btn').exists()).toEqual(true);
       });
@@ -274,7 +296,7 @@ describe('FileUploader Тесты', () => {
       customName: 'файл с сервера.png',
       customStatus: 'success',
       customResponse: 'response',
-      customLink: 'google.com'
+      customLink: 'google.com',
     });
 
     const button = setupButton({
@@ -282,16 +304,16 @@ describe('FileUploader Тесты', () => {
         {
           customId: undefined,
           customName: 'first.jpg',
-          customSize: '231321'
-        }
-      ]
+          customSize: '231321',
+        },
+      ],
     });
     button.instance().startUpload([
       {
         customId: undefined,
         customName: 'first.jpg',
-        customSize: '231321'
-      }
+        customSize: '231321',
+      },
     ]);
     button.update();
     expect(button.state().files[0]).toEqual({
@@ -300,7 +322,7 @@ describe('FileUploader Тесты', () => {
       status: undefined,
       size: '231321',
       response: undefined,
-      link: undefined
+      link: undefined,
     });
   });
 
@@ -310,9 +332,9 @@ describe('FileUploader Тесты', () => {
         {
           customId: 2,
           customName: 'test.png',
-          customSize: 1
-        }
-      ]
+          customSize: 1,
+        },
+      ],
     });
     button.instance().onUpload(2, {
       status: 201,
@@ -321,8 +343,8 @@ describe('FileUploader Тесты', () => {
         customName: 'newFile.png',
         customSize: 100,
         customLink: 'link',
-        customStatus: 'success'
-      }
+        customStatus: 'success',
+      },
     });
     button.update();
     setImmediate(() => {
@@ -334,8 +356,8 @@ describe('FileUploader Тесты', () => {
           link: 'link',
           loading: false,
           status: 'success',
-          response: undefined
-        }
+          response: undefined,
+        },
       ]);
     }, 0);
   });
@@ -346,9 +368,9 @@ describe('FileUploader Тесты', () => {
         {
           customId: 1,
           name: 'test.name',
-          size: 1
-        }
-      ]
+          size: 1,
+        },
+      ],
     });
     button.instance().handleRemove(0);
     expect(button.state().files).toEqual([]);
@@ -356,7 +378,7 @@ describe('FileUploader Тесты', () => {
 
   it('Проверка onChange', () => {
     const button = setupButton({
-      onChange: value => value
+      onChange: value => value,
     });
     expect(button.props().onChange('test')).toEqual('test');
   });
@@ -364,18 +386,20 @@ describe('FileUploader Тесты', () => {
   it('Проверка url placeholder', () => {
     const button = setupButton(
       {
-        uploadUrl: "`'name:' + name`"
+        uploadUrl: "`'name:' + name`",
       },
       {
         context: {
           _reduxForm: {
             resolveModel: {
-              name: 'test'
-            }
-          }
-        }
+              name: 'test',
+            },
+          },
+        },
       }
     );
-    expect(button.instance().resolveUrl("`'name: ' + name`")).toEqual('name: test');
+    expect(button.instance().resolveUrl("`'name: ' + name`")).toEqual(
+      'name: test'
+    );
   });
 });

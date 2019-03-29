@@ -21,7 +21,11 @@ function Filter({ value, setValue, onFilter, filterPlaceholder }) {
 
   return (
     <div className="tree-filter">
-      <InputText value={value} onChange={onChange} placeholder={filterPlaceholder} />
+      <InputText
+        value={value}
+        onChange={onChange}
+        placeholder={filterPlaceholder}
+      />
       {value ? (
         <div className="filter-icon tree-filter-clear" onClick={onClear}>
           <Icon name="fa fa-times" />
@@ -36,11 +40,11 @@ function Filter({ value, setValue, onFilter, filterPlaceholder }) {
 }
 
 Filter.propTypes = {
-  onFilter: PropTypes.func
+  onFilter: PropTypes.func,
 };
 
 Filter.defaultProps = {
-  onFilter: () => {}
+  onFilter: () => {},
 };
 
 export default withState('value', 'setValue', '')(Filter);

@@ -24,7 +24,11 @@ function createButtonUploaderChildren(icon, label, children) {
 class ButtonUploader extends React.Component {
   render() {
     const { children, icon, label } = this.props;
-    const childrenComponent = createButtonUploaderChildren(icon, label, children);
+    const childrenComponent = createButtonUploaderChildren(
+      icon,
+      label,
+      children
+    );
     return (
       <FileUploader
         {...this.props}
@@ -53,7 +57,7 @@ ButtonUploader.propTypes = {
   onChange: PropTypes.func,
   statusBarColor: PropTypes.string,
   showSize: PropTypes.bool,
-  children: PropTypes.oneOf(PropTypes.node, PropTypes.func)
+  children: PropTypes.oneOf(PropTypes.node, PropTypes.func),
 };
 
 export default withFileUploader(ButtonUploader);

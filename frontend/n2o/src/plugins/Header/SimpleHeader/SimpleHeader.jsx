@@ -9,7 +9,7 @@ import {
   Input,
   NavbarBrand,
   NavbarToggler,
-  Collapse
+  Collapse,
 } from 'reactstrap';
 import { isEmpty } from 'lodash';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -83,7 +83,7 @@ class SimpleHeader extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -91,7 +91,7 @@ class SimpleHeader extends React.Component {
 
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
 
@@ -106,13 +106,18 @@ class SimpleHeader extends React.Component {
       brand,
       style,
       className,
-      search
+      search,
     } = this.props;
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
     const mapItems = (items, options) =>
       items.map((item, i) => (
-        <NavItemContainer key={i} item={item} activeId={activeId} options={options} />
+        <NavItemContainer
+          key={i}
+          item={item}
+          activeId={activeId}
+          options={options}
+        />
       ));
 
     const navItems = mapItems(items);
@@ -125,7 +130,12 @@ class SimpleHeader extends React.Component {
           fixed ? 'fixed' : 'relative'
         } ${className} n2o-header n2o-header-${color} `}
       >
-        <Navbar color={navColor} light={!isInversed} dark={isInversed} expand="md">
+        <Navbar
+          color={navColor}
+          light={!isInversed}
+          dark={isInversed}
+          expand="md"
+        >
           <NavbarBrand href="/">
             <NavbarBrandContent brand={brand} brandImage={brandImage} />
           </NavbarBrand>
@@ -165,7 +175,7 @@ SimpleHeader.propTypes = {
       href: PropTypes.string,
       linkType: PropTypes.oneOf(['inner', 'outer']),
       type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-      subItems: PropTypes.array
+      subItems: PropTypes.array,
     })
   ),
   extraItems: PropTypes.arrayOf(
@@ -175,7 +185,7 @@ SimpleHeader.propTypes = {
       href: PropTypes.string,
       linkType: PropTypes.oneOf(['inner', 'outer']),
       type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
-      subItems: PropTypes.array
+      subItems: PropTypes.array,
     })
   ),
   search: PropTypes.bool,
@@ -183,7 +193,7 @@ SimpleHeader.propTypes = {
   fixed: PropTypes.bool,
   collapsed: PropTypes.bool,
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 SimpleHeader.defaultProps = {
@@ -194,7 +204,7 @@ SimpleHeader.defaultProps = {
   items: [],
   extraItems: [],
   search: false,
-  style: {}
+  style: {},
 };
 
 export default SimpleHeader;

@@ -16,14 +16,19 @@ const Control = ({ component, className, ...props }) => {
   return typeof component !== 'string' ? (
     React.createElement(component, { ...props, className })
   ) : (
-    <Factory level={CONTROLS} src={component} {...props} className={`form-control ${className}`} />
+    <Factory
+      level={CONTROLS}
+      src={component}
+      {...props}
+      className={`form-control ${className}`}
+    />
   );
 };
 
 Control.propTypes = {
   component: PropTypes.node,
   style: PropTypes.object,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default Control;

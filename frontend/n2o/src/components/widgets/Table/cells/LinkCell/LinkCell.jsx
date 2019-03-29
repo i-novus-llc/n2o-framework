@@ -43,7 +43,7 @@ function LinkCell({
 }) {
   const props = {
     style,
-    className: cn('n2o-link-cell', 'p-0', { [className]: className })
+    className: cn('n2o-link-cell', 'p-0', { [className]: className }),
   };
 
   const handleClick = e => {
@@ -53,9 +53,10 @@ function LinkCell({
   const getLinkContent = () => {
     return (
       <React.Fragment>
-        {icon && (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) && (
-          <i style={{ marginRight: 5 }} className={icon} />
-        )}
+        {icon &&
+          (type === LinkCellType.ICON || type === LinkCellType.ICONANDTEXT) && (
+            <i style={{ marginRight: 5 }} className={icon} />
+          )}
         {(type === LinkCellType.ICONANDTEXT || type === LinkCellType.TEXT) &&
           get(model, fieldKey || id)}
       </React.Fragment>
@@ -72,7 +73,11 @@ function LinkCell({
           </Link>
         )}
         {(target === LinkType.SELF || target === LinkType.BLANK) && (
-          <a href={url} target={target === LinkType.BLANK ? '_blank' : ''} {...props}>
+          <a
+            href={url}
+            target={target === LinkType.BLANK ? '_blank' : ''}
+            {...props}
+          >
             {getLinkContent()}
           </a>
         )}
@@ -93,12 +98,12 @@ LinkCell.propTypes = {
   model: PropTypes.object.dependencies,
   visible: PropTypes.bool,
   url: PropTypes.string,
-  target: PropTypes.string
+  target: PropTypes.string,
 };
 
 LinkCell.defaultProps = {
   type: LinkCellType.TEXT,
-  visible: true
+  visible: true,
 };
 
 export default withCell(LinkCell);

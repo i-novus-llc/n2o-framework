@@ -95,14 +95,14 @@ HintButton.propTypes = {
     'bottom-end',
     'left',
     'left-start',
-    'left-end'
+    'left-end',
   ]),
   delay: PropTypes.oneOfType([
     PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
-    PropTypes.number
+    PropTypes.number,
   ]),
   hideArrow: PropTypes.bool,
-  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 HintButton.defaultProps = {
@@ -113,7 +113,7 @@ HintButton.defaultProps = {
   placement: 'top',
   delay: 100,
   hideArrow: false,
-  offset: 0
+  offset: 0,
 };
 
 export default initUid(HintButton);

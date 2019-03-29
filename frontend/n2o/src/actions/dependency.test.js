@@ -7,9 +7,9 @@ describe('Тесты для экшенов dependency', () => {
       fetch: [
         {
           on: ['models.resolve.test'],
-          condition: 'name !== "Мария"'
-        }
-      ]
+          condition: 'name !== "Мария"',
+        },
+      ],
     });
     expect(action.type).toEqual(REGISTER_DEPENDENCY);
   });
@@ -19,20 +19,20 @@ describe('Тесты для экшенов dependency', () => {
       fetch: [
         {
           on: ['models.resolve.test'],
-          condition: 'name !== "Мария"'
-        }
-      ]
+          condition: 'name !== "Мария"',
+        },
+      ],
     });
     expect(action.payload).toEqual({
       dependency: {
         fetch: [
           {
             on: ['models.resolve.test'],
-            condition: 'name !== "Мария"'
-          }
-        ]
+            condition: 'name !== "Мария"',
+          },
+        ],
       },
-      widgetId: 'testWidget'
+      widgetId: 'testWidget',
     });
   });
 });

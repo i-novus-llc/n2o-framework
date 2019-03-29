@@ -7,7 +7,7 @@ import {
   Collapse,
   Input,
   InputGroup,
-  InputGroupAddon
+  InputGroupAddon,
 } from 'reactstrap';
 
 import NavbarBrandContent from '../Header/SimpleHeader/NavbarBrandContent';
@@ -18,7 +18,7 @@ class SideBar extends React.Component {
     super(props);
     this.state = {
       visible: props.visible,
-      isOpen: false
+      isOpen: false,
     };
     this.onClick = this.onClick.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -32,7 +32,7 @@ class SideBar extends React.Component {
 
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
 
@@ -54,7 +54,7 @@ class SideBar extends React.Component {
               )}
               <span> {item.label}</span>
             </span>
-          )
+          ),
         }
       : {
           ...item,
@@ -68,7 +68,7 @@ class SideBar extends React.Component {
                 </span>
               )}
             </span>
-          )
+          ),
         };
   }
 
@@ -83,9 +83,9 @@ class SideBar extends React.Component {
               id: item.id,
               type: 'link',
               href: item.href,
-              label: item.label
-            }
-          ]
+              label: item.label,
+            },
+          ],
         };
   }
 
@@ -100,7 +100,7 @@ class SideBar extends React.Component {
       style,
       search,
       activeId,
-      collapse
+      collapse,
     } = this.props;
 
     const { visible } = this.state;
@@ -124,10 +124,18 @@ class SideBar extends React.Component {
         } ${this.state.visible ? 'open' : 'closed'}`}
         ref={sidebar => (this.sidebar = sidebar)}
       >
-        <Navbar color={navColor} dark={isInversed} light={!isInversed} expand="md">
+        <Navbar
+          color={navColor}
+          dark={isInversed}
+          light={!isInversed}
+          expand="md"
+        >
           <NavbarToggler onClick={this.toggle} />
           <NavbarBrand>
-            <NavbarBrandContent brand={visible && brand} brandImage={brandImage} />
+            <NavbarBrandContent
+              brand={visible && brand}
+              brandImage={brandImage}
+            />
           </NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar>
@@ -155,7 +163,10 @@ class SideBar extends React.Component {
           </Collapse>
         </Navbar>
         {collapse && fixed && (
-          <button className="fixed-toggler n2o-sidebar-toggler" onClick={this.onClick}>
+          <button
+            className="fixed-toggler n2o-sidebar-toggler"
+            onClick={this.onClick}
+          >
             {this.state.visible ? (
               <i class="fa fa-angle-left" aria-hidden="true" />
             ) : (
@@ -176,7 +187,7 @@ SideBar.defaultProps = {
   items: [],
   search: false,
   style: {},
-  collapse: true
+  collapse: true,
 };
 
 export default SideBar;

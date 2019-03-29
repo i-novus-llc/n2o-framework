@@ -26,7 +26,14 @@ import cx from 'classnames';
  * @reactProps {node} children - элемент потомок компонента PopupList
  */
 
-function PopupList({ children, inputSelect, isExpanded, onScrollEnd, expandPopUp, ...rest }) {
+function PopupList({
+  children,
+  inputSelect,
+  isExpanded,
+  onScrollEnd,
+  expandPopUp,
+  ...rest
+}) {
   /**
    * Проверяет достигла ли прокрутка конца
    * @param element - элемент
@@ -76,7 +83,7 @@ PopupList.propTypes = {
   format: PropTypes.string,
   inputSelect: PropTypes.any,
   expandPopUp: PropTypes.any,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default PopupList;

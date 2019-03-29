@@ -5,7 +5,7 @@ const setup = propsOverride => {
   const props = {
     visible: true,
     editable: true,
-    value: 'test'
+    value: 'test',
   };
 
   return mount(<EditableCell {...props} {...propsOverride} />);
@@ -23,8 +23,8 @@ describe('Тесты EditableCell', function() {
   it('отрисовывается контрол', () => {
     const wrapper = setup({
       control: {
-        component: () => <div>test</div>
-      }
+        component: () => <div>test</div>,
+      },
     });
     expect(wrapper.find('.n2o-editable-cell-control').exists()).toEqual(false);
     wrapper.setState({ editing: true });

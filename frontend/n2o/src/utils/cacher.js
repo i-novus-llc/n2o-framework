@@ -14,7 +14,7 @@ const cachingStore = () => {
       } else {
         return false;
       }
-    }
+    },
   };
 };
 

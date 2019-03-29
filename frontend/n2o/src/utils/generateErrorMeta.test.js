@@ -5,17 +5,17 @@ describe('проверка generateErrorMeta', () => {
   it('генерирует объект meta error из ошибки', () => {
     expect(
       generateErrorMeta({
-        value: 'any message'
+        value: 'any message',
       })
     ).toEqual({
       alert: {
         messages: [
           {
             ...defaultState,
-            ...{ value: 'any message' }
-          }
-        ]
-      }
+            ...{ value: 'any message' },
+          },
+        ],
+      },
     });
   });
 
@@ -24,10 +24,10 @@ describe('проверка generateErrorMeta', () => {
       alert: {
         messages: [
           {
-            ...defaultState
-          }
-        ]
-      }
+            ...defaultState,
+          },
+        ],
+      },
     });
   });
 });

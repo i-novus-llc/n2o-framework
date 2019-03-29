@@ -7,7 +7,7 @@ import {
   USER_LOGIN_ERROR,
   USER_LOGOUT,
   USER_LOGOUT_SUCCESS,
-  USER_LOGOUT_ERROR
+  USER_LOGOUT_ERROR,
 } from '../constants/auth';
 
 const defaultPayload = {
@@ -15,7 +15,7 @@ const defaultPayload = {
   name: null,
   roles: [],
   isLoggedIn: false,
-  inProgress: false
+  inProgress: false,
 };
 
 export default (state = defaultPayload, { type, payload, meta }) => {

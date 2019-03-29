@@ -5,7 +5,12 @@ import { UncontrolledTooltip } from 'reactstrap';
  * Если есть подсказка, возвращаем с тултипом
  */
 
-export default function placementwithTooltip(component, hint, hintPosition, id) {
+export default function placementwithTooltip(
+  component,
+  hint,
+  hintPosition,
+  id
+) {
   if (hint) {
     return (
       <React.Fragment>

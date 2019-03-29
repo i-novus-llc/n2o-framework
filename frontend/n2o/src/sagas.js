@@ -24,7 +24,7 @@ export default function generateSagas(dispatch, config) {
       ...metaSagas,
       ...globalSagas,
       ...toolbarSagas,
-      ...widgetDependencySagas
+      ...widgetDependencySagas,
     ]);
   };
 }
