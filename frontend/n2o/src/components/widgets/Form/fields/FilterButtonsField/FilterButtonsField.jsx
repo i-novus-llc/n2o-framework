@@ -28,15 +28,15 @@ class FilterButtonsField extends React.Component {
 FilterButtonsField.propTypes = {
   searchLabel: PropTypes.string,
   resetLabel: PropTypes.string,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 FilterButtonsField.defaultProps = {
-  visible: true
+  visible: true,
 };
 
 FilterButtonsField.contextTypes = {
-  _widgetFilter: PropTypes.object
+  _widgetFilter: PropTypes.object,
 };
 
 export default FilterButtonsField;

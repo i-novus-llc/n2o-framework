@@ -37,7 +37,12 @@ export function createContextFn(vars, code) {
  */
 export default function evalExpression(expression, context) {
   try {
-    const vars = Object.assign({}, windowObjectHack, functions, isObject(context) ? context : {});
+    const vars = Object.assign(
+      {},
+      windowObjectHack,
+      functions,
+      isObject(context) ? context : {}
+    );
     const fn = createContextFn(Object.keys(vars), expression);
     return fn.apply(context || {}, Object.values(vars));
   } catch (e) {

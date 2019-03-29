@@ -18,7 +18,7 @@ function CheckboxCell({
   const onChange = e => {
     const data = set(
       {
-        ...model
+        ...model,
       },
       fieldKey || id,
       e.nativeEvent.target.checked
@@ -46,12 +46,12 @@ CheckboxCell.propTypes = {
   fieldKey: PropTypes.string,
   className: PropTypes.string,
   callInvoke: PropTypes.func,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 CheckboxCell.defaultProps = {
   visible: true,
-  disabled: false
+  disabled: false,
 };
 
 export default withCell(CheckboxCell);

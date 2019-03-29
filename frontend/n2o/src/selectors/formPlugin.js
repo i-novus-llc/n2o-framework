@@ -31,7 +31,10 @@ export const makeFieldByName = (formName, fieldName) =>
   createSelector(
     makeFormByName(formName),
     form => {
-      return (form && form.registeredFields && form.registeredFields[fieldName]) || {};
+      return (
+        (form && form.registeredFields && form.registeredFields[fieldName]) ||
+        {}
+      );
     }
   );
 

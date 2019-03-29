@@ -12,7 +12,7 @@ function NotFoundFactory({ src, level }) {
 
 NotFoundFactory.propTypes = {
   src: PropTypes.string.isRequired,
-  level: PropTypes.string
+  level: PropTypes.string,
 };
 
 export default NotFoundFactory;

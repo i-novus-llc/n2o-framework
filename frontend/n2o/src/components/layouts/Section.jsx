@@ -19,7 +19,7 @@ class Section extends React.Component {
 Section.displayName = 'Section';
 
 Section.propTypes = {
-  place: PropTypes.string.isRequired
+  place: PropTypes.string.isRequired,
 };
 
 export default Section;

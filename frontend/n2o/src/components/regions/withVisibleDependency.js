@@ -27,12 +27,17 @@ export default Region => {
     }
 
     render() {
-      return <Region {...this.props} resolveVisibleDependency={this.resolveVisibleDependency} />;
+      return (
+        <Region
+          {...this.props}
+          resolveVisibleDependency={this.resolveVisibleDependency}
+        />
+      );
     }
   }
 
   const mapStateToProps = state => ({
-    state
+    state,
   });
 
   return connect(mapStateToProps)(TabsWithVisibleDependency);

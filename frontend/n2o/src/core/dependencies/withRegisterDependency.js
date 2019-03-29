@@ -31,7 +31,7 @@ export default Component => {
   const mapDispatchToProps = dispatch => {
     return {
       registerFieldDependency: (form, id, dependency) =>
-        dispatch(registerFieldDependency(form, id, dependency))
+        dispatch(registerFieldDependency(form, id, dependency)),
     };
   };
 

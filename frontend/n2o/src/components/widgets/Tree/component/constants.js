@@ -5,5 +5,5 @@ export const KEY_CODES = {
   ENTER: 'enter',
   CTRL_ENTER: 'ctrl+enter',
   LEFT: 'left',
-  RIGHT: 'right'
+  RIGHT: 'right',
 };

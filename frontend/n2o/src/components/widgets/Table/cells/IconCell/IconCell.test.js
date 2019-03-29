@@ -8,11 +8,11 @@ const props = {
   id: 'name',
   model: {
     name: 'text',
-    age: '12'
+    age: '12',
   },
   type: iconCellTypes.ICONANDTEXT,
   textPlace: textPlaceTypes.RIGHT,
-  icon: 'fa fa-minus'
+  icon: 'fa fa-minus',
 };
 
 describe('<IconCell />', () => {

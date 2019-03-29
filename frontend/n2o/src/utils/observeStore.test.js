@@ -9,13 +9,13 @@ const store = createStore(reducers, {
   models: {
     resolve: {
       test: {
-        value: 'test value'
+        value: 'test value',
       },
       widgetName: {
-        value: 'value'
-      }
-    }
-  }
+        value: 'value',
+      },
+    },
+  },
 });
 
 describe('Проверка observeStore', () => {
@@ -25,7 +25,9 @@ describe('Проверка observeStore', () => {
       return state.models.resolve.widgetName;
     };
     const observer = observeStore(store, select, onChange);
-    store.dispatch(setModel('resolve', 'widgetName', { anotherValue: 'value' }));
+    store.dispatch(
+      setModel('resolve', 'widgetName', { anotherValue: 'value' })
+    );
     expect(onChange.called).toEqual(true);
     observer();
   });

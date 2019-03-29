@@ -9,29 +9,29 @@ describe('Проверка factoryResolver', () => {
       factoryResolver({
         src: 'InputText',
         autoFocus: true,
-        value: 'test'
+        value: 'test',
       })
     ).toEqual({
       component: InputText,
       autoFocus: true,
-      value: 'test'
+      value: 'test',
     });
     expect(
       factoryResolver({
         test: {
-          src: 'InputText'
+          src: 'InputText',
         },
         test2: {
-          src: 'InputText'
-        }
+          src: 'InputText',
+        },
       })
     ).toEqual({
       test: {
-        component: InputText
+        component: InputText,
       },
       test2: {
-        component: InputText
-      }
+        component: InputText,
+      },
     });
   });
 

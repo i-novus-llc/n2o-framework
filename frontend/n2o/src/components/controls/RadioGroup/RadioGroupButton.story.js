@@ -18,11 +18,16 @@ stories.add('Группа в виде кнопок', () => {
     disabled: boolean('disabled', false),
     visible: boolean('visible', true),
     className: text('className', ''),
-    inline: boolean('inline', true)
+    inline: boolean('inline', true),
   };
 
   return (
-    <RadioGroup name="numbers" isBtnGroup={true} onChange={action('checkbox-on-change')} {...props}>
+    <RadioGroup
+      name="numbers"
+      isBtnGroup={true}
+      onChange={action('checkbox-on-change')}
+      {...props}
+    >
       <RadioButton value="1" label="Первый" />
       <RadioButton value="2" label="Второй" />
       <RadioButton value="3" label="Третий" />

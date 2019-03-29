@@ -17,7 +17,7 @@ import _, {
   every,
   flattenDeep,
   isArray,
-  get
+  get,
 } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
@@ -55,7 +55,9 @@ class AdvancedTable extends Component {
         : props.hasFocus
         ? 0
         : 1,
-      selectIndex: props.hasSelect ? getIndex(props.data, props.selectedId) : -1,
+      selectIndex: props.hasSelect
+        ? getIndex(props.data, props.selectedId)
+        : -1,
       data: props.data || [],
       expandedRowKeys: [],
       expandRowByClick: false,
@@ -63,7 +65,7 @@ class AdvancedTable extends Component {
       selectAll: false,
       columns: props.columns,
       checkedAll: false,
-      checked: props.data ? this.mapChecked(props.data) : {}
+      checked: props.data ? this.mapChecked(props.data) : {},
     };
 
     this.rows = {};
@@ -85,18 +87,35 @@ class AdvancedTable extends Component {
 
   componentDidMount() {
     const { rowClick } = this.props;
-    const { isAnyTableFocused, isActive, focusIndex, selectIndex, data } = this.state;
+    const {
+      isAnyTableFocused,
+      isActive,
+      focusIndex,
+      selectIndex,
+      data,
+    } = this.state;
     !isAnyTableFocused &&
       isActive &&
       !rowClick &&
-      this.setSelectAndFocus(get(data[selectIndex], 'id'), get(data[focusIndex], 'id'));
+      this.setSelectAndFocus(
+        get(data[selectIndex], 'id'),
+        get(data[focusIndex], 'id')
+      );
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { hasSelect, data, isAnyTableFocused, isActive, selectedId } = this.props;
+    const {
+      hasSelect,
+      data,
+      isAnyTableFocused,
+      isActive,
+      selectedId,
+    } = this.props;
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
-      isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
+      isAnyTableFocused && !isActive
+        ? this.setNewSelectIndex(id)
+        : this.setSelectAndFocus(id, id);
     }
     if (!isEqual(prevProps, this.props)) {
       let state = {};
@@ -104,14 +123,14 @@ class AdvancedTable extends Component {
         const checked = this.mapChecked(this.props.data);
         state = {
           data: isArray(data) ? data : [this.props.data],
-          checked
+          checked,
         };
         this._dataStorage = this.getModelsFromData(this.props.data);
       }
       if (!isEqual(prevProps.columns, this.props.columns)) {
         state = {
           ...state,
-          columns: this.props.columns
+          columns: this.props.columns,
         };
       }
       this.setState({ ...state });
@@ -170,7 +189,8 @@ class AdvancedTable extends Component {
     if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
       if (!React.Children.count(children) && hasFocus) {
         const modelIndex = _.findIndex(data, i => i.id === focusIndex);
-        let newFocusIndex = keyNm === 'ArrowUp' ? modelIndex - 1 : modelIndex + 1;
+        let newFocusIndex =
+          keyNm === 'ArrowUp' ? modelIndex - 1 : modelIndex + 1;
         if (hasSelect && autoFocus && data[newFocusIndex]) {
           this.setSelectAndFocus(
             get(data, `[${newFocusIndex}].id`),
@@ -194,7 +214,9 @@ class AdvancedTable extends Component {
 
   handleRowClick(id, index, noResolve) {
     const { hasFocus, hasSelect, rowClick, onRowClickAction } = this.props;
-    hasSelect && !noResolve && this.props.onResolve(_.find(this._dataStorage, { id }));
+    hasSelect &&
+      !noResolve &&
+      this.props.onResolve(_.find(this._dataStorage, { id }));
     if (hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(id, id);
     } else if (hasFocus) {
@@ -222,12 +244,13 @@ class AdvancedTable extends Component {
   }
 
   focusActiveRow() {
-    this.rows[this.state.focusIndex] && this.rows[this.state.focusIndex].focus();
+    this.rows[this.state.focusIndex] &&
+      this.rows[this.state.focusIndex].focus();
   }
 
   handleExpandedRowsChange(rows) {
     this.setState({
-      expandedRowKeys: rows
+      expandedRowKeys: rows,
     });
   }
 
@@ -241,19 +264,21 @@ class AdvancedTable extends Component {
     });
     this.setState(() => ({
       checkedAll: checked,
-      checked: newChecked
+      checked: newChecked,
     }));
   }
 
   handleChangeChecked(event, index) {
-    const selectAllCheckbox = ReactDom.findDOMNode(this.selectAllCheckbox).querySelector('input');
+    const selectAllCheckbox = ReactDom.findDOMNode(
+      this.selectAllCheckbox
+    ).querySelector('input');
     const { onSetSelection, data } = this.props;
     const checked = !event.target.checked;
     let checkedAll = this.state.checkedAll;
     let multi = [];
     const checkedState = {
       ...this.state.checked,
-      [index]: checked
+      [index]: checked,
     };
     const isSomeOneChecked = some(checkedState, checked => checked);
     const isAllChecked = every(checkedState, checked => checked);
@@ -270,7 +295,7 @@ class AdvancedTable extends Component {
     onSetSelection(multi);
     this.setState(() => ({
       checked: checkedState,
-      checkedAll
+      checkedAll,
     }));
   }
 
@@ -280,7 +305,7 @@ class AdvancedTable extends Component {
         const nextColumns = [...columns];
         nextColumns[index] = {
           ...nextColumns[index],
-          width: size.width
+          width: size.width,
         };
         return { columns: nextColumns };
       });
@@ -292,7 +317,7 @@ class AdvancedTable extends Component {
     let data = this.state.data;
     data[index][id] = value;
     this.setState({
-      data
+      data,
     });
     onEdit(value, index, id);
   }
@@ -306,8 +331,12 @@ class AdvancedTable extends Component {
       color: rowColor && propsResolver(rowColor, model),
       model,
       setRef: this.setRowRef,
-      onClick: isActive ? () => this.handleRowClick(model.id, model.id) : undefined,
-      onFocus: !isActive ? () => this.handleRowClick(model.id, model.id, true) : undefined
+      onClick: isActive
+        ? () => this.handleRowClick(model.id, model.id)
+        : undefined,
+      onFocus: !isActive
+        ? () => this.handleRowClick(model.id, model.id, true)
+        : undefined,
     };
   }
 
@@ -335,7 +364,7 @@ class AdvancedTable extends Component {
           checked={this.state.checked[model.id]}
           onChange={event => this.handleChangeChecked(event, model.id)}
         />
-      )
+      ),
     };
   }
 
@@ -348,13 +377,13 @@ class AdvancedTable extends Component {
         ...column,
         onFilter: this.handleFilter,
         onResize: this.handleResize(columnIndex),
-        filters
+        filters,
       }),
       onCell: record => ({
         record,
         editable: col.editable && record.editable,
-        hasSpan: col.hasSpan
-      })
+        hasSpan: col.hasSpan,
+      }),
     }));
     if (rowSelection) {
       newColumns = [this.createSelectionColumn(), ...newColumns];
@@ -376,7 +405,7 @@ class AdvancedTable extends Component {
       onFocus,
       rowSelection,
       expandedFieldId,
-      expandedComponent
+      expandedComponent,
     } = this.props;
     const columns = this.mapColumns(this.state.columns);
     return (
@@ -391,7 +420,7 @@ class AdvancedTable extends Component {
             className={cx('n2o-table table table-hover', className, {
               'has-focus': hasFocus,
               [`table-${tableSize}`]: tableSize,
-              'table-bordered': bordered
+              'table-bordered': bordered,
             })}
             columns={columns}
             data={this.state.data}
@@ -399,12 +428,12 @@ class AdvancedTable extends Component {
             components={{
               header: {
                 row: AdvancedTableHeaderRow,
-                cell: AdvancedTableHeaderCell
+                cell: AdvancedTableHeaderCell,
               },
               body: {
                 row: AdvancedTableRow,
-                cell: AdvancedTableCell
-              }
+                cell: AdvancedTableCell,
+              },
             }}
             rowKey={record => record.key}
             expandIcon={({ record, expanded, onExpand }) => (
@@ -425,7 +454,7 @@ class AdvancedTable extends Component {
                       record,
                       index,
                       indent,
-                      expandedFieldId
+                      expandedFieldId,
                     })
                 : (record, index, indent) => (
                     <AdvancedTableExpandedRenderer
@@ -464,7 +493,7 @@ AdvancedTable.propTypes = {
   expandable: PropTypes.bool,
   expandedFieldId: PropTypes.string,
   expandedComponent: PropTypes.any,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
 };
 
 AdvancedTable.defaultProps = {
@@ -476,7 +505,7 @@ AdvancedTable.defaultProps = {
   expandable: false,
   onFocus: () => {},
   onSetSelection: () => {},
-  autoFocus: false
+  autoFocus: false,
 };
 
 export default AdvancedTable;

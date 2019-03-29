@@ -10,7 +10,10 @@ import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
 
-const stories = storiesOf('Функциональность/Зависимость кнопок от модели', module);
+const stories = storiesOf(
+  'Функциональность/Зависимость кнопок от модели',
+  module
+);
 
 stories.addDecorator(withTests('Table'));
 

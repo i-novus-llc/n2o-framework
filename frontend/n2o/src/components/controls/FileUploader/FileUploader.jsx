@@ -25,20 +25,22 @@ class FileUploader extends React.Component {
       componentClass,
       onStartUpload,
       uploaderClass,
-      saveBtnStyle
+      saveBtnStyle,
     } = this.props;
     const showControl = multiple || (!multiple && isEmpty(files));
 
     return (
       <React.Fragment>
         {visible && (
-          <div className={`n2o-file-uploader-container ${componentClass}-container`}>
+          <div
+            className={`n2o-file-uploader-container ${componentClass}-container`}
+          >
             {!disabled && (
               <Dropzone
                 className={cn('n2o-file-uploader-control', componentClass, {
                   'd-none': !showControl,
                   [className]: className,
-                  [uploaderClass]: uploaderClass
+                  [uploaderClass]: uploaderClass,
                 })}
                 multiple={multiple}
                 disabled={disabled}

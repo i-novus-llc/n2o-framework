@@ -30,15 +30,15 @@ class BadgeCell extends React.Component {
       format,
       badgeFormat,
       color,
-      visible
+      visible,
     } = this.props;
     const style = {
-      display: 'flex'
+      display: 'flex',
     };
     const badgeStyle = {
       order: placement === 'right' ? 1 : -1,
       marginLeft: placement === 'right' && 5,
-      marginRight: placement === 'left' && 5
+      marginRight: placement === 'left' && 5,
     };
     const badgeText = get(model, fieldKey || id);
     return (
@@ -64,15 +64,22 @@ BadgeCell.propTypes = {
   text: PropTypes.string,
   format: PropTypes.string,
   badgeFormat: PropTypes.string,
-  color: PropTypes.oneOf(['secondary', 'primary', 'danger', 'success', 'warning', 'info']),
-  visible: PropTypes.bool
+  color: PropTypes.oneOf([
+    'secondary',
+    'primary',
+    'danger',
+    'success',
+    'warning',
+    'info',
+  ]),
+  visible: PropTypes.bool,
 };
 
 BadgeCell.defaultProps = {
   model: {},
   color: 'secondary',
   placement: 'right',
-  visible: true
+  visible: true,
 };
 
 export default BadgeCell;

@@ -7,7 +7,7 @@ import Pagination from '../../snippets/Pagination/Pagination';
 import {
   makeWidgetCountSelector,
   makeWidgetSizeSelector,
-  makeWidgetPageSelector
+  makeWidgetPageSelector,
 } from '../../../selectors/widgets';
 import { makeGetModelByPrefixSelector } from '../../../selectors/models';
 import { dataRequestWidget, changePageWidget } from '../../../actions/widgets';
@@ -49,7 +49,7 @@ class TablePagination extends Component {
       maxButtons,
       withoutBody,
       prevText,
-      nextText
+      nextText,
     } = this.props;
 
     return (
@@ -82,20 +82,25 @@ TablePagination.propTypes = {
   activePage: PropTypes.number,
   onChangePage: PropTypes.func,
   datasource: PropTypes.array,
-  maxButtons: PropTypes.number
+  maxButtons: PropTypes.number,
 };
 
 TablePagination.defaultProps = {
   datasource: [],
-  maxButtons: 4
+  maxButtons: 4,
 };
 
 const mapStateToProps = createStructuredSelector({
-  count: (state, props) => makeWidgetCountSelector(props.widgetId)(state, props),
+  count: (state, props) =>
+    makeWidgetCountSelector(props.widgetId)(state, props),
   size: (state, props) => makeWidgetSizeSelector(props.widgetId)(state, props),
-  activePage: (state, props) => makeWidgetPageSelector(props.widgetId)(state, props),
+  activePage: (state, props) =>
+    makeWidgetPageSelector(props.widgetId)(state, props),
   datasource: (state, props) =>
-    makeGetModelByPrefixSelector(PREFIXES.datasource, props.widgetId)(state, props)
+    makeGetModelByPrefixSelector(PREFIXES.datasource, props.widgetId)(
+      state,
+      props
+    ),
 });
 
 function mapDispatchToProps(dispatch, ownProps) {
@@ -103,10 +108,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     onChangePage: page => {
       dispatch(
         dataRequestWidget(ownProps.widgetId, {
-          page
+          page,
         })
       );
-    }
+    },
   };
 }
 

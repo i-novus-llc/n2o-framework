@@ -54,7 +54,7 @@ class TreeItems extends React.Component {
       parentFieldId,
       handleFocus,
       value,
-      groupFieldId
+      groupFieldId,
     } = this.props;
 
     const defaultItems = options => options.map(renderTreeNode);
@@ -73,13 +73,17 @@ class TreeItems extends React.Component {
       if (groupFieldId) {
         const groupedData = groupData(options, groupFieldId);
 
-        return Object.keys(groupedData).map(key => groupedItems(key, groupedData[key]));
+        return Object.keys(groupedData).map(key =>
+          groupedItems(key, groupedData[key])
+        );
       }
       return defaultItems(options);
     };
 
     const renderTreeNode = item => {
-      const childs = options.filter(node => node[parentFieldId] === item[valueFieldId]);
+      const childs = options.filter(
+        node => node[parentFieldId] === item[valueFieldId]
+      );
       const itemState = treeStates[item[valueFieldId]];
 
       return (
@@ -101,7 +105,9 @@ class TreeItems extends React.Component {
           onExpandClick={onExpandClick}
           ref={itemState.ref}
           handleFocus={handleFocus}
-          disabled={disabledValues.find(node => node[valueFieldId] === item[valueFieldId])}
+          disabled={disabledValues.find(
+            node => node[valueFieldId] === item[valueFieldId]
+          )}
           active={active && active.id === item[valueFieldId]}
           badgeFieldId={badgeFieldId}
           badgeColorFieldId={badgeColorFieldId}
@@ -143,7 +149,7 @@ TreeItems.propTypes = {
   handleFocus: PropTypes.func,
   value: PropTypes.any,
   active: PropTypes.object,
-  groupFieldId: PropTypes.string
+  groupFieldId: PropTypes.string,
 };
 
 export default TreeItems;

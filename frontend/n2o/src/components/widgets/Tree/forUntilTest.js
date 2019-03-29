@@ -14,7 +14,7 @@ export const toCollectionObject = {
         datasource={[{ id: 1 }, { id: 2 }, { id: 3 }]}
         valueFieldId="id"
       />
-    )
+    ),
   },
   '2': {
     children: [],
@@ -27,7 +27,7 @@ export const toCollectionObject = {
         datasource={[{ id: 1 }, { id: 2 }, { id: 3 }]}
         valueFieldId="id"
       />
-    )
+    ),
   },
   '3': {
     children: [],
@@ -40,8 +40,8 @@ export const toCollectionObject = {
         datasource={[{ id: 1 }, { id: 2 }, { id: 3 }]}
         valueFieldId="id"
       />
-    )
-  }
+    ),
+  },
 };
 
 export const linerTree = [
@@ -57,7 +57,7 @@ export const linerTree = [
         parentFieldId="parent"
         valueFieldId="id"
       />
-    )
+    ),
   },
   {
     children: [],
@@ -71,7 +71,7 @@ export const linerTree = [
         parentFieldId="parent"
         valueFieldId="id"
       />
-    )
+    ),
   },
   {
     children: [],
@@ -85,8 +85,8 @@ export const linerTree = [
         parentFieldId="parent"
         valueFieldId="id"
       />
-    )
-  }
+    ),
+  },
 ];
 
 export const tree = [
@@ -105,7 +105,7 @@ export const tree = [
             parentFieldId="parent"
             valueFieldId="id"
           />
-        )
+        ),
       },
       {
         children: [],
@@ -120,8 +120,8 @@ export const tree = [
             parentFieldId="parent"
             valueFieldId="id"
           />
-        )
-      }
+        ),
+      },
     ],
     icon: false,
     id: 1,
@@ -133,6 +133,6 @@ export const tree = [
         parentFieldId="parent"
         valueFieldId="id"
       />
-    )
-  }
+    ),
+  },
 ];

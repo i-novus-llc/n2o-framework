@@ -58,7 +58,7 @@ class ListItem extends React.Component {
     const displayTitle = item => {
       if (format) {
         const resolverProps = {
-          format
+          format,
         };
 
         return propsResolver(resolverProps, item).format;
@@ -68,7 +68,11 @@ class ListItem extends React.Component {
     };
 
     return (
-      <DropdownItem id={uniqueId('input-select-dropdown_')} disabled={selected} {...rest}>
+      <DropdownItem
+        id={uniqueId('input-select-dropdown_')}
+        disabled={selected}
+        {...rest}
+      >
         {hasCheckboxes && (
           <CheckboxN2o
             inline={true}
@@ -102,13 +106,13 @@ ListItem.propTypes = {
   selected: PropTypes.bool,
   format: PropTypes.string,
   indeterminate: PropTypes.bool,
-  isExpanded: PropTypes.bool
+  isExpanded: PropTypes.bool,
 };
 
 ListItem.defaultProps = {
   hasCheckboxes: false,
   selected: false,
-  indeterminate: false
+  indeterminate: false,
 };
 
 export default ListItem;

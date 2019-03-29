@@ -1,4 +1,11 @@
-import { setIn, generateFlatQuery, getWidgetId, isPromise, difference, omitDeep } from './helpers';
+import {
+  setIn,
+  generateFlatQuery,
+  getWidgetId,
+  isPromise,
+  difference,
+  omitDeep,
+} from './helpers';
 
 describe('Проверка helpers', () => {
   it('setIn сделает set', () => {
@@ -6,16 +13,16 @@ describe('Проверка helpers', () => {
       setIn(
         {
           widgetId: {
-            value: 'test'
-          }
+            value: 'test',
+          },
         },
         'widgetId.value',
         'supaTest'
       )
     ).toEqual({
       widgetId: {
-        value: 'supaTest'
-      }
+        value: 'supaTest',
+      },
     });
   });
 
@@ -42,20 +49,20 @@ describe('Проверка helpers', () => {
         {
           test: {
             value: 1,
-            value1: 'test'
-          }
+            value1: 'test',
+          },
         },
         {
           test: {
             value: 5,
-            value1: 'test'
-          }
+            value1: 'test',
+          },
         }
       )
     ).toEqual({
       test: {
-        value: 1
-      }
+        value: 1,
+      },
     });
     expect(difference({}, {})).toEqual({});
   });
@@ -66,16 +73,16 @@ describe('Проверка helpers', () => {
         {
           test: {
             test1: {
-              test2: 'value'
-            }
-          }
+              test2: 'value',
+            },
+          },
         },
         ['test2']
       )
     ).toEqual({
       test: {
-        test1: {}
-      }
+        test1: {},
+      },
     });
   });
 });

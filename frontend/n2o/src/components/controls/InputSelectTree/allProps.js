@@ -30,8 +30,8 @@ export const defaultProps = {
   dropdownPopupAlign: {
     points: ['tl', 'bl'],
     overflow: {
-      adjustY: true
-    }
+      adjustY: true,
+    },
   },
   onSearch: () => {},
   onSelect: () => {},
@@ -40,7 +40,7 @@ export const defaultProps = {
   onToggle: () => {},
   onOpen: () => {},
   onFocus: () => {},
-  onBlur: () => {}
+  onBlur: () => {},
 };
 
 export const propTypes = {
@@ -76,5 +76,5 @@ export const propTypes = {
   ajax: PropTypes.bool,
   handleItemOpen: PropTypes.func,
   dropdownPopupAlign: PropTypes.object,
-  showCheckedStrategy: PropTypes.string
+  showCheckedStrategy: PropTypes.string,
 };

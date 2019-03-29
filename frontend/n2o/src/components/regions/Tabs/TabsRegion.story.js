@@ -63,7 +63,9 @@ stories
         return getStubData(url);
       });
 
-    store.dispatch(metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') }));
+    store.dispatch(
+      metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') })
+    );
 
     return <TabsRegion {...omit(InitWidgentsTabs, 'widgets')} pageId="Page" />;
   })
@@ -80,7 +82,9 @@ stories
         return getStubData(url);
       });
 
-    store.dispatch(metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') }));
+    store.dispatch(
+      metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') })
+    );
 
     class TabsStory extends React.Component {
       constructor(props) {
@@ -98,7 +102,7 @@ stories
             id: 'tab1',
             opened: true,
             title: 'Таблица_1',
-            widgetId: 'Page_Table_1'
+            widgetId: 'Page_Table_1',
           },
           {
             id: 'tab2',
@@ -109,15 +113,15 @@ stories
               visible: [
                 {
                   on: "models.resolve['Page_First']",
-                  condition: 'true'
+                  condition: 'true',
                 },
                 {
                   on: "models.resolve['Page_First']",
-                  condition: show ? 'true' : 'false'
-                }
-              ]
-            }
-          }
+                  condition: show ? 'true' : 'false',
+                },
+              ],
+            },
+          },
         ];
         return (
           <div>
@@ -127,7 +131,11 @@ stories
               inline={true}
               label={'Показать/Скрыть по зависимости'}
             />
-            <TabsRegion {...omit(TabsWithDependency, 'widgets')} tabs={tabs} pageId="Page" />
+            <TabsRegion
+              {...omit(TabsWithDependency, 'widgets')}
+              tabs={tabs}
+              pageId="Page"
+            />
           </div>
         );
       }

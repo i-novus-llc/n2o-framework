@@ -7,16 +7,21 @@ import PropTypes from 'prop-types';
 
 const ReduxFormWrapper = reduxForm({
   destroyOnUnmount: true,
-  enableReinitialize: true
+  enableReinitialize: true,
 })(Form);
 
 function ReduxForm(props, context) {
   const state = context.store.getState();
-  return <ReduxFormWrapper {...createValidator(props.validation, props.form, state)} {...props} />;
+  return (
+    <ReduxFormWrapper
+      {...createValidator(props.validation, props.form, state)}
+      {...props}
+    />
+  );
 }
 
 ReduxForm.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };
 
 ReduxForm.Field = ReduxField;

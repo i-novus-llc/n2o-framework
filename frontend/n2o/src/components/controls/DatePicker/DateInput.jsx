@@ -24,7 +24,7 @@ class DateInput extends React.Component {
     super(props);
     const { value, dateFormat } = props;
     this.state = {
-      value: value && value.format(dateFormat)
+      value: value && value.format(dateFormat),
     };
     this.onChange = this.onChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
@@ -87,10 +87,12 @@ class DateInput extends React.Component {
       <div
         className={cx('n2o-date-input', {
           'n2o-date-input-first': name === DateTimeControl.beginInputName,
-          'n2o-date-input-last': name === DateTimeControl.endInputName
+          'n2o-date-input-last': name === DateTimeControl.endInputName,
         })}
       >
-        {name === DateTimeControl.endInputName && <span style={dashStyle}>-</span>}
+        {name === DateTimeControl.endInputName && (
+          <span style={dashStyle}>-</span>
+        )}
         <MaskedInput
           value={this.state.value}
           type="text"
@@ -108,7 +110,8 @@ class DateInput extends React.Component {
             return <input ref={ref} {...props} />;
           }}
         />
-        {(name === DateTimeControl.defaultInputName || name === DateTimeControl.endInputName) && (
+        {(name === DateTimeControl.defaultInputName ||
+          name === DateTimeControl.endInputName) && (
           <button
             disabled={disabled}
             onClick={this.onButtonClick}
@@ -137,7 +140,7 @@ DateInput.defaultProps = {
   autoFocus: false,
   onFocus: () => {},
   onBlur: () => {},
-  openOnFocus: false
+  openOnFocus: false,
 };
 
 DateInput.propTypes = {
@@ -153,6 +156,6 @@ DateInput.propTypes = {
   name: PropTypes.string,
   onClick: PropTypes.func,
   autoFocus: PropTypes.bool,
-  openOnFocus: PropTypes.bool
+  openOnFocus: PropTypes.bool,
 };
 export default DateInput;

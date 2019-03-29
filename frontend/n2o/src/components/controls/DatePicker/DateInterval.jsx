@@ -27,7 +27,7 @@ function DateInterval({ value, defaultTime, defaultValue, onChange, ...rest }) {
   const handleChange = data => {
     onChange({
       [DateTimeControl.beginInputName]: data[0],
-      [DateTimeControl.endInputName]: data[1]
+      [DateTimeControl.endInputName]: data[1],
     });
   };
 
@@ -35,17 +35,22 @@ function DateInterval({ value, defaultTime, defaultValue, onChange, ...rest }) {
     {
       name: DateTimeControl.beginInputName,
       value: newValue[DateTimeControl.beginInputName],
-      defaultTime
+      defaultTime,
     },
     {
       name: DateTimeControl.endInputName,
       value: newValue[DateTimeControl.endInputName],
-      defaultTime
-    }
+      defaultTime,
+    },
   ];
 
   return (
-    <DateTimeControl {...rest} value={mappedValue} onChange={handleChange} type="date-interval" />
+    <DateTimeControl
+      {...rest}
+      value={mappedValue}
+      onChange={handleChange}
+      type="date-interval"
+    />
   );
 }
 
@@ -53,7 +58,7 @@ DateInterval.defaultProps = {
   defaultTime: undefined,
   defaultValue: {
     [DateTimeControl.beginInputName]: null,
-    [DateTimeControl.endInputName]: null
+    [DateTimeControl.endInputName]: null,
   },
   onChange: () => {},
   onFocus: () => {},
@@ -64,7 +69,7 @@ DateInterval.defaultProps = {
   dateDivider: ' ',
   className: '',
   locale: 'ru',
-  openOnFocus: false
+  openOnFocus: false,
 };
 
 DateInterval.propTypes = {
@@ -75,12 +80,12 @@ DateInterval.propTypes = {
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   onChange: PropTypes.func,
   dateFormat: PropTypes.string,
@@ -89,7 +94,7 @@ DateInterval.propTypes = {
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   locale: PropTypes.oneOf(['en', 'ru']),
-  openOnFocus: PropTypes.bool
+  openOnFocus: PropTypes.bool,
 };
 
 export default DateInterval;

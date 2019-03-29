@@ -38,7 +38,7 @@ class AdvancedTableWidgetStory extends React.Component {
       filterable: get(props.json, 'columns[1].filterable'),
       resizable: get(props.json, 'columns[1].resizable'),
       fixedLeft: get(props.json, 'columns[0].fixed'),
-      fixedRight: get(props.json, 'columns[3].fixed')
+      fixedRight: get(props.json, 'columns[3].fixed'),
     };
 
     this.toggleHeaderParam = this.toggleHeaderParam.bind(this);
@@ -51,7 +51,7 @@ class AdvancedTableWidgetStory extends React.Component {
     columns[1][name] = !this.state[name];
     this.setState({
       columns,
-      [name]: !this.state[name]
+      [name]: !this.state[name],
     });
   }
 
@@ -66,7 +66,7 @@ class AdvancedTableWidgetStory extends React.Component {
     columns[index].fixed = newDirection;
     this.setState({
       columns,
-      [name]: newDirection
+      [name]: newDirection,
     });
   }
 
@@ -80,8 +80,8 @@ class AdvancedTableWidgetStory extends React.Component {
     this.setState({
       scroll: {
         ...this.state.scroll,
-        [name]: newScroll
-      }
+        [name]: newScroll,
+      },
     });
   }
 
@@ -93,7 +93,7 @@ class AdvancedTableWidgetStory extends React.Component {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
-            marginBottom: 20
+            marginBottom: 20,
           }}
         >
           <CheckboxN2O
@@ -110,7 +110,9 @@ class AdvancedTableWidgetStory extends React.Component {
           />
           <CheckboxN2O
             checked={this.state.rowSelection}
-            onChange={() => this.setState({ rowSelection: !this.state.rowSelection })}
+            onChange={() =>
+              this.setState({ rowSelection: !this.state.rowSelection })
+            }
             inline={true}
             label={'Функция выбора строк'}
           />
@@ -149,19 +151,31 @@ stories
   .addDecorator(withPage(metadata))
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Resizable колонки', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...resizable['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...resizable['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Выбор строк чекбоксом', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...rowSelection['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory
+        level={WIDGETS}
+        {...rowSelection['Page_Table']}
+        id="Page_Table"
+      />
+    );
   })
   .add('Фильтр в заголовках', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...filterable['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...filterable['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Контент в подстроке', () => {
     fetchMock.restore().get(urlPattern, () => {
@@ -170,56 +184,88 @@ stories
         filterValue: null,
         page: 1,
         size: 10,
-        list: expandedRow.datasource
+        list: expandedRow.datasource,
       };
     });
-    return <Factory level={WIDGETS} {...expandedRow['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...expandedRow['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Colspan rowspan', () => {
     fetchMock.restore().get(urlPattern, () => ({
       count: 3,
       list: colSpanRowSpan.datasource,
       page: 1,
-      size: 10
+      size: 10,
     }));
 
-    return <Factory level={WIDGETS} {...colSpanRowSpan['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory
+        level={WIDGETS}
+        {...colSpanRowSpan['Page_Table']}
+        id="Page_Table"
+      />
+    );
   })
   .add('Вид дерево', () => {
     fetchMock.restore().get(urlPattern, url => {
       const data = getStubData(url);
       return {
         ...data,
-        list: treeView.datasource
+        list: treeView.datasource,
       };
     });
 
-    return <Factory level={WIDGETS} {...treeView['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...treeView['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Фиксированный заголовок', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...fixedHeader['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...fixedHeader['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Фиксированные колонки', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...fixedColumns['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory
+        level={WIDGETS}
+        {...fixedColumns['Page_Table']}
+        id="Page_Table"
+      />
+    );
   })
   .add('Многоуровневый заголовок', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...multiLevelHeader['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory
+        level={WIDGETS}
+        {...multiLevelHeader['Page_Table']}
+        id="Page_Table"
+      />
+    );
   })
   .add('Редактируемая ячейка', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return <Factory level={WIDGETS} {...editableCell['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory
+        level={WIDGETS}
+        {...editableCell['Page_Table']}
+        id="Page_Table"
+      />
+    );
   })
   .add('Подтаблица', () => {
     fetchMock.restore().get(urlPattern, () => ({
       count: 1,
       page: 1,
       size: 10,
-      list: nested.datasource
+      list: nested.datasource,
     }));
-    return <Factory level={WIDGETS} {...nested['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...nested['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Компонент с кастомным Expanded компонентом', () => {
     const props = {
@@ -230,21 +276,21 @@ stories
           id: 'test',
           key: 'test',
           dataIndex: 'test',
-          title: 'test'
+          title: 'test',
         },
         {
           id: 'anotherTest',
           key: 'anotherTest',
           dataIndex: 'anotherTest',
-          title: 'anotherTest'
-        }
+          title: 'anotherTest',
+        },
       ],
       data: [
         {
           test: 'test1',
-          anotherTest: 'anotherTest1'
-        }
-      ]
+          anotherTest: 'anotherTest1',
+        },
+      ],
     };
 
     const expandedComponent = () => <div>any custom content</div>;
@@ -254,7 +300,13 @@ stories
   .add('Экшен AdvancedTable', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     fetchMock.get('begin:n2o/page', page);
-    return <Factory level={WIDGETS} {...customRowClick['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory
+        level={WIDGETS}
+        {...customRowClick['Page_Table']}
+        id="Page_Table"
+      />
+    );
   })
   .add('Компонент со всеми фичами', () => {
     return <AdvancedTableWidgetStory json={allFeatures} />;

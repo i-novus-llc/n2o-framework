@@ -18,7 +18,7 @@ stories
     const props = {
       fieldKey: text('fieldKey', CollapsedCellJson.fieldKey),
       color: text('color', CollapsedCellJson.color),
-      amountToGroup: number('amountToGroup', CollapsedCellJson.amountToGroup)
+      amountToGroup: number('amountToGroup', CollapsedCellJson.amountToGroup),
     };
 
     const tableProps = {
@@ -26,22 +26,22 @@ stories
         {
           id: 'id',
           component: TextTableHeader,
-          label: 'Ячейка'
-        }
+          label: 'Ячейка',
+        },
       ],
       cells: [
         {
           component: CollapsedCell,
-          ...props
-        }
+          ...props,
+        },
       ],
       datasource: [
         {
           id: 'id',
           name: 'alesha',
-          data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон']
-        }
-      ]
+          data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
+        },
+      ],
     };
 
     return (
@@ -59,49 +59,49 @@ stories
         {
           id: 'id',
           component: TextTableHeader,
-          label: 'Стандартная'
+          label: 'Стандартная',
         },
         {
           id: 'id',
           component: TextTableHeader,
-          label: 'Цветная'
+          label: 'Цветная',
         },
         {
           id: 'id',
           component: TextTableHeader,
-          label: 'Мало элементов'
-        }
+          label: 'Мало элементов',
+        },
       ],
       cells: [
         {
           component: CollapsedCell,
           model: {
-            data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон']
-          },
-          fieldKey: 'data'
-        },
-        {
-          component: CollapsedCell,
-          model: {
-            data: ['Казань', 'Москва', 'Токио', 'Берлин']
+            data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
           },
           fieldKey: 'data',
-          color: 'info'
         },
         {
           component: CollapsedCell,
           model: {
-            data: ['Казань', 'Москва', 'Токио']
+            data: ['Казань', 'Москва', 'Токио', 'Берлин'],
           },
-          fieldKey: 'data'
-        }
+          fieldKey: 'data',
+          color: 'info',
+        },
+        {
+          component: CollapsedCell,
+          model: {
+            data: ['Казань', 'Москва', 'Токио'],
+          },
+          fieldKey: 'data',
+        },
       ],
       datasource: [
         {
           id: 'id',
-          name: 'alesha'
-        }
-      ]
+          name: 'alesha',
+        },
+      ],
     };
 
     return (
