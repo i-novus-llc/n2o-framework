@@ -29,6 +29,7 @@ class DateInputGroup extends React.Component {
       disabled,
       placeholder,
       value,
+      inputClassName,
       onInputChange,
       setVisibility,
       onFocus,
@@ -54,6 +55,7 @@ class DateInputGroup extends React.Component {
               onBlur={onBlur}
               autoFocus={autoFocus}
               openOnFocus={openOnFocus}
+              inputClassName={inputClassName}
             />
           );
         })}

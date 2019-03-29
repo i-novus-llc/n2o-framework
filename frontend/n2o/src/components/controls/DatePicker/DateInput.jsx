@@ -78,7 +78,14 @@ class DateInput extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, name, autoFocus } = this.props;
+    const {
+      disabled,
+      placeholder,
+      name,
+      autoFocus,
+      dateFormat,
+      inputClassName,
+    } = this.props;
     const inputStyle = { flexGrow: 1 };
     const dashStyle = { alignSelf: 'center' };
     return (
@@ -91,7 +98,7 @@ class DateInput extends React.Component {
         {name === DateTimeControl.endInputName && <span style={dashStyle}>-</span>}
         <input
           type="text"
-          className="form-control"
+          className={cx('form-control', inputClassName)}
           placeholder={placeholder}
           disabled={disabled}
           value={this.state.value}
