@@ -18,7 +18,7 @@ class AdvancedTableFilter extends Component {
 
     this.state = {
       value: props.value,
-      filterOpen: false
+      filterOpen: false,
     };
 
     this.onChangeFilter = this.onChangeFilter.bind(this);
@@ -33,7 +33,7 @@ class AdvancedTableFilter extends Component {
 
   onChangeFilter(value) {
     this.setState({
-      value: value ? value.toString() : ''
+      value: value ? value.toString() : '',
     });
   }
 
@@ -49,7 +49,7 @@ class AdvancedTableFilter extends Component {
     onFilter &&
       onFilter({
         id,
-        value: this.state.value
+        value: this.state.value,
       });
   }
 
@@ -64,11 +64,18 @@ class AdvancedTableFilter extends Component {
             <Button color="link" size="sm">
               <i className="fa fa-filter" />
               {!isEmpty(value) && (
-                <Badge className="n2o-advanced-table-filter-badge" color="primary" />
+                <Badge
+                  className="n2o-advanced-table-filter-badge"
+                  color="primary"
+                />
               )}
             </Button>
           </DropdownToggle>
-          <DropdownMenu className="n2o-advanced-table-filter-dropdown" tag="div" right={true}>
+          <DropdownMenu
+            className="n2o-advanced-table-filter-dropdown"
+            tag="div"
+            right={true}
+          >
             <AdvancedTableFilterPopup
               value={value}
               onChange={this.onChangeFilter}
@@ -87,11 +94,11 @@ AdvancedTableFilter.propTypes = {
   children: PropTypes.object,
   id: PropTypes.string,
   onFilter: PropTypes.func,
-  value: PropTypes.oneOf(PropTypes.string, PropTypes.number)
+  value: PropTypes.oneOf(PropTypes.string, PropTypes.number),
 };
 
 AdvancedTableFilter.defaultProps = {
-  onFilter: () => {}
+  onFilter: () => {},
 };
 
 export default AdvancedTableFilter;

@@ -13,9 +13,9 @@ import fetchMock from 'fetch-mock';
 fetchMock.get('*', () => ({
   list: [
     {
-      test: 'test'
-    }
-  ]
+      test: 'test',
+    },
+  ],
 }));
 
 const store = createStore(reducers);
@@ -55,9 +55,9 @@ describe('Проверка ListContainer', () => {
           body: 'Some words about cats',
           rightTop: 'What do you know about cats?',
           rightBottom: "But cats aren't only stupid they're still so sweet ",
-          extra: 'Extra?!'
-        }
-      ]
+          extra: 'Extra?!',
+        },
+      ],
     });
     const mappedData = ListContainer.instance().mapSectionComponents(
       factoryProvider()

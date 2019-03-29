@@ -24,7 +24,7 @@ class HtmlWidget extends React.Component {
     return {
       id: this.props.widgetId,
       ...this.props.html,
-      dataProvider: this.props.dataProvider
+      dataProvider: this.props.dataProvider,
     };
   }
 
@@ -42,7 +42,7 @@ class HtmlWidget extends React.Component {
 }
 
 HtmlWidget.defaultProps = {
-  toolbar: {}
+  toolbar: {},
 };
 
 HtmlWidget.propTypes = {
@@ -54,7 +54,7 @@ HtmlWidget.propTypes = {
   toolbar: PropTypes.object,
   actions: PropTypes.object,
   html: PropTypes.string,
-  dataProvider: PropTypes.object
+  dataProvider: PropTypes.object,
 };
 
 export default dependency(HtmlWidget);

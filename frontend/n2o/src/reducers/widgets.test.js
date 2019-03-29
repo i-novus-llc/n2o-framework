@@ -20,7 +20,7 @@ import {
   RESET_STATE,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH
+  DISABLE_ON_FETCH,
 } from '../constants/widgets';
 import widgets from './widgets';
 
@@ -29,7 +29,7 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          'Page.Widget': {}
+          'Page.Widget': {},
         },
         {
           type: REGISTER,
@@ -39,11 +39,11 @@ describe('Тесты widget reducer', () => {
               containerId: 'containerId',
               count: 1,
               dataProvider: {
-                url: 'n2o/data'
+                url: 'n2o/data',
               },
               filter: {
                 key: 'name',
-                type: 'includes'
+                type: 'includes',
               },
               isActive: true,
               isEnabled: true,
@@ -53,11 +53,11 @@ describe('Тесты widget reducer', () => {
               selectedId: 'selected-3',
               size: 20,
               sorting: {
-                name: 'ASC'
+                name: 'ASC',
               },
-              type: 'table'
-            }
-          }
+              type: 'table',
+            },
+          },
         }
       )
     ).toEqual({
@@ -65,11 +65,11 @@ describe('Тесты widget reducer', () => {
         containerId: 'containerId',
         count: 1,
         dataProvider: {
-          url: 'n2o/data'
+          url: 'n2o/data',
         },
         filter: {
           key: 'name',
-          type: 'includes'
+          type: 'includes',
         },
         isActive: true,
         isEnabled: true,
@@ -83,11 +83,11 @@ describe('Тесты widget reducer', () => {
         selectedId: 'selected-3',
         size: 20,
         sorting: {
-          name: 'ASC'
+          name: 'ASC',
         },
         type: 'table',
-        validation: {}
-      }
+        validation: {},
+      },
     });
   });
 
@@ -95,19 +95,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: DATA_REQUEST,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isLoading: true
-      }
+        isLoading: true,
+      },
     });
   });
 
@@ -115,19 +115,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: DATA_SUCCESS,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isLoading: false
-      }
+        isLoading: false,
+      },
     });
   });
 
@@ -135,19 +135,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: DATA_FAIL,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isLoading: false
-      }
+        isLoading: false,
+      },
     });
   });
 
@@ -155,19 +155,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: RESOLVE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isResolved: true
-      }
+        isResolved: true,
+      },
     });
   });
 
@@ -175,19 +175,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: SHOW,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isVisible: true
-      }
+        isVisible: true,
+      },
     });
   });
 
@@ -195,19 +195,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: HIDE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isVisible: false
-      }
+        isVisible: false,
+      },
     });
   });
 
@@ -215,19 +215,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: ENABLE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isEnabled: true
-      }
+        isEnabled: true,
+      },
     });
   });
 
@@ -235,19 +235,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: DISABLE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isEnabled: false
-      }
+        isEnabled: false,
+      },
     });
   });
 
@@ -255,19 +255,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: DISABLE_ON_FETCH,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isEnabled: false
-      }
+        isEnabled: false,
+      },
     });
   });
 
@@ -275,19 +275,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: ENABLE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isEnabled: true
-      }
+        isEnabled: true,
+      },
     });
   });
 
@@ -295,19 +295,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: LOADING,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isLoading: true
-      }
+        isLoading: true,
+      },
     });
   });
 
@@ -315,19 +315,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: UNLOADING,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isLoading: false
-      }
+        isLoading: false,
+      },
     });
   });
 
@@ -335,23 +335,23 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: SORT_BY,
           payload: {
             widgetId: 'widget',
             sortDirection: 'DESC',
-            fieldKey: 'name'
-          }
+            fieldKey: 'name',
+          },
         }
       )
     ).toEqual({
       widget: {
         sorting: {
-          name: 'DESC'
-        }
-      }
+          name: 'DESC',
+        },
+      },
     });
   });
 
@@ -360,21 +360,21 @@ describe('Тесты widget reducer', () => {
       widgets(
         {
           widget: {
-            size: 20
-          }
+            size: 20,
+          },
         },
         {
           type: CHANGE_SIZE,
           payload: {
             widgetId: 'widget',
-            size: 50
-          }
+            size: 50,
+          },
         }
       )
     ).toEqual({
       widget: {
-        size: 50
-      }
+        size: 50,
+      },
     });
   });
 
@@ -383,21 +383,21 @@ describe('Тесты widget reducer', () => {
       widgets(
         {
           widget: {
-            page: 1
-          }
+            page: 1,
+          },
         },
         {
           type: CHANGE_PAGE,
           payload: {
             widgetId: 'widget',
-            page: 5
-          }
+            page: 5,
+          },
         }
       )
     ).toEqual({
       widget: {
-        page: 5
-      }
+        page: 5,
+      },
     });
   });
 
@@ -406,21 +406,21 @@ describe('Тесты widget reducer', () => {
       widgets(
         {
           widget: {
-            count: 1
-          }
+            count: 1,
+          },
         },
         {
           type: CHANGE_COUNT,
           payload: {
             widgetId: 'widget',
-            count: 3
-          }
+            count: 3,
+          },
         }
       )
     ).toEqual({
       widget: {
-        count: 3
-      }
+        count: 3,
+      },
     });
   });
 
@@ -429,21 +429,21 @@ describe('Тесты widget reducer', () => {
       widgets(
         {
           widget: {
-            isFilterVisible: false
-          }
+            isFilterVisible: false,
+          },
         },
         {
           type: CHANGE_FILTERS_VISIBILITY,
           payload: {
             widgetId: 'widget',
-            isFilterVisible: true
-          }
+            isFilterVisible: true,
+          },
         }
       )
     ).toEqual({
       widget: {
-        isFilterVisible: true
-      }
+        isFilterVisible: true,
+      },
     });
   });
 
@@ -452,20 +452,20 @@ describe('Тесты widget reducer', () => {
       widgets(
         {
           widget: {
-            isFilterVisible: true
-          }
+            isFilterVisible: true,
+          },
         },
         {
           type: TOGGLE_FILTERS_VISIBILITY,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isFilterVisible: false
-      }
+        isFilterVisible: false,
+      },
     });
   });
 
@@ -473,19 +473,19 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: RESET_STATE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isInit: false
-      }
+        isInit: false,
+      },
     });
   });
 
@@ -493,7 +493,7 @@ describe('Тесты widget reducer', () => {
     expect(
       widgets(
         {
-          widget: {}
+          widget: {},
         },
         {
           type: SET_TABLE_SELECTED_ID,
@@ -502,9 +502,9 @@ describe('Тесты widget reducer', () => {
             value: {
               id: 1,
               name: 'Sara',
-              surname: 'Connor'
-            }
-          }
+              surname: 'Connor',
+            },
+          },
         }
       )
     ).toEqual({
@@ -512,9 +512,9 @@ describe('Тесты widget reducer', () => {
         selectedId: {
           id: 1,
           name: 'Sara',
-          surname: 'Connor'
-        }
-      }
+          surname: 'Connor',
+        },
+      },
     });
   });
 
@@ -523,20 +523,20 @@ describe('Тесты widget reducer', () => {
       widgets(
         {
           widget: {
-            isActive: false
-          }
+            isActive: false,
+          },
         },
         {
           type: SET_ACTIVE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({
       widget: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
   });
 
@@ -546,14 +546,14 @@ describe('Тесты widget reducer', () => {
         {
           widget: {
             isActive: true,
-            containerId: 'id'
-          }
+            containerId: 'id',
+          },
         },
         {
           type: REMOVE,
           payload: {
-            widgetId: 'widget'
-          }
+            widgetId: 'widget',
+          },
         }
       )
     ).toEqual({});

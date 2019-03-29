@@ -18,7 +18,7 @@ stories.add('Радио группа', () => {
     disabled: boolean('disabled', false),
     visible: boolean('visible', true),
     className: text('className', ''),
-    inline: boolean('inline', true)
+    inline: boolean('inline', true),
   };
 
   return (

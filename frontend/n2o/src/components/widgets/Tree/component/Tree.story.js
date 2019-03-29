@@ -1,6 +1,12 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  number,
+  select,
+} from '@storybook/addon-knobs/react';
 import Tree from './Tree';
 import { withState } from 'recompose';
 import { findIndex } from 'lodash';
@@ -19,7 +25,7 @@ const datasource = [
   { id: '41', label: 'Дренажные трубы', parentId: '4' },
   { id: '42', label: 'Отстойники', parentId: '4' },
   { id: '44', label: 'Внутренние', parentId: '42' },
-  { id: '45', label: 'Внешние', parentId: '42' }
+  { id: '45', label: 'Внешние', parentId: '42' },
 ];
 
 const stories = storiesOf('Виджеты/Дерево', module);
@@ -42,8 +48,12 @@ stories
       draggable: boolean('draggable', true),
       multiselect: boolean('multiselect', false),
       showLine: boolean('showLine', false),
-      filter: select('filter', ['includes', 'startsWith', 'endsWith', '-'], '-'),
-      expandBtn: boolean('expandBtn', false)
+      filter: select(
+        'filter',
+        ['includes', 'startsWith', 'endsWith', '-'],
+        '-'
+      ),
+      expandBtn: boolean('expandBtn', false),
     };
 
     return <Tree datasource={datasource} {...props} />;
@@ -52,32 +62,44 @@ stories
     const props = {
       multiselect: boolean('multiselect', false),
       hasCheckboxes: boolean('hasCheckboxes', false),
-      showLine: boolean('showLine', false)
+      showLine: boolean('showLine', false),
     };
 
-    const Comp = withState('resolveModel', 'onResolve', null)(({ resolveModel, onResolve }) => (
-      <div>
+    const Comp = withState('resolveModel', 'onResolve', null)(
+      ({ resolveModel, onResolve }) => (
         <div>
-          <h6>Горячие клавиши</h6>
-          <pre>Down/Up - фокус на след/пред элемент</pre>
-          <pre>Space - Выбрать</pre>
-          <pre>ctrl + click - Выбрать в мульти режиме несколько значений hasCheckboxes=false</pre>
-          <pre>ctrl + Enter - Выбрать в мульти несколько значений hasCheckboxes=true</pre>
+          <div>
+            <h6>Горячие клавиши</h6>
+            <pre>Down/Up - фокус на след/пред элемент</pre>
+            <pre>Space - Выбрать</pre>
+            <pre>
+              ctrl + click - Выбрать в мульти режиме несколько значений
+              hasCheckboxes=false
+            </pre>
+            <pre>
+              ctrl + Enter - Выбрать в мульти несколько значений
+              hasCheckboxes=true
+            </pre>
+          </div>
+          <Tree
+            datasource={datasource}
+            {...props}
+            onResolve={onResolve}
+            resolveModel={resolveModel}
+          />
         </div>
-        <Tree
-          datasource={datasource}
-          {...props}
-          onResolve={onResolve}
-          resolveModel={resolveModel}
-        />
-      </div>
-    ));
+      )
+    );
 
     return <Comp />;
   })
   .add('Фильтрация', () => {
     const props = {
-      filter: select('filter', ['includes', 'startsWith', 'endsWith'], 'includes')
+      filter: select(
+        'filter',
+        ['includes', 'startsWith', 'endsWith'],
+        'includes'
+      ),
     };
 
     return <Tree datasource={datasource} {...props} />;

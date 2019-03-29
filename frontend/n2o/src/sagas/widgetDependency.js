@@ -1,4 +1,11 @@
-import { select, fork, actionChannel, take, call, put } from 'redux-saga/effects';
+import {
+  select,
+  fork,
+  actionChannel,
+  take,
+  call,
+  put,
+} from 'redux-saga/effects';
 import { keys, isEqual, reduce } from 'lodash';
 import { REGISTER_DEPENDENCY } from '../constants/dependency';
 import { SET } from '../constants/models';
@@ -8,7 +15,7 @@ import {
   showWidget,
   hideWidget,
   enableWidget,
-  disableWidget
+  disableWidget,
 } from '../actions/widgets';
 import { getModelsByDependency } from '../selectors/models';
 import { makeWidgetVisibleSelector } from '../selectors/widgets';
@@ -39,11 +46,23 @@ export function* watchDependency() {
           widgetId,
           dependency
         );
-        yield fork(resolveWidgetDependency, prevState, state, widgetsDependencies, widgetId);
+        yield fork(
+          resolveWidgetDependency,
+          prevState,
+          state,
+          widgetsDependencies,
+          widgetId
+        );
         break;
       }
       case SET: {
-        yield fork(resolveWidgetDependency, prevState, state, widgetsDependencies, key);
+        yield fork(
+          resolveWidgetDependency,
+          prevState,
+          state,
+          widgetsDependencies,
+          key
+        );
         break;
       }
       default:
@@ -59,13 +78,17 @@ export function* watchDependency() {
  * @param dependency
  * @returns {{}}
  */
-export function* registerWidgetDependency(widgetsDependencies, widgetId, dependency) {
+export function* registerWidgetDependency(
+  widgetsDependencies,
+  widgetId,
+  dependency
+) {
   return {
     ...widgetsDependencies,
     [widgetId]: {
       widgetId,
-      dependency
-    }
+      dependency,
+    },
   };
 }
 
@@ -76,17 +99,31 @@ export function* registerWidgetDependency(widgetsDependencies, widgetId, depende
  * @param widgetsDependencies
  * @returns {IterableIterator<*|CallEffect>}
  */
-export function* resolveWidgetDependency(prevState, state, widgetsDependencies) {
+export function* resolveWidgetDependency(
+  prevState,
+  state,
+  widgetsDependencies
+) {
   const dependenciesKeys = keys(widgetsDependencies);
   for (let i = 0; i < dependenciesKeys.length; i++) {
     const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]];
     const widgetDependenciesKeys = keys(dependency);
     const isVisible = makeWidgetVisibleSelector(widgetId)(state);
     for (let j = 0; j < widgetDependenciesKeys.length; j++) {
-      const prevModel = getModelsByDependency(dependency[widgetDependenciesKeys[j]])(prevState);
-      const model = getModelsByDependency(dependency[widgetDependenciesKeys[j]])(state);
+      const prevModel = getModelsByDependency(
+        dependency[widgetDependenciesKeys[j]]
+      )(prevState);
+      const model = getModelsByDependency(
+        dependency[widgetDependenciesKeys[j]]
+      )(state);
       if (!isEqual(prevModel, model)) {
-        yield fork(resolveDependency, widgetDependenciesKeys[j], widgetId, model, isVisible);
+        yield fork(
+          resolveDependency,
+          widgetDependenciesKeys[j],
+          widgetId,
+          model,
+          isVisible
+        );
       }
     }
   }

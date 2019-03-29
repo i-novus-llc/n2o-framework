@@ -37,7 +37,10 @@ class PaginationButton extends React.Component {
   render() {
     const { label, active, disabled, noBorder } = this.props;
     return (
-      <li className={cx('page-item', { active, disabled })} onClick={this.handleClick}>
+      <li
+        className={cx('page-item', { active, disabled })}
+        onClick={this.handleClick}
+      >
         <a
           className={cx('page-link', noBorder ? 'no-border' : '')}
           href="#"
@@ -54,7 +57,7 @@ PaginationButton.propTypes = {
   noBorder: PropTypes.bool,
   onSelect: PropTypes.func,
   eventKey: PropTypes.number,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default PaginationButton;

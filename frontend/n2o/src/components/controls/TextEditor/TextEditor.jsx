@@ -33,7 +33,7 @@ class TextEditor extends Component {
 
     this.state = {
       editorState: this.convertToEditorState(props.value),
-      value: props.value
+      value: props.value,
     };
 
     this.onEditorStateChange = this.onEditorStateChange.bind(this);
@@ -42,8 +42,10 @@ class TextEditor extends Component {
   componentDidUpdate(prevProps) {
     if (!isEqual(prevProps.value, this.props.value)) {
       this.setState({
-        editorState: EditorState.moveFocusToEnd(this.convertToEditorState(this.props.value)),
-        value: this.props.value
+        editorState: EditorState.moveFocusToEnd(
+          this.convertToEditorState(this.props.value)
+        ),
+        value: this.props.value,
       });
     }
   }
@@ -55,7 +57,9 @@ class TextEditor extends Component {
   convertToEditorState(value) {
     const contentBlock = htmlToDraft(value);
     if (contentBlock) {
-      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      const contentState = ContentState.createFromBlockArray(
+        contentBlock.contentBlocks
+      );
       return EditorState.createWithContent(contentState);
     }
 
@@ -70,16 +74,23 @@ class TextEditor extends Component {
   }
 
   render() {
-    const { className, disabled, visible, onFocus, onBlur, toolbarConfig } = this.props;
+    const {
+      className,
+      disabled,
+      visible,
+      onFocus,
+      onBlur,
+      toolbarConfig,
+    } = this.props;
     const { editorState } = this.state;
     const baseStyle = {
       wordBreak: 'break-all',
       wordWrap: 'break-word',
-      maxWidth: '100%'
+      maxWidth: '100%',
     };
     const disabledStyle = {
       pointerEvents: 'none',
-      opacity: '0.4'
+      opacity: '0.4',
     };
     return (
       <div style={disabled ? { ...baseStyle, ...disabledStyle } : baseStyle}>
@@ -107,7 +118,7 @@ TextEditor.propTypes = {
   disabled: PropTypes.bool,
   visible: PropTypes.bool,
   className: PropTypes.string,
-  toolbarConfig: PropTypes.object
+  toolbarConfig: PropTypes.object,
 };
 TextEditor.defaultProps = {
   onChange: () => {},
@@ -115,7 +126,7 @@ TextEditor.defaultProps = {
   onBlur: () => {},
   disabled: false,
   visible: true,
-  value: ''
+  value: '',
 };
 
 export default TextEditor;

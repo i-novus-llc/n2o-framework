@@ -1,8 +1,19 @@
-import { select, put, call, all, take, actionChannel, fork } from 'redux-saga/effects';
+import {
+  select,
+  put,
+  call,
+  all,
+  take,
+  actionChannel,
+  fork,
+} from 'redux-saga/effects';
 import { every, filter, forOwn, get, has, isEmpty, values } from 'lodash';
 import { SET } from '../constants/models';
 import { getContainerButtons } from '../selectors/toolbar';
-import { changeButtonDisabled, changeButtonVisiblity } from '../actions/toolbar';
+import {
+  changeButtonDisabled,
+  changeButtonVisiblity,
+} from '../actions/toolbar';
 import evalExpression from '../utils/evalExpression';
 import { REGISTER_BUTTON } from '../constants/toolbar';
 
@@ -19,7 +30,9 @@ export const resolveConditions = (conditions = [], model) =>
   );
 
 export function* handleAction(action) {
-  const buttons = yield select(getContainerButtons(action.payload.key || action.payload.widgetId));
+  const buttons = yield select(
+    getContainerButtons(action.payload.key || action.payload.widgetId)
+  );
   yield all(values(buttons || []).map(v => call(resolveButton, v)));
 }
 
@@ -96,7 +109,9 @@ function* watchRegister() {
         const { prefix, key } = payload;
         const modelLink = `models.${prefix}['${key}']`;
         if (buttons[modelLink]) {
-          yield all(buttons[modelLink].map(button => call(resolveButton, button)));
+          yield all(
+            buttons[modelLink].map(button => call(resolveButton, button))
+          );
         }
         break;
       }
@@ -118,7 +133,7 @@ export function prepareButton(buttons, payload) {
           : [{ ...payload }];
         newButtons = {
           ...newButtons,
-          [modelLink]: modelLinkArray
+          [modelLink]: modelLinkArray,
         };
         modelsLinkBuffer.push(modelLink);
       }

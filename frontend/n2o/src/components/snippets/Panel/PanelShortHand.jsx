@@ -35,7 +35,7 @@ class PanelContainer extends React.Component {
     this.state = {
       isFullScreen: false,
       activeTab: this.props.tabs.length > 0 ? this.props.tabs[0].id : null,
-      open: this.props.open
+      open: this.props.open,
     };
 
     this.handleFullScreen = this.handleFullScreen.bind(this);
@@ -50,7 +50,7 @@ class PanelContainer extends React.Component {
 
   handleFullScreen() {
     this.setState(prevState => ({
-      isFullScreen: !prevState.isFullScreen
+      isFullScreen: !prevState.isFullScreen,
     }));
   }
 
@@ -61,7 +61,7 @@ class PanelContainer extends React.Component {
 
   changeActiveTab(id) {
     this.setState({
-      activeTab: id
+      activeTab: id,
     });
   }
 
@@ -71,7 +71,7 @@ class PanelContainer extends React.Component {
 
   toggleCollapse() {
     this.setState({
-      open: !this.state.open
+      open: !this.state.open,
     });
   }
 
@@ -83,7 +83,7 @@ class PanelContainer extends React.Component {
   handleKeyPress(event) {
     if (event.key === 'Escape') {
       this.setState({
-        isFullScreen: false
+        isFullScreen: false,
       });
     }
   }
@@ -91,7 +91,7 @@ class PanelContainer extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.open !== this.state.open) {
       this.setState({
-        open: nextProps.open
+        open: nextProps.open,
       });
     }
   }
@@ -113,7 +113,7 @@ class PanelContainer extends React.Component {
       collapsible,
       hasTabs,
       fullScreen,
-      header
+      header,
     } = this.props;
 
     const fullScreenIcon = this.state.isFullScreen ? 'compress' : 'expand';
@@ -128,7 +128,11 @@ class PanelContainer extends React.Component {
       >
         {header && (
           <Panel.Heading>
-            <Panel.Title collapsible={collapsible} icon={icon} onToggle={this.toggleCollapse}>
+            <Panel.Title
+              collapsible={collapsible}
+              icon={icon}
+              onToggle={this.toggleCollapse}
+            >
               {headerTitle}
             </Panel.Title>
             <Panel.Menu
@@ -171,7 +175,11 @@ class PanelContainer extends React.Component {
           <Panel.Body hasTabs={hasTabs} activeKey={this.state.activeTab}>
             {hasTabs
               ? tabs.map(tab => {
-                  return <Panel.TabBody eventKey={tab.id}>{tab.content}</Panel.TabBody>;
+                  return (
+                    <Panel.TabBody eventKey={tab.id}>
+                      {tab.content}
+                    </Panel.TabBody>
+                  );
                 })
               : this.props.children}
           </Panel.Body>
@@ -196,7 +204,7 @@ PanelContainer.propTypes = {
   hasTabs: PropTypes.bool,
   fullScreen: PropTypes.bool,
   children: PropTypes.node,
-  header: PropTypes.bool
+  header: PropTypes.bool,
 };
 
 PanelContainer.defaultProps = {
@@ -206,7 +214,7 @@ PanelContainer.defaultProps = {
   fullScreen: false,
   tabs: [],
   color: panelStyles.DEFAULT,
-  header: true
+  header: true,
 };
 
 export default PanelContainer;

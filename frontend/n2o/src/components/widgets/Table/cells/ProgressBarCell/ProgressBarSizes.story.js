@@ -14,54 +14,54 @@ stories.add('Размеры', () => {
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Маленький'
+        label: 'Маленький',
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Стандартный'
+        label: 'Стандартный',
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Большой'
-      }
+        label: 'Большой',
+      },
     ],
     cells: [
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55
+          now: 55,
         },
         color: progressBarStyles.DEFAULT,
-        size: 'mini'
+        size: 'mini',
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55
+          now: 55,
         },
         color: progressBarStyles.DEFAULT,
-        size: 'default'
+        size: 'default',
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55
+          now: 55,
         },
         color: progressBarStyles.DEFAULT,
-        size: 'large'
-      }
+        size: 'large',
+      },
     ],
     datasource: [
       {
         id: 'now',
-        now: 55
-      }
-    ]
+        now: 55,
+      },
+    ],
   };
 
   return (

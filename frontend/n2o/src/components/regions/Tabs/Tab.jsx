@@ -19,14 +19,14 @@ class Tab extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      wasActive: false
+      wasActive: false,
     };
   }
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.active) {
       return {
-        wasActive: true
+        wasActive: true,
       };
     }
   }
@@ -54,7 +54,7 @@ Tab.propTypes = {
   visible: PropTypes.bool,
   active: PropTypes.bool,
   className: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default Tab;

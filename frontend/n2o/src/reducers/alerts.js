@@ -10,7 +10,7 @@ export const defaultState = {
   details: null,
   icon: null,
   timeout: null,
-  closeButton: null
+  closeButton: null,
 };
 
 function resolve(state = defaultState, { type, payload }) {
@@ -23,14 +23,14 @@ function resolve(state = defaultState, { type, payload }) {
           label: payload.label,
           text: payload.text,
           details: payload.details,
-          closeButton: payload.closeButton
-        }
+          closeButton: payload.closeButton,
+        },
       ];
     case ADD_MULTI:
       return [
         ...payload.alerts.map(item => ({
-          ...item
-        }))
+          ...item,
+        })),
       ];
     default:
       return state;
@@ -47,14 +47,16 @@ export default function alerts(state = {}, action) {
     case ADD_MULTI:
       return Object.assign({}, state, {
         [action.payload.key]: state[action.payload.key]
-          ? state[action.payload.key].concat(resolve(state[action.payload.key], action))
-          : resolve(state[action.payload.key], action)
+          ? state[action.payload.key].concat(
+              resolve(state[action.payload.key], action)
+            )
+          : resolve(state[action.payload.key], action),
       });
     case REMOVE:
       return Object.assign({}, state, {
         [action.payload.key]: state[action.payload.key].filter(
           alert => alert.id !== action.payload.id
-        )
+        ),
       });
     case REMOVE_ALL:
       return _.omit(state, action.payload.key);

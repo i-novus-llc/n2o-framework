@@ -24,7 +24,7 @@ stories
       const props = {
         disabled: boolean('disabled', TextEditorJson.disabled),
         visible: boolean('visible', TextEditorJson.visible),
-        className: text('className', TextEditorJson.className)
+        className: text('className', TextEditorJson.className),
       };
 
       return props;

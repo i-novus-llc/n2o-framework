@@ -85,7 +85,7 @@ function TreeNode({
       </li>
       <li
         style={{
-          display: expanded ? 'block' : 'none'
+          display: expanded ? 'block' : 'none',
         }}
       >
         {children}
@@ -112,7 +112,7 @@ TreeNode.propTypes = {
   handleFocus: PropTypes.func,
   active: PropTypes.bool,
   badgeFieldId: PropTypes.string,
-  badgeColorFieldId: PropTypes.string
+  badgeColorFieldId: PropTypes.string,
 };
 
 TreeNode.defaultProps = {
@@ -121,7 +121,7 @@ TreeNode.defaultProps = {
   selectable: true,
   selected: false,
   indeterminate: false,
-  active: false
+  active: false,
 };
 
 export default TreeNode;

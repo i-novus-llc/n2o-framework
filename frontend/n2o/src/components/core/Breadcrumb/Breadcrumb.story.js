@@ -17,10 +17,10 @@ const stories = storiesOf('Функциональность/Хлебные кр�
 
 const PageContext = withContext(
   {
-    defaultBreadcrumb: PropTypes.node
+    defaultBreadcrumb: PropTypes.node,
   },
   props => ({
-    defaultBreadcrumb: DefaultBreadcrumb
+    defaultBreadcrumb: DefaultBreadcrumb,
   })
 )(Page);
 
@@ -31,10 +31,13 @@ stories
   .add('Метаданные', () => {
     const withForward = JSON.parse(JSON.stringify(metadata));
     withForward.id = 'OtherPage';
-    withForward.widgets['Page_Wireframe'].toolbar.topLeft[0].buttons[0].title = 'Назад';
-    withForward.widgets['Page_Wireframe'].toolbar.topLeft[0].buttons[0].id = 'back';
+    withForward.widgets['Page_Wireframe'].toolbar.topLeft[0].buttons[0].title =
+      'Назад';
+    withForward.widgets['Page_Wireframe'].toolbar.topLeft[0].buttons[0].id =
+      'back';
     withForward.widgets['Page_Wireframe'].actions.redirect.options.path = '/';
-    withForward.widgets['Page_Wireframe'].wireframe.title = 'Виджет второй страницы';
+    withForward.widgets['Page_Wireframe'].wireframe.title =
+      'Виджет второй страницы';
     withForward.widgets['Page_Wireframe'].wireframe.className = 'd-10';
 
     fetchMock.restore().get('begin:n2o/page', url => {
@@ -51,11 +54,15 @@ stories
         <Route
           path="/test"
           exact
-          component={() => <PageContext pageId="OtherPage" pageUrl="OtherPage" />}
+          component={() => (
+            <PageContext pageId="OtherPage" pageUrl="OtherPage" />
+          )}
         />
         <Route
           path="/"
-          component={() => <PageContext pageId="testSimplePageJson" pageUrl="Page" />}
+          component={() => (
+            <PageContext pageId="testSimplePageJson" pageUrl="Page" />
+          )}
         />
       </Switch>
     );

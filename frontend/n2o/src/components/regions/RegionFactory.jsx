@@ -15,12 +15,12 @@ class Region extends React.Component {
 
 Region.propTypes = {
   src: PropTypes.string.isRequired,
-  containers: PropTypes.object
+  containers: PropTypes.object,
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
   };
 }
 

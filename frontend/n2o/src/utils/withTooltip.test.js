@@ -3,7 +3,9 @@ import withTooltip from './withTooltip';
 import { UncontrolledTooltip } from 'reactstrap';
 
 const setup = propsOverride => {
-  return mount(withTooltip(<div className={'test'}>test</div>, 'test hint', 123));
+  return mount(
+    withTooltip(<div className={'test'}>test</div>, 'test hint', 123)
+  );
 };
 
 describe('Проверка withTooltip', () => {

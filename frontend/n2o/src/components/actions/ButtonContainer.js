@@ -18,7 +18,7 @@ import {
   classSelector,
   hintSelector,
   hintPositionSelector,
-  styleSelector
+  styleSelector,
 } from '../../selectors/toolbar';
 import withTooltip from '../../utils/withTooltip';
 import { id } from '../../utils/id';
@@ -57,8 +57,8 @@ class ButtonContainer extends React.Component {
         style,
         conditions,
         resolveEnabled,
-        hintPosition
-      }
+        hintPosition,
+      },
     } = props;
     !isInit &&
       dispatch(
@@ -78,7 +78,7 @@ class ButtonContainer extends React.Component {
           conditions,
           containerKey,
           resolveEnabled,
-          hintPosition
+          hintPosition,
         })
       );
   }
@@ -105,7 +105,7 @@ class ButtonContainer extends React.Component {
       title,
       hint,
       btnKey,
-      component
+      component,
     } = this.props;
 
     const style = title ? { marginRight: 3 } : null;
@@ -114,7 +114,7 @@ class ButtonContainer extends React.Component {
         <span
           className={cx('badge', {
             'badge-light': color !== 'secondary',
-            'badge-dark': color === 'secondary'
+            'badge-dark': color === 'secondary',
           })}
         >
           {count}
@@ -132,7 +132,7 @@ class ButtonContainer extends React.Component {
         disabled,
         size,
         color,
-        className
+        className,
       },
       <React.Fragment>
         <span style={style}>
@@ -179,13 +179,15 @@ class ButtonContainer extends React.Component {
       icon,
       hint,
       hintPosition,
-      component
+      component,
     } = this.props;
 
     return (
       visible &&
       withTooltip(
-        component === DropdownMenu ? this.renderDropdown() : this.renderButton(),
+        component === DropdownMenu
+          ? this.renderDropdown()
+          : this.renderButton(),
         hint,
         hintPosition,
         this.buttonId
@@ -195,19 +197,30 @@ class ButtonContainer extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  isInit: (state, ownProps) => isInitSelector(ownProps.containerKey, ownProps.id)(state),
-  visible: (state, ownProps) => isVisibleSelector(ownProps.containerKey, ownProps.id)(state),
-  disabled: (state, ownProps) => isDisabledSelector(ownProps.containerKey, ownProps.id)(state),
-  color: (state, ownProps) => colorSelector(ownProps.containerKey, ownProps.id)(state),
-  size: (state, ownProps) => sizeSelector(ownProps.containerKey, ownProps.id)(state),
-  title: (state, ownProps) => titleSelector(ownProps.containerKey, ownProps.id)(state),
-  count: (state, ownProps) => countSelector(ownProps.containerKey, ownProps.id)(state),
-  icon: (state, ownProps) => iconSelector(ownProps.containerKey, ownProps.id)(state),
-  hint: (state, ownProps) => hintSelector(ownProps.containerKey, ownProps.id)(state),
+  isInit: (state, ownProps) =>
+    isInitSelector(ownProps.containerKey, ownProps.id)(state),
+  visible: (state, ownProps) =>
+    isVisibleSelector(ownProps.containerKey, ownProps.id)(state),
+  disabled: (state, ownProps) =>
+    isDisabledSelector(ownProps.containerKey, ownProps.id)(state),
+  color: (state, ownProps) =>
+    colorSelector(ownProps.containerKey, ownProps.id)(state),
+  size: (state, ownProps) =>
+    sizeSelector(ownProps.containerKey, ownProps.id)(state),
+  title: (state, ownProps) =>
+    titleSelector(ownProps.containerKey, ownProps.id)(state),
+  count: (state, ownProps) =>
+    countSelector(ownProps.containerKey, ownProps.id)(state),
+  icon: (state, ownProps) =>
+    iconSelector(ownProps.containerKey, ownProps.id)(state),
+  hint: (state, ownProps) =>
+    hintSelector(ownProps.containerKey, ownProps.id)(state),
   hintPosition: (state, ownProps) =>
     hintPositionSelector(ownProps.containerKey, ownProps.id)(state),
-  className: (state, ownProps) => classSelector(ownProps.containerKey, ownProps.id)(state),
-  style: (state, ownProps) => styleSelector(ownProps.containerKey, ownProps.id)(state)
+  className: (state, ownProps) =>
+    classSelector(ownProps.containerKey, ownProps.id)(state),
+  style: (state, ownProps) =>
+    styleSelector(ownProps.containerKey, ownProps.id)(state),
 });
 
 ButtonContainer.propTypes = {
@@ -222,12 +235,12 @@ ButtonContainer.propTypes = {
   hint: PropTypes.string,
   hintPosition: PropTypes.string,
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 ButtonContainer.defaultProps = {
   visible: true,
-  disabled: false
+  disabled: false,
 };
 
 export default connect(mapStateToProps)(ButtonContainer);

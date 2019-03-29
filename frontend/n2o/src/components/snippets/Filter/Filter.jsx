@@ -41,7 +41,7 @@ class Filter extends React.Component {
       resetLabel,
       searchLabel,
       hideButtons,
-      children
+      children,
     } = this.props;
 
     return visible ? (
@@ -70,7 +70,7 @@ Filter.propTypes = {
   searchLabel: PropTypes.string,
   resetLabel: PropTypes.string,
   visible: PropTypes.bool,
-  hideButtons: PropTypes.bool
+  hideButtons: PropTypes.bool,
 };
 
 Filter.defaultProps = {
@@ -82,7 +82,7 @@ Filter.defaultProps = {
   className: '',
   searchLabel: 'Найти',
   resetLabel: 'Сбросить',
-  hideButtons: false
+  hideButtons: false,
 };
 
 export default Filter;

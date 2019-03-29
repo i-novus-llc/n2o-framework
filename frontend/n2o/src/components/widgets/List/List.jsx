@@ -10,7 +10,7 @@ import {
   AutoSizer,
   CellMeasurer,
   CellMeasurerCache,
-  List as Virtualizer
+  List as Virtualizer,
 } from 'react-virtualized';
 import { getIndex } from '../Table/Table';
 
@@ -29,12 +29,14 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIndex: props.hasSelect ? getIndex(props.data, props.selectedId) : null,
-      data: props.data
+      selectedIndex: props.hasSelect
+        ? getIndex(props.data, props.selectedId)
+        : null,
+      data: props.data,
     };
     this.cache = new CellMeasurerCache({
       fixedWidth: true,
-      defaultHeight: 90
+      defaultHeight: 90,
     });
 
     this._scrollTimeoutId = null;
@@ -56,14 +58,21 @@ class List extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { data, hasMoreButton, fetchOnScroll, maxHeight, selectedId } = this.props;
+    const {
+      data,
+      hasMoreButton,
+      fetchOnScroll,
+      maxHeight,
+      selectedId,
+    } = this.props;
     if (!isEqual(prevProps, this.props)) {
       let state = {};
       if (hasMoreButton && !fetchOnScroll && !isEqual(prevProps.data, data)) {
         if (maxHeight) {
           this._virtualizer.scrollToRow(data.length);
         } else {
-          const scrollHeight = ReactDom.findDOMNode(this._virtualizer).scrollHeight;
+          const scrollHeight = ReactDom.findDOMNode(this._virtualizer)
+            .scrollHeight;
           window.scrollTo(0, scrollHeight);
         }
       }
@@ -71,14 +80,14 @@ class List extends Component {
       if (!isEqual(prevProps.data, data)) {
         state = {
           ...state,
-          data: hasMoreButton ? [...data, {}] : data
+          data: hasMoreButton ? [...data, {}] : data,
         };
       }
 
       if (selectedId && !isEqual(prevProps.selectedId, selectedId)) {
         state = {
           ...state,
-          selectedIndex: getIndex(data, selectedId)
+          selectedIndex: getIndex(data, selectedId),
         };
       }
 
@@ -128,7 +137,10 @@ class List extends Component {
     this._scrollTimeoutId = setTimeout(() => {
       const scrollPosition = event.target.scrollTop + event.target.clientHeight;
       const minScrollToLoad = event.target.scrollHeight - SCROLL_OFFSET;
-      if (scrollPosition >= minScrollToLoad || scrollPosition === event.target.scrollHeight) {
+      if (
+        scrollPosition >= minScrollToLoad ||
+        scrollPosition === event.target.scrollHeight
+      ) {
         this.fetchMore();
       }
     }, 300);
@@ -140,7 +152,13 @@ class List extends Component {
     let moreBtn = null;
     if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
       return (
-        <CellMeasurer key={key} cache={this.cache} parent={parent} columnIndex={0} rowIndex={index}>
+        <CellMeasurer
+          key={key}
+          cache={this.cache}
+          parent={parent}
+          columnIndex={0}
+          rowIndex={index}
+        >
           <ListMoreButton style={style} onClick={this.fetchMore} />
         </CellMeasurer>
       );
@@ -148,7 +166,13 @@ class List extends Component {
 
     return (
       <React.Fragment>
-        <CellMeasurer key={key} cache={this.cache} parent={parent} columnIndex={0} rowIndex={index}>
+        <CellMeasurer
+          key={key}
+          cache={this.cache}
+          parent={parent}
+          columnIndex={0}
+          rowIndex={index}
+        >
           <ListItem
             {...data[index]}
             key={key}
@@ -167,7 +191,10 @@ class List extends Component {
     const { className, maxHeight } = this.props;
     const { data } = this.state;
     return (
-      <div ref={this.setListContainerRef} className={cn('n2o-widget-list', className)}>
+      <div
+        ref={this.setListContainerRef}
+        className={cn('n2o-widget-list', className)}
+      >
         <div className="n2o-widget-list-container">
           {maxHeight ? (
             <AutoSizer style={{ height: '100%' }}>
@@ -185,8 +212,17 @@ class List extends Component {
               )}
             </AutoSizer>
           ) : (
-            <WindowScroller ref={this._setWindowScrollerRef} scrollElement={window}>
-              {({ height, isScrolling, registerChild, onChildScroll, scrollTop }) => (
+            <WindowScroller
+              ref={this._setWindowScrollerRef}
+              scrollElement={window}
+            >
+              {({
+                height,
+                isScrolling,
+                registerChild,
+                onChildScroll,
+                scrollTop,
+              }) => (
                 <AutoSizer style={{ height: '100%' }}>
                   {({ width }) => (
                     <Virtualizer
@@ -224,7 +260,7 @@ List.propTypes = {
   maxHeight: PropTypes.number,
   fetchOnScroll: PropTypes.bool,
   divider: PropTypes.bool,
-  selectedId: PropTypes.oneOf(PropTypes.string, PropTypes.number)
+  selectedId: PropTypes.oneOf(PropTypes.string, PropTypes.number),
 };
 List.defaultProps = {
   onItemClick: () => {},
@@ -234,7 +270,7 @@ List.defaultProps = {
   rowClick: false,
   hasMoreButton: false,
   fetchOnScroll: false,
-  divider: true
+  divider: true,
 };
 
 export default List;

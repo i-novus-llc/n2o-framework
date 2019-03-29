@@ -20,10 +20,10 @@ stories
             id: 'testInvoke',
             title: 'Пример Invoke',
             actionId: 'invoke',
-            hint: 'Отправить invoke'
-          }
-        ]
-      }
+            hint: 'Отправить invoke',
+          },
+        ],
+      },
     ];
     return (
       <Actions
@@ -46,13 +46,15 @@ stories
                 {
                   id: 'test',
                   severity: 'success',
-                  text: 'Invoke прошел успешно'
-                }
-              ]
-            }
-          }
+                  text: 'Invoke прошел успешно',
+                },
+              ],
+            },
+          },
         };
       });
 
-    return <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
+    );
   });

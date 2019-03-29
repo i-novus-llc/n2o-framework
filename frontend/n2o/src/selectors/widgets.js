@@ -22,9 +22,12 @@ const widgetsSelector = state => {
  * @param widgetId
  */
 const makeWidgetByIdSelector = widgetId => {
-  return createSelector(widgetsSelector, widgetsState => {
-    return widgetsState[widgetId] || {};
-  });
+  return createSelector(
+    widgetsSelector,
+    widgetsState => {
+      return widgetsState[widgetId] || {};
+    }
+  );
 };
 
 /**
@@ -32,93 +35,143 @@ const makeWidgetByIdSelector = widgetId => {
  * @param widgetId
  */
 const makeWidgetIsInitSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => {
-    return widgetState.isInit;
-  });
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => {
+      return widgetState.isInit;
+    }
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - isVisible
  * @param widgetId
  */
 const makeWidgetVisibleSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.isVisible);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.isVisible
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - isEnabled
  * @param widgetId
  */
 const makeWidgetEnabledSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.isEnabled);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.isEnabled
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - isLoading
  * @param widgetId
  */
 const makeWidgetLoadingSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.isLoading);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.isLoading
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - size
  * @param widgetId
  */
 const makeWidgetSizeSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.size);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.size
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - count
  * @param widgetId
  */
 const makeWidgetCountSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.count);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.count
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - page
  * @param widgetId
  */
 const makeWidgetPageSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.page);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.page
+  );
 
 const makeWidgetPageIdSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.pageId);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.pageId
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
 const makeWidgetSortingSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.sorting);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.sorting
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - isFilterVisible
  * @param widgetId
  */
 const makeWidgetFilterVisibilitySelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => {
-    return widgetState.isFilterVisible;
-  });
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => {
+      return widgetState.isFilterVisible;
+    }
+  );
 
 /**
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
  */
 const makeWidgetValidationSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.validation);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.validation
+  );
 
 const makeSelectedIdSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.selectedId);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.selectedId
+  );
 
 const makeIsActiveSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.isActive);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.isActive
+  );
 
 const makeTypeSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.type);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.type
+  );
 
 const makeWidgetDataProviderSelector = widgetId =>
-  createSelector(makeWidgetByIdSelector(widgetId), widgetState => widgetState.dataProvider);
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.dataProvider
+  );
 
-const isAnyTableFocusedSelector = createSelector(widgetsSelector, widgetsState => {
-  return Object.values(widgetsState).some(widget => widget.type === TABLE && widget.isActive);
-});
+const isAnyTableFocusedSelector = createSelector(
+  widgetsSelector,
+  widgetsState => {
+    return Object.values(widgetsState).some(
+      widget => widget.type === TABLE && widget.isActive
+    );
+  }
+);
 /*
   Остальные селекторы
 */
@@ -141,5 +194,5 @@ export {
   makeWidgetPageIdSelector,
   makeTypeSelector,
   makeWidgetDataProviderSelector,
-  isAnyTableFocusedSelector
+  isAnyTableFocusedSelector,
 };

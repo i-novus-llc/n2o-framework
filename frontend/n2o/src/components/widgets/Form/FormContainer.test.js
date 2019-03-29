@@ -17,7 +17,7 @@ function setupToProvider(props, hocName, overrideStore) {
   const mockStore = configureMockStore();
   const store = mockStore({
     models: { resolve: {} },
-    ...overrideStore
+    ...overrideStore,
   });
   return mount(
     <Provider store={store}>
@@ -30,7 +30,7 @@ function setupToProviderFromDefault(props, overrideStore = {}) {
   const mockStore = configureMockStore();
   const store = mockStore({
     models: { resolve: {} },
-    ...overrideStore
+    ...overrideStore,
   });
   return mount(
     <Provider store={store}>
@@ -53,28 +53,32 @@ describe('FormContainer', () => {
         autoFocus: true,
         fieldsets: [{ id: 1, fieldset: 'any' }],
         modelPrefix: 'modelPrefix',
-        validation: true
+        validation: true,
       };
 
       const stateData = {
         widgets: {
           widgetId: {
-            isEnabled: true
-          }
+            isEnabled: true,
+          },
         },
         models: {
           datasource: {
-            widgetId: [{ id: 'datasource' }]
+            widgetId: [{ id: 'datasource' }],
           },
           modelPrefix: {
             widgetId: {
-              any: 'any'
-            }
-          }
-        }
+              any: 'any',
+            },
+          },
+        },
       };
 
-      const wrapper = setupToProvider(testPropsData, 'withWidgetContainer', stateData);
+      const wrapper = setupToProvider(
+        testPropsData,
+        'withWidgetContainer',
+        stateData
+      );
 
       expect(wrapper.find(NullComponent).props()).toEqual({
         ...testPropsData,
@@ -83,7 +87,7 @@ describe('FormContainer', () => {
         activeModel: stateData.models.modelPrefix.widgetId,
         resolveModel: {},
         onSetModel: expect.any(Function),
-        onResolve: expect.any(Function)
+        onResolve: expect.any(Function),
       });
     });
   });
@@ -100,7 +104,7 @@ describe('FormContainer', () => {
           activeModel: 'activeModel',
           defaultValues: 'defaultValues',
           reduxFormValues: ['reduxFormValues'],
-          setDefaultValues
+          setDefaultValues,
         },
         'withLiveCycleMethods'
       );
@@ -118,7 +122,7 @@ describe('FormContainer', () => {
         {
           defaultValues: 'defaultValues',
           datasource: [],
-          setDefaultValues
+          setDefaultValues,
         },
         'withLiveCycleMethods'
       );
@@ -138,26 +142,30 @@ describe('FormContainer', () => {
       const wrapper = setup(
         {
           defaultValues: [],
-          isEnabled: false
+          isEnabled: false,
         },
         'withPropsOnChangeWidget'
       );
       wrapper.setProps({ isEnabled: true }).update();
-      expect(wrapper.find(NullComponent).props()).toHaveProperty('initialValues', []);
+      expect(wrapper.find(NullComponent).props()).toHaveProperty(
+        'initialValues',
+        []
+      );
     });
 
     it('Прокидывание initialValues при изменении defaultValues и isEnabled=true', () => {
       const wrapper = setup(
         {
           defaultValues: [],
-          isEnabled: true
+          isEnabled: true,
         },
         'withPropsOnChangeWidget'
       );
       wrapper.setProps({ defaultValues: ['newDefaultValue'] }).update();
-      expect(wrapper.find(NullComponent).props()).toHaveProperty('initialValues', [
-        'newDefaultValue'
-      ]);
+      expect(wrapper.find(NullComponent).props()).toHaveProperty(
+        'initialValues',
+        ['newDefaultValue']
+      );
     });
 
     it('Прокидывание initialValues при изменении isEnabled, если нет defaultValues', () => {
@@ -165,15 +173,18 @@ describe('FormContainer', () => {
         {
           resolveModel: { resolve: '' },
           datasource: { data: '' },
-          isEnabled: false
+          isEnabled: false,
         },
         'withPropsOnChangeWidget'
       );
       wrapper.setProps({ isEnabled: true }).update();
-      expect(wrapper.find(NullComponent).props()).toHaveProperty('initialValues', {
-        resolve: '',
-        data: ''
-      });
+      expect(wrapper.find(NullComponent).props()).toHaveProperty(
+        'initialValues',
+        {
+          resolve: '',
+          data: '',
+        }
+      );
     });
   });
 
@@ -187,7 +198,7 @@ describe('FormContainer', () => {
           resolveModel: {},
           modelPrefix: 'datasource',
           onResolve,
-          onSetModel: () => {}
+          onSetModel: () => {},
         },
         'withWidgetHandlers'
       );
@@ -204,7 +215,7 @@ describe('FormContainer', () => {
       const onResolve = sinon.spy();
       const wrapper = setup(
         {
-          onResolve
+          onResolve,
         },
         'withWidgetHandlers'
       );
@@ -224,7 +235,7 @@ describe('FormContainer', () => {
           onSetModel,
           reduxFormValues: { init: 'test' },
           modelPrefix: 'datasource',
-          onResolve: () => {}
+          onResolve: () => {},
         },
         'withWidgetHandlers'
       );

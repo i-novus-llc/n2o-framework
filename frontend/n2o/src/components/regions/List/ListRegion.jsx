@@ -1,7 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
-import { isEmpty, filter, map, pick, difference, pullAll, first, isNil } from 'lodash';
+import {
+  isEmpty,
+  filter,
+  map,
+  pick,
+  difference,
+  pullAll,
+  first,
+  isNil,
+} from 'lodash';
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
@@ -38,7 +47,11 @@ class ListRegion extends React.Component {
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, 'type', 'forceRender');
     return (
-      <Collapse defaultActiveKey={this.activeKeys} onChange={this.handleChange} {...collapseProps}>
+      <Collapse
+        defaultActiveKey={this.activeKeys}
+        onChange={this.handleChange}
+        {...collapseProps}
+      >
         {items.map(item => {
           const widgetProps = getWidgetProps(item.widgetId);
 
@@ -46,7 +59,7 @@ class ListRegion extends React.Component {
             key: item.widgetId,
             id: item.widgetId,
             header: item.label || item.widgetId,
-            active: item.opened
+            active: item.opened,
           };
 
           const { security } = item;
@@ -56,7 +69,11 @@ class ListRegion extends React.Component {
               {...panelProps}
               style={{ display: widgetProps.isVisible === false ? 'none' : '' }}
             >
-              <Factory id={item.widgetId} level={WIDGETS} {...getWidget(pageId, item.widgetId)} />
+              <Factory
+                id={item.widgetId}
+                level={WIDGETS}
+                {...getWidget(pageId, item.widgetId)}
+              />
             </Panel>
           ) : (
             <SecurityCheck
@@ -70,7 +87,9 @@ class ListRegion extends React.Component {
                     {...panelProps}
                     {...listItemProps}
                     {...rest}
-                    style={{ display: widgetProps.isVisible === false ? 'none' : '' }}
+                    style={{
+                      display: widgetProps.isVisible === false ? 'none' : '',
+                    }}
                   >
                     <Factory
                       id={item.widgetId}
@@ -93,7 +112,7 @@ ListRegion.propTypes = {
   getWidget: PropTypes.func.isRequired,
   pageId: PropTypes.string.isRequired,
   forceRender: PropTypes.bool,
-  resolveVisibleDependency: PropTypes.func
+  resolveVisibleDependency: PropTypes.func,
 };
 
 export default compose(withWidgetProps)(ListRegion);

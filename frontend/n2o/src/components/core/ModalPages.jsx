@@ -24,7 +24,12 @@ class ModalPages extends React.Component {
     const modalPages = modals.map(
       modal =>
         modal.visible && (
-          <ModalPage key={modal.pageId} close={this.props.close} {...modal} {...modal.props} />
+          <ModalPage
+            key={modal.pageId}
+            close={this.props.close}
+            {...modal}
+            {...modal.props}
+          />
         )
     );
     return <div>{modalPages}</div>;
@@ -32,29 +37,29 @@ class ModalPages extends React.Component {
 }
 
 ModalPages.propTypes = {
-  modals: PropTypes.array
+  modals: PropTypes.array,
 };
 
 ModalPages.defaultProps = {
-  modals: {}
+  modals: {},
 };
 
 const mapStateToProps = createStructuredSelector({
-  modals: (state, props) => modalsSelector(state)
+  modals: (state, props) => modalsSelector(state),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     close: name => {
       dispatch(destroyModal());
-    }
+    },
   };
 }
 
 ModalPages.propTypes = {
   modals: PropTypes.array,
   options: PropTypes.object,
-  actions: PropTypes.object
+  actions: PropTypes.object,
 };
 
 ModalPages = connect(

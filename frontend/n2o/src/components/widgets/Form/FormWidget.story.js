@@ -12,7 +12,7 @@ import {
   FormCollapseFieldset,
   FormFieldsetCollapseVE,
   FormFieldsetStandartVE,
-  FormHighlyLoadedTest
+  FormHighlyLoadedTest,
 } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 import InputSelectContainerJson from '../../controls/InputSelect/InputSelectContainer.meta';
@@ -26,18 +26,24 @@ const stories = storiesOf('Виджеты/Форма', module);
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Form'));
 
-const renderForm = json => <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />;
+const renderForm = json => (
+  <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />
+);
 
 stories
   .addDecorator(story => {
     fetchMock.restore().getOnce('begin:n2o/data', getStubData);
     return story();
   })
-  .add('Метаданные', () => withPage(FormWidgetData)(() => renderForm(FormWidgetData)))
+  .add('Метаданные', () =>
+    withPage(FormWidgetData)(() => renderForm(FormWidgetData))
+  )
   .add('Расположение лейбла', () =>
     withPage(FieldLabelPosition)(() => renderForm(FieldLabelPosition))
   )
-  .add('Экшены полей', () => withPage(FieldLabelPosition)(() => renderForm(FormFields)))
+  .add('Экшены полей', () =>
+    withPage(FieldLabelPosition)(() => renderForm(FormFields))
+  )
   .add('Отображение в полях сообщений от сервера', () =>
     withPage(FormServerMessage)(() => {
       fetchMock.restore().post('begin:n2o/data', url => ({
@@ -49,20 +55,20 @@ stories
               fields: {
                 name: {
                   text: 'Ошибка',
-                  severity: 'danger'
+                  severity: 'danger',
                 },
                 surname: {
                   text: 'Предупреждение',
-                  severity: 'warning'
+                  severity: 'warning',
                 },
                 age: {
                   text: 'Успех',
-                  severity: 'success'
-                }
-              }
-            }
-          }
-        }
+                  severity: 'success',
+                },
+              },
+            },
+          },
+        },
       }));
 
       return renderForm(FormServerMessage);
@@ -77,14 +83,14 @@ stories
           message: [
             {
               severity: 'success',
-              text: 'Доступная фамилия'
+              text: 'Доступная фамилия',
             },
             {
               severity: 'danger',
-              text: 'Был отправлен запрос, получен ответ с ошибкой'
-            }
-          ]
-        }
+              text: 'Был отправлен запрос, получен ответ с ошибкой',
+            },
+          ],
+        },
       };
 
       fetchMock.restore().get('begin:n2o/validation', mockJson);
@@ -114,20 +120,20 @@ stories
               fields: {
                 nameSerValid: {
                   text: 'Ошибка',
-                  severity: 'danger'
+                  severity: 'danger',
                 },
                 surnameSerValid: {
                   text: 'Предупреждение',
-                  severity: 'warning'
+                  severity: 'warning',
                 },
                 ageSerValid: {
                   text: 'Успех',
-                  severity: 'success'
-                }
-              }
-            }
-          }
-        }
+                  severity: 'success',
+                },
+              },
+            },
+          },
+        },
       }));
 
       return renderForm(FormHighlyLoadedTest);

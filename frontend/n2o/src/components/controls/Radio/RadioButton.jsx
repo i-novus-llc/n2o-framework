@@ -22,7 +22,12 @@ class RadioButton extends React.Component {
     const { label, disabled, value, checked, onChange } = this.props;
 
     return (
-      <label className={cx('btn btn-secondary', { active: checked, disabled: disabled })}>
+      <label
+        className={cx('btn btn-secondary', {
+          active: checked,
+          disabled: disabled,
+        })}
+      >
         <Input
           className="alt-radio"
           disabled={disabled}
@@ -42,12 +47,12 @@ RadioButton.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  label: PropTypes.string
+  label: PropTypes.string,
 };
 
 RadioButton.defaultProps = {
   checked: false,
-  disabled: false
+  disabled: false,
 };
 
 export default setDisplayName('RadioButton')(RadioButton);

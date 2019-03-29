@@ -34,7 +34,7 @@ class Tabs extends React.Component {
     super(props);
 
     this.state = {
-      activeId: this.defaultOpenedId
+      activeId: this.defaultOpenedId,
     };
 
     this.handleChangeActive = this.handleChangeActive.bind(this);
@@ -49,7 +49,7 @@ class Tabs extends React.Component {
     const prevId = this.state.activeId;
     this.setState(
       {
-        activeId: id
+        activeId: id,
       },
       () => this.props.onChangeActive(id, prevId)
     );
@@ -93,11 +93,13 @@ class Tabs extends React.Component {
     const style = { marginBottom: 2 };
     return (
       <div className={className} style={style}>
-        {!_.isEmpty(tabNavItems) && <TabNav className={navClassName}>{tabNavItems}</TabNav>}
+        {!_.isEmpty(tabNavItems) && (
+          <TabNav className={navClassName}>{tabNavItems}</TabNav>
+        )}
         <TabContent>
           {React.Children.map(children, child =>
             React.cloneElement(child, {
-              active: activeId === child.props.id
+              active: activeId === child.props.id,
             })
           )}
         </TabContent>
@@ -110,7 +112,7 @@ Tabs.propTypes = {
   className: PropTypes.string,
   navClassName: PropTypes.string,
   onChangeActive: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default Tabs;

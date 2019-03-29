@@ -13,6 +13,9 @@ export const modalsSelector = state => {
  * @param i
  */
 export const makeModalsbyName = i =>
-  createSelector(modalsSelector, modalsState => {
-    return modalsState[i];
-  });
+  createSelector(
+    modalsSelector,
+    modalsState => {
+      return modalsState[i];
+    }
+  );

@@ -2,7 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
-import { isEmpty, filter, find, isEqual, has, get, clone, setWith, curry } from 'lodash';
+import {
+  isEmpty,
+  filter,
+  find,
+  isEqual,
+  has,
+  get,
+  clone,
+  setWith,
+  curry,
+} from 'lodash';
 import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange, branch, getContext } from 'recompose';
 import pathToRegexp from 'path-to-regexp';
@@ -19,7 +29,7 @@ import {
   makePageMetadataByIdSelector,
   makePageLoadingByIdSelector,
   makePageErrorByIdSelector,
-  makePageDisabledByIdSelector
+  makePageDisabledByIdSelector,
 } from '../../selectors/pages';
 import { getLocation } from '../../selectors/global';
 import withActions from './withActions';
@@ -40,7 +50,10 @@ class PageContainer extends React.Component {
     if (!isEmpty(metadata) && this.shouldGetPageMetadata(prevProps)) {
       reset(prevProps.pageId);
       getMetadata();
-    } else if (this.isEqualPageId(prevProps) && !this.isEqualPageUrl(prevProps)) {
+    } else if (
+      this.isEqualPageId(prevProps) &&
+      !this.isEqualPageUrl(prevProps)
+    ) {
       routeMap();
       if (error) {
         getMetadata();
@@ -51,7 +64,7 @@ class PageContainer extends React.Component {
   shouldGetPageMetadata(prevProps) {
     const {
       metadata,
-      location: { pathname, state = {} }
+      location: { pathname, state = {} },
     } = this.props;
     if (!isEmpty(metadata) && !isEmpty(metadata.routes)) {
       const findedRoutes = filter(metadata.routes.list, route => {
@@ -93,39 +106,43 @@ class PageContainer extends React.Component {
       containerKey,
       error,
       disabled,
-      pageId
+      pageId,
     } = this.props;
     return (
       <div className={cn({ 'n2o-disabled-page': disabled })}>
         {error && <Alert {...error} visible />}
-        {!isEmpty(metadata) && metadata.page && <DocumentTitle {...metadata.page} />}
-        {!isEmpty(metadata) &&
-          metadata.breadcrumb && (
-            <BreadcrumbContainer
-              defaultBreadcrumb={this.context.defaultBreadcrumb}
-              items={metadata.breadcrumb}
+        {!isEmpty(metadata) && metadata.page && (
+          <DocumentTitle {...metadata.page} />
+        )}
+        {!isEmpty(metadata) && metadata.breadcrumb && (
+          <BreadcrumbContainer
+            defaultBreadcrumb={this.context.defaultBreadcrumb}
+            items={metadata.breadcrumb}
+          />
+        )}
+        {toolbar && (toolbar.topLeft || toolbar.topRight) && (
+          <div className="n2o-page-actions">
+            <Actions
+              toolbar={toolbar.topLeft}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
             />
-          )}
-        {toolbar &&
-          (toolbar.topLeft || toolbar.topRight) && (
-            <div className="n2o-page-actions">
-              <Actions
-                toolbar={toolbar.topLeft}
-                actions={actions}
-                containerKey={containerKey}
-                pageId={pageId}
-              />
-              <Actions
-                toolbar={toolbar.topRight}
-                actions={actions}
-                containerKey={containerKey}
-                pageId={pageId}
-              />
-            </div>
-          )}
+            <Actions
+              toolbar={toolbar.topRight}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
+            />
+          </div>
+        )}
         <div className="n2o-page">
           {has(metadata, 'layout') && (
-            <Factory level={LAYOUTS} src={metadata.layout.src} {...metadata.layout}>
+            <Factory
+              level={LAYOUTS}
+              src={metadata.layout.src}
+              {...metadata.layout}
+            >
               {Object.keys(metadata.layout.regions).map((place, i) => {
                 return (
                   <Section place={place} key={'section' + i}>
@@ -143,30 +160,29 @@ class PageContainer extends React.Component {
             </Factory>
           )}
         </div>
-        {toolbar &&
-          (toolbar.bottomLeft || toolbar.bottomRight) && (
-            <div className="n2o-page-actions">
-              <Actions
-                toolbar={toolbar.bottomLeft}
-                actions={actions}
-                containerKey={containerKey}
-                pageId={pageId}
-              />
-              <Actions
-                toolbar={toolbar.bottomRight}
-                actions={actions}
-                containerKey={containerKey}
-                pageId={pageId}
-              />
-            </div>
-          )}
+        {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
+          <div className="n2o-page-actions">
+            <Actions
+              toolbar={toolbar.bottomLeft}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
+            />
+            <Actions
+              toolbar={toolbar.bottomRight}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
+            />
+          </div>
+        )}
       </div>
     );
   }
 }
 
 PageContainer.contextTypes = {
-  defaultBreadcrumb: PropTypes.element
+  defaultBreadcrumb: PropTypes.element,
 };
 
 PageContainer.propTypes = {
@@ -175,11 +191,11 @@ PageContainer.propTypes = {
   pageId: PropTypes.string,
   pageUrl: PropTypes.string,
   pageMapping: PropTypes.object,
-  rootPage: PropTypes.bool
+  rootPage: PropTypes.bool,
 };
 
 PageContainer.defaultProps = {
-  rootPage: false
+  rootPage: false,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -195,16 +211,19 @@ const mapStateToProps = createStructuredSelector({
   disabled: (state, { pageId }) => {
     return makePageDisabledByIdSelector(pageId)(state);
   },
-  location: getLocation
+  location: getLocation,
 });
 
-function mapDispatchToProps(dispatch, { pageId, rootPage, pageUrl, pageMapping }) {
+function mapDispatchToProps(
+  dispatch,
+  { pageId, rootPage, pageUrl, pageMapping }
+) {
   return {
     getMetadata: () => {
       dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping));
     },
     reset: pageId => dispatch(resetPage(pageId)),
-    routeMap: () => dispatch(mapUrl(pageId))
+    routeMap: () => dispatch(mapUrl(pageId)),
   };
 }
 
@@ -213,7 +232,7 @@ export { PageContainer };
 export default compose(
   branch(({ rootPage }) => rootPage, withActions),
   withPropsOnChange(['pageId', 'pageUrl'], ({ pageId, pageUrl }) => ({
-    pageId: pageId ? pageId : pageUrl ? pageUrl.substr(1) : null
+    pageId: pageId ? pageId : pageUrl ? pageUrl.substr(1) : null,
   })),
   connect(
     mapStateToProps,

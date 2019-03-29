@@ -24,76 +24,106 @@ const pagesSelector = state => {
  * @param pageId
  */
 const makePageByIdSelector = pageId =>
-  createSelector(pagesSelector, pagesState => {
-    return pagesState[pageId];
-  });
+  createSelector(
+    pagesSelector,
+    pagesState => {
+      return pagesState[pageId];
+    }
+  );
 
 /**
  * Селектор-генератор для получения метеданных страницы по ID
  * @param pageId
  */
 const makePageMetadataByIdSelector = pageId =>
-  createSelector(makePageByIdSelector(pageId), pageState => {
-    return pageState && pageState.metadata;
-  });
+  createSelector(
+    makePageByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.metadata;
+    }
+  );
 
 /**
  * Селектор-генератор для получения статуса загрузки по ID
  * @param pageId
  */
 const makePageLoadingByIdSelector = pageId =>
-  createSelector(makePageByIdSelector(pageId), pageState => {
-    return pageState && pageState.loading;
-  });
+  createSelector(
+    makePageByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.loading;
+    }
+  );
 /**
  * Селектор-генератор для получения статуса ошибки по ID
  * @param pageId
  */
 const makePageErrorByIdSelector = pageId =>
-  createSelector(makePageByIdSelector(pageId), pageState => {
-    return pageState && pageState.error;
-  });
+  createSelector(
+    makePageByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.error;
+    }
+  );
 
 /**
  * Селектор-генератор для получения статуса загрузки по ID
  * @param pageId
  */
 const makePageRoutesByIdSelector = pageId =>
-  createSelector(makePageMetadataByIdSelector(pageId), pageState => {
-    return pageState && pageState.routes;
-  });
+  createSelector(
+    makePageMetadataByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.routes;
+    }
+  );
 
 /*
  Остальные селекторы
  */
 const makeWidgetMetadataSelector = (pageId, widgetId) =>
-  createSelector(makePageMetadataByIdSelector(pageId), pageState => {
-    return pageState && pageState.widgets[widgetId];
-  });
+  createSelector(
+    makePageMetadataByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.widgets[widgetId];
+    }
+  );
 
 const makePageActionsByIdSelector = pageId =>
-  createSelector(makePageMetadataByIdSelector(pageId), pageState => {
-    return pageState && pageState.actions;
-  });
+  createSelector(
+    makePageMetadataByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.actions;
+    }
+  );
 
 const makePageToolbarByIdSelector = pageId =>
-  createSelector(makePageMetadataByIdSelector(pageId), pageState => {
-    return pageState && pageState.toolbar;
-  });
+  createSelector(
+    makePageMetadataByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.toolbar;
+    }
+  );
 
 const makePageTitleByIdSelector = pageId =>
-  createSelector(makePageMetadataByIdSelector(pageId), pageState => {
-    return pageState && pageState.page && pageState.page.title;
-  });
+  createSelector(
+    makePageMetadataByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.page && pageState.page.title;
+    }
+  );
 
 /**
  *  Получение свойства disabled страницы по ее id
  * @param pageId
  */
 const makePageDisabledByIdSelector = pageId =>
-  createSelector(makePageByIdSelector(pageId), pageState => {
-    return pageState && pageState.disabled;
-  });
+  createSelector(
+    makePageByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.disabled;
+    }
+  );
 
 export {
   pagesSelector,
@@ -106,5 +136,5 @@ export {
   makePageToolbarByIdSelector,
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
-  makePageDisabledByIdSelector
+  makePageDisabledByIdSelector,
 };

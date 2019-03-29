@@ -5,7 +5,7 @@ import {
   MAP_URL,
   RESET,
   DISABLE,
-  ENABLE
+  ENABLE,
 } from '../constants/pages';
 import {
   metadataRequest,
@@ -14,7 +14,7 @@ import {
   mapUrl,
   resetPage,
   disablePage,
-  enablePage
+  enablePage,
 } from './pages';
 
 const pageId = 'Page.Widget';
@@ -22,14 +22,14 @@ const rootPage = 'Root.Page';
 const pageUrl = '/page-url';
 const mapping = {
   a: 1,
-  b: 2
+  b: 2,
 };
 const json = JSON.stringify({
-  mapping
+  mapping,
 });
 const err = {
   text: 'Not found',
-  status: 404
+  status: 404,
 };
 
 describe('Тесты экшенов pages', () => {

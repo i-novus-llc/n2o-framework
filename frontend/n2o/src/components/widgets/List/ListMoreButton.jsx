@@ -3,11 +3,11 @@ import { Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 ListMoreButton.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 ListMoreButton.defaultProps = {
-  onClick: () => {}
+  onClick: () => {},
 };
 
 /**

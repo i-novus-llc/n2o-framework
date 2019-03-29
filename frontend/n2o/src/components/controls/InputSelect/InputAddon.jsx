@@ -20,7 +20,7 @@ function InputAddon({ item, iconFieldId, imageFieldId }) {
 InputAddon.propTypes = {
   item: PropTypes.object.isRequired,
   iconFieldId: PropTypes.string,
-  imageFieldId: PropTypes.string
+  imageFieldId: PropTypes.string,
 };
 
 export default InputAddon;

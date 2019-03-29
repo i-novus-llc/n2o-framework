@@ -37,10 +37,11 @@ function InputSelectGroup({
   isInputInFocus,
   onClearClick,
   setIsExpanded,
-  disabled
+  disabled,
 }) {
   const iconClass = isExpanded ? 'chevron-up' : 'chevron-down';
-  const displayAddon = !multiSelect && !!selected.length && (iconFieldId || imageFieldId);
+  const displayAddon =
+    !multiSelect && !!selected.length && (iconFieldId || imageFieldId);
 
   const renderButton = loading => {
     if (loading) {
@@ -58,27 +59,36 @@ function InputSelectGroup({
   };
   return (
     <div
-      className={cx('n2o-input-container', 'form-control', className, { disabled })}
+      className={cx('n2o-input-container', 'form-control', className, {
+        disabled,
+      })}
       style={{ padding: 0 }}
       onClick={onButtonClick}
     >
       <div className="n2o-input-items">
         {displayAddon && (
-          <InputAddon item={selected[0]} imageFieldId={imageFieldId} iconFieldId={iconFieldId} />
+          <InputAddon
+            item={selected[0]}
+            imageFieldId={imageFieldId}
+            iconFieldId={iconFieldId}
+          />
         )}
         {children}
       </div>
       <div className="n2o-input-control">
-        {(selected.length || input) &&
-          cleanable && (
-            <div
-              className={cx('n2o-input-clear', { 'input-in-focus': isInputInFocus })}
-              onClick={onClearClick}
-            >
-              <i className="fa fa-times" aria-hidden="true" />
-            </div>
-          )}
-        <div className={cx('n2o-popup-control', { isExpanded })}>{renderButton(loading)}</div>
+        {(selected.length || input) && cleanable && (
+          <div
+            className={cx('n2o-input-clear', {
+              'input-in-focus': isInputInFocus,
+            })}
+            onClick={onClearClick}
+          >
+            <i className="fa fa-times" aria-hidden="true" />
+          </div>
+        )}
+        <div className={cx('n2o-popup-control', { isExpanded })}>
+          {renderButton(loading)}
+        </div>
       </div>
     </div>
   );
@@ -98,7 +108,7 @@ InputSelectGroup.propTypes = {
   disabled: PropTypes.bool,
   onClearClick: PropTypes.func,
   setIsExpanded: PropTypes.func,
-  cleanable: PropTypes.bool
+  cleanable: PropTypes.bool,
 };
 
 InputSelectGroup.defaultProps = {
@@ -106,7 +116,7 @@ InputSelectGroup.defaultProps = {
   multiSelect: false,
   loading: false,
   collapseSelected: true,
-  setIsExpanded: () => {}
+  setIsExpanded: () => {},
 };
 
 export default InputSelectGroup;

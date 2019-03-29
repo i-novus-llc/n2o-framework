@@ -19,7 +19,7 @@ stories
     const props = {
       visible: true,
       step: '0.1',
-      showButtons: true
+      showButtons: true,
     };
 
     return <InputNumber {...props} />;
@@ -34,7 +34,7 @@ stories
         showButtons: boolean('showButtons', InputNumberJson.showButtons),
         disabled: boolean('disabled', InputNumberJson.disabled),
         min: number('min', InputNumberJson.min),
-        max: number('max', InputNumberJson.max)
+        max: number('max', InputNumberJson.max),
       };
       return props;
     })
@@ -44,7 +44,7 @@ stories
     const props = {
       value: 1,
       min: -150,
-      max: 150
+      max: 150,
     };
 
     return <InputNumber {...props} />;
@@ -54,7 +54,7 @@ stories
     const props = {
       value: 1,
       min: -150,
-      max: 150
+      max: 150,
     };
 
     return (
@@ -74,7 +74,7 @@ stories
       value: 1,
       min: -150,
       max: 150,
-      showButtons: false
+      showButtons: false,
     };
 
     return <InputNumber {...props} />;

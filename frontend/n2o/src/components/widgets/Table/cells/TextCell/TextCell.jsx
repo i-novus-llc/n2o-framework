@@ -14,7 +14,9 @@ import Text from '../../../../snippets/Text/Text';
 class TextCell extends React.Component {
   render() {
     const { model, fieldKey, id, visible, ...rest } = this.props;
-    return visible && <Text text={model && get(model, fieldKey || id)} {...rest} />;
+    return (
+      visible && <Text text={model && get(model, fieldKey || id)} {...rest} />
+    );
   }
 }
 
@@ -23,11 +25,11 @@ TextCell.propTypes = {
   fieldKey: PropTypes.string,
   className: PropTypes.string,
   format: PropTypes.string,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 TextCell.defaultProps = {
-  visible: true
+  visible: true,
 };
 
 export default TextCell;

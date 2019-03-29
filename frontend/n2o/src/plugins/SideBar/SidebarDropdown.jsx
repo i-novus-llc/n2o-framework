@@ -8,7 +8,7 @@ class SidebarDropdown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: this.checkIfActive() || props.open
+      open: this.checkIfActive() || props.open,
     };
 
     this.onClick = this.onClick.bind(this);
@@ -22,7 +22,7 @@ class SidebarDropdown extends React.Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      open: this.checkIfActive() || props.open
+      open: this.checkIfActive() || props.open,
     });
   }
 
@@ -34,7 +34,7 @@ class SidebarDropdown extends React.Component {
   render() {
     const { children, activeId, title } = this.props;
     const caretStyle = {
-      marginLeft: 5
+      marginLeft: 5,
     };
 
     return (
@@ -45,7 +45,7 @@ class SidebarDropdown extends React.Component {
             <i
               className={cx('fa', {
                 'fa-caret-up': this.state.open,
-                'fa-caret-down': !this.state.open
+                'fa-caret-down': !this.state.open,
               })}
               style={caretStyle}
               aria-hidden="true"

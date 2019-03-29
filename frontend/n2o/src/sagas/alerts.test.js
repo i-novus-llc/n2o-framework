@@ -7,16 +7,16 @@ import { removeAlert } from '../actions/alerts';
 describe('Проверка саги alerts', () => {
   it('getTimeout должен вернуть тайм-аут', () => {
     const timeout1 = getTimeout({
-      timeout: 100
+      timeout: 100,
     });
     const timeout2 = getTimeout(
       {
-        severity: 'danger'
+        severity: 'danger',
       },
       {
         timeout: {
-          danger: 123
-        }
+          danger: 123,
+        },
       }
     );
 
@@ -34,24 +34,24 @@ describe('Проверка саги alerts', () => {
           {
             id: 'test',
             data: {
-              name: 'test'
+              name: 'test',
             },
             severity: 'success',
-            text: 'Success'
-          }
-        ]
-      }
+            text: 'Success',
+          },
+        ],
+      },
     };
     const dispatched = [];
     const fakeStore = {
       getState: () => ({
         alerts: {
           testKey: {
-            some: 'value'
-          }
-        }
+            some: 'value',
+          },
+        },
       }),
-      dispatch: action => dispatched.push(action)
+      dispatch: action => dispatched.push(action),
     };
     const result = await runSaga(fakeStore, removeAlertSideEffect, action, 1);
     await Promise.resolve(result.done);

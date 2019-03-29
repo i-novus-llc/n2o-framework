@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { Button, ButtonGroup } from 'reactstrap';
 import { FormattedMessage } from 'react-intl';
 
-export default function Buttons({ visible, searchLabel, resetLabel, onSearch, onReset }) {
+export default function Buttons({
+  visible,
+  searchLabel,
+  resetLabel,
+  onSearch,
+  onReset,
+}) {
   return visible ? (
     <ButtonGroup>
       <Button color="primary" onClick={onSearch}>
@@ -21,7 +27,7 @@ Buttons.propTypes = {
   onReset: PropTypes.func,
   searchLabel: PropTypes.string,
   resetLabel: PropTypes.string,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 Buttons.defaultProps = {
@@ -29,5 +35,5 @@ Buttons.defaultProps = {
   onReset: () => {},
   searchLabel: 'Найти',
   resetLabel: 'Сбросить',
-  visible: true
+  visible: true,
 };

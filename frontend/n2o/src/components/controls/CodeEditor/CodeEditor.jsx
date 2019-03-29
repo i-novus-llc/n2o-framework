@@ -29,7 +29,7 @@ class CodeEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value
+      value: props.value,
     };
   }
 
@@ -48,7 +48,15 @@ class CodeEditor extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, name, visible, lang, minLines, maxLines, autocomplete } = this.props;
+    const {
+      disabled,
+      name,
+      visible,
+      lang,
+      minLines,
+      maxLines,
+      autocomplete,
+    } = this.props;
     return (
       visible && (
         <div style={{ display: 'flex', border: '1px solid #d1d1d1' }}>
@@ -68,7 +76,7 @@ class CodeEditor extends React.Component {
             enableBasicAutocompletion={autocomplete}
             setOptions={{
               showLineNumbers: true,
-              tabSize: 2
+              tabSize: 2,
             }}
           />
         </div>
@@ -86,7 +94,7 @@ CodeEditor.propTypes = {
   maxLines: PropTypes.number,
   lang: PropTypes.oneOf(['javascript', 'xml', 'sql', 'groovy', 'java', 'html']),
   autocomplete: PropTypes.bool,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 CodeEditor.defaultProps = {
@@ -94,7 +102,7 @@ CodeEditor.defaultProps = {
   lang: 'javascript',
   onChange: () => {},
   disabled: false,
-  visible: true
+  visible: true,
 };
 
 export default CodeEditor;

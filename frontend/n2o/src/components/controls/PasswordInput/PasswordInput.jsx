@@ -51,14 +51,14 @@ PasswordInput.propTypes = {
   onChange: PropTypes.func,
   length: PropTypes.string,
   type: PropTypes.string,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
 };
 
 PasswordInput.defaultProps = {
   onChange: () => {},
   className: '',
   disabled: false,
-  autoFocus: false
+  autoFocus: false,
 };
 
 export default PasswordInput;

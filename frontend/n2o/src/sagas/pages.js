@@ -10,7 +10,7 @@ import {
   throttle,
   fork,
   actionChannel,
-  cancelled
+  cancelled,
 } from 'redux-saga/effects';
 import { matchPath } from 'react-router';
 import { batchActions } from 'redux-batched-actions';
@@ -27,11 +27,23 @@ import {
   get,
   set,
   reduce,
-  pickBy
+  pickBy,
 } from 'lodash';
-import { getAction, getLocation, LOCATION_CHANGE, replace } from 'connected-react-router';
+import {
+  getAction,
+  getLocation,
+  LOCATION_CHANGE,
+  replace,
+} from 'connected-react-router';
 import queryString from 'query-string';
-import { SET, COPY, SYNC, REMOVE, UPDATE, UPDATE_MAP } from '../constants/models';
+import {
+  SET,
+  COPY,
+  SYNC,
+  REMOVE,
+  UPDATE,
+  UPDATE_MAP,
+} from '../constants/models';
 import { MAP_URL, METADATA_REQUEST, RESET } from '../constants/pages';
 import { metadataFail, metadataSuccess } from '../actions/pages';
 import { combineModels, updateModel } from '../actions/models';
@@ -48,7 +60,7 @@ function autoDetectBasePath(pathPattern, pathname) {
   const match = matchPath(pathname, {
     path: pathPattern,
     exact: false,
-    strict: false
+    strict: false,
   });
   return match && match.url;
 }
@@ -70,13 +82,15 @@ function applyPlaceholders(key, obj, placeholders) {
 }
 
 function* pathMapping(location, routes) {
-  const parsedPath = head(compact(map(routes.list, route => matchPath(location.pathname, route))));
+  const parsedPath = head(
+    compact(map(routes.list, route => matchPath(location.pathname, route)))
+  );
   if (parsedPath && !isEmpty(parsedPath.params)) {
     yield put(
       batchActions(
         map(parsedPath.params, (value, key) => ({
           ...routes.pathMapping[key],
-          ...applyPlaceholders(key, routes.pathMapping[key], parsedPath.params)
+          ...applyPlaceholders(key, routes.pathMapping[key], parsedPath.params),
         }))
       )
     );
@@ -93,7 +107,11 @@ function* queryMapping(location, routes) {
             return (
               routes.queryMapping[key] && {
                 ...routes.queryMapping[key].get,
-                ...applyPlaceholders(key, routes.queryMapping[key].get, parsedQuery)
+                ...applyPlaceholders(
+                  key,
+                  routes.queryMapping[key].get,
+                  parsedQuery
+                ),
               }
             );
           })
@@ -106,12 +124,21 @@ function* queryMapping(location, routes) {
 function* mappingUrlToRedux(routes) {
   const location = yield select(getLocation);
   if (routes) {
-    yield all([call(pathMapping, location, routes), call(queryMapping, location, routes)]);
+    yield all([
+      call(pathMapping, location, routes),
+      call(queryMapping, location, routes),
+    ]);
   }
   try {
     const basePath = autoDetectBasePath(routes.list[0].path, location.pathname);
     if (location.pathname !== basePath) {
-      yield put(replace({ pathname: basePath, search: location.search, state: { silent: true } }));
+      yield put(
+        replace({
+          pathname: basePath,
+          search: location.search,
+          state: { silent: true },
+        })
+      );
     }
   } catch (e) {
     console.error(`Ошибка автоматического определения базового роута.`);
@@ -167,7 +194,7 @@ function* getMetadata(action) {
           label: err.status ? err.status : 'Ошибка',
           text: err.message,
           closeButton: false,
-          severity: 'danger'
+          severity: 'danger',
         },
         err.json && err.json.meta ? err.json.meta : {}
       )
@@ -220,9 +247,19 @@ export function* flowDefaultModels(config) {
   if (!isEmpty(initialModels)) {
     yield put(combineModels(initialModels));
   }
-  const observableModels = pickBy(config, item => !!item.observe && !!item.link);
+  const observableModels = pickBy(
+    config,
+    item => !!item.observe && !!item.link
+  );
   if (!isEmpty(observableModels)) {
-    const modelsChan = yield actionChannel([SET, COPY, SYNC, REMOVE, UPDATE, UPDATE_MAP]);
+    const modelsChan = yield actionChannel([
+      SET,
+      COPY,
+      SYNC,
+      REMOVE,
+      UPDATE,
+      UPDATE_MAP,
+    ]);
     try {
       while (true) {
         const oldState = yield select();
@@ -232,7 +269,11 @@ export function* flowDefaultModels(config) {
           observableModels,
           cfg => !isEqual(get(oldState, cfg.link), get(newState, cfg.link))
         );
-        const newModels = yield call(compareAndResolve, changedModels, newState);
+        const newModels = yield call(
+          compareAndResolve,
+          changedModels,
+          newState
+        );
         if (!isEmpty(newModels)) {
           yield put(combineModels(newModels));
         }
@@ -251,5 +292,5 @@ export function* flowDefaultModels(config) {
  */
 export const pagesSagas = [
   takeEvery(METADATA_REQUEST, getMetadata),
-  throttle(500, MAP_URL, processUrl)
+  throttle(500, MAP_URL, processUrl),
 ];

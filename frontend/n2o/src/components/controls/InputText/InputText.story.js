@@ -19,7 +19,7 @@ stories.add(
     const props = {
       placeholder: text('placeholder', InputJson.placeholder),
       disabled: boolean('disabled', InputJson.disabled),
-      length: number('length', InputJson.length)
+      length: number('length', InputJson.length),
     };
 
     return props;

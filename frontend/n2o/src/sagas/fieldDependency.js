@@ -11,7 +11,7 @@ import {
   showField,
   hideField,
   setRequired,
-  unsetRequired
+  unsetRequired,
 } from '../actions/formPlugin';
 
 export function* modify(values, formName, fieldName, type, options = {}) {
@@ -26,7 +26,9 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(disableField(formName, fieldName));
       break;
     case 'visible':
-      yield _evalResult ? put(showField(formName, fieldName)) : put(hideField(formName, fieldName));
+      yield _evalResult
+        ? put(showField(formName, fieldName))
+        : put(hideField(formName, fieldName));
       break;
     case 'setValue':
       yield put(change(formName, fieldName, _evalResult));
@@ -44,14 +46,21 @@ export function* modify(values, formName, fieldName, type, options = {}) {
   }
 }
 
-export function* checkAndModify(values, fields, formName, fieldName, actionType) {
+export function* checkAndModify(
+  values,
+  fields,
+  formName,
+  fieldName,
+  actionType
+) {
   for (const entry of Object.entries(fields)) {
     const [fieldId, field] = entry;
     if (field.dependency) {
       for (const dep of field.dependency) {
         if (
           (fieldName && dep.on.includes(fieldName)) ||
-          ((actionType === actionTypes.INITIALIZE || actionType === REGISTER_FIELD_EXTRA) &&
+          ((actionType === actionTypes.INITIALIZE ||
+            actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)
         ) {
           yield call(modify, values, formName, fieldId, dep.type, dep);
@@ -68,7 +77,14 @@ export function* resolveDependency(action) {
     if (!isEmpty(form)) {
       const { values, registeredFields: fields } = form;
       if (!isEmpty(fields)) {
-        yield call(checkAndModify, values, fields, formName, fieldName || action.name, action.type);
+        yield call(
+          checkAndModify,
+          values,
+          fields,
+          formName,
+          fieldName || action.name,
+          action.type
+        );
       }
     }
   } catch (e) {
