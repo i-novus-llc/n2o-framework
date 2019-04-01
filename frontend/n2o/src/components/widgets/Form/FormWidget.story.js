@@ -1,4 +1,8 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { withContext } from 'recompose';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, object } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
@@ -14,12 +18,15 @@ import {
   FormFieldsetStandartVE,
   FormHighlyLoadedTest,
 } from 'N2oStorybook/json';
+import FormWithPrompt from '../../../../.storybook/json/FormWithPrompt';
 import fetchMock from 'fetch-mock';
 import InputSelectContainerJson from '../../controls/InputSelect/InputSelectContainer.meta';
 
 import FormWidgetData from './FormWidget.meta.json';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
+import Page from '../../core/Router';
+import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
 
 const stories = storiesOf('Виджеты/Форма', module);
 
@@ -138,4 +145,40 @@ stories
 
       return renderForm(FormHighlyLoadedTest);
     })
-  );
+  )
+  .add('Форма с Prompt', () => {
+    const FormWithContext = withContext(
+      {
+        defaultPromptMessage: PropTypes.string,
+      },
+      props => ({
+        defaultPromptMessage:
+          'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
+      })
+    )(() => renderForm(FormWithPrompt));
+    return (
+      <Router>
+        <div>
+          <div className="row">
+            <div className="col-6">
+              <h5>Меню</h5>
+              <div className="nav flex-column">
+                <Link className="nav-link" to="/">
+                  Форма
+                </Link>
+                <Link className="nav-link" to="/another">
+                  Другая страница
+                </Link>
+              </div>
+            </div>
+            <div className="col-6">
+              <Switch>
+                <Route exact path={'/'} component={FormWithContext} />
+                <Route path={'/another'} component={() => <div>test</div>} />
+              </Switch>
+            </div>
+          </div>
+        </div>
+      </Router>
+    );
+  });

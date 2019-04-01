@@ -6,7 +6,7 @@ import {
   redirectEffect,
   messagesFormEffect,
 } from './meta';
-import { DESTROY } from '../constants/modals';
+import { CLOSE, DESTROY } from '../constants/modals';
 import { DATA_REQUEST } from '../constants/widgets';
 import { ADD_MULTI, REMOVE_ALL } from '../constants/alerts';
 import { ADD_FIELD_MESSAGE } from '../constants/formPlugin';
@@ -169,14 +169,6 @@ describe('Сага для перехвата меты, сайд-эффектов
       expect(gen.value['PUT'].action.payload[0].payload.message.text).toEqual(
         meta['messages.fields'].text
       );
-    });
-  });
-
-  describe('Проверяет сагу closeModalEffect', () => {
-    it('Проверяет диспатч закрытия модального окна', () => {
-      const gen = setupCloseModal();
-      let { value } = gen.next();
-      expect(value['PUT'].action.type).toEqual(DESTROY);
     });
   });
 });

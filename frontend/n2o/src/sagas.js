@@ -10,6 +10,7 @@ import { metaSagas } from './sagas/meta';
 import { globalSagas } from './sagas/global';
 import { toolbarSagas } from './sagas/toolbar';
 import { widgetDependencySagas } from './sagas/widgetDependency';
+import { modalsSagas } from './sagas/modals';
 
 export default function generateSagas(dispatch, config) {
   return function* rootSaga() {
@@ -25,6 +26,7 @@ export default function generateSagas(dispatch, config) {
       ...globalSagas,
       ...toolbarSagas,
       ...widgetDependencySagas,
+      ...modalsSagas,
     ]);
   };
 }

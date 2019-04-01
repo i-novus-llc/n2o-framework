@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { values } from 'lodash';
-
 import StandardWidget from '../StandardWidget';
 import FormContainer from './FormContainer';
 import Fieldsets from './fieldsets';
@@ -19,6 +18,7 @@ import dependency from '../../../core/dependency';
  * @reactProps {number} form.size - размер выборки
  * @reactProps {array} form.fieldsets
  * @reactProps {object} form.validation
+ * @reactProps {object} form.prompt - флаг включения обработки выхода с несохраненной формы
  */
 class FormWidget extends React.Component {
   /**
@@ -36,6 +36,7 @@ class FormWidget extends React.Component {
       fetchOnInit: this.props.form.fetchOnInit,
       modelPrefix: this.props.form.modelPrefix,
       dataProvider: this.props.dataProvider,
+      prompt: this.props.form.prompt,
     };
   }
 
@@ -52,6 +53,7 @@ class FormWidget extends React.Component {
       pageId,
       className,
       style,
+      form,
     } = this.props;
 
     return (
@@ -91,6 +93,7 @@ FormWidget.propTypes = {
     fetchOnInit: PropTypes.bool,
     fieldsets: PropTypes.array,
     validation: PropTypes.object,
+    prompt: PropTypes.bool,
   }),
 };
 

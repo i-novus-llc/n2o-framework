@@ -1,4 +1,12 @@
-import { INSERT, DESTROY, HIDE, SHOW } from '../constants/modals';
+import {
+  INSERT,
+  DESTROY,
+  HIDE,
+  SHOW,
+  SHOW_PROMPT,
+  HIDE_PROMPT,
+  CLOSE,
+} from '../constants/modals';
 import createActionHelper from './createActionHelper';
 
 /**
@@ -49,9 +57,33 @@ export function hideModal(name) {
 
 /**
  * Удалить модальное окно
- * @param name
  * @returns {*}
  */
-export function destroyModal(name) {
+export function destroyModal() {
   return createActionHelper(DESTROY)();
+}
+
+/**
+ * События при попытке закрыть модальное окно
+ * @param name
+ * @param prompt
+ */
+export function closeModal(name, prompt) {
+  return createActionHelper(CLOSE)({ name, prompt });
+}
+
+/**
+ * Показать подтверждение закрытия модального окна
+ * @param name
+ */
+export function showPrompt(name) {
+  return createActionHelper(SHOW_PROMPT)({ name });
+}
+
+/**
+ * Скрыть подтверждение закрытия модального окна
+ * @param name
+ */
+export function hidePrompt(name) {
+  return createActionHelper(HIDE_PROMPT)({ name });
 }
