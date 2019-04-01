@@ -160,19 +160,20 @@ public class StaticInvocationEngineTest {
         classTypeArgument.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass$Model");
         classTypeArgument.setType(Argument.Type.CLASS);
 
-        method.setArguments(new Argument[]{entityTypeArgument, primitiveTypeArgument, classTypeArgument});
+        method.setArguments(new Argument[]{entityTypeArgument, primitiveTypeArgument, primitiveTypeArgument, classTypeArgument});
 
-        Object[] dataSet = new Object[3];
+        Object[] dataSet = new Object[4];
         StaticInvocationTestClass.Model model1 = new StaticInvocationTestClass.Model();
         model1.setTestField(1);
         dataSet[0] = model1;
         dataSet[1] = 2;
+        dataSet[2] = 100;
         StaticInvocationTestClass.Model model2 = new StaticInvocationTestClass.Model();
         model2.setTestField(7);
-        dataSet[2] = model2;
+        dataSet[3] = model2;
 
         StaticJavaInvocationEngine javaInvocation = new StaticJavaInvocationEngine();
         Integer resultDataSet = (Integer) javaInvocation.invoke(method, dataSet);
-        assert resultDataSet.equals(10);
+        assert resultDataSet.equals(110);
     }
 }
