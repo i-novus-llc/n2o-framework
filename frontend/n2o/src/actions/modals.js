@@ -1,4 +1,12 @@
-import { INSERT, DESTROY, HIDE, SHOW, SHOW_PROMPT, HIDE_PROMPT, CLOSE } from '../constants/modals';
+import {
+  INSERT,
+  DESTROY,
+  HIDE,
+  SHOW,
+  SHOW_PROMPT,
+  HIDE_PROMPT,
+  CLOSE,
+} from '../constants/modals';
 import createActionHelper from './createActionHelper';
 
 /**

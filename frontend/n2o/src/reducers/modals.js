@@ -1,5 +1,12 @@
 import _ from 'lodash';
-import { INSERT, DESTROY, HIDE, SHOW, SHOW_PROMPT, HIDE_PROMPT } from '../constants/modals';
+import {
+  INSERT,
+  DESTROY,
+  HIDE,
+  SHOW,
+  SHOW_PROMPT,
+  HIDE_PROMPT,
+} from '../constants/modals';
 
 const defaultState = {
   visible: false,
@@ -40,7 +47,9 @@ function resolve(state = defaultState, action) {
  * Редюсер экшенов модалок
  */
 export default function modals(state = [], action) {
-  const index = state.findIndex(modal => modal.name === _.get(action, 'payload.name'));
+  const index = state.findIndex(
+    modal => modal.name === _.get(action, 'payload.name')
+  );
   switch (action.type) {
     case INSERT:
       return [...state, resolve({}, action)];

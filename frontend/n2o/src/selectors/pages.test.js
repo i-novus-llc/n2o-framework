@@ -10,7 +10,7 @@ import {
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
   makePageDisabledByIdSelector,
-  makePageWidgetsByIdSelector
+  makePageWidgetsByIdSelector,
 } from './pages';
 
 const state = {
@@ -19,33 +19,33 @@ const state = {
       metadata: {
         widgets: {
           widgetId: {
-            metadata: 'widget metadata'
-          }
+            metadata: 'widget metadata',
+          },
         },
         page: {
           title: 'page title',
-          some: 'value'
-        }
+          some: 'value',
+        },
       },
       loading: true,
       error: false,
       disabled: true,
       routes: [
         {
-          route: 'route'
+          route: 'route',
         },
         {
-          route: 'route'
-        }
+          route: 'route',
+        },
       ],
       actions: [
         {
-          action: 'action'
-        }
+          action: 'action',
+        },
       ],
-      toolbar: 'toolbar object'
-    }
-  }
+      toolbar: 'toolbar object',
+    },
+  },
 };
 
 describe('Проверка селекторов pages', () => {
@@ -56,13 +56,19 @@ describe('Проверка селекторов pages', () => {
     expect(makePageByIdSelector('_')(state)).toEqual(state.pages._);
   });
   it('makePageMetadataByIdSelector должен вернуть page по id', () => {
-    expect(makePageMetadataByIdSelector('_')(state)).toEqual(state.pages._.metadata);
+    expect(makePageMetadataByIdSelector('_')(state)).toEqual(
+      state.pages._.metadata
+    );
   });
   it('makePageLoadingByIdSelector должен вернуть loading по id', () => {
-    expect(makePageLoadingByIdSelector('_')(state)).toEqual(state.pages._.loading);
+    expect(makePageLoadingByIdSelector('_')(state)).toEqual(
+      state.pages._.loading
+    );
   });
   it('makePageRoutesByIdSelector должен вернуть routes по id', () => {
-    expect(makePageRoutesByIdSelector('_')(state)).toEqual(state.pages._.metadata.routes);
+    expect(makePageRoutesByIdSelector('_')(state)).toEqual(
+      state.pages._.metadata.routes
+    );
   });
   it('makeWidgetMetadataSelector должен вернуть metadata виджета по id', () => {
     expect(makeWidgetMetadataSelector('_', 'widgetId')(state)).toEqual(
@@ -70,21 +76,31 @@ describe('Проверка селекторов pages', () => {
     );
   });
   it('makePageActionsByIdSelector должен вернуть actions по id', () => {
-    expect(makePageActionsByIdSelector('_')(state)).toEqual(state.pages._.metadata.actions);
+    expect(makePageActionsByIdSelector('_')(state)).toEqual(
+      state.pages._.metadata.actions
+    );
   });
   it('makePageToolbarByIdSelector должен вернуть toolbar по id', () => {
-    expect(makePageToolbarByIdSelector('_')(state)).toEqual(state.pages._.metadata.toolbar);
+    expect(makePageToolbarByIdSelector('_')(state)).toEqual(
+      state.pages._.metadata.toolbar
+    );
   });
   it('makePageErrorByIdSelector должен вернуть error по id', () => {
     expect(makePageErrorByIdSelector('_')(state)).toEqual(state.pages._.error);
   });
   it('makePageTitleByIdSelector должен вернуть title по id', () => {
-    expect(makePageTitleByIdSelector('_')(state)).toEqual(state.pages._.metadata.page.title);
+    expect(makePageTitleByIdSelector('_')(state)).toEqual(
+      state.pages._.metadata.page.title
+    );
   });
   it('makePageDisabledByIdSelector должен вернуть disabled по id', () => {
-    expect(makePageDisabledByIdSelector('_')(state)).toEqual(state.pages._.disabled);
+    expect(makePageDisabledByIdSelector('_')(state)).toEqual(
+      state.pages._.disabled
+    );
   });
   it('makePageWidgetsByIdSelector должен вернуть widgets по id', () => {
-    expect(makePageWidgetsByIdSelector('_')(state)).toEqual(state.pages._.metadata.widgets);
+    expect(makePageWidgetsByIdSelector('_')(state)).toEqual(
+      state.pages._.metadata.widgets
+    );
   });
 });

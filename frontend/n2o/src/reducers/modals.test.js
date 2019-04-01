@@ -7,26 +7,26 @@ describe('Тесты modals reducer', () => {
       modals(
         [
           {
-            name: 'stateModal'
-          }
+            name: 'stateModal',
+          },
         ],
         {
           type: INSERT,
           payload: {
             visible: true,
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual([
       {
-        name: 'stateModal'
+        name: 'stateModal',
       },
       {
         name: 'testName',
         props: {},
-        visible: true
-      }
+        visible: true,
+      },
     ]);
   });
 
@@ -37,22 +37,22 @@ describe('Тесты modals reducer', () => {
           {
             name: 'stateModal',
             modal: {},
-            visible: false
-          }
+            visible: false,
+          },
         ],
         {
           type: SHOW,
           payload: {
-            name: 'stateModal'
-          }
+            name: 'stateModal',
+          },
         }
       )
     ).toEqual([
       {
         name: 'stateModal',
         modal: {},
-        visible: true
-      }
+        visible: true,
+      },
     ]);
   });
 
@@ -63,22 +63,22 @@ describe('Тесты modals reducer', () => {
           {
             name: 'stateModal',
             modal: {},
-            visible: true
-          }
+            visible: true,
+          },
         ],
         {
           type: HIDE,
           payload: {
-            name: 'stateModal'
-          }
+            name: 'stateModal',
+          },
         }
       )
     ).toEqual([
       {
         name: 'stateModal',
         modal: {},
-        visible: false
-      }
+        visible: false,
+      },
     ]);
   });
 
@@ -88,13 +88,13 @@ describe('Тесты modals reducer', () => {
         [
           {
             modal: {
-              name: 'stateModal'
+              name: 'stateModal',
             },
-            visible: true
-          }
+            visible: true,
+          },
         ],
         {
-          type: DESTROY
+          type: DESTROY,
         }
       )
     ).toEqual([]);

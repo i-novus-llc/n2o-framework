@@ -44,6 +44,9 @@ export function* checkPrompt(action) {
 export const modalsSagas = [
   race({
     close: takeEvery(CLOSE, checkPrompt),
-    closeLastModal: takeEvery(action => action.meta && action.meta.closeLastModal, checkPrompt)
-  })
+    closeLastModal: takeEvery(
+      action => action.meta && action.meta.closeLastModal,
+      checkPrompt
+    ),
+  }),
 ];

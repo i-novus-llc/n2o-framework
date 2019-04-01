@@ -149,5 +149,5 @@ export {
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
   makePageDisabledByIdSelector,
-  makePageWidgetsByIdSelector
+  makePageWidgetsByIdSelector,
 };

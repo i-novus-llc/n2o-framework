@@ -5,7 +5,12 @@ import { pageWithPrompt } from '../../../.storybook/fetchMock/pageWithPrompt';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { page } from 'N2oStorybook/fetchMock';
-import { ShowModalTitle, ShowModal, ModalPage, PromptModal } from 'N2oStorybook/json';
+import {
+  ShowModalTitle,
+  ShowModal,
+  ModalPage,
+  PromptModal,
+} from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 
 import ModalPages from './ModalPages';
@@ -34,7 +39,9 @@ stories
   .add('Открытие модального окна', () => {
     fetchMock.restore().get('begin:n2o/page', page);
 
-    return <Factory level={WIDGETS} {...ShowModal['Page_Form']} id="Page_Form" />;
+    return (
+      <Factory level={WIDGETS} {...ShowModal['Page_Form']} id="Page_Form" />
+    );
   })
   // .add('Заголовок модального окна', () => {
   //   fetchMock.restore().get('begin:n2o/page', page);
@@ -51,11 +58,11 @@ stories
         list: [
           {
             path: '/',
-            exact: true
-          }
+            exact: true,
+          },
         ],
         pathMapping: {},
-        queryMapping: {}
+        queryMapping: {},
       },
       widgets: {
         Page_Html: {
@@ -74,18 +81,18 @@ stories
                             src: 'StandardField',
                             label: 'Имя',
                             control: {
-                              src: 'InputText'
-                            }
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        }
+                              src: 'InputText',
+                            },
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        },
       },
       actions: {
         close: {
@@ -95,13 +102,13 @@ stories
             type: 'n2o/modals/CLOSE',
             payload: {
               name: 'Uid',
-              prompt: true
+              prompt: true,
             },
             meta: {
-              closeLastModal: true
-            }
-          }
-        }
+              closeLastModal: true,
+            },
+          },
+        },
       },
       toolbar: {
         bottomRight: [
@@ -111,11 +118,11 @@ stories
                 id: 'close',
                 actionId: 'close',
                 conditions: {},
-                title: 'Закрыть'
-              }
-            ]
-          }
-        ]
+                title: 'Закрыть',
+              },
+            ],
+          },
+        ],
       },
       layout: {
         src: 'SingleLayout',
@@ -125,16 +132,16 @@ stories
               src: 'NoneRegion',
               items: [
                 {
-                  widgetId: 'Page_Html'
-                }
-              ]
-            }
-          ]
-        }
-      }
+                  widgetId: 'Page_Html',
+                },
+              ],
+            },
+          ],
+        },
+      },
     });
     const props = {
-      ...ShowModal['Page_Form']
+      ...ShowModal['Page_Form'],
     };
     props.actions = {
       showModal: {
@@ -151,10 +158,10 @@ stories
             visible: true,
             closeButton: true,
             pageId: 'Uid',
-            prompt: true
-          }
-        }
-      }
+            prompt: true,
+          },
+        },
+      },
     };
     return <Factory level={WIDGETS} {...props} id="Page_Form" />;
   });

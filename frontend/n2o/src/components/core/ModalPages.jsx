@@ -38,15 +38,15 @@ class ModalPages extends React.Component {
 }
 
 ModalPages.propTypes = {
-  modals: PropTypes.array
+  modals: PropTypes.array,
 };
 
 ModalPages.defaultProps = {
-  modals: {}
+  modals: {},
 };
 
 const mapStateToProps = createStructuredSelector({
-  modals: (state, props) => modalsSelector(state)
+  modals: (state, props) => modalsSelector(state),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -56,14 +56,14 @@ function mapDispatchToProps(dispatch) {
     },
     hidePrompt: name => {
       dispatch(hidePrompt(name));
-    }
+    },
   };
 }
 
 ModalPages.propTypes = {
   modals: PropTypes.array,
   options: PropTypes.object,
-  actions: PropTypes.object
+  actions: PropTypes.object,
 };
 
 ModalPages = connect(

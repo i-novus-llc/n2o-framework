@@ -79,7 +79,9 @@ const setupPromptForm = store => {
   );
 };
 
-const renderForm = json => <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />;
+const renderForm = json => (
+  <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />
+);
 
 describe('FormContainer', () => {
   describe('Проверка прокидвания пропсов withWidgetContainer', () => {
@@ -315,8 +317,8 @@ describe('FormContainer', () => {
     expect(form.find('Prompt').props().when).toBe(false);
     form.find('input').simulate('change', {
       target: {
-        value: 'test'
-      }
+        value: 'test',
+      },
     });
     form
       .find('Link')

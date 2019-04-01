@@ -5,9 +5,17 @@ import {
   destroyModal,
   closeModal,
   hidePrompt,
-  showPrompt
+  showPrompt,
 } from './modals';
-import { INSERT, DESTROY, HIDE, SHOW, CLOSE, SHOW_PROMPT, HIDE_PROMPT } from '../constants/modals';
+import {
+  INSERT,
+  DESTROY,
+  HIDE,
+  SHOW,
+  CLOSE,
+  SHOW_PROMPT,
+  HIDE_PROMPT,
+} from '../constants/modals';
 
 const name = 'MODAL_NAME';
 
@@ -83,7 +91,7 @@ describe('Тесты экшенов modals', () => {
       const action = closeModal('test', true);
       expect(action.payload).toEqual({
         name: 'test',
-        prompt: true
+        prompt: true,
       });
     });
   });
@@ -96,7 +104,7 @@ describe('Тесты экшенов modals', () => {
     it('Возвращает правильный payload', () => {
       const action = showPrompt('test');
       expect(action.payload).toEqual({
-        name: 'test'
+        name: 'test',
       });
     });
   });
@@ -109,7 +117,7 @@ describe('Тесты экшенов modals', () => {
     it('Возвращает правильный payload', () => {
       const action = hidePrompt('test');
       expect(action.payload).toEqual({
-        name: 'test'
+        name: 'test',
       });
     });
   });
