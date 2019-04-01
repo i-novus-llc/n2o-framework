@@ -8,7 +8,7 @@
 
     <xs:element name="table" type="tableReferenceDefinition"/>
     <xs:element name="form" type="formReferenceDefinition"/>
-    <!--<xs:element name="tree" type="treeReferenceDefinition"/>-->
+    <xs:element name="tree" type="treeReferenceDefinition"/>
     <!--<xs:element name="chart" type="chartReferenceDefinition"/>-->
     <xs:element name="widget" type="customReferenceDefinition"/>
     <xs:element name="html" type="htmlReferenceDefinition"/>
@@ -355,8 +355,24 @@
                 <xs:annotation>
                     <xs:documentation>Виджет дерево.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence/>
-                <!--todo:реализовать-->
+                <xs:sequence>
+                    <xs:element name="pre-filters" type="preFiltersDefinition"/>
+                </xs:sequence>
+                <xs:attribute name="ajax" type="xs:boolean" default="false"/>
+                <xs:attribute name="multi-select" type="xs:boolean" default="false"/>
+                <xs:attribute name="search" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
+
+                <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
+                <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="query-id" type="xs:string" use="optional"/>
+                <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="master-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="detail-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="enabled-field-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
