@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -127,26 +126,20 @@ public class DataTest {
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "http://localhost:" + port + "/n2o/data/test/sql/validation";
         ResponseEntity<GetDataResponse> response;
-        try {
-            String fooResourceUrl = queryPath + "?name=testName&size=10&page=1&sorting.value=desc";
-            response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-            assertThat(false, is(true));
-        } catch (HttpClientErrorException e) {
-            N2oResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), N2oResponse.class);
-            assertThat(resp.getMeta().getMessages().getForm(), is("testTable.filter"));
-            assertThat(resp.getMeta().getMessages().getFields().get("id").getSeverity(), is("danger"));
-            assertThat(resp.getMeta().getMessages().getFields().get("id").getText(), is("id is required"));
-        }
-        try {
-            String fooResourceUrl = queryPath + "?id=1&size=10&page=1&sorting.value=desc";
-            response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
-            assertThat(false, is(true));
-        } catch (HttpClientErrorException e) {
-            N2oResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), N2oResponse.class);
-            assertThat(resp.getMeta().getAlert().getMessages().get(0).getSeverity(), is("danger"));
-            assertThat(resp.getMeta().getAlert().getMessages().get(0).getText(), is("Name should be equals 'testName'"));
-        }
-        String fooResourceUrl = queryPath + "?id=1&name=testName&size=10&page=1&sorting.value=desc";
+        String fooResourceUrl;
+
+        fooResourceUrl = queryPath + "?name=testName&size=10&page=1&sorting.value=desc";
+        response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
+        assertThat(response.getBody().getMeta().getMessages().getForm(), is("testTable.filter"));
+        assertThat(response.getBody().getMeta().getMessages().getFields().get("id").getSeverity(), is("danger"));
+        assertThat(response.getBody().getMeta().getMessages().getFields().get("id").getText(), is("id is required"));
+
+        fooResourceUrl = queryPath + "?id=1&size=10&page=1&sorting.value=desc";
+        response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
+        assertThat(response.getBody().getMeta().getAlert().getMessages().get(0).getSeverity(), is("danger"));
+        assertThat(response.getBody().getMeta().getAlert().getMessages().get(0).getText(), is("Name should be equals 'testName'"));
+
+        fooResourceUrl = queryPath + "?id=1&name=testName&size=10&page=1&sorting.value=desc";
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
     }
@@ -215,34 +208,21 @@ public class DataTest {
         String fooResourceUrl = "http://localhost:" + port + queryPath;
         SetDataResponse response = restTemplate.postForObject(fooResourceUrl, new Request("1", "testName", "testSurname", new Date()), SetDataResponse.class);
         assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is("success"));
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            restTemplate.postForObject(fooResourceUrl, new Request(null, "testName", "testSurname", new Date()), ResponseMessage.class);
-            assertThat(false, is(true));
-        } catch (HttpClientErrorException e) {
-            N2oResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), N2oResponse.class);
-            assertThat(resp.getMeta().getMessages().getForm(), is("testForm"));
-            assertThat(resp.getMeta().getMessages().getFields().get("id").getSeverity(), is("danger"));
-            assertThat(resp.getMeta().getMessages().getFields().get("id").getText(), is("Id is null"));
-        }
-        try {
-            restTemplate.postForObject(fooResourceUrl, new Request("22", null, "testSurname", new Date()), ResponseMessage.class);
-            assertThat(false, is(true));
-        } catch (HttpClientErrorException e) {
-            N2oResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), N2oResponse.class);
-            assertThat(resp.getMeta().getMessages().getForm(), is("testForm"));
-            assertThat(resp.getMeta().getMessages().getFields().get("name").getSeverity(), is("danger"));
-            assertThat(resp.getMeta().getMessages().getFields().get("name").getText(), is("Name should be testName"));
-        }
-        try {
-            restTemplate.postForObject(fooResourceUrl, new Request("22", "testName", null, new Date()), ResponseMessage.class);
-            assertThat(false, is(true));
-        } catch (HttpClientErrorException e) {
-            N2oResponse resp = objectMapper.readValue(e.getResponseBodyAsByteArray(), N2oResponse.class);
-            ResponseMessage responseMessage = resp.getMeta().getAlert().getMessages().get(0);
-            assertThat(responseMessage.getSeverity(), is("danger"));
-            assertThat(responseMessage.getText(), is("Surname should be equals 'testSurname'"));
-        }
+
+        N2oResponse resp = restTemplate.postForObject(fooResourceUrl, new Request(null, "testName", "testSurname", new Date()), SetDataResponse.class);
+        assertThat(resp.getMeta().getMessages().getForm(), is("testForm"));
+        assertThat(resp.getMeta().getMessages().getFields().get("id").getSeverity(), is("danger"));
+        assertThat(resp.getMeta().getMessages().getFields().get("id").getText(), is("Id is null"));
+
+        resp = restTemplate.postForObject(fooResourceUrl, new Request("22", null, "testSurname", new Date()), SetDataResponse.class);
+        assertThat(resp.getMeta().getMessages().getForm(), is("testForm"));
+        assertThat(resp.getMeta().getMessages().getFields().get("name").getSeverity(), is("danger"));
+        assertThat(resp.getMeta().getMessages().getFields().get("name").getText(), is("Name should be testName"));
+
+        resp = restTemplate.postForObject(fooResourceUrl, new Request("22", "testName", null, new Date()), SetDataResponse.class);
+        ResponseMessage responseMessage = resp.getMeta().getAlert().getMessages().get(0);
+        assertThat(responseMessage.getSeverity(), is("danger"));
+        assertThat(responseMessage.getText(), is("Surname should be equals 'testSurname'"));
     }
 
     @Test

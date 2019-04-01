@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
-import net.n2oapp.framework.api.ui.RequestInfo;
-import net.n2oapp.framework.api.ui.ResponseInfo;
 
 import java.util.Map;
 
@@ -24,6 +22,10 @@ public class SetDataResponse extends N2oResponse {
 
     public SetDataResponse(String messageForm) {
         setMessagesForm(messageForm);
+    }
+
+    public SetDataResponse(ResponseErrorInfo info) {
+        setErrorInfo(info);
     }
 
     public void addRedirect(RedirectSaga redirect) {

@@ -96,10 +96,10 @@ public class ExportController extends AbstractController {
         if (requestInfo.getCriteria().getSize() > exportPage || requestInfo.getCriteria().getSize() == -1) {
             res = new LargeCollectionPageReader(
                     requestInfo,
-                    info -> new LinkedList<>(queryController.executeQuery(info, responseInfo).getCollection()),
+                    info -> new LinkedList<>(queryController.executeQuery(info, responseInfo).getData().getCollection()),
                     exportPage);
         } else {
-            CollectionPage<DataSet> collectionPage = queryController.executeQuery(requestInfo, new QueryResponseInfo());
+            CollectionPage<DataSet> collectionPage = queryController.executeQuery(requestInfo, new QueryResponseInfo()).getData();
             res = new ClientCollectionPageReader(collectionPage);
         }
         return res;

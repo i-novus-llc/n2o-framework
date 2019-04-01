@@ -37,7 +37,7 @@ public abstract class DefaultValuesController extends GetController {
         if (requestInfo.getQuery() != null) {
         subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), defaultModel);
             CollectionPage<DataSet> queryDefaultPage;
-            queryDefaultPage = executeQuery(requestInfo, responseInfo);
+            queryDefaultPage = executeQuery(requestInfo, responseInfo).getData();
             if (!queryDefaultPage.getCollection().isEmpty()) {
                 DataSet queryDefaultModel = queryDefaultPage.getCollection().iterator().next();
                 defaultModel.merge(queryDefaultModel, DataSet.EXTEND_IF_VALUE_NOT_NULL);

@@ -10,28 +10,30 @@ import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.exception.N2oValidationException;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.MessageSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.register.route.RoutingResult;
+import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
+import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
@@ -39,6 +41,7 @@ public abstract class AbstractController {
     private ObjectMapper objectMapper;
     private MetadataRouter router;
     private MetadataEnvironment environment;
+    private ErrorMessageBuilder errorMessageBuilder;
 
     public AbstractController() {
     }
@@ -58,6 +61,10 @@ public abstract class AbstractController {
 
     public void setEnvironment(MetadataEnvironment environment) {
         this.environment = environment;
+    }
+
+    public void setErrorMessageBuilder(ErrorMessageBuilder errorMessageBuilder) {
+        this.errorMessageBuilder = errorMessageBuilder;
     }
 
     @SuppressWarnings("unchecked")
@@ -185,6 +192,42 @@ public abstract class AbstractController {
         requestInfo.setSize(requestInfo.getCriteria().getSize());
         prepareSelectedId(requestInfo);
         return requestInfo;
+    }
+
+    protected void handleError(N2oResponse n2oResponse) {
+        if (n2oResponse.getErrorInfo() == null) return;
+        Exception exception = n2oResponse.getErrorInfo().getException();
+        if (exception == null) return;
+        MetaSaga meta = new MetaSaga();
+        if (exception instanceof N2oValidationException) {
+            N2oValidationException e = (N2oValidationException) exception;
+            List<ResponseMessage> responseMessages = errorMessageBuilder.buildMessages(e);
+            meta.setMessages(new MessageSaga());
+            AlertSaga alert = new AlertSaga();
+            HashMap<String, ResponseMessage> fields = new HashMap<>();
+            List<ResponseMessage> responseMessagesForAlert = new ArrayList<>();
+            for (ResponseMessage responseMessage : responseMessages) {
+                if (responseMessage.getField() != null)
+                    fields.put(responseMessage.getField(), responseMessage);
+                else
+                    responseMessagesForAlert.add(responseMessage);
+            }
+            if (!responseMessagesForAlert.isEmpty()) {
+                alert.setAlertKey(n2oResponse.getErrorInfo().getAlertKey());
+                alert.setMessages(responseMessagesForAlert);
+            }
+            meta.getMessages().setFields(fields);
+            meta.getMessages().setForm(e.getMessageForm());
+            if (alert.getMessages() != null || alert.getAlertKey() != null) {
+                meta.setAlert(alert);
+            }
+        } else if (exception instanceof N2oException) {
+            ResponseMessage responseMessage = errorMessageBuilder.build(exception);
+            meta.setAlert(new AlertSaga());
+            meta.getAlert().setMessages(Collections.singletonList(responseMessage));
+            meta.getAlert().setAlertKey(n2oResponse.getErrorInfo().getAlertKey());
+        }
+        n2oResponse.setMeta(meta);
     }
 
     private UserContext getUser(HttpServletRequest req) {

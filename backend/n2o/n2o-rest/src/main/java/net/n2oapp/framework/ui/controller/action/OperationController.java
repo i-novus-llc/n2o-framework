@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.rest.ControllerType;
+import net.n2oapp.framework.api.rest.DataResult;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
@@ -25,7 +26,6 @@ public class OperationController extends SetController {
     }
 
 
-
     @Override
     @SuppressWarnings("unchecked")
     public SetDataResponse execute(ActionRequestInfo requestInfo, ActionResponseInfo responseInfo) {
@@ -35,8 +35,10 @@ public class OperationController extends SetController {
     protected SetDataResponse executeRequest(ActionRequestInfo<DataSet> requestInfo,
                                              ActionResponseInfo responseInfo) {
         SetDataResponse dataWithMessageResponse;
-        DataSet data = handleActionRequest(requestInfo, responseInfo);
-        dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), data,
+        DataResult<DataSet> dataResult = handleActionRequest(requestInfo, responseInfo);
+        if (dataResult.isError())
+            return new SetDataResponse(dataResult.getErrorInfo());
+        dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), dataResult.getData(),
                 requestInfo, responseInfo);
         dataWithMessageResponse.addResponseMessages(responseInfo.getMessageList());
         return dataWithMessageResponse;

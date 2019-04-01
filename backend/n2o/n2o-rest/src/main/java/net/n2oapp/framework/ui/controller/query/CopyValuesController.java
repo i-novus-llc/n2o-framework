@@ -28,7 +28,7 @@ public class CopyValuesController extends DefaultValuesController {
         if (requestInfo.getQuery() != null) {
             CollectionPage<DataSet> queryDefaultPage;
             try {
-                queryDefaultPage = executeQuery(requestInfo, responseInfo);
+                queryDefaultPage = executeQuery(requestInfo, responseInfo).getData();
                 DataSet queryDefaultModel = queryDefaultPage.getCollection().iterator().next();
                 merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getCopiedFields());
                 return defaultModel;

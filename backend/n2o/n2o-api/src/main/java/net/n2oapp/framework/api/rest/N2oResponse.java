@@ -25,6 +25,7 @@ public class N2oResponse {
     @JsonProperty
     private MetaSaga meta;
     private String messagesForm;
+    private ResponseErrorInfo errorInfo;
 
     public void addResponseMessages(List<ResponseMessage> messageList) {
         if (messageList == null || messageList.isEmpty())

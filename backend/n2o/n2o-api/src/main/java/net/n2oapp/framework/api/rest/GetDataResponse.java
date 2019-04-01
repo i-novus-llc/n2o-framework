@@ -29,6 +29,10 @@ public class GetDataResponse extends N2oResponse {
     public GetDataResponse() {
     }
 
+    public GetDataResponse(ResponseErrorInfo info) {
+        setErrorInfo(info);
+    }
+
     public GetDataResponse(DataSet dataSet, Criteria criteria, String messagesForm, QueryResponseInfo responseInfo) {
         list = Collections.singletonList(dataSet);
         size = criteria.getSize();

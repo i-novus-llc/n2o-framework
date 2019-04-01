@@ -5,6 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.rest.ControllerType;
+import net.n2oapp.framework.api.rest.DataResult;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
@@ -32,9 +33,11 @@ public class QueryController extends GetController {
 
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        CollectionPage<DataSet> collectionPage = executeQuery(requestInfo, responseInfo);
-        insertSelectedRow(requestInfo, responseInfo, collectionPage);
-        return new GetDataResponse(collectionPage, requestInfo.getSuccessAlertWidgetId(), responseInfo);
+        DataResult<CollectionPage<DataSet>> result = executeQuery(requestInfo, responseInfo);
+        if (result.isError())
+            return new GetDataResponse(result.getErrorInfo());
+        insertSelectedRow(requestInfo, responseInfo, result.getData());
+        return new GetDataResponse(result.getData(), requestInfo.getSuccessAlertWidgetId(), responseInfo);
     }
 
     @Override

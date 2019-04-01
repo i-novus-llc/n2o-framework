@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.ControllerTypeAware;
+import net.n2oapp.framework.api.rest.DataResult;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
@@ -42,19 +43,22 @@ public abstract class GetController implements ControllerTypeAware {
     public abstract GetDataResponse execute(QueryRequestInfo requestScope, QueryResponseInfo responseInfo);
 
 
-    public CollectionPage<DataSet> executeQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        dataProcessingStack.processQuery(requestInfo, responseInfo);
+    public DataResult<CollectionPage<DataSet>> executeQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         try {
+            dataProcessingStack.processQuery(requestInfo, responseInfo);
             CollectionPage<DataSet> pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
             executeSubModels(requestInfo, pageData, responseInfo);
             dataProcessingStack.processQueryResult(requestInfo, responseInfo, pageData);
-            return pageData;
+            return new DataResult<>(pageData);
         } catch (N2oException e) {
-            dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            e.setAlertKey(requestInfo.getFailAlertWidgetId());
-            throw e;
+            try {
+                dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
+            } catch (N2oException exception) {
+                return new DataResult(requestInfo.getFailAlertWidgetId(), exception);
+            }
+            return new DataResult(requestInfo.getFailAlertWidgetId(), e);
         } catch (Exception e) {
-            throw new N2oException(e, requestInfo.getFailAlertWidgetId());
+            throw new N2oException(e);
         }
     }
 
