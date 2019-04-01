@@ -1,11 +1,123 @@
 import React from 'react';
 import { MenuContainer } from './MenuContainer';
 
-const setup = () => {
-  return mount(<MenuContainer render={() => null} />);
+const setup = (props = {}) => {
+  return mount(<MenuContainer {...props} render={() => null} />);
 };
 
 describe('Проверка MenuContainer', () => {
+  it('проверка  items', async () => {
+    const wrapper = setup({
+      authProvider: (type, config) => {
+        if (!config.config.page.permissions.includes('test')) {
+          throw new Error();
+        }
+      },
+      user: {
+        permissions: ['test'],
+      },
+    });
+
+    await wrapper.instance().checkItem(
+      {
+        id: 'test1',
+        href: '/google.com',
+        label: 'button',
+        security: {
+          page: {
+            permissions: ['test'],
+          },
+        },
+      },
+      'items'
+    );
+
+    await wrapper.instance().checkItem(
+      {
+        id: 'test1',
+        href: '/google.com',
+        label: 'button',
+        security: {
+          page: {
+            permissions: ['anotherPermission'],
+          },
+        },
+      },
+      'items'
+    );
+    expect(wrapper.state()).toEqual({
+      items: [
+        {
+          id: 'test1',
+          href: '/google.com',
+          label: 'button',
+          security: {
+            page: {
+              permissions: ['test'],
+            },
+          },
+        },
+      ],
+      extraItems: [],
+    });
+  });
+
+  it('проверка  extraItems', async () => {
+    const wrapper = setup({
+      authProvider: (type, config) => {
+        if (!config.config.page.permissions.includes('test')) {
+          throw new Error();
+        }
+      },
+      user: {
+        permissions: ['test'],
+      },
+    });
+
+    await wrapper.instance().checkItem(
+      {
+        id: 'test1',
+        href: '/google.com',
+        label: 'button',
+        security: {
+          page: {
+            permissions: ['test'],
+          },
+        },
+      },
+      'extraItems'
+    );
+
+    await wrapper.instance().checkItem(
+      {
+        id: 'test1',
+        href: '/google.com',
+        label: 'button',
+        security: {
+          page: {
+            permissions: ['anotherPermission'],
+          },
+        },
+      },
+      'extraItems'
+    );
+    expect(wrapper.state()).toEqual({
+      extraItems: [
+        {
+          id: 'test1',
+          href: '/google.com',
+          label: 'button',
+          security: {
+            page: {
+              permissions: ['test'],
+            },
+          },
+        },
+      ],
+      items: [],
+    });
+  });
+
   it('правильно удаляет subItems', () => {
     const wrapper = setup();
     wrapper.setState({
