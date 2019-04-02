@@ -1,6 +1,6 @@
 {
   "name": "antd-n2o-ui",
-  "version": "1.0.0",
+  "version": "7.2.0",
   "description": "antd-n2o-ui React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -15,28 +15,26 @@
     "clean": "nwb clean-module && nwb clean-demo && del-cli dist",
     "prepublishOnly": "npm run build",
     "start": "concurrently --kill-others \"nwb serve-react-demo\" \"nodemon ./demo/server/server.js localhost\"",
-    "test": "nwb test-react",
-    "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server",
     "scss": "node-sass --output-style expanded --source-map true --source-map-contents true --precision 6 --importer node_modules/node-sass-package-importer/dist/cli.js style/antd-n2o-ui.scss dist/css/antd-n2o-ui.css"
   },
   "dependencies": {
-    "react": "16.x",
+    "antd": "^3.14.1",
     "lodash": "^4.17.11",
-    "recompose": "^0.30.0",
-    "n2o": "7.0.7",
-    "antd": "^3.14.1"
+    "n2o": "^7.2.0",
+    "react": "16.x",
+    "recompose": "^0.30.0"
   },
   "devDependencies": {
-    "nwb": "0.23.x",
-    "react": "^16.8.3",
-    "react-dom": "^16.8.3",
-    "nodemon": "^1.18.10",
-    "express": "^4.16.4",
     "concurrently": "^4.1.0",
+    "del-cli": "^1.1.0",
+    "express": "^4.16.4",
     "node-sass": "^4.10.0",
     "node-sass-package-importer": "^5.2.0",
-    "del-cli": "^1.1.0"
+    "nodemon": "^1.18.10",
+    "nwb": "0.23.x",
+    "phantomjs-prebuilt": "^2.1.16",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3"
   },
   "author": "",
   "homepage": "",
