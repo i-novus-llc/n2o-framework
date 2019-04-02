@@ -23,6 +23,8 @@ export function GlobalAlerts({ alerts, onDismiss }) {
           {...alert}
           className="d-inline-flex mb-0 p-2 mw-100"
           details={alert.stacktrace}
+          animate={true}
+          position={'absolute'}
         />
       ))}
     </div>

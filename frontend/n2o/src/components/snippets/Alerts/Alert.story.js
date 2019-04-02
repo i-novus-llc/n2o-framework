@@ -138,4 +138,22 @@ stories
         </React.Fragment>
       )
     )
-  );
+  )
+  .add('Обновленный Alert', () => {
+    const props = {
+      label: 'Лейбл алерта',
+      text: 'Текст алерта',
+      details: 'Подробности алерта',
+      severity: 'success',
+      visible: true,
+      closeButton: true,
+      help: 'A little help',
+    };
+
+    return <Alert {...props} animate={true} />;
+  })
+  .add('Alert loader', () => {
+    return (
+      <Alert {...props} loader={true} text={undefined} severity={'secondary'} />
+    );
+  });
