@@ -1,12 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <tree xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-      parent-icon="test"
-      child-icon="test"
+      query-id="utBlank"
       parent-field-id="test"
       has-children-field-id="test"
       value-field-id="test"
       label-field-id="test"
-      image-field-id="test"
       icon-field-id="test"
+      image-field-id="test"
       badge-field-id="test"
       badge-color-field-id="test"
       filter="startsWith"
@@ -14,8 +14,4 @@
       expand-button="false"
       checkboxes="true"
       multi-select="false">
-
-    <pre-filters>
-        <eq field-id="field" value="value" ref-widget-id="widgetId" param="param" ref-model="filter" required="true"/>
-    </pre-filters>
 </tree>

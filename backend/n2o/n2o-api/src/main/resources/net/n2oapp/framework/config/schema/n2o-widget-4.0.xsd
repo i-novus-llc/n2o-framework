@@ -17,7 +17,7 @@
         <xs:sequence>
             <xs:element name="table" type="tableReferenceDefinition" minOccurs="0"/>
             <xs:element name="form" type="formReferenceDefinition" minOccurs="0"/>
-            <!--<xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>-->
+            <xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>
             <!--<xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>-->
             <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
@@ -360,19 +360,20 @@
                 </xs:sequence>
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
                 <xs:attribute name="multi-select" type="xs:boolean" default="false"/>
-                <xs:attribute name="search" type="xs:boolean" use="optional" default="false"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="expand-button" type="xs:boolean" use="optional" default="false"/>
 
+                <xs:attribute name="parent-icon" type="xs:string" use="optional"/>
+                <xs:attribute name="child-icon" type="xs:string" use="optional"/>
                 <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
-                <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="query-id" type="xs:string" use="optional"/>
-                <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="master-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="detail-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="enabled-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="image-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="badge-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="badge-color-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="filter" type="treeWidgetFilterType" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -776,6 +777,17 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="one-model"/>
             <xs:enumeration value="two-models"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="treeWidgetFilterType">
+        <xs:annotation>
+            <xs:documentation>Тип фильтра</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="includes"/>
+            <xs:enumeration value="startsWith"/>
+            <xs:enumeration value="endsWith"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -3,26 +3,33 @@ package net.n2oapp.framework.config.io.widget;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
+import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись виджета дерево
+ */
+@Component
 public class TreeElementIOv4 extends WidgetElementIOv4<N2oTree> {
 
     @Override
     public void io(Element e, N2oTree m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeBoolean(e, "expand", m::getExpand, m::setExpand);
+        p.attributeBoolean(e, "expand-button", m::getExpandButton, m::setExpandButton);
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
-        p.attributeBoolean(e, "auto-select", m::getAutoSelect, m::setAutoSelect);
+        p.attributeBoolean(e, "ajax", m::getAjax, m::setAjax);
+        p.attributeBoolean(e, "multi-select", m::getMultiselect, m::setMultiselect);
 
+        p.attribute(e, "parent-icon", m::getParentIcon, m::setParentIcon);
+        p.attribute(e, "child-icon", m::getChildIcon, m::setChildIcon);
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
-        p.attribute(e, "query-id", m::getQueryId, m::setQueryId);
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
+        p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
-        p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
-        p.attribute(e, "search-field-id", m::getSearchFieldId, m::setSearchFieldId);
-        p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
+        p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
+        p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
+        p.attribute(e, "filter", m::getFilter, m::setFilter);
     }
 
     @Override

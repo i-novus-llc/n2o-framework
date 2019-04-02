@@ -707,23 +707,6 @@ two-models - 2х модельный режим (при первой загруз
 
 Виджет дерево.
 
-Пример::
-[source,xml]
-----
-<?xml version='1.0' encoding='UTF-8'?>
-<tree xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моё дерево"
-  query-id="myQuery">
-  <inheritance-nodes>...</inheritance-nodes>
-</tree>
-----
-
-==== <inheritance-nodes>
-
-Структура иерархии записей выборки.
-
-[NOTE]
-Записи должны ссылаться "сами на себя" (parent_id), образуя древовидную структуру.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -750,15 +733,30 @@ two-models - 2х модельный режим (при первой загруз
 |Иконка узла дерева
 |
 
-|search-field-id
+|image-field-id
 |Ссылка на поле выборки
-|Поле поиска по дереву
-|Берется из атрибута `label-field-id`
-
-|enabled-field-id
-|Ссылка на поле выборки с `domain="boolean"`
-|Доступность узла для выделения
+|Изображение узла дерева
 |
+
+|filter
+|startsWith, includes, endsWith
+|Режим фильтрации
+|
+
+|multi-select
+|true false
+|Режим множественного выбора
+|true
+
+|expand-button
+|true false
+|Кнопка раскрытия узла дерева
+|true
+
+|checkboxes
+|true false
+|Выбор в режиме чекбокс
+|false
 
 |===
 
@@ -766,11 +764,27 @@ two-models - 2х модельный режим (при первой загруз
 Пример::
 [source,xml]
 ----
+<?xml version='1.0' encoding='UTF-8'?>
+<tree xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
+  name="Моё дерево"
+  query-id="myQuery"
+  parent-field-id="parent.id"
+  label-field-id="displayName"
+  has-children-field-id="hasChildren"
+  icon-field-id="iconAddress">
+</tree>
+----
+
+
+[NOTE]
+Записи должны ссылаться "сами на себя" (parent-field-id), образуя древовидную структуру.
+
+
+Пример::
+[source,xml]
+----
 <inheritance-nodes
-    parent-field-id="parent.id"
-    label-field-id="displayName"
-    has-children-field-id="hasChildren"
-    icon-field-id="iconAddress"/>
+    />
 ----
 
 ==== <grouping-nodes>
