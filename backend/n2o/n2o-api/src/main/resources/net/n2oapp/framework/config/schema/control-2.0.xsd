@@ -272,6 +272,9 @@
     <xs:complexType name="controlText">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="body"/>
+                </xs:sequence>
                 <xs:attribute name="format" type="xs:string"/>
                 <xs:anyAttribute namespace="##other"/>
             </xs:extension>
