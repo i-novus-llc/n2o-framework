@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 
@@ -13,8 +12,7 @@ public class ResponseInfo  {
 
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
-    @Value("${n2o.api.action.invoke.alert.stacked}")    //System.getProperty();
-    private Boolean stackedMessages;
+    private boolean stackedMessages = false;
 
 
     public void addMessage(ResponseMessage message) {
@@ -51,11 +49,11 @@ public class ResponseInfo  {
         this.attributes = attributes;
     }
 
-    public Boolean getStackedMessages() {
+    public boolean getStackedMessages() {
         return stackedMessages;
     }
 
-    public void setStackedMessages(Boolean stackedMessages) {
+    public void setStackedMessages(boolean stackedMessages) {
         this.stackedMessages = stackedMessages;
     }
 }
