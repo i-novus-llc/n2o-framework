@@ -94,11 +94,11 @@ export default function withActionButton(options = {}) {
         e.persist();
         const failValidate = await this.validationFields();
         const { confirm } = this.props;
+
         if (!onClick || failValidate) {
           return;
         }
         if (confirm && !this.isConfirm && shouldConfirm) {
-          e.persist();
           this.lastEvent = e;
           this.lastEvent.preventDefault();
           this.handleOpenConfirmModal();

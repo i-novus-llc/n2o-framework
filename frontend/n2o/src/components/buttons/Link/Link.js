@@ -16,7 +16,7 @@ function isModifiedEvent(event) {
 }
 
 const LinkButton = ({ url, target, ...rest }) => (
-  <SimpleButton tag="a" {...rest} href={url} target={target} />
+  <SimpleButton {...rest} tag="a" href={url} target={target} />
 );
 
 LinkButton.propTypes = {
@@ -26,9 +26,8 @@ LinkButton.propTypes = {
 
 export default compose(
   withActionButton({
-    buttonId: Date.now(),
     onClick: (e, props) => {
-      if (isModifiedEvent(e) || !isLeftClickEvent(e)) {
+      if (isModifiedEvent(e)) {
         return;
       }
       if (props.inner) {

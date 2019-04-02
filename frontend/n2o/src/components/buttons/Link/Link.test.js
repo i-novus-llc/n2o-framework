@@ -1,0 +1,50 @@
+import React from 'react';
+import Link from './Link';
+import configureMockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import { push } from 'connected-react-router';
+
+const mockStore = configureMockStore();
+
+const setup = props => {
+  const store = mockStore({});
+  const wrapper = mount(
+    <Provider store={store}>
+      <Link {...props} />
+    </Provider>
+  );
+
+  return { store, wrapper };
+};
+
+// withActionButton({
+//   buttonId: Date.now(),
+//   onClick: (e, props) => {
+//     if (isModifiedEvent(e) || !isLeftClickEvent(e)) {
+//       return;
+//     }
+//     if (props.inner) {
+//       e.preventDefault();
+//       props.dispatch(push(props.url));
+//     }
+//   }
+// }),
+describe('<Link />', () => {
+  it('Создание', () => {
+    const { wrapper } = setup({ url: 'testUrl', target: 'blank' });
+    expect(wrapper.find('Button').exists()).toBeTruthy();
+    expect(wrapper.find('Button').props().tag).toBe('a');
+    expect(wrapper.find('Button').props().href).toBe('testUrl');
+    expect(wrapper.find('Button').props().target).toBe('blank');
+  });
+  it('Вызов экшена при клике inner=true', async () => {
+    const { wrapper, store } = setup({
+      url: 'testUrl',
+      target: '_blank',
+      inner: true,
+      action: { type: 'n2o/button/Dummy' }
+    });
+    await wrapper.find('Button').simulate('click');
+    expect(store.getActions()[1]).toEqual(push('testUrl'));
+  });
+});

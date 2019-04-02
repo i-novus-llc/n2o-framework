@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Button, Badge } from 'reactstrap';
 import Icon from '../../snippets/Icon/Icon';
 
@@ -17,22 +18,23 @@ const SimpleButton = ({
   tag,
   onClick,
   ...rest
-}) => (
-  <Button
-    id={id}
-    tag={tag}
-    size={size}
-    color={color}
-    outline={outline}
-    disabled={disabled}
-    onClick={onClick}
-    {...rest}
-  >
-    {icon && <Icon name={icon} />}
-    {children || label}
-    {count && <Badge color="secondary">{count}</Badge>}
-  </Button>
-);
+}) =>
+  visible ? (
+    <Button
+      id={id}
+      tag={tag}
+      size={size}
+      color={color}
+      outline={outline}
+      disabled={disabled}
+      onClick={onClick}
+      {...rest}
+    >
+      {icon && <Icon name={icon} />}
+      {children || label}
+      {count && <Badge color="secondary">{count}</Badge>}
+    </Button>
+  ) : null;
 
 SimpleButton.propTypes = {
   id: PropTypes.string,
@@ -61,6 +63,7 @@ SimpleButton.propTypes = {
 
 SimpleButton.defaultProps = {
   tag: 'button',
+  visible: true,
   onClick: () => {}
 };
 
