@@ -6,11 +6,11 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MessageSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
+import net.n2oapp.framework.api.ui.ResponseInfo;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**
@@ -26,13 +26,13 @@ public class N2oResponse {
     private MetaSaga meta;
     private String messagesForm;
 
-    public void addResponseMessages(List<ResponseMessage> messageList) {
-        if (messageList == null || messageList.isEmpty())
+    public void addResponseMessages(ResponseInfo responseInfo) {
+        if (responseInfo.getMessageList() == null || responseInfo.getMessageList().isEmpty())
             return;
-        messageList.forEach(this::addResponseMessage);
+        responseInfo.getMessageList().forEach(m -> addResponseMessage(m, responseInfo.getStackedMessages()));
     }
 
-    public void addResponseMessage(ResponseMessage message) {
+    public void addResponseMessage(ResponseMessage message, Boolean stacked) {
         if (message == null) return;
         if (getMeta() == null)
             setMeta(new MetaSaga());
@@ -43,6 +43,7 @@ public class N2oResponse {
                 getMeta().getAlert().setMessages(new ArrayList<>());
             getMeta().getAlert().getMessages().add(message);
             getMeta().getAlert().setAlertKey(messagesForm);
+            getMeta().getAlert().setStacked(stacked);
         } else {
             if (getMeta().getMessages() == null)
                 getMeta().setMessages(new MessageSaga());

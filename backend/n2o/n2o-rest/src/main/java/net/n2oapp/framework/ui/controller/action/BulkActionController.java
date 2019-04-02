@@ -55,7 +55,7 @@ public class BulkActionController extends SetController {
 
     private SetDataResponse constructSuccessSetDataResponse(ActionRequestInfo<List<DataSet>> requestInfo, ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse(requestInfo.getSuccessAlertWidgetId());
-        response.addResponseMessage(handleBulkActionRequest(requestInfo, responseInfo));
+        response.addResponseMessage(handleBulkActionRequest(requestInfo, responseInfo), responseInfo.getStackedMessages());
         return response;
     }
 
