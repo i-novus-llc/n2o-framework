@@ -19,14 +19,11 @@ exports[`<Pagination /> проверяет работы вызова callback п
       lazy={false}
       maxButtons={4}
       next={false}
-      nextText={null}
       onSelect={[MockFunction]}
       prev={false}
-      prevText={null}
       showCountRecords={true}
       size={10}
       stepIncrement={10}
-      withoutBody={false}
     >
       <nav
         className="n2o-pagination"
@@ -46,7 +43,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="1"
             label={1}
             onSelect={[MockFunction]}
-            tabIndex={0}
           >
             <li
               className="page-item active"
@@ -54,14 +50,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": 1,
-                  }
-                }
                 href="#"
-                tabIndex={0}
-              />
+              >
+                1
+              </a>
             </li>
           </PaginationButton>
           <PaginationButton
@@ -70,7 +62,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="2"
             label={2}
             onSelect={[MockFunction]}
-            tabIndex={0}
           >
             <li
               className="page-item"
@@ -78,14 +69,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": 2,
-                  }
-                }
                 href="#"
-                tabIndex={0}
-              />
+              >
+                2
+              </a>
             </li>
           </PaginationButton>
           <PaginationButton
@@ -94,7 +81,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="3"
             label={3}
             onSelect={[MockFunction]}
-            tabIndex={0}
           >
             <li
               className="page-item"
@@ -102,14 +88,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": 3,
-                  }
-                }
                 href="#"
-                tabIndex={0}
-              />
+              >
+                3
+              </a>
             </li>
           </PaginationButton>
           <PaginationButton
@@ -118,7 +100,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="4"
             label={4}
             onSelect={[MockFunction]}
-            tabIndex={0}
           >
             <li
               className="page-item"
@@ -126,14 +107,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": 4,
-                  }
-                }
                 href="#"
-                tabIndex={0}
-              />
+              >
+                4
+              </a>
             </li>
           </PaginationButton>
           <PaginationButton
@@ -142,7 +119,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="5"
             label={5}
             onSelect={[MockFunction]}
-            tabIndex={0}
           >
             <li
               className="page-item"
@@ -150,14 +126,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": 5,
-                  }
-                }
                 href="#"
-                tabIndex={0}
-              />
+              >
+                5
+              </a>
             </li>
           </PaginationButton>
           <PaginationButton
@@ -165,7 +137,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="ellipsisMiddle"
             label="..."
             noBorder={true}
-            tabIndex={-1}
           >
             <li
               className="page-item disabled"
@@ -173,14 +144,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link no-border"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "...",
-                  }
-                }
                 href="#"
-                tabIndex={-1}
-              />
+              >
+                ...
+              </a>
             </li>
           </PaginationButton>
           <PaginationButton
@@ -188,7 +155,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="11"
             label={11}
             onSelect={[MockFunction]}
-            tabIndex={0}
           >
             <li
               className="page-item"
@@ -196,14 +162,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": 11,
-                  }
-                }
                 href="#"
-                tabIndex={0}
-              />
+              >
+                11
+              </a>
             </li>
           </PaginationButton>
           <PaginationButton
@@ -211,7 +173,6 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="ellipsisLast"
             label="..."
             noBorder={true}
-            tabIndex={-1}
           >
             <li
               className="page-item disabled"
@@ -219,14 +180,10 @@ exports[`<Pagination /> проверяет работы вызова callback п
             >
               <a
                 className="page-link no-border"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "...",
-                  }
-                }
                 href="#"
-                tabIndex={-1}
-              />
+              >
+                ...
+              </a>
             </li>
           </PaginationButton>
         </ul>
@@ -270,12 +227,9 @@ exports[`<Pagination /> проверяет рендер с дефолтными 
     lazy={false}
     maxButtons={4}
     next={false}
-    nextText={null}
     prev={false}
-    prevText={null}
     showCountRecords={true}
     size={1}
-    withoutBody={false}
   />
 </IntlProvider>
 `;
@@ -291,13 +245,10 @@ exports[`<Pagination /> проверяет рендер с классическ�
     lazy={false}
     maxButtons={4}
     next={false}
-    nextText={null}
     prev={false}
-    prevText={null}
     showCountRecords={true}
     size={10}
     stepIncrement={10}
-    withoutBody={false}
   />
 </IntlProvider>
 `;
@@ -313,13 +264,10 @@ exports[`<Pagination /> проверяет рендер с полным функ
     lazy={false}
     maxButtons={4}
     next={true}
-    nextText={null}
     prev={true}
-    prevText={null}
     showCountRecords={true}
     size={10}
     stepIncrement={10}
-    withoutBody={false}
   />
 </IntlProvider>
 `;

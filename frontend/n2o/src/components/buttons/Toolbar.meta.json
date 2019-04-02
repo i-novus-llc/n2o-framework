@@ -1,0 +1,91 @@
+{
+  "toolbar": {
+    "topLeft": [
+      {
+        "buttons": [
+          {
+            "id": "testBtn11",
+            "title": "Создать",
+            "actionId": "dummy",
+            "icon": "fa fa-plus",
+            "hint": "Создать запись",
+            "count": "7",
+            "size": "md",
+            "color": "success",
+            "visible": true,
+            "disabled": false
+          },
+          {
+            "id": "testBtn12",
+            "title": "Изменить",
+            "actionId": "dummy",
+            "icon": "fa fa-pencil",
+            "hint": "Изменить запись",
+            "count": "1",
+            "size": "md",
+            "color": "warning",
+            "visible": true,
+            "disabled": true
+          },
+          {
+            "id": "testBtn13",
+            "title": "Удалить",
+            "actionId": "dummy",
+            "icon": "fa fa-trash",
+            "hint": "Удалить запись",
+            "count": "34",
+            "size": "md",
+            "color": "danger",
+            "visible": true,
+            "disabled": false
+          }
+        ]
+      },
+      {
+        "buttons": [
+          {
+            "id": "testBtn21",
+            "title": "Копировать",
+            "actionId": "dummy",
+            "icon": "fa fa-clone",
+            "hint": "Копировать запись",
+            "count": "9",
+            "size": "md",
+            "color": "secondary",
+            "visible": true,
+            "disabled": false
+          },
+          {
+            "id": "testBtn22",
+            "title": "Еще",
+            "icon": "fa fa-info-circle",
+            "hint": "Доп. опции",
+            "size": "md",
+            "color": "primary",
+            "visible": true,
+            "disabled": false,
+            "subMenu": [
+              {
+                "id": "testBtn221",
+                "actionId": "dummy",
+                "title": "Подписать",
+                "icon": "fa fa-paper-plane",
+                "hint": "Подписать запись",
+                "count": "4",
+                "size": "md",
+                "color": "secondary",
+                "visible": true,
+                "disabled": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "actions": {
+    "dummy": {
+      "src": "dummy"
+    }
+  }
+}

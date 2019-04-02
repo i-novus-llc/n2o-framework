@@ -4,7 +4,7 @@ import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import { storiesOf } from '@storybook/react';
 import Card from './Card';
-import Actions from '../../actions/Actions';
+import Toolbar from '../../buttons/Toolbar';
 import { items } from './Card.meta';
 import { CardItem } from './CardItem';
 import Factory from '../../../core/factory/Factory';
@@ -331,10 +331,10 @@ stories
             </Fragment>
           }
         />
-        <Card.Item {...props[1]} extra={<Actions toolbar={btnAct} />} />
+        <Card.Item {...props[1]} extra={<Toolbar toolbar={btnAct} />} />
         <Card.Item
           {...props[2]}
-          extra={<Actions toolbar={[btnAct[0]]} />}
+          extra={<Toolbar toolbar={[btnAct[0]]} />}
           rows={['extra', 'header', 'text', 'image', 'meta']}
         />
       </Card.Layout>

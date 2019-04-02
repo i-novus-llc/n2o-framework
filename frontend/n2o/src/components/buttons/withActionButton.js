@@ -12,6 +12,9 @@ import {
   isVisibleSelector,
   countSelector
 } from '../../selectors/toolbar';
+import { getFormValues } from 'redux-form';
+import { makeWidgetValidationSelector } from '../../selectors/widgets';
+import { validateField } from '../../core/validation/createValidator';
 
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import Tooltip from '../snippets/Tooltip/Tooltip';
@@ -66,9 +69,32 @@ export default function withActionButton(options = {}) {
         }
       };
 
-      handleClick = e => {
+      /**
+       * Запуск валидации при клике на кнопку тулбара
+       * @param isTouched - отображение ошибок филдов
+       * @returns {Promise<*>}
+       */
+      validationFields = async (isTouched = true) => {
+        const { store } = this.context;
+        const { validationConfig, entityKey, validate, dispatch, formValues } = this.props;
+
+        if (validate) {
+          const errors = await validateField(
+            validationConfig,
+            entityKey,
+            store.getState(),
+            isTouched
+          )(formValues, dispatch);
+          return errors;
+        }
+        return false;
+      };
+
+      handleClick = async e => {
+        e.persist();
+        const failValidate = await this.validationFields();
         const { confirm } = this.props;
-        if (!onClick) {
+        if (!onClick || failValidate) {
           return;
         }
         if (confirm && !this.isConfirm && shouldConfirm) {
@@ -132,7 +158,10 @@ export default function withActionButton(options = {}) {
       isInit: (state, ownProps) => isInitSelector(ownProps.entityKey, ownProps.id)(state),
       visible: (state, ownProps) => isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
       disabled: (state, ownProps) => isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
-      count: (state, ownProps) => countSelector(ownProps.entityKey, ownProps.id)(state)
+      count: (state, ownProps) => countSelector(ownProps.entityKey, ownProps.id)(state),
+      validationConfig: (state, ownProps) =>
+        makeWidgetValidationSelector(ownProps.entityKey)(state),
+      formValues: (state, ownProps) => getFormValues(ownProps.entityKey)(state)
     });
 
     function mapDispatchToProps(dispatch) {
