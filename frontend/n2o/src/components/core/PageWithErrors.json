@@ -17,7 +17,7 @@
             {
               "id": "menuItem0",
               "actionId": "invoke",
-              "title": "Запрос с ошибкой"
+              "label": "Запрос с ошибкой"
             }
           ]
         }

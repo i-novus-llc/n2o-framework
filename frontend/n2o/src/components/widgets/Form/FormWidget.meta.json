@@ -15,7 +15,7 @@
           "buttons": [
             {
               "id": "update",
-              "title": "Сохранить",
+              "label": "Сохранить",
               "actionId": "update",
               "validate": false
             }

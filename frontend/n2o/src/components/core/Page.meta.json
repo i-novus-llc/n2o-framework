@@ -41,7 +41,7 @@
               {
                 "id": "redirect",
                 "actionId": "redirect",
-                "title": "Вперед"
+                "label": "Вперед"
               }
             ]
           }

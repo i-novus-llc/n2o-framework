@@ -5,7 +5,7 @@
         "buttons": [
           {
             "id": "testBtn11",
-            "title": "Создать",
+            "label": "Создать",
             "actionId": "dummy",
             "icon": "fa fa-plus",
             "hint": "Создать запись",
@@ -17,7 +17,7 @@
           },
           {
             "id": "testBtn12",
-            "title": "Изменить",
+            "label": "Изменить",
             "actionId": "dummy",
             "icon": "fa fa-pencil",
             "hint": "Изменить запись",
@@ -29,7 +29,7 @@
           },
           {
             "id": "testBtn13",
-            "title": "Удалить",
+            "label": "Удалить",
             "actionId": "dummy",
             "icon": "fa fa-trash",
             "hint": "Удалить запись",
@@ -45,7 +45,7 @@
         "buttons": [
           {
             "id": "testBtn21",
-            "title": "Копировать",
+            "label": "Копировать",
             "actionId": "dummy",
             "icon": "fa fa-clone",
             "hint": "Копировать запись",
@@ -57,7 +57,7 @@
           },
           {
             "id": "testBtn22",
-            "title": "Еще",
+            "label": "Еще",
             "icon": "fa fa-info-circle",
             "hint": "Доп. опции",
             "size": "md",
@@ -68,7 +68,7 @@
               {
                 "id": "testBtn221",
                 "actionId": "dummy",
-                "title": "Подписать",
+                "label": "Подписать",
                 "icon": "fa fa-paper-plane",
                 "hint": "Подписать запись",
                 "count": "4",

@@ -112,14 +112,14 @@
                 "buttons": [
                   {
                     "id": "export",
-                    "title": "Загрузить",
+                    "label": "Загрузить",
                     "actionId": "export",
                     "className": "btn-primary",
                     "icon": "fa fa-download"
                   },
                   {
                     "id": "cancelExport",
-                    "title": "Отменить",
+                    "label": "Отменить",
                     "actionId": "destroyModal"
                   }
                 ]
