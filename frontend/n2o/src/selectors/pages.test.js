@@ -10,6 +10,7 @@ import {
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
   makePageDisabledByIdSelector,
+  makePageWidgetsByIdSelector,
 } from './pages';
 
 const state = {
@@ -95,6 +96,11 @@ describe('Проверка селекторов pages', () => {
   it('makePageDisabledByIdSelector должен вернуть disabled по id', () => {
     expect(makePageDisabledByIdSelector('_')(state)).toEqual(
       state.pages._.disabled
+    );
+  });
+  it('makePageWidgetsByIdSelector должен вернуть widgets по id', () => {
+    expect(makePageWidgetsByIdSelector('_')(state)).toEqual(
+      state.pages._.metadata.widgets
     );
   });
 });

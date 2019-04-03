@@ -16,8 +16,8 @@ CollapseFieldSet.propTypes = {
   rows: PropTypes.array,
   type: PropTypes.string,
   label: PropTypes.string,
-  expand: PropTypes.boolean,
-  hasArrow: PropTypes.boolean,
+  expand: PropTypes.bool,
+  hasArrow: PropTypes.bool,
   render: PropTypes.func,
 };
 

@@ -61,7 +61,7 @@ class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  children: PropTypes.node.required,
+  children: PropTypes.node,
   style: PropTypes.object,
   onSearch: PropTypes.func,
   onReset: PropTypes.func,

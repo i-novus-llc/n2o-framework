@@ -299,7 +299,7 @@ class Calendar extends React.Component {
   /**
    * Удаление листенера при анмаунте компонента
    */
-  componentWillUnMount() {
+  componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
   }
 

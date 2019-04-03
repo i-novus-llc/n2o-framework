@@ -1,8 +1,16 @@
 import React from 'react';
 import sinon from 'sinon';
+import { BrowserRouter as Router, Switch, Link, Route } from 'react-router-dom';
 import * as hocs from './FormContainer';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import FormWithPrompt from '../../../../.storybook/json/FormWithPrompt';
+import Factory from '../../../core/factory/Factory';
+import { WIDGETS } from '../../../core/factory/factoryLevels';
+import FactoryProvider from '../../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../../core/factory/createFactoryConfig';
+import rootReducer from '../../../reducers';
+import { createStore } from 'redux';
 
 const NullComponent = () => null;
 const FormContainerTest = hocs.default;
@@ -38,6 +46,42 @@ function setupToProviderFromDefault(props, overrideStore = {}) {
     </Provider>
   );
 }
+
+const setupPromptForm = store => {
+  return mount(
+    <Provider store={store}>
+      <FactoryProvider config={createFactoryConfig({})}>
+        <Router>
+          <div>
+            <div className="row">
+              <div className="col-6">
+                <h5>Меню</h5>
+                <div className="nav flex-column">
+                  <Link id="form-link" className="nav-link" to="/">
+                    Форма
+                  </Link>
+                  <Link className="nav-link" to="/another">
+                    Другая страница
+                  </Link>
+                </div>
+              </div>
+              <div className="col-6">
+                {renderForm(FormWithPrompt)}
+                <Switch>
+                  <Route path={'/another'} component={() => <div>test</div>} />
+                </Switch>
+              </div>
+            </div>
+          </div>
+        </Router>
+      </FactoryProvider>
+    </Provider>
+  );
+};
+
+const renderForm = json => (
+  <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />
+);
 
 describe('FormContainer', () => {
   describe('Проверка прокидвания пропсов withWidgetContainer', () => {
@@ -255,9 +299,31 @@ describe('FormContainer', () => {
     expect(
       wrapper
         .find(
-          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(ReduxForm)))))))'
+          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(getContext(withProps(ReduxForm)))))))))'
         )
         .exists()
     ).toBe(true);
+  });
+  it('Проверка prompt', () => {
+    function configureStore() {
+      return createStore(rootReducer);
+    }
+    const store = configureStore();
+    const form = setupPromptForm(store);
+    form
+      .find('Link')
+      .at(0)
+      .simulate('click');
+    expect(form.find('Prompt').props().when).toBe(false);
+    form.find('input').simulate('change', {
+      target: {
+        value: 'test',
+      },
+    });
+    form
+      .find('Link')
+      .at(1)
+      .simulate('click');
+    expect(form.find('Prompt').props().when).toBe(true);
   });
 });

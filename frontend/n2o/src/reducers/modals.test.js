@@ -35,9 +35,8 @@ describe('Тесты modals reducer', () => {
       modals(
         [
           {
-            modal: {
-              name: 'stateModal',
-            },
+            name: 'stateModal',
+            modal: {},
             visible: false,
           },
         ],
@@ -50,9 +49,8 @@ describe('Тесты modals reducer', () => {
       )
     ).toEqual([
       {
-        modal: {
-          name: 'stateModal',
-        },
+        name: 'stateModal',
+        modal: {},
         visible: true,
       },
     ]);
@@ -63,9 +61,8 @@ describe('Тесты modals reducer', () => {
       modals(
         [
           {
-            modal: {
-              name: 'stateModal',
-            },
+            name: 'stateModal',
+            modal: {},
             visible: true,
           },
         ],
@@ -78,9 +75,8 @@ describe('Тесты modals reducer', () => {
       )
     ).toEqual([
       {
-        modal: {
-          name: 'stateModal',
-        },
+        name: 'stateModal',
+        modal: {},
         visible: false,
       },
     ]);

@@ -124,7 +124,7 @@ class ExportModal extends React.Component {
 
 ExportModal.propTypes = {
   type: PropTypes.object,
-  code: PropTypes.code,
+  code: PropTypes.string,
 };
 
 export default ExportModal;

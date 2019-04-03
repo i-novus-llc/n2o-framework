@@ -17,6 +17,7 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.selective.SelectiveMetadataLoader;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
@@ -56,6 +57,7 @@ public class CopyValuesControllerTest {
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
         properties.put("n2o.engine.mapper", "spel");
+        environment.setSystemProperties(new SimplePropertyResolver(properties));
         builder = new N2oApplicationBuilder(environment);
         configure(builder);
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());

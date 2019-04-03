@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { destroyModal } from '../../actions/modals';
+import { closeModal, hidePrompt } from '../../actions/modals';
 import { modalsSelector } from '../../selectors/modals';
 import compileUrl from '../../utils/compileUrl';
 
@@ -27,6 +27,7 @@ class ModalPages extends React.Component {
           <ModalPage
             key={modal.pageId}
             close={this.props.close}
+            hidePrompt={this.props.hidePrompt}
             {...modal}
             {...modal.props}
           />
@@ -50,8 +51,11 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    close: name => {
-      dispatch(destroyModal());
+    close: (name, prompt) => {
+      dispatch(closeModal(name, prompt));
+    },
+    hidePrompt: name => {
+      dispatch(hidePrompt(name));
     },
   };
 }

@@ -79,6 +79,7 @@ N2o.propTypes = {
   ...factoryConfigShape,
   defaultTemplate: PropTypes.element,
   defaultBreadcrumb: PropTypes.element,
+  defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
@@ -113,6 +114,8 @@ export default compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
+    defaultPromptMessage:
+      'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     formats: {
       dateFormat: 'DD.MM.YYYY',
       timeFormat: 'HH:mm:ss',
@@ -125,10 +128,12 @@ export default compose(
     {
       defaultTemplate: PropTypes.element,
       defaultBreadcrumb: PropTypes.element,
+      defaultPromptMessage: PropTypes.string,
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
+      defaultPromptMessage: props.defaultPromptMessage,
     })
   )
 )(N2o);
