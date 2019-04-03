@@ -23,7 +23,8 @@
     "n2o": "^7.2.0",
     "react": "16.x",
     "recompose": "^0.30.0",
-    "bootstrap": "~4.3.0"
+    "bootstrap": "~4.3.0",
+    "font-awesome": "4.7.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
