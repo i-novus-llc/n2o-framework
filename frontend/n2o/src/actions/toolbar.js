@@ -31,8 +31,8 @@ export function callActionImpl(actionSrc, options) {
  * @param key
  * @param visible
  */
-export function changeButtonVisiblity(key, id, visible) {
-  return createActionHelper(CHANGE_BUTTON_VISIBILITY)({ key, id, visible });
+export function changeButtonVisiblity(key, buttonId, visible) {
+  return createActionHelper(CHANGE_BUTTON_VISIBILITY)({ key, buttonId, visible });
 }
 
 /**
@@ -64,8 +64,8 @@ export function toggleButtonVisiblity(key, buttonId) {
  * @param key
  * @param disabled
  */
-export function changeButtonDisabled(key, id, disabled) {
-  return createActionHelper(CHANGE_BUTTON_DISABLED)({ key, id, disabled });
+export function changeButtonDisabled(key, buttonId, disabled) {
+  return createActionHelper(CHANGE_BUTTON_DISABLED)({ key, buttonId, disabled });
 }
 
 /**
@@ -197,6 +197,7 @@ export function registerButton(
 ) {
   return createActionHelper(REGISTER_BUTTON)({
     key,
+    buttonId,
     count,
     visible,
     disabled,

@@ -5,7 +5,8 @@
         "buttons": [
           {
             "id": "testBtn11",
-            "title": "Создать",
+            "src": "PerformButton",
+            "label": "Создать",
             "actionId": "dummy",
             "icon": "fa fa-plus",
             "hint": "Создать запись",
@@ -17,7 +18,8 @@
           },
           {
             "id": "testBtn12",
-            "title": "Изменить",
+            "label": "Изменить",
+            "src": "PerformButton",
             "actionId": "dummy",
             "icon": "fa fa-pencil",
             "hint": "Изменить запись",
@@ -29,8 +31,9 @@
           },
           {
             "id": "testBtn13",
-            "title": "Удалить",
+            "label": "Удалить",
             "actionId": "dummy",
+            "src": "PerformButton",
             "icon": "fa fa-trash",
             "hint": "Удалить запись",
             "count": "34",
@@ -45,9 +48,10 @@
         "buttons": [
           {
             "id": "testBtn21",
-            "title": "Копировать",
+            "label": "Копировать",
             "actionId": "dummy",
             "icon": "fa fa-clone",
+            "src": "PerformButton",
             "hint": "Копировать запись",
             "count": "9",
             "size": "md",
@@ -57,9 +61,10 @@
           },
           {
             "id": "testBtn22",
-            "title": "Еще",
+            "label": "Еще",
             "icon": "fa fa-info-circle",
             "hint": "Доп. опции",
+            "src": "DropdownButton",
             "size": "md",
             "color": "primary",
             "visible": true,
@@ -68,7 +73,8 @@
               {
                 "id": "testBtn221",
                 "actionId": "dummy",
-                "title": "Подписать",
+                "src": "PerformButton",
+                "label": "Подписать",
                 "icon": "fa fa-paper-plane",
                 "hint": "Подписать запись",
                 "count": "4",
@@ -82,10 +88,5 @@
         ]
       }
     ]
-  },
-  "actions": {
-    "dummy": {
-      "src": "dummy"
-    }
   }
 }

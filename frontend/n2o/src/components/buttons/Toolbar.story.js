@@ -5,7 +5,7 @@ import Toolbar from './Toolbar';
 import MetaJson from './Toolbar.meta.json';
 import AuthButtonContainer from '../../core/auth/AuthLogin';
 
-const stories = storiesOf('Действия', module);
+const stories = storiesOf('Кнопки/Тулбар', module);
 
 stories
   .add('Варианты кнопок', () => {
@@ -14,8 +14,8 @@ stories
         buttons: [
           {
             id: 'testBtn21',
-            title: 'Кнопка',
-            actionId: 'dummy'
+            label: 'Кнопка',
+            src: 'PerformButton'
           }
         ]
       }
@@ -25,13 +25,13 @@ stories
         buttons: [
           {
             id: 'testBtn22',
-            title: 'Кнопка',
-            actionId: 'dummy'
+            label: 'Кнопка',
+            src: 'PerformButton'
           },
           {
             id: 'testBtn23',
-            title: 'Еще кнопка',
-            actionId: 'dummy'
+            label: 'Еще кнопка',
+            src: 'PerformButton'
           }
         ]
       }
@@ -41,13 +41,13 @@ stories
         buttons: [
           {
             id: 'testBtn24',
-            title: 'Кнопка',
-            actionId: 'dummy'
+            label: 'Кнопка',
+            src: 'PerformButton'
           },
           {
             id: 'testBtn25',
-            title: 'Еще кнопка',
-            actionId: 'dummy'
+            label: 'Еще кнопка',
+            src: 'PerformButton'
           }
         ]
       },
@@ -55,13 +55,13 @@ stories
         buttons: [
           {
             id: 'testBtn26',
-            title: 'Кнопка',
-            actionId: 'dummy'
+            label: 'Кнопка',
+            src: 'PerformButton'
           },
           {
             id: 'testBtn27',
-            title: 'Еще кнопка',
-            actionId: 'dummy'
+            label: 'Еще кнопка',
+            src: 'PerformButton'
           }
         ]
       }
@@ -71,17 +71,18 @@ stories
         buttons: [
           {
             id: 'testBtn28',
-            title: 'Дропдаун',
+            label: 'Дропдаун',
+            src: 'DropdownButton',
             subMenu: [
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка'
+                label: 'Элемент списка'
               },
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                title: 'Элемент списка'
+                label: 'Элемент списка'
               }
             ]
           }
@@ -94,17 +95,18 @@ stories
         buttons: [
           {
             id: 'testBtn30',
-            title: 'Кнопка',
+            label: 'Кнопка',
+            src: 'PerformButton',
             actionId: 'dummy'
           },
           {
             id: 'testBtn31',
-            title: 'Дропдаун',
+            label: 'Дропдаун',
+            src: 'DropdownButton',
             subMenu: [
               {
                 id: 'testBtn32',
-                actionId: 'dummy',
-                title: 'Элемент списка'
+                label: 'Элемент списка'
               }
             ]
           }
@@ -114,19 +116,20 @@ stories
         buttons: [
           {
             id: 'testBtn33',
-            title: 'Дропдаун',
+            label: 'Дропдаун',
+            src: 'DropdownButton',
             subMenu: [
               {
                 id: 'testBtn34',
                 actionId: 'dummy',
-                title: 'Элемент списка'
+                label: 'Элемент списка'
               }
             ]
           },
           {
             id: 'testBtn35',
-            title: 'Кнопка',
-            actionId: 'dummy'
+            label: 'Кнопка',
+            src: 'PerformButton'
           }
         ]
       }
@@ -137,8 +140,8 @@ stories
         buttons: [
           {
             id: 'testBtn1',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             color: 'default'
           }
         ]
@@ -147,8 +150,8 @@ stories
         buttons: [
           {
             id: 'testBtn2',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             color: 'primary'
           }
         ]
@@ -157,8 +160,8 @@ stories
         buttons: [
           {
             id: 'testBtn3',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             color: 'success'
           }
         ]
@@ -167,8 +170,8 @@ stories
         buttons: [
           {
             id: 'testBtn4',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             color: 'info'
           }
         ]
@@ -177,8 +180,8 @@ stories
         buttons: [
           {
             id: 'testBtn5',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             color: 'warning'
           }
         ]
@@ -187,8 +190,8 @@ stories
         buttons: [
           {
             id: 'testBtn6',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             color: 'danger'
           }
         ]
@@ -200,8 +203,8 @@ stories
         buttons: [
           {
             id: 'testBtn7',
-            title: 'Apple',
-            actionId: 'dummy',
+            label: 'Apple',
+            src: 'PerformButton',
             icon: 'fa fa-apple'
           }
         ]
@@ -210,8 +213,8 @@ stories
         buttons: [
           {
             id: 'testBtn8',
-            title: 'Github',
-            actionId: 'dummy',
+            label: 'Github',
+            src: 'PerformButton',
             icon: 'fa fa-github'
           }
         ]
@@ -220,8 +223,8 @@ stories
         buttons: [
           {
             id: 'testBtn9',
-            title: 'Telegram',
-            actionId: 'dummy',
+            label: 'Telegram',
+            src: 'PerformButton',
             icon: 'fa fa-telegram'
           }
         ]
@@ -230,8 +233,8 @@ stories
         buttons: [
           {
             id: 'testBtn10',
-            title: 'Vk',
-            actionId: 'dummy',
+            label: 'Vk',
+            src: 'PerformButton',
             icon: 'fa fa-vk'
           }
         ]
@@ -240,8 +243,8 @@ stories
         buttons: [
           {
             id: 'testBtn11',
-            title: 'Imdb',
-            actionId: 'dummy',
+            label: 'Imdb',
+            src: 'PerformButton',
             icon: 'fa fa-imdb'
           }
         ]
@@ -250,8 +253,8 @@ stories
         buttons: [
           {
             id: 'testBtn12',
-            title: 'Facebook',
-            actionId: 'dummy',
+            label: 'Facebook',
+            src: 'PerformButton',
             icon: 'fa fa-facebook'
           }
         ]
@@ -263,7 +266,7 @@ stories
         buttons: [
           {
             id: 'testBtn13',
-            actionId: 'dummy',
+            src: 'PerformButton',
             icon: 'fa fa-apple'
           }
         ]
@@ -272,7 +275,7 @@ stories
         buttons: [
           {
             id: 'testBtn14',
-            actionId: 'dummy',
+            src: 'PerformButton',
             icon: 'fa fa-github'
           }
         ]
@@ -281,7 +284,7 @@ stories
         buttons: [
           {
             id: 'testBtn15',
-            actionId: 'dummy',
+            src: 'PerformButton',
             icon: 'fa fa-telegram'
           }
         ]
@@ -290,7 +293,7 @@ stories
         buttons: [
           {
             id: 'testBtn16',
-            actionId: 'dummy',
+            src: 'PerformButton',
             icon: 'fa fa-vk'
           }
         ]
@@ -299,7 +302,7 @@ stories
         buttons: [
           {
             id: 'testBtn17',
-            actionId: 'dummy',
+            src: 'PerformButton',
             icon: 'fa fa-imdb'
           }
         ]
@@ -308,7 +311,7 @@ stories
         buttons: [
           {
             id: 'testBtn18',
-            actionId: 'dummy',
+            src: 'PerformButton',
             icon: 'fa fa-facebook'
           }
         ]
@@ -320,8 +323,8 @@ stories
         buttons: [
           {
             id: 'small',
-            actionId: 'dummy',
-            title: 'Большая',
+            src: 'PerformButton',
+            label: 'Большая',
             size: 'lg'
           }
         ]
@@ -333,8 +336,8 @@ stories
         buttons: [
           {
             id: 'small',
-            actionId: 'dummy',
-            title: 'Стандартная'
+            src: 'PerformButton',
+            label: 'Стандартная'
           }
         ]
       }
@@ -345,60 +348,54 @@ stories
         buttons: [
           {
             id: 'small',
-            actionId: 'dummy',
-            title: 'Маленькая',
+            src: 'PerformButton',
+            label: 'Маленькая',
             size: 'sm'
           }
         ]
       }
     ];
 
-    const actions = {
-      dummy: {
-        src: 'dummyImpl'
-      }
-    };
-
     return (
       <React.Fragment>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={toolbar1} entityKey="test" />
+          <Toolbar toolbar={toolbar1} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={toolbar2} entityKey="test" />
+          <Toolbar toolbar={toolbar2} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={toolbar3} entityKey="test" />
+          <Toolbar toolbar={toolbar3} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={toolbar4} entityKey="test" />
+          <Toolbar toolbar={toolbar4} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={toolbar5} entityKey="test" />
+          <Toolbar toolbar={toolbar5} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={colorToolbar} entityKey="test" />
+          <Toolbar toolbar={colorToolbar} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={iconToolbar} entityKey="test" />
+          <Toolbar toolbar={iconToolbar} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={iconOnlyToolbar} entityKey="test" />
+          <Toolbar toolbar={iconOnlyToolbar} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={sizeToolbarLg} entityKey="large" />
+          <Toolbar toolbar={sizeToolbarLg} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={sizeToolbar} entityKey="default" />
+          <Toolbar toolbar={sizeToolbar} />
         </div>
         <div className="row mb-2">
-          <Toolbar actions={actions} toolbar={sizeToolbarSm} entityKey="sm" />
+          <Toolbar toolbar={sizeToolbarSm} />
         </div>
       </React.Fragment>
     );
   })
   .add('Метаданные для виджета', () => (
-    <Toolbar actions={MetaJson.actions} toolbar={MetaJson.toolbar.topLeft} entityKey="metaBtns" />
+    <Toolbar toolbar={MetaJson.toolbar.topLeft} entityKey="metaBtns" />
   ))
   .add('Ограничение доступа на кнопки', () => {
     const toolbar = [
@@ -406,13 +403,14 @@ stories
         buttons: [
           {
             id: 'testBtn22',
-            title: 'Кнопка',
-            actionId: 'dummy'
+            label: 'Кнопка',
+            src: 'PerformButton'
           },
           {
             id: 'testBtn23',
-            title: 'Защищенная кнопка',
+            label: 'Защищенная кнопка',
             actionId: 'dummy',
+            src: 'PerformButton',
             security: {
               roles: ['admin']
             }
@@ -437,21 +435,23 @@ stories
         buttons: [
           {
             id: 'testBtn22',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'DropdownButton',
             subMenu: [
               {
                 id: 'testBtn23',
-                title: 'Защищенная кнопка',
+                label: 'Защищенная кнопка',
                 actionId: 'dummy',
+                src: 'PerformButton',
                 security: {
                   roles: ['admin']
                 }
               },
               {
                 id: 'testBtn23',
-                title: 'Защищенная кнопка 2',
+                label: 'Защищенная кнопка 2',
                 actionId: 'dummy',
+                src: 'PerformButton',
                 security: {
                   roles: ['admin']
                 }
@@ -468,23 +468,18 @@ stories
         </small>
         <AuthButtonContainer />
         <br />
-        <Toolbar actions={MetaJson.actions} toolbar={toolbar} entityKey="metaBtns" />
+        <Toolbar toolbar={toolbar} entityKey="metaBtns" />
       </div>
     );
   })
   .add('Page Buttons с предустановленным visible/disabled', () => {
-    const actions = {
-      dummy: {
-        src: 'dummyImpl'
-      }
-    };
     const toolbarNonVisible = [
       {
         buttons: [
           {
             id: '111',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             visible: false
           }
         ]
@@ -495,8 +490,8 @@ stories
         buttons: [
           {
             id: '1112',
-            title: 'Кнопка',
-            actionId: 'dummy',
+            label: 'Кнопка',
+            src: 'PerformButton',
             disabled: true
           }
         ]
@@ -507,18 +502,19 @@ stories
         buttons: [
           {
             id: '11113',
-            title: 'Дропдаун',
+            label: 'Дропдаун',
+            src: 'DropdownButton',
             visible: false,
             subMenu: [
               {
                 id: 'testBtn29',
-                actionId: 'dummy',
-                title: 'Элемент списка'
+                src: 'PerformButton',
+                label: 'Элемент списка'
               },
               {
                 id: 'testBtn29',
-                actionId: 'dummy',
-                title: 'Элемент списка'
+                src: 'PerformButton',
+                label: 'Элемент списка'
               }
             ]
           }
@@ -530,18 +526,19 @@ stories
         buttons: [
           {
             id: '11134',
-            title: 'Дропдаун',
+            label: 'Дропдаун',
+            src: 'DropdownButton',
             disabled: true,
             subMenu: [
               {
                 id: 'testBtn29',
-                actionId: 'dummy',
-                title: 'Элемент списка'
+                src: 'PerformButton',
+                label: 'Элемент списка'
               },
               {
                 id: 'testBtn29',
-                actionId: 'dummy',
-                title: 'Элемент списка'
+                src: 'PerformButton',
+                label: 'Элемент списка'
               }
             ]
           }
@@ -553,19 +550,19 @@ stories
       <React.Fragment>
         <div className="row mb-2">
           Кнопку не видно, потому что она скрыта
-          <Toolbar actions={actions} toolbar={toolbarNonVisible} entityKey="visibleTest" />
+          <Toolbar toolbar={toolbarNonVisible} entityKey="visibleTest" />
         </div>
         <div className="row mb-2">
           Кнопка неактивна
-          <Toolbar actions={actions} toolbar={toolbarDisabled} entityKey="disabledTest" />
+          <Toolbar toolbar={toolbarDisabled} entityKey="disabledTest" />
         </div>
         <div className="row mb-2">
           Дропдаун не видно, потому что он скрыт
-          <Toolbar actions={actions} toolbar={dropDownNonVisisble} entityKey="notVisibleDropDown" />
+          <Toolbar toolbar={dropDownNonVisisble} entityKey="notVisibleDropDown" />
         </div>
         <div className="row mb-2">
           Дропдаун неактивен
-          <Toolbar actions={actions} toolbar={dropDownDisabled} entityKey="dropdownDisabled" />
+          <Toolbar toolbar={dropDownDisabled} entityKey="dropdownDisabled" />
         </div>
       </React.Fragment>
     );

@@ -11,6 +11,7 @@ const mockStore = configureMockStore();
 const delay = ms => new Promise(r => setTimeout(() => r(), ms));
 
 const testProps = {
+  id: 'id',
   entityKey: 'form_name',
   conditions: {
     label: 'label',
@@ -53,7 +54,7 @@ describe('<Link />', () => {
     });
 
     expect(store.getActions()[0]).toEqual(
-      registerButton(testProps.entityKey, null, {
+      registerButton(testProps.entityKey, 'id', {
         count: testProps.count,
         visible: testProps.visible,
         disabled: testProps.disabled,

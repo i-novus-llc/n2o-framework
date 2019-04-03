@@ -12,7 +12,7 @@ import {
   CALL_ACTION_IMPL,
   TOGGLE_BUTTON_VISIBILITY,
   TOGGLE_BUTTON_DISABLED,
-  CHANGE_BUTTON_ICON,
+  CHANGE_BUTTON_ICON
 } from '../constants/toolbar';
 import {
   callActionImpl,
@@ -32,7 +32,7 @@ import {
   changeButtonIcon,
   changeButtonStyle,
   changeButtonClass,
-  registerButton,
+  registerButton
 } from './toolbar';
 
 const key = 'test-btn';
@@ -44,7 +44,7 @@ const count = 4;
 const hint = 'this is a hint';
 const icon = 'fa fa-plus';
 const style = {
-  border: '1px solid red',
+  border: '1px solid red'
 };
 const btnClass = 'btn-class';
 
@@ -52,17 +52,17 @@ describe('Тесты экшенов toolbar', () => {
   describe('Проверка экшена callActionAmpl', () => {
     it('Генирирует правильное событие', () => {
       const action = callActionImpl('toggleFilter', {
-        name: 'test',
+        name: 'test'
       });
       expect(action.type).toEqual(CALL_ACTION_IMPL);
     });
     it('Возвращает правильный payload', () => {
       const action = callActionImpl('toggleFilter', {
-        name: 'test',
+        name: 'test'
       });
       expect(action.payload.actionSrc).toEqual('toggleFilter');
       expect(action.payload.options).toEqual({
-        name: 'test',
+        name: 'test'
       });
     });
   });
@@ -75,7 +75,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = changeButtonVisiblity(key, id, true);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.visible).toEqual(true);
     });
   });
@@ -88,7 +88,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonVisible(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.visible).toEqual(true);
     });
   });
@@ -101,7 +101,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonHidden(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.visible).toEqual(false);
     });
   });
@@ -126,7 +126,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = changeButtonDisabled(key, id, false);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.disabled).toEqual(false);
     });
   });
@@ -139,7 +139,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonDisabled(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.disabled).toEqual(true);
     });
   });
@@ -152,7 +152,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonEnabled(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.disabled).toEqual(false);
     });
   });
@@ -287,43 +287,24 @@ describe('Тесты экшенов toolbar', () => {
         className: btnClass,
         style,
         containerKey: 'container',
-        conditions: {},
+        conditions: {}
       });
       expect(action.type).toEqual(REGISTER_BUTTON);
     });
     it('Возвращает правильный payload', () => {
       const action = registerButton(key, id, {
-        id,
-        size,
-        title,
+        key,
         count,
-        icon,
-        color,
-        resolveEnabled: true,
         visible: true,
         disabled: false,
-        hint,
-        className: btnClass,
-        style,
-        containerKey: 'container',
-        conditions: {},
+        conditions: {}
       });
-      // todo востановить тест
       expect(action.payload.key).toEqual(key);
-      //expect(action.payload.id).toEqual(id);
-      // expect(action.payload.size).toEqual(size);
-      // expect(action.payload.title).toEqual(title);
-      // expect(action.payload.count).toEqual(count);
-      // expect(action.payload.color).toEqual(color);
-      // expect(action.payload.visible).toEqual(true);
-      // expect(action.payload.hint).toEqual(hint);
-      // expect(action.payload.icon).toEqual(icon);
-      // expect(action.payload.className).toEqual(btnClass);
-      // expect(action.payload.style).toEqual(style);
-      // expect(action.payload.disabled).toEqual(false);
-      // expect(action.payload.containerKey).toEqual('container');
-      // expect(action.payload.conditions).toEqual({});
-      // expect(action.payload.resolveEnabled).toEqual(true);
+      expect(action.payload.buttonId).toEqual(id);
+      expect(action.payload.visible).toEqual(true);
+      expect(action.payload.disabled).toEqual(false);
+      expect(action.payload.conditions).toEqual({});
+      expect(action.payload.count).toEqual(4);
     });
   });
 });
