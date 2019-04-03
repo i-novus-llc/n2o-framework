@@ -16,6 +16,16 @@
   position: relative;
   display: flex;
   flex-direction: column;
+
+  &--absolute {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+
+    z-index: 1100;
+  }
 }
 
 .n2o-alert {
@@ -23,16 +33,6 @@
   align-items: baseline;
 
   width: 100%;
-
-  &--relative {
-    position: relative;
-  }
-
-  &--absolute {
-    position: absolute;
-
-    z-index: 1002;
-  }
 
   &--animated {
     animation-name: alertAnimation;

@@ -86,7 +86,6 @@ class Alert extends React.Component {
       onDismiss,
       help,
       animate,
-      position,
     } = this.props;
 
     const { detailsVisible } = this.state;
@@ -96,8 +95,6 @@ class Alert extends React.Component {
         className={cx('n2o-alert', 'alert', className, {
           [`alert-${severity}`]: severity,
           'n2o-alert--animated': animate,
-          'n2o-alert--relative': position === 'relative',
-          'n2o-alert--absolute': position === 'absolute',
         })}
         style={style}
       >
