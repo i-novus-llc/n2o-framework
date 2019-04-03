@@ -2,7 +2,7 @@
       route="/page" layout="test">
     <regions>
         <region place="test">
-            <table id="master" route="/master">
+            <table id="master" route="/">
                 <columns>
                     <column text-field-id="id"/>
                 </columns>

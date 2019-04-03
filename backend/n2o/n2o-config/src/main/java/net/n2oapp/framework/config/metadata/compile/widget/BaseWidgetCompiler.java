@@ -296,7 +296,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return;
         String widgetRoute = widgetRouteScope.getUrl();
         //Регистрация основного маршрута виджета для страницы
-        routes.addRoute(widgetRouteScope.getUrl(), compiled.getId());
+        routes.addRoute(widgetRouteScope.getUrl());
         if (compiled.getMasterLink() != null)
             routes.addPathMapping(compiled.getMasterParam(),
                     Redux.dispatchSelectedWidget(compiled.getMasterLink().getWidgetId(), colon(compiled.getMasterParam())));
@@ -305,7 +305,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //todo для формы не существует selected!
         String selectedId = normalizeParam(compiled.getId() + "_id");
         String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
-        routes.addRoute(routeWidgetSelected, compiled.getId());
+        routes.addRoute(routeWidgetSelected);
 
         ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
         routes.addPathMapping(selectedId, widgetIdMapping);
