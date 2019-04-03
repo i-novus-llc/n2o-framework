@@ -17,18 +17,6 @@ const setup = props => {
   return { store, wrapper };
 };
 
-// withActionButton({
-//   buttonId: Date.now(),
-//   onClick: (e, props) => {
-//     if (isModifiedEvent(e) || !isLeftClickEvent(e)) {
-//       return;
-//     }
-//     if (props.inner) {
-//       e.preventDefault();
-//       props.dispatch(push(props.url));
-//     }
-//   }
-// }),
 describe('<Link />', () => {
   it('Создание', () => {
     const { wrapper } = setup({ url: 'testUrl', target: 'blank' });

@@ -29,11 +29,11 @@ export default function withActionButton(options = {}) {
       state = { confirmVisible: false };
       isConfirm = false;
       lastEvent = null;
-      generatedButtonId = id();
 
       constructor(props) {
         super(props);
         this.initIfNeeded();
+        this.generatedButtonId = props.uid || id();
       }
 
       initIfNeeded = () => {
@@ -85,6 +85,7 @@ export default function withActionButton(options = {}) {
             store.getState(),
             isTouched
           )(formValues, dispatch);
+
           return errors;
         }
         return false;
@@ -105,7 +106,14 @@ export default function withActionButton(options = {}) {
         } else {
           this.isConfirm = false;
           onClick(this.lastEvent || e, {
-            ...omit(this.props, ['isInit', 'initialProps', 'registerButton']),
+            ...omit(this.props, [
+              'isInit',
+              'initialProps',
+              'registerButton',
+              'uid',
+              'validationConfig',
+              'formValues'
+            ]),
             isConfirm: this.isConfirm
           });
           this.lastEvent = null;
@@ -135,7 +143,15 @@ export default function withActionButton(options = {}) {
           <React.Fragment>
             <Tooltip target={this.generatedButtonId} hint={hint}>
               <WrappedComponent
-                {...omit(this.props, ['isInit', 'targetTooltip', 'initialProps', 'registerButton'])}
+                {...omit(this.props, [
+                  'isInit',
+                  'targetTooltip',
+                  'initialProps',
+                  'registerButton',
+                  'uid',
+                  'validationConfig',
+                  'formValues'
+                ])}
                 onClick={this.handleClick}
                 id={this.generatedButtonId}
               />
