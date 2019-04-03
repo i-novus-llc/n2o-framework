@@ -15,6 +15,7 @@
             {
               "id": "filter",
               "actionId": "filter",
+              "src": "PerformButton",
               "visible": true,
               "conditions": {
                 "visible": [
@@ -30,6 +31,7 @@
             {
               "id": "enable",
               "actionId": "enable",
+              "src": "PerformButton",
               "visible": true,
               "conditions": {
                 "enabled": [
@@ -46,6 +48,7 @@
               "id": "combo",
               "actionId": "combo",
               "visible": true,
+              "src": "PerformButton",
               "conditions": {
                 "visible": [
                   {
@@ -66,10 +69,12 @@
             {
               "id": "subMenu3",
               "label": "Видимость списка",
+              "src": "DropdownButton",
               "hint": "Исчезнет, если фамилия Ревин. Условие видимости на элементах списка",
               "subMenu": [
                 {
                   "id": "menuItem4",
+                  "src": "PerformButton",
                   "conditions": {
                     "visible": [
                       {
@@ -89,6 +94,7 @@
                 },
                 {
                   "id": "menuItem5",
+                  "src": "PerformButton",
                   "conditions": {
                     "visible": [
                       {

@@ -16,6 +16,7 @@
             {
               "id": "update",
               "label": "Сохранить",
+              "src": "PerformButton",
               "actionId": "update",
               "validate": false
             }

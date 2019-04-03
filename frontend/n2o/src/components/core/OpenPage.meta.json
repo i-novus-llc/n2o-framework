@@ -35,6 +35,7 @@
               {
                 "id": "redirect",
                 "actionId": "redirect",
+                "src": "PerformButton",
                 "label": "Перейти"
               }
             ]

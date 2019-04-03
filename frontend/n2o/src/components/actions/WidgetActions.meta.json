@@ -6,6 +6,7 @@
           {
             "id": "testBtn11",
             "label": "Создать",
+            "src": "PerformButton",
             "actionId": "dummy",
             "icon": "fa fa-plus",
             "hint": "Создать запись",
@@ -20,6 +21,7 @@
             "label": "Изменить",
             "actionId": "dummy",
             "icon": "fa fa-pencil",
+            "src": "PerformButton",
             "hint": "Изменить запись",
             "count": "1",
             "size": "md",
@@ -30,6 +32,7 @@
           {
             "id": "testBtn13",
             "label": "Удалить",
+            "src": "PerformButton",
             "actionId": "dummy",
             "icon": "fa fa-trash",
             "hint": "Удалить запись",
@@ -47,6 +50,7 @@
             "id": "testBtn21",
             "label": "Копировать",
             "actionId": "dummy",
+            "src": "PerformButton",
             "icon": "fa fa-clone",
             "hint": "Копировать запись",
             "count": "9",
@@ -60,6 +64,7 @@
             "label": "Еще",
             "icon": "fa fa-info-circle",
             "hint": "Доп. опции",
+            "src": "DropdownButton",
             "size": "md",
             "color": "primary",
             "visible": true,
@@ -67,6 +72,7 @@
             "subMenu": [
               {
                 "id": "testBtn221",
+                "src": "PerformButton",
                 "actionId": "dummy",
                 "label": "Подписать",
                 "icon": "fa fa-paper-plane",
