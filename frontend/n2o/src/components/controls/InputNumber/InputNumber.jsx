@@ -131,8 +131,8 @@ class InputNumber extends React.Component {
       e.keyCode === upKeyCode
         ? 'up'
         : e.keyCode === downKeyCode
-        ? 'down'
-        : undefined;
+          ? 'down'
+          : undefined;
     if (type) {
       e.preventDefault();
       this.buttonHandler(type);

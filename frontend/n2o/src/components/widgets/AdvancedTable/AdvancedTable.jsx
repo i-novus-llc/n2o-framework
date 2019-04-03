@@ -53,8 +53,8 @@ class AdvancedTable extends Component {
           ? get(props.data[props.selectedId], 'id')
           : get(props.data[0], 'id')
         : props.hasFocus
-        ? 0
-        : 1,
+          ? 0
+          : 1,
       selectIndex: props.hasSelect
         ? getIndex(props.data, props.selectedId)
         : -1,

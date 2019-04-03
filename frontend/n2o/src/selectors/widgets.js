@@ -22,12 +22,9 @@ const widgetsSelector = state => {
  * @param widgetId
  */
 const makeWidgetByIdSelector = widgetId => {
-  return createSelector(
-    widgetsSelector,
-    widgetsState => {
-      return widgetsState[widgetId] || {};
-    }
-  );
+  return createSelector(widgetsSelector, widgetsState => {
+    return widgetsState[widgetId] || {};
+  });
 };
 
 /**
@@ -35,12 +32,9 @@ const makeWidgetByIdSelector = widgetId => {
  * @param widgetId
  */
 const makeWidgetIsInitSelector = widgetId =>
-  createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => {
-      return widgetState.isInit;
-    }
-  );
+  createSelector(makeWidgetByIdSelector(widgetId), widgetState => {
+    return widgetState.isInit;
+  });
 
 /**
  * Селектор-генератор для получения свойства виджета - isVisible
@@ -123,12 +117,9 @@ const makeWidgetSortingSelector = widgetId =>
  * @param widgetId
  */
 const makeWidgetFilterVisibilitySelector = widgetId =>
-  createSelector(
-    makeWidgetByIdSelector(widgetId),
-    widgetState => {
-      return widgetState.isFilterVisible;
-    }
-  );
+  createSelector(makeWidgetByIdSelector(widgetId), widgetState => {
+    return widgetState.isFilterVisible;
+  });
 
 /**
  * Селектор-генератор для получения свойства виджета - sorting

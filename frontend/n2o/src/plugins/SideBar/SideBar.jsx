@@ -139,41 +139,47 @@ class SideBar extends React.Component {
           </NavbarBrand>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav navbar>
-              {search && visible && (
-                <InputGroup>
-                  <Input placeholder="Поиск" />
-                  <InputGroupAddon addonType="append">
-                    <span className="input-group-text">
-                      <i className="fa fa-search" aria-hidden="true" />
-                    </span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}
+              {search &&
+                visible && (
+                  <InputGroup>
+                    <Input placeholder="Поиск" />
+                    <InputGroupAddon addonType="append">
+                      <span className="input-group-text">
+                        <i className="fa fa-search" aria-hidden="true" />
+                      </span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                )}
               {navItems}
-              {collapse && !fixed && (
-                <button className="n2o-sidebar-toggler" onClick={this.onClick}>
-                  {this.state.visible ? (
-                    <i className="fa fa-angle-left" aria-hidden="true" />
-                  ) : (
-                    <i className="fa fa-angle-right" aria-hidden="true" />
-                  )}
-                </button>
-              )}
+              {collapse &&
+                !fixed && (
+                  <button
+                    className="n2o-sidebar-toggler"
+                    onClick={this.onClick}
+                  >
+                    {this.state.visible ? (
+                      <i className="fa fa-angle-left" aria-hidden="true" />
+                    ) : (
+                      <i className="fa fa-angle-right" aria-hidden="true" />
+                    )}
+                  </button>
+                )}
             </Nav>
           </Collapse>
         </Navbar>
-        {collapse && fixed && (
-          <button
-            className="fixed-toggler n2o-sidebar-toggler"
-            onClick={this.onClick}
-          >
-            {this.state.visible ? (
-              <i class="fa fa-angle-left" aria-hidden="true" />
-            ) : (
-              <i class="fa fa-angle-right" aria-hidden="true" />
-            )}
-          </button>
-        )}
+        {collapse &&
+          fixed && (
+            <button
+              className="fixed-toggler n2o-sidebar-toggler"
+              onClick={this.onClick}
+            >
+              {this.state.visible ? (
+                <i class="fa fa-angle-left" aria-hidden="true" />
+              ) : (
+                <i class="fa fa-angle-right" aria-hidden="true" />
+              )}
+            </button>
+          )}
       </div>
     );
   }

@@ -107,9 +107,11 @@ const NavItemContainer = ({ item, activeId, type, sidebarOpen, options }) => {
         <span className="nav-link">{item.label}</span>
       </NavItem>
     )) ||
-    (type === 'sidebar' && sidebarOpen && item.type === 'dropdown' && (
-      <SidebarDropdown title={item.label}>{dropdownItems}</SidebarDropdown>
-    )) ||
+    (type === 'sidebar' &&
+      sidebarOpen &&
+      item.type === 'dropdown' && (
+        <SidebarDropdown title={item.label}>{dropdownItems}</SidebarDropdown>
+      )) ||
     null
   );
 };

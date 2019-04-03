@@ -262,12 +262,13 @@ class Tree extends Component {
 
     return (
       <div className={`${prefixCls}-wrapper`}>
-        {filter && FILTER_MODE.includes(filter) && (
-          <Filter
-            onFilter={this.onFilter}
-            filterPlaceholder={filterPlaceholder}
-          />
-        )}
+        {filter &&
+          FILTER_MODE.includes(filter) && (
+            <Filter
+              onFilter={this.onFilter}
+              filterPlaceholder={filterPlaceholder}
+            />
+          )}
         {expandBtn && (
           <ExpandBtn
             onShowAll={this.onShowAllTreeItem}
