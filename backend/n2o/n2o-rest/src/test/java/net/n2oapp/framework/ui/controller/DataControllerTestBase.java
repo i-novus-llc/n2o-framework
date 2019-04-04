@@ -39,6 +39,7 @@ public abstract class DataControllerTestBase {
         properties.put("n2o.engine.mapper", "spel");
         SimplePropertyResolver propertyResolver = new SimplePropertyResolver(properties);
         setUpStaticProperties(propertyResolver);
+        environment.setSystemProperties(propertyResolver);
         builder = new N2oApplicationBuilder(environment);
         configure(builder);
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
