@@ -48,3 +48,6 @@
   border-top: none;
 }
 
+.was-validated .form-control:invalid, .form-control.is-invalid {
+  background: none;
+}
