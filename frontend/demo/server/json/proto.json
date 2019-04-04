@@ -408,6 +408,7 @@
                 "icon": "fa fa-plus",
                 "actionId": "create",
                 "hint": "Создать",
+                "hintPosition": "bottom",
                 "conditions": {},
                 "title": "Создать"
               },
@@ -416,6 +417,7 @@
                 "icon": "fa fa-pencil",
                 "actionId": "update_patient",
                 "hint": "Изменить",
+                "hintPosition": "bottom",
                 "conditions": {
                   "enabled": [
                     {
@@ -430,6 +432,7 @@
                 "id": "delete",
                 "actionId": "delete",
                 "hint": "Удалить",
+                "hintPosition": "bottom",
                 "conditions": {
                   "enabled": [
                     {
@@ -439,10 +442,11 @@
                   ]
                 },
                 "confirm": {
-                  "text": "Вы уверены, что хотите удалить пациента '{surname}'?",
+                  "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                   "title": "Предупреждение",
                   "okLabel": "Да",
-                  "cancelLabel": "Нет"
+                  "cancelLabel": "Нет",
+                  "modelLink": "models.resolve['proto_patients']"
                 },
                 "title": "Удалить"
               }
@@ -458,6 +462,7 @@
                 "icon": "fa fa-edit",
                 "actionId": "update2",
                 "hint": "Кнопка скрывается, если в строке имя Мария",
+                "hintPosition": "bottom",
                 "conditions": {
                   "visible": [
                     {
@@ -479,6 +484,7 @@
                 "icon": "fa fa-book",
                 "actionId": "view",
                 "hint": "Кнопка блокируется, если в фильтре имя Анна",
+                "hintPosition": "right",
                 "conditions": {
                   "enabled": [
                     {
@@ -506,12 +512,14 @@
                 "icon": "fa fa-filter",
                 "actionId": "menuItem5",
                 "hint": "Изменить видимость фильтров",
+                "hintPosition": "bottom",
                 "conditions": {}
               },
               {
                 "id": "menuItem6",
                 "icon": "fa fa-table",
                 "hint": "Изменить видимость колонок",
+                "hintPosition": "bottom",
                 "conditions": {},
                 "dropdownSrc": "ToggleColumn"
               },
@@ -520,12 +528,14 @@
                 "icon": "fa fa-refresh",
                 "actionId": "menuItem7",
                 "hint": "Обновить данные",
+                "hintPosition": "bottom",
                 "conditions": {}
               },
               {
                 "id": "menuItem8",
                 "icon": "fa fa-bars",
                 "hint": "Изменить размер",
+                "hintPosition": "bottom",
                 "conditions": {},
                 "dropdownSrc": "ChangeSize"
               }
@@ -1003,7 +1013,6 @@
                         }
                       }
                     },
-                    "hint": "Удалить",
                     "conditions": {
                       "enabled": [
                         {
@@ -1013,10 +1022,11 @@
                       ]
                     },
                     "confirm": {
-                      "text": "Вы уверены, что хотите удалить пациента '{surname}'?",
+                      "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                       "title": "Предупреждение",
                       "okLabel": "Да",
-                      "cancelLabel": "Нет"
+                      "cancelLabel": "Нет",
+                      "modelLink": "models.resolve['proto_patients']"
                     },
                     "title": "Удалить"
                   },
@@ -1044,7 +1054,6 @@
                         }
                       }
                     },
-                    "hint": "Изменить",
                     "conditions": {
                       "enabled": [
                         {
@@ -1133,7 +1142,6 @@
                 "id": "create",
                 "icon": "fa fa-plus",
                 "actionId": "create",
-                "hint": "Создать",
                 "conditions": {},
                 "title": "Создать"
               },
@@ -1141,7 +1149,6 @@
                 "id": "update",
                 "icon": "fa fa-pencil",
                 "actionId": "update",
-                "hint": "Изменить",
                 "conditions": {
                   "enabled": [
                     {
@@ -1156,7 +1163,6 @@
                 "id": "delete",
                 "icon": "fa fa-trash",
                 "actionId": "delete",
-                "hint": "Удалить",
                 "conditions": {
                   "enabled": [
                     {
@@ -1379,6 +1385,7 @@
         ]
       },
       "form": {
+        "prompt": true,
         "fieldsets": [
           {
             "src": "StandardFieldset",
@@ -1479,6 +1486,7 @@
             "icon": "fa fa-plus",
             "actionId": "create2",
             "hint": "Добавить пациента",
+            "hintPosition": "bottom",
             "conditions": {},
             "color": "primary",
             "title": "Добавить пациента"
@@ -1507,6 +1515,9 @@
   "models": {
     "filter['proto_patients'].genders": {
       "link": "models.filter['proto_patients'].genders"
+    },
+    "filter['proto_contacts'].type": {
+      "link": "models.filter['proto_contacts'].type"
     }
   },
   "layout": {
@@ -1539,14 +1550,6 @@
           "open": true,
           "collapsible": true,
           "fullScreen": false,
-          "dependency": {
-            "visible": [
-              {
-                "on": "models.resolve['proto_patients']",
-                "condition": "name != 'Мария'"
-              }
-            ]
-          },
           "panels": [
             {
               "id": "panel1",
@@ -1563,7 +1566,6 @@
           "open": true,
           "collapsible": true,
           "fullScreen": false,
-          "dependency": {},
           "panels": [
             {
               "id": "panel1",

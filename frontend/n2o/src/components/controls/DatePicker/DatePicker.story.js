@@ -23,7 +23,7 @@ stories
       timeFormat: text('timeFormat', DatePickerJson.timeFormat),
       dateDivider: text('dateDivider', ' '),
       dateFormat: text('dateFormat', DatePickerJson.dateFormat),
-      locale: select('locale', ['ru', 'en'], DatePickerJson.locale)
+      locale: select('locale', ['ru', 'en'], DatePickerJson.locale),
     };
     return <DatePicker {...props} onChange={action('onChange')} />;
   })
@@ -38,7 +38,7 @@ stories
         min: text('min', '5/12/2012'),
         max: text('max', '15/12/2021'),
         disabled: boolean('disabled', false),
-        locale: select('locale', ['ru', 'en'], 'ru')
+        locale: select('locale', ['ru', 'en'], 'ru'),
       };
       return props;
     })

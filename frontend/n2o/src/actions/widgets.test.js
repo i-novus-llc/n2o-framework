@@ -23,7 +23,7 @@ import {
   SET_WIDGET_METADATA,
   SET_TABLE_SELECTED_ID,
   SET_ACTIVE,
-  DISABLE_ON_FETCH
+  DISABLE_ON_FETCH,
 } from '../constants/widgets';
 import {
   registerWidget,
@@ -52,30 +52,30 @@ import {
   setWidgetMetadata,
   setTableSelectedId,
   setActive,
-  disableWidgetOnFetch
+  disableWidgetOnFetch,
 } from '../actions/widgets';
 
 const widgetId = ' widgetId';
 const initProps = {
   disabled: false,
-  visible: true
+  visible: true,
 };
 const json = JSON.stringify({
   data: {
     a: 1,
-    b: 2
-  }
+    b: 2,
+  },
 });
 const err = {
   text: 'Not found',
-  status: 404
+  status: 404,
 };
 const errResponse = JSON.stringify(err);
 const resolveModel = {
   data: {
     a: 1,
-    b: 2
-  }
+    b: 2,
+  },
 };
 const alertKey = 'alertKey';
 const fieldKey = 'name';
@@ -87,7 +87,7 @@ const pageId = 'Page_id';
 const selectedId = 'selectedId';
 const metadata = {
   toolbar: {},
-  actions: {}
+  actions: {},
 };
 
 describe('Тесты экшенов widgets', () => {

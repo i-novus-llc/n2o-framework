@@ -4,9 +4,11 @@ import TitleFieldset from './TitleFieldset';
 const setup = propsOverride => {
   const props = {
     title: 'title',
-    subTitle: 'subTitle'
+    subTitle: 'subTitle',
   };
-  return mount(<TitleFieldset render={() => {}} {...props} {...propsOverride} />);
+  return mount(
+    <TitleFieldset render={() => {}} {...props} {...propsOverride} />
+  );
 };
 
 describe('Тесты TitleFieldset', () => {
@@ -21,7 +23,7 @@ describe('Тесты TitleFieldset', () => {
   });
   it('Отрисовывается линия', () => {
     const wrapper = setup({
-      showLine: true
+      showLine: true,
     });
     expect(wrapper.find('.title-fieldset-line').exists()).toEqual(true);
   });

@@ -16,7 +16,10 @@ stories.addDecorator(withKnobs);
 stories
   .add('Компонент', () => {
     const props = {
-      brandImage: text('brandImage', 'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'),
+      brandImage: text(
+        'brandImage',
+        'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
+      ),
       color: select('color', ['default', 'inverse'], 'inverse'),
       fixed: boolean('fixed', false),
       activeId: text('activeId', 'link'),
@@ -24,7 +27,7 @@ stories
       className: text('className', 'n2o'),
       search: boolean('search', false),
       visible: boolean('visible', true),
-      items: sidebarMetadata.items
+      items: sidebarMetadata.items,
     };
     return (
       <Template>
@@ -32,10 +35,14 @@ stories
         <div
           style={{
             width: '100%',
-            position: 'relative'
+            position: 'relative',
           }}
         >
-          <Wireframe style={{ top: 0, bottom: 0 }} className="n2o" title="Тело страницы" />
+          <Wireframe
+            style={{ top: 0, bottom: 0 }}
+            className="n2o"
+            title="Тело страницы"
+          />
         </div>
       </Template>
     );

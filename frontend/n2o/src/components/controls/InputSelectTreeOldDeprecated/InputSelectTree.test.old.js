@@ -22,16 +22,16 @@ const setup = (propOverrides = {}) => {
           parentId: '',
           icon: 'fa fa-square',
           image: 'https://i.stack.imgur.com/2zqqC.jpg',
-          hasChildren: true
+          hasChildren: true,
         },
         {
           id: '33',
           parentId: '123412',
           icon: 'fa fa-square',
           image: 'https://i.stack.imgur.com/2zqqC.jpg',
-          hasChildren: false
-        }
-      ]
+          hasChildren: false,
+        },
+      ],
     },
     propOverrides
   );
@@ -40,7 +40,7 @@ const setup = (propOverrides = {}) => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -54,7 +54,9 @@ describe('<InputSelectTree />', () => {
   it('проверяет создание детей', () => {
     const { wrapper } = setup();
 
-    expect(wrapper.find('ui.n2o-tree-select-item > li.n2o-tree-select').exists()).toBeTruthy();
+    expect(
+      wrapper.find('ui.n2o-tree-select-item > li.n2o-tree-select').exists()
+    ).toBeTruthy();
   });
 
   it('проверяет наличие кнопки раскрытия', () => {

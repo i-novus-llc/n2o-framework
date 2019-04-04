@@ -21,13 +21,13 @@ class Html extends React.Component {
     super(props);
     this.state = {
       html: props.html || null,
-      loading: false
+      loading: false,
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     return {
-      html: prevState.html || nextProps.html
+      html: prevState.html || nextProps.html,
     };
   }
 
@@ -64,7 +64,7 @@ class Html extends React.Component {
       .then(html => {
         this.setState({
           loading: false,
-          html
+          html,
         });
       })
       .catch(() => this.sendAlert());
@@ -88,7 +88,11 @@ class Html extends React.Component {
 
     return (
       <React.Fragment>
-        {loading ? <Spinner /> : <div dangerouslySetInnerHTML={{ __html: html }} />}
+        {loading ? (
+          <Spinner />
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+        )}
       </React.Fragment>
     );
   }
@@ -97,7 +101,7 @@ class Html extends React.Component {
 Html.propTypes = {
   url: PropTypes.string,
   id: PropTypes.string,
-  html: PropTypes.string
+  html: PropTypes.string,
 };
 
 export default Html;

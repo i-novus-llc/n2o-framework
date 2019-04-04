@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -28,7 +27,6 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.api.metadata.meta.DependencyCondition;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
@@ -38,13 +36,11 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.page.WidgetDependencyScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -121,6 +117,18 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             additionalPathParams.put(compiled.getMasterParam(), compiled.getMasterLink());
         }
         ParentRouteScope parentRouteScope = p.getScope(ParentRouteScope.class);
+        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
+        if (compiled.getDependency() != null && compiled.getDependency().getFetch() != null) {
+            for (DependencyCondition fetch : compiled.getDependency().getFetch()) {
+                if (fetch.getGlobalMasterWidgetId() != null) {
+                    ParentRouteScope masterRouteScope = pageRoutesScope.get(fetch.getGlobalMasterWidgetId());
+                    if (masterRouteScope != null) {
+                        masterRouteScope.getPathMapping().forEach(parentRouteScope.getPathMapping()::putIfAbsent);
+                        masterRouteScope.getQueryMapping().forEach(parentRouteScope.getQueryMapping()::putIfAbsent);
+                    }
+                }
+            }
+        }
         ParentRouteScope widgetRouteScope;
         if (parentRouteScope != null) {
             widgetRouteScope = new ParentRouteScope(route, additionalPathParams, additionalQueryParams, parentRouteScope);
@@ -154,10 +162,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
                                                 ValidationList validationList, ParentRouteScope widgetRouteScope,
-                                                SubModelsScope subModelsScope) {
+                                                SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope) {
         CompiledQuery query = getDataProviderQuery(source, p);
         String widgetRoute = widgetRouteScope.getUrl();
-        compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, widgetRouteScope, subModelsScope));
+        compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, widgetRouteScope, subModelsScope, copiedFieldScope));
         compileRouteWidget(compiled, source, query, p, widgetRouteScope);
         compileFetchOnInit(source, compiled);
     }
@@ -338,7 +346,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     private WidgetDataProvider initDataProvider(D widget, S source, String widgetRoute, CompiledQuery query,
                                                 CompileProcessor p, ValidationList validationList,
-                                                ParentRouteScope parentRouteScope, SubModelsScope subModelsScope) {
+                                                ParentRouteScope parentRouteScope, SubModelsScope subModelsScope,
+                                                CopiedFieldScope copiedFieldScope) {
         if (query == null)
             return null;
         WidgetDataProvider dataProvider = new WidgetDataProvider();
@@ -356,12 +365,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
-        p.addRoute(getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, p));
+        p.addRoute(getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, copiedFieldScope, p));
         return dataProvider;
     }
 
     protected QueryContext getQueryContext(D widget, S source, String route, CompiledQuery query,
-                                           ValidationList validationList, SubModelsScope subModelsScope, CompileProcessor p) {
+                                           ValidationList validationList, SubModelsScope subModelsScope,
+                                           CopiedFieldScope copiedFieldScope, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(query.getId(), route);
         queryContext.setValidations(validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER));
         queryContext.setFilters(widget.getFilters());
@@ -372,15 +382,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (source instanceof N2oForm) {
             queryContext.setSubModelQueries(subModelsScope);
             queryContext.setQuerySize(1);
-            if (((N2oForm) source).getItems() != null) {
-                queryContext.setCopiedFields(Arrays.stream(((N2oForm) source).getItems())
-                        .filter(f -> f instanceof N2oField && Boolean.TRUE.equals(((N2oField) f).getCopied()))
-                        .map(f -> ((N2oField) f).getId()).collect(Collectors.toSet()));
-            }
         } else {
             queryContext.setQuerySize(10);
         }
-
+        if (copiedFieldScope != null) {
+            queryContext.setCopiedFields(copiedFieldScope.getCopiedFields());
+        }
         return queryContext;
     }
 
@@ -415,6 +422,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 masterWidgetId = widgetScope.getDependsOnWidgetId();
                 ModelLink bindLink = new ModelLink(ReduxModel.RESOLVE, masterWidgetId);
                 DependencyCondition condition = new DependencyCondition();
+                condition.setGlobalMasterWidgetId(masterWidgetId);
                 condition.setOn(bindLink.getBindLink());
                 fetch.add(condition);
             }
@@ -436,11 +444,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
         }
         if (!dependency.isEmpty()) {
-            WidgetDependencyScope widgetDependencyScope = p.getScope(WidgetDependencyScope.class);
-            if (widgetDependencyScope != null)
-                widgetDependencyScope.put(compiled.getId(), dependency);
             compiled.setDependency(dependency);
-
         }
     }
 
@@ -517,7 +521,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            FiltersScope filtersScope,
                                            SubModelsScope subModelsScope,
                                            UploadScope uploadScope,
-                                           MomentScope momentScope) {
+                                           MomentScope momentScope,
+                                           CopiedFieldScope copiedFieldScope) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -542,7 +547,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
             fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
                     widgetScope, fieldSetScope, modelsScope, filtersScope,
-                    indexScope, subModelsScope, uploadScope, momentScope));
+                    indexScope, subModelsScope, uploadScope, momentScope, copiedFieldScope));
         }
         return fieldSets;
     }

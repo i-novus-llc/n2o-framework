@@ -17,7 +17,7 @@ class SecurityCheck extends React.Component {
     super(props);
     this.state = {
       permissions: null,
-      error: null
+      error: null,
     };
   }
 
@@ -40,14 +40,17 @@ class SecurityCheck extends React.Component {
     try {
       const permissions = await authProvider(SECURITY_CHECK, {
         config,
-        user
+        user,
       });
       this.setState(
         { permissions, error: null },
         () => onPermissionsSet && onPermissionsSet(permissions)
       );
     } catch (error) {
-      this.setState({ permissions: null, error }, () => onPermissionsSet && onPermissionsSet(null));
+      this.setState(
+        { permissions: null, error },
+        () => onPermissionsSet && onPermissionsSet(null)
+      );
     }
   }
 
@@ -62,20 +65,20 @@ SecurityCheck.propTypes = {
   authProvider: PropTypes.func,
   config: PropTypes.object,
   user: PropTypes.object,
-  render: PropTypes.func
+  render: PropTypes.func,
 };
 
 SecurityCheck.defaultProps = {
-  onPermissionsSet: () => {}
+  onPermissionsSet: () => {},
 };
 
 const mapStateToProps = createStructuredSelector({
-  user: userSelector
+  user: userSelector,
 });
 
 export default compose(
   getContext({
-    authProvider: PropTypes.func
+    authProvider: PropTypes.func,
   }),
   connect(mapStateToProps)
 )(SecurityCheck);

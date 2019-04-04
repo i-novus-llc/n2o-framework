@@ -5,7 +5,7 @@ import TextEditor from './TextEditor';
 const setup = propsOverride => {
   const props = {
     value: '<h1>header</h1>',
-    className: 'test-class'
+    className: 'test-class',
   };
 
   return mount(<TextEditor {...props} {...propsOverride} />);
@@ -20,14 +20,16 @@ describe('Проверка компонента TextEditor', () => {
   it('Значение прокидывается и проставляется', () => {
     const wrapper = setup();
     expect(wrapper.state().value).toEqual('<h1>header</h1>');
-    expect(wrapper.find('.public-DraftStyleDefault-ltr span span').text()).toEqual('header');
+    expect(
+      wrapper.find('.public-DraftStyleDefault-ltr span span').text()
+    ).toEqual('header');
   });
   it('onBlur/onFocus вызываются', () => {
     const onFocus = sinon.spy();
     const onBlur = sinon.spy();
     const wrapper = setup({
       onFocus,
-      onBlur
+      onBlur,
     });
     expect(onFocus.calledOnce).toEqual(false);
     expect(onBlur.calledOnce).toEqual(false);
@@ -38,7 +40,7 @@ describe('Проверка компонента TextEditor', () => {
   });
   it('Не отрисовывается по visible = false', () => {
     const wrapper = setup({
-      visible: false
+      visible: false,
     });
     expect(wrapper.find('.n2o-text-editor').exists()).toEqual(false);
   });

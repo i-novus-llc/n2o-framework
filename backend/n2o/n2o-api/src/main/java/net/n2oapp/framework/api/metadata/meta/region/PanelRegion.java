@@ -32,8 +32,6 @@ public class PanelRegion extends Region {
     private Boolean fullScreen;
     @JsonProperty
     private Boolean header;
-    @JsonProperty
-    private RegionDependency dependency;
 
     @Override
     @JsonProperty("panels")

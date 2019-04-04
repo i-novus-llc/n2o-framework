@@ -23,7 +23,7 @@ const Label = ({ id, value, required, className, style, help, ...props }) => {
     <div className={cx('n2o-field-label')}>
       {React.cloneElement(value, {
         className: cx('col-form-label', className),
-        style: { display: 'inline-block', ...style }
+        style: { display: 'inline-block', ...style },
       })}
       {required ? <span className="n2o-field-label-required">*</span> : ''}
       {help && <Popover id={id} help={help} />}
@@ -41,12 +41,12 @@ Label.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   required: PropTypes.bool,
   className: PropTypes.string,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 Label.defaultProps = {
   className: '',
-  style: {}
+  style: {},
 };
 
 export default Label;

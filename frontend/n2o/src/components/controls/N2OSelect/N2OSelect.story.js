@@ -16,28 +16,28 @@ stories.add('N2O вариант', () => {
     {
       id: 'Алексей',
       icon: 'fa fa-square',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
     },
     {
       id: 'Игорь',
       icon: 'fa fa-plus',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
     },
     {
       id: 'Владимир',
       icon: 'fa fa-square',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
     },
     {
       id: 'Анатолий',
       icon: 'fa fa-square',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
     },
     {
       id: 'Николай',
       icon: 'fa fa-plus',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
-    }
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+    },
   ];
 
   const props = {
@@ -54,9 +54,12 @@ stories.add('N2O вариант', () => {
     imageFieldId: text('imageFieldId', N2OSelectJson.imageFieldId),
     groupFieldId: text('groupFieldId', N2OSelectJson.groupFieldId),
     hasCheckboxes: boolean('hasCheckboxes', N2OSelectJson.hasCheckboxes),
-    closePopupOnSelect: boolean('closePopupOnSelect', N2OSelectJson.closePopupOnSelect),
+    closePopupOnSelect: boolean(
+      'closePopupOnSelect',
+      N2OSelectJson.closePopupOnSelect
+    ),
     cleanable: boolean('cleanable', N2OSelectJson.cleanable),
-    format: text('format', N2OSelectJson.format)
+    format: text('format', N2OSelectJson.format),
   };
 
   return <InputSelect {...props} options={options} />;

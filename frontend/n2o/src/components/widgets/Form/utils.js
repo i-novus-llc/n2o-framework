@@ -1,4 +1,4 @@
-import _, { isEqual, get, map, reduce, set } from 'lodash';
+import _, { isEqual, get, map, reduce, set, merge } from 'lodash';
 import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
 
 /**
@@ -48,7 +48,7 @@ export function fetchIfChangeDependencyValue(prevState, state, ref) {
     const { _fetchData, size, labelFieldId } = ref.props;
     _fetchData({
       size: size,
-      [`sorting.${labelFieldId}`]: 'ASC'
+      [`sorting.${labelFieldId}`]: 'ASC',
     });
   }
 }
@@ -58,10 +58,13 @@ const pickByPath = (object, arrayToPath) =>
 
 export const setWatchDependency = (state, props, dependencyType) => {
   const { dependency, form, modelPrefix } = props;
+
   const pickByReRender = (acc, { type, on }) => {
     if (on && type === dependencyType) {
-      const formOn = map(on, item => ['models', modelPrefix, form, item].join('.'));
-      return { ...acc, ...pickByPath(state, formOn) };
+      const formOn = map(on, item =>
+        ['models', modelPrefix, form, item].join('.')
+      );
+      return merge(acc, pickByPath(state, formOn));
     }
     return acc;
   };

@@ -20,7 +20,10 @@ import FormFieldsetCollapseVE from './FormFieldsetCollapseVE';
 import FormFieldsetStandartVE from './FormFieldsetStandartVE';
 import PlaceholderBreadCrumb from './PlaceholderBreadCrumb';
 import tableActions from './tableActions';
+import FormHighlyLoadedTest from './FormHighlyLoadedTest';
 import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
+import alertStackedErrors from './alertStackedErrors';
+import placeholderToConfirm from './placeholderToConfirm';
 
 export {
   filterMetadata,
@@ -45,5 +48,8 @@ export {
   FormFieldsetStandartVE,
   PlaceholderBreadCrumb,
   tableActions,
-  InputSelectTreeDefaultValue
+  FormHighlyLoadedTest,
+  InputSelectTreeDefaultValue,
+  alertStackedErrors,
+  placeholderToConfirm
 };

@@ -7,12 +7,12 @@ import progressBarStyles from './progressBarStyles';
 const props = {
   id: 'now',
   model: {
-    now: 55
+    now: 55,
   },
   animated: false,
   striped: false,
   color: progressBarStyles.DANGER,
-  size: 'default'
+  size: 'default',
 };
 
 describe('<ProgressBarCell />', () => {
@@ -25,7 +25,9 @@ describe('<ProgressBarCell />', () => {
   it('проверяет заполнение прогресс бара', () => {
     const wrapper = shallow(<ProgressBarCell {...props} />);
 
-    expect(wrapper.getElements().pop().props.value).toEqual(props.model[props.id]);
+    expect(wrapper.getElements().pop().props.value).toEqual(
+      props.model[props.id]
+    );
   });
 
   it('проверяет анимированность', () => {

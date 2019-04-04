@@ -4,7 +4,7 @@ import {
   handleInvoke,
   fetchInvoke,
   validate,
-  handleFailInvoke
+  handleFailInvoke,
 } from './actionsImpl';
 import { runSaga } from 'redux-saga';
 import { put } from 'redux-saga/effects';
@@ -18,26 +18,26 @@ import createActionHelper from '../actions/createActionHelper';
 const store = mockStore()({
   widgets: {
     testKey: {
-      validation: {}
-    }
+      validation: {},
+    },
   },
   form: {
     testKey: {
       values: {
-        some: 'value'
-      }
-    }
-  }
+        some: 'value',
+      },
+    },
+  },
 });
 
 const dataProvider = {
   method: 'POST',
   pathMapping: {
     __patients_id: {
-      link: "models.resolve['__patients'].id"
-    }
+      link: "models.resolve['__patients'].id",
+    },
   },
-  url: 'n2o/data/patients/:__patients_id/vip'
+  url: 'n2o/data/patients/:__patients_id/vip',
 };
 
 const action = {
@@ -46,18 +46,18 @@ const action = {
     modelLink: '',
     widgetId: '',
     dataProvider,
-    data: {}
-  }
+    data: {},
+  },
 };
 
 const state = {
   models: {
     resolve: {
       __patients: {
-        id: 111
-      }
-    }
-  }
+        id: 111,
+      },
+    },
+  },
 };
 
 describe('Проверка саги actionsImpl', () => {
@@ -65,15 +65,15 @@ describe('Проверка саги actionsImpl', () => {
     const action = {
       meta: {
         fail: {
-          some: 'value'
-        }
-      }
+          some: 'value',
+        },
+      },
     };
     const widgetId = 'testId';
     const err = {
       meta: {
-        value: 'value'
-      }
+        value: 'value',
+      },
     };
     const gen = handleFailInvoke(action.meta.fail, widgetId, err.meta);
     const meta = merge(action.meta.fail, err.meta);
@@ -85,11 +85,11 @@ describe('Проверка саги actionsImpl', () => {
 
   it('Проверка генератора validate', async () => {
     const fakeStore = {
-      getState: () => ({})
+      getState: () => ({}),
     };
     const options = {
       validate: true,
-      dispatch: () => {}
+      dispatch: () => {},
     };
     let promise = await runSaga(fakeStore, validate, options).done;
     const result = await Promise.resolve(promise);
@@ -98,13 +98,17 @@ describe('Проверка саги actionsImpl', () => {
 
   it('Проверка генератора fetchInvoke', async () => {
     const fakeStore = {
-      getState: () => state
+      getState: () => state,
     };
-    api.default = jest.fn(() => Promise.resolve({ response: 'response from server' }));
-    const promise = await runSaga(fakeStore, fetchInvoke, dataProvider, { id: 12345 }).done;
+    api.default = jest.fn(() =>
+      Promise.resolve({ response: 'response from server' })
+    );
+    const promise = await runSaga(fakeStore, fetchInvoke, dataProvider, {
+      id: 12345,
+    }).done;
     const result = await Promise.resolve(promise);
     expect(result).toEqual({
-      response: 'response from server'
+      response: 'response from server',
     });
   });
 
@@ -114,13 +118,18 @@ describe('Проверка саги actionsImpl', () => {
         models: {
           resolve: {
             __patients: {
-              id: 111
-            }
-          }
-        }
-      })
+              id: 111,
+            },
+          },
+        },
+      }),
     };
-    const promise = await runSaga(fakeState, resolveMapping, dataProvider, state);
+    const promise = await runSaga(
+      fakeState,
+      resolveMapping,
+      dataProvider,
+      state
+    );
     const result = await promise.done;
     expect(result).toEqual('n2o/data/patients/111/vip');
   });

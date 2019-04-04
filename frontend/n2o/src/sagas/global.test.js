@@ -9,23 +9,23 @@ describe('Проверка саги global', () => {
     const action = {
       meta: {},
       payload: {
-        params: undefined
+        params: undefined,
       },
-      type: REQUEST_CONFIG
+      type: REQUEST_CONFIG,
     };
     const config = {
       menu: {},
-      page: {}
+      page: {},
     };
     const dispatched = [];
 
     const fakeStore = {
       getState: () => ({
         global: {
-          locale: 'ru_RU'
-        }
+          locale: 'ru_RU',
+        },
       }),
-      dispatch: action => dispatched.push(action)
+      dispatch: action => dispatched.push(action),
     };
 
     api.default = jest.fn(() => Promise.resolve(config));
@@ -40,7 +40,7 @@ describe('Проверка саги global', () => {
       label: 'Ошибка',
       text: 'Не удалось получить конфигурацию приложения',
       closeButton: false,
-      severity: 'danger'
+      severity: 'danger',
     };
     const gen = getConfig();
     gen.next();

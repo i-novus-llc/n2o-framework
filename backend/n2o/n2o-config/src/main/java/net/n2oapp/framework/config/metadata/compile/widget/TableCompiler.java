@@ -70,7 +70,11 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
         ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
-        compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null);
+        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
+        if (pageRoutesScope != null) {
+            pageRoutesScope.put(table.getId(), widgetRouteScope);
+        }
+        compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null, null);
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
@@ -112,8 +116,9 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
 
     @Override
     protected QueryContext getQueryContext(Table widget, N2oTable source, String route, CompiledQuery query,
-                                           ValidationList validationList, SubModelsScope subModelsScope, CompileProcessor p) {
-        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList, subModelsScope, p);
+                                           ValidationList validationList, SubModelsScope subModelsScope,
+                                           CopiedFieldScope copiedFieldScope, CompileProcessor p) {
+        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList, subModelsScope, copiedFieldScope, p);
 
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
@@ -205,7 +210,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                                               ModelsScope modelsScope, FiltersScope filtersScope,
                                               SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
-                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
+                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope, null);
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();

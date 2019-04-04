@@ -31,7 +31,7 @@ export class CheckboxGroupControl extends React.Component {
   componentDidMount() {
     this.props._fetchData({
       size: this.props.size,
-      [`sorting.${this.props.labelFieldId}`]: 'ASC'
+      [`sorting.${this.props.labelFieldId}`]: 'ASC',
     });
   }
 
@@ -45,7 +45,7 @@ export class CheckboxGroupControl extends React.Component {
     const checkboxTypes = {
       default: Checkbox,
       n2o: CheckboxN2O,
-      btn: CheckboxButton
+      btn: CheckboxButton,
     };
 
     const CheckboxElement = checkboxTypes[type];
@@ -88,7 +88,7 @@ CheckboxGroupControl.propTypes = {
   size: PropTypes.number.isRequired,
   type: PropTypes.oneOf(['default', 'n2o', 'btn']),
   isLoading: PropTypes.bool,
-  _fetchData: PropTypes.func
+  _fetchData: PropTypes.func,
 };
 
 CheckboxGroupControl.defaultProps = {
@@ -102,7 +102,7 @@ CheckboxGroupControl.defaultProps = {
   isLoading: false,
   valueFieldId: 'id',
   labelFieldId: 'label',
-  _fetchData: () => {}
+  _fetchData: () => {},
 };
 
 export default withFetchData(CheckboxGroupControl);

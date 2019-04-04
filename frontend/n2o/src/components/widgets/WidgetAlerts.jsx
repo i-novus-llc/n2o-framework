@@ -31,24 +31,24 @@ class WidgetAlerts extends Component {
 
 WidgetAlerts.propTypes = {
   widgetId: PropTypes.string,
-  alerts: PropTypes.array
+  alerts: PropTypes.array,
 };
 
 WidgetAlerts.defaultProps = {
-  alerts: []
+  alerts: [],
 };
 
 const mapStateToProps = createStructuredSelector({
   alerts: (state, props) => {
     return makeAlertsByKeySelector(props.widgetId)(state, props);
-  }
+  },
 });
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     onDismiss: alertId => {
       dispatch(removeAlert(ownProps.widgetId, alertId));
-    }
+    },
   };
 }
 

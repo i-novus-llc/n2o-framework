@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { map, defaultTo, pick, isEmpty } from 'lodash';
 import {
-  UncontrolledButtonDropdown,
+  Dropdown,
   UncontrolledTooltip,
   DropdownToggle,
-  DropdownMenu
+  DropdownMenu,
 } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';
+import { compose, withState } from 'recompose';
 import SecurityCheck from '../../../../../core/auth/SecurityCheck';
 import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem';
 
@@ -25,16 +26,50 @@ import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/Dropdown
  * @returns {*}
  * @constructor
  */
-function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security, ...rest }) {
-  const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
-  const dropdownProps = pick(rest, ['disabled', 'direction', 'active', 'color', 'size']);
+function HintDropDown({
+  uId,
+  open,
+  onToggle,
+  title,
+  hint,
+  visible,
+  menu,
+  icon,
+  onClick,
+  security,
+  hintPosition,
+  ...rest
+}) {
+  const otherToltipProps = pick(rest, ['delay', 'hideArrow', 'offset']);
+  const dropdownProps = pick(rest, [
+    'disabled',
+    'direction',
+    'active',
+    'color',
+    'size',
+  ]);
 
-  const createDropDownMenu = ({ title, visible, icon, action, security, color, ...itemProps }) => {
-    const handleClick = action => e => onClick(e, action);
+  const createDropDownMenu = ({
+    title,
+    visible,
+    icon,
+    action,
+    security,
+    color,
+    ...itemProps
+  }) => {
+    const handleClick = action => e => {
+      e.stopPropagation();
+      onClick(e, action);
+    };
 
     const renderItem = () =>
       defaultTo(visible, true) ? (
-        <DropdownCustomItem color={color} onClick={handleClick(action)} {...itemProps}>
+        <DropdownCustomItem
+          color={color}
+          onClick={handleClick(action)}
+          {...itemProps}
+        >
           {icon && <Icon name={icon} />}
           {title}
         </DropdownCustomItem>
@@ -52,11 +87,21 @@ function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security
     );
   };
 
+  const onToggleDropdown = e => {
+    e.stopPropagation();
+    onToggle(!open);
+  };
+
   const renderDropdown = () =>
     visible ? (
-      <UncontrolledButtonDropdown direction="down">
+      <Dropdown direction="down" isOpen={open} toggle={onToggleDropdown}>
         {hint && (
-          <UncontrolledTooltip target={uId} modifiers={MODIFIERS} {...otherToltipProps}>
+          <UncontrolledTooltip
+            target={uId}
+            modifiers={MODIFIERS}
+            placement={hintPosition}
+            {...otherToltipProps}
+          >
             {hint}
           </UncontrolledTooltip>
         )}
@@ -68,7 +113,7 @@ function HintDropDown({ uId, title, hint, visible, menu, icon, onClick, security
         <DropdownMenu positionFixed={true} modifiers={MODIFIERS}>
           {map(menu, createDropDownMenu)}
         </DropdownMenu>
-      </UncontrolledButtonDropdown>
+      </Dropdown>
     ) : null;
 
   return isEmpty(security) ? (
@@ -107,14 +152,14 @@ HintDropDown.propTypes = {
     'bottom-end',
     'left',
     'left-start',
-    'left-end'
+    'left-end',
   ]),
   delay: PropTypes.oneOfType([
     PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
-    PropTypes.number
+    PropTypes.number,
   ]),
   hideArrow: PropTypes.bool,
-  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 HintDropDown.defaultProps = {
@@ -126,7 +171,10 @@ HintDropDown.defaultProps = {
   menu: [],
   delay: 100,
   hideArrow: false,
-  offset: 0
+  offset: 0,
 };
 
-export default initUid(HintDropDown);
+export default compose(
+  withState('open', 'onToggle', false),
+  initUid
+)(HintDropDown);

@@ -105,6 +105,7 @@
       },
       "actions": {},
       "form": {
+        "prompt": true,
         "fieldsets": [
           {
             "src": "StandardFieldset",
@@ -270,7 +271,6 @@
           {
             "id": "submit",
             "actionId": "submit",
-            "hint": "Сохранить",
             "conditions": {
               "enabled": [
                 {
@@ -287,7 +287,6 @@
           {
             "id": "close",
             "actionId": "close",
-            "hint": "Закрыть",
             "conditions": {},
             "title": "Закрыть"
           }

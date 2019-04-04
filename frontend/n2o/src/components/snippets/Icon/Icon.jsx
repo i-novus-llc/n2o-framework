@@ -26,14 +26,14 @@ class Icon extends React.Component {
       disabled: this.props.disabled,
       'fa-spin': this.props.spin,
       circular: this.props.circular,
-      bordered: this.props.bordered
+      bordered: this.props.bordered,
     });
 
     return (
       <i
         className={iconClass}
         style={{
-          ...this.props.style
+          ...this.props.style,
         }}
       />
     );
@@ -47,14 +47,14 @@ Icon.propTypes = {
   name: PropTypes.string.isRequired,
   spin: PropTypes.bool,
   bordered: PropTypes.bool,
-  circular: PropTypes.bool
+  circular: PropTypes.bool,
 };
 
 Icon.defaultProps = {
   disabled: false,
   spin: false,
   bordered: false,
-  circular: false
+  circular: false,
 };
 
 export default Icon;

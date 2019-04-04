@@ -4,6 +4,8 @@ import moment from 'moment';
 import cx from 'classnames';
 
 import DateTimeControl from './DateTimeControl';
+import MaskedInput from 'react-text-mask';
+import { formatToMask } from './utils';
 
 /**
  * Компонент DateInput
@@ -22,7 +24,7 @@ class DateInput extends React.Component {
     super(props);
     const { value, dateFormat } = props;
     this.state = {
-      value: value && value.format(dateFormat)
+      value: value && value.format(dateFormat),
     };
     this.onChange = this.onChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
@@ -78,31 +80,45 @@ class DateInput extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, name, autoFocus } = this.props;
+    const {
+      disabled,
+      placeholder,
+      name,
+      autoFocus,
+      dateFormat,
+      inputClassName,
+    } = this.props;
     const inputStyle = { flexGrow: 1 };
     const dashStyle = { alignSelf: 'center' };
     return (
       <div
         className={cx('n2o-date-input', {
           'n2o-date-input-first': name === DateTimeControl.beginInputName,
-          'n2o-date-input-last': name === DateTimeControl.endInputName
+          'n2o-date-input-last': name === DateTimeControl.endInputName,
         })}
       >
-        {name === DateTimeControl.endInputName && <span style={dashStyle}>-</span>}
-        <input
+        {name === DateTimeControl.endInputName && (
+          <span style={dashStyle}>-</span>
+        )}
+        <MaskedInput
+          value={this.state.value}
           type="text"
-          className="form-control"
+          mask={formatToMask(dateFormat)}
+          className={cx('form-control', inputClassName)}
           placeholder={placeholder}
           disabled={disabled}
-          value={this.state.value}
           onChange={this.onChange}
           onClick={this.onInputClick}
           style={inputStyle}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           autoFocus={autoFocus}
+          render={(ref, props) => {
+            return <input ref={ref} {...props} />;
+          }}
         />
-        {(name === DateTimeControl.defaultInputName || name === DateTimeControl.endInputName) && (
+        {(name === DateTimeControl.defaultInputName ||
+          name === DateTimeControl.endInputName) && (
           <button
             disabled={disabled}
             onClick={this.onButtonClick}
@@ -131,7 +147,7 @@ DateInput.defaultProps = {
   autoFocus: false,
   onFocus: () => {},
   onBlur: () => {},
-  openOnFocus: false
+  openOnFocus: false,
 };
 
 DateInput.propTypes = {
@@ -147,6 +163,6 @@ DateInput.propTypes = {
   name: PropTypes.string,
   onClick: PropTypes.func,
   autoFocus: PropTypes.bool,
-  openOnFocus: PropTypes.bool
+  openOnFocus: PropTypes.bool,
 };
 export default DateInput;

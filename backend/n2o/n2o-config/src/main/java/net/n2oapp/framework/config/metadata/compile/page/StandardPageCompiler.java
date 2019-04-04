@@ -15,10 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.IndexScope;
-import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
-import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -58,15 +55,15 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         initDefaults(context, sourceWidgets);
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         ValidationList validationList = new ValidationList(new HashMap<>());
-        WidgetDependencyScope widgetDependencyScope = new WidgetDependencyScope();
+        PageRoutesScope pageRoutesScope = new PageRoutesScope();
         //compile widget
         page.setWidgets(initWidgets(routeScope, pageRoutes, sourceWidgets,
-                context, p, pageScope, breadcrumb, validationList, models, widgetDependencyScope));
+                context, p, pageScope, breadcrumb, validationList, models, pageRoutesScope));
         registerRoutes(pageRoutes, context, p);
         if (!(context instanceof ModalPageContext))
             page.setRoutes(pageRoutes);
         //compile region
-        page.setLayout(createLayout(source, p, context, pageScope, widgetDependencyScope));
+        page.setLayout(createLayout(source, p, context, pageScope));
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         if (context.getSubmitOperationId() != null)
@@ -183,13 +180,13 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     private Map<String, Widget> initWidgets(ParentRouteScope routeScope, PageRoutes pageRoutes, List<N2oWidget> sourceWidgets,
                                             PageContext context, CompileProcessor p,
                                             PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
-                                            Models models, WidgetDependencyScope widgetDependencyScope) {
+                                            Models models, PageRoutesScope pageRoutesScope) {
         Map<String, Widget> compiledWidgets = new StrictMap<>();
         IndexScope indexScope = new IndexScope();
         getSourceIndependents(sourceWidgets).forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
                 sourceWidgets, compiledWidgets,
                 context, p,
-                pageScope, breadcrumbs, validationList, models, indexScope, widgetDependencyScope));
+                pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
         return compiledWidgets;
     }
 
@@ -202,12 +199,13 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                Map<String, Widget> compiledWidgets,
                                PageContext context, CompileProcessor p,
                                PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
-                               Models models, IndexScope indexScope, WidgetDependencyScope widgetDependencyScope) {
+                               Models models, IndexScope indexScope,
+                               PageRoutesScope pageRoutesScope) {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setDependsOnWidgetId(parentWidgetId);
         widgetScope.setDependsOnQueryId(parentQueryId);
         Widget compiledWidget = p.compile(w, context, indexScope, routes, pageScope, widgetScope, parentRoute,
-                breadcrumbs, validationList, models, widgetDependencyScope);
+                breadcrumbs, validationList, models, pageRoutesScope);
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
         //compile detail widgets
         ParentRouteScope parentRouteScope = new ParentRouteScope(compiledWidget.getRoute(), parentRoute);
@@ -215,19 +213,19 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
             compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
                     sourceWidgets, compiledWidgets,
                     context, p,
-                    pageScope, breadcrumbs, validationList, models, indexScope, widgetDependencyScope);
+                    pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope);
         });
     }
 
     private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context,
-                                PageScope pageScope, WidgetDependencyScope widgetDependencyScope) {
+                                PageScope pageScope) {
         Layout layout = new Layout();
         layout.setSrc(p.cast(source.getLayout(), p.resolve(property("n2o.api.page.layout.src"), String.class)));
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getRegions() != null) {
             IndexScope index = new IndexScope();
             for (N2oRegion n2oRegion : source.getRegions().getRegions()) {
-                Region region = p.compile(n2oRegion, context, index, pageScope, widgetDependencyScope);
+                Region region = p.compile(n2oRegion, context, index, pageScope);
                 String place = p.cast(n2oRegion.getPlace(), "single");
                 if (regionMap.get(place) != null) {
                     regionMap.get(place).add(region);

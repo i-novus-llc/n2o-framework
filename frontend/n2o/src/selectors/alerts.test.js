@@ -5,14 +5,14 @@ const state = {
     widgetKey: [
       {
         id: 'testAlert',
-        name: 'testAlert'
+        name: 'testAlert',
       },
       {
         id: 'otherAlert',
-        name: 'otherAlert'
-      }
-    ]
-  }
+        name: 'otherAlert',
+      },
+    ],
+  },
 };
 
 describe('Проверка селекторов alerts', () => {
@@ -27,7 +27,9 @@ describe('Проверка селекторов alerts', () => {
 
   describe('Проверка makeAlertsByKeySelector', () => {
     it('должен вернуть алерт по ключу', () => {
-      expect(makeAlertsByKeySelector('widgetKey')(state)).toEqual(state.alerts.widgetKey);
+      expect(makeAlertsByKeySelector('widgetKey')(state)).toEqual(
+        state.alerts.widgetKey
+      );
     });
   });
 });

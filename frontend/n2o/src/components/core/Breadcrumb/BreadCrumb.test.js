@@ -17,9 +17,9 @@ const setupContainer = propOverrides => {
   const initialState = {
     models: {
       test: {
-        test: 'test'
-      }
-    }
+        test: 'test',
+      },
+    },
   };
   const mockStore = configureMockStore();
   const store = mockStore(initialState);
@@ -36,7 +36,7 @@ const setupContainer = propOverrides => {
 
   return {
     props,
-    component
+    component,
   };
 };
 
@@ -47,13 +47,13 @@ describe('<Breadcrumb />', () => {
         {
           label: "`test ? test : 'dummy'`",
           modelLink: 'models.test',
-          path: '/redirectTest'
+          path: '/redirectTest',
         },
         {
           label: "`test == 'fake' ? test : 'Test'`",
-          modelLink: 'models.test'
-        }
-      ]
+          modelLink: 'models.test',
+        },
+      ],
     });
     const tree = renderer.create(component).toJSON();
     expect(tree).toMatchSnapshot();

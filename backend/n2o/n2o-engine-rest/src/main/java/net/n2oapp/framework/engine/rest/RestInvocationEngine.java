@@ -3,7 +3,6 @@ package net.n2oapp.framework.engine.rest;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oRestInvocation;
-import net.n2oapp.framework.api.util.RestClient;
 import net.n2oapp.framework.engine.util.json.DateFormatSerializingTemplate;
 
 import java.util.HashMap;

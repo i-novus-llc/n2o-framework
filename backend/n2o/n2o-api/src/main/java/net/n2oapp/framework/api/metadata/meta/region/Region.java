@@ -47,8 +47,6 @@ public abstract class Region implements Compiled, SrcAware, NameAware, IdAware {
         private String widgetId;
         private Map<String, Object> properties;
         private String objectId;
-        @JsonProperty
-        private RegionDependency dependency;
 
         @JsonAnyGetter
         public Map<String, Object> getJsonProperties() {

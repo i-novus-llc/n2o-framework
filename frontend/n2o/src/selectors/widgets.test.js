@@ -16,7 +16,7 @@ import {
   makeWidgetPageIdSelector,
   makeTypeSelector,
   makeWidgetDataProviderSelector,
-  isAnyTableFocusedSelector
+  isAnyTableFocusedSelector,
 } from './widgets';
 
 const state = {
@@ -31,11 +31,11 @@ const state = {
       page: 1,
       pageId: '_',
       sorting: {
-        name: 'DESC'
+        name: 'DESC',
       },
       isFilterVisible: true,
       validation: {
-        some: 'value'
+        some: 'value',
       },
       selectedId: 2,
       isActive: true,
@@ -43,11 +43,11 @@ const state = {
       dataProvider: {
         url: 'test',
         pathMapping: {},
-        queryMapping: {}
-      }
+        queryMapping: {},
+      },
     },
-    widget2: {}
-  }
+    widget2: {},
+  },
 };
 
 describe('Проверка селекторов widgets', () => {
@@ -55,28 +55,44 @@ describe('Проверка селекторов widgets', () => {
     expect(widgetsSelector(state)).toEqual(state.widgets);
   });
   it('widgetsSelector должен вернуть widget по id', () => {
-    expect(makeWidgetByIdSelector('widget1')(state)).toEqual(state.widgets.widget1);
+    expect(makeWidgetByIdSelector('widget1')(state)).toEqual(
+      state.widgets.widget1
+    );
   });
   it('makeWidgetIsInitSelector должен вернуть isInit по id', () => {
-    expect(makeWidgetIsInitSelector('widget1')(state)).toEqual(state.widgets.widget1.isInit);
+    expect(makeWidgetIsInitSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.isInit
+    );
   });
   it('makeWidgetVisibleSelector должен вернуть visible по id', () => {
-    expect(makeWidgetVisibleSelector('widget1')(state)).toEqual(state.widgets.widget1.isVisible);
+    expect(makeWidgetVisibleSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.isVisible
+    );
   });
   it('makeWidgetEnabledSelector должен вернуть enabled по id', () => {
-    expect(makeWidgetEnabledSelector('widget1')(state)).toEqual(state.widgets.widget1.isEnabled);
+    expect(makeWidgetEnabledSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.isEnabled
+    );
   });
   it('makeWidgetLoadingSelector должен вернуть loading по id', () => {
-    expect(makeWidgetLoadingSelector('widget1')(state)).toEqual(state.widgets.widget1.isLoading);
+    expect(makeWidgetLoadingSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.isLoading
+    );
   });
   it('makeWidgetSizeSelector должен вернуть size по id', () => {
-    expect(makeWidgetSizeSelector('widget1')(state)).toEqual(state.widgets.widget1.size);
+    expect(makeWidgetSizeSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.size
+    );
   });
   it('makeWidgetCountSelector должен вернуть count по id', () => {
-    expect(makeWidgetCountSelector('widget1')(state)).toEqual(state.widgets.widget1.count);
+    expect(makeWidgetCountSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.count
+    );
   });
   it('makeWidgetSortingSelector должен вернуть count по id', () => {
-    expect(makeWidgetSortingSelector('widget1')(state)).toEqual(state.widgets.widget1.sorting);
+    expect(makeWidgetSortingSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.sorting
+    );
   });
   it('makeWidgetFilterVisibilitySelector должен вернуть isFilterVisible по id', () => {
     expect(makeWidgetFilterVisibilitySelector('widget1')(state)).toEqual(
@@ -89,19 +105,29 @@ describe('Проверка селекторов widgets', () => {
     );
   });
   it('makeSelectedIdSelector должен вернуть selectedId по id', () => {
-    expect(makeSelectedIdSelector('widget1')(state)).toEqual(state.widgets.widget1.selectedId);
+    expect(makeSelectedIdSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.selectedId
+    );
   });
   it('makeIsActiveSelector должен вернуть isActive по id', () => {
-    expect(makeIsActiveSelector('widget1')(state)).toEqual(state.widgets.widget1.isActive);
+    expect(makeIsActiveSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.isActive
+    );
   });
   it('makeWidgetPageSelector должен вернуть page по id', () => {
-    expect(makeWidgetPageSelector('widget1')(state)).toEqual(state.widgets.widget1.page);
+    expect(makeWidgetPageSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.page
+    );
   });
   it('makeWidgetPageIdSelector должен вернуть pageId по id', () => {
-    expect(makeWidgetPageIdSelector('widget1')(state)).toEqual(state.widgets.widget1.pageId);
+    expect(makeWidgetPageIdSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.pageId
+    );
   });
   it('makeTypeSelector должен вернуть type по id', () => {
-    expect(makeTypeSelector('widget1')(state)).toEqual(state.widgets.widget1.type);
+    expect(makeTypeSelector('widget1')(state)).toEqual(
+      state.widgets.widget1.type
+    );
   });
   it('makeWidgetDataProviderSelector должен вернуть type по id', () => {
     expect(makeWidgetDataProviderSelector('widget1')(state)).toEqual(

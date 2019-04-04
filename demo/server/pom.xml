@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>n2o-demo-server</artifactId>
@@ -50,22 +51,16 @@
             <scope>provided</scope>
         </dependency>
 
-       <dependency>
+        <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>docs</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
         <!--<dependency>-->
-            <!--<groupId>net.n2oapp.framework</groupId>-->
-            <!--<artifactId>n2o-access</artifactId>-->
-            <!--<version>${project.version}</version>-->
+        <!--<groupId>net.n2oapp.framework</groupId>-->
+        <!--<artifactId>n2o-access</artifactId>-->
+        <!--<version>${project.version}</version>-->
         <!--</dependency>-->
 
         <dependency>
@@ -131,6 +126,17 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>docs</id>
+            <dependencies>
+                <dependency>
+                    <groupId>net.n2oapp.framework</groupId>
+                    <artifactId>docs</artifactId>
+                    <version>${project.version}</version>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
     </profiles>
 
- </project>
+</project>

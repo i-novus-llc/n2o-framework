@@ -18,8 +18,18 @@ import withCell from '../../withCell';
  * @returns {*}
  * @constructor
  */
-function ButtonsCell({ id, className, callActionImpl, buttons, visible, ...other }) {
-  const handlerClick = (e, action) => callActionImpl(e, { action });
+function ButtonsCell({
+  id,
+  className,
+  callActionImpl,
+  buttons,
+  visible,
+  ...other
+}) {
+  const handlerClick = (e, action) => {
+    e.stopPropagation();
+    callActionImpl(e, { action });
+  };
 
   const createGroupItems = ({ subMenu, ...rest }) =>
     subMenu ? (
@@ -30,7 +40,11 @@ function ButtonsCell({ id, className, callActionImpl, buttons, visible, ...other
 
   return (
     visible && (
-      <ButtonGroup key={id} className={cx('n2o-table-btn', className)} {...other}>
+      <ButtonGroup
+        key={id}
+        className={cx('n2o-table-btn', className)}
+        {...other}
+      >
         {map(buttons, createGroupItems)}
       </ButtonGroup>
     )
@@ -42,12 +56,12 @@ ButtonsCell.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   id: PropTypes.string,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
 };
 
 ButtonsCell.defaultProps = {
   size: 'sm',
-  visible: true
+  visible: true,
 };
 
 export default withCell(ButtonsCell);

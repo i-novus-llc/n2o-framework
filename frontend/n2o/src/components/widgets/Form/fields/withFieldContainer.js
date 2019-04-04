@@ -7,7 +7,7 @@ import {
   isVisibleSelector,
   isDisabledSelector,
   messageSelector,
-  requiredSelector
+  requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
 import { compose, pure, withProps, defaultProps } from 'recompose';
@@ -41,14 +41,14 @@ export default Field => {
         disabledToRegister,
         dependency,
         requiredToRegister,
-        registerFieldExtra
+        registerFieldExtra,
       } = props;
       !isInit &&
         registerFieldExtra(form, name, {
           visible: visibleToRegister,
           disabled: disabledToRegister,
           dependency,
-          required: requiredToRegister
+          required: requiredToRegister,
         });
     }
 
@@ -72,7 +72,7 @@ export default Field => {
         input: { name },
         value,
         input,
-        onBlur
+        onBlur,
       } = this.props;
       input && input.onBlur(e);
       onBlur && onBlur(e.target.value);
@@ -109,12 +109,12 @@ export default Field => {
      */
     mapProps() {
       const { input, message, meta, model, ...rest } = this.props;
-
       return {
         ...propsResolver(rest, model),
         ...meta,
         validationClass: this.getValidationState(message),
-        ...input
+        message,
+        ...input,
       };
     }
 
@@ -136,32 +136,34 @@ export default Field => {
       disabled: isDisabledSelector(form, name)(state),
       message: messageSelector(form, name)(state),
       required: requiredSelector(form, name)(state),
-      model: getFormValues(form)(state)
+      model: getFormValues(form)(state),
     };
   };
 
   const mapDispatchToProps = {
-    registerFieldExtra
+    registerFieldExtra,
   };
 
   return compose(
     defaultProps({
       visible: true,
       disabled: false,
-      required: false
+      required: false,
     }),
     withProps(props => ({
       visibleToRegister: props.visible,
       disabledToRegister:
-        isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled,
-      requiredToRegister: props.required
+        isBoolean(props.enabled) && !props.disabled
+          ? !props.enabled
+          : props.disabled,
+      requiredToRegister: props.required,
     })),
     connect(
       mapStateToProps,
       mapDispatchToProps
     ),
     withProps(props => ({
-      ref: props.setReRenderRef
+      ref: props.setReRenderRef,
     })),
     pure
   )(FieldContainer);

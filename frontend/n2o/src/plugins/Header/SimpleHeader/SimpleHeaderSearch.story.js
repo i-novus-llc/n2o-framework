@@ -11,7 +11,9 @@ stories.add('Компонент', () => {
   return (
     <div>
       <SimpleHeader
-        brandImage={'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'}
+        brandImage={
+          'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
+        }
         activeId={'link'}
         fixed={false}
         items={simpleHeaderMetadata.items}
@@ -21,7 +23,7 @@ stories.add('Компонент', () => {
       <div
         style={{
           padding: '200px',
-          position: 'relative'
+          position: 'relative',
         }}
       >
         <Wireframe className="n2o" title="Тело страницы" />
@@ -38,5 +40,5 @@ SimpleHeader.defaultProps = {
   items: [],
   extraItems: [],
   search: false,
-  style: {}
+  style: {},
 };

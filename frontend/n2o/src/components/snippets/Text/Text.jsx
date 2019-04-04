@@ -18,7 +18,7 @@ function Text({ text, format, ...rest }) {
 Text.propTypes = {
   text: PropTypes.string,
   className: PropTypes.string,
-  format: PropTypes.string
+  format: PropTypes.string,
 };
 
 export default Text;

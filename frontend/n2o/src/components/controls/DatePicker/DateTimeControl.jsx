@@ -3,7 +3,12 @@ import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import { parseDate, mapToValue, mapToDefaultTime, buildDateFormat } from './utils';
+import {
+  parseDate,
+  mapToValue,
+  mapToDefaultTime,
+  buildDateFormat,
+} from './utils';
 import DateInputGroup from './DateInputGroup';
 import PopUp from './PopUp';
 
@@ -41,9 +46,15 @@ class DateTimeControl extends React.Component {
 
     const { defaultTime } = this;
     this.state = {
-      inputs: mapToValue(value, defaultTime, this.format, locale, DateTimeControl.defaultInputName),
+      inputs: mapToValue(
+        value,
+        defaultTime,
+        this.format,
+        locale,
+        DateTimeControl.defaultInputName
+      ),
       isPopUpVisible: false,
-      isTimeSet: {}
+      isTimeSet: {},
     };
 
     this.select = this.select.bind(this);
@@ -78,14 +89,14 @@ class DateTimeControl extends React.Component {
         this.format,
         locale,
         DateTimeControl.defaultInputName
-      )
+      ),
       // isPopUpVisible: false
     });
   }
 
   markTimeAsSet(inputName) {
     this.setState({
-      isTimeSet: { ...this.state.isTimeSet, [inputName]: true }
+      isTimeSet: { ...this.state.isTimeSet, [inputName]: true },
     });
   }
 
@@ -112,7 +123,7 @@ class DateTimeControl extends React.Component {
     } else {
       this.props.onChange([
         this.dateToString(inputs[DateTimeControl.beginInputName]),
-        this.dateToString(inputs[DateTimeControl.endInputName])
+        this.dateToString(inputs[DateTimeControl.endInputName]),
       ]);
     }
   }
@@ -124,7 +135,7 @@ class DateTimeControl extends React.Component {
     this.setState(
       state => {
         return {
-          inputs: { ...this.state.inputs, [inputName]: date }
+          inputs: { ...this.state.inputs, [inputName]: date },
         };
       },
       () => {
@@ -142,7 +153,8 @@ class DateTimeControl extends React.Component {
     if (
       inputName === DateTimeControl.defaultInputName ||
       inputName === DateTimeControl.beginInputName ||
-      (inputName === DateTimeControl.endInputName && !inputs[DateTimeControl.beginInputName]) ||
+      (inputName === DateTimeControl.endInputName &&
+        !inputs[DateTimeControl.beginInputName]) ||
       (inputName === DateTimeControl.endInputName &&
         moment(day).isSameOrAfter(inputs[DateTimeControl.beginInputName]))
     ) {
@@ -154,11 +166,11 @@ class DateTimeControl extends React.Component {
         ) {
           return {
             [inputName]: day,
-            [DateTimeControl.endInputName]: null
+            [DateTimeControl.endInputName]: null,
           };
         }
         return {
-          [inputName]: day
+          [inputName]: day,
         };
       };
       this.setState(
@@ -167,9 +179,9 @@ class DateTimeControl extends React.Component {
           isPopUpVisible:
             inputName === DateTimeControl.beginInputName ||
             inputName === DateTimeControl.endInputName ||
-            !close
+            !close,
         },
-        () => inputName === DateTimeControl.defaultInputName && this.onChange(inputName)
+        () => this.onChange(inputName)
       );
     }
   }
@@ -181,7 +193,7 @@ class DateTimeControl extends React.Component {
     let { locale } = this.props;
     this.setState(
       {
-        inputs: { ...this.state.inputs, [inputName]: date }
+        inputs: { ...this.state.inputs, [inputName]: date },
       },
       () => this.onChange(inputName)
     );
@@ -191,7 +203,7 @@ class DateTimeControl extends React.Component {
    */
   setVisibility(visible) {
     this.setState({
-      isPopUpVisible: visible
+      isPopUpVisible: visible,
     });
   }
   /**
@@ -216,7 +228,10 @@ class DateTimeControl extends React.Component {
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
       document.removeEventListener('mousedown', this.onClickOutside.bind(this));
-      document.removeEventListener('touchstart', this.onClickOutside.bind(this));
+      document.removeEventListener(
+        'touchstart',
+        this.onClickOutside.bind(this)
+      );
     }
   }
   /**
@@ -278,7 +293,7 @@ class DateTimeControl extends React.Component {
       onFocus,
       onBlur,
       autoFocus,
-      openOnFocus
+      openOnFocus,
     } = this.props;
     const { inputs } = this.state;
     return (
@@ -321,7 +336,7 @@ DateTimeControl.defaultProps = {
   outputFormat: 'DD.MM.YYYY HH:mm:ss',
   locale: 'ru',
   autoFocus: false,
-  openOnFocus: false
+  openOnFocus: false,
 };
 
 DateTimeControl.propTypes = {
@@ -338,22 +353,22 @@ DateTimeControl.propTypes = {
         value: PropTypes.oneOfType([
           PropTypes.instanceOf(moment),
           PropTypes.instanceOf(Date),
-          PropTypes.string
+          PropTypes.string,
         ]),
         name: PropTypes.oneOf(['beginDate', 'endDate']),
-        defaultTime: PropTypes.string
+        defaultTime: PropTypes.string,
       })
-    )
+    ),
   ]).isRequired,
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   dateDivider: PropTypes.string,
   onChange: PropTypes.func,
@@ -365,7 +380,7 @@ DateTimeControl.propTypes = {
   locale: PropTypes.oneOf(['en', 'ru']),
   timeFormat: PropTypes.string,
   autoFocus: PropTypes.bool,
-  openOnFocus: PropTypes.bool
+  openOnFocus: PropTypes.bool,
 };
 
 export default DateTimeControl;

@@ -2,14 +2,11 @@ package net.n2oapp.framework.engine.rest;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.framework.api.util.RestClient;
-import net.n2oapp.framework.engine.rest.json.RestEngineTimeModule;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.text.SimpleDateFormat;
 
 @Configuration
 public class RestEngineConfiguration {
@@ -46,13 +43,9 @@ public class RestEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ApacheRestClient n2oRestClient() {
+    public ApacheRestClient n2oRestClient(@Qualifier("restObjectMapper") ObjectMapper mapper) {
         ApacheRestClient restClient = new ApacheRestClient(timeoutInMillis);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
-        RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats);
-        objectMapper.registerModules(module);
-        restClient.setMapper(objectMapper);
+        restClient.setMapper(mapper);
         return restClient;
     }
 }

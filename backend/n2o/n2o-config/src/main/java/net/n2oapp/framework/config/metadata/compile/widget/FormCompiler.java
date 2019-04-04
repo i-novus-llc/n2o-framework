@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
+import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.ValidationScope;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция виджета форма
@@ -39,6 +42,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     @Override
     public Form compile(N2oForm source, CompileContext<?, ?> context, CompileProcessor p) {
         Form form = new Form();
+        form.getComponent().setPrompt(p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
         CompiledQuery query = getQuery(source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(form, source, context, p, object);
@@ -48,17 +52,22 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         widgetScope.setClientWidgetId(form.getId());
         MetaActions widgetActions = new MetaActions();
         ParentRouteScope widgetRoute = initWidgetRouteScope(form, context, p);
+        PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
+        if (pageRoutesScope != null) {
+            pageRoutesScope.put(form.getId(), widgetRoute);
+        }
         Models models = p.getScope(Models.class);
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(form.getUpload());
         SubModelsScope subModelsScope = new SubModelsScope();
+        CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
         form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeOperation)));
+                new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(form.getId(), ReduxModel.RESOLVE, validationList);
         compileValidation(form, source, validationScope);
-        compileDataProviderAndRoutes(form, source, p, validationList, widgetRoute, subModelsScope);
+        compileDataProviderAndRoutes(form, source, p, validationList, widgetRoute, subModelsScope, copiedFieldScope);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetRoute, widgetActions, object, validationList);
         if (source.getMode() != null && source.getMode().equals(FormMode.TWO_MODELS)) {
             form.getComponent().setModelPrefix("edit");

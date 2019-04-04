@@ -1,6 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, array, select, object } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  array,
+  select,
+  object,
+} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { action } from '@storybook/addon-actions';
 import withForm from 'N2oStorybook/decorators/withForm';
@@ -25,7 +32,7 @@ stories
       max: text('max', '15/12/2021'),
       disabled: boolean('disabled', false),
       locale: select('locale', ['ru', 'en'], 'ru'),
-      outputFormat: text('outputFormat', 'DD/MM/YYYY')
+      outputFormat: text('outputFormat', 'DD/MM/YYYY'),
     };
     return <DateInterval onChange={action('onChange')} {...props} />;
   })

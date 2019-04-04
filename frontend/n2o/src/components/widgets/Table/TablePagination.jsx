@@ -7,7 +7,7 @@ import Pagination from '../../snippets/Pagination/Pagination';
 import {
   makeWidgetCountSelector,
   makeWidgetSizeSelector,
-  makeWidgetPageSelector
+  makeWidgetPageSelector,
 } from '../../../selectors/widgets';
 import { makeGetModelByPrefixSelector } from '../../../selectors/models';
 import { dataRequestWidget, changePageWidget } from '../../../actions/widgets';
@@ -34,7 +34,23 @@ class TablePagination extends Component {
   }
 
   render() {
-    const { count, size, activePage, onChangePage } = this.props;
+    const {
+      count,
+      size,
+      activePage,
+      onChangePage,
+      prev,
+      next,
+      first,
+      last,
+      lazy,
+      showCountRecords,
+      hideSinglePage,
+      maxButtons,
+      withoutBody,
+      prevText,
+      nextText,
+    } = this.props;
 
     return (
       <Pagination
@@ -42,8 +58,18 @@ class TablePagination extends Component {
         activePage={activePage}
         count={count}
         size={size}
-        maxButtons={4}
+        maxButtons={maxButtons}
         stepIncrement={10}
+        prev={prev}
+        prevText={prevText}
+        next={next}
+        nextText={nextText}
+        first={first}
+        last={last}
+        lazy={lazy}
+        showCountRecords={showCountRecords}
+        hideSinglePage={hideSinglePage}
+        withoutBody={withoutBody}
       />
     );
   }
@@ -55,19 +81,26 @@ TablePagination.propTypes = {
   size: PropTypes.number,
   activePage: PropTypes.number,
   onChangePage: PropTypes.func,
-  datasource: PropTypes.array
+  datasource: PropTypes.array,
+  maxButtons: PropTypes.number,
 };
 
 TablePagination.defaultProps = {
-  datasource: []
+  datasource: [],
+  maxButtons: 4,
 };
 
 const mapStateToProps = createStructuredSelector({
-  count: (state, props) => makeWidgetCountSelector(props.widgetId)(state, props),
+  count: (state, props) =>
+    makeWidgetCountSelector(props.widgetId)(state, props),
   size: (state, props) => makeWidgetSizeSelector(props.widgetId)(state, props),
-  activePage: (state, props) => makeWidgetPageSelector(props.widgetId)(state, props),
+  activePage: (state, props) =>
+    makeWidgetPageSelector(props.widgetId)(state, props),
   datasource: (state, props) =>
-    makeGetModelByPrefixSelector(PREFIXES.datasource, props.widgetId)(state, props)
+    makeGetModelByPrefixSelector(PREFIXES.datasource, props.widgetId)(
+      state,
+      props
+    ),
 });
 
 function mapDispatchToProps(dispatch, ownProps) {
@@ -75,10 +108,10 @@ function mapDispatchToProps(dispatch, ownProps) {
     onChangePage: page => {
       dispatch(
         dataRequestWidget(ownProps.widgetId, {
-          page
+          page,
         })
       );
-    }
+    },
   };
 }
 

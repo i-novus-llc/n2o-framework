@@ -20,7 +20,7 @@ function CardLayout({ children, className, ...rest }) {
 
 CardLayout.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default CardLayout;

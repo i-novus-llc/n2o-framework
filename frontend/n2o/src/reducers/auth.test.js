@@ -7,7 +7,7 @@ import {
   USER_LOGIN_ERROR,
   USER_LOGOUT,
   USER_LOGOUT_SUCCESS,
-  USER_LOGOUT_ERROR
+  USER_LOGOUT_ERROR,
 } from '../constants/auth';
 import auth from './auth';
 
@@ -16,14 +16,14 @@ const initialState = {
   name: null,
   roles: [],
   isLoggedIn: false,
-  inProgress: false
+  inProgress: false,
 };
 
 describe('Тесты auth reducer', () => {
   it('Должен вернуть initialState', () => {
     expect(
       auth(null, {
-        type: USER_CHECK
+        type: USER_CHECK,
       })
     ).toEqual(null);
   });
@@ -36,22 +36,22 @@ describe('Тесты auth reducer', () => {
           name: 'username',
           roles: [],
           isLoggedIn: false,
-          inProgress: false
-        }
+          inProgress: false,
+        },
       })
     ).toEqual({
       id: 'userId',
       name: 'username',
       roles: [],
       isLoggedIn: true,
-      inProgress: false
+      inProgress: false,
     });
   });
 
   it('Должен вернуть initialState при logout', () => {
     expect(
       auth(null, {
-        type: USER_LOGOUT_SUCCESS
+        type: USER_LOGOUT_SUCCESS,
       })
     ).toEqual(initialState);
   });

@@ -1,7 +1,14 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withKnobs, text, boolean, number, array, select } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  number,
+  array,
+  select,
+} from '@storybook/addon-knobs/react';
 import { withState } from '@dump247/storybook-state';
 import _ from 'lodash';
 
@@ -17,7 +24,7 @@ const props = {
   details: 'Подробности алерта',
   severity: 'info',
   visible: true,
-  closeButton: true
+  closeButton: true,
 };
 
 stories
@@ -28,9 +35,13 @@ stories
         label: text('label', props.label),
         text: text('text', props.text),
         details: text('details', props.details),
-        severity: select('severity', ['info', 'danger', 'warning', 'success'], props.severity),
+        severity: select(
+          'severity',
+          ['info', 'danger', 'warning', 'success'],
+          props.severity
+        ),
         visible: boolean('visible', store.state.visible),
-        closeButton: boolean('closeButton', props.closeButton)
+        closeButton: boolean('closeButton', props.closeButton),
       };
 
       return (
@@ -86,43 +97,45 @@ stories
   )
   .add(
     'Цвета',
-    withState({ danger: true, warning: true, success: true, default: true })(({ store }) => (
-      <React.Fragment>
-        <Alert
-          {...props}
-          visible={store.state.default}
-          onDismiss={e => {
-            action('alert-onDismiss')(e);
-            store.set({ default: !store.state.default });
-          }}
-        />
-        <Alert
-          {...props}
-          severity="danger"
-          visible={store.state.danger}
-          onDismiss={e => {
-            action('alert-onDismiss')(e);
-            store.set({ danger: !store.state.danger });
-          }}
-        />
-        <Alert
-          {...props}
-          severity="warning"
-          visible={store.state.warning}
-          onDismiss={e => {
-            action('alert-onDismiss')(e);
-            store.set({ warning: !store.state.warning });
-          }}
-        />
-        <Alert
-          {...props}
-          severity="success"
-          visible={store.state.success}
-          onDismiss={e => {
-            action('alert-onDismiss')(e);
-            store.set({ success: !store.state.success });
-          }}
-        />
-      </React.Fragment>
-    ))
+    withState({ danger: true, warning: true, success: true, default: true })(
+      ({ store }) => (
+        <React.Fragment>
+          <Alert
+            {...props}
+            visible={store.state.default}
+            onDismiss={e => {
+              action('alert-onDismiss')(e);
+              store.set({ default: !store.state.default });
+            }}
+          />
+          <Alert
+            {...props}
+            severity="danger"
+            visible={store.state.danger}
+            onDismiss={e => {
+              action('alert-onDismiss')(e);
+              store.set({ danger: !store.state.danger });
+            }}
+          />
+          <Alert
+            {...props}
+            severity="warning"
+            visible={store.state.warning}
+            onDismiss={e => {
+              action('alert-onDismiss')(e);
+              store.set({ warning: !store.state.warning });
+            }}
+          />
+          <Alert
+            {...props}
+            severity="success"
+            visible={store.state.success}
+            onDismiss={e => {
+              action('alert-onDismiss')(e);
+              store.set({ success: !store.state.success });
+            }}
+          />
+        </React.Fragment>
+      )
+    )
   );

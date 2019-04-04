@@ -34,14 +34,8 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setItems(initItems(source, p, PanelRegion.Panel.class));
         //  region.setColor();
         //region.setIcon();
-        if (region.getItems() != null) {
-            if (region.getItems().size() > 1)
-                region.setHasTabs(true);
-            else if (region.getItems().size() == 1) {
-                region.setHasTabs(false);
-                region.setDependency(region.getItems().get(0).getDependency());
-                region.getItems().get(0).setDependency(null);
-            }
+        if (region.getItems() != null && !region.getItems().isEmpty()) {
+            region.setHasTabs(region.getItems().size() > 1);
         }
         region.setHeader(source.getHeader());
         //  region.setFooterTitle();

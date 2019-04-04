@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { get } from 'lodash';
 import { connect } from 'react-redux';
-import { compose, withContext, branch, renderComponent, lifecycle } from 'recompose';
+import {
+  compose,
+  withContext,
+  branch,
+  renderComponent,
+  lifecycle,
+} from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import numeral from 'numeral';
 import 'numeral/locales/ru';
@@ -25,15 +31,15 @@ Application.propTypes = {
   loading: PropTypes.bool,
   render: PropTypes.func,
   requestConfig: PropTypes.func,
-  error: PropTypes.object
+  error: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  ...globalSelector(state)
+  ...globalSelector(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  requestConfig: bindActionCreators(requestConfigAction, dispatch)
+  requestConfig: bindActionCreators(requestConfigAction, dispatch),
 });
 
 export default compose(
@@ -46,19 +52,19 @@ export default compose(
       getLocale: PropTypes.func,
       getMessages: PropTypes.func,
       getMenu: PropTypes.func,
-      getFromConfig: PropTypes.func
+      getFromConfig: PropTypes.func,
     },
     props => ({
       getLocale: () => props.locale,
       getMessages: () => props.messages,
       getMenu: () => props.menu,
-      getFromConfig: key => get(props, key)
+      getFromConfig: key => get(props, key),
     })
   ),
   lifecycle({
     componentWillMount() {
       this.props.requestConfig();
-    }
+    },
   }),
   branch(props => props.loading, renderComponent(CoverSpinner)),
   // todo: Исправить через Alerts систему N2O или через нотификации
@@ -70,7 +76,7 @@ export default compose(
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          width: '100%'
+          width: '100%',
         }}
       >
         <Alert {...props.error} />

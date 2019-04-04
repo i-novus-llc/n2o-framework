@@ -2,7 +2,14 @@ import React from 'react';
 import { mapProps } from 'recompose';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+} from 'reactstrap';
 import { extend, map, pick, uniqueId } from 'lodash';
 
 /**
@@ -49,7 +56,8 @@ const items = {
         <CardImg src={image} />
       </div>
     ),
-  extra: ({ extra }) => extra && <CardBody key={uniqueId('extra_')}>{extra}</CardBody>
+  extra: ({ extra }) =>
+    extra && <CardBody key={uniqueId('extra_')}>{extra}</CardBody>,
 };
 
 function CardItem(props) {
@@ -58,7 +66,10 @@ function CardItem(props) {
   const cardProps = pick(props, ['tag', 'inverse', 'outline', 'color']);
 
   return (
-    <Card className={cx('n2o-card', { linear, circle }, className)} {...cardProps}>
+    <Card
+      className={cx('n2o-card', { linear, circle }, className)}
+      {...cardProps}
+    >
       {children || orderedItems}
     </Card>
   );
@@ -79,14 +90,16 @@ CardItem.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   rows: PropTypes.array,
-  datasource: PropTypes.object
+  datasource: PropTypes.object,
 };
 
 CardItem.defaultProps = {
   rows: ['image', 'header', 'meta', 'text', 'extra'],
   linear: false,
   inverse: false,
-  outline: false
+  outline: false,
 };
 
-export default mapProps(({ datasource, ...rest }) => extend(datasource, rest))(CardItem);
+export default mapProps(({ datasource, ...rest }) => extend(datasource, rest))(
+  CardItem
+);

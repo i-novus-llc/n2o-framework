@@ -24,7 +24,6 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "description", m::getDescription, m::setDescription);
         p.attribute(e, "domain", m::getDomain, m::setDomain);
         p.attribute(e, "help", m::getHelp, m::setHelp);
-        p.attributeBoolean(e, "copied", m::getCopied, m::setCopied);
         p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new ToolbarIO());
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies, p.oneOf(N2oField.Dependency.class)
                 .add("enabling", N2oField.EnablingDependency.class, this::dependency)
