@@ -7,7 +7,7 @@
             <page page-id="region" label="RegionAccordion"/>
         </sub-menu>
         <sub-menu label="Widget">
-            <page page-id="widget" label="JumbortonWidget"/>
+            <page page-id="widget" label="JumbotronWidget"/>
         </sub-menu>
         <sub-menu label="Fieldset">
             <page page-id="fieldset" label="BackgroundImageFieldset"/>

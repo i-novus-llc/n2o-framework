@@ -1,9 +1,9 @@
-import JumbortonWidget from './JumbortonWidget/JumbortonWidget';
+import JumbotronWidget from './JumbotronWidget/JumbotronWidget';
 import InputCellWidgetExample from '../cells/InputCell/InputCellWidgetExample';
 import IconHeaderWidgetExample from '../headers/IconHeader/IconHeaderWidgetExample';
 
 export default {
-    JumbortonWidget: JumbortonWidget,
+    JumbotronWidget: JumbotronWidget,
     InputCellWidgetExample: InputCellWidgetExample,
     IconHeaderWidgetExample: IconHeaderWidgetExample
 };

@@ -14,7 +14,7 @@ class BackgroundImageField extends React.Component {
         return (
             <div style={{
                 background: image ? `url(${image}) ${repeat}` : '',
-                backgroundSize: '30px'
+                backgroundSize: backgroundImageSize ? `${backgroundImageSize}` : '30px'
             }}>
                 <StandartField
                     {...this.props}
@@ -26,7 +26,7 @@ class BackgroundImageField extends React.Component {
 
 BackgroundImageField.propTypes = {
   image: PropTypes.string,
-  backgroundImageSize: PropTypes.number,
+  backgroundImageSize: PropTypes.string,
   repeat: PropTypes.string
 };
 

@@ -13,7 +13,7 @@ import { Jumbotron, Button } from 'reactstrap';
  *     {string} color
  * }} btn - параметры кнопки
  */
-class JumbortonWidget extends React.Component {
+class JumbotronWidget extends React.Component {
     render() {
         const { header, title, lead, hint, btn } = this.props;
         return (
@@ -33,7 +33,7 @@ class JumbortonWidget extends React.Component {
     }
 }
 
-JumbortonWidget.propTypes = {
+JumbotronWidget.propTypes = {
   header: PropTypes.string,
   title: PropTypes.string,
   lead: PropTypes.string,
@@ -44,10 +44,10 @@ JumbortonWidget.propTypes = {
   })
 };
 
-JumbortonWidget.defaultProps = {
+JumbotronWidget.defaultProps = {
     btn: {
-        text: 'Кнопка'
+        text: 'Кнопка',
     }
 };
 
-export default JumbortonWidget;
+export default JumbotronWidget;
