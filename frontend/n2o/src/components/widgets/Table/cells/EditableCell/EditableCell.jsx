@@ -1,9 +1,10 @@
 import React from 'react';
-import { compose, withProps } from 'recompose';
 import PropTypes from 'prop-types';
 import { isEqual, get } from 'lodash';
-import withEditableActions from './withEditableActions';
 import Text from '../../../../snippets/Text/Text';
+import withActionsEditableCell from './withActionsEditableCell';
+import withFetchData from '../../../../controls/withFetchData';
+import { editableCellApiCaller } from './EditableCellApiCaller';
 
 /**
  * Компонент редактируемой ячейки таблицы
@@ -43,7 +44,25 @@ export class EditableCell extends React.Component {
   }
 
   toggleEdit() {
-    this.setState({ editing: !this.state.editing });
+    const {
+      _fetchData,
+      model,
+      id,
+      prevResolveModel,
+      onResolve,
+      widgetId,
+    } = this.props;
+    this.setState({ editing: !this.state.editing }, () => {
+      if (!isEqual(prevResolveModel, model)) {
+        onResolve(widgetId, model);
+      }
+      if (!this.state.editing) {
+        _fetchData({
+          ...model,
+          [id]: this.state.value,
+        });
+      }
+    });
   }
 
   render() {
@@ -61,18 +80,19 @@ export class EditableCell extends React.Component {
               <Text text={value} {...rest} />
             </div>
           )}
-          {editable && editing && (
-            <div className="n2o-editable-cell-control">
-              {React.createElement(control.component, {
-                ...control,
-                className: 'n2o-advanced-table-edit-control',
-                onChange: this.onChange,
-                onBlur: this.toggleEdit,
-                autoFocus: true,
-                value: value,
-              })}
-            </div>
-          )}
+          {editable &&
+            editing && (
+              <div className="n2o-editable-cell-control">
+                {React.createElement(control.component, {
+                  ...control,
+                  className: 'n2o-advanced-table-edit-control',
+                  onChange: this.onChange,
+                  onBlur: this.toggleEdit,
+                  autoFocus: true,
+                  value: value,
+                })}
+              </div>
+            )}
         </div>
       )
     );
@@ -92,4 +112,6 @@ EditableCell.defaultProps = {
   disabled: false,
 };
 
-export default compose(withEditableActions)(EditableCell);
+export default withActionsEditableCell(
+  withFetchData(EditableCell, editableCellApiCaller)
+);

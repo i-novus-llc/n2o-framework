@@ -31,6 +31,15 @@
           "src": "EditableCell",
           "id": "name",
           "editable": true,
+          "dataProvider": {
+            "url": "n2o/data/proto/patients/:proto_patients_id/contacts",
+            "pathMapping": {
+              "proto_patients_id": {
+                "link": "models.resolve['Page_Table'].id"
+              }
+            },
+            "queryMapping": {}
+          },
           "control": {
             "src": "InputText"
           }
