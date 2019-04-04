@@ -184,10 +184,12 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                             Models models, WidgetDependencyScope widgetDependencyScope, PageRoutesScope pageRoutesScope) {
         Map<String, Widget> compiledWidgets = new StrictMap<>();
         IndexScope indexScope = new IndexScope();
-        getSourceIndependents(sourceWidgets).forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
+        List<N2oWidget> independents = getSourceIndependents(sourceWidgets);
+        independents.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
                 sourceWidgets, compiledWidgets,
                 context, p,
-                pageScope, breadcrumbs, validationList, models, indexScope, widgetDependencyScope, pageRoutesScope));
+                pageScope, breadcrumbs, validationList, models, indexScope, widgetDependencyScope, pageRoutesScope,
+                independents.size() == 1));
         return compiledWidgets;
     }
 
@@ -201,10 +203,12 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                PageContext context, CompileProcessor p,
                                PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
                                Models models, IndexScope indexScope, WidgetDependencyScope widgetDependencyScope,
-                               PageRoutesScope pageRoutesScope) {
+                               PageRoutesScope pageRoutesScope,
+                               boolean isMainWidget) {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setDependsOnWidgetId(parentWidgetId);
         widgetScope.setDependsOnQueryId(parentQueryId);
+        widgetScope.setMainWidget(isMainWidget);
         Widget compiledWidget = p.compile(w, context, indexScope, routes, pageScope, widgetScope, parentRoute,
                 breadcrumbs, validationList, models, widgetDependencyScope, pageRoutesScope);
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
@@ -214,7 +218,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
             compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
                     sourceWidgets, compiledWidgets,
                     context, p,
-                    pageScope, breadcrumbs, validationList, models, indexScope, widgetDependencyScope, pageRoutesScope);
+                    pageScope, breadcrumbs, validationList, models, indexScope, widgetDependencyScope, pageRoutesScope, false);
         });
     }
 

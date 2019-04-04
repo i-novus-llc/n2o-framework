@@ -88,18 +88,21 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * @return Часть маршрута виджета
      */
     private String initWidgetRoute(S source, CompileProcessor p) {
-        if (source.getRoute() == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
+        if (source.getRoute() != null) {
+            return source.getRoute();
+        }
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null) {
+            if (widgetScope.getDependsOnWidgetId() != null) {
                 //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
                 String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
                 return normalize(colon(selectedId)) + normalize(source.getId());
-            } else {
-                return normalize(source.getId());
             }
-        } else {
-            return source.getRoute();
+            if (widgetScope.isMainWidget()) {
+                return "/";
+            }
         }
+        return normalize(source.getId());
     }
 
     /**

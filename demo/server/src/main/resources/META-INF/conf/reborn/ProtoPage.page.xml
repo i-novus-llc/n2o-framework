@@ -12,7 +12,7 @@
     </toolbar>
     <regions>
         <panel place="left" header="true" collapsible="false" title="Данные пациента">
-            <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10" route="/">
+            <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10">
                 <pagination/>
                 <columns>
                     <column text-field-id="surname">

@@ -141,8 +141,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(preFilters.get(0).getLink().getValue(), nullValue());
         WidgetDataProvider dataProvider = page.getWidgets().get("testStandardPageDependency_detail").getDataProvider();
         assertThat(dataProvider.getPathMapping().get("testStandardPageDependency_master_id").getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
-        assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().size(), is(1));
-        assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
+        assertThat(((QueryContext) route("/testStandardPageDependency/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().size(), is(1));
+        assertThat(((QueryContext) route("/testStandardPageDependency/:testStandardPageDependency_master_id/detail").getContext(CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
 
         preFilters = page.getWidgets().get("testStandardPageDependency_w0").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
