@@ -1,6 +1,6 @@
 import React from 'react';
-import { lifecycle, compose, withHandlers } from 'recompose';
-import { isEqual, find, isEmpty, debounce } from 'lodash';
+import { compose, withHandlers, withProps } from 'recompose';
+import { isEqual, find, isEmpty, debounce, map, filter, some } from 'lodash';
 
 import Tree from '../component/Tree';
 import widgetContainer from '../../WidgetContainer';
@@ -54,33 +54,45 @@ export const withWidgetContainer = widgetContainer(
   TREE
 );
 
-// export const withContainerLiveCycle = lifecycle({
-//   componentWillReceiveProps(nextProps) {
-//     const { selectedId: prevSelectedId, datasource: prevDatasource, onResolve } = this.props;
-//     const { hasSelect, datasource, selectedId } = nextProps;
-//
-//     if (
-//       hasSelect &&
-//       !isEmpty(datasource) &&
-//       !isEqual(prevDatasource, datasource) &&
-//       (!selectedId ||
-//         !isEqual(prevSelectedId, selectedId) ||
-//         !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
-//     ) {
-//       const selectedModel = find(datasource, model => model.id == selectedId);
-//       const resolveModel = selectedModel || datasource[0];
-//       onResolve(resolveModel);
-//     }
-//   }
-// });
-//
+const mapToString = (data, { valueFieldId, parentFieldId }) =>
+  map(data, dt => ({
+    ...dt,
+    [valueFieldId]: dt[valueFieldId] && dt[valueFieldId].toString(),
+    [parentFieldId]: dt[parentFieldId] && dt[parentFieldId].toString(),
+  }));
+
 export const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => () => {
     onActionImpl(rowClick);
+  },
+
+  onResolve: props => keys => {
+    const {
+      onResolve,
+      datasource,
+      valueFieldId,
+      multiselect,
+      rowClick,
+      onActionImpl,
+    } = props;
+    const value = filter(datasource, data =>
+      some(keys, key => key === data[valueFieldId].toString())
+    );
+    if (multiselect) {
+      onResolve(value);
+    } else {
+      onResolve(value ? value[0] : null);
+    }
+
+    if (rowClick) onActionImpl(rowClick);
   },
 });
 
 export default compose(
   withWidgetContainer,
-  withWidgetHandlers
+  withWidgetHandlers,
+  withProps(({ datasource, resolveModel, ...rest }) => ({
+    datasource: mapToString(datasource, rest),
+    resolveModel: mapToString(resolveModel, rest),
+  }))
 )(Tree);
