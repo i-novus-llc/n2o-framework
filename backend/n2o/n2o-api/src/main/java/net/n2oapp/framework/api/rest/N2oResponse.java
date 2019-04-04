@@ -53,20 +53,15 @@ public class N2oResponse {
     }
 
     public void setResponseMessages(List<ResponseMessage> messageList, Boolean stacked) {
-        if (getMeta() == null) {
-            setMeta(new MetaSaga());
-        } else {
-            if (messageList.stream().anyMatch(m -> m.getField() == null)) {
-                getMeta().setAlert(new AlertSaga());
-                getMeta().getAlert().setStacked(stacked);
-            } else {
-                getMeta().setMessages(new MessageSaga());
-            }
-        }
+        setMeta(new MetaSaga());
 
         if (messageList == null || messageList.isEmpty())
             return;
 
+        if (messageList.stream().anyMatch(m -> m.getField() == null)) {
+            getMeta().setAlert(new AlertSaga());
+            getMeta().getAlert().setStacked(stacked);
+        }
         messageList.forEach(this::addResponseMessage);
     }
 
