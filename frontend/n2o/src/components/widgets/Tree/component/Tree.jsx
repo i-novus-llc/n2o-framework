@@ -241,7 +241,7 @@ class Tree extends Component {
       hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false;
 
     return (
-      <div className={`${prefixCls}-wrapper`}>
+      <div className={`${prefixCls}-wrapper pt-4`}>
         {filter && FILTER_MODE.includes(filter) && (
           <Filter
             onFilter={this.onFilter}
