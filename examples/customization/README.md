@@ -1,7 +1,18 @@
-# Сборка проекта
+# Сборка и запуск
 
-Для запуска необходимо из директории `/frontend` выполнить следующую команду:
+Необходимо собрать frontend статику следующими командами:
 
 ```
-npm install && npm run build && cd ../ && mvnw.cmd clean install && mvnw.cmd spring-boot:run
+cd /frontend
+npm install
+npm run build
 ```
+
+Далее собрираем и запускаем сервер:
+
+```
+cd ../
+mvnw spring-boot:run
+```
+
+Примеры откроются по адресу http://localhost:8080
