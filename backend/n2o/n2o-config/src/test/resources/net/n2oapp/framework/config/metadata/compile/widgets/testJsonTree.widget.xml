@@ -7,9 +7,7 @@
       badge-field-id="badge"
       badge-color-field-id="color"
       has-children-field-id="children"
-      filter="startsWith"
       checkboxes="false"
       multi-select="false"
-      expand-button="true"
       fetch-on-init="true" >
 </tree>

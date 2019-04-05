@@ -10,11 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Tree extends Widget {
-
-    @JsonProperty
-    private String parentIcon;
-    @JsonProperty
-    private String childIcon;
     @JsonProperty
     private String parentFieldId;
     @JsonProperty
@@ -32,15 +27,11 @@ public class Tree extends Widget {
     @JsonProperty
     private String badgeColorFieldId;
     @JsonProperty
-    private String filter;
-    @JsonProperty
     private Boolean multiselect;
     @JsonProperty
     private Boolean hasCheckboxes;
     @JsonProperty
     private Boolean ajax;
-    @JsonProperty("expandBtn")
-    private Boolean expandButton;
     @JsonProperty
     private Boolean fetchOnInit;
 }

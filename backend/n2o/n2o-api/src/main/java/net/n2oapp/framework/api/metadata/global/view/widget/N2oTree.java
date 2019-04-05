@@ -10,12 +10,9 @@ import lombok.Setter;
 @Setter
 public class N2oTree extends N2oWidget {
     private Boolean ajax;
-    private Boolean expandButton;
     private Boolean checkboxes;
     private Boolean multiselect;
 
-    private String parentIcon;
-    private String childIcon;
     private String parentFieldId;
     private String hasChildrenFieldId;
     private String valueFieldId;
@@ -24,5 +21,4 @@ public class N2oTree extends N2oWidget {
     private String imageFieldId;
     private String badgeFieldId;
     private String badgeColorFieldId;
-    private String filter;
 }

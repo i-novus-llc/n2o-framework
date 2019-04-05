@@ -44,8 +44,6 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         compileToolbarAndAction(tree, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
         tree.setFetchOnInit(source.getFetchOnInit());
-        tree.setParentIcon(source.getParentIcon());
-        tree.setChildIcon(source.getChildIcon());
         tree.setParentFieldId(p.resolveJS(source.getParentFieldId()));
         tree.setValueFieldId(p.resolveJS(source.getValueFieldId()));
         tree.setChildrenFieldId(p.resolveJS(source.getHasChildrenFieldId()));
@@ -54,11 +52,9 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         tree.setBadgeFieldId(p.resolveJS(source.getBadgeFieldId()));
         tree.setBadgeColorFieldId(p.resolveJS(source.getBadgeColorFieldId()));
-        tree.setFilter(source.getFilter());
         tree.setMultiselect(source.getMultiselect());
         tree.setHasCheckboxes(source.getCheckboxes());
         tree.setAjax(source.getAjax());
-        tree.setExpandButton(source.getExpandButton());
         return tree;
     }
 }

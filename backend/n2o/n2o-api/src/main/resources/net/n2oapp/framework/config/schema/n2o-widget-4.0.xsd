@@ -361,10 +361,7 @@
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
                 <xs:attribute name="multi-select" type="xs:boolean" default="false"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
-                <xs:attribute name="expand-button" type="xs:boolean" use="optional" default="false"/>
 
-                <xs:attribute name="parent-icon" type="xs:string" use="optional"/>
-                <xs:attribute name="child-icon" type="xs:string" use="optional"/>
                 <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
                 <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
@@ -373,7 +370,6 @@
                 <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="badge-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="badge-color-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="filter" type="treeWidgetFilterType" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

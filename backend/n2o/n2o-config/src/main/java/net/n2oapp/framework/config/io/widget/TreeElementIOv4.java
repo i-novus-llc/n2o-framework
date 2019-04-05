@@ -14,13 +14,10 @@ public class TreeElementIOv4 extends WidgetElementIOv4<N2oTree> {
     @Override
     public void io(Element e, N2oTree m, IOProcessor p) {
         super.io(e, m, p);
-        p.attributeBoolean(e, "expand-button", m::getExpandButton, m::setExpandButton);
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
         p.attributeBoolean(e, "ajax", m::getAjax, m::setAjax);
         p.attributeBoolean(e, "multi-select", m::getMultiselect, m::setMultiselect);
 
-        p.attribute(e, "parent-icon", m::getParentIcon, m::setParentIcon);
-        p.attribute(e, "child-icon", m::getChildIcon, m::setChildIcon);
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
@@ -29,7 +26,6 @@ public class TreeElementIOv4 extends WidgetElementIOv4<N2oTree> {
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
         p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
-        p.attribute(e, "filter", m::getFilter, m::setFilter);
     }
 
     @Override

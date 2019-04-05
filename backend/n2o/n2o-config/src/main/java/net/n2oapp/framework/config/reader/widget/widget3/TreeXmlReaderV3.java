@@ -24,9 +24,8 @@ public class TreeXmlReaderV3 extends WidgetBaseXmlReaderV3<N2oWidget> {
     }
 
     private void getAbstractTreeDefinition(Element element, Namespace namespace, N2oTree n2oTree,
-                                                  NamespaceReaderFactory extensionReaderFactory) {
+                                           NamespaceReaderFactory extensionReaderFactory) {
         n2oTree.setAjax(getElementBoolean(element, "ajax"));
-        n2oTree.setExpandButton(getElementBoolean(element, "expand"));
         n2oTree.setCheckboxes(getElementBoolean(element, "checkboxes"));
         Element in = element.getChild("inheritance-nodes", namespace);
         if (in != null) {

@@ -1,13 +1,12 @@
 package net.n2oapp.framework.config.persister.widget;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import org.jdom.Element;
 import org.jdom.Namespace;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
-import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setElementBoolean;
 
 /**
  * User: operhod
@@ -25,7 +24,6 @@ public class TreeXmlPersister extends WidgetXmlPersister<N2oTree> {
             Element ajax = new Element("ajax", namespace);
             ajax.addContent(n2o.getAjax().toString());
             rootElement.addContent(ajax);
-            setElementBoolean(rootElement, "expand", n2o.getExpandButton());
         }
         if (n2o.getCheckboxes() != null) {
             Element checkboxes = new Element("checkboxes", namespace);

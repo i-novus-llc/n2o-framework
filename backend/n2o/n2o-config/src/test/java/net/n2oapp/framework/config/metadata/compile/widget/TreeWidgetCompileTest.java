@@ -43,9 +43,7 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tree.getImageFieldId(), is("test"));
         assertThat(tree.getBadgeFieldId(), is("test"));
         assertThat(tree.getBadgeColorFieldId(), is("test"));
-        assertThat(tree.getFilter(), is("startsWith"));
         assertThat(tree.getAjax(), is(true));
-        assertThat(tree.getExpandButton(), is(false));
         assertThat(tree.getHasCheckboxes(), is(true));
         assertThat(tree.getMultiselect(), is(false));
         assertThat(tree.getDataProvider().getUrl(), is("n2o/data/testTreeCompile"));

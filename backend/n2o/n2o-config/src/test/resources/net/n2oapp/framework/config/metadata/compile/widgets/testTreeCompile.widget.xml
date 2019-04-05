@@ -9,7 +9,6 @@
       image-field-id="test"
       badge-field-id="test"
       badge-color-field-id="test"
-      filter="startsWith"
       ajax="true"
       expand-button="false"
       checkboxes="true"
