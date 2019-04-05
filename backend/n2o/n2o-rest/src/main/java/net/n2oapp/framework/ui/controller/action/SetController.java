@@ -20,8 +20,7 @@ public abstract class SetController implements ControllerTypeAware {
     private DomainProcessor domainsProcessor;
     private N2oOperationProcessor actionProcessor;
 
-    public SetController(DataProcessingStack dataProcessingStack, DomainProcessor domainsProcessor,
-                         N2oOperationProcessor actionProcessor) {
+    public SetController(DataProcessingStack dataProcessingStack, DomainProcessor domainsProcessor, N2oOperationProcessor actionProcessor) {
         this.dataProcessingStack = dataProcessingStack;
         this.domainsProcessor = domainsProcessor;
         this.actionProcessor = actionProcessor;
@@ -50,17 +49,5 @@ public abstract class SetController implements ControllerTypeAware {
         } catch (Exception exception) {
             throw new N2oException(exception, requestInfo.getFailAlertWidgetId());
         }
-    }
-
-    public void setDataProcessingStack(DataProcessingStack dataProcessingStack) {
-        this.dataProcessingStack = dataProcessingStack;
-    }
-
-    public void setDomainsProcessor(DomainProcessor domainsProcessor) {
-        this.domainsProcessor = domainsProcessor;
-    }
-
-    public void setActionProcessor(N2oOperationProcessor actionProcessor) {
-        this.actionProcessor = actionProcessor;
     }
 }

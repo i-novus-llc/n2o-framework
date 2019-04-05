@@ -25,7 +25,9 @@ public class OperationController extends SetController {
     private ErrorMessageBuilder errorMessageBuilder;
 
     public OperationController(DataProcessingStack dataProcessingStack,
-                               DomainProcessor domainsProcessor, N2oOperationProcessor operationProcessor, ErrorMessageBuilder errorMessageBuilder) {
+                               DomainProcessor domainsProcessor,
+                               N2oOperationProcessor operationProcessor,
+                               ErrorMessageBuilder errorMessageBuilder) {
         super(dataProcessingStack, domainsProcessor, operationProcessor);
         this.errorMessageBuilder = errorMessageBuilder;
     }

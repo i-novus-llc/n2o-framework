@@ -1,6 +1,11 @@
 package net.n2oapp.framework.ui.controller.query;
 
+import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.ControllerType;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -8,6 +13,14 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class SimpleDefaultValuesController extends DefaultValuesController {
+
+    public SimpleDefaultValuesController(DataProcessingStack dataProcessingStack,
+                                         QueryProcessor queryProcessor,
+                                         SubModelsProcessor subModelsProcessor,
+                                         MetadataRegister configRegister,
+                                         ErrorMessageBuilder errorMessageBuilder) {
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, configRegister, errorMessageBuilder);
+    }
 
     @Override
     public ControllerType getControllerType() {

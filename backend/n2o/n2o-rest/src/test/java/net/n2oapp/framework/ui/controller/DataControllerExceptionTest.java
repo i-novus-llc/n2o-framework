@@ -139,11 +139,8 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         Map<String, Object> map = new HashMap<>();
         ErrorMessageBuilder messageBuilder = new ErrorMessageBuilder(builder.getEnvironment().getMessageSource());
         OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor, messageBuilder);
-        QueryController queryController = new QueryController();
-        queryController.setConfigRegister(builder.getEnvironment().getMetadataRegister());
-        queryController.setDataProcessingStack(dataProcessingStack);
-        queryController.setQueryProcessor(queryProcessor);
-        queryController.setErrorMessageBuilder(messageBuilder);
+        QueryController queryController = new QueryController(dataProcessingStack, queryProcessor, null,
+                builder.getEnvironment().getMetadataRegister(), messageBuilder);
         map.put("operationController", operationController);
         map.put("queryController", queryController);
 
