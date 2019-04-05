@@ -13,6 +13,11 @@
     <regions>
         <panel place="left" header="true" collapsible="false" title="Данные пациента">
             <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10">
+                <actions>
+                    <action id="update_birthday">
+                        <invoke operation-id="update"/>
+                    </action>
+                </actions>
                 <pagination/>
                 <columns>
                     <column text-field-id="surname">
@@ -32,7 +37,9 @@
                               url="/patients/{id}/update2" target="application"/>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
-                        <text format="date DD.MM.YYYY"/>
+                        <edit action-id="update_birthday" editable="true" format="date DD.MM.YYYY">
+                            <date-time id="date"/>
+                        </edit>
                     </column>
                     <column text-field-id="genderName">
                         <badge color="{gender.id==1?'danger':'success'}"/>
