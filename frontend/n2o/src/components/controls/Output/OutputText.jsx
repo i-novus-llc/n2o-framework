@@ -27,12 +27,21 @@ const TypesComponents = {
  * @reactProps {string} icon
  * @reactProps {string} value
  * @reactProps {string} format
+ * @reactProps {boolean} textWrap
  */
-function OutPutText({ textPlace, type, className, style, ...rest }) {
+function OutPutText({ textPlace, type, className, style, textWrap, ...rest }) {
   const RenderComponent = TypesComponents[type];
 
   return (
-    <div className={cx('n2o-output-text', className, textPlace)} style={style}>
+    <div
+      className={cx(
+        'n2o-output-text',
+        { 'n2o-output-text--text-wrap': textWrap },
+        className,
+        textPlace
+      )}
+      style={style}
+    >
       <RenderComponent {...rest} />
     </div>
   );
@@ -47,6 +56,7 @@ OutPutText.propTypes = {
   icon: PropTypes.string,
   value: PropTypes.string,
   format: PropTypes.string,
+  textWrap: PropTypes.bool,
 };
 
 OutPutText.defaultProps = {
@@ -55,6 +65,7 @@ OutPutText.defaultProps = {
   style: {},
   type: 'iconAndText',
   textPlace: 'left',
+  textWrap: true,
 };
 
 export default OutPutText;
