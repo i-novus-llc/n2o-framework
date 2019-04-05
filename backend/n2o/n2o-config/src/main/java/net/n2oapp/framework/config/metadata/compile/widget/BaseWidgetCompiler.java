@@ -36,7 +36,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.page.WidgetDependencyScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -448,11 +447,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
         }
         if (!dependency.isEmpty()) {
-            WidgetDependencyScope widgetDependencyScope = p.getScope(WidgetDependencyScope.class);
-            if (widgetDependencyScope != null)
-                widgetDependencyScope.put(compiled.getId(), dependency);
             compiled.setDependency(dependency);
-
         }
     }
 

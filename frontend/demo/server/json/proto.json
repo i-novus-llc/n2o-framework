@@ -1545,14 +1545,6 @@
           "open": true,
           "collapsible": true,
           "fullScreen": false,
-          "dependency": {
-            "visible": [
-              {
-                "on": "models.resolve['proto_patients']",
-                "condition": "name != 'Мария'"
-              }
-            ]
-          },
           "panels": [
             {
               "id": "panel1",
@@ -1569,7 +1561,6 @@
           "open": true,
           "collapsible": true,
           "fullScreen": false,
-          "dependency": {},
           "panels": [
             {
               "id": "panel1",
