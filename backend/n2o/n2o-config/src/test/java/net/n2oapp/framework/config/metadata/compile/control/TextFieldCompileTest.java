@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -10,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -40,6 +43,13 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getText(), is("`'Hello, '+username`"));
         assertThat(field.getFormat(), is("formatTest"));
         assertThat(field.getClassName(), is("testClass"));
+
+        assertThat(field.getDependencies().size(), is(1));
+        ControlDependency depen = field.getDependencies().get(0);
+        assertThat(depen.getType(),is(ValidationType.reRender));
+        assertThat(depen.getOn().get(0), is("type"));
+        assertThat(depen.getExpression(), nullValue());
+        assertThat(depen.getApplyOnInit(), nullValue());
     }
 
 }
