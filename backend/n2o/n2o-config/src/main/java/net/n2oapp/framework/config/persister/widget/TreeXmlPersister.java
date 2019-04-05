@@ -1,16 +1,12 @@
 package net.n2oapp.framework.config.persister.widget;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import org.jdom.Element;
 import org.jdom.Namespace;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
-import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setElementBoolean;
 
 /**
  * User: operhod
@@ -28,37 +24,21 @@ public class TreeXmlPersister extends WidgetXmlPersister<N2oTree> {
             Element ajax = new Element("ajax", namespace);
             ajax.addContent(n2o.getAjax().toString());
             rootElement.addContent(ajax);
-            setElementBoolean(rootElement, "search", n2o.getSearch());
-            setElementBoolean(rootElement, "expand", n2o.getExpand());
         }
         if (n2o.getCheckboxes() != null) {
             Element checkboxes = new Element("checkboxes", namespace);
             checkboxes.addContent(n2o.getCheckboxes().toString());
             rootElement.addContent(checkboxes);
         }
-        if (n2o.getInheritanceNodes() != null) {
-            InheritanceNodes in = n2o.getInheritanceNodes();
-            Element inheritanceNodes = new Element("inheritance-nodes", namespace);
-            inheritanceNodes.setAttribute("parent-field-id", n2o.getInheritanceNodes().getParentFieldId());
-            inheritanceNodes.setAttribute("label-field-id", n2o.getInheritanceNodes().getLabelFieldId());
-            if (in.getHasChildrenFieldId() != null)
-                inheritanceNodes.setAttribute("has-children-field-id", in.getHasChildrenFieldId());
-            if (in.getSearchFieldId() != null)
-                inheritanceNodes.setAttribute("search-field-id", in.getSearchFieldId());
-            if (in.getEnabledFieldId() != null)
-                inheritanceNodes.setAttribute("enabled-field-id", in.getEnabledFieldId());
-            if (in.getIconFieldId() != null)
-                inheritanceNodes.setAttribute("icon-field-id", in.getIconFieldId());
-            rootElement.addContent(inheritanceNodes);
-        } else if (n2o.getGroupingNodes() != null) {
-            List<GroupingNodes.Node> nodes = n2o.getGroupingNodes().getNodes();
-            Element groupingNodes = new Element("grouping-nodes", namespace);
-            if (n2o.getGroupingNodes().getSearchFieldId() != null)
-                groupingNodes.setAttribute("search-field-id", n2o.getGroupingNodes().getSearchFieldId());
-            rootElement.addContent(groupingNodes);
-            createNode(nodes.get(0), namespace, groupingNodes);
-        }
-        setElementBoolean(rootElement, "auto-select", n2o.getAutoSelect());
+
+        Element inheritanceNodes = new Element("inheritance-nodes", namespace);
+        inheritanceNodes.setAttribute("parent-field-id", n2o.getParentFieldId());
+        inheritanceNodes.setAttribute("label-field-id", n2o.getLabelFieldId());
+        if (n2o.getHasChildrenFieldId() != null)
+            inheritanceNodes.setAttribute("has-children-field-id", n2o.getHasChildrenFieldId());
+        if (n2o.getIconFieldId() != null)
+            inheritanceNodes.setAttribute("icon-field-id", n2o.getIconFieldId());
+        rootElement.addContent(inheritanceNodes);
         return rootElement;
     }
 
