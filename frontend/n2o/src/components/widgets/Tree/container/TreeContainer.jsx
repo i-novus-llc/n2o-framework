@@ -80,8 +80,6 @@ export const withWidgetHandlers = withHandlers({
   },
 
   onResolve: props => keys => {
-    console.log(keys);
-
     const {
       onResolve,
       datasource,
@@ -93,8 +91,6 @@ export const withWidgetHandlers = withHandlers({
     const value = filter(datasource, data =>
       some(keys, key => key == data[valueFieldId])
     );
-
-    console.log(value, datasource);
 
     if (multiselect) {
       onResolve(value);
