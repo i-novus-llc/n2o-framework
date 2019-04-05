@@ -7,3 +7,4 @@ export const CELLS = 'cells';
 export const FIELDSETS = 'fieldsets';
 export const FIELDS = 'fields';
 export const ACTIONS = 'actions';
+export const PAGES = 'pages';

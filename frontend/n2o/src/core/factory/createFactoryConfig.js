@@ -1,5 +1,6 @@
 import merge from 'deepmerge';
 
+import pages from '../../components/pages';
 import controls from '../../components/controls';
 import widgets from '../../components/widgets';
 import regions from '../../components/regions';
@@ -11,6 +12,7 @@ import fields from '../../components/widgets/Form/fields';
 import actions from '../../impl/actions';
 
 export const factories = {
+  pages,
   controls,
   widgets,
   regions,

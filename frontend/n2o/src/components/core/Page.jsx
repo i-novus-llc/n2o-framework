@@ -14,16 +14,9 @@ import {
   curry,
 } from 'lodash';
 import { createStructuredSelector } from 'reselect';
-import { compose, withPropsOnChange, branch, getContext } from 'recompose';
+import { compose, withPropsOnChange, branch } from 'recompose';
 import pathToRegexp from 'path-to-regexp';
-
-import Section from '../layouts/Section';
 import Factory from '../../core/factory/Factory';
-import { LAYOUTS, REGIONS } from '../../core/factory/factoryLevels';
-import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer';
-import DocumentTitle from './DocumentTitle';
-import Actions from '../actions/Actions';
-
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
 import {
   makePageMetadataByIdSelector,
@@ -32,8 +25,8 @@ import {
   makePageDisabledByIdSelector,
 } from '../../selectors/pages';
 import { getLocation } from '../../selectors/global';
-import withActions from './withActions';
-import Alert from '../snippets/Alerts/Alert';
+import withActions from '../core/withActions';
+import { PAGES } from '../../core/factory/factoryLevels';
 
 class PageContainer extends React.Component {
   componentDidMount() {
@@ -66,6 +59,7 @@ class PageContainer extends React.Component {
       metadata,
       location: { pathname, state = {} },
     } = this.props;
+
     if (!isEmpty(metadata) && !isEmpty(metadata.routes)) {
       const findedRoutes = filter(metadata.routes.list, route => {
         const re = pathToRegexp(route.path);
@@ -98,84 +92,13 @@ class PageContainer extends React.Component {
   }
 
   render() {
-    const {
-      metadata,
-      defaultTemplate: Template = React.Fragment,
-      toolbar,
-      actions,
-      containerKey,
-      error,
-      disabled,
-      pageId,
-    } = this.props;
+    const { defaultTemplate: Template = React.Fragment, disabled } = this.props;
+
+    const { defaultPage } = this.context;
+
     return (
       <div className={cn({ 'n2o-disabled-page': disabled })}>
-        {error && <Alert {...error} visible />}
-        {!isEmpty(metadata) && metadata.page && (
-          <DocumentTitle {...metadata.page} />
-        )}
-        {!isEmpty(metadata) && metadata.breadcrumb && (
-          <BreadcrumbContainer
-            defaultBreadcrumb={this.context.defaultBreadcrumb}
-            items={metadata.breadcrumb}
-          />
-        )}
-        {toolbar && (toolbar.topLeft || toolbar.topRight) && (
-          <div className="n2o-page-actions">
-            <Actions
-              toolbar={toolbar.topLeft}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-            <Actions
-              toolbar={toolbar.topRight}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-          </div>
-        )}
-        <div className="n2o-page">
-          {has(metadata, 'layout') && (
-            <Factory
-              level={LAYOUTS}
-              src={metadata.layout.src}
-              {...metadata.layout}
-            >
-              {Object.keys(metadata.layout.regions).map((place, i) => {
-                return (
-                  <Section place={place} key={'section' + i}>
-                    {metadata.layout.regions[place].map(region => (
-                      <Factory
-                        key={'region' + i}
-                        level={REGIONS}
-                        {...region}
-                        pageId={metadata.id}
-                      />
-                    ))}
-                  </Section>
-                );
-              })}
-            </Factory>
-          )}
-        </div>
-        {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
-          <div className="n2o-page-actions">
-            <Actions
-              toolbar={toolbar.bottomLeft}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-            <Actions
-              toolbar={toolbar.bottomRight}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-          </div>
-        )}
+        <Factory level={PAGES} src={defaultPage} {...this.props} />
       </div>
     );
   }
@@ -183,6 +106,7 @@ class PageContainer extends React.Component {
 
 PageContainer.contextTypes = {
   defaultBreadcrumb: PropTypes.element,
+  defaultPage: PropTypes.string,
 };
 
 PageContainer.propTypes = {

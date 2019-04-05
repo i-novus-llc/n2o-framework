@@ -114,6 +114,7 @@ export default compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
+    defaultPage: 'DefaultPage',
     defaultPromptMessage:
       'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     formats: {
@@ -129,11 +130,13 @@ export default compose(
       defaultTemplate: PropTypes.element,
       defaultBreadcrumb: PropTypes.element,
       defaultPromptMessage: PropTypes.string,
+      defaultPage: PropTypes.element,
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
+      defaultPage: props.defaultPage,
     })
   )
 )(N2o);

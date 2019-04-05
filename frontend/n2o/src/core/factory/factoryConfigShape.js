@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 
 const factoryConfigShape = PropTypes.shape({
+  pages: PropTypes.objectOf(PropTypes.element),
   controls: PropTypes.objectOf(PropTypes.element),
   widgets: PropTypes.objectOf(PropTypes.element),
   regions: PropTypes.objectOf(PropTypes.element),
