@@ -1,11 +1,22 @@
 import React from 'react';
 import { compose, withHandlers, withProps } from 'recompose';
-import { isEqual, find, isEmpty, debounce, map, filter, some } from 'lodash';
+import {
+  isEqual,
+  find,
+  isEmpty,
+  debounce,
+  map,
+  filter,
+  some,
+  isArray,
+  toString,
+} from 'lodash';
 
 import Tree from '../component/Tree';
 import widgetContainer from '../../WidgetContainer';
 import { setTableSelectedId } from '../../../../actions/widgets';
 import { TREE } from '../../widgetTypes';
+import { propTypes, defaultProps } from './allProps';
 
 export const withWidgetContainer = widgetContainer(
   {
@@ -54,12 +65,14 @@ export const withWidgetContainer = widgetContainer(
   TREE
 );
 
-const mapToString = (data, { valueFieldId, parentFieldId }) =>
-  map(data, dt => ({
-    ...dt,
-    [valueFieldId]: dt[valueFieldId] && dt[valueFieldId].toString(),
-    [parentFieldId]: dt[parentFieldId] && dt[parentFieldId].toString(),
-  }));
+const toStringData = ({ valueFieldId, parentFieldId }) => dt => ({
+  ...dt,
+  [valueFieldId]: dt[valueFieldId] && toString(dt[valueFieldId]),
+  [parentFieldId]: dt[parentFieldId] && toString(dt[parentFieldId]),
+});
+
+const mapToString = (data, params) =>
+  isArray(data) ? map(data, toStringData(params)) : toStringData(params)(data);
 
 export const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => () => {
@@ -67,6 +80,8 @@ export const withWidgetHandlers = withHandlers({
   },
 
   onResolve: props => keys => {
+    console.log(keys);
+
     const {
       onResolve,
       datasource,
@@ -76,8 +91,11 @@ export const withWidgetHandlers = withHandlers({
       onActionImpl,
     } = props;
     const value = filter(datasource, data =>
-      some(keys, key => key === data[valueFieldId].toString())
+      some(keys, key => key == data[valueFieldId])
     );
+
+    console.log(value, datasource);
+
     if (multiselect) {
       onResolve(value);
     } else {
@@ -88,11 +106,16 @@ export const withWidgetHandlers = withHandlers({
   },
 });
 
-export default compose(
+const TreeContainer = compose(
   withWidgetContainer,
   withWidgetHandlers,
   withProps(({ datasource, resolveModel, ...rest }) => ({
-    datasource: mapToString(datasource, rest),
+    datasource: mapToString(datasource || [], rest),
     resolveModel: mapToString(resolveModel, rest),
   }))
 )(Tree);
+
+TreeContainer.propTypes = propTypes;
+TreeContainer.defaultProps = defaultProps;
+
+export default TreeContainer;
