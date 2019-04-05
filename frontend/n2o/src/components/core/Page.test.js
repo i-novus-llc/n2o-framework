@@ -138,21 +138,27 @@ describe('Тесты Page', () => {
     expect(getMetadata.calledWithMatch()).toEqual(true);
   });
 
-  // it('Проверка вызова reset и getMetadata если метадата поменялась', () => {
-  //   const getMetadata = sinon.spy();
-  //   const reset = sinon.spy();
-  //
-  //   const stubFn = sinon
-  //     .stub(PageContainer.prototype, 'shouldGetPageMetadata')
-  //     .returns(true);
-  //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-  //   wrapper.setProps({ metadata: 'test2', reset, getMetadata });
-  //   expect(reset.calledOnce).toEqual(true);
-  //   expect(reset.calledWithMatch('pageId')).toEqual(true);
-  //   expect(getMetadata.calledOnce).toEqual(true);
-  //   stubFn.restore();
-  // });
-  //
+  it('Проверка вызова reset и getMetadata если метадата поменялась', () => {
+    const getMetadata = sinon.spy();
+    const reset = sinon.spy();
+
+    const stubFn = sinon
+      .stub(PageContainer.prototype, 'shouldGetPageMetadata')
+      .returns(true);
+    const { wrapper } = setup({
+      metadata: 'test',
+      pageId: 'pageId',
+      reset,
+      getMetadata,
+    });
+    wrapper.setProps({ metadata: 'test2', reset, getMetadata });
+    expect(reset.calledOnce).toEqual(true);
+    expect(reset.calledWithMatch('pageId')).toEqual(true);
+    expect(getMetadata.called).toEqual(true);
+    expect(getMetadata.calledOnce).toEqual(false);
+    stubFn.restore();
+  });
+
   // it('Проверка вызова routeMap если pageUrl поменялся и getMetadata если есть error', () => {
   //   const routeMap = sinon.spy();
   //   const getMetadata = sinon.spy();
@@ -160,7 +166,7 @@ describe('Тесты Page', () => {
   //   const stubFn = sinon
   //     .stub(PageContainer.prototype, 'shouldGetPageMetadata')
   //     .returns(false);
-  //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
+  //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId', routeMap, getMetadata });
   //   wrapper.setProps({
   //     metadata: 'test',
   //     pageUrl: 'newPageUrl',
@@ -168,12 +174,13 @@ describe('Тесты Page', () => {
   //     getMetadata,
   //     error: true,
   //   });
-  //   expect(routeMap.calledOnce).toEqual(true);
+  //   expect(routeMap.called).toEqual(true);
+  //   expect(routeMap.calledOnce).toEqual(false);
   //   expect(routeMap.calledWithMatch()).toEqual(true);
   //   expect(getMetadata.calledWithMatch()).toEqual(true);
   //   stubFn.restore();
   // });
-  //
+
   // it('shouldGetPageMetadata возвращает true при смене route если route есть в метаданных', () => {
   //   const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
   //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
