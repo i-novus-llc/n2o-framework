@@ -13,12 +13,12 @@ import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.export.format.*;
-import net.n2oapp.framework.mvc.exception.ControllerArgumentException;
-import net.n2oapp.framework.ui.controller.AbstractController;
-import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.export.streaming.ClientCollectionPageReader;
 import net.n2oapp.framework.export.streaming.LargeCollectionPageReader;
 import net.n2oapp.framework.export.streaming.N2oDataStreamingUtil;
+import net.n2oapp.framework.mvc.exception.ControllerArgumentException;
+import net.n2oapp.framework.ui.controller.AbstractController;
+import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.exception.UnsupportedFormatException;
 import net.n2oapp.framework.ui.servlet.ServletUtil;
 import net.n2oapp.properties.StaticProperties;
@@ -96,10 +96,10 @@ public class ExportController extends AbstractController {
         if (requestInfo.getCriteria().getSize() > exportPage || requestInfo.getCriteria().getSize() == -1) {
             res = new LargeCollectionPageReader(
                     requestInfo,
-                    info -> new LinkedList<>(queryController.executeQuery(info, responseInfo).getData().getCollection()),
+                    info -> new LinkedList<>(queryController.executeQuery(info, responseInfo).getCollection()),
                     exportPage);
         } else {
-            CollectionPage<DataSet> collectionPage = queryController.executeQuery(requestInfo, new QueryResponseInfo()).getData();
+            CollectionPage<DataSet> collectionPage = queryController.executeQuery(requestInfo, new QueryResponseInfo());
             res = new ClientCollectionPageReader(collectionPage);
         }
         return res;

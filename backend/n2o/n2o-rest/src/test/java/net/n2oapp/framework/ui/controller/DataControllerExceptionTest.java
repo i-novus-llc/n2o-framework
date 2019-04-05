@@ -14,13 +14,9 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.processing.N2oModule;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ActionResponseInfo;
-import net.n2oapp.framework.api.ui.QueryRequestInfo;
-import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.ui.*;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationExceptionHandler;
@@ -40,7 +36,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -69,7 +64,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
         response = controller.setData("/page/widget/1/create", null, new DataSet(), null);
 
-        assertThat(response.getMeta().getMessages().getForm(), is("messageForm"));
+        assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
 
         assertThat(response.getMeta().getMessages().getFields().get("field1").getText(), is("message1"));
@@ -99,7 +94,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         controller = buildController(dataProcessingStack);
         response = controller.getData("/page/widget", null, null);
 
-        assertThat(response.getMeta().getMessages().getForm(), is("messageForm"));
+        assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
 
         assertThat(response.getMeta().getMessages().getFields().get("field1").getText(), is("message1"));
@@ -142,11 +137,13 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         QueryProcessor queryProcessor = mock(QueryProcessor.class);
         Map<String, Object> map = new HashMap<>();
-        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor);
+        ErrorMessageBuilder messageBuilder = new ErrorMessageBuilder(builder.getEnvironment().getMessageSource());
+        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor, messageBuilder);
         QueryController queryController = new QueryController();
         queryController.setConfigRegister(builder.getEnvironment().getMetadataRegister());
         queryController.setDataProcessingStack(dataProcessingStack);
         queryController.setQueryProcessor(queryProcessor);
+        queryController.setErrorMessageBuilder(messageBuilder);
         map.put("operationController", operationController);
         map.put("queryController", queryController);
 

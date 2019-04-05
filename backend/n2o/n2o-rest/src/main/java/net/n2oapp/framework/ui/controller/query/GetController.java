@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.ControllerTypeAware;
-import net.n2oapp.framework.api.rest.DataResult;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
@@ -37,28 +36,25 @@ public abstract class GetController implements ControllerTypeAware {
     @Autowired
     protected ErrorMessageBuilder errorMessageBuilder;
 
+
     protected GetController() {
     }
 
     public abstract GetDataResponse execute(QueryRequestInfo requestScope, QueryResponseInfo responseInfo);
 
 
-    public DataResult<CollectionPage<DataSet>> executeQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
+    public CollectionPage<DataSet> executeQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
+        dataProcessingStack.processQuery(requestInfo, responseInfo);
         try {
-            dataProcessingStack.processQuery(requestInfo, responseInfo);
             CollectionPage<DataSet> pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
             executeSubModels(requestInfo, pageData, responseInfo);
             dataProcessingStack.processQueryResult(requestInfo, responseInfo, pageData);
-            return new DataResult<>(pageData);
+            return pageData;
         } catch (N2oException e) {
-            try {
-                dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            } catch (N2oException exception) {
-                return new DataResult(requestInfo.getFailAlertWidgetId(), exception);
-            }
-            return new DataResult(requestInfo.getFailAlertWidgetId(), e);
+            dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
+            throw e;
         } catch (Exception e) {
-            throw new N2oException(e);
+            throw new N2oException(e, requestInfo.getFailAlertWidgetId());
         }
     }
 

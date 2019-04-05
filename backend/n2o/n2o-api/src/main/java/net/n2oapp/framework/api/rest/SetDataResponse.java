@@ -24,8 +24,8 @@ public class SetDataResponse extends N2oResponse {
         setMessagesForm(messageForm);
     }
 
-    public SetDataResponse(ResponseErrorInfo info) {
-        setErrorInfo(info);
+    public SetDataResponse(MetaSaga meta) {
+        setMeta(meta);
     }
 
     public void addRedirect(RedirectSaga redirect) {

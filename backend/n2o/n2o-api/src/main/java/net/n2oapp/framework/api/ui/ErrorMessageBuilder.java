@@ -2,13 +2,14 @@ package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.*;
+import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.MessageSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import org.springframework.context.support.MessageSourceAccessor;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 /**
@@ -77,6 +78,40 @@ public class ErrorMessageBuilder {
             return StringUtils.resolveLinks(localizedMessage, ((N2oException) e).getData());
         else
             return localizedMessage;
+    }
+
+    public MetaSaga buildMeta(Exception e, String failAlertWidgetId) {
+        if (e == null) return null;
+        MetaSaga meta = new MetaSaga();
+        if (e instanceof N2oValidationException) {
+            N2oValidationException exception = (N2oValidationException) e;
+            List<ResponseMessage> responseMessages = buildMessages(exception);
+            meta.setMessages(new MessageSaga());
+            AlertSaga alert = new AlertSaga();
+            HashMap<String, ResponseMessage> fields = new HashMap<>();
+            List<ResponseMessage> responseMessagesForAlert = new ArrayList<>();
+            for (ResponseMessage responseMessage : responseMessages) {
+                if (responseMessage.getField() != null)
+                    fields.put(responseMessage.getField(), responseMessage);
+                else
+                    responseMessagesForAlert.add(responseMessage);
+            }
+            if (!responseMessagesForAlert.isEmpty()) {
+                alert.setAlertKey(failAlertWidgetId);
+                alert.setMessages(responseMessagesForAlert);
+            }
+            meta.getMessages().setFields(fields);
+            meta.getMessages().setForm(failAlertWidgetId);
+            if (alert.getMessages() != null || alert.getAlertKey() != null) {
+                meta.setAlert(alert);
+            }
+        } else if (e instanceof N2oException) {
+            ResponseMessage responseMessage = build(e);
+            meta.setAlert(new AlertSaga());
+            meta.getAlert().setMessages(Collections.singletonList(responseMessage));
+            meta.getAlert().setAlertKey(failAlertWidgetId);
+        }
+        return meta;
     }
 
 }

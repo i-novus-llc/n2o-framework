@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.rest.ControllerTypeAware;
-import net.n2oapp.framework.api.rest.DataResult;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
@@ -21,7 +20,8 @@ public abstract class SetController implements ControllerTypeAware {
     private DomainProcessor domainsProcessor;
     private N2oOperationProcessor actionProcessor;
 
-    public SetController(DataProcessingStack dataProcessingStack, DomainProcessor domainsProcessor, N2oOperationProcessor actionProcessor) {
+    public SetController(DataProcessingStack dataProcessingStack, DomainProcessor domainsProcessor,
+                         N2oOperationProcessor actionProcessor) {
         this.dataProcessingStack = dataProcessingStack;
         this.domainsProcessor = domainsProcessor;
         this.actionProcessor = actionProcessor;
@@ -30,11 +30,11 @@ public abstract class SetController implements ControllerTypeAware {
     public abstract SetDataResponse execute(ActionRequestInfo requestScope, ActionResponseInfo responseInfo);
 
     @SuppressWarnings("unchecked")
-    protected DataResult<DataSet> handleActionRequest(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo) {
+    protected DataSet handleActionRequest(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo) {
         DataSet inDataSet = requestInfo.getData();
         CompiledObject.Operation operation = requestInfo.getOperation();
+        dataProcessingStack.processAction(requestInfo, responseInfo, inDataSet);
         try {
-            dataProcessingStack.processAction(requestInfo, responseInfo, inDataSet);
             DataSet resDataSet = actionProcessor.invoke(
                     operation,
                     inDataSet,
@@ -42,17 +42,13 @@ public abstract class SetController implements ControllerTypeAware {
                     requestInfo.getOutParametersMap().values());
             dataProcessingStack.processActionResult(requestInfo, responseInfo, resDataSet);
             responseInfo.prepare(inDataSet);
-            return new DataResult<>(resDataSet);
+            return resDataSet;
         } catch (N2oException e) {
-            try {
-                dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet, e);
-            } catch (N2oException exception) {
-                return new DataResult(requestInfo.getFailAlertWidgetId(), exception);
-            }
+            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet, e);
             responseInfo.prepare(inDataSet);
-            return new DataResult(requestInfo.getFailAlertWidgetId(), e);
+            throw e;
         } catch (Exception exception) {
-            throw new N2oException(exception);
+            throw new N2oException(exception, requestInfo.getFailAlertWidgetId());
         }
     }
 

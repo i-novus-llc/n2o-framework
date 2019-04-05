@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.api.Criteria;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 
 import java.util.Collections;
@@ -29,8 +30,8 @@ public class GetDataResponse extends N2oResponse {
     public GetDataResponse() {
     }
 
-    public GetDataResponse(ResponseErrorInfo info) {
-        setErrorInfo(info);
+    public GetDataResponse(MetaSaga meta) {
+        setMeta(meta);
     }
 
     public GetDataResponse(DataSet dataSet, Criteria criteria, String messagesForm, QueryResponseInfo responseInfo) {

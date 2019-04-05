@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipelin
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.processing.N2oModule;
 import net.n2oapp.framework.api.rest.SetDataResponse;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
@@ -291,14 +292,15 @@ public class DataControllerTest extends DataControllerTestBase {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();
-        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor);
+        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor,
+                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
         DataController controller = new DataController(factory, mapper, router, builder.getEnvironment());
-//        controller.setErrorMessageBuilder(new ErrorMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource())));
+//        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
         return controller.setData(path, params, body, new UserContext(contextEngine));
     }
 

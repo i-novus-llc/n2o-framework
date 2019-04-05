@@ -8,7 +8,10 @@ import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
-import net.n2oapp.framework.api.ui.*;
+import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ActionResponseInfo;
+import net.n2oapp.framework.api.ui.QueryRequestInfo;
+import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
@@ -30,14 +33,12 @@ public class DataController extends AbstractController {
         setRouter(router);
         setEnvironment(environment);
         this.controllerFactory = controllerFactory;
-        setErrorMessageBuilder(new ErrorMessageBuilder(environment.getMessageSource()));
     }
 
     public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
         QueryRequestInfo requestInfo = createQueryRequestInfo(path, parameters, user);
         QueryResponseInfo responseInfo = new QueryResponseInfo();
         GetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
-        handleError(result);
         return result;
     }
 
@@ -47,7 +48,6 @@ public class DataController extends AbstractController {
         ActionResponseInfo responseInfo = new ActionResponseInfo();
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
         resolveRedirect(requestInfo, result);
-        handleError(result);
         return result;
     }
 
