@@ -38,7 +38,6 @@ public class OperationController extends SetController {
         DataSet data = handleActionRequest(requestInfo, responseInfo);
         dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), data,
                 requestInfo, responseInfo);
-        dataWithMessageResponse.setResponseMessages(responseInfo.getMessageList(), responseInfo.getStackedMessages());
         return dataWithMessageResponse;
     }
 
@@ -47,6 +46,7 @@ public class OperationController extends SetController {
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse(requestInfo.getSuccessAlertWidgetId());
+        response.setResponseMessages(responseInfo.getMessageList(), responseInfo.getStackedMessages());
         response.setData(data);
         response.addResponseMessage(createSuccess(operation, data));
         return response;
