@@ -20,8 +20,7 @@ class DefaultPage extends Component {
       error,
       pageId,
     } = this.props;
-    console.log('point');
-    console.log(this.props);
+
     return (
       <React.Fragment>
         {error && <Alert {...error} visible />}

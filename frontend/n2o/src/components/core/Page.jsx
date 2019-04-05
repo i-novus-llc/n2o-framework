@@ -92,13 +92,20 @@ class PageContainer extends React.Component {
   }
 
   render() {
-    const { defaultTemplate: Template = React.Fragment, disabled } = this.props;
+    const {
+      metadata,
+      defaultTemplate: Template = React.Fragment,
+      disabled,
+    } = this.props;
 
     const { defaultPage } = this.context;
-
     return (
       <div className={cn({ 'n2o-disabled-page': disabled })}>
-        <Factory level={PAGES} src={defaultPage} {...this.props} />
+        <Factory
+          level={PAGES}
+          src={metadata && metadata.src ? metadata.src : defaultPage}
+          {...this.props}
+        />
       </div>
     );
   }
