@@ -1,10 +1,10 @@
 import React from 'react';
+import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import { isEqual, get } from 'lodash';
 import Text from '../../../../snippets/Text/Text';
 import withActionsEditableCell from './withActionsEditableCell';
-import withFetchData from '../../../../controls/withFetchData';
-import { editableCellApiCaller } from './EditableCellApiCaller';
+import withCell from '../../withCell';
 
 /**
  * Компонент редактируемой ячейки таблицы
@@ -45,19 +45,19 @@ export class EditableCell extends React.Component {
 
   toggleEdit() {
     const {
-      _fetchData,
       model,
       id,
       prevResolveModel,
       onResolve,
       widgetId,
+      callInvoke,
     } = this.props;
     this.setState({ editing: !this.state.editing }, () => {
       if (!isEqual(prevResolveModel, model)) {
         onResolve(widgetId, model);
       }
       if (!this.state.editing) {
-        _fetchData({
+        callInvoke({
           ...model,
           [id]: this.state.value,
         });
@@ -80,19 +80,18 @@ export class EditableCell extends React.Component {
               <Text text={value} {...rest} />
             </div>
           )}
-          {editable &&
-            editing && (
-              <div className="n2o-editable-cell-control">
-                {React.createElement(control.component, {
-                  ...control,
-                  className: 'n2o-advanced-table-edit-control',
-                  onChange: this.onChange,
-                  onBlur: this.toggleEdit,
-                  autoFocus: true,
-                  value: value,
-                })}
-              </div>
-            )}
+          {editable && editing && (
+            <div className="n2o-editable-cell-control">
+              {React.createElement(control.component, {
+                ...control,
+                className: 'n2o-advanced-table-edit-control',
+                onChange: this.onChange,
+                onBlur: this.toggleEdit,
+                autoFocus: true,
+                value: value,
+              })}
+            </div>
+          )}
         </div>
       )
     );
@@ -112,6 +111,7 @@ EditableCell.defaultProps = {
   disabled: false,
 };
 
-export default withActionsEditableCell(
-  withFetchData(EditableCell, editableCellApiCaller)
-);
+export default compose(
+  withActionsEditableCell,
+  withCell
+)(EditableCell);
