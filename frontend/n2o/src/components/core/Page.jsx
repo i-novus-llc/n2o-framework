@@ -99,6 +99,7 @@ class PageContainer extends React.Component {
     } = this.props;
 
     const { defaultPage } = this.context;
+
     return (
       <div className={cn({ 'n2o-disabled-page': disabled })}>
         <Factory

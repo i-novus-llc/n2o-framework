@@ -3,6 +3,8 @@ import { ModalWindow } from './ModalPage';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from '../../reducers';
+import FactoryProvider from '../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../core/factory/createFactoryConfig';
 function configureStore() {
   return createStore(rootReducer);
 }
@@ -17,25 +19,26 @@ const setup = (propOverrides, storeOverrides) => {
   };
   return mount(
     <Provider store={{ ...store, ...storeOverrides }}>
-      <ModalWindow {...props} {...propOverrides} />
+      <FactoryProvider config={createFactoryConfig({})}>
+        <ModalWindow {...props} {...propOverrides} />
+      </FactoryProvider>
     </Provider>
   );
 };
 describe('Тесты ModalPage', function() {
-  it('', () => {});
-  // it('CoverSpinner должен рендериться, если metadata пуста', () => {
-  //   const wrapper = setup();
-  //   expect(wrapper.find('.spinner-container').exists()).toBeTruthy();
-  // });
-  // it('CoverSpinner не должен рендериться, если metadata не пуста', () => {
-  //   const wrapper = setup({
-  //     pageUrl: '/modalPage',
-  //     pageId: 'modalPage',
-  //     close: false,
-  //     pages: {},
-  //     loading: false,
-  //   });
-  //
-  //   expect(wrapper.find('.spinner-container').exists()).toBeFalsy();
-  // });
+  it('CoverSpinner должен рендериться, если metadata пуста', () => {
+    const wrapper = setup();
+    expect(wrapper.find('.spinner-container').exists()).toBeTruthy();
+  });
+  it('CoverSpinner не должен рендериться, если metadata не пуста', () => {
+    const wrapper = setup({
+      pageUrl: '/modalPage',
+      pageId: 'modalPage',
+      close: false,
+      pages: {},
+      loading: false,
+    });
+
+    expect(wrapper.find('.spinner-container').exists()).toBeFalsy();
+  });
 });
