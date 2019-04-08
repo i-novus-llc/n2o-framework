@@ -22,7 +22,7 @@ stories
     const data = [
       {
         id: 1,
-        image: {
+        leftTop: {
           src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         },
         header: "It's a cat",
@@ -34,9 +34,10 @@ stories
       },
       {
         id: 2,
-        image: {
+        leftTop: {
           src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         },
+        leftBottom: 'a little description',
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
@@ -51,7 +52,7 @@ stories
   .add('Компонент без разделителя строк', () => {
     const data = [
       {
-        image: {
+        leftTop: {
           src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         },
         header: "It's a cat",
@@ -62,7 +63,7 @@ stories
         extra: 'Extra?!',
       },
       {
-        image: {
+        leftTop: {
           src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         },
         header: "It's a cat",
@@ -80,7 +81,8 @@ stories
     let data = [];
     for (let i = 0; i < 3; i++) {
       data.push({
-        image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        leftBottom: 'a little description',
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
@@ -109,7 +111,7 @@ stories
     fetchMock.restore().get(urlPattern, url => ({
       list: [
         {
-          image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
           header: "It's a cat",
           subHeader: 'The cat is stupid',
           body: 'Some words about cats',
@@ -118,7 +120,7 @@ stories
           extra: 'Extra?!',
         },
         {
-          image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
           header: "It's a cat",
           subHeader: 'The cat is stupid',
           body: 'Some words about cats',
@@ -165,7 +167,7 @@ stories
       delay(1000).then(() => ({
         list: [
           {
-            image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+            leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
             header: "It's a cat",
             subHeader: 'The cat is stupid',
             body: 'Some words about cats',
@@ -174,7 +176,7 @@ stories
             extra: 'Extra?!',
           },
           {
-            image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+            leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
             header: "It's a cat",
             subHeader: 'The cat is stupid',
             body: 'Some words about cats',
@@ -198,7 +200,7 @@ stories
     let data = [];
     for (let i = 0; i < 10; i++) {
       data.push({
-        image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
@@ -235,7 +237,7 @@ stories
     let data = [];
     for (let i = 0; i < 5; i++) {
       data.push({
-        image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
@@ -266,7 +268,7 @@ stories
     let data = [];
     for (let i = 0; i < 1000; i++) {
       data.push({
-        image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
         header: "It's a cat",
         subHeader: 'The cat is stupid',
         body: 'Some words about cats',
