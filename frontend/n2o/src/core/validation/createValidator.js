@@ -64,6 +64,7 @@ export const validateField = (
   isTouched = false
 ) => (values, dispatch) => {
   const registeredFields = get(state, ['form', formName, 'registeredFields']);
+  const fields = get(state, ['form', formName, 'fields']);
   const validation = pickBy(validationConfig, (value, key) =>
     get(registeredFields, `${key}.visible`, true)
   );
@@ -117,7 +118,10 @@ export const validateField = (
       map(errors, (messages, fieldId) => {
         if (!isEmpty(messages)) {
           const message = findPriorityMessage(messages);
-          if (!isEqual(message, get(registeredFields, [fieldId, 'message']))) {
+          if (
+            !isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
+            !get(fields, [fieldId, 'touched'])
+          ) {
             return addFieldMessage(formName, fieldId, message, isTouched);
           }
         }
