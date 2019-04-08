@@ -62,7 +62,6 @@ class Tree extends Component {
     this.onCustomActions = this.onCustomActions.bind(this);
     this.onCheck = this.onCheck.bind(this);
     this.onSelect = this.onSelect.bind(this);
-    this.prepareDataAndResolve = this.prepareDataAndResolve.bind(this);
     this.createSelectedKeys = this.createSelectedKeys.bind(this);
     this.selectedObjToTreeKeys = this.selectedObjToTreeKeys.bind(this);
     this.onDoubleClickHandler = this.onDoubleClickHandler.bind(this);
@@ -129,25 +128,6 @@ class Tree extends Component {
     return <CheckboxN2O inline />;
   }
 
-  prepareDataAndResolve(keys) {
-    const {
-      onResolve,
-      datasource,
-      valueFieldId,
-      multiselect,
-      rowClick,
-      onRowClickAction,
-    } = this.props;
-    const value = filter(datasource, data => keys.includes(data[valueFieldId]));
-    if (multiselect) {
-      onResolve(value);
-    } else {
-      onResolve(value ? value[0] : null);
-    }
-
-    if (rowClick) onRowClickAction();
-  }
-
   onSelect(keys, { nativeEvent }) {
     const { multiselect, hasCheckboxes } = this.props;
     const { selectedKeys } = this.state;
@@ -170,11 +150,11 @@ class Tree extends Component {
       selectedKeysForResolve = keys;
     }
 
-    this.prepareDataAndResolve(selectedKeysForResolve);
+    this.props.onResolve(selectedKeysForResolve);
   }
 
   onCheck(keys) {
-    this.prepareDataAndResolve(keys);
+    this.props.onResolve(keys);
   }
 
   onCustomActions(_, key) {
@@ -261,7 +241,7 @@ class Tree extends Component {
       hasCheckboxes && multiselect ? <CheckboxN2O inline /> : false;
 
     return (
-      <div className={`${prefixCls}-wrapper`}>
+      <div className={`${prefixCls}-wrapper pt-4`}>
         {filter && FILTER_MODE.includes(filter) && (
           <Filter
             onFilter={this.onFilter}
