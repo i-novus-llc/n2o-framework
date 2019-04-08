@@ -887,30 +887,48 @@ link:#__node[Дочерний узел]
 </list>
 ----
 
-==== <rows>
-Настройка строк списка.
+==== <content>
+Содержимое строк списка.
 
-Атрибуты::
-[cols="2,1,4,4"]
+Элементы::
+[cols="4,4"]
 |===
-|Наименование|Тип|Описание|Значение по умолчанию
+|Наименование|Тело
 
-|text-field-id
-|Ссылка на поле выборки
-|Поле выборки, отображающее текст в строке
-|
+|left-top
+|link:#_Ячейки[Ячейка]
+
+|left-bottom
+|link:#_Ячейки[Ячейка]
+
+|header
+|link:#_Ячейки[Ячейка]
+
+|body
+|link:#_Ячейки[Ячейка]
+
+|sub-header
+|link:#_Ячейки[Ячейка]
+
+|right-top
+|link:#_Ячейки[Ячейка]
+
+|right-bottom
+|link:#_Ячейки[Ячейка]
+
+|extra
+|link:#_Ячейки[Ячейка]
 
 |===
-
-Тело::
-link:#_Ячейки[Ячейка]
 
 Пример::
 [source,xml]
 ----
-<rows text-field-id="name">
-  <text class="font-weight-bold"/>
-</rows>
+ <content>
+    <left-top id="leftTop">
+        <image class="list-image"/>
+    </left-top>
+ </content>
 ----
 
 === <chart>
