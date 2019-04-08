@@ -5,16 +5,31 @@
   justify-content: flex-start;
   flex-wrap: nowrap;
 
+  & .details-label {
+    display: block;
+
+    max-width: 85px;
+    border-bottom: 1px dashed rgba(38, 50, 56, 0.55);
+    cursor: pointer;
+  }
+
   & > .text{
+    display: flex;
+    order: 2;
+    min-height: 1.4rem;
+    overflow: hidden;
+  }
+
+  &--expandable > .text {
+    display: block;
+  }
+
+  &--ellipsis > .text > span {
+    display: block;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    order: 2;
-    min-height: 1.4rem;
-  }
-
-  &--text-wrap > .text {
-    white-space: normal;
   }
 
   & > .icon {
