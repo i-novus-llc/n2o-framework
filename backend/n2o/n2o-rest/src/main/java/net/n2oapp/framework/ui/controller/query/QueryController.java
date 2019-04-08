@@ -42,19 +42,18 @@ public class QueryController extends GetController {
 
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        CollectionPage<DataSet> collectionPage;
         try {
-            collectionPage = executeQuery(requestInfo, responseInfo);
+            CollectionPage<DataSet> collectionPage = executeQuery(requestInfo, responseInfo);
+            insertSelectedRow(requestInfo, responseInfo, collectionPage);
+            return new GetDataResponse(collectionPage, responseInfo, requestInfo.getSuccessAlertWidgetId());
         } catch (N2oException e) {
             String widgetId = requestInfo.getFailAlertWidgetId() == null
                     ? requestInfo.getMessagesForm()
                     : requestInfo.getFailAlertWidgetId();
-            GetDataResponse response = new GetDataResponse(getErrorMessageBuilder().buildMeta(e, widgetId));
+            GetDataResponse response = new GetDataResponse(getErrorMessageBuilder().buildMessages(e), widgetId);
             response.setStatus(e.getHttpStatus());
             return response;
         }
-        insertSelectedRow(requestInfo, responseInfo, collectionPage);
-        return new GetDataResponse(collectionPage, requestInfo.getSuccessAlertWidgetId(), responseInfo);
     }
 
     @Override

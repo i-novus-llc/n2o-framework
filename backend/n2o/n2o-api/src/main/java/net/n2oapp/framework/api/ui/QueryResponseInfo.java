@@ -11,12 +11,4 @@ import java.util.Collection;
  */
 public class QueryResponseInfo extends ResponseInfo {
 
-    public void prepare(Collection<DataSet> collection) {
-        if (collection != null && collection.size() == 1)
-            getMessageList().forEach(m -> {
-                String msg = StringUtils.resolveLinks(m.getText(), collection.iterator().next());
-                m.setText(msg);
-            });
-    }
-
 }

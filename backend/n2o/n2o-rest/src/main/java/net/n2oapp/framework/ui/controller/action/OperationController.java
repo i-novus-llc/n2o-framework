@@ -41,31 +41,29 @@ public class OperationController extends SetController {
 
     protected SetDataResponse executeRequest(ActionRequestInfo<DataSet> requestInfo,
                                              ActionResponseInfo responseInfo) {
-        SetDataResponse dataWithMessageResponse;
-        DataSet data;
         try {
-            data = handleActionRequest(requestInfo, responseInfo);
+            DataSet data = handleActionRequest(requestInfo, responseInfo);
+            SetDataResponse dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), data,
+                    requestInfo, responseInfo);
+            return dataWithMessageResponse;
         } catch (N2oException e) {
             String widgetId = requestInfo.getFailAlertWidgetId() == null
                     ? requestInfo.getMessagesForm()
                     : requestInfo.getFailAlertWidgetId();
-            SetDataResponse response = new SetDataResponse(errorMessageBuilder.buildMeta(e, widgetId));
+            SetDataResponse response = new SetDataResponse(errorMessageBuilder.buildMessages(e), widgetId);
             response.setStatus(e.getHttpStatus());
             return response;
         }
-        dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), data,
-                requestInfo, responseInfo);
-        return dataWithMessageResponse;
     }
 
 
     private SetDataResponse constructSuccessSetDataResponse(CompiledObject.Operation operation, DataSet data,
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
-        SetDataResponse response = new SetDataResponse(requestInfo.getSuccessAlertWidgetId());
-        response.setResponseMessages(responseInfo.getMessageList(), responseInfo.getStackedMessages());
+        SetDataResponse response = new SetDataResponse();
+        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.getStackedMessages());
         response.setData(data);
-        response.addResponseMessage(createSuccess(operation, data));
+        response.addResponseMessage(createSuccess(operation, data), requestInfo.getSuccessAlertWidgetId());
         return response;
     }
 

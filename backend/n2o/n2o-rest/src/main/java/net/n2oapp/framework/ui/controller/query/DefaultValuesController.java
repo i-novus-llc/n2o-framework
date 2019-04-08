@@ -30,7 +30,7 @@ public abstract class DefaultValuesController extends GetController {
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         DataSet defaultModel = extractDefaultModel(requestInfo, responseInfo);
-        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), requestInfo.getSuccessAlertWidgetId(), responseInfo);
+        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getSuccessAlertWidgetId());
     }
 
     protected DataSet extractDefaultModel(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
