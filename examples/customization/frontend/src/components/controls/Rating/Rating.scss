@@ -1,0 +1,16 @@
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/mixins";
+
+@import "~n2o/src/sass/variables";
+
+.rating-control {
+  .rating-control-star {
+    cursor: pointer;
+    transition: color 100ms linear;
+
+    &_active {
+      color: $primary;
+    }
+  }
+}

@@ -1,5 +1,5 @@
-import SquareLayout from './SquareLayout/SquareLayout';
+import SquareResizableLayout from "./SquareResizableLayout/SquareResizableLayout";
 
 export default {
-    SquareLayout: SquareLayout
+  SquareResizableLayout
 };
