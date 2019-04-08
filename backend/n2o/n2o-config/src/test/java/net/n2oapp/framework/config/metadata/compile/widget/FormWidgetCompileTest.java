@@ -62,7 +62,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(form.getDataProvider(), notNullValue());
         assertThat(form.getComponent().getPrompt(), is(true));
         assertThat(form.getComponent().getFetchOnInit(), is(true));
-        QueryContext queryContext = (QueryContext) route("/testFormCompile2").getContext(CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormCompile2", CompiledQuery.class);
         assertThat(queryContext.getFailAlertWidgetId(), is("testFormCompile2"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("testFormCompile2"));
     }

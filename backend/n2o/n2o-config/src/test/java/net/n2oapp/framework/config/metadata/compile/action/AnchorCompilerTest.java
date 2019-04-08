@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.action.AnchorElementIOV1;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -15,8 +14,6 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
 
 public class AnchorCompilerTest extends SourceCompileTestBase {
     @Override
@@ -62,7 +59,7 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link3.getOptions().getPath(), is("http://google.com"));
         assertThat(link3.getOptions().getTarget(), is(Target.self));
 
-        PageContext modalContext = (PageContext) route("/page/widget/123/id4").getContext(Page.class);
+        PageContext modalContext = (PageContext) route("/page/widget/123/id4", Page.class);
         Page modalPage = read().compile().get(modalContext);
         link1 = (LinkAction)modalPage.getWidgets().get("page_widget_id4_test").getActions().get("id1");
         assertThat(link1.getOptions().getPath(), is("/page/widget/:page_test_id/id4/widget2/test"));
