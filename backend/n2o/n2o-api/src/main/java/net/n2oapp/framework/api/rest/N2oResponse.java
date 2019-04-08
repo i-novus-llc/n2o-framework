@@ -51,4 +51,18 @@ public class N2oResponse {
             getMeta().getMessages().getFields().putIfAbsent(message.getField(), message);
         }
     }
+
+    public void setResponseMessages(List<ResponseMessage> messageList, Boolean stacked) {
+        setMeta(new MetaSaga());
+
+        if (messageList == null || messageList.isEmpty())
+            return;
+
+        if (messageList.stream().anyMatch(m -> m.getField() == null)) {
+            getMeta().setAlert(new AlertSaga());
+            getMeta().getAlert().setStacked(stacked);
+        }
+        messageList.forEach(this::addResponseMessage);
+    }
+
 }

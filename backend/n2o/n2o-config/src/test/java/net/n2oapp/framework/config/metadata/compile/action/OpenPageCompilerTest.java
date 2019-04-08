@@ -204,14 +204,14 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(masterDetailPage.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(masterDetailPage.getBreadcrumb().get(2).getPath(), nullValue());
 
-        Page level3Page = route("/page/123/view/widget/456/masterDetail/main/level3", Page.class, data);
+        Page level3Page = route("/page/123/view/widget/456/masterDetail/level3", Page.class, data);
         assertThat(level3Page.getBreadcrumb().size(), is(4));
         assertThat(level3Page.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(level3Page.getBreadcrumb().get(0).getPath(), is("/page/123"));
         assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail/main?name=ivan&detailId=12&secondName=ivanov"));
+        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?name=ivan&detailId=12&secondName=ivanov"));
     }
 
     @Test
@@ -320,8 +320,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(openPage.getLayout().getRegions().get("single").get(0).getItems().get(0).getWidgetId(), is("page_widget_testOpenPageSimplePageAction1_id1_w0"));
 
         assertThat(openPage.getRoutes().getList().get(0).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1"));
-        assertThat(openPage.getRoutes().getList().get(1).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1/w0"));
-        assertThat(openPage.getRoutes().getList().get(2).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1/w0/:page_widget_testOpenPageSimplePageAction1_id1_w0_id"));
+        assertThat(openPage.getRoutes().getList().get(1).getPath(), is("/page/widget/testOpenPageSimplePageAction1/id1/:page_widget_testOpenPageSimplePageAction1_id1_w0_id"));
 
         assertThat(openPage.getWidgets().size(), is(1));
         assertThat(openPage.getWidgets().get("page_widget_testOpenPageSimplePageAction1_id1_w0"), instanceOf(Form.class));
@@ -338,8 +337,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(openPage.getLayout().getRegions().get("topLeft").get(0).getItems().get(0).getWidgetId(), is("page_widget_testOpenPageSimplePageAction2_id1_main"));
 
         assertThat(openPage.getRoutes().getList().get(0).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1"));
-        assertThat(openPage.getRoutes().getList().get(1).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1/main"));
-        assertThat(openPage.getRoutes().getList().get(2).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1/main/:page_widget_testOpenPageSimplePageAction2_id1_main_id"));
+        assertThat(openPage.getRoutes().getList().get(1).getPath(), is("/page/widget/testOpenPageSimplePageAction2/id1/:page_widget_testOpenPageSimplePageAction2_id1_main_id"));
 
         assertThat(openPage.getWidgets().size(), is(1));
         assertThat(openPage.getWidgets().get("page_widget_testOpenPageSimplePageAction2_id1_main"), instanceOf(Form.class));
@@ -351,10 +349,10 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterParam.page.xml");
 
         Page p1 = pipeline.get(new PageContext("testMasterParam", "/page"));
-        assertThat(p1.getRoutes().getList().get(3).getPath(), is("/page/master/:sid/menuItem0"));
-        assertThat(p1.getRoutes().getList().get(4).getPath(), is("/page/master/:sid/detail"));
-        assertThat(p1.getRoutes().getList().get(5).getPath(), is("/page/master/:sid/detail/:page_detail_id"));
-        assertThat(p1.getRoutes().getList().get(6).getPath(), is("/page/master/:sid/detail/:sid/menuItem0"));
+        assertThat(p1.getRoutes().getList().get(2).getPath(), is("/page/:sid/menuItem0"));
+        assertThat(p1.getRoutes().getList().get(3).getPath(), is("/page/:sid/detail"));
+        assertThat(p1.getRoutes().getList().get(4).getPath(), is("/page/:sid/detail/:page_detail_id"));
+        assertThat(p1.getRoutes().getList().get(5).getPath(), is("/page/:sid/detail/:sid/menuItem0"));
 
         Page p2 = pipeline.get(new PageContext("testOpenPageMasterParam"));
         assertThat(((Filter) p2.getWidgets().get("testOpenPageMasterParam_modalDetail").getFilters().get(0)).getParam(), is("sid"));

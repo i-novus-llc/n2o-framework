@@ -43,10 +43,9 @@ public class PageRoutes implements Compiled {
      * @param route  Путь
      */
     public void addRoute(Route route) {
-        if (this.list.contains(route) && !route.isOtherPage) {
-            throw new N2oException("Page already contains route {0}!").addData(route.getPath());
+        if (!this.list.contains(route) || route.isOtherPage) {
+            this.list.add(route);
         }
-        this.list.add(route);
     }
 
 
@@ -68,12 +67,10 @@ public class PageRoutes implements Compiled {
      * Добавить маршрут к виджету страницы
      *
      * @param path     Путь
-     * @param widgetId Идентификатор виджета
      */
-    public Route addRoute(String path, String widgetId) {
+    public Route addRoute(String path) {
         Route route = new Route();
         route.setPath(path);
-        route.setWidgetId(widgetId);
         addRoute(route);
         return route;
     }
@@ -132,10 +129,6 @@ public class PageRoutes implements Compiled {
         private Boolean exact = true;
         @JsonProperty
         private Boolean isOtherPage = false;
-        /**
-         * Идентификатор виджета в маршруте
-         */
-        private String widgetId;
         /**
          * Признак, что маршрут виджета содержит выделенную запись
          */

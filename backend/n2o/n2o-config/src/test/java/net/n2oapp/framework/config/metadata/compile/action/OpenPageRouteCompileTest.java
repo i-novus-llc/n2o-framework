@@ -45,7 +45,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParam");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open1"));
+        assertThat(action.getOptions().getPath(), is("/test/:masterId/detail/:detailId/open1"));
         assertThat(action.getOptions().getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getOptions().getQueryMapping().isEmpty(), is(true));
 
@@ -61,7 +61,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withoutParam");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/open2"));
+        assertThat(action.getOptions().getPath(), is("/test/:masterId/detail/open2"));
         assertThat(action.getOptions().getQueryMapping().get("detailId"), notNullValue());
     }
 
@@ -75,10 +75,10 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open3"));
+        assertThat(action.getOptions().getPath(), is("/test/:masterId/detail/:detailId/open3"));
         assertThat(action.getOptions().getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getOptions().getQueryMapping().isEmpty(), is(true));
-        QueryContext queryContext = (QueryContext) routeContext("/test/master/:masterId/detail/123/open3/main", CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/test/:masterId/detail/123/open3/main").getContext(CompiledQuery.class);
         assertThat(queryContext.getFilters().isEmpty(), is(true));
     }
 }
