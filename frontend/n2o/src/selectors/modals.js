@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { find } from 'lodash';
 
 /**
  * селектор модольных окон
@@ -18,4 +19,10 @@ export const makeModalsbyName = i =>
     modalsState => {
       return modalsState[i];
     }
+  );
+
+export const makeShowPromptByName = name =>
+  createSelector(
+    modalsSelector,
+    modalsState => find(modalsState, modal => modal.name === name).showPrompt
   );

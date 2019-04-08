@@ -7,7 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import Day from './Day';
 import CalendarHeader from './CalendarHeader';
 import Clock from './Clock';
-import { weeks, isDateFromPrevMonth, isDateFromNextMonth, addTime } from './utils';
+import {
+  weeks,
+  isDateFromPrevMonth,
+  isDateFromNextMonth,
+  addTime,
+} from './utils';
 
 /**
  * @reactProps {date} value
@@ -32,7 +37,7 @@ class Calendar extends React.Component {
         ? props.value.clone().startOf('month')
         : moment().startOf('month'),
       calendarType: Calendar.BY_DAYS,
-      tempTimeObj: props.value ? this.objFromTime(props.value) : props.time
+      tempTimeObj: props.value ? this.objFromTime(props.value) : props.time,
     };
     this.nextMonth = this.nextMonth.bind(this);
     this.prevMonth = this.prevMonth.bind(this);
@@ -61,7 +66,7 @@ class Calendar extends React.Component {
         displayesMonth: props.value
           ? props.value.clone().startOf('month')
           : moment().startOf('month'),
-        tempTimeObj: props.value ? this.objFromTime(props.value) : props.time
+        tempTimeObj: props.value ? this.objFromTime(props.value) : props.time,
       });
     }
   }
@@ -92,7 +97,7 @@ class Calendar extends React.Component {
       setValue,
       nextDecade,
       prevDecade,
-      changeCalendarType
+      changeCalendarType,
     } = this;
     return (
       <CalendarHeader
@@ -107,7 +112,7 @@ class Calendar extends React.Component {
           setValue,
           locale,
           calendarType,
-          changeCalendarType
+          changeCalendarType,
         }}
       />
     );
@@ -123,13 +128,13 @@ class Calendar extends React.Component {
       this.setState({
         displayesMonth: this.state.displayesMonth
           .clone()
-          .add(-this.state.displayesMonth.month() + val, attr)
+          .add(-this.state.displayesMonth.month() + val, attr),
       });
     } else {
       this.setState({
         displayesMonth: this.state.displayesMonth
           .clone()
-          .add(moment().year() - this.state.displayesMonth.year() + val, attr)
+          .add(moment().year() - this.state.displayesMonth.year() + val, attr),
       });
     }
   }
@@ -204,7 +209,12 @@ class Calendar extends React.Component {
   renderWeeks() {
     const displayesMonth = this.state.displayesMonth;
     const { hours, mins, seconds } = this.state.tempTimeObj;
-    const firstDay = addTime(displayesMonth.clone().startOf('isoWeek'), hours, mins, seconds);
+    const firstDay = addTime(
+      displayesMonth.clone().startOf('isoWeek'),
+      hours,
+      mins,
+      seconds
+    );
     return weeks(firstDay).map((week, i) => this.renderWeek(week, i));
   }
 
@@ -230,10 +240,19 @@ class Calendar extends React.Component {
     }
     const displayesMonth = this.state.displayesMonth.clone();
     const otherMonth =
-      isDateFromNextMonth(day, displayesMonth) || isDateFromPrevMonth(day, displayesMonth);
+      isDateFromNextMonth(day, displayesMonth) ||
+      isDateFromPrevMonth(day, displayesMonth);
     const selected = day.isSame(value, 'day');
     const current = !value && day.isSame(moment(), 'day');
-    const props = { day, otherMonth, selected, disabled, select, inputName, current };
+    const props = {
+      day,
+      otherMonth,
+      selected,
+      disabled,
+      select,
+      inputName,
+      current,
+    };
 
     return <Day key={i} {...props} />;
   }
@@ -280,7 +299,7 @@ class Calendar extends React.Component {
   /**
    * Удаление листенера при анмаунте компонента
    */
-  componentWillUnMount() {
+  componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
   }
 
@@ -289,12 +308,19 @@ class Calendar extends React.Component {
     return hasDefaultTime ? (
       this.props.value && this.props.value.format(timeFormat)
     ) : (
-      <FormattedMessage id="Datepicker.time-choose" defaultMessage="Выберите время" />
+      <FormattedMessage
+        id="Datepicker.time-choose"
+        defaultMessage="Выберите время"
+      />
     );
   }
 
   objFromTime(date) {
-    return { mins: date.minutes(), seconds: date.seconds(), hours: date.hours() };
+    return {
+      mins: date.minutes(),
+      seconds: date.seconds(),
+      hours: date.hours(),
+    };
   }
 
   timeFromObj(timeObj) {
@@ -357,13 +383,14 @@ class Calendar extends React.Component {
       }
       return i === value.month();
     };
-    const isOtherDecade = i => className === 'year-item' && (i === 0 || i === 11);
+    const isOtherDecade = i =>
+      className === 'year-item' && (i === 0 || i === 11);
     return list.map((item, i) => {
       return (
         <div
           className={cx('n2o-calendar-body-item', className, {
             active: isActive(className, item, i),
-            'other-decade': isOtherDecade(i)
+            'other-decade': isOtherDecade(i),
           })}
           onClick={() => this.onItemClick(className, item, i)}
         >
@@ -377,8 +404,15 @@ class Calendar extends React.Component {
     const { displayesMonth } = this.state;
     const { locale } = this.props;
     const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10) * 10;
-    const years = Array.from(new Array(12), (val, index) => decadeStart + index - 1);
-    return <div className="n2o-calendar-body">{this.renderList(years, 'year-item')}</div>;
+    const years = Array.from(
+      new Array(12),
+      (val, index) => decadeStart + index - 1
+    );
+    return (
+      <div className="n2o-calendar-body">
+        {this.renderList(years, 'year-item')}
+      </div>
+    );
   }
 
   componentDidUpdate() {
@@ -391,7 +425,7 @@ class Calendar extends React.Component {
 
   setTimeUnit(value, unit) {
     this.setState({
-      tempTimeObj: { ...this.state.tempTimeObj, [unit]: value }
+      tempTimeObj: { ...this.state.tempTimeObj, [unit]: value },
     });
   }
 
@@ -400,7 +434,11 @@ class Calendar extends React.Component {
     const { hours, mins, seconds } = this.state.tempTimeObj;
     this.changeCalendarType(Calendar.BY_DAYS);
     markTimeAsSet(inputName);
-    select(addTime(value.clone().startOf('day'), hours, mins, seconds), inputName, false);
+    select(
+      addTime(value.clone().startOf('day'), hours, mins, seconds),
+      inputName,
+      false
+    );
   }
 
   renderTimePicker() {
@@ -411,7 +449,9 @@ class Calendar extends React.Component {
           <div className="n2o-calendar-picker hour-picker">
             {Array.from(new Array(24), (val, index) => (
               <div
-                className={cx('n2o-calendar-time-unit', { active: index === hours })}
+                className={cx('n2o-calendar-time-unit', {
+                  active: index === hours,
+                })}
                 onClick={() => this.setTimeUnit(index, 'hours')}
                 ref={index === hours ? this.setHourRef : null}
               >
@@ -422,7 +462,9 @@ class Calendar extends React.Component {
           <div className="n2o-calendar-picker minute-picker">
             {Array.from(new Array(60), (val, index) => (
               <div
-                className={cx('n2o-calendar-time-unit', { active: index === mins })}
+                className={cx('n2o-calendar-time-unit', {
+                  active: index === mins,
+                })}
                 ref={index === mins ? this.setMinuteRef : null}
                 onClick={() => this.setTimeUnit(index, 'mins')}
               >
@@ -433,7 +475,9 @@ class Calendar extends React.Component {
           <div className="n2o-calendar-picker second-picker">
             {Array.from(new Array(60), (val, index) => (
               <div
-                className={cx('n2o-calendar-time-unit', { active: index === seconds })}
+                className={cx('n2o-calendar-time-unit', {
+                  active: index === seconds,
+                })}
                 ref={index === seconds ? this.setSecondRef : null}
                 onClick={() => this.setTimeUnit(index, 'seconds')}
               >
@@ -480,10 +524,18 @@ class Calendar extends React.Component {
 
   render() {
     const { calendarType } = this.state;
-    const { inputValue, inputOnClick, inputClassName, format, calRef } = this.props;
+    const {
+      inputValue,
+      inputOnClick,
+      inputClassName,
+      format,
+      calRef,
+    } = this.props;
     return (
       <div
-        className={cx('n2o-calendar', 'calenadar', { time: this.props.timeFormat })}
+        className={cx('n2o-calendar', 'calenadar', {
+          time: this.props.timeFormat,
+        })}
         tabIndex="0"
       >
         {this.renderHeader(calendarType)}
@@ -501,11 +553,11 @@ Calendar.TIME_PICKER = 'time_picker';
 Calendar.defaultProps = {
   time: {
     mins: 0,
-    hours: 0
+    hours: 0,
   },
   placement: 'bottom',
   locale: 'ru',
-  clock: true
+  clock: true,
 };
 
 Calendar.propTypes = {
@@ -521,8 +573,8 @@ Calendar.propTypes = {
   locale: PropTypes.oneOf(['en', 'ru']),
   time: PropTypes.shape({
     mins: PropTypes.number,
-    hours: PropTypes.number
-  })
+    hours: PropTypes.number,
+  }),
 };
 
 export default Calendar;

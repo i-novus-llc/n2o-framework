@@ -9,12 +9,14 @@ import { reduxForm } from 'redux-form';
 const NullComponent = () => null;
 
 function setupToProvider(props, overrideStore) {
-  const TestComponent = reduxForm({ form: 'formName' })(withFieldContainer(NullComponent));
+  const TestComponent = reduxForm({ form: 'formName' })(
+    withFieldContainer(NullComponent)
+  );
 
   const mockStore = configureMockStore();
   const store = mockStore({
     models: { resolve: {} },
-    ...overrideStore
+    ...overrideStore,
   });
 
   const wrapper = mount(
@@ -25,7 +27,7 @@ function setupToProvider(props, overrideStore) {
 
   return {
     wrapper,
-    store
+    store,
   };
 }
 
@@ -38,11 +40,11 @@ describe('withFieldContainer', () => {
       dependency: 'test',
       required: true,
       meta: {
-        form: 'formName'
+        form: 'formName',
       },
       input: {
-        name: 'testName'
-      }
+        name: 'testName',
+      },
     };
 
     const { store } = setupToProvider(testPropsData);
@@ -52,7 +54,7 @@ describe('withFieldContainer', () => {
         visible: true,
         disabled: true,
         dependency: 'test',
-        required: true
+        required: true,
       })
     );
   });

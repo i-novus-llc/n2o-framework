@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция виджета форма
  */
@@ -40,6 +42,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     @Override
     public Form compile(N2oForm source, CompileContext<?, ?> context, CompileProcessor p) {
         Form form = new Form();
+        form.getComponent().setPrompt(p.resolve(property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class));
         CompiledQuery query = getQuery(source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(form, source, context, p, object);

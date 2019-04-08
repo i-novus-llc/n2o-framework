@@ -34,12 +34,12 @@ function AdvancedTableCell({ children, hasSpan, record }) {
 AdvancedTableCell.propTypes = {
   children: PropTypes.any,
   hasSpan: PropTypes.bool,
-  record: PropTypes.object
+  record: PropTypes.object,
 };
 
 AdvancedTableCell.defaultProps = {
   hasSpan: false,
-  record: {}
+  record: {},
 };
 
 export default AdvancedTableCell;

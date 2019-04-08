@@ -1,15 +1,13 @@
 {
   "extends": [
     "react-app",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
   "plugins": [
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": [
-      "error"
-    ]
+    "prettier/prettier": ["error", {"endOfLine": "auto"}]
   },
   // overrides не работает, поэтому тесты кладем в globals
   "globals": {

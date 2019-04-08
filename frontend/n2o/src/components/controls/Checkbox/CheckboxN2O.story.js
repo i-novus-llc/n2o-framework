@@ -19,9 +19,14 @@ stories.add(
       disabled: boolean('disabled', false),
       checked: store.state.checked,
       label: text('label', 'Label'),
-      indeterminate: boolean('indeterminate', false)
+      indeterminate: boolean('indeterminate', false),
     };
 
-    return <CheckboxN2O {...props} onChange={() => store.set({ checked: !store.state.checked })} />;
+    return (
+      <CheckboxN2O
+        {...props}
+        onChange={() => store.set({ checked: !store.state.checked })}
+      />
+    );
   })
 );

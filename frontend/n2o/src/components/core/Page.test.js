@@ -12,36 +12,36 @@ import FactoryProvider from '../../core/factory/FactoryProvider';
 import sinon from 'sinon';
 
 const defaultProps = {
-  getMetadata: () => {}
+  getMetadata: () => {},
 };
 
 const testDataToProps = {
   props: {},
-  newProps: {}
+  newProps: {},
 };
 
 const testMetadata = {
   id: 'pageId',
   page: {
-    title: 'title'
+    title: 'title',
   },
   routes: {
     list: [
       {
         path: '/test',
-        exact: true
-      }
-    ]
+        exact: true,
+      },
+    ],
   },
   breadcrumb: [
     {
       label: 'Первая',
-      path: '/'
+      path: '/',
     },
     {
       label: "`'Вторая: ' + id`",
-      modelLink: "pages['testSimplePageJson'].metadata"
-    }
+      modelLink: "pages['testSimplePageJson'].metadata",
+    },
   ],
   widgets: {
     Page_Wireframe: {
@@ -53,33 +53,33 @@ const testMetadata = {
             buttons: [
               {
                 id: 'testButton',
-                title: 'test'
-              }
-            ]
-          }
-        ]
+                title: 'test',
+              },
+            ],
+          },
+        ],
       },
       wireframe: {
         className: '',
         title: 'Виджет первой страницы',
         height: 300,
-        fetchOnInit: false
-      }
-    }
-  }
+        fetchOnInit: false,
+      },
+    },
+  },
 };
 
 const setup = propOverrides => {
   const props = {
     ...defaultProps,
-    ...propOverrides
+    ...propOverrides,
   };
 
   const wrapper = mount(<PageContainer {...props} />);
 
   return {
     wrapper,
-    props
+    props,
   };
 };
 
@@ -96,10 +96,10 @@ describe('Тесты Page', () => {
     // Закидываем context для breadcrumb
     const Page = withContext(
       {
-        defaultBreadcrumb: PropTypes.node
+        defaultBreadcrumb: PropTypes.node,
       },
       () => ({
-        defaultBreadcrumb: DefaultBreadcrumb
+        defaultBreadcrumb: DefaultBreadcrumb,
       })
     )(PageContainer);
 
@@ -109,7 +109,11 @@ describe('Тесты Page', () => {
         <Provider store={store}>
           <FactoryProvider>
             <BrowserRouter>
-              <Page metadata={testMetadata} pageId="pageId" getMetadata={() => null} />
+              <Page
+                metadata={testMetadata}
+                pageId="pageId"
+                getMetadata={() => null}
+              />
             </BrowserRouter>
           </FactoryProvider>
         </Provider>
@@ -129,7 +133,9 @@ describe('Тесты Page', () => {
     const getMetadata = sinon.spy();
     const reset = sinon.spy();
 
-    const stubFn = sinon.stub(PageContainer.prototype, 'shouldGetPageMetadata').returns(true);
+    const stubFn = sinon
+      .stub(PageContainer.prototype, 'shouldGetPageMetadata')
+      .returns(true);
     const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
     wrapper.setProps({ metadata: 'test2', reset, getMetadata });
     expect(reset.calledOnce).toEqual(true);
@@ -142,14 +148,16 @@ describe('Тесты Page', () => {
     const routeMap = sinon.spy();
     const getMetadata = sinon.spy();
 
-    const stubFn = sinon.stub(PageContainer.prototype, 'shouldGetPageMetadata').returns(false);
+    const stubFn = sinon
+      .stub(PageContainer.prototype, 'shouldGetPageMetadata')
+      .returns(false);
     const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
     wrapper.setProps({
       metadata: 'test',
       pageUrl: 'newPageUrl',
       routeMap,
       getMetadata,
-      error: true
+      error: true,
     });
     expect(routeMap.calledOnce).toEqual(true);
     expect(routeMap.calledWithMatch()).toEqual(true);
@@ -169,14 +177,14 @@ describe('Тесты Page', () => {
             {
               path: '/test',
               exact: true,
-              isOtherPage: true
-            }
-          ]
-        }
+              isOtherPage: true,
+            },
+          ],
+        },
       },
       location: {
-        pathname: '/test'
-      }
+        pathname: '/test',
+      },
     });
 
     expect(spyFn.calledOnce).toEqual(true);
@@ -196,12 +204,12 @@ describe('Тесты Page', () => {
             {
               path: '/test',
               exact: true,
-              isOtherPage: true
-            }
-          ]
-        }
+              isOtherPage: true,
+            },
+          ],
+        },
       },
-      location: { state: { silent: true } }
+      location: { state: { silent: true } },
     });
 
     expect(spyFn.calledOnce).toEqual(true);
@@ -220,12 +228,12 @@ describe('Тесты Page', () => {
           list: [
             {
               path: '/test',
-              exact: true
-            }
-          ]
-        }
+              exact: true,
+            },
+          ],
+        },
       },
-      location: { pathname: '/test' }
+      location: { pathname: '/test' },
     });
 
     expect(spyFn.calledOnce).toEqual(true);

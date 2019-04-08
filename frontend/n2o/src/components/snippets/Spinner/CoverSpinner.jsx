@@ -15,7 +15,7 @@ class CoverSpinner extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deferredStart: !!props.deferredSpinnerStart
+      deferredStart: !!props.deferredSpinnerStart,
     };
   }
   async componentDidMount() {
@@ -56,14 +56,14 @@ CoverSpinner.propTypes = {
   animationClass: PropTypes.string,
   message: PropTypes.string,
   deferredSpinnerStart: PropTypes.number,
-  mode: PropTypes.oneOf(['dark', 'light', 'transparent'])
+  mode: PropTypes.oneOf(['dark', 'light', 'transparent']),
 };
 
 CoverSpinner.defaultProps = {
   animationClass: '',
   message: '',
   deferredSpinnerStart: 0,
-  mode: 'light'
+  mode: 'light',
 };
 
 export default CoverSpinner;

@@ -1,7 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  number,
+  select,
+} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import CodeEditor from './CodeEditor';
@@ -19,12 +25,16 @@ stories
     const props = {
       disabled: boolean('disabled', false),
       visible: boolean('visible', true),
-      lang: select('lang', ['javascript', 'xml', 'sql', 'groovy', 'java', 'html'], 'java'),
+      lang: select(
+        'lang',
+        ['javascript', 'xml', 'sql', 'groovy', 'java', 'html'],
+        'java'
+      ),
       minLines: number('minLines', 5),
       maxLines: number('maxLines', 30),
       autocomplete: boolean('autocomplete', true),
       value: text('value', ''),
-      onChange: action('code-editor-on-change')
+      onChange: action('code-editor-on-change'),
     };
 
     return <CodeEditor {...props} />;
@@ -44,7 +54,7 @@ stories
         maxLines: number('maxLines', CodeEditorJson.maxLines),
         autocomplete: boolean('autocomplete', CodeEditorJson.autocomplete),
         value: text('value', CodeEditorJson.value),
-        onChange: action('code-editor-on-change')
+        onChange: action('code-editor-on-change'),
       };
 
       return props;

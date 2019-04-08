@@ -43,13 +43,13 @@ LeftTopBottom.propTypes = {
   className: PropTypes.string,
   leftSize: PropTypes.number,
   rightSize: PropTypes.number,
-  style: PropTypes.object
+  style: PropTypes.object,
 };
 
 LeftTopBottom.defaultProps = {
   leftSize: 6,
   rightSize: 6,
-  style: {}
+  style: {},
 };
 
 LeftTopBottom = layoutPlaceResolver(LeftTopBottom);

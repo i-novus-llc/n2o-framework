@@ -41,7 +41,7 @@ class TableWidget extends React.Component {
       hasSelect,
       autoFocus,
       rowColor,
-      rowClick
+      rowClick,
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -56,12 +56,15 @@ class TableWidget extends React.Component {
       hasSelect,
       autoFocus,
       dataProvider,
-      rowClick
+      rowClick,
     };
   }
 
   prepareFilters() {
-    return this.context.resolveProps(this.props.filter, Fieldsets.StandardFieldset);
+    return this.context.resolveProps(
+      this.props.filter,
+      Fieldsets.StandardFieldset
+    );
   }
 
   render() {
@@ -74,7 +77,7 @@ class TableWidget extends React.Component {
       pageId,
       paging,
       className,
-      style
+      style,
     } = this.props;
     return (
       <StandardWidget
@@ -102,7 +105,7 @@ class TableWidget extends React.Component {
 
 TableWidget.defaultProps = {
   toolbar: {},
-  filter: {}
+  filter: {},
 };
 
 TableWidget.propTypes = {
@@ -124,14 +127,14 @@ TableWidget.propTypes = {
       autoFocus: PropTypes.bool,
       sorting: PropTypes.object,
       headers: PropTypes.array,
-      cells: PropTypes.array
+      cells: PropTypes.array,
     })
   ),
-  paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+  paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
 };
 
 TableWidget.contextTypes = {
-  resolveProps: PropTypes.func
+  resolveProps: PropTypes.func,
 };
 
 export default dependency(TableWidget);

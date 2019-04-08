@@ -62,7 +62,7 @@ function InputContent({
   onSelect,
   onClick,
   isExpanded,
-  autoFocus
+  autoFocus,
 }) {
   /**
    * Обработчик изменения инпута при нажатии на клавишу
@@ -71,28 +71,59 @@ function InputContent({
    */
 
   const handleKeyDown = e => {
-    if (multiSelect && e.key === 'Backspace' && selected.length && !e.target.value) {
+    if (
+      multiSelect &&
+      e.key === 'Backspace' &&
+      selected.length &&
+      !e.target.value
+    ) {
       const endElementOfSelect = selected[selected.length - 1];
       onRemoveItem(endElementOfSelect);
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (!isExpanded) {
         openPopUp();
-        setActiveValueId(getFirstNotDisabledId(options, selected, disabledValues, valueFieldId));
+        setActiveValueId(
+          getFirstNotDisabledId(options, selected, disabledValues, valueFieldId)
+        );
       } else {
         if (activeValueId) {
           setActiveValueId(
-            getNextId(options, activeValueId, valueFieldId, selected, disabledValues)
+            getNextId(
+              options,
+              activeValueId,
+              valueFieldId,
+              selected,
+              disabledValues
+            )
           );
         } else {
-          setActiveValueId(getFirstNotDisabledId(options, selected, disabledValues, valueFieldId));
+          setActiveValueId(
+            getFirstNotDisabledId(
+              options,
+              selected,
+              disabledValues,
+              valueFieldId
+            )
+          );
         }
       }
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActiveValueId(getPrevId(options, activeValueId, valueFieldId, selected, disabledValues));
+      setActiveValueId(
+        getPrevId(
+          options,
+          activeValueId,
+          valueFieldId,
+          selected,
+          disabledValues
+        )
+      );
     } else if (e.key === 'Enter') {
-      const newValaue = find(options, item => item[valueFieldId] === activeValueId);
+      const newValaue = find(
+        options,
+        item => item[valueFieldId] === activeValueId
+      );
       newValaue && onSelect(newValaue);
     } else if (e.key === 'Escape') {
       closePopUp();
@@ -182,14 +213,14 @@ InputContent.propTypes = {
   onClick: PropTypes.func,
   isSelected: PropTypes.bool,
   valueFieldId: PropTypes.string,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
 };
 
 InputContent.defaultProps = {
   multiSelect: false,
   disabled: false,
   collapseSelected: true,
-  autoFocus: false
+  autoFocus: false,
 };
 
 export default InputContent;

@@ -27,7 +27,9 @@ stories
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
 
-    return <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Создание записи', () => {
     let response = null;
@@ -50,9 +52,9 @@ stories
         page: 1,
         message: {
           severity: 'success',
-          text: 'Запись успешно добавлена!'
+          text: 'Запись успешно добавлена!',
         },
-        list: [response]
+        list: [response],
       };
     };
 
@@ -61,7 +63,9 @@ stories
       .get(urlPattern, url => getStub(url))
       .post(urlPattern, (url, xhr) => postStub(url, xhr));
 
-    return <Factory level={WIDGETS} {...newEntry['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory level={WIDGETS} {...newEntry['Page_Table']} id="Page_Table" />
+    );
   })
   .add('Сообщения', () => {
     const toolbar = {
@@ -71,11 +75,11 @@ stories
             {
               id: '1',
               title: 'Invoke c алертом',
-              actionId: 'invoke'
-            }
-          ]
-        }
-      ]
+              actionId: 'invoke',
+            },
+          ],
+        },
+      ],
     };
 
     const actions = {
@@ -85,31 +89,37 @@ stories
           type: START_INVOKE,
           payload: {
             widgetId: 'Page_Table',
-            modelLink: 'test'
-          }
-        }
-      }
+            modelLink: 'test',
+          },
+        },
+      },
     };
 
     const defaultMessage = [
       {
         severity: 'info',
         text: 'Информация о виджете',
-        details: 'Данные получены'
-      }
+        details: 'Данные получены',
+      },
     ];
     const messageAfterInvoke = [
       {
         severity: 'danger',
         text: 'Это сообщение будет отображаться 10 секунд',
-        timeout: 10000
-      }
+        timeout: 10000,
+      },
     ];
 
     fetchMock
       .restore()
-      .get(urlPattern, url => ({ ...getStubData(url), message: defaultMessage }))
-      .post(urlPattern, url => ({ ...getStubData(url), message: messageAfterInvoke }));
+      .get(urlPattern, url => ({
+        ...getStubData(url),
+        message: defaultMessage,
+      }))
+      .post(urlPattern, url => ({
+        ...getStubData(url),
+        message: messageAfterInvoke,
+      }));
 
     return (
       <Factory
@@ -125,10 +135,14 @@ stories
     fetchMock.restore().get(urlPattern, url => getStubData(url));
 
     const security = {
-      roles: ['admin']
+      roles: ['admin'],
     };
     const secureMetadata = set(
-      set(cloneObject(metadata), ['Page_Table', 'table', 'cells', 0, 'security'], security),
+      set(
+        cloneObject(metadata),
+        ['Page_Table', 'table', 'cells', 0, 'security'],
+        security
+      ),
       ['Page_Table', 'table', 'headers', 0, 'security'],
       security
     );
@@ -139,7 +153,11 @@ stories
         </small>
         <AuthButtonContainer />
         <br />
-        <Factory level={WIDGETS} {...secureMetadata['Page_Table']} id="Page_Table" />
+        <Factory
+          level={WIDGETS}
+          {...secureMetadata['Page_Table']}
+          id="Page_Table"
+        />
       </div>
     );
   })
@@ -147,5 +165,11 @@ stories
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     fetchMock.get('begin:n2o/page', page);
 
-    return <Factory level={WIDGETS} {...tableActions['Page_Table']} id="Page_Table" />;
+    return (
+      <Factory
+        level={WIDGETS}
+        {...tableActions['Page_Table']}
+        id="Page_Table"
+      />
+    );
   });

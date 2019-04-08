@@ -25,7 +25,7 @@ class TabNav extends React.Component {
 TabNav.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default TabNav;

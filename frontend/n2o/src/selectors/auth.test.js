@@ -3,8 +3,8 @@ import { authSelector, isLoggedInSelector, userSelector } from './auth';
 const state = {
   user: {
     name: 'user',
-    isLoggedIn: true
-  }
+    isLoggedIn: true,
+  },
 };
 
 describe('Проверка селекторов auth', () => {
@@ -16,7 +16,7 @@ describe('Проверка селекторов auth', () => {
   });
   it('userSelector должен вернуть user без isLoggedIn', () => {
     expect(userSelector(state)).toEqual({
-      name: state.user.name
+      name: state.user.name,
     });
   });
 });

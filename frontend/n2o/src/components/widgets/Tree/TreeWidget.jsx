@@ -52,7 +52,7 @@ class TreeWidget extends React.Component {
       badgeColorFieldId,
       hasCheckboxes,
       draggable,
-      childrenFieldId
+      childrenFieldId,
     } = this.props;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -79,7 +79,7 @@ class TreeWidget extends React.Component {
       badgeColorFieldId,
       hasCheckboxes,
       draggable,
-      childrenFieldId
+      childrenFieldId,
     };
   }
 
@@ -92,7 +92,7 @@ class TreeWidget extends React.Component {
       fetchOnInit,
       pageId,
       className,
-      style
+      style,
     } = this.props;
     return (
       <StandardWidget
@@ -116,7 +116,7 @@ class TreeWidget extends React.Component {
 
 TreeWidget.defaultProps = {
   toolbar: {},
-  filter: {}
+  filter: {},
 };
 
 TreeWidget.propTypes = {
@@ -127,11 +127,11 @@ TreeWidget.propTypes = {
   widgetId: PropTypes.string,
   actions: PropTypes.object,
   toolbar: PropTypes.object,
-  dataProvider: PropTypes.object
+  dataProvider: PropTypes.object,
 };
 
 TreeWidget.contextTypes = {
-  resolveProps: PropTypes.func
+  resolveProps: PropTypes.func,
 };
 
 export default dependency(TreeWidget);

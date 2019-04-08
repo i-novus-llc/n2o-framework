@@ -1,6 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number, select } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  number,
+  select,
+} from '@storybook/addon-knobs/react';
 import OutputText from './OutputText';
 import OutputJSON from './Output.meta';
 
@@ -14,8 +20,12 @@ stories.add('Компонент', () => {
     textPlace: select('textPlace', ['right', 'left'], OutputJSON.textPlace),
     icon: text('icon', OutputJSON.icon),
     value: text('value', 'text'),
-    format: select('format', ['', 'dateFromNow', 'password', 'number 0,0.00'], ''),
-    disabled: boolean('disabled', OutputJSON.disabled)
+    format: select(
+      'format',
+      ['', 'dateFromNow', 'password', 'number 0,0.00'],
+      ''
+    ),
+    disabled: boolean('disabled', OutputJSON.disabled),
   };
 
   return (

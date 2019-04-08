@@ -18,7 +18,7 @@ class PanelFooter extends React.Component {
 }
 
 PanelFooter.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default PanelFooter;

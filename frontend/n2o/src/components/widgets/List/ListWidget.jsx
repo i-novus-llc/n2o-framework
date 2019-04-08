@@ -56,7 +56,7 @@ function ListWidget(
     prevText,
     nextText,
     divider,
-    hasSelect
+    hasSelect,
   },
   context
 ) {
@@ -129,7 +129,7 @@ ListWidget.propTypes = {
   showPagination: PropTypes.bool,
   prevText: PropTypes.string,
   nextText: PropTypes.string,
-  hasSelect: PropTypes.bool
+  hasSelect: PropTypes.bool,
 };
 ListWidget.defaultProps = {
   rowClick: null,
@@ -145,10 +145,10 @@ ListWidget.defaultProps = {
   showPagination: false,
   prevText: 'Назад',
   nextText: 'Вперед',
-  hasSelect: true
+  hasSelect: true,
 };
 ListWidget.contextTypes = {
-  resolveProps: PropTypes.func
+  resolveProps: PropTypes.func,
 };
 
 export default compose(dependency)(ListWidget);

@@ -8,7 +8,7 @@ class N2OPopover extends React.Component {
     super(props);
 
     this.state = {
-      showPopover: false
+      showPopover: false,
     };
     this.fieldId = id();
     this.onToggle = this.onToggle.bind(this);
@@ -16,7 +16,7 @@ class N2OPopover extends React.Component {
 
   onToggle() {
     this.setState({
-      showPopover: !this.state.showPopover
+      showPopover: !this.state.showPopover,
     });
   }
 
@@ -43,12 +43,12 @@ class N2OPopover extends React.Component {
 }
 
 N2OPopover.propTypes = {
-  help: PropTypes.oneOf(PropTypes.string, PropTypes.node)
+  help: PropTypes.oneOf(PropTypes.string, PropTypes.node),
 };
 
 N2OPopover.defaultProps = {
   placement: 'right',
-  icon: 'fa fa-question-circle'
+  icon: 'fa fa-question-circle',
 };
 
 export default N2OPopover;

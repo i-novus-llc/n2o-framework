@@ -10,5 +10,5 @@ export default {
   dummyImpl: dummyImpl,
   exportTable: exportTable,
   perform,
-  link
+  link,
 };

@@ -7,12 +7,12 @@ function BlankFieldset({ render, rows }) {
 
 BlankFieldset.propTypes = {
   rows: PropTypes.array,
-  render: PropTypes.func
+  render: PropTypes.func,
 };
 
 BlankFieldset.defaultProps = {
   rows: [],
-  render: () => {}
+  render: () => {},
 };
 
 export default BlankFieldset;

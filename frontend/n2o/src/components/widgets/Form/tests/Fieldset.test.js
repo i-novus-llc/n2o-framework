@@ -8,15 +8,15 @@ import {
   ENABLE_FIELDS,
   DISABLE_FIELDS,
   SHOW_FIELDS,
-  HIDE_FIELDS
+  HIDE_FIELDS,
 } from '../../../../constants/formPlugin';
 
 const mockStore = configureMockStore();
 
 const defaultStateObj = {
   models: {
-    resolve: {}
-  }
+    resolve: {},
+  },
 };
 
 const setup = (storeObj, propOverrides = {}) => {
@@ -26,7 +26,7 @@ const setup = (storeObj, propOverrides = {}) => {
       component: StandardFieldset,
       visible: '`id == 2`',
       enabled: '`id == 3`',
-      rows: []
+      rows: [],
     },
     propOverrides
   );
@@ -42,7 +42,7 @@ const setup = (storeObj, propOverrides = {}) => {
   return {
     props,
     wrapper,
-    store
+    store,
   };
 };
 

@@ -28,7 +28,7 @@ class List extends React.Component {
     super(props);
 
     this.state = {
-      activeIds: List.defaultOpenedId(props.children)
+      activeIds: List.defaultOpenedId(props.children),
     };
 
     this.handleChangeActive = this.handleChangeActive.bind(this);
@@ -47,7 +47,7 @@ class List extends React.Component {
       oldIds = oldIds.concat(id);
     }
     this.setState({
-      activeIds: oldIds
+      activeIds: oldIds,
     });
   }
 
@@ -70,7 +70,7 @@ class List extends React.Component {
     const { activeIds } = this.state;
     return {
       active: _.includes(activeIds, child.props.id),
-      onClick: this.handleChangeActive
+      onClick: this.handleChangeActive,
     };
   }
 
@@ -90,7 +90,7 @@ List.propTypes = {
   className: PropTypes.string,
   animation: PropTypes.bool,
   onSelect: PropTypes.func,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default List;

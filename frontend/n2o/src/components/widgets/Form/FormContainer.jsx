@@ -5,7 +5,7 @@ import {
   onlyUpdateForKeys,
   withState,
   lifecycle,
-  withPropsOnChange
+  withPropsOnChange,
 } from 'recompose';
 import { isEmpty, isEqual } from 'lodash';
 import merge from 'deepmerge';
@@ -32,15 +32,16 @@ export const withWidgetContainer = widgetContainer(
         resolveModel: props.resolveModel,
         activeModel: props.activeModel,
         validation: props.validation,
-        modelPrefix: props.modelPrefix
+        modelPrefix: props.modelPrefix,
+        prompt: props.prompt,
       };
-    }
+    },
   },
   FORM
 );
 
 export const mapStateToProps = createStructuredSelector({
-  reduxFormValues: (state, props) => getFormValues(props.form)(state) || {}
+  reduxFormValues: (state, props) => getFormValues(props.form)(state) || {},
 });
 
 export const withLiveCycleMethods = lifecycle({
@@ -50,7 +51,7 @@ export const withLiveCycleMethods = lifecycle({
       activeModel,
       defaultValues,
       reduxFormValues,
-      setDefaultValues
+      setDefaultValues,
     } = this.props;
     if (
       !isEqual(prevProps.activeModel, activeModel) &&
@@ -58,10 +59,13 @@ export const withLiveCycleMethods = lifecycle({
       !isEqual(activeModel, reduxFormValues)
     ) {
       setDefaultValues(activeModel);
-    } else if (!isEmpty(defaultValues) && !isEqual(prevProps.datasource, datasource)) {
+    } else if (
+      !isEmpty(defaultValues) &&
+      !isEqual(prevProps.datasource, datasource)
+    ) {
       setDefaultValues(null);
     }
-  }
+  },
 });
 
 export const withPropsOnChangeWidget = withPropsOnChange(
@@ -75,7 +79,7 @@ export const withPropsOnChangeWidget = withPropsOnChange(
     return {
       initialValues: props.defaultValues
         ? props.defaultValues
-        : merge(props.resolveModel || {}, props.datasource || {})
+        : merge(props.resolveModel || {}, props.datasource || {}),
     };
   }
 );
@@ -95,7 +99,7 @@ export const withWidgetHandlers = withHandlers({
     } else if (!isEqual(props.reduxFormValues, prevValues)) {
       props.onSetModel(values);
     }
-  }
+  },
 });
 
 /**
@@ -104,7 +108,12 @@ export const withWidgetHandlers = withHandlers({
 
 export default compose(
   withWidgetContainer,
-  withProps(props => ({ form: props.widgetId })),
+  withProps(props => {
+    return {
+      form: props.widgetId,
+      prompt: props.prompt,
+    };
+  }),
   connect(mapStateToProps),
   withState('defaultValues', 'setDefaultValues', null),
   withLiveCycleMethods,

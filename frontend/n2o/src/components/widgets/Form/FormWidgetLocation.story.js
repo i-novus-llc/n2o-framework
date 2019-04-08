@@ -24,10 +24,10 @@ stories.add('Расположение полей', () => {
                   label: 'Имя',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
+                    readOnly: false,
+                  },
+                },
+              ],
             },
             {
               size: 6,
@@ -38,12 +38,12 @@ stories.add('Расположение полей', () => {
                   label: 'Фамилия',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
-            }
-          ]
+                    readOnly: false,
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           cols: [
@@ -56,10 +56,10 @@ stories.add('Расположение полей', () => {
                   label: 'Отчество',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
+                    readOnly: false,
+                  },
+                },
+              ],
             },
             {
               size: 4,
@@ -70,12 +70,12 @@ stories.add('Расположение полей', () => {
                   label: 'Должность',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
-            }
-          ]
+                    readOnly: false,
+                  },
+                },
+              ],
+            },
+          ],
         },
         {
           cols: [
@@ -88,10 +88,10 @@ stories.add('Расположение полей', () => {
                   label: 'Возраст',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
+                    readOnly: false,
+                  },
+                },
+              ],
             },
             {
               size: 3,
@@ -102,10 +102,10 @@ stories.add('Расположение полей', () => {
                   label: 'Вес',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
+                    readOnly: false,
+                  },
+                },
+              ],
             },
             {
               size: 3,
@@ -116,10 +116,10 @@ stories.add('Расположение полей', () => {
                   label: 'Рост',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
+                    readOnly: false,
+                  },
+                },
+              ],
             },
             {
               size: 3,
@@ -130,19 +130,19 @@ stories.add('Расположение полей', () => {
                   label: 'Адрес',
                   control: {
                     src: 'Input',
-                    readOnly: false
-                  }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+                    readOnly: false,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   const form = {
-    fieldsets: fieldSets
+    fieldsets: fieldSets,
   };
 
   return (

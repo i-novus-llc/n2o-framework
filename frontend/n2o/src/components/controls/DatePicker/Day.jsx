@@ -35,7 +35,7 @@ class Day extends React.Component {
    */
   componentWillReceiveProps(props) {
     this.setState({
-      current: props.day.isSame(moment(), 'day')
+      current: props.day.isSame(moment(), 'day'),
     });
   }
 
@@ -50,7 +50,10 @@ class Day extends React.Component {
     const om = otherMonth ? 'other-month' : '';
     const cur = current ? 'current' : '';
     return (
-      <td className={`n2o-calendar-day ${dis} ${sel} ${om} ${cur}`} onMouseDown={this.onClick}>
+      <td
+        className={`n2o-calendar-day ${dis} ${sel} ${om} ${cur}`}
+        onMouseDown={this.onClick}
+      >
         {day.format('D')}
       </td>
     );
@@ -60,7 +63,7 @@ class Day extends React.Component {
 Day.defaultProps = {
   disabled: false,
   selected: false,
-  className: ''
+  className: '',
 };
 
 Day.propTypes = {
@@ -71,7 +74,7 @@ Day.propTypes = {
   inputName: PropTypes.string,
   current: PropTypes.string,
   select: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default Day;

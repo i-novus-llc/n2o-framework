@@ -44,6 +44,18 @@ const makePageMetadataByIdSelector = pageId =>
   );
 
 /**
+ * Селектор-генератор для получения виджетов страницы по ID
+ * @param pageId
+ */
+const makePageWidgetsByIdSelector = pageId =>
+  createSelector(
+    makePageMetadataByIdSelector(pageId),
+    metadata => {
+      return metadata && metadata.widgets;
+    }
+  );
+
+/**
  * Селектор-генератор для получения статуса загрузки по ID
  * @param pageId
  */
@@ -136,5 +148,6 @@ export {
   makePageToolbarByIdSelector,
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
-  makePageDisabledByIdSelector
+  makePageDisabledByIdSelector,
+  makePageWidgetsByIdSelector,
 };

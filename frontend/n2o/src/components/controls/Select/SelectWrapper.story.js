@@ -25,22 +25,22 @@ stories.add(
       disabled: boolean('disabled', SelectJson.disabled),
       autoFocus: boolean('autoFocus', SelectJson.autoFocus),
       required: boolean('required', SelectJson.required),
-      dataProvider: SelectJson.dataProvider
+      dataProvider: SelectJson.dataProvider,
     };
 
     const list = [
       {
         id: '1',
-        label: 'Alex'
+        label: 'Alex',
       },
       {
         id: '2',
-        label: 'lex'
+        label: 'lex',
       },
       {
         id: '3',
-        label: 'ex'
-      }
+        label: 'ex',
+      },
     ];
 
     fetchMock.restore().get('begin:n2o/data', { list });

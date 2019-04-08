@@ -27,18 +27,30 @@ class TableCell extends React.Component {
   }
 
   render() {
-    const { className, style, component, colSpan, children, model } = this.props;
+    const {
+      className,
+      style,
+      component,
+      colSpan,
+      children,
+      model,
+    } = this.props;
     const ElementType = getElementType(TableCell, this.props);
     if (React.Children.count(children)) {
       return (
-        <ElementType className={className} colSpan={colSpan} model={model} style={style}>
+        <ElementType
+          className={className}
+          colSpan={colSpan}
+          model={model}
+          style={style}
+        >
           {children}
         </ElementType>
       );
     }
     const tableCellBody = React.createElement(component, {
       ...this.getPassProps(),
-      model
+      model,
     });
     return (
       <ElementType className={className} colSpan={colSpan} style={style}>
@@ -57,11 +69,11 @@ TableCell.propTypes = {
   component: PropTypes.element,
   as: PropTypes.string,
   model: PropTypes.object,
-  colSpan: PropTypes.number
+  colSpan: PropTypes.number,
 };
 
 TableCell.defaultProps = {
-  as: 'td'
+  as: 'td',
 };
 
 export default TableCell;

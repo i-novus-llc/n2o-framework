@@ -7,17 +7,13 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionOptions;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
-
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -35,6 +31,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         if (context instanceof ModalPageContext) {
             CloseAction closeAction = new CloseAction();
+            closeAction.setPrompt(source.getPrompt());
             compileAction(closeAction, source, p);
             closeAction.getOptions().setType(p.resolve(property("n2o.api.action.close.type"), String.class));
             closeAction.getOptions().setMeta(initMeta(closeAction, source, context, p));

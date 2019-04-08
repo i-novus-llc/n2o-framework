@@ -28,7 +28,10 @@ class PanelMenu extends React.Component {
               className="fullscreen-toggle"
               isToolBar={true}
             >
-              <i className={`fa fa-${this.props.fullScreenIcon}`} aria-hidden={true} />
+              <i
+                className={`fa fa-${this.props.fullScreenIcon}`}
+                aria-hidden={true}
+              />
             </PanelNavItem>
           )}
         </TabNav>
@@ -41,11 +44,11 @@ PanelMenu.propTypes = {
   fullScreen: PropTypes.bool,
   onFullScreenClick: PropTypes.func,
   fullScreenIcon: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 PanelMenu.defaultProps = {
-  fullScreen: false
+  fullScreen: false,
 };
 
 export default PanelMenu;

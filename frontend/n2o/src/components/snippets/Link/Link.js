@@ -38,7 +38,7 @@ class Link extends React.Component {
     } else {
       history.push({
         pathname: event.currentTarget.pathname,
-        search: event.currentTarget.search
+        search: event.currentTarget.search,
       });
     }
   }
@@ -60,7 +60,7 @@ class Link extends React.Component {
 
 Link.propTypes = {
   to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default Link;

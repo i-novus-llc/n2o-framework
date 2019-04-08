@@ -24,7 +24,7 @@ class WireframeWidget extends React.Component {
   getWidgetProps() {
     return {
       id: this.props.widgetId,
-      ...this.props.wireframe
+      ...this.props.wireframe,
     };
   }
 
@@ -46,7 +46,7 @@ class WireframeWidget extends React.Component {
 }
 
 WireframeWidget.defaultProps = {
-  toolbar: {}
+  toolbar: {},
 };
 
 WireframeWidget.propTypes = {
@@ -55,7 +55,7 @@ WireframeWidget.propTypes = {
   fetchOnInit: PropTypes.bool,
   widgetId: PropTypes.string,
   toolbar: PropTypes.object,
-  actions: PropTypes.object
+  actions: PropTypes.object,
 };
 
 export default dependency(WireframeWidget);

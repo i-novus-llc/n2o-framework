@@ -13,7 +13,7 @@ fetchMock
       list: [{ id: 1, name: 'test1' }, { id: 2, name: 'test2' }],
       count: 2,
       size: 30,
-      page: 1
+      page: 1,
     };
   })
   .get('begin:n2o/data/getFiltered?type_eq=2', () => {
@@ -21,7 +21,7 @@ fetchMock
       list: [{ id: 3, name: 'test3' }, { id: 4, name: 'test4' }],
       count: 2,
       size: 30,
-      page: 1
+      page: 1,
     };
   })
   .get('begin:n2o/data/getFiltered?type_eq=0', () => {
@@ -33,16 +33,18 @@ fetchMock
         { id: 1, name: 'test1222' },
         { id: 2, name: 'test2' },
         { id: 3, name: 'test3' },
-        { id: 4, name: 'test4' }
+        { id: 4, name: 'test4' },
       ],
       count: 4,
       size: 30,
-      page: 1
+      page: 1,
     };
   });
 
 const stories = storiesOf('Виджеты/Форма', module);
-const renderForm = json => <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />;
+const renderForm = json => (
+  <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />
+);
 
 stories.add('Фильтрация списковых полей', () =>
   withPage(Form, 'Page_Form')(() => renderForm(Form))

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   makeWidgetVisibleSelector,
   makeWidgetEnabledSelector,
-  makeWidgetIsInitSelector
+  makeWidgetIsInitSelector,
 } from '../selectors/widgets';
 import { registerDependency } from '../actions/dependency';
 
@@ -33,7 +33,11 @@ const dependency = WrappedComponent => {
       const style = { display: !isVisible ? 'none' : 'block' };
       return (
         <div style={style}>
-          <WrappedComponent {...this.props} disabled={!isEnabled} visible={isVisible} />
+          <WrappedComponent
+            {...this.props}
+            disabled={!isEnabled}
+            visible={isVisible}
+          />
         </div>
       );
     }
@@ -43,13 +47,13 @@ const dependency = WrappedComponent => {
     isInit: PropTypes.bool,
     isVisible: PropTypes.bool,
     isEnabled: PropTypes.bool,
-    models: PropTypes.object
+    models: PropTypes.object,
   };
 
   UniversalDependency.defaultProps = {
     isInit: false,
     isVisible: true,
-    isEnabled: true
+    isEnabled: true,
   };
 
   const mapStateToProps = (state, props) => {
@@ -57,14 +61,15 @@ const dependency = WrappedComponent => {
     return {
       isInit: makeWidgetIsInitSelector(props.id)(state, props),
       isVisible: makeWidgetVisibleSelector(props.id)(state, props),
-      isEnabled: makeWidgetEnabledSelector(props.id)(state, props)
+      isEnabled: makeWidgetEnabledSelector(props.id)(state, props),
     };
   };
 
   const mapDispatchToProps = (dispatch, ownProps) => {
     const { id: widgetId } = ownProps;
     return {
-      registerDependency: dependency => dispatch(registerDependency(widgetId, dependency))
+      registerDependency: dependency =>
+        dispatch(registerDependency(widgetId, dependency)),
     };
   };
 

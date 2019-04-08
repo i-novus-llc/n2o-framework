@@ -14,40 +14,40 @@ stories.add('Штриховка', () => {
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'С штриховкой'
+        label: 'С штриховкой',
       },
       {
         id: 'header',
         component: TextTableHeader,
-        label: 'Без штриховки'
-      }
+        label: 'Без штриховки',
+      },
     ],
     cells: [
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55
+          now: 55,
         },
         color: progressBarStyles.DEFAULT,
-        striped: true
+        striped: true,
       },
       {
         component: ProgressBarCell,
         id: 'now',
         model: {
-          now: 55
+          now: 55,
         },
         color: progressBarStyles.DEFAULT,
-        striped: false
-      }
+        striped: false,
+      },
     ],
     datasource: [
       {
         id: 'now',
-        now: 55
-      }
-    ]
+        now: 55,
+      },
+    ],
   };
 
   return (

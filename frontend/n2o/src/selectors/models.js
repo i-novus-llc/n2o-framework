@@ -46,7 +46,11 @@ const getModelSelector = modelLink => state => {
 
 const getModelsByDependency = dependency => state => {
   return (
-    dependency && dependency.map(config => ({ model: getModelSelector(config.on)(state), config }))
+    dependency &&
+    dependency.map(config => ({
+      model: getModelSelector(config.on)(state),
+      config,
+    }))
   );
 };
 
@@ -111,5 +115,5 @@ export {
   makeGetResolveModelSelector,
   makeGetFilterModelSelector,
   getModelSelector,
-  getModelsByDependency
+  getModelsByDependency,
 };

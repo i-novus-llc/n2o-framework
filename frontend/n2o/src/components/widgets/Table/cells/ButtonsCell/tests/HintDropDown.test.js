@@ -7,7 +7,7 @@ const setup = (propOverrides = {}) => {
   const props = Object.assign(
     {
       visible: true,
-      disabled: false
+      disabled: false,
     },
     propOverrides
   );
@@ -16,7 +16,7 @@ const setup = (propOverrides = {}) => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -63,9 +63,9 @@ describe('<HintDropDown />', () => {
     const { wrapper } = setup({
       menu: [
         {
-          title: 'test'
-        }
-      ]
+          title: 'test',
+        },
+      ],
     });
     expect(wrapper.find('button.dropdown-item').exists()).toBeTruthy();
   });
@@ -76,9 +76,9 @@ describe('<HintDropDown />', () => {
       menu: [
         {
           title: 'test',
-          action: 'test-action'
-        }
-      ]
+          action: 'test-action',
+        },
+      ],
     });
 
     wrapper

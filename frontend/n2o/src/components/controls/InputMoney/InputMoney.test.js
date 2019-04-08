@@ -19,7 +19,7 @@ describe('Проверка компонента InputMoney', () => {
       prefix: '# ',
       includeThousandsSeparator: true,
       thousandsSeparatorSymbol: ' ',
-      decimalSymbol: ','
+      decimalSymbol: ',',
     });
     expect(wrapper.instance().convertToFloat('# 1 234,55')).toEqual('1234.55');
   });

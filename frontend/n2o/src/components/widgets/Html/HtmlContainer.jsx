@@ -8,9 +8,9 @@ export default widgetContainer(
       return {
         widgetId: props.widgetId,
         html: props.html,
-        url: props.url
+        url: props.url,
       };
-    }
+    },
   },
   HTML
 )(Html);
