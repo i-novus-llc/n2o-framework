@@ -217,7 +217,12 @@
                 <xs:sequence>
                     <xs:element name="content" type="contentDefinition" maxOccurs="1" minOccurs="0">
                         <xs:annotation>
-                            <xs:documentation>Столбцы таблицы.</xs:documentation>
+                            <xs:documentation>Столбцы списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pagination" type="paginationDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Паджинация.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
@@ -230,7 +235,8 @@
             <xs:documentation>Содержимое элемента списка.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="image" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="left-top" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="left-bottom" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="header" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="body" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="sub-header" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>

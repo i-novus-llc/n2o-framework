@@ -3,23 +3,30 @@ package net.n2oapp.framework.api.metadata.global.view.widget.list;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 
 @Getter
 @Setter
 public class N2oListWidget extends N2oWidget {
     private ContentElement[] content;
+    private N2oPagination pagination;
 
-    @Getter
-    @Setter
     public static abstract class ContentElement extends N2oSimpleColumn {
         public abstract String getPlace();
     }
 
-    public static class Image extends ContentElement {
+    public static class LeftTop extends ContentElement {
         @Override
         public String getPlace() {
-            return "image";
+            return "leftTop";
+        }
+    }
+
+    public static class LeftBottom extends ContentElement {
+        @Override
+        public String getPlace() {
+            return "leftBottom";
         }
     }
 

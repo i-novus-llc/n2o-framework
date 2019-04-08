@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" id="test" class="n2o" query-id="testTable"
+      size="10">
+    <pagination prev="true" next="true"/>
+    <content>
+        <left-top id="leftTop">
+            <image class="list-image"/>
+        </left-top>
+        <left-bottom id="leftBottom">
+            <text/>
+        </left-bottom>
+        <header id="header">
+            <text/>
+        </header>
+        <body id="body">
+            <text visible="true"/>
+        </body>
+        <sub-header id="subHeader">
+            <badge/>
+        </sub-header>
+        <right-top id="rightTop">
+            <icon visible="true" icon="fa fa-comment"/>
+        </right-top>
+        <right-bottom id="rightBottom">
+            <text visible="true"/>
+        </right-bottom>
+        <extra id="extra">
+            <toolbar>
+                <button id="1" label="" icon="fa fa-plus" widget-id="test" description="Make a cat clever"/>
+                <button id="2" label="" icon="fa fa-trash" widget-id="test" description="Delete"/>
+            </toolbar>
+        </extra>
+    </content>
+</list>

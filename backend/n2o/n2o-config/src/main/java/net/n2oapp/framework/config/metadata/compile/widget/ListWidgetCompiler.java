@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,13 @@ public class ListWidgetCompiler extends BaseWidgetCompiler<ListWidget, N2oListWi
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
         compileList(source, listWidget, context, widgetActions, p);
+        Boolean prev = null;
+        Boolean next = null;
+        if (source.getPagination() != null) {
+            prev = source.getPagination().getPrev();
+            next = source.getPagination().getNext();
+        }
+        listWidget.setPaging(createPaging(source.getSize(), prev, next, "n2o.api.default.widget.list.size", p));
         return listWidget;
     }
 
@@ -53,7 +61,7 @@ public class ListWidgetCompiler extends BaseWidgetCompiler<ListWidget, N2oListWi
 
         Map<String, N2oAbstractCell> list = new HashMap<>();
         for (N2oListWidget.ContentElement element : source.getContent()) {
-            list.put(element.getPlace(), p.compile(element.getCell(), context, new ComponentScope(element), actions));
+            list.put(element.getPlace(), p.compile(element.getCell(), context, new ComponentScope(element), actions, new IndexScope()));
         }
         compiled.setList(list);
     }

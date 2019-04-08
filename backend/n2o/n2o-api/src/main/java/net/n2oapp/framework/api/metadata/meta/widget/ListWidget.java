@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 
 import java.util.Map;
 
@@ -12,4 +13,6 @@ import java.util.Map;
 public class ListWidget extends Widget {
     @JsonProperty
     private Map<String, N2oAbstractCell> list;
+    @JsonProperty
+    private Pagination paging;
 }
