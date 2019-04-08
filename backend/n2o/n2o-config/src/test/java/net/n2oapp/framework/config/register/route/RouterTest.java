@@ -119,4 +119,26 @@ public class RouterTest {
         } catch (RouteNotFoundException ignore) {
         }
     }
+
+    @Test
+    public void get_repair3() {
+        N2oRouteRegister register = new N2oRouteRegister();
+        register.addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
+        MockBindPipeline pipeline = new MockBindPipeline(register);
+        N2oRouter router = new N2oRouter(register, pipeline);
+        pipeline.mock("p", (r) -> {
+            r.addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        });
+        pipeline.mock("pw", (r) -> {
+            r.addRoute("/p/w/:id", new MockCompileContext<>("/p/w/:id", "pw", null, CompiledQuery.class));
+            r.addRoute("/p/w/:id/a", new MockCompileContext<>("/p/w/:id/a", "pwa", null, Page.class));
+        });
+        CompileContext<Page, ?> res;
+
+        res = router.get("/p/w/123/a", Page.class);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pwa"));
+
+
+    }
 }

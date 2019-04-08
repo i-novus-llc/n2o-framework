@@ -93,9 +93,10 @@ public class N2oRouter implements MetadataRouter {
             CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
             if (result == null) {
                 tryToFindDeep(subUrl);
-            } else {
-                pipeline.get(result); //warm up
+                result = findRoute(subUrl, Page.class);
             }
+            if (result != null)
+                pipeline.get(result); //warm up
         }
     }
 
