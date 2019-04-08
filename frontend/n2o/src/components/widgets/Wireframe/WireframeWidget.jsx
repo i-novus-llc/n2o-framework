@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { values } from 'lodash';
-import StandardWidgetLayout from '../../layouts/StandardWidgetLayout/StandardWidgetLayout';
-
-import Section from '../../layouts/Section';
-import Alerts from '../../snippets/Alerts/Alerts';
-import Actions from '../../actions/Actions';
 import dependency from '../../../core/dependency';
 import StandardWidget from '../StandardWidget';
 import WireframeContainer from './WireframeContainer';

@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oText;
 import net.n2oapp.framework.api.metadata.meta.control.Text;
-import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class TextCompiler extends ComponentCompiler<Text, N2oText> {
+public class TextCompiler extends FieldCompiler<Text, N2oText> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -26,7 +25,7 @@ public class TextCompiler extends ComponentCompiler<Text, N2oText> {
         text.setText(p.resolveJS(source.getText()));
         text.setFormat(source.getFormat());
 
-        compileComponent(text, source, context, p);
+        compileField(text, source, context, p);
 
         return text;
     }

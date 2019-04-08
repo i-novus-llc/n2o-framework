@@ -18,4 +18,6 @@ public class AlertSaga implements Compiled {
     private String alertKey;
     @JsonProperty
     private List<ResponseMessage> messages;
+    @JsonProperty
+    private Boolean stacked;
 }
