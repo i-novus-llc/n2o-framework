@@ -58,6 +58,6 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
         assertThat(page.getRoutes().getList().get(1).getPath(), is("/test/route/main"));
         assertThat(page.getRoutes().getList().get(2).getPath(), is("/test/route/main/:test_route_main_id"));
-        assertThat(routeContext("/test/route", Page.class), notNullValue());
+        assertThat(route("/test/route", Page.class), notNullValue());
     }
 }

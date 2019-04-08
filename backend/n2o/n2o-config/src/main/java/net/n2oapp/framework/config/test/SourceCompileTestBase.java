@@ -40,18 +40,18 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
         return N2oPipelineSupport.bindPipeline(builder.getEnvironment()).bind();
     }
 
-    public <D extends Compiled> CompileContext<D, ?> routeContext(String url, Class<D> compiledClass) {
+    public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass) {
         return builder.route(url, compiledClass);
     }
 
-    public <D extends Compiled> D route(String url, Class<D> compiledClass) {
+    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass) {
         CompileContext<D, ?> context = builder.route(url, compiledClass);
         return read().compile().bind().get(context, context.getParams(url, null));
     }
 
-    public <D extends Compiled> D route(String url, Class<D> compiledClass, DataSet data) {
+    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass, DataSet data) {
         CompileContext<D, ?> context = builder.route(url, compiledClass);
-        context.getParams(url, null).forEach((k, v) -> data.put(k, v));
+        context.getParams(url, null).forEach(data::put);
         return read().compile().bind().get(context, data);
     }
 }

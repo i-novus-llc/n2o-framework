@@ -59,7 +59,7 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link3.getOptions().getPath(), is("http://google.com"));
         assertThat(link3.getOptions().getTarget(), is(Target.self));
 
-        PageContext modalContext = (PageContext) routeContext("/page/widget/123/id4", Page.class);
+        PageContext modalContext = (PageContext) route("/page/widget/123/id4", Page.class);
         Page modalPage = read().compile().get(modalContext);
         link1 = (LinkAction)modalPage.getWidgets().get("page_widget_id4_test").getActions().get("id1");
         assertThat(link1.getOptions().getPath(), is("/page/widget/:page_test_id/id4/widget2/test"));
