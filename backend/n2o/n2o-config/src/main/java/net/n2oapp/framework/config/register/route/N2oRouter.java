@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.register.route;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
@@ -9,14 +10,13 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Поиск по URL подходящего контекста для компиляции метаданных.
  */
 public class N2oRouter implements MetadataRouter {
+    public static final String ROOT_ROUTE = "/";
     private RouteRegister register;
     private ReadCompileTerminalPipeline<?> pipeline;
     private final PathMatcher pathMatcher = new AntPathMatcher();
@@ -35,31 +35,35 @@ public class N2oRouter implements MetadataRouter {
      */
     public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass) {
         url = url != null ? url : "/";
-        List<CompileContext<D, ?>> infos = findRoutes(url, compiledClass);
-        if (infos != null) {
-            return infos.get(0);
+        CompileContext<D, ?> result = findRoute(url, compiledClass);
+        if (result != null) {
+            return result;
         }
 
-        tryToFindDeep(url, compiledClass);
+        tryToFindDeep(url);
 
-        infos = findRoutes(url, compiledClass);
-        if (infos == null)
+        result = findRoute(url, compiledClass);
+        if (result == null)
             throw new RouteNotFoundException(url);
-        return infos.get(0);
+        return result;
     }
 
+    /**
+     * Найти контексты сборки метаданных по адресу и классу
+     * @param url Адрес
+     * @param compiledClass Класс собранной метаданной
+     * @param <D> Тип метаданной
+     * @return Список найденных контекстов
+     */
     @SuppressWarnings("unchecked")
-    private <D extends Compiled> List<CompileContext<D, ?>> findRoutes(String url, Class compiledClass) {
-        List<CompileContext<D, ?>> infos = null;
+    private <D extends Compiled> CompileContext<D, ?> findRoute(String url, Class<D> compiledClass) {
         for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : register) {
             if (matchInfo(routeEntry.getKey(), url) &&
-                    (compiledClass == null || compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass()))) {
-                if (infos == null)
-                    infos = new ArrayList<>();
-                infos.add(routeEntry.getValue());
+                    compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass())) {
+                return routeEntry.getValue();
             }
         }
-        return infos;
+        return null;
     }
 
     /**
@@ -73,25 +77,24 @@ public class N2oRouter implements MetadataRouter {
         return pathMatcher.match(info.getUrlMatching(), urlMatching);
     }
 
-    private <D extends Compiled> void tryToFindDeep(String url, Class<D> compiledClass) {
+    /**
+     * Попытка найти маршрут собирая метаданные его родителей
+     * @param url Часть маршрута
+     */
+    private void tryToFindDeep(String url) {
         if (url.length() > 1) {
             String subUrl;
-            int idx = url.lastIndexOf("/");
+            int idx = url.lastIndexOf(ROOT_ROUTE);
             if (idx > 0)
                 subUrl = url.substring(0, idx);
             else
-                subUrl = "/";
+                subUrl = ROOT_ROUTE;
 
-            List<CompileContext<D, ?>> subInfo = findRoutes(subUrl, null);
-            if (subInfo == null) {
-                tryToFindDeep(subUrl, compiledClass);
-                subInfo = findRoutes(subUrl, compiledClass);
-            }
-            if (subInfo != null) {
-                subInfo.forEach(c -> pipeline.get(c)); //warm up
-            }
-            if (findRoutes(subUrl, compiledClass) == null) {
-                tryToFindDeep(subUrl, compiledClass);
+            CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
+            if (result == null) {
+                tryToFindDeep(subUrl);
+            } else {
+                pipeline.get(result); //warm up
             }
         }
     }

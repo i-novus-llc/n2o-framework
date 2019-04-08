@@ -88,4 +88,9 @@ public class RouteInfoKey implements Comparable<RouteInfoKey> {
         result = 31 * result + this.getCompiledClass().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return urlMatching + (compiledClass != null ? "[" + compiledClass.getSimpleName() + "]" : "");
+    }
 }
