@@ -9,6 +9,9 @@ import Actions from '../../actions/Actions';
 import Section from '../../layouts/Section';
 import Factory from '../../../core/factory/Factory';
 
+/**
+ * Дефолтная реализация страницы
+ */
 class DefaultPage extends Component {
   render() {
     const {
@@ -94,6 +97,21 @@ class DefaultPage extends Component {
   }
 }
 
-DefaultPage.propTypes = {};
+DefaultPage.contextTypes = {
+  defaultBreadcrumb: PropTypes.element,
+};
+
+DefaultPage.propTypes = {
+  metadata: PropTypes.object,
+  pageId: PropTypes.string,
+  error: PropTypes.object,
+  toolbar: PropTypes.object,
+  actions: PropTypes.object,
+  containerKey: PropTypes.string,
+};
+
+DefaultPage.defaultProps = {
+  rootPage: false,
+};
 
 export default DefaultPage;

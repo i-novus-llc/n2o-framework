@@ -113,7 +113,6 @@ class PageContainer extends React.Component {
 }
 
 PageContainer.contextTypes = {
-  defaultBreadcrumb: PropTypes.element,
   defaultPage: PropTypes.string,
 };
 
