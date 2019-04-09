@@ -1,12 +1,5 @@
-import {
-  call,
-  put,
-  select,
-  takeEvery,
-  throttle,
-  takeLatest,
-} from 'redux-saga/effects';
-import { getFormValues } from 'redux-form';
+import { call, put, select, throttle } from 'redux-saga/effects';
+import { getFormValues, initialize } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
 import { isFunction } from 'lodash';
 import merge from 'deepmerge';
@@ -130,8 +123,10 @@ export function* handleInvoke(action) {
       model = yield select(getModelSelector(modelLink));
     }
     const response = yield call(fetchInvoke, dataProvider, model);
-    const meta = merge(action.meta.success || {}, response.meta || {});
 
+    yield put(initialize(widgetId, response.data, false, false));
+
+    const meta = merge(action.meta.success || {}, response.meta || {});
     if (!meta.redirect && !meta.closeLastModal) {
       yield put(setModel(PREFIXES.resolve, widgetId, response.data));
     }

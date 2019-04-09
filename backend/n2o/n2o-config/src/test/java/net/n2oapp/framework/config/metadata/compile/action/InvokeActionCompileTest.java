@@ -80,14 +80,14 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(dataProvider.getQueryMapping(), nullValue());
         assertThat(dataProvider.getPathMapping(), notNullValue());
         assertThat(dataProvider.getPathMapping().get("w_id"), notNullValue());
-        assertThat(route("/w/:w_id/menuItem0").getContext(CompiledObject.class), notNullValue());
+        assertThat(route("/w/:w_id/menuItem0", CompiledObject.class), notNullValue());
     }
 
     @Test
     public void validations() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.widget.xml")
                 .get(new WidgetContext("testRegisterActionContext"));
-        ActionContext context = (ActionContext) route("/:testRegisterActionContext_id/test").getContext(CompiledObject.class);
+        ActionContext context = (ActionContext) route("/:testRegisterActionContext_id/test", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
         assertThat(context.getValidations().size(), is(3));
@@ -96,7 +96,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(context.getValidations().get(2), instanceOf(ConstraintValidation.class));
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContextForPageAction.page.xml")
                 .get(new PageContext("testRegisterActionContextForPageAction", "/route"));
-        context = (ActionContext) route("/route/test").getContext(CompiledObject.class);
+        context = (ActionContext) route("/route/test", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
         assertThat(context.getValidations().size(), is(3));
