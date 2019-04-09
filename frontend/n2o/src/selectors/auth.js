@@ -19,6 +19,7 @@ export const isLoggedInSelector = createSelector(
 /**
  *
  */
-export const userSelector = createSelector(authSelector, user =>
-  omit(user, ['isLoggedIn'])
+export const userSelector = createSelector(
+  authSelector,
+  user => omit(user, ['isLoggedIn'])
 );

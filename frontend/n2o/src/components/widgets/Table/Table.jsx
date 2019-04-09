@@ -111,8 +111,8 @@ class Table extends React.Component {
       focusIndex: props.autoFocus
         ? getIndex(props.datasource, props.selectedId)
         : props.hasFocus
-          ? 0
-          : -1,
+        ? 0
+        : -1,
       selectIndex: props.hasSelect
         ? getIndex(props.datasource, props.selectedId)
         : -1,
