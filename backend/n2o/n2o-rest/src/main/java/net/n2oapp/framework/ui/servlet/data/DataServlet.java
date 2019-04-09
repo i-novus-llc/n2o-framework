@@ -37,6 +37,7 @@ public class DataServlet extends N2oServlet {
         GetDataResponse result = controller.getData(req.getPathInfo(),
                 req.getParameterMap(),
                 (UserContext) req.getAttribute(USER));
+        res.setStatus(result.getStatus());
         res.setContentType("application/json");
         objectMapper.writeValue(res.getWriter(), result);
 
@@ -48,6 +49,7 @@ public class DataServlet extends N2oServlet {
                 req.getParameterMap(),
                 getRequestBody(req),
                 (UserContext) req.getAttribute(USER));
+        res.setStatus(result.getStatus());
         res.setContentType("application/json");
         objectMapper.writeValue(res.getWriter(), result);
     }
