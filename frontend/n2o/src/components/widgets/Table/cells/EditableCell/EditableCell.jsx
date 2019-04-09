@@ -1,9 +1,10 @@
 import React from 'react';
-import { compose, withProps } from 'recompose';
+import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 import { isEqual, get } from 'lodash';
-import withEditableActions from './withEditableActions';
 import Text from '../../../../snippets/Text/Text';
+import withActionsEditableCell from './withActionsEditableCell';
+import withCell from '../../withCell';
 
 /**
  * Компонент редактируемой ячейки таблицы
@@ -43,7 +44,25 @@ export class EditableCell extends React.Component {
   }
 
   toggleEdit() {
-    this.setState({ editing: !this.state.editing });
+    const {
+      model,
+      id,
+      prevResolveModel,
+      onResolve,
+      widgetId,
+      callInvoke,
+    } = this.props;
+    this.setState({ editing: !this.state.editing }, () => {
+      if (!isEqual(prevResolveModel, model)) {
+        onResolve(widgetId, model);
+      }
+      if (!this.state.editing) {
+        callInvoke({
+          ...model,
+          [id]: this.state.value,
+        });
+      }
+    });
   }
 
   render() {
@@ -92,4 +111,7 @@ EditableCell.defaultProps = {
   disabled: false,
 };
 
-export default compose(withEditableActions)(EditableCell);
+export default compose(
+  withActionsEditableCell,
+  withCell
+)(EditableCell);
