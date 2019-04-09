@@ -1,5 +1,5 @@
-import RegionAccordion from './RegionAccordion/RegionAccordion';
+import SelectRegion from "./SelectRegion/SelectRegion";
 
 export default {
-  RegionAccordion: RegionAccordion
+  SelectRegion
 };

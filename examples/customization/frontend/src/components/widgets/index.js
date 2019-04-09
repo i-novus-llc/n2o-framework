@@ -1,9 +1,5 @@
-import JumbotronWidget from './JumbotronWidget/JumbotronWidget';
-import InputCellWidgetExample from '../cells/InputCell/InputCellWidgetExample';
-import IconHeaderWidgetExample from '../headers/IconHeader/IconHeaderWidgetExample';
+import ToDoWidget from "./ToDo/ToDoWidget";
 
 export default {
-    JumbotronWidget: JumbotronWidget,
-    InputCellWidgetExample: InputCellWidgetExample,
-    IconHeaderWidgetExample: IconHeaderWidgetExample
+  ToDoWidget
 };
