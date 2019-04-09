@@ -45,7 +45,7 @@ public class ListWidgetCompiler extends BaseWidgetCompiler<ListWidget, N2oListWi
         widgetScope.setClientWidgetId(listWidget.getId());
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
-        compileList(source, listWidget, context, widgetActions, p);
+        compileList(source, listWidget, context, widgetActions, p, widgetScope, widgetRoute, widgetActions, object);
         Boolean prev = null;
         Boolean next = null;
         if (source.getPagination() != null) {
@@ -56,12 +56,17 @@ public class ListWidgetCompiler extends BaseWidgetCompiler<ListWidget, N2oListWi
         return listWidget;
     }
 
-    private void compileList(N2oListWidget source, ListWidget compiled, CompileContext<?, ?> context, MetaActions actions, CompileProcessor p) {
+    private void compileList(N2oListWidget source, ListWidget compiled, CompileContext<?, ?> context,
+                             MetaActions actions, CompileProcessor p, WidgetScope widgetScope,
+                             ParentRouteScope widgetRoute, MetaActions widgetActions, CompiledObject object) {
         if (source.getContent() == null) return;
 
         Map<String, N2oAbstractCell> list = new HashMap<>();
         for (N2oListWidget.ContentElement element : source.getContent()) {
-            list.put(element.getPlace(), p.compile(element.getCell(), context, new ComponentScope(element), actions, new IndexScope()));
+            list.put(element.getPlace(), p.compile(element.getCell(), context, new ComponentScope(element), actions, widgetScope,
+                    widgetRoute,
+                    widgetActions,
+                    object, new IndexScope()));
         }
         compiled.setList(list);
     }

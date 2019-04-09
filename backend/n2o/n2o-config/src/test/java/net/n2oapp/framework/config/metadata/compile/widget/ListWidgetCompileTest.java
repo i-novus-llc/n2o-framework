@@ -53,10 +53,8 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(listWidget.getList().get("rightBottom").getSrc(), is("IconCell"));
         assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));
 
-        assertThat(listWidget.getList().get("extra").getSrc(), is("custom"));
-
-
-        assertThat(((InvokeAction) listWidget.getActions().get("menuItem0")).getOperationId(), is("delete"));
+        assertThat(listWidget.getList().get("extra").getSrc(), is("ButtonsCell"));
+        assertThat(((InvokeAction) listWidget.getActions().get("menuItem0")).getOperationId(), is("create"));
         assertThat(((InvokeAction) listWidget.getActions().get("menuItem0")).getObjectId(), is("utBlank"));
         assertThat(listWidget.getActions().containsKey("rightTopId"), is(true));
     }
