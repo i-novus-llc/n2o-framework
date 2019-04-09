@@ -34,7 +34,7 @@
                     </column>
                     <column text-field-id="patrName">
                         <link visible="{name!='Мария'}"
-                              url="/patients/{id}/update2" target="application"/>
+                              url="/{id}/update2" target="application"/>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
                         <edit action-id="update_birthday" editable="true" format="date DD.MM.YYYY">
