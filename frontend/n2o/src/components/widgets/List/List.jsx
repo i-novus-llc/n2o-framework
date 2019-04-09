@@ -200,55 +200,57 @@ class List extends Component {
             Нет данных для отображения
           </div>
         )}
-        <div className="n2o-widget-list-container">
-          {maxHeight ? (
-            <AutoSizer style={{ height: '100%' }}>
-              {({ width }) => (
-                <Virtualizer
-                  ref={this._setVirtualizerRef}
-                  width={width}
-                  height={maxHeight}
-                  deferredMeasurementCache={this.cache}
-                  rowHeight={this.cache.rowHeight}
-                  rowRenderer={this.renderRow}
-                  rowCount={data.length}
-                  overscanRowCount={5}
-                />
-              )}
-            </AutoSizer>
-          ) : (
-            <WindowScroller
-              ref={this._setWindowScrollerRef}
-              scrollElement={window}
-            >
-              {({
-                height,
-                isScrolling,
-                registerChild,
-                onChildScroll,
-                scrollTop,
-              }) => (
-                <AutoSizer style={{ height: '100%' }}>
-                  {({ width }) => (
-                    <Virtualizer
-                      ref={this._setVirtualizerRef}
-                      autoHeight
-                      height={height}
-                      isScrolling={isScrolling}
-                      onScroll={onChildScroll}
-                      overscanRowCount={5}
-                      rowCount={data.length}
-                      rowHeight={this.cache.rowHeight}
-                      rowRenderer={this.renderRow}
-                      scrollTop={scrollTop}
-                      width={width}
-                    />
-                  )}
-                </AutoSizer>
-              )}
-            </WindowScroller>
-          )}
-        </div>
+        {data && !isEmpty(data) && (
+          <div className="n2o-widget-list-container">
+            {maxHeight ? (
+              <AutoSizer style={{ height: '100%' }}>
+                {({ width }) => (
+                  <Virtualizer
+                    ref={this._setVirtualizerRef}
+                    width={width}
+                    height={maxHeight}
+                    deferredMeasurementCache={this.cache}
+                    rowHeight={this.cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    rowCount={data.length}
+                    overscanRowCount={5}
+                  />
+                )}
+              </AutoSizer>
+            ) : (
+              <WindowScroller
+                ref={this._setWindowScrollerRef}
+                scrollElement={window}
+              >
+                {({
+                  height,
+                  isScrolling,
+                  registerChild,
+                  onChildScroll,
+                  scrollTop,
+                }) => (
+                  <AutoSizer style={{ height: '100%' }}>
+                    {({ width }) => (
+                      <Virtualizer
+                        ref={this._setVirtualizerRef}
+                        autoHeight
+                        height={height}
+                        isScrolling={isScrolling}
+                        onScroll={onChildScroll}
+                        overscanRowCount={5}
+                        rowCount={data.length}
+                        rowHeight={this.cache.rowHeight}
+                        rowRenderer={this.renderRow}
+                        scrollTop={scrollTop}
+                        width={width}
+                      />
+                    )}
+                  </AutoSizer>
+                )}
+              </WindowScroller>
+            )}
+          </div>
+        )}
       </div>
     );
   }
