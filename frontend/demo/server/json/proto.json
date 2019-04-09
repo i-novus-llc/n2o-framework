@@ -1329,6 +1329,9 @@
           "id": "typeId",
           "src": "TextCell"
         }
+      },
+      "paging": {
+        "size": 5
       }
     },
     "proto_form": {

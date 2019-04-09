@@ -2,9 +2,13 @@
 <list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <content>
 
-        <image id="test">
-            <image url="testUrl"/>
-        </image>
+        <left-top id="test">
+            <image url="testUrl1"/>
+        </left-top>
+
+        <left-bottom id="test2">
+            <image url="testUrl2"/>
+        </left-bottom>
 
         <header>
             <list label-field-id="test" color="color"/>

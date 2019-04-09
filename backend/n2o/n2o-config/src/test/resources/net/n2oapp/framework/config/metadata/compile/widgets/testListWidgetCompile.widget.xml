@@ -7,9 +7,9 @@
     </toolbar>
     <content>
 
-        <image id="test">
+        <left-top id="test">
             <image url="testUrl"/>
-        </image>
+        </left-top>
 
         <header id="test">
             <progress color="test"/>
