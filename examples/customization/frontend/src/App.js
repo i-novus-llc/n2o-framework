@@ -8,6 +8,7 @@ import controls from "./components/controls";
 import cells from "./components/cells";
 import fieldsets from "./components/fieldsets";
 import fields from "./components/fields";
+import PrintPage from './pages/PrintPage';
 
 const config = {
   layouts,
