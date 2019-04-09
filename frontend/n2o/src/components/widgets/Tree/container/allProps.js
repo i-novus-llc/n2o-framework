@@ -6,7 +6,7 @@ export const defaultProps = {
   datasource: [],
   parentIcon: '',
   childIcon: '',
-  multiselect: true,
+  multiselect: false,
   showLine: false,
   filter: '',
   expandBtn: true,
