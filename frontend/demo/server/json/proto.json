@@ -265,21 +265,6 @@
           "link": "widgets['proto_patients'].sorting.age"
         }
       },
-      "proto_contacts_type_id": {
-        "get": {
-          "type": "n2o/models/UPDATE",
-          "payload": {
-            "prefix": "filter",
-            "key": "proto_contacts",
-            "field": "type.id",
-            "value": ":proto_contacts_type_id"
-          }
-        },
-        "set": {
-          "value": "`type.id`",
-          "link": "models.filter['proto_contacts']"
-        }
-      },
       "sorting_contacts_value": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
@@ -1184,18 +1169,12 @@
       }
     },
     "proto_contacts": {
-      "src": "AdvancedTableWidget",
+      "src": "ListWidget",
       "dataProvider": {
         "url": "n2o/data/proto/:proto_patients_id/contacts",
         "pathMapping": {
           "proto_patients_id": {
             "link": "models.resolve['proto_patients'].id"
-          }
-        },
-        "queryMapping": {
-          "proto_contacts_type_id": {
-            "value": "`type.id`",
-            "link": "models.filter['proto_contacts']"
           }
         }
       },
@@ -1341,94 +1320,18 @@
           }
         ]
       },
+      "list": {
+        "body": {
+          "id": "value",
+          "src": "TextCell"
+        },
+        "header": {
+          "id": "typeId",
+          "src": "TextCell"
+        }
+      },
       "paging": {
-        "size": 10
-      },
-      "filter": {
-        "filterFieldsets": [
-          {
-            "src": "StandardFieldset",
-            "rows": [
-              {
-                "cols": [
-                  {
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "type",
-                        "label": "Тип контакта",
-                        "help": "Тип контакта",
-                        "dependency": [],
-                        "control": {
-                          "src": "InputSelect",
-                          "id": "type",
-                          "valueFieldId": "id",
-                          "labelFieldId": "name",
-                          "hasSearch": false,
-                          "data": [
-                            {
-                              "name": "Моб. телефон",
-                              "id": 2
-                            },
-                            {
-                              "name": "Эл. почт",
-                              "id": 4
-                            },
-                            {
-                              "name": "Факс",
-                              "id": 7
-                            }
-                          ],
-                          "multiSelect": false,
-                          "hasCheckboxes": false,
-                          "resetOnBlur": true
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "filterButtonId": "filter",
-        "blackResetList": [],
-        "filterPlace": "top",
-        "validation": {}
-      },
-      "table": {
-        "fetchOnInit": false,
-        "size": 10,
-        "autoFocus": true,
-        "hasFocus": true,
-        "cells": [
-          {
-            "id": "value",
-            "fieldKey": "value",
-            "src": "TextCell"
-          },
-          {
-            "id": "typeId",
-            "fieldKey": "typeId",
-            "src": "TextCell"
-          }
-        ],
-        "headers": [
-          {
-            "id": "value",
-            "label": "Значение",
-            "src": "TextTableHeader",
-            "sortable": true
-          },
-          {
-            "id": "typeId",
-            "label": "Тип",
-            "src": "TextTableHeader",
-            "sortable": false
-          }
-        ],
-        "sorting": {},
-        "hasSelect": true
+        "size": 5
       }
     },
     "proto_form": {
@@ -1581,9 +1484,6 @@
   "models": {
     "filter['proto_patients'].genders": {
       "link": "models.filter['proto_patients'].genders"
-    },
-    "filter['proto_contacts'].type": {
-      "link": "models.filter['proto_contacts'].type"
     }
   },
   "layout": {

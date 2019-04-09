@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+<list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="utBlank">
+    <toolbar>
+        <button>
+            <invoke operation-id="delete"/>
+        </button>
+    </toolbar>
     <content>
 
         <left-top id="test">
-            <image url="testUrl1"/>
+            <image url="testUrl"/>
         </left-top>
 
-        <left-bottom id="test2">
-            <image url="testUrl2"/>
-        </left-bottom>
-
-        <header>
-            <list label-field-id="test" color="color"/>
+        <header id="test">
+            <progress color="test"/>
         </header>
 
         <sub-header>
-            <checkbox/>
+            <checkbox enabled="{name!='Мария'}"/>
         </sub-header>
 
         <body>
-            <badge color="{1 == 2}"/>
+            <badge  visible="{1 == 2}"/>
         </body>
 
-        <right-top>
+        <right-top id="rightTopId">
             <link>
                 <a href="test"/>
             </link>
