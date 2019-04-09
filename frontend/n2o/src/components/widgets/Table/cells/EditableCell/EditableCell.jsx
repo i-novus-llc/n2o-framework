@@ -56,7 +56,10 @@ export class EditableCell extends React.Component {
       if (!isEqual(prevResolveModel, model)) {
         onResolve(widgetId, model);
       }
-      if (!this.state.editing) {
+      if (
+        !this.state.editing &&
+        !isEqual(prevResolveModel[id], this.state.value)
+      ) {
         callInvoke({
           ...model,
           [id]: this.state.value,
