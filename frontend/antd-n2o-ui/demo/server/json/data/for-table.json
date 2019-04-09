@@ -1,0 +1,227 @@
+{
+  "list":[
+    {
+      "id":5607677,
+      "surname":"Плюхина",
+      "name":"Лада",
+      "patrName":"Всеволодовна",
+      "fullName":"Плюхина Лада Всеволодовна",
+      "birthday":"01.01.1927 00:00:00",
+      "age":92,
+      "gender":{
+        "name":"Женский",
+        "id":2
+      },
+      "genderName":"Женский",
+      "vip":false,
+      "hasCitizenship":false,
+      "ethnicGroupName":"русские",
+      "socialGroupName":"Студент ВУЗа",
+      "nationality":{
+        "name":"Буряты",
+        "id":17
+      }
+    },
+    {
+      "id":5607770,
+      "surname":"Маркин",
+      "name":"Семен",
+      "patrName":"Демьянович",
+      "fullName":"Маркин Семен Демьянович",
+      "birthday":"25.03.1929 00:00:00",
+      "age":90,
+      "gender":{
+        "name":"Мужской",
+        "id":1
+      },
+      "genderName":"Мужской",
+      "vip":false,
+      "hasCitizenship":false,
+      "ethnicGroupName":"русские",
+      "socialGroupName":"Неработающий",
+      "nationality":{
+        "name":"Башкиры",
+        "id":14
+      }
+    },
+    {
+      "id":5607766,
+      "surname":"Пищикова",
+      "name":"Нина",
+      "patrName":"Никитевна",
+      "fullName":"Пищикова Нина Никитевна",
+      "birthday":"10.05.1929 00:00:00",
+      "age":89,
+      "gender":{
+        "name":"Женский",
+        "id":2
+      },
+      "genderName":"Женский",
+      "vip":true,
+      "hasCitizenship":true,
+      "ethnicGroupName":"русские",
+      "socialGroupName":"Дошкольник организованный",
+      "nationality":{
+        "name":"Тлибишинцы",
+        "id":5
+      }
+    },
+    {
+      "id":5607656,
+      "surname":"Сиянкин",
+      "name":"Мир",
+      "patrName":"Григориевич",
+      "fullName":"Сиянкин Мир Григориевич",
+      "birthday":"02.05.1930 00:00:00",
+      "age":88,
+      "gender":{
+        "name":"Мужской",
+        "id":1
+      },
+      "genderName":"Мужской",
+      "vip":true,
+      "hasCitizenship":true,
+      "ethnicGroupName":"монголы-татары",
+      "socialGroupName":"Дошкольник организованный",
+      "nationality":{
+        "name":"Даргинцы",
+        "id":21
+      }
+    },
+    {
+      "id":5607728,
+      "surname":"Вольваков",
+      "name":"Вениамин",
+      "patrName":"Тихонович",
+      "fullName":"Вольваков Вениамин Тихонович",
+      "birthday":"04.06.1932 00:00:00",
+      "age":86,
+      "gender":{
+        "name":"Мужской",
+        "id":1
+      },
+      "genderName":"Мужской",
+      "vip":true,
+      "hasCitizenship":false,
+      "ethnicGroupName":"русские",
+      "socialGroupName":"Рабочие промышленных предприятий",
+      "nationality":{
+        "name":"Гинухцы",
+        "id":18
+      }
+    },
+    {
+      "id":5607686,
+      "surname":"Дуванова",
+      "name":"Ольга",
+      "patrName":"Юлиевна",
+      "fullName":"Дуванова Ольга Юлиевна",
+      "birthday":"02.09.1932 00:00:00",
+      "age":86,
+      "gender":{
+        "name":"Женский",
+        "id":2
+      },
+      "genderName":"Женский",
+      "vip":true,
+      "hasCitizenship":false,
+      "ethnicGroupName":"русские",
+      "socialGroupName":"Дошкольник неорганизованный",
+      "nationality":{
+        "name":"Буряты",
+        "id":17
+      }
+    },
+    {
+      "id":5607700,
+      "surname":"Чуканова",
+      "name":"Изольда",
+      "patrName":"Тихоновна",
+      "fullName":"Чуканова Изольда Тихоновна",
+      "birthday":"16.10.1932 00:00:00",
+      "age":86,
+      "gender":{
+        "name":"Женский",
+        "id":2
+      },
+      "genderName":"Женский",
+      "vip":true,
+      "hasCitizenship":false,
+      "ethnicGroupName":"русские",
+      "socialGroupName":"Школьник",
+      "nationality":{
+        "name":"Агулы",
+        "id":7
+      }
+    },
+    {
+      "id":5607738,
+      "surname":"Иванова",
+      "name":"Зинаида",
+      "patrName":"Виталиевна",
+      "fullName":"Иванова Зинаида Виталиевна",
+      "birthday":"11.09.1933 00:00:00",
+      "age":85,
+      "gender":{
+        "name":"Женский",
+        "id":2
+      },
+      "genderName":"Женский",
+      "vip":true,
+      "hasCitizenship":true,
+      "ethnicGroupName":"монголы-татары",
+      "socialGroupName":"Учащийся системы профтехобразования",
+      "nationality":{
+        "name":"Ингуши",
+        "id":22
+      }
+    },
+    {
+      "id":5607701,
+      "surname":"Пушкарёв",
+      "name":"Аристарх",
+      "patrName":"Архипович",
+      "fullName":"Пушкарёв Аристарх Архипович",
+      "birthday":"23.10.1933 00:00:00",
+      "age":85,
+      "gender":{
+        "name":"Мужской",
+        "id":1
+      },
+      "genderName":"Мужской",
+      "vip":false,
+      "hasCitizenship":true,
+      "ethnicGroupName":"русские",
+      "socialGroupName":"Неработающий",
+      "nationality":{
+        "name":"Агулы",
+        "id":7
+      }
+    },
+    {
+      "id":5607746,
+      "surname":"Мелехов",
+      "name":"Пимен",
+      "patrName":"Герасимович",
+      "fullName":"Мелехов Пимен Герасимович",
+      "birthday":"20.04.1934 00:00:00",
+      "age":84,
+      "gender":{
+        "name":"Мужской",
+        "id":1
+      },
+      "genderName":"Мужской",
+      "vip":true,
+      "hasCitizenship":false,
+      "ethnicGroupName":"монголы-татары",
+      "socialGroupName":"Дошкольник организованный",
+      "nationality":{
+        "name":"Башкиры",
+        "id":14
+      }
+    }
+  ],
+  "count":149,
+  "size":10,
+  "page":1
+}
