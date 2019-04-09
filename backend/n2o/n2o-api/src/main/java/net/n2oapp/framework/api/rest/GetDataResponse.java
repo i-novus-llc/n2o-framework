@@ -36,7 +36,7 @@ public class GetDataResponse extends N2oResponse {
         page = criteria.getPage();
         responseInfo.prepare(list);
         setMessagesForm(messagesForm);
-        addResponseMessages(responseInfo.getMessageList());
+        setResponseMessages(responseInfo.getMessageList(), responseInfo.getStackedMessages());
     }
 
     public GetDataResponse(CollectionPage<DataSet> collectionPage, String messagesForm, QueryResponseInfo responseInfo) {
@@ -46,6 +46,6 @@ public class GetDataResponse extends N2oResponse {
         page = collectionPage.getCriteria().getPage();
         responseInfo.prepare(list);
         setMessagesForm(messagesForm);
-        addResponseMessages(responseInfo.getMessageList());
+        setResponseMessages(responseInfo.getMessageList(), responseInfo.getStackedMessages());
     }
 }

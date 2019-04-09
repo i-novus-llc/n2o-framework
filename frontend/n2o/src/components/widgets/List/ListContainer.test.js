@@ -13,9 +13,9 @@ import fetchMock from 'fetch-mock';
 fetchMock.get('*', () => ({
   list: [
     {
-      test: 'test'
-    }
-  ]
+      test: 'test',
+    },
+  ],
 }));
 
 const store = createStore(reducers);
@@ -49,15 +49,16 @@ describe('Проверка ListContainer', () => {
     ListContainer.setState({
       datasource: [
         {
-          image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          leftBottom: 'a little description',
           header: "It's a cat",
           subHeader: 'The cat is stupid',
           body: 'Some words about cats',
           rightTop: 'What do you know about cats?',
           rightBottom: "But cats aren't only stupid they're still so sweet ",
-          extra: 'Extra?!'
-        }
-      ]
+          extra: 'Extra?!',
+        },
+      ],
     });
     const mappedData = ListContainer.instance().mapSectionComponents(
       factoryProvider()
@@ -65,7 +66,8 @@ describe('Проверка ListContainer', () => {
         .resolveProps(ListWidgetMeta['List'].list, createFactoryConfig({}))
     );
     expect(!isEmpty(mappedData)).toEqual(true);
-    expect(React.isValidElement(mappedData[0].image)).toEqual(true);
+    expect(React.isValidElement(mappedData[0].leftTop)).toEqual(true);
+    expect(React.isValidElement(mappedData[0].leftBottom)).toEqual(true);
     expect(React.isValidElement(mappedData[0].header)).toEqual(true);
     expect(React.isValidElement(mappedData[0].subHeader)).toEqual(true);
     expect(React.isValidElement(mappedData[0].body)).toEqual(true);

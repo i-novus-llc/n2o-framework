@@ -47,7 +47,7 @@ stories
       collapsible: boolean('collapsible', PanelRegionJson.collapsible),
       fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
       header: boolean('header', PanelRegionJson.header),
-      panels: PanelRegionJson.panels
+      panels: PanelRegionJson.panels,
     };
 
     return <PanelRegion {...props} pageId="Page" />;
@@ -67,8 +67,12 @@ stories
   .add('Компоновки', () => {
     const panelParams = [
       { ...defaultProps, headerTitle: 'Только заголовок' },
-      { ...defaultProps, headerTitle: 'Заголовок и подвал', footerTitle: 'Подвал' },
-      { ...defaultProps, header: false, footerTitle: 'Без заголовка' }
+      {
+        ...defaultProps,
+        headerTitle: 'Заголовок и подвал',
+        footerTitle: 'Подвал',
+      },
+      { ...defaultProps, header: false, footerTitle: 'Без заголовка' },
     ];
 
     return (
@@ -82,11 +86,15 @@ stories
     );
   })
   .add('Сворачивание', () => {
-    const commonProps = { footerTitle: 'Подвал', collapsible: true, fullScreen: true };
+    const commonProps = {
+      footerTitle: 'Подвал',
+      collapsible: true,
+      fullScreen: true,
+    };
 
     const panelParams = [
       { ...defaultProps, ...commonProps, headerTitle: 'Открыто' },
-      { ...defaultProps, ...commonProps, headerTitle: 'Закрыто', open: false }
+      { ...defaultProps, ...commonProps, headerTitle: 'Закрыто', open: false },
     ];
 
     return (
@@ -117,7 +125,7 @@ stories
       Object.values(styles).map(color => ({
         ...defaultProps,
         color,
-        headerTitle: color
+        headerTitle: color,
       }));
 
     const panelParams = createPanelParams(panelStyles);
@@ -134,8 +142,16 @@ stories
   })
   .add('На полный экран', () => {
     const panelParams = [
-      { ...defaultProps, headerTitle: 'С кнопкой переключения', fullScreen: true },
-      { ...defaultProps, headerTitle: 'Без кнопки переключения', fullScreen: false }
+      {
+        ...defaultProps,
+        headerTitle: 'С кнопкой переключения',
+        fullScreen: true,
+      },
+      {
+        ...defaultProps,
+        headerTitle: 'Без кнопки переключения',
+        fullScreen: false,
+      },
     ];
 
     return (
@@ -151,7 +167,7 @@ stories
   .add('Вкладки', () => {
     const panelParams = [
       { ...defaultProps, headerTitle: 'С вкладками', hasTabs: true },
-      { ...defaultProps, headerTitle: 'Без вкладок', hasTabs: false }
+      { ...defaultProps, headerTitle: 'Без вкладок', hasTabs: false },
     ];
     return (
       <div className="row">
@@ -175,7 +191,7 @@ stories
       collapsible: boolean('collapsible', PanelRegionJson.collapsible),
       fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
       header: boolean('header', PanelRegionJson.header),
-      panels: PanelRegionJson.panels
+      panels: PanelRegionJson.panels,
     };
     store.dispatch(
       metadataSuccess('Page', {
@@ -185,10 +201,10 @@ stories
             html: {
               url: null,
               html: '<h1>Hello</h1>',
-              fetchOnInit: false
-            }
-          }
-        }
+              fetchOnInit: false,
+            },
+          },
+        },
       })
     );
     store.dispatch(
@@ -199,10 +215,10 @@ stories
             html: {
               url: null,
               html: '<h1>Hello</h1>',
-              fetchOnInit: false
-            }
-          }
-        }
+              fetchOnInit: false,
+            },
+          },
+        },
       })
     );
     store.dispatch(hideWidget('visible-test'));
@@ -218,11 +234,11 @@ stories
           visible: [
             {
               bindLink: 'models.resolve',
-              condition: false
-            }
-          ]
-        }
-      }
+              condition: false,
+            },
+          ],
+        },
+      },
     ];
     return (
       <React.Fragment>

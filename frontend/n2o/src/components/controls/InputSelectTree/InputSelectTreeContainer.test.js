@@ -27,16 +27,16 @@ const setup = (propOverrides = {}) => {
           parentId: '',
           icon: 'fa fa-square',
           image: 'https://i.stack.imgur.com/2zqqC.jpg',
-          hasChildren: true
+          hasChildren: true,
         },
         {
           id: '33',
           parentId: '123412',
           icon: 'fa fa-square',
           image: 'https://i.stack.imgur.com/2zqqC.jpg',
-          hasChildren: false
-        }
-      ]
+          hasChildren: false,
+        },
+      ],
     },
     propOverrides
   );
@@ -51,7 +51,7 @@ const setup = (propOverrides = {}) => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 

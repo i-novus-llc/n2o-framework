@@ -19,14 +19,14 @@ const setup = (propOverrides = {}) => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
 describe('<ButtonsCell />', () => {
   it('Проверяет создание Кнопки', () => {
     const { wrapper } = setup({
-      buttons: [{ title: 'test' }]
+      buttons: [{ title: 'test' }],
     });
 
     wrapper.update();
@@ -38,9 +38,9 @@ describe('<ButtonsCell />', () => {
       buttons: [
         {
           title: 'test',
-          subMenu: [{ title: 'test' }]
-        }
-      ]
+          subMenu: [{ title: 'test' }],
+        },
+      ],
     });
     expect(wrapper.find('HintDropDown').exists()).toBeTruthy();
   });
@@ -51,9 +51,9 @@ describe('<ButtonsCell />', () => {
       buttons: [
         {
           title: 'test',
-          action: 'test-action'
-        }
-      ]
+          action: 'test-action',
+        },
+      ],
     });
 
     wrapper.find('HintButton').simulate('click');

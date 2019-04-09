@@ -47,7 +47,13 @@ import Popup from './Popup';
 class InputSelect extends React.Component {
   constructor(props) {
     super(props);
-    const { value, options, valueFieldId, labelFieldId, multiSelect } = this.props;
+    const {
+      value,
+      options,
+      valueFieldId,
+      labelFieldId,
+      multiSelect,
+    } = this.props;
     const valueArray = Array.isArray(value) ? value : value ? [value] : [];
     const input = value && !multiSelect ? value[labelFieldId] : '';
     this.state = {
@@ -57,7 +63,7 @@ class InputSelect extends React.Component {
       value: valueArray,
       activeValueId: null,
       options,
-      input
+      input,
     };
 
     this._hideOptionsList = this._hideOptionsList.bind(this);
@@ -69,14 +75,23 @@ class InputSelect extends React.Component {
     this._setNewInputValue = this._setNewInputValue.bind(this);
     this._setInputFocus = this._setInputFocus.bind(this);
     this._setActiveValueId = this._setActiveValueId.bind(this);
-    this._handleValueChangeOnSelect = this._handleValueChangeOnSelect.bind(this);
+    this._handleValueChangeOnSelect = this._handleValueChangeOnSelect.bind(
+      this
+    );
     this._handleValueChangeOnBlur = this._handleValueChangeOnBlur.bind(this);
     this._handleDataSearch = this._handleDataSearch.bind(this);
     this._handleElementClear = this._handleElementClear.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { multiSelect, value, valueFieldId, labelFieldId, options, loading } = nextProps;
+    const {
+      multiSelect,
+      value,
+      valueFieldId,
+      labelFieldId,
+      options,
+      loading,
+    } = nextProps;
     if (!isEqual(nextProps.options, this.state.options)) {
       this.setState({ options });
     }
@@ -112,7 +127,7 @@ class InputSelect extends React.Component {
       this.setState(
         {
           input: multiSelect ? '' : (value[0] && value[0][labelFieldId]) || '',
-          value
+          value,
         },
         () => onChange(this._getValue())
       );
@@ -121,7 +136,7 @@ class InputSelect extends React.Component {
       this.setState(
         {
           input: '',
-          value: multiSelect ? value : []
+          value: multiSelect ? value : [],
         },
         () => onChange(this._getValue())
       );
@@ -152,7 +167,7 @@ class InputSelect extends React.Component {
     this.setState(
       {
         input: multiSelect ? item[labelFieldId] : '',
-        value: multiSelect ? [...value, item] : [item]
+        value: multiSelect ? [...value, item] : [item],
       },
       () => {
         onChange(this._getValue());
@@ -250,7 +265,9 @@ class InputSelect extends React.Component {
 
     if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
       const filterFunc = item => String.prototype[filter].call(item, input);
-      const filteredData = options.filter(item => filterFunc(item[labelFieldId]));
+      const filteredData = options.filter(item =>
+        filterFunc(item[labelFieldId])
+      );
       this.setState({ options: filteredData });
     } else {
       //серверная фильтрация
@@ -295,7 +312,7 @@ class InputSelect extends React.Component {
       labelFieldId,
       options,
       onSelect,
-      onChange
+      onChange,
     } = this.props;
     const selectCallback = () => {
       closePopupOnSelect && this._hideOptionsList();
@@ -308,7 +325,7 @@ class InputSelect extends React.Component {
       prevState => ({
         value: multiSelect ? [...prevState.value, item] : [item],
         input: multiSelect ? '' : item[labelFieldId],
-        options
+        options,
       }),
       selectCallback
     );
@@ -371,7 +388,7 @@ class InputSelect extends React.Component {
       style,
       alerts,
       flip,
-      autoFocus
+      autoFocus,
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
 
@@ -435,7 +452,11 @@ class InputSelect extends React.Component {
             />
           </InputSelectGroup>
         </DropdownToggle>
-        <Popup flip={flip} isExpanded={this.state.isExpanded} expandPopUp={expandPopUp}>
+        <Popup
+          flip={flip}
+          isExpanded={this.state.isExpanded}
+          expandPopUp={expandPopUp}
+        >
           <PopupList
             isExpanded={this.state.isExpanded}
             activeValueId={this.state.activeValueId}
@@ -506,7 +527,7 @@ InputSelect.propTypes = {
   expandPopUp: PropTypes.bool,
   alerts: PropTypes.array,
   flip: PropTypes.bool,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
 };
 
 InputSelect.defaultProps = {
@@ -534,7 +555,7 @@ InputSelect.defaultProps = {
   onClose() {},
   onChange() {},
   onScrollEnd() {},
-  onBlur() {}
+  onBlur() {},
 };
 
 export default onClickOutside(InputSelect);

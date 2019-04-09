@@ -12,6 +12,7 @@ public class ResponseInfo  {
 
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
+    private boolean stackedMessages = false;
 
 
     public void addMessage(ResponseMessage message) {
@@ -46,5 +47,13 @@ public class ResponseInfo  {
 
     public void setAttributes(Map<String, Object> attributes) {
         this.attributes = attributes;
+    }
+
+    public boolean getStackedMessages() {
+        return stackedMessages;
+    }
+
+    public void setStackedMessages(boolean stackedMessages) {
+        this.stackedMessages = stackedMessages;
     }
 }

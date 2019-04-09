@@ -17,47 +17,47 @@ stories.add('Компонент', () => {
       {
         id: 'rounded',
         component: TextTableHeader,
-        label: 'Закруглённый'
+        label: 'Закруглённый',
       },
       {
         id: 'circle',
         component: TextTableHeader,
-        label: 'Круглый'
+        label: 'Круглый',
       },
       {
         id: 'thumbnail',
         component: TextTableHeader,
-        label: 'С рамкой'
-      }
+        label: 'С рамкой',
+      },
     ],
     cells: [
       {
         id: 'rounded',
         component: ImageCell,
         shape: imageShapes.ROUNDED,
-        title: 'Закруглённый вариант'
+        title: 'Закруглённый вариант',
       },
       {
         id: 'circle',
         component: ImageCell,
         shape: imageShapes.CIRCLE,
-        title: 'Круглый вариант'
+        title: 'Круглый вариант',
       },
       {
         id: 'thumbnail',
         component: ImageCell,
         shape: imageShapes.THUMBNAIL,
-        title: 'Вариант с рамкой'
-      }
+        title: 'Вариант с рамкой',
+      },
     ],
     datasource: [
       {
         id: 'data',
         rounded: IMAGEURL,
         circle: IMAGEURL,
-        thumbnail: IMAGEURL
-      }
-    ]
+        thumbnail: IMAGEURL,
+      },
+    ],
   };
 
   return (

@@ -1,29 +1,29 @@
 {
-  "id": "proto_patients_update2",
+  "id": "proto_update2",
   "routes": {
     "list": [
       {
-        "path": "/proto/patients/5607677/update2",
+        "path": "/proto/5607677/update2",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/5607677/update2/main",
+        "path": "/proto/5607677/update2/main",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/5607677/update2/main/:proto_patients_update2_main_id",
+        "path": "/proto/5607677/update2/main/:proto_update2_main_id",
         "exact": true,
         "isOtherPage": false
       }
     ],
     "pathMapping": {
-      "proto_patients_update2_main_id": {
+      "proto_update2_main_id": {
         "type": "n2o/widgets/CHANGE_SELECTED_ID",
         "payload": {
-          "widgetId": "proto_patients_update2_main",
-          "value": ":proto_patients_update2_main_id"
+          "widgetId": "proto_update2_main",
+          "value": ":proto_update2_main_id"
         }
       }
     },
@@ -32,79 +32,80 @@
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "proto_patients_update2_main",
+            "widgetId": "proto_update2_main",
             "fieldKey": "surname",
             "sortDirection": ":sorting_main_surname"
           }
         },
         "set": {
-          "link": "widgets['proto_patients_update2_main'].sorting.surname"
+          "link": "widgets['proto_update2_main'].sorting.surname"
         }
       },
       "sorting_main_name": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "proto_patients_update2_main",
+            "widgetId": "proto_update2_main",
             "fieldKey": "name",
             "sortDirection": ":sorting_main_name"
           }
         },
         "set": {
-          "link": "widgets['proto_patients_update2_main'].sorting.name"
+          "link": "widgets['proto_update2_main'].sorting.name"
         }
       },
       "sorting_main_patrName": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "proto_patients_update2_main",
+            "widgetId": "proto_update2_main",
             "fieldKey": "patrName",
             "sortDirection": ":sorting_main_patrName"
           }
         },
         "set": {
-          "link": "widgets['proto_patients_update2_main'].sorting.patrName"
+          "link": "widgets['proto_update2_main'].sorting.patrName"
         }
       },
       "sorting_main_birthday": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "proto_patients_update2_main",
+            "widgetId": "proto_update2_main",
             "fieldKey": "birthday",
             "sortDirection": ":sorting_main_birthday"
           }
         },
         "set": {
-          "link": "widgets['proto_patients_update2_main'].sorting.birthday"
+          "link": "widgets['proto_update2_main'].sorting.birthday"
         }
       },
       "sorting_main_age": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "proto_patients_update2_main",
+            "widgetId": "proto_update2_main",
             "fieldKey": "age",
             "sortDirection": ":sorting_main_age"
           }
         },
         "set": {
-          "link": "widgets['proto_patients_update2_main'].sorting.age"
+          "link": "widgets['proto_update2_main'].sorting.age"
         }
       }
     }
   },
   "widgets": {
-    "proto_patients_update2_main": {
+    "proto_update2_main": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients/5607677/update2/main",
+        "url": "n2o/data/proto/5607677/update2/main",
         "pathMapping": {},
         "queryMapping": {}
       },
       "actions": {},
       "form": {
+        "prompt": true,
         "fieldsets": [
           {
             "src": "StandardFieldset",
@@ -274,12 +275,12 @@
               "enabled": [
                 {
                   "expression": "!_.isEmpty(this)",
-                  "modelLink": "models.resolve['proto_patients_update2_main']"
+                  "modelLink": "models.resolve['proto_update2_main']"
                 }
               ]
             },
             "validate": true,
-            "validatedWidgetId": "proto_patients_update2_main",
+            "validatedWidgetId": "proto_update2_main",
             "color": "primary",
             "title": "Сохранить"
           },
@@ -296,7 +297,7 @@
   "breadcrumb": [
     {
       "label": "Список контактов",
-      "path": "/proto/patients/5607677"
+      "path": "/proto/5607677"
     },
     {
       "label": "Карточка пациента: 5607677"
@@ -309,14 +310,14 @@
       "options": {
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
-          "widgetId": "proto_patients_update2_main",
-          "pageId": "proto_patients_update2",
+          "widgetId": "proto_update2_main",
+          "pageId": "proto_update2",
           "dataProvider": {
-            "url": "n2o/data/proto/patients/5607677/update2/submit",
+            "url": "n2o/data/proto/5607677/update2/submit",
             "pathMapping": {},
             "method": "POST"
           },
-          "modelLink": "models.resolve['proto_patients_update2_main']"
+          "modelLink": "models.resolve['proto_update2_main']"
         },
         "meta": {
           "success": {
@@ -327,7 +328,7 @@
               }
             },
             "redirect": {
-              "path": "/proto/patients/5607677",
+              "path": "/proto/5607677",
               "pathMapping": {},
               "queryMapping": {},
               "target": "application"
@@ -341,7 +342,7 @@
       "id": "close",
       "src": "link",
       "options": {
-        "path": "/proto/patients/5607677",
+        "path": "/proto/5607677",
         "target": "application",
         "pathMapping": {},
         "queryMapping": {}
@@ -359,7 +360,7 @@
             {
               "id": "none1",
               "label": "Карточка пациента",
-              "widgetId": "proto_patients_update2_main"
+              "widgetId": "proto_update2_main"
             }
           ]
         }

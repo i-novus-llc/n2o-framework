@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
+import Popover from '../Popover/Popover';
 
 /**
  * Компонент сообщения-алерта
@@ -14,6 +16,9 @@ import cx from 'classnames';
  * @reactProps {number} style -  объект css стилей
  * @reactProps {number} icon - css-класс для иконки(иконка находится перед лейбелом )
  * @reactProps {boolean} visible - флаг видимости
+ * @reactProps {string} position - настройка позиционирования
+ * @reactProps {string} help - текст для Popover
+ * @reactProps {boolean} animate - флаг включения анимации при появлении
  * @example
  * <Alert onDismiss={this.onDismiss}
  *             label='Сообщение'
@@ -23,9 +28,12 @@ class Alert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      detailsVisible: false
+      detailsVisible: false,
     };
     this.toggleDetails = this.toggleDetails.bind(this);
+    this.renderAlert = this.renderAlert.bind(this);
+    this.renderDefaultAlert = this.renderDefaultAlert.bind(this);
+    this.renderLoaderAlert = this.renderLoaderAlert.bind(this);
   }
 
   /**
@@ -33,14 +41,39 @@ class Alert extends React.Component {
    */
   toggleDetails() {
     this.setState({
-      detailsVisible: !this.state.detailsVisible
+      detailsVisible: !this.state.detailsVisible,
     });
   }
 
-  /**
-   * Базовый рендер
-   */
-  render() {
+  renderAlert() {
+    const { loader } = this.props;
+    if (loader) {
+      return this.renderLoaderAlert();
+    } else {
+      return this.renderDefaultAlert();
+    }
+  }
+
+  renderLoaderAlert() {
+    const { severity, className, style, text, animate } = this.props;
+
+    return (
+      <div
+        className={cx('n2o-alert', 'n2o-alert-loader', 'alert', className, {
+          [`alert-${severity}`]: severity,
+          'n2o-alert--animated': animate,
+        })}
+        style={style}
+      >
+        <div className="n2o-alert-body-container">
+          <InlineSpinner />
+          {text || 'Загрузка...'}
+        </div>
+      </div>
+    );
+  }
+
+  renderDefaultAlert() {
     const {
       label,
       text,
@@ -51,17 +84,22 @@ class Alert extends React.Component {
       icon,
       details,
       onDismiss,
-      visible
+      help,
+      animate,
     } = this.props;
+
     const { detailsVisible } = this.state;
+
     return (
-      visible !== false && (
-        <div className={cx('alert', `alert-${severity}`, className)} style={style}>
-          {closeButton && (
-            <button className="close n2o-alert-close" onClick={onDismiss}>
-              <span>×</span>
-            </button>
-          )}
+      <div
+        className={cx('n2o-alert', 'alert', className, {
+          [`alert-${severity}`]: severity,
+          'n2o-alert--animated': animate,
+        })}
+        style={style}
+      >
+        <div className="n2o-alert-help">{help && <Popover help={help} />}</div>
+        <div className="n2o-alert-body-container">
           {label && (
             <div className="n2o-alert-header">
               {icon && <i className={icon} />}
@@ -69,17 +107,35 @@ class Alert extends React.Component {
             </div>
           )}
           <div className={'n2o-alert-body'}>
-            {text}
+            <div className="n2o-alert-body-text">{text}</div>
             {details && (
-              <a className="alert-link details-label" onClick={this.toggleDetails}>
+              <a
+                className="alert-link details-label"
+                onClick={this.toggleDetails}
+              >
                 {detailsVisible ? 'Скрыть' : 'Подробнее'}
               </a>
             )}
             {detailsVisible && <div className="details">{details}</div>}
           </div>
         </div>
-      )
+        <div className="n2o-alert-close-container">
+          {closeButton && (
+            <button className="close n2o-alert-close" onClick={onDismiss}>
+              <span>×</span>
+            </button>
+          )}
+        </div>
+      </div>
     );
+  }
+
+  /**
+   * Базовый рендер
+   */
+  render() {
+    const { visible } = this.props;
+    return visible !== false && this.renderAlert();
   }
 }
 
@@ -90,7 +146,9 @@ Alert.defaultProps = {
   details: '',
   closeButton: true,
   visible: true,
-  onDismiss: () => {}
+  onDismiss: () => {},
+  position: 'relative',
+  animate: false,
 };
 
 Alert.propTypes = {
@@ -103,7 +161,10 @@ Alert.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   icon: PropTypes.string,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  position: PropTypes.string,
+  help: PropTypes.string,
+  animate: PropTypes.bool,
 };
 
 export default Alert;

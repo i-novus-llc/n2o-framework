@@ -63,7 +63,9 @@ stories
         return getStubData(url);
       });
 
-    store.dispatch(metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') }));
+    store.dispatch(
+      metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') })
+    );
 
     return <TabsRegion {...omit(InitWidgentsTabs, 'widgets')} pageId="Page" />;
   })

@@ -14,7 +14,7 @@ stories.add('Цвет строк', () => {
     { id: '3', name: 'success', h1: 'текст', h2: 'текст' },
     { id: '4', name: 'danger', h1: 'текст', h2: 'текст' },
     { id: '5', name: 'warning', h1: 'текст', h2: 'текст' },
-    { id: '6', name: 'info', h1: 'текст', h2: 'текст' }
+    { id: '6', name: 'info', h1: 'текст', h2: 'текст' },
   ];
   const tableAdvancedColorData = [
     { id: '7', name: 'blue', h1: 'текст', h2: 'текст' },
@@ -26,17 +26,32 @@ stories.add('Цвет строк', () => {
     { id: '13', name: 'yellow', h1: 'текст', h2: 'текст' },
     { id: '14', name: 'green', h1: 'текст', h2: 'текст' },
     { id: '15', name: 'teal', h1: 'текст', h2: 'текст' },
-    { id: '16', name: 'cyan', h1: 'текст', h2: 'текст' }
+    { id: '16', name: 'cyan', h1: 'текст', h2: 'текст' },
   ];
   const headers = [
-    { id: 'name', component: TextTableHeader, sortable: false, label: 'Цвет (класс)' },
-    { id: 'h1', component: TextTableHeader, sortable: false, label: 'Заголовок' },
-    { id: 'h2', component: TextTableHeader, sortable: false, label: 'Заголовок' }
+    {
+      id: 'name',
+      component: TextTableHeader,
+      sortable: false,
+      label: 'Цвет (класс)',
+    },
+    {
+      id: 'h1',
+      component: TextTableHeader,
+      sortable: false,
+      label: 'Заголовок',
+    },
+    {
+      id: 'h2',
+      component: TextTableHeader,
+      sortable: false,
+      label: 'Заголовок',
+    },
   ];
   const cells = [
     { id: 'name', component: TextCell, fieldKey: 'name' },
     { id: 'h1', component: TextCell, fieldKey: 'h1' },
-    { id: 'h2', component: TextCell, fieldKey: 'h2' }
+    { id: 'h2', component: TextCell, fieldKey: 'h2' },
   ];
 
   return (

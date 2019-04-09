@@ -1,7 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { withKnobs, text, boolean, number, array } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  number,
+  array,
+} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import InputNumberInterval from './InputNumberInterval';
 
@@ -18,7 +24,7 @@ stories.add('базовый функционал', () => {
     min: number('min', -0.5),
     max: number('max', 1.5),
     showButtons: boolean('showButtons', true),
-    disabled: boolean('disabled', false)
+    disabled: boolean('disabled', false),
   };
 
   return <InputNumberInterval {...props} />;

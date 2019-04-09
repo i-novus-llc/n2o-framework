@@ -6,7 +6,7 @@ import {
   METADATA_FAIL,
   RESET,
   ENABLE,
-  DISABLE
+  DISABLE,
 } from '../constants/pages';
 import { SET_WIDGET_METADATA } from '../constants/widgets';
 
@@ -21,7 +21,7 @@ export const pageState = {
   metadata: {},
   loading: false,
   error: false,
-  disabled: false
+  disabled: false,
 };
 
 function resolve(state = pageState, action) {
@@ -32,28 +32,32 @@ function resolve(state = pageState, action) {
       return Object.assign({}, state, {
         loading: true,
         error: false,
-        metadata: {}
+        metadata: {},
       });
     case METADATA_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
         error: false,
-        metadata: action.payload.json
+        metadata: action.payload.json,
       });
     case METADATA_FAIL:
       return Object.assign({}, state, {
         error: action.payload.err,
-        loading: false
+        loading: false,
       });
     case SET_WIDGET_METADATA:
-      return set(state, ['metadata', 'widgets', action.payload.widgetId], action.payload.metadata);
+      return set(
+        state,
+        ['metadata', 'widgets', action.payload.widgetId],
+        action.payload.metadata
+      );
     case ENABLE:
       return Object.assign({}, state, {
-        disabled: false
+        disabled: false,
       });
     case DISABLE:
       return Object.assign({}, state, {
-        disabled: true
+        disabled: true,
       });
     default:
       return state;
@@ -73,7 +77,7 @@ export default function pages(state = {}, action) {
     case ENABLE:
     case DISABLE:
       return Object.assign({}, state, {
-        [action.payload.pageId]: resolve(state[action.payload.pageId], action)
+        [action.payload.pageId]: resolve(state[action.payload.pageId], action),
       });
     default:
       return state;

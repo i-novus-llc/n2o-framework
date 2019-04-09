@@ -10,7 +10,7 @@ import { setModel } from '../../actions/models';
 
 const setup = (store, props = {}, onChange) => {
   const Component = withObserveDependency({
-    onChange
+    onChange,
   })(() => <div>test</div>);
   return mount(
     <Provider store={store}>
@@ -26,8 +26,8 @@ describe('Проверка хока withObserveDependency', () => {
       registerFieldDependency('testForm', 'testField', [
         {
           type: 'reRender',
-          on: ['anotherTestField']
-        }
+          on: ['anotherTestField'],
+        },
       ])
     );
     const wrapper = setup(
@@ -38,14 +38,18 @@ describe('Проверка хока withObserveDependency', () => {
         dependency: [
           {
             type: 'reRender',
-            on: ['testField']
-          }
-        ]
+            on: ['testField'],
+          },
+        ],
       },
       () => {}
     );
-    expect(isEmpty(wrapper.find('ReRenderComponent').instance()._observers)).toEqual(false);
-    expect(typeof wrapper.find('ReRenderComponent').instance()._observers[0]).toEqual('function');
+    expect(
+      isEmpty(wrapper.find('ReRenderComponent').instance()._observers)
+    ).toEqual(false);
+    expect(
+      typeof wrapper.find('ReRenderComponent').instance()._observers[0]
+    ).toEqual('function');
   });
 
   it('срабатывает onChange reRender', () => {
@@ -55,11 +59,13 @@ describe('Проверка хока withObserveDependency', () => {
       registerFieldDependency('testForm', 'testField', [
         {
           type: 'reRender',
-          on: ['anotherTestField']
-        }
+          on: ['anotherTestField'],
+        },
       ])
     );
-    store.dispatch(setModel('resolve', 'widgetName', { anotherValue: 'value' }));
+    store.dispatch(
+      setModel('resolve', 'widgetName', { anotherValue: 'value' })
+    );
     const wrapper = setup(
       store,
       {
@@ -68,9 +74,9 @@ describe('Проверка хока withObserveDependency', () => {
         dependency: [
           {
             type: 'reRender',
-            on: ['testField']
-          }
-        ]
+            on: ['testField'],
+          },
+        ],
       },
       onChange
     );
@@ -89,11 +95,13 @@ describe('Проверка хока withObserveDependency', () => {
       registerFieldDependency('testForm', 'testField', [
         {
           type: 'reRender',
-          on: ['anotherTestField']
-        }
+          on: ['anotherTestField'],
+        },
       ])
     );
-    store.dispatch(setModel('resolve', 'widgetName', { anotherValue: 'value' }));
+    store.dispatch(
+      setModel('resolve', 'widgetName', { anotherValue: 'value' })
+    );
     const wrapper = setup(
       store,
       {
@@ -102,9 +110,9 @@ describe('Проверка хока withObserveDependency', () => {
         dependency: [
           {
             type: 'fetch',
-            on: ['testField']
-          }
-        ]
+            on: ['testField'],
+          },
+        ],
       },
       onChange
     );

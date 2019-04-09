@@ -1,0 +1,85 @@
+{
+  "Page_Form": {
+    "src": "FormWidget",
+    "dependency": {
+    },
+    "dataProvider": {
+      "url": "n2o/data/test",
+      "pathMapping": {
+      },
+      "queryMapping": {
+      }
+    },
+    "toolbar": {},
+    "actions": {
+      "disable": {
+        "src": "enabled",
+        "options": {
+          "formName": "Page_Form",
+          "shouldApply": true,
+          "fieldName": "name"
+        }
+      },
+      "enable": {
+        "src": "enabled",
+        "options": {
+          "formName": "Page_Form",
+          "shouldApply": false,
+          "fieldName": "name"
+        }
+      },
+      "show": {
+        "src": "visible",
+        "options": {
+          "formName": "Page_Form",
+          "shouldApply": false,
+          "fieldName": "name"
+        }
+      },
+      "hide": {
+        "src": "visible",
+        "options": {
+          "formName": "Page_Form",
+          "shouldApply": true,
+          "fieldName": "name"
+        }
+      }
+    },
+    "form": {
+      "prompt": true,
+      "fetchOnInit": false,
+      "filterDefaultValues": {
+        "fetch": [
+          {
+            "bindLink": "models.resolve['Page_Table']"
+          }
+        ]
+      },
+      "validation": {
+      },
+      "fieldsets": [
+        {
+          "src": "StandardFieldset",
+          "rows": [
+            {
+              "cols": [
+                {
+                  "fields": [
+                    {
+                      "id": "name",
+                      "src": "StandardField",
+                      "label": "Поле блокирующие переход по ссылке",
+                      "control": {
+                        "src": "InputText"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

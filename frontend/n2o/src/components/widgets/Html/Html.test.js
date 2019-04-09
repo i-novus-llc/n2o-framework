@@ -14,7 +14,7 @@ const setup = propOverrides => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -29,7 +29,9 @@ describe('<Html />', () => {
     const fakeHtml = <div>fake</div>;
     const promise = Promise.resolve(fakeHtml);
     sinon.stub(Html.prototype, 'handleResponse').callsFake(() => promise);
-    promise.then(() => wrapper.update()).then(() => wrapper.contains(fakeHtml).toEqual(true));
+    promise
+      .then(() => wrapper.update())
+      .then(() => wrapper.contains(fakeHtml).toEqual(true));
   });
   it('calls componentDidMount', () => {
     sinon.spy(Html.prototype, 'componentDidMount');

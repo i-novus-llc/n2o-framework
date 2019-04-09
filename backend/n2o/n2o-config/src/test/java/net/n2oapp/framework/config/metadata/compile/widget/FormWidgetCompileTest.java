@@ -60,8 +60,9 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(form.getId(), is("testFormCompile2"));
         assertThat(form.getUpload(), is(UploadType.query));
         assertThat(form.getDataProvider(), notNullValue());
+        assertThat(form.getComponent().getPrompt(), is(true));
         assertThat(form.getComponent().getFetchOnInit(), is(true));
-        QueryContext queryContext = (QueryContext) route("/testFormCompile2").getContext(CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testFormCompile2", CompiledQuery.class);
         assertThat(queryContext.getFailAlertWidgetId(), is("testFormCompile2"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("testFormCompile2"));
     }
@@ -99,7 +100,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(10).getSide(), is(nullValue()));
 
         validations = form.getComponent().getValidation().get("testField3");
-        assertThat(((MandatoryValidation)validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
+        assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
 

@@ -36,7 +36,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.page.WidgetDependencyScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -88,18 +87,21 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * @return Часть маршрута виджета
      */
     private String initWidgetRoute(S source, CompileProcessor p) {
-        if (source.getRoute() == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
+        if (source.getRoute() != null) {
+            return source.getRoute();
+        }
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null) {
+            if (widgetScope.getDependsOnWidgetId() != null) {
                 //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
                 String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
                 return normalize(colon(selectedId)) + normalize(source.getId());
-            } else {
-                return normalize(source.getId());
             }
-        } else {
-            return source.getRoute();
+            if (widgetScope.isMainWidget()) {
+                return "/";
+            }
         }
+        return normalize(source.getId());
     }
 
     /**
@@ -296,7 +298,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return;
         String widgetRoute = widgetRouteScope.getUrl();
         //Регистрация основного маршрута виджета для страницы
-        routes.addRoute(widgetRouteScope.getUrl(), compiled.getId());
+        routes.addRoute(widgetRouteScope.getUrl());
         if (compiled.getMasterLink() != null)
             routes.addPathMapping(compiled.getMasterParam(),
                     Redux.dispatchSelectedWidget(compiled.getMasterLink().getWidgetId(), colon(compiled.getMasterParam())));
@@ -305,7 +307,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //todo для формы не существует selected!
         String selectedId = normalizeParam(compiled.getId() + "_id");
         String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
-        routes.addRoute(routeWidgetSelected, compiled.getId());
+        routes.addRoute(routeWidgetSelected);
 
         ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
         routes.addPathMapping(selectedId, widgetIdMapping);
@@ -445,11 +447,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             }
         }
         if (!dependency.isEmpty()) {
-            WidgetDependencyScope widgetDependencyScope = p.getScope(WidgetDependencyScope.class);
-            if (widgetDependencyScope != null)
-                widgetDependencyScope.put(compiled.getId(), dependency);
             compiled.setDependency(dependency);
-
         }
     }
 

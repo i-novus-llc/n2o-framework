@@ -18,9 +18,14 @@ stories.add(
       value: number('value', 2),
       disabled: boolean('disabled', false),
       checked: boolean('checked', store.state.checked),
-      label: text('label', 'Label')
+      label: text('label', 'Label'),
     };
 
-    return <Radio {...props} onChange={() => store.set({ checked: !store.state.checked })} />;
+    return (
+      <Radio
+        {...props}
+        onChange={() => store.set({ checked: !store.state.checked })}
+      />
+    );
   })
 );

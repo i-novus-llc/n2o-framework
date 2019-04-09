@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             xmlns:other="http://n2oapp.net/framework/config/schema/custom"
+             name="Кастомное поле BackgroundImageField">
+    <form upload="defaults">
+        <fields>
+            <field id="imageField" src="BackgroundImageField"
+                   other:image="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png"
+                   other:repeat="no-repeat"
+                   other:backgroundImageSize="50px">
+                <controls>
+                    <input-text id="imageControl" />
+                </controls>
+            </field>
+
+        </fields>
+    </form>
+</simple-page>

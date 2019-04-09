@@ -13,4 +13,5 @@ public class N2oCloseAction extends N2oAbstractAction implements N2oAction {
     private String redirectUrl;
     private Target redirectTarget;
     private Boolean refreshOnClose;
+    private Boolean prompt;
 }

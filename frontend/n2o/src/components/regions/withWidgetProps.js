@@ -6,7 +6,12 @@ import { pick, omit, get } from 'lodash';
 import { widgetsSelector } from '../../selectors/widgets';
 
 import { pagesSelector } from '../../selectors/pages';
-import { hideWidget, showWidget, disableWidget, enableWidget } from '../../actions/widgets';
+import {
+  hideWidget,
+  showWidget,
+  disableWidget,
+  enableWidget,
+} from '../../actions/widgets';
 
 /**
  * HOC для работы с данными
@@ -51,13 +56,13 @@ function withGetWidget(WrappedComponent) {
     hideWidget: PropTypes.func,
     showWidget: PropTypes.func,
     disableWidget: PropTypes.func,
-    enableWidget: PropTypes.func
+    enableWidget: PropTypes.func,
   };
 
   const mapStateToProps = state => {
     return {
       pages: pagesSelector(state),
-      widgets: widgetsSelector(state)
+      widgets: widgetsSelector(state),
     };
   };
 
@@ -67,7 +72,7 @@ function withGetWidget(WrappedComponent) {
         hideWidget: widgetId => hideWidget(widgetId),
         showWidget: widgetId => showWidget(widgetId),
         disableWidget: widgetId => disableWidget(widgetId),
-        enableWidget: widgetId => enableWidget(widgetId)
+        enableWidget: widgetId => enableWidget(widgetId),
       },
       dispatch
     );

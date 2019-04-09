@@ -9,7 +9,10 @@ import Factory from './factory/Factory';
 import { WIDGETS } from './factory/factoryLevels';
 import withPage from '../../.storybook/decorators/withPage';
 
-const stories = storiesOf('Функциональность/Зависимости между виджетами', module);
+const stories = storiesOf(
+  'Функциональность/Зависимости между виджетами',
+  module
+);
 
 const renderMasterDetail = (json, description) => (
   <Row>

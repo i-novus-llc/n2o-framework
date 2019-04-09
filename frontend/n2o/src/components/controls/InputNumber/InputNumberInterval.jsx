@@ -25,13 +25,14 @@ class InputNumberInterval extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.value
+      value: props.value,
     };
   }
 
   onChange(index, value) {
-    this.setState({ value: this.state.value.map((val, i) => (i === index ? value : val)) }, () =>
-      this.props.onChange(this.state.value)
+    this.setState(
+      { value: this.state.value.map((val, i) => (i === index ? value : val)) },
+      () => this.props.onChange(this.state.value)
     );
   }
 
@@ -47,16 +48,26 @@ class InputNumberInterval extends React.Component {
     delete props.onChange;
     const style = {
       display: 'flex',
-      alignItems: 'baseline'
+      alignItems: 'baseline',
     };
     return (
       <div>
         <div style={style}>
-          <InputNumber value={value[0]} onChange={this.onChange.bind(this, 0)} {...props} />
+          <InputNumber
+            value={value[0]}
+            onChange={this.onChange.bind(this, 0)}
+            {...props}
+          />
           {'-'}
-          <InputNumber onChange={this.onChange.bind(this, 1)} value={value[1]} {...props} />
+          <InputNumber
+            onChange={this.onChange.bind(this, 1)}
+            value={value[1]}
+            {...props}
+          />
         </div>
-        {description && <p className="n2o-number-interval-description">{description}</p>}
+        {description && (
+          <p className="n2o-number-interval-description">{description}</p>
+        )}
       </div>
     );
   }
@@ -69,7 +80,7 @@ InputNumberInterval.defaultProps = {
   step: '0.1',
   showButtons: true,
   description: '',
-  onChange: val => {}
+  onChange: val => {},
 };
 
 InputNumberInterval.propTypes = {
@@ -81,7 +92,7 @@ InputNumberInterval.propTypes = {
   max: PropTypes.number,
   name: PropTypes.string,
   showButtons: PropTypes.bool,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 };
 
 export default InputNumberInterval;

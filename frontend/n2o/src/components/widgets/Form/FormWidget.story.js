@@ -1,4 +1,8 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { withContext } from 'recompose';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, object } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
@@ -12,32 +16,41 @@ import {
   FormCollapseFieldset,
   FormFieldsetCollapseVE,
   FormFieldsetStandartVE,
-  FormHighlyLoadedTest
+  FormHighlyLoadedTest,
 } from 'N2oStorybook/json';
+import FormWithPrompt from '../../../../.storybook/json/FormWithPrompt';
 import fetchMock from 'fetch-mock';
 import InputSelectContainerJson from '../../controls/InputSelect/InputSelectContainer.meta';
 
 import FormWidgetData from './FormWidget.meta.json';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
+import Page from '../../core/Router';
+import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
 
 const stories = storiesOf('Виджеты/Форма', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Form'));
 
-const renderForm = json => <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />;
+const renderForm = json => (
+  <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />
+);
 
 stories
   .addDecorator(story => {
     fetchMock.restore().getOnce('begin:n2o/data', getStubData);
     return story();
   })
-  .add('Метаданные', () => withPage(FormWidgetData)(() => renderForm(FormWidgetData)))
+  .add('Метаданные', () =>
+    withPage(FormWidgetData)(() => renderForm(FormWidgetData))
+  )
   .add('Расположение лейбла', () =>
     withPage(FieldLabelPosition)(() => renderForm(FieldLabelPosition))
   )
-  .add('Экшены полей', () => withPage(FieldLabelPosition)(() => renderForm(FormFields)))
+  .add('Экшены полей', () =>
+    withPage(FieldLabelPosition)(() => renderForm(FormFields))
+  )
   .add('Отображение в полях сообщений от сервера', () =>
     withPage(FormServerMessage)(() => {
       fetchMock.restore().post('begin:n2o/data', url => ({
@@ -49,20 +62,20 @@ stories
               fields: {
                 name: {
                   text: 'Ошибка',
-                  severity: 'danger'
+                  severity: 'danger',
                 },
                 surname: {
                   text: 'Предупреждение',
-                  severity: 'warning'
+                  severity: 'warning',
                 },
                 age: {
                   text: 'Успех',
-                  severity: 'success'
-                }
-              }
-            }
-          }
-        }
+                  severity: 'success',
+                },
+              },
+            },
+          },
+        },
       }));
 
       return renderForm(FormServerMessage);
@@ -77,14 +90,14 @@ stories
           message: [
             {
               severity: 'success',
-              text: 'Доступная фамилия'
+              text: 'Доступная фамилия',
             },
             {
               severity: 'danger',
-              text: 'Был отправлен запрос, получен ответ с ошибкой'
-            }
-          ]
-        }
+              text: 'Был отправлен запрос, получен ответ с ошибкой',
+            },
+          ],
+        },
       };
 
       fetchMock.restore().get('begin:n2o/validation', mockJson);
@@ -114,22 +127,58 @@ stories
               fields: {
                 nameSerValid: {
                   text: 'Ошибка',
-                  severity: 'danger'
+                  severity: 'danger',
                 },
                 surnameSerValid: {
                   text: 'Предупреждение',
-                  severity: 'warning'
+                  severity: 'warning',
                 },
                 ageSerValid: {
                   text: 'Успех',
-                  severity: 'success'
-                }
-              }
-            }
-          }
-        }
+                  severity: 'success',
+                },
+              },
+            },
+          },
+        },
       }));
 
       return renderForm(FormHighlyLoadedTest);
     })
-  );
+  )
+  .add('Форма с Prompt', () => {
+    const FormWithContext = withContext(
+      {
+        defaultPromptMessage: PropTypes.string,
+      },
+      props => ({
+        defaultPromptMessage:
+          'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
+      })
+    )(() => renderForm(FormWithPrompt));
+    return (
+      <Router>
+        <div>
+          <div className="row">
+            <div className="col-6">
+              <h5>Меню</h5>
+              <div className="nav flex-column">
+                <Link className="nav-link" to="/">
+                  Форма
+                </Link>
+                <Link className="nav-link" to="/another">
+                  Другая страница
+                </Link>
+              </div>
+            </div>
+            <div className="col-6">
+              <Switch>
+                <Route exact path={'/'} component={FormWithContext} />
+                <Route path={'/another'} component={() => <div>test</div>} />
+              </Switch>
+            </div>
+          </div>
+        </div>
+      </Router>
+    );
+  });

@@ -15,7 +15,7 @@ describe('Тесты evalExpression', () => {
     expect(
       evalExpression(parseExpression('`a + b`'), {
         a: 3,
-        b: 4
+        b: 4,
       })
     ).toEqual(7);
   });
@@ -23,7 +23,7 @@ describe('Тесты evalExpression', () => {
   it('evalExpression вызовет исключение', () => {
     expect(
       evalExpression(parseExpression('`unknownValue`'), {
-        value: 'VALUE'
+        value: 'VALUE',
       })
     ).toEqual(undefined);
   });

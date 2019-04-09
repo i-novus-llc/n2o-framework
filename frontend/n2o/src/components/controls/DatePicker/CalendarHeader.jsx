@@ -77,7 +77,10 @@ class CalendarHeader extends React.Component {
             e.preventDefault();
           }}
         >
-          <FormattedMessage id="Datepicker.time-choose" defaultMessage={'Выберите время'} />
+          <FormattedMessage
+            id="Datepicker.time-choose"
+            defaultMessage={'Выберите время'}
+          />
         </a>
       );
     }
@@ -86,7 +89,8 @@ class CalendarHeader extends React.Component {
   }
 
   nextType(type) {
-    if (type === Calendar.BY_YEARS || type === Calendar.BY_MONTHS) return Calendar.BY_YEARS;
+    if (type === Calendar.BY_YEARS || type === Calendar.BY_MONTHS)
+      return Calendar.BY_YEARS;
     if (type === Calendar.BY_DAYS) return Calendar.BY_MONTHS;
     if (type === Calendar.TIME_PICKER) return Calendar.TIME_PICKER;
   }
@@ -117,9 +121,15 @@ class CalendarHeader extends React.Component {
    * базовый рендер
    */
   render() {
-    const { displayesMonth, locale, changeCalendarType, calendarType } = this.props;
+    const {
+      displayesMonth,
+      locale,
+      changeCalendarType,
+      calendarType,
+    } = this.props;
     const dateStyle =
-      calendarType !== Calendar.BY_YEARS && calendarType !== Calendar.TIME_PICKER
+      calendarType !== Calendar.BY_YEARS &&
+      calendarType !== Calendar.TIME_PICKER
         ? { cursor: 'pointer' }
         : { cursor: 'text' };
     return (
@@ -135,7 +145,8 @@ class CalendarHeader extends React.Component {
           className="n2o-calendar-current-date"
           style={dateStyle}
           onClick={() =>
-            calendarType !== Calendar.BY_DAYS && changeCalendarType(this.nextType(calendarType))
+            calendarType !== Calendar.BY_DAYS &&
+            changeCalendarType(this.nextType(calendarType))
           }
         >
           {this.renderHeaderValue(calendarType, displayesMonth, locale)}
@@ -162,7 +173,7 @@ CalendarHeader.propTypes = {
   nextDecade: PropTypes.func,
   prevDecade: PropTypes.func,
   changeCalendarType: PropTypes.func,
-  calendarType: PropTypes.string
+  calendarType: PropTypes.string,
 };
 
 export default CalendarHeader;

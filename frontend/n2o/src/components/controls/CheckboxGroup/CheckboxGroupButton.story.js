@@ -18,7 +18,7 @@ stories.add('Группа в виде кнопок', () => {
     disabled: boolean('disabled', false),
     visible: boolean('visible', true),
     className: text('className', ''),
-    inline: boolean('inline', false)
+    inline: boolean('inline', false),
   };
 
   return (

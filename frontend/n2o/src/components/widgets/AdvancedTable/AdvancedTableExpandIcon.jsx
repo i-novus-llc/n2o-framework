@@ -17,12 +17,13 @@ function AdvancedTableExpandIcon({
   expanded,
   onExpand,
   expandedFieldId,
-  expandedComponent
+  expandedComponent,
 }) {
   return (
     <span
       className={cn({
-        'n2o-advanced-table-expand': record.children || record[expandedFieldId] || expandedComponent
+        'n2o-advanced-table-expand':
+          record.children || record[expandedFieldId] || expandedComponent,
       })}
       onClick={e => onExpand(record, e)}
     >
@@ -31,7 +32,7 @@ function AdvancedTableExpandIcon({
           className={cn('fa', 'n2o-advanced-table-expand-icon', {
             'n2o-advanced-table-expand-icon-expanded': expanded,
             'fa-angle-right': !expanded,
-            'fa-angle-down': expanded
+            'fa-angle-down': expanded,
           })}
         />
       )}
@@ -42,11 +43,11 @@ function AdvancedTableExpandIcon({
 AdvancedTableExpandIcon.propTypes = {
   record: PropTypes.object,
   expanded: PropTypes.bool,
-  onExpand: PropTypes.func
+  onExpand: PropTypes.func,
 };
 
 AdvancedTableExpandIcon.defaultProps = {
-  record: {}
+  record: {},
 };
 
 export default AdvancedTableExpandIcon;

@@ -8,77 +8,72 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients",
+        "path": "/proto/:proto_patients_id",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/:proto_patients_id",
+        "path": "/proto/create",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update_patient",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update2",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/view",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/surname",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/name",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/contacts",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/create",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/update_patient",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/update2",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/view",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/surname",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/name",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/update",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/contacts",
+        "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id",
-        "exact": true,
-        "isOtherPage": false
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/contacts/create",
+        "path": "/proto/:proto_patients_id/contacts/create",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/update",
+        "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/proto/patients/:patient_id/card",
+        "path": "/proto/:patient_id/card",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/:patient_id/card/:proto_form_id",
+        "path": "/proto/:patient_id/card/:proto_form_id",
         "exact": true,
         "isOtherPage": false
       }
@@ -369,7 +364,7 @@
     "proto_patients": {
       "src": "AdvancedTableWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients",
+        "url": "n2o/data/proto",
         "pathMapping": {},
         "queryMapping": {
           "proto_patients_surname": {
@@ -544,15 +539,46 @@
         ]
       },
       "actions": {
+        "update_birthday": {
+          "id": "update_birthday",
+          "src": "perform",
+          "options": {
+            "type": "n2o/actionImpl/START_INVOKE",
+            "payload": {
+              "widgetId": "proto_patients",
+              "dataProvider": {
+                "url": "n2o/data/proto/:proto_patients_id/update_birthday",
+                "pathMapping": {
+                  "proto_patients_id": {
+                    "link": "models.resolve['proto_patients'].id"
+                  }
+                },
+                "method": "POST"
+              },
+              "modelLink": "models.resolve['proto_patients']"
+            },
+            "meta": {
+              "success": {
+                "refresh": {
+                  "type": "widget",
+                  "options": {
+                    "widgetId": "proto_patients"
+                  }
+                }
+              },
+              "fail": {}
+            }
+          }
+        },
         "create": {
           "id": "create",
           "src": "perform",
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_create",
-              "pageId": "proto_patients_create",
-              "pageUrl": "/proto/patients/create",
+              "name": "proto_create",
+              "pageId": "proto_create",
+              "pageUrl": "/proto/create",
               "pathMapping": {},
               "queryMapping": {},
               "closeButton": true,
@@ -566,9 +592,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_update_patient",
-              "pageId": "proto_patients_update_patient",
-              "pageUrl": "/proto/patients/:proto_patients_id/update_patient",
+              "name": "proto_update_patient",
+              "pageId": "proto_update_patient",
+              "pageUrl": "/proto/:proto_patients_id/update_patient",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -588,7 +614,7 @@
             "payload": {
               "widgetId": "proto_patients",
               "dataProvider": {
-                "url": "n2o/data/proto/patients/:proto_patients_id/delete",
+                "url": "n2o/data/proto/:proto_patients_id/delete",
                 "pathMapping": {
                   "proto_patients_id": {
                     "link": "models.resolve['proto_patients'].id"
@@ -615,7 +641,7 @@
           "id": "update2",
           "src": "link",
           "options": {
-            "path": "/proto/patients/:proto_patients_id/update2",
+            "path": "/proto/:proto_patients_id/update2",
             "target": "application",
             "pathMapping": {
               "proto_patients_id": {
@@ -631,9 +657,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_view",
-              "pageId": "proto_patients_view",
-              "pageUrl": "/proto/patients/:proto_patients_id/view",
+              "name": "proto_view",
+              "pageId": "proto_view",
+              "pageUrl": "/proto/:proto_patients_id/view",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -669,7 +695,7 @@
           "id": "surname",
           "src": "link",
           "options": {
-            "path": "/proto/patients/:proto_patients_id/surname",
+            "path": "/proto/:proto_patients_id/surname",
             "target": "application",
             "pathMapping": {
               "proto_patients_id": {
@@ -685,9 +711,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_name",
-              "pageId": "proto_patients_name",
-              "pageUrl": "/proto/patients/:proto_patients_id/name",
+              "name": "proto_name",
+              "pageId": "proto_name",
+              "pageUrl": "/proto/:proto_patients_id/name",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -707,7 +733,7 @@
             "payload": {
               "widgetId": "proto_patients",
               "dataProvider": {
-                "url": "n2o/data/proto/patients/:proto_patients_id/vip",
+                "url": "n2o/data/proto/:proto_patients_id/vip",
                 "pathMapping": {
                   "proto_patients_id": {
                     "link": "models.resolve['proto_patients'].id"
@@ -736,9 +762,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_update",
-              "pageId": "proto_patients_update",
-              "pageUrl": "/proto/patients/:proto_patients_id/update",
+              "name": "proto_update",
+              "pageId": "proto_update",
+              "pageUrl": "/proto/:proto_patients_id/update",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -873,7 +899,7 @@
               "id": "surname",
               "src": "link",
               "options": {
-                "path": "/proto/patients/:proto_patients_id/surname",
+                "path": "/proto/:proto_patients_id/surname",
                 "target": "application",
                 "pathMapping": {
                   "proto_patients_id": {
@@ -895,9 +921,9 @@
               "options": {
                 "type": "n2o/modals/INSERT",
                 "payload": {
-                  "name": "proto_patients_name",
-                  "pageId": "proto_patients_name",
-                  "pageUrl": "/proto/patients/:proto_patients_id/name",
+                  "name": "proto_name",
+                  "pageId": "proto_name",
+                  "pageUrl": "/proto/:proto_patients_id/name",
                   "pathMapping": {
                     "proto_patients_id": {
                       "link": "models.resolve['proto_patients'].id"
@@ -921,8 +947,48 @@
           {
             "id": "birthday",
             "fieldKey": "birthday",
-            "src": "TextCell",
-            "format": "date DD.MM.YYYY"
+            "src": "EditableCell",
+            "actionId": "update_birthday",
+            "control": {
+              "src": "DatePicker",
+              "id": "date",
+              "dateFormat": "DD.MM.YYYY",
+              "outputFormat": "DD.MM.YYYY HH:mm:ss"
+            },
+            "format": "date DD.MM.YYYY",
+            "editType": "inline",
+            "editable": true,
+            "action": {
+              "id": "update_birthday",
+              "src": "perform",
+              "options": {
+                "type": "n2o/actionImpl/START_INVOKE",
+                "payload": {
+                  "widgetId": "proto_patients",
+                  "dataProvider": {
+                    "url": "n2o/data/proto/:proto_patients_id/update_birthday",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      }
+                    },
+                    "method": "POST"
+                  },
+                  "modelLink": "models.resolve['proto_patients']"
+                },
+                "meta": {
+                  "success": {
+                    "refresh": {
+                      "type": "widget",
+                      "options": {
+                        "widgetId": "proto_patients"
+                      }
+                    }
+                  },
+                  "fail": {}
+                }
+              }
+            }
           },
           {
             "id": "genderName",
@@ -944,7 +1010,7 @@
                 "payload": {
                   "widgetId": "proto_patients",
                   "dataProvider": {
-                    "url": "n2o/data/proto/patients/:proto_patients_id/vip",
+                    "url": "n2o/data/proto/:proto_patients_id/vip",
                     "pathMapping": {
                       "proto_patients_id": {
                         "link": "models.resolve['proto_patients'].id"
@@ -990,7 +1056,7 @@
                         "payload": {
                           "widgetId": "proto_patients",
                           "dataProvider": {
-                            "url": "n2o/data/proto/patients/:proto_patients_id/delete",
+                            "url": "n2o/data/proto/:proto_patients_id/delete",
                             "pathMapping": {
                               "proto_patients_id": {
                                 "link": "models.resolve['proto_patients'].id"
@@ -1040,9 +1106,9 @@
                       "options": {
                         "type": "n2o/modals/INSERT",
                         "payload": {
-                          "name": "proto_patients_update",
-                          "pageId": "proto_patients_update",
-                          "pageUrl": "/proto/patients/:proto_patients_id/update",
+                          "name": "proto_update",
+                          "pageId": "proto_update",
+                          "pageUrl": "/proto/:proto_patients_id/update",
                           "pathMapping": {
                             "proto_patients_id": {
                               "link": "models.resolve['proto_patients'].id"
@@ -1120,7 +1186,7 @@
     "proto_contacts": {
       "src": "AdvancedTableWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients/:proto_patients_id/contacts",
+        "url": "n2o/data/proto/:proto_patients_id/contacts",
         "pathMapping": {
           "proto_patients_id": {
             "link": "models.resolve['proto_patients'].id"
@@ -1190,9 +1256,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_contacts_create",
-              "pageId": "proto_patients_contacts_create",
-              "pageUrl": "/proto/patients/:proto_patients_id/contacts/create",
+              "name": "proto_contacts_create",
+              "pageId": "proto_contacts_create",
+              "pageUrl": "/proto/:proto_patients_id/contacts/create",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -1210,9 +1276,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_contacts_update",
-              "pageId": "proto_patients_contacts_update",
-              "pageUrl": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/update",
+              "name": "proto_contacts_update",
+              "pageId": "proto_contacts_update",
+              "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -1235,7 +1301,7 @@
             "payload": {
               "widgetId": "proto_contacts",
               "dataProvider": {
-                "url": "n2o/data/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/delete",
+                "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
                 "pathMapping": {
                   "proto_contacts_id": {
                     "link": "models.resolve['proto_contacts'].id"
@@ -1368,7 +1434,7 @@
     "proto_form": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients/:patient_id/card",
+        "url": "n2o/data/proto/:patient_id/card",
         "pathMapping": {
           "patient_id": {
             "link": "models.resolve['proto_patients'].id"
@@ -1385,6 +1451,7 @@
         ]
       },
       "form": {
+        "prompt": true,
         "fieldsets": [
           {
             "src": "StandardFieldset",
@@ -1549,14 +1616,6 @@
           "open": true,
           "collapsible": true,
           "fullScreen": false,
-          "dependency": {
-            "visible": [
-              {
-                "on": "models.resolve['proto_patients']",
-                "condition": "name != 'Мария'"
-              }
-            ]
-          },
           "panels": [
             {
               "id": "panel1",
@@ -1573,7 +1632,6 @@
           "open": true,
           "collapsible": true,
           "fullScreen": false,
-          "dependency": {},
           "panels": [
             {
               "id": "panel1",

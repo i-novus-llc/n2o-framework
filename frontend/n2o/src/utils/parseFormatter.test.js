@@ -3,7 +3,9 @@ import moment from 'moment';
 
 describe('Проверка parseFormatter', () => {
   it('преобразует дату', () => {
-    expect(parseFormatter('26.02.2019 12:28', 'date DD:MM:YYYY')).toEqual('26:02:2019');
+    expect(parseFormatter('26.02.2019 12:28', 'date DD:MM:YYYY')).toEqual(
+      '26:02:2019'
+    );
   });
 
   it('преобразует пароль', () => {

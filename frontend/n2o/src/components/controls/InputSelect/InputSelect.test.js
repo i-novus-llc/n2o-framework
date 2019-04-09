@@ -18,14 +18,14 @@ const props = {
     {
       id: 123412,
       icon: 'fa fa-square',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
     },
     {
       id: '33',
       icon: 'fa fa-square',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
-    }
-  ]
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+    },
+  ],
 };
 
 const setup = (propOverrides, defaultProps = props) => {
@@ -35,7 +35,7 @@ const setup = (propOverrides, defaultProps = props) => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -55,13 +55,17 @@ describe('<InputSelect />', () => {
   it('проверяет параметр value', () => {
     const wrapper = mount(<InputSelect {...props} />);
 
-    expect(wrapper.find('input.n2o-inp').props().value).toBe(props.value[props.valueFieldId]);
+    expect(wrapper.find('input.n2o-inp').props().value).toBe(
+      props.value[props.valueFieldId]
+    );
   });
 
   it('проверяет параметр placeholder', () => {
     const wrapper = mount(<InputSelect {...props} />);
 
-    expect(wrapper.find('input.n2o-inp').props().placeholder).toBe(props.placeholder);
+    expect(wrapper.find('input.n2o-inp').props().placeholder).toBe(
+      props.placeholder
+    );
   });
 
   it('проверяет параметр labelFieldId', () => {
@@ -79,7 +83,8 @@ describe('<InputSelect />', () => {
 
   it('проверяет параметр valueFieldId', () => {
     const { wrapper, props } = setup({ disabledValues: [] });
-    const expectedValue = props.options[props.options.length - 1][props.valueFieldId];
+    const expectedValue =
+      props.options[props.options.length - 1][props.valueFieldId];
 
     wrapper
       .find('button')
@@ -120,18 +125,28 @@ describe('<InputSelect />', () => {
   });
 
   it('проверяет параметр filter', () => {
-    const strStart = props.options[0][props.labelFieldId].toString().substr(0, 2);
+    const strStart = props.options[0][props.labelFieldId]
+      .toString()
+      .substr(0, 2);
     const filteredData = props.options.filter(item =>
       item[props.labelFieldId].toString().startsWith(strStart)
     );
     let { wrapper } = setup({ filter: false });
 
-    wrapper.find('input.n2o-inp').simulate('change', { target: { value: 'asddas' } });
-    expect(wrapper.find('button.dropdown-item').length).toEqual(props.options.length);
+    wrapper
+      .find('input.n2o-inp')
+      .simulate('change', { target: { value: 'asddas' } });
+    expect(wrapper.find('button.dropdown-item').length).toEqual(
+      props.options.length
+    );
 
     wrapper = setup({ filter: 'startsWith' }).wrapper;
-    wrapper.find('input.n2o-inp').simulate('change', { target: { value: strStart } });
-    expect(wrapper.find('button.dropdown-item').length).toBe(filteredData.length);
+    wrapper
+      .find('input.n2o-inp')
+      .simulate('change', { target: { value: strStart } });
+    expect(wrapper.find('button.dropdown-item').length).toBe(
+      filteredData.length
+    );
   });
 
   it('проверяет параметр onScroll', () => {

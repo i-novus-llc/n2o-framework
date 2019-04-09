@@ -24,7 +24,9 @@ const wrapper = mount(
 describe('Проверка FactoryProvider', () => {
   it('проверка функции getComponent', () => {
     const factoryProvider = wrapper.find(FactoryProvider).instance();
-    expect(factoryProvider.getComponent('InputText', CONTROLS)).toEqual(InputText);
+    expect(factoryProvider.getComponent('InputText', CONTROLS)).toEqual(
+      InputText
+    );
     expect(factoryProvider.getComponent('InputText')).toEqual(InputText);
   });
 
@@ -34,27 +36,27 @@ describe('Проверка FactoryProvider', () => {
       factoryProvider.resolveProps({
         value: '',
         name: 'name',
-        surname: 'surname'
+        surname: 'surname',
       })
     ).toEqual({ value: '', name: 'name', surname: 'surname' });
     expect(
       factoryProvider.resolveProps({
         src: 'InputText',
         obj: {
-          src: 'InputText'
+          src: 'InputText',
         },
         unknown: {
-          src: 'UnknownSrc'
-        }
+          src: 'UnknownSrc',
+        },
       })
     ).toEqual({
       component: InputText,
       obj: {
-        component: InputText
+        component: InputText,
       },
       unknown: {
-        component: NotFoundFactory
-      }
+        component: NotFoundFactory,
+      },
     });
   });
 });

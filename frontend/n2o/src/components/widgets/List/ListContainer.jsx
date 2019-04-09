@@ -3,12 +3,15 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { makeWidgetPageSelector } from '../../../selectors/widgets';
-import { map, forOwn, isEmpty, isEqual, debounce } from 'lodash';
+import { map, forOwn, isEmpty, isEqual, debounce, keys, get } from 'lodash';
 import widgetContainer from '../WidgetContainer';
 import List from './List';
 import withColumn from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
-import { withContainerLiveCycle, withWidgetHandlers } from '../Table/TableContainer';
+import {
+  withContainerLiveCycle,
+  withWidgetHandlers,
+} from '../Table/TableContainer';
 import { createStructuredSelector } from 'reselect';
 import { setTableSelectedId } from '../../../actions/widgets';
 
@@ -40,7 +43,7 @@ class ListContainer extends React.Component {
 
     this.state = {
       needToCombine: false,
-      datasource: props.datasource
+      datasource: props.datasource,
     };
 
     this.getWidgetProps = this.getWidgetProps.bind(this);
@@ -64,7 +67,7 @@ class ListContainer extends React.Component {
 
       this.setState({
         needToCombine: false,
-        datasource: newDatasource
+        datasource: newDatasource,
       });
     }
   }
@@ -94,8 +97,12 @@ class ListContainer extends React.Component {
     const { datasource } = this.state;
     return map(datasource, item => {
       let mappedSection = {};
-      forOwn(item, (v, k) => {
-        mappedSection[k] = this.renderCell({ ...list[k], model: item });
+      forOwn(list, (v, k) => {
+        mappedSection[k] = this.renderCell({
+          ...list[k],
+          id: v.id,
+          model: item,
+        });
       });
       return mappedSection;
     });
@@ -109,7 +116,7 @@ class ListContainer extends React.Component {
       fetchOnScroll,
       divider,
       hasSelect,
-      selectedId
+      selectedId,
     } = this.props;
     return {
       onFetchMore: this.handleFetchMore,
@@ -121,7 +128,7 @@ class ListContainer extends React.Component {
       fetchOnScroll,
       divider,
       hasSelect,
-      selectedId
+      selectedId,
     };
   }
   render() {
@@ -146,7 +153,7 @@ ListContainer.propTypes = {
   hasMoreButton: PropTypes.bool,
   maxHeight: PropTypes.number,
   datasource: PropTypes.array,
-  hasSelect: PropTypes.bool
+  hasSelect: PropTypes.bool,
 };
 
 ListContainer.defaultProps = {
@@ -161,11 +168,11 @@ ListContainer.defaultProps = {
   filter: {},
   list: {},
   fetchOnScroll: false,
-  hasSelect: true
+  hasSelect: true,
 };
 
 const mapStateToProps = createStructuredSelector({
-  page: (state, props) => makeWidgetPageSelector(props.widgetId)(state)
+  page: (state, props) => makeWidgetPageSelector(props.widgetId)(state),
 });
 
 export default compose(
@@ -179,9 +186,9 @@ export default compose(
             if (props.selectedId != newModel.id) {
               props.dispatch(setTableSelectedId(props.widgetId, newModel.id));
             }
-          }, 100)
+          }, 100),
         };
-      }
+      },
     },
     'ListWidget'
   ),

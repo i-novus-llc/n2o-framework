@@ -1,10 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -47,7 +45,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParam");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open1"));
+        assertThat(action.getOptions().getPath(), is("/test/:masterId/detail/:detailId/open1"));
         assertThat(action.getOptions().getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getOptions().getQueryMapping().isEmpty(), is(true));
 
@@ -63,7 +61,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withoutParam");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/open2"));
+        assertThat(action.getOptions().getPath(), is("/test/:masterId/detail/open2"));
         assertThat(action.getOptions().getQueryMapping().get("detailId"), notNullValue());
     }
 
@@ -77,10 +75,10 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open3"));
+        assertThat(action.getOptions().getPath(), is("/test/:masterId/detail/:detailId/open3"));
         assertThat(action.getOptions().getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getOptions().getQueryMapping().isEmpty(), is(true));
-        QueryContext queryContext = (QueryContext) route("/test/master/:masterId/detail/123/open3/main").getContext(CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/test/:masterId/detail/123/open3/main", CompiledQuery.class);
         assertThat(queryContext.getFilters().isEmpty(), is(true));
     }
 }

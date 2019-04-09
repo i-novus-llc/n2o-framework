@@ -2,7 +2,7 @@ import {
   CHANGE_COLUMN_DISABLED,
   CHANGE_COLUMN_VISIBILITY,
   REGISTER_COLUMN,
-  TOGGLE_COLUMN_VISIBILITY
+  TOGGLE_COLUMN_VISIBILITY,
 } from '../constants/columns';
 import {
   changeColumnVisiblity,
@@ -10,7 +10,7 @@ import {
   setColumnHidden,
   toggleColumnVisiblity,
   changeColumnDisabled,
-  registerColumn
+  registerColumn,
 } from './columns';
 
 const widgetId = 'widgetId';
@@ -86,7 +86,13 @@ describe('Тесты для экшенов columns', () => {
       expect(action.type).toEqual(REGISTER_COLUMN);
     });
     it('Проверяет правильность payload', () => {
-      const action = registerColumn(widgetId, columnId, label, visible, disabled);
+      const action = registerColumn(
+        widgetId,
+        columnId,
+        label,
+        visible,
+        disabled
+      );
       expect(action.payload.label).toEqual(label);
       expect(action.payload.visible).toEqual(visible);
       expect(action.payload.disabled).toEqual(disabled);

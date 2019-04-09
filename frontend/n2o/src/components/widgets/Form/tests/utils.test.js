@@ -1,7 +1,11 @@
 import React from 'react';
 import sinon from 'sinon';
 
-import { flatFields, getAutoFocusId, fetchIfChangeDependencyValue } from '../utils';
+import {
+  flatFields,
+  getAutoFocusId,
+  fetchIfChangeDependencyValue,
+} from '../utils';
 
 const fieldsets = [
   {
@@ -17,20 +21,20 @@ const fieldsets = [
                 visible: false,
                 label: 'Фамилия',
                 name: 'surname1',
-                control: 'Input'
+                control: 'Input',
               },
               {
                 id: 'name2',
                 name: 'name1',
                 label: 'Имя',
-                control: 'Input'
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                control: 'Input',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const fields = [
@@ -40,14 +44,14 @@ const fields = [
     visible: false,
     label: 'Фамилия',
     name: 'surname1',
-    control: 'Input'
+    control: 'Input',
   },
   {
     id: 'name2',
     name: 'name1',
     label: 'Имя',
-    control: 'Input'
-  }
+    control: 'Input',
+  },
 ];
 
 describe('Тест утильных функций', () => {
@@ -60,9 +64,17 @@ describe('Тест утильных функций', () => {
   it('fetchIfChangeDependencyValue запрашивает даные при измененеии зависимости', () => {
     const _fetchData = sinon.spy();
     const notFetch = sinon.spy();
-    fetchIfChangeDependencyValue({ type: 1 }, { type: 2 }, { props: { _fetchData } });
+    fetchIfChangeDependencyValue(
+      { type: 1 },
+      { type: 2 },
+      { props: { _fetchData } }
+    );
     expect(_fetchData.calledOnce).toEqual(true);
-    fetchIfChangeDependencyValue({ type: 1 }, { type: 1 }, { props: { notFetch } });
+    fetchIfChangeDependencyValue(
+      { type: 1 },
+      { type: 1 },
+      { props: { notFetch } }
+    );
     fetchIfChangeDependencyValue({ type: 1 }, { type: 2 });
     fetchIfChangeDependencyValue({ type: 1 }, { type: 2 }, { props: {} });
     expect(notFetch.calledOnce).toEqual(false);
