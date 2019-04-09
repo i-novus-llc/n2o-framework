@@ -17,6 +17,9 @@ import _, {
   every,
   flattenDeep,
   isArray,
+  findIndex,
+  values,
+  eq,
   get,
 } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
@@ -29,6 +32,12 @@ import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 export const getIndex = (data, selectedId) => {
   const index = _.findIndex(data, model => model.id == selectedId);
   return index >= 0 ? index : 0;
+};
+
+const KEY_CODES = {
+  DOWN: 'down',
+  UP: 'up',
+  SPACE: 'space',
 };
 
 /**
@@ -182,28 +191,32 @@ class AdvancedTable extends Component {
     }
   }
 
-  handleKeyDown(e) {
-    const keyNm = e.key;
+  handleKeyDown(e, keyName) {
     const { data, children, hasFocus, hasSelect, autoFocus } = this.props;
     const { focusIndex } = this.state;
-    if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
+
+    const modelIndex = findIndex(data, i => i.id === focusIndex);
+
+    if (eq(keyName, KEY_CODES.UP) || eq(keyName, KEY_CODES.DOWN)) {
       if (!React.Children.count(children) && hasFocus) {
-        const modelIndex = _.findIndex(data, i => i.id === focusIndex);
-        let newFocusIndex =
-          keyNm === 'ArrowUp' ? modelIndex - 1 : modelIndex + 1;
-        if (hasSelect && autoFocus && data[newFocusIndex]) {
-          this.setSelectAndFocus(
-            get(data, `[${newFocusIndex}].id`),
-            get(data, `[${newFocusIndex}].id`)
-          );
-          this.props.onResolve(data[newFocusIndex]);
+        const newFocusIndex = eq(keyName, KEY_CODES.UP)
+          ? modelIndex - 1
+          : modelIndex + 1;
+
+        if (newFocusIndex >= data.length || newFocusIndex < 0) return false;
+        const nextData = data[newFocusIndex];
+        if (hasSelect && autoFocus) {
+          this.setSelectAndFocus(nextData.id, nextData.id);
+          this.props.onResolve(nextData);
         } else {
-          this.setNewFocusIndex(get(data, `[${newFocusIndex}].id`));
+          this.setNewFocusIndex(nextData.id);
         }
       }
-    } else if (keyNm === ' ' && hasSelect && !autoFocus) {
-      this.props.onResolve(data[this.state.focusIndex]);
-      this.setNewSelectIndex(this.state.focusIndex);
+    } else if (eq(keyName, KEY_CODES.SPACE)) {
+      if (hasSelect && !autoFocus) {
+        this.props.onResolve(data[modelIndex]);
+        this.setNewSelectIndex(focusIndex);
+      }
     }
   }
 
@@ -410,7 +423,7 @@ class AdvancedTable extends Component {
     const columns = this.mapColumns(this.state.columns);
     return (
       <HotKeys
-        keyMap={{ events: ['up', 'down', 'space'] }}
+        keyMap={{ events: values(KEY_CODES) }}
         handlers={{ events: this.handleKeyDown }}
       >
         <div onFocus={!isActive ? onFocus : undefined}>
