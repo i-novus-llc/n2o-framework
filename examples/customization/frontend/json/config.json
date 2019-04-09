@@ -132,22 +132,6 @@
             "type": "link"
           }
         ]
-      },
-      {
-        "href": "/actions",
-        "id": "menuItemActions",
-        "label": "Примеры Actions",
-        "linkType": "inner",
-        "type": "dropdown",
-        "subItems": [
-          {
-            "href": "/custom-action",
-            "id": "menuItemCustomActionExample",
-            "label": "CustomAction",
-            "linkType": "inner",
-            "type": "link"
-          }
-        ]
       }
     ]
   },

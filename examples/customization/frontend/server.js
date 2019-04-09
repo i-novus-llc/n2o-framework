@@ -10,7 +10,6 @@ const inputCell = require('./json/cellInput');
 const addMemberFieldset = require('./json/addMemberFieldset');
 const iconHeader = require('./json/iconHeader');
 const backgroundImageField = require('./json/backgroundImageField');
-const customAction = require('./json/customAction');
 
 app.get('/n2o/config', (req, res) => {
     res.send(config);
@@ -54,10 +53,6 @@ app.get('/n2o/page/headers-icon', (req, res) => {
 
 app.get('/n2o/page/field-background', (req, res) => {
    res.send(backgroundImageField);
-});
-
-app.get('/n2o/page/custom-action', (req, res) => {
-   res.send(customAction);
 });
 
 /**  */
