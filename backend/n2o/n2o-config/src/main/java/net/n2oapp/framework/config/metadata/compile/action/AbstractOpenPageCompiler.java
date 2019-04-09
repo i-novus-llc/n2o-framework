@@ -173,7 +173,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
                 && source.getRedirectUrlAfterSubmit() == null
                 && source.getFocusAfterSubmit() != null
                 && source.getFocusAfterSubmit()) {
-            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? routeScope.getUrl() + normalize(colon("id")) : null);
+            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? normalize(routeScope.getUrl() + normalize(colon("id"))) : null);
             pageContext.setRedirectTargetOnSuccessSubmit(Target.application);
         } else if (source.getRedirectUrlAfterSubmit() != null) {
             pageContext.setRedirectUrlOnSuccessSubmit(source.getRedirectUrlAfterSubmit());
