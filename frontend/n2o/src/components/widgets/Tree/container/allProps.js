@@ -9,7 +9,7 @@ export const defaultProps = {
   multiselect: false,
   showLine: false,
   filter: '',
-  expandBtn: true,
+  expandBtn: false,
   bulkData: false,
   parentFieldId: 'parentId',
   valueFieldId: 'id',
