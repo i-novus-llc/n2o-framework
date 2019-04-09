@@ -135,7 +135,7 @@ export function mapToDefaultTime(
   val,
   defaultTime,
   defaultName,
-  timeFormat,
+  timeFormat = 'HH:mm',
   format
 ) {
   if (Array.isArray(val)) {
@@ -143,19 +143,20 @@ export function mapToDefaultTime(
     val.map(input => {
       res[input.name] = {
         hours:
-          moment(input.value, format).hour() ||
+          (input.value && moment(input.value, format).hour()) ||
           moment(input.defaultTime || '00:00', timeFormat).hour() ||
           0,
         mins:
-          moment(input.value, format).minute() ||
+          (input.value && moment(input.value, format).minute()) ||
           moment(input.defaultTime || '00:00', timeFormat).minute() ||
           0,
         seconds:
-          moment(input.value, format).second() ||
+          (input.value && moment(input.value, format).second()) ||
           moment(input.defaultTime || '00:00', timeFormat).second() ||
           0,
         hasDefaultTime: false,
       };
+
       if (
         res[input.name].hours ||
         res[input.name].mins ||
