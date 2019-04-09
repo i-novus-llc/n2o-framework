@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
+import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
@@ -31,10 +32,13 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         if (context instanceof ModalPageContext) {
             CloseAction closeAction = new CloseAction();
-            closeAction.setPrompt(source.getPrompt());
             compileAction(closeAction, source, p);
             closeAction.getOptions().setType(p.resolve(property("n2o.api.action.close.type"), String.class));
             closeAction.getOptions().setMeta(initMeta(closeAction, source, context, p));
+            CloseActionPayload payload = new CloseActionPayload();
+            payload.setPageId(((ModalPageContext) context).getClientPageId());
+            payload.setPrompt(p.cast(source.getPrompt(), true));
+            closeAction.getOptions().setPayload(payload);
             return closeAction;
         } else {
             N2oAnchor anchor = new N2oAnchor();

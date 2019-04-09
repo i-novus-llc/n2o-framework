@@ -239,7 +239,11 @@
       "id": "close",
       "src": "perform",
       "options": {
-        "type": "n2o/modals/DESTROY",
+        "type": "n2o/modals/CLOSE",
+        "payload": {
+          "name": "proto_update",
+          "prompt": true
+        },
         "meta": {
           "closeLastModal": true
         }
