@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 import ReactDom from 'react-dom';
-import { map, isEqual } from 'lodash';
+import { map, isEqual, isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
@@ -195,6 +195,11 @@ class List extends Component {
         ref={this.setListContainerRef}
         className={cn('n2o-widget-list', className)}
       >
+        {(!data || isEmpty(data)) && (
+          <div className="n2o-widget-list--empty-view text-muted">
+            Нет данных для отображения
+          </div>
+        )}
         <div className="n2o-widget-list-container">
           {maxHeight ? (
             <AutoSizer style={{ height: '100%' }}>
