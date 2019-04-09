@@ -105,7 +105,7 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
       } else {
         const value = addTime(
           withLocale(parseDate(input.value, dateFormat), locale).startOf('day'),
-          defaultTime[input.name],
+          defaultTime[input.name].hours,
           defaultTime[input.name].mins,
           defaultTime[input.name].seconds
         );
@@ -135,7 +135,7 @@ export function mapToDefaultTime(
   val,
   defaultTime,
   defaultName,
-  timeFormat = 'HH:mm',
+  timeFormat = 'HH:mm:ss',
   format
 ) {
   if (Array.isArray(val)) {
