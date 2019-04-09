@@ -34,4 +34,10 @@ public class Tree extends Widget {
     private Boolean ajax;
     @JsonProperty
     private Boolean fetchOnInit;
+    @JsonProperty
+    private Boolean autoFocus = true;
+    @JsonProperty
+    private Boolean hasFocus = true;
+    @JsonProperty
+    private Boolean hasSelect = true;
 }
