@@ -168,7 +168,7 @@ ListContainer.defaultProps = {
   filter: {},
   list: {},
   fetchOnScroll: false,
-  hasSelect: true,
+  hasSelect: false,
 };
 
 const mapStateToProps = createStructuredSelector({

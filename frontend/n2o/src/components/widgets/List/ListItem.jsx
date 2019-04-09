@@ -64,7 +64,7 @@ function ListItem({
       </div>
       <div className="n2o-widget-list-item-main-container">
         <div className="n2o-widget-list-item-header-row">
-          {checkOnReactElement(header) && checkOnReactElement(subHeader) ? (
+          {checkOnReactElement(header) || checkOnReactElement(subHeader) ? (
             <React.Fragment>
               {header && (
                 <div className="n2o-widget-list-item-header">{header}</div>

@@ -115,8 +115,8 @@ class List extends Component {
   }
 
   onItemClick(index) {
-    const { onItemClick, rowClick } = this.props;
-    if (!rowClick) {
+    const { onItemClick, rowClick, hasSelect } = this.props;
+    if (!rowClick && hasSelect) {
       this.setState({ selectedIndex: index }, () => {
         if (this._virtualizer) {
           this._virtualizer.forceUpdateGrid();
@@ -265,7 +265,7 @@ List.propTypes = {
 List.defaultProps = {
   onItemClick: () => {},
   onFetchMore: () => {},
-  hasSelect: true,
+  hasSelect: false,
   data: [],
   rowClick: false,
   hasMoreButton: false,
