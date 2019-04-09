@@ -26,7 +26,7 @@ describe('<HintDropDown />', () => {
 
     expect(wrapper.find('Button').exists()).toBeTruthy();
     expect(wrapper.find('button.btn-link').exists()).toBeTruthy();
-    expect(wrapper.find('button.btn-md').exists()).toBeTruthy();
+    expect(wrapper.find('button.btn-sm').exists()).toBeTruthy();
   });
 
   it('Свойство title', () => {
