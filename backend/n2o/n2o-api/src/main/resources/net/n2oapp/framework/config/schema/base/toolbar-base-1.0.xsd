@@ -289,17 +289,21 @@
         <xs:annotation>
             <xs:documentation>Цвет кнопки</xs:documentation>
         </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="primary"/>
-            <xs:enumeration value="secondary"/>
-            <xs:enumeration value="success"/>
-            <xs:enumeration value="danger"/>
-            <xs:enumeration value="warning"/>
-            <xs:enumeration value="info"/>
-            <xs:enumeration value="light"/>
-            <xs:enumeration value="dark"/>
-            <xs:enumeration value="link"/>
-        </xs:restriction>
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="primary"/>
+                    <xs:enumeration value="secondary"/>
+                    <xs:enumeration value="success"/>
+                    <xs:enumeration value="danger"/>
+                    <xs:enumeration value="warning"/>
+                    <xs:enumeration value="info"/>
+                    <xs:enumeration value="light"/>
+                    <xs:enumeration value="dark"/>
+                    <xs:enumeration value="link"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
     </xs:simpleType>
 
     <xs:simpleType name="placeType">
