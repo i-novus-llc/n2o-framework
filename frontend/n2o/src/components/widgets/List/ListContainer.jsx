@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { makeWidgetPageSelector } from '../../../selectors/widgets';
@@ -91,7 +92,12 @@ class ListContainer extends React.Component {
 
   renderCell(section) {
     if (!section) return;
-    return <ReduxCell {...section} className={'n2o-widget-list-cell'} />;
+    return (
+      <ReduxCell
+        {...section}
+        className={cn('n2o-widget-list-cell', get(section, 'className', ''))}
+      />
+    );
   }
 
   handleItemClick(index) {
