@@ -249,7 +249,7 @@
     <xs:complexType name="contentElementDefinition">
         <xs:complexContent>
             <xs:extension base="cell:cells">
-                <xs:attribute name="id" type="xs:string"/>
+                <xs:attribute name="text-field-id" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

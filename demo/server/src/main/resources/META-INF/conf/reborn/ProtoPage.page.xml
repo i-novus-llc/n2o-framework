@@ -110,10 +110,10 @@
             <list id="contacts" detail-field-id="individualId" depends-on="patients"
                   name="Контакты" query-id="ProtoContacts" visible="{name != 'Мария'}">
                 <content>
-                    <header id="typeId">
+                    <header text-field-id="typeId">
                         <text/>
                     </header>
-                    <body id="value">
+                    <body text-field-id="value">
                         <text/>
                     </body>
                 </content>

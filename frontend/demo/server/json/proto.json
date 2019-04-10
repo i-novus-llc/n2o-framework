@@ -1323,11 +1323,13 @@
       "list": {
         "body": {
           "id": "value",
-          "src": "TextCell"
+          "src": "TextCell",
+          "fieldKey": "value"
         },
         "header": {
           "id": "typeId",
-          "src": "TextCell"
+          "src": "TextCell",
+          "fieldKey": "typeId"
         }
       },
       "paging": {

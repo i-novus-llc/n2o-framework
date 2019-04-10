@@ -3,28 +3,28 @@
       size="10">
     <pagination prev="true" next="true"/>
     <content>
-        <left-top id="leftTop">
+        <left-top text-field-id="leftTop">
             <image class="list-image"/>
         </left-top>
-        <left-bottom id="leftBottom">
+        <left-bottom text-field-id="leftBottom">
             <text/>
         </left-bottom>
-        <header id="header">
+        <header text-field-id="header">
             <text/>
         </header>
-        <body id="body">
+        <body text-field-id="body">
             <text visible="true"/>
         </body>
-        <sub-header id="subHeader">
+        <sub-header text-field-id="subHeader">
             <badge/>
         </sub-header>
-        <right-top id="rightTop">
+        <right-top text-field-id="rightTop">
             <icon visible="true" icon="fa fa-comment"/>
         </right-top>
-        <right-bottom id="rightBottom">
+        <right-bottom text-field-id="rightBottom">
             <text visible="true"/>
         </right-bottom>
-        <extra id="extra">
+        <extra text-field-id="extra">
             <toolbar>
                 <button id="1" label="" icon="fa fa-plus" widget-id="test" description="Make a cat clever"/>
                 <button id="2" label="" icon="fa fa-trash" widget-id="test" description="Delete"/>
