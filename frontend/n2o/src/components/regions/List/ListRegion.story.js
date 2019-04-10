@@ -8,10 +8,6 @@ import ListRegion from './ListRegion';
 import SecureListRegionJson from './ListRegion.meta';
 import { metadataSuccess } from '../../../actions/pages';
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
-import {
-  userLogin,
-  userLogout as userLogoutAction,
-} from '../../../actions/auth';
 import ListMetadata from './ListMetadata.meta';
 import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import { makeStore } from '../../../../.storybook/decorators/utils';
@@ -70,55 +66,27 @@ stories
 
     return <ListRegion {...omit(InitWidgetsList, 'widgets')} pageId="Page" />;
   })
-  .add('Лист с зависимостью', () => {
-    store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
-    class ListStory extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = {
-          show: true,
-        };
-        this.onChange = this.onChange.bind(this);
-      }
-
-      onChange() {
-        this.setState({ show: !this.state.show });
-      }
-
-      render() {
-        const { show } = this.state;
-        const items = [
-          {
-            widgetId: 'Page_Html',
-            label: 'HTML',
-            opened: true,
-          },
-          {
-            widgetId: 'Page_Html1',
-            label: 'HTML',
-            opened: true,
-            dependency: {
-              visible: [
-                {
-                  on: "models.resolve['Page_First']",
-                  condition: show ? 'true' : 'false',
-                },
-              ],
-            },
-          },
-        ];
-        return (
-          <div>
-            <CheckboxN2O
-              checked={this.state.show}
-              onChange={this.onChange}
-              inline={true}
-              label={'Показать/Скрыть лист по зависимости'}
-            />
-            <ListRegion {...ListWithDependency} items={items} pageId="Page" />
-          </div>
+  .add('Зависимость региона от виджета', () => {
+    fetchMock
+      .restore()
+      .get('begin:n2o/data/test', getStubData)
+      .get('begin:n2o/data2/test', async url => {
+        await new Promise(r =>
+          setTimeout(() => {
+            r();
+          }, 2000)
         );
-      }
-    }
-    return <ListStory />;
+        return getStubData(url);
+      });
+
+    store.dispatch(
+      metadataSuccess('Page', { ...pick(ListWithDependency, 'widgets') })
+    );
+
+    return (
+      <React.Fragment>
+        <div>Первый collapse скрыт по зависимости виджета</div>
+        <ListRegion {...ListWithDependency} pageId="Page" />
+      </React.Fragment>
+    );
   });

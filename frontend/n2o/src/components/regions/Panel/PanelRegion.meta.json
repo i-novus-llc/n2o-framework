@@ -16,7 +16,16 @@
       "label": "Первый таб",
       "id": "panel1",
       "opened": true,
-      "widgetId": "Page_Html"
+      "widgetId": "Page_Html",
+      "isVisible": false,
+      "dependency": {
+        "visible": [
+          {
+            "bindLink": "models.resolve",
+            "condition": false
+          }
+        ]
+      }
     },
     {
       "icon": "fa fa-plus",
