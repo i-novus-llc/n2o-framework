@@ -1,0 +1,18 @@
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/mixins";
+
+@import "~n2o/src/sass/variables";
+
+.n2o-copy-icon {
+  opacity: 0.6;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &.text-success {
+    opacity: 1;
+  }
+}
