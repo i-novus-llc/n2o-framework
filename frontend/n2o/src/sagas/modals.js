@@ -1,4 +1,4 @@
-import { takeEvery, select, put, call } from 'redux-saga/effects';
+import { takeEvery, select, put, call, race } from 'redux-saga/effects';
 import { isDirty } from 'redux-form';
 import { CLOSE } from '../constants/modals';
 import { keys } from 'lodash';
@@ -41,11 +41,16 @@ export function* checkPrompt(action) {
   }
 }
 
-export function* destroyOnMeta() {
-  yield put(destroyModal());
-}
-
 export const modalsSagas = [
-  takeEvery(CLOSE, checkPrompt),
-  takeEvery(action => action.meta && action.meta.closeLastModal, destroyOnMeta),
+  race([
+    takeEvery(CLOSE, checkPrompt),
+    takeEvery(
+      action =>
+        action.meta &&
+        action.payload &&
+        action.payload.prompt &&
+        action.meta.closeLastModal,
+      checkPrompt
+    ),
+  ]),
 ];
