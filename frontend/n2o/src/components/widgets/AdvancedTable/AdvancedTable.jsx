@@ -133,6 +133,9 @@ class AdvancedTable extends Component {
           columns: this.props.columns,
         };
       }
+      if (!isEqual(prevProps.selectedId, selectedId)) {
+        this.setNewSelectIndex(selectedId);
+      }
       this.setState({ ...state });
     }
   }
