@@ -2,11 +2,11 @@
 <list xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <content>
 
-        <left-top id="test">
+        <left-top text-field-id="test">
             <image url="testUrl1"/>
         </left-top>
 
-        <left-bottom id="test2">
+        <left-bottom text-field-id="test2">
             <image url="testUrl2"/>
         </left-bottom>
 

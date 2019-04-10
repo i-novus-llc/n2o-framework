@@ -7,11 +7,11 @@
     </toolbar>
     <content>
 
-        <left-top id="test">
+        <left-top text-field-id="test">
             <image url="testUrl"/>
         </left-top>
 
-        <header id="test">
+        <header text-field-id="test">
             <progress color="test"/>
         </header>
 
@@ -23,7 +23,7 @@
             <badge  visible="{1 == 2}"/>
         </body>
 
-        <right-top id="rightTopId">
+        <right-top text-field-id="rightTopId">
             <link>
                 <a href="test"/>
             </link>
