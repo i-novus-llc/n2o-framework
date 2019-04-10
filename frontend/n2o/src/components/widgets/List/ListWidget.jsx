@@ -145,7 +145,7 @@ ListWidget.defaultProps = {
   showPagination: false,
   prevText: 'Назад',
   nextText: 'Вперед',
-  hasSelect: true,
+  hasSelect: false,
 };
 ListWidget.contextTypes = {
   resolveProps: PropTypes.func,
