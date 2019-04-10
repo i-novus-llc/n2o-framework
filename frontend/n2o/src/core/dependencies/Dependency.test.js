@@ -1,6 +1,5 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { change } from 'redux-form';
 import {
   DISABLE_FIELD,
   ENABLE_FIELD,
@@ -18,6 +17,8 @@ import { enableField, disableField } from '../../actions/formPlugin';
 import formPluginReducer from '../../reducers/formPlugin';
 import { checkAndModify, modify } from '../../sagas/fieldDependency';
 import withDependency from './withDependency';
+import { updateModel } from '../../actions/models';
+import { PREFIXES } from '../../constants/models';
 
 const mockStore = configureMockStore();
 
@@ -210,7 +211,14 @@ describe('Тестирование саги', () => {
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
     expect(gen.next().value).toEqual(
-      put(change(mockData.formName, mockData.fields.field1.name, 'test'))
+      put(
+        updateModel(
+          PREFIXES.resolve,
+          mockData.formName,
+          mockData.fields.field1.name,
+          'test'
+        )
+      )
     );
     expect(gen.next().done).toBe(true);
   });
@@ -221,7 +229,14 @@ describe('Тестирование саги', () => {
     set(mockData, 'fields.field1.dependency[0].expression', 'field2 == "test"');
     gen = setupModify(mockData);
     expect(gen.next().value).toEqual(
-      put(change(mockData.formName, mockData.fields.field1.name, null))
+      put(
+        updateModel(
+          PREFIXES.resolve,
+          mockData.formName,
+          mockData.fields.field1.name,
+          null
+        )
+      )
     );
     expect(gen.next().done).toBe(true);
   });
