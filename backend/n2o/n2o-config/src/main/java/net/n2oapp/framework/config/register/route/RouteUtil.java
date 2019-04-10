@@ -112,7 +112,10 @@ public abstract class RouteUtil {
             url = url.substring(1);
         if (url.isEmpty())
             return "_";
-        return url.replaceAll("/:\\w+/", "/").replaceAll("/:\\w+$", "").replace("/", "_");
+        return url.replaceAll("/:\\w+/", "/")
+                .replaceAll("/:\\w+$", "")
+                .replace("/", "_")
+                .replace(":", "");
     }
 
     /**
