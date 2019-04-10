@@ -3,7 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { makeWidgetPageSelector } from '../../../selectors/widgets';
-import { map, forOwn, isEmpty, isEqual, debounce, keys, get } from 'lodash';
+import {
+  map,
+  forOwn,
+  isEmpty,
+  isEqual,
+  debounce,
+  keys,
+  get,
+  find,
+} from 'lodash';
 import widgetContainer from '../WidgetContainer';
 import List from './List';
 import withColumn from '../Table/withColumn';
@@ -55,7 +64,7 @@ class ListContainer extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { datasource: prevDatasource } = prevProps;
-    const { datasource: currentDatasource } = this.props;
+    const { datasource: currentDatasource, onResolve, selectedId } = this.props;
     const { needToCombine } = this.state;
     if (currentDatasource && !isEqual(prevDatasource, currentDatasource)) {
       let newDatasource = [];
@@ -65,10 +74,18 @@ class ListContainer extends React.Component {
         newDatasource = currentDatasource.slice();
       }
 
-      this.setState({
-        needToCombine: false,
-        datasource: newDatasource,
-      });
+      this.setState(
+        {
+          needToCombine: false,
+          datasource: newDatasource,
+        },
+        () => {
+          const model = selectedId
+            ? find(currentDatasource, item => item.id === selectedId)
+            : currentDatasource[0];
+          if (model) onResolve(model);
+        }
+      );
     }
   }
 

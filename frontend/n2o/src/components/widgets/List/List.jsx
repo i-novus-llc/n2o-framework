@@ -150,7 +150,7 @@ class List extends Component {
   }
 
   renderRow({ index, key, style, parent }) {
-    const { divider, hasMoreButton, fetchOnScroll } = this.props;
+    const { divider, hasMoreButton, fetchOnScroll, hasSelect } = this.props;
     const { data } = this.state;
     let moreBtn = null;
     if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
@@ -178,6 +178,7 @@ class List extends Component {
         >
           <ListItem
             {...data[index]}
+            hasSelect={hasSelect}
             key={key}
             style={style}
             divider={divider}
