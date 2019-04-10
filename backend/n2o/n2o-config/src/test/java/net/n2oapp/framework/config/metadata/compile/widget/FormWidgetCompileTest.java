@@ -51,6 +51,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(form.getUpload(), is(UploadType.defaults));
         assertThat(form.getDataProvider(), nullValue());
         assertThat(form.getComponent().getFetchOnInit(), is(false));
+        assertThat(form.getComponent().getPrompt(), is(true));
     }
 
     @Test
@@ -60,7 +61,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(form.getId(), is("testFormCompile2"));
         assertThat(form.getUpload(), is(UploadType.query));
         assertThat(form.getDataProvider(), notNullValue());
-        assertThat(form.getComponent().getPrompt(), is(true));
         assertThat(form.getComponent().getFetchOnInit(), is(true));
         QueryContext queryContext = (QueryContext) route("/testFormCompile2", CompiledQuery.class);
         assertThat(queryContext.getFailAlertWidgetId(), is("testFormCompile2"));

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-       name="Моя таблица" query-id="stub" src="testSrc"
-       object-id="stub" icon="testIcon" class="testClass" default-values-query-id="test"
-      mode="two-models" master-param="uid" fetch-on-init="false">
+      name="Моя таблица" query-id="stub" src="testSrc"
+      object-id="stub" icon="testIcon" class="testClass" default-values-query-id="test"
+      mode="two-models" master-param="uid" fetch-on-init="false" unsaved-data-prompt="true">
 
     <fields>
         <!--<input-text id="inputTest1"/>-->

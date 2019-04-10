@@ -105,7 +105,6 @@
       },
       "actions": {},
       "form": {
-        "prompt": true,
         "fieldsets": [
           {
             "src": "StandardFieldset",

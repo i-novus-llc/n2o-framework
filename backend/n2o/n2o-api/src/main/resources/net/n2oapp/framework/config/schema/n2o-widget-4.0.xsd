@@ -382,6 +382,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Предупреждение о несохраненных данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

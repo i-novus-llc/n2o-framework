@@ -1510,7 +1510,6 @@
         ],
         "validation": {},
         "modelPrefix": "resolve",
-        "prompt": true,
         "fetchOnInit": false
       }
     }
