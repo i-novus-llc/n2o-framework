@@ -1,4 +1,4 @@
-import { modify, checkAndModify, resolveDependency } from './fieldDependency';
+import { modify, checkAndModify } from './fieldDependency';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
 import {
   DISABLE_FIELD,
@@ -102,7 +102,12 @@ describe('Проверка саги dependency', () => {
         expression: `10 + 2`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.payload).toEqual(12);
+      expect(next.value.PUT.action.payload).toEqual({
+        field: 'testField',
+        key: 'testForm',
+        prefix: 'resolve',
+        value: 12,
+      });
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type reset с ложным expression', () => {
@@ -118,7 +123,12 @@ describe('Проверка саги dependency', () => {
         expression: `testField === 0`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.payload).toEqual(null);
+      expect(next.value.PUT.action.payload).toEqual({
+        field: 'testField',
+        key: 'testForm',
+        prefix: 'resolve',
+        value: null,
+      });
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка on c точкой', () => {
