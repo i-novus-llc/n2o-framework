@@ -229,10 +229,14 @@ class AdvancedTable extends Component {
   }
 
   handleRowClick(id, index, noResolve) {
-    const { hasFocus, hasSelect, rowClick, onRowClickAction } = this.props;
-    hasSelect &&
-      !noResolve &&
-      this.props.onResolve(_.find(this._dataStorage, { id }));
+    const {
+      hasFocus,
+      hasSelect,
+      rowClick,
+      onRowClickAction,
+      onResolve,
+    } = this.props;
+    hasSelect && !noResolve && onResolve(_.find(this._dataStorage, { id }));
     if (hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(id, id);
     } else if (hasFocus) {
@@ -241,6 +245,7 @@ class AdvancedTable extends Component {
       this.setNewSelectIndex(id);
     }
     if (!noResolve && rowClick) {
+      !hasSelect && onResolve(_.find(this._dataStorage, { id }));
       onRowClickAction();
     }
   }
