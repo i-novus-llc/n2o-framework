@@ -186,7 +186,7 @@ class AdvancedTable extends Component {
   }
 
   setRowRef(ref, id) {
-    if (ref && !this.rows[id]) {
+    if (ref) {
       this.rows[id] = ref;
     }
   }
