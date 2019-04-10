@@ -127,7 +127,7 @@
           {
             "href": "/fieldsets-background",
             "id": "menuItemBackgroundImageExample",
-            "label": "BackgroundImageFieldset",
+            "label": "AddMemberFieldset",
             "linkType": "inner",
             "type": "link"
           }

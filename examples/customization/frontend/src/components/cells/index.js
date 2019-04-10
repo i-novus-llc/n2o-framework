@@ -1,5 +1,5 @@
-import InputCell from './InputCell/InputCell';
+import CopyTextCell from "./CopyTextCell/CopyTextCell";
 
 export default {
-    InputCell: InputCell
+  CopyTextCell
 };

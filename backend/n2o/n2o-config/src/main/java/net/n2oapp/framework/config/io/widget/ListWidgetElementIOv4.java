@@ -34,7 +34,7 @@ public class ListWidgetElementIOv4 extends WidgetElementIOv4<N2oListWidget> {
     }
 
     public void element(Element e, N2oListWidget.ContentElement m, IOProcessor p) {
-        p.attribute(e, "id", m::getId, m::setId);
+        p.attribute(e, "text-field-id", m::getTextFieldId, m::setTextFieldId);
         p.anyChild(e, null, m::getCell, m::setCell, p.anyOf(N2oCell.class), cellDefaultNamespace);
     }
 

@@ -1,5 +1,5 @@
-import ImageControl from './ImageControl/ImageControl';
+import RatingControl from "./Rating/RatingControl";
 
 export default {
-    ImageControl: ImageControl
+  RatingControl
 };

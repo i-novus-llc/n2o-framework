@@ -56,7 +56,7 @@ class InputText extends React.Component {
       <Input
         type="text"
         className={inputClass}
-        ref={inputRef}
+        inputRef={inputRef}
         style={style}
         autoFocus={autoFocus}
         maxLength={length}

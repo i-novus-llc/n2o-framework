@@ -97,6 +97,7 @@ class Input extends React.Component {
 
     return (
       <input
+        ref={inputRef}
         className={classNames('n2o-input', className)}
         style={style}
         id={id}
