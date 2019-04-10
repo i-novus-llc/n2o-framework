@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -30,6 +31,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -87,18 +89,21 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * @return Часть маршрута виджета
      */
     private String initWidgetRoute(S source, CompileProcessor p) {
-        if (source.getRoute() == null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
+        if (source.getRoute() != null) {
+            return source.getRoute();
+        }
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null) {
+            if (widgetScope.getDependsOnWidgetId() != null) {
                 //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
                 String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
                 return normalize(colon(selectedId)) + normalize(source.getId());
-            } else {
-                return normalize(source.getId());
             }
-        } else {
-            return source.getRoute();
+            if (widgetScope.isMainWidget()) {
+                return "/";
+            }
         }
+        return normalize(source.getId());
     }
 
     /**
@@ -295,7 +300,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return;
         String widgetRoute = widgetRouteScope.getUrl();
         //Регистрация основного маршрута виджета для страницы
-        routes.addRoute(widgetRouteScope.getUrl(), compiled.getId());
+        routes.addRoute(widgetRouteScope.getUrl());
         if (compiled.getMasterLink() != null)
             routes.addPathMapping(compiled.getMasterParam(),
                     Redux.dispatchSelectedWidget(compiled.getMasterLink().getWidgetId(), colon(compiled.getMasterParam())));
@@ -304,7 +309,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //todo для формы не существует selected!
         String selectedId = normalizeParam(compiled.getId() + "_id");
         String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
-        routes.addRoute(routeWidgetSelected, compiled.getId());
+        routes.addRoute(routeWidgetSelected);
 
         ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
         routes.addPathMapping(selectedId, widgetIdMapping);
@@ -640,5 +645,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         } else {
             return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
         }
+    }
+
+    protected Pagination createPaging(Integer size, Boolean prev, Boolean next, String property, CompileProcessor p) {
+        Pagination pagination = new Pagination();
+        pagination.setSize(size != null ? size : p.resolve(Placeholders.property(property), Integer.class));
+        pagination.setPrev(prev);
+        pagination.setNext(next);
+        return pagination;
     }
 }

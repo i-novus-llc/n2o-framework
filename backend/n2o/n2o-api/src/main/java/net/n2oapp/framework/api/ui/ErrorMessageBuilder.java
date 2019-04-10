@@ -7,6 +7,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -37,7 +38,7 @@ public class ErrorMessageBuilder {
         return resp;
     }
 
-    public List<ResponseMessage> buildMessages(N2oValidationException e) {
+    private List<ResponseMessage> buildValidationMessages(N2oValidationException e) {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
@@ -77,6 +78,12 @@ public class ErrorMessageBuilder {
             return StringUtils.resolveLinks(localizedMessage, ((N2oException) e).getData());
         else
             return localizedMessage;
+    }
+
+    public List<ResponseMessage> buildMessages(Exception e) {
+        return e instanceof N2oValidationException
+                ? buildValidationMessages((N2oValidationException) e)
+                : Collections.singletonList(build(e));
     }
 
 }

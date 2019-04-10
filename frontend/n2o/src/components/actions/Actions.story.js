@@ -80,7 +80,7 @@ stories
                 title: 'Элемент списка',
               },
               {
-                id: 'testBtn29',
+                id: 'testBtn299',
                 actionId: 'dummy',
                 title: 'Элемент списка',
               },

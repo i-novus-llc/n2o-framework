@@ -5,10 +5,11 @@ import ListItem from './ListItem';
 const setup = propsOverride =>
   mount(
     <ListItem
-      image={{
+      leftTop={{
         src: 'google.com',
         alt: 'test',
       }}
+      leftBottom={'a little description'}
       header={'header'}
       subHeader={'subHeader'}
       rightTop={'rightTop'}
@@ -22,7 +23,12 @@ const setup = propsOverride =>
 describe('Проверка ListItem', () => {
   it('секции отрисовываются', () => {
     const wrapper = setup();
-    expect(wrapper.find('.n2o-widget-list-item-image').exists()).toEqual(true);
+    expect(wrapper.find('.n2o-widget-list-item-left-top').exists()).toEqual(
+      true
+    );
+    expect(wrapper.find('.n2o-widget-list-item-left-bottom').exists()).toEqual(
+      true
+    );
     expect(wrapper.find('.n2o-widget-list-item-header').exists()).toEqual(true);
     expect(wrapper.find('.n2o-widget-list-item-subheader').exists()).toEqual(
       true

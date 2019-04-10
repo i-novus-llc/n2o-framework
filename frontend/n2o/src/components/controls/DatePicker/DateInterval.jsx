@@ -35,12 +35,12 @@ function DateInterval({ value, defaultTime, defaultValue, onChange, ...rest }) {
     {
       name: DateTimeControl.beginInputName,
       value: newValue[DateTimeControl.beginInputName],
-      defaultTime,
+      defaultTime: defaultTime || '00:00:00',
     },
     {
       name: DateTimeControl.endInputName,
       value: newValue[DateTimeControl.endInputName],
-      defaultTime,
+      defaultTime: defaultTime || '23:59:59',
     },
   ];
 

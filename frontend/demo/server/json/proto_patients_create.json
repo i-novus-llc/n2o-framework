@@ -1,7 +1,7 @@
 {
-  "id": "proto_patients_create",
+  "id": "proto_create",
   "widgets": {
-    "proto_patients_create_main": {
+    "proto_create_main": {
       "src": "FormWidget",
       "actions": {},
       "form": {
@@ -175,12 +175,12 @@
               "enabled": [
                 {
                   "expression": "!_.isEmpty(this)",
-                  "modelLink": "models.resolve['proto_patients_create_main']"
+                  "modelLink": "models.resolve['proto_create_main']"
                 }
               ]
             },
             "validate": true,
-            "validatedWidgetId": "proto_patients_create_main",
+            "validatedWidgetId": "proto_create_main",
             "color": "primary",
             "title": "Сохранить"
           },
@@ -201,14 +201,14 @@
       "options": {
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
-          "widgetId": "proto_patients_create_main",
-          "pageId": "proto_patients_create",
+          "widgetId": "proto_create_main",
+          "pageId": "proto_create",
           "dataProvider": {
-            "url": "n2o/data/proto/patients/create/submit",
+            "url": "n2o/data/proto/create/submit",
             "pathMapping": {},
             "method": "POST"
           },
-          "modelLink": "models.resolve['proto_patients_create_main']"
+          "modelLink": "models.resolve['proto_create_main']"
         },
         "meta": {
           "success": {
@@ -219,7 +219,7 @@
               }
             },
             "redirect": {
-              "path": "/proto/patients/:id/update2",
+              "path": "/proto/:id/update2",
               "pathMapping": {},
               "queryMapping": {},
               "target": "application"
@@ -234,7 +234,11 @@
       "id": "close",
       "src": "perform",
       "options": {
-        "type": "n2o/modals/DESTROY",
+        "type": "n2o/modals/CLOSE",
+        "payload": {
+          "name": "proto_create",
+          "prompt": true
+        },
         "meta": {
           "closeLastModal": true
         }
@@ -242,9 +246,9 @@
     }
   },
   "models": {
-    "resolve['proto_patients_create_main'].patrName": {
+    "resolve['proto_create_main'].patrName": {
       "value": "Тест",
-      "link": "models.resolve['proto_patients_create_main'].patrName"
+      "link": "models.resolve['proto_create_main'].patrName"
     }
   },
   "layout": {
@@ -257,7 +261,7 @@
             {
               "id": "none1",
               "label": "Карточка пациента",
-              "widgetId": "proto_patients_create_main"
+              "widgetId": "proto_create_main"
             }
           ]
         }

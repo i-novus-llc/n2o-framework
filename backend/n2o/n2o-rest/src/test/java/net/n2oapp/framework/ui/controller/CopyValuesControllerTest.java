@@ -120,10 +120,8 @@ public class CopyValuesControllerTest {
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
-        CopyValuesController copyValuesController = new CopyValuesController();
-        copyValuesController.setQueryProcessor(queryProcessor);
-        copyValuesController.setSubModelsProcessor(subModelsProcessor);
-        copyValuesController.setDataProcessingStack(dataProcessingStack);
+        CopyValuesController copyValuesController = new CopyValuesController(dataProcessingStack, queryProcessor,
+                subModelsProcessor, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("CopyValuesController", copyValuesController);
 

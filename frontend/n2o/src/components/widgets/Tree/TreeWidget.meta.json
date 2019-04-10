@@ -14,7 +14,7 @@
     "childIcon": "",
     "multiselect": false,
     "showLine": false,
-    "filter": "",
+    "filter": "startsWith",
     "expandBtn": true,
     "bulkData": false,
     "parentFieldId": "parentId",

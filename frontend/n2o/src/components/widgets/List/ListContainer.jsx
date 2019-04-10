@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { makeWidgetPageSelector } from '../../../selectors/widgets';
-import { map, forOwn, isEmpty, isEqual, debounce } from 'lodash';
+import { map, forOwn, isEmpty, isEqual, debounce, keys, get } from 'lodash';
 import widgetContainer from '../WidgetContainer';
 import List from './List';
 import withColumn from '../Table/withColumn';
@@ -97,8 +97,12 @@ class ListContainer extends React.Component {
     const { datasource } = this.state;
     return map(datasource, item => {
       let mappedSection = {};
-      forOwn(item, (v, k) => {
-        mappedSection[k] = this.renderCell({ ...list[k], model: item });
+      forOwn(list, (v, k) => {
+        mappedSection[k] = this.renderCell({
+          ...list[k],
+          id: v.id,
+          model: item,
+        });
       });
       return mappedSection;
     });
@@ -164,7 +168,7 @@ ListContainer.defaultProps = {
   filter: {},
   list: {},
   fetchOnScroll: false,
-  hasSelect: true,
+  hasSelect: false,
 };
 
 const mapStateToProps = createStructuredSelector({

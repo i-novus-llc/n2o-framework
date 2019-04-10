@@ -3,7 +3,7 @@
     "src": "ListWidget",
     "className": "n2o",
     "dataProvider": {
-      "url": "n2o/data/test",
+      "url": "n2o/data/testListWidget",
       "pathMapping": {
       },
       "queryMapping": {}
@@ -116,11 +116,16 @@
     "showPagination": false,
     "divider": true,
     "list": {
-      "image": {
+      "leftTop": {
         "src": "ImageCell",
-        "id": "image",
+        "id": "leftTop",
         "className": "list-image",
         "title": "It's a cat!"
+      },
+      "leftBottom": {
+        "src": "TextCell",
+        "id": "leftBottom",
+        "as": "span"
       },
       "header": {
         "src": "TextCell",

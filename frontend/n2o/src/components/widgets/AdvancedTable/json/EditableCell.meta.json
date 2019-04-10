@@ -31,6 +31,37 @@
           "src": "EditableCell",
           "id": "name",
           "editable": true,
+          "action": {
+            "id": "update",
+            "src": "perform",
+            "options": {
+              "type": "n2o/actionImpl/START_INVOKE",
+              "payload": {
+                "widgetId": "__patients",
+                "dataProvider": {
+                  "url": "n2o/data//:__patients_id/update",
+                  "pathMapping": {
+                    "__patients_id": {
+                      "link": "models.resolve['Page_Table'].id"
+                    }
+                  },
+                  "method": "POST"
+                },
+                "modelLink": "models.resolve['__patients']"
+              },
+              "meta": {
+                "success": {
+                  "refresh": {
+                    "type": "widget",
+                    "options": {
+                      "widgetId": "__patients"
+                    }
+                  }
+                },
+                "fail": {}
+              }
+            }
+          },
           "control": {
             "src": "InputText"
           }

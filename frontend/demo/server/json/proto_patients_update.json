@@ -1,10 +1,10 @@
 {
-  "id": "proto_patients_update",
+  "id": "proto_update",
   "widgets": {
-    "proto_patients_update_main": {
+    "proto_update_main": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients/5607677/update/main",
+        "url": "n2o/data/proto/5607677/update/main",
         "pathMapping": {},
         "queryMapping": {}
       },
@@ -180,12 +180,12 @@
               "enabled": [
                 {
                   "expression": "!_.isEmpty(this)",
-                  "modelLink": "models.resolve['proto_patients_update_main']"
+                  "modelLink": "models.resolve['proto_update_main']"
                 }
               ]
             },
             "validate": true,
-            "validatedWidgetId": "proto_patients_update_main",
+            "validatedWidgetId": "proto_update_main",
             "color": "primary",
             "title": "Сохранить"
           },
@@ -206,14 +206,14 @@
       "options": {
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
-          "widgetId": "proto_patients_update_main",
-          "pageId": "proto_patients_update",
+          "widgetId": "proto_update_main",
+          "pageId": "proto_update",
           "dataProvider": {
-            "url": "n2o/data/proto/patients/5607677/update/submit",
+            "url": "n2o/data/proto/5607677/update/submit",
             "pathMapping": {},
             "method": "POST"
           },
-          "modelLink": "models.resolve['proto_patients_update_main']"
+          "modelLink": "models.resolve['proto_update_main']"
         },
         "meta": {
           "success": {
@@ -224,7 +224,7 @@
               }
             },
             "redirect": {
-              "path": "/proto/patients/:id",
+              "path": "/proto/:id",
               "pathMapping": {},
               "queryMapping": {},
               "target": "application"
@@ -239,7 +239,11 @@
       "id": "close",
       "src": "perform",
       "options": {
-        "type": "n2o/modals/DESTROY",
+        "type": "n2o/modals/CLOSE",
+        "payload": {
+          "name": "proto_update",
+          "prompt": true
+        },
         "meta": {
           "closeLastModal": true
         }
@@ -257,7 +261,7 @@
             {
               "id": "none1",
               "label": "Карточка пациента",
-              "widgetId": "proto_patients_update_main"
+              "widgetId": "proto_update_main"
             }
           ]
         }

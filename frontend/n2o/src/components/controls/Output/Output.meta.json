@@ -4,7 +4,7 @@
   "type": "iconAndText",
   "textPlace": "left",
   "icon": "fa fa-plus",
-  "format" : "number 0,0.00",
-  "ellipsis": false,
-  "expandable": false
+  "format": "number 0,0.00",
+  "expandable": true,
+  "ellipsis": true
 }

@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.mvc.n2o.N2oServlet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +20,7 @@ public class PageServlet extends N2oServlet {
     @Override
     public void safeDoGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String path = req.getPathInfo();
-        RoutingResult routingResult = router.get(path);
-        CompileContext<Page, ?> context = routingResult.getContext(Page.class);
+        CompileContext<Page, ?> context = router.get(path, Page.class);
         Page page = pipeline.get(context, context.getParams(path, req.getParameterMap()));
         resp.setContentType("application/json");
         objectMapper.writeValue(resp.getWriter(), page);

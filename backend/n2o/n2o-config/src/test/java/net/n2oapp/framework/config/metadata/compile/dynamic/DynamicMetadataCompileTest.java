@@ -57,11 +57,11 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("test_route_main"), instanceOf(Table.class));
         assertThat(((Table)page.getWidgets().get("test_route_main")).getComponent().getCells().size(), is(1));
         assertThat(((Table)page.getWidgets().get("test_route_main")).getComponent().getCells().get(0).getId(), is("id"));
-        CompiledQuery query = route("/test/route/main", CompiledQuery.class);
+        CompiledQuery query = routeAndGet("/test/route/main", CompiledQuery.class);
         assertThat(query.getId(), is("testDynamic?Dummy"));
         assertThat(((N2oSqlQuery) query.getLists()[0].getInvocation()).getQuery(), is("test select"));
         // динамическая страница в контекстно-независимой кнопке
-        Page dynamicCreatePage = route("/test/route/main/create", Page.class);
+        Page dynamicCreatePage = routeAndGet("/test/route/main/create", Page.class);
         assertThat(dynamicCreatePage.getId(), is("test_route_main_create"));
         assertThat(dynamicCreatePage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicCreatePage.getWidgets().get("test_route_main_create_main"), instanceOf(Form.class));
@@ -70,7 +70,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(((StandardField)((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
         // динамическая страница в контекстной кнопке
-        Page dynamicPage = route("/test/route/main/123/update", Page.class);
+        Page dynamicPage = routeAndGet("/test/route/main/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_main_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicPage.getWidgets().get("test_route_main_update_main"), instanceOf(Form.class));
@@ -81,7 +81,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
 
 
-        dynamicPage = route("/test/route/second/123/update", Page.class);
+        dynamicPage = routeAndGet("/test/route/second/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_second_123_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
         assertThat(dynamicPage.getWidgets().get("test_route_second_123_update_main"), instanceOf(Form.class));
