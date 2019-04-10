@@ -3,6 +3,12 @@
   margin-bottom: 1rem;
   overflow: auto;
 
+  &--empty-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   & .ReactVirtualized__Grid {
     outline: none;
   }
