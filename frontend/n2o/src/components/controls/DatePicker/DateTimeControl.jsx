@@ -2,12 +2,13 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
+import { Manager, Reference, Popper } from 'react-popper';
 import {
   parseDate,
   mapToValue,
   mapToDefaultTime,
   buildDateFormat,
+  MODIFIERS,
 } from './utils';
 import DateInputGroup from './DateInputGroup';
 import PopUp from './PopUp';
@@ -65,6 +66,7 @@ class DateTimeControl extends React.Component {
     this.setPlacement = this.setPlacement.bind(this);
     this.onClickOutside = this.onClickOutside.bind(this);
     this.markTimeAsSet = this.markTimeAsSet.bind(this);
+    this.setInputRef = this.setInputRef.bind(this);
   }
 
   /**
@@ -282,6 +284,13 @@ class DateTimeControl extends React.Component {
     );
     return isPopUpVisible && popUp;
   }
+
+  setInputRef(poperRef) {
+    return r => {
+      this.inputGroup = r;
+      poperRef(r);
+    };
+  }
   /**
    * Базовый рендер
    */
@@ -299,24 +308,43 @@ class DateTimeControl extends React.Component {
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
-          <DateInputGroup
-            inputRef={c => {
-              this.inputGroup = c;
-            }}
-            dateFormat={this.format}
-            disabled={disabled}
-            placeholder={placeholder}
-            value={inputs}
-            onInputChange={this.onInputChange}
-            inputClassName={className}
-            setVisibility={this.setVisibility}
-            setWidth={this.setWidth}
-            onBlur={this.onBlur}
-            onFocus={onFocus}
-            autoFocus={autoFocus}
-            openOnFocus={openOnFocus}
-          />
-          {this.renderPopUp(this.width)}
+          <Manager>
+            <Reference>
+              {({ ref }) => (
+                <DateInputGroup
+                  inputRef={this.setInputRef(ref)}
+                  dateFormat={this.format}
+                  disabled={disabled}
+                  placeholder={placeholder}
+                  value={inputs}
+                  onInputChange={this.onInputChange}
+                  inputClassName={className}
+                  setVisibility={this.setVisibility}
+                  setWidth={this.setWidth}
+                  onBlur={this.onBlur}
+                  onFocus={onFocus}
+                  autoFocus={autoFocus}
+                  openOnFocus={openOnFocus}
+                />
+              )}
+            </Reference>
+            <Popper
+              placement="bottom-start"
+              modifiers={MODIFIERS}
+              positionFixed={true}
+            >
+              {({ ref, style, placement }) => (
+                <div
+                  ref={ref}
+                  style={style}
+                  data-placement={placement}
+                  className="n2o-pop-up"
+                >
+                  {this.renderPopUp(this.width)}
+                </div>
+              )}
+            </Popper>
+          </Manager>
         </div>
       </div>
     );
