@@ -91,7 +91,10 @@ class List extends Component {
         };
       }
 
-      this.setState(state);
+      this.setState(
+        state,
+        () => this._virtualizer && this._virtualizer.forceUpdateGrid()
+      );
     }
   }
 
