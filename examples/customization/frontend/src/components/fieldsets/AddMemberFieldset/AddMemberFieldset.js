@@ -2,7 +2,6 @@ import React from 'react';
 import { isEqual, map } from 'lodash';
 import { Row, Col, Button } from 'reactstrap';
 import ReduxField from 'n2o/lib/components/widgets/Form/ReduxField';
-import StandardField from 'n2o/lib/components/widgets/Form/fields/StandardField/StandardField';
 import PropTypes from 'prop-types';
 
 class AddMemberFieldset extends React.Component {
@@ -12,8 +11,11 @@ class AddMemberFieldset extends React.Component {
         this.state = {
             rows: props.rows
         };
+        
+        this.template = props.rows;
 
         this.addMember = this.addMember.bind(this);
+        this.createNewRow = this.createNewRow.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -21,50 +23,22 @@ class AddMemberFieldset extends React.Component {
             this.setState({ rows: this.props.rows });
         }
     }
+    
+    createNewRow() {
+        return map(this.template, ({ cols }) => ({
+            cols: map(cols, ({ fields }) => ({
+              fields: map(fields, (item) => ({
+                  ...item,
+                  id: item.id + this.state.rows.length
+              }))
+            }))
+        }));
+    }
 
     addMember() {
         const rows = this.state.rows;
-        const template = {
-            "cols": [
-                {
-                    "fields": [
-                        {
-                            ...this.context.resolveProps({
-                                "id": "surname" + rows.length,
-                                "src": "StandardField",
-                                "label": "Фамилия",
-                                "dependency": [],
-                                "control": {
-                                    "readOnly": false,
-                                    "type": "text",
-                                    "disabled": false,
-                                    "src": "InputText"
-                                }
-                            }, StandardField),
-                        }
-                    ]
-                },
-                {
-                    "fields": [
-                        {
-                            ...this.context.resolveProps({
-                                "id": "name" + rows.length,
-                                "src": "StandardField",
-                                "label": "Имя",
-                                "dependency": [],
-                                "control": {
-                                    "readOnly": false,
-                                    "type": "text",
-                                    "disabled": false,
-                                    "src": "InputText"
-                                }
-                            }, StandardField),
-                        }
-                    ]
-                }
-            ]
-        };
-        rows.push(template);
+        const template = this.createNewRow();
+        rows.push(template[0]);
         this.setState({
             rows
         });
@@ -87,7 +61,6 @@ class AddMemberFieldset extends React.Component {
             <div style={{
                 padding: '40px'
             }}>
-                <h1>Пример AddMemberFieldset</h1>
                 <div>
                     <div style={{
                         display: 'flex',
