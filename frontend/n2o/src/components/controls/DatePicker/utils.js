@@ -322,3 +322,9 @@ export const formatToMask = format => {
     })
   );
 };
+
+export const MODIFIERS = {
+  preventOverflow: {
+    boundariesElement: 'window',
+  },
+};
