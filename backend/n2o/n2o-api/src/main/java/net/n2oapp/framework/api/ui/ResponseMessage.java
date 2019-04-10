@@ -28,6 +28,12 @@ public class ResponseMessage implements Serializable {
     @JsonProperty
     private Boolean closeButton;
     @JsonProperty
+    private String position = "relative";
+    @JsonProperty
+    private Boolean loader = false;
+    @JsonProperty
+    private Boolean animate = false;
+    @JsonProperty
     private Map<String, String> choice;
     @JsonProperty
     private List<String> stacktrace;

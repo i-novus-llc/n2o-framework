@@ -119,10 +119,8 @@ public class DefaultValuesControllerTest {
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
-        SimpleDefaultValuesController valuesController = new SimpleDefaultValuesController();
-        valuesController.setQueryProcessor(queryProcessor);
-        valuesController.setSubModelsProcessor(subModelsProcessor);
-        valuesController.setDataProcessingStack(dataProcessingStack);
+        SimpleDefaultValuesController valuesController = new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
+                subModelsProcessor, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("SimpleDefaultValuesController", valuesController);
 

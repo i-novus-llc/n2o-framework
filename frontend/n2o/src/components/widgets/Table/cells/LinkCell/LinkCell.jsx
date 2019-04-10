@@ -68,7 +68,7 @@ function LinkCell({
     (url ? (
       <React.Fragment>
         {target === LinkType.APPLICATION && (
-          <Link to={url} {...props}>
+          <Link to={url} {...props} onClick={handleClick}>
             {getLinkContent()}
           </Link>
         )}

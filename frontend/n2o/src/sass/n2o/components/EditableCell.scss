@@ -1,4 +1,9 @@
 .n2o-editable-cell {
+  & > .n2o-editable-cell-text{
+    & span:before{
+      content: "\a0";
+    }
+  }
   &:hover {
     transition: 0.3s;
     color: #263238;

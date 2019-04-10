@@ -7,7 +7,7 @@ const regionAccordion = require('./json/regionAccordion');
 const jumbortonExample = require('./json/jumbortonWidget');
 const imageControll = require('./json/imageControll');
 const inputCell = require('./json/cellInput');
-const backgroundImageFieldset = require('./json/backgroundImageFieldset');
+const addMemberFieldset = require('./json/addMemberFieldset');
 const iconHeader = require('./json/iconHeader');
 const backgroundImageField = require('./json/backgroundImageField');
 
@@ -44,7 +44,7 @@ app.get('/n2o/page/cells-input', (req, res) => {
 });
 
 app.get('/n2o/page/fieldsets-background', (req, res) => {
-   res.send(backgroundImageFieldset);
+   res.send(addMemberFieldset);
 });
 
 app.get('/n2o/page/headers-icon', (req, res) => {

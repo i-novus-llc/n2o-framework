@@ -7,6 +7,7 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="table" type="tableReferenceDefinition"/>
+    <xs:element name="list" type="listWidgetReferenceDefinition"/>
     <xs:element name="form" type="formReferenceDefinition"/>
     <xs:element name="tree" type="treeReferenceDefinition"/>
     <!--<xs:element name="chart" type="chartReferenceDefinition"/>-->
@@ -18,6 +19,7 @@
             <xs:element name="table" type="tableReferenceDefinition" minOccurs="0"/>
             <xs:element name="form" type="formReferenceDefinition" minOccurs="0"/>
             <xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>
+            <xs:element name="list" type="listWidgetReferenceDefinition" minOccurs="0"/>
             <!--<xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>-->
             <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
@@ -206,6 +208,51 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="listWidgetReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет список.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="content" type="contentDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Столбцы списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pagination" type="paginationDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Паджинация.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="contentDefinition">
+        <xs:annotation>
+            <xs:documentation>Содержимое элемента списка.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="left-top" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="left-bottom" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="header" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="body" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="sub-header" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="right-top" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="right-bottom" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="extra" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="contentElementDefinition">
+        <xs:complexContent>
+            <xs:extension base="cell:cells">
+                <xs:attribute name="text-field-id" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
     <xs:complexType name="tableReferenceDefinition">
         <xs:complexContent>

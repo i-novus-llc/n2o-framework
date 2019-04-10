@@ -48,6 +48,12 @@
     }
   }
 
+  & .n2o-advanced-table-header-cell-content {
+    & .custom-control-label {
+      margin-bottom: 0.5rem;
+    }
+  }
+
   &-header-text-center,
   &-header-text-center .n2o-advanced-table-header-cell-content{
     justify-content: center;

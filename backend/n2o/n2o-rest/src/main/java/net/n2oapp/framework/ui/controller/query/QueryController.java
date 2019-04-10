@@ -2,13 +2,18 @@ package net.n2oapp.framework.ui.controller.query;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.GetDataResponse;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
+import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,14 +32,28 @@ public class QueryController extends GetController {
     private static final String INSERTED_ROW = "$insertedRow";
     private static final Logger logger = LoggerFactory.getLogger(QueryController.class);
 
-    public QueryController() {
+    public QueryController(DataProcessingStack dataProcessingStack,
+                           QueryProcessor queryProcessor,
+                           SubModelsProcessor subModelsProcessor,
+                           MetadataRegister configRegister,
+                           ErrorMessageBuilder errorMessageBuilder) {
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, configRegister, errorMessageBuilder);
     }
 
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        CollectionPage<DataSet> collectionPage = executeQuery(requestInfo, responseInfo);
-        insertSelectedRow(requestInfo, responseInfo, collectionPage);
-        return new GetDataResponse(collectionPage, requestInfo.getSuccessAlertWidgetId(), responseInfo);
+        try {
+            CollectionPage<DataSet> collectionPage = executeQuery(requestInfo, responseInfo);
+            insertSelectedRow(requestInfo, responseInfo, collectionPage);
+            return new GetDataResponse(collectionPage, responseInfo, requestInfo.getSuccessAlertWidgetId());
+        } catch (N2oException e) {
+            String widgetId = requestInfo.getFailAlertWidgetId() == null
+                    ? requestInfo.getMessagesForm()
+                    : requestInfo.getFailAlertWidgetId();
+            GetDataResponse response = new GetDataResponse(getErrorMessageBuilder().buildMessages(e), widgetId);
+            response.setStatus(e.getHttpStatus());
+            return response;
+        }
     }
 
     @Override
@@ -71,16 +90,16 @@ public class QueryController extends GetController {
     private DataSet executeSelectedRow(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         QueryRequestInfo selectedRowReqInfo = createQueryRequestInfoForSelectedRow(requestInfo);
         CollectionPage<DataSet> selectedRowPage;
-        dataProcessingStack.processQuery(selectedRowReqInfo, responseInfo);
+        getDataProcessingStack().processQuery(selectedRowReqInfo, responseInfo);
         try {
-            selectedRowPage = queryProcessor.execute(selectedRowReqInfo.getQuery(), selectedRowReqInfo.getCriteria());
-            dataProcessingStack.processQueryResult(selectedRowReqInfo, responseInfo, selectedRowPage);
+            selectedRowPage = getQueryProcessor().execute(selectedRowReqInfo.getQuery(), selectedRowReqInfo.getCriteria());
+            getDataProcessingStack().processQueryResult(selectedRowReqInfo, responseInfo, selectedRowPage);
         } catch (N2oRecordNotFoundException e) {
             logger.warn("selected-row return empty collection for query [" + selectedRowReqInfo.getQuery().getId() + "]", e);
             return null;
         } catch (N2oException e) {
             logger.error("selected-row throw exception for query [" + selectedRowReqInfo.getQuery().getId() + "]", e);
-            dataProcessingStack.processQueryError(selectedRowReqInfo, responseInfo, e);
+            getDataProcessingStack().processQueryError(selectedRowReqInfo, responseInfo, e);
             return null;
         }
         if (selectedRowPage.getCollection().isEmpty()) return null;//не найдена выделенная запись (selectedId)

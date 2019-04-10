@@ -42,7 +42,7 @@ function ButtonsCell({
     visible && (
       <ButtonGroup
         key={id}
-        className={cx('n2o-table-btn', className)}
+        className={cx('n2o-buttons-cell', className)}
         {...other}
       >
         {map(buttons, createGroupItems)}

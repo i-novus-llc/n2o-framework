@@ -34,7 +34,7 @@
                     </column>
                     <column text-field-id="patrName">
                         <link visible="{name!='Мария'}"
-                              url="/patients/{id}/update2" target="application"/>
+                              url="/{id}/update2" target="application"/>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
                         <edit action-id="update_birthday" editable="true" format="date DD.MM.YYYY">
@@ -107,26 +107,30 @@
             </table>
         </panel>
         <panel place="right" title="Контакты">
-            <table id="contacts" detail-field-id="individualId" depends-on="patients"
-                   name="Контакты" query-id="ProtoContacts" visible="{name != 'Мария'}">
-                <columns>
-                    <column text-field-id="value"/>
-                    <column text-field-id="typeId"/>
-                </columns>
-                <filters>
-                    <row>
-                        <input-select id="type" label="Тип контакта"
-                                      help="Тип контакта">
-                            <options label-field-id="name">
-                                <option id="2" name="Моб. телефон"/>
-                                <option id="4" name="Эл. почт"/>
-                                <option id="7" name="Факс"/>
-                            </options>
-                        </input-select>
-                    </row>
-                </filters>
-                <toolbar generate="crud"/>
-            </table>
+            <list id="contacts" detail-field-id="individualId" depends-on="patients"
+                  name="Контакты" query-id="ProtoContacts" visible="{name != 'Мария'}">
+                <content>
+                    <left-top>
+                        <icon>
+                            <switch value-field-id="type.id">
+                                <case value="2">fa fa-phone</case>
+                                <case value="4">fa fa-envelop</case>
+                                <case value="7">fa fa-fax</case>
+                            </switch>
+                        </icon>
+                    </left-top>
+                    <header text-field-id="type.name">
+                        <text class="text-muted"/>
+                    </header>
+                    <body text-field-id="value">
+                        <text/>
+                    </body>
+                    <extra>
+                        <toolbar generate="update,delete"/>
+                    </extra>
+                </content>
+                <toolbar generate="create"/>
+            </list>
         </panel>
         <panel place="right" title="Карточка">
             <form id="form" ref-id="ProtoPatient" route="/:patient_id/card"

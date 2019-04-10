@@ -1,0 +1,32 @@
+.n2o-buttons-cell{
+  .btn{
+    display: inline-flex;
+    align-items: center;
+    & > i {
+      display: flex;
+    }
+  }
+
+  .btn-link:not(:first-child),
+  .btn-group:not(:first-child) > .btn-link  {
+    &::before{
+      content: "|";
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      color: $gray;
+    }
+  }
+
+  .n2o-dropdown-icon{
+    transition: all 0.15s linear;
+    margin: 0 0 0 5px;
+    padding: 0;
+  }
+
+  .dropdown.show{
+    .n2o-dropdown-icon{
+      transform: rotate(180deg);
+    }
+  }
+}

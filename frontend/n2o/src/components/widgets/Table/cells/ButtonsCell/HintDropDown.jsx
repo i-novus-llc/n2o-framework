@@ -166,7 +166,7 @@ HintDropDown.defaultProps = {
   visible: true,
   disabled: false,
   placement: 'top',
-  size: 'md',
+  size: 'sm',
   color: 'link',
   menu: [],
   delay: 100,

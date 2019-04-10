@@ -18,6 +18,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -35,6 +36,7 @@ public abstract class AbstractController {
     private ObjectMapper objectMapper;
     private MetadataRouter router;
     private MetadataEnvironment environment;
+    private ErrorMessageBuilder errorMessageBuilder;
 
     public AbstractController() {
     }
