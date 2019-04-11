@@ -37,7 +37,7 @@
                               url="/{id}/update2" target="application"/>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
-                        <edit action-id="update_birthday" editable="true" format="date DD.MM.YYYY">
+                        <edit action-id="update_birthday" format="date DD.MM.YYYY">
                             <date-time id="date"/>
                         </edit>
                     </column>
