@@ -7,10 +7,10 @@
         <test file="META-INF/conf/customization.json" operation="count"></test>
     </count>
     <fields>
-        <field id="id">
+        <field id="id" name="Идентификатор">
             <select/>
         </field>
-        <field id="name">
+        <field id="name" name="Название">
             <select/>
         </field>
         <field id="engine" domain="numeric">
