@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { TABLE } from '../components/widgets/widgetTypes';
+import { FORM, TABLE } from '../components/widgets/widgetTypes';
 
 /*
   Базовые селекторы
@@ -168,7 +168,8 @@ const isAnyTableFocusedSelector = createSelector(
   widgetsSelector,
   widgetsState => {
     return Object.values(widgetsState).some(
-      widget => widget.type === TABLE && widget.isActive
+      widget =>
+        (widget.type === TABLE || widget.type === FORM) && widget.isActive
     );
   }
 );

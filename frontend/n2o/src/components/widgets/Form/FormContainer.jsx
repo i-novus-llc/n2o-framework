@@ -34,6 +34,7 @@ export const withWidgetContainer = widgetContainer(
         validation: props.validation,
         modelPrefix: props.modelPrefix,
         prompt: props.prompt,
+        setActive: props.onFocus,
       };
     },
   },
@@ -86,6 +87,7 @@ export const withPropsOnChangeWidget = withPropsOnChange(
 
 export const withWidgetHandlers = withHandlers({
   onChange: props => (values, dispatch, options, prevValues) => {
+    props.setActive && props.setActive();
     if (
       props.modelPrefix &&
       isEqual(props.initialValues, props.reduxFormValues) &&
