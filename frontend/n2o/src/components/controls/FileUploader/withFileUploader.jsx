@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, isEqual, isArray, isString, reduce } from 'lodash';
+import {
+  isEmpty,
+  isEqual,
+  isArray,
+  isString,
+  reduce,
+  includes,
+  every,
+  some,
+} from 'lodash';
 import { post, deleteFile } from './utils';
 import { id } from '../../../utils/id';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
@@ -40,11 +49,15 @@ const FileUploaderControl = WrappedComponent => {
     componentDidUpdate(prevProps) {
       const { value, files, mapper } = this.props;
       if (!isEqual(prevProps.value, value)) {
-        this.setState(() => {
-          return {
-            files: mapper ? mapper(value || []) : this.mapFiles(value || []),
-          };
-        });
+        const newFiles = mapper
+          ? mapper(value || [])
+          : this.mapFiles(value || []);
+
+        const hasUpdate = !every(newFiles, file =>
+          some(this.state.files, file)
+        );
+
+        hasUpdate && this.setState({ files: newFiles });
       } else if (!isEqual(prevProps.files, files)) {
         this.setState({
           files: mapper ? mapper(files || []) : this.mapFiles(files || []),
