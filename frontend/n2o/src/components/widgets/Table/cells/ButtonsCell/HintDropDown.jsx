@@ -22,6 +22,8 @@ import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/Dropdown
  * @param menu - Элементы списка
  * @param onClick - функция обработки клика
  * @param security - объект настройки прав
+ * @param resolveWidget - функция реззолва
+ * @param security - объект настройки прав
  * @param rest - остальные props
  * @returns {*}
  * @constructor
@@ -40,6 +42,8 @@ function HintDropDown({
   hintPosition,
   positionFixed,
   modifiers,
+  resolveWidget,
+  model,
   ...rest
 }) {
   const otherToltipProps = pick(rest, ['delay', 'hideArrow', 'offset']);
@@ -91,6 +95,7 @@ function HintDropDown({
 
   const onToggleDropdown = e => {
     e.stopPropagation();
+    resolveWidget(model);
     onToggle(!open);
   };
 
@@ -164,6 +169,7 @@ HintDropDown.propTypes = {
   offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   positionFixed: PropTypes.bool,
   modifiers: PropTypes.object,
+  resolveWidget: PropTypes.func,
 };
 
 HintDropDown.defaultProps = {
@@ -178,6 +184,7 @@ HintDropDown.defaultProps = {
   offset: 0,
   positionFixed: true,
   modifiers: MODIFIERS,
+  resolveWidget: () => {},
 };
 
 export default compose(

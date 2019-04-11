@@ -16,6 +16,8 @@ import withCell from '../../withCell';
  * @param visible
  * @param positionFixed
  * @param modifiers
+ * @param resolveWidget
+ * @param model
  * @param other
  * @returns {*}
  * @constructor
@@ -28,6 +30,8 @@ function ButtonsCell({
   visible,
   positionFixed,
   modifiers,
+  resolveWidget,
+  model,
   ...other
 }) {
   const handlerClick = (e, action) => {
@@ -42,6 +46,8 @@ function ButtonsCell({
         modifiers={modifiers}
         menu={subMenu}
         onClick={handlerClick}
+        resolveWidget={resolveWidget}
+        model={model}
         {...rest}
       />
     ) : (
@@ -67,11 +73,13 @@ ButtonsCell.propTypes = {
   style: PropTypes.object,
   id: PropTypes.string,
   visible: PropTypes.bool,
+  resolveWidget: PropTypes.func,
 };
 
 ButtonsCell.defaultProps = {
   size: 'sm',
   visible: true,
+  resolveWidget: () => {},
 };
 
 export default withCell(ButtonsCell);
