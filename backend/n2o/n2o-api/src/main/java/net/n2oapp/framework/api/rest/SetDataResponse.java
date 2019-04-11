@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.rest;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import java.util.Map;
 @Setter
 public class SetDataResponse extends N2oResponse {
     @JsonProperty
+    @JsonInclude
     private Map<String, Object> data;
 
     public SetDataResponse() {
