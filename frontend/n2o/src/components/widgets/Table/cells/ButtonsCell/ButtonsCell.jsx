@@ -14,6 +14,10 @@ import withCell from '../../withCell';
  * @param callActionImpl
  * @param buttons
  * @param visible
+ * @param positionFixed
+ * @param modifiers
+ * @param resolveWidget
+ * @param model
  * @param other
  * @returns {*}
  * @constructor
@@ -24,6 +28,10 @@ function ButtonsCell({
   callActionImpl,
   buttons,
   visible,
+  positionFixed,
+  modifiers,
+  resolveWidget,
+  model,
   ...other
 }) {
   const handlerClick = (e, action) => {
@@ -33,7 +41,15 @@ function ButtonsCell({
 
   const createGroupItems = ({ subMenu, ...rest }) =>
     subMenu ? (
-      <HintDropDown menu={subMenu} onClick={handlerClick} {...rest} />
+      <HintDropDown
+        positionFixed={positionFixed}
+        modifiers={modifiers}
+        menu={subMenu}
+        onClick={handlerClick}
+        resolveWidget={resolveWidget}
+        model={model}
+        {...rest}
+      />
     ) : (
       <HintButton onClick={handlerClick} {...rest} />
     );
@@ -57,11 +73,13 @@ ButtonsCell.propTypes = {
   style: PropTypes.object,
   id: PropTypes.string,
   visible: PropTypes.bool,
+  resolveWidget: PropTypes.func,
 };
 
 ButtonsCell.defaultProps = {
   size: 'sm',
   visible: true,
+  resolveWidget: () => {},
 };
 
 export default withCell(ButtonsCell);
