@@ -95,6 +95,8 @@ class ListContainer extends React.Component {
     return (
       <ReduxCell
         {...section}
+        positionFixed={false}
+        modifiers={{}}
         className={cn('n2o-widget-list-cell', get(section, 'className', ''))}
       />
     );

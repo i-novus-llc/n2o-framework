@@ -14,6 +14,8 @@ import withCell from '../../withCell';
  * @param callActionImpl
  * @param buttons
  * @param visible
+ * @param positionFixed
+ * @param modifiers
  * @param other
  * @returns {*}
  * @constructor
@@ -24,6 +26,8 @@ function ButtonsCell({
   callActionImpl,
   buttons,
   visible,
+  positionFixed,
+  modifiers,
   ...other
 }) {
   const handlerClick = (e, action) => {
@@ -33,7 +37,13 @@ function ButtonsCell({
 
   const createGroupItems = ({ subMenu, ...rest }) =>
     subMenu ? (
-      <HintDropDown menu={subMenu} onClick={handlerClick} {...rest} />
+      <HintDropDown
+        positionFixed={positionFixed}
+        modifiers={modifiers}
+        menu={subMenu}
+        onClick={handlerClick}
+        {...rest}
+      />
     ) : (
       <HintButton onClick={handlerClick} {...rest} />
     );

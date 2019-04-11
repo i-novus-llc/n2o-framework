@@ -38,6 +38,8 @@ function HintDropDown({
   onClick,
   security,
   hintPosition,
+  positionFixed,
+  modifiers,
   ...rest
 }) {
   const otherToltipProps = pick(rest, ['delay', 'hideArrow', 'offset']);
@@ -110,7 +112,7 @@ function HintDropDown({
           {title}
           <Icon className="n2o-dropdown-icon" name="fa fa-angle-down" />
         </DropdownToggle>
-        <DropdownMenu positionFixed={true} modifiers={MODIFIERS}>
+        <DropdownMenu positionFixed={positionFixed} modifiers={modifiers}>
           {map(menu, createDropDownMenu)}
         </DropdownMenu>
       </Dropdown>
@@ -160,6 +162,8 @@ HintDropDown.propTypes = {
   ]),
   hideArrow: PropTypes.bool,
   offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  positionFixed: PropTypes.bool,
+  modifiers: PropTypes.object,
 };
 
 HintDropDown.defaultProps = {
@@ -172,6 +176,8 @@ HintDropDown.defaultProps = {
   delay: 100,
   hideArrow: false,
   offset: 0,
+  positionFixed: true,
+  modifiers: MODIFIERS,
 };
 
 export default compose(
