@@ -22,6 +22,8 @@ import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/Dropdown
  * @param menu - Элементы списка
  * @param onClick - функция обработки клика
  * @param security - объект настройки прав
+ * @param resolveWidget - функция реззолва
+ * @param security - объект настройки прав
  * @param rest - остальные props
  * @returns {*}
  * @constructor
@@ -38,6 +40,10 @@ function HintDropDown({
   onClick,
   security,
   hintPosition,
+  positionFixed,
+  modifiers,
+  resolveWidget,
+  model,
   ...rest
 }) {
   const otherToltipProps = pick(rest, ['delay', 'hideArrow', 'offset']);
@@ -89,6 +95,7 @@ function HintDropDown({
 
   const onToggleDropdown = e => {
     e.stopPropagation();
+    resolveWidget(model);
     onToggle(!open);
   };
 
@@ -110,7 +117,7 @@ function HintDropDown({
           {title}
           <Icon className="n2o-dropdown-icon" name="fa fa-angle-down" />
         </DropdownToggle>
-        <DropdownMenu positionFixed={true} modifiers={MODIFIERS}>
+        <DropdownMenu positionFixed={positionFixed} modifiers={modifiers}>
           {map(menu, createDropDownMenu)}
         </DropdownMenu>
       </Dropdown>
@@ -160,6 +167,9 @@ HintDropDown.propTypes = {
   ]),
   hideArrow: PropTypes.bool,
   offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  positionFixed: PropTypes.bool,
+  modifiers: PropTypes.object,
+  resolveWidget: PropTypes.func,
 };
 
 HintDropDown.defaultProps = {
@@ -172,6 +182,9 @@ HintDropDown.defaultProps = {
   delay: 100,
   hideArrow: false,
   offset: 0,
+  positionFixed: true,
+  modifiers: MODIFIERS,
+  resolveWidget: () => {},
 };
 
 export default compose(
