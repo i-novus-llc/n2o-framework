@@ -2,14 +2,15 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
+import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,12 +36,15 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void closeModal() throws Exception {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
-                .get(new ModalPageContext("testCloseAction", "/p/w/a"));
+        ModalPageContext context = new ModalPageContext("testCloseAction", "/p/w/a");
+        context.setClientPageId("p_w_a");
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml").get(context);
         CloseAction testAction = (CloseAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
         assertThat(testAction.getId(), is("test"));
         assertThat(testAction.getSrc(), is("perform"));
-        assertThat(testAction.getOptions().getType(), is("n2o/modals/DESTROY"));
+        assertThat(testAction.getOptions().getType(), is("n2o/modals/CLOSE"));
+        assertThat(((CloseActionPayload) testAction.getOptions().getPayload()).getPageId(), is("p_w_a"));
+        assertThat(((CloseActionPayload) testAction.getOptions().getPayload()).getPrompt(), is(true));
 
     }
 

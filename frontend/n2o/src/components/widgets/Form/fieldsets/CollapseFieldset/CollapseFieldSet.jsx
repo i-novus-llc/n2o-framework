@@ -16,14 +16,14 @@ CollapseFieldSet.propTypes = {
   rows: PropTypes.array,
   type: PropTypes.string,
   label: PropTypes.string,
-  expand: PropTypes.boolean,
-  hasArrow: PropTypes.boolean,
-  render: PropTypes.func
+  expand: PropTypes.bool,
+  hasArrow: PropTypes.bool,
+  render: PropTypes.func,
 };
 
 CollapseFieldSet.defaultProps = {
   rows: [],
-  hasArrow: true
+  hasArrow: true,
 };
 
 export default CollapseFieldSet;

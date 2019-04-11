@@ -63,11 +63,13 @@ stories
         return getStubData(url);
       });
 
-    store.dispatch(metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') }));
+    store.dispatch(
+      metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') })
+    );
 
     return <TabsRegion {...omit(InitWidgentsTabs, 'widgets')} pageId="Page" />;
   })
-  .add('Зависимости в регионе', () => {
+  .add('Табы с зависимостью от виджета', () => {
     fetchMock
       .restore()
       .get('begin:n2o/data/test', getStubData)
@@ -80,58 +82,12 @@ stories
         return getStubData(url);
       });
 
-    store.dispatch(metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') }));
+    store.dispatch(metadataSuccess('Page', { ...TabsWithDependency }));
 
-    class TabsStory extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = { show: true };
-        this.onChange = this.onChange.bind(this);
-      }
-      onChange() {
-        this.setState({ show: !this.state.show });
-      }
-      render() {
-        const { show } = this.state;
-        const tabs = [
-          {
-            id: 'tab1',
-            opened: true,
-            title: 'Таблица_1',
-            widgetId: 'Page_Table_1'
-          },
-          {
-            id: 'tab2',
-            opened: false,
-            title: 'Таблица_2',
-            widgetId: 'Page_Table_2',
-            dependency: {
-              visible: [
-                {
-                  on: "models.resolve['Page_First']",
-                  condition: 'true'
-                },
-                {
-                  on: "models.resolve['Page_First']",
-                  condition: show ? 'true' : 'false'
-                }
-              ]
-            }
-          }
-        ];
-        return (
-          <div>
-            <CheckboxN2O
-              checked={show}
-              onChange={this.onChange}
-              inline={true}
-              label={'Показать/Скрыть по зависимости'}
-            />
-            <TabsRegion {...omit(TabsWithDependency, 'widgets')} tabs={tabs} pageId="Page" />
-          </div>
-        );
-      }
-    }
-
-    return <TabsStory />;
+    return (
+      <React.Fragment>
+        <div>Второй таб скрыт полностью</div>
+        <TabsRegion {...TabsWithDependency} pageId="Page" />
+      </React.Fragment>
+    );
   });

@@ -22,28 +22,28 @@ const data = [
   {
     id: 'Алексей Николаев',
     icon: 'fa fa-square',
-    image: 'https://i.stack.imgur.com/2zqqC.jpg'
+    image: 'https://i.stack.imgur.com/2zqqC.jpg',
   },
   {
     id: 'Игорь Николаев',
     icon: 'fa fa-plus',
-    image: 'https://i.stack.imgur.com/2zqqC.jpg'
+    image: 'https://i.stack.imgur.com/2zqqC.jpg',
   },
   {
     id: 'Владимир Серпухов',
     icon: 'fa fa-square',
-    image: 'https://i.stack.imgur.com/2zqqC.jpg'
+    image: 'https://i.stack.imgur.com/2zqqC.jpg',
   },
   {
     id: 'Анатолий Петухов',
     icon: 'fa fa-square',
-    image: 'https://i.stack.imgur.com/2zqqC.jpg'
+    image: 'https://i.stack.imgur.com/2zqqC.jpg',
   },
   {
     id: 'Анатолий Петухов',
     icon: 'fa fa-plus',
-    image: 'https://i.stack.imgur.com/2zqqC.jpg'
-  }
+    image: 'https://i.stack.imgur.com/2zqqC.jpg',
+  },
 ];
 
 const handleData = data => url => {
@@ -78,7 +78,10 @@ stories
         iconFieldId: text('iconFieldId', N2OSelectContainerJson.iconFieldId),
         imageFieldId: text('imageFieldId', N2OSelectContainerJson.imageFieldId),
         groupFieldId: text('groupFieldId', N2OSelectContainerJson.groupFieldId),
-        hasCheckboxes: boolean('hasCheckboxes', N2OSelectContainerJson.hasCheckboxes),
+        hasCheckboxes: boolean(
+          'hasCheckboxes',
+          N2OSelectContainerJson.hasCheckboxes
+        ),
         cleanable: boolean('cleanable', N2OSelectContainerJson.cleanable),
         closePopupOnSelect: boolean(
           'closePopupOnSelect',
@@ -86,7 +89,7 @@ stories
         ),
         format: text('format', N2OSelectContainerJson.format),
         searchByTap: boolean('searchByTap', N2OSelectContainerJson.searchByTap),
-        dataProvider: N2OSelectContainerJson.dataProvider
+        dataProvider: N2OSelectContainerJson.dataProvider,
       };
 
       fetchMock.restore().get(dataUrl, handleData(data));
@@ -105,10 +108,17 @@ stories
     return (
       <React.Fragment>
         <div className="row">
-          <N2OSelectContainer {...jsonWithoutOptions} placeholder="Стандартный" />
+          <N2OSelectContainer
+            {...jsonWithoutOptions}
+            placeholder="Стандартный"
+          />
         </div>
         <div className="row" style={{ marginTop: '10px' }}>
-          <N2OSelectContainer {...jsonWithoutOptions} placeholder="С кешированием" caching={true} />
+          <N2OSelectContainer
+            {...jsonWithoutOptions}
+            placeholder="С кешированием"
+            caching={true}
+          />
         </div>
       </React.Fragment>
     );
@@ -120,19 +130,19 @@ stories
       iconFieldId: '',
       imageFieldId: '',
       groupFieldId: '',
-      format: ''
+      format: '',
     };
     const props = Object.assign({}, jsonWithoutOptions, newProps);
     const data = [
       {
-        id: 'Крузенштерн Розенкранц Николаевич'
+        id: 'Крузенштерн Розенкранц Николаевич',
       },
       {
-        id: 'Комаровский Иммануил Васильевич'
+        id: 'Комаровский Иммануил Васильевич',
       },
       {
-        id: 'Петровский Сергей Вахтангович'
-      }
+        id: 'Петровский Сергей Вахтангович',
+      },
     ];
 
     fetchMock.restore().get(dataUrl, handleData(data));
@@ -152,24 +162,24 @@ stories
       badgeFieldId: 'badge',
       groupFieldId: '',
       format: '',
-      badgeColorFieldId: 'color'
+      badgeColorFieldId: 'color',
     };
     const props = Object.assign({}, jsonWithoutOptions, newProps);
     const data = [
       {
         id: 'Розенкранц',
-        badge: 'Писатель'
+        badge: 'Писатель',
       },
       {
         id: 'Иммануил',
         badge: 'Художник',
-        color: 'danger'
+        color: 'danger',
       },
       {
         id: 'Сергей',
         badge: 'Поэт',
-        color: 'info'
-      }
+        color: 'info',
+      },
     ];
 
     fetchMock.restore().get(dataUrl, handleData(data));
@@ -183,22 +193,22 @@ stories
       iconFieldId: '',
       imageFieldId: '',
       groupFieldId: '',
-      format: ''
+      format: '',
     };
     const props = Object.assign({}, jsonWithoutOptions, newProps);
     const data = [
       {
         id:
-          '«Русла́н и Людми́ла» — первая законченная поэма Александра Сергеевича Пушкина; волшебная сказка, вдохновлённая древнерусскими былинами.'
+          '«Русла́н и Людми́ла» — первая законченная поэма Александра Сергеевича Пушкина; волшебная сказка, вдохновлённая древнерусскими былинами.',
       },
       {
         id:
-          'Поэма написана в 1818—1820, после выхода из Лицея; Пушкин иногда указывал, что начал писать поэму ещё в Лицее, но, по-видимому, к этому времени относятся лишь самые общие замыслы, едва ли текст. Ведя после выхода из Лицея в Петербурге жизнь «самую рассеянную», Пушкин работал над поэмой в основном во время болезней.'
+          'Поэма написана в 1818—1820, после выхода из Лицея; Пушкин иногда указывал, что начал писать поэму ещё в Лицее, но, по-видимому, к этому времени относятся лишь самые общие замыслы, едва ли текст. Ведя после выхода из Лицея в Петербурге жизнь «самую рассеянную», Пушкин работал над поэмой в основном во время болезней.',
       },
       {
         id:
-          'Пушкин ставил задачей создать «богатырскую» сказочную поэму в духе известного ему по французским переводам «Неистового Роланда» Ариосто (критики называли этот жанр «романтическим», что не следует путать с романтизмом в современном понимании).'
-      }
+          'Пушкин ставил задачей создать «богатырскую» сказочную поэму в духе известного ему по французским переводам «Неистового Роланда» Ариосто (критики называли этот жанр «романтическим», что не следует путать с романтизмом в современном понимании).',
+      },
     ];
 
     fetchMock.restore().get(dataUrl, handleData(data));

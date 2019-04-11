@@ -7,18 +7,18 @@ const SecurityProvider = ({ children }) => Children.only(children);
 SecurityProvider.propTypes = {
   authProvider: PropTypes.func,
   redirectPath: PropTypes.string,
-  externalLoginUrl: PropTypes.string
+  externalLoginUrl: PropTypes.string,
 };
 
 export default withContext(
   {
     authProvider: PropTypes.func,
     redirectPath: PropTypes.string,
-    externalLoginUrl: PropTypes.string
+    externalLoginUrl: PropTypes.string,
   },
   ({ authProvider, redirectPath, externalLoginUrl }) => ({
     authProvider,
     redirectPath,
-    externalLoginUrl
+    externalLoginUrl,
   })
 )(SecurityProvider);

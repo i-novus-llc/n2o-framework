@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -25,18 +24,23 @@ import java.util.Map;
  */
 public abstract class GetController implements ControllerTypeAware {
 
-    @Autowired
-    protected DataProcessingStack dataProcessingStack;
-    @Autowired
-    protected QueryProcessor queryProcessor;
-    @Autowired
-    protected SubModelsProcessor subModelsProcessor;
-    @Autowired
-    protected MetadataRegister configRegister;
-    @Autowired
-    protected ErrorMessageBuilder errorMessageBuilder;
+    private DataProcessingStack dataProcessingStack;
+    private QueryProcessor queryProcessor;
+    private SubModelsProcessor subModelsProcessor;
+    private MetadataRegister configRegister;
+    private ErrorMessageBuilder errorMessageBuilder;
 
-    protected GetController() {
+
+    protected GetController(DataProcessingStack dataProcessingStack,
+                            QueryProcessor queryProcessor,
+                            SubModelsProcessor subModelsProcessor,
+                            MetadataRegister configRegister,
+                            ErrorMessageBuilder errorMessageBuilder) {
+        this.dataProcessingStack = dataProcessingStack;
+        this.queryProcessor = queryProcessor;
+        this.subModelsProcessor = subModelsProcessor;
+        this.configRegister = configRegister;
+        this.errorMessageBuilder = errorMessageBuilder;
     }
 
     public abstract GetDataResponse execute(QueryRequestInfo requestScope, QueryResponseInfo responseInfo);
@@ -51,7 +55,6 @@ public abstract class GetController implements ControllerTypeAware {
             return pageData;
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            e.setAlertKey(requestInfo.getFailAlertWidgetId());
             throw e;
         } catch (Exception e) {
             throw new N2oException(e, requestInfo.getFailAlertWidgetId());
@@ -93,23 +96,23 @@ public abstract class GetController implements ControllerTypeAware {
         }
     }
 
-    public void setDataProcessingStack(DataProcessingStack dataProcessingStack) {
-        this.dataProcessingStack = dataProcessingStack;
+    public DataProcessingStack getDataProcessingStack() {
+        return dataProcessingStack;
     }
 
-    public void setQueryProcessor(QueryProcessor queryProcessor) {
-        this.queryProcessor = queryProcessor;
+    public QueryProcessor getQueryProcessor() {
+        return queryProcessor;
     }
 
-    public void setSubModelsProcessor(N2oSubModelsProcessor subModelsProcessor) {
-        this.subModelsProcessor = subModelsProcessor;
+    public SubModelsProcessor getSubModelsProcessor() {
+        return subModelsProcessor;
     }
 
-    public void setConfigRegister(MetadataRegister configRegister) {
-        this.configRegister = configRegister;
+    public MetadataRegister getConfigRegister() {
+        return configRegister;
     }
 
-    public void setErrorMessageBuilder(ErrorMessageBuilder errorMessageBuilder) {
-        this.errorMessageBuilder = errorMessageBuilder;
+    public ErrorMessageBuilder getErrorMessageBuilder() {
+        return errorMessageBuilder;
     }
 }

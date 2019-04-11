@@ -24,13 +24,13 @@ export default function compileUrl(
   if (!isEmpty(pathParams)) {
     compiledUrl = pathToRegexp.compile(url)({
       ...pathParams,
-      ...extraPathParams
+      ...extraPathParams,
     });
   }
   if (!isEmpty(queryParams)) {
     compiledUrl = `${compiledUrl}?${queryString.stringify({
       ...queryParams,
-      ...extraQueryParams
+      ...extraQueryParams,
     })}`;
   }
   return compiledUrl;

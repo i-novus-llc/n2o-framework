@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import { isEmpty, every } from 'lodash';
 import { compose, getContext } from 'recompose';
-import withDependency from '../withVisibleDependency';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
-import withGetWidget from '../withGetWidget';
+import withWidgetProps from '../withWidgetProps';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 import withSecurity from '../../../core/auth/withSecurity';
 import { userSelector } from '../../../selectors/auth';
@@ -38,7 +37,7 @@ class PanelRegion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabs: []
+      tabs: [],
     };
     this.checkPanel = this.checkPanel.bind(this);
     this.getTab = this.getTab.bind(this);
@@ -73,7 +72,7 @@ class PanelRegion extends React.Component {
       content: this.getContent(panel),
       header: panel.label,
       ...panel,
-      ...getWidget(pageId, panel.widgetId)
+      ...getWidget(pageId, panel.widgetId),
     };
   }
 
@@ -84,7 +83,7 @@ class PanelRegion extends React.Component {
       try {
         const permissions = await authProvider(SECURITY_CHECK, {
           config,
-          user
+          user,
         });
         this.setState({ tabs: this.state.tabs.concat(this.getTab(panel)) });
       } catch (error) {
@@ -108,14 +107,19 @@ class PanelRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { panels, resolveVisibleDependency, dependency } = this.props;
-    const visible = dependency ? resolveVisibleDependency(dependency) : true;
+    const { panels, getWidgetProps } = this.props;
+    const isInvisible = every(
+      panels,
+      item => getWidgetProps(item.widgetId).isVisible === false
+    );
     return (
-      visible && (
-        <PanelShortHand tabs={this.state.tabs} {...this.props}>
-          {panels.map(container => this.getContent(container))}
-        </PanelShortHand>
-      )
+      <PanelShortHand
+        tabs={this.state.tabs}
+        {...this.props}
+        style={{ display: isInvisible && 'none' }}
+      >
+        {panels.map(container => this.getContent(container))}
+      </PanelShortHand>
     );
   }
 }
@@ -135,18 +139,17 @@ PanelRegion.propTypes = {
   fullScreen: PropTypes.bool,
   getWidget: PropTypes.func.isRequired,
   resolveVisibleDependency: PropTypes.func,
-  dependency: PropTypes.object
+  dependency: PropTypes.object,
 };
 
 PanelRegion.defaultProps = {
   open: true,
   collapsible: false,
   hasTabs: false,
-  fullScreen: false
+  fullScreen: false,
 };
 
 export default compose(
-  withDependency,
   withSecurity,
-  withGetWidget
+  withWidgetProps
 )(PanelRegion);

@@ -17,6 +17,7 @@ import DateTimeControl from './DateTimeControl';
  * @reactProps {boolean} disabled - задизейблен пикер / нет
  * @reactProps {string} placeholder - плэйсхолдер для поля
  * @reactProps {string} locale - Локаль. Варианты: 'en', 'ru'
+ * @reactProps {boolean} openOnFocus - открывать при фокусе
  * @example
  * <DatePicker  defaultTime = '12:11'/>
  */
@@ -26,7 +27,7 @@ function DateInterval({ value, defaultTime, defaultValue, onChange, ...rest }) {
   const handleChange = data => {
     onChange({
       [DateTimeControl.beginInputName]: data[0],
-      [DateTimeControl.endInputName]: data[1]
+      [DateTimeControl.endInputName]: data[1],
     });
   };
 
@@ -34,17 +35,22 @@ function DateInterval({ value, defaultTime, defaultValue, onChange, ...rest }) {
     {
       name: DateTimeControl.beginInputName,
       value: newValue[DateTimeControl.beginInputName],
-      defaultTime
+      defaultTime: defaultTime || '00:00:00',
     },
     {
       name: DateTimeControl.endInputName,
       value: newValue[DateTimeControl.endInputName],
-      defaultTime
-    }
+      defaultTime: defaultTime || '23:59:59',
+    },
   ];
 
   return (
-    <DateTimeControl {...rest} value={mappedValue} onChange={handleChange} type="date-interval" />
+    <DateTimeControl
+      {...rest}
+      value={mappedValue}
+      onChange={handleChange}
+      type="date-interval"
+    />
   );
 }
 
@@ -52,7 +58,7 @@ DateInterval.defaultProps = {
   defaultTime: undefined,
   defaultValue: {
     [DateTimeControl.beginInputName]: null,
-    [DateTimeControl.endInputName]: null
+    [DateTimeControl.endInputName]: null,
   },
   onChange: () => {},
   onFocus: () => {},
@@ -62,7 +68,8 @@ DateInterval.defaultProps = {
   disabled: false,
   dateDivider: ' ',
   className: '',
-  locale: 'ru'
+  locale: 'ru',
+  openOnFocus: false,
 };
 
 DateInterval.propTypes = {
@@ -73,12 +80,12 @@ DateInterval.propTypes = {
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   onChange: PropTypes.func,
   dateFormat: PropTypes.string,
@@ -86,7 +93,8 @@ DateInterval.propTypes = {
   outputFormat: PropTypes.string,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
-  locale: PropTypes.oneOf(['en', 'ru'])
+  locale: PropTypes.oneOf(['en', 'ru']),
+  openOnFocus: PropTypes.bool,
 };
 
 export default DateInterval;

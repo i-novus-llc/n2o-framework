@@ -1,4 +1,11 @@
 .n2o-advanced-table {
+  & .n2o-advanced-table-content {
+    overflow-x: auto;
+  }
+
+  & .row-click{
+    cursor: pointer;
+  }
 
   & .n2o-calendar-table {
     & td {
@@ -10,7 +17,7 @@
       background-color: transparent;
     }
   }
-  
+
   &-content {
     position: relative;
   }
@@ -38,6 +45,12 @@
     & tr td:last-child,
     & tr th:last-child {
       border-right: 0;
+    }
+  }
+
+  & .n2o-advanced-table-header-cell-content {
+    & .custom-control-label {
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -111,7 +124,7 @@
   }
 
   & table {
-    width: 100%;
+    width: calc(100% - .2rem);
   }
 
   &-nested table tr:hover {

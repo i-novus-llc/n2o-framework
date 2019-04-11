@@ -12,11 +12,13 @@ const setup = propOverrides => {
     propOverrides
   );
 
-  const wrapper = mount(<SimpleHeaderContainer activeId="link" headerId="test1" />);
+  const wrapper = mount(
+    <SimpleHeaderContainer activeId="link" headerId="test1" />
+  );
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -27,25 +29,27 @@ const metadata = {
       label: 'link',
       href: '/link',
       type: 'link',
-      linkType: 'inner'
+      linkType: 'inner',
     },
     {
       id: 'dropdown',
       label: 'dropdown',
       type: 'dropdown',
-      subItems: [{ id: 'link1', label: 'link1', href: 'link1.ru', linkType: 'outer' }]
-    }
+      subItems: [
+        { id: 'link1', label: 'link1', href: 'link1.ru', linkType: 'outer' },
+      ],
+    },
   ],
   extraItems: [
     {
       id: 'text',
       label: 'text',
-      type: 'text'
-    }
+      type: 'text',
+    },
   ],
   brand: 'N2O',
   search: true,
-  brandImage: '/image.svg'
+  brandImage: '/image.svg',
 };
 
 describe('<SimpleHeaderContainer />', () => {

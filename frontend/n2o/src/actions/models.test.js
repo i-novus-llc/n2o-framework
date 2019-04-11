@@ -5,27 +5,35 @@ import {
   syncModel,
   copyModel,
   updateMapModel,
-  removeAllModel
+  removeAllModel,
 } from './models';
-import { SET, REMOVE, SYNC, COPY, UPDATE, UPDATE_MAP, REMOVE_ALL } from '../constants/models';
+import {
+  SET,
+  REMOVE,
+  SYNC,
+  COPY,
+  UPDATE,
+  UPDATE_MAP,
+  REMOVE_ALL,
+} from '../constants/models';
 
 const prefix = 'datasource';
 const key = 'Page.Widget';
 const keys = ['Page.Widget1', 'Page.Widget2'];
 const model = {
   id: 1,
-  name: 'Test'
+  name: 'Test',
 };
 const field = 'field';
 const value = 'new value';
 const map = 'map';
 const source = {
   prefix: 'resolve',
-  key: 'testKey'
+  key: 'testKey',
 };
 const target = {
   prefix: 'edit',
-  key: 'testKey'
+  key: 'testKey',
 };
 
 describe('Тесты экшенов models', () => {

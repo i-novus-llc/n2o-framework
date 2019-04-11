@@ -6,11 +6,16 @@ import Page from './Page';
 import { connect } from 'react-redux';
 import cn from 'classnames';
 import { createStructuredSelector } from 'reselect';
-import { makePageLoadingByIdSelector, makePageTitleByIdSelector } from '../../selectors/pages';
+import {
+  makePageDisabledByIdSelector,
+  makePageLoadingByIdSelector,
+  makePageTitleByIdSelector,
+} from '../../selectors/pages';
 import Actions from '../actions/Actions';
 import factoryResolver from '../../utils/factoryResolver';
 import withActions from './withActions';
 import CoverSpinner from '../snippets/Spinner/CoverSpinner';
+import { makeShowPromptByName } from '../../selectors/modals';
 
 /**
  * Компонент, отображающий модальное окно
@@ -23,6 +28,8 @@ import CoverSpinner from '../snippets/Spinner/CoverSpinner';
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
+ * @reactProps {boolean}  disabled - блокировка модалки
+ * @reactProps {function}  hidePrompt - скрытие окна подтверждения
  * @example
  *  <ModalPage props={props}
  *             actions={actions}
@@ -31,9 +38,34 @@ import CoverSpinner from '../snippets/Spinner/CoverSpinner';
  *  />
  */
 class ModalPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.closeModal = this.closeModal.bind(this);
+    this.closePrompt = this.closePrompt.bind(this);
+    this.showPrompt = this.showPrompt.bind(this);
+  }
+
   renderFromSrc(src) {
     const Component = factoryResolver(src, null);
     return <Component />;
+  }
+
+  closeModal(prompt) {
+    const { name, close } = this.props;
+    close(name, prompt);
+  }
+
+  closePrompt() {
+    const { name, hidePrompt } = this.props;
+    hidePrompt(name);
+  }
+
+  showPrompt() {
+    if (window.confirm(this.context.defaultPromptMessage)) {
+      this.closeModal(false);
+    } else {
+      this.closePrompt();
+    }
   }
 
   render() {
@@ -49,42 +81,55 @@ class ModalPage extends React.Component {
       toolbar,
       visible,
       title,
-      close,
-      loading
+      loading,
+      disabled,
+      showPrompt,
     } = this.props;
 
     const pageMapping = {
       pathMapping,
-      queryMapping
+      queryMapping,
     };
 
     const showSpinner = !visible || loading || typeof loading === 'undefined';
     const classes = cn({ 'd-none': loading });
     return (
-      <div className={'modal-page-overlay'}>
+      <div className={cn('modal-page-overlay')}>
+        {showPrompt && this.showPrompt()}
         {showSpinner && <CoverSpinner mode="transparent" />}
         <Modal
           isOpen={visible}
-          toggle={close}
+          toggle={() => this.closeModal(false)}
           size={size}
           backdrop={false}
           style={{
-            zIndex: 10
+            zIndex: 10,
           }}
         >
-          <ModalHeader className={classes} toggle={close}>
+          <ModalHeader
+            className={classes}
+            toggle={() => this.closeModal(false)}
+          >
             {title}
           </ModalHeader>
           <ModalBody className={classes}>
             {pageUrl ? (
-              <Page pageUrl={pageUrl} pageId={pageId} pageMapping={pageMapping} />
+              <Page
+                pageUrl={pageUrl}
+                pageId={pageId}
+                pageMapping={pageMapping}
+              />
             ) : src ? (
               this.renderFromSrc(src)
             ) : null}
           </ModalBody>
           {toolbar && (
             <ModalFooter className={classes}>
-              <div className="n2o-modal-actions">
+              <div
+                className={cn('n2o-modal-actions', {
+                  'n2o-disabled': disabled,
+                })}
+              >
                 <Actions
                   toolbar={toolbar.bottomLeft}
                   actions={actions}
@@ -118,16 +163,24 @@ ModalPage.propTypes = {
   name: PropTypes.string,
   actions: PropTypes.object,
   props: PropTypes.object,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 ModalPage.defaultProps = {
-  size: 'lg'
+  size: 'lg',
+  disabled: false,
+};
+
+ModalPage.contextTypes = {
+  defaultPromptMessage: PropTypes.string,
 };
 
 const mapStateToProps = createStructuredSelector({
   title: (state, { pageId }) => makePageTitleByIdSelector(pageId)(state),
-  loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state)
+  loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
+  disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
+  showPrompt: (state, { name }) => makeShowPromptByName(name)(state),
 });
 
 export default compose(

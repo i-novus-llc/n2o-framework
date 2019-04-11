@@ -15,7 +15,6 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -56,17 +55,19 @@ public class DataController extends AbstractController {
         if (requestInfo.getRedirect() == null)
             return;
         RedirectSaga redirect = requestInfo.getRedirect();
-        DataSet data = new DataSet(response.getData());
-        data.merge(requestInfo.getQueryData());
-        String redirectUrl = redirect.getPath();
-        Set<String> except = redirect.getPathMapping() != null ? redirect.getPathMapping().keySet() : null;
-        redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, requestInfo.getQueryData(), null, except);
-        redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, response.getData(), null, except);
-        RedirectSaga resolvedRedirect = new RedirectSaga();
-        resolvedRedirect.setTarget(redirect.getTarget());
-        resolvedRedirect.setPathMapping(redirect.getPathMapping());
-        resolvedRedirect.setQueryMapping(redirect.getQueryMapping());
-        resolvedRedirect.setPath(redirectUrl);
-        response.addRedirect(resolvedRedirect);
+        if (response.getData() != null) {
+            DataSet data = new DataSet(response.getData());
+            data.merge(requestInfo.getQueryData());
+            String redirectUrl = redirect.getPath();
+            Set<String> except = redirect.getPathMapping() != null ? redirect.getPathMapping().keySet() : null;
+            redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, requestInfo.getQueryData(), null, except);
+            redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, response.getData(), null, except);
+            RedirectSaga resolvedRedirect = new RedirectSaga();
+            resolvedRedirect.setTarget(redirect.getTarget());
+            resolvedRedirect.setPathMapping(redirect.getPathMapping());
+            resolvedRedirect.setQueryMapping(redirect.getQueryMapping());
+            resolvedRedirect.setPath(redirectUrl);
+            response.addRedirect(resolvedRedirect);
+        }
     }
 }

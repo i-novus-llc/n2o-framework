@@ -34,6 +34,7 @@ public class AppConfigJsonWriterTest {
         when(context.get("username")).thenReturn("testUsername");
         when(context.get("age")).thenReturn(99);
         when(context.get("isActive")).thenReturn(true);
+        when(context.get("value")).thenReturn("Value");
         ContextProcessor processor = new ContextProcessor(context);
         appConfigJsonWriter.setContextProcessor(processor);
         appConfigJsonWriter.setProperties(props);
@@ -43,13 +44,22 @@ public class AppConfigJsonWriterTest {
         appConfigJsonWriter.loadValues();
         StringWriter sw = new StringWriter();
         appConfigJsonWriter.writeValues(new PrintWriter(sw), new HashMap<>());
-
         ObjectNode result = (ObjectNode) objectMapper.readTree(sw.toString());
-        assertThat(result.get("user").get("username").toString().equals("\"testUsername\""), is(true));
-        assertThat(result.get("user").get("roles").toString().equals("[\"user\",\"looser\"]"), is(true));
-        assertThat(result.get("user").get("age").toString().equals("99"), is(true));
-        assertThat(result.get("user").get("isActive").toString().equals("true"), is(true));
-        assertThat(result.get("prop").asText().equals("Test_Props"), is(true));
+        assertThat(result.get("user").get("username").isTextual(), is(true));
+        assertThat(result.get("user").get("username").textValue(), is("testUsername"));
+        assertThat(result.get("user").get("roles").isArray(), is(true));
+        assertThat(result.get("user").get("roles").get(0).isTextual(), is(true));
+        assertThat(result.get("user").get("roles").get(0).textValue(), is("user"));
+        assertThat(result.get("user").get("roles").get(1).isTextual(), is(true));
+        assertThat(result.get("user").get("roles").get(1).textValue(), is("looser"));
+        assertThat(result.get("user").get("age").isInt(), is(true));
+        assertThat(result.get("user").get("age").intValue(), is(99));
+        assertThat(result.get("user").get("isActive").isBoolean(), is(true));
+        assertThat(result.get("user").get("isActive").booleanValue(), is(true));
+        assertThat(result.get("user").get("combined").isTextual(), is(true));
+        assertThat(result.get("user").get("combined").textValue(), is("testValue"));
+        assertThat(result.get("prop").isTextual(), is(true));
+        assertThat(result.get("prop").textValue(), is("Test_Props"));
     }
 
     @Test
@@ -59,7 +69,7 @@ public class AppConfigJsonWriterTest {
         testContextEngine.put("name", "some text \"text in quotes\"");
         ContextProcessor processor = new ContextProcessor(testContextEngine);
         writer.setContextProcessor(processor);
-        List<String> configs = Arrays.asList("{\"test\":{\"inner-value\":123}}",  "{\"test2\":{\"inner-value\":\"#{name}\"}}");
+        List<String> configs = Arrays.asList("{\"test\":{\"inner-value\":123}}", "{\"test2\":{\"inner-value\":\"#{name}\"}}");
         writer.setConfigs(configs);
         writer.setObjectMapper(new ObjectMapper());
         Map<String, Object> added = new HashMap<>();

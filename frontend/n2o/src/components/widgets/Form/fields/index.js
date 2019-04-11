@@ -5,5 +5,5 @@ import TextField from './TextField/TextField';
 export default {
   StandardField: StandardField,
   FilterButtonsField: FilterButtonsField,
-  TextField: TextField
+  TextField: TextField,
 };

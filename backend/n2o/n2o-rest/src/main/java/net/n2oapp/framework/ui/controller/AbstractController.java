@@ -9,27 +9,24 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +36,7 @@ public abstract class AbstractController {
     private ObjectMapper objectMapper;
     private MetadataRouter router;
     private MetadataEnvironment environment;
+    private ErrorMessageBuilder errorMessageBuilder;
 
     public AbstractController() {
     }
@@ -62,8 +60,7 @@ public abstract class AbstractController {
 
     @SuppressWarnings("unchecked")
     protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
-        RoutingResult result = router.get(path);
-        ActionContext actionCtx = (ActionContext) result.getContext(CompiledObject.class);
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class);
         DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -145,8 +142,7 @@ public abstract class AbstractController {
     @Deprecated
     protected QueryRequestInfo createQueryRequestInfo(HttpServletRequest request) {
         CompiledQuery query;
-        RoutingResult result = getRoutingResult(request);
-        QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) getRoutingResult(request, CompiledQuery.class);
         DataSet data = queryCtx.getParams(request.getPathInfo(), request.getParameterMap());
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -167,8 +163,7 @@ public abstract class AbstractController {
 
     protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
         CompiledQuery query;
-        RoutingResult result = router.get(path);
-        QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class);
         DataSet data = queryCtx.getParams(path, params);
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -194,8 +189,8 @@ public abstract class AbstractController {
         return user;
     }
 
-    private <D extends Compiled> RoutingResult getRoutingResult(HttpServletRequest req) {
+    private <D extends Compiled> CompileContext<D, ?> getRoutingResult(HttpServletRequest req, Class<D> compiledClass) {
         String path = req.getPathInfo();
-        return router.get(path);
+        return router.get(path, compiledClass);
     }
 }

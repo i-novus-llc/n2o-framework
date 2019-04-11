@@ -1,6 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number, array, select } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  number,
+  array,
+  select,
+} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import InputMask from './InputMask';
@@ -28,7 +35,7 @@ stories
       value: text('value', 1234),
       guide: boolean('guide', false),
       keepCharPosition: boolean('keepCharPosition', true),
-      resetOnNotValid: boolean('resetOnNotValid', true)
+      resetOnNotValid: boolean('resetOnNotValid', true),
     };
 
     return <InputMask {...props} />;
@@ -47,8 +54,14 @@ stories
         placeholder: text('placeholder', InputMaskJson.placeholder),
         placeholderChar: text('placeholderChar', InputMaskJson.placeholderChar),
         guide: boolean('guide', InputMaskJson.guide),
-        keepCharPosition: boolean('keepCharPosition', InputMaskJson.keepCharPositions),
-        resetOnNotValid: boolean('resetOnNotValid', InputMaskJson.resetOnNotValid)
+        keepCharPosition: boolean(
+          'keepCharPosition',
+          InputMaskJson.keepCharPositions
+        ),
+        resetOnNotValid: boolean(
+          'resetOnNotValid',
+          InputMaskJson.resetOnNotValid
+        ),
       };
 
       return props;

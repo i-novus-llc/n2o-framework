@@ -17,6 +17,7 @@ import DateTimeControl from './DateTimeControl';
  * @reactProps {boolean} disabled - задизейблен пикер / нет
  * @reactProps {string} placeholder - плэйсхолдер для поля
  * @reactProps {string} locale - Локаль. Варианты: 'en', 'ru'
+ * @reactProps {bool} openOnFocus - открывать календарь при фокусе
  * @example
  * <DatePicker defaultTime = '12:11'/>
  */
@@ -44,24 +45,25 @@ DatePicker.defaultProps = {
   disabled: false,
   className: '',
   defaultTime: '00:00',
-  autoFocus: false
+  autoFocus: false,
+  openOnFocus: false,
 };
 
 DatePicker.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
@@ -73,7 +75,8 @@ DatePicker.propTypes = {
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
   locale: PropTypes.oneOf(['en', 'ru']),
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool,
 };
 
 export default DatePicker;

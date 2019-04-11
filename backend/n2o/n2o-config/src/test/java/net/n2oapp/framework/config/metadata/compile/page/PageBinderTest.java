@@ -81,10 +81,10 @@ public class PageBinderTest extends SourceCompileTestBase {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
         ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
         doAnswer(invocation -> {
-            List<SubModelQuery> subModelQueries = invocation.getArgumentAt(0, List.class);
-            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            List<SubModelQuery> subModelQueries = invocation.getArgument(0);
+            DataSet data = invocation.getArgument(1);
             if (!subModelQueries.isEmpty()
-                    && subModelQueries.get(0).getQueryId().equals("query1")
+                    && "query1".equals(subModelQueries.get(0).getQueryId())
                     && data.get("id").equals(123)) {
                 data.put("name", "Joe");
             }
@@ -126,8 +126,8 @@ public class PageBinderTest extends SourceCompileTestBase {
 
         //мок subModelProcessor. Докидывает name в данные
         doAnswer(invocation -> {
-            List<SubModelQuery> subModelQueries = invocation.getArgumentAt(0, List.class);
-            DataSet data = invocation.getArgumentAt(1, DataSet.class);
+            List<SubModelQuery> subModelQueries = invocation.getArgument(0);
+            DataSet data = invocation.getArgument(1);
             data.put(subModelQueries.get(0).getSubModel() + ".name", "test" + data.get(subModelQueries.get(0).getSubModel() + ".id"));
             return null;
         }).when(subModelsProcessor).executeSubModels(anyListOf(SubModelQuery.class), anyObject());

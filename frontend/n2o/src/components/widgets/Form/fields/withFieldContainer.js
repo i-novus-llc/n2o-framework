@@ -7,12 +7,12 @@ import {
   isVisibleSelector,
   isDisabledSelector,
   messageSelector,
-  filterSelector,
-  requiredSelector
+  requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
 import { compose, pure, withProps, defaultProps } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
+import { getFormValues } from 'redux-form';
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -37,21 +37,19 @@ export default Field => {
         meta: { form },
         input: { name },
         isInit,
-        visible,
-        disabled,
+        visibleToRegister,
+        disabledToRegister,
         dependency,
-        registerFieldExtra,
         requiredToRegister,
-        required
+        registerFieldExtra,
       } = props;
-      if (!isInit) {
+      !isInit &&
         registerFieldExtra(form, name, {
-          visible,
-          disabled,
+          visible: visibleToRegister,
+          disabled: disabledToRegister,
           dependency,
-          required: isBoolean(requiredToRegister) ? requiredToRegister : required
+          required: requiredToRegister,
         });
-      }
     }
 
     /**
@@ -74,7 +72,7 @@ export default Field => {
         input: { name },
         value,
         input,
-        onBlur
+        onBlur,
       } = this.props;
       input && input.onBlur(e);
       onBlur && onBlur(e.target.value);
@@ -110,12 +108,13 @@ export default Field => {
      * @returns {{validationClass: string, value: *, onChange: FieldContainer.onChange, onFocus: FieldContainer.onFocus, onBlur: FieldContainer.onBlur}}
      */
     mapProps() {
-      const { input, value, message, meta } = this.props;
+      const { input, message, meta, model, ...rest } = this.props;
       return {
-        ...propsResolver(this.props, this.context._reduxForm.getValues()),
+        ...propsResolver(rest, model),
         ...meta,
         validationClass: this.getValidationState(message),
-        ...input
+        message,
+        ...input,
       };
     }
 
@@ -128,48 +127,43 @@ export default Field => {
     }
   }
 
-  FieldContainer.contextTypes = {
-    _reduxForm: PropTypes.object
-  };
-
   const mapStateToProps = (state, ownProps) => {
     const { form } = ownProps.meta;
     const { name } = ownProps.input;
-    const isVisible = isVisibleSelector(form, name)(state);
-    const isDisabled = isDisabledSelector(form, name)(state);
-    const isRequired = requiredSelector(form, name)(state);
     return {
       isInit: isInitSelector(form, name)(state),
-      visible: isBoolean(isVisible) ? isVisible : ownProps.visible,
-      disabled: isBoolean(isDisabled) ? isDisabled : ownProps.disabled,
+      visible: isVisibleSelector(form, name)(state),
+      disabled: isDisabledSelector(form, name)(state),
       message: messageSelector(form, name)(state),
-      required: isBoolean(isRequired) ? isRequired : ownProps.required,
-      filterValues: filterSelector(form, name)(state)
+      required: requiredSelector(form, name)(state),
+      model: getFormValues(form)(state),
     };
   };
 
   const mapDispatchToProps = {
-    registerFieldExtra
+    registerFieldExtra,
   };
 
   return compose(
+    defaultProps({
+      visible: true,
+      disabled: false,
+      required: false,
+    }),
     withProps(props => ({
-      requiredToRegister: props.required
+      visibleToRegister: props.visible,
+      disabledToRegister:
+        isBoolean(props.enabled) && !props.disabled
+          ? !props.enabled
+          : props.disabled,
+      requiredToRegister: props.required,
     })),
     connect(
       mapStateToProps,
       mapDispatchToProps
     ),
     withProps(props => ({
-      disabled: isBoolean(props.enabled) && !props.disabled ? !props.enabled : props.disabled
-    })),
-    defaultProps({
-      isInit: false,
-      visible: true,
-      disabled: false
-    }),
-    withProps(props => ({
-      ref: props.setReRenderRef
+      ref: props.setReRenderRef,
     })),
     pure
   )(FieldContainer);

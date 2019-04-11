@@ -1,4 +1,14 @@
-import { omit, map as mapFn, isArray, isObject, merge, set, pick, each, isString } from 'lodash';
+import {
+  omit,
+  map as mapFn,
+  isArray,
+  isObject,
+  merge,
+  set,
+  pick,
+  each,
+  isString,
+} from 'lodash';
 import {
   SET,
   REMOVE,
@@ -8,7 +18,7 @@ import {
   UPDATE_MAP,
   MERGE,
   COPY,
-  CLEAR
+  CLEAR,
 } from '../constants/models';
 import { omitDeep, setIn } from '../tools/helpers';
 
@@ -31,7 +41,7 @@ const modelState = {
   filter: {},
   multi: {},
   resolve: {},
-  edit: {}
+  edit: {},
 };
 
 /**
@@ -41,6 +51,8 @@ const modelState = {
  */
 function resolveUpdate(state, action) {
   const { key, field, value } = action.payload;
+
+  if (!value || !field) return;
 
   if (isArray(state[key])) {
     return setIn(state[key], field, value);
@@ -56,7 +68,7 @@ function resolve(state, action) {
   switch (action.type) {
     case SET:
       return Object.assign({}, state, {
-        [action.payload.key]: action.payload.model
+        [action.payload.key]: action.payload.model,
       });
     case REMOVE:
       return omit(state, action.payload.key);
@@ -69,7 +81,7 @@ function resolve(state, action) {
     case UPDATE:
       return {
         ...state,
-        [action.payload.key]: resolveUpdate(state, action)
+        [action.payload.key]: resolveUpdate(state, action),
       };
     case UPDATE_MAP:
       const { value, key, field, map } = action.payload;
@@ -81,15 +93,15 @@ function resolve(state, action) {
       return {
         ...state[action.payload.target.prefix],
         [action.payload.target.key]: {
-          ...state[action.payload.source.prefix][action.payload.source.key]
-        }
+          ...state[action.payload.source.prefix][action.payload.source.key],
+        },
       };
     case CLEAR:
       return {
         ...state,
         [action.payload.key]: {
-          ...pick(state[action.payload.key], [action.payload.exclude])
-        }
+          ...pick(state[action.payload.key], [action.payload.exclude]),
+        },
       };
     default:
       return state;
@@ -108,18 +120,18 @@ export default function models(state = modelState, action) {
     case UPDATE:
     case UPDATE_MAP:
       return Object.assign({}, state, {
-        [action.payload.prefix]: resolve(state[action.payload.prefix], action)
+        [action.payload.prefix]: resolve(state[action.payload.prefix], action),
       });
     case COPY:
       return Object.assign({}, state, {
-        [action.payload.target.prefix]: resolve(state, action)
+        [action.payload.target.prefix]: resolve(state, action),
       });
     case MERGE:
       return { ...merge(state, action.payload.combine) };
     case REMOVE_ALL:
       return {
         ...state,
-        ...omitDeep(state, [action.payload.key])
+        ...omitDeep(state, [action.payload.key]),
       };
     case CLEAR:
       const res = {};
@@ -127,13 +139,15 @@ export default function models(state = modelState, action) {
         res[prefix] = {
           ...state[prefix],
           [action.payload.key]: {
-            ...pick(state[prefix][action.payload.key], [action.payload.exclude])
-          }
+            ...pick(state[prefix][action.payload.key], [
+              action.payload.exclude,
+            ]),
+          },
         };
       });
       return {
         ...state,
-        ...res
+        ...res,
       };
     default:
       return state;

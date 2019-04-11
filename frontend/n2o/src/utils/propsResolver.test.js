@@ -11,14 +11,14 @@ const props = {
   combine: "`'label-'+color`",
   combineExp: "`'label-'+(name == 'test' ? 'success' : 'info')`",
   deep: {
-    test: '`color`'
+    test: '`color`',
   },
-  withFunctions: '`_.isString(name)`'
+  withFunctions: '`_.isString(name)`',
 };
 
 const model = {
   name: 'test',
-  color: 'warning'
+  color: 'warning',
 };
 
 var newProps;

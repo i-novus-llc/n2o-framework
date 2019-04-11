@@ -14,23 +14,53 @@ import withCell from '../../withCell';
  * @param callActionImpl
  * @param buttons
  * @param visible
+ * @param positionFixed
+ * @param modifiers
+ * @param resolveWidget
+ * @param model
  * @param other
  * @returns {*}
  * @constructor
  */
-function ButtonsCell({ id, className, callActionImpl, buttons, visible, ...other }) {
-  const handlerClick = (e, action) => callActionImpl(e, { action });
+function ButtonsCell({
+  id,
+  className,
+  callActionImpl,
+  buttons,
+  visible,
+  positionFixed,
+  modifiers,
+  resolveWidget,
+  model,
+  ...other
+}) {
+  const handlerClick = (e, action) => {
+    e.stopPropagation();
+    callActionImpl(e, { action });
+  };
 
   const createGroupItems = ({ subMenu, ...rest }) =>
     subMenu ? (
-      <HintDropDown menu={subMenu} onClick={handlerClick} {...rest} />
+      <HintDropDown
+        positionFixed={positionFixed}
+        modifiers={modifiers}
+        menu={subMenu}
+        onClick={handlerClick}
+        resolveWidget={resolveWidget}
+        model={model}
+        {...rest}
+      />
     ) : (
       <HintButton onClick={handlerClick} {...rest} />
     );
 
   return (
     visible && (
-      <ButtonGroup key={id} className={cx('n2o-table-btn', className)} {...other}>
+      <ButtonGroup
+        key={id}
+        className={cx('n2o-buttons-cell', className)}
+        {...other}
+      >
         {map(buttons, createGroupItems)}
       </ButtonGroup>
     )
@@ -42,12 +72,14 @@ ButtonsCell.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   id: PropTypes.string,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  resolveWidget: PropTypes.func,
 };
 
 ButtonsCell.defaultProps = {
   size: 'sm',
-  visible: true
+  visible: true,
+  resolveWidget: () => {},
 };
 
 export default withCell(ButtonsCell);

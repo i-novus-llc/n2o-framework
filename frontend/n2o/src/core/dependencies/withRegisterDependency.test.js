@@ -14,8 +14,8 @@ const setup = (store, props = {}) => {
         dependency={[
           {
             type: 'reRender',
-            on: ['name']
-          }
+            on: ['name'],
+          },
         ]}
         {...props}
       />
@@ -29,7 +29,7 @@ describe('Проверка хока withRegisterDependency', function() {
     expect(store.getState().form).toEqual({});
     const wrapper = setup(store);
     expect(store.getState().form.testForm.registeredFields.test).toEqual({
-      isInit: false,
+      isInit: true,
       visible: true,
       disabled: false,
       message: null,
@@ -37,10 +37,10 @@ describe('Проверка хока withRegisterDependency', function() {
       dependency: [
         {
           type: 'reRender',
-          on: ['name']
-        }
+          on: ['name'],
+        },
       ],
-      required: false
+      required: false,
     });
   });
 });

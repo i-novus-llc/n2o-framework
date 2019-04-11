@@ -44,11 +44,14 @@ class Input extends React.Component {
     if (props.disabled) {
       return;
     }
-    const value = isObject(props.value) || isArray(props.value) ? props.value : e.target.value;
+    const value =
+      isObject(props.value) || isArray(props.value)
+        ? props.value
+        : e.target.value;
     props.onChange({
       target: {
         ...props,
-        value
+        value,
       },
       stopPropagation() {
         e.stopPropagation();
@@ -62,7 +65,7 @@ class Input extends React.Component {
       getNormalizeValue() {
         return { [props.name]: props.value };
       },
-      nativeEvent: e
+      nativeEvent: e,
     });
   }
 
@@ -94,6 +97,7 @@ class Input extends React.Component {
 
     return (
       <input
+        ref={inputRef}
         className={classNames('n2o-input', className)}
         style={style}
         id={id}
@@ -132,7 +136,7 @@ Input.propTypes = {
   onChange: PropTypes.func,
   onPaste: PropTypes.func,
   onClick: PropTypes.func,
-  onKeyDown: PropTypes.func
+  onKeyDown: PropTypes.func,
 };
 
 Input.defaultProps = {
@@ -146,7 +150,7 @@ Input.defaultProps = {
   onChange: () => {},
   onPaste: () => {},
   onClick: () => {},
-  onKeyDown: () => {}
+  onKeyDown: () => {},
 };
 
 export default pure(Input);

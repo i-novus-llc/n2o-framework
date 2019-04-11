@@ -25,7 +25,11 @@ class SelectShorthand extends React.Component {
     return (
       <Select {...this.props}>
         {this.props.options.map(option => (
-          <Option value={option.value} label={option.label} disabled={option.disabled} />
+          <Option
+            value={option.value}
+            label={option.label}
+            disabled={option.disabled}
+          />
         ))}
       </Select>
     );
@@ -40,14 +44,14 @@ SelectShorthand.propTypes = {
   visible: PropTypes.bool,
   heightSize: PropTypes.oneOf(['input-sm', 'input-lg', '']),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.array
+  options: PropTypes.array,
 };
 
 SelectShorthand.defaultProps = {
   autoFocus: false,
   disabled: false,
   required: false,
-  visible: true
+  visible: true,
 };
 
 export default SelectShorthand;

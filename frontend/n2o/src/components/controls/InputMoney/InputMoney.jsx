@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { isEqual, forOwn, isEmpty, split } from 'lodash';
+import { isEqual, forOwn, isEmpty, split, replace } from 'lodash';
 import InputMask from '../InputMask/InputMask';
 
 const ReplaceableChar = {
   PREFIX: 'prefix',
   SUFFIX: 'suffix',
   THOUSANDS_SYMBOL: 'thousandsSeparatorSymbol',
-  DECIMAL_SYMBOL: 'decimalSymbol'
+  DECIMAL_SYMBOL: 'decimalSymbol',
 };
 
 /**
@@ -33,7 +33,7 @@ class InputMoney extends React.Component {
     super(props);
 
     this.state = {
-      value: props.value
+      value: props.value,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -51,16 +51,22 @@ class InputMoney extends React.Component {
   convertToMoney(value) {
     const { allowDecimal } = this.props;
     if (!isEmpty(value) && this.props[ReplaceableChar.DECIMAL_SYMBOL] !== '.') {
-      value = value.replace('.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
+      value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
     }
 
-    const splitBySymbol = value.split(this.props[ReplaceableChar.DECIMAL_SYMBOL]);
+    const splitBySymbol = split(
+      value,
+      this.props[ReplaceableChar.DECIMAL_SYMBOL]
+    );
 
     if (!allowDecimal) {
       value = splitBySymbol[0];
     } else if (splitBySymbol.length === 2 && splitBySymbol[1].length === 1) {
       value =
-        splitBySymbol[0] + this.props[ReplaceableChar.DECIMAL_SYMBOL] + splitBySymbol[1] + '0';
+        splitBySymbol[0] +
+        this.props[ReplaceableChar.DECIMAL_SYMBOL] +
+        splitBySymbol[1] +
+        '0';
     }
 
     return value;
@@ -71,18 +77,31 @@ class InputMoney extends React.Component {
   }
 
   convertToFloat(value) {
+    const { requireDecimal } = this.props;
     let convertedValue = value.toString();
     forOwn(ReplaceableChar, char => {
       if (!isEmpty(this.props[char])) {
-        const regExp = new RegExp(this.props[char], 'g');
-        const replaceableValue = char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : '';
-        convertedValue = this.replaceSpecialSymbol(convertedValue, regExp, replaceableValue);
+        const pattern = this.props[char].replace(
+          /[-\/\\^$*+?.()|[\]{}]/g,
+          '\\$&'
+        );
+        const regExp = new RegExp(pattern, 'g');
+        const replaceableValue =
+          char === ReplaceableChar.DECIMAL_SYMBOL ? '.' : '';
+        convertedValue = this.replaceSpecialSymbol(
+          convertedValue,
+          regExp,
+          replaceableValue
+        );
       }
     });
 
     const splitValue = split(convertedValue, '.');
-    if (splitValue.length === 2 && isEmpty(splitValue[1])) {
-      return split(convertedValue, '.')[0] + '.' + '00';
+    if (
+      (splitValue.length === 2 && isEmpty(splitValue[1])) ||
+      (requireDecimal && splitValue.length === 2 && isEmpty(splitValue[1]))
+    ) {
+      convertedValue = split(convertedValue, '.')[0] + '.' + '00';
     }
     this.setState({ value: convertedValue });
     return convertedValue;
@@ -109,7 +128,7 @@ class InputMoney extends React.Component {
       integerLimit,
       requireDecimal,
       allowNegative,
-      allowLeadingZeroes
+      allowLeadingZeroes,
     } = this.props;
     return {
       ...this.props,
@@ -128,8 +147,8 @@ class InputMoney extends React.Component {
         integerLimit,
         requireDecimal,
         allowNegative,
-        allowLeadingZeroes
-      }
+        allowLeadingZeroes,
+      },
     };
   }
 
@@ -151,7 +170,7 @@ InputMoney.propTypes = {
   integerLimit: PropTypes.any,
   requireDecimal: PropTypes.bool,
   allowNegative: PropTypes.bool,
-  allowLeadingZeroes: PropTypes.bool
+  allowLeadingZeroes: PropTypes.bool,
 };
 
 InputMoney.defaultProps = {
@@ -166,7 +185,7 @@ InputMoney.defaultProps = {
   integerLimit: null,
   requireDecimal: false,
   allowNegative: false,
-  allowLeadingZeroes: false
+  allowLeadingZeroes: false,
 };
 
 export default InputMoney;

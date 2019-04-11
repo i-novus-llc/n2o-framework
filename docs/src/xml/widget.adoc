@@ -275,6 +275,11 @@ link:#_Действия[Обработчик действия]
 |Валидировать форму после нажатия на кнопку?
 |Для каждого действия свои умолчания.
 
+|tooltip-position
+|left, right, top, bottom
+|Позиция подсказки
+|bottom
+
 |===
 
 Тело::
@@ -378,6 +383,11 @@ link:#_Действия[Обработчик действия]
 |true false
 |Доступность
 |
+
+|tooltip-position
+|left, right, top, bottom
+|Позиция подсказки
+|left
 
 |===
 
@@ -662,6 +672,11 @@ two-models - 2х модельный режим (при первой загруз
 При редактировании формы меняется модель edit.)
 |one-model
 
+|unsaved-data-prompt
+|true false
+|Показать предупреждение о наличии несохраненных данных.
+|true
+
 |===
 
 Пример::
@@ -697,23 +712,6 @@ two-models - 2х модельный режим (при первой загруз
 
 Виджет дерево.
 
-Пример::
-[source,xml]
-----
-<?xml version='1.0' encoding='UTF-8'?>
-<tree xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моё дерево"
-  query-id="myQuery">
-  <inheritance-nodes>...</inheritance-nodes>
-</tree>
-----
-
-==== <inheritance-nodes>
-
-Структура иерархии записей выборки.
-
-[NOTE]
-Записи должны ссылаться "сами на себя" (parent_id), образуя древовидную структуру.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -723,6 +721,11 @@ two-models - 2х модельный режим (при первой загруз
 |parent-field-id
 |Ссылка на поле выборки
 |Родительский узел дерева
+|
+
+|value-field-id
+|Ссылка на поле выборки
+|Идентификатор узла дерева
 |
 
 |label-field-id
@@ -740,15 +743,35 @@ two-models - 2х модельный режим (при первой загруз
 |Иконка узла дерева
 |
 
-|search-field-id
+|badge-field-id
 |Ссылка на поле выборки
-|Поле поиска по дереву
-|Берется из атрибута `label-field-id`
-
-|enabled-field-id
-|Ссылка на поле выборки с `domain="boolean"`
-|Доступность узла для выделения
+|Значок узла дерева
 |
+
+|badge-color-field-id
+|Ссылка на поле выборки
+|Цвет значка узла дерева
+|
+
+|image-field-id
+|Ссылка на поле выборки
+|Изображение узла дерева
+|
+
+|multi-select
+|true false
+|Режим множественного выбора
+|true
+
+|checkboxes
+|true false
+|Выбор в режиме чекбокс
+|false
+
+|ajax
+|true false
+|Поддержка загрузки через ajax запрос
+|false
 
 |===
 
@@ -756,11 +779,27 @@ two-models - 2х модельный режим (при первой загруз
 Пример::
 [source,xml]
 ----
+<?xml version='1.0' encoding='UTF-8'?>
+<tree xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
+  name="Моё дерево"
+  query-id="myQuery"
+  parent-field-id="parent.id"
+  label-field-id="displayName"
+  has-children-field-id="hasChildren"
+  icon-field-id="iconAddress">
+</tree>
+----
+
+
+[NOTE]
+Записи должны ссылаться "сами на себя" (parent-field-id), образуя древовидную структуру.
+
+
+Пример::
+[source,xml]
+----
 <inheritance-nodes
-    parent-field-id="parent.id"
-    label-field-id="displayName"
-    has-children-field-id="hasChildren"
-    icon-field-id="iconAddress"/>
+    />
 ----
 
 ==== <grouping-nodes>
@@ -853,30 +892,48 @@ link:#__node[Дочерний узел]
 </list>
 ----
 
-==== <rows>
-Настройка строк списка.
+==== <content>
+Содержимое строк списка.
 
-Атрибуты::
-[cols="2,1,4,4"]
+Элементы::
+[cols="4,4"]
 |===
-|Наименование|Тип|Описание|Значение по умолчанию
+|Наименование|Тело
 
-|text-field-id
-|Ссылка на поле выборки
-|Поле выборки, отображающее текст в строке
-|
+|left-top
+|link:#_Ячейки[Ячейка]
+
+|left-bottom
+|link:#_Ячейки[Ячейка]
+
+|header
+|link:#_Ячейки[Ячейка]
+
+|body
+|link:#_Ячейки[Ячейка]
+
+|sub-header
+|link:#_Ячейки[Ячейка]
+
+|right-top
+|link:#_Ячейки[Ячейка]
+
+|right-bottom
+|link:#_Ячейки[Ячейка]
+
+|extra
+|link:#_Ячейки[Ячейка]
 
 |===
-
-Тело::
-link:#_Ячейки[Ячейка]
 
 Пример::
 [source,xml]
 ----
-<rows text-field-id="name">
-  <text class="font-weight-bold"/>
-</rows>
+ <content>
+    <left-top id="leftTop">
+        <image class="list-image"/>
+    </left-top>
+ </content>
 ----
 
 === <chart>

@@ -15,7 +15,7 @@ const setup = propOverrides => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -23,7 +23,7 @@ describe('<InputNumber />', () => {
   it('можно вводить значение null', () => {
     const { wrapper } = setup({
       value: null,
-      step: 1
+      step: 1,
     });
     expect(
       wrapper
@@ -36,7 +36,7 @@ describe('<InputNumber />', () => {
   it('можно вводить строку, которую можно привести к числу', () => {
     const { wrapper } = setup({
       value: 2.4,
-      step: '0.1'
+      step: '0.1',
     });
     expect(
       wrapper
@@ -49,7 +49,7 @@ describe('<InputNumber />', () => {
   it('можно вводить строку, не приводимую к числу, значение которой будет проигнорировано', () => {
     const { wrapper } = setup({
       value: 'Строковое значение, которое будет проигнорировано',
-      step: 1
+      step: 1,
     });
     expect(
       wrapper
@@ -123,7 +123,9 @@ describe('<InputNumber />', () => {
 
   it('округляет до количества знаков после запятой в step', () => {
     const { wrapper } = setup({ value: 2, step: '0.00' });
-    wrapper.find('input').simulate('change', { target: { value: '100.999999' } });
+    wrapper
+      .find('input')
+      .simulate('change', { target: { value: '100.999999' } });
     wrapper.find('input').simulate('blur');
     expect(
       wrapper
@@ -183,21 +185,35 @@ describe('<InputNumber />', () => {
   });
 
   it('значения больше max невалидны', () => {
-    const { wrapper } = setup({ disabled: false, value: 1, max: 10, step: '1' });
+    const { wrapper } = setup({
+      disabled: false,
+      value: 1,
+      max: 10,
+      step: '1',
+    });
     wrapper.find('input').simulate('change', { target: { value: '9' } });
     wrapper.find('input').simulate('blur');
     expect(wrapper.find('input').props().value).toBe('9');
-    wrapper.find('input').simulate('change', { target: { value: '100.999999' } });
+    wrapper
+      .find('input')
+      .simulate('change', { target: { value: '100.999999' } });
     wrapper.find('input').simulate('blur');
     expect(wrapper.find('input').props().value).toBe('9');
   });
 
   it('значения меньше min невалидны', () => {
-    const { wrapper } = setup({ disabled: false, value: 1, min: -10, step: '1' });
+    const { wrapper } = setup({
+      disabled: false,
+      value: 1,
+      min: -10,
+      step: '1',
+    });
     wrapper.find('input').simulate('change', { target: { value: '9' } });
     wrapper.find('input').simulate('blur');
     expect(wrapper.find('input').props().value).toBe('9');
-    wrapper.find('input').simulate('change', { target: { value: '-100.999999' } });
+    wrapper
+      .find('input')
+      .simulate('change', { target: { value: '-100.999999' } });
     wrapper.find('input').simulate('blur');
     expect(wrapper.find('input').props().value).toBe('9');
   });
@@ -212,7 +228,28 @@ describe('<InputNumber />', () => {
   it('вызывает onChange при изменении', () => {
     const onChange = sinon.spy();
     let { wrapper } = setup({ onChange, value: 1, step: '1' });
-    wrapper.find('input').simulate('change', { target: { value: '-100.999999' } });
+    wrapper
+      .find('input')
+      .simulate('change', { target: { value: '-100.999999' } });
     expect(onChange.calledOnce).toBe(true);
+  });
+
+  it('оботражает 0 после обновления', () => {
+    const { wrapper } = setup({
+      value: '',
+    });
+    expect(wrapper.state().value).toEqual(null);
+    wrapper.setProps({
+      value: 0,
+    });
+    expect(wrapper.state().value).toEqual(0);
+  });
+
+  it('отображает целое число при вводе', () => {
+    const { wrapper } = setup({
+      value: '2',
+    });
+    wrapper.setProps({ value: 5 });
+    expect(wrapper.state().value).toEqual(5);
   });
 });

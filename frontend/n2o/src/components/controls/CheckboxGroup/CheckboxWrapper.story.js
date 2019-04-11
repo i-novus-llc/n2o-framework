@@ -1,6 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, array, number, select } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  array,
+  number,
+  select,
+} from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import CheckboxGroupWrapper from './CheckboxGroupControl';
 import WrapperJson from './CheckboxWrapper.meta.json';
@@ -18,18 +25,18 @@ stories.add(
       {
         id: 1,
         label: 'One',
-        value: 'One'
+        value: 'One',
       },
       {
         id: 2,
         label: 'Two',
-        value: 'Two'
+        value: 'Two',
       },
       {
         id: 3,
         label: 'Three',
-        value: 'Three'
-      }
+        value: 'Three',
+      },
     ];
 
     const props = {
@@ -41,7 +48,7 @@ stories.add(
       labelFieldId: text('labelFieldId', WrapperJson.labelFieldId),
       size: WrapperJson.size,
       type: select('type', ['default', 'n2o', 'btn'], WrapperJson.type),
-      dataProvider: WrapperJson.dataProvider
+      dataProvider: WrapperJson.dataProvider,
     };
 
     fetchMock.restore().get('begin:n2o/data', { list });

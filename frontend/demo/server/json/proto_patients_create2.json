@@ -8,21 +8,22 @@
         "isOtherPage": false
       },
       {
-        "path":"/proto/create2/main",
-        "exact":true,
-        "isOtherPage":false
+        "path": "/proto/create2/main",
+        "exact": true,
+        "isOtherPage": false
       },
       {
-        "path":"/proto/create2/main/:proto_create2_main_id",
-        "exact":true,
-        "isOtherPage":false
-      }],
+        "path": "/proto/create2/main/:proto_create2_main_id",
+        "exact": true,
+        "isOtherPage": false
+      }
+    ],
     "pathMapping": {
-      "proto_create2_main_id":{
-        "type":"n2o/widgets/CHANGE_SELECTED_ID",
-        "payload":{
-          "widgetId":"proto_create2_main",
-          "value":":proto_create2_main_id"
+      "proto_create2_main_id": {
+        "type": "n2o/widgets/CHANGE_SELECTED_ID",
+        "payload": {
+          "widgetId": "proto_create2_main",
+          "value": ":proto_create2_main_id"
         }
       }
     },
@@ -42,15 +43,15 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
+                        "id": "surname",
                         "required": true,
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
+                          "src": "InputText",
                           "id": "surname",
-                          "placeholder": "Введите значение",
-                          "src": "InputText"
+                          "placeholder": "Введите значение"
                         }
                       }
                     ]
@@ -58,14 +59,14 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
+                        "id": "name",
                         "required": true,
                         "label": "Имя",
                         "dependency": [],
                         "control": {
-                          "id": "name",
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "name"
                         }
                       }
                     ]
@@ -73,13 +74,13 @@
                   {
                     "fields": [
                       {
-                        "id": "patrName",
                         "src": "StandardField",
+                        "id": "patrName",
                         "label": "Отчество",
                         "dependency": [],
                         "control": {
-                          "id": "patrName",
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "patrName"
                         }
                       }
                     ]
@@ -89,14 +90,16 @@
               {
                 "cols": [
                   {
+                    "size": 5,
                     "fields": [
                       {
-                        "id": "gender",
                         "src": "StandardField",
+                        "id": "gender",
                         "required": true,
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "src": "RadioGroup",
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
@@ -107,49 +110,37 @@
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
-                          "type": "n2o",
-                          "src": "RadioGroup"
+                          "type": "n2o"
                         }
                       }
-                    ],
-                    "size": 5
+                    ]
                   },
                   {
+                    "size": 5,
                     "fields": [
                       {
-                        "id": "birthday",
                         "src": "StandardField",
+                        "id": "birthday",
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
-                          "id": "birthday",
                           "src": "DatePicker",
+                          "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }
-                    ],
-                    "size": 5
+                    ]
                   },
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
-                        "dependency": [
-                          {
-                            "type": "setValue",
-                            "on": [
-                              "gender"
-                            ],
-                            "expression": "(function(){if (gender.id == 1 || gender.id == 2)\n                                return true;\n                            else\n                                return false;})()",
-                            "applyOnInit": true
-                          }
-                        ],
+                        "id": "vip",
                         "control": {
+                          "src": "Checkbox",
                           "id": "vip",
-                          "label": "VIP",
-                          "src": "Checkbox"
+                          "label": "VIP"
                         }
                       }
                     ]
@@ -198,7 +189,6 @@
           {
             "id": "submit",
             "actionId": "submit",
-            "hint": "Сохранить",
             "conditions": {
               "enabled": [
                 {
@@ -207,15 +197,14 @@
                 }
               ]
             },
-            "color": "primary",
-            "title": "Сохранить",
             "validate": true,
-            "validatedWidgetId": "proto_create2_main"
+            "validatedWidgetId": "proto_create2_main",
+            "color": "primary",
+            "title": "Сохранить"
           },
           {
             "id": "close",
             "actionId": "close",
-            "hint": "Закрыть",
             "conditions": {},
             "title": "Закрыть"
           }
@@ -226,12 +215,10 @@
   "breadcrumb": [
     {
       "label": "Список контактов",
-      "path": "/proto",
-      "pathMapping": {}
+      "path": "/proto"
     },
     {
-      "label": "Карточка пациента",
-      "pathMapping": {}
+      "label": "Карточка пациента"
     }
   ],
   "actions": {
@@ -242,7 +229,7 @@
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
           "widgetId": "proto_create2_main",
-          "pageId":"proto_create2",
+          "pageId": "proto_create2",
           "dataProvider": {
             "url": "n2o/data/proto/create2/submit",
             "pathMapping": {},
@@ -282,8 +269,8 @@
   },
   "models": {
     "resolve['proto_create2_main'].patrName": {
-      "link": "models.resolve['proto_create2_main'].patrName",
-      "value": "Тест"
+      "value": "Тест",
+      "link": "models.resolve['proto_create2_main'].patrName"
     }
   },
   "layout": {

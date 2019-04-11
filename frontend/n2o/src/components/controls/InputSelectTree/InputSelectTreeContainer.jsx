@@ -40,7 +40,7 @@ class InputSelectTreeContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: props.data
+      data: props.data,
     };
   }
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -52,7 +52,11 @@ class InputSelectTreeContainer extends Component {
 
   render() {
     return (
-      <InputSelectTree {...this.props} data={this.state.data} loading={this.props.isLoading} />
+      <InputSelectTree
+        {...this.props}
+        data={this.state.data}
+        loading={this.props.isLoading}
+      />
     );
   }
 }
@@ -65,8 +69,11 @@ const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
   if (isEmpty(data) && !isEmpty(value)) {
     return {
       data: map(newValue, val => ({
-        ...omit(val, [parentFieldId || defaultProps.parentFieldId, 'hasChildren'])
-      }))
+        ...omit(val, [
+          parentFieldId || defaultProps.parentFieldId,
+          'hasChildren',
+        ]),
+      })),
     };
   }
 });

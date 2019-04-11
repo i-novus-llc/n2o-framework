@@ -18,9 +18,9 @@ import cx from 'classnames';
  *     </Section>
  *  </TopBottom>
  */
-const TopBottom = ({ className }) => {
+const TopBottom = ({ className, style }) => {
   return (
-    <div className={cx('layout', className)}>
+    <div className={cx('layout', className)} style={style}>
       <Place name="top" />
       <Place name="bottom" />
     </div>
@@ -28,7 +28,12 @@ const TopBottom = ({ className }) => {
 };
 
 TopBottom.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  style: PropTypes.object,
+};
+
+TopBottom.defaultProps = {
+  style: {},
 };
 
 export default layoutPlaceResolver(TopBottom);

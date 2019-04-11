@@ -78,7 +78,7 @@ Form.Field = Field;
 
 Form.defaultProps = {
   fieldsets: [],
-  autoFocus: true
+  autoFocus: true,
 };
 
 Form.propTypes = {
@@ -92,7 +92,7 @@ Form.propTypes = {
   /* Logic props */
   datasource: PropTypes.object,
   resolveModel: PropTypes.object,
-  onResolve: PropTypes.func
+  onResolve: PropTypes.func,
 };
 
 export default pure(Form);

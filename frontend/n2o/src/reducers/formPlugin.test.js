@@ -9,7 +9,7 @@ import {
   REGISTER_DEPENDENCY,
   SET_FIELD_FILTER,
   SET_REQUIRED,
-  UNSET_REQUIRED
+  UNSET_REQUIRED,
 } from '../constants/formPlugin';
 import formPlugin from './formPlugin';
 
@@ -21,8 +21,8 @@ describe('Тесты formPlugin reducer', () => {
         {
           type: DISABLE_FIELD,
           payload: {
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -30,13 +30,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: true,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           dependency: null,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     });
   });
 
@@ -47,8 +47,8 @@ describe('Тесты formPlugin reducer', () => {
         {
           type: ENABLE_FIELD,
           payload: {
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -56,13 +56,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           dependency: null,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     });
   });
 
@@ -73,8 +73,8 @@ describe('Тесты formPlugin reducer', () => {
         {
           type: SHOW_FIELD,
           payload: {
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -82,13 +82,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           dependency: null,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     });
   });
 
@@ -99,8 +99,8 @@ describe('Тесты formPlugin reducer', () => {
         {
           type: HIDE_FIELD,
           payload: {
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -108,13 +108,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: false,
           dependency: null,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     });
   });
 
@@ -126,8 +126,8 @@ describe('Тесты formPlugin reducer', () => {
           type: ADD_FIELD_MESSAGE,
           payload: {
             message: ['message'],
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -135,15 +135,15 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: {
-            0: 'message'
+            0: 'message',
           },
           visible: true,
           dependency: null,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     });
   });
 
@@ -155,8 +155,8 @@ describe('Тесты formPlugin reducer', () => {
           type: REMOVE_FIELD_MESSAGE,
           payload: {
             message: ['message'],
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -164,13 +164,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           dependency: null,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     });
   });
 
@@ -184,9 +184,9 @@ describe('Тесты formPlugin reducer', () => {
             name: 'testName',
             initialState: {
               visible: false,
-              disabled: true
-            }
-          }
+              disabled: true,
+            },
+          },
         }
       )
     ).toEqual({
@@ -194,13 +194,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: true,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: false,
           dependency: null,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     });
   });
 
@@ -212,8 +212,8 @@ describe('Тесты formPlugin reducer', () => {
           type: REGISTER_DEPENDENCY,
           payload: {
             name: 'testName',
-            dependency: 'dependency'
-          }
+            dependency: 'dependency',
+          },
         }
       )
     ).toEqual({
@@ -221,13 +221,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           required: false,
-          dependency: 'dependency'
-        }
-      }
+          dependency: 'dependency',
+        },
+      },
     });
   });
 
@@ -241,10 +241,10 @@ describe('Тесты formPlugin reducer', () => {
             name: 'testName',
             filter: [
               {
-                'filter.name': 'Oleg'
-              }
-            ]
-          }
+                'filter.name': 'Oleg',
+              },
+            ],
+          },
         }
       )
     ).toEqual({
@@ -253,16 +253,16 @@ describe('Тесты formPlugin reducer', () => {
           dependency: null,
           required: false,
           disabled: false,
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           filter: [
             {
-              'filter.name': 'Oleg'
-            }
-          ]
-        }
-      }
+              'filter.name': 'Oleg',
+            },
+          ],
+        },
+      },
     });
   });
 
@@ -273,8 +273,8 @@ describe('Тесты formPlugin reducer', () => {
         {
           type: SET_REQUIRED,
           payload: {
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -282,13 +282,13 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           dependency: null,
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     });
   });
 
@@ -299,8 +299,8 @@ describe('Тесты formPlugin reducer', () => {
         {
           type: UNSET_REQUIRED,
           payload: {
-            name: 'testName'
-          }
+            name: 'testName',
+          },
         }
       )
     ).toEqual({
@@ -308,13 +308,38 @@ describe('Тесты formPlugin reducer', () => {
         testName: {
           disabled: false,
           filter: [],
-          isInit: false,
+          isInit: true,
           message: null,
           visible: true,
           dependency: null,
-          required: false
+          required: false,
+        },
+      },
+    });
+  });
+  it('Проверка если название чарез точку на примере SHOW_FIELD', () => {
+    expect(
+      formPlugin(
+        {},
+        {
+          type: SHOW_FIELD,
+          payload: {
+            name: 'testName.id',
+          },
         }
-      }
+      )
+    ).toEqual({
+      registeredFields: {
+        'testName.id': {
+          disabled: false,
+          filter: [],
+          isInit: true,
+          message: null,
+          visible: true,
+          dependency: null,
+          required: false,
+        },
+      },
     });
   });
 });

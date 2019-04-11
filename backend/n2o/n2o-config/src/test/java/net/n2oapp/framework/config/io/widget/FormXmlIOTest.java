@@ -1,11 +1,7 @@
 package net.n2oapp.framework.config.io.widget;
 
 
-import net.n2oapp.framework.config.io.fieldset.ColElementIO4;
-import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.fieldset.RowElementIO4;
-import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
+import net.n2oapp.framework.config.io.fieldset.*;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import net.n2oapp.framework.config.selective.persister.SelectiveStandardPersister;

@@ -146,7 +146,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new TreeXmlReaderV3());
         addReader(new N2oChartReaderV3());
         addReader(new CustomWidgetXmlReaderV3());
-        addReader(new WidgetListReaderV3());
         addReader(new HtmlWidgetXmlReaderV3());
         addReader(new WizardXmlReaderV3());
 

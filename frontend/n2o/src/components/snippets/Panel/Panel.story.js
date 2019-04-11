@@ -16,13 +16,13 @@ const tabs = [
   {
     id: '1',
     header: 'Первый таб',
-    content: <h1>Контент первого таба</h1>
+    content: <h1>Контент первого таба</h1>,
   },
   {
     id: '2',
     header: 'Второй таб',
-    content: <h1>Контент второго таба</h1>
-  }
+    content: <h1>Контент второго таба</h1>,
+  },
 ];
 
 stories.add('Компонент', () => {
@@ -37,7 +37,7 @@ stories.add('Компонент', () => {
     open: boolean('open', PanelJson.open),
     collapsible: boolean('collapsible', PanelJson.collapsible),
     fullScreen: boolean('fullScreen', PanelJson.fullScreen),
-    containers: PanelJson.containers
+    containers: PanelJson.containers,
   };
 
   return (

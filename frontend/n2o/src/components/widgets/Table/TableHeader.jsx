@@ -23,7 +23,7 @@ TableHeader.propTypes = {
   /* Default props */
   className: PropTypes.string,
   style: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 TableHeader = pure(TableHeader);

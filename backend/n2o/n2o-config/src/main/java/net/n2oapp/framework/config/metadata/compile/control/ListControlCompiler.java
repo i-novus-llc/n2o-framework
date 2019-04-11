@@ -89,7 +89,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     private void initSubModel(S source, SubModelsScope scope) {
         if (scope == null)
             return;
-        if (source.getQueryId() != null)
+        if (source.getQueryId() != null || source.getOptions() != null)
             scope.add(createSubModel(source));
     }
 
@@ -99,7 +99,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",
                 item.getLabelFieldId() != null ? item.getLabelFieldId() : "name",
-                !item.isSingle()
+                !item.isSingle(),
+                item.getOptions() == null ? null : Arrays.asList(item.getOptions())
         );
     }
 
@@ -111,7 +112,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         CompiledQuery query = p.getCompiled(queryContext);
         String route = query.getRoute();
         p.addRoute(new QueryContext(source.getQueryId(), route));
-        dataProvider.setUrl(p.resolveText(property("n2o.config.data.route")) + route);
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
 
         String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
         if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {

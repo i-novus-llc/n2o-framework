@@ -12,7 +12,7 @@ import {
   CALL_ACTION_IMPL,
   TOGGLE_BUTTON_VISIBILITY,
   TOGGLE_BUTTON_DISABLED,
-  CHANGE_BUTTON_ICON
+  CHANGE_BUTTON_ICON,
 } from '../constants/toolbar';
 import {
   callActionImpl,
@@ -32,7 +32,7 @@ import {
   changeButtonIcon,
   changeButtonStyle,
   changeButtonClass,
-  registerButton
+  registerButton,
 } from './toolbar';
 
 const key = 'test-btn';
@@ -44,7 +44,7 @@ const count = 4;
 const hint = 'this is a hint';
 const icon = 'fa fa-plus';
 const style = {
-  border: '1px solid red'
+  border: '1px solid red',
 };
 const btnClass = 'btn-class';
 
@@ -52,17 +52,17 @@ describe('Тесты экшенов toolbar', () => {
   describe('Проверка экшена callActionAmpl', () => {
     it('Генирирует правильное событие', () => {
       const action = callActionImpl('toggleFilter', {
-        name: 'test'
+        name: 'test',
       });
       expect(action.type).toEqual(CALL_ACTION_IMPL);
     });
     it('Возвращает правильный payload', () => {
       const action = callActionImpl('toggleFilter', {
-        name: 'test'
+        name: 'test',
       });
       expect(action.payload.actionSrc).toEqual('toggleFilter');
       expect(action.payload.options).toEqual({
-        name: 'test'
+        name: 'test',
       });
     });
   });
@@ -287,7 +287,7 @@ describe('Тесты экшенов toolbar', () => {
         className: btnClass,
         style,
         containerKey: 'container',
-        conditions: {}
+        conditions: {},
       });
       expect(action.type).toEqual(REGISTER_BUTTON);
     });
@@ -306,7 +306,7 @@ describe('Тесты экшенов toolbar', () => {
         className: btnClass,
         style,
         containerKey: 'container',
-        conditions: {}
+        conditions: {},
       });
       expect(action.payload.key).toEqual(key);
       expect(action.payload.id).toEqual(id);

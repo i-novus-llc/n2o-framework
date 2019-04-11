@@ -33,7 +33,7 @@ stories
       activeKey: text('activeKey', ''),
       defaultActiveKey: text('defaultActiveKey', ''),
       destroyInactivePanel: boolean('destroyInactivePanel', false),
-      accordion: boolean('accordion', false)
+      accordion: boolean('accordion', false),
     };
 
     return <CollapseToStory {...props} />;
@@ -52,6 +52,40 @@ stories
         </Panel>
         <Panel key="2" header="Второй">
           <InputSelect {...InputSelectJson} options={InputSelectJson.value} />
+        </Panel>
+      </Collapse>
+    );
+  })
+  .add('Компонент с длинным заголовком', () => {
+    return (
+      <Collapse defaultActiveKey="1">
+        <Panel
+          key="1"
+          type="default"
+          header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+        >
+          {textToPanel}
+        </Panel>
+        <Panel
+          key="2"
+          type="line"
+          header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+        >
+          {textToPanel}
+        </Panel>
+        <Panel
+          key="3"
+          type="divider"
+          header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+        >
+          {textToPanel}
+        </Panel>
+        <Panel
+          key="4"
+          type="divider"
+          header="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis corporis ex expedita magnam quibusdam quisquam quod rerum. Assumenda deleniti, earum ipsa porro praesentium qui quisquam quod repudiandae sequi tempore totam."
+        >
+          {textToPanel}
         </Panel>
       </Collapse>
     );

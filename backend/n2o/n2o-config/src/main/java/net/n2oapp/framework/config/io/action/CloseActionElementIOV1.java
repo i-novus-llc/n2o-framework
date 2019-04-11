@@ -2,6 +2,8 @@ package net.n2oapp.framework.config.io.action;
 
 
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
+import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,6 +11,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CloseActionElementIOV1 extends AbstractActionElementIOV1<N2oCloseAction> {
+
+    @Override
+    public void io(Element e, N2oCloseAction a, IOProcessor p) {
+        super.io(e, a, p);
+        p.attributeBoolean(e, "unsaved-data-prompt", a::getPrompt, a::setPrompt);
+    }
 
     @Override
     public String getElementName() {

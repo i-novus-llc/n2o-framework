@@ -45,7 +45,7 @@ class AdvancedTableWidget extends Component {
       multiHeader,
       bordered,
       rowClick,
-      expandedFieldId
+      expandedFieldId,
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -69,12 +69,15 @@ class AdvancedTableWidget extends Component {
       multiHeader,
       bordered,
       rowClick,
-      expandedFieldId
+      expandedFieldId,
     };
   }
 
   prepareFilters() {
-    return this.context.resolveProps(this.props.filter, Fieldsets.StandardFieldset);
+    return this.context.resolveProps(
+      this.props.filter,
+      Fieldsets.StandardFieldset
+    );
   }
 
   render() {
@@ -85,7 +88,7 @@ class AdvancedTableWidget extends Component {
       actions,
       table: { fetchOnInit, size },
       pageId,
-      paging
+      paging,
     } = this.props;
     return (
       <StandardWidget
@@ -110,14 +113,14 @@ class AdvancedTableWidget extends Component {
 }
 
 AdvancedTableWidget.contextTypes = {
-  resolveProps: PropTypes.func
+  resolveProps: PropTypes.func,
 };
 
 AdvancedTableWidget.defaultProps = {
   toolbar: {},
   filter: {},
   bordered: false,
-  expandFieldId: 'expandedContent'
+  expandFieldId: 'expandedContent',
 };
 
 AdvancedTableWidget.propTypes = {
@@ -137,7 +140,7 @@ AdvancedTableWidget.propTypes = {
       autoFocus: PropTypes.bool,
       sorting: PropTypes.object,
       headers: PropTypes.array,
-      cells: PropTypes.array
+      cells: PropTypes.array,
     })
   ),
   bordered: PropTypes.bool,
@@ -150,7 +153,7 @@ AdvancedTableWidget.propTypes = {
   tableSize: PropTypes.string,
   rowSelection: PropTypes.bool,
   rowColor: PropTypes.string,
-  expandFieldId: PropTypes.string
+  expandFieldId: PropTypes.string,
 };
 
 export default dependency(AdvancedTableWidget);

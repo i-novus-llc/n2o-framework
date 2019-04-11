@@ -5,7 +5,7 @@ import StandardField from '../../widgets/Form/fields/StandardField/StandardField
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
 import { compose, withProps } from 'recompose';
 import { some } from 'lodash';
-import withDependency from '../../../core/dependencies/withDependency';
+import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 
 const config = {
   onChange: function({ dependency }, dependencyType) {
@@ -15,10 +15,10 @@ const config = {
     if (haveReRenderDependency) {
       _fetchData({
         size,
-        [`sorting.${labelFieldId}`]: 'ASC'
+        [`sorting.${labelFieldId}`]: 'ASC',
       });
     }
-  }
+  },
 };
 
 /**
@@ -39,7 +39,7 @@ class ReduxField extends React.Component {
     this.setRef = this.setRef.bind(this);
     this.Field = compose(
       withProps(() => ({
-        setReRenderRef: props.setReRenderRef
+        setReRenderRef: props.setReRenderRef,
       })),
       withFieldContainer
     )(props.component);
@@ -62,16 +62,16 @@ class ReduxField extends React.Component {
 }
 
 ReduxField.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };
 
 ReduxField.defaultProps = {
-  component: StandardField
+  component: StandardField,
 };
 
 ReduxField.propTypes = {
   id: PropTypes.number,
-  component: PropTypes.node
+  component: PropTypes.node,
 };
 
-export default withDependency(ReduxField, config);
+export default withObserveDependency(config)(ReduxField);

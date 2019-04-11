@@ -28,7 +28,11 @@
       "label": "Первый таб",
       "id": "panel1",
       "opened": true,
-      "widgetId": "Page_Html"
+      "widgetId": "Page_Html",
+      "dependency": {
+        "bindLink": "models.resolve",
+        "condition": false
+      }
     },
     {
       "icon": "fa fa-plus",

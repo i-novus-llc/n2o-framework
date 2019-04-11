@@ -11,11 +11,11 @@ public class ModelLinkEquivalenceTest {
     @Test
     public void testEquals() {
         ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.RESOLVE, "widget", "field.id");
-        SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", null);
+        SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", null, null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
 
         ModelLink withSubModelQuery2 = new ModelLink(ReduxModel.RESOLVE, "widget");
-        SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", null);
+        SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", null, null);
         withSubModelQuery2.setValue("`field.id`");
         withSubModelQuery2.setSubModelQuery(subModelQuery2);
 
@@ -52,11 +52,11 @@ public class ModelLinkEquivalenceTest {
     @Test
     public void testNotEquals() {
         ModelLink withSubModelQuery1 = new ModelLink(ReduxModel.RESOLVE, "widget", "field.id");
-        SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", null);
+        SubModelQuery subModelQuery1 = new SubModelQuery("field", "queryId", "id", "name", null, null);
         withSubModelQuery1.setSubModelQuery(subModelQuery1);
 
         ModelLink withSubModelQuery2 = new ModelLink(ReduxModel.RESOLVE, "widget");
-        SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", null);
+        SubModelQuery subModelQuery2 = new SubModelQuery(null, "queryId", "id", "name", null, null);
         withSubModelQuery2.setSubModelQuery(subModelQuery2);
 
         ModelLink modelLink1 = new ModelLink(ReduxModel.RESOLVE, "widget1");

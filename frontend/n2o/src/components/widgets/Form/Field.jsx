@@ -18,11 +18,11 @@ class Field extends React.Component {
 }
 
 Field.defaultProps = {
-  component: StandardField
+  component: StandardField,
 };
 
 Field.propTypes = {
-  component: PropTypes.node
+  component: PropTypes.node,
 };
 
 export default pure(Field);

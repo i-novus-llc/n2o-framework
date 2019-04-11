@@ -2,8 +2,14 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
-import { parseDate, mapToValue, mapToDefaultTime, buildDateFormat } from './utils';
+import { Manager, Reference, Popper } from 'react-popper';
+import {
+  parseDate,
+  mapToValue,
+  mapToDefaultTime,
+  buildDateFormat,
+  MODIFIERS,
+} from './utils';
 import DateInputGroup from './DateInputGroup';
 import PopUp from './PopUp';
 
@@ -23,6 +29,7 @@ import PopUp from './PopUp';
  * @reactProps {string} placeholder
  * @reactProps {string} locale
  * @reactProps {string} timeFormat
+ * @reactProps {string} openOnFocus
  */
 class DateTimeControl extends React.Component {
   constructor(props) {
@@ -40,9 +47,15 @@ class DateTimeControl extends React.Component {
 
     const { defaultTime } = this;
     this.state = {
-      inputs: mapToValue(value, defaultTime, this.format, locale, DateTimeControl.defaultInputName),
+      inputs: mapToValue(
+        value,
+        defaultTime,
+        this.format,
+        locale,
+        DateTimeControl.defaultInputName
+      ),
       isPopUpVisible: false,
-      isTimeSet: {}
+      isTimeSet: {},
     };
 
     this.select = this.select.bind(this);
@@ -53,6 +66,7 @@ class DateTimeControl extends React.Component {
     this.setPlacement = this.setPlacement.bind(this);
     this.onClickOutside = this.onClickOutside.bind(this);
     this.markTimeAsSet = this.markTimeAsSet.bind(this);
+    this.setInputRef = this.setInputRef.bind(this);
   }
 
   /**
@@ -77,14 +91,14 @@ class DateTimeControl extends React.Component {
         this.format,
         locale,
         DateTimeControl.defaultInputName
-      )
+      ),
       // isPopUpVisible: false
     });
   }
 
   markTimeAsSet(inputName) {
     this.setState({
-      isTimeSet: { ...this.state.isTimeSet, [inputName]: true }
+      isTimeSet: { ...this.state.isTimeSet, [inputName]: true },
     });
   }
 
@@ -111,7 +125,7 @@ class DateTimeControl extends React.Component {
     } else {
       this.props.onChange([
         this.dateToString(inputs[DateTimeControl.beginInputName]),
-        this.dateToString(inputs[DateTimeControl.endInputName])
+        this.dateToString(inputs[DateTimeControl.endInputName]),
       ]);
     }
   }
@@ -123,7 +137,7 @@ class DateTimeControl extends React.Component {
     this.setState(
       state => {
         return {
-          inputs: { ...this.state.inputs, [inputName]: date }
+          inputs: { ...this.state.inputs, [inputName]: date },
         };
       },
       () => {
@@ -141,7 +155,8 @@ class DateTimeControl extends React.Component {
     if (
       inputName === DateTimeControl.defaultInputName ||
       inputName === DateTimeControl.beginInputName ||
-      (inputName === DateTimeControl.endInputName && !inputs[DateTimeControl.beginInputName]) ||
+      (inputName === DateTimeControl.endInputName &&
+        !inputs[DateTimeControl.beginInputName]) ||
       (inputName === DateTimeControl.endInputName &&
         moment(day).isSameOrAfter(inputs[DateTimeControl.beginInputName]))
     ) {
@@ -153,11 +168,11 @@ class DateTimeControl extends React.Component {
         ) {
           return {
             [inputName]: day,
-            [DateTimeControl.endInputName]: null
+            [DateTimeControl.endInputName]: null,
           };
         }
         return {
-          [inputName]: day
+          [inputName]: day,
         };
       };
       this.setState(
@@ -166,9 +181,9 @@ class DateTimeControl extends React.Component {
           isPopUpVisible:
             inputName === DateTimeControl.beginInputName ||
             inputName === DateTimeControl.endInputName ||
-            !close
+            !close,
         },
-        () => inputName === DateTimeControl.defaultInputName && this.onChange(inputName)
+        () => this.onChange(inputName)
       );
     }
   }
@@ -180,7 +195,7 @@ class DateTimeControl extends React.Component {
     let { locale } = this.props;
     this.setState(
       {
-        inputs: { ...this.state.inputs, [inputName]: date }
+        inputs: { ...this.state.inputs, [inputName]: date },
       },
       () => this.onChange(inputName)
     );
@@ -190,7 +205,7 @@ class DateTimeControl extends React.Component {
    */
   setVisibility(visible) {
     this.setState({
-      isPopUpVisible: visible
+      isPopUpVisible: visible,
     });
   }
   /**
@@ -215,7 +230,10 @@ class DateTimeControl extends React.Component {
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
       document.removeEventListener('mousedown', this.onClickOutside.bind(this));
-      document.removeEventListener('touchstart', this.onClickOutside.bind(this));
+      document.removeEventListener(
+        'touchstart',
+        this.onClickOutside.bind(this)
+      );
     }
   }
   /**
@@ -266,32 +284,67 @@ class DateTimeControl extends React.Component {
     );
     return isPopUpVisible && popUp;
   }
+
+  setInputRef(poperRef) {
+    return r => {
+      this.inputGroup = r;
+      poperRef(r);
+    };
+  }
   /**
    * Базовый рендер
    */
   render() {
-    const { disabled, placeholder, className, onFocus, onBlur, autoFocus } = this.props;
+    const {
+      disabled,
+      placeholder,
+      className,
+      onFocus,
+      onBlur,
+      autoFocus,
+      openOnFocus,
+    } = this.props;
     const { inputs } = this.state;
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
-          <DateInputGroup
-            inputRef={c => {
-              this.inputGroup = c;
-            }}
-            dateFormat={this.format}
-            disabled={disabled}
-            placeholder={placeholder}
-            value={inputs}
-            onInputChange={this.onInputChange}
-            inputClassName={className}
-            setVisibility={this.setVisibility}
-            setWidth={this.setWidth}
-            onBlur={this.onBlur}
-            onFocus={onFocus}
-            autoFocus={autoFocus}
-          />
-          {this.renderPopUp(this.width)}
+          <Manager>
+            <Reference>
+              {({ ref }) => (
+                <DateInputGroup
+                  inputRef={this.setInputRef(ref)}
+                  dateFormat={this.format}
+                  disabled={disabled}
+                  placeholder={placeholder}
+                  value={inputs}
+                  onInputChange={this.onInputChange}
+                  inputClassName={className}
+                  setVisibility={this.setVisibility}
+                  setWidth={this.setWidth}
+                  onBlur={this.onBlur}
+                  onFocus={onFocus}
+                  autoFocus={autoFocus}
+                  openOnFocus={openOnFocus}
+                />
+              )}
+            </Reference>
+            <Popper
+              placement="bottom-start"
+              modifiers={MODIFIERS}
+              positionFixed={true}
+            >
+              {({ ref, style, placement }) => (
+                <div
+                  ref={ref}
+                  style={style}
+                  data-placement={placement}
+                  className="n2o-pop-up"
+                >
+                  {this.renderPopUp(this.width)}
+                </div>
+              )}
+            </Popper>
+          </Manager>
         </div>
       </div>
     );
@@ -310,7 +363,8 @@ DateTimeControl.defaultProps = {
   dateFormat: 'DD/MM/YYYY',
   outputFormat: 'DD.MM.YYYY HH:mm:ss',
   locale: 'ru',
-  autoFocus: false
+  autoFocus: false,
+  openOnFocus: false,
 };
 
 DateTimeControl.propTypes = {
@@ -327,22 +381,22 @@ DateTimeControl.propTypes = {
         value: PropTypes.oneOfType([
           PropTypes.instanceOf(moment),
           PropTypes.instanceOf(Date),
-          PropTypes.string
+          PropTypes.string,
         ]),
         name: PropTypes.oneOf(['beginDate', 'endDate']),
-        defaultTime: PropTypes.string
+        defaultTime: PropTypes.string,
       })
-    )
+    ),
   ]).isRequired,
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
-    PropTypes.string
+    PropTypes.string,
   ]),
   dateDivider: PropTypes.string,
   onChange: PropTypes.func,
@@ -353,7 +407,8 @@ DateTimeControl.propTypes = {
   placeholder: PropTypes.string,
   locale: PropTypes.oneOf(['en', 'ru']),
   timeFormat: PropTypes.string,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool,
 };
 
 export default DateTimeControl;

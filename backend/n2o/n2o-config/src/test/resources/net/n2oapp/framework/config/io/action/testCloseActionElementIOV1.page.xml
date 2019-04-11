@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <actions>
         <action>
-            <close src="test"/>
+            <close src="test" unsaved-data-prompt="false"/>
         </action>
     </actions>
 </page>

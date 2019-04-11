@@ -38,18 +38,21 @@ class PopUp extends React.PureComponent {
       min,
       locale,
       time,
-      isTimeSet
+      isTimeSet,
     } = this.props;
 
     let minDate = inputName => {
-      if (value[DateTimeControl.beginInputName] && inputName === DateTimeControl.endInputName) {
+      if (
+        value[DateTimeControl.beginInputName] &&
+        inputName === DateTimeControl.endInputName
+      ) {
         return parseDate(value[DateTimeControl.beginInputName], dateFormat);
       }
       return parseDate(min, dateFormat);
     };
 
     return (
-      <div className="n2o-pop-up n2o-picker-dropdown position-absolute d-inline-flex justify-content-end">
+      <div className="d-inline-flex justify-content-end">
         {Object.keys(value).map((input, i) => {
           const { hasDefaultTime, ...timeObj } = time[input];
           return (
@@ -90,8 +93,8 @@ PopUp.propTypes = {
   locale: PropTypes.oneOf(['en', 'ru']),
   time: PropTypes.shape({
     mins: PropTypes.number,
-    hours: PropTypes.number
-  })
+    hours: PropTypes.number,
+  }),
 };
 
 export default onClickOutside(PopUp);

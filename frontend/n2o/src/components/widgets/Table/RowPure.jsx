@@ -14,7 +14,9 @@ class Row extends React.Component {
   }
 
   render() {
-    return <tr className={this.props.active ? 'table-active' : ''} {...this.props} />;
+    return (
+      <tr className={this.props.active ? 'table-active' : ''} {...this.props} />
+    );
   }
 }
 

@@ -15,11 +15,14 @@ import {
   resolveWidget,
   setActive,
   setTableSelectedId,
-  sortByWidget
+  sortByWidget,
 } from '../../actions/widgets';
 import { setModel, removeModel, removeAllModel } from '../../actions/models';
 import { PREFIXES } from '../../constants/models';
-import { makeGetModelByPrefixSelector, makeGetResolveModelSelector } from '../../selectors/models';
+import {
+  makeGetModelByPrefixSelector,
+  makeGetResolveModelSelector,
+} from '../../selectors/models';
 import {
   isAnyTableFocusedSelector,
   makeIsActiveSelector,
@@ -29,7 +32,7 @@ import {
   makeWidgetIsInitSelector,
   makeWidgetLoadingSelector,
   makeWidgetSortingSelector,
-  makeWidgetVisibleSelector
+  makeWidgetVisibleSelector,
 } from '../../selectors/widgets';
 import observeStore from '../../utils/observeStore';
 import propsResolver from '../../utils/propsResolver';
@@ -45,7 +48,7 @@ const s = {};
  */
 const createWidgetContainer = (initialConfig, widgetType) => {
   const config = {
-    ...initialConfig
+    ...initialConfig,
   };
 
   /**
@@ -58,7 +61,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
     } else {
       return {
         datasource: props.datasource,
-        onResolve: props.onResolve
+        onResolve: props.onResolve,
       };
     }
   }
@@ -120,7 +123,11 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        */
       componentWillUnmount() {
         const { widgetId, dispatch } = this.props;
-        let actions = [removeWidget(widgetId), removeAlerts(widgetId), removeAllModel(widgetId)];
+        let actions = [
+          removeWidget(widgetId),
+          removeAlerts(widgetId),
+          removeAllModel(widgetId),
+        ];
         dispatch(batchActions(actions));
       }
 
@@ -162,7 +169,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           page,
           defaultSorting,
           validation,
-          dataProvider
+          dataProvider,
         } = this.props;
         if (!isInit) {
           dispatch(
@@ -173,7 +180,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
               page,
               sorting: defaultSorting,
               dataProvider,
-              validation
+              validation,
             })
           );
         }
@@ -183,24 +190,29 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        *Базовый рендер
        */
       render() {
-        const { visible, isLoading } = this.props;
+        const { visible, isLoading, deferredSpinnerStart } = this.props;
         const propsToPass = mapProps({
           ...this.props,
           onSetModel: this.onSetModel,
           onResolve: this.onResolve,
           onFocus: this.onFocus,
           onFetch: this.onFetch,
-          onSort: this.onSort
+          onSort: this.onSort,
         });
         const style = {
-          position: 'relative'
+          position: 'relative',
         };
         return (
           <div
-            className={cx(visible ? s.visible : s.hidden, isLoading ? s.loading : '')}
+            className={cx(
+              visible ? s.visible : s.hidden,
+              isLoading ? s.loading : ''
+            )}
             style={style}
           >
-            {isLoading && <CoverSpinner deferredSpinnerStart={1000} />}
+            {isLoading && (
+              <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
+            )}
             <WrappedComponent {...propsToPass} />
           </div>
         );
@@ -229,7 +241,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       onFetch: PropTypes.func,
       dispatch: PropTypes.func,
       isInit: PropTypes.bool,
-      isActive: PropTypes.bool
+      isActive: PropTypes.bool,
+      deferredSpinnerStart: PropTypes.number,
     };
 
     WidgetContainer.defaultProps = {
@@ -237,11 +250,12 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       visible: true,
       isLoading: false,
       resolveModel: {},
-      defaultSorting: {}
+      defaultSorting: {},
+      deferredSpinnerStart: 1000,
     };
 
     WidgetContainer.contextTypes = {
-      store: PropTypes.object
+      store: PropTypes.object,
     };
 
     const mapStateToProps = (state, props) => {
@@ -251,14 +265,20 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         isEnabled: makeWidgetEnabledSelector(props.widgetId)(state),
         isLoading: makeWidgetLoadingSelector(props.widgetId)(state, props),
         isAnyTableFocused: isAnyTableFocusedSelector(state, props),
-        datasource: makeGetModelByPrefixSelector('datasource', props.widgetId)(state, props),
+        datasource: makeGetModelByPrefixSelector('datasource', props.widgetId)(
+          state,
+          props
+        ),
         resolveModel: makeGetResolveModelSelector(props.widgetId)(state, props),
-        activeModel: makeGetModelByPrefixSelector(props.modelPrefix, props.widgetId)(state, props),
+        activeModel: makeGetModelByPrefixSelector(
+          props.modelPrefix,
+          props.widgetId
+        )(state, props),
         sorting: makeWidgetSortingSelector(props.widgetId)(state, props),
         selectedId: makeSelectedIdSelector(props.widgetId)(state, props),
         defaultSorting: props.sorting,
         isActive: makeIsActiveSelector(props.widgetId)(state, props),
-        type: makeTypeSelector(props.widgetId)(state, props)
+        type: makeTypeSelector(props.widgetId)(state, props),
       };
     };
 
@@ -285,7 +305,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           dispatch(setActive(widgetId));
         },
         onActionImpl: ({ src, component, options }) =>
-          dispatch(callActionImpl(src || component, { ...options, dispatch }))
+          dispatch(callActionImpl(src || component, { ...options, dispatch })),
       };
     }
 

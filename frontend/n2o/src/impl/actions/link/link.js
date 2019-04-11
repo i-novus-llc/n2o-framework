@@ -3,7 +3,14 @@ import { push } from 'connected-react-router';
 
 import compileUrl from '../../../utils/compileUrl';
 
-export default function linkImpl({ dispatch, state, target, path, pathMapping, queryMapping }) {
+export default function linkImpl({
+  dispatch,
+  state,
+  target,
+  path,
+  pathMapping,
+  queryMapping,
+}) {
   const newUrl = compileUrl(path, { pathMapping, queryMapping }, state);
   if (target === 'application') {
     dispatch(push(newUrl));

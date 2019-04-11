@@ -11,19 +11,7 @@
       "id": "tab2",
       "opened": false,
       "title": "Таблица_2",
-      "widgetId": "Page_Table_2",
-      "dependency": {
-        "visible": [
-          {
-            "bindLink": "models.resolve['Page_First']",
-            "condition": "true"
-          },
-          {
-            "bindLink": "models.resolve['Page_First']",
-            "condition": "false"
-          }
-        ]
-      }
+      "widgetId": "Page_Table_2"
     }
   ],
   "widgets": {
@@ -31,6 +19,14 @@
       "src": "TableWidget",
       "dataProvider": {
         "url": "n2o/data/test"
+      },
+      "dependency": {
+        "visible": [
+          {
+            "bindLink": "models.resolve['Page_Table_1']",
+            "condition": "name === 'no name'"
+          }
+        ]
       },
       "toolbar": {},
       "actions": {},
@@ -77,6 +73,14 @@
       "src": "TableWidget",
       "dataProvider": {
         "url": "n2o/data2/test"
+      },
+      "dependency": {
+        "visible": [
+          {
+            "bindLink": "models.resolve['Page_Table_1']",
+            "condition": "name === 'no name'"
+          }
+        ]
       },
       "toolbar": {},
       "actions": {},

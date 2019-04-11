@@ -19,7 +19,7 @@ export const factories = {
   cells,
   fieldsets,
   fields,
-  actions
+  actions,
 };
 
 export default function createFactoryConfig(customConfig) {

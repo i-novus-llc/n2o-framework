@@ -3,7 +3,7 @@ import InputHidden from './InputHidden';
 
 const setup = () => {
   const props = {
-    value: 'Тестовое значение'
+    value: 'Тестовое значение',
   };
   return mount(<InputHidden {...props} />);
 };

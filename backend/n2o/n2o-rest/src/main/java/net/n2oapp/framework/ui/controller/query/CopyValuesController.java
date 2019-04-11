@@ -2,12 +2,17 @@ package net.n2oapp.framework.ui.controller.query;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.GetDataResponse;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import org.springframework.stereotype.Controller;
 
 import java.util.Set;
@@ -17,10 +22,18 @@ import java.util.Set;
  */
 @Controller
 public class CopyValuesController extends DefaultValuesController {
+    public CopyValuesController(DataProcessingStack dataProcessingStack,
+                                QueryProcessor queryProcessor,
+                                SubModelsProcessor subModelsProcessor,
+                                MetadataRegister configRegister,
+                                ErrorMessageBuilder errorMessageBuilder) {
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, configRegister, errorMessageBuilder);
+    }
+
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         DataSet defaultModel = extractCopyModel(requestInfo, responseInfo);
-        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), requestInfo.getSuccessAlertWidgetId(), responseInfo);
+        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getSuccessAlertWidgetId());
     }
 
     protected DataSet extractCopyModel(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
@@ -30,9 +43,10 @@ public class CopyValuesController extends DefaultValuesController {
             try {
                 queryDefaultPage = executeQuery(requestInfo, responseInfo);
                 DataSet queryDefaultModel = queryDefaultPage.getCollection().iterator().next();
-                merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getNotCopiedFields());
+                merge(defaultModel, queryDefaultModel, requestInfo.getQuery().getCopiedFields());
+                return defaultModel;
             } catch (N2oException e) {
-                responseInfo.addMessage(errorMessageBuilder.build(e));
+                responseInfo.addMessage(getErrorMessageBuilder().build(e));
             }
         }
         defaultModel.remove(N2oQuery.Field.PK);//при копировании идентификатор должен быть null, иначе будет изменение
@@ -41,10 +55,13 @@ public class CopyValuesController extends DefaultValuesController {
 
 
     @SuppressWarnings("unchecked")
-    private static void merge(DataSet defaultModel, DataSet queryModel, Set<String> notCopiedFields) {
-        //удаляем те поля из выборки, которые по мнению виджета не подходят для копирования
-        notCopiedFields.forEach(queryModel::remove);
-        defaultModel.merge(queryModel);
+    private static void merge(DataSet defaultModel, DataSet queryModel, Set<String> fieldsToCopy) {
+        if (fieldsToCopy != null) {
+            defaultModel.merge(queryModel);
+            defaultModel.entrySet().removeIf(stringObjectEntry -> !fieldsToCopy.contains(stringObjectEntry.getKey()));
+        } else {
+            defaultModel.clear();
+        }
     }
 
     @Override

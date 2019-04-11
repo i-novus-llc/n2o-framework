@@ -3,9 +3,9 @@ import { modalsSelector, makeModalsbyName } from './modals';
 const state = {
   modals: [
     {
-      some: 'modal'
-    }
-  ]
+      some: 'modal',
+    },
+  ],
 };
 
 describe('Проверка селекторов modals', () => {

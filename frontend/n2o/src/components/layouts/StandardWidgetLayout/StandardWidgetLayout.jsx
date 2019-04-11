@@ -36,13 +36,15 @@ let StandardWidgetLayout = ({ className }) => {
   const classes = cn([
     'n2o-standard-widget-layout',
     {
-      [className]: className
-    }
+      [className]: className,
+    },
   ]);
   return (
     <div className={classes}>
       <Place
-        className={'n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--left'}
+        className={
+          'n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--left'
+        }
         name={'left'}
       />
       <div className={'n2o-standard-widget-layout-center'}>
@@ -87,7 +89,9 @@ let StandardWidgetLayout = ({ className }) => {
         </div>
       </div>
       <Place
-        className={'n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right'}
+        className={
+          'n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right'
+        }
         name={'right'}
       />
     </div>
@@ -95,7 +99,7 @@ let StandardWidgetLayout = ({ className }) => {
 };
 
 StandardWidgetLayout.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 StandardWidgetLayout = layoutPlaceResolver(StandardWidgetLayout);
