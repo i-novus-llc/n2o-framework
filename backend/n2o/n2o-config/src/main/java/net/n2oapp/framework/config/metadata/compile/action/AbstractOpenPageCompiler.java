@@ -169,6 +169,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
+        pageContext.setUnsavedDataPromptOnClose(source.getUnsavedDataPromptOnClose());
         if (source.getSubmitOperationId() != null
                 && source.getRedirectUrlAfterSubmit() == null
                 && source.getFocusAfterSubmit() != null

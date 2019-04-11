@@ -33,6 +33,7 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attributeEnum(e, "redirect-target-after-submit", op::getRedirectTargetAfterSubmit, op::setRedirectTargetAfterSubmit, Target.class);
         p.attributeBoolean(e, "refresh-after-submit", op::getRefreshAfterSubmit, op::setRefreshAfterSubmit);
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
+        p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
         p.attribute(e, "route", op::getRoute, op::setRoute);
         p.childrenByEnum(e, "pre-filters", op::getPreFilters, op::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);

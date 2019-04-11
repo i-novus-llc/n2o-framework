@@ -72,6 +72,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Target redirectTargetOnSuccessSubmit;
     /**
+     * Предупредить о несохраненных данных на форме при закрытии?
+     */
+    private Boolean unsavedDataPromptOnClose;
+    /**
      * Источник данных виджета при открытии страницы
      */
     private UploadType upload;
@@ -108,6 +112,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.refreshOnClose = context.refreshOnClose;
         this.redirectUrlOnSuccessSubmit = context.redirectUrlOnSuccessSubmit;
         this.redirectTargetOnSuccessSubmit = context.redirectTargetOnSuccessSubmit;
+        this.unsavedDataPromptOnClose = context.unsavedDataPromptOnClose;
         this.upload = context.upload;
         this.clientPageId = context.clientPageId;
         this.preFilters = context.preFilters;

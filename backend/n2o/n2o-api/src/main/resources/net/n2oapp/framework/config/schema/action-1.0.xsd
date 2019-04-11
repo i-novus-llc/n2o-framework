@@ -187,6 +187,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Предупредить о несохраненных данных на форме при закрытии модального окна?
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
