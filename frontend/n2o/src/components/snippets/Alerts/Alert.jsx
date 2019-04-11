@@ -1,4 +1,5 @@
 import React from 'react';
+import { defaultTo } from 'lodash';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
@@ -120,7 +121,7 @@ class Alert extends React.Component {
           </div>
         </div>
         <div className="n2o-alert-close-container">
-          {closeButton && (
+          {defaultTo(closeButton, true) && (
             <button className="close n2o-alert-close" onClick={onDismiss}>
               <span>×</span>
             </button>
