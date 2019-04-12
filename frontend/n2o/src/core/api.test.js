@@ -58,7 +58,7 @@ describe('Проверка api провайдера', () => {
   it('проверка запроса за метаданными', async () => {
     expect.assertions(1);
     return expect(
-      apiProvider(FETCH_PAGE_METADATA, { pageUrl: 'my/page/test' })
+      apiProvider(FETCH_PAGE_METADATA, { pageUrl: '/my/page/test' })
     ).resolves.toEqual({
       url: 'n2o/page/my/page/test',
     });
