@@ -4,7 +4,7 @@
     "proto_update_main": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/5607677/update/main",
+        "url": "n2o/data/proto/5607677/update",
         "pathMapping": {},
         "queryMapping": {}
       },
