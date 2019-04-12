@@ -45,7 +45,7 @@ public class TableBinderTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testTableRowClick", "/p/w/:param/row");
         TableWidgetComponent component = (TableWidgetComponent) pipeline.get(context, new DataSet().add("param", "1"))
                 .getWidgets().get("p_w_row_main").getComponent();
-        assertThat(((LinkAction) component.getRowClick()).getOptions().getPath(), is("/p/w/1/row/main/:p_w_row_main_id/p_w_row_main_row"));
+        assertThat(((LinkAction) component.getRowClick()).getOptions().getPath(), is("/p/w/1/row/:p_w_row_main_id/p_w_row_main_row"));
         assertThat(((LinkAction) component.getRowClick()).getOptions().getPathMapping().containsKey("p_w_row_main_id"), is(true));
     }
 }

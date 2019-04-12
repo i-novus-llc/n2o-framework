@@ -187,8 +187,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         independents.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
                 sourceWidgets, compiledWidgets,
                 context, p,
-                pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope,
-                independents.size() == 1));
+                pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
         return compiledWidgets;
     }
 
@@ -202,23 +201,20 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                PageContext context, CompileProcessor p,
                                PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
                                Models models, IndexScope indexScope,
-                               PageRoutesScope pageRoutesScope,
-                               boolean isMainWidget) {
+                               PageRoutesScope pageRoutesScope) {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setDependsOnWidgetId(parentWidgetId);
         widgetScope.setDependsOnQueryId(parentQueryId);
-        widgetScope.setMainWidget(isMainWidget);
         Widget compiledWidget = p.compile(w, context, indexScope, routes, pageScope, widgetScope, parentRoute,
                 breadcrumbs, validationList, models, pageRoutesScope);
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
         //compile detail widgets
         ParentRouteScope parentRouteScope = new ParentRouteScope(compiledWidget.getRoute(), parentRoute);
-        getDetails(w.getId(), sourceWidgets).forEach(detWgt -> {
-            compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
-                    sourceWidgets, compiledWidgets,
-                    context, p,
-                    pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope, false);
-        });
+        getDetails(w.getId(), sourceWidgets).forEach(detWgt ->
+                compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
+                        sourceWidgets, compiledWidgets,
+                        context, p,
+                        pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
     }
 
     private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context,
