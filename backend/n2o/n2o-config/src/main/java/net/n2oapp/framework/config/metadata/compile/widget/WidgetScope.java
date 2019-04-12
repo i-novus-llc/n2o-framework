@@ -16,5 +16,4 @@ public class WidgetScope implements Serializable {
     private String clientWidgetId;
     private String widgetId;
     private String queryId;
-    private boolean isMainWidget;
 }

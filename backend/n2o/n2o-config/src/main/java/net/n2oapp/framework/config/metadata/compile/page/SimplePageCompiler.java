@@ -51,7 +51,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         page.setWidgets(new StrictMap<>());
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
-        widget.setRoute(p.cast(widget.getRoute(), RouteUtil.normalize(widget.getId())));
+        widget.setRoute(p.cast(widget.getRoute(), "/"));
         PageRoutes routes = initRoute(context, p, pageRoute);
         initPreFilters(context, widget);
         Models models = new Models();

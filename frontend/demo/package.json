@@ -30,11 +30,11 @@
   },
   "proxy": {
     "/n2o/data": {
-      "target": "http://localhost:9000/",
+      "target": "https://n2o.i-novus.ru/dev/",
       "changeOrigin": true
     },
     "/n2o": {
-      "target": "http://localhost:9000/",
+      "target": "https://n2o.i-novus.ru/dev/",
       "changeOrigin": true
     }
   },

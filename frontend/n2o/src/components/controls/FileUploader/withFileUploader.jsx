@@ -5,7 +5,7 @@ import {
   isEqual,
   isArray,
   isString,
-  includes,
+  reduce,
   every,
   some,
 } from 'lodash';
@@ -196,6 +196,11 @@ const FileUploaderControl = WrappedComponent => {
     startUpload(files) {
       const { labelFieldId, sizeFieldId, requestParam, uploadUrl } = this.props;
       const url = this.resolveUrl(uploadUrl);
+
+      this.setState({
+        uploading: reduce(files, (acc, { id }) => ({ ...acc, [id]: true }), {}),
+      });
+
       files.map(file => {
         if (!this.requests[file.id]) {
           const onProgress = this.onProgress.bind(this, file.id);
@@ -207,12 +212,7 @@ const FileUploaderControl = WrappedComponent => {
           if (sizeFieldId !== 'size') {
             file[sizeFieldId] = file.size;
           }
-          this.setState({
-            uploading: {
-              ...this.state.uploading,
-              [file.id]: true,
-            },
-          });
+
           const formData = new FormData();
           formData.append(requestParam, file);
           this.requests[file.id] = post(

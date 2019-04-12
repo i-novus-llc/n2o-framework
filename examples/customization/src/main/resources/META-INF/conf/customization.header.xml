@@ -1,22 +1,23 @@
 <header xmlns="http://n2oapp.net/framework/config/schema/header-2.0" color="inverse">
     <nav welcome-page-id="layout">
         <sub-menu label="Layout">
-            <page page-id="layout" label="SquareLayout"/>
+            <page page-id="layout" label="SquareResizableLayout"/>
         </sub-menu>
         <sub-menu label="Region">
-            <page page-id="region" label="RegionAccordion"/>
+            <page page-id="region" label="SelectRegion"/>
         </sub-menu>
         <sub-menu label="Widget">
-            <page page-id="widget" label="JumbotronWidget"/>
+            <page page-id="widget" label="ToDoWidget"/>
         </sub-menu>
         <sub-menu label="Fieldset">
-            <page page-id="fieldset" label="BackgroundImageFieldset"/>
+            <page page-id="fieldset" label="AddMemberFieldset"/>
         </sub-menu>
-        <sub-menu label="Field">
-            <page page-id="field" label="BackgroundImageField"/>
+        <sub-menu label="Field and controls">
+            <page page-id="field" label="FloatingLabelField"/>
+            <page page-id="control" label="RatingControl"/>
         </sub-menu>
         <sub-menu label="Cell">
-            <page page-id="cell" label="InputCell"/>
+            <page page-id="cell" label="CopyTextCell"/>
         </sub-menu>
     </nav>
 </header>

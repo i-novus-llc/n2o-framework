@@ -93,15 +93,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return source.getRoute();
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            if (widgetScope.getDependsOnWidgetId() != null) {
-                //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
-                String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
-                return normalize(colon(selectedId)) + normalize(source.getId());
-            }
-            if (widgetScope.isMainWidget()) {
-                return "/";
-            }
+        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
+            //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
+            String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
+            return normalize(colon(selectedId)) + normalize(source.getId());
+
         }
         return normalize(source.getId());
     }
