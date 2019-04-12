@@ -69,7 +69,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         if (context.getSubmitOperationId() != null)
             initToolbarGenerate(source, context, p, sourceWidgets);
         MetaActions metaActions = new MetaActions();
-        compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, object, breadcrumb, validationList);
+        compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb, validationList);
         page.setActions(metaActions);
         return page;
     }
@@ -112,11 +112,11 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     }
 
     private void compileToolbarAndAction(Page compiled, N2oStandardPage source, PageContext context, CompileProcessor p,
-                                         MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,
+                                         MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
                                          CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
         actionsToToolbar(source);
         compiled.setToolbar(compileToolbar(source, context, p, metaActions, pageScope, routeScope, object, breadcrumbs, validationList));
-        compileActions(source, context, p, metaActions, pageScope, routeScope, object, breadcrumbs, validationList);
+        compileActions(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList);
     }
 
 
@@ -293,12 +293,12 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     }
 
     private void compileActions(N2oStandardPage source, PageContext context, CompileProcessor p,
-                                MetaActions actions, PageScope pageScope, ParentRouteScope routeScope, CompiledObject object,
+                                MetaActions actions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes, CompiledObject object,
                                 BreadcrumbList breadcrumbs, ValidationList validationList) {
         if (source.getActions() != null) {
             Stream.of(source.getActions()).forEach(a -> {
                 a.getAction().setId(a.getId());
-                Action action = p.compile(a.getAction(), context, pageScope, routeScope, object, breadcrumbs, validationList, new ComponentScope(a));
+                Action action = p.compile(a.getAction(), context, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new ComponentScope(a));
                 actions.addAction(action);
             });
         }

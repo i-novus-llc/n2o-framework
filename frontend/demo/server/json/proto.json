@@ -3,6 +3,51 @@
   "routes": {
     "list": [
       {
+        "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/contacts/create",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/name",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/surname",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/view",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update2",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update_patient",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/create",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
         "path": "/proto",
         "exact": true,
         "isOtherPage": false
@@ -13,41 +58,6 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/create",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/:proto_patients_id/update_patient",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/:proto_patients_id/update2",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/:proto_patients_id/view",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/:proto_patients_id/surname",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/:proto_patients_id/name",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/:proto_patients_id/update",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
         "path": "/proto/:proto_patients_id/contacts",
         "exact": true,
         "isOtherPage": false
@@ -56,16 +66,6 @@
         "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id",
         "exact": true,
         "isOtherPage": false
-      },
-      {
-        "path": "/proto/:proto_patients_id/contacts/create",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
-        "exact": true,
-        "isOtherPage": true
       },
       {
         "path": "/proto/:patient_id/card",
@@ -139,21 +139,6 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_bdate_end": {
-        "get": {
-          "type": "n2o/models/UPDATE",
-          "payload": {
-            "prefix": "filter",
-            "key": "proto_patients",
-            "field": "bdate.end",
-            "value": ":proto_patients_bdate_end"
-          }
-        },
-        "set": {
-          "value": "`bdate.end`",
-          "link": "models.filter['proto_patients']"
-        }
-      },
       "proto_patients_bdate_begin": {
         "get": {
           "type": "n2o/models/UPDATE",
@@ -166,6 +151,21 @@
         },
         "set": {
           "value": "`bdate.begin`",
+          "link": "models.filter['proto_patients']"
+        }
+      },
+      "proto_patients_bdate_end": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "proto_patients",
+            "field": "bdate.end",
+            "value": ":proto_patients_bdate_end"
+          }
+        },
+        "set": {
+          "value": "`bdate.end`",
           "link": "models.filter['proto_patients']"
         }
       },
@@ -360,12 +360,12 @@
             "value": "`name`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_bdate_end": {
-            "value": "`bdate.end`",
-            "link": "models.filter['proto_patients']"
-          },
           "proto_patients_bdate_begin": {
             "value": "`bdate.begin`",
+            "link": "models.filter['proto_patients']"
+          },
+          "proto_patients_bdate_end": {
+            "value": "`bdate.end`",
             "link": "models.filter['proto_patients']"
           },
           "proto_patients_genders_id": {

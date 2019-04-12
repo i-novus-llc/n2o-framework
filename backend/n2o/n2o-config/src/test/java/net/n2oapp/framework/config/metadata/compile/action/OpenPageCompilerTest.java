@@ -31,6 +31,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -168,10 +169,10 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         context.setBreadcrumbs(Collections.singletonList(new Breadcrumb("parent", "/page/:parent_id")));
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
                 .bind().get(context, data);
-        assertThat(page.getRoutes().getList().get(0).getPath(), is("/page/123/view"));
+        assertThat(page.getRoutes().findRouteByUrl("/page/123/view"), notNullValue());
 
         Page createPage = routeAndGet("/page/123/view/widget/action1", Page.class);
-        assertThat(createPage.getRoutes().getList().get(0).getPath(), is("/page/123/view/widget/action1"));
+        assertThat(createPage.getRoutes().findRouteByUrl("/page/123/view/widget/action1"), notNullValue());
         assertThat(createPage.getBreadcrumb().size(), is(3));
         assertThat(createPage.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(createPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
@@ -181,7 +182,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(createPage.getBreadcrumb().get(2).getPath(), nullValue());
 
         Page updatePage = routeAndGet("/page/123/view/widget/456/action2", Page.class);
-        assertThat(updatePage.getRoutes().getList().get(0).getPath(), is("/page/123/view/widget/456/action2"));
+        assertThat(updatePage.getRoutes().findRouteByUrl("/page/123/view/widget/456/action2"), notNullValue());
         assertThat(updatePage.getBreadcrumb().size(), is(3));
         assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
@@ -195,7 +196,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         data.put("name", "ivan");
         data.put("secondName", "ivanov");
         Page masterDetailPage = routeAndGet("/page/123/view/widget/456/masterDetail", Page.class, data);
-        assertThat(masterDetailPage.getRoutes().getList().get(0).getPath(), is("/page/123/view/widget/456/masterDetail"));
+        assertThat(masterDetailPage.getRoutes().findRouteByUrl("/page/123/view/widget/456/masterDetail"), notNullValue());
         assertThat(masterDetailPage.getBreadcrumb().size(), is(3));
         assertThat(masterDetailPage.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(masterDetailPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
@@ -285,8 +286,8 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         data.put("detailId", 222);
         data.put("name", "testName");
         Page detailPage = read().compile().bind().get(detailContext, data);
-        assertThat(detailPage.getRoutes().getList().get(0).getPath(), is("/page/widget/:page_test_id/masterDetail"));
-        assertThat(detailPage.getRoutes().getList().get(0).getPath(), is("/page/widget/:page_test_id/masterDetail"));
+        assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
+        assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
         Map<String, BindLink> queryMapping = detailPage.getWidgets().get("page_widget_masterDetail_main").getDataProvider().getQueryMapping();
         assertThat(queryMapping.get("detailId").getValue(), is(222));
         assertThat(queryMapping.get("name").getValue(), is("testName"));
@@ -349,17 +350,17 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterParam.page.xml");
 
         Page p1 = pipeline.get(new PageContext("testMasterParam", "/page"));
-        assertThat(p1.getRoutes().getList().get(0).getPath(), is("/page"));
-        assertThat(p1.getRoutes().getList().get(1).getPath(), is("/page/master"));
-        assertThat(p1.getRoutes().getList().get(2).getPath(), is("/page/master/:page_master_id"));
-        assertThat(p1.getRoutes().getList().get(3).getPath(), is("/page/master/:sid/menuItem0"));
-        assertThat(p1.getRoutes().getList().get(4).getPath(), is("/page/master/:sid/detail"));
-        assertThat(p1.getRoutes().getList().get(5).getPath(), is("/page/master/:sid/detail/:page_detail_id"));
-        assertThat(p1.getRoutes().getList().get(6).getPath(), is("/page/master/:sid/detail/:sid/menuItem0"));
+        assertThat(p1.getRoutes().findRouteByUrl("/page"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:page_master_id"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/menuItem0"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail/:page_detail_id"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail/:sid/menuItem0"), notNullValue());
 
         Page p2 = pipeline.get(new PageContext("testOpenPageMasterParam"));
         assertThat(((Filter) p2.getWidgets().get("testOpenPageMasterParam_modalDetail").getFilters().get(0)).getParam(), is("sid"));
-        assertThat(p2.getRoutes().getList().get(1).getPath(), is("/testOpenPageMasterParam/:testOpenPageMasterParam_form_id"));
-        assertThat(p2.getRoutes().getList().get(4).getPath(), is("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"));
+        assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/:testOpenPageMasterParam_form_id"), notNullValue());
+        assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"), notNullValue());
     }
 }
