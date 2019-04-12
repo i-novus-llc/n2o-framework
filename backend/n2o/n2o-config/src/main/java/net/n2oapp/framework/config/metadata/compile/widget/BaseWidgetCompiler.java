@@ -304,7 +304,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //Маршрут с выделенной записью в виджете /page/widget/:widget_id
         //todo для формы не существует selected!
         String selectedId = normalizeParam(compiled.getId() + "_id");
-        String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
+        String routeWidgetSelected = normalize(widgetRoute + normalize(colon(selectedId)));
         routes.addRoute(routeWidgetSelected);
 
         ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
