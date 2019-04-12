@@ -15,7 +15,7 @@ import { rootPageSelector } from '../../selectors/global';
 
 function RootPage({ rootPageId, defaultTemplate, match: { params } }) {
   const Template = defaultTemplate;
-  const rootPageUrl = params.pageUrl || '';
+  const rootPageUrl = params.pageUrl ? `/${params.pageUrl}` : '/';
 
   return (
     <Template>
