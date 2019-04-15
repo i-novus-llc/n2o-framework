@@ -1,5 +1,12 @@
 import { push, replace } from 'connected-react-router';
-import { call, put, takeEvery } from 'redux-saga/effects';
+import {
+  call,
+  put,
+  takeEvery,
+  fork,
+  actionChannel,
+  take,
+} from 'redux-saga/effects';
 
 import { USER_LOGIN, USER_LOGOUT } from '../constants/auth';
 import {
@@ -50,10 +57,18 @@ export function* resolveAuth(
   }
 }
 
+export function* fetchErrorWatcher(config) {
+  const channel = yield actionChannel(FETCH_ERROR);
+  while (true) {
+    const action = yield take(channel);
+    yield resolveAuth(config, action);
+  }
+}
+
 export default config => {
   if (!config.authProvider) return [];
   return [
     takeEvery(action => action.meta && action.meta.auth, resolveAuth, config),
-    takeEvery(FETCH_ERROR, resolveAuth, config),
+    fork(fetchErrorWatcher, config),
   ];
 };
