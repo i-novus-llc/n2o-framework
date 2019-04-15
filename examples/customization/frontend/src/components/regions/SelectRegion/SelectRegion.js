@@ -4,7 +4,7 @@ import { compose } from "recompose";
 import { FormGroup, Label, Input } from "reactstrap";
 import { isEmpty, filter, map, pick, difference, pullAll, first } from "lodash";
 
-import withGetWidget from "n2o/lib/components/regions/withGetWidget";
+import withWidgetProps from "n2o/lib/components/regions/withWidgetProps";
 import Factory from "n2o/lib/core/factory/Factory";
 import { WIDGETS } from "n2o/lib/core/factory/factoryLevels";
 import SecurityCheck from "n2o/lib/core/auth/SecurityCheck";
@@ -53,15 +53,21 @@ class SelectRegion extends React.Component {
           </Input>
         </FormGroup>
         <div>
-          {widgetId ? (
-            <Factory
-              id={widgetId}
-              level={WIDGETS}
-              {...getWidget(pageId, widgetId)}
-            />
-          ) : (
-            <span className="text-muted">Ничего не найдено</span>
-          )}
+          {items.map(item => {
+            return (
+              <div
+                style={{
+                  display: widgetId === item.widgetId ? "block" : "none"
+                }}
+              >
+                <Factory
+                  id={item.widgetId}
+                  level={WIDGETS}
+                  {...getWidget(pageId, item.widgetId)}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     );
@@ -75,4 +81,4 @@ SelectRegion.propTypes = {
   title: PropTypes.string
 };
 
-export default compose(withGetWidget)(SelectRegion);
+export default compose(withWidgetProps)(SelectRegion);

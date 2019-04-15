@@ -2,7 +2,7 @@
 @import "~bootstrap/scss/_variables";
 @import "~bootstrap/scss/mixins";
 
-@import "~n2o/src/sass/variables";
+@import "../../../scss/variables";
 
 /*******************/
 /*Floating Label*/
@@ -40,8 +40,15 @@
   font-size: 12px;
   color: #343a40; }
 
+.floating-labels .filled label {
+  top: -20px;
+  font-size: 12px;
+  color: #343a40; }
+
 .floating-labels .bar {
   position: relative;
+  height: 2px;
+  bottom: 1px;
   display: block; }
 
 .floating-labels .bar:before,
