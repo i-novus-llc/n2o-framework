@@ -15,7 +15,7 @@ import { removeAlert } from '../../actions/alerts';
  * @returns {JSX}
  */
 export function GlobalAlerts({ alerts, onDismiss }) {
-  const handleDismiss = alertId => () => alertId && onDismiss(alertId);
+  const handleDismiss = alertId => alertId && onDismiss(alertId);
   const mapAlertsProps = () =>
     map(alerts, alert => ({
       ...alert,
