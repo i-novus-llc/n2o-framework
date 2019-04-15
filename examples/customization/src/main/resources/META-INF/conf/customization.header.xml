@@ -19,6 +19,6 @@
         <sub-menu label="Cell">
             <page page-id="cell" label="CopyTextCell"/>
         </sub-menu>
-        <a href="/print" label="PrintPage" target="self"/>
+        <a href="#/print" label="PrintPage" target="self"/>
     </nav>
 </header>

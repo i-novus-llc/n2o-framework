@@ -77,7 +77,7 @@ class NavbarWithTime extends React.Component {
           return (
             <NavItem>
               {item.linkType === "outer" ? (
-                <NavLink href="/components/">{item.label}</NavLink>
+                <NavLink href={item.href}>{item.label}</NavLink>
               ) : (
                 <RouterLink
                   exact
