@@ -34,7 +34,7 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      if (!isEqual(get(prevFieldValue, fieldName, undefined), _evalResult)) {
+      if (!isEqual(get(prevFieldValue, fieldName, null), _evalResult)) {
         yield put(
           updateModel(PREFIXES.resolve, formName, fieldName, _evalResult)
         );
