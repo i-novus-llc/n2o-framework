@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash';
+import { isEqual, isEmpty } from 'lodash';
 /**
  * Утилита позволяющая подписываться на изменения хранилища через селектор. В случае изменения вызывается callback
  * @param {Object} store - хранилище Redux
@@ -26,7 +26,7 @@ export default function observeStore(store, select, onChange) {
 
   function handleChange() {
     let nextState = select(store.getState());
-    if (!isEqual(nextState, currentState) && typeof nextState !== 'undefined') {
+    if (!isEqual(nextState, currentState) && !isEmpty(nextState)) {
       currentState = nextState;
       onChange(currentState);
     }
