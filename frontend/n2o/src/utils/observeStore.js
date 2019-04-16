@@ -26,7 +26,7 @@ export default function observeStore(store, select, onChange) {
 
   function handleChange() {
     let nextState = select(store.getState());
-    if (!isEqual(nextState, currentState)) {
+    if (!isEqual(nextState, currentState) && typeof nextState !== 'undefined') {
       currentState = nextState;
       onChange(currentState);
     }

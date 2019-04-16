@@ -1,5 +1,14 @@
-import _, { isEqual, get, map, reduce, set, merge } from 'lodash';
-import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
+import _, {
+  isEqual,
+  get,
+  map,
+  reduce,
+  set,
+  merge,
+  every,
+  isNil,
+  isObject,
+} from 'lodash';
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -69,5 +78,18 @@ export const setWatchDependency = (state, props, dependencyType) => {
     return acc;
   };
 
-  return reduce(dependency, pickByReRender, {});
+  const pickedModel = reduce(dependency, pickByReRender, {});
+
+  const isAllKeysUndefined = every(
+    get(pickedModel, `models.${modelPrefix}.${form}`),
+    item => {
+      if (isObject(item)) {
+        return every(item, i => isNil(i));
+      } else {
+        return isNil(item);
+      }
+    }
+  );
+
+  return isAllKeysUndefined ? undefined : pickedModel;
 };
