@@ -1,12 +1,5 @@
 import { push, replace } from 'connected-react-router';
-import {
-  call,
-  put,
-  takeEvery,
-  fork,
-  actionChannel,
-  take,
-} from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 
 import { USER_LOGIN, USER_LOGOUT } from '../constants/auth';
 import {
@@ -17,6 +10,7 @@ import {
 import { userLoginSuccess, userLogoutSuccess } from '../actions/auth';
 
 import { FETCH_ERROR } from '../constants/fetch';
+import { fetchErrorContinue } from '../actions/fetch';
 
 export function* resolveAuth(
   { authProvider, redirectPath, externalLoginUrl },
@@ -43,6 +37,7 @@ export function* resolveAuth(
     case FETCH_ERROR:
       try {
         yield call(authProvider, SECURITY_ERROR, payload.error);
+        yield put(fetchErrorContinue());
       } catch (e) {
         yield call(authProvider, SECURITY_LOGOUT);
         if (externalLoginUrl) {
@@ -57,18 +52,10 @@ export function* resolveAuth(
   }
 }
 
-export function* fetchErrorWatcher(config) {
-  const channel = yield actionChannel(FETCH_ERROR);
-  while (true) {
-    const action = yield take(channel);
-    yield call(resolveAuth, config, action);
-  }
-}
-
 export default config => {
   if (!config.authProvider) return [];
   return [
     takeEvery(action => action.meta && action.meta.auth, resolveAuth, config),
-    fork(fetchErrorWatcher, config),
+    takeEvery(FETCH_ERROR, resolveAuth, config),
   ];
 };

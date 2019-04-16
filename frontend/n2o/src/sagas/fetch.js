@@ -6,6 +6,7 @@ import {
   fetchError,
 } from '../actions/fetch';
 import apiProvider from '../core/api.js';
+import { FETCH_ERROR_CONTINUE } from '../constants/fetch';
 
 export default function* fetchSaga(fetchType, options) {
   try {
@@ -15,7 +16,7 @@ export default function* fetchSaga(fetchType, options) {
     return response;
   } catch (error) {
     yield put(fetchError(fetchType, options, error));
-    yield take();
+    yield take(FETCH_ERROR_CONTINUE);
     throw error;
   } finally {
     if (yield cancelled()) {
