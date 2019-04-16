@@ -8,6 +8,7 @@ import _, {
   every,
   isNil,
   isObject,
+  has,
 } from 'lodash';
 
 /**
@@ -63,7 +64,15 @@ export function fetchIfChangeDependencyValue(prevState, state, ref) {
 }
 
 const pickByPath = (object, arrayToPath) =>
-  reduce(arrayToPath, (o, p) => set(o, p, get(object, p)), {});
+  reduce(
+    arrayToPath,
+    (o, p) => {
+      if (has(object, p)) {
+        return set(o, p, get(object, p));
+      }
+    },
+    {}
+  );
 
 export const setWatchDependency = (state, props, dependencyType) => {
   const { dependency, form, modelPrefix } = props;
@@ -78,18 +87,5 @@ export const setWatchDependency = (state, props, dependencyType) => {
     return acc;
   };
 
-  const pickedModel = reduce(dependency, pickByReRender, {});
-
-  const isAllKeysUndefined = every(
-    get(pickedModel, `models.${modelPrefix}.${form}`),
-    item => {
-      if (isObject(item)) {
-        return every(item, i => isNil(i));
-      } else {
-        return isNil(item);
-      }
-    }
-  );
-
-  return isAllKeysUndefined ? undefined : pickedModel;
+  return reduce(dependency, pickByReRender, {});
 };
