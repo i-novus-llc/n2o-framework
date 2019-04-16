@@ -1,6 +1,6 @@
 {
   "name": "antd-n2o-ui",
-  "version": "7.2.0",
+  "version": "7.3.0",
   "description": "antd-n2o-ui React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,12 +19,12 @@
   },
   "dependencies": {
     "antd": "^3.14.1",
-    "lodash": "^4.17.11",
-    "n2o": "^7.2.0",
-    "react": "16.x",
-    "recompose": "^0.30.0",
     "bootstrap": "~4.3.0",
-    "font-awesome": "4.7.0"
+    "font-awesome": "4.7.0",
+    "lodash": "^4.17.11",
+    "n2o": "^7.3.0",
+    "react": "16.x",
+    "recompose": "^0.30.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
