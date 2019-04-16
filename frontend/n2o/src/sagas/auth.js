@@ -61,7 +61,7 @@ export function* fetchErrorWatcher(config) {
   const channel = yield actionChannel(FETCH_ERROR);
   while (true) {
     const action = yield take(channel);
-    yield resolveAuth(config, action);
+    yield call(resolveAuth, config, action);
   }
 }
 
