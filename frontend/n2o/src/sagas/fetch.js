@@ -1,4 +1,4 @@
-import { call, put, cancelled } from 'redux-saga/effects';
+import { call, put, take, cancelled } from 'redux-saga/effects';
 import {
   fetchStart,
   fetchEnd,
@@ -15,6 +15,7 @@ export default function* fetchSaga(fetchType, options) {
     return response;
   } catch (error) {
     yield put(fetchError(fetchType, options, error));
+    yield take();
     throw error;
   } finally {
     if (yield cancelled()) {
