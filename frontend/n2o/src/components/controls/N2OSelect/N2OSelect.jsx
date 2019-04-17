@@ -309,7 +309,7 @@ class N2OSelect extends React.Component {
       <div
         className="n2o-input-select"
         style={inputSelectStyle}
-        tabIndex="-1"
+        tabIndex={0}
         onBlur={onBlur}
       >
         <InputSelectGroup
