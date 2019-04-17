@@ -113,6 +113,7 @@ export class EditableCell extends React.Component {
                   onBlur: this.toggleEdit,
                   autoFocus: true,
                   value: value,
+                  openOnFocus: true,
                 })}
               </div>
             </HotKeys>
