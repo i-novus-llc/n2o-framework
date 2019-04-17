@@ -7,7 +7,7 @@
                 model="filter">
             <open-page page-id="ProtoPatient" route="/create2"
                        submit-operation-id="create" upload="defaults"
-                       redirect-url-after-submit="../patients/:id"/>
+                       redirect-url-after-submit="../:id"/>
         </button>
     </toolbar>
     <regions>
