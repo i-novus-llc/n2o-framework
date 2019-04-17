@@ -96,10 +96,10 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleScrollEnd = throttle(() => {
+    const handleScrollEnd = throttle(filter => {
       if (page && size && count) {
         if (page * size < count) {
-          callApiWithParams({ page: page + 1 }, true);
+          callApiWithParams({ page: page + 1, ...filter }, true);
         }
       }
 
