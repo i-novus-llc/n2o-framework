@@ -115,7 +115,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                          MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
                                          CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
         actionsToToolbar(source);
-        compiled.setToolbar(compileToolbar(source, context, p, metaActions, pageScope, routeScope, object, breadcrumbs, validationList));
+        compiled.setToolbar(compileToolbar(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList));
         compileActions(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList);
     }
 
@@ -166,13 +166,13 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     }
 
     private Toolbar compileToolbar(N2oStandardPage source, PageContext context, CompileProcessor p,
-                                   MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,
+                                   MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,  PageRoutes pageRoutes,
                                    CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
         if (source.getToolbars() == null)
             return null;
         Toolbar toolbar = new Toolbar();
         for (N2oToolbar n2oToolbar : source.getToolbars()) {
-            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, object, breadcrumbs, validationList, new IndexScope()));
+            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new IndexScope()));
         }
         return toolbar;
     }
