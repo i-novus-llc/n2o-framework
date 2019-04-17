@@ -3,6 +3,11 @@
   "routes": {
     "list": [
       {
+        "path": "/proto/create2",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
         "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
         "exact": true,
         "isOtherPage": true
