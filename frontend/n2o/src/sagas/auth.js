@@ -10,6 +10,7 @@ import {
 import { userLoginSuccess, userLogoutSuccess } from '../actions/auth';
 
 import { FETCH_ERROR } from '../constants/fetch';
+import { fetchErrorContinue } from '../actions/fetch';
 
 export function* resolveAuth(
   { authProvider, redirectPath, externalLoginUrl },
@@ -36,6 +37,7 @@ export function* resolveAuth(
     case FETCH_ERROR:
       try {
         yield call(authProvider, SECURITY_ERROR, payload.error);
+        yield put(fetchErrorContinue());
       } catch (e) {
         yield call(authProvider, SECURITY_LOGOUT);
         if (externalLoginUrl) {
