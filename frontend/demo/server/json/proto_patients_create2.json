@@ -242,7 +242,7 @@
               }
             },
             "redirect": {
-              "path": "/proto/patients/:id",
+              "path": "/proto/:id",
               "pathMapping": {},
               "queryMapping": {},
               "target": "application"
