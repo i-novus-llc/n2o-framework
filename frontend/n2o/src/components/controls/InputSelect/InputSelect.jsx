@@ -462,6 +462,9 @@ class InputSelect extends React.Component {
             activeValueId={this.state.activeValueId}
             setActiveValueId={this._setActiveValueId}
             onScrollEnd={onScrollEnd}
+            filterValue={{
+              [labelFieldId]: this.state.input,
+            }}
             options={this.state.options}
             valueFieldId={valueFieldId}
             labelFieldId={labelFieldId}

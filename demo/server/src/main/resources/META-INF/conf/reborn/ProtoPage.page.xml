@@ -7,12 +7,12 @@
                 model="filter">
             <open-page page-id="ProtoPatient" route="/create2"
                        submit-operation-id="create" upload="defaults"
-                       redirect-url-after-submit="../patients/:id"/>
+                       redirect-url-after-submit="../:id"/>
         </button>
     </toolbar>
     <regions>
         <panel place="left" header="true" collapsible="false" title="Данные пациента">
-            <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10">
+            <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10" route="/">
                 <actions>
                     <action id="update_birthday">
                         <invoke operation-id="update"/>

@@ -32,6 +32,7 @@ function PopupList({
   isExpanded,
   onScrollEnd,
   expandPopUp,
+  filterValue,
   ...rest
 }) {
   /**
@@ -50,7 +51,7 @@ function PopupList({
 
   const trackScrolling = evt => {
     if (isBottom(evt.target)) {
-      onScrollEnd();
+      onScrollEnd(filterValue);
     }
   };
 

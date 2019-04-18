@@ -19,12 +19,12 @@
   },
   "dependencies": {
     "antd": "^3.14.1",
+    "bootstrap": "~4.3.0",
+    "font-awesome": "4.7.0",
     "lodash": "^4.17.11",
     "n2o": "^7.2.0",
     "react": "16.x",
-    "recompose": "^0.30.0",
-    "bootstrap": "~4.3.0",
-    "font-awesome": "4.7.0"
+    "recompose": "^0.30.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",

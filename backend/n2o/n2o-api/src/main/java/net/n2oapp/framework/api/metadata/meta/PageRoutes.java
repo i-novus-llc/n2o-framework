@@ -44,24 +44,14 @@ public class PageRoutes implements Compiled {
      */
     public void addRoute(Route route) {
         if (!this.list.contains(route) || route.isOtherPage) {
-            this.list.add(route);
+            if (route.getIsOtherPage() != null && route.getIsOtherPage()) {
+                this.list.add(0, route);
+            } else {
+                this.list.add(route);
+            }
         }
     }
 
-
-    /**
-     * Добавить маршруты к странице
-     *
-     * @param routes  Маршруты страницы
-     */
-    public void addRoutes(PageRoutes routes) {
-        if (routes.getList() != null)
-            routes.getList().forEach(this::addRoute);
-        if (routes.getPathMapping() != null)
-            routes.getPathMapping().forEach(this::addPathMapping);
-        if (routes.getQueryMapping() != null)
-            routes.getQueryMapping().forEach((k, v) -> addQueryMapping(k, v.onGet, v.onSet));
-    }
 
     /**
      * Добавить маршрут к виджету страницы

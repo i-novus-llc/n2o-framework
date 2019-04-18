@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual, get } from 'lodash';
 import { actionTypes } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 import { updateModel } from '../actions/models';
@@ -14,12 +14,14 @@ import {
   unsetRequired,
 } from '../actions/formPlugin';
 import { PREFIXES } from '../constants/models';
+import { makeGetResolveModelSelector } from '../selectors/models';
 
 export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
+  const prevFieldValue = yield select(makeGetResolveModelSelector(formName));
   switch (type) {
     case 'enabled':
       yield _evalResult
@@ -32,9 +34,11 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      yield put(
-        updateModel(PREFIXES.resolve, formName, fieldName, _evalResult)
-      );
+      if (!isEqual(get(prevFieldValue, fieldName, null), _evalResult)) {
+        yield put(
+          updateModel(PREFIXES.resolve, formName, fieldName, _evalResult)
+        );
+      }
       break;
     case 'reset':
       yield _evalResult &&

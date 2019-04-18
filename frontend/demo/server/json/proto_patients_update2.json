@@ -8,12 +8,7 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/5607677/update2/main",
-        "exact": true,
-        "isOtherPage": false
-      },
-      {
-        "path": "/proto/5607677/update2/main/:proto_update2_main_id",
+        "path": "/proto/5607677/update2/:proto_update2_main_id",
         "exact": true,
         "isOtherPage": false
       }
@@ -99,7 +94,7 @@
     "proto_update2_main": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/5607677/update2/main",
+        "url": "n2o/data/proto/5607677/update2",
         "pathMapping": {},
         "queryMapping": {}
       },
@@ -208,6 +203,7 @@
                       {
                         "src": "StandardField",
                         "id": "vip",
+                        "dependency": [],
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",

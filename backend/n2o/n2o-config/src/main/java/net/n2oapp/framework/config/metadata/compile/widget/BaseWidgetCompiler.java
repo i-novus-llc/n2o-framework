@@ -93,15 +93,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return source.getRoute();
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            if (widgetScope.getDependsOnWidgetId() != null) {
-                //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
-                String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
-                return normalize(colon(selectedId)) + normalize(source.getId());
-            }
-            if (widgetScope.isMainWidget()) {
-                return "/";
-            }
+        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
+            //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
+            String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
+            return normalize(colon(selectedId)) + normalize(source.getId());
+
         }
         return normalize(source.getId());
     }
@@ -308,7 +304,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //Маршрут с выделенной записью в виджете /page/widget/:widget_id
         //todo для формы не существует selected!
         String selectedId = normalizeParam(compiled.getId() + "_id");
-        String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
+        String routeWidgetSelected = normalize(widgetRoute + normalize(colon(selectedId)));
         routes.addRoute(routeWidgetSelected);
 
         ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
