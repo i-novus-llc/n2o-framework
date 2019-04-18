@@ -128,6 +128,10 @@
     width: calc(100% - .2rem);
   }
 
+  & table.n2o-advanced-table-fixed {
+    width: 100%;
+  }
+
   &-nested table tr:hover {
     background-color: transparent;
   }
