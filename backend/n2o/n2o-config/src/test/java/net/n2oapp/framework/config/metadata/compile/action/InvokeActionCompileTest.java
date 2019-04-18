@@ -86,7 +86,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
     @Test
     public void validations() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.widget.xml")
-                .get(new WidgetContext("testRegisterActionContext"));
+                .get(new WidgetContext("testRegisterActionContext", "/"));
         ActionContext context = (ActionContext) route("/:testRegisterActionContext_id/test", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
