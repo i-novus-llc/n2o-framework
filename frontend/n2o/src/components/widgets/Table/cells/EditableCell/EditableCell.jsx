@@ -121,6 +121,7 @@ export class EditableCell extends React.Component {
                   value: value,
                   openOnFocus: true,
                   showButtons: false,
+                  resetOnNotValid: false,
                 })}
               </div>
             </HotKeys>
