@@ -52,8 +52,12 @@ export function* resolveAuth(
   }
 }
 
+export function* callErrorContinue() {
+  yield put(fetchErrorContinue());
+}
+
 export default config => {
-  if (!config.authProvider) return [];
+  if (!config.authProvider) return [takeEvery(FETCH_ERROR, callErrorContinue)];
   return [
     takeEvery(action => action.meta && action.meta.auth, resolveAuth, config),
     takeEvery(FETCH_ERROR, resolveAuth, config),
