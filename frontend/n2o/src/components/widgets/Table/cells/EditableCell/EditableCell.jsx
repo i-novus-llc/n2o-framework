@@ -1,5 +1,8 @@
 import React from 'react';
+import cn from 'classnames';
+import { findDOMNode } from 'react-dom';
 import { compose } from 'recompose';
+import { HotKeys } from 'react-hotkeys';
 import PropTypes from 'prop-types';
 import { isEqual, get } from 'lodash';
 import Text from '../../../../snippets/Text/Text';
@@ -27,6 +30,7 @@ export class EditableCell extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.getValueFromModel = this.getValueFromModel.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -76,32 +80,50 @@ export class EditableCell extends React.Component {
     this.setState(newState);
   }
 
+  handleKeyDown() {
+    this.toggleEdit();
+  }
+
   render() {
     const { visible, control, editable, ...rest } = this.props;
     const { value, editing } = this.state;
+    const controlHeight = this.node && findDOMNode(this.node).clientHeight;
     return (
       visible && (
         <div
-          className="n2o-editable-cell"
+          className={cn({ 'n2o-editable-cell': editable })}
           onClick={e => e.stopPropagation()}
           ref={el => (this.node = el)}
         >
           {!editing && (
-            <div className="n2o-editable-cell-text" onClick={this.toggleEdit}>
+            <div
+              className="n2o-editable-cell-text"
+              onClick={editable && this.toggleEdit}
+            >
               <Text text={value} {...rest} />
             </div>
           )}
           {editable && editing && (
-            <div className="n2o-editable-cell-control">
-              {React.createElement(control.component, {
-                ...control,
-                className: 'n2o-advanced-table-edit-control',
-                onChange: this.onChange,
-                onBlur: this.toggleEdit,
-                autoFocus: true,
-                value: value,
-              })}
-            </div>
+            <HotKeys
+              keyMap={{ events: 'enter' }}
+              handlers={{ events: this.handleKeyDown }}
+            >
+              <div
+                className="n2o-editable-cell-control"
+                style={{ height: controlHeight }}
+              >
+                {React.createElement(control.component, {
+                  ...control,
+                  className: 'n2o-advanced-table-edit-control',
+                  onChange: this.onChange,
+                  onBlur: this.toggleEdit,
+                  autoFocus: true,
+                  value: value,
+                  openOnFocus: true,
+                  showButtons: false,
+                })}
+              </div>
+            </HotKeys>
           )}
         </div>
       )

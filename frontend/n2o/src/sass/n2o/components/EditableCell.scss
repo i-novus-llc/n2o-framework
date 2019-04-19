@@ -14,3 +14,9 @@
     cursor: text;
   }
 }
+
+.n2o-editable-cell-control > div,
+.n2o-advanced-table-edit-control {
+  height: 100%;
+  padding: 0;
+}

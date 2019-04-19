@@ -21,6 +21,7 @@ import _, {
   values,
   eq,
   get,
+  forEach,
 } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
@@ -92,6 +93,8 @@ class AdvancedTable extends Component {
     this.setSelectionRef = this.setSelectionRef.bind(this);
     this.getModelsFromData = this.getModelsFromData.bind(this);
     this.setTableRef = this.setTableRef.bind(this);
+    this.openAllRows = this.openAllRows.bind(this);
+    this.closeAllRows = this.closeAllRows.bind(this);
   }
 
   componentDidMount() {
@@ -267,6 +270,29 @@ class AdvancedTable extends Component {
   focusActiveRow() {
     this.rows[this.state.focusIndex] &&
       this.rows[this.state.focusIndex].focus();
+  }
+
+  openAllRows() {
+    const { data } = this.props;
+    const keys = [];
+    const getKeys = array => {
+      return map(array, item => {
+        keys.push(item.id);
+        if (item.children) {
+          getKeys(item.children);
+        }
+      });
+    };
+    getKeys(data);
+    this.setState({
+      expandedRowKeys: keys,
+    });
+  }
+
+  closeAllRows() {
+    this.setState({
+      expandedRowKeys: [],
+    });
   }
 
   handleExpandedRowsChange(rows) {
