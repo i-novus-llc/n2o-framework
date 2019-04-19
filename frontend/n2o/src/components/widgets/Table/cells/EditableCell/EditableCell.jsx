@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import { findDOMNode } from 'react-dom';
 import { compose } from 'recompose';
 import { HotKeys } from 'react-hotkeys';
@@ -90,7 +91,7 @@ export class EditableCell extends React.Component {
     return (
       visible && (
         <div
-          className="n2o-editable-cell"
+          className={cn({ 'n2o-editable-cell': editable })}
           onClick={e => e.stopPropagation()}
           ref={el => (this.node = el)}
         >
