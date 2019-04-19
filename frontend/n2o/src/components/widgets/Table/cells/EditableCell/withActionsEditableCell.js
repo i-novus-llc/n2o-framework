@@ -10,12 +10,7 @@ import { makeGetResolveModelSelector } from '../../../../../selectors/models';
 export default EditableCell => {
   class EditableCellWithActions extends React.Component {
     render() {
-      const dataProvider = get(
-        this.props,
-        'action.options.payload.dataProvider',
-        {}
-      );
-      return <EditableCell dataProvider={dataProvider} {...this.props} />;
+      return <EditableCell {...this.props} />;
     }
   }
 
