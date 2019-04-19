@@ -52,7 +52,8 @@ export class EditableCell extends React.Component {
       onResolve,
       onSetSelectedId,
       widgetId,
-      callInvoke,
+      callActionImpl,
+      action,
     } = this.props;
     let newState = {
       editing: !this.state.editing,
@@ -62,10 +63,16 @@ export class EditableCell extends React.Component {
       onSetSelectedId();
     }
     if (!newState.editing && !isEqual(this.state.prevValue, this.state.value)) {
-      callInvoke({
-        ...model,
-        [id]: this.state.value,
-      });
+      callActionImpl(
+        {},
+        {
+          action,
+          model: {
+            ...model,
+            [id]: this.state.value,
+          },
+        }
+      );
     }
 
     newState = {
