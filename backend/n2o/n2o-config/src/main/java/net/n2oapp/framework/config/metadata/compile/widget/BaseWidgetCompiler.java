@@ -214,7 +214,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
-        compileActions(source, context, p, widgetActions, widgetScope, object, validationList);
+        compileActions(source, context, p, widgetActions, widgetScope, widgetRouteScope, object, validationList);
         compileToolbar(compiled, source, object, context, p, widgetActions, widgetScope, widgetRouteScope, validationList);
         compiled.setActions(widgetActions);
     }
@@ -405,11 +405,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void compileActions(S source, CompileContext<?, ?> context, CompileProcessor p
-            , MetaActions widgetActions, WidgetScope widgetScope, CompiledObject object, ValidationList validationList) {
+            , MetaActions widgetActions, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object, ValidationList validationList) {
         if (source.getActions() != null)
             for (ActionsBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.RESOLVE));
-                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationList, new ComponentScope(a));
+                p.compile(a.getAction(), context, widgetScope, widgetActions, widgetRouteScope, object, validationList, new ComponentScope(a));
             }
     }
 
