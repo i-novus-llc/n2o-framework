@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import { compose } from 'recompose';
 import { HotKeys } from 'react-hotkeys';
 import PropTypes from 'prop-types';
@@ -92,6 +93,7 @@ export class EditableCell extends React.Component {
   render() {
     const { visible, control, editable, ...rest } = this.props;
     const { value, editing } = this.state;
+    const controlHeight = this.node && findDOMNode(this.node).clientHeight;
     return (
       visible && (
         <div
@@ -112,7 +114,10 @@ export class EditableCell extends React.Component {
               keyMap={{ events: 'enter' }}
               handlers={{ events: this.handleKeyDown }}
             >
-              <div className="n2o-editable-cell-control">
+              <div
+                className="n2o-editable-cell-control"
+                style={{ height: controlHeight }}
+              >
                 {React.createElement(control.component, {
                   ...control,
                   className: 'n2o-advanced-table-edit-control',
@@ -121,6 +126,7 @@ export class EditableCell extends React.Component {
                   autoFocus: true,
                   value: value,
                   openOnFocus: true,
+                  showButtons: false,
                 })}
               </div>
             </HotKeys>
