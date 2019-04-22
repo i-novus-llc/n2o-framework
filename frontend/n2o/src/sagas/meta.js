@@ -9,6 +9,7 @@ import { addAlerts, removeAlerts } from '../actions/alerts';
 import { addFieldMessage } from '../actions/formPlugin';
 import { metadataRequest } from '../actions/pages';
 import { dataRequestWidget } from '../actions/widgets';
+import { updateWidgetDependency } from '../actions/dependency';
 import compileUrl from '../utils/compileUrl';
 import { id } from '../utils/id';
 
@@ -103,10 +104,19 @@ export function* clearFormEffect(action) {
   yield put(reset(action.meta.clearForm));
 }
 
+export function* updateWidgetDependencyEffect({ meta }) {
+  const { widgetId } = meta;
+  yield put(updateWidgetDependency, widgetId);
+}
+
 export const metaSagas = [
   takeEvery(action => action.meta && action.meta.alert, alertEffect),
   takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
   takeEvery(action => action.meta && action.meta.refresh, refreshEffect),
   takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
   takeEvery(action => action.meta && action.meta.messages, messagesFormEffect),
+  takeEvery(
+    action => action.meta && action.meta.updateWidgetDependency,
+    updateWidgetDependencyEffect
+  ),
 ];

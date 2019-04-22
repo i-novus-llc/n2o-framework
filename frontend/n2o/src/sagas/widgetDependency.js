@@ -7,7 +7,10 @@ import {
   put,
 } from 'redux-saga/effects';
 import { keys, isEqual, reduce } from 'lodash';
-import { REGISTER_DEPENDENCY } from '../constants/dependency';
+import {
+  REGISTER_DEPENDENCY,
+  UPDATE_WIDGET_DEPENDENCY,
+} from '../constants/dependency';
 import { CLEAR, COPY, SET } from '../constants/models';
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 import {
@@ -31,7 +34,13 @@ export const reduceFunction = (isTrue, { model, config }) => {
  */
 export function* watchDependency() {
   let widgetsDependencies = {};
-  const channel = yield actionChannel([REGISTER_DEPENDENCY, SET, COPY, CLEAR]);
+  const channel = yield actionChannel([
+    REGISTER_DEPENDENCY,
+    SET,
+    COPY,
+    CLEAR,
+    UPDATE_WIDGET_DEPENDENCY,
+  ]);
   while (true) {
     const prevState = yield select();
     const action = yield take(channel);
@@ -64,6 +73,16 @@ export function* watchDependency() {
           state,
           widgetsDependencies,
           key
+        );
+        break;
+      }
+      case UPDATE_WIDGET_DEPENDENCY: {
+        yield fork(
+          resolveWidgetDependency,
+          prevState,
+          state,
+          widgetsDependencies,
+          widgetId
         );
         break;
       }
