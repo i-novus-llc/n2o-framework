@@ -306,7 +306,7 @@ class DateTimeControl extends React.Component {
     } = this.props;
     const { inputs } = this.state;
     return (
-      <div className="n2o-date-picker-container">
+      <div className="n2o-date-picker-container ignore-react-onclickoutside">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
           <Manager>
             <Reference>
