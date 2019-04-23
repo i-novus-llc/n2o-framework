@@ -106,7 +106,7 @@ export function* clearFormEffect(action) {
 
 export function* updateWidgetDependencyEffect({ meta }) {
   const { widgetId } = meta;
-  yield put(updateWidgetDependency, widgetId);
+  yield put(updateWidgetDependency(widgetId));
 }
 
 export const metaSagas = [

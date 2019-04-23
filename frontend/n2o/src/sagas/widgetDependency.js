@@ -6,7 +6,7 @@ import {
   call,
   put,
 } from 'redux-saga/effects';
-import { keys, isEqual, reduce } from 'lodash';
+import { keys, isEqual, reduce, map, includes, some, isEmpty } from 'lodash';
 import {
   REGISTER_DEPENDENCY,
   UPDATE_WIDGET_DEPENDENCY,
@@ -77,17 +77,35 @@ export function* watchDependency() {
         break;
       }
       case UPDATE_WIDGET_DEPENDENCY: {
-        yield fork(
-          resolveWidgetDependency,
-          prevState,
-          state,
-          widgetsDependencies,
-          widgetId
-        );
+        yield fork(forceUpdateDependency, state, widgetsDependencies, widgetId);
         break;
       }
       default:
         break;
+    }
+  }
+}
+
+export function* forceUpdateDependency(state, widgetsDependencies, widgetId) {
+  const widgetDependenciesKeys = keys(widgetsDependencies);
+  for (let i = 0; i < widgetDependenciesKeys.length; i++) {
+    const widgetDependencyItem = widgetsDependencies[widgetDependenciesKeys[i]];
+    const dependencyItem = widgetDependencyItem.dependency;
+    const dependencyItemKeys = keys(dependencyItem);
+    for (let j = 0; j < dependencyItemKeys.length; j++) {
+      const someDependency = dependencyItem[dependencyItemKeys[j]];
+      if (some(someDependency, ({ on }) => includes(on, widgetId))) {
+        const isVisible = makeWidgetVisibleSelector(widgetId)(state);
+        const dependencyType = dependencyItemKeys[j];
+        const model = getModelsByDependency(someDependency)(state);
+        yield fork(
+          resolveDependency,
+          dependencyType,
+          widgetDependencyItem.widgetId,
+          model,
+          isVisible
+        );
+      }
     }
   }
 }
@@ -104,11 +122,22 @@ export function* registerWidgetDependency(
   widgetId,
   dependency
 ) {
+  let parents = [];
+
+  map(dependency, dep => {
+    map(dep, d => {
+      if (d.on) {
+        parents.push(d.on);
+      }
+    });
+  });
+
   return {
     ...widgetsDependencies,
     [widgetId]: {
       widgetId,
       dependency,
+      parents,
     },
   };
 }
