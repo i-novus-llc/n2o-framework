@@ -69,7 +69,8 @@ public class TestDataProviderEngineTest {
         inParams.put("limit", 10);
         inParams.put("offset", 0);
         inParams.put("page", 1);
-
+        inParams.put("filters", Arrays.asList("id :eq :id"));
+        inParams.put("id", null);
 
         List<Map> result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(10));
