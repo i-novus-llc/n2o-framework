@@ -131,7 +131,7 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "restDataProviderEngine")
-    public SpringRestDataProviderEngine springRestDataProviderEngine(RestTemplate restTemplate, ObjectMapper restObjectMapper) {
+    public SpringRestDataProviderEngine springRestDataProviderEngine(RestTemplate restTemplate, @Qualifier("restObjectMapper") ObjectMapper restObjectMapper) {
         SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(restTemplate, restObjectMapper);
         springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return springRestDataProviderEngine;
