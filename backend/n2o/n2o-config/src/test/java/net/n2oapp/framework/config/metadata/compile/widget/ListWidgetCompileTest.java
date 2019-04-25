@@ -35,7 +35,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(new WidgetContext("testListWidgetCompile"));
 
-        assertThat(listWidget.getId(), is("testListWidgetCompile"));
+        assertThat(listWidget.getId(), is("$testListWidgetCompile"));
         assertThat(listWidget.getList().get("leftTop").getSrc(), is("ImageCell"));
 
         assertThat(listWidget.getList().get("header").getSrc(), is("ProgressBarCell"));
