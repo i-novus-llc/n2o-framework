@@ -47,16 +47,25 @@ describe('Проверка саги widgetDependency', () => {
     it('вернет новое значение виджетов', () => {
       expect(
         registerWidgetDependency({}, 'test1', {
-          on: 'link',
-          condition: 'condition',
+          fetch: [
+            {
+              on: 'link',
+              condition: 'condition',
+            },
+          ],
         }).next().value
       ).toEqual({
         test1: {
           widgetId: 'test1',
           dependency: {
-            on: 'link',
-            condition: 'condition',
+            fetch: [
+              {
+                on: 'link',
+                condition: 'condition',
+              },
+            ],
           },
+          parents: ['link'],
         },
       });
     });
