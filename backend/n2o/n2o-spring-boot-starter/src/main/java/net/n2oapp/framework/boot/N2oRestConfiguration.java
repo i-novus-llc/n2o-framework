@@ -65,7 +65,7 @@ public class N2oRestConfiguration {
 
     @Bean
     public DataController dataController(ControllerFactory controllerFactory,
-                                         ObjectMapper n2oObjectMapper,
+                                         @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
                                          MetadataEnvironment environment,
                                          MetadataRouter router) {
         return new DataController(controllerFactory, n2oObjectMapper, router, environment);

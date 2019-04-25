@@ -159,7 +159,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
 
     private String resolve(String str, Map<String, Object> args, BinaryOperator<String> reducer) {
         if (!str.contains("{") || !str.contains("}")) return str;
-        String paramKey = str.substring(str.indexOf("{") + 1, str.indexOf("}"));
+        String paramKey = str.substring(str.indexOf('{') + 1, str.indexOf('}'));
         if (!(args.get(paramKey) instanceof List)) {
             return replacePlaceholder(str, paramKey, args.get(paramKey));
         }
