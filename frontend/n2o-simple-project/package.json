@@ -1,11 +1,11 @@
 {
   "name": "n2o-simple-project",
-  "version": "7.2.6",
+  "version": "7.2.7",
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "n2o": "^7.2.6",
-    "n2o-auth": "^7.2.6",
+    "n2o": "^7.2.7",
+    "n2o-auth": "^7.2.7",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"
