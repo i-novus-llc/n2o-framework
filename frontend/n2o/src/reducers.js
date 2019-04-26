@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { connectRouter } from 'connected-react-router';
 import { reducer as formReducer } from 'redux-form';
 
 import widgets from './reducers/widgets';
@@ -25,17 +26,19 @@ const formHack = (state, action) => {
       })(state, action)
     : formReducer(state, action);
 };
-const rootReducer = combineReducers({
-  form: formHack,
-  widgets,
-  models,
-  global,
-  pages,
-  alerts,
-  modals,
-  columns,
-  toolbar,
-  user,
-});
 
-export default rootReducer;
+export default (history, customReducers) =>
+  combineReducers({
+    router: connectRouter(history),
+    form: formHack,
+    widgets,
+    models,
+    global,
+    pages,
+    alerts,
+    modals,
+    columns,
+    toolbar,
+    user,
+    ...customReducers,
+  });

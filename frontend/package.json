@@ -18,6 +18,7 @@
   "scripts": {
     "start:demo": "lerna exec --scope n2o-demo-client npm run start",
     "start:simple": "lerna exec --scope n2o-simple-project npm run start",
+    "start:notify": "lerna exec --scope n2o-notifications npm run start",
     "build:demo": "lerna exec --scope n2o-demo-client npm run build",
     "build:simple": "lerna exec --scope n2o-simple-project npm run build",
     "build:n2o": "lerna exec --scope n2o npm run build",
