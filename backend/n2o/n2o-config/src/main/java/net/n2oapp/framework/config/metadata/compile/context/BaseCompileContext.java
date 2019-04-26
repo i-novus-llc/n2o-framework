@@ -88,9 +88,9 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
             return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
-            return p.resolveText(sourceId, parentModelLink);
+            return "$" + p.resolveText(sourceId, parentModelLink);
         }
-        return sourceId;
+        return "$" + sourceId;
     }
 
     @Override

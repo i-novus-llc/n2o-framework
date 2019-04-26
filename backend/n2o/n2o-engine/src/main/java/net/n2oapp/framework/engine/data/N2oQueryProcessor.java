@@ -87,9 +87,11 @@ public class N2oQueryProcessor implements QueryProcessor {
 
 
     public CollectionPage<DataSet> executeOneSizeQuery(CompiledQuery query, N2oPreparedCriteria criteria) {
+        criteria.setSize(2);
         criteria.setCount(2);
         N2oQuery.Selection selection = findUniqueSelection(query, criteria);
         Object result = executeQuery(selection, query, criteria);
+        criteria.setSize(1);
         if (selection.getType().equals(N2oQuery.Selection.Type.list)) {
             CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
             if (page.getCollection() == null || page.getCollection().size() == 0) {
