@@ -453,6 +453,7 @@ class AdvancedTable extends Component {
       rowSelection,
       expandedFieldId,
       expandedComponent,
+      components,
     } = this.props;
     const columns = this.mapColumns(this.state.columns);
     return (
@@ -476,10 +477,12 @@ class AdvancedTable extends Component {
               header: {
                 row: AdvancedTableHeaderRow,
                 cell: AdvancedTableHeaderCell,
+                ...get(components, 'header', {}),
               },
               body: {
                 row: AdvancedTableRow,
                 cell: AdvancedTableCell,
+                ...get(components, 'body', {}),
               },
             }}
             rowKey={record => record.key}
