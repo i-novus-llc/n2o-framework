@@ -83,6 +83,12 @@
 
   outline: none;
 
+  & .n2o-select-pop-up {
+    & .dropdown-item {
+      outline: none;
+    }
+  }
+
 
   & > button {
     position: relative;
