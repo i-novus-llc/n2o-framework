@@ -83,6 +83,8 @@
 
   outline: none;
 
+  @include form-control-focus();
+
   & .n2o-select-pop-up {
     & .dropdown-item {
       outline: none;
