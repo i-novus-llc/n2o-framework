@@ -1,9 +1,18 @@
 import React, { Component, Children } from 'react';
 import PropTypes from 'prop-types';
-import { first, each, isObject, isArray, isString, values } from 'lodash';
+import {
+  first,
+  each,
+  isObject,
+  isArray,
+  isString,
+  values,
+  isEmpty,
+} from 'lodash';
 
 import factoryConfigShape from './factoryConfigShape';
 import NotFoundFactory from './NotFoundFactory';
+import SecurityCheck from '../auth/SecurityCheck';
 
 class FactoryProvider extends Component {
   getChildContext() {
@@ -19,11 +28,25 @@ class FactoryProvider extends Component {
     this.factories = props.config;
     this.getComponent = this.getComponent.bind(this);
     this.resolveProps = this.resolveProps.bind(this);
+    this.checkSecurityAndRender = this.checkSecurityAndRender.bind(this);
   }
 
-  getComponent(src, level) {
+  checkSecurityAndRender(component, config) {
+    return isEmpty(config)
+      ? component
+      : props => (
+          <SecurityCheck
+            config={config}
+            render={({ permissions }) =>
+              permissions ? React.createElement(component, props) : null
+            }
+          />
+        );
+  }
+
+  getComponent(src, level, security = {}) {
     if (level && this.factories[level]) {
-      return this.factories[level][src];
+      return this.checkSecurityAndRender(this.factories[level][src], security);
     } else {
       let findedFactory = [];
       each(this.factories, group => {
@@ -31,7 +54,7 @@ class FactoryProvider extends Component {
           findedFactory.push(group[src]);
         }
       });
-      return first(findedFactory);
+      return this.checkSecurityAndRender(first(findedFactory), security);
     }
   }
 
@@ -46,7 +69,9 @@ class FactoryProvider extends Component {
         if (isObject(props[key])) {
           obj[key] = this.resolveProps(props[key], defaultComponent, paramName);
         } else if (key === 'src') {
-          obj[paramName] = this.getComponent(props[key]) || defaultComponent;
+          obj[paramName] =
+            this.getComponent(props[key], null, props.security) ||
+            defaultComponent;
         } else {
           obj[key] = props[key];
         }
