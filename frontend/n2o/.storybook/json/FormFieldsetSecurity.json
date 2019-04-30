@@ -14,16 +14,37 @@
       "fieldsets": [
         {
           "src": "StandartFieldset",
-          "security": {
-            "roles": [
-              "admin"
-            ]
-          },
           "rows": [
             {
               "cols": [
                 {
                   "fieldsets": [
+                    {
+                      "src": "StandartFieldset",
+                      "security": {
+                        "roles": [
+                          "admin"
+                        ]
+                      },
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "fields": [
+                                {
+                                  "id": "innerName",
+                                  "src": "StandardField",
+                                  "label": "Скрытое поле",
+                                  "control": {
+                                    "src": "InputText"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
                     {
                       "src": "StandartFieldset",
                       "rows": [
@@ -34,7 +55,7 @@
                                 {
                                   "id": "innerName",
                                   "src": "StandardField",
-                                  "label": "Скрытое поле",
+                                  "label": "Поле с скрытым контроллом",
                                   "control": {
                                     "src": "InputText",
                                     "security": {
