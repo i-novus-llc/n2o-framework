@@ -24,10 +24,20 @@ const wrapper = mount(
 describe('Проверка FactoryProvider', () => {
   it('проверка функции getComponent', () => {
     const factoryProvider = wrapper.find(FactoryProvider).instance();
-    expect(factoryProvider.getComponent('InputText', CONTROLS)).toEqual(
-      InputText
-    );
-    expect(factoryProvider.getComponent('InputText')).toEqual(InputText);
+
+    const Comp = factoryProvider.getComponent('InputText', CONTROLS);
+    const Comp2 = factoryProvider.getComponent('InputText');
+
+    expect(
+      mount(<Comp />)
+        .find(InputText)
+        .exists()
+    ).toBeTruthy();
+    expect(
+      mount(<Comp2 />)
+        .find(InputText)
+        .exists()
+    ).toBeTruthy();
   });
 
   it('проверка функции resolveProps', () => {
@@ -39,24 +49,33 @@ describe('Проверка FactoryProvider', () => {
         surname: 'surname',
       })
     ).toEqual({ value: '', name: 'name', surname: 'surname' });
-    expect(
-      factoryProvider.resolveProps({
-        src: 'InputText',
-        obj: {
-          src: 'InputText',
-        },
-        unknown: {
-          src: 'UnknownSrc',
-        },
-      })
-    ).toEqual({
-      component: InputText,
+
+    const resolvedObj = factoryProvider.resolveProps({
+      src: 'InputText',
       obj: {
-        component: InputText,
+        src: 'InputText',
       },
       unknown: {
-        component: NotFoundFactory,
+        src: 'UnknownSrc',
       },
     });
+
+    expect(
+      mount(React.createElement(resolvedObj.component))
+        .find(InputText)
+        .exists()
+    ).toBeTruthy();
+
+    expect(
+      mount(React.createElement(resolvedObj.obj.component))
+        .find(InputText)
+        .exists()
+    ).toBeTruthy();
+
+    expect(
+      mount(React.createElement(resolvedObj.unknown.component))
+        .find(NotFoundFactory)
+        .exists()
+    ).toBeTruthy();
   });
 });

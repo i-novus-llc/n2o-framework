@@ -33,7 +33,7 @@ class FactoryProvider extends Component {
   }
 
   checkSecurityAndRender(component = null, config) {
-    if (isEmpty(config)) return component;
+    if (isEmpty(config)) return props => React.createElement(component, props);
     return props => {
       return (
         <SecurityCheck
