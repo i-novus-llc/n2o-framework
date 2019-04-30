@@ -1,4 +1,4 @@
-import React, { Component, Children } from 'react';
+import React, { Component, Children, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   first,
@@ -8,6 +8,7 @@ import {
   isString,
   values,
   isEmpty,
+  isNil,
 } from 'lodash';
 
 import factoryConfigShape from './factoryConfigShape';
@@ -31,17 +32,21 @@ class FactoryProvider extends Component {
     this.checkSecurityAndRender = this.checkSecurityAndRender.bind(this);
   }
 
-  checkSecurityAndRender(component, config) {
-    return isEmpty(config)
-      ? component
-      : props => (
-          <SecurityCheck
-            config={config}
-            render={({ permissions }) =>
-              permissions ? React.createElement(component, props) : null
+  checkSecurityAndRender(component = null, config) {
+    if (isEmpty(config)) return component;
+    return props => {
+      return (
+        <SecurityCheck
+          config={config}
+          render={({ permissions }) => {
+            if (permissions) {
+              return React.createElement(component, props);
             }
-          />
-        );
+            return null;
+          }}
+        />
+      );
+    };
   }
 
   getComponent(src, level, security = {}) {
@@ -51,10 +56,12 @@ class FactoryProvider extends Component {
       let findedFactory = [];
       each(this.factories, group => {
         if (group && group[src]) {
-          findedFactory.push(group[src]);
+          const comp = this.checkSecurityAndRender(group[src], security);
+          findedFactory.push(comp);
         }
       });
-      return this.checkSecurityAndRender(first(findedFactory), security);
+
+      return first(findedFactory);
     }
   }
 

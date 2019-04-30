@@ -14,76 +14,12 @@
       "fieldsets": [
         {
           "src": "StandartFieldset",
+          "security": {
+            "roles": [
+              "admin"
+            ]
+          },
           "rows": [
-            {
-              "cols": [
-                {
-                  "fields": [
-                    {
-                      "id": "fieldName",
-                      "src": "StandardField",
-                      "label": "Выберите действие",
-                      "control": {
-                        "src": "InputSelect",
-                        "labelFieldId": "label",
-                        "valueFieldId": "id",
-                        "data": [
-                          {
-                            "id": 1,
-                            "label": "Показать/разблокировать все fieldsets"
-                          },
-                          {
-                            "id": 2,
-                            "label": "Скрыть fieldset"
-                          },
-                          {
-                            "id": 3,
-                            "label": "Заблокировать fieldset"
-                          },
-                          {
-                            "id": 4,
-                            "label": "Скрыть вложенный fieldset"
-                          },
-                          {
-                            "id": 5,
-                            "label": "Заблокировать вложенный fieldset"
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "src": "StandartFieldset",
-          "rows": [
-            {
-              "cols": [
-                {
-                  "fields": [
-                    {
-                      "id": "name",
-                      "src": "StandardField",
-                      "label": "Первое поле",
-                      "control": {
-                        "src": "InputText"
-                      }
-                    },
-                    {
-                      "id": "surname",
-                      "src": "StandardField",
-                      "label": "Второе поле",
-                      "control": {
-                        "src": "InputText"
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
             {
               "cols": [
                 {
@@ -98,7 +34,7 @@
                                 {
                                   "id": "innerName",
                                   "src": "StandardField",
-                                  "label": "Вложеное поле",
+                                  "label": "Скрытое поле",
                                   "control": {
                                     "src": "InputText",
                                     "security": {
