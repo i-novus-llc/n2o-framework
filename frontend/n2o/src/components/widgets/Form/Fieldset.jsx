@@ -201,6 +201,7 @@ class Fieldset extends React.Component {
                         labelWidth={labelWidth}
                         labelAlignment={labelAlignment}
                         key={key}
+                        colLength={row.cols.length}
                         autoFocus={autoFocus}
                         form={this.props.form}
                         modelPrefix={modelPrefix}
