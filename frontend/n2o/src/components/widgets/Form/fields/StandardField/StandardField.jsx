@@ -78,6 +78,7 @@ class StandardField extends React.Component {
       placeholder,
       touched,
       message,
+      colLength,
       help,
       ...props
     } = this.props;
@@ -87,13 +88,19 @@ class StandardField extends React.Component {
       'is-invalid': 'text-danger',
       'has-warning': 'text-warning',
     };
-    const styleHelper = { width: '100%' };
     const labelWidthPixels =
       labelWidth === 'default'
         ? 180
         : labelWidth === 'min'
         ? undefined
         : labelWidth;
+
+    const styleHelper =
+      labelWidthPixels && colLength > 1
+        ? {
+            maxWidth: `calc(100% - ${labelWidthPixels}px)`,
+          }
+        : { width: '100%' };
     const extendedLabelStyle = {
       width: labelWidthPixels,
       flex: labelWidthPixels ? 'none' : undefined,
