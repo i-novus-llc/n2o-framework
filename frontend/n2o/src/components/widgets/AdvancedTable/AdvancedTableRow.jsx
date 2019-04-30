@@ -16,11 +16,13 @@ function AdvancedTableRow(props) {
     children,
     model,
     rowClick,
+    rowClass,
   } = props;
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
     [`table-${color}`]: color,
     'table-active': isRowActive,
     'row-click': !!rowClick,
+    [rowClass]: rowClass,
   });
   return React.createElement(
     'tr',

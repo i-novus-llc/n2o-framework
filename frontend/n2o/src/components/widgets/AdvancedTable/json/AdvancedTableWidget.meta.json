@@ -168,6 +168,7 @@
       "hasSelect": true,
       "className": "n2o",
       "style": {},
+      "rowClass": "`name === 'Афанасий' && 'afanasii-class'`",
       "hasFocus": true,
       "autoFocus": false,
       "tableSize": "sm",

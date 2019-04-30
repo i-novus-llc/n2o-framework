@@ -46,6 +46,7 @@ class AdvancedTableWidget extends Component {
       bordered,
       rowClick,
       expandedFieldId,
+      rowClass,
     } = this.props.table;
     const { toolbar, actions, dataProvider } = this.props;
     const { resolveProps } = this.context;
@@ -70,6 +71,7 @@ class AdvancedTableWidget extends Component {
       bordered,
       rowClick,
       expandedFieldId,
+      rowClass,
     };
   }
 
