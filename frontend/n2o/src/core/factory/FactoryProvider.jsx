@@ -49,7 +49,7 @@ class FactoryProvider extends Component {
     };
   }
 
-  getComponent(src, level, security = {}) {
+  getComponent(src, level, security) {
     if (level && this.factories[level]) {
       return this.checkSecurityAndRender(this.factories[level][src], security);
     } else {
@@ -78,7 +78,7 @@ class FactoryProvider extends Component {
         } else if (key === 'src') {
           obj[paramName] =
             this.getComponent(props[key], null, props.security) ||
-            defaultComponent;
+            this.checkSecurityAndRender(defaultComponent, props.security);
         } else {
           obj[key] = props[key];
         }
