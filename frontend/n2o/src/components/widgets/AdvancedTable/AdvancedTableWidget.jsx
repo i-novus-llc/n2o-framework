@@ -24,7 +24,7 @@ import { values } from 'lodash';
  * @param useFixedHeader - флаг использования фиксированного заголовка
  * @param tableSize - размер таблицы
  * @param rowSelection - флаг использования чекбоксов для мульти селекта
- * @param rowColor - expression цвет строки
+ * @param rowClass - expression цвет строки
  */
 class AdvancedTableWidget extends Component {
   getWidgetProps() {
@@ -35,7 +35,6 @@ class AdvancedTableWidget extends Component {
       hasFocus,
       hasSelect,
       autoFocus,
-      rowColor,
       rowSelection,
       tableSize,
       useFixedHeader,
@@ -55,7 +54,6 @@ class AdvancedTableWidget extends Component {
       cells: values(resolveProps(cells)),
       sorting,
       toolbar,
-      rowColor,
       actions,
       hasFocus,
       hasSelect,
@@ -154,7 +152,7 @@ AdvancedTableWidget.propTypes = {
   useFixedHeader: PropTypes.bool,
   tableSize: PropTypes.string,
   rowSelection: PropTypes.bool,
-  rowColor: PropTypes.string,
+  rowClass: PropTypes.string,
   expandFieldId: PropTypes.string,
 };
 
