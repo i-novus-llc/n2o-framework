@@ -1,5 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -319,6 +320,7 @@ class DateTimeControl extends React.Component {
       openOnFocus,
     } = this.props;
     const { inputs } = this.state;
+    const dateInputGroupProps = pick(this.props, ['max', 'min']);
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
@@ -339,6 +341,7 @@ class DateTimeControl extends React.Component {
                   onFocus={this.onFocus}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
+                  {...dateInputGroupProps}
                 />
               )}
             </Reference>
