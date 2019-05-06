@@ -7,11 +7,16 @@ import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.test.TestContextEngine;
 import org.junit.Test;
+import org.springframework.core.env.PropertyResolver;
+import org.springframework.mock.env.MockEnvironment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,8 +28,8 @@ public class AppConfigJsonWriterTest {
     @Test
     public void testResolveValues() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        Properties props = new Properties();
-        props.put("testProp", "Test_Props");
+        PropertyResolver props = new MockEnvironment();
+        ((MockEnvironment) props).setProperty("testProp", "Test_Props");
         AppConfigJsonWriter appConfigJsonWriter = new AppConfigJsonWriter();
         appConfigJsonWriter.setObjectMapper(new ObjectMapper());
         Context context = mock(Context.class);
@@ -37,7 +42,7 @@ public class AppConfigJsonWriterTest {
         when(context.get("value")).thenReturn("Value");
         ContextProcessor processor = new ContextProcessor(context);
         appConfigJsonWriter.setContextProcessor(processor);
-        appConfigJsonWriter.setProperties(props);
+        appConfigJsonWriter.setPropertyResolver(props);
         appConfigJsonWriter.setPath("META-INF/config.json");
         appConfigJsonWriter.setOverridePath("META-INF/config-build.json");
 
