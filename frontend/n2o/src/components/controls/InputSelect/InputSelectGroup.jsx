@@ -38,6 +38,7 @@ function InputSelectGroup({
   onClearClick,
   setIsExpanded,
   disabled,
+  setSelectedItemsRef,
 }) {
   const iconClass = isExpanded ? 'chevron-up' : 'chevron-down';
   const displayAddon =
@@ -71,6 +72,7 @@ function InputSelectGroup({
             item={selected[0]}
             imageFieldId={imageFieldId}
             iconFieldId={iconFieldId}
+            setRef={setSelectedItemsRef}
           />
         )}
         {children}

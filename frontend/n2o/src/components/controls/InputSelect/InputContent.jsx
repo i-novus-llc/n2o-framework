@@ -63,6 +63,7 @@ function InputContent({
   onClick,
   isExpanded,
   autoFocus,
+  selectedPadding,
 }) {
   /**
    * Обработчик изменения инпута при нажатии на клавишу
@@ -182,6 +183,7 @@ function InputContent({
         type="text"
         className="n2o-inp"
         autoFocus={autoFocus}
+        style={{ paddingLeft: selectedPadding }}
       />
     </React.Fragment>
   );

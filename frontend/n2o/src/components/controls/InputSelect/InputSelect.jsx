@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
 import { Dropdown, DropdownToggle } from 'reactstrap';
@@ -81,6 +82,7 @@ class InputSelect extends React.Component {
     this._handleValueChangeOnBlur = this._handleValueChangeOnBlur.bind(this);
     this._handleDataSearch = this._handleDataSearch.bind(this);
     this._handleElementClear = this._handleElementClear.bind(this);
+    this.setSelectedItemsRef = this.setSelectedItemsRef.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -366,6 +368,18 @@ class InputSelect extends React.Component {
     }
   }
 
+  setSelectedItemsRef(ref) {
+    this._selectedItems = ref;
+  }
+
+  calcSelectedItemsWidth() {
+    if (this._selectedItems) {
+      const element = findDOMNode(this._selectedItems);
+      if (element && element.getBoundingClientRect) {
+        return element.getBoundingClientRect().width;
+      }
+    }
+  }
   /**
    * Рендер
    */
@@ -394,10 +408,15 @@ class InputSelect extends React.Component {
       autoFocus,
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
+
+    const selectedPadding = this.calcSelectedItemsWidth();
+
     return (
       <Dropdown
         style={inputSelectStyle}
-        className={cx('n2o-input-select', { disabled })}
+        className={cx('n2o-input-select n2o-input-select--default', {
+          disabled,
+        })}
         toggle={() => {}}
         onBlur={() => {
           this._setInputFocus(false);
@@ -424,6 +443,7 @@ class InputSelect extends React.Component {
             onClearClick={this._handleElementClear}
             disabled={disabled}
             className={className}
+            setSelectedItemsRef={this.setSelectedItemsRef}
           >
             <InputContent
               loading={loading}
@@ -451,6 +471,7 @@ class InputSelect extends React.Component {
               onClick={this._handleClick}
               onSelect={this._handleItemSelect}
               autoFocus={autoFocus}
+              selectedPadding={selectedPadding}
             />
           </InputSelectGroup>
         </DropdownToggle>
