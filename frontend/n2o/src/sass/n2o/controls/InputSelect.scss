@@ -39,6 +39,10 @@
   padding: 0;
   left: auto;
   top: auto;
+
+  & .n2o-eclipse-content {
+    outline: none;
+  }
 }
 
 .expandPopUp {
@@ -81,6 +85,11 @@
   display: inline-block;
   position: relative;
 
+  &--default {
+    & .n2o-input-items > .selected-item {
+      position: absolute;
+    }
+  }
 
   & > button {
     position: relative;
@@ -106,7 +115,6 @@
     border-collapse: separate;
     height: auto;
     outline: none;
-    overflow: hidden;
     position: relative;
     width: 100%;
     display: flex;
@@ -177,9 +185,9 @@
       display: flex
     }
 
-    & ~ input {
-      padding-left: $selected-item-margin-x !important;
-    }
+    //& ~ input {
+    //  padding-left: $selected-item-margin-x !important;
+    //}
 
     max-width: $selected-item-width;
     margin: $selected-item-margin-y $selected-item-margin-x;

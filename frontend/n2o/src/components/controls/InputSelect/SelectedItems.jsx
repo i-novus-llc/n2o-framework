@@ -50,7 +50,7 @@ function InputElements({
     );
   };
 
-  return <React.Fragment>{selectedList()}</React.Fragment>;
+  return <div className="n2o-input-select-selected-list">{selectedList()}</div>;
 }
 
 InputElements.propTypes = {
