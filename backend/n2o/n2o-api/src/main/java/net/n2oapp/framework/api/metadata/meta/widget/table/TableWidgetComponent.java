@@ -20,8 +20,8 @@ public class TableWidgetComponent extends WidgetComponent {
     private String className;
     @JsonProperty("size")
     private Integer size;
-    @JsonProperty("rowColor")
-    private String rowColor;
+    @JsonProperty("rowClass")
+    private String rowClass;
     @JsonProperty("autoFocus")
     private Boolean autoFocus = true;
     @JsonProperty("hasFocus")

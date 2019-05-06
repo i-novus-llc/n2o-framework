@@ -29,10 +29,10 @@ public class TableJsonTest extends JsonMetadataTestBase {
     @Test
     public void table() {
         check("net/n2oapp/framework/config/mapping/testTableJson.widget.xml",
-                "components/widgets/Table/TableWidget.meta.json")
+                "components/widgets/AdvancedTable/json/AdvancedTableWidget.meta.json")
                         .cutJson("Page_Table")
-                .exclude("actions",
-                        "table.style", "table.autoFocus",
+                .exclude("actions", "width", "className",
+                        "table.style", "table.autoFocus", "table.tableSize",
                         "dataProvider.queryMapping",
                         "table.cells[0].fieldKey",
                         "table.cells[1].fieldKey",

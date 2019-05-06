@@ -67,7 +67,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getFormat(),
                 is("password"));
         assertThat(table.getActions().containsKey("but"), is(true));
-        assertThat(table.getComponent().getRowColor(), is("red"));
+        assertThat(table.getComponent().getRowClass(), is("red"));
         QueryContext queryContext = (QueryContext) route("/testTable4Compile", CompiledQuery.class);
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
@@ -84,7 +84,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRowColor() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowColorCompile.widget.xml")
                 .get(new WidgetContext("testTable4RowColorCompile"));
-        assertThat(table.getComponent().getRowColor(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
+        assertThat(table.getComponent().getRowClass(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
         assertThat(table.getComponent().getHasSelect(), is(true));
     }
 

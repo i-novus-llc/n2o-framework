@@ -470,9 +470,9 @@
             <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
             <xs:element name="click" type="clickDefinition" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
-        <xs:attribute name="color-field-id" type="xs:string">
+        <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Поле выборки, отвечающее за цвет.</xs:documentation>
+                <xs:documentation>Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон строки).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

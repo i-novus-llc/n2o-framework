@@ -560,21 +560,27 @@ link:#_Ячейки[Ячейка]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|color-field-id
-|Ссылка на поле выборки
-|Поле выборки, отвечающее за цвет
+|class
+|Строка
+|CSS класс строки
 |
 
 |===
 
 Тело::
-link:#_Переключатель_switch[Переключатель]
+link:#_Переключатель_switch[Переключатель],
 link:#_Клик_click[Клик по строке]
 
-Пример::
+Примеры::
 [source,xml]
 ----
-<rows color-field-id="color"/>
+<rows class="{type==1?'text-muted':''}"/>
+
+<rows>
+    <switch value-field-id="type">
+        ...
+    </switch>
+</rows>
 ----
 
 ==== <pagination>
