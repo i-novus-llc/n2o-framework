@@ -98,7 +98,7 @@ class StandardField extends React.Component {
     const styleHelper =
       labelWidthPixels && colLength > 1
         ? {
-            maxWidth: `calc(100% - ${labelWidthPixels}px)`,
+            maxWidth: `calc(100% - ${labelWidthPixels})`,
           }
         : { width: '100%' };
     const extendedLabelStyle = {
