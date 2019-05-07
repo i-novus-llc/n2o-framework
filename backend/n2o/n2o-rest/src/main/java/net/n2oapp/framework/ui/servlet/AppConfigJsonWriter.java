@@ -20,25 +20,70 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Слияние различных конфигурационных json файлов в один json
+ */
 public class AppConfigJsonWriter {
     private static final Logger log = LoggerFactory.getLogger(AppConfigJsonWriter.class);
-    private String path;
-    private String overridePath;
+    /**
+     * Путь до основных файлов конфигураций
+     */
+    private String path = "classpath*:META-INF/config.json";
+    /**
+     * Путь до переопределяющих файлов конфигураций
+     */
+    private String overridePath = "classpath*:META-INF/config-build.json";
+    /**
+     * Замена значений настроек
+     */
     private PropertyResolver propertyResolver;
+    /**
+     * Замена контекстных значений
+     */
     private ContextProcessor contextProcessor;
-    private List<String> configs;
-    private ObjectMapper objectMapper;
+    /**
+     * Маппер json
+     */
+    private ObjectMapper objectMapper = new ObjectMapper();
+    /**
+     * Кэш конфигураций
+     */
+    private List<String> configs = new ArrayList<>();
 
+    public AppConfigJsonWriter() {
+    }
 
+    public AppConfigJsonWriter(String path) {
+        this.path = path;
+    }
+
+    /**
+     * Загрузить конфигурации из разных файлов и слить в один
+     */
     public void loadValues() {
-        if (configs == null)
-            configs = new ArrayList<>();
         configs.addAll(readConfigs());
     }
 
-
-
+    /**
+     * Распечатать json с дополнительными значениями
+     * @param out Принтер
+     * @param addedValues Дополнительные значения
+     * @throws IOException Ошибка печати
+     */
     public void writeValues(PrintWriter out, Map<String, ?> addedValues) throws IOException {
+        objectMapper.writeValue(out, getNode(addedValues));
+    }
+
+    /**
+     * Получить json с дополнительными значениями
+     * @param addedValues Дополнительные значения
+     * @return Json объект
+     */
+    public Map<String, Object> getValues(Map<String, ?> addedValues) {
+        return objectMapper.convertValue(getNode(addedValues), Map.class);
+    }
+
+    private ObjectNode getNode(Map<String, ?> addedValues) {
         ObjectNode objectNode = objectMapper.createObjectNode();
         ObjectNode configsNode = retrieveConfig(configs);
         for (String key : addedValues.keySet()) {
@@ -46,8 +91,7 @@ public class AppConfigJsonWriter {
         }
         if (configsNode != null)
             JsonUtil.merge(objectNode, configsNode);
-
-        objectMapper.writeValue(out, objectNode);
+        return objectNode;
     }
 
     private ObjectNode retrieveConfig(List<String> configs) {
@@ -75,16 +119,16 @@ public class AppConfigJsonWriter {
     }
 
     private List<String> readConfigs() {
-        List<String> configs = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         try {
             if (path != null)
-                load(configs, path);
+                load(result, path);
             if (overridePath != null)
-                load(configs, overridePath);
+                load(result, overridePath);
         } catch (IOException e) {
             throw new N2oException(e);
         }
-        return configs;
+        return result;
     }
 
     private void load(List<String> configs, String path) throws IOException {

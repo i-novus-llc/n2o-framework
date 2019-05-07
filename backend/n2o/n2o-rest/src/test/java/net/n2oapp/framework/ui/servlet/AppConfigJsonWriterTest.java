@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -65,6 +65,10 @@ public class AppConfigJsonWriterTest {
         assertThat(result.get("user").get("combined").textValue(), is("testValue"));
         assertThat(result.get("prop").isTextual(), is(true));
         assertThat(result.get("prop").textValue(), is("Test_Props"));
+
+        Map<String, Object> values = appConfigJsonWriter.getValues(new HashMap<>());
+        assertThat(values, notNullValue());
+        assertThat(values.get("user"), notNullValue());
     }
 
     @Test

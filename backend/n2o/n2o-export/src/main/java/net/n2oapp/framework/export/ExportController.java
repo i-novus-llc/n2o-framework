@@ -1,14 +1,12 @@
 package net.n2oapp.framework.export;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.data.streaming.converter.Converter;
 import net.n2oapp.data.streaming.converter.EncodingAware;
 import net.n2oapp.data.streaming.reader.Reader;
 import net.n2oapp.data.streaming.stream.DataInputStream;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
@@ -38,12 +36,10 @@ public class ExportController extends AbstractController {
 
     private QueryController queryController;
 
-    public ExportController(ObjectMapper objectMapper,
+    public ExportController(MetadataEnvironment environment,
                             MetadataRouter router,
-                            ReadCompileBindTerminalPipeline pipeline,
-                            DomainProcessor domainProcessor,
                             QueryController queryController) {
-        super(objectMapper, router, pipeline, domainProcessor);
+        super(environment, router);
         this.queryController = queryController;
     }
 
