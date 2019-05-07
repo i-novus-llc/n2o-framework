@@ -89,6 +89,20 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     }
 
     @Test
+    public void testToolbarMenuItem() {
+        Form f = (Form) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.widget.xml")
+                .get(new WidgetContext("testToolbar"));
+
+        assertThat(f.getToolbar().size(), is(2));
+        Button button = f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
+        MenuItem item = button.getSubMenu().get(0);
+        assertThat(item.getId(), is("tesId10"));
+        assertThat(item.getConfirm(), notNullValue());
+        assertThat(item.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
+        assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
+    }
+
+    @Test
     public void testGenerate() {
         Table t = (Table) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.widget.xml")
                 .get(new WidgetContext("testToolbarGenerate"));
