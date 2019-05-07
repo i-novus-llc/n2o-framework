@@ -179,38 +179,37 @@ function InputContent({
     if (_textarea && _selectedList) {
       let mainWidth = undefined;
       let mainHeight = undefined;
-      const textarea = ReactDOM.findDOMNode(_textarea);
-      const selectedContainer = ReactDOM.findDOMNode(_selectedList);
       const selectedList = ReactDOM.findDOMNode(_selectedList).querySelectorAll(
         '.selected-item'
       );
+      let flag = false;
       mainWidth = reduce(
         selectedList,
         (acc, item) => {
           const marginLeft = getMargin(item, 'margin-left');
           const marginRight = getMargin(item, 'margin-right');
+          if (
+            !flag &&
+            acc + item.offsetWidth + marginRight + marginLeft >=
+              getWidth(_selectedList)
+          ) {
+            flag = true;
+            acc = getWidth(_selectedList);
+          }
           return acc + item.offsetWidth + marginLeft + marginRight;
         },
         0
       );
-
       const lastItem = selectedList[selectedList.length - 1];
       const calcMainWidth = width => {
-        const paddingLeft = width - getWidth(_textarea);
-        return paddingLeft > getWidth(_textarea)
+        const paddingLeft = width - getWidth(_selectedList);
+        return paddingLeft > getWidth(_selectedList)
           ? calcMainWidth(paddingLeft)
-          : paddingLeft - 30;
+          : paddingLeft;
       };
-      console.log('point');
-      console.log(mainWidth);
-      console.log(selectedContainer.offsetWidth);
-      console.log(selectedContainer.clientWidth);
-      if (mainWidth > getWidth(_textarea)) {
-        mainWidth = calcMainWidth(mainWidth + getWidth(lastItem));
-        // mainWidth =
-        //   getWidth(lastItem) +
-        //   getMargin(lastItem, 'margin-left') +
-        //   getMargin(lastItem, 'margin-right');
+
+      if (mainWidth > getWidth(_selectedList)) {
+        mainWidth = calcMainWidth(mainWidth);
       }
 
       if (lastItem) {
