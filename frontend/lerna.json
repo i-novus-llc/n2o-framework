@@ -1,6 +1,6 @@
 {
   "lerna": "2.11.0",
-  "version": "7.2.8",
+  "version": "7.2.9",
   "packages": [
     "n2o",
     "n2o-auth",
