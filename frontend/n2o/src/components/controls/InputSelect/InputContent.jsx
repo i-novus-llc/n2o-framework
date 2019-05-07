@@ -182,35 +182,21 @@ function InputContent({
       const selectedList = ReactDOM.findDOMNode(_selectedList).querySelectorAll(
         '.selected-item'
       );
-      let flag = false;
+
       mainWidth = reduce(
         selectedList,
         (acc, item) => {
           const marginLeft = getMargin(item, 'margin-left');
           const marginRight = getMargin(item, 'margin-right');
-          if (
-            !flag &&
-            acc + item.offsetWidth + marginRight + marginLeft >=
-              getWidth(_selectedList)
-          ) {
-            flag = true;
-            acc = getWidth(_selectedList);
+          const newWidth = acc + item.offsetWidth + marginRight + marginLeft;
+          if (newWidth >= getWidth(_selectedList)) {
+            acc = 0;
           }
           return acc + item.offsetWidth + marginLeft + marginRight;
         },
         0
       );
       const lastItem = selectedList[selectedList.length - 1];
-      const calcMainWidth = width => {
-        const paddingLeft = width - getWidth(_selectedList);
-        return paddingLeft > getWidth(_selectedList)
-          ? calcMainWidth(paddingLeft)
-          : paddingLeft;
-      };
-
-      if (mainWidth > getWidth(_selectedList)) {
-        mainWidth = calcMainWidth(mainWidth);
-      }
 
       if (lastItem) {
         mainHeight = getHeight(_textarea) - getHeight(lastItem);
