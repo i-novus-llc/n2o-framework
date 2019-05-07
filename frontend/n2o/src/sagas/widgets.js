@@ -59,9 +59,8 @@ function* getData() {
     const {
       payload: { widgetId, options },
     } = yield take(DATA_REQUEST);
-    const withoutSelectedId = !options ? null : options.withoutSelectedId;
 
-    yield fork(handleFetch, widgetId, options, isQueryEqual, withoutSelectedId);
+    yield fork(handleFetch, widgetId, options, isQueryEqual);
   }
 }
 
@@ -172,12 +171,16 @@ export function* setWidgetDataSuccess(
   yield put(dataSuccessWidget(widgetId, data));
 }
 
-export function* handleFetch(
-  widgetId,
-  options,
-  isQueryEqual,
-  withoutSelectedId
-) {
+export function getWithoutSelectedId(options, router, selectedId) {
+  if (!options) return null;
+  else if (!get(router, 'location.pathname').includes(selectedId)) {
+    return true;
+  }
+
+  return options.withoutSelectedId;
+}
+
+export function* handleFetch(widgetId, options, isQueryEqual) {
   try {
     const {
       state,
@@ -194,6 +197,12 @@ export function* handleFetch(
         dataProvider,
         widgetState,
         options
+      );
+      const { router } = yield select();
+      const withoutSelectedId = getWithoutSelectedId(
+        options,
+        router,
+        widgetState.selectedId
       );
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
         yield put(setTableSelectedId(widgetId, null));
