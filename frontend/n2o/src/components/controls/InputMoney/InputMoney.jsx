@@ -37,7 +37,6 @@ class InputMoney extends React.Component {
     };
 
     this.onChange = this.onChange.bind(this);
-    this.onBlur = this.onBlur.bind(this);
     this.convertToMoney = this.convertToMoney.bind(this);
     this.convertToFloat = this.convertToFloat.bind(this);
     this.getInputMoneyProps = this.getInputMoneyProps.bind(this);
@@ -115,13 +114,6 @@ class InputMoney extends React.Component {
     this.setState({ value: convertedValue });
   }
 
-  onBlur(value) {
-    const { onBlur } = this.props;
-    const convertedValue = this.convertToFloat(value);
-    onBlur && onBlur(convertedValue);
-    this.setState({ value: convertedValue });
-  }
-
   getInputMoneyProps() {
     const {
       value,
@@ -143,7 +135,6 @@ class InputMoney extends React.Component {
       preset: 'money',
       value: this.convertToMoney(value || this.state.value),
       onChange: this.onChange,
-      onBlur: this.onBlur,
       className: cn('n2o-input-money', className),
       presetConfig: {
         suffix,
@@ -188,7 +179,7 @@ InputMoney.defaultProps = {
   suffix: ' руб.',
   includeThousandsSeparator: true,
   thousandsSeparatorSymbol: ' ',
-  allowDecimal: true,
+  allowDecimal: false,
   decimalSymbol: ',',
   decimalLimit: 2,
   integerLimit: null,

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.servlet;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.n2oapp.framework.api.JsonUtil;
@@ -10,6 +9,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -19,13 +19,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 public class AppConfigJsonWriter {
     private static final Logger log = LoggerFactory.getLogger(AppConfigJsonWriter.class);
     private String path;
     private String overridePath;
-    private Properties properties;
+    private PropertyResolver propertyResolver;
     private ContextProcessor contextProcessor;
     private List<String> configs;
     private ObjectMapper objectMapper;
@@ -68,8 +67,8 @@ public class AppConfigJsonWriter {
 
     private ObjectNode read(String json) throws IOException {
         String text = json;
-        if (properties != null)
-            text = StringUtils.resolveProperties(text, properties);
+        if (propertyResolver != null)
+            text = StringUtils.resolveProperties(text, propertyResolver);
         if (contextProcessor != null)
             text = contextProcessor.resolveJson(text, objectMapper);
         return (ObjectNode) objectMapper.readTree(text);
@@ -104,12 +103,12 @@ public class AppConfigJsonWriter {
         }
     }
 
-    public Properties getProperties() {
-        return properties;
+    public PropertyResolver getPropertyResolver() {
+        return propertyResolver;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
+    public void setPropertyResolver(PropertyResolver propertyResolver) {
+        this.propertyResolver = propertyResolver;
     }
 
     public void setContextProcessor(ContextProcessor contextProcessor) {

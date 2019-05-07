@@ -56,7 +56,6 @@ class DateTimeControl extends React.Component {
       ),
       isPopUpVisible: false,
       isTimeSet: {},
-      focused: false,
     };
 
     this.select = this.select.bind(this);
@@ -68,7 +67,6 @@ class DateTimeControl extends React.Component {
     this.onClickOutside = this.onClickOutside.bind(this);
     this.markTimeAsSet = this.markTimeAsSet.bind(this);
     this.setInputRef = this.setInputRef.bind(this);
-    this.onFocus = this.onFocus.bind(this);
   }
 
   /**
@@ -208,7 +206,6 @@ class DateTimeControl extends React.Component {
   setVisibility(visible) {
     this.setState({
       isPopUpVisible: visible,
-      focused: visible,
     });
   }
   /**
@@ -251,15 +248,13 @@ class DateTimeControl extends React.Component {
       e.target.className.includes('n2o-pop-up') ||
       (!datePicker.contains(e.target) && !dateInput.contains(e.target))
     ) {
-      if (this.state.focused) {
-        if (this.props.type === 'date-interval') {
-          const start = this.state.inputs[DateTimeControl.beginInputName];
-          const end = this.state.inputs[DateTimeControl.endInputName];
-          this.onChange([start, end]);
-        }
-        this.props.onBlur();
-      }
       this.setVisibility(false);
+      if (this.props.type === 'date-interval') {
+        const start = this.state.inputs[DateTimeControl.beginInputName];
+        const end = this.state.inputs[DateTimeControl.endInputName];
+        this.onChange([start, end]);
+      }
+      this.props.onBlur();
     }
   }
   /**
@@ -290,16 +285,6 @@ class DateTimeControl extends React.Component {
     return isPopUpVisible && popUp;
   }
 
-  onFocus(e) {
-    const { onFocus } = this.props;
-    this.setState(
-      {
-        focused: true,
-      },
-      () => onFocus(e)
-    );
-  }
-
   setInputRef(poperRef) {
     return r => {
       this.inputGroup = r;
@@ -314,13 +299,14 @@ class DateTimeControl extends React.Component {
       disabled,
       placeholder,
       className,
+      onFocus,
       onBlur,
       autoFocus,
       openOnFocus,
     } = this.props;
     const { inputs } = this.state;
     return (
-      <div className="n2o-date-picker-container">
+      <div className="n2o-date-picker-container ignore-react-onclickoutside">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
           <Manager>
             <Reference>
@@ -336,30 +322,28 @@ class DateTimeControl extends React.Component {
                   setVisibility={this.setVisibility}
                   setWidth={this.setWidth}
                   onBlur={this.onBlur}
-                  onFocus={this.onFocus}
+                  onFocus={onFocus}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
                 />
               )}
             </Reference>
-            {this.state.isPopUpVisible && (
-              <Popper
-                placement="bottom-start"
-                modifiers={MODIFIERS}
-                positionFixed={true}
-              >
-                {({ ref, style, placement }) => (
-                  <div
-                    ref={ref}
-                    style={style}
-                    data-placement={placement}
-                    className="n2o-pop-up"
-                  >
-                    {this.renderPopUp(this.width)}
-                  </div>
-                )}
-              </Popper>
-            )}
+            <Popper
+              placement="bottom-start"
+              modifiers={MODIFIERS}
+              positionFixed={true}
+            >
+              {({ ref, style, placement }) => (
+                <div
+                  ref={ref}
+                  style={style}
+                  data-placement={placement}
+                  className="n2o-pop-up"
+                >
+                  {this.renderPopUp(this.width)}
+                </div>
+              )}
+            </Popper>
           </Manager>
         </div>
       </div>

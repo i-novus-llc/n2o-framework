@@ -15,9 +15,6 @@ import static net.n2oapp.properties.reader.PropertiesReader.getPropertiesFromCla
 import static net.n2oapp.properties.reader.PropertiesReader.getReloadableFromClasspath;
 
 /**
- * User: operhod
- * Date: 06.03.14
- * Time: 17:15
  * Composite properties, with the scheme override: default -> build -> environment -> servlet
  */
 public class WebApplicationProperties extends ExpressionBasedProperties implements ServletContextAware {
