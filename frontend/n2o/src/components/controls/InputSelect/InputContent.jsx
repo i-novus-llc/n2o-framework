@@ -1,8 +1,9 @@
 import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import SelectedItems from './SelectedItems';
 import ReactDOM from 'react-dom';
-import { find } from 'lodash';
+import { map, find, reduce, split, isEqual } from 'lodash';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 import progressBarStyles from '../../widgets/Table/cells/ProgressBarCell/progressBarStyles';
@@ -64,6 +65,10 @@ function InputContent({
   isExpanded,
   autoFocus,
   selectedPadding,
+  setTextareaRef,
+  setSelectedListRef,
+  _textarea,
+  _selectedList,
 }) {
   /**
    * Обработчик изменения инпута при нажатии на клавишу
@@ -157,34 +162,118 @@ function InputContent({
       inputFocus && el.focus();
     }
   };
+
+  const getHeight = el => {
+    return el.clientHeight;
+  };
+
+  const getWidth = el => {
+    return el.clientWidth;
+  };
+
+  const getMargin = (item, propertyName) => {
+    return +split(window.getComputedStyle(item)[propertyName], 'px')[0];
+  };
+
+  const calcPaddingTextarea = () => {
+    if (_textarea && _selectedList) {
+      let mainWidth = undefined;
+      let mainHeight = undefined;
+      const textarea = ReactDOM.findDOMNode(_textarea);
+      const selectedContainer = ReactDOM.findDOMNode(_selectedList);
+      const selectedList = ReactDOM.findDOMNode(_selectedList).querySelectorAll(
+        '.selected-item'
+      );
+      mainWidth = reduce(
+        selectedList,
+        (acc, item) => {
+          const marginLeft = getMargin(item, 'margin-left');
+          const marginRight = getMargin(item, 'margin-right');
+          return acc + item.offsetWidth + marginLeft + marginRight;
+        },
+        0
+      );
+
+      const lastItem = selectedList[selectedList.length - 1];
+      const calcMainWidth = width => {
+        const paddingLeft = width - getWidth(_textarea);
+        return paddingLeft > getWidth(_textarea)
+          ? calcMainWidth(paddingLeft)
+          : paddingLeft - 30;
+      };
+      console.log('point');
+      console.log(mainWidth);
+      console.log(selectedContainer.offsetWidth);
+      console.log(selectedContainer.clientWidth);
+      if (mainWidth > getWidth(_textarea)) {
+        mainWidth = calcMainWidth(mainWidth + getWidth(lastItem));
+        // mainWidth =
+        //   getWidth(lastItem) +
+        //   getMargin(lastItem, 'margin-left') +
+        //   getMargin(lastItem, 'margin-right');
+      }
+
+      if (lastItem) {
+        mainHeight = getHeight(_textarea) - getHeight(lastItem);
+      }
+
+      return {
+        paddingTop: mainHeight,
+        paddingLeft: mainWidth || undefined,
+      };
+    }
+  };
+
   return (
     <React.Fragment>
-      {multiSelect && (
-        <SelectedItems
-          selected={selected}
-          labelFieldId={labelFieldId}
-          onRemoveItem={onRemoveItem}
-          onDeleteAll={clearSelected}
+      {multiSelect ? (
+        <React.Fragment>
+          <SelectedItems
+            selected={selected}
+            labelFieldId={labelFieldId}
+            onRemoveItem={onRemoveItem}
+            onDeleteAll={clearSelected}
+            disabled={disabled}
+            collapseSelected={collapseSelected}
+            lengthToGroup={lengthToGroup}
+            setRef={setSelectedListRef}
+          />
+          <textarea
+            onKeyDown={handleKeyDown}
+            ref={setTextareaRef}
+            placeholder={getPlaceholder}
+            disabled={disabled}
+            value={value}
+            onChange={handleInputChange}
+            onClick={handleClick}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            className={cn('form-control n2o-inp', {
+              'n2o-inp--multi': multiSelect,
+            })}
+            autoFocus={autoFocus}
+            style={{
+              ...calcPaddingTextarea(),
+            }}
+          />
+        </React.Fragment>
+      ) : (
+        <input
+          onKeyDown={handleKeyDown}
+          ref={handleRef}
+          placeholder={getPlaceholder}
           disabled={disabled}
-          collapseSelected={collapseSelected}
-          lengthToGroup={lengthToGroup}
+          value={value}
+          onChange={handleInputChange}
+          onClick={handleClick}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          type="text"
+          className="form-control n2o-inp"
+          autoFocus={autoFocus}
+          style={{ paddingLeft: selectedPadding }}
         />
       )}
-      <input
-        onKeyDown={handleKeyDown}
-        ref={handleRef}
-        placeholder={getPlaceholder}
-        disabled={disabled}
-        value={value}
-        onChange={handleInputChange}
-        onClick={handleClick}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        type="text"
-        className="n2o-inp"
-        autoFocus={autoFocus}
-        style={{ paddingLeft: selectedPadding }}
-      />
     </React.Fragment>
   );
 }

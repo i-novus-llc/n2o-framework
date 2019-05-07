@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 function InputAddon({ item, iconFieldId, imageFieldId, setRef }) {
   return (
-    <span className="selected-item" ref={setRef}>
+    <span className="selected-item selected-item--single" ref={setRef}>
       {iconFieldId && item[iconFieldId] && <i className={item[iconFieldId]} />}
       {imageFieldId && item[imageFieldId] && <img src={item[imageFieldId]} />}
     </span>

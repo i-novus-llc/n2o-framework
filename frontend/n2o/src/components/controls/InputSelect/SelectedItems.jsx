@@ -19,6 +19,7 @@ function InputElements({
   collapseSelected,
   lengthToGroup,
   onDeleteAll,
+  setRef,
 }) {
   const selectedItem = (id, title, callback) => (
     <span key={id} className="selected-item n2o-multiselect" title={title}>
@@ -50,7 +51,11 @@ function InputElements({
     );
   };
 
-  return <div className="n2o-input-select-selected-list">{selectedList()}</div>;
+  return (
+    <div className="n2o-input-select-selected-list" ref={setRef}>
+      {selectedList()}
+    </div>
+  );
 }
 
 InputElements.propTypes = {

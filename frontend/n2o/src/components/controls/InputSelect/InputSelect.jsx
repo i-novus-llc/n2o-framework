@@ -83,6 +83,16 @@ class InputSelect extends React.Component {
     this._handleDataSearch = this._handleDataSearch.bind(this);
     this._handleElementClear = this._handleElementClear.bind(this);
     this.setSelectedItemsRef = this.setSelectedItemsRef.bind(this);
+    this.setTextareaRef = this.setTextareaRef.bind(this);
+    this.setSelectedListRef = this.setSelectedListRef.bind(this);
+  }
+
+  setTextareaRef(input) {
+    this._textarea = input;
+  }
+
+  setSelectedListRef(selectedList) {
+    this._selectedList = selectedList;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -472,6 +482,10 @@ class InputSelect extends React.Component {
               onSelect={this._handleItemSelect}
               autoFocus={autoFocus}
               selectedPadding={selectedPadding}
+              setTextareaRef={this.setTextareaRef}
+              setSelectedListRef={this.setSelectedListRef}
+              _textarea={this._textarea}
+              _selectedList={this._selectedList}
             />
           </InputSelectGroup>
         </DropdownToggle>
