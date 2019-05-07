@@ -131,14 +131,14 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(name = "restDataProviderEngine")
-    public SpringRestDataProviderEngine springRestDataProviderEngine(RestTemplate restTemplate, @Qualifier("restObjectMapper") ObjectMapper restObjectMapper) {
-        SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(restTemplate, restObjectMapper);
+    public SpringRestDataProviderEngine springRestDataProviderEngine(RestTemplateBuilder builder) {
+        ObjectMapper restObjectMapper = restObjectMapper();
+        SpringRestDataProviderEngine springRestDataProviderEngine = new SpringRestDataProviderEngine(restTemplate(builder, mappingJackson2HttpMessageConverter(restObjectMapper)), restObjectMapper);
         springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return springRestDataProviderEngine;
     }
 
-    @Bean(name = "restObjectMapper")
-    public ObjectMapper restObjectMapper() {
+    private ObjectMapper restObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
         RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats);
@@ -146,17 +146,13 @@ public class N2oEngineConfiguration {
         return objectMapper;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(@Qualifier("restObjectMapper") ObjectMapper restObjectMapper) {
+    private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(@Qualifier("restObjectMapper") ObjectMapper restObjectMapper) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(restObjectMapper);
         return converter;
     }
 
-    @Bean
-    @ConditionalOnMissingBean
-    public RestTemplate restTemplate(RestTemplateBuilder builder, MappingJackson2HttpMessageConverter converter) {
+    private RestTemplate restTemplate(RestTemplateBuilder builder, MappingJackson2HttpMessageConverter converter) {
         return builder.messageConverters(converter).build();
     }
 
