@@ -159,21 +159,6 @@ class InputMask extends React.Component {
     }
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   if (
-  //     props.value &&
-  //     props.value !== state.prevPropsValue &&
-  //     props.value !== state.value
-  //   ) {
-  //     return {
-  //       ...state,
-  //       prevPropsValue: props.value,
-  //       value: props.value,
-  //     };
-  //   }
-  //   return null;
-  // }
-
   /**
    * обработка новых пропсов
    */
