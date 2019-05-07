@@ -37,6 +37,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setBadgeColorFieldId(p.resolveJS(source.getBadgeColorFieldId()));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
+        listControl.setHasSearch(p.cast(source.getSearch(), true));
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, p);
         else if (source.getOptions() != null) {
@@ -51,7 +52,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setValueFieldId(p.cast(p.resolveJS(listControl.getValueFieldId()), "id"));
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
-        listControl.setHasSearch(p.cast(source.getSearch(), true));
         initSubModel(source, p.getScope(SubModelsScope.class));
         return compileStandardField(listControl, source, context, p);
     }
@@ -118,7 +118,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
         if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
             dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
-        } else if (!Boolean.FALSE.equals(source.getSearch())) {
+        } else if (searchFilterId != null && listControl.isHasSearch()) {
             throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
         }
 
