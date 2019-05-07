@@ -41,7 +41,10 @@ public class N2oRouter implements MetadataRouter {
         }
 
         tryToFindShallow(url, compiledClass);
-        tryToFindDeep(url);
+
+        result = findRoute(url, compiledClass);
+        if (result == null)
+            tryToFindDeep(url);
 
         result = findRoute(url, compiledClass);
         if (result == null)
