@@ -24,6 +24,7 @@ import FormHighlyLoadedTest from './FormHighlyLoadedTest';
 import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
 import alertStackedErrors from './alertStackedErrors';
 import placeholderToConfirm from './placeholderToConfirm';
+import FormFieldsetSecurity from './FormFieldsetSecurity';
 
 export {
   filterMetadata,
@@ -47,6 +48,7 @@ export {
   FormFieldsetCollapseVE,
   FormFieldsetStandartVE,
   PlaceholderBreadCrumb,
+  FormFieldsetSecurity,
   tableActions,
   FormHighlyLoadedTest,
   InputSelectTreeDefaultValue,

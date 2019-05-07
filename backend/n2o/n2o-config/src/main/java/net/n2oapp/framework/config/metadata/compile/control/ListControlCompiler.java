@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
@@ -36,6 +37,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setBadgeColorFieldId(p.resolveJS(source.getBadgeColorFieldId()));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
+        listControl.setHasSearch(p.cast(source.getSearch(), true));
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, p);
         else if (source.getOptions() != null) {
@@ -50,7 +52,6 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setValueFieldId(p.cast(p.resolveJS(listControl.getValueFieldId()), "id"));
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
-        listControl.setHasSearch(p.cast(source.getSearch(), false));
         initSubModel(source, p.getScope(SubModelsScope.class));
         return compileStandardField(listControl, source, context, p);
     }
@@ -117,6 +118,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
         if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
             dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
+        } else if (searchFilterId != null && listControl.isHasSearch()) {
+            throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
         }
 
         N2oPreFilter[] preFilters = source.getPreFilters();

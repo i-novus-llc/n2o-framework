@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
-import cx from 'classnames';
 import { isEqual, isEmpty } from 'lodash';
+import { Button } from 'reactstrap';
 import Popup from '../InputSelect/Popup';
 import PopupList from '../InputSelect/PopupList';
 import InputSelectGroup from '../InputSelect/InputSelectGroup';
@@ -309,23 +309,24 @@ class N2OSelect extends React.Component {
       <div
         className="n2o-input-select"
         style={inputSelectStyle}
-        tabIndex={0}
         onBlur={onBlur}
       >
-        <InputSelectGroup
-          className={className}
-          isExpanded={this.state.isExpanded}
-          loading={loading}
-          disabled={disabled}
-          onButtonClick={this._handleButtonClick}
-          iconFieldId={iconFieldId}
-          imageFieldId={imageFieldId}
-          cleanable={cleanable}
-          selected={this.state.selected}
-          onClearClick={this._clearSelected}
-        >
-          {!isEmpty(selected) && selected[0][labelFieldId]}
-        </InputSelectGroup>
+        <Button>
+          <InputSelectGroup
+            className={className}
+            isExpanded={this.state.isExpanded}
+            loading={loading}
+            disabled={disabled}
+            onButtonClick={this._handleButtonClick}
+            iconFieldId={iconFieldId}
+            imageFieldId={imageFieldId}
+            cleanable={cleanable}
+            selected={this.state.selected}
+            onClearClick={this._clearSelected}
+          >
+            {!isEmpty(selected) && selected[0][labelFieldId]}
+          </InputSelectGroup>
+        </Button>
         <Popup isExpanded={this.state.isExpanded}>
           <React.Fragment>
             {hasSearch && (

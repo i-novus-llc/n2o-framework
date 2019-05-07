@@ -257,6 +257,31 @@
                         <xs:documentation>Позиция подсказки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="confirm" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Показать предупреждение перед выполнением действия.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-text" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Текст предупреждения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-title" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок окна предупреждения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-ok-label" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Текст кнопки подтверждения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-cancel-label" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Текст кнопки отмены.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="widget-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Идентификатор виджета над которым будет выполнена операция. По умолчанию
