@@ -40,6 +40,7 @@ public class N2oRouter implements MetadataRouter {
             return result;
         }
 
+        tryToFindShallow(url, compiledClass);
         tryToFindDeep(url);
 
         result = findRoute(url, compiledClass);
@@ -50,9 +51,10 @@ public class N2oRouter implements MetadataRouter {
 
     /**
      * Найти контексты сборки метаданных по адресу и классу
-     * @param url Адрес
+     *
+     * @param url           Адрес
      * @param compiledClass Класс собранной метаданной
-     * @param <D> Тип метаданной
+     * @param <D>           Тип метаданной
      * @return Список найденных контекстов
      */
     @SuppressWarnings("unchecked")
@@ -78,7 +80,22 @@ public class N2oRouter implements MetadataRouter {
     }
 
     /**
+     * Попытка найти маршрут собирая страницу по этому маршруту
+     *
+     * @param url Часть маршрута
+     */
+    private <D extends Compiled> void tryToFindShallow(String url, Class<D> compiledClass) {
+        if (Page.class == compiledClass)
+            return;
+        CompileContext<Page, ?> result = findRoute(url, Page.class);
+        if (result != null)
+            pipeline.get(result); //warm up
+    }
+
+
+    /**
      * Попытка найти маршрут собирая метаданные его родителей
+     *
      * @param url Часть маршрута
      */
     private void tryToFindDeep(String url) {

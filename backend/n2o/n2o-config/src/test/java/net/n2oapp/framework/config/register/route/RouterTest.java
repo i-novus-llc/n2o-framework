@@ -79,7 +79,7 @@ public class RouterTest {
         } catch (RouteNotFoundException ignore) {
         }
 
-        pipeline.mock("p", (r) -> r.addRoute("/p/w", new MockCompileContext<>("/p/w", "w", null, Page.class)));
+        pipeline.mock("p", (r, c) -> r.addRoute("/p/w", new MockCompileContext<>("/p/w", "w", null, Page.class)));
         res = router.get("/p/w", Page.class);
         assertThat(res, notNullValue());
         assertThat(res.getSourceId(null), is("w"));
@@ -91,7 +91,7 @@ public class RouterTest {
         register.addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
         MockBindPipeline pipeline = new MockBindPipeline(register);
         N2oRouter router = new N2oRouter(register, pipeline);
-        pipeline.mock("p", (r) -> {
+        pipeline.mock("p", (r, c) -> {
             r.addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, CompiledQuery.class));
             r.addRoute("/p/w/:id/a", new MockCompileContext<>("/p/w/:id/a", "pwa", null, Page.class));
         });
@@ -126,10 +126,10 @@ public class RouterTest {
         register.addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
         MockBindPipeline pipeline = new MockBindPipeline(register);
         N2oRouter router = new N2oRouter(register, pipeline);
-        pipeline.mock("p", (r) -> {
+        pipeline.mock("p", (r, c) -> {
             r.addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
         });
-        pipeline.mock("pw", (r) -> {
+        pipeline.mock("pw", (r, c) -> {
             r.addRoute("/p/w/:id", new MockCompileContext<>("/p/w/:id", "pw", null, CompiledQuery.class));
             r.addRoute("/p/w/:id/a", new MockCompileContext<>("/p/w/:id/a", "pwa", null, Page.class));
         });
@@ -138,7 +138,22 @@ public class RouterTest {
         res = router.get("/p/w/123/a", Page.class);
         assertThat(res, notNullValue());
         assertThat(res.getSourceId(null), is("pwa"));
+    }
 
+    @Test
+    public void get_repair4() {
+        N2oRouteRegister register = new N2oRouteRegister();
+        register.addRoute("/p", new MockCompileContext<>("/p", "p", null, Page.class));
+        MockBindPipeline pipeline = new MockBindPipeline(register);
+        N2oRouter router = new N2oRouter(register, pipeline);
+        pipeline.mock("p", (r, c) -> {
+            if (c.equals(Page.class))
+                r.addRoute("/p", new MockCompileContext<>("/p", "q", null, CompiledQuery.class));
+        });
+        CompileContext<CompiledQuery, ?> res;
 
+        res = router.get("/p", CompiledQuery.class);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("q"));
     }
 }

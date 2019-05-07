@@ -163,6 +163,7 @@ public class WatchDirRecursiveOnStartTest {
     }
 
     @Test
+    @Ignore
     public void testCreateAndDeleteEmptySubDir() {
         //удаление пустой подпапки
         watchDir.start();
