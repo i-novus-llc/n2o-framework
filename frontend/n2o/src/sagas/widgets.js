@@ -171,9 +171,9 @@ export function* setWidgetDataSuccess(
   yield put(dataSuccessWidget(widgetId, data));
 }
 
-export function getWithoutSelectedId(options, router, selectedId) {
+export function getWithoutSelectedId(options, location, selectedId) {
   if (!options) return null;
-  else if (!get(router, 'location.pathname').includes(selectedId)) {
+  else if (!location.pathname.includes(selectedId)) {
     return true;
   }
 
@@ -198,10 +198,9 @@ export function* handleFetch(widgetId, options, isQueryEqual) {
         widgetState,
         options
       );
-      const { router } = yield select();
       const withoutSelectedId = getWithoutSelectedId(
         options,
-        router,
+        location,
         widgetState.selectedId
       );
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
