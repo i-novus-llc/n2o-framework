@@ -68,13 +68,19 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
-        requestInfo.setData((DataSet) body);
+        requestInfo.setData(convertToDataSet(body));
         requestInfo.setRedirect(actionCtx.getRedirect());
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
         //requestInfo.setChoice(); todo
         return requestInfo;
+    }
+
+    private DataSet convertToDataSet(Object body) {
+        if (body instanceof DataSet)
+            return (DataSet) body;
+        return new DataSet((Map<? extends String, ?>) body);
     }
 
     private void prepareSelectedId(QueryRequestInfo requestInfo) {
