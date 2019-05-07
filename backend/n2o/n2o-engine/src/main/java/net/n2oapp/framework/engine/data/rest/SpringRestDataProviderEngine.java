@@ -16,8 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.*;
 import java.util.function.BinaryOperator;
 
@@ -74,7 +72,6 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
                 (a, b) -> a + invocation.getFiltersSeparator() + b);
         query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + invocation.getSortingSeparator() + b);
         query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + invocation.getJoinSeparator() + b);
-        query = resolvePathPlaceholders(query, args);
         query = normalizeQueryParams(query);
         return executeQuery(method.name(), query, args, invocation.getProxyHost(), invocation.getProxyPort());
     }
@@ -124,37 +121,26 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
 
         switch (method) {
             case "GET":
-                return exchange(query, HttpMethod.GET, headers);
+                return exchange(query, HttpMethod.GET, headers, args);
             case "POST":
-                return exchange(query, HttpMethod.POST, body, headers);
+                return exchange(query, HttpMethod.POST, body, headers, args);
             case "PUT":
-                return exchange(query, HttpMethod.PUT, body, headers);
+                return exchange(query, HttpMethod.PUT, body, headers, args);
             case "DELETE":
-                return exchange(query, HttpMethod.DELETE, headers);
+                return exchange(query, HttpMethod.DELETE, headers, args);
             default:
                 throw new UnsupportedOperationException("Method " + method + " unsupported");
         }
     }
 
-    private Object exchange(String query, HttpMethod method, HttpHeaders headers) {
+    private Object exchange(String query, HttpMethod method, HttpHeaders headers, Map<String, Object> args) {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(new HttpEntity<>(headers), Object.class);
-        return restTemplate.execute(query, method, requestCallback, responseExtractor);
+        return restTemplate.execute(query, method, requestCallback, responseExtractor, args);
     }
 
-    private Object exchange(String query, HttpMethod method, Object body, HttpHeaders headers) {
+    private Object exchange(String query, HttpMethod method, Object body, HttpHeaders headers, Map<String, Object> args) {
         RequestCallback requestCallback = restTemplate.httpEntityCallback(new HttpEntity<>(body, headers), Object.class);
-        return restTemplate.execute(query, method, requestCallback, responseExtractor);
-    }
-
-    private String resolvePathPlaceholders(String query, Map<String, Object> args) {
-        for (String key : new HashSet<>(args.keySet())) {
-            String p = "{" + key + "}";
-            if (query.contains(p)) {
-                query = replacePlaceholder(query, key, args.get(key) == null ? "" : args.get(key));
-                args.remove(key);
-            }
-        }
-        return query;
+        return restTemplate.execute(query, method, requestCallback, responseExtractor, args);
     }
 
     private String resolve(String str, Map<String, Object> args, BinaryOperator<String> reducer) {
@@ -174,18 +160,10 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         try {
             return target.replace(
                     "{" + key + "}",
-                    encode(objectMapper.writeValueAsString(value).replace("\"", ""))
+                    objectMapper.writeValueAsString(value).replace("\"", "")
             );
         } catch (JsonProcessingException e) {
             throw new N2oException(e);
-        }
-    }
-
-    private String encode(String value) {
-        try {
-            return URLEncoder.encode(value, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            return value;
         }
     }
 

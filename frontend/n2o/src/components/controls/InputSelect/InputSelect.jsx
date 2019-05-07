@@ -359,11 +359,8 @@ class InputSelect extends React.Component {
 
   handleClickOutside(evt) {
     const { resetOnBlur } = this.props;
-    const { isExpanded } = this.state;
-    if (isExpanded) {
-      this._hideOptionsList();
-      resetOnBlur && this._handleValueChangeOnBlur();
-    }
+    this._hideOptionsList();
+    resetOnBlur && this._handleValueChangeOnBlur();
   }
 
   /**
@@ -394,6 +391,7 @@ class InputSelect extends React.Component {
       autoFocus,
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
+
     return (
       <Dropdown
         style={inputSelectStyle}

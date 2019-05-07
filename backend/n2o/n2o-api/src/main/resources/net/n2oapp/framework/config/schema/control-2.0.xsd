@@ -473,7 +473,7 @@
                     <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
-                <xs:attribute name="search" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="search" type="xs:boolean" use="optional" default="true"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
                 <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all"/>
                 <xs:attribute name="max-tag-count" type="xs:integer" use="optional"/>

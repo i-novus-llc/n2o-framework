@@ -55,22 +55,13 @@ function* getData() {
     lastQuery[id] = { path: newPath, query: { ...newQuery } };
     return res;
   };
-  const hasQuery = id => {
-    return !!lastQuery[id];
-  };
   while (true) {
     const {
-      payload: { widgetId, options = {} },
+      payload: { widgetId, options },
     } = yield take(DATA_REQUEST);
-    const { withoutSelectedId, ...restOptions } = options;
+    const withoutSelectedId = !options ? null : options.withoutSelectedId;
 
-    yield fork(
-      handleFetch,
-      widgetId,
-      restOptions,
-      isQueryEqual,
-      withoutSelectedId
-    );
+    yield fork(handleFetch, widgetId, options, isQueryEqual, withoutSelectedId);
   }
 }
 

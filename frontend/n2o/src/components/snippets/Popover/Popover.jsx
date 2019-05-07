@@ -1,32 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UncontrolledPopover, PopoverBody, Button } from 'reactstrap';
+import { Popover, PopoverBody } from 'reactstrap';
 import { id } from '../../../utils/id';
 
 class N2OPopover extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      showPopover: false,
+    };
     this.fieldId = id();
+    this.onToggle = this.onToggle.bind(this);
+  }
+
+  onToggle() {
+    this.setState({
+      showPopover: !this.state.showPopover,
+    });
   }
 
   render() {
     const { help, placement, icon } = this.props;
     return (
       <div className={'n2o-popover'}>
-        <Button className={'n2o-popover-btn'} id={this.fieldId} type="button">
+        <div id={this.fieldId} onClick={this.onToggle}>
           <i className={icon} />
-        </Button>
-        <UncontrolledPopover
-          className={'n2o-popover-body'}
+        </div>
+        <Popover
           placement={placement}
+          isOpen={this.state.showPopover}
           target={this.fieldId}
-          trigger={'focus'}
+          toggle={this.onToggle}
         >
           <PopoverBody>
             <div dangerouslySetInnerHTML={{ __html: help }} />
           </PopoverBody>
-        </UncontrolledPopover>
+        </Popover>
       </div>
     );
   }
