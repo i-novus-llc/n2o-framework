@@ -326,3 +326,18 @@ export function omitDeep(collection, excludeKeys) {
   }
   return _.cloneDeepWith(collection, omitFn);
 }
+
+export function isClassComponent(component) {
+  return _.isFunction(component) && !!component.prototype.isReactComponent;
+}
+
+export function isFunctionComponent(component) {
+  return (
+    _.isFunction(component) &&
+    String(component).includes('return React.createElement')
+  );
+}
+
+export function isReactComponent(component) {
+  return isClassComponent(component) || isFunctionComponent(component);
+}
