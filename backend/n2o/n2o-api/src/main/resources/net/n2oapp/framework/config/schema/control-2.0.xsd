@@ -387,7 +387,7 @@
                 <xs:attribute name="time-format" use="optional" type="timeFormatEnum"/>
                 <!--<xs:attribute name="begin-default-time" type="defaultTimeEnum" use="optional"/>-->
                 <!--<xs:attribute name="end-default-time" type="defaultTimeEnum" use="optional"/>-->
-                <!--<xs:attribute name="utc" type="xs:boolean" default="false" use="optional"/>-->
+                <xs:attribute name="utc" type="xs:boolean" default="false" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -441,7 +441,7 @@
                 <xs:attribute name="time-format" use="optional" type="timeFormatEnum"/>
                 <xs:attribute name="max" use="optional" type="xs:string"/>
                 <xs:attribute name="min" use="optional" type="xs:string"/>
-                <!--<xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>-->
+                <xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
