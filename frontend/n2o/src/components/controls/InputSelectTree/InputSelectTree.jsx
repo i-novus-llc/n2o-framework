@@ -370,7 +370,7 @@ function InputSelectTree({
       {...value && { value: setValue(value) }}
       open={open}
       onDropdownVisibleChange={handleDropdownVisibleChange}
-      className={cx('n2o', className, { loading })}
+      className={cx('n2o form-control', className, { loading })}
       switcherIcon={renderSwitcherIcon}
       inputIcon={inputIcon}
       multiple={multiSelect}
