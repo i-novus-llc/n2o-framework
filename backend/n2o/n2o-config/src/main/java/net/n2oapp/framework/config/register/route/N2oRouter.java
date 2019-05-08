@@ -36,20 +36,20 @@ public class N2oRouter implements MetadataRouter {
     public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass) {
         url = url != null ? url : "/";
         CompileContext<D, ?> result = findRoute(url, compiledClass);
-        if (result != null) {
+        if (result != null)
             return result;
-        }
 
         tryToFindShallow(url, compiledClass);
-
         result = findRoute(url, compiledClass);
-        if (result == null)
-            tryToFindDeep(url);
+        if (result != null)
+            return result;
 
+        tryToFindDeep(url);
         result = findRoute(url, compiledClass);
-        if (result == null)
-            throw new RouteNotFoundException(url);
-        return result;
+        if (result != null)
+            return result;
+
+        throw new RouteNotFoundException(url);
     }
 
     /**
