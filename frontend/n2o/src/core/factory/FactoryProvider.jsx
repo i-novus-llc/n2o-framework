@@ -1,4 +1,5 @@
 import React, { Component, Children, Fragment } from 'react';
+import { isReactComponent } from '../../tools/helpers';
 import PropTypes from 'prop-types';
 import {
   first,
@@ -33,7 +34,7 @@ class FactoryProvider extends Component {
   }
 
   checkSecurityAndRender(component = null, config) {
-    if (isEmpty(config)) return component;
+    if (isEmpty(config) || !isReactComponent(component)) return component;
     return props => {
       return (
         <SecurityCheck
