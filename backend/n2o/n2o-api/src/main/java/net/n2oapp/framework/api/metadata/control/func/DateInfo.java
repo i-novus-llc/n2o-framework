@@ -7,6 +7,7 @@ import java.util.Calendar;
  * Date: 07.07.14
  * Time: 16:26
  */
+@Deprecated
 public interface DateInfo {
 
     String getDateFormat();

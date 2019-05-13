@@ -121,8 +121,7 @@
                         "control": {
                           "src": "DatePicker",
                           "id": "birthday",
-                          "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
+                          "dateFormat": "DD.MM.YYYY"
                         }
                       }
                     ]

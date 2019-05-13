@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -26,9 +27,9 @@ public class ScriptProcessorTest {
 
     private ScriptProcessor scriptProcessor = new ScriptProcessor() {
         @Override
-        protected String getDateFormat() {
+        protected DateFormat getDateFormat() {
             //на самом деле берется из настроек
-            return "dd.MM.yyyy HH:mm";
+            return new SimpleDateFormat("dd.MM.yyyy HH:mm");
         }
     };
 

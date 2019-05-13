@@ -3,6 +3,8 @@ package net.n2oapp.framework.boot;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.cache.template.SyncCacheTemplate;
 import net.n2oapp.engine.factory.integration.spring.OverrideBean;
 import net.n2oapp.framework.api.MetadataEnvironment;
@@ -74,7 +76,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -92,12 +94,7 @@ public class N2oMetadataConfiguration {
     @Value("${n2o.config.path}")
     private String configPath;
 
-    @Value("${n2o.format.date}")
-    private String dateFormat;
-    @Value("${n2o.format.localdate}")
-    private String localDateFormat;
-    @Value("${n2o.format.localtime}")
-    private String localTimeFormat;
+    private DateFormat dateFormat = new StdDateFormat();
 
     @Value("${n2o.config.readonly}")
     private boolean readonly;
@@ -106,7 +103,7 @@ public class N2oMetadataConfiguration {
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat(dateFormat));
+        objectMapper.setDateFormat(dateFormat);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
@@ -114,7 +111,8 @@ public class N2oMetadataConfiguration {
                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
                 .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
-        objectMapper.registerModule(new N2oJacksonModule(dateFormat, localDateFormat, localTimeFormat));
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.registerModule(new N2oJacksonModule(dateFormat));
         return objectMapper;
     }
 

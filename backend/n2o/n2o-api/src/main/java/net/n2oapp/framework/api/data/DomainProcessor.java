@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.criteria.filters.FilterType;
@@ -15,10 +16,12 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -43,6 +46,8 @@ public class DomainProcessor {
         simpleDomainsMap.put(Date.class, "date");
         simpleDomainsMap.put(LocalDate.class, "localdate");
         simpleDomainsMap.put(LocalDateTime.class, "localdatetime");
+        simpleDomainsMap.put(ZonedDateTime.class,"zoneddatetime");
+        simpleDomainsMap.put(OffsetDateTime.class,"offsetdatetime");
         simpleDomainsMap.put(DataSet.class, "object");
         simpleDomainsMap.put(BigDecimal.class, "numeric");
         simpleDomainsMap.put(Long.class, "long");
@@ -51,17 +56,17 @@ public class DomainProcessor {
     }
 
     private final ObjectMapper objectMapper;
-    private final String dateFormat;
+    private final DateFormat dateFormat;
 
-    public DomainProcessor(ObjectMapper objectMapper, String dateFormat) {
+    public DomainProcessor(ObjectMapper objectMapper, DateFormat dateFormat) {
         this.objectMapper = objectMapper;
         this.dateFormat = dateFormat;
     }
 
     public DomainProcessor() {
-        this.dateFormat = "dd.MM.yyyy HH:mm:ss";
+        this.dateFormat = new StdDateFormat();
         this.objectMapper = new ObjectMapper();
-        this.objectMapper.setDateFormat(new SimpleDateFormat(dateFormat));
+        this.objectMapper.setDateFormat(dateFormat);
     }
 
     /**
@@ -281,11 +286,17 @@ public class DomainProcessor {
     private Object toObject(String domain, String value) throws ParseException, IOException, NumberFormatException {
         if ((value == null) || (value.isEmpty())) return null;
         if (Domain.bool.getName().equals(domain)) return Boolean.parseBoolean(value);
-        if (Domain.date.getName().equals(domain)) return new SimpleDateFormat(dateFormat).parse(value);
+
+        if (Domain.date.getName().equals(domain)) return dateFormat.parse(value);
+        if (Domain.zoneddatetime.getName().equals(domain))
+            return ZonedDateTime.parse(value, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        if (Domain.offsetdatetime.getName().equals(domain))
+            return OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         if (Domain.localdate.getName().equals(domain))
-            return LocalDate.parse(value, DateTimeFormatter.ofPattern(dateFormat));
+            return LocalDate.parse(value, DateTimeFormatter.ISO_LOCAL_DATE);
         if (Domain.localdatetime.getName().equals(domain))
-            return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(dateFormat));
+            return LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+
         if (Domain.byte_.getName().equals(domain)) return Byte.parseByte(value);
         if (Domain.short_.getName().equals(domain)) return Short.parseShort(value);
         if (Domain.integer.getName().equals(domain)) return Integer.parseInt(value);

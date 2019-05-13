@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.compile.pipeline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oWebAppEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -27,7 +28,6 @@ import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
-import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -77,7 +77,7 @@ public class N2oEnvironment implements MetadataEnvironment {
 
         this.messageSource = new MessageSourceAccessor(new ResourceBundleMessageSource());
         this.systemProperties = new N2oWebAppEnvironment();
-        this.domainProcessor = new DomainProcessor(new ObjectMapper(), "dd.MM.yyyy HH:mm");
+        this.domainProcessor = new DomainProcessor(new ObjectMapper(), new StdDateFormat());
         this.contextProcessor = new ContextProcessor(new TestContextEngine());
 
         this.namespaceReaderFactory = new N2oNamespaceReaderFactory();

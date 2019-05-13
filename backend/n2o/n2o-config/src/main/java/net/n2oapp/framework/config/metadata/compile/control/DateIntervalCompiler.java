@@ -23,7 +23,6 @@ public class DateIntervalCompiler  extends StandardFieldCompiler<DateInterval, N
     @Override
     public StandardField<DateInterval> compile(N2oDateInterval source, CompileContext<?,?> context, CompileProcessor p) {
         DateInterval dateInterval = new DateInterval();
-        dateInterval.setOutputFormat(p.resolve(property("n2o.format.date.client"), String.class));
         dateInterval.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.datetime.format"), String.class)));
         dateInterval.setTimeFormat(source.getTimeFormat());
         return compileStandardField(dateInterval, source, context, p);

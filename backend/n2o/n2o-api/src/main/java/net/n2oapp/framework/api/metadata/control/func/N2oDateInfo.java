@@ -9,6 +9,7 @@ import java.util.Calendar;
  * Date: 07.07.14
  * Time: 16:26
  */
+@Deprecated
 public class N2oDateInfo implements DateInfo {
 
     private static String n2oDateFormat = StaticProperties.getProperty("n2o.format.date");

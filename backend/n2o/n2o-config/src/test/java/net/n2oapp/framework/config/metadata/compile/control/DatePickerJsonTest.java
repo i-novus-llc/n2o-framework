@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
-import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,6 @@ public class DatePickerJsonTest extends JsonMetadataTestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.format.date.client", "DD-MMM-YY HH:mm");
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack());

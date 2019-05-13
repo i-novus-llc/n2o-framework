@@ -20,6 +20,4 @@ public class DatePicker extends Control {
     private String min;
     @JsonProperty
     private String popupPlacement;
-    @JsonProperty
-    private String outputFormat;
 }

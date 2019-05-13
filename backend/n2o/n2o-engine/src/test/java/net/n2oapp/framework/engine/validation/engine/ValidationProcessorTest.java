@@ -431,7 +431,7 @@ public class ValidationProcessorTest {
         Validation condition2 = conditionValidation("oneMoreId", "oneMoreId",
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null");
         Validation condition3 = conditionValidation("date", "date",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '01.01.1970 03:00:00'");
+                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '1970-01-01T00:00:00.000+0000'");
         ((ConditionValidation) condition3).setExpressionOn("date,oneMoreId");
 
         CompiledObject.Operation operation = new CompiledObject.Operation(null, null);

@@ -3,7 +3,6 @@
   "max": "15/12/2021",
   "dateFormat": "DD/MM/YYYY",
   "timeFormat": "HH:mm",
-  "outputFormat": "DD-MMM-YY HH:mm",
   "disabled": false,
   "placeholder": "Введите дату",
   "locale": "ru",
