@@ -91,7 +91,7 @@ class StandardField extends React.Component {
     const labelWidthPixels =
       labelWidth === 'default'
         ? 180
-        : labelWidth === 'min'
+        : labelWidth === 'min' || labelWidth === '100%'
         ? undefined
         : labelWidth;
 
