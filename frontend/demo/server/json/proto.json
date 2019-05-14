@@ -876,8 +876,8 @@
       },
       "table": {
         "fetchOnInit": true,
-        "size": 10,
         "autoFocus": true,
+        "size": 10,
         "hasFocus": true,
         "cells": [
           {
@@ -1515,7 +1515,8 @@
         ],
         "validation": {},
         "modelPrefix": "resolve",
-        "fetchOnInit": false
+        "fetchOnInit": false,
+        "autoFocus": true
       }
     }
   },
