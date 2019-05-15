@@ -55,6 +55,7 @@ class N2OSelect extends React.Component {
     this._removeSelectedItem = this._removeSelectedItem.bind(this);
     this._clearSelected = this._clearSelected.bind(this);
     this._handleSearchButton = this._handleSearchButton.bind(this);
+    this._handleOnBlur = this._handleOnBlur.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -276,6 +277,12 @@ class N2OSelect extends React.Component {
     this._handleResetOnBlur();
   }
 
+  _handleOnBlur(e) {
+    e.preventDefault();
+    this._handleResetOnBlur();
+    this.props.onBlur();
+  }
+
   /**
    * Рендер
    */
@@ -299,7 +306,6 @@ class N2OSelect extends React.Component {
       hasSearch,
       cleanable,
       style,
-      onBlur,
     } = this.props;
     const inputSelectStyle = { width: '100%', ...style };
 
@@ -309,7 +315,7 @@ class N2OSelect extends React.Component {
       <div
         className="n2o-input-select"
         style={inputSelectStyle}
-        onBlur={onBlur}
+        onBlur={this._handleOnBlur}
       >
         <Button>
           <InputSelectGroup
