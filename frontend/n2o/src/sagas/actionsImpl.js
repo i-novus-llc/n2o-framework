@@ -124,8 +124,6 @@ export function* handleInvoke(action) {
     }
     const response = yield call(fetchInvoke, dataProvider, model);
 
-    yield put(initialize(widgetId, response.data, false, false));
-
     const meta = merge(action.meta.success || {}, response.meta || {});
     if (!meta.redirect && !meta.closeLastModal) {
       yield put(setModel(PREFIXES.resolve, widgetId, response.data));
