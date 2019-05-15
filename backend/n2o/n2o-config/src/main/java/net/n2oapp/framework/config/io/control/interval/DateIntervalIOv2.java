@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io.control.interval;
 
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
 import net.n2oapp.framework.api.metadata.control.properties.PopupPlacement;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
