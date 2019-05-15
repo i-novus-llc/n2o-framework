@@ -38,6 +38,6 @@ public class HtmlWidgetCompileTest extends SourceCompileTestBase {
     public void testCompileActions() {
         HtmlWidget htmlWidget = (HtmlWidget) compile("net/n2oapp/framework/config/metadata/compile/widgets/testHtmlWidget4Compile.widget.xml")
                 .get(new WidgetContext("testHtmlWidget4Compile"));
-        assertThat(htmlWidget.getId(), is("testHtmlWidget4Compile"));
+        assertThat(htmlWidget.getId(), is("$testHtmlWidget4Compile"));
     }
 }

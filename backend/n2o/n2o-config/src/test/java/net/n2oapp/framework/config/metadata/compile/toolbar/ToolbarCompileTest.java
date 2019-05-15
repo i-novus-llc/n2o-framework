@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -14,6 +15,7 @@ import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ToolbarCompileTest extends SourceCompileTestBase {
@@ -47,7 +49,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b1.getActionId(), is("testActionId1"));
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!_.isEmpty(this)"));
-        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testToolbar']"));
+        assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['$testToolbar']"));
 
         Button b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
@@ -60,7 +62,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getActionId(), is("testId3"));
         assertThat(f.getActions().containsKey("testId3"), is(true));
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
-        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['testToolbar']"));
+        assertThat(b3.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
 
         Button b4 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
@@ -69,7 +71,21 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         Button b5 = f.getToolbar().get("topLeft").get(0).getButtons().get(2);
         assertThat(b5.getId(), is("testId5"));
-        assertThat(b5.getValidatedWidgetId(), is("testToolbar"));
+        assertThat(b5.getValidatedWidgetId(), is("$testToolbar"));
+    }
+
+    @Test
+    public void testToolbarMenuItem() {
+        Form f = (Form) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.widget.xml")
+                .get(new WidgetContext("testToolbar"));
+
+        assertThat(f.getToolbar().size(), is(2));
+        Button button = f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
+        MenuItem item = button.getSubMenu().get(0);
+        assertThat(item.getId(), is("tesId10"));
+        assertThat(item.getConfirm(), notNullValue());
+        assertThat(item.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
+        assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }
 
     @Test

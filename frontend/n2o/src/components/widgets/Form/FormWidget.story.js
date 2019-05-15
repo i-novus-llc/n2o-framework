@@ -15,12 +15,14 @@ import {
   FormServerMessage,
   FormCollapseFieldset,
   FormFieldsetCollapseVE,
+  FormFieldsetSecurity,
   FormFieldsetStandartVE,
   FormHighlyLoadedTest,
 } from 'N2oStorybook/json';
 import FormWithPrompt from '../../../../.storybook/json/FormWithPrompt';
 import fetchMock from 'fetch-mock';
 import InputSelectContainerJson from '../../controls/InputSelect/InputSelectContainer.meta';
+import AuthButtonContainer from '../../../core/auth/AuthLogin';
 
 import FormWidgetData from './FormWidget.meta.json';
 import Factory from '../../../core/factory/Factory';
@@ -113,6 +115,21 @@ stories
   .add('Видимость и блокировка филдсета', () =>
     withPage(FormFieldsetStandartVE)(() => {
       return renderForm(FormFieldsetStandartVE);
+    })
+  )
+
+  .add('Ограничение доступа', () =>
+    withPage(FormFieldsetSecurity)(() => {
+      return (
+        <div>
+          <small>
+            Введите <mark>admin</mark>, чтобы увидеть скрытый виджет региона
+          </small>
+          <AuthButtonContainer />
+          <br />
+          {renderForm(FormFieldsetSecurity)}
+        </div>
+      );
     })
   )
 

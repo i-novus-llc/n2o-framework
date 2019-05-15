@@ -75,8 +75,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyWidgetSrc()), String.class)));
         compiled.setOpened(source.getOpened());
         compiled.setIcon(source.getIcon());
-        compiled.setProperties(p.mapAttributes(source));
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
+        compileAutoFocus(source, compiled, p);
+        compiled.setProperties(p.mapAttributes(source));
         compileDependencies(compiled, source, p);
         initFilters(compiled, source, p);
     }
@@ -230,6 +231,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             fetchOnInit = source.getDependsOn() == null && compiled.getDataProvider() != null;
 
         compiled.getComponent().setFetchOnInit(fetchOnInit);
+    }
+
+    private void compileAutoFocus(S source, D compiled, CompileProcessor p) {
+        if (compiled.getComponent() == null)
+            return;
+        compiled.getComponent().setAutoFocus(p.cast(source.getAutoFocus(), p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), true));
     }
 
     private void actionsToToolbar(S source) {

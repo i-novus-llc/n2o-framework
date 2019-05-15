@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.servlet;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import net.n2oapp.framework.api.JsonUtil;
@@ -10,6 +9,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -19,27 +19,71 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+/**
+ * Слияние различных конфигурационных json файлов в один json
+ */
 public class AppConfigJsonWriter {
     private static final Logger log = LoggerFactory.getLogger(AppConfigJsonWriter.class);
-    private String path;
-    private String overridePath;
-    private Properties properties;
+    /**
+     * Путь до основных файлов конфигураций
+     */
+    private String path = "classpath*:META-INF/config.json";
+    /**
+     * Путь до переопределяющих файлов конфигураций
+     */
+    private String overridePath = "classpath*:META-INF/config-build.json";
+    /**
+     * Замена значений настроек
+     */
+    private PropertyResolver propertyResolver;
+    /**
+     * Замена контекстных значений
+     */
     private ContextProcessor contextProcessor;
-    private List<String> configs;
-    private ObjectMapper objectMapper;
+    /**
+     * Маппер json
+     */
+    private ObjectMapper objectMapper = new ObjectMapper();
+    /**
+     * Кэш конфигураций
+     */
+    private List<String> configs = new ArrayList<>();
 
+    public AppConfigJsonWriter() {
+    }
 
+    public AppConfigJsonWriter(String path) {
+        this.path = path;
+    }
+
+    /**
+     * Загрузить конфигурации из разных файлов и слить в один
+     */
     public void loadValues() {
-        if (configs == null)
-            configs = new ArrayList<>();
         configs.addAll(readConfigs());
     }
 
-
-
+    /**
+     * Распечатать json с дополнительными значениями
+     * @param out Принтер
+     * @param addedValues Дополнительные значения
+     * @throws IOException Ошибка печати
+     */
     public void writeValues(PrintWriter out, Map<String, ?> addedValues) throws IOException {
+        objectMapper.writeValue(out, getNode(addedValues));
+    }
+
+    /**
+     * Получить json с дополнительными значениями
+     * @param addedValues Дополнительные значения
+     * @return Json объект
+     */
+    public Map<String, Object> getValues(Map<String, ?> addedValues) {
+        return objectMapper.convertValue(getNode(addedValues), Map.class);
+    }
+
+    private ObjectNode getNode(Map<String, ?> addedValues) {
         ObjectNode objectNode = objectMapper.createObjectNode();
         ObjectNode configsNode = retrieveConfig(configs);
         for (String key : addedValues.keySet()) {
@@ -47,8 +91,7 @@ public class AppConfigJsonWriter {
         }
         if (configsNode != null)
             JsonUtil.merge(objectNode, configsNode);
-
-        objectMapper.writeValue(out, objectNode);
+        return objectNode;
     }
 
     private ObjectNode retrieveConfig(List<String> configs) {
@@ -68,24 +111,24 @@ public class AppConfigJsonWriter {
 
     private ObjectNode read(String json) throws IOException {
         String text = json;
-        if (properties != null)
-            text = StringUtils.resolveProperties(text, properties);
+        if (propertyResolver != null)
+            text = StringUtils.resolveProperties(text, propertyResolver);
         if (contextProcessor != null)
             text = contextProcessor.resolveJson(text, objectMapper);
         return (ObjectNode) objectMapper.readTree(text);
     }
 
     private List<String> readConfigs() {
-        List<String> configs = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         try {
             if (path != null)
-                load(configs, path);
+                load(result, path);
             if (overridePath != null)
-                load(configs, overridePath);
+                load(result, overridePath);
         } catch (IOException e) {
             throw new N2oException(e);
         }
-        return configs;
+        return result;
     }
 
     private void load(List<String> configs, String path) throws IOException {
@@ -104,12 +147,12 @@ public class AppConfigJsonWriter {
         }
     }
 
-    public Properties getProperties() {
-        return properties;
+    public PropertyResolver getPropertyResolver() {
+        return propertyResolver;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
+    public void setPropertyResolver(PropertyResolver propertyResolver) {
+        this.propertyResolver = propertyResolver;
     }
 
     public void setContextProcessor(ContextProcessor contextProcessor) {

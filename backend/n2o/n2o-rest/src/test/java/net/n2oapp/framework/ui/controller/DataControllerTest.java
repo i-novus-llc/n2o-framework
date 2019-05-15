@@ -299,7 +299,7 @@ public class DataControllerTest extends DataControllerTestBase {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
-        DataController controller = new DataController(factory, mapper, router, builder.getEnvironment());
+        DataController controller = new DataController(factory, builder.getEnvironment(), router);
 //        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
         return controller.setData(path, params, body, new UserContext(contextEngine));
     }

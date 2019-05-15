@@ -1,5 +1,8 @@
-import { registerDependency } from './dependency';
-import { REGISTER_DEPENDENCY } from '../constants/dependency';
+import { registerDependency, updateWidgetDependency } from './dependency';
+import {
+  REGISTER_DEPENDENCY,
+  UPDATE_WIDGET_DEPENDENCY,
+} from '../constants/dependency';
 
 describe('Тесты для экшенов dependency', () => {
   it('registerDependency генирирует правильное событие', () => {
@@ -32,6 +35,18 @@ describe('Тесты для экшенов dependency', () => {
           },
         ],
       },
+      widgetId: 'testWidget',
+    });
+  });
+
+  it('updateWidgetDependency генирирует правильное событие', () => {
+    const action = updateWidgetDependency('testWidget');
+    expect(action.type).toEqual(UPDATE_WIDGET_DEPENDENCY);
+  });
+
+  it('updateWidgetDependency возвращает правильный payload', () => {
+    const action = updateWidgetDependency('testWidget');
+    expect(action.payload).toEqual({
       widgetId: 'testWidget',
     });
   });

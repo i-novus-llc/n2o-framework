@@ -1,8 +1,8 @@
 import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
-import { isEmpty, isEqual, get } from 'lodash';
-import { actionTypes } from 'redux-form';
+import { isEmpty } from 'lodash';
+import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
-import { updateModel } from '../actions/models';
+
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
 import {
@@ -13,15 +13,12 @@ import {
   setRequired,
   unsetRequired,
 } from '../actions/formPlugin';
-import { PREFIXES } from '../constants/models';
-import { makeGetResolveModelSelector } from '../selectors/models';
 
 export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
-  const prevFieldValue = yield select(makeGetResolveModelSelector(formName));
   switch (type) {
     case 'enabled':
       yield _evalResult
@@ -34,15 +31,10 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      if (!isEqual(get(prevFieldValue, fieldName, null), _evalResult)) {
-        yield put(
-          updateModel(PREFIXES.resolve, formName, fieldName, _evalResult)
-        );
-      }
+      yield put(change(formName, fieldName, _evalResult));
       break;
     case 'reset':
-      yield _evalResult &&
-        put(updateModel(PREFIXES.resolve, formName, fieldName, null));
+      yield _evalResult && put(change(formName, fieldName, null));
       break;
     case 'required':
       yield _evalResult

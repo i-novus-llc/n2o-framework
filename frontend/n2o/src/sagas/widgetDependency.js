@@ -6,8 +6,11 @@ import {
   call,
   put,
 } from 'redux-saga/effects';
-import { keys, isEqual, reduce } from 'lodash';
-import { REGISTER_DEPENDENCY } from '../constants/dependency';
+import { keys, isEqual, reduce, map, includes, some, isEmpty } from 'lodash';
+import {
+  REGISTER_DEPENDENCY,
+  UPDATE_WIDGET_DEPENDENCY,
+} from '../constants/dependency';
 import { CLEAR, COPY, SET } from '../constants/models';
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 import {
@@ -31,7 +34,13 @@ export const reduceFunction = (isTrue, { model, config }) => {
  */
 export function* watchDependency() {
   let widgetsDependencies = {};
-  const channel = yield actionChannel([REGISTER_DEPENDENCY, SET, COPY, CLEAR]);
+  const channel = yield actionChannel([
+    REGISTER_DEPENDENCY,
+    SET,
+    COPY,
+    CLEAR,
+    UPDATE_WIDGET_DEPENDENCY,
+  ]);
   while (true) {
     const prevState = yield select();
     const action = yield take(channel);
@@ -46,7 +55,7 @@ export function* watchDependency() {
           widgetId,
           dependency
         );
-        yield fork(
+        yield call(
           resolveWidgetDependency,
           prevState,
           state,
@@ -58,7 +67,7 @@ export function* watchDependency() {
       case SET:
       case COPY:
       case CLEAR: {
-        yield fork(
+        yield call(
           resolveWidgetDependency,
           prevState,
           state,
@@ -67,8 +76,36 @@ export function* watchDependency() {
         );
         break;
       }
+      case UPDATE_WIDGET_DEPENDENCY: {
+        yield call(forceUpdateDependency, state, widgetsDependencies, widgetId);
+        break;
+      }
       default:
         break;
+    }
+  }
+}
+
+export function* forceUpdateDependency(state, widgetsDependencies, widgetId) {
+  const widgetDependenciesKeys = keys(widgetsDependencies);
+  for (let i = 0; i < widgetDependenciesKeys.length; i++) {
+    const widgetDependencyItem = widgetsDependencies[widgetDependenciesKeys[i]];
+    const dependencyItem = widgetDependencyItem.dependency;
+    const dependencyItemKeys = keys(dependencyItem);
+    for (let j = 0; j < dependencyItemKeys.length; j++) {
+      const someDependency = dependencyItem[dependencyItemKeys[j]];
+      if (some(someDependency, ({ on }) => includes(on, widgetId))) {
+        const isVisible = makeWidgetVisibleSelector(widgetId)(state);
+        const dependencyType = dependencyItemKeys[j];
+        const model = getModelsByDependency(someDependency)(state);
+        yield call(
+          resolveDependency,
+          dependencyType,
+          widgetDependencyItem.widgetId,
+          model,
+          isVisible
+        );
+      }
     }
   }
 }
@@ -85,11 +122,22 @@ export function* registerWidgetDependency(
   widgetId,
   dependency
 ) {
+  let parents = [];
+
+  map(dependency, dep => {
+    map(dep, d => {
+      if (d.on) {
+        parents.push(d.on);
+      }
+    });
+  });
+
   return {
     ...widgetsDependencies,
     [widgetId]: {
       widgetId,
       dependency,
+      parents,
     },
   };
 }
@@ -119,7 +167,7 @@ export function* resolveWidgetDependency(
         dependency[widgetDependenciesKeys[j]]
       )(state);
       if (!isEqual(prevModel, model)) {
-        yield fork(
+        yield call(
           resolveDependency,
           widgetDependenciesKeys[j],
           widgetId,

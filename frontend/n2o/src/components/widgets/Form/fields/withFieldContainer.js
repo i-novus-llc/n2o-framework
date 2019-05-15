@@ -146,7 +146,6 @@ export default Field => {
 
   return compose(
     defaultProps({
-      visible: true,
       disabled: false,
       required: false,
     }),
