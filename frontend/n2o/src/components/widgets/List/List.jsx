@@ -71,9 +71,10 @@ class List extends Component {
         if (maxHeight) {
           this._virtualizer.scrollToRow(data.length);
         } else {
-          const scrollHeight = ReactDom.findDOMNode(this._virtualizer)
-            .scrollHeight;
-          window.scrollTo(0, scrollHeight);
+          const virtualizer = ReactDom.findDOMNode(this._virtualizer);
+          if (virtualizer) {
+            window.scrollTo(0, virtualizer.scrollHeight);
+          }
         }
       }
 
