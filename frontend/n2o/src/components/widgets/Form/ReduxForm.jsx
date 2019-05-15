@@ -52,6 +52,5 @@ export default compose(
   reduxForm({
     destroyOnUnmount: true,
     enableReinitialize: true,
-    keepDirtyOnReinitialize: true,
   })
 )(ReduxForm);
