@@ -72,7 +72,7 @@ public class N2oRestConfiguration {
     }
 
     @Bean
-    public ErrorMessageBuilder errorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+    public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         return new ErrorMessageBuilder(messageSourceAccessor);
     }
 
