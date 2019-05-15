@@ -37,6 +37,7 @@ class FormWidget extends React.Component {
       modelPrefix: this.props.form.modelPrefix,
       dataProvider: this.props.dataProvider,
       prompt: this.props.form.prompt,
+      autoFocus: this.props.form.autoFocus,
     };
   }
 
