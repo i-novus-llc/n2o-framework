@@ -16,9 +16,10 @@ export function* getConfig(action) {
       locale: yield select(localeSelector),
       ...action.payload.params,
     };
-    const { user, ...config } = yield call(fetchSaga, FETCH_APP_CONFIG, params);
-    if (user) {
-      yield put(userLogin(user));
+    const config = yield call(fetchSaga, FETCH_APP_CONFIG, params);
+
+    if (config.user) {
+      yield put(userLogin(config.user));
     }
     yield put(requestConfigSuccess(config));
   } catch (err) {

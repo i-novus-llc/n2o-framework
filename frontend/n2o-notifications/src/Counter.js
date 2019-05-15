@@ -8,7 +8,7 @@ import cx from "classnames";
 
 import { getCounter } from "./selectors";
 
-class Counter extends Component {
+export class Counter extends Component {
   getCount() {
     const {
       count,
@@ -40,7 +40,9 @@ class Counter extends Component {
       <span className={cx("n2o-counter")}>
         {children}
         <sup className={cx("n2o-counter-number", { "no-number": noNumber })}>
-          <Badge tag="div" color={color}>{count}</Badge>
+          <Badge tag="div" color={color}>
+            {count}
+          </Badge>
         </sup>
       </span>
     );
@@ -74,7 +76,7 @@ Counter.defaultProps = {
 };
 
 const mapStateToProps = createStructuredSelector({
-  count: (state, props) => getCounter(props.bind)(state)
+  count: (state, props) => getCounter(props.bind || "all")(state)
 });
 
 function mapDispatchToProps(dispatch, ownProps) {

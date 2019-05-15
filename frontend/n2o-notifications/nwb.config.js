@@ -4,15 +4,23 @@ module.exports = {
     esModules: true,
     umd: false
   },
+  karma: {
+    testContext: "tests.webpack.js"
+  },
   devServer: {
     proxy: {
-      "/n2o/data": {
-        target: "https://n2o.i-novus.ru/dev/",
+      "/wp/bank/n2o/data": {
+        target: "http://localhost:8080/",
         changeOrigin: true
       },
-      "/n2o": {
-        target: "https://n2o.i-novus.ru/dev/",
+      "/wp/bank/n2o": {
+        target: "http://localhost:8080/",
         changeOrigin: true
+      },
+      "/ws": {
+        target: "http://docker.one:30675/",
+        changeOrigin: true,
+        ws: true
       }
     }
   }

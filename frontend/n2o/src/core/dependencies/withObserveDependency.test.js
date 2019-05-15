@@ -4,6 +4,7 @@ import { isEmpty } from 'lodash';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from '../../reducers';
+import history from '../../history';
 import withObserveDependency from './withObserveDependency';
 import { registerFieldDependency } from '../../actions/formPlugin';
 import { setModel } from '../../actions/models';
@@ -21,7 +22,7 @@ const setup = (store, props = {}, onChange) => {
 
 describe('Проверка хока withObserveDependency', () => {
   it('подписывается на события', () => {
-    const store = createStore(reducers);
+    const store = createStore(reducers(history));
     store.dispatch(
       registerFieldDependency('testForm', 'testField', [
         {
@@ -54,7 +55,7 @@ describe('Проверка хока withObserveDependency', () => {
 
   it('срабатывает onChange reRender', () => {
     const onChange = sinon.spy();
-    const store = createStore(reducers);
+    const store = createStore(reducers(history));
     store.dispatch(
       registerFieldDependency('testForm', 'testField', [
         {
@@ -90,7 +91,7 @@ describe('Проверка хока withObserveDependency', () => {
 
   it('срабатывает onChange fetch', () => {
     const onChange = sinon.spy();
-    const store = createStore(reducers);
+    const store = createStore(reducers(history));
     store.dispatch(
       registerFieldDependency('testForm', 'testField', [
         {

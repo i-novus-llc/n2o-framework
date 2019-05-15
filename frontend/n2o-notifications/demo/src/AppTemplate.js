@@ -65,6 +65,16 @@ export default function AppTemplate({ children }) {
               </Counter>
             </NavLink>
           </NavItem>
+
+          <NavItem>
+            <NavLink href="/components/">
+              <Counter>
+                <Button color="secondary" size="sm">
+                  <Icon name="fa fa-bell" />
+                </Button>
+              </Counter>
+            </NavLink>
+          </NavItem>
         </Nav>
       </Navbar>
       <div className="application-body container-fluid">{children}</div>

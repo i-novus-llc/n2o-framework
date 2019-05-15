@@ -3,6 +3,7 @@ import AuthLogin from './AuthLogin';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from '../../reducers';
+import history from '../../history';
 
 const setup = (store, props) => {
   return mount(
@@ -14,7 +15,7 @@ const setup = (store, props) => {
 
 describe('Проверка AuthLogin', () => {
   it('компонент отрисовывается', () => {
-    const store = createStore(reducers);
+    const store = createStore(reducers(history));
     const wrapper = setup(store, {
       permissions: true,
       user: {
@@ -30,7 +31,7 @@ describe('Проверка AuthLogin', () => {
   });
 
   it('handleChange срабатывает', () => {
-    const store = createStore(reducers);
+    const store = createStore(reducers(history));
     const wrapper = setup(store, {
       permissions: true,
       user: {

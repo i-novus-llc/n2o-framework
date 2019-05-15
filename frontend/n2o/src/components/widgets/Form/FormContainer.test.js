@@ -10,6 +10,7 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 import FactoryProvider from '../../../core/factory/FactoryProvider';
 import createFactoryConfig from '../../../core/factory/createFactoryConfig';
 import rootReducer from '../../../reducers';
+import history from '../../../history';
 import { createStore } from 'redux';
 
 const NullComponent = () => null;
@@ -307,7 +308,7 @@ describe('FormContainer', () => {
   });
   it('Проверка prompt', () => {
     function configureStore() {
-      return createStore(rootReducer);
+      return createStore(rootReducer(history));
     }
     const store = configureStore();
     const form = setupPromptForm(store);

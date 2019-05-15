@@ -8,6 +8,7 @@ import ListWidgetMeta from './List.meta';
 import { createStore } from 'redux';
 import ListContainer from './ListContainer';
 import reducers from '../../../reducers';
+import history from '../../../history';
 import fetchMock from 'fetch-mock';
 
 fetchMock.get('*', () => ({
@@ -18,7 +19,7 @@ fetchMock.get('*', () => ({
   ],
 }));
 
-const store = createStore(reducers);
+const store = createStore(reducers(history));
 const NullComponent = () => null;
 
 const setup = propsOverride => {
