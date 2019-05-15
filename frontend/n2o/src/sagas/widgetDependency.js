@@ -55,7 +55,7 @@ export function* watchDependency() {
           widgetId,
           dependency
         );
-        yield fork(
+        yield call(
           resolveWidgetDependency,
           prevState,
           state,
@@ -67,7 +67,7 @@ export function* watchDependency() {
       case SET:
       case COPY:
       case CLEAR: {
-        yield fork(
+        yield call(
           resolveWidgetDependency,
           prevState,
           state,
@@ -77,7 +77,7 @@ export function* watchDependency() {
         break;
       }
       case UPDATE_WIDGET_DEPENDENCY: {
-        yield fork(forceUpdateDependency, state, widgetsDependencies, widgetId);
+        yield call(forceUpdateDependency, state, widgetsDependencies, widgetId);
         break;
       }
       default:
@@ -98,7 +98,7 @@ export function* forceUpdateDependency(state, widgetsDependencies, widgetId) {
         const isVisible = makeWidgetVisibleSelector(widgetId)(state);
         const dependencyType = dependencyItemKeys[j];
         const model = getModelsByDependency(someDependency)(state);
-        yield fork(
+        yield call(
           resolveDependency,
           dependencyType,
           widgetDependencyItem.widgetId,
@@ -167,7 +167,7 @@ export function* resolveWidgetDependency(
         dependency[widgetDependenciesKeys[j]]
       )(state);
       if (!isEqual(prevModel, model)) {
-        yield fork(
+        yield call(
           resolveDependency,
           widgetDependenciesKeys[j],
           widgetId,
