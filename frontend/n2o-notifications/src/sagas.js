@@ -38,7 +38,7 @@ export function subscribeMessage(emit) {
 export function subscribeMessageCount(emit) {
   return msg => {
     const message = JSON.parse(msg.body);
-    emit(setCounter("all", message.count));
+    emit(setCounter(message.id || "all", message.count));
   };
 }
 
