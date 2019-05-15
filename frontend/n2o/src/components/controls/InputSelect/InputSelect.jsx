@@ -383,7 +383,7 @@ class InputSelect extends React.Component {
     if (this._selectedItems) {
       const element = findDOMNode(this._selectedItems);
       if (element && element.getBoundingClientRect) {
-        return element.getBoundingClientRect().width;
+        return element.getBoundingClientRect().width || undefined;
       }
     }
   }
