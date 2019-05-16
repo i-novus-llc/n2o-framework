@@ -13,19 +13,19 @@
         <field id="id">
             <select>id</select>
             <filters>
-                <eq filter-id="id">id=:id</eq>
+                <eq filter-id="id">id:eq:id</eq>
             </filters>
         </field>
         <field id="code">
             <select>code</select>
             <filters>
-                <eq filter-id="code">code=:code</eq>
+                <eq filter-id="code">code:eq:code</eq>
             </filters>
         </field>
         <field id="type">
             <select>type</select>
             <filters>
-                <eq filter-id="type">type=:type</eq>
+                <eq filter-id="type">type:eq:type</eq>
             </filters>
         </field>
     </fields>

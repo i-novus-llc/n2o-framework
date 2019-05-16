@@ -14,6 +14,8 @@ import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Controller;
 public class OperationController extends SetController {
 
     private ErrorMessageBuilder errorMessageBuilder;
+    private static final Logger logger = LoggerFactory.getLogger(OperationController.class);
 
     public OperationController(DataProcessingStack dataProcessingStack,
                                DomainProcessor domainsProcessor,
@@ -52,6 +55,7 @@ public class OperationController extends SetController {
                     : requestInfo.getFailAlertWidgetId();
             SetDataResponse response = new SetDataResponse(errorMessageBuilder.buildMessages(e), widgetId);
             response.setStatus(e.getHttpStatus());
+            logger.error("Error response " + response.getStatus() + " " + e.getSeverity(), e);
             return response;
         }
     }

@@ -1,4 +1,4 @@
-import { modify, checkAndModify } from './fieldDependency';
+import { modify, checkAndModify, resolveDependency } from './fieldDependency';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
 import {
   DISABLE_FIELD,
@@ -8,7 +8,6 @@ import {
 } from '../constants/formPlugin';
 import { put } from 'redux-saga/effects';
 import { showField } from '../actions/formPlugin';
-import { isEmpty } from 'lodash';
 
 const setupModify = (type, options) => {
   const values = {
@@ -55,8 +54,6 @@ describe('Проверка саги dependency', () => {
         expression: `testField === 0`,
       });
       let next = gen.next();
-      expect(!isEmpty(next.value['SELECT'])).toEqual(true);
-      next = gen.next();
       expect(next.value.PUT.action.type).toEqual(ENABLE_FIELD);
       expect(next.value.PUT.action.payload).toEqual({
         name: 'testField',
@@ -65,14 +62,14 @@ describe('Проверка саги dependency', () => {
       expect(next.value.PUT.action.meta).toEqual({
         form: 'testForm',
       });
-      expect(gen.next().done).toEqual(true);
+      next = gen.next();
+      expect(next.done).toEqual(true);
     });
     it('Проверка type enabled с ложным expression', () => {
       const gen = setupModify('enabled', {
         expression: `testField != 0`,
       });
       let next = gen.next();
-      next = gen.next();
       expect(next.value.PUT.action.type).toEqual(DISABLE_FIELD);
       expect(next.value.PUT.action.payload).toEqual({
         name: 'testField',
@@ -89,8 +86,6 @@ describe('Проверка саги dependency', () => {
         expression: `testField === 0`,
       });
       let next = gen.next();
-      expect(!isEmpty(next.value['SELECT'])).toEqual(true);
-      next = gen.next();
       expect(next.value.PUT.action.type).toEqual(SHOW_FIELD);
       expect(gen.next().done).toEqual(true);
     });
@@ -99,8 +94,6 @@ describe('Проверка саги dependency', () => {
         expression: `testField != 0`,
       });
       let next = gen.next();
-      expect(!isEmpty(next.value['SELECT'])).toEqual(true);
-      next = gen.next();
       expect(next.value.PUT.action.type).toEqual(HIDE_FIELD);
       expect(gen.next().done).toEqual(true);
     });
@@ -109,14 +102,7 @@ describe('Проверка саги dependency', () => {
         expression: `10 + 2`,
       });
       let next = gen.next();
-      expect(!isEmpty(next.value['SELECT'])).toEqual(true);
-      next = gen.next();
-      expect(next.value.PUT.action.payload).toEqual({
-        field: 'testField',
-        key: 'testForm',
-        prefix: 'resolve',
-        value: 12,
-      });
+      expect(next.value.PUT.action.payload).toEqual(12);
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type reset с ложным expression', () => {
@@ -124,8 +110,6 @@ describe('Проверка саги dependency', () => {
         expression: `testField != 0`,
       });
       let next = gen.next();
-      expect(!isEmpty(next.value['SELECT'])).toEqual(true);
-      next = gen.next();
       expect(next.value).toEqual(false);
       expect(gen.next().done).toEqual(true);
     });
@@ -134,14 +118,7 @@ describe('Проверка саги dependency', () => {
         expression: `testField === 0`,
       });
       let next = gen.next();
-      expect(!isEmpty(next.value['SELECT'])).toEqual(true);
-      next = gen.next();
-      expect(next.value.PUT.action.payload).toEqual({
-        field: 'testField',
-        key: 'testForm',
-        prefix: 'resolve',
-        value: null,
-      });
+      expect(next.value.PUT.action.payload).toEqual(null);
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка on c точкой', () => {
@@ -159,8 +136,6 @@ describe('Проверка саги dependency', () => {
         }
       );
       let next = gen.next();
-      expect(!isEmpty(next.value['SELECT'])).toEqual(true);
-      next = gen.next();
       expect(next.value).toEqual(put(showField('testForm', 'field.id')));
       expect(gen.next().done).toEqual(true);
     });

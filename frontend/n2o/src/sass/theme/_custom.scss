@@ -19,10 +19,6 @@
   @include button-outline-variant($gray-400);
 }
 
-.btn-group > .btn, .btn-group-vertical > .btn {
-  flex: 0 1 auto;
-}
-
 .breadcrumb {
   & > .breadcrumb-item:first-child:before {
     display: inline-block;
@@ -46,9 +42,4 @@
 
 .table th {
   border-top: none;
-}
-
-.was-validated .form-control:invalid, .form-control.is-invalid,
-.was-validated .form-control:valid, .form-control.is-valid {
-  background: none;
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class Page implements Compiled, PropertiesAware {
+public class Page implements Compiled, JsonPropertiesAware {
     @JsonProperty
     private String id;
     @JsonProperty("layout")

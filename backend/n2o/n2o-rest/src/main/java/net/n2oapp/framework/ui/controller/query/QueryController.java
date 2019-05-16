@@ -52,6 +52,7 @@ public class QueryController extends GetController {
                     : requestInfo.getFailAlertWidgetId();
             GetDataResponse response = new GetDataResponse(getErrorMessageBuilder().buildMessages(e), widgetId);
             response.setStatus(e.getHttpStatus());
+            logger.error("Error response " + response.getStatus() + " " + e.getSeverity(), e);
             return response;
         }
     }

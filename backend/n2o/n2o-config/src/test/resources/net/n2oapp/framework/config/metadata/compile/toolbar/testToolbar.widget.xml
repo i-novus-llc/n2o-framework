@@ -14,5 +14,10 @@
         <button id="testId3" confirm-text="Test {test} Test" confirm="true">
             <invoke operation-id="create"/>
         </button>
+        <sub-menu>
+            <menu-item id="tesId10" confirm="true" confirm-text="Test {test} Test">
+                <invoke operation-id="create"/>
+            </menu-item>
+        </sub-menu>
     </toolbar>
 </form>

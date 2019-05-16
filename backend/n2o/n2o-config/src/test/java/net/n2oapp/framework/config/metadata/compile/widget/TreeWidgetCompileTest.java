@@ -34,7 +34,7 @@ public class TreeWidgetCompileTest extends SourceCompileTestBase {
     public void testTree() {
         Tree tree = (Tree) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTreeCompile.widget.xml")
                 .get(new WidgetContext("testTreeCompile"));
-        assertThat(tree.getId(), is("testTreeCompile"));
+        assertThat(tree.getId(), is("$testTreeCompile"));
         assertThat(tree.getParentFieldId(), is("test"));
         assertThat(tree.getChildrenFieldId(), is("test"));
         assertThat(tree.getValueFieldId(), is("test"));

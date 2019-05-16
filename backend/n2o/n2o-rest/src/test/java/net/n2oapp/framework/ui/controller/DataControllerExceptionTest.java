@@ -147,7 +147,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
-        DataController controller = new DataController(factory, mapper, router, builder.getEnvironment());
+        DataController controller = new DataController(factory, builder.getEnvironment(), router);
         return controller;
     }
 }
