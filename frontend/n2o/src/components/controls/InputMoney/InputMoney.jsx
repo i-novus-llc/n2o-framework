@@ -31,7 +31,6 @@ const ReplaceableChar = {
  * @reactProps {string}  decimalSymbol - разделитель float
  * @reactProps {number}  decimalLimit - лимит float
  * @reactProps {number}  integerLimit - целочисленный лимит
- * @reactProps {boolean}  requireDecimal - флаг обязательного включения float
  * @reactProps {boolean}  allowNegative - флаг включения отрицательных чисел
  * @reactProps {boolean}  allowLeadingZeroes - флаг разрешения нулей вначале
  * @example
@@ -93,7 +92,7 @@ class InputMoney extends React.Component {
   }
 
   convertToFloat(value) {
-    const { allowDecimal, requireDecimal } = this.props;
+    const { allowDecimal } = this.props;
     let convertedValue = value.toString();
     forOwn(ReplaceableChar, char => {
       if (!isEmpty(this.props[char])) {
@@ -112,30 +111,12 @@ class InputMoney extends React.Component {
       }
     });
 
-    const splitValue = split(convertedValue, '.');
     if (
       allowDecimal &&
       includes(this.state.value, '.') &&
       !includes(value, this.props[ReplaceableChar.DECIMAL_SYMBOL])
     ) {
       convertedValue = convertedValue.substring(0, convertedValue.length - 3);
-    } else if (
-      requireDecimal &&
-      this.state.value !== '' &&
-      splitValue.length === 2 &&
-      splitValue[1] === ''
-    ) {
-      const decimalSymbolIndex = findIndex(
-        value,
-        word => word === this.props[ReplaceableChar.DECIMAL_SYMBOL]
-      );
-      convertedValue =
-        convertedValue.substring(0, decimalSymbolIndex - 3) + '.' + '00';
-    } else if (
-      (splitValue.length === 2 && splitValue[1] === '') ||
-      (requireDecimal && splitValue.length === 2 && splitValue[1] === '')
-    ) {
-      convertedValue = split(convertedValue, '.')[0] + '.' + '00';
     }
     this.setState({ value: convertedValue });
     return convertedValue;
