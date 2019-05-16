@@ -22,8 +22,6 @@ public class TableWidgetComponent extends WidgetComponent {
     private Integer size;
     @JsonProperty("rowColor")
     private String rowColor;
-    @JsonProperty("autoFocus")
-    private Boolean autoFocus = true;
     @JsonProperty("hasFocus")
     private Boolean hasFocus = true;
     @JsonProperty("cells")

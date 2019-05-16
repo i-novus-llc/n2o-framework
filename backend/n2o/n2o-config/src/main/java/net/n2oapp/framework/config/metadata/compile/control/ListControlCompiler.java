@@ -37,7 +37,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setBadgeColorFieldId(p.resolveJS(source.getBadgeColorFieldId()));
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
-        listControl.setHasSearch(p.cast(source.getSearch(), true));
+        listControl.setHasSearch(p.cast(source.getSearch(), source.getQueryId() != null));
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, p);
         else if (source.getOptions() != null) {

@@ -1,4 +1,8 @@
 .n2o-header {
+  & .navbar {
+    min-height: $header-min-height;
+  }
+
   &.n2o-header-default {
     border-bottom: $card-border-width solid $card-border-color;
   }

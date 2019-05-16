@@ -48,7 +48,7 @@
         <field id="value" domain="string">
             <select mapping="value"/>
             <filters>
-                <eq filter-id="" mapping="[0]">value={value}</eq>
+                <eq filter-id="value" mapping="[0]">value={value}</eq>
             </filters>
         </field>
 

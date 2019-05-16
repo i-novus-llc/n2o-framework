@@ -121,7 +121,8 @@
                         "control": {
                           "src": "DatePicker",
                           "id": "birthday",
-                          "dateFormat": "DD.MM.YYYY"
+                          "dateFormat": "DD.MM.YYYY",
+                          "utc": false
                         }
                       }
                     ]
@@ -172,7 +173,8 @@
           ]
         },
         "modelPrefix": "resolve",
-        "fetchOnInit": false
+        "fetchOnInit": false,
+        "autoFocus": true
       }
     }
   },

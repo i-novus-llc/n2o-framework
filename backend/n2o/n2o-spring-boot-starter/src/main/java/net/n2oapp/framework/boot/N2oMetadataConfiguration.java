@@ -179,7 +179,7 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
-    public N2oJdomTextProcessing n2oJdomTextProcessing(MessageSourceAccessor n2oMessageSourceAccessor) {
+    public N2oJdomTextProcessing n2oJdomTextProcessing(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor n2oMessageSourceAccessor) {
         return new N2oJdomTextProcessing(n2oMessageSourceAccessor);
     }
 
@@ -198,7 +198,7 @@ public class N2oMetadataConfiguration {
 
     @Bean
     public MetadataEnvironment n2oEnvironment(Map<String, ButtonGenerator> generators,
-                                              MessageSourceAccessor messageSourceAccessor,
+                                              @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                               ConfigurableEnvironment springEnv,
                                               DomainProcessor domainProcessor,
                                               ContextProcessor contextProcessor,
@@ -441,7 +441,7 @@ public class N2oMetadataConfiguration {
     @Configuration
     static class MetadataIOConfiguration {
         @Bean
-        IOProcessor readerProcessor(MessageSourceAccessor messageSourceAccessor,
+        IOProcessor readerProcessor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                     NamespaceReaderFactory readerFactory) {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
@@ -452,7 +452,7 @@ public class N2oMetadataConfiguration {
         }
 
         @Bean
-        IOProcessor persisterProcessor(MessageSourceAccessor messageSourceAccessor,
+        IOProcessor persisterProcessor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                        NamespacePersisterFactory persisterFactory) {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(persisterFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);

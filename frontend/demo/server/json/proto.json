@@ -815,7 +815,8 @@
                         "control": {
                           "src": "DateInterval",
                           "id": "bdate",
-                          "dateFormat": "DD.MM.YYYY"
+                          "dateFormat": "DD.MM.YYYY",
+                          "utc": false
                         }
                       }
                     ]
@@ -875,8 +876,8 @@
       },
       "table": {
         "fetchOnInit": true,
-        "size": 10,
         "autoFocus": true,
+        "size": 10,
         "hasFocus": true,
         "cells": [
           {
@@ -941,7 +942,8 @@
             "control": {
               "src": "DatePicker",
               "id": "date",
-              "dateFormat": "DD.MM.YYYY"
+              "dateFormat": "DD.MM.YYYY",
+              "utc": false
             },
             "format": "date DD.MM.YYYY",
             "editType": "inline",
@@ -1513,7 +1515,8 @@
         ],
         "validation": {},
         "modelPrefix": "resolve",
-        "fetchOnInit": false
+        "fetchOnInit": false,
+        "autoFocus": true
       }
     }
   },
