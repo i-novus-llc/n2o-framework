@@ -167,7 +167,6 @@ class InputMoney extends React.Component {
       decimalSymbol,
       decimalLimit,
       integerLimit,
-      requireDecimal,
       allowNegative,
       allowLeadingZeroes,
     } = this.props;
@@ -187,7 +186,7 @@ class InputMoney extends React.Component {
         decimalSymbol,
         decimalLimit,
         integerLimit,
-        requireDecimal,
+        requireDecimal: false,
         allowNegative,
         allowLeadingZeroes,
       },
@@ -210,7 +209,6 @@ InputMoney.propTypes = {
   decimalSymbol: PropTypes.string,
   decimalLimit: PropTypes.number,
   integerLimit: PropTypes.any,
-  requireDecimal: PropTypes.bool,
   allowNegative: PropTypes.bool,
   allowLeadingZeroes: PropTypes.bool,
 };
@@ -225,7 +223,6 @@ InputMoney.defaultProps = {
   decimalSymbol: ',',
   decimalLimit: 2,
   integerLimit: null,
-  requireDecimal: false,
   allowNegative: false,
   allowLeadingZeroes: false,
   guide: false,
