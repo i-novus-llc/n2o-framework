@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { isEqual, forOwn, isEmpty, split, replace } from 'lodash';
+import {
+  isEqual,
+  forOwn,
+  isEmpty,
+  split,
+  replace,
+  includes,
+  findIndex,
+} from 'lodash';
 import InputMask from '../InputMask/InputMask';
 
 const ReplaceableChar = {
@@ -36,6 +44,7 @@ class InputMoney extends React.Component {
       value: props.value,
     };
 
+    this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
     this.convertToMoney = this.convertToMoney.bind(this);
     this.convertToFloat = this.convertToFloat.bind(this);
@@ -68,8 +77,14 @@ class InputMoney extends React.Component {
         splitBySymbol[1] +
         '0';
     }
-
     return value;
+  }
+
+  onBlur(value) {
+    const { onBlur } = this.props;
+    const convertedValue = this.convertToFloat(value);
+    onBlur && onBlur(convertedValue);
+    this.setState({ value: convertedValue });
   }
 
   replaceSpecialSymbol(value, searchValue, replaceValue) {
@@ -77,7 +92,7 @@ class InputMoney extends React.Component {
   }
 
   convertToFloat(value) {
-    const { requireDecimal } = this.props;
+    const { allowDecimal, requireDecimal } = this.props;
     let convertedValue = value.toString();
     forOwn(ReplaceableChar, char => {
       if (!isEmpty(this.props[char])) {
@@ -98,8 +113,26 @@ class InputMoney extends React.Component {
 
     const splitValue = split(convertedValue, '.');
     if (
-      (splitValue.length === 2 && isEmpty(splitValue[1])) ||
-      (requireDecimal && splitValue.length === 2 && isEmpty(splitValue[1]))
+      allowDecimal &&
+      includes(this.state.value, '.') &&
+      !includes(value, this.props[ReplaceableChar.DECIMAL_SYMBOL])
+    ) {
+      convertedValue = convertedValue.substring(0, convertedValue.length - 3);
+    } else if (
+      requireDecimal &&
+      this.state.value !== '' &&
+      splitValue.length === 2 &&
+      splitValue[1] === ''
+    ) {
+      const decimalSymbolIndex = findIndex(
+        value,
+        word => word === this.props[ReplaceableChar.DECIMAL_SYMBOL]
+      );
+      convertedValue =
+        convertedValue.substring(0, decimalSymbolIndex - 3) + '.' + '00';
+    } else if (
+      (splitValue.length === 2 && splitValue[1] === '') ||
+      (requireDecimal && splitValue.length === 2 && splitValue[1] === '')
     ) {
       convertedValue = split(convertedValue, '.')[0] + '.' + '00';
     }
@@ -135,6 +168,7 @@ class InputMoney extends React.Component {
       preset: 'money',
       value: this.convertToMoney(value || this.state.value),
       onChange: this.onChange,
+      onBlur: this.onBlur,
       className: cn('n2o-input-money', className),
       presetConfig: {
         suffix,
@@ -179,13 +213,14 @@ InputMoney.defaultProps = {
   suffix: ' руб.',
   includeThousandsSeparator: true,
   thousandsSeparatorSymbol: ' ',
-  allowDecimal: false,
+  allowDecimal: true,
   decimalSymbol: ',',
   decimalLimit: 2,
   integerLimit: null,
   requireDecimal: false,
   allowNegative: false,
   allowLeadingZeroes: false,
+  guide: false,
 };
 
 export default InputMoney;
