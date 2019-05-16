@@ -50,7 +50,7 @@ class InputMoney extends React.Component {
 
   convertToMoney(value) {
     const { allowDecimal } = this.props;
-    if (!isEmpty(value) && this.props[ReplaceableChar.DECIMAL_SYMBOL] !== '.') {
+    if (value !== '') {
       value = replace(value, '.', this.props[ReplaceableChar.DECIMAL_SYMBOL]);
     }
 
