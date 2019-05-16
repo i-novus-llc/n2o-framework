@@ -124,7 +124,7 @@ class InputMoney extends React.Component {
   onChange(value) {
     const { onChange } = this.props;
     const convertedValue = this.convertToFloat(value);
-    onChange && onChange(convertedValue);
+    onChange && onChange(parseFloat(convertedValue));
     this.setState({ value: convertedValue });
   }
 
