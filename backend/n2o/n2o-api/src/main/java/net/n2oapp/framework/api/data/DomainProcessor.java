@@ -61,12 +61,15 @@ public class DomainProcessor {
     public DomainProcessor(ObjectMapper objectMapper, DateFormat dateFormat) {
         this.objectMapper = objectMapper;
         this.dateFormat = dateFormat;
+        this.objectMapper.setDateFormat(dateFormat);
+    }
+
+    public DomainProcessor(ObjectMapper objectMapper) {
+        this(objectMapper, new StdDateFormat());
     }
 
     public DomainProcessor() {
-        this.dateFormat = new StdDateFormat();
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.setDateFormat(dateFormat);
+        this(new ObjectMapper());
     }
 
     /**

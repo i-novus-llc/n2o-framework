@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.compile.pipeline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.N2oWebAppEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
@@ -77,7 +76,7 @@ public class N2oEnvironment implements MetadataEnvironment {
 
         this.messageSource = new MessageSourceAccessor(new ResourceBundleMessageSource());
         this.systemProperties = new N2oWebAppEnvironment();
-        this.domainProcessor = new DomainProcessor(new ObjectMapper(), new StdDateFormat());
+        this.domainProcessor = new DomainProcessor(new ObjectMapper());
         this.contextProcessor = new ContextProcessor(new TestContextEngine());
 
         this.namespaceReaderFactory = new N2oNamespaceReaderFactory();

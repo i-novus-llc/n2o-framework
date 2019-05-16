@@ -76,7 +76,6 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
-import java.text.DateFormat;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -88,13 +87,11 @@ import static java.util.Arrays.asList;
  */
 @Configuration
 @Import(N2oCacheConfiguration.class)
-@ComponentScan(basePackages = {"net.n2oapp.framework.config", "net.n2oapp.framework.header"}, lazyInit = true)
+@ComponentScan(basePackages = {"net.n2oapp.framework.config"}, lazyInit = true)
 public class N2oMetadataConfiguration {
 
     @Value("${n2o.config.path}")
     private String configPath;
-
-    private DateFormat dateFormat = new StdDateFormat();
 
     @Value("${n2o.config.readonly}")
     private boolean readonly;
@@ -103,7 +100,7 @@ public class N2oMetadataConfiguration {
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(dateFormat);
+        objectMapper.setDateFormat(new StdDateFormat());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
@@ -112,13 +109,13 @@ public class N2oMetadataConfiguration {
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
                 .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
         objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.registerModule(new N2oJacksonModule(dateFormat));
+        objectMapper.registerModule(new N2oJacksonModule(new StdDateFormat()));
         return objectMapper;
     }
 
     @Bean
     public DomainProcessor domainProcessor(@Qualifier("n2oObjectMapper") ObjectMapper objectMapper) {
-        return new DomainProcessor(objectMapper, dateFormat);
+        return new DomainProcessor(objectMapper);
     }
 
     @Bean
@@ -174,7 +171,7 @@ public class N2oMetadataConfiguration {
     @Bean
     public ScriptProcessor scriptProcessor() {
         ScriptProcessor scriptProcessor = new ScriptProcessor();
-        scriptProcessor.setDateFormat(dateFormat);
+        scriptProcessor.setDateFormat(new StdDateFormat());
         return scriptProcessor;
     }
 

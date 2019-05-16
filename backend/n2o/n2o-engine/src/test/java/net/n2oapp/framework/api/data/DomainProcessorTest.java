@@ -82,7 +82,7 @@ public class DomainProcessorTest {
         assert proc.deserialize("2014-02-01T18:15:00", "Date") instanceof Date;
         assert proc.deserialize("2014-02-01", "LocalDate") instanceof LocalDate;
         assert proc.deserialize("2014-02-01T18:15:00", "LocalDateTime") instanceof LocalDateTime;
-        assert proc.deserialize("2019-12-15T23:50:40+03:00", "zoneddatetime") instanceof ZonedDateTime;
+        assert proc.deserialize("2019-12-15T23:50:40Z[Europe/Moscow]", "zoneddatetime") instanceof ZonedDateTime;
         assert proc.deserialize("2019-12-15T23:50:40-03:00", "offsetdatetime") instanceof OffsetDateTime;
         assert proc.deserialize("125.888", "Numeric") instanceof BigDecimal;
         assert proc.deserialize("11444,878", "Numeric") instanceof BigDecimal;
