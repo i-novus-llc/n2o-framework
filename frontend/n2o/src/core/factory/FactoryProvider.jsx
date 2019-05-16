@@ -33,8 +33,8 @@ class FactoryProvider extends Component {
   }
 
   checkSecurityAndRender(component = null, config, level) {
-    const { blackList } = this.props;
-    if (isEmpty(config) || blackList.includes(level)) return component;
+    const { securityBlackList } = this.props;
+    if (isEmpty(config) || securityBlackList.includes(level)) return component;
     return props => {
       return (
         <SecurityCheck
