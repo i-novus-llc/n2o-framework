@@ -32,8 +32,9 @@ class FactoryProvider extends Component {
     this.checkSecurityAndRender = this.checkSecurityAndRender.bind(this);
   }
 
-  checkSecurityAndRender(component = null, config) {
-    if (isEmpty(config) || !React.isValidElement(component)) return component;
+  checkSecurityAndRender(component = null, config, level) {
+    const { blackList } = this.props;
+    if (isEmpty(config) || blackList.includes(level)) return component;
     return props => {
       return (
         <SecurityCheck
@@ -51,18 +52,21 @@ class FactoryProvider extends Component {
 
   getComponent(src, level, security) {
     if (level && this.factories[level]) {
-      return this.checkSecurityAndRender(this.factories[level][src], security);
-    } else {
-      let findedFactory = [];
-      each(this.factories, group => {
-        if (group && group[src]) {
-          const comp = this.checkSecurityAndRender(group[src], security);
-          findedFactory.push(comp);
-        }
-      });
-
-      return first(findedFactory);
+      return this.checkSecurityAndRender(
+        this.factories[level][src],
+        security,
+        level
+      );
     }
+    let findedFactory = [];
+    each(this.factories, group => {
+      if (group && group[src]) {
+        const comp = this.checkSecurityAndRender(group[src], security, group);
+        findedFactory.push(comp);
+      }
+    });
+
+    return first(findedFactory);
   }
 
   resolveProps(
@@ -97,7 +101,12 @@ class FactoryProvider extends Component {
 
 FactoryProvider.propTypes = {
   config: factoryConfigShape.isRequired,
+  blackList: PropTypes.array,
   children: PropTypes.element.isRequired,
+};
+
+FactoryProvider.defaultProps = {
+  blackList: [],
 };
 
 FactoryProvider.childContextTypes = {
