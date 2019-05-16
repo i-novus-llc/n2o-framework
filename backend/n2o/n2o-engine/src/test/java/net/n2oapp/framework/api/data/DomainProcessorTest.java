@@ -228,7 +228,7 @@ public class DomainProcessorTest {
         assert "true".equals(proc.serialize(true));
         assert "123".equals(proc.serialize(123));
         Date date = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.01.2019 11:11");
-        assertThat(proc.serialize(date), is("2019-01-01T08:11:00.000+0000"));
+        assertThat(proc.serialize(date), is("2019-01-01T11:11:00"));
     }
 
     private void checkDates(Date date1, Date date2, Interval interval) {

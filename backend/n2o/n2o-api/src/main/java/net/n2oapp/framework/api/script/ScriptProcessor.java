@@ -1,11 +1,11 @@
 package net.n2oapp.framework.api.script;
 
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
+import net.n2oapp.properties.StaticProperties;
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Parser;
@@ -20,7 +20,6 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
@@ -35,7 +34,7 @@ public class ScriptProcessor {
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
     private static final String spread_operator = "*.";
 
-    private DateFormat dateFormat;
+    private String dateFormat;
     private final static ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
 
@@ -633,17 +632,13 @@ public class ScriptProcessor {
         if (value instanceof String)
             return "'" + value.toString() + "'";
         else if (value instanceof Date)
-            return "'" + getDateFormat().format((Date) value) + "'";
+            return "'" + new SimpleDateFormat(getDateFormat()).format((Date) value) + "'";
         return value.toString();
     }
 
-    public void setDateFormat(DateFormat dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    protected DateFormat getDateFormat() {
+    protected String getDateFormat() {
         if (dateFormat == null)
-            dateFormat = new StdDateFormat();
+            dateFormat = StaticProperties.getProperty("n2o.format.date");
         return dateFormat;
     }
 

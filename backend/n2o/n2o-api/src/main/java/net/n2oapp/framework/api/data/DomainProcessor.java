@@ -3,7 +3,6 @@ package net.n2oapp.framework.api.data;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.criteria.filters.FilterType;
@@ -16,8 +15,8 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -46,8 +45,8 @@ public class DomainProcessor {
         simpleDomainsMap.put(Date.class, "date");
         simpleDomainsMap.put(LocalDate.class, "localdate");
         simpleDomainsMap.put(LocalDateTime.class, "localdatetime");
-        simpleDomainsMap.put(ZonedDateTime.class,"zoneddatetime");
-        simpleDomainsMap.put(OffsetDateTime.class,"offsetdatetime");
+        simpleDomainsMap.put(ZonedDateTime.class, "zoneddatetime");
+        simpleDomainsMap.put(OffsetDateTime.class, "offsetdatetime");
         simpleDomainsMap.put(DataSet.class, "object");
         simpleDomainsMap.put(BigDecimal.class, "numeric");
         simpleDomainsMap.put(Long.class, "long");
@@ -56,16 +55,10 @@ public class DomainProcessor {
     }
 
     private final ObjectMapper objectMapper;
-    private final DateFormat dateFormat;
-
-    public DomainProcessor(ObjectMapper objectMapper, DateFormat dateFormat) {
-        this.objectMapper = objectMapper;
-        this.dateFormat = dateFormat;
-        this.objectMapper.setDateFormat(dateFormat);
-    }
 
     public DomainProcessor(ObjectMapper objectMapper) {
-        this(objectMapper, new StdDateFormat());
+        String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
+        this.objectMapper = objectMapper.setDateFormat(new SimpleDateFormat(dateFormat));
     }
 
     public DomainProcessor() {
@@ -290,7 +283,7 @@ public class DomainProcessor {
         if ((value == null) || (value.isEmpty())) return null;
         if (Domain.bool.getName().equals(domain)) return Boolean.parseBoolean(value);
 
-        if (Domain.date.getName().equals(domain)) return dateFormat.parse(value);
+        if (Domain.date.getName().equals(domain)) return objectMapper.getDateFormat().parse(value);
         if (Domain.zoneddatetime.getName().equals(domain))
             return ZonedDateTime.parse(value, DateTimeFormatter.ISO_ZONED_DATE_TIME);
         if (Domain.offsetdatetime.getName().equals(domain))
