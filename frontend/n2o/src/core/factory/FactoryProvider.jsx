@@ -59,9 +59,9 @@ class FactoryProvider extends Component {
       );
     }
     let findedFactory = [];
-    each(this.factories, group => {
+    each(this.factories, (group, level) => {
       if (group && group[src]) {
-        const comp = this.checkSecurityAndRender(group[src], security, group);
+        const comp = this.checkSecurityAndRender(group[src], security, level);
         findedFactory.push(comp);
       }
     });
@@ -101,12 +101,12 @@ class FactoryProvider extends Component {
 
 FactoryProvider.propTypes = {
   config: factoryConfigShape.isRequired,
-  blackList: PropTypes.array,
+  securityBlackList: PropTypes.array,
   children: PropTypes.element.isRequired,
 };
 
 FactoryProvider.defaultProps = {
-  blackList: [],
+  securityBlackList: [],
 };
 
 FactoryProvider.childContextTypes = {
