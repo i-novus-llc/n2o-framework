@@ -61,6 +61,7 @@ class Demo extends Component {
   }
 
   handleResetCounter() {
+    console.log(this.n2oRef);
     this.count = 0;
     this.n2oRef.current.store.dispatch(
       setCounter("testCounterId", this.count)

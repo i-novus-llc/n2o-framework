@@ -120,11 +120,12 @@
                 <xs:attribute name="search-field-id" type="xs:string"/>
                 <xs:attribute name="group-field-id" type="xs:string"/>
                 <xs:attribute name="image-field-id" type="xs:string"/>
+                <xs:attribute name="badge-field-id" type="xs:string"/>
+                <xs:attribute name="badge-color-field-id" type="xs:string"/>
                 <xs:attribute name="icon-field-id" type="xs:string"/>
                 <xs:attribute name="cache" type="xs:boolean" default="false"/>
                 <xs:attribute name="size" type="xs:integer" default="30"/>
-                <xs:attribute name="badge-field-id" type="xs:string"/>
-                <xs:attribute name="badge-color-field-id" type="xs:string"/>
+                <xs:attribute name="search" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -473,7 +474,6 @@
                     <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
-                <xs:attribute name="search" type="xs:boolean" use="optional" default="true"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
                 <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all"/>
                 <xs:attribute name="max-tag-count" type="xs:integer" use="optional"/>

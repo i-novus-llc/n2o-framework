@@ -3,18 +3,28 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
 import { map } from "lodash";
-import { Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Toast, ToastBody, ToastHeader } from "reactstrap";
 import cx from "classnames";
 
 import { stackSelector } from "./selectors";
+import { destroy } from "./actions";
 
-class Notifications extends Component {
+export class Notifications extends Component {
+  destroyNotification = id => () => {
+    this.props.destroy(id);
+  };
+
   renderToasts() {
     const { stack = [] } = this.props;
     return map(stack, item => (
       <Toast>
-        <ToastHeader icon={item.icon} toggle={() => {}}>{item.title}</ToastHeader>
-        <ToastBody>{item.body}</ToastBody>
+        <ToastHeader
+          icon={item.icon}
+          toggle={this.destroyNotification(item.id)}
+        >
+          {item.title}
+        </ToastHeader>
+        <ToastBody>{item.text}</ToastBody>
       </Toast>
     ));
   }
@@ -54,11 +64,10 @@ const mapStateToProps = createStructuredSelector({
   stack: stackSelector
 });
 
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    dispatch,
-  };
-}
+const mapDispatchToProps = {
+  destroy
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

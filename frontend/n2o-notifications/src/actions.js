@@ -7,11 +7,11 @@ export const SET_COUNTER = "n2o/notifications/SET_COUNTER";
 
 export function add(
   id,
-  { body, icon, image, title, date, close, delay }
+  { text, icon, image, title, date, close, delay }
 ) {
   return createActionHelper(ADD)({
     id,
-    body,
+    text,
     icon,
     image,
     title,

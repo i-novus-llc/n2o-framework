@@ -209,6 +209,10 @@ function InputContent({
     }
   };
 
+  const INPUT_STYLE = {
+    paddingLeft: selectedPadding ? selectedPadding : undefined,
+  };
+
   return (
     <React.Fragment>
       {multiSelect ? (
@@ -256,7 +260,7 @@ function InputContent({
           type="text"
           className="form-control n2o-inp"
           autoFocus={autoFocus}
-          style={{ paddingLeft: selectedPadding }}
+          style={INPUT_STYLE}
         />
       )}
     </React.Fragment>

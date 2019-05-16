@@ -27,7 +27,7 @@ const formHack = (state, action) => {
     : formReducer(state, action);
 };
 
-export default (history, customReducers) =>
+export default (history, customReducers = {}) =>
   combineReducers({
     router: connectRouter(history),
     form: formHack,
