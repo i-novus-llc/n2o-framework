@@ -46,7 +46,7 @@ class TabRegion extends React.Component {
   }
 
   render() {
-    const { tabs, getWidget, getWidgetProps, pageId } = this.props;
+    const { tabs, getWidget, pageId } = this.props;
     return (
       <Tabs
         ref={el => (this._tabsEl = el)}
@@ -59,7 +59,10 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: getWidgetProps(tab.widgetId).isVisible,
+            visible:
+              typeof this.state[tab.widgetId] !== 'undefined'
+                ? this.state[tab.widgetId]
+                : true,
           };
           const tabEl = (
             <Tab {...tabProps}>
