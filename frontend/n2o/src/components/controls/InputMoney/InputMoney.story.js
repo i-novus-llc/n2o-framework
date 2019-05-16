@@ -45,18 +45,6 @@ stories
       return props;
     })
   )
-  .add(
-    'Обязательные копейки',
-    form(() => {
-      const props = {
-        ...InputMoneyJson,
-        allowDecimal: true,
-        requireDecimal: true,
-      };
-
-      return props;
-    })
-  )
   .add('Раделитель тысяч', () => {
     const props = {
       ...InputMoneyJson,
