@@ -69,12 +69,6 @@ class InputMoney extends React.Component {
 
     if (!allowDecimal) {
       value = splitBySymbol[0];
-    } else if (splitBySymbol.length === 2 && splitBySymbol[1].length === 1) {
-      value =
-        splitBySymbol[0] +
-        this.props[ReplaceableChar.DECIMAL_SYMBOL] +
-        splitBySymbol[1] +
-        '0';
     }
     return value;
   }
@@ -195,7 +189,7 @@ InputMoney.defaultProps = {
   allowDecimal: true,
   decimalSymbol: ',',
   decimalLimit: 2,
-  integerLimit: null,
+  integerLimit: 15,
   allowNegative: false,
   allowLeadingZeroes: false,
   guide: false,
