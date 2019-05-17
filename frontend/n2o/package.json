@@ -1,6 +1,6 @@
 {
   "name": "n2o",
-  "version": "7.2.11",
+  "version": "7.2.12",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
   "main": "lib/index.js",
