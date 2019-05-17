@@ -57,8 +57,7 @@ public class DomainProcessor {
     private final ObjectMapper objectMapper;
 
     public DomainProcessor(ObjectMapper objectMapper) {
-        String dateFormat = "yyyy-MM-dd'T'HH:mm:ss";
-        this.objectMapper = objectMapper.setDateFormat(new SimpleDateFormat(dateFormat));
+        this.objectMapper = objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
     }
 
     public DomainProcessor() {

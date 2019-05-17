@@ -93,8 +93,7 @@ public class N2oMetadataConfiguration {
     @Value("${n2o.config.path}")
     private String configPath;
 
-    @Value("${n2o.format.date}")
-    private String dateFormat;
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Value("${n2o.config.readonly}")
     private boolean readonly;
@@ -103,7 +102,7 @@ public class N2oMetadataConfiguration {
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat(dateFormat));
+        objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
@@ -112,7 +111,7 @@ public class N2oMetadataConfiguration {
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
                 .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
         objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.registerModule(new N2oJacksonModule(new SimpleDateFormat(dateFormat)));
+        objectMapper.registerModule(new N2oJacksonModule(new SimpleDateFormat(DATE_FORMAT)));
         return objectMapper;
     }
 
