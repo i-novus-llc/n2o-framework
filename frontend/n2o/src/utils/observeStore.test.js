@@ -2,10 +2,11 @@ import mockStore from 'redux-mock-store';
 import sinon from 'sinon';
 import { setModel } from '../actions/models';
 import reducers from '../reducers';
+import history from '../history';
 import observeStore from './observeStore';
 import { createStore } from 'redux';
 
-const store = createStore(reducers, {
+const store = createStore(reducers(history), {
   models: {
     resolve: {
       test: {

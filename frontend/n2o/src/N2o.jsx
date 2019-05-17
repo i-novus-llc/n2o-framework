@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { pick, keys } from 'lodash';
-import { compose, withContext, defaultProps } from 'recompose';
+import { compose, withContext, defaultProps, withProps } from 'recompose';
 import { IntlProvider, addLocaleData } from 'react-intl';
 
 import history from './history';
@@ -37,6 +37,8 @@ class N2o extends Component {
     const config = {
       security: props.security,
       messages: props.messages,
+      customReducers: props.customReducers,
+      customSagas: props.customSagas,
     };
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);
@@ -109,9 +111,11 @@ N2o.propTypes = {
       info: PropTypes.number,
     }),
   }),
+  customReducers: PropTypes.object,
+  customSagas: PropTypes.array,
 };
 
-export default compose(
+const EnhancedN2O = compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
@@ -124,6 +128,8 @@ export default compose(
     routes: [],
     security: {},
     messages: {},
+    customReducers: {},
+    customSagas: [],
   }),
   withContext(
     {
@@ -136,5 +142,13 @@ export default compose(
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
     })
-  )
+  ),
+  withProps(props => ({
+    ref: props.forwardedRef,
+  }))
 )(N2o);
+
+// This works! Because forwardedRef is now treated like a regular prop.
+export default React.forwardRef(({ ...props }, ref) => (
+  <EnhancedN2O {...props} forwardedRef={ref} />
+));

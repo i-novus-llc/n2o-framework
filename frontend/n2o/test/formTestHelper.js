@@ -7,6 +7,7 @@ import { WIDGETS } from '../src/core/factory/factoryLevels';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import rootReducer from '../src/reducers';
+import history from '../src/history';
 
 const setValueToForm = (override = {}) => ({
   src: 'FormWidget',
@@ -24,16 +25,16 @@ const setValueToForm = (override = {}) => ({
                     id: 'testControl',
                     dependency: [],
                     control: {},
-                    ...override
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                    ...override,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 });
 
 /**
@@ -71,7 +72,10 @@ export default props => {
     return next(action);
   };
 
-  const store = createStore(rootReducer, applyMiddleware(actionLogger));
+  const store = createStore(
+    rootReducer(history),
+    applyMiddleware(actionLogger)
+  );
 
   const wrapper = mount(
     <Provider store={store}>
@@ -84,6 +88,6 @@ export default props => {
   return {
     actions,
     store,
-    wrapper
+    wrapper,
   };
 };
