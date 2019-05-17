@@ -63,7 +63,6 @@ function InputSelectGroup({
       className={cx('n2o-input-container', 'form-control', className, {
         disabled,
       })}
-      style={{ padding: 0 }}
       onClick={onButtonClick}
     >
       <div className="n2o-input-items">

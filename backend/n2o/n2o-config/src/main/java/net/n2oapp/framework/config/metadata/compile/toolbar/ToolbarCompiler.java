@@ -101,6 +101,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setId(castDefault(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
+        button.setProperties(p.mapAttributes(source));
         if (source.getType() != null && source.getType().equals(LabelType.icon)) {
             button.setIcon(source.getIcon());
         } else if (source.getType() != null && source.getType().equals(LabelType.text)) {
