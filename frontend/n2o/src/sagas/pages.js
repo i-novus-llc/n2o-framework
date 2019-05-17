@@ -24,6 +24,7 @@ import {
   clone,
   isEqual,
   has,
+  findLast,
   get,
   set,
   reduce,
@@ -55,6 +56,10 @@ import fetchSaga from './fetch.js';
 import { FETCH_PAGE_METADATA } from '../core/api.js';
 import compileUrl from '../utils/compileUrl';
 import linkResolver from '../utils/linkResolver';
+import configureErrorPages from '../components/errors';
+import history from '../history';
+
+const errorPages = configureErrorPages();
 
 function autoDetectBasePath(pathPattern, pathname) {
   const match = matchPath(pathname, {
@@ -186,6 +191,14 @@ function* getMetadata(action) {
     yield fork(watcherDefaultModels, metadata.models);
     yield put(metadataSuccess(metadata.id, metadata));
   } catch (err) {
+    if (err && err.status) {
+      const page = findLast(errorPages, ['status', err.status]);
+      if (page) {
+        history.push(page.path);
+        return;
+      }
+    }
+
     if (rootPage) {
       yield put(changeRootPage(pageId));
     }
