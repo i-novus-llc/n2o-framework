@@ -105,7 +105,7 @@ export function resolveChange(state, { payload, meta }) {
   const { field } = meta;
   let newState = Object.assign({}, state);
 
-  if (_.isObject(payload)) {
+  if (_.has(payload, 'keepDirty')) {
     _.set(newState, `values[${field}]`, payload.value);
     if (!payload.keepDirty) {
       _.set(newState, `initial[${field}]`, payload.value);
