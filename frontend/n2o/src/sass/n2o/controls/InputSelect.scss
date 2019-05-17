@@ -118,6 +118,10 @@
     & .n2o-input-items > .selected-item--single {
       position: absolute;
     }
+
+    & .n2o-input-container {
+      padding: 0;
+    }
   }
 
   & > button {
