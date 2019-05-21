@@ -116,7 +116,7 @@ describe('Проверка ButtonContainer', () => {
       },
     };
     const wrapper = setup(store, DropdownMenu);
-    expect(wrapper.find('.dropdown-menu').exists()).toEqual(false);
+    expect(wrapper.find('.dropdown-menu').exists()).toEqual(true);
   });
   it('отрисовывает dropdown без disabled', () => {
     const store = {
