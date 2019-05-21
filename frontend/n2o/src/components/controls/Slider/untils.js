@@ -26,12 +26,12 @@ export const stringConverter = (convertProps = []) => WrapperComponent => ({
   stringMode,
   ...rest
 }) => {
-  const convertProps = pick(rest, stringMode ? convertProps : []);
+  const convertPropsObj = pick(rest, stringMode ? convertProps : []);
 
   const resultConverted = {};
 
-  if (!isEmpty(convertProps)) {
-    forEach(convertProps, (value, key) => {
+  if (!isEmpty(convertPropsObj)) {
+    forEach(convertPropsObj, (value, key) => {
       if (isString(value)) {
         resultConverted[key] = convertStrToFloatOrInt(value);
       } else if (isArray(value)) {
@@ -41,8 +41,6 @@ export const stringConverter = (convertProps = []) => WrapperComponent => ({
       }
     });
   }
-
-  console.log(convertProps);
 
   return (
     <WrapperComponent {...omit(rest, convertProps)} {...resultConverted} />

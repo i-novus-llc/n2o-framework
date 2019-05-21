@@ -104,7 +104,7 @@ stories
           min={0}
           max={100}
           defaultValue={[20, '50.5']}
-          step="5"
+          step="5.5"
           dots={true}
           onChange={console.log}
         />
