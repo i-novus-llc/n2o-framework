@@ -105,14 +105,14 @@ class AdvancedTable extends Component {
       focusIndex,
       selectIndex,
       data,
+      autoFocus,
     } = this.state;
-    !isAnyTableFocused &&
-      isActive &&
-      !rowClick &&
+    if (!isAnyTableFocused && isActive && !rowClick && autoFocus) {
       this.setSelectAndFocus(
         get(data[selectIndex], 'id'),
         get(data[focusIndex], 'id')
       );
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -122,12 +122,15 @@ class AdvancedTable extends Component {
       isAnyTableFocused,
       isActive,
       selectedId,
+      autoFocus,
     } = this.props;
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
-      isAnyTableFocused && !isActive
-        ? this.setNewSelectIndex(id)
-        : this.setSelectAndFocus(id, id);
+      if (isAnyTableFocused && !isActive) {
+        this.setNewSelectIndex(id);
+      } else if (autoFocus) {
+        this.setSelectAndFocus(id, id);
+      }
     }
     if (!isEqual(prevProps, this.props)) {
       let state = {};
@@ -453,6 +456,7 @@ class AdvancedTable extends Component {
       rowSelection,
       expandedFieldId,
       expandedComponent,
+      components,
     } = this.props;
     const columns = this.mapColumns(this.state.columns);
     return (
@@ -476,10 +480,12 @@ class AdvancedTable extends Component {
               header: {
                 row: AdvancedTableHeaderRow,
                 cell: AdvancedTableHeaderCell,
+                ...get(components, 'header', {}),
               },
               body: {
                 row: AdvancedTableRow,
                 cell: AdvancedTableCell,
+                ...get(components, 'body', {}),
               },
             }}
             rowKey={record => record.key}

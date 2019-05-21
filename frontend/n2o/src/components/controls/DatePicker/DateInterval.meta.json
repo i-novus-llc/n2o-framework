@@ -8,5 +8,6 @@
   "disabled": false,
   "placeholder": "Введите дату",
   "locale": "ru",
-  "openOnFocus": false
+  "openOnFocus": false,
+  "utc": false
 }

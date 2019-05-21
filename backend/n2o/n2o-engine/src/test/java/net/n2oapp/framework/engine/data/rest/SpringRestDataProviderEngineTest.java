@@ -3,6 +3,7 @@ package net.n2oapp.framework.engine.data.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
+import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Assert;
 import org.junit.Test;
@@ -239,7 +240,22 @@ public class SpringRestDataProviderEngineTest {
         request.put("filters", Collections.singletonList("date={date.begin}"));
 
         actionEngine.invoke(dataProvider, request);
-        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?date=1970-01-01T03%253A00%253A00"));
+        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?date=1970-01-01T03:00:00"));
+    }
+
+    @Test
+    public void testDateDeserializing() {
+        TestRestTemplate restClient = new TestRestTemplate("{\"date_begin\":\"2018-11-17\"}");
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModules(new RestEngineTimeModule(new String[]{"yyyy-MM-dd'T'HH:mm:s", "yyyy-MM-dd"}));
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
+        actionEngine.setBaseRestUrl("http://localhost:8080");
+        N2oRestDataProvider dataProvider = new N2oRestDataProvider();
+        dataProvider.setQuery("/test");
+        Map<String, Object> request = new HashMap<>();
+
+        DataSet result = (DataSet) actionEngine.invoke(dataProvider, request);
+        assertThat(result.get("date_begin"), instanceOf(Date.class));
     }
 
     @Test
@@ -265,5 +281,25 @@ public class SpringRestDataProviderEngineTest {
         actionEngine.invoke(dataProvider, request);
 
         assertThat(restClient.getQuery(), is("http://www.example.org/path?filter1=1&filter1=2&filter2=a&filter2=b&filter3=testValue"));
+    }
+
+    @Test
+    public void testEncoding() {
+        TestRestTemplate restClient = new TestRestTemplate("");
+        ObjectMapper objectMapper = new ObjectMapper();
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
+        actionEngine.setBaseRestUrl("http://localhost:8080");
+        N2oRestDataProvider dataProvider = new N2oRestDataProvider();
+        dataProvider.setQuery("test/path?{filters}");
+        dataProvider.setFiltersSeparator("&");
+
+        Map<String, Object> request = new HashMap<>();
+        request.put("space", " ");
+        request.put("cyrillic", "ы");
+        request.put("quote", "\"");
+        request.put("filters", Arrays.asList("f1={space}", "f2={cyrillic}", "f3={quote}"));
+
+        actionEngine.invoke(dataProvider, request);
+        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?f1=%20&f2=%D1%8B&f3=%5C"));
     }
 }

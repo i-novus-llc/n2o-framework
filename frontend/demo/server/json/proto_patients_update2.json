@@ -169,7 +169,7 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": false,
+                          "hasSearch": true,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
@@ -193,7 +193,8 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
+                          "utc": false
                         }
                       }
                     ]
@@ -244,7 +245,8 @@
           ]
         },
         "modelPrefix": "resolve",
-        "fetchOnInit": true
+        "fetchOnInit": true,
+        "autoFocus": true
       }
     }
   },

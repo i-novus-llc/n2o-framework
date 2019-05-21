@@ -42,6 +42,7 @@ import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -60,6 +61,7 @@ public class QueryProcessorTest {
         ContextProcessor contextProcessor = mock(ContextProcessor.class);
         factory = mock(N2oInvocationFactory.class);
         when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);
+        when(contextProcessor.resolve(anyInt())).then((Answer) invocation -> invocation.getArguments()[0]);
         queryProcessor = new N2oQueryProcessor(factory, contextProcessor, new DomainProcessor(), new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
@@ -217,7 +219,6 @@ public class QueryProcessorTest {
         first = result.getCollection().iterator().next();
         assertThat(first.get("code"), is("test1"));
 
-
         //case list any filters selection
         criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
@@ -234,9 +235,7 @@ public class QueryProcessorTest {
         CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorNorm"));
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
-        criteria.setSize(1);
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
-        assertThat(result.getCount(), is(1));
         DataSet first = result.getCollection().iterator().next();
         assertThat(first.get("normTest"), is(Integer.MAX_VALUE));
         assertThat(query.getFieldsMap().get("normTest").getSelectDefaultValue(), is("defaultValue"));

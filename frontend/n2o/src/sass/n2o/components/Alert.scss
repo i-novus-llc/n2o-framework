@@ -117,6 +117,8 @@
   left: 0;
   top: 0;
   width: 100%;
+  max-height: 100vh;
+  overflow: auto;
   z-index: $zindex-tooltip;
 
   & > .alert {

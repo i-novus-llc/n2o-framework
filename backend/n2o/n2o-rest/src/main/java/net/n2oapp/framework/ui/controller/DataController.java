@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
@@ -26,20 +25,22 @@ public class DataController extends AbstractController {
     private ControllerFactory controllerFactory;
 
     public DataController(ControllerFactory controllerFactory,
-                          ObjectMapper mapper,
-                          MetadataRouter router,
                           MetadataEnvironment environment) {
-        setObjectMapper(mapper);
-        setRouter(router);
-        setEnvironment(environment);
+        super(environment);
+        this.controllerFactory = controllerFactory;
+    }
+
+    public DataController(ControllerFactory controllerFactory,
+                          MetadataEnvironment environment,
+                          MetadataRouter router) {
+        super(environment, router);
         this.controllerFactory = controllerFactory;
     }
 
     public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
         QueryRequestInfo requestInfo = createQueryRequestInfo(path, parameters, user);
         QueryResponseInfo responseInfo = new QueryResponseInfo();
-        GetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
-        return result;
+        return controllerFactory.execute(requestInfo, responseInfo);
     }
 
     @SuppressWarnings("unchecked")

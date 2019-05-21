@@ -27,22 +27,25 @@ import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
 
 /**
  * Окружение сборки метаданных
  */
 public class N2oEnvironment implements MetadataEnvironment {
+    private MetadataRegister metadataRegister;
+    private RouteRegister routeRegister;
+    private SourceTypeRegister sourceTypeRegister;
+
     private MessageSourceAccessor messageSource;
     private DomainProcessor domainProcessor;
     private PropertyResolver systemProperties;
     private ContextProcessor contextProcessor;
     private SubModelsProcessor subModelsProcessor;
-    private SourceTypeRegister sourceTypeRegister;
-    private MetadataRegister metadataRegister;
-    private RouteRegister routeRegister;
 
     private MetadataScannerFactory metadataScannerFactory;
     private SourceLoaderFactory sourceLoaderFactory;
@@ -68,17 +71,18 @@ public class N2oEnvironment implements MetadataEnvironment {
     private PipelineFunction<BindTerminalPipeline> bindPipelineFunction = p -> p.bind();
 
     public N2oEnvironment() {
+        this.metadataRegister = new N2oMetadataRegister();
+        this.routeRegister = new N2oRouteRegister();
+        this.sourceTypeRegister = new N2oSourceTypeRegister();
+
+        this.messageSource = new MessageSourceAccessor(new ResourceBundleMessageSource());
         this.systemProperties = new N2oWebAppEnvironment();
         this.domainProcessor = new DomainProcessor(new ObjectMapper(), "dd.MM.yyyy HH:mm");
         this.contextProcessor = new ContextProcessor(new TestContextEngine());
-        this.sourceTypeRegister = new N2oSourceTypeRegister();
-        this.metadataRegister = new N2oMetadataRegister();
-        this.routeRegister = new N2oRouteRegister();
 
         this.namespaceReaderFactory = new N2oNamespaceReaderFactory();
         this.namespacePersisterFactory = new N2oMetadataPersisterFactory();
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory();
-
         this.metadataScannerFactory = new N2oMetadataScannerFactory();
         this.sourceLoaderFactory = new N2oSourceLoaderFactory();
         this.sourceValidatorFactory = new N2oSourceValidatorFactory();
@@ -90,6 +94,39 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.metadataBinderFactory = new N2oMetadataBinderFactory();
         this.pipelineOperationFactory = new N2oPipelineOperationFactory();
         this.buttonGeneratorFactory = new N2oButtonGeneratorFactory();
+    }
+
+    public N2oEnvironment(MetadataEnvironment copy) {
+        this.metadataRegister = copy.getMetadataRegister();
+        this.routeRegister = copy.getRouteRegister();
+        this.sourceTypeRegister = copy.getSourceTypeRegister();
+
+        this.messageSource = copy.getMessageSource();
+        this.systemProperties = copy.getSystemProperties();
+        this.domainProcessor = copy.getDomainProcessor();
+        this.contextProcessor = copy.getContextProcessor();
+        this.subModelsProcessor = copy.getSubModelsProcessor();
+
+        this.namespaceReaderFactory = copy.getNamespaceReaderFactory();
+        this.namespacePersisterFactory = copy.getNamespacePersisterFactory();
+        this.dynamicMetadataProviderFactory = copy.getDynamicMetadataProviderFactory();
+        this.metadataScannerFactory = copy.getMetadataScannerFactory();
+        this.sourceLoaderFactory = copy.getSourceLoaderFactory();
+        this.sourceValidatorFactory = copy.getSourceValidatorFactory();
+        this.sourceCompilerFactory = copy.getSourceCompilerFactory();
+        this.compileTransformerFactory = copy.getCompileTransformerFactory();
+        this.sourceTransformerFactory = copy.getSourceTransformerFactory();
+        this.extensionAttributeMapperFactory = copy.getExtensionAttributeMapperFactory();
+        this.sourceMergerFactory = copy.getSourceMergerFactory();
+        this.metadataBinderFactory = copy.getMetadataBinderFactory();
+        this.pipelineOperationFactory = copy.getPipelineOperationFactory();
+        this.buttonGeneratorFactory = copy.getButtonGeneratorFactory();
+
+        this.readPipelineFunction = copy.getReadPipelineFunction();
+        this.readCompilePipelineFunction = copy.getReadCompilePipelineFunction();
+        this.readCompileBindTerminalPipelineFunction = copy.getReadCompileBindTerminalPipelineFunction();
+        this.compilePipelineFunction = copy.getCompilePipelineFunction();
+        this.bindPipelineFunction = copy.getBindPipelineFunction();
     }
 
     @Override

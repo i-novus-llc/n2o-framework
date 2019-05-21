@@ -22,8 +22,6 @@ public class TableWidgetComponent extends WidgetComponent {
     private Integer size;
     @JsonProperty("rowClass")
     private String rowClass;
-    @JsonProperty("autoFocus")
-    private Boolean autoFocus = true;
     @JsonProperty("hasFocus")
     private Boolean hasFocus = true;
     @JsonProperty("cells")

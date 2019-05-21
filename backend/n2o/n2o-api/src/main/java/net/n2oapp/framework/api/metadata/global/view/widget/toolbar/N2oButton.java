@@ -15,10 +15,6 @@ import java.util.List;
 public class N2oButton extends AbstractMenuItem implements GroupItem {
 
     private String dropdownSrc;
-    private String confirmText;
-    private String confirmTitle;
-    private String confirmOkLabel;
-    private String confirmCancelLabel;
 
     @Override
     public List<N2oAction> getActions() {

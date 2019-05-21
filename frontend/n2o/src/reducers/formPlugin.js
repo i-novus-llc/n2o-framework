@@ -17,6 +17,7 @@ import {
   SET_REQUIRED,
   UNSET_REQUIRED,
 } from '../constants/formPlugin';
+import { actionTypes } from 'redux-form';
 
 const defaultState = {
   isInit: true,
@@ -94,6 +95,29 @@ function resolve(state = defaultState, action) {
 }
 
 /**
+ * Резолв изменения поля в redux form с учетом keepDirty
+ * @param state
+ * @param payload
+ * @param meta
+ * @returns {any}
+ */
+export function resolveChange(state, { payload, meta }) {
+  const { field } = meta;
+  let newState = Object.assign({}, state);
+
+  if (_.has(payload, 'keepDirty')) {
+    _.set(newState, `values[${field}]`, payload.value);
+    if (!payload.keepDirty) {
+      _.set(newState, `initial[${field}]`, payload.value);
+    }
+  } else {
+    _.set(newState, `values[${field}]`, payload);
+  }
+
+  return newState;
+}
+
+/**
  * Редюсер удаления/добваления алертов
  * @ignore
  */
@@ -124,6 +148,8 @@ export default function formPlugin(state = {}, action) {
         'registeredFields',
         resolve(_.get(state, 'registeredFields'), action)
       );
+    case actionTypes.CHANGE:
+      return resolveChange(state, action);
     default:
       return state;
   }

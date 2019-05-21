@@ -5,7 +5,7 @@ import cx from 'classnames';
 
 import DateTimeControl from './DateTimeControl';
 import MaskedInput from 'react-text-mask';
-import { formatToMask } from './utils';
+import { formatToMask, hasInsideMixMax } from './utils';
 
 /**
  * Компонент DateInput
@@ -38,7 +38,10 @@ class DateInput extends React.Component {
     const { dateFormat, name } = this.props;
     if (value === '') {
       this.props.onInputChange(null, name);
-    } else if (moment(value, dateFormat).format(dateFormat) === value) {
+    } else if (
+      moment(value, dateFormat).format(dateFormat) === value &&
+      hasInsideMixMax(value, this.props)
+    ) {
       this.props.onInputChange(moment(value, dateFormat), name);
     } else {
       this.setState({ value });
@@ -109,6 +112,7 @@ class DateInput extends React.Component {
           disabled={disabled}
           onChange={this.onChange}
           onClick={this.onInputClick}
+          keepCharPositions={true}
           style={inputStyle}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
@@ -164,5 +168,15 @@ DateInput.propTypes = {
   onClick: PropTypes.func,
   autoFocus: PropTypes.bool,
   openOnFocus: PropTypes.bool,
+  min: PropTypes.oneOfType([
+    PropTypes.instanceOf(moment),
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]),
+  max: PropTypes.oneOfType([
+    PropTypes.instanceOf(moment),
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]),
 };
 export default DateInput;

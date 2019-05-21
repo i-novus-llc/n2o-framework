@@ -43,6 +43,10 @@ public abstract class N2oWidget extends N2oMetadata
     private String refId;
     private String masterParam;
     private Boolean fetchOnInit;
+    /**
+     * Автоматическая установка фокуса на виджете
+     */
+    private Boolean autoFocus;
 
     /**
      * Источник данных виджета

@@ -25,20 +25,21 @@ public class SqlDPEOneSizeMock implements MapInvocationEngine<N2oSqlDataProvider
 
     @Override
     public Object invoke(N2oSqlDataProvider invocation, Map<String, Object> data) {
-
-        assertThat(invocation.getQuery(), containsString("limit :limit"));
-        assertThat(invocation.getQuery(), containsString("offset :offset"));
-
-        assertThat(data.get("limit"), is(1));
-        assertThat(data.get("offset"), is(0));
-        assertThat(data.get("count"), is(2));
-
-        Object[] record = new Object[]{"Фамилия", null};//id поставит query processor
-        List<Object[]> list = new ArrayList<>();
-        for (int i = 0; i < returnCount; i++) {
-            list.add(record);
+        if (!invocation.getQuery().contains("count")) {
+            assertThat(invocation.getQuery(), containsString("limit :limit"));
+            assertThat(invocation.getQuery(), containsString("offset :offset"));
+            assertThat(data.get("limit"), is(2));
+            assertThat(data.get("offset"), is(0));
+            assertThat(data.get("count"), is(2));
+            Object[] record = new Object[]{"Фамилия", null};//id поставит query processor
+            List<Object[]> list = new ArrayList<>();
+            for (int i = 0; i < returnCount; i++) {
+                list.add(record);
+            }
+            return list;
+        } else {
+            return new Object[]{ new Object[] {returnCount}};
         }
-        return list;
     }
 
     @Override

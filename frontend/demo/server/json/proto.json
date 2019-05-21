@@ -816,7 +816,8 @@
                           "src": "DateInterval",
                           "id": "bdate",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
+                          "utc": false
                         }
                       }
                     ]
@@ -838,7 +839,7 @@
                           "id": "genders",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": false,
+                          "hasSearch": true,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
                             "queryMapping": {},
@@ -876,8 +877,8 @@
       },
       "table": {
         "fetchOnInit": true,
-        "size": 10,
         "autoFocus": true,
+        "size": 10,
         "hasFocus": true,
         "cells": [
           {
@@ -943,7 +944,8 @@
               "src": "DatePicker",
               "id": "date",
               "dateFormat": "DD.MM.YYYY",
-              "outputFormat": "DD.MM.YYYY HH:mm:ss"
+              "outputFormat": "DD.MM.YYYY HH:mm:ss",
+              "utc": false
             },
             "format": "date DD.MM.YYYY",
             "editType": "inline",
@@ -1481,7 +1483,7 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": false,
+                          "hasSearch": true,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
@@ -1515,7 +1517,8 @@
         ],
         "validation": {},
         "modelPrefix": "resolve",
-        "fetchOnInit": false
+        "fetchOnInit": false,
+        "autoFocus": true
       }
     }
   },

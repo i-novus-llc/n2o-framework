@@ -52,7 +52,7 @@ const modelState = {
 function resolveUpdate(state, action) {
   const { key, field, value } = action.payload;
 
-  if (!value || !field) return;
+  if (!field) return state;
 
   if (isArray(state[key])) {
     return setIn(state[key], field, value);

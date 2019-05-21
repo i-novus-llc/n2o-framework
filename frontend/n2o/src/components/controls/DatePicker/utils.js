@@ -328,3 +328,26 @@ export const MODIFIERS = {
     boundariesElement: 'window',
   },
 };
+/**
+ * Функция проверки находится ли дата в промежутке max и min
+ * @param date
+ * @param dateFormat
+ * @param max
+ * @param min
+ * @returns {boolean}
+ */
+export const hasInsideMixMax = (date, { dateFormat, max, min }) => {
+  if (!max && !min) return true;
+  if (
+    (!max && min && moment(min, dateFormat) <= moment(date, dateFormat)) ||
+    (max && !min && moment(max, dateFormat) >= moment(date, dateFormat)) ||
+    (max &&
+      min &&
+      moment(min, dateFormat) <= moment(date, dateFormat) &&
+      moment(max, dateFormat) >= moment(date, dateFormat))
+  ) {
+    return true;
+  }
+
+  return false;
+};

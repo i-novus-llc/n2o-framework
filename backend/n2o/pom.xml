@@ -20,13 +20,11 @@
         <module>n2o-config-hazelcast</module>
         <module>n2o-mvc</module>
         <module>n2o-engine</module>
-        <module>n2o-engine-rest</module>
         <module>n2o-engine-sql</module>
         <module>n2o-engine-sqlt</module>
         <module>n2o-engine-ejb</module>
         <module>n2o-rest</module>
         <module>n2o-access</module>
-        <module>n2o-context</module>
         <module>n2o-test</module>
         <module>n2o-spring-boot-starter</module>
         <module>n2o-export</module>
@@ -97,20 +95,6 @@
 
         </dependencies>
     </dependencyManagement>
-
-    <reporting>
-        <excludeDefaults>true</excludeDefaults>
-        <plugins>
-            <plugin>
-                <groupId>ru.yandex.qatools.allure</groupId>
-                <artifactId>allure-maven-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <outputDirectory>target/allure-report</outputDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
 
     <profiles>
         <profile>

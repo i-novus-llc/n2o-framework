@@ -87,9 +87,11 @@ public class N2oQueryProcessor implements QueryProcessor {
 
 
     public CollectionPage<DataSet> executeOneSizeQuery(CompiledQuery query, N2oPreparedCriteria criteria) {
+        criteria.setSize(2);
         criteria.setCount(2);
         N2oQuery.Selection selection = findUniqueSelection(query, criteria);
         Object result = executeQuery(selection, query, criteria);
+        criteria.setSize(1);
         if (selection.getType().equals(N2oQuery.Selection.Type.list)) {
             CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
             if (page.getCollection() == null || page.getCollection().size() == 0) {
@@ -110,8 +112,7 @@ public class N2oQueryProcessor implements QueryProcessor {
     }
 
     private N2oQuery.Selection findCountSelection(final CompiledQuery query, final N2oPreparedCriteria criteria) {
-        List<String> filterFields = criteria.getRestrictions() == null ? new ArrayList<>() :
-                criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toList());
+        Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getCounts(), filterFields, query.getId());
         if (selection == null)
             throw new N2oException("Can't find selection for count request");
@@ -122,8 +123,7 @@ public class N2oQueryProcessor implements QueryProcessor {
     private N2oQuery.Selection findUniqueSelection(final CompiledQuery query, final N2oPreparedCriteria criteria) {
         resolveRestriction(query, criteria);
         addDefaultFilters(query, criteria);
-        List<String> filterFields = criteria.getRestrictions() == null ? new ArrayList<>() :
-                criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toList());
+        Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getUniques(), filterFields, query.getId());
         if (selection != null)
             return selection;
@@ -136,12 +136,18 @@ public class N2oQueryProcessor implements QueryProcessor {
     private N2oQuery.Selection findListSelection(final CompiledQuery query, final N2oPreparedCriteria criteria) {
         resolveRestriction(query, criteria);
         addDefaultFilters(query, criteria);
-        List<String> filterFields = criteria.getRestrictions() == null ? new ArrayList<>() :
-                criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toList());
+        Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getLists(), filterFields, query.getId());
         if (selection == null)
             throw new N2oException("Can't find selection for list request");
         return selection;
+    }
+
+    private Set<String> getFilterIds(CompiledQuery query, N2oPreparedCriteria criteria) {
+        return criteria.getRestrictions() == null ? Collections.emptySet() :
+                    criteria.getRestrictions().stream()
+                            .map(r -> query.getFilterFieldId(r.getFieldId(), r.getType()))
+                            .collect(Collectors.toSet());
     }
 
     @SuppressWarnings("unchecked")
@@ -261,7 +267,7 @@ public class N2oQueryProcessor implements QueryProcessor {
         });
     }
 
-    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, List<String> filterFields, String
+    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String
             queryId) {
         if (selections == null) {
             return null;
@@ -285,7 +291,7 @@ public class N2oQueryProcessor implements QueryProcessor {
         return null;
     }
 
-    private N2oQuery.Selection findSelectionByFilters(N2oQuery.Selection[] selections, List<String> filterFields) {
+    private N2oQuery.Selection findSelectionByFilters(N2oQuery.Selection[] selections, Set<String> filterFields) {
         for (N2oQuery.Selection selection : selections) {
             if (selection.getFilters() == null || selection.getFilters().isEmpty()) {
                 continue;
