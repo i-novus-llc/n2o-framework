@@ -35,6 +35,7 @@ import {
   getLocation,
   LOCATION_CHANGE,
   replace,
+  push,
 } from 'connected-react-router';
 import queryString from 'query-string';
 import {
@@ -194,7 +195,7 @@ function* getMetadata(action) {
     if (err && err.status) {
       const page = findLast(errorPages, ['status', err.status]);
       if (page) {
-        history.push(page.path);
+        yield put(push(page.path));
         return;
       }
     }

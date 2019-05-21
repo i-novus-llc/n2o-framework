@@ -50,10 +50,10 @@ class N2o extends Component {
   }
 
   render() {
-    const { routes, security } = this.props;
+    const { routes, security, customErrorPages } = this.props;
 
     const config = createFactoryConfig(this.generateCustomConfig());
-    const errorPages = configureErrorPages(config.customErrorPages);
+    const errorPages = configureErrorPages(customErrorPages);
 
     return (
       <Provider store={this.store}>
@@ -121,6 +121,7 @@ N2o.propTypes = {
   }),
   customReducers: PropTypes.object,
   customSagas: PropTypes.array,
+  customErrorPages: PropTypes.object,
 };
 
 const EnhancedN2O = compose(
