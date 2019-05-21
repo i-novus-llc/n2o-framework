@@ -373,12 +373,12 @@ class AdvancedTable extends Component {
   }
 
   getRowProps(model, index) {
-    const { isActive, rowColor, rowClick } = this.props;
+    const { isActive, rowClick, rowClass } = this.props;
     return {
       index,
       rowClick,
       isRowActive: model.id === this.state.selectIndex,
-      color: rowColor && propsResolver(rowColor, model),
+      rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
       onClick: isActive

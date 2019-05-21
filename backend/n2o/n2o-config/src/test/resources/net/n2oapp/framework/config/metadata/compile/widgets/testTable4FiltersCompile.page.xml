@@ -2,7 +2,7 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" layout="SingleLayout">
 
     <regions>
-        <none place="single">
+        <region place="single">
             <table id="main" query-id="testTable4Compile"
                    object-id="utBlank">
                 <filters place="left" search-buttons="false">
@@ -31,7 +31,7 @@
                     <column text-field-id="name"/>
                 </columns>
             </table>
-        </none>
+        </region>
     </regions>
 
 </page>

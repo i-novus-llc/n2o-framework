@@ -79,11 +79,12 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         }
         compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null, null);
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
+        component.setClassName(source.getCssClass());
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         if (source.getRows() != null) {
-            if (source.getRows().getColorFieldId() != null) {
-                component.setRowColor(p.resolveJS(source.getRows().getColorFieldId()));
+            if (source.getRows().getRowClass() != null) {
+                component.setRowClass(p.resolveJS(source.getRows().getRowClass()));
             } else {
                 if (source.getRows().getColor() != null) {
                     Map<Object, String> resolvedCases = new HashMap<>();
@@ -91,7 +92,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                         resolvedCases.put(p.resolve(key), source.getRows().getColor().getCases().get(key));
                     }
                     source.getRows().getColor().setResolvedCases(resolvedCases);
-                    component.setRowColor(buildSwitchExpression(source.getRows().getColor()));
+                    component.setRowClass(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
             compileRowClick(source, component, context, p, widgetScope, widgetRouteScope);
