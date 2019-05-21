@@ -121,7 +121,8 @@
     "text-mask-addons": "3.7.1",
     "whatwg-fetch": "2.0.3",
     "why-did-you-update": "0.1.1",
-    "xhr-mock": "2.4.1"
+    "xhr-mock": "2.4.1",
+    "rc-slider": "^8.6.11"
   },
   "peerDependencies": {
     "react": "^16.0.0",
