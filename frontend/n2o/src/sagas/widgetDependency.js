@@ -181,25 +181,23 @@ export function registerWidgetDependency(
 
 /**
  * Резолв всех зависимостей виджета
- * @param initialPrevState
- * @param initialState
+ * @param prevState
+ * @param state
  * @param widgetsDependencies
  * @returns {IterableIterator<*|CallEffect>}
  */
 export function* resolveWidgetDependency(
-  initialPrevState,
-  initialState,
+  prevState,
+  state,
   widgetsDependencies
 ) {
-  let prevState = initialPrevState;
-  let state = initialState;
-
   const dependenciesKeys = keys(widgetsDependencies);
   for (let i = 0; i < dependenciesKeys.length; i++) {
     const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]];
     const widgetDependenciesKeys = keys(dependency);
-    const isVisible = makeWidgetVisibleSelector(widgetId)(state);
     for (let j = 0; j < widgetDependenciesKeys.length; j++) {
+      const prevIsVisible = makeWidgetVisibleSelector(widgetId)(prevState);
+      const isVisible = yield select(makeWidgetVisibleSelector(widgetId));
       const prevModel = getModelsByDependency(
         dependency[widgetDependenciesKeys[j]]
       )(prevState);
@@ -207,18 +205,14 @@ export function* resolveWidgetDependency(
         dependency[widgetDependenciesKeys[j]]
       )(state);
       if (!isEqual(prevModel, model)) {
-        const newState = yield call(
+        yield call(
           resolveDependency,
           widgetDependenciesKeys[j],
           widgetId,
           model,
-          isVisible
+          isVisible,
+          prevIsVisible
         );
-
-        if (!isEqual(state, newState)) {
-          prevState = state;
-          state = newState;
-        }
       }
     }
   }
@@ -230,12 +224,19 @@ export function* resolveWidgetDependency(
  * @param widgetId
  * @param model
  * @param isVisible
+ * @param prevIsVisible
  * @returns {IterableIterator<*|CallEffect>}
  */
-export function* resolveDependency(dependencyType, widgetId, model, isVisible) {
+export function* resolveDependency(
+  dependencyType,
+  widgetId,
+  model,
+  isVisible,
+  prevIsVisible
+) {
   switch (dependencyType) {
     case DEPENDENCY_TYPES.fetch: {
-      if (isVisible) {
+      if (prevIsVisible !== false && isVisible) {
         yield call(resolveFetchDependency, widgetId);
       }
       break;
@@ -251,8 +252,6 @@ export function* resolveDependency(dependencyType, widgetId, model, isVisible) {
     default:
       break;
   }
-
-  return yield select();
 }
 
 /**
