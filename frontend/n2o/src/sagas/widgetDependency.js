@@ -6,7 +6,16 @@ import {
   call,
   put,
 } from 'redux-saga/effects';
-import { keys, isEqual, reduce, map, includes, some, isEmpty } from 'lodash';
+import {
+  keys,
+  isEqual,
+  reduce,
+  map,
+  includes,
+  some,
+  isEmpty,
+  forOwn,
+} from 'lodash';
 import {
   REGISTER_DEPENDENCY,
   UPDATE_WIDGET_DEPENDENCY,
@@ -26,6 +35,28 @@ import propsResolver from '../utils/propsResolver';
 
 export const reduceFunction = (isTrue, { model, config }) => {
   return isTrue && propsResolver('`' + config.condition + '`', model);
+};
+
+export const sortDependency = dependency => {
+  let tmpFetch = {};
+  let newDependency = {};
+
+  forOwn(dependency, (v, k) => {
+    if (k !== 'fetch') {
+      newDependency[k] = v;
+    } else {
+      tmpFetch[k] = v;
+    }
+  });
+
+  if (!isEmpty(tmpFetch)) {
+    newDependency = {
+      ...newDependency,
+      ...tmpFetch,
+    };
+  }
+
+  return newDependency;
 };
 
 /**
@@ -117,43 +148,52 @@ export function* forceUpdateDependency(state, widgetsDependencies, widgetId) {
  * @param dependency
  * @returns {{}}
  */
-export function* registerWidgetDependency(
+export function registerWidgetDependency(
   widgetsDependencies,
   widgetId,
   dependency
 ) {
-  let parents = [];
+  if (dependency) {
+    let parents = [];
 
-  map(dependency, dep => {
-    map(dep, d => {
-      if (d.on) {
-        parents.push(d.on);
-      }
+    dependency = sortDependency(dependency);
+
+    map(dependency, dep => {
+      map(dep, d => {
+        if (d.on) {
+          parents.push(d.on);
+        }
+      });
     });
-  });
 
-  return {
-    ...widgetsDependencies,
-    [widgetId]: {
-      widgetId,
-      dependency,
-      parents,
-    },
-  };
+    return {
+      ...widgetsDependencies,
+      [widgetId]: {
+        widgetId,
+        dependency,
+        parents,
+      },
+    };
+  }
+
+  return widgetsDependencies;
 }
 
 /**
  * Резолв всех зависимостей виджета
- * @param prevState
- * @param state
+ * @param initialPrevState
+ * @param initialState
  * @param widgetsDependencies
  * @returns {IterableIterator<*|CallEffect>}
  */
 export function* resolveWidgetDependency(
-  prevState,
-  state,
+  initialPrevState,
+  initialState,
   widgetsDependencies
 ) {
+  let prevState = initialPrevState;
+  let state = initialState;
+
   const dependenciesKeys = keys(widgetsDependencies);
   for (let i = 0; i < dependenciesKeys.length; i++) {
     const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]];
@@ -167,13 +207,18 @@ export function* resolveWidgetDependency(
         dependency[widgetDependenciesKeys[j]]
       )(state);
       if (!isEqual(prevModel, model)) {
-        yield call(
+        const newState = yield call(
           resolveDependency,
           widgetDependenciesKeys[j],
           widgetId,
           model,
           isVisible
         );
+
+        if (!isEqual(state, newState)) {
+          prevState = state;
+          state = newState;
+        }
       }
     }
   }
@@ -206,6 +251,8 @@ export function* resolveDependency(dependencyType, widgetId, model, isVisible) {
     default:
       break;
   }
+
+  return yield select();
 }
 
 /**
