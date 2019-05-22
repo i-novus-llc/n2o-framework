@@ -29,7 +29,7 @@ const convertStrToFloatOrInt = value => {
 /**
  * HOC для преобразования заданных пропсов из строки в число
  * @param convertProps - список свойств
- * @returns {function(*): function({stringMode: *, rest?: *}): *}
+ * @return {function}
  */
 export const stringConverter = (convertProps = []) => WrapperComponent => ({
   stringMode,
@@ -60,7 +60,7 @@ export const stringConverter = (convertProps = []) => WrapperComponent => ({
  * Кастомный стиль если vertical=true
  * @param vertical - установлен ли вертикальный режим
  * @param style - стили для мерджа
- * @returns {*}
+ * @return {*}
  */
 export const prepareStyle = (vertical = false, style = {}) => {
   const fromVerticalStyle = {
