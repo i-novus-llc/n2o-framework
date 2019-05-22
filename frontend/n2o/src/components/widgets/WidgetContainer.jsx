@@ -126,11 +126,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        */
       componentWillUnmount() {
         const { widgetId, dispatch } = this.props;
-        let actions = [
-          removeWidget(widgetId),
-          removeAlerts(widgetId),
-          removeAllModel(widgetId),
-        ];
+        let actions = [removeAlerts(widgetId), removeAllModel(widgetId)];
         dispatch(batchActions(actions));
       }
 

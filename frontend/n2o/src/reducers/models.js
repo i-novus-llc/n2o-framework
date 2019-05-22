@@ -19,6 +19,7 @@ import {
   MERGE,
   COPY,
   CLEAR,
+  PREFIXES,
 } from '../constants/models';
 import { omitDeep, setIn } from '../tools/helpers';
 
@@ -131,7 +132,7 @@ export default function models(state = modelState, action) {
     case REMOVE_ALL:
       return {
         ...state,
-        ...omitDeep(state, [action.payload.key]),
+        ...omitDeep(omit(state, PREFIXES.filter), [action.payload.key]),
       };
     case CLEAR:
       const res = {};
