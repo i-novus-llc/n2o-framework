@@ -3,11 +3,10 @@
 .n2o-slider{
   .rc-slider-handle{
     border: solid 2px $n2o-slider-handle-color;
-    &:hover{
-      box-shadow: 0 0 0 2px $n2o-slider-handle-color;
-    }
-    &:active{
-      box-shadow: 0 0 0 2px $n2o-slider-handle-color;
+    &:hover,
+    &:active,
+    &:focus{
+      box-shadow: 0 0 5px $n2o-slider-handle-color;
     }
   }
   .rc-slider-track{
