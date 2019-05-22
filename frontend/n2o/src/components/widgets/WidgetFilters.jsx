@@ -57,11 +57,6 @@ class WidgetFilters extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    const { widgetId, clearFilterModel } = this.props;
-    clearFilterModel(widgetId);
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { filterModel, reduxFormFilter } = this.props;
     const { defaultValues } = this.state;
