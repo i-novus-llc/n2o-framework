@@ -28,6 +28,7 @@ import Application from './components/core/Application';
 import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
+import configureErrorPages from './components/errors';
 
 addLocaleData(ruLocaleData);
 
@@ -49,7 +50,11 @@ class N2o extends Component {
   }
 
   render() {
-    const { routes, security } = this.props;
+    const { routes, security, customErrorPages } = this.props;
+
+    const config = createFactoryConfig(this.generateCustomConfig());
+    const errorPages = configureErrorPages(customErrorPages);
+
     return (
       <Provider store={this.store}>
         <SecurityProvider {...security}>
@@ -57,12 +62,15 @@ class N2o extends Component {
             render={(locale, messages) => (
               <IntlProvider locale={locale} messages={messages}>
                 <FactoryProvider
-                  config={createFactoryConfig(this.generateCustomConfig())}
+                  config={config}
                   securityBlackList={['actions']}
                 >
                   <ConnectedRouter history={history}>
                     <Switch>
                       {routes.map(route => (
+                        <Route {...route} />
+                      ))}
+                      {errorPages.map(route => (
                         <Route {...route} />
                       ))}
                       <Route path="/:pageUrl*" render={RootPage} />
@@ -113,6 +121,7 @@ N2o.propTypes = {
   }),
   customReducers: PropTypes.object,
   customSagas: PropTypes.array,
+  customErrorPages: PropTypes.object,
 };
 
 const EnhancedN2O = compose(
