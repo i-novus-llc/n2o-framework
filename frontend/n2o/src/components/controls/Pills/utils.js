@@ -38,5 +38,8 @@ export const prepareValue = (
     currentValue.push(id);
     return currentValue;
   }
+  if (currentValue.includes(id)) {
+    return [];
+  }
   return [id];
 };

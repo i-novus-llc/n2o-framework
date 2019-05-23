@@ -43,6 +43,4 @@ describe('<Pills />', () => {
     expect(onClick.calledOnce).toBe(true);
     expect(onClick.getCalls()[0].lastArg).toBe(22);
   });
-
-  it('onFocus', () => {});
 });
