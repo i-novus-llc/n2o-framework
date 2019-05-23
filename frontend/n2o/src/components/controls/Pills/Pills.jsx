@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { map } from 'lodash';
+import cx from 'classnames';
 
 /**
  * Контролл Pills
@@ -10,7 +11,7 @@ import { map } from 'lodash';
  * @returns {*}
  * @constructor
  */
-function Pills({ data, onClick, ...rest }) {
+function Pills({ data, onClick, className, ...rest }) {
   const handleOnClick = id => e => {
     onClick(e, id);
   };
@@ -24,7 +25,7 @@ function Pills({ data, onClick, ...rest }) {
   );
 
   return (
-    <Nav pills {...rest}>
+    <Nav className={cx('n2o-pill-filter', className)} pills {...rest}>
       {map(data, renderPills)}
     </Nav>
   );
@@ -32,6 +33,7 @@ function Pills({ data, onClick, ...rest }) {
 
 Pills.propTypes = {
   data: PropTypes.array,
+  className: PropTypes.string,
 };
 Pills.defaultProps = {
   multiSelect: [],
