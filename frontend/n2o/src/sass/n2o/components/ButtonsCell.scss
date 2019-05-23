@@ -7,6 +7,24 @@
     }
   }
 
+  &-dropdown {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 10rem;
+
+     padding: .5rem 0;
+    margin: .125rem 0 0;
+    border: 1px solid rgba(0,0,0,.15);
+    font-size: 1rem;
+    color: #263238;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    z-index: 1;
+  }
+
   .btn-link:not(:first-child),
   .btn-group:not(:first-child) > .btn-link  {
     &::before{
