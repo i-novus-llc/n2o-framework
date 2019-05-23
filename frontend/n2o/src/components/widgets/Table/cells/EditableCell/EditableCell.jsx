@@ -92,15 +92,17 @@ export class EditableCell extends React.Component {
   }
 
   render() {
-    const { visible, control, editable, ...rest } = this.props;
+    const { visible, control, editable, parentWidth, parentHeight, ...rest } = this.props;
     const { value, editing } = this.state;
-    const controlHeight = this.node && findDOMNode(this.node).clientHeight;
     return (
       visible && (
         <div
+          style={{
+            width: parentWidth,
+            height: parentHeight
+          }}
           className={cn({ 'n2o-editable-cell': editable })}
           onClick={e => e.stopPropagation()}
-          ref={el => (this.node = el)}
         >
           {!editing && (
             <div
@@ -117,7 +119,7 @@ export class EditableCell extends React.Component {
             >
               <div
                 className="n2o-editable-cell-control"
-                style={{ height: controlHeight }}
+                style={{ height: parentHeight }}
               >
                 {React.createElement(control.component, {
                   ...control,
