@@ -217,8 +217,15 @@ $custom-checkbox-indicator-icon-close : str-replace(url("data:image/svg+xml,%3C%
 $search-text-color: $red;
 
 // Sidebar
-$sidebar-width: 300px !default;
+$sidebar-width: 260px !default;
 $sidebar-color: $gray-200 !default;
-$sidebar-brand-font-size: 24px !default;
 $sidebar-bg-color: $primary !default;
-$sidebar-navbar-bg-color: #10283a !default;
+$sidebar-item-hover-bg: rgba(255, 255, 255, 0.1) !default;
+// Sidebar brand
+$sidebar-brand-font-size: 20px !default;
+$sidebar-brand-bg-color: #0d151c !default;
+$sidebar-brand-padding: 15px 10px !default;
+$sidebar-brand-border-bottom: 1px solid #293845 !default;
+$sidebar-brand-border-top: 0 !default;
+$sidebar-brand-border-left: 0 !default;
+$sidebar-brand-border-right: 0 !default;

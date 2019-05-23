@@ -1,4 +1,7 @@
 .n2o-sidebar {
+  display: flex;
+  flex-direction: column;
+
   width: $sidebar-width;
 
   color: $sidebar-color;
@@ -14,15 +17,60 @@
     display: flex;
     justify-content: center;
 
-    background-color: $sidebar-navbar-bg-color;
+    padding: $sidebar-brand-padding;
+
+    border-bottom: $sidebar-brand-border-bottom;
+    border-top: $sidebar-brand-border-top;
+    border-left: $sidebar-brand-border-left;
+    border-right: $sidebar-brand-border-right;
+
+    background-color: $sidebar-brand-bg-color;
+  }
+
+  &__nav-list,
+  &__extra-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__nav-item {
+    &-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  & .nav-item,
+  & .n2o-user-box__dropdown-item,
+  & .dropdown-item,
+  &__toggler {
+    &:hover {
+      color: inherit;
+      background: $sidebar-item-hover-bg;
+    }
+  }
+
+  &__footer {
+    margin-top: auto;
+  }
+
+  &__extra {
+
+  }
+
+  &__toggler {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5rem 1rem;
+
+    cursor: pointer;
   }
 }
 
 .n2o-nav-brand {
-  &__icon {
-    margin-right: 1rem;
-  }
-
   &__text {
     font-size: $sidebar-brand-font-size;
   }

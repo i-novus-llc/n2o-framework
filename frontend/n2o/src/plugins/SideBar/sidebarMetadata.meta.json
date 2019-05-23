@@ -1,6 +1,69 @@
 {
-  "brand": "Лого",
-  "brandImage": "https://avatars0.githubusercontent.com/u/25926683?s=200&v=4",
+  "brand": "N2O Framework",
+  "brandImage": "https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png",
+  "userBox": {
+    "image": "http://tiolly.by/img/empty_user.png",
+    "title": "Александр Петров",
+    "subTitle": "17.01.1987 * Москва",
+    "items": [
+      {
+        "id": "link",
+        "label": "О компании",
+        "iconClass": "fa fa-info-circle",
+        "href": "/",
+        "type": "link"
+      },
+      {
+        "id": "dropdown",
+        "label": "Наши проекты",
+        "iconClass": "fa fa-github",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "id": "link1",
+            "label": "N2O",
+            "type": "link",
+            "href": "/test3"
+          },
+          {
+            "id": "link2",
+            "label": "LSD",
+            "type": "link",
+            "href": "/test4"
+          }
+        ]
+      }
+    ]
+  },
+  "extra": [
+    {
+      "id": "link",
+      "label": "О компании",
+      "iconClass": "fa fa-info-circle",
+      "href": "/",
+      "type": "link"
+    },
+    {
+      "id": "dropdown",
+      "label": "Наши проекты",
+      "iconClass": "fa fa-github",
+      "type": "dropdown",
+      "subItems": [
+        {
+          "id": "link1",
+          "label": "N2O",
+          "type": "link",
+          "href": "/test3"
+        },
+        {
+          "id": "link2",
+          "label": "LSD",
+          "type": "link",
+          "href": "/test4"
+        }
+      ]
+    }
+  ],
   "color": "default",
   "fixed": false,
   "collapsed": true,

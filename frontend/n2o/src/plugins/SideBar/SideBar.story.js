@@ -31,7 +31,7 @@ stories
     };
     return (
       <Template>
-        <SideBar {...props} />
+        <SideBar {...sidebarMetadata} />
         <div
           style={{
             width: '100%',
