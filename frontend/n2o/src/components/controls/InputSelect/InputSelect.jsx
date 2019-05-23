@@ -371,8 +371,11 @@ class InputSelect extends React.Component {
 
   handleClickOutside(evt) {
     const { resetOnBlur } = this.props;
-    this._hideOptionsList();
-    resetOnBlur && this._handleValueChangeOnBlur();
+    const { isExpanded } = this.state;
+    if (isExpanded) {
+      this._hideOptionsList();
+      resetOnBlur && this._handleValueChangeOnBlur();
+    }
   }
 
   setSelectedItemsRef(ref) {
@@ -415,7 +418,6 @@ class InputSelect extends React.Component {
       autoFocus,
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
-
     const selectedPadding = this.calcSelectedItemsWidth();
 
     return (
