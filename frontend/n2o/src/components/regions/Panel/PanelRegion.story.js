@@ -28,6 +28,7 @@ const PanelRegionJson = set(
   pullAt(cloneObject(SecurePanelRegion).panels, 0)
 );
 const defaultProps = { panels: PanelRegionJson.panels.slice(0, 1) };
+const defaultTwoPanels = { panels: SecurePanelRegion.panels.slice(0, 2) };
 const { store } = makeStore();
 
 stories
@@ -166,9 +167,10 @@ stories
   })
   .add('Вкладки', () => {
     const panelParams = [
-      { ...defaultProps, headerTitle: 'С вкладками', hasTabs: true },
-      { ...defaultProps, headerTitle: 'Без вкладок', hasTabs: false },
+      { ...defaultTwoPanels, headerTitle: 'С вкладками', hasTabs: true },
+      { ...defaultTwoPanels, headerTitle: 'Без вкладок', hasTabs: false },
     ];
+
     return (
       <div className="row">
         {panelParams.map(item => (

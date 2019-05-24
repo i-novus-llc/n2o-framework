@@ -13,7 +13,11 @@ class PanelFooter extends React.Component {
    */
 
   render() {
-    return <CardFooter>{this.props.children}</CardFooter>;
+    return (
+      <CardFooter className="panel-region-footer">
+        {this.props.children}
+      </CardFooter>
+    );
   }
 }
 

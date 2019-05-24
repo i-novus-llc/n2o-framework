@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+import cn from 'classnames';
 
 import Panel from './Panel';
 import panelStyles from './panelStyles';
@@ -121,7 +122,7 @@ class PanelContainer extends React.Component {
       <Panel
         color={color}
         style={style}
-        className={className}
+        className={cn(className, { 'n2o-panel-region--tabs': hasTabs })}
         open={this.state.open}
         isFullScreen={this.state.isFullScreen}
         onKeyPress={this.handleKeyPress}
@@ -141,11 +142,14 @@ class PanelContainer extends React.Component {
               fullScreenIcon={fullScreenIcon}
             >
               {hasTabs &&
-                tabs.map(tab => {
+                tabs.map((tab, i) => {
+                  const activeTab = this.state.activeTab
+                    ? this.state.activeTab === tab.id
+                    : i === 0;
                   return (
                     <Panel.NavItem
                       id={tab.id}
-                      active={this.state.activeTab === tab.id}
+                      active={activeTab}
                       disabled={tab.disabled}
                       className={tab.className}
                       style={tab.style}
@@ -171,7 +175,10 @@ class PanelContainer extends React.Component {
             </Panel.Menu>
           </Panel.Heading>
         )}
-        <Panel.Collapse isOpen={this.state.open}>
+        <Panel.Collapse
+          className={cn({ 'd-flex flex-column': this.state.open })}
+          isOpen={this.state.open}
+        >
           <Panel.Body hasTabs={hasTabs} activeKey={this.state.activeTab}>
             {hasTabs
               ? tabs.map(tab => {
