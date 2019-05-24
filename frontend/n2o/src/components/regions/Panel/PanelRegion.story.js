@@ -28,7 +28,42 @@ const PanelRegionJson = set(
   pullAt(cloneObject(SecurePanelRegion).panels, 0)
 );
 const defaultProps = { panels: PanelRegionJson.panels.slice(0, 1) };
-const defaultTwoPanels = { panels: SecurePanelRegion.panels.slice(0, 2) };
+const defaultTwoPanels = {
+  panels: [
+    {
+      icon: 'fa fa-plus',
+      label: 'Первый таб',
+      id: 'panel1',
+      opened: true,
+      widgetId: 'Page_Html',
+      isVisible: false,
+      dependency: {
+        visible: [
+          {
+            bindLink: 'models.resolve',
+            condition: false,
+          },
+        ],
+      },
+    },
+    {
+      icon: 'fa fa-plus',
+      label: 'Второй таб',
+      id: 'panel2',
+      opened: false,
+      widgetId: 'Page_Html',
+      isVisible: false,
+      dependency: {
+        visible: [
+          {
+            bindLink: 'models.resolve',
+            condition: false,
+          },
+        ],
+      },
+    },
+  ],
+};
 const { store } = makeStore();
 
 stories

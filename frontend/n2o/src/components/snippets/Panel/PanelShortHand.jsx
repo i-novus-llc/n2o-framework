@@ -143,13 +143,16 @@ class PanelContainer extends React.Component {
             >
               {hasTabs &&
                 tabs.map((tab, i) => {
-                  const activeTab = this.state.activeTab
-                    ? this.state.activeTab === tab.id
-                    : i === 0;
+                  let activeTab = this.state.activeTab;
+
+                  if (!activeTab && i === 0) {
+                    this.changeActiveTab(tab.id);
+                  }
+
                   return (
                     <Panel.NavItem
                       id={tab.id}
-                      active={activeTab}
+                      active={activeTab === tab.id}
                       disabled={tab.disabled}
                       className={tab.className}
                       style={tab.style}
