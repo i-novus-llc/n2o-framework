@@ -66,40 +66,25 @@ function SideBar({
         };
   };
 
-  const navItems = map(items, (item, i) => (
-    <NavItemContainer
-      key={i}
-      item={mapLabel(mapLinkToDropdown(item, visible), visible)}
-      activeId={activeId}
-      type="sidebar"
-      sidebarOpen={visible}
-    />
-  ));
-
-  const userBoxItems = map(get(userBox, 'items'), (item, i) => (
-    <NavItemContainer
-      key={i}
-      item={mapLabel(mapLinkToDropdown(item, visible), visible)}
-      activeId={activeId}
-      type="sidebar"
-      sidebarOpen={visible}
-    />
-  ));
-
-  const extraItems = map(extra, (item, i) => (
-    <NavItemContainer
-      key={i}
-      item={mapLabel(mapLinkToDropdown(item, visible), visible)}
-      activeId={activeId}
-      type="sidebar"
-      sidebarOpen={visible}
-    />
-  ));
+  const renderItems = items =>
+    map(items, (item, i) => (
+      <NavItemContainer
+        key={i}
+        item={mapLabel(mapLinkToDropdown(item, visible), visible)}
+        activeId={activeId}
+        type="sidebar"
+        sidebarOpen={visible}
+        direction="right"
+      />
+    ));
 
   const withoutBrandImage = !visible && !brandImage;
 
   return (
-    <aside className="n2o-sidebar" style={{ width: visible ? width : 60 }}>
+    <aside
+      className={cn('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
+      style={{ width: visible ? width : 60 }}
+    >
       <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
         <a className="d-flex align-items-center" href="/">
           {brandImage && (
@@ -120,15 +105,15 @@ function SideBar({
       </div>
       {userBox && (
         <UserBox {...userBox} compressed={!visible}>
-          {userBoxItems}
+          {renderItems(get(userBox, 'items'))}
         </UserBox>
       )}
       <nav className="n2o-sidebar__nav">
-        <ul className="n2o-sidebar__nav-list">{navItems}</ul>
+        <ul className="n2o-sidebar__nav-list">{renderItems(items)}</ul>
       </nav>
       <div className="n2o-sidebar__footer">
         <div className="n2o-sidebar__extra">
-          <ul className="n2o-sidebar__extra-list">{extraItems}</ul>
+          <ul className="n2o-sidebar__extra-list">{renderItems(extra)}</ul>
         </div>
         {!controlled && (
           <div onClick={onToggle} className="n2o-sidebar__toggler">

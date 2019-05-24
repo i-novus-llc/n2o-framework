@@ -13,6 +13,19 @@
     color: $sidebar-color;
   }
 
+  &--compressed {
+    & a,
+    & button {
+      color: inherit;
+    }
+
+    & .dropdown-menu {
+      & button.dropdown-item:hover {
+        background: rgba(0,0,0,0.1);
+      }
+    }
+  }
+
   &__nav-brand {
     display: flex;
     justify-content: center;
