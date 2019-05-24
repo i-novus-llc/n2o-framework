@@ -21,6 +21,7 @@ import ButtonUploader from './FileUploader/ButtonUploader';
 import DropZone from './FileUploader/DropZone';
 import Switch from './Switch/Switch';
 import InputMoney from './InputMoney/InputMoney';
+import Rating from './Rating/Rating';
 
 export default {
   InputText: InputText,
@@ -46,4 +47,5 @@ export default {
   DropZone: DropZone,
   Switch: Switch,
   InputMoney: InputMoney,
+  Rating: Rating,
 };
