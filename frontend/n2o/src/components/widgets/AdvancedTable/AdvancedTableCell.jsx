@@ -16,7 +16,7 @@ class AdvancedTableCell extends React.Component {
 
     this.state = {
       width: undefined,
-      height: undefined
+      height: undefined,
     };
 
     this.setRef = this.setRef.bind(this);
@@ -31,8 +31,8 @@ class AdvancedTableCell extends React.Component {
     if (this._cell) {
       return {
         parentWidth: this._cell.clientWidth,
-        parentHeight: this._cell.clientHeight
-      }
+        parentHeight: this._cell.clientHeight,
+      };
     }
   }
 
@@ -51,9 +51,17 @@ class AdvancedTableCell extends React.Component {
     }
 
     return (
-      <td  colSpan={colSpan} rowSpan={rowSpan}>
+      <td colSpan={colSpan} rowSpan={rowSpan}>
         <div ref={this.setRef} className="n2o-advanced-table-cell-expand">
-          {React.Children.map(children, child => child && React.cloneElement(child, { ...child.props, ...this.getCellSize() }))}
+          {React.Children.map(
+            children,
+            child =>
+              child &&
+              React.cloneElement(child, {
+                ...child.props,
+                ...this.getCellSize(),
+              })
+          )}
         </div>
       </td>
     );
