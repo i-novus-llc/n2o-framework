@@ -218,7 +218,7 @@ class AdvancedTable extends Component {
           this.setSelectAndFocus(nextData.id, nextData.id);
           this.props.onResolve(nextData);
         } else {
-          this.setNewFocusIndex(nextData.id);
+          this.setSelectAndFocus(nextData.id, nextData.id);
         }
       }
     } else if (eq(keyName, KEY_CODES.SPACE)) {
