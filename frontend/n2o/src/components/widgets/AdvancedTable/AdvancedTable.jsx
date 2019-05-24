@@ -373,12 +373,12 @@ class AdvancedTable extends Component {
   }
 
   getRowProps(model, index) {
-    const { isActive, rowColor, rowClick } = this.props;
+    const { isActive, rowClick, rowClass } = this.props;
     return {
       index,
       rowClick,
       isRowActive: model.id === this.state.selectIndex,
-      color: rowColor && propsResolver(rowColor, model),
+      rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
       onClick: isActive
@@ -456,6 +456,7 @@ class AdvancedTable extends Component {
       rowSelection,
       expandedFieldId,
       expandedComponent,
+      components,
     } = this.props;
     const columns = this.mapColumns(this.state.columns);
     return (
@@ -479,10 +480,12 @@ class AdvancedTable extends Component {
               header: {
                 row: AdvancedTableHeaderRow,
                 cell: AdvancedTableHeaderCell,
+                ...get(components, 'header', {}),
               },
               body: {
                 row: AdvancedTableRow,
                 cell: AdvancedTableCell,
+                ...get(components, 'body', {}),
               },
             }}
             rowKey={record => record.key}

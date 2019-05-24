@@ -26,13 +26,35 @@ class PasswordInput extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { className, length, ...rest } = this.props;
+    const {
+      className,
+      length,
+      style,
+      autoFocus,
+      value,
+      placeholder,
+      disabled,
+      onPaste,
+      onFocus,
+      onBlur,
+      onKeyDown,
+      onChange,
+    } = this.props;
     return (
       <Input
         maxLength={length}
         className={cn(['form-control', { [className]: className }])}
         type="password"
-        {...rest}
+        style={style}
+        autoFocus={autoFocus}
+        value={value == null ? '' : value}
+        placeholder={placeholder}
+        disabled={disabled}
+        onPaste={onPaste}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
+        onChange={onChange}
       />
     );
   }

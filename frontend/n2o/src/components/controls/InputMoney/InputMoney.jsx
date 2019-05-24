@@ -8,7 +8,8 @@ import {
   split,
   replace,
   includes,
-  findIndex,
+  isNaN,
+  last,
 } from 'lodash';
 import InputMask from '../InputMask/InputMask';
 
@@ -69,12 +70,6 @@ class InputMoney extends React.Component {
 
     if (!allowDecimal) {
       value = splitBySymbol[0];
-    } else if (splitBySymbol.length === 2 && splitBySymbol[1].length === 1) {
-      value =
-        splitBySymbol[0] +
-        this.props[ReplaceableChar.DECIMAL_SYMBOL] +
-        splitBySymbol[1] +
-        '0';
     }
     return value;
   }
@@ -117,14 +112,22 @@ class InputMoney extends React.Component {
     ) {
       convertedValue = convertedValue.substring(0, convertedValue.length - 3);
     }
+
+    if (
+      includes(convertedValue, '.') &&
+      last(split(convertedValue, '.')).length === 1
+    ) {
+      convertedValue += '0';
+    }
+
     this.setState({ value: convertedValue });
     return convertedValue;
   }
 
   onChange(value) {
     const { onChange } = this.props;
-    const convertedValue = this.convertToFloat(value);
-    onChange && onChange(parseFloat(convertedValue));
+    const convertedValue = parseFloat(this.convertToFloat(value));
+    onChange && onChange(!isNaN(convertedValue) ? convertedValue : null);
     this.setState({ value: convertedValue });
   }
 
@@ -195,7 +198,7 @@ InputMoney.defaultProps = {
   allowDecimal: true,
   decimalSymbol: ',',
   decimalLimit: 2,
-  integerLimit: null,
+  integerLimit: 15,
   allowNegative: false,
   allowLeadingZeroes: false,
   guide: false,

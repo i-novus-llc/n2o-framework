@@ -145,10 +145,14 @@
                   "fields": [
                     {
                       "id": "testId",
-                      "src": "FilterButtonsField",
-                      "searchLabel": "searchLabel",
-                      "resetLabel": "resetLabel",
-                      "dependency": []
+                      "src": "StandardField",
+                      "dependency": [],
+                      "control": {
+                        "id": "testId",
+                        "src": "FilterButtonsField",
+                        "searchLabel": "searchLabel",
+                        "resetLabel": "resetLabel"
+                      }
                     }
                   ]
                 }
@@ -168,6 +172,7 @@
       "hasSelect": true,
       "className": "n2o",
       "style": {},
+      "rowClass": "`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`",
       "hasFocus": true,
       "autoFocus": false,
       "tableSize": "sm",
@@ -196,7 +201,8 @@
           "src": "TextTableHeader",
           "id": "name",
           "sortable": false,
-          "label": "Имя"
+          "label": "Имя",
+          "width": "50"
         },
         {
           "src": "TextTableHeader",

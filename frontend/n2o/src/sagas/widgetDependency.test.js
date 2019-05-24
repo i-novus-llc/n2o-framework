@@ -3,6 +3,7 @@ import {
   reduceFunction,
   registerWidgetDependency,
   resolveDependency,
+  sortDependency
 } from './widgetDependency';
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 import {
@@ -53,7 +54,7 @@ describe('Проверка саги widgetDependency', () => {
               condition: 'condition',
             },
           ],
-        }).next().value
+        })
       ).toEqual({
         test1: {
           widgetId: 'test1',
@@ -219,6 +220,28 @@ describe('Проверка саги widgetDependency', () => {
           widgetId: 'test1',
         });
       });
+    });
+  });
+  describe('sortDependency', () => {
+    it('проверка правильности сортировки', () => {
+      expect(sortDependency({
+        fetch: [],
+        visible: [],
+        enabled: []
+      }))
+        .toEqual({visible: [], enabled: [], fetch: []});
+      expect(sortDependency({
+        enabled: [],
+        fetch: [],
+        visible: []
+      }))
+        .toEqual({enabled: [], visible: [], fetch: []});
+      expect(sortDependency({
+        enabled: [],
+        visible: [],
+        fetch: []
+      }))
+        .toEqual({enabled: [], visible: [], fetch: []});
     });
   });
 });

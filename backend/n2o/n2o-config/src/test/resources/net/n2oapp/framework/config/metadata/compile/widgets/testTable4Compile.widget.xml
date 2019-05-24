@@ -41,7 +41,7 @@
         </column>
         <column text-field-id="name"/>
     </columns>
-    <rows color-field-id="red"/>
+    <rows class="red"/>
     <filters place="left">
         <input-text id="name" required="true"/>
     </filters>

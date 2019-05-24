@@ -70,7 +70,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
 
 
     private void rows(Element e, N2oRow r, IOProcessor p) {
-        p.attribute(e, "color-field-id", r::getColorFieldId, r::setColorFieldId);
+        p.attribute(e, "class", r::getRowClass, r::setRowClass);
         p.child(e, null, "switch", r::getColor, r::setColor, new SwitchIO());
         p.child(e, null, "click", r::getRowClick, r::setRowClick, N2oRowClick::new, this::rowClick);
     }

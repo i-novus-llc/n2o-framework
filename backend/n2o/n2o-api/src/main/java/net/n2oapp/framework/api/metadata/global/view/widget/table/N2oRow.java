@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class N2oRow implements Serializable, NamespaceUriAware {
     private N2oSwitch color;
     private N2oRowClick rowClick;
-    private String colorFieldId;
+    private String rowClass;
     private String namespaceUri;
 
 }

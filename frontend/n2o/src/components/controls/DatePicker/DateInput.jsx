@@ -112,6 +112,7 @@ class DateInput extends React.Component {
           disabled={disabled}
           onChange={this.onChange}
           onClick={this.onInputClick}
+          keepCharPositions={true}
           style={inputStyle}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
