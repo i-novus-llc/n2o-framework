@@ -1,17 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { map, defaultTo, pick, isEmpty } from 'lodash';
-import {
-  Dropdown,
-  UncontrolledTooltip,
-  DropdownToggle,
-  DropdownMenu,
-} from 'reactstrap';
+import { Button, UncontrolledTooltip } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';
 import { compose, withState } from 'recompose';
 import SecurityCheck from '../../../../../core/auth/SecurityCheck';
 import DropdownCustomItem from '../../../../snippets/DropdownCustomItem/DropdownCustomItem';
+import HintDropDownBody from './HintDropDownBody';
+import { Manager, Reference } from 'react-popper';
 
 /**
  * @param label - Название компонента dropdown
@@ -67,6 +64,7 @@ function HintDropDown({
     const handleClick = action => e => {
       e.stopPropagation();
       onClick(e, action);
+      onToggleDropdown();
     };
 
     const renderItem = () =>
@@ -94,14 +92,14 @@ function HintDropDown({
   };
 
   const onToggleDropdown = e => {
-    e.stopPropagation();
+    e && e.stopPropagation();
     resolveWidget(model);
     onToggle(!open);
   };
 
   const renderDropdown = () =>
     visible ? (
-      <Dropdown direction="down" isOpen={open} toggle={onToggleDropdown}>
+      <Manager>
         {hint && (
           <UncontrolledTooltip
             target={uId}
@@ -112,15 +110,32 @@ function HintDropDown({
             {hint}
           </UncontrolledTooltip>
         )}
-        <DropdownToggle {...dropdownProps} id={uId}>
-          {icon && <Icon name={icon} />}
-          {title}
-          <Icon className="n2o-dropdown-icon" name="fa fa-angle-down" />
-        </DropdownToggle>
-        <DropdownMenu positionFixed={positionFixed} modifiers={modifiers}>
-          {map(menu, createDropDownMenu)}
-        </DropdownMenu>
-      </Dropdown>
+        <Reference>
+          {({ ref }) => (
+            <Button
+              id={uId}
+              className="n2o-buttons-cell-toggler btn btn-link border-0 bg-transparent"
+              innerRef={ref}
+              size="sm"
+              color="light"
+              onFocus={onToggleDropdown}
+              {...dropdownProps}
+            >
+              {icon && <Icon name={icon} />}
+              {title}
+              <Icon className="n2o-dropdown-icon" name="fa fa-angle-down" />
+            </Button>
+          )}
+        </Reference>
+        <HintDropDownBody
+          modifiers={modifiers}
+          positionFixed={positionFixed}
+          menu={menu}
+          onToggleDropdown={onToggleDropdown}
+          createDropDownMenu={createDropDownMenu}
+          open={open}
+        />
+      </Manager>
     ) : null;
 
   return isEmpty(security) ? (
