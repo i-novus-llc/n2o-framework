@@ -339,7 +339,10 @@ class InputSelect extends React.Component {
         input: multiSelect ? '' : item[labelFieldId],
         options,
       }),
-      selectCallback
+      () => {
+        selectCallback();
+        this.props.onBlur();
+      }
     );
   }
 
@@ -375,6 +378,7 @@ class InputSelect extends React.Component {
     if (isExpanded) {
       this._hideOptionsList();
       resetOnBlur && this._handleValueChangeOnBlur();
+      this.props.onBlur();
     }
   }
 
@@ -427,11 +431,6 @@ class InputSelect extends React.Component {
           disabled,
         })}
         toggle={() => {}}
-        onBlur={() => {
-          this._setInputFocus(false);
-          this._setSelected(false);
-          this.props.onBlur();
-        }}
         onFocus={() => {
           this._setInputFocus(true);
           this._setSelected(true);
