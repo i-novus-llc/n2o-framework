@@ -216,6 +216,33 @@ stories
       </div>
     );
   })
+  .add('Тулбар', () => {
+    const panelParams = [
+      {
+        ...defaultTwoPanels,
+        headerTitle: 'С вкладками',
+        hasTabs: false,
+        toolbar: [
+          {
+            id: 1,
+            disabled: false,
+            onClick: () => {},
+            header: 'test',
+          },
+        ],
+      },
+    ];
+
+    return (
+      <div className="row">
+        {panelParams.map(item => (
+          <div className="col-md-12">
+            <PanelRegion {...item} pageId="Page" />
+          </div>
+        ))}
+      </div>
+    );
+  })
   .add('Скрытие панели при visible = false всех виджетов в ней', () => {
     const props = {
       className: text('className', PanelRegionJson.className),

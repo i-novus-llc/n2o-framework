@@ -49,13 +49,13 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
 .fullscreen-toggle,
 .collapse-toggle {
   width: 45px;
-  height: 45px;
 
   border: none;
 }
 
 .fullscreen-toggle > a,
-.collapse-toggle > a {
+.collapse-toggle > a,
+.panel-toolbar-link {
   &:focus {
     outline: none;
     border: 0;
@@ -126,6 +126,8 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
   }
 
   &.panel-heading-link {
+    width: 100%;
+    border: none;
     flex-direction: row;
     justify-content: center;
     align-items: center;

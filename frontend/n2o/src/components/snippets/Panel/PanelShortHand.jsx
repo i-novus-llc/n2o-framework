@@ -126,7 +126,9 @@ class PanelContainer extends React.Component {
       <Panel
         color={color}
         style={style}
-        className={cn(className, { 'n2o-panel-region--tabs': hasTabs })}
+        className={cn(className, {
+          'n2o-panel-region--tabs': hasTabs || !isEmpty(toolbar),
+        })}
         open={this.state.open}
         isFullScreen={this.state.isFullScreen}
         onKeyPress={this.handleKeyPress}
