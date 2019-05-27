@@ -220,14 +220,14 @@ stories
     const panelParams = [
       {
         ...defaultTwoPanels,
-        headerTitle: 'С вкладками',
+        headerTitle: 'Тулбар в заголовке',
         hasTabs: false,
         toolbar: [
           {
             id: 1,
             disabled: false,
-            onClick: () => {},
-            header: 'test',
+            onClick: () => alert('Hello World!'),
+            header: 'Экшен',
           },
         ],
       },
