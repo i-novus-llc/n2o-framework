@@ -5,7 +5,6 @@
                    max="15/12/2021"
                    date-format="DD/MM/YYYY"
                    time-format="HH:mm"
-                   placeholder="Введите дату"
-                   utc="true"/>
+                   placeholder="Введите дату"/>
     </fields>
 </form>

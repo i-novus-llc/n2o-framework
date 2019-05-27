@@ -22,6 +22,4 @@ public class DatePicker extends Control {
     private String popupPlacement;
     @JsonProperty
     private String outputFormat;
-    @JsonProperty
-    private Boolean utc;
 }
