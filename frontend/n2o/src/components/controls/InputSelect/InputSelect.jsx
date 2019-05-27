@@ -420,6 +420,10 @@ class InputSelect extends React.Component {
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
 
     const selectedPadding = this.calcSelectedItemsWidth();
+    const needAddFilter = !find(
+      this.state.value,
+      item => item[labelFieldId] === this.state.input
+    );
 
     return (
       <Dropdown
@@ -502,6 +506,7 @@ class InputSelect extends React.Component {
             filterValue={{
               [labelFieldId]: this.state.input,
             }}
+            needAddFilter={needAddFilter}
             options={this.state.options}
             valueFieldId={valueFieldId}
             labelFieldId={labelFieldId}
