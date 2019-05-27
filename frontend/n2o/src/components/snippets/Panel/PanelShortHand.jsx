@@ -117,7 +117,11 @@ class PanelContainer extends React.Component {
       header,
     } = this.props;
 
-    const fullScreenIcon = this.state.isFullScreen ? 'compress' : 'expand';
+    const fullScreenIcon = this.state.isFullScreen
+      ? 'fa-compress'
+      : 'fa-expand';
+    const collapseIcon = this.state.open ? 'fa-chevron-down' : 'fa-chevron-up';
+
     return (
       <Panel
         color={color}
@@ -129,17 +133,16 @@ class PanelContainer extends React.Component {
       >
         {header && (
           <Panel.Heading>
-            <Panel.Title
-              collapsible={collapsible}
-              icon={icon}
-              onToggle={this.toggleCollapse}
-            >
+            <Panel.Title collapsible={collapsible} icon={icon}>
               {headerTitle}
             </Panel.Title>
             <Panel.Menu
               fullScreen={fullScreen}
               onFullScreenClick={this.handleFullScreen}
               fullScreenIcon={fullScreenIcon}
+              collapseIcon={collapseIcon}
+              onToggle={this.toggleCollapse}
+              collapsible={collapsible}
             >
               {hasTabs &&
                 tabs.map((tab, i) => {
@@ -179,7 +182,9 @@ class PanelContainer extends React.Component {
           </Panel.Heading>
         )}
         <Panel.Collapse
-          className={cn({ 'd-flex flex-column': this.state.open })}
+          className={cn({
+            'd-flex flex-column n2o-panel-region--grow': this.state.open,
+          })}
           isOpen={this.state.open}
         >
           <Panel.Body hasTabs={hasTabs} activeKey={this.state.activeTab}>

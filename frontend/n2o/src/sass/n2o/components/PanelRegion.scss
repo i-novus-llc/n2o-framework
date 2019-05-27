@@ -1,4 +1,7 @@
 .n2o-panel-region {
+  &--grow {
+    flex-grow: 1;
+  }
   margin-bottom: 1.5rem;
   border-top: $panel-region-border-top;
   border-right: $panel-region-border-right;
@@ -17,7 +20,7 @@
     right: 0;
 
     width: 100%;
-    height: calc(100% - 45px);
+    height: 100%;
 
     z-index: 1000;
   }
@@ -43,14 +46,16 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
   }
 }
 
-.fullscreen-toggle {
+.fullscreen-toggle,
+.collapse-toggle {
   width: 45px;
   height: 45px;
 
   border: none;
 }
 
-.fullscreen-toggle > a {
+.fullscreen-toggle > a,
+.collapse-toggle > a {
   &:focus {
     outline: none;
     border: 0;
