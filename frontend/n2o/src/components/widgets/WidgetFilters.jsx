@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues, reset } from 'redux-form';
-import { isEqual, difference, map, isEmpty, set } from 'lodash';
+import { isEqual, difference, map, isEmpty, unset } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 
 import ReduxForm from './Form/ReduxForm';
@@ -103,7 +103,7 @@ class WidgetFilters extends React.Component {
       blackResetList
     );
     toReset.forEach(field => {
-      set(newReduxForm, field, undefined);
+      unset(newReduxForm, field);
     });
     this.setState(
       {
