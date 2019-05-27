@@ -185,12 +185,14 @@ class InputNumber extends React.Component {
               <button
                 onClick={this.buttonHandler.bind(this, 'up')}
                 disabled={disabled}
+                tabIndex={-1}
               >
                 <i className="fa fa-angle-up" aria-hidden="true" />
               </button>
               <button
                 onClick={this.buttonHandler.bind(this, 'down')}
                 disabled={disabled}
+                tabIndex={-1}
               >
                 <i className="fa fa-angle-down" aria-hidden="true" />
               </button>
