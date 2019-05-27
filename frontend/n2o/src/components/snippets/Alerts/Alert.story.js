@@ -15,7 +15,7 @@ import _ from 'lodash';
 import Alert from './Alert';
 import Factory from '../../../core/factory/Factory';
 import fetchMock from 'fetch-mock';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
+import { WIDGETS, SNIPPETS } from '../../../core/factory/factoryLevels';
 import widgetAlerts from 'N2oStorybook/json/widgetAlerts.json';
 import globalAlert from 'N2oStorybook/json/globalAlerts.json';
 import withPage from '../../../../.storybook/decorators/withPage';
@@ -250,6 +250,27 @@ stories
           id={'Page_Form'}
           {...globalAlert['Page_Form']}
         />
+      </React.Fragment>
+    );
+  })
+  .add('Создание через Factory', () => {
+    const dt = {
+      id: 'widget',
+      src: 'Alert',
+      label: text('label', 'Лейбл'),
+      text: text('text', 'Текст'),
+      details: text('details', 'Детали'),
+      severity: select(
+        'severity',
+        ['info', 'danger', 'warning', 'success'],
+        'info'
+      ),
+      visible: boolean('visible', true),
+      closeButton: boolean('closeButton', false),
+    };
+    return (
+      <React.Fragment>
+        <Factory level={SNIPPETS} id={'widget'} {...dt} />
       </React.Fragment>
     );
   });
