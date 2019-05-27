@@ -816,8 +816,7 @@
                           "src": "DateInterval",
                           "id": "bdate",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
-                          "utc": false
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
                       }
                     ]
@@ -944,8 +943,7 @@
               "src": "DatePicker",
               "id": "date",
               "dateFormat": "DD.MM.YYYY",
-              "outputFormat": "DD.MM.YYYY HH:mm:ss",
-              "utc": false
+              "outputFormat": "DD.MM.YYYY HH:mm:ss"
             },
             "format": "date DD.MM.YYYY",
             "editType": "inline",
