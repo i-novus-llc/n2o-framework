@@ -20,6 +20,9 @@ function SidebarItemContainer({ item, activeId, sidebarOpen }) {
       : renderInnerLink(item);
   const renderOuterLink = ({ href, label }) => (
     <a className="n2o-sidebar__item" href={href}>
+      <span className="n2o-sidebar__item-content-icon">
+        <i className={cn(item.iconClass)} />
+      </span>
       {label}
     </a>
   );
@@ -30,6 +33,9 @@ function SidebarItemContainer({ item, activeId, sidebarOpen }) {
       className="n2o-sidebar__item"
       activeClassName="active"
     >
+      <span className="n2o-sidebar__item-content-icon">
+        <i className={cn(item.iconClass)} />
+      </span>
       {label}
     </NavLink>
   );

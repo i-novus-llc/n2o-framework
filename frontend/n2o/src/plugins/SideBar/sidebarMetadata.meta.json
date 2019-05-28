@@ -92,7 +92,6 @@
     {
       "id": "link",
       "label": "Контакты",
-      "iconClass": "fa fa-address-book",
       "href": "/test1",
       "type": "link"
     },

@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
 
-  width: $sidebar-width;
+  min-width: $sidebar-width;
+  max-width: $sidebar-width;
 
   color: $sidebar-color;
 
@@ -37,7 +38,7 @@
   }
 
   &__item {
-    display: block;
+    display: flex;
     padding: 5px 20px 5px 20px;
 
     &--dropdown {
@@ -81,7 +82,7 @@
   &__item-dropdown {
 
     &-label {
-      display: inline-block;
+      display: flex;
       width: 100%;
 
       cursor: pointer;
@@ -90,7 +91,7 @@
         background: rgba(255,255,255, 0.1);
       }
 
-      & > span {
+      & > span:not(.n2o-sidebar__item-content-icon) {
         display: inline-block;
         position: relative;
 
@@ -125,10 +126,25 @@
 
     padding: 0.5rem 1rem;
 
+    border-top: 1px solid #0d151c;
+
     cursor: pointer;
 
     &:hover {
       background: rgba(255,255,255,0.1);
+    }
+  }
+
+  &--compressed {
+    & .n2o-sidebar__item-dropdown-label {
+      display: flex;
+      align-self: center;
+      justify-content: center;
+      padding: 5px;
+
+      & span::after {
+        display: none;
+      }
     }
   }
 }

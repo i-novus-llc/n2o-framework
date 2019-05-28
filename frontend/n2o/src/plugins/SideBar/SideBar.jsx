@@ -24,11 +24,9 @@ function SideBar({
           oldLabel: item.label,
           label: (
             <div className="n2o-sidebar__item-content">
-              {item.iconClass && (
-                <span className="n2o-sidebar__item-content-icon">
-                  <i className={item.iconClass} />
-                </span>
-              )}
+              <span className="n2o-sidebar__item-content-icon">
+                <i className={cn(item.iconClass)} />
+              </span>
               <span> {item.label}</span>
             </div>
           ),
@@ -70,7 +68,7 @@ function SideBar({
     map(items, (item, i) => (
       <SidebarItemContainer
         key={i}
-        item={mapLabel(mapLinkToDropdown(item, visible), visible)}
+        item={mapLinkToDropdown(item, visible)}
         activeId={activeId}
         sidebarOpen={visible}
       />
