@@ -37,10 +37,10 @@
   },
   "extra": [
     {
-      "id": "link",
-      "label": "О компании",
-      "iconClass": "fa fa-info-circle",
-      "href": "/",
+      "id": "info",
+      "label": "Информация",
+      "iconClass": "fa fa-info",
+      "href": "/info",
       "type": "link"
     },
     {

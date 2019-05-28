@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { isEqual, map, get } from 'lodash';
-import NavItemContainer from '../Header/SimpleHeader/NavItemContainer';
+import SidebarItemContainer from './SidebarItemContainer';
 import UserBox from '../../components/snippets/UserBox/UserBox';
 import { compose, withState, lifecycle, withHandlers } from 'recompose';
 
@@ -23,14 +23,14 @@ function SideBar({
           ...item,
           oldLabel: item.label,
           label: (
-            <span className="n2o-sidebar__nav-item">
+            <div className="n2o-sidebar__item-content">
               {item.iconClass && (
-                <span className="n2o-sidebar__nav-item-icon">
+                <span className="n2o-sidebar__item-content-icon">
                   <i className={item.iconClass} />
                 </span>
               )}
               <span> {item.label}</span>
-            </span>
+            </div>
           ),
         }
       : {
@@ -68,13 +68,11 @@ function SideBar({
 
   const renderItems = items =>
     map(items, (item, i) => (
-      <NavItemContainer
+      <SidebarItemContainer
         key={i}
         item={mapLabel(mapLinkToDropdown(item, visible), visible)}
         activeId={activeId}
-        type="sidebar"
         sidebarOpen={visible}
-        direction="right"
       />
     ));
 
@@ -113,7 +111,7 @@ function SideBar({
       </nav>
       <div className="n2o-sidebar__footer">
         <div className="n2o-sidebar__extra">
-          <ul className="n2o-sidebar__extra-list">{renderItems(extra)}</ul>
+          <ul className="n2o-sidebar__nav-list">{renderItems(extra)}</ul>
         </div>
         {!controlled && (
           <div onClick={onToggle} className="n2o-sidebar__toggler">

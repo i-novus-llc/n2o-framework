@@ -8,24 +8,6 @@
 
   background-color: $sidebar-bg-color;
 
-  & a,
-  & button {
-    color: $sidebar-color;
-  }
-
-  &--compressed {
-    & a,
-    & button {
-      color: inherit;
-    }
-
-    & .dropdown-menu {
-      & button.dropdown-item:hover {
-        background: rgba(0,0,0,0.1);
-      }
-    }
-  }
-
   &__nav-brand {
     display: flex;
     justify-content: center;
@@ -40,36 +22,100 @@
     background-color: $sidebar-brand-bg-color;
   }
 
-  &__nav-list,
-  &__extra-list {
-    list-style: none;
+  & a.active {
+    background-color: rgba(0,0,0,0.4);
+  }
+
+  &__nav-list {
     padding: 0;
     margin: 0;
-  }
-
-  &__nav-item {
-    &-icon {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  & .nav-item,
-  & .n2o-user-box__dropdown-item,
-  & .dropdown-item,
-  &__toggler {
-    &:hover {
-      color: inherit;
-      background: $sidebar-item-hover-bg;
-    }
+    list-style: none;
   }
 
   &__footer {
     margin-top: auto;
   }
 
-  &__extra {
+  &__item {
+    display: block;
+    padding: 5px 20px 5px 20px;
 
+    &--dropdown {
+      padding: 0;
+
+      & .n2o-sidebar__item-dropdown-label {
+        padding: 5px 0 5px 20px;
+      }
+    }
+
+    color: $sidebar-color;
+
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255,255,255, 0.1);
+      color: $sidebar-color;
+    }
+
+    &.n2o-sidebar__item--dropdown:hover {
+      background: transparent;
+    }
+
+    &-content {
+      display: flex;
+      align-items: center;
+
+      &-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 20px;
+        height: 20px;
+
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &__item-dropdown {
+
+    &-label {
+      display: inline-block;
+      width: 100%;
+
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(255,255,255, 0.1);
+      }
+
+      & > span {
+        display: inline-block;
+        position: relative;
+
+        &::after {
+          content: "\F078";
+          font-family: FontAwesome;
+          position: absolute;
+          right: -15px;
+          top: 5px;
+          width: 10px;
+          height: 6px;
+          font-size: 10px;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  &__subitems {
+    background: rgba(0,0,0,0.25);
+  }
+
+
+  & .n2o-user-box__title {
+    color: $sidebar-color;
   }
 
   &__toggler {
@@ -80,11 +126,16 @@
     padding: 0.5rem 1rem;
 
     cursor: pointer;
+
+    &:hover {
+      background: rgba(255,255,255,0.1);
+    }
   }
 }
 
 .n2o-nav-brand {
   &__text {
     font-size: $sidebar-brand-font-size;
+    color: $sidebar-color;
   }
 }

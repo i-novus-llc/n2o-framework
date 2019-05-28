@@ -11,7 +11,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import SidebarDropdown from '../../SideBar/SidebarDropdown';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 /**
@@ -113,9 +112,6 @@ const NavItemContainer = ({
       <NavItem>
         <span className="nav-link">{item.label}</span>
       </NavItem>
-    )) ||
-    (type === 'sidebar' && sidebarOpen && item.type === 'dropdown' && (
-      <SidebarDropdown title={item.label}>{dropdownItems}</SidebarDropdown>
     )) ||
     null
   );
