@@ -23,6 +23,7 @@ import cx from 'classnames';
  * @reactProps {function} onRemoveItem - callback при удаление элемента
  * @reactProps {any} inputSelect
  * @reactProps {any} expandPopUp
+ * @reactProps {boolean} needAddFilter
  * @reactProps {node} children - элемент потомок компонента PopupList
  */
 
@@ -33,6 +34,7 @@ function PopupList({
   onScrollEnd,
   expandPopUp,
   filterValue,
+  needAddFilter,
   ...rest
 }) {
   /**
@@ -51,7 +53,7 @@ function PopupList({
 
   const trackScrolling = evt => {
     if (isBottom(evt.target)) {
-      onScrollEnd(filterValue);
+      onScrollEnd(needAddFilter ? filterValue : {});
     }
   };
 
@@ -85,6 +87,7 @@ PopupList.propTypes = {
   inputSelect: PropTypes.any,
   expandPopUp: PropTypes.any,
   children: PropTypes.node,
+  needAddFilter: PropTypes.bool,
 };
 
 export default PopupList;
