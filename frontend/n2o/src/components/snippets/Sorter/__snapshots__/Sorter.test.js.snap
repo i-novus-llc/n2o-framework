@@ -4,6 +4,7 @@ exports[`<Sorter /> проверяет различные направление
 <a
   href="#"
   onClick={[Function]}
+  tabIndex={-1}
 >
   Лейбл
    
@@ -14,6 +15,7 @@ exports[`<Sorter /> проверяет различные направление
 <a
   href="#"
   onClick={[Function]}
+  tabIndex={-1}
 >
   Лейбл
    
@@ -28,6 +30,7 @@ exports[`<Sorter /> проверяет различные направление
 <a
   href="#"
   onClick={[Function]}
+  tabIndex={-1}
 >
   Лейбл
    
@@ -42,6 +45,7 @@ exports[`<Sorter /> проверяет рендер по умолчанию 1`] 
 <a
   href="#"
   onClick={[Function]}
+  tabIndex={-1}
 >
   Лейбл
    
