@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues, reset } from 'redux-form';
-import { isEqual, difference, map, isEmpty, unset } from 'lodash';
+import { isEqual, difference, map, isEmpty, unset, debounce } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 
 import ReduxForm from './Form/ReduxForm';
@@ -44,6 +44,7 @@ class WidgetFilters extends React.Component {
     this.handleFilter = this.handleFilter.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.validateAndFetch = this.validateAndFetch.bind(this);
+    this.debouncedHandleFilter = debounce(this.handleFilter, 1000);
   }
 
   getChildContext() {
@@ -77,10 +78,19 @@ class WidgetFilters extends React.Component {
   }
 
   handleChangeModel(values) {
-    const { widgetId, filterModel, setFilterModel } = this.props;
+    const {
+      widgetId,
+      filterModel,
+      setFilterModel,
+      searchOnChange,
+    } = this.props;
+
     if (!isEqual(filterModel, values)) {
       this.values = { ...values };
       setFilterModel(widgetId, values);
+      if (searchOnChange) {
+        this.debouncedHandleFilter();
+      }
     }
   }
 
@@ -164,10 +174,12 @@ WidgetFilters.propTypes = {
   reduxFormFilter: PropTypes.func,
   fetchWidget: PropTypes.func,
   hideButtons: PropTypes.bool,
+  searchOnChange: PropTypes.bool,
 };
 
 WidgetFilters.defaultProps = {
   hideButtons: false,
+  searchOnChange: false,
 };
 
 WidgetFilters.contextTypes = {
