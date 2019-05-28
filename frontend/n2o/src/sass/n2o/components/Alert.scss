@@ -114,9 +114,10 @@
 
 .n2o-global-alerts {
   position: absolute;
-  left: 0;
+  left: 50%;
+  transform: translate(-50%);
   top: 0;
-  width: 100%;
+  margin: auto;
   max-height: 100vh;
   overflow: auto;
   z-index: $zindex-tooltip;
