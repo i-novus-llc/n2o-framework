@@ -22,6 +22,7 @@ import DropZone from './FileUploader/DropZone';
 import Switch from './Switch/Switch';
 import InputMoney from './InputMoney/InputMoney';
 import SliderContainer from './Slider/Slider';
+import Rating from './Rating/Rating';
 import Pills from './Pills';
 
 export default {
@@ -49,5 +50,6 @@ export default {
   Switch: Switch,
   InputMoney: InputMoney,
   Slider: SliderContainer,
+  Rating: Rating,
   Pills: Pills,
 };
