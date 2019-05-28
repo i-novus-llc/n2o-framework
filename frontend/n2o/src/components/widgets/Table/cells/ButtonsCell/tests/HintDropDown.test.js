@@ -66,8 +66,12 @@ describe('<HintDropDown />', () => {
           title: 'test',
         },
       ],
+      open: true,
     });
-    expect(wrapper.find('button.dropdown-item').exists()).toBeTruthy();
+    const toggler = wrapper.find('.n2o-buttons-cell-toggler');
+    toggler.at(0).simulate('focus');
+    expect(wrapper.find('.n2o-buttons-cell-dropdown').exists()).toBeTruthy();
+    expect(wrapper.find('DropdownCustomItem').exists()).toBeTruthy();
   });
   it('Проверка onClick по элементам dropdown если есть action', () => {
     const mockClick = sinon.spy();
@@ -79,10 +83,14 @@ describe('<HintDropDown />', () => {
           action: 'test-action',
         },
       ],
+      open: true,
     });
 
+    const toggler = wrapper.find('.n2o-buttons-cell-toggler');
+    toggler.at(0).simulate('focus');
+
     wrapper
-      .find('DropdownItem')
+      .find('DropdownCustomItem')
       .first()
       .simulate('click');
     wrapper.update();

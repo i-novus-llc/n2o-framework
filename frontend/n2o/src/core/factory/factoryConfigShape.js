@@ -9,6 +9,7 @@ const factoryConfigShape = PropTypes.shape({
   headers: PropTypes.objectOf(PropTypes.element),
   fieldsets: PropTypes.objectOf(PropTypes.element),
   fields: PropTypes.objectOf(PropTypes.element),
+  snippets: PropTypes.objectOf(PropTypes.element),
 });
 
 export default factoryConfigShape;

@@ -339,7 +339,10 @@ class InputSelect extends React.Component {
         input: multiSelect ? '' : item[labelFieldId],
         options,
       }),
-      selectCallback
+      () => {
+        selectCallback();
+        this.props.onBlur();
+      }
     );
   }
 
@@ -375,6 +378,7 @@ class InputSelect extends React.Component {
     if (isExpanded) {
       this._hideOptionsList();
       resetOnBlur && this._handleValueChangeOnBlur();
+      this.props.onBlur();
     }
   }
 
@@ -419,6 +423,10 @@ class InputSelect extends React.Component {
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
     const selectedPadding = this.calcSelectedItemsWidth();
+    const needAddFilter = !find(
+      this.state.value,
+      item => item[labelFieldId] === this.state.input
+    );
 
     return (
       <Dropdown
@@ -427,11 +435,6 @@ class InputSelect extends React.Component {
           disabled,
         })}
         toggle={() => {}}
-        onBlur={() => {
-          this._setInputFocus(false);
-          this._setSelected(false);
-          this.props.onBlur();
-        }}
         onFocus={() => {
           this._setInputFocus(true);
           this._setSelected(true);
@@ -501,6 +504,7 @@ class InputSelect extends React.Component {
             filterValue={{
               [labelFieldId]: this.state.input,
             }}
+            needAddFilter={needAddFilter}
             options={this.state.options}
             valueFieldId={valueFieldId}
             labelFieldId={labelFieldId}
