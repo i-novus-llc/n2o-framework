@@ -1,9 +1,17 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+import {
+  withKnobs,
+  text,
+  boolean,
+  select,
+  object,
+} from '@storybook/addon-knobs/react';
 import Collapse, { Panel } from './Collapse';
 import InputSelect from '../../controls/InputSelect/InputSelect';
 import InputSelectJson from '../../controls/InputSelect/InputSelect.meta';
+import { SNIPPETS } from '../../../core/factory/factoryLevels';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('UI Компоненты/Collapse', module);
 
@@ -88,5 +96,25 @@ stories
           {textToPanel}
         </Panel>
       </Collapse>
+    );
+  })
+  .add('Создание через Factory', () => {
+    const dt = {
+      id: 'uniqId',
+      src: 'Collapse',
+      type: select('type', ['default', 'line', 'divider'], 'default'),
+      defaultActiveKey: text('defaultActiveKey', '1'),
+      destroyInactivePanel: boolean('destroyInactivePanel', false),
+      accordion: boolean('accordion', false),
+      dataKey: text('dataKey', 'items'),
+      items: object('items', [
+        { key: '1', header: 'Первый', text: 'Teкст' },
+        { key: '2', header: 'Второй', text: 'Teкст' },
+      ]),
+    };
+    return (
+      <React.Fragment>
+        <Factory level={SNIPPETS} id={'uniqId'} {...dt} />
+      </React.Fragment>
     );
   });
