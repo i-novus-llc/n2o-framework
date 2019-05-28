@@ -11,7 +11,7 @@ import Icon from '../Icon/Icon';
 function PanelTitle({ icon, children }) {
   return (
     <a>
-      {icon && <Icon name={icon} className="p-0 mr-1" />}
+      {icon && <Icon name={icon} className="p-0 mr-2" />}
       {children}
     </a>
   );

@@ -120,14 +120,13 @@ class PanelContainer extends React.Component {
     const fullScreenIcon = this.state.isFullScreen
       ? 'fa-compress'
       : 'fa-expand';
-    const collapseIcon = this.state.open ? 'fa-chevron-down' : 'fa-chevron-up';
 
     return (
       <Panel
         color={color}
         style={style}
         className={cn(className, {
-          'n2o-panel-region--tabs': hasTabs || !isEmpty(toolbar),
+          'n2o-panel-region--tabs': hasTabs,
         })}
         open={this.state.open}
         isFullScreen={this.state.isFullScreen}
@@ -142,7 +141,7 @@ class PanelContainer extends React.Component {
               fullScreen={fullScreen}
               onFullScreenClick={this.handleFullScreen}
               fullScreenIcon={fullScreenIcon}
-              collapseIcon={collapseIcon}
+              isOpen={this.state.open}
               onToggle={this.toggleCollapse}
               collapsible={collapsible}
             >
@@ -159,7 +158,7 @@ class PanelContainer extends React.Component {
                       id={tab.id}
                       active={activeTab === tab.id}
                       disabled={tab.disabled}
-                      className={tab.className}
+                      className={cn('nav-item--tab', tab.className)}
                       style={tab.style}
                       onClick={() => this.changeActiveTab(tab.id)}
                     >
@@ -172,7 +171,7 @@ class PanelContainer extends React.Component {
                   <Panel.NavItem
                     id={item.id}
                     disabled={item.disabled}
-                    className={item.className}
+                    className={cn('nav-item--toolbar', item.className)}
                     style={item.style}
                     onClick={item.onClick}
                     isToolBar={true}

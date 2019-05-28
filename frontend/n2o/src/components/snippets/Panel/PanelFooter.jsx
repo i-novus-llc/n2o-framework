@@ -6,19 +6,8 @@ import { CardFooter } from 'reactstrap';
  * Компонент подвала {@link Panel}
  * @reactProps {node} children - вставляемый внутрь PanelFooter элемент
  */
-
-class PanelFooter extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    return (
-      <CardFooter className="panel-region-footer">
-        {this.props.children}
-      </CardFooter>
-    );
-  }
+function PanelFooter({ children }) {
+  return <CardFooter className="panel-region-footer">{children}</CardFooter>;
 }
 
 PanelFooter.propTypes = {

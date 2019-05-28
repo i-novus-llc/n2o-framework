@@ -216,12 +216,62 @@ stories
       </div>
     );
   })
+  .add('Вкладки с экшенами', () => {
+    const panelParams = [
+      {
+        ...defaultTwoPanels,
+        headerTitle: 'С вкладками',
+        hasTabs: true,
+        fullScreen: true,
+        collapsible: true,
+      },
+    ];
+
+    return (
+      <div className="row">
+        {panelParams.map(item => (
+          <div className="col-md-12">
+            <PanelRegion {...item} pageId="Page" />
+          </div>
+        ))}
+      </div>
+    );
+  })
   .add('Тулбар', () => {
     const panelParams = [
       {
         ...defaultTwoPanels,
         headerTitle: 'Тулбар в заголовке',
         hasTabs: false,
+        toolbar: [
+          {
+            id: 1,
+            disabled: false,
+            onClick: () => alert('Hello World!'),
+            header: 'Экшен',
+          },
+        ],
+      },
+    ];
+
+    return (
+      <div className="row">
+        {panelParams.map(item => (
+          <div className="col-md-12">
+            <PanelRegion {...item} pageId="Page" />
+          </div>
+        ))}
+      </div>
+    );
+  })
+  .add('Экшены с тулбаром', () => {
+    const panelParams = [
+      {
+        ...defaultTwoPanels,
+        headerTitle: 'Тулбар в заголовке',
+        hasTabs: false,
+        fullScreen: true,
+        collapsible: true,
         toolbar: [
           {
             id: 1,

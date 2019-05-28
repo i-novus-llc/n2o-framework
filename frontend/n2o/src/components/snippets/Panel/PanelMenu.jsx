@@ -11,7 +11,7 @@ import PanelNavItem from './PanelNavItem';
  * @reactProps {function} onFullScreenClick - callback при нажатии на кнопку полного экрана
  * @reactProps {function} onToggle - callback при нажатии на кнопку свернуть
  * @reactProps {string} fullScreenIcon - класс иконки кнопки полного экрана
- * @reactProps {string} collapseIcon - класс иконки кнопки сворачивания панели
+ * @reactProps {boolean} isOpen - флаг открытия панели
  * @reactProps {node} children - элемент вставляемый внутрь PanelMenu
  */
 
@@ -19,9 +19,9 @@ function PanelMenu({
   children,
   collapsible,
   onToggle,
-  collapseIcon,
   fullScreen,
   onFullScreenClick,
+  isOpen,
   fullScreenIcon,
 }) {
   return (
@@ -31,17 +31,19 @@ function PanelMenu({
         {collapsible && (
           <PanelNavItem
             onClick={onToggle}
-            className="collapse-toggle"
-            isToolBar={true}
+            className={cn('collapse-toggle', {
+              'collapse-toggle--up': !isOpen,
+            })}
+            isToolBar={false}
           >
-            <i className={cn('fa', collapseIcon)} aria-hidden={true} />
+            <i className="fa fa-chevron-down" aria-hidden={true} />
           </PanelNavItem>
         )}
         {fullScreen && (
           <PanelNavItem
             onClick={onFullScreenClick}
             className="fullscreen-toggle"
-            isToolBar={true}
+            isToolBar={false}
           >
             <i className={cn('fa', fullScreenIcon)} aria-hidden={true} />
           </PanelNavItem>
@@ -58,7 +60,7 @@ PanelMenu.propTypes = {
   children: PropTypes.node,
   collapsible: PropTypes.bool,
   onToggle: PropTypes.func,
-  collapseIcon: PropTypes.string,
+  isOpen: PropTypes.bool,
 };
 
 PanelMenu.defaultProps = {

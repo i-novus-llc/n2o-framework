@@ -38,6 +38,12 @@
   & .panel-region-footer {
     border-top: 0;
   }
+
+  & .nav-item--toolbar {
+    align-self: center;
+
+    margin-right: 0.25rem;
+  }
 }
 
 ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
@@ -51,10 +57,22 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
   width: 45px;
 
   border: none;
+
+  font-size: 14px;
+
+  & button {
+    opacity: .5;
+    transition: 0.5s;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &--up button {
+    transform: rotate(180deg);
+  }
 }
 
-.fullscreen-toggle > a,
-.collapse-toggle > a,
 .panel-toolbar-link {
   &:focus {
     outline: none;
@@ -63,41 +81,6 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
   }
 }
 
-.panel-default > div > div > ul > li > a {
-  &:hover {
-    background-color: darken($light, $panel-darken);
-  }
-}
-
-.panel-primary > div > div > ul > li > a {
-  &:hover {
-    background-color: darken($primary, $panel-darken);
-  }
-}
-
-.panel-success > div > div > ul > li > a {
-  &:hover {
-    background-color: darken($success, $panel-darken);
-  }
-}
-
-.panel-info > div > div > ul > li > a {
-  &:hover {
-    background-color: darken($info, $panel-darken);
-  }
-}
-
-.panel-warning > div > div > ul > li > a {
-  &:hover {
-    background-color: darken($warning, $panel-darken);
-  }
-}
-
-.panel-danger > div > div > ul > li > a {
-  &:hover {
-    background-color: darken($danger, $panel-darken);
-  }
-}
 
 .panel-block-flex {
   display: flex !important;
@@ -131,7 +114,6 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0 15px;
   }
 }
 
@@ -173,6 +155,14 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
       border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 
       & .nav-item {
+        &--tab {
+          transition: .5s;
+
+          &:not(.active) {
+            background: rgba(0,0,0,0.02);
+          }
+        }
+
         border-left: 1px solid rgba(0, 0, 0, 0.125);
       }
     }
