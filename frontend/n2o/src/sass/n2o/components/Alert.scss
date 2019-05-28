@@ -113,6 +113,8 @@
 }
 
 .n2o-global-alerts {
+  max-width: 70%;
+
   position: absolute;
   left: 50%;
   transform: translate(-50%);
@@ -129,5 +131,23 @@
   & .close {
     margin-top: -5px;
     margin-left: 10px;
+  }
+
+  & .n2o-alerts-container {
+    width: 100%;
+  }
+
+  & .n2o-alert-body-container {
+    display: flex;
+    width: calc(100% - 50px);
+  }
+
+  & .n2o-alert-body {
+    width: 100%;
+  }
+
+  & .details {
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }
