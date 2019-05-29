@@ -1,9 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import { id } from '../../../utils/id';
 import { UncontrolledTooltip } from 'reactstrap';
 
+/**
+ *
+ * @param id - userbox id
+ * @param image - изображение userbox
+ * @param title - заголовок
+ * @param subTitle - подзаголовок
+ * @param children - subItems
+ * @param isOpen - флаг видимости subItems
+ * @param onToggle - переключение subItems
+ * @param compressed - флаг сжатого вида
+ * @returns {*}
+ * @constructor
+ */
 function UserBox({
   id,
   image,
@@ -16,7 +30,10 @@ function UserBox({
 }) {
   return (
     <div
-      className={cn('n2o-user-box', { 'n2o-user-box--compressed': compressed })}
+      className={cn('n2o-user-box', {
+        'n2o-user-box--compressed': compressed,
+        'pb-0': isOpen,
+      })}
     >
       {compressed && (title || subTitle) && (
         <UncontrolledTooltip placement="right" target={id}>
@@ -27,6 +44,7 @@ function UserBox({
       <div
         id={id}
         className="n2o-user-box__image d-flex justify-content-center"
+        onClick={compressed && onToggle}
       >
         <img
           className="d-block"
@@ -36,16 +54,6 @@ function UserBox({
           height="70"
         />
       </div>
-      {compressed && (
-        <button onClick={onToggle} className="n2o-user-box__title">
-          <i
-            className={cn({
-              'fa fa-chevron-up': isOpen,
-              'fa fa-chevron-down': !isOpen,
-            })}
-          />
-        </button>
-      )}
       {!compressed && (
         <React.Fragment>
           <button
@@ -69,11 +77,24 @@ function UserBox({
         </React.Fragment>
       )}
       {isOpen && children && (
-        <ul className="n2o-user-box__items">{children}</ul>
+        <div className="n2o-user-box__items">
+          <ul>{children}</ul>
+        </div>
       )}
     </div>
   );
 }
+
+UserBox.propTypes = {
+  id: PropTypes.string,
+  image: PropTypes.string,
+  title: PropTypes.string,
+  subTitle: PropTypes.string,
+  children: PropTypes.node,
+  isOpen: PropTypes.bool,
+  onToggle: PropTypes.func,
+  compressed: PropTypes.bool,
+};
 
 export default compose(
   withState('isOpen', 'toggle', false),

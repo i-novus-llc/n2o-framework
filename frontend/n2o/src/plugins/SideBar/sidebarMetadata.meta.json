@@ -7,29 +7,29 @@
     "subTitle": "17.01.1987 * Москва",
     "items": [
       {
-        "id": "link",
-        "label": "О компании",
-        "iconClass": "fa fa-info-circle",
-        "href": "/",
+        "id": "profile",
+        "label": "Профиль",
+        "iconClass": "fa fa-info",
+        "href": "/profile",
         "type": "link"
       },
       {
-        "id": "dropdown",
-        "label": "Наши проекты",
-        "iconClass": "fa fa-github",
+        "id": "settings",
+        "label": "Настройки",
+        "iconClass": "fa fa-cog",
         "type": "dropdown",
         "subItems": [
           {
-            "id": "link1",
-            "label": "N2O",
+            "id": "change-name",
+            "label": "Изменить имя",
             "type": "link",
-            "href": "/test3"
+            "href": "/change-name"
           },
           {
-            "id": "link2",
-            "label": "LSD",
+            "id": "change-password",
+            "label": "Изменить пароль",
             "type": "link",
-            "href": "/test4"
+            "href": "/change-password"
           }
         ]
       }
@@ -37,31 +37,11 @@
   },
   "extra": [
     {
-      "id": "info",
-      "label": "Информация",
-      "iconClass": "fa fa-info",
-      "href": "/info",
+      "id": "exit",
+      "label": "Выход",
+      "iconClass": "fa fa-sign-out",
+      "href": "/exit",
       "type": "link"
-    },
-    {
-      "id": "dropdown",
-      "label": "Наши проекты",
-      "iconClass": "fa fa-github",
-      "type": "dropdown",
-      "subItems": [
-        {
-          "id": "link1",
-          "label": "N2O",
-          "type": "link",
-          "href": "/test3"
-        },
-        {
-          "id": "link2",
-          "label": "LSD",
-          "type": "link",
-          "href": "/test4"
-        }
-      ]
     }
   ],
   "color": "default",

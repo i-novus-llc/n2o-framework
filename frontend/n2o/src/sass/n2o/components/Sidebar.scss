@@ -39,9 +39,12 @@
 
   &__item {
     display: flex;
+    align-items: center;
+    min-height: 34px;
     padding: 5px 20px 5px 20px;
 
     &--dropdown {
+      position: relative;
       padding: 0;
 
       & .n2o-sidebar__item-dropdown-label {
@@ -84,6 +87,7 @@
     &-label {
       display: flex;
       width: 100%;
+      min-height: 34px;
 
       cursor: pointer;
 
@@ -96,15 +100,24 @@
         position: relative;
 
         &::after {
-          content: "\F078";
+          content: "\F105";
           font-family: FontAwesome;
           position: absolute;
-          right: -15px;
-          top: 5px;
-          width: 10px;
-          height: 6px;
-          font-size: 10px;
-          color: #fff;
+          right: -20px;
+          top: 0;
+
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          color: $white;
+          transition: .3s;
+        }
+      }
+
+      &--up > span:not(.n2o-sidebar__item-content-icon) {
+        &::after {
+          transform: rotate(90deg);
         }
       }
     }
@@ -136,6 +149,13 @@
   }
 
   &--compressed {
+    min-width: auto;
+    max-width: $sidebar-max-compressed-width;
+
+    & .n2o-sidebar__item-content-icon {
+      margin-right: 0;
+    }
+
     & .n2o-sidebar__item-dropdown-label {
       display: flex;
       align-self: center;
@@ -145,6 +165,16 @@
       & span::after {
         display: none;
       }
+    }
+
+    & .n2o-sidebar__subitems {
+      position: absolute;
+      left: 100%;
+      top: 0;
+
+      z-index: 1;
+
+      background: $sidebar-bg-color;
     }
   }
 }

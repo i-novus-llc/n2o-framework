@@ -1,10 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { isEqual, map, get } from 'lodash';
 import SidebarItemContainer from './SidebarItemContainer';
 import UserBox from '../../components/snippets/UserBox/UserBox';
 import { compose, withState, lifecycle, withHandlers } from 'recompose';
 
+/**
+ * Sidebar
+ * @param activeId - id активного элемента
+ * @param brand - текст бренда
+ * @param brandImage - картинка бренда
+ * @param userBox - настройка userBox
+ * @param items - массив итемов
+ * @param visible - видимость
+ * @param width - длина сайдбара
+ * @param controlled - флаг контроллед режима
+ * @param onToggle - переключение compressed
+ * @param extra - екстра итемы
+ * @returns {*}
+ * @constructor
+ */
 function SideBar({
   activeId,
   brand,
@@ -17,58 +33,11 @@ function SideBar({
   onToggle,
   extra,
 }) {
-  const mapLabel = (item, visible) => {
-    return visible
-      ? {
-          ...item,
-          oldLabel: item.label,
-          label: (
-            <div className="n2o-sidebar__item-content">
-              <span className="n2o-sidebar__item-content-icon">
-                <i className={cn(item.iconClass)} />
-              </span>
-              <span> {item.label}</span>
-            </div>
-          ),
-        }
-      : {
-          ...item,
-          center: true,
-          oldLabel: item.label,
-          label: (
-            <span>
-              {item.iconClass && (
-                <span>
-                  <i className={item.iconClass} />
-                </span>
-              )}
-            </span>
-          ),
-        };
-  };
-
-  const mapLinkToDropdown = (item, visible) => {
-    return visible || item.type !== 'link'
-      ? item
-      : {
-          ...item,
-          type: 'dropdown',
-          subItems: [
-            {
-              id: item.id,
-              type: 'link',
-              href: item.href,
-              label: item.label,
-            },
-          ],
-        };
-  };
-
   const renderItems = items =>
     map(items, (item, i) => (
       <SidebarItemContainer
         key={i}
-        item={mapLinkToDropdown(item, visible)}
+        item={item}
         activeId={activeId}
         sidebarOpen={visible}
       />
@@ -79,7 +48,6 @@ function SideBar({
   return (
     <aside
       className={cn('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
-      style={{ width: visible ? width : 60 }}
     >
       <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
         <a className="d-flex align-items-center" href="/">
@@ -129,6 +97,23 @@ function SideBar({
     </aside>
   );
 }
+
+SideBar.propTypes = {
+  activeId: PropTypes.string,
+  brand: PropTypes.string,
+  brandImage: PropTypes.string,
+  userBox: PropTypes.object,
+  items: PropTypes.array,
+  visible: PropTypes.bool,
+  width: PropTypes.number,
+  controlled: PropTypes.bool,
+  onToggle: PropTypes.func,
+  extra: PropTypes.array,
+};
+
+SideBar.defaultProps = {
+  controlled: false,
+};
 
 export default compose(
   withState('visible', 'setVisible', ({ visible }) => visible),
