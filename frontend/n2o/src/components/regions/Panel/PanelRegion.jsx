@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty, every } from 'lodash';
-import { compose, getContext } from 'recompose';
+import { compose } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
 import withWidgetProps from '../withWidgetProps';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 import withSecurity from '../../../core/auth/withSecurity';
-import { userSelector } from '../../../selectors/auth';
 import { SECURITY_CHECK } from '../../../core/auth/authTypes';
 
 /**

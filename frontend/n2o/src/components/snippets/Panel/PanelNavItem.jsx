@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { Button } from 'reactstrap';
 
 /**
  * Компонент элемента меню для {@link Panel}
@@ -12,47 +13,43 @@ import cx from 'classnames';
  * @reactProps {boolean} isToolBar - флаг элемента тулбара
  * @reactProps {node} children - элемент вставляемый в PanelNavItem
  */
-class PanelNavItem extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
+function PanelNavItem({
+  id,
+  onClick,
+  active,
+  disabled,
+  className,
+  isToolBar,
+  children,
+}) {
   /**
    * обработка клика
    * @param e - событие
    */
-  handleClick(e) {
-    const { id, onClick } = this.props;
+  const handleClick = e => {
     e.preventDefault();
     if (onClick) {
       onClick(e, id);
     }
-  }
+  };
 
-  /**
-   * Рендер
-   */
-  render() {
-    const { active, disabled } = this.props;
-
-    return (
-      <li className={cx('nav-item', 'panel-block-flex', this.props.className)}>
-        <a
-          className={cx('nav-link panel-block-flex panel-heading-link', {
-            'panel-toolbar-link': this.props.isToolBar,
-            active,
-            disabled,
-          })}
-          onClick={this.handleClick}
-          href="#"
-        >
-          {this.props.children}
-        </a>
-      </li>
-    );
-  }
+  return (
+    <li className={cx('nav-item', 'panel-block-flex', className)}>
+      <Button
+        className={cx(
+          'nav-link panel-block-flex panel-heading-link',
+          className,
+          { active }
+        )}
+        color={isToolBar ? 'primary' : 'link'}
+        onClick={handleClick}
+        disabled={disabled}
+        size="sm"
+      >
+        {children}
+      </Button>
+    </li>
+  );
 }
 
 PanelNavItem.propTypes = {
