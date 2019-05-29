@@ -27,7 +27,6 @@ function PanelMenu({
   return (
     <div className="panel-block-flex">
       <TabNav className="panel-block-flex panel-tab-nav">
-        {children}
         {collapsible && (
           <PanelNavItem
             onClick={onToggle}
@@ -48,6 +47,7 @@ function PanelMenu({
             <i className={cn('fa', fullScreenIcon)} aria-hidden={true} />
           </PanelNavItem>
         )}
+        {children}
       </TabNav>
     </div>
   );

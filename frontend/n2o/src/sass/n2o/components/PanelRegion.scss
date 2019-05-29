@@ -60,11 +60,28 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
 
   font-size: 14px;
 
+  & i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 23px;
+    min-height: 23px;
+
+    font-size: 14px;
+
+    border-radius: 50%;
+  }
+
   & button {
     opacity: .5;
-    transition: 0.5s;
+    transition: 0.3s;
     &:hover {
       opacity: 1;
+
+      & i {
+        background: #ced3d6;
+      }
     }
   }
 
@@ -156,7 +173,7 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
 
       & .nav-item {
         &--tab {
-          transition: .5s;
+          transition: .3s;
 
           &:not(.active) {
             background: rgba(0,0,0,0.02);
