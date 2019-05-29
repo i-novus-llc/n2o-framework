@@ -35,7 +35,7 @@ function PanelMenu({
             })}
             isToolBar={false}
           >
-            <i className="fa fa-chevron-down" aria-hidden={true} />
+            <i className="fa fa-angle-down" aria-hidden={true} />
           </PanelNavItem>
         )}
         {fullScreen && (

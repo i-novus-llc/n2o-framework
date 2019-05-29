@@ -65,10 +65,8 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
     align-items: center;
     justify-content: center;
 
-    min-width: 23px;
-    min-height: 23px;
-
-    font-size: 14px;
+    min-width: 20px;
+    min-height: 20px;
 
     border-radius: 50%;
   }
@@ -88,6 +86,10 @@ ul.panel-tab-nav > li.nav-item > a.panel-heading-link {
   &--up button {
     transform: rotate(180deg);
   }
+}
+
+.collapse-toggle {
+  font-size: 20px;
 }
 
 .panel-toolbar-link {
