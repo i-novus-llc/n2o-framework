@@ -218,7 +218,7 @@ class AdvancedTable extends Component {
           this.setSelectAndFocus(nextData.id, nextData.id);
           this.props.onResolve(nextData);
         } else {
-          this.setSelectAndFocus(nextData.id, nextData.id);
+          this.setNewFocusIndex(nextData.id);
         }
       }
     } else if (eq(keyName, KEY_CODES.SPACE)) {
@@ -242,8 +242,12 @@ class AdvancedTable extends Component {
       onRowClickAction,
       onResolve,
     } = this.props;
-    hasSelect && !noResolve && onResolve(_.find(this._dataStorage, { id }));
-    if (hasSelect && hasFocus && !rowClick) {
+
+    if (hasSelect && !noResolve) {
+      onResolve(_.find(this._dataStorage, { id }));
+    }
+
+    if (!noResolve && hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(id, id);
     } else if (hasFocus) {
       this.setNewFocusIndex(id);
