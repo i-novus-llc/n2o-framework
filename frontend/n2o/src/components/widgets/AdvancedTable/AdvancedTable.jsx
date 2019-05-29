@@ -242,8 +242,12 @@ class AdvancedTable extends Component {
       onRowClickAction,
       onResolve,
     } = this.props;
-    hasSelect && !noResolve && onResolve(_.find(this._dataStorage, { id }));
-    if (hasSelect && hasFocus && !rowClick) {
+
+    if (hasSelect && !noResolve) {
+      onResolve(_.find(this._dataStorage, { id }));
+    }
+
+    if (!noResolve && hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(id, id);
     } else if (hasFocus) {
       this.setNewFocusIndex(id);
