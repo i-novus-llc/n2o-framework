@@ -46,7 +46,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="1"
             label={1}
             onSelect={[Function]}
-            tabIndex={1}
+            tabIndex={0}
           >
             <li
               className="page-item active"
@@ -60,7 +60,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
                   }
                 }
                 href="#"
-                tabIndex={1}
+                tabIndex={0}
               />
             </li>
           </PaginationButton>
@@ -70,7 +70,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="2"
             label={2}
             onSelect={[Function]}
-            tabIndex={1}
+            tabIndex={0}
           >
             <li
               className="page-item"
@@ -84,7 +84,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
                   }
                 }
                 href="#"
-                tabIndex={1}
+                tabIndex={0}
               />
             </li>
           </PaginationButton>
@@ -94,7 +94,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="3"
             label={3}
             onSelect={[Function]}
-            tabIndex={1}
+            tabIndex={0}
           >
             <li
               className="page-item"
@@ -108,7 +108,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
                   }
                 }
                 href="#"
-                tabIndex={1}
+                tabIndex={0}
               />
             </li>
           </PaginationButton>
@@ -118,7 +118,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="4"
             label={4}
             onSelect={[Function]}
-            tabIndex={1}
+            tabIndex={0}
           >
             <li
               className="page-item"
@@ -132,7 +132,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
                   }
                 }
                 href="#"
-                tabIndex={1}
+                tabIndex={0}
               />
             </li>
           </PaginationButton>
@@ -142,7 +142,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="5"
             label={5}
             onSelect={[Function]}
-            tabIndex={1}
+            tabIndex={0}
           >
             <li
               className="page-item"
@@ -156,7 +156,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
                   }
                 }
                 href="#"
-                tabIndex={1}
+                tabIndex={0}
               />
             </li>
           </PaginationButton>
@@ -188,7 +188,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             key="11"
             label={11}
             onSelect={[Function]}
-            tabIndex={1}
+            tabIndex={0}
           >
             <li
               className="page-item"
@@ -202,7 +202,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
                   }
                 }
                 href="#"
-                tabIndex={1}
+                tabIndex={0}
               />
             </li>
           </PaginationButton>

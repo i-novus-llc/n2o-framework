@@ -70,7 +70,7 @@ export default class Pagination extends React.Component {
       pageButtons.push(
         <PaginationButton
           key={page}
-          tabIndex={1}
+          tabIndex={0}
           eventKey={page}
           label={page}
           active={page === activePage}
@@ -91,7 +91,7 @@ export default class Pagination extends React.Component {
       );
       pageButtons.push(
         <PaginationButton
-          tabIndex={1}
+          tabIndex={0}
           key={
             activePage + stepIncrement > pages
               ? pages
@@ -149,7 +149,7 @@ export default class Pagination extends React.Component {
           key={1}
           eventKey={1}
           label="1"
-          tabIndex={1}
+          tabIndex={0}
           onSelect={onSelect}
         />
       );
@@ -205,7 +205,7 @@ export default class Pagination extends React.Component {
                 label={prevText || '&lsaquo;'}
                 disabled={activePage === 1}
                 onSelect={onSelect}
-                tabIndex={1}
+                tabIndex={0}
               />
             )}
             {!withoutBody &&
@@ -222,7 +222,7 @@ export default class Pagination extends React.Component {
                 label={nextText || '&rsaquo;'}
                 disabled={activePage >= count}
                 onSelect={onSelect}
-                tabIndex={1}
+                tabIndex={0}
               />
             )}
             {last && (
@@ -231,7 +231,7 @@ export default class Pagination extends React.Component {
                 label="&raquo;"
                 disabled={activePage >= count}
                 onSelect={onSelect}
-                tabIndex={1}
+                tabIndex={0}
               />
             )}
           </ul>
