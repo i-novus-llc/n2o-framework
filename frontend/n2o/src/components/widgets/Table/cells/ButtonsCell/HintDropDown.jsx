@@ -118,7 +118,7 @@ function HintDropDown({
               innerRef={ref}
               size="sm"
               color="light"
-              onFocus={onToggleDropdown}
+              onClick={onToggleDropdown}
               {...dropdownProps}
             >
               {icon && <Icon name={icon} />}

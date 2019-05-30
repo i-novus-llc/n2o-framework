@@ -174,7 +174,7 @@ export const getTreeLinerRoute = (
 ///Key base fns
 
 const down = (focusedElement, route, node) => {
-  if (eq(focusedElement.className, 'hotkey')) {
+  if (eq(focusedElement.className, 'hotkey') || focusedElement) {
     const child = node.querySelector(`.cls-${route[0]}`);
     child.focus();
   }

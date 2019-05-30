@@ -19,6 +19,7 @@ const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
   <BasePanel
     header={
       <span
+        tabIndex={1}
         title={isString(header) && header}
         className="n2o-panel-header-text"
       >
