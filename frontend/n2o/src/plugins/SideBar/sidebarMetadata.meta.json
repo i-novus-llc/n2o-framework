@@ -1,6 +1,8 @@
 {
   "brand": "N2O Framework",
   "brandImage": "https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png",
+  "className": "",
+  "visible": true,
   "userBox": {
     "image": "http://tiolly.by/img/empty_user.png",
     "title": "Александр Петров",
@@ -44,13 +46,6 @@
       "type": "link"
     }
   ],
-  "color": "default",
-  "fixed": false,
-  "collapsed": true,
-  "className": "",
-  "visible": true,
-  "collapse": true,
-  "search": false,
   "items": [
     {
       "id": "link",
