@@ -51,3 +51,14 @@ export const allColors = [
 export const ICON_STYLE = {
   fontSize: 'initial',
 };
+
+export const moveCursorToEnd = el => {
+  if (el.innerText && document.createRange) {
+    let selection = document.getSelection();
+    let range = document.createRange();
+    range.setStart(el.childNodes[0], el.innerText.length);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+};

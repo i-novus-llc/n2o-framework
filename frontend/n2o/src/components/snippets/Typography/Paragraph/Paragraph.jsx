@@ -3,7 +3,7 @@ import React from 'react';
 import Base from '../Base';
 
 function Paragraph({ ...rest }) {
-  const tag = 'div';
+  const tag = 'p';
 
   return <Base tag={tag} {...rest} />;
 }

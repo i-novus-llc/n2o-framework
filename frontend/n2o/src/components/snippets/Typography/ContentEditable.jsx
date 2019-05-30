@@ -1,6 +1,8 @@
 import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 
+import { moveCursorToEnd } from './utils';
+
 class ContentEditable extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +12,7 @@ class ContentEditable extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.editable !== prevProps.editable && this.props.editable) {
       this.ref.current.focus();
+      moveCursorToEnd(this.ref.current);
     }
   }
 
