@@ -1,13 +1,51 @@
 {
-  "brand": "Лого",
-  "brandImage": "https://avatars0.githubusercontent.com/u/25926683?s=200&v=4",
-  "color": "default",
-  "fixed": false,
-  "collapsed": true,
+  "brand": "N2O Framework",
+  "brandImage": "https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png",
   "className": "",
   "visible": true,
-  "collapse": true,
-  "search": false,
+  "userBox": {
+    "image": "http://tiolly.by/img/empty_user.png",
+    "title": "Александр Петров",
+    "subTitle": "17.01.1987 * Москва",
+    "items": [
+      {
+        "id": "profile",
+        "label": "Профиль",
+        "iconClass": "fa fa-info",
+        "href": "/profile",
+        "type": "link"
+      },
+      {
+        "id": "settings",
+        "label": "Настройки",
+        "iconClass": "fa fa-cog",
+        "type": "dropdown",
+        "subItems": [
+          {
+            "id": "change-name",
+            "label": "Изменить имя",
+            "type": "link",
+            "href": "/change-name"
+          },
+          {
+            "id": "change-password",
+            "label": "Изменить пароль",
+            "type": "link",
+            "href": "/change-password"
+          }
+        ]
+      }
+    ]
+  },
+  "extra": [
+    {
+      "id": "exit",
+      "label": "Выход",
+      "iconClass": "fa fa-sign-out",
+      "href": "/exit",
+      "type": "link"
+    }
+  ],
   "items": [
     {
       "id": "link",
@@ -29,7 +67,6 @@
     {
       "id": "link",
       "label": "Контакты",
-      "iconClass": "fa fa-address-book",
       "href": "/test1",
       "type": "link"
     },

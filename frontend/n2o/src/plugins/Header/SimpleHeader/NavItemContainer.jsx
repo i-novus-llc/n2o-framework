@@ -11,7 +11,6 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import SidebarDropdown from '../../SideBar/SidebarDropdown';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 /**
@@ -20,7 +19,14 @@ import SecurityCheck from '../../../core/auth/SecurityCheck';
  * @param {object} props.item  - объект, пропсы которого перейдут в item. Например, для ссыллок {id, label, href,type, link, linkType}
  * @param {string} props.activeId  - id активного item'a
  */
-const NavItemContainer = ({ item, activeId, type, sidebarOpen, options }) => {
+const NavItemContainer = ({
+  item,
+  activeId,
+  type,
+  sidebarOpen,
+  options,
+  direction,
+}) => {
   const getInnerLink = (item, className) => (
     <NavLink exact className="nav-link" to={item.href} activeClassName="active">
       {item.label}
@@ -54,7 +60,7 @@ const NavItemContainer = ({ item, activeId, type, sidebarOpen, options }) => {
 
   const handleLinkDropdown = (item, dropdownItems) => {
     return (
-      <UncontrolledDropdown nav inNavbar direction="bottom">
+      <UncontrolledDropdown nav inNavbar direction={direction}>
         <DropdownToggle nav caret>
           {item.label}
         </DropdownToggle>
@@ -107,9 +113,6 @@ const NavItemContainer = ({ item, activeId, type, sidebarOpen, options }) => {
         <span className="nav-link">{item.label}</span>
       </NavItem>
     )) ||
-    (type === 'sidebar' && sidebarOpen && item.type === 'dropdown' && (
-      <SidebarDropdown title={item.label}>{dropdownItems}</SidebarDropdown>
-    )) ||
     null
   );
 };
@@ -124,6 +127,11 @@ NavItemContainer.propTypes = {
   }),
   type: PropTypes.oneOf(['header', 'sidebar']),
   open: PropTypes.bool,
+  direction: PropTypes.string,
+};
+
+NavItemContainer.defaultProps = {
+  direction: 'bottom',
 };
 
 export default NavItemContainer;
