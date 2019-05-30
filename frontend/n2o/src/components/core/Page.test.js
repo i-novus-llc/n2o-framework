@@ -198,6 +198,7 @@ describe('Тесты Page', () => {
 
     wrapper.setProps({
       reset: () => null,
+      routeMap: () => null,
       metadata: {
         routes: {
           list: [
@@ -223,6 +224,7 @@ describe('Тесты Page', () => {
 
     wrapper.setProps({
       reset: () => null,
+      routeMap: () => null,
       metadata: {
         routes: {
           list: [
