@@ -70,6 +70,7 @@ export default class Pagination extends React.Component {
       pageButtons.push(
         <PaginationButton
           key={page}
+          tabIndex={1}
           eventKey={page}
           label={page}
           active={page === activePage}
@@ -80,10 +81,17 @@ export default class Pagination extends React.Component {
 
     if (stepIncrement && endPage < pages - 1) {
       pageButtons.push(
-        <PaginationButton label="..." key="ellipsisMiddle" noBorder disabled />
+        <PaginationButton
+          label="..."
+          tabIndex={-1}
+          key="ellipsisMiddle"
+          noBorder
+          disabled
+        />
       );
       pageButtons.push(
         <PaginationButton
+          tabIndex={1}
           key={
             activePage + stepIncrement > pages
               ? pages
@@ -104,7 +112,13 @@ export default class Pagination extends React.Component {
       );
       activePage + stepIncrement < pages &&
         pageButtons.push(
-          <PaginationButton label="..." key="ellipsisLast" noBorder disabled />
+          <PaginationButton
+            label="..."
+            tabIndex={-1}
+            key="ellipsisLast"
+            noBorder
+            disabled
+          />
         );
     } else if (stepIncrement && endPage == pages - 1) {
       pageButtons.push(
@@ -120,12 +134,24 @@ export default class Pagination extends React.Component {
     if (startPage > 1) {
       if (startPage > 2) {
         pageButtons.unshift(
-          <PaginationButton label="..." key="ellipsisFirst" noBorder disabled />
+          <PaginationButton
+            label="..."
+            key="ellipsisFirst"
+            tabIndex={-1}
+            noBorder
+            disabled
+          />
         );
       }
 
       pageButtons.unshift(
-        <PaginationButton key={1} eventKey={1} label="1" onSelect={onSelect} />
+        <PaginationButton
+          key={1}
+          eventKey={1}
+          label="1"
+          tabIndex={1}
+          onSelect={onSelect}
+        />
       );
     }
 
@@ -170,6 +196,7 @@ export default class Pagination extends React.Component {
                 label="&laquo;"
                 disabled={activePage === 1}
                 onSelect={onSelect}
+                tabIndex={1}
               />
             )}
             {prev && (
@@ -178,6 +205,7 @@ export default class Pagination extends React.Component {
                 label={prevText || '&lsaquo;'}
                 disabled={activePage === 1}
                 onSelect={onSelect}
+                tabIndex={1}
               />
             )}
             {!withoutBody &&
@@ -194,6 +222,7 @@ export default class Pagination extends React.Component {
                 label={nextText || '&rsaquo;'}
                 disabled={activePage >= count}
                 onSelect={onSelect}
+                tabIndex={1}
               />
             )}
             {last && (
@@ -202,6 +231,7 @@ export default class Pagination extends React.Component {
                 label="&raquo;"
                 disabled={activePage >= count}
                 onSelect={onSelect}
+                tabIndex={1}
               />
             )}
           </ul>
