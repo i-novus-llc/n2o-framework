@@ -7,14 +7,14 @@ import React, {
 import { propTypes, defaultProps } from './propTypes';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { keys, pick, flowRight, values, pickBy } from 'lodash';
-import { delay, wrapTags } from './utils';
+import { delay, wrapTags, ICON_STYLE } from './utils';
 import ContentEditable from './ContentEditable';
 
 const PropsEnd = createContext();
 
 const EndTag = () => (
   <PropsEnd.Consumer>
-    {({ value, children }) => <Fragment>{value || children}</Fragment>}
+    {({ text, children }) => <Fragment>{text || children}</Fragment>}
   </PropsEnd.Consumer>
 );
 
@@ -31,7 +31,7 @@ const MainTag = ({ tag, color, ...props }) =>
  * @reactProps {boolean} strong - отображать в виде жирным
  * @reactProps {boolean} underline - нижнее подчеркивание
  * @reactProps {boolean} small - отображать маленьким
- * @reactProps {string} value - значение
+ * @reactProps {string} text - значение
  * @reactProps {node} children - внутреннее содержимое компонента
  * @reactProps {function} onChange - callback на изменение
  * @reactProps {string} color - цвет
@@ -76,7 +76,7 @@ class Base extends Component {
   render() {
     const {
       tag,
-      value,
+      text,
       children,
       color,
       copyable,
@@ -94,27 +94,27 @@ class Base extends Component {
     const copyIcon = !copied ? 'fa fa-files-o' : 'fa fa-check';
 
     const copiableFragment = (
-      <Fragment>
-        <CopyToClipboard text={value}>
+      <span style={ICON_STYLE}>
+        <CopyToClipboard text={text}>
           <a href="#" className="pl-2" onClick={this.copyLinkClick}>
             <i className={copyIcon} />
           </a>
         </CopyToClipboard>
-      </Fragment>
+      </span>
     );
 
     const editableFragment = edit ? null : (
-      <Fragment>
+      <span style={ICON_STYLE}>
         <a href="#" className="pl-2" onClick={this.editLinkClick}>
           <i className="fa fa-pencil" />
         </a>
-      </Fragment>
+      </span>
     );
 
     return (
       <MainTag tag={tag} onBlur={this.editableTagOnBlur} color={color}>
         <ContentEditable editable={edit} onChange={this.handleContentEditable}>
-          <PropsEnd.Provider value={{ value, children }}>
+          <PropsEnd.Provider value={{ text, children }}>
             <Wrappers />
           </PropsEnd.Provider>
         </ContentEditable>

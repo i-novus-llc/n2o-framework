@@ -7,7 +7,7 @@ export const propTypes = {
   strong: PropTypes.bool,
   underline: PropTypes.bool,
   small: PropTypes.bool,
-  value: PropTypes.string,
+  text: PropTypes.string,
   children: PropTypes.node,
   onChange: PropTypes.func,
   color: PropTypes.string,
@@ -20,7 +20,7 @@ export const defaultProps = {
   strong: false,
   underline: false,
   small: false,
-  value: '',
+  text: '',
   onChange: () => {},
   color: '',
 };

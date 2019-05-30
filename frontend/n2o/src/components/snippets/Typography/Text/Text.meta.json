@@ -5,7 +5,8 @@
   "strong": false,
   "underline": false,
   "small": false,
-  "value": "Title",
+  "text": "Title",
   "editable": false,
+  "copyable": false,
   "color": ""
 }

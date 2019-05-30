@@ -6,6 +6,8 @@
   "underline": false,
   "small": false,
   "level": 1,
-  "value": "Title",
-  "color": ""
+  "text": "Title",
+  "color": "",
+  "copyable": false,
+  "editable": false
 }

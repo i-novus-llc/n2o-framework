@@ -47,3 +47,7 @@ export const allColors = [
   'muted',
   'white',
 ];
+
+export const ICON_STYLE = {
+  fontSize: 'initial',
+};

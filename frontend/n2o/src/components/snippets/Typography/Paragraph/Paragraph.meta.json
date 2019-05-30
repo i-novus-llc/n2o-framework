@@ -5,6 +5,7 @@
   "strong": false,
   "underline": false,
   "small": false,
-  "value": "Paragraph",
-  "editable": false
+  "text": "Paragraph",
+  "editable": false,
+  "copyable": false
 }

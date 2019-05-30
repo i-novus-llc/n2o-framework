@@ -20,8 +20,10 @@ stories
       underline: boolean('underline', meta.underline),
       small: boolean('small', meta.small),
       level: select('level', [1, 2, 3, 4, 5], meta.level),
-      value: text('value', meta.value),
+      text: text('text', meta.text),
       color: select('color', allColors, meta.color),
+      editable: boolean('editable', meta.editable),
+      copyable: boolean('copyable', meta.copyable),
     };
 
     return <Title {...props} />;
@@ -30,29 +32,29 @@ stories
     <Fragment>
       <h1>Level:</h1>
       <code>{`{level:1,2,3,4,5}`}</code>
-      <Title value={meta.value} level={1} />
-      <Title value={meta.value} level={2} />
-      <Title value={meta.value} level={3} />
-      <Title value={meta.value} level={4} />
-      <Title value={meta.value} level={5} />
+      <Title text={meta.text} level={1} />
+      <Title text={meta.text} level={2} />
+      <Title text={meta.text} level={3} />
+      <Title text={meta.text} level={4} />
+      <Title text={meta.text} level={5} />
       <br />
       <h1>Transform:</h1>
       <code>{`{code:true}`}</code>
-      <Title value={meta.value} level={3} code={true} />
+      <Title text={meta.text} level={3} code={true} />
       <code>{`{del:true}`}</code>
-      <Title value={meta.value} level={3} del={true} />
+      <Title text={meta.text} level={3} del={true} />
       <code>{`{mark:true}`}</code>
-      <Title value={meta.value} level={3} mark={true} />
+      <Title text={meta.text} level={3} mark={true} />
       <code>{`{strong:true}`}</code>
-      <Title value={meta.value} level={3} strong={true} />
+      <Title text={meta.text} level={3} strong={true} />
       <code>{`{underline:true}`}</code>
-      <Title value={meta.value} level={3} underline={true} />
+      <Title text={meta.text} level={3} underline={true} />
       <code>{`{small:true}`}</code>
-      <Title value={meta.value} level={3} small={true} />
+      <Title text={meta.text} level={3} small={true} />
       <br />
       <h1>Colors:</h1>
       {map(allColors, color => (
-        <Title color={color} level={2} value={meta.value} />
+        <Title color={color} level={2} text={meta.text} />
       ))}
     </Fragment>
   ));

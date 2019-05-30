@@ -20,7 +20,7 @@ stories
       underline: boolean('underline', meta.underline),
       small: boolean('small', meta.small),
       copyable: boolean('copyable', meta.copyable),
-      value: text('value', meta.value),
+      text: text('text', meta.text),
       editable: boolean('editable', meta.editable),
     };
 
@@ -31,28 +31,28 @@ stories
       <br />
       <h1>Transform:</h1>
       <code>{`{code:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." code={true} />
+      <Text text="The five boxing wizards jump quickly." code={true} />
       <code>{`{del:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." del={true} />
+      <Text text="The five boxing wizards jump quickly." del={true} />
       <code>{`{mark:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." mark={true} />
+      <Text text="The five boxing wizards jump quickly." mark={true} />
       <code>{`{strong:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." strong={true} />
+      <Text text="The five boxing wizards jump quickly." strong={true} />
       <code>{`{underline:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." underline={true} />
+      <Text text="The five boxing wizards jump quickly." underline={true} />
       <code>{`{small:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." small={true} />
+      <Text text="The five boxing wizards jump quickly." small={true} />
       <code>{`{copyable:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." copyable={true} />
+      <Text text="The five boxing wizards jump quickly." copyable={true} />
       <code>{`{editable:true}`}</code>
-      <Text value="The five boxing wizards jump quickly." editable={true} />
+      <Text text="The five boxing wizards jump quickly." editable={true} />
       <br />
       <h1>Colors:</h1>
       {map(allColors, color => (
         <Text
           color={color}
           level={2}
-          value="The five boxing wizards jump quickly."
+          text="The five boxing wizards jump quickly."
         />
       ))}
     </Fragment>

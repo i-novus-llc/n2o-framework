@@ -23,7 +23,7 @@ stories
       underline: boolean('underline', meta.underline),
       small: boolean('small', meta.small),
       copyable: boolean('copyable', meta.copyable),
-      value: text('value', meta.value),
+      text: text('text', meta.text),
       editable: boolean('editable', meta.editable),
     };
 
@@ -34,25 +34,25 @@ stories
       <br />
       <h1>Transform:</h1>
       <code>{`{code:true}`}</code>
-      <Paragraph value={txt} code={true} />
+      <Paragraph text={txt} code={true} />
       <code>{`{del:true}`}</code>
-      <Paragraph value={txt} del={true} />
+      <Paragraph text={txt} del={true} />
       <code>{`{mark:true}`}</code>
-      <Paragraph value={txt} mark={true} />
+      <Paragraph text={txt} mark={true} />
       <code>{`{strong:true}`}</code>
-      <Paragraph value={txt} strong={true} />
+      <Paragraph text={txt} strong={true} />
       <code>{`{underline:true}`}</code>
-      <Paragraph value={txt} underline={true} />
+      <Paragraph text={txt} underline={true} />
       <code>{`{small:true}`}</code>
-      <Paragraph value={txt} small={true} />
+      <Paragraph text={txt} small={true} />
       <code>{`{copyable:true}`}</code>
-      <Paragraph value={txt} copyable={true} />
+      <Paragraph text={txt} copyable={true} />
       <code>{`{editable:true}`}</code>
-      <Paragraph value={txt} editable={true} />
+      <Paragraph text={txt} editable={true} />
       <br />
       <h1>Colors:</h1>
       {map(allColors, color => (
-        <Paragraph color={color} value={txt} />
+        <Paragraph color={color} text={txt} />
       ))}
     </Fragment>
   ));
