@@ -63,7 +63,6 @@ class DateTimeControl extends React.Component {
     this.select = this.select.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onBlur = this.onBlur.bind(this);
     this.setVisibility = this.setVisibility.bind(this);
     this.setPlacement = this.setPlacement.bind(this);
     this.onClickOutside = this.onClickOutside.bind(this);
@@ -134,22 +133,6 @@ class DateTimeControl extends React.Component {
   }
 
   /**
-   * вызов onBlur
-   */
-  onBlur(date, inputName) {
-    this.setState(
-      state => {
-        return {
-          inputs: { ...this.state.inputs, [inputName]: date },
-        };
-      },
-      () => {
-        this.onChange(inputName);
-      }
-    );
-  }
-
-  /**
    * Выбор даты, прокидывается в календарь
    */
   select(day, inputName, close = true) {
@@ -195,10 +178,18 @@ class DateTimeControl extends React.Component {
    * @todo объеденить методы select и onInputChange в 1 метод
    */
   onInputChange(date, inputName) {
-    let { locale } = this.props;
+    const { timeFormat } = this.props;
+    const newDate =
+      !timeFormat && inputName === DateTimeControl.endInputName
+        ? date
+            .add(23, 'h')
+            .add(59, 'm')
+            .add(59, 's')
+        : date;
+
     this.setState(
       {
-        inputs: { ...this.state.inputs, [inputName]: date },
+        inputs: { ...this.state.inputs, [inputName]: newDate },
       },
       () => this.onChange(inputName)
     );
