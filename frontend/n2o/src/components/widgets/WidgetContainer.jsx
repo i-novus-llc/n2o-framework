@@ -228,15 +228,15 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             )}
             style={style}
           >
-            {!isMinTimeOut ||
-              (isLoading && (
-                <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
-              ))}
             <Placeholder
               once={true}
               loading={placeholder && isLoading}
               {...placeholder}
             >
+              {!isMinTimeOut ||
+                (isLoading && (
+                  <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
+                ))}
               <WrappedComponent {...propsToPass} />
             </Placeholder>
           </div>
