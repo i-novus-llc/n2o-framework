@@ -50,7 +50,10 @@ class PageContainer extends React.Component {
     if (!isEmpty(metadata) && this.shouldGetPageMetadata(prevProps)) {
       reset(prevProps.pageId);
       getMetadata();
-    } else if (this.isEqualPageId(prevProps)) {
+    } else if (
+      this.isEqualPageId(prevProps) &&
+      !this.isEqualPageUrl(prevProps)
+    ) {
       routeMap();
       if (error) {
         getMetadata();
