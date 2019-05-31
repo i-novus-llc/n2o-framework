@@ -35,7 +35,7 @@ class PaginationButton extends React.Component {
   }
 
   render() {
-    const { label, active, disabled, noBorder } = this.props;
+    const { label, active, disabled, noBorder, tabIndex } = this.props;
     return (
       <li
         className={cx('page-item', { active, disabled })}
@@ -45,6 +45,7 @@ class PaginationButton extends React.Component {
           className={cx('page-link', noBorder ? 'no-border' : '')}
           href="#"
           dangerouslySetInnerHTML={{ __html: label }}
+          tabIndex={tabIndex}
         />
       </li>
     );

@@ -26,7 +26,7 @@ function AdvancedTableRow(props) {
   const newProps = {
     ...props,
     ref: el => setRef && setRef(el, model.id),
-    tabIndex: 1,
+    tabIndex: 0,
     key: model.id,
     className: classes,
   };
