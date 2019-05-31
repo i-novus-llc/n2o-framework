@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, withHandlers, mapProps } from 'recompose';
+import { get } from 'lodash';
 import Control from '../StandardField/Control';
 import Measure from '../StandardField/Measure';
 import Label from '../StandardField/Label';
 import FieldActions from '../StandardField/FieldActions';
 import InlineSpinner from '../../../../snippets/Spinner/InlineSpinner';
+import Description from '../StandardField/Description';
 import cx from 'classnames';
 import { FieldActionsPropTypes } from '../StandardField/FieldPropTypes';
 
@@ -15,7 +18,6 @@ function RangeField({
   beginControl,
   endControl,
   id,
-  value,
   visible,
   label,
   control,
@@ -35,7 +37,6 @@ function RangeField({
   labelClass,
   validationClass,
   controlClass,
-  onChange,
   onFocus,
   onBlur,
   placeholder,
@@ -43,10 +44,15 @@ function RangeField({
   message,
   colLength,
   help,
+  value,
+  onChange,
+  onBeginValueChange,
+  onEndValueChange,
+  begin,
+  end,
+  divider,
   ...props
 }) {
-  console.log('point');
-  console.log(arguments);
   const flexStyle = { display: 'flex' };
   const validationMap = {
     'is-valid': 'text-success',
@@ -60,12 +66,6 @@ function RangeField({
       ? undefined
       : labelWidth;
 
-  const styleHelper =
-    labelWidthPixels && colLength > 1
-      ? {
-          maxWidth: `calc(100% - ${labelWidthPixels})`,
-        }
-      : { width: '100%' };
   const extendedLabelStyle = {
     width: labelWidthPixels,
     flex: labelWidthPixels ? 'none' : undefined,
@@ -97,40 +97,43 @@ function RangeField({
         required={required}
         help={help}
       />
-      <div className="n2o-range-field-body">
-        <div className="n2o-range-field-start n2o-range-field-item">
-          <div style={styleHelper}>
-            <div style={flexStyle}>
-              <Control
-                placeholder={placeholder}
-                visible={visible}
-                autoFocus={autoFocus}
-                value={value}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                onChange={onChange}
-                {...beginControl}
-                {...props}
-                className={cx(beginControl && beginControl.className, {
-                  [validationClass]: touched,
-                })}
-              />
-              <Measure value={measure} />
-              <FieldActions actions={fieldActions} />
-              {loading && <InlineSpinner />}
-            </div>
-          </div>
-        </div>
-        <div className="n2o-range-field-end n2o-range-field-item">
+      <div
+        className={cx('n2o-range-field-body', {
+          'n2o-range-field-body--divider': !divider,
+        })}
+      >
+        <div className="n2o-range-field-start n2o-range-field-item mr-3">
           <div style={flexStyle}>
             <Control
               placeholder={placeholder}
               visible={visible}
               autoFocus={autoFocus}
-              value={value}
+              value={begin}
               onBlur={onBlur}
               onFocus={onFocus}
-              onChange={onChange}
+              onChange={onBeginValueChange}
+              {...beginControl}
+              {...props}
+              className={cx(beginControl && beginControl.className, {
+                [validationClass]: touched,
+              })}
+            />
+            <Measure value={measure} />
+            <FieldActions actions={fieldActions} />
+            {loading && <InlineSpinner />}
+          </div>
+        </div>
+        {divider && <div className="n2o-range-field-divider">{divider}</div>}
+        <div className="n2o-range-field-end n2o-range-field-item ml-3">
+          <div style={flexStyle}>
+            <Control
+              placeholder={placeholder}
+              visible={visible}
+              autoFocus={autoFocus}
+              value={end}
+              onBlur={onBlur}
+              onFocus={onFocus}
+              onChange={onEndValueChange}
               {...endControl}
               {...props}
               className={cx(endControl && endControl.className, {
@@ -141,6 +144,15 @@ function RangeField({
             <FieldActions actions={fieldActions} />
             {loading && <InlineSpinner />}
           </div>
+        </div>
+        <Description value={description} />
+        <div
+          className={cx(
+            'n2o-validation-message',
+            validationMap[validationClass]
+          )}
+        >
+          {touched && message && message.text}
         </div>
       </div>
     </div>
@@ -168,6 +180,7 @@ RangeField.propTypes = {
   labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
   message: PropTypes.object,
   help: PropTypes.oneOf(PropTypes.string, PropTypes.node),
+  divider: PropTypes.oneOf(PropTypes.bool, PropTypes.string),
 };
 
 RangeField.defaultProps = {
@@ -180,6 +193,18 @@ RangeField.defaultProps = {
   enabled: true,
   disabled: false,
   onChange: () => {},
+  diver: false,
 };
 
-export default RangeField;
+export default compose(
+  mapProps(props => ({
+    ...props,
+    begin: get(props, 'value.begin', null),
+    end: get(props, 'value.end', null),
+  })),
+  withHandlers({
+    onBeginValueChange: ({ end, onChange }) => begin =>
+      onChange({ begin, end }),
+    onBndValueChange: ({ begin, onChange }) => end => onChange({ begin, end }),
+  })
+)(RangeField);

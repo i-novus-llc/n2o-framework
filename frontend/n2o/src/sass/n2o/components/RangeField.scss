@@ -4,9 +4,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    width: 100%;
+
+    &--divider {
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: calc(50% - 5px);
+        top: 50%;
+        width: 10px;
+        height: 2px;
+        background: $gray-300;
+      }
+    }
   }
 
   &-item {
-    max-width: 45%;
+    flex-grow: 1;
   }
 }

@@ -1,24 +1,19 @@
 {
   "Page_Form": {
     "src": "FormWidget",
-    "dependency": {
-    },
+    "dependency": {},
     "dataProvider": {
       "url": "n2o/data/test",
-      "pathMapping": {
-      },
-      "queryMapping": {
-      }
+      "pathMapping": {},
+      "queryMapping": {}
     },
     "form": {
       "fetchOnInit": false,
-      "validation": {
-      },
+      "validation": {},
       "fieldsets": [
         {
-          "src": "CollapseFieldset",
-          "type": "line",
-          "label": "Заголовок филдсета",
+          "src": "StandardFieldset",
+          "label": "",
           "expand": true,
           "hasArrow": true,
           "rows": [
@@ -28,18 +23,13 @@
                   "fields": [
                     {
                       "id": "name",
-                      "src": "StandardField",
-                      "label": "Имя",
-                      "control": {
-                        "src": "InputText"
-                      }
-                    },
-                    {
-                      "id": "surname",
-                      "src": "StandardField",
-                      "label": "Фамилия",
-                      "control": {
-                        "src": "InputText"
+                      "src": "RangeField",
+                      "label": "Поле \"Диапазон\"",
+                      "beginControl": {
+                        "src": "InputNumber"
+                      },
+                      "endControl": {
+                        "src": "InputNumber"
                       }
                     }
                   ]
