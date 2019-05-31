@@ -38,7 +38,7 @@ import {
 import observeStore from '../../utils/observeStore';
 import propsResolver from '../../utils/propsResolver';
 import { removeAlerts } from '../../actions/alerts';
-import CoverSpinner from '../snippets/Spinner/CoverSpinner';
+import Spinner from '../snippets/Spinner/Spinner';
 
 const s = {};
 
@@ -233,11 +233,13 @@ const createWidgetContainer = (initialConfig, widgetType) => {
               loading={placeholder && isLoading}
               {...placeholder}
             >
-              {!isMinTimeOut ||
-                (isLoading && (
-                  <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
-                ))}
-              <WrappedComponent {...propsToPass} />
+              <Spinner
+                delay={isMinTimeOut || deferredSpinnerStart}
+                loading={isLoading}
+                type="cover"
+              >
+                <WrappedComponent {...propsToPass} />
+              </Spinner>
             </Placeholder>
           </div>
         );

@@ -100,7 +100,14 @@ stories
     };
     return (
       <Fragment>
-        <Spinner {...props} />
+        <Spinner {...props}>
+          <div>dzfvzdfvzdfvzdfvzdfv</div>
+          <div>dzfvzdfvzdfvzdfvzdfv</div>
+          <div>dzfvzdfvzdfvzdfvzdfv</div>
+          <div>dzfvzdfvzdfvzdfvzdfv</div>
+          <div>dzfvzdfvzdfvzdfvzdfv</div>
+          <div>dzfvzdfvzdfvzdfvzdfv</div>
+        </Spinner>
       </Fragment>
     );
   });

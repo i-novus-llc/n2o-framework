@@ -22,7 +22,6 @@ class Rating extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value !== prevState.value && nextProps.value) {
-      console.log({ value: nextProps.value });
       return {
         value: nextProps.value,
       };

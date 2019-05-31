@@ -4,12 +4,6 @@ import cx from 'classnames';
 import { eq, values } from 'lodash';
 import PropTypes from 'prop-types';
 
-const MODE = {
-  DARK: 'dark',
-  LIGHT: 'light',
-  TRANSPARENT: 'transparent',
-};
-
 const TYPE = {
   INLINE: 'inline',
   COVER: 'cover',
@@ -28,6 +22,8 @@ class BaseSpinner extends Component {
     };
 
     this.delayTimer = this.delayTimer.bind(this);
+    this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
+    this.renderLineSpinner = this.renderLineSpinner.bind(this);
   }
 
   static setSpinner(component) {
@@ -57,41 +53,39 @@ class BaseSpinner extends Component {
     }
   }
 
-  render() {
-    const {
-      children,
-      type,
-      className,
-      text,
-      mode,
-      loading,
-      ...rest
-    } = this.props;
+  renderCoverSpiner() {
+    const { children, className, text, loading, type, ...rest } = this.props;
     const { endTimeout } = this.state;
-
-    const background = eq(TYPE.COVER, type) && {
-      'spinner-container--dark': eq(mode, MODE.DARK) && endTimeout && loading,
-      'spinner-container--transparent':
-        eq(mode, MODE.TRANSPARENT) && endTimeout,
-    };
-
     return (
       <div
-        className={cx(`n2o-spinner-wrapper ${type}`, {
+        className={cx('n2o-spinner-wrapper', {
           [className]: className,
-          ...background,
         })}
-        {...rest}
       >
         {endTimeout && loading && (
-          <div className="n2o-spinner-container">
-            <Comp color="primary" />
-            {eq(TYPE.COVER, type) && <div className="loading_text">{text}</div>}
-          </div>
+          <Fragment>
+            <div className="n2o-spinner-container ">
+              <Comp color="primary" {...rest} />
+              <div className="loading_text">{text}</div>
+            </div>
+            <div className="spinner-background" />
+          </Fragment>
         )}
         {children}
       </div>
     );
+  }
+
+  renderLineSpinner() {
+    const { type, ...rest } = this.props;
+    return <Comp {...rest} />;
+  }
+
+  render() {
+    const { type } = this.props;
+    return eq(type, TYPE.COVER)
+      ? this.renderCoverSpiner()
+      : this.renderLineSpinner();
   }
 }
 
@@ -100,7 +94,6 @@ BaseSpinner.propTypes = {
   type: PropTypes.oneOf(values(TYPE)),
   delay: PropTypes.number,
   text: PropTypes.string,
-  mode: PropTypes.oneOf(values(MODE)),
 };
 
 BaseSpinner.defaultProps = {
@@ -108,7 +101,6 @@ BaseSpinner.defaultProps = {
   type: 'inline',
   delay: 400,
   text: '',
-  mode: 'light',
 };
 
 export default BaseSpinner;

@@ -163,8 +163,6 @@ class AdvancedTableContainer extends React.Component {
   }
 
   render() {
-    console.log('table props', this.props);
-
     return <AdvancedTable {...this.getTableProps()} />;
   }
 }
