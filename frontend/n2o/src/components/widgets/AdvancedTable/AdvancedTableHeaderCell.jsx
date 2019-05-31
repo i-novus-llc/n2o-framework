@@ -94,7 +94,7 @@ class AdvancedTableHeaderCell extends Component {
       cellContent = children;
     }
 
-    const cell = (
+    return (
       <th
         title={label}
         rowSpan={rowSpan}
@@ -120,8 +120,6 @@ class AdvancedTableHeaderCell extends Component {
         </div>
       </th>
     );
-
-    return cell;
   }
 
   render() {

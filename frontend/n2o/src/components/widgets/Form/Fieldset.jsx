@@ -209,10 +209,7 @@ class Fieldset extends React.Component {
     });
 
     return (
-      <div
-        className={classes}
-        style={style}
-      >
+      <div className={classes} style={style}>
         <ElementType
           {...rest}
           render={rows => {

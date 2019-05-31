@@ -20,12 +20,7 @@ const Control = ({ component, className, ...props }) => {
   return typeof component !== 'string' ? (
     React.createElement(component, newProps)
   ) : (
-    <Factory
-      level={CONTROLS}
-      src={component}
-      {...props}
-      className={classes}
-    />
+    <Factory level={CONTROLS} src={component} {...props} className={classes} />
   );
 };
 

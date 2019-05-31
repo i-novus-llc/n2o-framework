@@ -37,6 +37,7 @@ class AdvancedTableContainer extends React.Component {
 
     this.state = {
       data: this.mapData(props.datasource),
+      columns: this.mapColumns(),
     };
 
     this._filter = props.filters;
@@ -60,6 +61,7 @@ class AdvancedTableContainer extends React.Component {
     if (!isEqual(prevProps.datasource, this.props.datasource)) {
       this.setState({
         data: this.mapData(this.props.datasource),
+        columns: this.mapColumns(),
       });
     }
 
@@ -81,6 +83,7 @@ class AdvancedTableContainer extends React.Component {
     if (this.props.datasource) {
       this.setState({
         data: this.mapData(this.props.datasource),
+        columns: this.mapColumns(),
       });
     }
   }
@@ -171,7 +174,7 @@ class AdvancedTableContainer extends React.Component {
     return {
       ...props,
       onEdit: this.onEdit,
-      columns: this.mapColumns(),
+      columns: this.state.columns,
       data: this.state.data,
       onFilter: this.handleSetFilter,
     };
