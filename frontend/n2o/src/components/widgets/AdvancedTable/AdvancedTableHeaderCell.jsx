@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { pure } from 'recompose';
 import { isArray, isString } from 'lodash';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
@@ -182,4 +183,4 @@ AdvancedTableHeaderCell.defaultProps = {
   onFilter: () => {},
 };
 
-export default AdvancedTableHeaderCell;
+export default pure(AdvancedTableHeaderCell);

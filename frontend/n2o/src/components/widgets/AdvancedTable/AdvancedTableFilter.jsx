@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import AdvancedTableFilterPopup from './AdvancedTableFilterPopup';
 import { isEmpty } from 'lodash';
@@ -101,4 +102,4 @@ AdvancedTableFilter.defaultProps = {
   onFilter: () => {},
 };
 
-export default AdvancedTableFilter;
+export default pure(AdvancedTableFilter);

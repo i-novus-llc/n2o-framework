@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { lifecycle, compose } from 'recompose';
+import { compose } from 'recompose';
 import {
   map,
   isEqual,
@@ -10,12 +10,12 @@ import {
   pick,
   forOwn,
   is,
+  omit,
 } from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
 import { TABLE } from '../widgetTypes';
-import _ from 'lodash';
 import columnHOC from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
@@ -153,8 +153,23 @@ class AdvancedTableContainer extends React.Component {
   }
 
   getTableProps() {
+    const props = omit(this.props, [
+      'actions',
+      'cells',
+      'headers',
+      'datasource',
+      'dispatch',
+      'onActionImpl',
+      'onEdit',
+      'onFetch',
+      'pageId',
+      'redux',
+      'sorting',
+      'widgetId',
+    ]);
+
     return {
-      ...this.props,
+      ...props,
       onEdit: this.onEdit,
       columns: this.mapColumns(),
       data: this.state.data,

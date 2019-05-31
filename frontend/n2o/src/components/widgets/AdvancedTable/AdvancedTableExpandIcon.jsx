@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -50,4 +51,4 @@ AdvancedTableExpandIcon.defaultProps = {
   record: {},
 };
 
-export default AdvancedTableExpandIcon;
+export default pure(AdvancedTableExpandIcon);

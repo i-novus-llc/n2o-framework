@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { pure } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
@@ -462,7 +463,22 @@ class AdvancedTable extends Component {
       expandedComponent,
       components,
     } = this.props;
+
     const columns = this.mapColumns(this.state.columns);
+
+    const mergedComponents = {
+      header: {
+        row: AdvancedTableHeaderRow,
+        cell: AdvancedTableHeaderCell,
+        ...get(components, 'header', {}),
+      },
+      body: {
+        row: AdvancedTableRow,
+        cell: AdvancedTableCell,
+        ...get(components, 'body', {}),
+      },
+    };
+
     return (
       <HotKeys
         keyMap={{ events: values(KEY_CODES) }}
@@ -480,18 +496,7 @@ class AdvancedTable extends Component {
             columns={columns}
             data={this.state.data}
             onRow={this.getRowProps}
-            components={{
-              header: {
-                row: AdvancedTableHeaderRow,
-                cell: AdvancedTableHeaderCell,
-                ...get(components, 'header', {}),
-              },
-              body: {
-                row: AdvancedTableRow,
-                cell: AdvancedTableCell,
-                ...get(components, 'body', {}),
-              },
-            }}
+            components={mergedComponents}
             rowKey={record => record.key}
             expandIcon={({ record, expanded, onExpand }) => (
               <AdvancedTableExpandIcon
@@ -565,4 +570,4 @@ AdvancedTable.defaultProps = {
   autoFocus: false,
 };
 
-export default AdvancedTable;
+export default pure(AdvancedTable);

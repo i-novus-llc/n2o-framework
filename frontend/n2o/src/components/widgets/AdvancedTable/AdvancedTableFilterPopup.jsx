@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import InputText from '../../controls/InputText/InputText';
 import { Button } from 'reactstrap';
@@ -20,14 +21,16 @@ function AdvancedTableFilterPopup({
   onSetFilter,
   component,
 }) {
+  const childProps = {
+    value,
+    onChange,
+  };
+
   return (
     <React.Fragment>
       <div className="n2o-advanced-table-filter-dropdown-popup">
         {component ? (
-          React.createElement(component, {
-            value,
-            onChange,
-          })
+          React.createElement(component, childProps)
         ) : (
           <InputText value={value} onChange={onChange} />
         )}
@@ -57,4 +60,4 @@ AdvancedTableFilterPopup.defaultProps = {
   onSetFilter: () => {},
 };
 
-export default AdvancedTableFilterPopup;
+export default pure(AdvancedTableFilterPopup);

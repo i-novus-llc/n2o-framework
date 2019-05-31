@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -22,17 +23,15 @@ function AdvancedTableRow(props) {
     'row-click': !!rowClick,
     [rowClass]: rowClass,
   });
-  return React.createElement(
-    'tr',
-    {
-      ...props,
-      ref: el => setRef && setRef(el, model.id),
-      tabIndex: 1,
-      key: model.id,
-      className: classes,
-    },
-    [...children]
-  );
+  const newProps = {
+    ...props,
+    ref: el => setRef && setRef(el, model.id),
+    tabIndex: 1,
+    key: model.id,
+    className: classes,
+  };
+
+  return React.createElement('tr', newProps, [...children]);
 }
 
 AdvancedTableRow.propTypes = {
@@ -43,4 +42,4 @@ AdvancedTableRow.propTypes = {
   model: PropTypes.object,
 };
 
-export default AdvancedTableRow;
+export default pure(AdvancedTableRow);
