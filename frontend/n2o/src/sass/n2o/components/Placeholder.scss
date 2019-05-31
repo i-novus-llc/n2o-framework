@@ -35,5 +35,36 @@
     margin-right: 10px;
     margin-bottom: 10px;
   }
+
+  &.form-label{
+    height: 10px;
+    width: 100px;
+  }
+}
+
+.n2o-placeholder-tree{
+  li{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+  }
+  .n2o-placeholder-content{
+    display: flex;
+    width: 100%;
+    margin-left: 10px;
+  }
+  li:nth-child(2n){
+    width: 60%;
+  }
+  li:nth-child(2n+1){
+    width: 80%;
+  }
+  li:nth-child(1){
+    width: 50%;
+  }
+  li:last-child{
+    width: 100%;
+  }
 }
 

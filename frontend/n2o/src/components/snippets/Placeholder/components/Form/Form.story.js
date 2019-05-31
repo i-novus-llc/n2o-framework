@@ -1,10 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+import { withKnobs, select, boolean, text } from '@storybook/addon-knobs/react';
 import Placeholder from '../../Placeholder';
-import meta from './Table.meta';
+import meta from './Form.meta';
 
-const stories = storiesOf('UI Компоненты/Placeholder/type=table', module);
+const stories = storiesOf('UI Компоненты/Placeholder/type=form', module);
 
 stories.addDecorator(withKnobs);
 

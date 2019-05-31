@@ -131,6 +131,7 @@ describe('FormContainer', () => {
         datasource: stateData.models.datasource.widgetId[0],
         activeModel: stateData.models.modelPrefix.widgetId,
         resolveModel: {},
+        placeholder: false,
         onSetModel: expect.any(Function),
         onResolve: expect.any(Function),
         setActive: expect.any(Function),
