@@ -1,0 +1,12 @@
+.n2o-range-field {
+
+  &-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &-item {
+    max-width: 45%;
+  }
+}
