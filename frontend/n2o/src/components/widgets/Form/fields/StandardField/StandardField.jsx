@@ -82,6 +82,7 @@ class StandardField extends React.Component {
       help,
       ...props
     } = this.props;
+
     const flexStyle = { display: 'flex' };
     const validationMap = {
       'is-valid': 'text-success',
