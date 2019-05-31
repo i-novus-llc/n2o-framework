@@ -40,7 +40,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     @Override
     public boolean containsKey(Object oKey) {
         String key = (String) oKey;
-        if (key.indexOf(SPREAD_OPERAND) > 0)
+        if (key.indexOf(SPREAD_OPERAND) > -1)
             throw new IllegalArgumentException("Method contains unsupport spread operand");
         KeyInfo keyInfo = getKeyInfo(key);
         int arrayNum = keyInfo.getArrayElementNum();
@@ -86,9 +86,9 @@ public class NestedMap extends LinkedHashMap<String, Object> {
             Map map;
             if (keyInfo.isSpread()) {
                 Object tmp = super.get(property);
-                if (tmp == null || !(tmp instanceof List)) return null;
-                List array = (List) tmp;
-                List res = new ArrayList(array.size());
+                if (!(tmp instanceof List)) return null;
+                List<Object> array = (List<Object>) tmp;
+                List<Object> res = new ArrayList<>(array.size());
                 for (Object o : array) {
                     res.add(((Map) o).get(keyInfo.getRight()));
                 }
@@ -157,10 +157,10 @@ public class NestedMap extends LinkedHashMap<String, Object> {
             } else if (keyInfo.hasArrayElement()) {
                 //case: "a[0].b"
                 Object tmp = super.get(property);
-                if (tmp == null || !(tmp instanceof List)) {
+                if (!(tmp instanceof List)) {
                     tmp = new ArrayList();
                 }
-                List array = (List) tmp;
+                List<Object> array = (List<Object>) tmp;
 
                 fillArray(array, arrayNum);
 
@@ -184,9 +184,9 @@ public class NestedMap extends LinkedHashMap<String, Object> {
         } else {
             if (keyInfo.hasArrayElement()) {
                 //case: "a[1]", "['a'][1]"
-                List array = (List) super.get(property);
+                List<Object> array = (List<Object>) super.get(property);
                 if (array == null) {
-                    array = new ArrayList();
+                    array = new ArrayList<>();
                 }
                 fillArray(array, arrayNum);
                 Object returnValue = array.size() > arrayNum ? array.get(arrayNum) : null;
@@ -234,7 +234,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     @SuppressWarnings("unchecked")
     protected Object wrapValue(Object value) {
         if (value instanceof NestedMap)
-            return new NestedMap((NestedMap) value);
+            return createNestedMap((NestedMap) value);
         if (value instanceof Map) {
             Map map = (Map) value;
 
@@ -244,7 +244,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                     //если в мапе все ключи - числа, то превращаем мапу в список
                     int max = getMaxNumberInMap(map);
                     //инициализация списка пустыми значениями
-                    List list = new ArrayList<>(max + 1);
+                    List<Object> list = new ArrayList<>(max + 1);
                     fillArray(list, max);
                     //заполнение списка значениями из мапы
                     for (Object key : map.keySet()) {
@@ -252,16 +252,17 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                         list.set(idx, wrapValue(map.get(key)));
                     }
                     return list;
+                } else {
+                    //оборачиваем значения мапы
+                    for (Object key : map.keySet()) {
+                        Object entryValue = map.get(key);
+                        Object entryWrap = wrapValue(map.get(key));
+                        if (entryWrap != entryValue)
+                            map.put(key, entryWrap);
+                    }
                 }
             }
 
-            //оборачиваем значения мапы
-            for (Object key : map.keySet()) {
-                Object entryValue = map.get(key);
-                Object entryWrap = wrapValue(map.get(key));
-                if (entryWrap != entryValue)
-                    map.put(key, entryWrap);
-            }
             return createNestedMap(map);
         } else if (value instanceof List) {
             //оборачиваем значения списка
@@ -296,7 +297,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
         return max;
     }
 
-    private void fillArray(List list, int idx) {
+    private void fillArray(List<Object> list, int idx) {
         for (int k = list.size(); k <= idx; k++) {
             list.add(null);
         }
@@ -308,17 +309,6 @@ public class NestedMap extends LinkedHashMap<String, Object> {
 
     protected NestedMap createNestedMap(Map map) {
         return new NestedMap(map);
-    }
-
-    private static boolean isNumeric(Object key) {
-        if (key instanceof String) {
-            if (((String) key).isEmpty())
-                return false;
-            String str = (String) key;
-            char c = str.charAt(0);
-            return (c >= '0' && c <= '9');
-        } else
-            return key instanceof Number;
     }
 
 
@@ -335,7 +325,6 @@ public class NestedMap extends LinkedHashMap<String, Object> {
         String left;
         String right;
         int dotIdx = key.indexOf('.');//case: "a.b"
-        int nestingIdx = dotIdx;
         if (dotIdx >= 0 && (dotIdx == key.length() - 1))
             throw new IllegalArgumentException("Dot ('.') must not be placed at the end of the key '" + key + "'");
 
@@ -380,11 +369,9 @@ public class NestedMap extends LinkedHashMap<String, Object> {
             if (secondDotIdx >= 0) {
                 //case: "a.1.b"
                 right = key.substring(secondDotIdx + 1);//case: "a.1.b", right: "b"
-                nestingIdx = secondDotIdx;
             } else {
                 //case: "a.1"
                 right = "";
-                nestingIdx = -1;
             }
         } else if (arrayElementIdx > spreadIdx) {
             //case: "a[1].b", "a['b'].c", "['ab'].c"
@@ -393,7 +380,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                 //case: "a[1]"
                 arrayElementNum = Integer.parseInt(index);//case: "a[1]", arrayElementNum: 1
                 left = key.substring(0, arrayElementIdx);
-                right = key.substring(key.indexOf("]") + 1);
+                right = key.substring(key.indexOf(']') + 1);
                 right = getRight(key, right);
                 //todo case: "[1]"
             } else if ((index.startsWith("'") || index.startsWith("\""))
@@ -407,7 +394,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                 } else {
                     //case: "['a'].b"
                     left = index.substring(1, index.length() - 1);//case: "['a'].b", left: "a"
-                    right = key.substring(key.indexOf("]") + 1);
+                    right = key.substring(key.indexOf(']') + 1);
                     right = getRight(key, right);
                 }
                 arrayElementIdx = -1;
@@ -419,7 +406,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
             left = left.substring(0, spreadIdx);//case: "a*.b", left: "a"
             right = key.substring(dotIdx + 1);//case: "a*.b", right: "b"
         }
-        return new KeyInfo(nestingIdx, arrayElementIdx, arrayElementNum, spreadIdx, left, right);
+        return new KeyInfo(arrayElementIdx, arrayElementNum, spreadIdx, left, right);
     }
 
     private static String getRight(String key, String right) {
@@ -439,16 +426,14 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     }
 
     private static class KeyInfo {
-        private int dotIdx = -1;
+
         private int arrayElementIdx = -1;
         private int arrayElementNum = -1;
         private int spreadIdx = -1;
         private String left;
         private String right;
-
-        KeyInfo(int dotIdx, int arrayElementIdx, int arrayElementNum, int spreadIdx,
+        KeyInfo(int arrayElementIdx, int arrayElementNum, int spreadIdx,
                 String left, String right) {
-            this.dotIdx = dotIdx;
             this.arrayElementIdx = arrayElementIdx;
             this.arrayElementNum = arrayElementNum;
             this.spreadIdx = spreadIdx;
@@ -479,7 +464,17 @@ public class NestedMap extends LinkedHashMap<String, Object> {
         String getLeft() {
             return left;
         }
+
     }
 
-
+    private static boolean isNumeric(Object key) {
+        if (key instanceof String) {
+            if (((String) key).isEmpty())
+                return false;
+            String str = (String) key;
+            char c = str.charAt(0);
+            return (c >= '0' && c <= '9');
+        } else
+            return key instanceof Number;
+    }
 }

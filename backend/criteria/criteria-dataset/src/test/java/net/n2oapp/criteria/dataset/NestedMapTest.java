@@ -6,9 +6,7 @@ import net.n2oapp.criteria.dataset.NestedMap;
 import java.util.*;
 
 /**
- * User: iryabov
- * Date: 30.10.13
- * Time: 13:12
+ * Tests of {@link NestedMap}
  */
 public class NestedMapTest {
 
@@ -303,9 +301,6 @@ public class NestedMapTest {
         assert map.get("foo[1].name").equals("test");
         assert map.get("foo") instanceof List;
         assert map.get("foo[1]") instanceof Map;
-        assert map.get("foo.1") instanceof Map;
-        assert map.get("foo.1.id").equals(1);
-        assert map.get("foo.1.name").equals("test");
 
         List foo = new ArrayList();
         foo.add(0, "test");
@@ -370,11 +365,8 @@ public class NestedMapTest {
         map.put("a[0]", 1);
         assert map.containsKey("a");
         assert map.containsKey("a[0]");
-        assert map.containsKey("a.0");
         assert !map.containsKey("a[1]");
-        assert !map.containsKey("a.1");
         assert !map.containsKey("a[0].b");
-        assert !map.containsKey("a.0.b");
         map.put("c.b", 1);
         assert map.containsKey("c.b");
     }
@@ -771,23 +763,23 @@ public class NestedMapTest {
     public void testBootstrapArrays() {
         NestedMap map = new NestedMap();
         //put
-        map.put("list.0.id", 1);
-        map.put("list.1.id", 2);
-        map.put("list.1.name", "Олег");
+        map.put("list[0].id", 1);
+        map.put("list[1].id", 2);
+        map.put("list[1].name", "Олег");
         assert ((List) map.get("list")).size() == 2;
         assert ((Map) ((List) map.get("list")).get(0)).get("id").equals(1);
         assert ((Map) ((List) map.get("list")).get(1)).get("id").equals(2);
         assert ((Map) ((List) map.get("list")).get(1)).get("name").equals("Олег");
         //get
-        assert map.get("list.0.id").equals(1);
-        assert map.get("list.1.id").equals(2);
-        assert map.get("list.1.name").equals("Олег");
+        assert map.get("list[0].id").equals(1);
+        assert map.get("list[1].id").equals(2);
+        assert map.get("list[1].name").equals("Олег");
         //contains
-        assert map.containsKey("list.0.id");
-        assert map.containsKey("list.1.id");
-        assert map.containsKey("list.1.name");
+        assert map.containsKey("list[0].id");
+        assert map.containsKey("list[1].id");
+        assert map.containsKey("list[1].name");
         //remove
-        assert map.remove("list.0.id").equals(1);
+        assert map.remove("list[0].id").equals(1);
         assert ((List) map.get("list")).size() == 2;
         assert ((Map) ((List) map.get("list")).get(0)).get("id") == null;
         assert ((Map) ((List) map.get("list")).get(1)).get("id").equals(2);
@@ -795,10 +787,10 @@ public class NestedMapTest {
 
         //check double remove
         map.clear();
-        map.put("list.0.id", 1);
-        assert ((Map)map.remove("list.0")).get("id").equals(1);
+        map.put("list[0].id", 1);
+        assert ((Map)map.remove("list[0]")).get("id").equals(1);
         assert ((List) map.get("list")).size() == 0;
-        assert map.remove("list.0.id") == null;
-        assert map.remove("list.0") == null;
+        assert map.remove("list[0].id") == null;
+        assert map.remove("list[0]") == null;
     }
 }
