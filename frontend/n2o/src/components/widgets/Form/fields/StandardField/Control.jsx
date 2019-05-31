@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 
 import Factory from '../../../../../core/factory/Factory';
@@ -13,14 +14,17 @@ import { CONTROLS } from '../../../../../core/factory/factoryLevels';
  * <Control component={Input} {...props}/>
  */
 const Control = ({ component, className, ...props }) => {
+  const newProps = { ...props, className };
+  const classes = cn('form-control', className);
+
   return typeof component !== 'string' ? (
-    React.createElement(component, { ...props, className })
+    React.createElement(component, newProps)
   ) : (
     <Factory
       level={CONTROLS}
       src={component}
       {...props}
-      className={`form-control ${className}`}
+      className={classes}
     />
   );
 };

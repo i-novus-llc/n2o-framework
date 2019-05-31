@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const measureStyle = { marginLeft: 5 };
+
 /**
  * Компонент-размерность
  * @param {string} value - размерность. Например: км, л, штук...
@@ -10,7 +12,7 @@ import PropTypes from 'prop-types';
  */
 const Measure = ({ value, ...props }) =>
   value ? (
-    <span style={{ marginLeft: 5 }} {...props}>
+    <span style={measureStyle} {...props}>
       {value}
     </span>
   ) : null;
