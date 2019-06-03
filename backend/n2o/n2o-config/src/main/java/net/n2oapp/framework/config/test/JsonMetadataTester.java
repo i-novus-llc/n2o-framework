@@ -8,10 +8,8 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineFunction;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -57,8 +55,7 @@ public class JsonMetadataTester {
                       List<String> jsonExcludePath,
                       Map<String, Object> jsonChangeValuePaths,
                       Map<String, String> jsonChangeNodePaths, DataSet queryParams) throws IOException {
-        RoutingResult routeResult = builder.route(route);
-        CompileContext<?,?> context = routeResult.getContext(compiledClass);
+        CompileContext<?,?> context = builder.route(route, compiledClass);
         DataSet params = context.getParams(route, null);
         params.merge(queryParams);
         check(jsonUri, context, params,

@@ -3,6 +3,12 @@
   margin-bottom: 1rem;
   overflow: auto;
 
+  &--empty-view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   & .ReactVirtualized__Grid {
     outline: none;
   }
@@ -64,7 +70,16 @@
       margin-bottom: 0;
     }
 
-    &-image {
+    &-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+
+      max-width: 15%;
+    }
+
+    &-left-top {
       width: 100px;
 
       & img {

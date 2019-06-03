@@ -12,6 +12,7 @@ import {
   mapToDefaultTime,
   calculateMaxFreeSpace,
   formatToMask,
+  hasInsideMixMax,
 } from './utils';
 
 describe('utils', () => {
@@ -142,6 +143,19 @@ describe('utils', () => {
       .toEqual([/[0-3]/, /\d/, ".", /[0-1]/, /\d/, ".", /\d/, /\d/]);
     expect(formatToMask('HH/mm'))
       .toEqual([/[0-2]/, /\d/, "/", /[0-5]/, /\d/]);
+    /*eslint-enable */
+  });
+
+  it('тестируем hasInsideMixMax', () => {
+    /*eslint-disable */
+    expect(hasInsideMixMax('15.09.1989',{ dateFormat: 'DD.MM.YYYY', max: '15.09.1990', min: '15.09.1988'}))
+      .toBe(true);
+    expect(hasInsideMixMax('15.09.1991',{ dateFormat: 'DD.MM.YYYY', max: '15.09.1990', min: '15.09.1988'}))
+      .toBe(false);
+    expect(hasInsideMixMax('15.09.1987',{ dateFormat: 'DD.MM.YYYY', max: '15.09.1990', min: '15.09.1988'}))
+      .toBe(false);
+    expect(hasInsideMixMax('15.09.1991',{ dateFormat: 'DD.MM.YYYY' }))
+      .toBe(true);
     /*eslint-enable */
   });
 });

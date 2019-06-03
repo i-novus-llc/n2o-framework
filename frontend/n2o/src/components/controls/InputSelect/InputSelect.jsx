@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
 import { Dropdown, DropdownToggle } from 'reactstrap';
@@ -81,6 +82,17 @@ class InputSelect extends React.Component {
     this._handleValueChangeOnBlur = this._handleValueChangeOnBlur.bind(this);
     this._handleDataSearch = this._handleDataSearch.bind(this);
     this._handleElementClear = this._handleElementClear.bind(this);
+    this.setSelectedItemsRef = this.setSelectedItemsRef.bind(this);
+    this.setTextareaRef = this.setTextareaRef.bind(this);
+    this.setSelectedListRef = this.setSelectedListRef.bind(this);
+  }
+
+  setTextareaRef(input) {
+    this._textarea = input;
+  }
+
+  setSelectedListRef(selectedList) {
+    this._selectedList = selectedList;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -327,7 +339,10 @@ class InputSelect extends React.Component {
         input: multiSelect ? '' : item[labelFieldId],
         options,
       }),
-      selectCallback
+      () => {
+        selectCallback();
+        this.props.onBlur();
+      }
     );
   }
 
@@ -359,10 +374,26 @@ class InputSelect extends React.Component {
 
   handleClickOutside(evt) {
     const { resetOnBlur } = this.props;
-    this._hideOptionsList();
-    resetOnBlur && this._handleValueChangeOnBlur();
+    const { isExpanded } = this.state;
+    if (isExpanded) {
+      this._hideOptionsList();
+      resetOnBlur && this._handleValueChangeOnBlur();
+      this.props.onBlur();
+    }
   }
 
+  setSelectedItemsRef(ref) {
+    this._selectedItems = ref;
+  }
+
+  calcSelectedItemsWidth() {
+    if (this._selectedItems) {
+      const element = findDOMNode(this._selectedItems);
+      if (element && element.getBoundingClientRect) {
+        return element.getBoundingClientRect().width || undefined;
+      }
+    }
+  }
   /**
    * Рендер
    */
@@ -391,17 +422,19 @@ class InputSelect extends React.Component {
       autoFocus,
     } = this.props;
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
+    const selectedPadding = this.calcSelectedItemsWidth();
+    const needAddFilter = !find(
+      this.state.value,
+      item => item[labelFieldId] === this.state.input
+    );
 
     return (
       <Dropdown
         style={inputSelectStyle}
-        className={cx('n2o-input-select', { disabled })}
+        className={cx('n2o-input-select n2o-input-select--default', {
+          disabled,
+        })}
         toggle={() => {}}
-        onBlur={() => {
-          this._setInputFocus(false);
-          this._setSelected(false);
-          this.props.onBlur();
-        }}
         onFocus={() => {
           this._setInputFocus(true);
           this._setSelected(true);
@@ -422,6 +455,7 @@ class InputSelect extends React.Component {
             onClearClick={this._handleElementClear}
             disabled={disabled}
             className={className}
+            setSelectedItemsRef={this.setSelectedItemsRef}
           >
             <InputContent
               loading={loading}
@@ -449,6 +483,11 @@ class InputSelect extends React.Component {
               onClick={this._handleClick}
               onSelect={this._handleItemSelect}
               autoFocus={autoFocus}
+              selectedPadding={selectedPadding}
+              setTextareaRef={this.setTextareaRef}
+              setSelectedListRef={this.setSelectedListRef}
+              _textarea={this._textarea}
+              _selectedList={this._selectedList}
             />
           </InputSelectGroup>
         </DropdownToggle>
@@ -462,6 +501,10 @@ class InputSelect extends React.Component {
             activeValueId={this.state.activeValueId}
             setActiveValueId={this._setActiveValueId}
             onScrollEnd={onScrollEnd}
+            filterValue={{
+              [labelFieldId]: this.state.input,
+            }}
+            needAddFilter={needAddFilter}
             options={this.state.options}
             valueFieldId={valueFieldId}
             labelFieldId={labelFieldId}

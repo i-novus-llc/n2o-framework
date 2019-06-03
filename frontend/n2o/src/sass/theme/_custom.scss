@@ -19,10 +19,6 @@
   @include button-outline-variant($gray-400);
 }
 
-.btn-group > .btn, .btn-group-vertical > .btn {
-  flex: 0 1 auto;
-}
-
 .breadcrumb {
   & > .breadcrumb-item:first-child:before {
     display: inline-block;
@@ -47,4 +43,3 @@
 .table th {
   border-top: none;
 }
-

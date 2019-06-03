@@ -1,29 +1,56 @@
 package net.n2oapp.framework.engine.data.rest;
 
-import lombok.Getter;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.mock.http.client.MockClientHttpRequest;
+import org.springframework.mock.http.client.MockClientHttpResponse;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-@Getter
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+
 public class TestRestTemplate extends RestTemplate {
-
     private String query;
-    private HttpEntity<?> requestEntity;
-    private Class<?> responseType;
+    private Object requestBody;
+    private ClientHttpResponse mockResponse;
 
-
-    @Override
-    public <T> ResponseEntity<T> exchange(String url, HttpMethod method,
-                                          HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) throws RestClientException {
-
-        this.query = url;
-        this.requestEntity = requestEntity;
-        this.responseType = responseType;
-        return new ResponseEntity<>(requestEntity.getHeaders(), HttpStatus.OK);
+    public TestRestTemplate(ClientHttpResponse mockResponse) {
+        this.mockResponse = mockResponse;
     }
 
+    public TestRestTemplate(String mockResponseBody) {
+        this.mockResponse = new MockClientHttpResponse(mockResponseBody.getBytes(StandardCharsets.UTF_8), HttpStatus.OK);
+    }
+
+    @Override
+    public <T> RequestCallback httpEntityCallback(Object requestBody, Type responseType) {
+        this.requestBody = requestBody;
+        return super.httpEntityCallback(requestBody, responseType);
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public Object getRequestBody() {
+        return (requestBody instanceof HttpEntity ? ((HttpEntity) requestBody).getBody() : requestBody);
+    }
+
+    @Override
+    protected ClientHttpRequest createRequest(URI url, HttpMethod method) throws IOException {
+        this.query = url.toString();
+        MockClientHttpRequest mockRequest = new MockClientHttpRequest(method, url);
+        mockRequest.setResponse(mockResponse);
+        return mockRequest;
+    }
 }

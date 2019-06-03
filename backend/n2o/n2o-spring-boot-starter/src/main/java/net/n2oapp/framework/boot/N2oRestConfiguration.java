@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.util.HashMap;
@@ -65,14 +66,13 @@ public class N2oRestConfiguration {
 
     @Bean
     public DataController dataController(ControllerFactory controllerFactory,
-                                         ObjectMapper n2oObjectMapper,
                                          MetadataEnvironment environment,
                                          MetadataRouter router) {
-        return new DataController(controllerFactory, n2oObjectMapper, router, environment);
+        return new DataController(controllerFactory, environment, router);
     }
 
     @Bean
-    public ErrorMessageBuilder errorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+    public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         return new ErrorMessageBuilder(messageSourceAccessor);
     }
 
@@ -122,14 +122,14 @@ public class N2oRestConfiguration {
     }
 
     @Bean
-    public ServletRegistrationBean appConfigServlet(Properties n2oProperties,
+    public ServletRegistrationBean appConfigServlet(ConfigurableEnvironment configurableEnvironment,
                                                     ContextProcessor contextProcessor,
                                                     @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
                                                     ExposedResourceBundleMessageSource clientMessageSource,
                                                     MetadataEnvironment env) {
         AppConfigJsonWriter writer = new AppConfigJsonWriter();
         writer.setContextProcessor(contextProcessor);
-        writer.setProperties(n2oProperties);
+        writer.setPropertyResolver(configurableEnvironment);
         writer.setObjectMapper(n2oObjectMapper);
         writer.setPath("classpath*:META-INF/config.json");
         writer.setOverridePath("classpath*:META-INF/config-build.json");

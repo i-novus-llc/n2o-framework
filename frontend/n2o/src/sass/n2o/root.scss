@@ -53,3 +53,16 @@
   pointer-events: none;
   opacity: $btn-disabled-opacity;
 }
+
+.was-validated .form-control:invalid, .form-control.is-invalid,
+.was-validated .form-control:valid, .form-control.is-valid {
+  background: none;
+}
+
+.btn-group > .btn, .btn-group-vertical > .btn {
+  flex: 0 1 auto;
+}
+
+.n2o-template {
+  display: flex;
+}

@@ -35,5 +35,8 @@
                 <in/>
             </filters>
         </field>
+        <field id="withEmptySelect">
+            <select/>
+        </field>
     </fields>
 </query>

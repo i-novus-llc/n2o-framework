@@ -20,7 +20,10 @@ import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.table.*;
+import net.n2oapp.framework.api.metadata.meta.widget.table.AbstractTable;
+import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
+import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
@@ -76,11 +79,12 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         }
         compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null, null);
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
+        component.setClassName(source.getCssClass());
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         if (source.getRows() != null) {
-            if (source.getRows().getColorFieldId() != null) {
-                component.setRowColor(p.resolveJS(source.getRows().getColorFieldId()));
+            if (source.getRows().getRowClass() != null) {
+                component.setRowClass(p.resolveJS(source.getRows().getRowClass()));
             } else {
                 if (source.getRows().getColor() != null) {
                     Map<Object, String> resolvedCases = new HashMap<>();
@@ -88,13 +92,19 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                         resolvedCases.put(p.resolve(key), source.getRows().getColor().getCases().get(key));
                     }
                     source.getRows().getColor().setResolvedCases(resolvedCases);
-                    component.setRowColor(buildSwitchExpression(source.getRows().getColor()));
+                    component.setRowClass(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
             compileRowClick(source, component, context, p, widgetScope, widgetRouteScope);
         }
         compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions);
-        table.setPaging(createPaging(source, p));
+        Boolean prev = null;
+        Boolean next = null;
+        if (source.getPagination() != null) {
+            prev = source.getPagination().getPrev();
+            next = source.getPagination().getNext();
+        }
+        table.setPaging(createPaging(source.getSize(), prev, next, "n2o.api.default.widget.table.size", p));
         return table;
     }
 
@@ -165,16 +175,6 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             component.setHasSelect(hasSelect);
             component.setHasFocus(hasSelect);
         }
-    }
-
-    private Pagination createPaging(N2oTable source, CompileProcessor p) {
-        Pagination pagination = new Pagination();
-        pagination.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
-        if (source.getPagination() != null) {
-            pagination.setPrev(source.getPagination().getPrev());
-            pagination.setNext(source.getPagination().getNext());
-        }
-        return pagination;
     }
 
     private void compileHeaderWithCell(CompiledObject object, CompiledQuery query, List<ColumnHeader> headers, List<N2oCell> cells,

@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QueryCompileTest extends SourceCompileTestBase {
@@ -73,6 +74,11 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(testFilter.getFilterList()[0].getRequired(), is(true));
         assertThat(testFilter.getFilterList()[0].getFilterField(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterField(), is("testFilter_in"));
+
+        N2oQuery.Field withEmptySelect = query.getFieldsMap().get("withEmptySelect");
+        assertThat(withEmptySelect.getSelectBody(), nullValue());
+        assertThat(withEmptySelect.getSelectMapping(), is("['withEmptySelect']"));
+        assertThat(withEmptySelect.getSortingMapping(), nullValue());
     }
 
 //    @Test
@@ -120,7 +126,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
 
         pipeline.get(new WidgetContext("testSubModel"));
-        CompileContext compile = builder.route("/w").getContext(CompiledQuery.class);
+        CompileContext compile = builder.route("/w", CompiledQuery.class);
         CompiledQuery query = pipeline.get((QueryContext) compile);
         assertThat(query.getSubModelQueries().size(), is(1));
         assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));

@@ -1,8 +1,9 @@
 import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import SelectedItems from './SelectedItems';
 import ReactDOM from 'react-dom';
-import { find } from 'lodash';
+import { map, find, reduce, split, isEqual } from 'lodash';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 import progressBarStyles from '../../widgets/Table/cells/ProgressBarCell/progressBarStyles';
@@ -63,6 +64,11 @@ function InputContent({
   onClick,
   isExpanded,
   autoFocus,
+  selectedPadding,
+  setTextareaRef,
+  setSelectedListRef,
+  _textarea,
+  _selectedList,
 }) {
   /**
    * Обработчик изменения инпута при нажатии на клавишу
@@ -156,33 +162,107 @@ function InputContent({
       inputFocus && el.focus();
     }
   };
+
+  const getHeight = el => {
+    return el.clientHeight;
+  };
+
+  const getWidth = el => {
+    return el.clientWidth;
+  };
+
+  const getMargin = (item, propertyName) => {
+    return +split(window.getComputedStyle(item)[propertyName], 'px')[0];
+  };
+
+  const calcPaddingTextarea = () => {
+    if (_textarea && _selectedList) {
+      let mainWidth = undefined;
+      let mainHeight = undefined;
+      const selectedList = ReactDOM.findDOMNode(_selectedList).querySelectorAll(
+        '.selected-item'
+      );
+
+      mainWidth = reduce(
+        selectedList,
+        (acc, item) => {
+          const marginLeft = getMargin(item, 'margin-left');
+          const marginRight = getMargin(item, 'margin-right');
+          const newWidth = acc + item.offsetWidth + marginRight + marginLeft;
+          if (newWidth >= getWidth(_selectedList)) {
+            acc = 0;
+          }
+          return acc + item.offsetWidth + marginLeft + marginRight;
+        },
+        0
+      );
+      const lastItem = selectedList[selectedList.length - 1];
+
+      if (lastItem) {
+        mainHeight = getHeight(_textarea) - getHeight(lastItem);
+      }
+
+      return {
+        paddingTop: mainHeight,
+        paddingLeft: mainWidth || undefined,
+      };
+    }
+  };
+
+  const INPUT_STYLE = {
+    paddingLeft: selectedPadding ? selectedPadding : undefined,
+  };
+
   return (
     <React.Fragment>
-      {multiSelect && (
-        <SelectedItems
-          selected={selected}
-          labelFieldId={labelFieldId}
-          onRemoveItem={onRemoveItem}
-          onDeleteAll={clearSelected}
+      {multiSelect ? (
+        <React.Fragment>
+          <SelectedItems
+            selected={selected}
+            labelFieldId={labelFieldId}
+            onRemoveItem={onRemoveItem}
+            onDeleteAll={clearSelected}
+            disabled={disabled}
+            collapseSelected={collapseSelected}
+            lengthToGroup={lengthToGroup}
+            setRef={setSelectedListRef}
+          />
+          <textarea
+            onKeyDown={handleKeyDown}
+            ref={setTextareaRef}
+            placeholder={getPlaceholder}
+            disabled={disabled}
+            value={value}
+            onChange={handleInputChange}
+            onClick={handleClick}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            className={cn('form-control n2o-inp', {
+              'n2o-inp--multi': multiSelect,
+            })}
+            autoFocus={autoFocus}
+            style={{
+              ...calcPaddingTextarea(),
+            }}
+          />
+        </React.Fragment>
+      ) : (
+        <input
+          onKeyDown={handleKeyDown}
+          ref={handleRef}
+          placeholder={getPlaceholder}
           disabled={disabled}
-          collapseSelected={collapseSelected}
-          lengthToGroup={lengthToGroup}
+          value={value}
+          onChange={handleInputChange}
+          onClick={handleClick}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          type="text"
+          className="form-control n2o-inp"
+          autoFocus={autoFocus}
+          style={INPUT_STYLE}
         />
       )}
-      <input
-        onKeyDown={handleKeyDown}
-        ref={handleRef}
-        placeholder={getPlaceholder}
-        disabled={disabled}
-        value={value}
-        onChange={handleInputChange}
-        onClick={handleClick}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        type="text"
-        className="n2o-inp"
-        autoFocus={autoFocus}
-      />
     </React.Fragment>
   );
 }

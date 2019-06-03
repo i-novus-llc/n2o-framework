@@ -10,6 +10,7 @@ import {
 import { userLoginSuccess, userLogoutSuccess } from '../actions/auth';
 
 import { FETCH_ERROR } from '../constants/fetch';
+import { fetchErrorContinue } from '../actions/fetch';
 
 export function* resolveAuth(
   { authProvider, redirectPath, externalLoginUrl },
@@ -36,6 +37,7 @@ export function* resolveAuth(
     case FETCH_ERROR:
       try {
         yield call(authProvider, SECURITY_ERROR, payload.error);
+        yield put(fetchErrorContinue());
       } catch (e) {
         yield call(authProvider, SECURITY_LOGOUT);
         if (externalLoginUrl) {
@@ -50,8 +52,12 @@ export function* resolveAuth(
   }
 }
 
+export function* callErrorContinue() {
+  yield put(fetchErrorContinue());
+}
+
 export default config => {
-  if (!config.authProvider) return [];
+  if (!config.authProvider) return [takeEvery(FETCH_ERROR, callErrorContinue)];
   return [
     takeEvery(action => action.meta && action.meta.auth, resolveAuth, config),
     takeEvery(FETCH_ERROR, resolveAuth, config),

@@ -8,6 +8,7 @@ import ListWidgetMeta from './List.meta';
 import { createStore } from 'redux';
 import ListContainer from './ListContainer';
 import reducers from '../../../reducers';
+import history from '../../../history';
 import fetchMock from 'fetch-mock';
 
 fetchMock.get('*', () => ({
@@ -18,7 +19,7 @@ fetchMock.get('*', () => ({
   ],
 }));
 
-const store = createStore(reducers);
+const store = createStore(reducers(history));
 const NullComponent = () => null;
 
 const setup = propsOverride => {
@@ -49,7 +50,8 @@ describe('Проверка ListContainer', () => {
     ListContainer.setState({
       datasource: [
         {
-          image: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          leftBottom: 'a little description',
           header: "It's a cat",
           subHeader: 'The cat is stupid',
           body: 'Some words about cats',
@@ -65,7 +67,8 @@ describe('Проверка ListContainer', () => {
         .resolveProps(ListWidgetMeta['List'].list, createFactoryConfig({}))
     );
     expect(!isEmpty(mappedData)).toEqual(true);
-    expect(React.isValidElement(mappedData[0].image)).toEqual(true);
+    expect(React.isValidElement(mappedData[0].leftTop)).toEqual(true);
+    expect(React.isValidElement(mappedData[0].leftBottom)).toEqual(true);
     expect(React.isValidElement(mappedData[0].header)).toEqual(true);
     expect(React.isValidElement(mappedData[0].subHeader)).toEqual(true);
     expect(React.isValidElement(mappedData[0].body)).toEqual(true);

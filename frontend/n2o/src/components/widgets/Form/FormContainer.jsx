@@ -17,6 +17,8 @@ import ReduxForm from './ReduxForm';
 import widgetContainer from '../WidgetContainer';
 import { FORM } from '../widgetTypes';
 
+const arrayMergeFunction = (destinationArray, sourceArray) => sourceArray;
+
 export const withWidgetContainer = widgetContainer(
   {
     mapProps: props => {
@@ -34,6 +36,7 @@ export const withWidgetContainer = widgetContainer(
         validation: props.validation,
         modelPrefix: props.modelPrefix,
         prompt: props.prompt,
+        setActive: props.onFocus,
       };
     },
   },
@@ -79,13 +82,16 @@ export const withPropsOnChangeWidget = withPropsOnChange(
     return {
       initialValues: props.defaultValues
         ? props.defaultValues
-        : merge(props.resolveModel || {}, props.datasource || {}),
+        : merge(props.resolveModel || {}, props.datasource || {}, {
+            arrayMerge: arrayMergeFunction,
+          }),
     };
   }
 );
 
 export const withWidgetHandlers = withHandlers({
   onChange: props => (values, dispatch, options, prevValues) => {
+    props.setActive && props.setActive();
     if (
       props.modelPrefix &&
       isEqual(props.initialValues, props.reduxFormValues) &&

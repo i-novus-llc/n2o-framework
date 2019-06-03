@@ -1,4 +1,9 @@
 .n2o-editable-cell {
+  & > .n2o-editable-cell-text{
+    & span:before{
+      content: "\a0";
+    }
+  }
   &:hover {
     transition: 0.3s;
     color: #263238;
@@ -8,4 +13,21 @@
     box-shadow: 0 0 0 0.2rem rgba(22, 56, 81, 0.25);
     cursor: text;
   }
+
+  & .n2o-input-select .n2o-input-container {
+    min-height: auto;
+
+    & input {
+      padding: 0;
+    }
+  }
+
+
+}
+
+.n2o-editable-cell-control > div,
+.n2o-advanced-table-edit-control,
+.n2o-editable-cell-control .n2o-calendar-button {
+  height: 100%;
+  padding: 0;
 }

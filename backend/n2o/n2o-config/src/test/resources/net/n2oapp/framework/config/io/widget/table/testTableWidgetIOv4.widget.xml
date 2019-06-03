@@ -80,7 +80,7 @@
             </list>
         </column>
     </columns>
-    <rows color-field-id="test">
+    <rows class="test">
         <switch value-field-id="gender.id">
             <case value="1">Мужской</case>
             <case value="2">Женский</case>
@@ -91,9 +91,9 @@
                 last="false" next="false" prev="false" show-count="false">
     </pagination>
     <filters place="left">
-        <input-text id="test"/>
+        <ctr:input-text id="test"/>
         <set src="test">
-            <input-text id="test"/>
+            <ctr:input-text id="test"/>
         </set>
     </filters>
     <actions>

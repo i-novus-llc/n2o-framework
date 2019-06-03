@@ -17,6 +17,7 @@
             <select/>
             <filters>
                 <eq filter-id="search"/>
+                <contains filter-id="name"/>
             </filters>
         </field>
         <field id="ref">

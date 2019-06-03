@@ -4,7 +4,8 @@ import cn from 'classnames';
 
 /**
  * Компонент ListItem виджета ListWidget
- * @param {Node|Object} image - секция картинки
+ * @param {Node|Object} leftTop - секция картинки
+ * @param {Node|Object} leftBottom - секция картинки
  * @param {Node|String} header - секция заголовка
  * @param {Node|String} subHeader - секция подзаголовка
  * @param {Node|String} body - секция тела
@@ -15,11 +16,13 @@ import cn from 'classnames';
  * @param {function} onClick - callback на клик по строке
  * @param {boolean} divider - разделить между строками
  * @param {object} style - стили
+ * @param {object} hasSelect
  * @returns {*}
  * @constructor
  */
 function ListItem({
-  image,
+  leftTop,
+  leftBottom,
   header,
   subHeader,
   body,
@@ -30,6 +33,7 @@ function ListItem({
   onClick,
   divider,
   style,
+  hasSelect,
 }) {
   const renderImage = image => {
     return checkOnReactElement(image) ? (
@@ -46,30 +50,41 @@ function ListItem({
       onClick={onClick}
       style={style}
       className={cn('n2o-widget-list-item', {
-        'n2o-widget-list-item--active': selected,
+        'n2o-widget-list-item--active': hasSelect && selected,
         'n2o-widget-list-item--divider': divider,
       })}
     >
-      <div className="n2o-widget-list-item-image-container">
-        {image && (
-          <div className="n2o-widget-list-item-image">{renderImage(image)}</div>
+      <div className="n2o-widget-list-item-left-container">
+        {leftTop && (
+          <div className="n2o-widget-list-item-left-top">
+            {renderImage(leftTop)}
+          </div>
+        )}
+        {leftBottom && (
+          <div className="n2o-widget-list-item-left-bottom">{leftBottom}</div>
         )}
       </div>
       <div className="n2o-widget-list-item-main-container">
         <div className="n2o-widget-list-item-header-row">
-          {checkOnReactElement(header) && checkOnReactElement(subHeader) ? (
+          {checkOnReactElement(header) || checkOnReactElement(subHeader) ? (
             <React.Fragment>
-              <div className="n2o-widget-list-item-header">{header}</div>
-              <div className="n2o-widget-list-item-subheader text-muted">
-                {subHeader}
-              </div>
+              {header && (
+                <div className="n2o-widget-list-item-header">{header}</div>
+              )}
+              {subHeader && (
+                <div className="n2o-widget-list-item-subheader text-muted">
+                  {subHeader}
+                </div>
+              )}
             </React.Fragment>
           ) : (
             <h3 className="n2o-widget-list-item-header">
               {header}
-              <small className="n2o-widget-list-item-subheader text-muted">
-                {subHeader}
-              </small>
+              {subHeader && (
+                <small className="n2o-widget-list-item-subheader text-muted">
+                  {subHeader}
+                </small>
+              )}
             </h3>
           )}
         </div>
@@ -91,7 +106,8 @@ function ListItem({
 }
 
 ListItem.propTypes = {
-  image: PropTypes.oneOf(PropTypes.node, PropTypes.object),
+  leftTop: PropTypes.oneOf(PropTypes.node, PropTypes.object),
+  leftBottom: PropTypes.oneOf(PropTypes.node, PropTypes.object),
   header: PropTypes.oneOf(PropTypes.node, PropTypes.string),
   subHeader: PropTypes.oneOf(PropTypes.node, PropTypes.string),
   body: PropTypes.oneOf(PropTypes.node, PropTypes.string),

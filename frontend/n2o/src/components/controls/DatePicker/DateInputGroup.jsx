@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { pick } from 'lodash';
 
 import { findDOMNode } from 'react-dom';
 
@@ -38,6 +39,7 @@ class DateInputGroup extends React.Component {
       openOnFocus,
     } = this.props;
     const style = { display: 'flex', flexGrow: 1 };
+    const dateInputProps = pick(this.props, ['max', 'min']);
     return (
       <div style={style}>
         {Object.keys(value).map((input, i) => {
@@ -56,6 +58,7 @@ class DateInputGroup extends React.Component {
               autoFocus={autoFocus}
               openOnFocus={openOnFocus}
               inputClassName={inputClassName}
+              {...dateInputProps}
             />
           );
         })}
@@ -92,6 +95,16 @@ DateInput.propTypes = {
   onBlur: PropTypes.func,
   autoFocus: PropTypes.bool,
   openOnFocus: PropTypes.bool,
+  min: PropTypes.oneOfType([
+    PropTypes.instanceOf(moment),
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]),
+  max: PropTypes.oneOfType([
+    PropTypes.instanceOf(moment),
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]),
 };
 
 DateInput.defaultProps = {

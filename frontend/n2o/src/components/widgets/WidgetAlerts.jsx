@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { map } from 'lodash';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import Alert from '../snippets/Alerts/Alert';
+import Alerts from '../snippets/Alerts/Alerts';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 import { removeAlert } from '../../actions/alerts';
 
@@ -12,20 +13,22 @@ import { removeAlert } from '../../actions/alerts';
  * @reactProps {array} alerts - массив алертов
  */
 class WidgetAlerts extends Component {
-  /**
-   * Базовый рендер
-   */
+  mapAlertsProps(alerts, onDismiss) {
+    return map(alerts, alert => ({
+      ...alert,
+      key: alert.id,
+      onDismiss: () => onDismiss(alert.id),
+      details: alert.stacktrace,
+    }));
+  }
+
   render() {
     const { alerts } = this.props;
-    const alertList = alerts.map(alert => (
-      <Alert
-        key={alert.id}
-        onDismiss={() => this.props.onDismiss(alert.id)}
-        {...alert}
-        details={alert.stacktrace}
-      />
-    ));
-    return <div className="n2o-alerts">{alertList}</div>;
+    return (
+      <div className="n2o-alerts">
+        <Alerts alerts={this.mapAlertsProps(alerts, this.props.onDismiss)} />
+      </div>
+    );
   }
 }
 

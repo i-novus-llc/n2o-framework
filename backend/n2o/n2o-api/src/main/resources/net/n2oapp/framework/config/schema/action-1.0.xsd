@@ -107,7 +107,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-after-submit" type="xs:boolean" use="optional">
+                <xs:attribute name="close-after-submit" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после успешного выполнения операции объекта</xs:documentation>
                     </xs:annotation>
@@ -184,6 +184,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Идентификатор виджета, который необходимо обновить после успешного выполнения операции (по умолчанию widget-id у button, а если нет, текущий виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Предупредить о несохраненных данных на форме при закрытии модального окна?
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

@@ -71,6 +71,18 @@ public class PlaceHoldersResolverTest {
     }
 
     @Test
+    public void resolveUrls() {
+        DataSet data = new DataSet();
+        data.put("b", 1);
+        data.put("abc", 2);
+
+        PlaceHoldersResolver resolver = new PlaceHoldersResolver(":", null);
+        assertThat(resolver.resolve("http://example.com", data), is("http://example.com"));
+        assertThat(resolver.resolve("http://example.com/:b/:abc/c", data), is("http://example.com/1/2/c"));
+        assertThat(resolver.resolve("/:b/:abc/c", data), is("/1/2/c"));
+    }
+
+    @Test
     public void extract() {
         String prefix = "{";
         String suffix = "}";

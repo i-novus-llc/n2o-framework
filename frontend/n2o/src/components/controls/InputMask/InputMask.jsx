@@ -140,9 +140,10 @@ class InputMask extends React.Component {
   }
 
   _onBlur(e) {
-    const { resetOnNotValid } = this.props;
+    const { resetOnNotValid, onBlur } = this.props;
     const { value } = this.state;
     this.valid = this._isValid(value);
+    onBlur(value);
     if (!this.valid) {
       const newValue = resetOnNotValid ? '' : value;
       this.setState({ value: newValue, guide: false }, () =>
@@ -156,21 +157,6 @@ class InputMask extends React.Component {
     if (!this.valid) {
       this.setState({ guide: this.props.guide });
     }
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (
-      props.value &&
-      props.value !== state.prevPropsValue &&
-      props.value !== state.value
-    ) {
-      return {
-        ...state,
-        prevPropsValue: props.value,
-        value: props.value,
-      };
-    }
-    return null;
   }
 
   /**
@@ -188,7 +174,13 @@ class InputMask extends React.Component {
    * базовый рендер компонента
    */
   render() {
-    const { preset, placeholderChar, placeholder, className } = this.props;
+    const {
+      preset,
+      placeholderChar,
+      placeholder,
+      className,
+      autoFocus,
+    } = this.props;
     const mask = this.preset(preset);
     return (
       <MaskedInput
@@ -204,7 +196,7 @@ class InputMask extends React.Component {
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
           delete props.defaultValue;
-          return <input ref={ref} {...props} />;
+          return <input ref={ref} {...props} autoFocus={autoFocus} />;
         }}
       />
     );
@@ -221,6 +213,7 @@ InputMask.defaultProps = {
   dictionary: {},
   mask: '',
   presetConfig: {},
+  onBlur: () => {},
 };
 
 InputMask.propTypes = {
@@ -240,6 +233,7 @@ InputMask.propTypes = {
   keepCharPositions: PropTypes.bool,
   resetOnNotValid: PropTypes.bool,
   presetConfig: PropTypes.object,
+  onBlur: PropTypes.func,
 };
 
 export default InputMask;

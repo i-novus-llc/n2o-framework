@@ -52,9 +52,13 @@ class AdvancedTableHeaderCell extends Component {
   }
 
   renderStringChild() {
-    const { className, children } = this.props;
+    const { className, children, colSpan, rowSpan } = this.props;
     return (
-      <th className={cn('n2o-advanced-table-header-text-center', className)}>
+      <th
+        className={cn('n2o-advanced-table-header-text-center', className)}
+        colSpan={colSpan}
+        rowSpan={rowSpan}
+      >
         {children}
       </th>
     );

@@ -54,10 +54,9 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().size(), is(1));
         assertThat(page.getWidgets().values().iterator().next().getClass(), is(equalTo(HtmlWidget.class)));
         assertThat(page.getWidgets().size(), is(1));
-        assertThat(page.getRoutes().getList().size(), is(3));
+        assertThat(page.getRoutes().getList().size(), is(2));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
-        assertThat(page.getRoutes().getList().get(1).getPath(), is("/test/route/main"));
-        assertThat(page.getRoutes().getList().get(2).getPath(), is("/test/route/main/:test_route_main_id"));
-        assertThat(route("/test/route").getContext(Page.class), notNullValue());
+        assertThat(page.getRoutes().getList().get(1).getPath(), is("/test/route/:test_route_main_id"));
+        assertThat(route("/test/route", Page.class), notNullValue());
     }
 }

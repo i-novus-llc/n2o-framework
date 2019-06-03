@@ -1,24 +1,22 @@
 package net.n2oapp.framework.export;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.data.streaming.converter.Converter;
 import net.n2oapp.data.streaming.converter.EncodingAware;
 import net.n2oapp.data.streaming.reader.Reader;
 import net.n2oapp.data.streaming.stream.DataInputStream;
-import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.export.format.*;
-import net.n2oapp.framework.mvc.exception.ControllerArgumentException;
-import net.n2oapp.framework.ui.controller.AbstractController;
-import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.export.streaming.ClientCollectionPageReader;
 import net.n2oapp.framework.export.streaming.LargeCollectionPageReader;
 import net.n2oapp.framework.export.streaming.N2oDataStreamingUtil;
+import net.n2oapp.framework.mvc.exception.ControllerArgumentException;
+import net.n2oapp.framework.ui.controller.AbstractController;
+import net.n2oapp.framework.ui.controller.query.QueryController;
 import net.n2oapp.framework.ui.exception.UnsupportedFormatException;
 import net.n2oapp.framework.ui.servlet.ServletUtil;
 import net.n2oapp.properties.StaticProperties;
@@ -38,12 +36,10 @@ public class ExportController extends AbstractController {
 
     private QueryController queryController;
 
-    public ExportController(ObjectMapper objectMapper,
+    public ExportController(MetadataEnvironment environment,
                             MetadataRouter router,
-                            ReadCompileBindTerminalPipeline pipeline,
-                            DomainProcessor domainProcessor,
                             QueryController queryController) {
-        super(objectMapper, router, pipeline, domainProcessor);
+        super(environment, router);
         this.queryController = queryController;
     }
 

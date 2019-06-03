@@ -21,7 +21,6 @@ public class N2oWidgetsIOPack implements MetadataPack<ReadersBuilder> {
                 new TreeElementIOv4());
         b.readers(new FormXmlReaderV3(),
                 new TableXmlReaderV3(),
-                new WidgetListReaderV3(),
                 new EditFormXmlReaderV3(),
                 new HtmlWidgetXmlReaderV3(),
                 new N2oChartReaderV3());

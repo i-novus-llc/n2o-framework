@@ -46,6 +46,14 @@ export const userSelector = createSelector(
 );
 
 /**
+ * Селектор данных пользователя из конфига
+ */
+export const userConfigSelector = createSelector(
+  globalSelector,
+  global => global.user
+);
+
+/**
  * Селектор глобальной ошибки приложения
  */
 export const errorSelector = createSelector(

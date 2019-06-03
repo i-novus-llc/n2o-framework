@@ -9,50 +9,41 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import org.apache.commons.io.IOUtils;
+import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
 public abstract class AbstractController {
-    private ObjectMapper objectMapper;
     private MetadataRouter router;
     private MetadataEnvironment environment;
 
-    public AbstractController() {
+    public AbstractController(MetadataEnvironment environment) {
+        this.environment = environment;
+        this.router = new N2oRouter(environment.getRouteRegister(), environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
     }
 
-    public AbstractController(ObjectMapper objectMapper, MetadataRouter router, ReadCompileBindTerminalPipeline pipeline, DomainProcessor domainProcessor) {
-        this.objectMapper = objectMapper;
-        this.router = router;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    public void setRouter(MetadataRouter router) {
+    public AbstractController(MetadataEnvironment environment, MetadataRouter router) {
+        this.environment = environment;
         this.router = router;
     }
 
@@ -60,10 +51,13 @@ public abstract class AbstractController {
         this.environment = environment;
     }
 
+    public void setRouter(MetadataRouter router) {
+        this.router = router;
+    }
+
     @SuppressWarnings("unchecked")
     protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
-        RoutingResult result = router.get(path);
-        ActionContext actionCtx = (ActionContext) result.getContext(CompiledObject.class);
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class);
         DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -74,13 +68,19 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
-        requestInfo.setData((DataSet) body);
+        requestInfo.setData(convertToDataSet(body));
         requestInfo.setRedirect(actionCtx.getRedirect());
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
         //requestInfo.setChoice(); todo
         return requestInfo;
+    }
+
+    private DataSet convertToDataSet(Object body) {
+        if (body instanceof DataSet)
+            return (DataSet) body;
+        return new DataSet((Map<? extends String, ?>) body);
     }
 
     private void prepareSelectedId(QueryRequestInfo requestInfo) {
@@ -145,8 +145,7 @@ public abstract class AbstractController {
     @Deprecated
     protected QueryRequestInfo createQueryRequestInfo(HttpServletRequest request) {
         CompiledQuery query;
-        RoutingResult result = getRoutingResult(request);
-        QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) getRoutingResult(request, CompiledQuery.class);
         DataSet data = queryCtx.getParams(request.getPathInfo(), request.getParameterMap());
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -167,8 +166,7 @@ public abstract class AbstractController {
 
     protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
         CompiledQuery query;
-        RoutingResult result = router.get(path);
-        QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class);
         DataSet data = queryCtx.getParams(path, params);
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -194,8 +192,8 @@ public abstract class AbstractController {
         return user;
     }
 
-    private <D extends Compiled> RoutingResult getRoutingResult(HttpServletRequest req) {
+    private <D extends Compiled> CompileContext<D, ?> getRoutingResult(HttpServletRequest req, Class<D> compiledClass) {
         String path = req.getPathInfo();
-        return router.get(path);
+        return router.get(path, compiledClass);
     }
 }

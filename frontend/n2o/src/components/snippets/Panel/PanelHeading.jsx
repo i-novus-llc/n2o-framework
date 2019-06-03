@@ -6,19 +6,12 @@ import { CardHeader } from 'reactstrap';
  * Компонент шапки для {@link Panel}
  * @reactProps {node} children - вставляемый внутрь PanelHeading элемент
  */
-
-class PanelHeading extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    return (
-      <CardHeader className="panel-block-flex panel-block-flex panel-region-heading">
-        {this.props.children}
-      </CardHeader>
-    );
-  }
+function PanelHeading({ children }) {
+  return (
+    <CardHeader className="panel-block-flex panel-block-flex panel-region-heading">
+      {children}
+    </CardHeader>
+  );
 }
 
 PanelHeading.propTypes = {

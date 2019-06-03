@@ -8,12 +8,7 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/create2/main",
-        "exact": true,
-        "isOtherPage": false
-      },
-      {
-        "path": "/proto/create2/main/:proto_create2_main_id",
+        "path": "/proto/create2/:proto_create2_main_id",
         "exact": true,
         "isOtherPage": false
       }
@@ -34,7 +29,6 @@
       "src": "FormWidget",
       "actions": {},
       "form": {
-        "prompt": true,
         "fieldsets": [
           {
             "src": "StandardFieldset",
@@ -104,7 +98,7 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": false,
+                          "hasSearch": true,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
@@ -128,7 +122,8 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
+                          "utc": false
                         }
                       }
                     ]
@@ -138,16 +133,7 @@
                       {
                         "src": "StandardField",
                         "id": "vip",
-                        "dependency": [
-                          {
-                            "type": "setValue",
-                            "on": [
-                              "gender"
-                            ],
-                            "expression": "(function(){if (gender.id == 1 || gender.id == 2)\n                                return true;\n                            else\n                                return false;})()",
-                            "applyOnInit": true
-                          }
-                        ],
+                        "dependency": [],
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
@@ -188,7 +174,8 @@
           ]
         },
         "modelPrefix": "resolve",
-        "fetchOnInit": false
+        "fetchOnInit": false,
+        "autoFocus": true
       }
     }
   },
@@ -257,7 +244,7 @@
               }
             },
             "redirect": {
-              "path": "/proto/patients/:id",
+              "path": "/proto/:id",
               "pathMapping": {},
               "queryMapping": {},
               "target": "application"

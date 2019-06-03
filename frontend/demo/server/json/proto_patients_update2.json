@@ -8,12 +8,7 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/5607677/update2/main",
-        "exact": true,
-        "isOtherPage": false
-      },
-      {
-        "path": "/proto/5607677/update2/main/:proto_update2_main_id",
+        "path": "/proto/5607677/update2/:proto_update2_main_id",
         "exact": true,
         "isOtherPage": false
       }
@@ -99,13 +94,12 @@
     "proto_update2_main": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/5607677/update2/main",
+        "url": "n2o/data/proto/5607677/update2",
         "pathMapping": {},
         "queryMapping": {}
       },
       "actions": {},
       "form": {
-        "prompt": true,
         "fieldsets": [
           {
             "src": "StandardFieldset",
@@ -175,7 +169,7 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": false,
+                          "hasSearch": true,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
@@ -199,7 +193,8 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
+                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
+                          "utc": false
                         }
                       }
                     ]
@@ -209,16 +204,7 @@
                       {
                         "src": "StandardField",
                         "id": "vip",
-                        "dependency": [
-                          {
-                            "type": "setValue",
-                            "on": [
-                              "gender"
-                            ],
-                            "expression": "(function(){if (gender.id == 1 || gender.id == 2)\n                                return true;\n                            else\n                                return false;})()",
-                            "applyOnInit": true
-                          }
-                        ],
+                        "dependency": [],
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
@@ -259,7 +245,8 @@
           ]
         },
         "modelPrefix": "resolve",
-        "fetchOnInit": true
+        "fetchOnInit": true,
+        "autoFocus": true
       }
     }
   },

@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <list>
+        <test file="META-INF/conf/customization.json"></test>
+    </list>
+    <count>
+        <test file="META-INF/conf/customization.json" operation="count"></test>
+    </count>
+    <fields>
+        <field id="id" name="Идентификатор">
+            <select/>
+        </field>
+        <field id="name" name="Название">
+            <select/>
+        </field>
+        <field id="engine" domain="numeric">
+            <select/>
+        </field>
+        <field id="power" domain="integer">
+            <select/>
+        </field>
+    </fields>
+</query>

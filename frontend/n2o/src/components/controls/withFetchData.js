@@ -166,11 +166,12 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
     async _fetchData(extraParams = {}, merge = false) {
       const { dataProvider, removeAlerts } = this.props;
-      const { hasError } = this.state;
+      const { hasError, data } = this.state;
       if (!dataProvider) return;
 
       this.setState({ loading: true });
       try {
+        if (!merge && data) this.setState({ data: [] });
         const response = await this._fetchDataProvider(
           dataProvider,
           extraParams

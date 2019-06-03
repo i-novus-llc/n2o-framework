@@ -24,46 +24,37 @@ import PanelTabBody from './PanelTabBody';
  * @reactProps {node} children - вставляемый в панель элемент
  */
 
-class Panel extends React.Component {
-  /**
-   * Рендер
-   */
+function Panel({
+  className,
+  isFullScreen,
+  style,
+  onToggle,
+  open,
+  color,
+  onKeyPress,
+  children,
+}) {
+  const panelClass = cx('n2o-panel-region', className, 'text-dark', {
+    'panel-fullscreen': isFullScreen,
+  });
 
-  render() {
-    const {
-      className,
-      isFullScreen,
-      style,
-      onToggle,
-      open,
-      color,
-      onKeyPress,
-      children,
-    } = this.props;
-
-    // const fontBg = [panelStyles.DEFAULT].includes(color) ? 'text-dark' : 'text-white';
-    const panelClass = cx('n2o-panel-region', className, 'text-dark', {
-      'panel-fullscreen': isFullScreen,
-    });
-
-    return (
-      <Card
-        className={panelClass}
-        style={style}
-        onToggle={onToggle}
-        expanded={open}
-        color={color}
-        outline
-        onKeyDown={e => onKeyPress(e)}
-        tabIndex="-1"
-      >
-        {children}
-        <div className="panel-fullscreen-help">
-          <span>ESC - выход из полноэкранного режима</span>
-        </div>
-      </Card>
-    );
-  }
+  return (
+    <Card
+      className={panelClass}
+      style={style}
+      onToggle={onToggle}
+      expanded={open}
+      color={color}
+      outline
+      onKeyDown={e => onKeyPress(e)}
+      tabIndex="-1"
+    >
+      {children}
+      <div className="panel-fullscreen-help">
+        <span>ESC - выход из полноэкранного режима</span>
+      </div>
+    </Card>
+  );
 }
 
 Panel.propTypes = {

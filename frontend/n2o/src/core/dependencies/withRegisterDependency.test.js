@@ -3,6 +3,7 @@ import withRegisterDependency from './withRegisterDependency';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from '../../reducers';
+import history from '../../history';
 
 const setup = (store, props = {}) => {
   const Component = withRegisterDependency(() => <div>test</div>);
@@ -25,7 +26,7 @@ const setup = (store, props = {}) => {
 
 describe('Проверка хока withRegisterDependency', function() {
   it('регистрирует fields', () => {
-    const store = createStore(reducers, {});
+    const store = createStore(reducers(history), {});
     expect(store.getState().form).toEqual({});
     const wrapper = setup(store);
     expect(store.getState().form.testForm.registeredFields.test).toEqual({

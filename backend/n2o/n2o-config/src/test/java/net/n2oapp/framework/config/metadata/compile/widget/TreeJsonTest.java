@@ -28,7 +28,8 @@ public class TreeJsonTest extends JsonMetadataTestBase {
                 "components/widgets/Tree/TreeWidget.meta.json")
                 .cutJson("Page_Tree")
                 .exclude("dataProvider", "disabled", "parentIcon",
-                        "childIcon", "showLine", "bulkData", "icon", "hasFocus", "filter", "expandBtn")
+                        "childIcon", "showLine", "bulkData", "icon", "hasFocus",
+                        "filter", "expandBtn", "hasSelect", "autoFocus")
                 .assertEquals();
 
     }

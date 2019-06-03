@@ -28,16 +28,21 @@ public class PlaceHoldersResolver {
 
     private String prefix;
     private String suffix;
+    private Set<String> excludes;
 
     /**
      * Создать замену плейсхолдеров
      *
      * @param prefix Начало плейсхолдера
-     * @param suffix Окончание плейсолдера
+     * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
+     * @param excludes Строки - исключения
+     *
      */
-    public PlaceHoldersResolver(String prefix, String suffix) {
+    public PlaceHoldersResolver(String prefix, String suffix, String... excludes) {
         this.prefix = prefix;
         this.suffix = suffix;
+        if (excludes != null && excludes.length > 0)
+            this.excludes = new HashSet<>(Arrays.asList(excludes));
     }
 
     /**
@@ -196,10 +201,18 @@ public class PlaceHoldersResolver {
             if (suffix != null && !suffix.isEmpty()) {
                 idxSuffix = split[i].indexOf(suffix);
                 idxNext = idxSuffix + 1;
+                if (idxSuffix == 0) {
+                    sb.append(prefix).append(suffix);
+                    sb.append(split[i].substring(idxNext));
+                }
             } else {
                 String[] ends = split[i].split("\\W");
                 idxSuffix = ends[0].length();
                 idxNext = idxSuffix;
+                if (idxSuffix == 0) {
+                    sb.append(prefix);
+                    sb.append(split[i].substring(idxNext));
+                }
             }
             if (idxSuffix > 0) {
                 String placeholder = split[i].substring(0, idxSuffix);

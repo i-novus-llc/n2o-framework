@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/custom"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:attribute name="title" type="xs:string"/>
+    <xs:attribute name="pageId" type="xs:string"/>
+    <xs:attribute name="label" type="xs:string"/>
+    <xs:attribute name="active" type="xs:boolean"/>
+
+</xs:schema>

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
-import cx from 'classnames';
 import { isEqual, isEmpty } from 'lodash';
+import { Button } from 'reactstrap';
 import Popup from '../InputSelect/Popup';
 import PopupList from '../InputSelect/PopupList';
 import InputSelectGroup from '../InputSelect/InputSelectGroup';
@@ -55,6 +55,7 @@ class N2OSelect extends React.Component {
     this._removeSelectedItem = this._removeSelectedItem.bind(this);
     this._clearSelected = this._clearSelected.bind(this);
     this._handleSearchButton = this._handleSearchButton.bind(this);
+    this._handleOnBlur = this._handleOnBlur.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -276,6 +277,12 @@ class N2OSelect extends React.Component {
     this._handleResetOnBlur();
   }
 
+  _handleOnBlur(e) {
+    e.preventDefault();
+    this._handleResetOnBlur();
+    this.props.onBlur();
+  }
+
   /**
    * Рендер
    */
@@ -299,7 +306,6 @@ class N2OSelect extends React.Component {
       hasSearch,
       cleanable,
       style,
-      onBlur,
     } = this.props;
     const inputSelectStyle = { width: '100%', ...style };
 
@@ -309,23 +315,24 @@ class N2OSelect extends React.Component {
       <div
         className="n2o-input-select"
         style={inputSelectStyle}
-        tabIndex="-1"
-        onBlur={onBlur}
+        onBlur={this._handleOnBlur}
       >
-        <InputSelectGroup
-          className={className}
-          isExpanded={this.state.isExpanded}
-          loading={loading}
-          disabled={disabled}
-          onButtonClick={this._handleButtonClick}
-          iconFieldId={iconFieldId}
-          imageFieldId={imageFieldId}
-          cleanable={cleanable}
-          selected={this.state.selected}
-          onClearClick={this._clearSelected}
-        >
-          {!isEmpty(selected) && selected[0][labelFieldId]}
-        </InputSelectGroup>
+        <Button>
+          <InputSelectGroup
+            className={className}
+            isExpanded={this.state.isExpanded}
+            loading={loading}
+            disabled={disabled}
+            onButtonClick={this._handleButtonClick}
+            iconFieldId={iconFieldId}
+            imageFieldId={imageFieldId}
+            cleanable={cleanable}
+            selected={this.state.selected}
+            onClearClick={this._clearSelected}
+          >
+            {!isEmpty(selected) && selected[0][labelFieldId]}
+          </InputSelectGroup>
+        </Button>
         <Popup isExpanded={this.state.isExpanded}>
           <React.Fragment>
             {hasSearch && (

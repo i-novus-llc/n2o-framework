@@ -1,6 +1,7 @@
 .n2o-advanced-table {
   & .n2o-advanced-table-content {
     overflow-x: auto;
+    overflow-y: hidden;
   }
 
   & .row-click{
@@ -45,6 +46,12 @@
     & tr td:last-child,
     & tr th:last-child {
       border-right: 0;
+    }
+  }
+
+  & .n2o-advanced-table-header-cell-content {
+    & .custom-control-label {
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -107,6 +114,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    height: calc(100% - 17px);
     overflow: hidden;
   }
 
@@ -114,11 +122,16 @@
     position: absolute;
     top: 0;
     right: 0;
+    height: calc(100% - 17px);
     overflow: hidden;
   }
 
   & table {
     width: calc(100% - .2rem);
+  }
+
+  & table.n2o-advanced-table-fixed {
+    width: 100%;
   }
 
   &-nested table tr:hover {

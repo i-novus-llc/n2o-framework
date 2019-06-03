@@ -120,18 +120,15 @@ public class CopyValuesControllerTest {
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
-        CopyValuesController copyValuesController = new CopyValuesController();
-        copyValuesController.setQueryProcessor(queryProcessor);
-        copyValuesController.setSubModelsProcessor(subModelsProcessor);
-        copyValuesController.setDataProcessingStack(dataProcessingStack);
+        CopyValuesController copyValuesController = new CopyValuesController(dataProcessingStack, queryProcessor,
+                subModelsProcessor, null, null);
         Map<String, Object> map = new HashMap<>();
         map.put("CopyValuesController", copyValuesController);
 
         N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
-        ObjectMapper mapper = new ObjectMapper();
-        DataController controller = new DataController(factory, mapper, router, builder.getEnvironment());
+        DataController controller = new DataController(factory, builder.getEnvironment(), router);
         return controller.getData(path, params, userContext);
     }
 }

@@ -25,6 +25,7 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
     public EditCell compile(N2oEditCell source, CompileContext<?, ?> context, CompileProcessor p) {
         EditCell cell = new EditCell();
         build(cell, source, context, p, property("n2o.default.cell.edit.src"));
+        compileAction(cell, source, context, p);
 
         if (source.getN2oField() != null) {
             net.n2oapp.framework.api.metadata.Component component = p.compile(source.getN2oField(), context);
@@ -35,9 +36,7 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
             }
         }
 
-        cell.setActionId(source.getActionId());
         cell.setFormat(source.getFormat());
-        cell.setEditable(source.getEditable());
         cell.setEditType(source.getEditType() == null ? EditType.inline : source.getEditType());
         return cell;
     }
