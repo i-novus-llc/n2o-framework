@@ -95,6 +95,11 @@ const createWidgetContainer = (initialConfig, widgetType) => {
     class WidgetContainer extends React.Component {
       constructor(props) {
         super(props);
+
+        this.state = {
+          isMinTimeOut: false,
+        };
+
         this.initIfNeeded();
         this.onFocus = this.onFocus.bind(this);
         this.onFetch = this.onFetch.bind(this);
@@ -108,6 +113,11 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         if (fetchOnInit && visible) {
           this.onFetch();
         }
+        setTimeout(() => {
+          this.setState({
+            isMinTimeOut: true,
+          });
+        }, 500);
       }
 
       componentDidUpdate(prevProps) {
@@ -123,11 +133,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        */
       componentWillUnmount() {
         const { widgetId, dispatch } = this.props;
-        let actions = [
-          removeWidget(widgetId),
-          removeAlerts(widgetId),
-          removeAllModel(widgetId),
-        ];
+        let actions = [removeAlerts(widgetId), removeAllModel(widgetId)];
         dispatch(batchActions(actions));
       }
 
@@ -191,6 +197,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        */
       render() {
         const { visible, isLoading, deferredSpinnerStart } = this.props;
+        const { isMinTimeOut } = this.state;
         const propsToPass = mapProps({
           ...this.props,
           onSetModel: this.onSetModel,
@@ -210,9 +217,10 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             )}
             style={style}
           >
-            {isLoading && (
-              <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
-            )}
+            {!isMinTimeOut ||
+              (isLoading && (
+                <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
+              ))}
             <WrappedComponent {...propsToPass} />
           </div>
         );
@@ -251,7 +259,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       isLoading: false,
       resolveModel: {},
       defaultSorting: {},
-      deferredSpinnerStart: 1000,
+      deferredSpinnerStart: 0,
     };
 
     WidgetContainer.contextTypes = {

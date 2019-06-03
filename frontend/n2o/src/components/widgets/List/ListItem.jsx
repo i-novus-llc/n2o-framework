@@ -16,6 +16,7 @@ import cn from 'classnames';
  * @param {function} onClick - callback на клик по строке
  * @param {boolean} divider - разделить между строками
  * @param {object} style - стили
+ * @param {object} hasSelect
  * @returns {*}
  * @constructor
  */
@@ -32,6 +33,7 @@ function ListItem({
   onClick,
   divider,
   style,
+  hasSelect,
 }) {
   const renderImage = image => {
     return checkOnReactElement(image) ? (
@@ -48,7 +50,7 @@ function ListItem({
       onClick={onClick}
       style={style}
       className={cn('n2o-widget-list-item', {
-        'n2o-widget-list-item--active': selected,
+        'n2o-widget-list-item--active': hasSelect && selected,
         'n2o-widget-list-item--divider': divider,
       })}
     >
@@ -64,7 +66,7 @@ function ListItem({
       </div>
       <div className="n2o-widget-list-item-main-container">
         <div className="n2o-widget-list-item-header-row">
-          {checkOnReactElement(header) && checkOnReactElement(subHeader) ? (
+          {checkOnReactElement(header) || checkOnReactElement(subHeader) ? (
             <React.Fragment>
               {header && (
                 <div className="n2o-widget-list-item-header">{header}</div>

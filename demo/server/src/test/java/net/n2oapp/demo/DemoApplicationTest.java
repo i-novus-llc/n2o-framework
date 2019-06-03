@@ -73,7 +73,7 @@ public class DemoApplicationTest {
         assertThat(page.get("layout"), notNullValue());
         assertThat(((Map) ((Map) page.get("layout")).get("regions")).get("single"), notNullValue());
 
-        Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/1/update/main", Map.class);
+        Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/1/update", Map.class);
         assertThat(((List) data.get("list")).size(), is(1));
     }
 }

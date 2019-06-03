@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 import ReactDom from 'react-dom';
-import { map, isEqual } from 'lodash';
+import { map, isEqual, isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
@@ -71,9 +71,10 @@ class List extends Component {
         if (maxHeight) {
           this._virtualizer.scrollToRow(data.length);
         } else {
-          const scrollHeight = ReactDom.findDOMNode(this._virtualizer)
-            .scrollHeight;
-          window.scrollTo(0, scrollHeight);
+          const virtualizer = ReactDom.findDOMNode(this._virtualizer);
+          if (virtualizer) {
+            window.scrollTo(0, virtualizer.scrollHeight);
+          }
         }
       }
 
@@ -91,7 +92,10 @@ class List extends Component {
         };
       }
 
-      this.setState(state);
+      this.setState(
+        state,
+        () => this._virtualizer && this._virtualizer.forceUpdateGrid()
+      );
     }
   }
 
@@ -115,8 +119,8 @@ class List extends Component {
   }
 
   onItemClick(index) {
-    const { onItemClick, rowClick } = this.props;
-    if (!rowClick) {
+    const { onItemClick, rowClick, hasSelect } = this.props;
+    if (!rowClick && hasSelect) {
       this.setState({ selectedIndex: index }, () => {
         if (this._virtualizer) {
           this._virtualizer.forceUpdateGrid();
@@ -147,7 +151,7 @@ class List extends Component {
   }
 
   renderRow({ index, key, style, parent }) {
-    const { divider, hasMoreButton, fetchOnScroll } = this.props;
+    const { divider, hasMoreButton, fetchOnScroll, hasSelect } = this.props;
     const { data } = this.state;
     let moreBtn = null;
     if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
@@ -175,6 +179,7 @@ class List extends Component {
         >
           <ListItem
             {...data[index]}
+            hasSelect={hasSelect}
             key={key}
             style={style}
             divider={divider}
@@ -195,55 +200,62 @@ class List extends Component {
         ref={this.setListContainerRef}
         className={cn('n2o-widget-list', className)}
       >
-        <div className="n2o-widget-list-container">
-          {maxHeight ? (
-            <AutoSizer style={{ height: '100%' }}>
-              {({ width }) => (
-                <Virtualizer
-                  ref={this._setVirtualizerRef}
-                  width={width}
-                  height={maxHeight}
-                  deferredMeasurementCache={this.cache}
-                  rowHeight={this.cache.rowHeight}
-                  rowRenderer={this.renderRow}
-                  rowCount={data.length}
-                  overscanRowCount={5}
-                />
-              )}
-            </AutoSizer>
-          ) : (
-            <WindowScroller
-              ref={this._setWindowScrollerRef}
-              scrollElement={window}
-            >
-              {({
-                height,
-                isScrolling,
-                registerChild,
-                onChildScroll,
-                scrollTop,
-              }) => (
-                <AutoSizer style={{ height: '100%' }}>
-                  {({ width }) => (
-                    <Virtualizer
-                      ref={this._setVirtualizerRef}
-                      autoHeight
-                      height={height}
-                      isScrolling={isScrolling}
-                      onScroll={onChildScroll}
-                      overscanRowCount={5}
-                      rowCount={data.length}
-                      rowHeight={this.cache.rowHeight}
-                      rowRenderer={this.renderRow}
-                      scrollTop={scrollTop}
-                      width={width}
-                    />
-                  )}
-                </AutoSizer>
-              )}
-            </WindowScroller>
-          )}
-        </div>
+        {(!data || isEmpty(data)) && (
+          <div className="n2o-widget-list--empty-view text-muted">
+            Нет данных для отображения
+          </div>
+        )}
+        {data && !isEmpty(data) && (
+          <div className="n2o-widget-list-container">
+            {maxHeight ? (
+              <AutoSizer style={{ height: '100%' }}>
+                {({ width }) => (
+                  <Virtualizer
+                    ref={this._setVirtualizerRef}
+                    width={width}
+                    height={maxHeight}
+                    deferredMeasurementCache={this.cache}
+                    rowHeight={this.cache.rowHeight}
+                    rowRenderer={this.renderRow}
+                    rowCount={data.length}
+                    overscanRowCount={5}
+                  />
+                )}
+              </AutoSizer>
+            ) : (
+              <WindowScroller
+                ref={this._setWindowScrollerRef}
+                scrollElement={window}
+              >
+                {({
+                  height,
+                  isScrolling,
+                  registerChild,
+                  onChildScroll,
+                  scrollTop,
+                }) => (
+                  <AutoSizer style={{ height: '100%' }}>
+                    {({ width }) => (
+                      <Virtualizer
+                        ref={this._setVirtualizerRef}
+                        autoHeight
+                        height={height}
+                        isScrolling={isScrolling}
+                        onScroll={onChildScroll}
+                        overscanRowCount={5}
+                        rowCount={data.length}
+                        rowHeight={this.cache.rowHeight}
+                        rowRenderer={this.renderRow}
+                        scrollTop={scrollTop}
+                        width={width}
+                      />
+                    )}
+                  </AutoSizer>
+                )}
+              </WindowScroller>
+            )}
+          </div>
+        )}
       </div>
     );
   }
@@ -265,7 +277,7 @@ List.propTypes = {
 List.defaultProps = {
   onItemClick: () => {},
   onFetchMore: () => {},
-  hasSelect: true,
+  hasSelect: false,
   data: [],
   rowClick: false,
   hasMoreButton: false,

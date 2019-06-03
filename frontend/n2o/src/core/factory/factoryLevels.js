@@ -6,5 +6,6 @@ export const HEADERS = 'headers';
 export const CELLS = 'cells';
 export const FIELDSETS = 'fieldsets';
 export const FIELDS = 'fields';
+export const SNIPPETS = 'snippets';
 export const ACTIONS = 'actions';
 export const PAGES = 'pages';

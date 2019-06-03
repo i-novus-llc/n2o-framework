@@ -404,11 +404,6 @@
                         <xs:documentation>Расположение.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="editable" type="xs:boolean" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Редактируемый.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

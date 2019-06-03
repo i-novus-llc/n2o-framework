@@ -318,7 +318,7 @@ class Actions extends React.Component {
           const buttonGroup = (
             <ButtonGroup
               style={style}
-              className={cx({ 'mr-2': toolbar.length === i + 1 }, className)}
+              className={cx({ 'mr-2': toolbar[i + 1] }, className)}
             >
               {this.renderButtons(buttons)}
             </ButtonGroup>

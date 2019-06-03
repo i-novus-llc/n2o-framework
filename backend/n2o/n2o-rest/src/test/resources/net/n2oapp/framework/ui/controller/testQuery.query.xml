@@ -3,4 +3,7 @@
     <count>
         <test operation="count" file="net/n2oapp/framework/ui/controller/testData.json"/>
     </count>
+    <fields>
+        <field id="id"></field>
+    </fields>
 </query>

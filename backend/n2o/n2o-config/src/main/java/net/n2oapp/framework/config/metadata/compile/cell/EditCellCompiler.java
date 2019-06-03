@@ -37,7 +37,6 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
         }
 
         cell.setFormat(source.getFormat());
-        cell.setEditable(source.getEditable());
         cell.setEditType(source.getEditType() == null ? EditType.inline : source.getEditType());
         return cell;
     }

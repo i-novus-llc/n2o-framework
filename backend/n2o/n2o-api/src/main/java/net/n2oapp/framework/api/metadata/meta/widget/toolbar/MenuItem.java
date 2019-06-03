@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class MenuItem implements IdAware, Serializable, PropertiesAware {
+public class MenuItem implements IdAware, Serializable, JsonPropertiesAware {
     @JsonProperty
     private String id;
     @JsonProperty("title")

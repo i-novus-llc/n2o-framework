@@ -31,10 +31,21 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      yield put(change(formName, fieldName, _evalResult));
+      yield put(
+        change(formName, fieldName, {
+          keepDirty: false,
+          value: _evalResult,
+        })
+      );
       break;
     case 'reset':
-      yield _evalResult && put(change(formName, fieldName, null));
+      yield _evalResult &&
+        put(
+          change(formName, fieldName, {
+            keepDirty: false,
+            value: _evalResult,
+          })
+        );
       break;
     case 'required':
       yield _evalResult

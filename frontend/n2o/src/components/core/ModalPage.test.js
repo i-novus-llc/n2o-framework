@@ -3,10 +3,11 @@ import { ModalWindow } from './ModalPage';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from '../../reducers';
+import history from '../../history';
 import FactoryProvider from '../../core/factory/FactoryProvider';
 import createFactoryConfig from '../../core/factory/createFactoryConfig';
 function configureStore() {
-  return createStore(rootReducer);
+  return createStore(rootReducer(history));
 }
 const store = configureStore();
 const setup = (propOverrides, storeOverrides) => {

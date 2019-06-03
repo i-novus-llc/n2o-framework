@@ -259,29 +259,31 @@ class Tree extends Component {
           keyMap={{ events: values(KEY_CODES) }}
           handlers={{ events: this.onCustomActions }}
         >
-          <TreeBase
-            openAnimation={animationTree}
-            ref={this.treeRef}
-            treeData={this.createTree({
-              datasource,
-              ...nodeProps,
-              searchKeys,
-              searchValue,
-            })}
-            expandedKeys={expandedKeys}
-            selectedKeys={selectedKeys}
-            checkedKeys={checkedKeys}
-            onCheck={this.onCheck}
-            onSelect={singleDoubleClickFilter(this.onSelect, null, 200)}
-            onDoubleClick={this.onDoubleClickHandler}
-            multiple={multiselect}
-            onDragEnter={this.onDragEnter}
-            checkable={checkable}
-            switcherIcon={this.renderSwitcherIcon}
-            onExpand={this.onExpand}
-            autoExpandParent={autoExpandParent}
-            {...treeOtherProps}
-          />
+          <div tabIndex={1}>
+            <TreeBase
+              openAnimation={animationTree}
+              ref={this.treeRef}
+              treeData={this.createTree({
+                datasource,
+                ...nodeProps,
+                searchKeys,
+                searchValue,
+              })}
+              expandedKeys={expandedKeys}
+              selectedKeys={selectedKeys}
+              checkedKeys={checkedKeys}
+              onCheck={this.onCheck}
+              onSelect={singleDoubleClickFilter(this.onSelect, null, 200)}
+              onDoubleClick={this.onDoubleClickHandler}
+              multiple={multiselect}
+              onDragEnter={this.onDragEnter}
+              checkable={checkable}
+              switcherIcon={this.renderSwitcherIcon}
+              onExpand={this.onExpand}
+              autoExpandParent={autoExpandParent}
+              {...treeOtherProps}
+            />
+          </div>
         </HotKeys>
       </div>
     );

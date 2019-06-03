@@ -1,6 +1,5 @@
-import BackgroundImageField from './BackgroundImageField/BackgroundImageField';
-
+import FloatingLabelField from "./FloatingLabelField/FloatingLabelField";
 
 export default {
-    BackgroundImageField: BackgroundImageField
+  FloatingLabelField
 };

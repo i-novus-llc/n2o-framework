@@ -210,7 +210,12 @@ describe('Тестирование саги', () => {
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
     expect(gen.next().value).toEqual(
-      put(change(mockData.formName, mockData.fields.field1.name, 'test'))
+      put(
+        change(mockData.formName, mockData.fields.field1.name, {
+          keepDirty: false,
+          value: 'test',
+        })
+      )
     );
     expect(gen.next().done).toBe(true);
   });
@@ -221,7 +226,12 @@ describe('Тестирование саги', () => {
     set(mockData, 'fields.field1.dependency[0].expression', 'field2 == "test"');
     gen = setupModify(mockData);
     expect(gen.next().value).toEqual(
-      put(change(mockData.formName, mockData.fields.field1.name, null))
+      put(
+        change(mockData.formName, mockData.fields.field1.name, {
+          keepDirty: false,
+          value: true,
+        })
+      )
     );
     expect(gen.next().done).toBe(true);
   });

@@ -59,6 +59,7 @@ public class RouteUtilTest {
         assertThat(RouteUtil.convertPathToId("/page/:id/"), is("page"));
         assertThat(RouteUtil.convertPathToId("/page/:id/widget"), is("page_widget"));
         assertThat(RouteUtil.convertPathToId("/page/master/:widget_id/detail/:detail_id"), is("page_master_detail"));
+        assertThat(RouteUtil.convertPathToId("/:param/page/master/:widget_id/detail/:detail_id"), is("param_page_master_detail"));
     }
 
     @Test

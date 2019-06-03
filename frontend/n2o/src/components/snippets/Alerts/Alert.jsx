@@ -1,4 +1,5 @@
 import React from 'react';
+import { defaultTo, isArray, map } from 'lodash';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
@@ -73,6 +74,19 @@ class Alert extends React.Component {
     );
   }
 
+  formatDetailes(details) {
+    if (isArray(details)) {
+      return map(details, d => (
+        <React.Fragment>
+          {d}
+          <br />
+        </React.Fragment>
+      ));
+    }
+
+    return details;
+  }
+
   renderDefaultAlert() {
     const {
       label,
@@ -116,11 +130,13 @@ class Alert extends React.Component {
                 {detailsVisible ? 'Скрыть' : 'Подробнее'}
               </a>
             )}
-            {detailsVisible && <div className="details">{details}</div>}
+            {detailsVisible && (
+              <div className="details">{this.formatDetailes(details)}</div>
+            )}
           </div>
         </div>
         <div className="n2o-alert-close-container">
-          {closeButton && (
+          {defaultTo(closeButton, true) && (
             <button className="close n2o-alert-close" onClick={onDismiss}>
               <span>×</span>
             </button>

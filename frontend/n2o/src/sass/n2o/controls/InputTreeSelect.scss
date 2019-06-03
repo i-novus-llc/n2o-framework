@@ -5,7 +5,9 @@
   display: flex;
   font-size: 1rem;
   line-height: 1.5;
-  border: $border;
+  height: auto;
+  min-height: $input-min-height;
+  padding: unset;
   background-clip: padding-box;
   cursor: pointer;
   outline: none;
@@ -27,7 +29,6 @@
     position: relative;
     justify-content: flex-end;
     align-items: center;
-    min-height: $input-min-height;
 
     & .n2o-select-tree-selection__rendered {
       list-style-type: none;

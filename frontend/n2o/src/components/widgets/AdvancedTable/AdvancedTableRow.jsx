@@ -9,25 +9,25 @@ import cn from 'classnames';
  */
 function AdvancedTableRow(props) {
   const {
-    color,
     className,
     isRowActive,
     setRef,
     children,
     model,
     rowClick,
+    rowClass,
   } = props;
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
-    [`table-${color}`]: color,
     'table-active': isRowActive,
     'row-click': !!rowClick,
+    [rowClass]: rowClass,
   });
   return React.createElement(
     'tr',
     {
       ...props,
       ref: el => setRef && setRef(el, model.id),
-      tabIndex: 1,
+      tabIndex: 0,
       key: model.id,
       className: classes,
     },
@@ -36,7 +36,6 @@ function AdvancedTableRow(props) {
 }
 
 AdvancedTableRow.propTypes = {
-  color: PropTypes.string,
   className: PropTypes.string,
   isRowActive: PropTypes.bool,
   setRef: PropTypes.func,

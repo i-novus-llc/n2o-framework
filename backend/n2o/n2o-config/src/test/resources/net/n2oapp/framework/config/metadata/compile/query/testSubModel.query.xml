@@ -1,7 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
     <fields>
-        <field id="id"></field>
+        <field id="id">
+            <filters>
+                <eq filter-id="testName"/>
+            </filters>
+        </field>
     </fields>
     <fields>
         <field id="name"></field>

@@ -1,5 +1,15 @@
-import _, { isEqual, get, map, reduce, set, merge } from 'lodash';
-import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
+import _, {
+  isEqual,
+  get,
+  map,
+  reduce,
+  set,
+  merge,
+  every,
+  isNil,
+  isObject,
+  has,
+} from 'lodash';
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -54,7 +64,15 @@ export function fetchIfChangeDependencyValue(prevState, state, ref) {
 }
 
 const pickByPath = (object, arrayToPath) =>
-  reduce(arrayToPath, (o, p) => set(o, p, get(object, p)), {});
+  reduce(
+    arrayToPath,
+    (o, p) => {
+      if (has(object, p)) {
+        return set(o, p, get(object, p));
+      }
+    },
+    {}
+  );
 
 export const setWatchDependency = (state, props, dependencyType) => {
   const { dependency, form, modelPrefix } = props;

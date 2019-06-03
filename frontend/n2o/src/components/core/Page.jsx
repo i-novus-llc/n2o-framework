@@ -163,7 +163,7 @@ export { PageContainer };
 export default compose(
   branch(({ rootPage }) => rootPage, withActions),
   withPropsOnChange(['pageId', 'pageUrl'], ({ pageId, pageUrl }) => ({
-    pageId: pageId ? pageId : pageUrl ? pageUrl.substr(1) : null,
+    pageId: pageId ? pageId : pageUrl ? pageUrl : null,
   })),
   connect(
     mapStateToProps,

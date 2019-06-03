@@ -1,193 +1,130 @@
 import React from 'react';
-import {
-  Navbar,
-  Nav,
-  NavbarBrand,
-  NavbarToggler,
-  Collapse,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-} from 'reactstrap';
+import PropTypes from 'prop-types';
+import cn from 'classnames';
+import { isEqual, map, get } from 'lodash';
+import SidebarItemContainer from './SidebarItemContainer';
+import UserBox from '../../components/snippets/UserBox/UserBox';
+import { compose, withState, lifecycle, withHandlers } from 'recompose';
 
-import NavbarBrandContent from '../Header/SimpleHeader/NavbarBrandContent';
-import NavItemContainer from '../Header/SimpleHeader/NavItemContainer';
-
-class SideBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: props.visible,
-      isOpen: false,
-    };
-    this.onClick = this.onClick.bind(this);
-    this.toggle = this.toggle.bind(this);
-  }
-
-  componentWillReceiveProps(props) {
-    if (props.visible || props.visible === false) {
-      this.setState({ visible: props.visible });
-    }
-  }
-
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
-
-  onClick() {
-    this.setState({ visible: !this.state.visible });
-  }
-
-  mapLabel(item, visible) {
-    return visible
-      ? {
-          ...item,
-          oldLabel: item.label,
-          label: (
-            <span>
-              {item.iconClass && (
-                <span>
-                  <i className={item.iconClass} />
-                </span>
-              )}
-              <span> {item.label}</span>
-            </span>
-          ),
-        }
-      : {
-          ...item,
-          center: true,
-          oldLabel: item.label,
-          label: (
-            <span>
-              {item.iconClass && (
-                <span>
-                  <i className={item.iconClass} />
-                </span>
-              )}
-            </span>
-          ),
-        };
-  }
-
-  mapLinkToDropdown(item, visible) {
-    return visible || item.type !== 'link'
-      ? item
-      : {
-          ...item,
-          type: 'dropdown',
-          subItems: [
-            {
-              id: item.id,
-              type: 'link',
-              href: item.href,
-              label: item.label,
-            },
-          ],
-        };
-  }
-
-  render() {
-    const {
-      brand,
-      brandImage,
-      items,
-      fixed,
-      color,
-      className,
-      style,
-      search,
-      activeId,
-      collapse,
-    } = this.props;
-
-    const { visible } = this.state;
-    const navItems = items.map((item, i) => (
-      <NavItemContainer
+/**
+ * Sidebar
+ * @param activeId - id активного элемента
+ * @param brand - текст бренда
+ * @param brandImage - картинка бренда
+ * @param userBox - настройка userBox
+ * @param items - массив итемов
+ * @param visible - видимость
+ * @param width - длина сайдбара
+ * @param controlled - флаг контроллед режима
+ * @param onToggle - переключение compressed
+ * @param extra - екстра итемы
+ * @returns {*}
+ * @constructor
+ */
+function SideBar({
+  activeId,
+  brand,
+  brandImage,
+  userBox,
+  items,
+  visible,
+  width,
+  controlled,
+  onToggle,
+  extra,
+}) {
+  const renderItems = items =>
+    map(items, (item, i) => (
+      <SidebarItemContainer
         key={i}
-        item={this.mapLabel(this.mapLinkToDropdown(item, visible), visible)}
+        item={item}
         activeId={activeId}
-        type="sidebar"
         sidebarOpen={visible}
       />
     ));
 
-    const isInversed = color === 'inverse';
-    const navColor = isInversed ? 'dark' : 'light';
+  const withoutBrandImage = !visible && !brandImage;
 
-    return (
-      <div
-        className={`n2o-sidebar-container n2o-sidebar-container-${color} sidebar-container-${
-          fixed ? 'fixed' : 'relative'
-        } ${this.state.visible ? 'open' : 'closed'}`}
-        ref={sidebar => (this.sidebar = sidebar)}
-      >
-        <Navbar
-          color={navColor}
-          dark={isInversed}
-          light={!isInversed}
-          expand="md"
-        >
-          <NavbarToggler onClick={this.toggle} />
-          <NavbarBrand>
-            <NavbarBrandContent
-              brand={visible && brand}
-              brandImage={brandImage}
+  return (
+    <aside
+      className={cn('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
+    >
+      <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
+        <a className="d-flex align-items-center" href="/">
+          {brandImage && (
+            <img
+              className={cn({ 'mr-2': visible })}
+              src={brandImage}
+              alt=""
+              width="30"
+              height="30"
             />
-          </NavbarBrand>
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav navbar>
-              {search && visible && (
-                <InputGroup>
-                  <Input placeholder="Поиск" />
-                  <InputGroupAddon addonType="append">
-                    <span className="input-group-text">
-                      <i className="fa fa-search" aria-hidden="true" />
-                    </span>
-                  </InputGroupAddon>
-                </InputGroup>
-              )}
-              {navItems}
-              {collapse && !fixed && (
-                <button className="n2o-sidebar-toggler" onClick={this.onClick}>
-                  {this.state.visible ? (
-                    <i className="fa fa-angle-left" aria-hidden="true" />
-                  ) : (
-                    <i className="fa fa-angle-right" aria-hidden="true" />
-                  )}
-                </button>
-              )}
-            </Nav>
-          </Collapse>
-        </Navbar>
-        {collapse && fixed && (
-          <button
-            className="fixed-toggler n2o-sidebar-toggler"
-            onClick={this.onClick}
-          >
-            {this.state.visible ? (
-              <i class="fa fa-angle-left" aria-hidden="true" />
-            ) : (
-              <i class="fa fa-angle-right" aria-hidden="true" />
-            )}
-          </button>
+          )}
+          {(visible || withoutBrandImage) && (
+            <span className="n2o-nav-brand__text">
+              {withoutBrandImage ? brand.substring(0, 1) : brand}
+            </span>
+          )}
+        </a>
+      </div>
+      {userBox && (
+        <UserBox {...userBox} compressed={!visible}>
+          {renderItems(get(userBox, 'items'))}
+        </UserBox>
+      )}
+      <nav className="n2o-sidebar__nav">
+        <ul className="n2o-sidebar__nav-list">{renderItems(items)}</ul>
+      </nav>
+      <div className="n2o-sidebar__footer">
+        <div className="n2o-sidebar__extra">
+          <ul className="n2o-sidebar__nav-list">{renderItems(extra)}</ul>
+        </div>
+        {!controlled && (
+          <div onClick={onToggle} className="n2o-sidebar__toggler">
+            <span className="n2o-sidebar__nav-item">
+              <span
+                className={cn('n2o-sidebar__nav-item-icon', {
+                  'mr-1': visible,
+                })}
+              >
+                <i className="fa fa-angle-double-left" />
+              </span>
+              {visible && <span>Скрыть</span>}
+            </span>
+          </div>
         )}
       </div>
-    );
-  }
+    </aside>
+  );
 }
 
-SideBar.defaultProps = {
-  color: 'default',
-  visible: true,
-  fixed: false,
-  className: '',
-  items: [],
-  search: false,
-  style: {},
-  collapse: true,
+SideBar.propTypes = {
+  activeId: PropTypes.string,
+  brand: PropTypes.string,
+  brandImage: PropTypes.string,
+  userBox: PropTypes.object,
+  items: PropTypes.array,
+  visible: PropTypes.bool,
+  width: PropTypes.number,
+  controlled: PropTypes.bool,
+  onToggle: PropTypes.func,
+  extra: PropTypes.array,
 };
 
-export default SideBar;
+SideBar.defaultProps = {
+  controlled: false,
+};
+
+export default compose(
+  withState('visible', 'setVisible', ({ visible }) => visible),
+  withHandlers({
+    onToggle: ({ visible, setVisible }) => () => setVisible(!visible),
+  }),
+  lifecycle({
+    componentDidUpdate(prevProps) {
+      if (!isEqual(prevProps.visible, this.props.visible)) {
+        this.setState({ visible: this.props.visible });
+      }
+    },
+  })
+)(SideBar);

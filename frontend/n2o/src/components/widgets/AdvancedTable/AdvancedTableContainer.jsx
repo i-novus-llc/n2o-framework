@@ -199,7 +199,7 @@ export default compose(
           datasource: props.datasource,
           selectedId: props.selectedId,
           sorting: props.sorting,
-          rowColor: props.rowColor,
+          rowClass: props.rowClass,
           onFetch: props.onFetch,
           onSort: props.onSort,
           onResolve: newModel => {

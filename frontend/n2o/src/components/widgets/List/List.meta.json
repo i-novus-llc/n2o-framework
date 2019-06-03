@@ -3,7 +3,7 @@
     "src": "ListWidget",
     "className": "n2o",
     "dataProvider": {
-      "url": "n2o/data/test",
+      "url": "n2o/data/testListWidget",
       "pathMapping": {
       },
       "queryMapping": {}

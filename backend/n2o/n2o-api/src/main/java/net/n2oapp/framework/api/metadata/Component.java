@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class Component implements Compiled, PropertiesAware {
+public abstract class Component implements Compiled, JsonPropertiesAware {
 
     @JsonProperty
     private String src;

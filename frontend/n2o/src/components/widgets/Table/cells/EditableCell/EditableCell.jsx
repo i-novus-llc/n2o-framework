@@ -1,9 +1,13 @@
 import React from 'react';
-import { compose, withProps } from 'recompose';
+import cn from 'classnames';
+import { findDOMNode } from 'react-dom';
+import { compose } from 'recompose';
+import { HotKeys } from 'react-hotkeys';
 import PropTypes from 'prop-types';
-import { isEqual, get } from 'lodash';
-import withEditableActions from './withEditableActions';
+import { isEqual, get, isObject } from 'lodash';
 import Text from '../../../../snippets/Text/Text';
+import withActionsEditableCell from './withActionsEditableCell';
+import withCell from '../../withCell';
 
 /**
  * Компонент редактируемой ячейки таблицы
@@ -20,16 +24,29 @@ export class EditableCell extends React.Component {
     this.state = {
       value: this.getValueFromModel(props),
       editing: false,
+      prevValue: this.getValueFromModel(props),
     };
 
     this.onChange = this.onChange.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
     this.getValueFromModel = this.getValueFromModel.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.callAction = this.callAction.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (!isEqual(prevProps.value, this.props.value)) {
       this.setState({ value: this.getValueFromModel(this.props) });
+    }
+
+    if (
+      !this.state.editing &&
+      isEqual(prevState.prevValue, prevState.value) &&
+      !isEqual(this.state.prevValue, this.state.value)
+    ) {
+      {
+        this.callAction(this.state.value);
+      }
     }
   }
 
@@ -39,39 +56,108 @@ export class EditableCell extends React.Component {
   }
 
   onChange(value) {
-    this.setState({ value });
+    this.setState(() => ({ value }));
   }
 
   toggleEdit() {
-    this.setState({ editing: !this.state.editing });
+    const {
+      model,
+      prevResolveModel,
+      onResolve,
+      onSetSelectedId,
+      widgetId,
+    } = this.props;
+    let newState = {
+      editing: !this.state.editing,
+    };
+    if (!isEqual(prevResolveModel, model)) {
+      onResolve(widgetId, model);
+      onSetSelectedId();
+    }
+    if (!newState.editing && !isEqual(this.state.prevValue, this.state.value)) {
+      this.callAction(this.state.value);
+    }
+
+    newState = {
+      ...newState,
+      prevValue: this.state.value,
+    };
+
+    this.setState(newState);
+  }
+
+  callAction(value) {
+    const { model, id, callActionImpl, action } = this.props;
+    callActionImpl(
+      {},
+      {
+        action,
+        model: {
+          ...model,
+          [id]: value,
+        },
+      }
+    );
+  }
+
+  handleKeyDown() {
+    this.toggleEdit();
   }
 
   render() {
-    const { visible, control, editable, ...rest } = this.props;
+    const {
+      visible,
+      control,
+      editable,
+      parentWidth,
+      parentHeight,
+      valueFieldId,
+      ...rest
+    } = this.props;
     const { value, editing } = this.state;
     return (
       visible && (
         <div
-          className="n2o-editable-cell"
+          style={{
+            width: parentWidth,
+            height: parentHeight,
+          }}
+          className={cn({ 'n2o-editable-cell': editable })}
           onClick={e => e.stopPropagation()}
-          ref={el => (this.node = el)}
         >
           {!editing && (
-            <div className="n2o-editable-cell-text" onClick={this.toggleEdit}>
-              <Text text={value} {...rest} />
+            <div
+              className="n2o-editable-cell-text"
+              onClick={editable && this.toggleEdit}
+            >
+              <Text
+                text={isObject(value) ? value[valueFieldId] : value}
+                {...rest}
+              />
             </div>
           )}
           {editable && editing && (
-            <div className="n2o-editable-cell-control">
-              {React.createElement(control.component, {
-                ...control,
-                className: 'n2o-advanced-table-edit-control',
-                onChange: this.onChange,
-                onBlur: this.toggleEdit,
-                autoFocus: true,
-                value: value,
-              })}
-            </div>
+            <HotKeys
+              keyMap={{ events: 'enter' }}
+              handlers={{ events: this.handleKeyDown }}
+            >
+              <div
+                className="n2o-editable-cell-control"
+                style={{ height: parentHeight }}
+              >
+                {React.createElement(control.component, {
+                  ...control,
+                  className: 'n2o-advanced-table-edit-control',
+                  onChange: this.onChange,
+                  onBlur: this.toggleEdit,
+                  autoFocus: true,
+                  value: value,
+                  openOnFocus: true,
+                  showButtons: false,
+                  resetOnNotValid: false,
+                })}
+              </div>
+            </HotKeys>
           )}
         </div>
       )
@@ -85,11 +171,16 @@ EditableCell.propTypes = {
   editable: PropTypes.bool,
   value: PropTypes.string,
   disabled: false,
+  valueFieldId: PropTypes.string,
 };
 
 EditableCell.defaultProps = {
   visible: true,
   disabled: false,
+  valueFieldId: 'id',
 };
 
-export default compose(withEditableActions)(EditableCell);
+export default compose(
+  withActionsEditableCell,
+  withCell
+)(EditableCell);

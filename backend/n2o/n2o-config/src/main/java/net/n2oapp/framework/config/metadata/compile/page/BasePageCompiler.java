@@ -29,7 +29,7 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
      * @return Маршрут
      */
     protected String initPageRoute(N2oPage source, PageContext context, CompileProcessor p) {
-        return p.cast(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId()));
+        return normalize(p.cast(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId())));
     }
 
     /**

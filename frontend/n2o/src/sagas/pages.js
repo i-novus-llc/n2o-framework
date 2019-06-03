@@ -24,6 +24,7 @@ import {
   clone,
   isEqual,
   has,
+  findLast,
   get,
   set,
   reduce,
@@ -34,6 +35,7 @@ import {
   getLocation,
   LOCATION_CHANGE,
   replace,
+  push,
 } from 'connected-react-router';
 import queryString from 'query-string';
 import {
@@ -55,6 +57,10 @@ import fetchSaga from './fetch.js';
 import { FETCH_PAGE_METADATA } from '../core/api.js';
 import compileUrl from '../utils/compileUrl';
 import linkResolver from '../utils/linkResolver';
+import configureErrorPages from '../components/errors';
+import history from '../history';
+
+const errorPages = configureErrorPages();
 
 function autoDetectBasePath(pathPattern, pathname) {
   const match = matchPath(pathname, {
@@ -129,21 +135,23 @@ function* mappingUrlToRedux(routes) {
       call(queryMapping, location, routes),
     ]);
   }
-  try {
-    const basePath = autoDetectBasePath(routes.list[0].path, location.pathname);
-    if (location.pathname !== basePath) {
-      yield put(
-        replace({
-          pathname: basePath,
-          search: location.search,
-          state: { silent: true },
-        })
-      );
-    }
-  } catch (e) {
-    console.error(`Ошибка автоматического определения базового роута.`);
-    console.error(e);
-  }
+  // TODO: исправить сброс роутинга до базового уровня
+  // try {
+  //   const firstRoute = (routes && routes.list && routes.list[0]) || {};
+  //   const basePath = autoDetectBasePath(firstRoute.path, location.pathname);
+  //   if (!firstRoute.isOtherPage && location.pathname !== basePath) {
+  //     yield put(
+  //       replace({
+  //         pathname: basePath,
+  //         search: location.search,
+  //         state: { silent: true },
+  //       })
+  //     );
+  //   }
+  // } catch (e) {
+  //   console.error(`Ошибка автоматического определения базового роута.`);
+  //   console.error(e);
+  // }
 }
 
 function* processUrl() {
@@ -184,6 +192,14 @@ function* getMetadata(action) {
     yield fork(watcherDefaultModels, metadata.models);
     yield put(metadataSuccess(metadata.id, metadata));
   } catch (err) {
+    if (err && err.status) {
+      const page = findLast(errorPages, ['status', err.status]);
+      if (page) {
+        yield put(push(page.path));
+        return;
+      }
+    }
+
     if (rootPage) {
       yield put(changeRootPage(pageId));
     }

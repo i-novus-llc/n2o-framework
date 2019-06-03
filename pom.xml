@@ -11,7 +11,19 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.2.0-SNAPSHOT</version>
+    <version>7.3.0-SNAPSHOT</version>
+
+    <name>N2O Framework</name>
+    <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
+    <url>https://n2oapp.net/docs/manual/</url>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
     <scm>
         <connection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</connection>
@@ -24,6 +36,9 @@
         <java.version>1.8</java.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <jococo-maven-plugin.version>0.7.8</jococo-maven-plugin.version>
+        <maven.source.version>3.0.1</maven.source.version>
+        <maven.javadoc.version>3.1.0</maven.javadoc.version>
+        <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 
         <lombok.version>1.18.4</lombok.version>
 
@@ -32,25 +47,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-compiler-plugin.version>3.5</maven-compiler-plugin.version>
-
-        <internal.repository.releases>https://maven.i-novus.ru/libs-release-local</internal.repository.releases>
-        <internal.repository.shapshots>https://maven.i-novus.ru/libs-snapshot-local</internal.repository.shapshots>
-        <internal.repository.id>i-novus-central</internal.repository.id>
     </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>i-novus-central</id>
-            <name>i-novus-central</name>
-            <url>https://maven.i-novus.ru/libs-release-local</url>
-        </repository>
-        <snapshotRepository>
-            <id>i-novus-central</id>
-            <name>i-novus-central</name>
-            <url>https://maven.i-novus.ru/libs-snapshot-local</url>
-            <uniqueVersion>true</uniqueVersion>
-        </snapshotRepository>
-    </distributionManagement>
 
     <build>
         <pluginManagement>
@@ -94,6 +91,32 @@
                             <phase>verify</phase>
                             <goals>
                                 <goal>report</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.source.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.javadoc.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -204,6 +227,51 @@
             <modules>
                 <module>docs</module>
             </modules>
+        </profile>
+        <profile>
+            <id>release</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 

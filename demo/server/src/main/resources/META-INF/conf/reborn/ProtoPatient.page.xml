@@ -15,14 +15,6 @@
                     <date-time id="birthday" label="Дата рождения" date-format="DD.MM.YYYY"/>
                 </col>
                 <checkbox id="vip">
-                    <dependencies>
-                        <set-value on="gender">
-                            if (gender.id == 1 || gender.id == 2)
-                                return true;
-                            else
-                                return false;
-                        </set-value>
-                    </dependencies>
                 </checkbox>
             </row>
         </fields>

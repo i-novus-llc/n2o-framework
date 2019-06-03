@@ -1,14 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-             xmlns:other="http://n2oapp.net/framework/config/schema/custom"
-             name="Кастомный филдсет BackgroundImageFieldset">
+             name="AddMemberFieldset">
     <form upload="defaults">
         <fields>
-            <set src="BackgroundImageFieldset"
-                 other:title="Пример кастомного филдсета BackgroundImageFieldset"
-                 other:backgroundImageSize="300px">
-                <input-text id="id"/>
-                <input-text id="name"/>
+            <set src="AddMemberFieldset">
+                <input-text id="id" label="Идентификатор"/>
+                <input-text id="name" label="Название"/>
             </set>
         </fields>
     </form>

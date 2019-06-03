@@ -3,15 +3,19 @@ package net.n2oapp.framework.ui.controller.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -20,10 +24,16 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class OperationController extends SetController {
 
-    public OperationController(DataProcessingStack dataProcessingStack, DomainProcessor domainsProcessor, N2oOperationProcessor operationProcessor) {
-        super(dataProcessingStack, domainsProcessor, operationProcessor);
-    }
+    private ErrorMessageBuilder errorMessageBuilder;
+    private static final Logger logger = LoggerFactory.getLogger(OperationController.class);
 
+    public OperationController(DataProcessingStack dataProcessingStack,
+                               DomainProcessor domainsProcessor,
+                               N2oOperationProcessor operationProcessor,
+                               ErrorMessageBuilder errorMessageBuilder) {
+        super(dataProcessingStack, domainsProcessor, operationProcessor);
+        this.errorMessageBuilder = errorMessageBuilder;
+    }
 
 
     @Override
@@ -34,21 +44,30 @@ public class OperationController extends SetController {
 
     protected SetDataResponse executeRequest(ActionRequestInfo<DataSet> requestInfo,
                                              ActionResponseInfo responseInfo) {
-        SetDataResponse dataWithMessageResponse;
-        DataSet data = handleActionRequest(requestInfo, responseInfo);
-        dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), data,
-                requestInfo, responseInfo);
-        return dataWithMessageResponse;
+        try {
+            DataSet data = handleActionRequest(requestInfo, responseInfo);
+            SetDataResponse dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), data,
+                    requestInfo, responseInfo);
+            return dataWithMessageResponse;
+        } catch (N2oException e) {
+            String widgetId = requestInfo.getFailAlertWidgetId() == null
+                    ? requestInfo.getMessagesForm()
+                    : requestInfo.getFailAlertWidgetId();
+            SetDataResponse response = new SetDataResponse(errorMessageBuilder.buildMessages(e), widgetId);
+            response.setStatus(e.getHttpStatus());
+            logger.error("Error response " + response.getStatus() + " " + e.getSeverity(), e);
+            return response;
+        }
     }
 
 
     private SetDataResponse constructSuccessSetDataResponse(CompiledObject.Operation operation, DataSet data,
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
-        SetDataResponse response = new SetDataResponse(requestInfo.getSuccessAlertWidgetId());
-        response.setResponseMessages(responseInfo.getMessageList(), responseInfo.getStackedMessages());
+        SetDataResponse response = new SetDataResponse();
+        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.getStackedMessages());
         response.setData(data);
-        response.addResponseMessage(createSuccess(operation, data));
+        response.addResponseMessage(createSuccess(operation, data), requestInfo.getSuccessAlertWidgetId());
         return response;
     }
 

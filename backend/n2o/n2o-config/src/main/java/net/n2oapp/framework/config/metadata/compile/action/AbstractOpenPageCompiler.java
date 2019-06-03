@@ -20,6 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -169,11 +170,12 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
+        pageContext.setUnsavedDataPromptOnClose(source.getUnsavedDataPromptOnClose());
         if (source.getSubmitOperationId() != null
                 && source.getRedirectUrlAfterSubmit() == null
                 && source.getFocusAfterSubmit() != null
                 && source.getFocusAfterSubmit()) {
-            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? routeScope.getUrl() + normalize(colon("id")) : null);
+            pageContext.setRedirectUrlOnSuccessSubmit(routeScope != null ? normalize(routeScope.getUrl() + normalize(colon("id"))) : null);
             pageContext.setRedirectTargetOnSuccessSubmit(Target.application);
         } else if (source.getRedirectUrlAfterSubmit() != null) {
             pageContext.setRedirectUrlOnSuccessSubmit(source.getRedirectUrlAfterSubmit());
@@ -188,7 +190,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setQueryRouteMapping(queryMapping);
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
-        initOtherPageRoute(p, route);
+        initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
     }
@@ -242,7 +244,10 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
                                           Map<String, ModelLink> pathMapping,
                                           Map<String, ModelLink> queryMapping);
 
-    private void initOtherPageRoute(CompileProcessor p, String route) {
+    private void initOtherPageRoute(CompileProcessor p, CompileContext<?, ?> context, String route) {
+        if ((context instanceof ModalPageContext))
+            return;
+        //only for link
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null) {
             PageRoutes.Route pageRoute = new PageRoutes.Route(route);

@@ -1,0 +1,35 @@
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+@import "~bootstrap/scss/mixins";
+
+@import "~n2o/src/sass/variables";
+
+.todo {
+  .todo-list {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: $border-width solid $border-color;
+  }
+
+  .todo-item {
+    &_priority {
+      background-color: lighten($orange, 40%);
+      display: inline-flex;
+      justify-content: space-between;
+    }
+
+    &_done {
+      text-decoration: line-through;
+      color: $gray-300;
+    }
+  }
+
+  .todo-form {
+    textarea {
+      margin-bottom: 1rem;
+    }
+    .custom-checkbox {
+      margin-bottom: 1rem;
+    }
+  }
+}

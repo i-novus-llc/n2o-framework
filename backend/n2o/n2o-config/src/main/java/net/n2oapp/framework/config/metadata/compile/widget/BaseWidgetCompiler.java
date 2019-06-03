@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -30,6 +31,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -73,8 +75,9 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyWidgetSrc()), String.class)));
         compiled.setOpened(source.getOpened());
         compiled.setIcon(source.getIcon());
-        compiled.setProperties(p.mapAttributes(source));
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
+        compileAutoFocus(source, compiled, p);
+        compiled.setProperties(p.mapAttributes(source));
         compileDependencies(compiled, source, p);
         initFilters(compiled, source, p);
     }
@@ -91,15 +94,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             return source.getRoute();
         }
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            if (widgetScope.getDependsOnWidgetId() != null) {
-                //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
-                String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
-                return normalize(colon(selectedId)) + normalize(source.getId());
-            }
-            if (widgetScope.isMainWidget()) {
-                return "/";
-            }
+        if (widgetScope != null && widgetScope.getDependsOnWidgetId() != null) {
+            //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
+            String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
+            return normalize(colon(selectedId)) + normalize(source.getId());
+
         }
         return normalize(source.getId());
     }
@@ -216,7 +215,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions,
                                            CompiledObject object, ValidationList validationList) {
         actionsToToolbar(source);
-        compileActions(source, context, p, widgetActions, widgetScope, object, validationList);
+        compileActions(source, context, p, widgetActions, widgetScope, widgetRouteScope, object, validationList);
         compileToolbar(compiled, source, object, context, p, widgetActions, widgetScope, widgetRouteScope, validationList);
         compiled.setActions(widgetActions);
     }
@@ -232,6 +231,12 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             fetchOnInit = source.getDependsOn() == null && compiled.getDataProvider() != null;
 
         compiled.getComponent().setFetchOnInit(fetchOnInit);
+    }
+
+    private void compileAutoFocus(S source, D compiled, CompileProcessor p) {
+        if (compiled.getComponent() == null)
+            return;
+        compiled.getComponent().setAutoFocus(p.cast(source.getAutoFocus(), p.resolve(property("n2o.api.widget.auto_focus"), Boolean.class), true));
     }
 
     private void actionsToToolbar(S source) {
@@ -306,7 +311,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //Маршрут с выделенной записью в виджете /page/widget/:widget_id
         //todo для формы не существует selected!
         String selectedId = normalizeParam(compiled.getId() + "_id");
-        String routeWidgetSelected = widgetRoute + normalize(colon(selectedId));
+        String routeWidgetSelected = normalize(widgetRoute + normalize(colon(selectedId)));
         routes.addRoute(routeWidgetSelected);
 
         ReduxAction widgetIdMapping = Redux.dispatchSelectedWidget(compiled.getId(), colon(selectedId));
@@ -407,11 +412,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void compileActions(S source, CompileContext<?, ?> context, CompileProcessor p
-            , MetaActions widgetActions, WidgetScope widgetScope, CompiledObject object, ValidationList validationList) {
+            , MetaActions widgetActions, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object, ValidationList validationList) {
         if (source.getActions() != null)
             for (ActionsBar a : source.getActions()) {
                 a.setModel(p.cast(a.getModel(), ReduxModel.RESOLVE));
-                p.compile(a.getAction(), context, widgetScope, widgetActions, object, validationList, new ComponentScope(a));
+                p.compile(a.getAction(), context, widgetScope, widgetActions, widgetRouteScope, object, validationList, new ComponentScope(a));
             }
     }
 
@@ -643,5 +648,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         } else {
             return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
         }
+    }
+
+    protected Pagination createPaging(Integer size, Boolean prev, Boolean next, String property, CompileProcessor p) {
+        Pagination pagination = new Pagination();
+        pagination.setSize(size != null ? size : p.resolve(Placeholders.property(property), Integer.class));
+        pagination.setPrev(prev);
+        pagination.setNext(next);
+        return pagination;
     }
 }

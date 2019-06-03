@@ -18,11 +18,13 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -32,28 +34,25 @@ import java.util.Map;
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
 public abstract class AbstractController {
-    private ObjectMapper objectMapper;
     private MetadataRouter router;
     private MetadataEnvironment environment;
 
-    public AbstractController() {
+    public AbstractController(MetadataEnvironment environment) {
+        this.environment = environment;
+        this.router = new N2oRouter(environment.getRouteRegister(), environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
     }
 
-    public AbstractController(ObjectMapper objectMapper, MetadataRouter router, ReadCompileBindTerminalPipeline pipeline, DomainProcessor domainProcessor) {
-        this.objectMapper = objectMapper;
-        this.router = router;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    public void setRouter(MetadataRouter router) {
+    public AbstractController(MetadataEnvironment environment, MetadataRouter router) {
+        this.environment = environment;
         this.router = router;
     }
 
     public void setEnvironment(MetadataEnvironment environment) {
         this.environment = environment;
+    }
+
+    public void setRouter(MetadataRouter router) {
+        this.router = router;
     }
 
     @SuppressWarnings("unchecked")
@@ -69,13 +68,19 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
-        requestInfo.setData((DataSet) body);
+        requestInfo.setData(convertToDataSet(body));
         requestInfo.setRedirect(actionCtx.getRedirect());
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
         //requestInfo.setChoice(); todo
         return requestInfo;
+    }
+
+    private DataSet convertToDataSet(Object body) {
+        if (body instanceof DataSet)
+            return (DataSet) body;
+        return new DataSet((Map<? extends String, ?>) body);
     }
 
     private void prepareSelectedId(QueryRequestInfo requestInfo) {

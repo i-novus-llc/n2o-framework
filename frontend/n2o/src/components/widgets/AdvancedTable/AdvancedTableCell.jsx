@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { filter, isString } from 'lodash';
-import cn from 'classnames';
 
 /**
  * Компонент обертка Cell
@@ -11,24 +10,62 @@ import cn from 'classnames';
  * @returns {*}
  * @constructor
  */
-function AdvancedTableCell({ children, hasSpan, record }) {
-  const { span } = record;
-  let colSpan = 1;
-  let rowSpan = 1;
+class AdvancedTableCell extends React.Component {
+  constructor(props) {
+    super(props);
 
-  if (hasSpan && span) {
-    if (span.colSpan === 0 || span.rowSpan === 0) {
-      return null;
-    }
-    colSpan = span.colSpan;
-    rowSpan = span.rowSpan;
+    this.state = {
+      width: undefined,
+      height: undefined,
+    };
+
+    this.setRef = this.setRef.bind(this);
+    this.getCellSize = this.getCellSize.bind(this);
   }
 
-  return (
-    <td colSpan={colSpan} rowSpan={rowSpan}>
-      <div className="n2o-advanced-table-cell-expand">{children}</div>
-    </td>
-  );
+  setRef(el) {
+    this._cell = el;
+  }
+
+  getCellSize() {
+    if (this._cell) {
+      return {
+        parentWidth: this._cell.clientWidth,
+        parentHeight: this._cell.clientHeight,
+      };
+    }
+  }
+
+  render() {
+    const { children, hasSpan, record } = this.props;
+    const { span } = record;
+    let colSpan = 1;
+    let rowSpan = 1;
+
+    if (hasSpan && span) {
+      if (span.colSpan === 0 || span.rowSpan === 0) {
+        return null;
+      }
+      colSpan = span.colSpan;
+      rowSpan = span.rowSpan;
+    }
+
+    return (
+      <td colSpan={colSpan} rowSpan={rowSpan}>
+        <div ref={this.setRef} className="n2o-advanced-table-cell-expand">
+          {React.Children.map(
+            children,
+            child =>
+              child &&
+              React.cloneElement(child, {
+                ...child.props,
+                ...this.getCellSize(),
+              })
+          )}
+        </div>
+      </td>
+    );
+  }
 }
 
 AdvancedTableCell.propTypes = {

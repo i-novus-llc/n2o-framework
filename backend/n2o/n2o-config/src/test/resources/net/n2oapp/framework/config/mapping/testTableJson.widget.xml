@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-       id="test" src="TableWidget" class="n2o" size="10" query-id="testTable" route="/test" fetch-on-init="true">
+       id="test" src="AdvancedTableWidget" class="n2o" size="10" query-id="testTable" route="/test" fetch-on-init="true">
     <columns>
         <column text-field-id="name" label="Имя" width="50"/>
         <column text-field-id="surname" label="Фамилия">

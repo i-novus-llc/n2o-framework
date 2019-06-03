@@ -1,9 +1,19 @@
-import React, { Component, Children } from 'react';
+import React, { Component, Children, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { first, each, isObject, isArray, isString, values } from 'lodash';
+import {
+  first,
+  each,
+  isObject,
+  isArray,
+  isString,
+  values,
+  isEmpty,
+  isNil,
+} from 'lodash';
 
 import factoryConfigShape from './factoryConfigShape';
 import NotFoundFactory from './NotFoundFactory';
+import SecurityCheck from '../auth/SecurityCheck';
 
 class FactoryProvider extends Component {
   getChildContext() {
@@ -19,20 +29,44 @@ class FactoryProvider extends Component {
     this.factories = props.config;
     this.getComponent = this.getComponent.bind(this);
     this.resolveProps = this.resolveProps.bind(this);
+    this.checkSecurityAndRender = this.checkSecurityAndRender.bind(this);
   }
 
-  getComponent(src, level) {
-    if (level && this.factories[level]) {
-      return this.factories[level][src];
-    } else {
-      let findedFactory = [];
-      each(this.factories, group => {
-        if (group && group[src]) {
-          findedFactory.push(group[src]);
-        }
-      });
-      return first(findedFactory);
+  checkSecurityAndRender(component = null, config, level) {
+    const { securityBlackList } = this.props;
+    if (isEmpty(config) || securityBlackList.includes(level)) return component;
+    return props => {
+      return (
+        <SecurityCheck
+          config={config}
+          render={({ permissions }) => {
+            if (permissions) {
+              return React.createElement(component, props);
+            }
+            return null;
+          }}
+        />
+      );
+    };
+  }
+
+  getComponent(src, level, security) {
+    if (level && this.factories[level] && this.factories[level][src]) {
+      return this.checkSecurityAndRender(
+        this.factories[level][src],
+        security,
+        level
+      );
     }
+    let findedFactory = [];
+    each(this.factories, (group, level) => {
+      if (group && group[src]) {
+        const comp = this.checkSecurityAndRender(group[src], security, level);
+        findedFactory.push(comp);
+      }
+    });
+
+    return first(findedFactory);
   }
 
   resolveProps(
@@ -46,7 +80,9 @@ class FactoryProvider extends Component {
         if (isObject(props[key])) {
           obj[key] = this.resolveProps(props[key], defaultComponent, paramName);
         } else if (key === 'src') {
-          obj[paramName] = this.getComponent(props[key]) || defaultComponent;
+          obj[paramName] =
+            this.getComponent(props[key], null, props.security) ||
+            this.checkSecurityAndRender(defaultComponent, props.security);
         } else {
           obj[key] = props[key];
         }
@@ -65,7 +101,12 @@ class FactoryProvider extends Component {
 
 FactoryProvider.propTypes = {
   config: factoryConfigShape.isRequired,
+  securityBlackList: PropTypes.array,
   children: PropTypes.element.isRequired,
+};
+
+FactoryProvider.defaultProps = {
+  securityBlackList: [],
 };
 
 FactoryProvider.childContextTypes = {

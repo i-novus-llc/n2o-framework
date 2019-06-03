@@ -1,6 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, isEqual, isArray, isString } from 'lodash';
+import {
+  isEmpty,
+  isEqual,
+  isArray,
+  isString,
+  reduce,
+  every,
+  some,
+} from 'lodash';
 import { post, deleteFile } from './utils';
 import { id } from '../../../utils/id';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
@@ -40,11 +48,15 @@ const FileUploaderControl = WrappedComponent => {
     componentDidUpdate(prevProps) {
       const { value, files, mapper } = this.props;
       if (!isEqual(prevProps.value, value)) {
-        this.setState(() => {
-          return {
-            files: mapper ? mapper(value || []) : this.mapFiles(value || []),
-          };
-        });
+        const newFiles = mapper
+          ? mapper(value || [])
+          : this.mapFiles(value || []);
+
+        const hasUpdate = !every(newFiles, file =>
+          some(this.state.files, file)
+        );
+
+        hasUpdate && this.setState({ files: newFiles });
       } else if (!isEqual(prevProps.files, files)) {
         this.setState({
           files: mapper ? mapper(files || []) : this.mapFiles(files || []),
@@ -184,6 +196,11 @@ const FileUploaderControl = WrappedComponent => {
     startUpload(files) {
       const { labelFieldId, sizeFieldId, requestParam, uploadUrl } = this.props;
       const url = this.resolveUrl(uploadUrl);
+
+      this.setState({
+        uploading: reduce(files, (acc, { id }) => ({ ...acc, [id]: true }), {}),
+      });
+
       files.map(file => {
         if (!this.requests[file.id]) {
           const onProgress = this.onProgress.bind(this, file.id);
@@ -195,12 +212,7 @@ const FileUploaderControl = WrappedComponent => {
           if (sizeFieldId !== 'size') {
             file[sizeFieldId] = file.size;
           }
-          this.setState({
-            uploading: {
-              ...this.state.uploading,
-              [file.id]: true,
-            },
-          });
+
           const formData = new FormData();
           formData.append(requestParam, file);
           this.requests[file.id] = post(

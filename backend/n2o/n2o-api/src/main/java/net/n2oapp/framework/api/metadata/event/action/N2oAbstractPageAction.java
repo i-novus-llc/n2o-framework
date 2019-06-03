@@ -24,6 +24,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String masterParam;
     //on close
     private Boolean refreshOnClose;
+    private Boolean unsavedDataPromptOnClose;
     //on submit
     private String submitOperationId;
     private String submitLabel;

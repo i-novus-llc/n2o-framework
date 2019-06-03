@@ -5,7 +5,7 @@ import request from '../utils/request';
 import { generateFlatQuery } from '../tools/helpers';
 
 export const API_PREFIX = 'n2o';
-export const BASE_PATH_METADATA = '/page/';
+export const BASE_PATH_METADATA = '/page';
 export const BASE_PATH_DATA = '/data/';
 export const BASE_PATH_VALIDATION = '/validation';
 export const BASE_PATH_CONFIG = '/config';

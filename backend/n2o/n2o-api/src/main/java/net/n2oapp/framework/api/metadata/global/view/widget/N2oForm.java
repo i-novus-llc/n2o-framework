@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
 /**
-* Исходная модель формы
+ * Исходная модель формы
  */
 @Getter
 @Setter
@@ -15,5 +15,6 @@ public class N2oForm extends N2oWidget {
     private NamespaceUriAware items[];
     private String defaultValuesQueryId;
     private FormMode mode;
+    private Boolean prompt;
 
 }
