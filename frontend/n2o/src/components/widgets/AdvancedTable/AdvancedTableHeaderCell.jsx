@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { isArray, isString } from 'lodash';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
 import AdvancedTableFilter from './AdvancedTableFilter';
+import Icon from '../../snippets/Icon/Icon';
 
 /**
  * Компонент ячейки заголовка
@@ -74,6 +75,7 @@ class AdvancedTableHeaderCell extends Component {
       filterable,
       colSpan,
       rowSpan,
+      icon,
       onFilter,
       filters,
       label,
@@ -104,6 +106,7 @@ class AdvancedTableHeaderCell extends Component {
         })}
       >
         <div className="n2o-advanced-table-header-cell-content">
+          {icon && <Icon name={icon} />}
           {filterable ? (
             <AdvancedTableFilter
               id={id}
