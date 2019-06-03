@@ -26,10 +26,10 @@ let LeftRight = ({ leftSize, rightSize, className, style }) => {
   return (
     <div className={cn('layout row', className)} style={style}>
       <Col md={leftSize}>
-        <Place name="left" />
+        <Place key="left" name="left" />
       </Col>
       <Col md={rightSize}>
-        <Place name="right" />
+        <Place key="right" name="right" />
       </Col>
     </div>
   );

@@ -95,7 +95,7 @@ LinkCell.propTypes = {
   type: PropTypes.string,
   id: PropTypes.string,
   fieldKey: PropTypes.string,
-  model: PropTypes.object.dependencies,
+  model: PropTypes.object,
   visible: PropTypes.bool,
   url: PropTypes.string,
   target: PropTypes.string,

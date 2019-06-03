@@ -114,10 +114,10 @@ StandardWidget.propTypes = {
   disabled: PropTypes.bool,
   left: PropTypes.element,
   top: PropTypes.element,
-  topLeft: PropTypes.element,
-  topRight: PropTypes.element,
-  bottomLeft: PropTypes.element,
-  bottomRight: PropTypes.element,
+  topLeft: PropTypes.array,
+  topRight: PropTypes.array,
+  bottomLeft: PropTypes.array,
+  bottomRight: PropTypes.array,
   children: PropTypes.node,
 };
 

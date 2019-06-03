@@ -70,7 +70,7 @@ ReduxField.defaultProps = {
 };
 
 ReduxField.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   component: PropTypes.node,
 };
 

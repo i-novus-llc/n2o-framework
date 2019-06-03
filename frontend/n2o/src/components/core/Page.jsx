@@ -179,7 +179,11 @@ class PageContainer extends React.Component {
 }
 
 PageContainer.contextTypes = {
-  defaultBreadcrumb: PropTypes.element,
+  defaultBreadcrumb: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
 };
 
 PageContainer.propTypes = {

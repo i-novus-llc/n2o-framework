@@ -25,7 +25,7 @@ const Control = ({ component, className, ...props }) => {
 };
 
 Control.propTypes = {
-  component: PropTypes.node,
+  component: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   style: PropTypes.object,
   className: PropTypes.string,
 };

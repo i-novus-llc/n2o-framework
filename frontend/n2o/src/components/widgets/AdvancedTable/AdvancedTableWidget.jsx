@@ -124,25 +124,22 @@ AdvancedTableWidget.defaultProps = {
 };
 
 AdvancedTableWidget.propTypes = {
-  containerId: PropTypes.string.isRequired,
   pageId: PropTypes.string.isRequired,
   widgetId: PropTypes.string,
   actions: PropTypes.object,
   toolbar: PropTypes.object,
   dataProvider: PropTypes.object,
-  table: PropTypes.arrayOf(
-    PropTypes.shape({
-      size: PropTypes.number,
-      fetchOnInit: PropTypes.bool,
-      hasSelect: PropTypes.bool,
-      className: PropTypes.string,
-      style: PropTypes.object,
-      autoFocus: PropTypes.bool,
-      sorting: PropTypes.object,
-      headers: PropTypes.array,
-      cells: PropTypes.array,
-    })
-  ),
+  table: PropTypes.shape({
+    size: PropTypes.number,
+    fetchOnInit: PropTypes.bool,
+    hasSelect: PropTypes.bool,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    autoFocus: PropTypes.bool,
+    sorting: PropTypes.object,
+    headers: PropTypes.array,
+    cells: PropTypes.array,
+  }),
   bordered: PropTypes.bool,
   rowClick: PropTypes.object,
   paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),

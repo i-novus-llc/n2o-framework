@@ -56,10 +56,17 @@ class AdvancedTableCell extends React.Component {
         <div ref={this.setRef} className="n2o-advanced-table-cell-expand">
           {React.Children.map(children, child => {
             if (!child) return;
-            const props = {
+
+            let props = {
               ...child.props,
-              ...this.getCellSize(),
             };
+
+            if (child.key) {
+              props = {
+                ...props,
+                ...this.getCellSize(),
+              };
+            }
 
             return child && React.cloneElement(child, props);
           })}

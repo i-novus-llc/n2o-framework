@@ -178,6 +178,7 @@ class Fieldset extends React.Component {
     } = this.props;
     return (
       <FieldsetRow
+        key={rowId}
         row={row}
         rowId={rowId}
         labelPosition={labelPosition}
@@ -229,7 +230,7 @@ Fieldset.propTypes = {
   labelWidth: PropTypes.array,
   labelAlignment: PropTypes.array,
   defaultCol: PropTypes.number,
-  autoFocusId: PropTypes.number,
+  autoFocusId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   component: PropTypes.node,
   children: PropTypes.node,
   visible: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

@@ -28,7 +28,8 @@ class RadioN2O extends React.Component {
 
   render() {
     const { label, disabled, value, checked, onChange, inline } = this.props;
-
+    console.log('point');
+    console.log(value);
     return (
       <div
         className={cx('custom-control custom-radio', {
@@ -54,7 +55,7 @@ class RadioN2O extends React.Component {
 }
 
 RadioN2O.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.any,
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,

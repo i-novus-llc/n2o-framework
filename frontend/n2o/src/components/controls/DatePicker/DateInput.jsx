@@ -160,7 +160,7 @@ DateInput.propTypes = {
   onBlur: PropTypes.func,
   dateFormat: PropTypes.string,
   defaultTime: PropTypes.string,
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.bool,
   value: PropTypes.instanceOf(moment),
   inputOnClick: PropTypes.func,
