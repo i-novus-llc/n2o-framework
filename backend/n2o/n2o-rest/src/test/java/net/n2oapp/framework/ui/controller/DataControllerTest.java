@@ -4,23 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.exception.N2oValidationException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.processing.N2oModule;
 import net.n2oapp.framework.api.rest.SetDataResponse;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.user.UserContext;
-import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.register.route.N2oRouter;
-import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.config.selective.SelectiveMetadataLoader;
-import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
-import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
-import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationExceptionHandler;
@@ -31,72 +23,19 @@ import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
 import net.n2oapp.framework.engine.validation.N2oValidationModule;
 import net.n2oapp.framework.engine.validation.engine.ValidationProcessor;
 import net.n2oapp.framework.ui.controller.action.OperationController;
-import net.n2oapp.properties.OverrideProperties;
-import net.n2oapp.properties.StaticProperties;
-import net.n2oapp.properties.reader.PropertiesReader;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.io.DefaultResourceLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class DataControllerTest {
-
-    private N2oApplicationBuilder builder;
-
-    private static boolean setUpIsDone = false;
-
-    private static void setUpStaticProperties(PropertyResolver propertyResolver) {
-        if (setUpIsDone) return;
-        StaticProperties staticProperties = new StaticProperties();
-        staticProperties.setPropertyResolver(propertyResolver);
-        setUpIsDone = true;
-    }
-
-    @Before
-    public void setUp() {
-        N2oEnvironment environment = new N2oEnvironment();
-        environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
-        environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("n2o_messages", "messages");
-        messageSource.setDefaultEncoding("UTF-8");
-        environment.setMessageSource(new MessageSourceAccessor(messageSource));
-        OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
-        properties.put("n2o.engine.mapper", "spel");
-        SimplePropertyResolver propertyResolver = new SimplePropertyResolver(properties);
-        setUpStaticProperties(propertyResolver);
-        builder = new N2oApplicationBuilder(environment);
-        configure(builder);
-        CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
-    }
-
-    private void configure(N2oApplicationBuilder builder) {
-        builder.packs(new N2oSourceTypesPack(),
-                new N2oDataProvidersPack(),
-                new N2oObjectsPack(), new N2oRegionsPack(),
-                new N2oActionsPack(),
-                new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(),
-                new N2oOperationsPack());
-        builder.loaders(new SelectiveMetadataLoader(builder.getEnvironment().getNamespaceReaderFactory()));
-    }
-
-    private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> compile(String... uri) {
-        if (uri != null)
-            Stream.of(uri).forEach(u -> builder.sources(new CompileInfo(u)));
-        return builder.read().compile();
-    }
+public class DataControllerTest extends DataControllerTestBase {
 
     /**
      * Тест whitelist + inline condition, mandatory, constraint + control inline валидации
@@ -190,17 +129,11 @@ public class DataControllerTest {
         body.put("id11", null);
         body.put("id13", null);
 
-        try {
-            testOperation("/page/widget/:testPage_main_id/create3", pipeline, params, body);
-            assert false;
-        } catch (N2oValidationException e) {
-            assertThat(e.getAlertKey(), is("page_main"));
-            assertThat(e.getSeverity(), is(SeverityType.danger));
-            assertThat(e.getMessages().size(), is(1));
-            assertThat(e.getMessages().get(0).getFieldId(), is("id7"));
-            assertThat(e.getMessages().get(0).getValidationId(), is("id7IsNotNull"));
-            assertThat(e.getMessages().get(0).getValidationId(), is("id7IsNotNull"));
-        }
+        SetDataResponse response = testOperation("/page/widget/:testPage_main_id/create3", pipeline, params, body);
+        assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
+        assertThat(response.getMeta().getMessages().getFields().size(), is(1));
+        assertThat(response.getMeta().getMessages().getFields().get("id7").getField(), is("id7"));
+        assertThat(response.getMeta().getMessages().getFields().get("id7").getSeverity(), is(SeverityType.danger.getId()));
     }
 
     /**
@@ -246,15 +179,10 @@ public class DataControllerTest {
 
         body.put("id1", null);
 
-        try {
-            testOperation("/pageWithRequiredField/widget/:testPageWithRequiredField_main_id/create", pipeline, params, body);
-            assert false;
-        } catch (N2oValidationException e) {
-            assertThat(e.getAlertKey(), is("pageWithRequiredField_main"));
-            assertThat(e.getMessages().size(), is(1));
-            assertThat(e.getMessages().get(0).getFieldId(), is("id1"));
-            assertThat(e.getMessages().get(0).getValidationId(), is("id1"));
-        }
+        SetDataResponse response = testOperation("/pageWithRequiredField/widget/:testPageWithRequiredField_main_id/create", pipeline, params, body);
+        assertThat(response.getMeta().getMessages().getForm(), is("pageWithRequiredField_main"));
+        assertThat(response.getMeta().getMessages().getFields().size(), is(1));
+        assertThat(response.getMeta().getMessages().getFields().get("id1").getField(), is("id1"));
     }
 
     /**
@@ -270,15 +198,10 @@ public class DataControllerTest {
 
         body.put("id13", null);
 
-        try {
-            testOperation("/page/widget/:testPage_main_id/create5", pipeline, params, body);
-            assert false;
-        } catch (N2oValidationException e) {
-            assertThat(e.getAlertKey(), is("page_main"));
-            assertThat(e.getMessages().size(), is(1));
-            assertThat(e.getMessages().get(0).getFieldId(), is("id13"));
-            assertThat(e.getMessages().get(0).getValidationId(), is("id13"));
-        }
+        SetDataResponse response = testOperation("/page/widget/:testPage_main_id/create5", pipeline, params, body);
+        assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
+        assertThat(response.getMeta().getMessages().getFields().size(), is(1));
+        assertThat(response.getMeta().getMessages().getFields().get("id13").getField(), is("id13"));
     }
 
     /**
@@ -292,17 +215,11 @@ public class DataControllerTest {
         DataSet body = new DataSet();
         body.put("id1", null);
 
-        try {
-            testOperation("/testFieldVisibility/widget/:testFieldVisibility_main_id/create6", pipeline, params, body);
-            assert false;
-        } catch (N2oValidationException e) {
-            assertThat(e.getAlertKey(), is("testFieldVisibility_main"));
-            assertThat(e.getMessages().size(), is(2));
-            assertThat(e.getMessages().get(0).getFieldId(), is("id1"));
-            assertThat(e.getMessages().get(0).getValidationId(), is("id1Required"));
-            assertThat(e.getMessages().get(1).getFieldId(), is("id3"));
-            assertThat(e.getMessages().get(1).getValidationId(), is("id3Required"));
-        }
+        SetDataResponse response = testOperation("/testFieldVisibility/widget/:testFieldVisibility_main_id/create6", pipeline, params, body);
+        assertThat(response.getMeta().getMessages().getForm(), is("testFieldVisibility_main"));
+        assertThat(response.getMeta().getMessages().getFields().size(), is(2));
+        assertThat(response.getMeta().getMessages().getFields().get("id1").getField(), is("id1"));
+        assertThat(response.getMeta().getMessages().getFields().get("id3").getField(), is("id3"));
 
 
     }
@@ -320,17 +237,11 @@ public class DataControllerTest {
         body.put("id1", new ArrayList<>());
         body.put("id2", new HashMap<>());
 
-        try {
-            testOperation("/testListControl/widget/:testListControl_main_id/create7", pipeline, params, body);
-            assert false;
-        } catch (N2oValidationException e) {
-            assertThat(e.getAlertKey(), is("testListControl_main"));
-            assertThat(e.getMessages().size(), is(2));
-            assertThat(e.getMessages().get(0).getFieldId(), is("id1"));
-            assertThat(e.getMessages().get(0).getValidationId(), is("id1"));
-            assertThat(e.getMessages().get(1).getFieldId(), is("id2"));
-            assertThat(e.getMessages().get(1).getValidationId(), is("id2Required"));
-        }
+        SetDataResponse response = testOperation("/testListControl/widget/:testListControl_main_id/create7", pipeline, params, body);
+        assertThat(response.getMeta().getMessages().getForm(), is("testListControl_main"));
+        assertThat(response.getMeta().getMessages().getFields().size(), is(2));
+        assertThat(response.getMeta().getMessages().getFields().get("id1").getField(), is("id1"));
+        assertThat(response.getMeta().getMessages().getFields().get("id2").getField(), is("id2"));
     }
 
 
@@ -340,6 +251,7 @@ public class DataControllerTest {
                 "net/n2oapp/framework/ui/controller/testListControlValidation.page.xml",
                 "net/n2oapp/framework/ui/controller/testPageWithRequiredField.page.xml",
                 "net/n2oapp/framework/ui/controller/testFieldVisibility.page.xml",
+                "net/n2oapp/framework/ui/controller/testQuery.query.xml",
                 "net/n2oapp/framework/ui/controller/testPage.page.xml");
         pipeline.get(new PageContext("testPage"));
         pipeline.get(new PageContext("testPageWithRequiredField"));
@@ -380,14 +292,15 @@ public class DataControllerTest {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();
-        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor);
+        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor,
+                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
         DataController controller = new DataController(factory, mapper, router, builder.getEnvironment());
-//        controller.setErrorMessageBuilder(new ErrorMessageBuilder(new MessageSourceAccessor(new ResourceBundleMessageSource())));
+//        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
         return controller.setData(path, params, body, new UserContext(contextEngine));
     }
 

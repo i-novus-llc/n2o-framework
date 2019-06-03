@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import { Field as ReduxFormField } from 'redux-form';
 import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
-import { pure, compose, withProps } from 'recompose';
-import { isEqual, some } from 'lodash';
-import withReRenderDependency from '../../../core/dependencies/withReRenderDependency';
-import { DEPENDENCY_TYPES } from '../../../core/dependencyTypes';
+import { compose, withProps } from 'recompose';
+import { some } from 'lodash';
+import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 
 const config = {
-  onChange: function({ dependency }) {
+  onChange: function({ dependency }, dependencyType) {
     if (!this.controlRef) return;
     const { _fetchData, size, labelFieldId } = this.controlRef.props;
-    let haveReRenderDependency = some(dependency, { type: DEPENDENCY_TYPES.RE_RENDER });
+    let haveReRenderDependency = some(dependency, { type: dependencyType });
     if (haveReRenderDependency) {
       _fetchData({
         size,
-        [`sorting.${labelFieldId}`]: 'ASC'
+        [`sorting.${labelFieldId}`]: 'ASC',
       });
     }
-  }
+  },
 };
 
 /**
@@ -38,7 +37,12 @@ class ReduxField extends React.Component {
     super(props);
 
     this.setRef = this.setRef.bind(this);
-    this.Field = compose(withFieldContainer)(props.component);
+    this.Field = compose(
+      withProps(() => ({
+        setReRenderRef: props.setReRenderRef,
+      })),
+      withFieldContainer
+    )(props.component);
   }
 
   setRef(el) {
@@ -58,16 +62,16 @@ class ReduxField extends React.Component {
 }
 
 ReduxField.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };
 
 ReduxField.defaultProps = {
-  component: StandardField
+  component: StandardField,
 };
 
 ReduxField.propTypes = {
   id: PropTypes.number,
-  component: PropTypes.node
+  component: PropTypes.node,
 };
 
-export default compose(withReRenderDependency(config))(ReduxField);
+export default withObserveDependency(config)(ReduxField);

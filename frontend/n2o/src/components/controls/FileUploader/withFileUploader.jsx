@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, isEqual, isArray, isString } from 'lodash';
+import {
+  isEmpty,
+  isEqual,
+  isArray,
+  isString,
+  reduce,
+  includes,
+  every,
+  some,
+} from 'lodash';
 import { post, deleteFile } from './utils';
 import { id } from '../../../utils/id';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
@@ -11,7 +20,7 @@ const FileUploaderControl = WrappedComponent => {
       super(props);
 
       this.state = {
-        files: props.files || []
+        files: props.files || [],
       };
       this.requests = {};
 
@@ -25,31 +34,43 @@ const FileUploaderControl = WrappedComponent => {
       this.onDragEnter = this.onDragEnter.bind(this);
       this.onDragLeave = this.onDragLeave.bind(this);
       this.onError = this.onError.bind(this);
+      this.clearState = this.clearState.bind(this);
     }
 
     componentDidMount() {
       const { mapper, value } = this.props;
       this.setState({
-        files: mapper ? mapper(value) : this.mapFiles(!isEmpty(value) ? value : this.state.files)
+        files: mapper
+          ? mapper(value)
+          : this.mapFiles(!isEmpty(value) ? value : this.state.files),
       });
     }
 
     componentDidUpdate(prevProps) {
       const { value, files, mapper } = this.props;
       if (!isEqual(prevProps.value, value)) {
-        this.setState(() => {
-          return {
-            files: mapper ? mapper(value) : this.mapFiles(value)
-          };
-        });
+        const newFiles = mapper
+          ? mapper(value || [])
+          : this.mapFiles(value || []);
+
+        const hasUpdate = !every(newFiles, file =>
+          some(this.state.files, file)
+        );
+
+        hasUpdate && this.setState({ files: newFiles });
       } else if (!isEqual(prevProps.files, files)) {
         this.setState({
-          files: mapper ? mapper(files) : this.mapFiles(files)
+          files: mapper ? mapper(files || []) : this.mapFiles(files || []),
         });
       }
     }
 
+    clearState() {
+      this.setState({ files: [] });
+    }
+
     mapFiles(files) {
+      if (!files) return;
       let currentFiles = [];
       if (!isArray(files)) {
         currentFiles = [files];
@@ -68,7 +89,7 @@ const FileUploaderControl = WrappedComponent => {
         statusFieldId,
         sizeFieldId,
         responseFieldId,
-        urlFieldId
+        urlFieldId,
       } = this.props;
       return {
         id: file[valueFieldId],
@@ -76,7 +97,7 @@ const FileUploaderControl = WrappedComponent => {
         status: file[statusFieldId],
         size: file[sizeFieldId],
         response: file[responseFieldId],
-        link: file[urlFieldId]
+        link: file[urlFieldId],
       };
     }
 
@@ -110,7 +131,7 @@ const FileUploaderControl = WrappedComponent => {
         onDragLeave: this.onDragLeave,
         onDragEnter: this.onDragEnter,
         onRemove: this.handleRemove,
-        onStartUpload: this.onStartUpload
+        onStartUpload: this.onStartUpload,
       };
     }
 
@@ -126,9 +147,9 @@ const FileUploaderControl = WrappedComponent => {
             file.id = id();
             file.percentage = 0;
             return file;
-          })
+          }),
         ],
-        uploaderClass: null
+        uploaderClass: null,
       });
       if (this.props.autoUpload) {
         this.startUpload(files);
@@ -141,16 +162,24 @@ const FileUploaderControl = WrappedComponent => {
      * @param id
      */
     handleRemove(index, id) {
-      const { value = [], multi, valueFieldId, onChange, deleteUrl } = this.props;
+      const {
+        value = [],
+        multi,
+        valueFieldId,
+        onChange,
+        deleteUrl,
+      } = this.props;
       if (deleteUrl) {
         deleteFile(this.resolveUrl(deleteUrl), id);
       }
       const newFiles = this.state.files.slice();
       newFiles.splice(index, 1);
       this.setState({
-        files: [...newFiles]
+        files: [...newFiles],
       });
-      onChange(multi ? value.filter(f => f[valueFieldId] !== id) : {});
+      if (value) {
+        onChange(multi ? value.filter(f => f[valueFieldId] !== id) : null);
+      }
     }
 
     /**
@@ -158,7 +187,7 @@ const FileUploaderControl = WrappedComponent => {
      */
     handleChange(newFile) {
       const { value, multi, onChange } = this.props;
-      onChange(multi ? [...value, newFile] : newFile);
+      onChange(multi ? [...(value ? value : []), newFile] : newFile);
     }
 
     /**
@@ -168,6 +197,11 @@ const FileUploaderControl = WrappedComponent => {
     startUpload(files) {
       const { labelFieldId, sizeFieldId, requestParam, uploadUrl } = this.props;
       const url = this.resolveUrl(uploadUrl);
+
+      this.setState({
+        uploading: reduce(files, (acc, { id }) => ({ ...acc, [id]: true }), {}),
+      });
+
       files.map(file => {
         if (!this.requests[file.id]) {
           const onProgress = this.onProgress.bind(this, file.id);
@@ -179,15 +213,16 @@ const FileUploaderControl = WrappedComponent => {
           if (sizeFieldId !== 'size') {
             file[sizeFieldId] = file.size;
           }
-          this.setState({
-            uploading: {
-              ...this.state.uploading,
-              [file.id]: true
-            }
-          });
+
           const formData = new FormData();
           formData.append(requestParam, file);
-          this.requests[file.id] = post(url, formData, onProgress, onUpload, onError);
+          this.requests[file.id] = post(
+            url,
+            formData,
+            onProgress,
+            onUpload,
+            onError
+          );
         }
       });
     }
@@ -217,8 +252,8 @@ const FileUploaderControl = WrappedComponent => {
               file.percentage = percentage;
             }
             return file;
-          })
-        ]
+          }),
+        ],
       });
     }
 
@@ -245,16 +280,16 @@ const FileUploaderControl = WrappedComponent => {
               if (item.id === id) {
                 return {
                   ...this.fileAdapter(file),
-                  loading: false
+                  loading: false,
                 };
               }
               return item;
-            })
+            }),
           ],
           uploading: {
             ...this.state.uploading,
-            [id]: false
-          }
+            [id]: false,
+          },
         });
         this.requests[id] = undefined;
         this.handleChange(file);
@@ -270,21 +305,23 @@ const FileUploaderControl = WrappedComponent => {
         uploading,
         ...this.state.files.map(file => {
           if (file.id === id) {
-            file.error = isString(error) ? error : error[this.props.responseFieldId] || status;
+            file.error = isString(error)
+              ? error
+              : error[this.props.responseFieldId] || status;
           }
-        })
+        }),
       });
     }
 
     onDragEnter() {
       this.setState({
-        uploaderClass: 'n2o-file-uploader-event-drag-enter'
+        uploaderClass: 'n2o-file-uploader-event-drag-enter',
       });
     }
 
     onDragLeave() {
       this.setState({
-        uploaderClass: null
+        uploaderClass: null,
       });
     }
 
@@ -294,7 +331,7 @@ const FileUploaderControl = WrappedComponent => {
   }
 
   ReturnedComponent.contextTypes = {
-    _reduxForm: PropTypes.string
+    _reduxForm: PropTypes.string,
   };
 
   ReturnedComponent.defaultProps = {
@@ -308,7 +345,7 @@ const FileUploaderControl = WrappedComponent => {
     autoUpload: true,
     showSize: true,
     value: [],
-    onChange: value => {}
+    onChange: value => {},
   };
 
   ReturnedComponent.propTypes = {
@@ -336,7 +373,7 @@ const FileUploaderControl = WrappedComponent => {
     onChange: PropTypes.func,
     className: PropTypes.string,
     mapper: PropTypes.func,
-    children: PropTypes.oneOf(PropTypes.func, PropTypes.node)
+    children: PropTypes.oneOf(PropTypes.func, PropTypes.node),
   };
 
   return ReturnedComponent;

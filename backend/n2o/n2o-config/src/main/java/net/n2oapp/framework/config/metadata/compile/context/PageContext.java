@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.Page;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,6 +56,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private Boolean refreshOnSuccessSubmit;
     /**
+     * Идентификатор виджета, который необходимо обновить после успешной отправки формы
+     */
+    private String refreshClientWidgetId;
+    /**
      * Обновить данные родительского виджета после закрытия страницы
      */
     private Boolean refreshOnClose;
@@ -68,6 +71,10 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Сценарий перенаправления после успешной отправки формы
      */
     private Target redirectTargetOnSuccessSubmit;
+    /**
+     * Предупредить о несохраненных данных на форме при закрытии?
+     */
+    private Boolean unsavedDataPromptOnClose;
     /**
      * Источник данных виджета при открытии страницы
      */
@@ -82,16 +89,16 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String clientPageId;
 
-    public PageContext(String clientPageId) {
-        super(clientPageId, N2oPage.class, Page.class);
+    public PageContext(String sourcePageId) {
+        super(sourcePageId, N2oPage.class, Page.class);
     }
 
-    public PageContext(String clientPageId, String route) {
-        super(route, clientPageId, N2oPage.class, Page.class);
+    public PageContext(String sourcePageId, String route) {
+        super(route, sourcePageId, N2oPage.class, Page.class);
     }
 
-    public PageContext(PageContext context, CompileProcessor p) {
-        super(context, p);
+    public PageContext(PageContext context) {
+        super(context);
         this.breadcrumbs = context.breadcrumbs;
         this.submitOperationId = context.submitOperationId;
         this.submitModel = context.submitModel;
@@ -105,6 +112,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.refreshOnClose = context.refreshOnClose;
         this.redirectUrlOnSuccessSubmit = context.redirectUrlOnSuccessSubmit;
         this.redirectTargetOnSuccessSubmit = context.redirectTargetOnSuccessSubmit;
+        this.unsavedDataPromptOnClose = context.unsavedDataPromptOnClose;
         this.upload = context.upload;
         this.clientPageId = context.clientPageId;
         this.preFilters = context.preFilters;

@@ -14,7 +14,7 @@ const setup = propOverrides => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -26,7 +26,6 @@ describe('<InputMask />', () => {
 
   it('binds value', () => {
     const { wrapper } = setup({ mask: '9-9', value: '1-1' });
-    const input = wrapper.find('input').first();
-    expect(input.props().defaultValue).toBe('1-1');
+    expect(wrapper.state().value).toBe('1-1');
   });
 });

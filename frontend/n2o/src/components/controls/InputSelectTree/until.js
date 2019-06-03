@@ -1,18 +1,32 @@
 import React from 'react';
-import { uniqueId, has } from 'lodash';
+import { uniqueId, has, get } from 'lodash';
 import { Badge } from 'reactstrap';
 import Icon from '../../snippets/Icon/Icon';
+import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
 
 export const visiblePartPopup = (
   item,
-  { prefixCls, iconFieldId, imageFieldId, labelFieldId, badgeFieldId, badgeColorFieldId }
+  {
+    prefixCls,
+    iconFieldId,
+    imageFieldId,
+    labelFieldId,
+    badgeFieldId,
+    badgeColorFieldId,
+  }
 ) => (
   <span className={`${prefixCls}-content-wrapper`}>
     {[
-      has(item, iconFieldId) && <Icon key={uniqueId('tree_icon_')} name={item[iconFieldId]} />,
+      has(item, iconFieldId) && (
+        <Icon key={uniqueId('tree_icon_')} name={item[iconFieldId]} />
+      ),
       has(item, imageFieldId) && (
         <div className={`${prefixCls}-image-tree-wrapper`}>
-          <img alt="not found" key={uniqueId('tree_img_')} src={item[imageFieldId]} />
+          <img
+            alt="not found"
+            key={uniqueId('tree_img_')}
+            src={item[imageFieldId]}
+          />
         </div>
       ),
       has(item, labelFieldId) && (
@@ -24,7 +38,21 @@ export const visiblePartPopup = (
         <Badge key={uniqueId('tree_badge_')} color={item[badgeColorFieldId]}>
           {item[badgeFieldId]}
         </Badge>
-      )
+      ),
     ]}
   </span>
 );
+
+const STRATEGIES = {
+  parent: SHOW_PARENT,
+  child: SHOW_CHILD,
+  all: SHOW_ALL,
+};
+
+export const getCheckedStrategy = key => {
+  const strategy = get(STRATEGIES, key);
+  if (strategy) {
+    return strategy;
+  }
+  return SHOW_ALL;
+};

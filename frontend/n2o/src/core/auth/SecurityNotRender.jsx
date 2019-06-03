@@ -29,7 +29,7 @@ SecurityNotRender.propTypes = {
   authProvider: PropTypes.func,
   config: PropTypes.object,
   user: PropTypes.object,
-  onPermissionsSet: PropTypes.func
+  onPermissionsSet: PropTypes.func,
 };
 
 export default SecurityNotRender;

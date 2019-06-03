@@ -1,7 +1,8 @@
 <access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
 
     <user username="user">
-        <object-access object-id="testObjectAccess*" operations="update"/>
+        <object-access object-id="testObjectAccess*" remove-filters="idFilter"/>
+        <object-access object-id="testObjectAccess*" operations="update" remove-filters="nameFilter"/>
     </user>
 
     <role id="role">
@@ -21,5 +22,12 @@
     <anonymous>
         <object-access object-id="testObjectAccess*" operations="*"/>
     </anonymous>
+
+    <permit-all>
+        <object-filters object-id="testObjectAccess*">
+            <eq field-id="id" id="idFilter"/>
+            <eq field-id="name" id="nameFilter"/>
+        </object-filters>
+    </permit-all>
 
 </access>

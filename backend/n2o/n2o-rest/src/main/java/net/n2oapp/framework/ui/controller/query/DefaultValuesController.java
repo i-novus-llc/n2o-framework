@@ -3,9 +3,14 @@ package net.n2oapp.framework.ui.controller.query;
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.GetDataResponse;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 
 import java.util.Map;
 
@@ -14,10 +19,18 @@ import java.util.Map;
  */
 public abstract class DefaultValuesController extends GetController {
 
+    protected DefaultValuesController(DataProcessingStack dataProcessingStack,
+                                      QueryProcessor queryProcessor,
+                                      SubModelsProcessor subModelsProcessor,
+                                      MetadataRegister configRegister,
+                                      ErrorMessageBuilder errorMessageBuilder) {
+        super(dataProcessingStack, queryProcessor, subModelsProcessor, configRegister, errorMessageBuilder);
+    }
+
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
         DataSet defaultModel = extractDefaultModel(requestInfo, responseInfo);
-        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), requestInfo.getSuccessAlertWidgetId(), responseInfo);
+        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getSuccessAlertWidgetId());
     }
 
     protected DataSet extractDefaultModel(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
@@ -35,7 +48,7 @@ public abstract class DefaultValuesController extends GetController {
         }
 
         if (requestInfo.getQuery() != null) {
-        subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), defaultModel);
+            getSubModelsProcessor().executeSubModels(requestInfo.getQuery().getSubModelQueries(), defaultModel);
             CollectionPage<DataSet> queryDefaultPage;
             queryDefaultPage = executeQuery(requestInfo, responseInfo);
             if (!queryDefaultPage.getCollection().isEmpty()) {

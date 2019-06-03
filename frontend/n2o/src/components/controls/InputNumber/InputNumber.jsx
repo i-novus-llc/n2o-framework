@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { findDOMNode } from 'react-dom';
-import { toNumber, toString, isNil, isString } from 'lodash';
+import { toNumber, toString, isNil, isNaN, isEqual } from 'lodash';
 
 import Input from '../Input/Input';
 
-import { formatToFloat, isValid, matchesWhiteList, getPrecision } from './utils';
+import {
+  formatToFloat,
+  isValid,
+  matchesWhiteList,
+  getPrecision,
+} from './utils';
 
 /**
  * Компонент - инпут для ввода чисел с возможностью увеличения/уменьшения значения на шаг
@@ -32,7 +36,10 @@ class InputNumber extends React.Component {
     this.precision = getPrecision(props.step);
     this.pasted = false;
     this.state = {
-      value: !isNil(value) && !isString(value) ? toNumber(value).toFixed(this.precision) : null
+      value:
+        !isNil(value) && !isNaN(toNumber(value)) && value !== ''
+          ? toNumber(value).toFixed(this.precision)
+          : null,
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
@@ -41,12 +48,14 @@ class InputNumber extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.value !== this.props.value &&
-      !isNil(this.props.value) &&
-      toNumber(this.props.value) !== toNumber(this.state.value)
+    const { value } = this.props;
+    if (prevProps.value !== value && !isNil(value)) {
+      this.setState({ value });
+    } else if (
+      !isEqual(prevProps.value, value) &&
+      (value === '' || isNil(value))
     ) {
-      this.setState({ value: formatToFloat(this.props.value, this.precision) });
+      this.setState({ value: null });
     }
   }
 
@@ -81,7 +90,10 @@ class InputNumber extends React.Component {
     const { min, max, step } = this.props;
     const { value } = this.state;
     const delta = toNumber(formatToFloat(step, this.precision));
-    const val = !isNil(value) && value !== '' ? toNumber(value).toFixed(this.precision) : null;
+    const val =
+      !isNil(value) && value !== ''
+        ? toNumber(value).toFixed(this.precision)
+        : null;
     const currentValue = toNumber(formatToFloat(val, this.precision));
     let newValue = currentValue;
     if (type === 'up') {
@@ -105,7 +117,7 @@ class InputNumber extends React.Component {
     } else {
       this.setState({ value: null });
     }
-    this.props.onBlur(e);
+    this.props.onBlur();
   }
 
   /**
@@ -115,7 +127,12 @@ class InputNumber extends React.Component {
   onKeyDown(e) {
     const upKeyCode = 38;
     const downKeyCode = 40;
-    const type = e.keyCode === upKeyCode ? 'up' : e.keyCode === downKeyCode ? 'down' : undefined;
+    const type =
+      e.keyCode === upKeyCode
+        ? 'up'
+        : e.keyCode === downKeyCode
+        ? 'down'
+        : undefined;
     if (type) {
       e.preventDefault();
       this.buttonHandler(type);
@@ -126,7 +143,18 @@ class InputNumber extends React.Component {
    * Базовый рендер
    * */
   render() {
-    const { visible, disabled, name, step, min, max, showButtons, className, onFocus } = this.props;
+    const {
+      visible,
+      disabled,
+      name,
+      step,
+      min,
+      max,
+      showButtons,
+      className,
+      onFocus,
+      autoFocus,
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -150,13 +178,20 @@ class InputNumber extends React.Component {
             onChange={({ target }) => this.onChange(target.value)}
             onPaste={this.onPaste}
             disabled={disabled}
+            autoFocus={autoFocus}
           />
           {showButtons && (
             <div className="n2o-input-number-buttons">
-              <button onClick={this.buttonHandler.bind(this, 'up')} disabled={disabled}>
+              <button
+                onClick={this.buttonHandler.bind(this, 'up')}
+                disabled={disabled}
+              >
                 <i className="fa fa-angle-up" aria-hidden="true" />
               </button>
-              <button onClick={this.buttonHandler.bind(this, 'down')} disabled={disabled}>
+              <button
+                onClick={this.buttonHandler.bind(this, 'down')}
+                disabled={disabled}
+              >
                 <i className="fa fa-angle-down" aria-hidden="true" />
               </button>
             </div>
@@ -171,10 +206,11 @@ InputNumber.defaultProps = {
   disabled: false,
   visible: true,
   step: '0.1',
+  autoFocus: false,
   showButtons: true,
   onChange: val => {},
   onBlur: val => {},
-  onFocus: val => {}
+  onFocus: val => {},
 };
 
 InputNumber.propTypes = {
@@ -187,7 +223,8 @@ InputNumber.propTypes = {
   name: PropTypes.string,
   showButtons: PropTypes.bool,
   onChange: PropTypes.func,
-  className: PropTypes.string
+  className: PropTypes.string,
+  autoFocus: PropTypes.bool,
 };
 
 export default InputNumber;

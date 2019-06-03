@@ -6,7 +6,8 @@ import linkResolver from './linkResolver';
 export function getParams(mapping, state) {
   const params = {};
   each(mapping, (options, key) => {
-    params[key] = linkResolver(state, options);
+    const value = linkResolver(state, options);
+    params[key] = value || undefined;
   });
   return params;
 }
@@ -23,13 +24,13 @@ export default function compileUrl(
   if (!isEmpty(pathParams)) {
     compiledUrl = pathToRegexp.compile(url)({
       ...pathParams,
-      ...extraPathParams
+      ...extraPathParams,
     });
   }
   if (!isEmpty(queryParams)) {
     compiledUrl = `${compiledUrl}?${queryString.stringify({
       ...queryParams,
-      ...extraQueryParams
+      ...extraQueryParams,
     })}`;
   }
   return compiledUrl;

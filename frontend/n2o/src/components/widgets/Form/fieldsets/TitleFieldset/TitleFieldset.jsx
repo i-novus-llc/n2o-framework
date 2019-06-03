@@ -7,7 +7,11 @@ function TitleFieldset({ render, rows, title, showLine, className, subTitle }) {
     <div className={'title-fieldset'}>
       <div className={cn('title-fieldset-header', { [className]: className })}>
         {title && <span className="title-fieldset-text">{title}</span>}
-        {subTitle && <small className="text-muted title-fieldset-subtitle">{subTitle}</small>}
+        {subTitle && (
+          <small className="text-muted title-fieldset-subtitle">
+            {subTitle}
+          </small>
+        )}
         {showLine && <div className="title-fieldset-line" />}
       </div>
       {render(rows)}
@@ -21,11 +25,11 @@ TitleFieldset.propTypes = {
   title: PropTypes.string,
   showLine: PropTypes.bool,
   className: PropTypes.string,
-  subtitle: PropTypes.string
+  subtitle: PropTypes.string,
 };
 
 TitleFieldset.defaultProps = {
-  showLine: true
+  showLine: true,
 };
 
 export default TitleFieldset;

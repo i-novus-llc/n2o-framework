@@ -38,17 +38,23 @@ export default function apiProvider(type, options) {
           API_PREFIX,
           BASE_PATH_CONFIG,
           '?',
-          queryString.stringify(flatten(clearEmptyParams(options), { safe: true }))
+          queryString.stringify(
+            flatten(clearEmptyParams(options), { safe: true })
+          ),
         ].join('')
       );
     case FETCH_PAGE_METADATA:
-      return request([API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join(''));
+      return request(
+        [API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join('')
+      );
     case FETCH_WIDGET_DATA:
       return request(
         [
           options.basePath,
           '?',
-          queryString.stringify(flatten(clearEmptyParams(options.baseQuery), { safe: true }))
+          queryString.stringify(
+            flatten(clearEmptyParams(options.baseQuery), { safe: true })
+          ),
         ].join('')
       );
     case FETCH_INVOKE_DATA:
@@ -56,14 +62,16 @@ export default function apiProvider(type, options) {
         [
           options.basePath,
           '?',
-          queryString.stringify(flatten(clearEmptyParams(options.baseQuery), { safe: true }))
+          queryString.stringify(
+            flatten(clearEmptyParams(options.baseQuery), { safe: true })
+          ),
         ].join(''),
         {
           method: options.baseMethod || 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(options.model || {})
+          body: JSON.stringify(options.model || {}),
         }
       );
     case FETCH_VALIDATE:
@@ -72,7 +80,9 @@ export default function apiProvider(type, options) {
           API_PREFIX,
           BASE_PATH_VALIDATION,
           '?',
-          queryString.stringify(flatten(clearEmptyParams(options), { safe: true }))
+          queryString.stringify(
+            flatten(clearEmptyParams(options), { safe: true })
+          ),
         ].join('')
       );
     default:
@@ -86,6 +96,10 @@ export function fetchInputSelectData(
   settings = { apiPrefix: API_PREFIX, basePath: BASE_PATH_DATA }
 ) {
   return request(
-    [settings.apiPrefix, settings.basePath, generateFlatQuery(options, '', {}, '.')].join('')
+    [
+      settings.apiPrefix,
+      settings.basePath,
+      generateFlatQuery(options, '', {}, '.'),
+    ].join('')
   );
 }

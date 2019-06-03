@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy, throttle } from 'lodash';
+import { pickBy, throttle, debounce } from 'lodash';
 import { connect } from 'react-redux';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 
@@ -38,19 +38,17 @@ function withListContainer(WrappedComponent) {
     labelFieldId,
     ...rest
   }) => {
-    let timer = '';
-
     /**
      * Совершает вызов апи с параметрами
      * @param optionalParams {object} - дополнительные параметра запроса
      * @param concat {boolean} - флаг добавления новых данных к текущим
      */
-    const callApiWithParams = async (optionalParams = {}, concat = false) => {
+    const callApiWithParams = (optionalParams = {}, concat = false) => {
       const params = {
         size,
         page,
         [`sorting.${labelFieldId}`]: 'ASC',
-        ...optionalParams
+        ...optionalParams,
       };
       _fetchData(params, concat);
     };
@@ -60,8 +58,8 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleOpen = async () => {
-      await callApiWithParams({ page: 1 });
+    const handleOpen = () => {
+      callApiWithParams({ page: 1 });
       onOpen && onOpen();
     };
 
@@ -72,18 +70,15 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleSearch = (value, delay = 400) => {
-      const quickSearchParam = (dataProvider && dataProvider.quickSearchParam) || 'search';
-      if (timer) clearTimeout(timer);
+    const handleSearch = debounce(value => {
+      const quickSearchParam =
+        (dataProvider && dataProvider.quickSearchParam) || 'search';
 
-      timer = setTimeout(async () => {
-        await callApiWithParams({ [quickSearchParam]: value, page: 1 });
-        timer = null;
-      }, delay);
-    };
+      callApiWithParams({ [quickSearchParam]: value, page: 1 });
+    }, 300);
 
-    const handleItemOpen = async value => {
-      await callApiWithParams({ 'filter.parent_id': value }, true);
+    const handleItemOpen = value => {
+      callApiWithParams({ 'filter.parent_id': value }, true);
     };
 
     /**
@@ -101,10 +96,10 @@ function withListContainer(WrappedComponent) {
      * @private
      */
 
-    const handleScrollEnd = throttle(() => {
+    const handleScrollEnd = throttle(filter => {
       if (page && size && count) {
         if (page * size < count) {
-          callApiWithParams({ page: page + 1 }, true);
+          callApiWithParams({ page: page + 1, ...filter }, true);
         }
       }
 
@@ -141,11 +136,11 @@ function withListContainer(WrappedComponent) {
     onOpen: PropTypes.func,
     onInput: PropTypes.func,
     onScrollEnd: PropTypes.func,
-    quickSearchParam: PropTypes.string
+    quickSearchParam: PropTypes.string,
   };
 
   WithListContainer.defaultProps = {
-    data: []
+    data: [],
   };
 
   return connect(
@@ -155,13 +150,15 @@ function withListContainer(WrappedComponent) {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(state)
+  alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(
+    state
+  ),
 });
 
 const mapDispatchToProps = dispatch => ({
   onDismiss: alertId => {
     // dispatch(removeAlert(ownProps.form + '.' + ownProps.labelFieldId, alertId));
-  }
+  },
 });
 
 export default withListContainer;

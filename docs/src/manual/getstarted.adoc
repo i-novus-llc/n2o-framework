@@ -39,8 +39,9 @@ image::images\getstarted-c1d22.png[]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example.myproject</groupId>
@@ -48,17 +49,17 @@ image::images\getstarted-c1d22.png[]
     <version>1.0</version>
 
     <parent>
-       <groupId>org.springframework.boot</groupId>
-       <artifactId>spring-boot-starter-parent</artifactId>
-       <version>1.5.7.RELEASE</version>
-   </parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.7.RELEASE</version>
+    </parent>
 
-   <properties>
-     <n2o.version>7.0.RC1-SNAPSHOT</n2o.version>
-   </properties>
+    <properties>
+        <n2o.version>7.0.6</n2o.version>
+    </properties>
 
     <dependencies>
-        ...
+     <!-- ...   -->
     </dependencies>
 
 </project>
@@ -91,8 +92,8 @@ image::images\getstarted-c1d22.png[]
 </repository>
 ----
 
-Для запуска приложения, в папке `/src/main/java`,
-в пакете вашего проекта нужно создать java файл с методом `main`:
+Для запуска приложения в папке `/src/main/java`
+в пакете вашего проекта нужно создать класс Java с методом `main`:
 
 [source,java]
 ----
@@ -110,15 +111,13 @@ public class Application {
 ----
 
 [TIP]
-Более полную информацию о сборке spring-boot приложений можно прочитать https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/[здесь].
+Более полную информацию о сборке Spring Boot приложений можно прочитать https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/[здесь].
 
 ==== Подключение N2O клиента
-Клиент N2O - это link:https://reactjs.org/[React] web приложение.
-Его можно создать и собирать как обычный React проект,
-либо подключить уже собранную jar библиотеку с React проектом внутри.
+Клиент N2O - это link:https://reactjs.org/[React] WEB приложение.
+Его можно создать и собирать как обычный React проект либо подключить уже собранную библиотеку JAR с React проектом внутри.
 
-Если вы создаёте свой N2O React проект, вы можете добавить в него собственные React компоненты
-или изменить тему стилей и любые другие модификации.
+Если вы создаёте свой N2O React проект, вы можете добавить в него собственные React компоненты,  изменить тему стилей и выполнить любые другие модификации.
 
 Если вы подключаете готовый N2O React проект, вы не сможете его кастомизировать.
 
@@ -184,7 +183,7 @@ npm build
 
 === Запуск приложения
 Ваш проект на N2O может быть запущен как автономное приложение со встроенным HTTP сервером.
-Либо развернут как классическое war приложение на отдельно стоящем сервере, например, Tomcat.
+Либо развернут как классическое WAR приложение на отдельно стоящем сервере, например, Tomcat.
 
 ==== Запуск автономного приложения
 Для запуска N2O в качестве автономного приложения

@@ -1,0 +1,73 @@
+{
+  "id": "proto_patients_create",
+  "widgets": {
+    "proto_patients_create_main": {
+      "src": "FormWidget",
+      "actions": {},
+      "form": {
+        "fieldsets": [
+          {
+            "src": "StandardFieldset",
+            "rows": [
+              {
+                "cols": [
+                  {
+                    "fields": [
+                      {
+                        "id": "input-1",
+                        "src": "StandardField",
+                        "label": "Компонент",
+                        "dependency": [],
+                        "control": {
+                          "placeholder": "Введите значение",
+                          "src": "Input"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "fields": [
+                      {
+                        "id": "input-2",
+                        "src": "StandardField",
+                        "label": "allowClear",
+                        "dependency": [],
+                        "control": {
+                          "id": "name",
+                          "src": "Input",
+                          "allowClear": true
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "modelPrefix": "resolve",
+        "fetchOnInit": false
+      }
+    }
+  },
+  "layout": {
+    "src": "SingleLayout",
+    "regions": {
+      "single": [
+        {
+          "src": "NoneRegion",
+          "items": [
+            {
+              "id": "none1",
+              "label": "Карточка пациента",
+              "widgetId": "proto_patients_create_main"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "page": {
+    "title": "InputSelect"
+  }
+}

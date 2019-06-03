@@ -18,11 +18,15 @@ stories.add('N2O группа', () => {
     disabled: boolean('disabled', false),
     visible: boolean('visible', true),
     className: text('className', ''),
-    inline: boolean('inline', false)
+    inline: boolean('inline', false),
   };
 
   return (
-    <CheckboxGroup name="numbers" onChange={action('checkbox-on-change')} {...props}>
+    <CheckboxGroup
+      name="numbers"
+      onChange={action('checkbox-on-change')}
+      {...props}
+    >
       <CheckboxAlt value="1" label="Первый" />
       <CheckboxAlt value="2" label="Второй" />
       <CheckboxAlt value="3" label="Третий" />

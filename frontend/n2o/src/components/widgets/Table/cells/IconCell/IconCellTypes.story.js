@@ -14,45 +14,45 @@ stories.add('Компонент', () => {
       {
         id: 'id',
         component: TextTableHeader,
-        label: 'Стандарт'
+        label: 'Стандарт',
       },
       {
         id: 'vip',
         component: TextTableHeader,
-        label: 'Текст слева'
+        label: 'Текст слева',
       },
       {
         id: 'onlyIcon',
         component: TextTableHeader,
-        label: 'Только иконка'
-      }
+        label: 'Только иконка',
+      },
     ],
     cells: [
       {
         id: 'id',
         component: IconCell,
-        icon: 'fa fa-plus'
+        icon: 'fa fa-plus',
       },
       {
         id: 'vip',
         component: IconCell,
         icon: 'fa fa-plus',
-        textPlace: textPlaceTypes.LEFT
+        textPlace: textPlaceTypes.LEFT,
       },
       {
         id: 'onlyIcon',
         component: IconCell,
         icon: 'fa fa-plus',
-        type: iconCellTypes.ICON
-      }
+        type: iconCellTypes.ICON,
+      },
     ],
     datasource: [
       {
         id: 'Алексей',
         vip: 'Алексей',
-        onlyIcon: 'Алексей'
-      }
-    ]
+        onlyIcon: 'Алексей',
+      },
+    ],
   };
 
   return (

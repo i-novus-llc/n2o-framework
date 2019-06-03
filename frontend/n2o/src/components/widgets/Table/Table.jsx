@@ -111,15 +111,23 @@ class Table extends React.Component {
       focusIndex: props.autoFocus
         ? getIndex(props.datasource, props.selectedId)
         : props.hasFocus
-          ? 0
-          : -1,
-      selectIndex: props.hasSelect ? getIndex(props.datasource, props.selectedId) : -1
+        ? 0
+        : -1,
+      selectIndex: props.hasSelect
+        ? getIndex(props.datasource, props.selectedId)
+        : -1,
     };
     this.onKeyDown = this.onKeyDown.bind(this);
   }
 
   handleRow(id, index, noResolve) {
-    const { datasource, hasFocus, hasSelect, onRowClickAction, rowClick } = this.props;
+    const {
+      datasource,
+      hasFocus,
+      hasSelect,
+      onRowClickAction,
+      rowClick,
+    } = this.props;
 
     hasSelect && !noResolve && this.props.onResolve(_.find(datasource, { id }));
 
@@ -130,7 +138,7 @@ class Table extends React.Component {
     } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(index);
     }
-    if (rowClick) {
+    if (!noResolve && rowClick) {
       onRowClickAction();
     }
   }
@@ -144,8 +152,11 @@ class Table extends React.Component {
   }
 
   setSelectAndFocus(selectIndex, focusIndex) {
+    const { hasFocus } = this.props;
     this.setState({ selectIndex, focusIndex }, () => {
-      this.focusActiveRow();
+      if (hasFocus) {
+        this.focusActiveRow();
+      }
     });
   }
 
@@ -156,37 +167,57 @@ class Table extends React.Component {
 
   onKeyDown(e) {
     const keyNm = e.key;
-    const { datasource, children, hasFocus, hasSelect, autoFocus, onResolve } = this.props;
+    const {
+      datasource,
+      children,
+      hasFocus,
+      hasSelect,
+      autoFocus,
+      onResolve,
+    } = this.props;
     const { focusIndex } = this.state;
     if (keyNm === 'ArrowUp' || keyNm === 'ArrowDown') {
       if (!React.Children.count(children) && hasFocus) {
-        let newFocusIndex = keyNm === 'ArrowUp' ? focusIndex - 1 : focusIndex + 1;
+        let newFocusIndex =
+          keyNm === 'ArrowUp' ? focusIndex - 1 : focusIndex + 1;
         newFocusIndex =
-          newFocusIndex < datasource.length && newFocusIndex >= 0 ? newFocusIndex : focusIndex;
+          newFocusIndex < datasource.length && newFocusIndex >= 0
+            ? newFocusIndex
+            : focusIndex;
         if (hasSelect && autoFocus) {
           this.setSelectAndFocus(newFocusIndex, newFocusIndex);
-          this.props.onResolve(datasource[newFocusIndex]);
+          onResolve(datasource[newFocusIndex]);
         } else {
           this.setNewFocusIndex(newFocusIndex);
         }
       }
     } else if (keyNm === ' ' && hasSelect && !autoFocus) {
-      this.props.onResolve(datasource[this.state.focusIndex]);
+      onResolve(datasource[this.state.focusIndex]);
       this.setNewSelectIndex(this.state.focusIndex);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { hasSelect, datasource, selectedId, isAnyTableFocused, isActive } = this.props;
+    const {
+      hasSelect,
+      datasource,
+      selectedId,
+      isAnyTableFocused,
+      isActive,
+    } = this.props;
     if (hasSelect && !isEqual(datasource, prevProps.datasource)) {
       const id = getIndex(datasource, selectedId);
-      isAnyTableFocused && !isActive ? this.setNewSelectIndex(id) : this.setSelectAndFocus(id, id);
+      isAnyTableFocused && !isActive
+        ? this.setNewSelectIndex(id)
+        : this.setSelectAndFocus(id, id);
     }
   }
 
   componentDidMount() {
     const { isAnyTableFocused, isActive, focusIndex, selectIndex } = this.state;
-    !isAnyTableFocused && isActive && this.setSelectAndFocus(selectIndex, focusIndex);
+    !isAnyTableFocused &&
+      isActive &&
+      this.setSelectAndFocus(selectIndex, focusIndex);
   }
 
   renderCell(props) {
@@ -214,7 +245,8 @@ class Table extends React.Component {
       hasFocus,
       rowColor,
       widgetId,
-      isActive
+      isActive,
+      rowClick,
     } = this.props;
 
     if (React.Children.count(children)) {
@@ -225,10 +257,15 @@ class Table extends React.Component {
       );
     }
     return (
-      <HotKeys keyMap={{ events: ['up', 'down', 'space'] }} handlers={{ events: this.onKeyDown }}>
+      <HotKeys
+        keyMap={{ events: ['up', 'down', 'space'] }}
+        handlers={{ events: this.onKeyDown }}
+      >
         <div className="table-responsive">
           <table
-            className={cx('n2o-table table table-sm table-hover', { 'has-focus': hasFocus })}
+            className={cx('n2o-table table table-sm table-hover', {
+              'has-focus': hasFocus,
+            })}
             ref={table => (this.table = table)}
             onFocus={!isActive ? onFocus : undefined}
           >
@@ -243,7 +280,7 @@ class Table extends React.Component {
                       as: 'th',
                       sorting: sorting[header.id],
                       onSort: onSort,
-                      ...header
+                      ...header,
                     });
                   })}
                 </TableRow>
@@ -253,15 +290,26 @@ class Table extends React.Component {
               {datasource && datasource.length ? (
                 datasource.map((data, index) => (
                   <TableRow
-                    onClick={isActive ? () => this.handleRow(data.id, index) : undefined}
-                    onFocus={!isActive ? () => this.handleRow(data.id, index, true) : undefined}
+                    onClick={
+                      isActive
+                        ? () => this.handleRow(data.id, index)
+                        : undefined
+                    }
+                    onFocus={
+                      !isActive
+                        ? () => this.handleRow(data.id, index, true)
+                        : undefined
+                    }
                     key={index}
                     color={rowColor && propsResolver(rowColor, data)}
                     ref={row => {
                       this.rows[index] = row;
                     }}
                     model={data}
-                    className={cx({ 'table-active': index === this.state.selectIndex })}
+                    className={cx({
+                      'table-active': index === this.state.selectIndex,
+                      'row-click': !!rowClick,
+                    })}
                     tabIndex={1}
                   >
                     {cells.map(cell => {
@@ -271,14 +319,17 @@ class Table extends React.Component {
                         widgetId,
                         columnId: cell.id,
                         model: data,
-                        ...cell
+                        ...cell,
                       });
                     })}
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={headers && headers.length} style={{ textAlign: 'center' }}>
+                  <TableCell
+                    colSpan={headers && headers.length}
+                    style={{ textAlign: 'center' }}
+                  >
                     <span className="text-muted">
                       <FormattedMessage
                         id="table.notFound"
@@ -319,14 +370,14 @@ Table.propTypes = {
   onResolve: PropTypes.func,
   onFocus: PropTypes.func,
   onRowClickAction: PropTypes.func,
-  rowClick: PropTypes.object
+  rowClick: PropTypes.object,
 };
 
 Table.defaultProps = {
   sorting: {},
   onResolve: () => {},
-  redux: false,
-  onRowClickAction: () => {}
+  redux: true,
+  onRowClickAction: () => {},
 };
 
 Table.Header = TableHeader;

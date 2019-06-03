@@ -7,9 +7,11 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -61,27 +63,38 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getCells().size(), is(2));
         assertThat(table.getComponent().getHeaders().size(), is(2));
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getCssClass(),
-                is("`test == '1' ? 'css1' : test == '2' ? 'css2' : 'css3'`"));
+                is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getFormat(),
                 is("password"));
         assertThat(table.getActions().containsKey("but"), is(true));
         assertThat(table.getComponent().getRowColor(), is("red"));
-        QueryContext queryContext = (QueryContext) route("/testTable4Compile").getContext(CompiledQuery.class);
+        QueryContext queryContext = (QueryContext) route("/testTable4Compile", CompiledQuery.class);
         assertThat(queryContext.getValidations(), notNullValue());
         assertThat(queryContext.getValidations().size(), is(1));
         assertThat(queryContext.getValidations().get(0), instanceOf(MandatoryValidation.class));
+        assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
         assertThat(queryContext.getFailAlertWidgetId(), is("testTable4Compile"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("testTable4Compile_filter"));
         assertThat(table.getComponent().getHasSelect(), is(true));
+        assertThat(table.getComponent().getFetchOnInit(), is(false));
     }
 
     @Test
     public void testRowColor() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowColorCompile.widget.xml")
                 .get(new WidgetContext("testTable4RowColorCompile"));
-        assertThat(table.getComponent().getRowColor(), is("`gender.id == '1' ? 'red' : gender.id == '2' ? 'blue' : gender.id == '3' ? 'white' : 'green'`"));
+        assertThat(table.getComponent().getRowColor(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
         assertThat(table.getComponent().getHasSelect(), is(true));
+    }
+
+    @Test
+    public void testRowClick() {
+        Table table = (Table)compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.widget.xml")
+                .get(new WidgetContext("testTable4RowClickCompile"));
+
+        assertThat(table.getComponent().getRowClick(), notNullValue());
+        assertThat(table.getComponent().getRowClick(), instanceOf(Action.class));
     }
 
     @Test
@@ -112,7 +125,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(4).getId(), is("notInQuery"));
         assertThat(headers.get(4).getLabel(), is("notInQueryLabel"));
 
-        QueryContext context = (QueryContext) route("/testTable4SortableCompile").getContext(CompiledQuery.class);
+        QueryContext context = (QueryContext) route("/testTable4SortableCompile", CompiledQuery.class);
         assertThat(context.getSortingMap().get("id"), is("id"));
         assertThat(context.getSortingMap().get("col"), is("col_id"));
         assertThat(context.getSortingMap().get("name"), is("id"));
@@ -199,9 +212,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getFilter().getHideButtons(), is(true));
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("sb"));
-        assertThat(field.getSrc(), is("FilterButtonsField"));
-        assertThat(((SearchButtons) field).getResetLabel(), is("resetLabel"));
-        assertThat(((SearchButtons) field).getSearchLabel(), is("searchLabel"));
+        assertThat(field.getSrc(), is("StandardField"));
+        assertThat(((StandardField)field).getControl(), instanceOf(SearchButtons.class));
+        assertThat(((StandardField)field).getControl().getSrc(), is("FilterButtonsField"));
+
+        assertThat(((StandardField<SearchButtons>) field).getControl().getResetLabel(), is("resetLabel"));
+        assertThat(((StandardField<SearchButtons>) field).getControl().getSearchLabel(), is("searchLabel"));
     }
 
     @Test
@@ -218,7 +234,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].amount").getValue(), is("100.99"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].hidden").getValue(), is("test"));
         assertThat(page.getModels().get("filter['testTableCompileFilters_testTable'].name2").getValue(), is("`today()`"));
-        assertThat(((DefaultValues)page.getModels().get("filter['testTableCompileFilters_testTable'].birthday2").getValue()).getValues().get("begin"), is("`today()`"));
+        assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday2").getValue()).getValues().get("begin"), is("`today()`"));
     }
 
     @Test
@@ -238,7 +254,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
                 .get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext)builder.route("/testTableRequiredPrefilters/main").getContext(CompiledQuery.class));
+        QueryContext queryContext = ((QueryContext) builder.route("/testTableRequiredPrefilters", CompiledQuery.class));
 
         assertThat(queryContext.getValidations().get(0).getId(), is("gender*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));

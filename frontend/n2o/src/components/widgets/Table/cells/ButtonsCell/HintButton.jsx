@@ -20,11 +20,25 @@ import SecurityCheck from '../../../../../core/auth/SecurityCheck';
  * @returns {*}
  * @constructor
  */
-function HintButton({ uId, title, hint, visible, icon, onClick, action, security, ...rest }) {
+function HintButton({
+  uId,
+  title,
+  hint,
+  visible,
+  icon,
+  onClick,
+  action,
+  security,
+  hintPosition,
+  ...rest
+}) {
   const otherBtnProps = pick(rest, ['size', 'active', 'color', 'disabled']);
-  const otherToltipProps = pick(rest, ['delay', 'placement', 'hideArrow', 'offset']);
+  const otherToltipProps = pick(rest, ['delay', 'hideArrow', 'offset']);
 
-  const handleClick = action => e => onClick(e, action);
+  const handleClick = action => e => {
+    e.stopPropagation();
+    onClick(e, action);
+  };
 
   const render = () =>
     visible ? (
@@ -34,7 +48,12 @@ function HintButton({ uId, title, hint, visible, icon, onClick, action, security
           {title}
         </Button>
         {hint && (
-          <UncontrolledTooltip target={uId} {...otherToltipProps} modifiers={MODIFIERS}>
+          <UncontrolledTooltip
+            target={uId}
+            {...otherToltipProps}
+            modifiers={MODIFIERS}
+            placement={hintPosition}
+          >
             {hint}
           </UncontrolledTooltip>
         )}
@@ -76,14 +95,14 @@ HintButton.propTypes = {
     'bottom-end',
     'left',
     'left-start',
-    'left-end'
+    'left-end',
   ]),
   delay: PropTypes.oneOfType([
     PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
-    PropTypes.number
+    PropTypes.number,
   ]),
   hideArrow: PropTypes.bool,
-  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 HintButton.defaultProps = {
@@ -94,7 +113,7 @@ HintButton.defaultProps = {
   placement: 'top',
   delay: 100,
   hideArrow: false,
-  offset: 0
+  offset: 0,
 };
 
 export default initUid(HintButton);

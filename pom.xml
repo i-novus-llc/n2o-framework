@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>1.5.7.RELEASE</version>
+        <version>2.1.1.RELEASE</version>
     </parent>
 
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.0.7-SNAPSHOT</version>
+    <version>7.2.2-SNAPSHOT</version>
 
     <scm>
         <connection>scm:git:https://git.i-novus.ru/open/n2o-framework.git</connection>
@@ -158,6 +158,15 @@
 
     <profiles>
         <profile>
+            <id>backend</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>backend</module>
+            </modules>
+        </profile>
+        <profile>
             <id>frontend</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -167,15 +176,6 @@
                 <module>frontend/n2o</module>
                 <module>frontend/demo</module>
                 <module>frontend/n2o-simple-project</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>backend</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>backend</module>
             </modules>
         </profile>
         <profile>

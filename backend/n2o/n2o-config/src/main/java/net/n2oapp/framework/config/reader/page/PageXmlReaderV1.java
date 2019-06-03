@@ -37,7 +37,6 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         n2oPage.setObjectId(ReaderJdomUtil.getElementString(root, "object-id"));
         n2oPage.setName(ReaderJdomUtil.getElementString(root, "name"));
         n2oPage.setLayout(convertLayoutToReact(ReaderJdomUtil.getElementString(root, "layout")));
-        n2oPage.setNavigation(ReaderJdomUtil.getElementBoolean(root, "navigation"));
         List<N2oRegion> regions = new ArrayList<>();
         Element containers = root.getChild("containers", namespace);
         if (containers != null) {
@@ -48,7 +47,6 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
             readRegions(n2oPage, regions, regionsElem);
         }
         n2oPage.setN2oRegions(regions.toArray(new N2oRegion[regions.size()]));
-        n2oPage.setProperties(PropertiesReaderV1.getInstance().read(root, namespace));
         n2oPage.setModalWidth(ReaderJdomUtil.getElementString(root, "modal-width"));
         n2oPage.setMinModalWidth(ReaderJdomUtil.getElementString(root, "modal-min-width"));
         n2oPage.setMaxModalWidth(ReaderJdomUtil.getElementString(root, "modal-max-width"));

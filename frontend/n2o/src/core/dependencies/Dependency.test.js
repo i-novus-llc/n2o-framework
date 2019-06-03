@@ -1,13 +1,12 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { change } from 'redux-form';
 import {
   DISABLE_FIELD,
   ENABLE_FIELD,
   REGISTER_DEPENDENCY,
   HIDE_FIELD,
   SHOW_FIELD,
-  SET_FIELD_FILTER
+  SET_FIELD_FILTER,
 } from '../../constants/formPlugin';
 import { set, chain, pick, get, omit } from 'lodash';
 import configureMockStore from 'redux-mock-store';
@@ -16,15 +15,18 @@ import { REGISTER_FIELD_EXTRA } from '../../constants/formPlugin';
 import { showField, hideField } from '../../actions/formPlugin';
 import { enableField, disableField } from '../../actions/formPlugin';
 import formPluginReducer from '../../reducers/formPlugin';
-import { checkAndModify, modify } from '../../sagas/dependency';
+import { checkAndModify, modify } from '../../sagas/fieldDependency';
 import withDependency from './withDependency';
+import { updateModel } from '../../actions/models';
+import { PREFIXES } from '../../constants/models';
+import { isEmpty } from 'lodash';
 
 const mockStore = configureMockStore();
 
 const mockData = {
   values: {
     field1: '',
-    field2: ''
+    field2: '',
   },
   fields: {
     field1: {
@@ -36,20 +38,20 @@ const mockData = {
           applyOnInit: true,
           type: 'visible',
           on: ['field2'],
-          expression: "field2 == 'test'"
-        }
-      ]
+          expression: "field2 == 'test'",
+        },
+      ],
     },
     field2: {
       name: 'field2',
       visible: true,
-      disabled: false
-    }
+      disabled: false,
+    },
   },
   formName: 'test',
   fieldName: 'field2',
   dispatch: () => {},
-  actionType: REGISTER_FIELD_EXTRA
+  actionType: REGISTER_FIELD_EXTRA,
 };
 
 const actions = [
@@ -57,35 +59,35 @@ const actions = [
     type: DISABLE_FIELD,
     payload: {
       name: 'field1',
-      form: 'mockForm'
+      form: 'mockForm',
     },
-    meta: { form: 'mockForm' }
+    meta: { form: 'mockForm' },
   },
 
   {
     type: ENABLE_FIELD,
     payload: {
       name: 'field1',
-      form: 'mockForm'
+      form: 'mockForm',
     },
-    meta: { form: 'mockForm' }
+    meta: { form: 'mockForm' },
   },
   {
     type: HIDE_FIELD,
     payload: {
       name: 'field1',
-      form: 'mockForm'
+      form: 'mockForm',
     },
-    meta: { form: 'mockForm' }
+    meta: { form: 'mockForm' },
   },
 
   {
     type: SHOW_FIELD,
     payload: {
       name: 'field1',
-      form: 'mockForm'
+      form: 'mockForm',
     },
-    meta: { form: 'mockForm' }
+    meta: { form: 'mockForm' },
   },
   {
     type: REGISTER_DEPENDENCY,
@@ -97,11 +99,11 @@ const actions = [
           applyOnInit: true,
           type: 'visible',
           on: ['field2'],
-          expression: "field2 == 'test'"
-        }
-      ]
+          expression: "field2 == 'test'",
+        },
+      ],
     },
-    meta: { form: 'mockForm' }
+    meta: { form: 'mockForm' },
   },
   {
     type: SET_FIELD_FILTER,
@@ -111,11 +113,11 @@ const actions = [
       filter: {
         filterId: 'test',
         value: 'test',
-        resetMode: true
-      }
+        resetMode: true,
+      },
     },
-    meta: { form: 'mockForm' }
-  }
+    meta: { form: 'mockForm' },
+  },
 ];
 
 const REDUX_CHANGE = '@@redux-form/CHANGE';
@@ -157,7 +159,10 @@ describe('Тестирование саги', () => {
   });
   it('Экшен не вызывается при регистрации зависимости, если applyOnInit == false', () => {
     const gen = setup(
-      omit(set(mockData, 'fields.field1.dependency[0].applyOnInit', false), 'fieldName')
+      omit(
+        set(mockData, 'fields.field1.dependency[0].applyOnInit', false),
+        'fieldName'
+      )
     );
     expect(gen.next().done).toBe(true);
   });
@@ -172,12 +177,14 @@ describe('Тестирование саги', () => {
   });
   it('Проверка модификатора зависимостей', () => {
     let gen = setupModify(mockData);
+    expect(!isEmpty(gen.next().value['SELECT'])).toBe(true);
     expect(gen.next().value).toEqual(
       put(hideField(mockData.formName, mockData.fields.field1.name))
     );
     expect(gen.next().done).toBe(true);
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
+    expect(!isEmpty(gen.next().value['SELECT'])).toBe(true);
     expect(gen.next().value).toEqual(
       put(showField(mockData.formName, mockData.fields.field1.name))
     );
@@ -188,12 +195,14 @@ describe('Тестирование саги', () => {
     /* Enabled */
     set(mockData, 'fields.field1.dependency[0].type', 'enabled');
     gen = setupModify(mockData);
+    expect(!isEmpty(gen.next().value['SELECT'])).toBe(true);
     expect(gen.next().value).toEqual(
       put(enableField(mockData.formName, mockData.fields.field1.name))
     );
     expect(gen.next().done).toBe(true);
     set(mockData, 'values.field2', '');
     gen = setupModify(mockData);
+    expect(!isEmpty(gen.next().value['SELECT'])).toBe(true);
     expect(gen.next().value).toEqual(
       put(disableField(mockData.formName, mockData.fields.field1.name))
     );
@@ -206,8 +215,16 @@ describe('Тестирование саги', () => {
     set(mockData, 'fields.field1.dependency[0].expression', 'field2');
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
+    expect(!isEmpty(gen.next().value['SELECT'])).toBe(true);
     expect(gen.next().value).toEqual(
-      put(change(mockData.formName, mockData.fields.field1.name, 'test'))
+      put(
+        updateModel(
+          PREFIXES.resolve,
+          mockData.formName,
+          mockData.fields.field1.name,
+          'test'
+        )
+      )
     );
     expect(gen.next().done).toBe(true);
   });
@@ -217,8 +234,16 @@ describe('Тестирование саги', () => {
     set(mockData, 'fields.field1.dependency[0].type', 'reset');
     set(mockData, 'fields.field1.dependency[0].expression', 'field2 == "test"');
     gen = setupModify(mockData);
+    expect(!isEmpty(gen.next().value['SELECT'])).toBe(true);
     expect(gen.next().value).toEqual(
-      put(change(mockData.formName, mockData.fields.field1.name, null))
+      put(
+        updateModel(
+          PREFIXES.resolve,
+          mockData.formName,
+          mockData.fields.field1.name,
+          null
+        )
+      )
     );
     expect(gen.next().done).toBe(true);
   });
@@ -226,28 +251,45 @@ describe('Тестирование саги', () => {
 
 describe('Тестирование редюсера', () => {
   const initialState = {
-    registereddFields: { field1: pick(mockData.fields.field1, ['name', 'visible', 'disabled']) }
+    registereddFields: {
+      field1: pick(mockData.fields.field1, ['name', 'visible', 'disabled']),
+    },
   };
   it('Тестирование регистрации зависимости', () => {
     expect(
-      get(formPluginReducer(initialState, actions[4]), 'registeredFields.field1.dependency')
+      get(
+        formPluginReducer(initialState, actions[4]),
+        'registeredFields.field1.dependency'
+      )
     ).toBeTruthy();
   });
 
   it('Тестирование экшенов блокировки', () => {
     expect(
-      get(formPluginReducer(initialState, actions[0]), 'registeredFields.field1.disabled')
+      get(
+        formPluginReducer(initialState, actions[0]),
+        'registeredFields.field1.disabled'
+      )
     ).toBe(true);
     expect(
-      get(formPluginReducer(initialState, actions[1]), 'registeredFields.field1.disabled')
+      get(
+        formPluginReducer(initialState, actions[1]),
+        'registeredFields.field1.disabled'
+      )
     ).toBe(false);
   });
   it('Тестирование экшенов блокировки', () => {
     expect(
-      get(formPluginReducer(initialState, actions[2]), 'registeredFields.field1.visible')
+      get(
+        formPluginReducer(initialState, actions[2]),
+        'registeredFields.field1.visible'
+      )
     ).toBe(false);
     expect(
-      get(formPluginReducer(initialState, actions[3]), 'registeredFields.field1.visible')
+      get(
+        formPluginReducer(initialState, actions[3]),
+        'registeredFields.field1.visible'
+      )
     ).toBe(true);
   });
 });
@@ -256,16 +298,22 @@ describe('Тестирование HOC', () => {
   const initialState = {
     form: {
       mockForm: {
-        registeredFields: { field1: pick(mockData.fields.field1, ['name', 'visible', 'disabled']) }
-      }
-    }
+        registeredFields: {
+          field1: pick(mockData.fields.field1, ['name', 'visible', 'disabled']),
+        },
+      },
+    },
   };
   it('Зависимость регистрируется', () => {
     const store = mockStore(initialState);
-    const Component = withDependency('input');
+    const Component = withDependency({})('input');
     const wrapper = mount(
       <Provider store={store}>
-        <Component form="mockForm" id="field1" dependency={mockData.fields.field1.dependency} />
+        <Component
+          form="mockForm"
+          id="field1"
+          dependency={mockData.fields.field1.dependency}
+        />
       </Provider>
     );
     expect(store.getActions()).toHaveLength(1);

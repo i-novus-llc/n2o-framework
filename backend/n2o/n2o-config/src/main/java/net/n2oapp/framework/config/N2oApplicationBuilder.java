@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -17,7 +18,6 @@ import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -164,12 +164,12 @@ public class N2oApplicationBuilder implements
         return N2oPipelineSupport.readPipeline(environment).read();
     }
 
-    public RoutingResult route(String url) {
+    public <D extends Compiled> CompileContext<D, ?>  route(String url, Class<D> compiledClass) {
         build();
         return new N2oRouter(environment.getRouteRegister(), read()
                 .transform().validate().cache().copy()
                 .compile().transform())
-                .get(url);
+                .get(url, compiledClass);
     }
 
     public MetadataEnvironment getEnvironment() {

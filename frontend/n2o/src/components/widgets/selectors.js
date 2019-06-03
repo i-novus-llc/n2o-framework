@@ -12,49 +12,76 @@ const widgetSelector = (state, props) => {
 /**
  * селктор инициализации виджета
  */
-const isInitSelector = createSelector([widgetSelector], widgetState => widgetState.isInit);
+const isInitSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.isInit
+);
 
 /**
  * селектор видимости виджета
  */
-const visibleSelector = createSelector([widgetSelector], widgetState => widgetState.visible);
+const visibleSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.visible
+);
 
 /**
  * секлектор энейбла виджета
  */
-const enabledSelector = createSelector([widgetSelector], widgetState => widgetState.enabled);
+const enabledSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.enabled
+);
 
 /**
  * селектор загрузки виджета
  */
-const loadingSelector = createSelector([widgetSelector], widgetState => widgetState.isLoading);
+const loadingSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.isLoading
+);
 
 /**
  * селектор метаданных виджета
  */
-const metadataSelector = createSelector([widgetSelector], widgetState => widgetState.metadata);
+const metadataSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.metadata
+);
 
 /**
  * Селектор квэри
  */
-const querySelector = createSelector([widgetSelector], widgetState => widgetState.query);
+const querySelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.query
+);
 
 /**
  * Селeктор резолв модели
  */
-const resolveSelector = createSelector([widgetSelector], widgetState => widgetState.resolveModel);
+const resolveSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.resolveModel
+);
 
 /**
  * Селeктор алертов
  */
-const alertsSelector = createSelector([widgetSelector], widgetState => widgetState.alerts);
+const alertsSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.alerts
+);
 
 const idsSelector = createSelector(
   [querySelector],
   queryState => (isEmpty(queryState) ? [] : queryState.list.map(m => m.id))
 );
 
-const sortingSelector = createSelector([widgetSelector], widgetState => widgetState.sorting);
+const sortingSelector = createSelector(
+  [widgetSelector],
+  widgetState => widgetState.sorting
+);
 
 export {
   widgetSelector,
@@ -66,5 +93,5 @@ export {
   resolveSelector,
   alertsSelector,
   idsSelector,
-  sortingSelector
+  sortingSelector,
 };

@@ -9,13 +9,13 @@ import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import Wireframe from '../../snippets/Wireframe/Wireframe';
 
 import { metadataSuccess } from '../../../actions/pages';
-import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
 import ListMetadata from '../List/ListMetadata.meta';
 import SecurePanelRegion from './PanelRegion.meta';
 import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import { makeStore } from '../../../../.storybook/decorators/utils';
 import cloneObject from '../../../utils/cloneObject';
 import panelStyles from '../../snippets/Panel/panelStyles';
+import { dataSuccessWidget, hideWidget } from '../../../actions/widgets';
 
 const stories = storiesOf('Регионы/Панель', module);
 
@@ -46,7 +46,8 @@ stories
       open: boolean('open', PanelRegionJson.open),
       collapsible: boolean('collapsible', PanelRegionJson.collapsible),
       fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
-      panels: PanelRegionJson.panels
+      header: boolean('header', PanelRegionJson.header),
+      panels: PanelRegionJson.panels,
     };
 
     return <PanelRegion {...props} pageId="Page" />;
@@ -66,7 +67,12 @@ stories
   .add('Компоновки', () => {
     const panelParams = [
       { ...defaultProps, headerTitle: 'Только заголовок' },
-      { ...defaultProps, headerTitle: 'Заголовок и подвал', footerTitle: 'Подвал' }
+      {
+        ...defaultProps,
+        headerTitle: 'Заголовок и подвал',
+        footerTitle: 'Подвал',
+      },
+      { ...defaultProps, header: false, footerTitle: 'Без заголовка' },
     ];
 
     return (
@@ -80,11 +86,15 @@ stories
     );
   })
   .add('Сворачивание', () => {
-    const commonProps = { footerTitle: 'Подвал', collapsible: true, fullScreen: true };
+    const commonProps = {
+      footerTitle: 'Подвал',
+      collapsible: true,
+      fullScreen: true,
+    };
 
     const panelParams = [
       { ...defaultProps, ...commonProps, headerTitle: 'Открыто' },
-      { ...defaultProps, ...commonProps, headerTitle: 'Закрыто', open: false }
+      { ...defaultProps, ...commonProps, headerTitle: 'Закрыто', open: false },
     ];
 
     return (
@@ -115,7 +125,7 @@ stories
       Object.values(styles).map(color => ({
         ...defaultProps,
         color,
-        headerTitle: color
+        headerTitle: color,
       }));
 
     const panelParams = createPanelParams(panelStyles);
@@ -132,8 +142,16 @@ stories
   })
   .add('На полный экран', () => {
     const panelParams = [
-      { ...defaultProps, headerTitle: 'С кнопкой переключения', fullScreen: true },
-      { ...defaultProps, headerTitle: 'Без кнопки переключения', fullScreen: false }
+      {
+        ...defaultProps,
+        headerTitle: 'С кнопкой переключения',
+        fullScreen: true,
+      },
+      {
+        ...defaultProps,
+        headerTitle: 'Без кнопки переключения',
+        fullScreen: false,
+      },
     ];
 
     return (
@@ -149,7 +167,7 @@ stories
   .add('Вкладки', () => {
     const panelParams = [
       { ...defaultProps, headerTitle: 'С вкладками', hasTabs: true },
-      { ...defaultProps, headerTitle: 'Без вкладок', hasTabs: false }
+      { ...defaultProps, headerTitle: 'Без вкладок', hasTabs: false },
     ];
     return (
       <div className="row">
@@ -159,5 +177,73 @@ stories
           </div>
         ))}
       </div>
+    );
+  })
+  .add('Скрытие панели при visible = false всех виджетов в ней', () => {
+    const props = {
+      className: text('className', PanelRegionJson.className),
+      color: text('color', PanelRegionJson.color),
+      icon: text('icon', PanelRegionJson.icon),
+      hasTabs: boolean('hasTabs', PanelRegionJson.hasTabs),
+      headerTitle: text('headerTitle', PanelRegionJson.headerTitle),
+      footerTitle: text('footerTitle', PanelRegionJson.footerTitle),
+      open: boolean('open', PanelRegionJson.open),
+      collapsible: boolean('collapsible', PanelRegionJson.collapsible),
+      fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
+      header: boolean('header', PanelRegionJson.header),
+      panels: PanelRegionJson.panels,
+    };
+    store.dispatch(
+      metadataSuccess('Page', {
+        widgets: {
+          'visible-test': {
+            src: 'HtmlWidget',
+            html: {
+              url: null,
+              html: '<h1>Hello</h1>',
+              fetchOnInit: false,
+            },
+          },
+        },
+      })
+    );
+    store.dispatch(
+      dataSuccessWidget('visible-test', {
+        widgets: {
+          'visible-test': {
+            src: 'HtmlWidget',
+            html: {
+              url: null,
+              html: '<h1>Hello</h1>',
+              fetchOnInit: false,
+            },
+          },
+        },
+      })
+    );
+    store.dispatch(hideWidget('visible-test'));
+    const panels = [
+      {
+        icon: 'fa fa-plus',
+        label: 'Первый таб',
+        id: 'visible-test',
+        opened: true,
+        widgetId: 'visible-test',
+        isVisible: false,
+        dependency: {
+          visible: [
+            {
+              bindLink: 'models.resolve',
+              condition: false,
+            },
+          ],
+        },
+      },
+    ];
+    return (
+      <React.Fragment>
+        <div>Панель полностью скрыта</div>
+        <PanelRegion {...props} panels={panels} pageId="Page" />
+      </React.Fragment>
     );
   });

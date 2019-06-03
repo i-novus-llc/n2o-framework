@@ -19,13 +19,10 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
-import net.n2oapp.framework.api.metadata.local.CompilerHolder;
-import net.n2oapp.framework.api.metadata.local.N2oCompiler;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
-import net.n2oapp.framework.api.metadata.pipeline.PipelineSupport;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -48,15 +45,12 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineOperationFactory;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import net.n2oapp.framework.config.metadata.CompileProcessorAdapter;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.CrudGenerator;
-import net.n2oapp.framework.config.metadata.transformer.factory.TransformerFactory;
 import net.n2oapp.framework.config.persister.MetadataPersister;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
 import net.n2oapp.framework.config.reader.*;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
-import net.n2oapp.framework.config.register.CacheControl;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
@@ -108,6 +102,7 @@ public class N2oMetadataConfiguration {
     @Value("${n2o.config.readonly}")
     private boolean readonly;
 
+    @Primary
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -136,11 +131,6 @@ public class N2oMetadataConfiguration {
     @Bean
     public MetadataPersister metadataPersister() {
         return new MetadataPersister(readonly);
-    }
-
-    @Bean
-    public CacheControl n2oCacheControl(CacheManager cacheManager) {
-        return new CacheControl(cacheManager);
     }
 
     @Bean
@@ -176,23 +166,6 @@ public class N2oMetadataConfiguration {
                 .read().transform().validate().cache().copy().compile().transform());
     }
 
-    @Bean
-    public TransformerFactory transformerFactory(ApplicationContext context) {
-        TransformerFactory transformerFactory = new TransformerFactory();
-        transformerFactory.setApplicationContext(context);
-        return transformerFactory;
-    }
-
-    @Bean
-    public N2oCompiler metadataCompiler(MetadataEnvironment environment, MetadataRegister metadataRegister) {
-        PipelineSupport p = new N2oPipelineSupport(environment);
-        return new CompileProcessorAdapter(new N2oCompileProcessor(environment), metadataRegister);
-    }
-
-    @Bean
-    public CompilerHolder compilerHolder(N2oCompiler compiler) {
-        return new CompilerHolder(compiler);
-    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -406,51 +379,61 @@ public class N2oMetadataConfiguration {
     static class PipelineOperationConfiguration {
 
         @Bean
+        @ConditionalOnMissingBean
         ReadOperation readOperation(MetadataRegister configRegister, SourceLoaderFactory readerFactory) {
             return new ReadOperation(configRegister, readerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         MergeOperation mergeOperation(SourceMergerFactory sourceMergerFactory) {
             return new MergeOperation(sourceMergerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         ValidateOperation validateOperation(SourceValidatorFactory sourceValidatorFactory) {
             return new ValidateOperation(sourceValidatorFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         SourceCacheOperation sourceCacheOperation(CacheManager cacheManager, MetadataRegister metadataRegister) {
             return new SourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileCacheOperation compileCacheOperation(CacheManager cacheManager) {
             return new CompileCacheOperation(new SyncCacheTemplate(cacheManager));
         }
 
         @Bean
+        @ConditionalOnMissingBean
         SourceTransformOperation sourceTransformOperation(SourceTransformerFactory factory) {
             return new SourceTransformOperation(factory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileTransformOperation compileTransformOperation(CompileTransformerFactory factory) {
             return new CompileTransformOperation(factory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileOperation compileOperation(SourceCompilerFactory sourceCompilerFactory) {
             return new CompileOperation(sourceCompilerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         BindOperation bindOperation(MetadataBinderFactory binderFactory) {
             return new BindOperation(binderFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CopyOperation cloneOperation() {
             return new CopyOperation();
         }

@@ -43,37 +43,24 @@ public class PageRoutes implements Compiled {
      * @param route  Путь
      */
     public void addRoute(Route route) {
-        if (this.list.contains(route) && !route.isOtherPage) {
-            throw new N2oException("Page already contains route {0}!").addData(route.getPath());
+        if (!this.list.contains(route) || route.isOtherPage) {
+            if (route.getIsOtherPage() != null && route.getIsOtherPage()) {
+                this.list.add(0, route);
+            } else {
+                this.list.add(route);
+            }
         }
-        this.list.add(route);
     }
 
-
-    /**
-     * Добавить маршруты к странице
-     *
-     * @param routes  Маршруты страницы
-     */
-    public void addRoutes(PageRoutes routes) {
-        if (routes.getList() != null)
-            routes.getList().forEach(this::addRoute);
-        if (routes.getPathMapping() != null)
-            routes.getPathMapping().forEach(this::addPathMapping);
-        if (routes.getQueryMapping() != null)
-            routes.getQueryMapping().forEach((k, v) -> addQueryMapping(k, v.onGet, v.onSet));
-    }
 
     /**
      * Добавить маршрут к виджету страницы
      *
      * @param path     Путь
-     * @param widgetId Идентификатор виджета
      */
-    public Route addRoute(String path, String widgetId) {
+    public Route addRoute(String path) {
         Route route = new Route();
         route.setPath(path);
-        route.setWidgetId(widgetId);
         addRoute(route);
         return route;
     }
@@ -132,10 +119,6 @@ public class PageRoutes implements Compiled {
         private Boolean exact = true;
         @JsonProperty
         private Boolean isOtherPage = false;
-        /**
-         * Идентификатор виджета в маршруте
-         */
-        private String widgetId;
         /**
          * Признак, что маршрут виджета содержит выделенную запись
          */

@@ -19,7 +19,7 @@ const setup = propOverrides => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -27,7 +27,7 @@ const setupCalendar = (propOverrides, withIntl = false) => {
   const props = Object.assign(
     {
       // use this to assign some default props
-      locale: 'ru'
+      locale: 'ru',
     },
     propOverrides
   );
@@ -44,7 +44,7 @@ const setupCalendar = (propOverrides, withIntl = false) => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -56,13 +56,16 @@ describe('<DateTimeControl />', () => {
     expect(wrapper.find(PopUp)).toHaveLength(1);
   });
 
-  it('устанавливает value', () => {
-    const { wrapper } = setup({ value: '11/11/1111', dateFormat: 'DD/MM/YYYY' });
+  it('устанавливает value для календаря', () => {
+    const { wrapper } = setup({
+      value: '11/11/1111',
+      dateFormat: 'DD/MM/YYYY',
+    });
     expect(
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('11/11/1111');
   });
 
@@ -96,23 +99,21 @@ describe('<DateTimeControl />', () => {
   it('вызывает onChange, если значение инпута поменялось на корректную дату', () => {
     const onChange = sinon.spy();
     const { wrapper } = setup({ onChange, dateFormat: 'DD/MM/YYYY' });
-    wrapper.find('input').simulate('change', { target: { value: 'invalid date' } });
+    wrapper
+      .find('input')
+      .simulate('change', { target: { value: 'invalid date' } });
     expect(onChange.calledOnce).toEqual(false);
-    wrapper.find('input').simulate('change', { target: { value: '11/11/1111' } });
+    wrapper
+      .find('input')
+      .simulate('change', { target: { value: '11/11/1111' } });
     expect(onChange.calledOnce).toEqual(true);
-  });
-
-  it('проверка onBlur своиства контролла', () => {
-    const onBlur = sinon.spy();
-    const { wrapper } = setup({ onBlur, dateFormat: 'DD/MM/YYYY' });
-    wrapper.find('input').simulate('blur');
-    expect(onBlur.calledOnce).toEqual(true);
   });
 
   it('проверка onFocus своиства контролла', () => {
     const onFocus = sinon.spy();
     const { wrapper } = setup({ onFocus, dateFormat: 'DD/MM/YYYY' });
     wrapper.find('input').simulate('focus');
+
     expect(onFocus.calledOnce).toEqual(true);
   });
 
@@ -121,19 +122,22 @@ describe('<DateTimeControl />', () => {
       value: moment('11/11/1111', 'DD/MM/YYYY'),
       dateDivider: ' ',
       timeFormat: 'HH:mm',
-      dateFormat: 'DD/MM/YYYY'
+      dateFormat: 'DD/MM/YYYY',
     });
     //дефолтное время 00:00
     expect(
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('11/11/1111 00:00');
   });
 
   it('делает неактивными кнопки до min', () => {
-    const { wrapper } = setup({ min: moment(), value: moment('11/11/1111', 'DD/MM/YYYY') });
+    const { wrapper } = setup({
+      min: moment(),
+      value: moment('11/11/1111', 'DD/MM/YYYY'),
+    });
     wrapper.setState({ isPopUpVisible: true });
     expect(
       wrapper
@@ -144,7 +148,10 @@ describe('<DateTimeControl />', () => {
   });
 
   it('делает неактивными кнопки после max', () => {
-    const { wrapper } = setup({ max: moment(), value: moment('22/12/2030', 'DD/MM/YYYY') });
+    const { wrapper } = setup({
+      max: moment(),
+      value: moment('22/12/2030', 'DD/MM/YYYY'),
+    });
     wrapper.setState({ isPopUpVisible: true });
     expect(
       wrapper
@@ -158,13 +165,13 @@ describe('<DateTimeControl />', () => {
     const { wrapper } = setup({
       value: moment('22/12/2017', 'DD/MM/YYYY'),
       timeFormat: 'HH:mm',
-      dateFormat: 'DD/MM/YYYY'
+      dateFormat: 'DD/MM/YYYY',
     });
     expect(
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('22/12/2017 00:00');
   });
 
@@ -173,28 +180,34 @@ describe('<DateTimeControl />', () => {
       value: '22/12/2017 12:00',
       dateFormat: 'DD/MM/YYYY',
       timeFormat: 'HH:mm',
-      defaultTime: '12:34'
+      defaultTime: '12:34',
     });
     expect(
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('22/12/2017 12:00');
   });
 
   it('устанавливает value', () => {
-    const { wrapper } = setup({ value: '11/11/1111', dateFormat: 'DD/MM/YYYY' });
+    const { wrapper } = setup({
+      value: '11/11/1111',
+      dateFormat: 'DD/MM/YYYY',
+    });
     expect(
       wrapper
         .find('input')
         .first()
-        .props().value
+        .props().defaultValue
     ).toBe('11/11/1111');
   });
 
   it('в календарь приходит та же дата, что и в ДейтТаймКонтрол', () => {
-    const { wrapper } = setup({ value: '11/11/1111', dateFormat: 'DD/MM/YYYY' });
+    const { wrapper } = setup({
+      value: '11/11/1111',
+      dateFormat: 'DD/MM/YYYY',
+    });
     wrapper.setState({ isPopUpVisible: true });
     expect(
       wrapper
@@ -209,7 +222,9 @@ describe('<DateTimeControl />', () => {
 describe('<Calendar />', () => {
   it('в displayesMonth хранится начало месяца из пропертис', () => {
     const { wrapper } = setupCalendar({ value: moment() });
-    expect(wrapper.state('displayesMonth').diff(moment().startOf('month'), 'seconds')).toBe(0);
+    expect(
+      wrapper.state('displayesMonth').diff(moment().startOf('month'), 'seconds')
+    ).toBe(0);
   });
 
   it('при клике на стрелку вправо отображается следующий месяц', () => {
@@ -358,7 +373,9 @@ describe('<Calendar />', () => {
       .find('.n2o-calendar-body-item.year-item')
       .at(0)
       .simulate('click');
-    expect(wrapper.state('displayesMonth').year()).toBe(parseInt(moment().year() / 10) * 10 - 1);
+    expect(wrapper.state('displayesMonth').year()).toBe(
+      parseInt(moment().year() / 10) * 10 - 1
+    );
   });
 
   //timepicker
@@ -369,19 +386,32 @@ describe('<Calendar />', () => {
   });
 
   it('есть timeFormat - есть таймпикер', () => {
-    const { wrapper } = setupCalendar({ value: moment(), timeFormat: 'HH:mm:ss' }, true);
+    const { wrapper } = setupCalendar(
+      { value: moment(), timeFormat: 'HH:mm:ss' },
+      true
+    );
     expect(wrapper.find('.n2o-calendar-time-container')).toHaveLength(1);
   });
 
   it('нет дефолтного времени - надпись "Выберите время"', () => {
-    const { wrapper } = setupCalendar({ value: moment(), timeFormat: 'HH:mm:ss' }, true);
-    expect(wrapper.find('.n2o-calendar-time-container').text()).toBe('Выберите время');
+    const { wrapper } = setupCalendar(
+      { value: moment(), timeFormat: 'HH:mm:ss' },
+      true
+    );
+    expect(wrapper.find('.n2o-calendar-time-container').text()).toBe(
+      'Выберите время'
+    );
   });
 
   it('есть дефолтное время - отображается дефолтное время"', () => {
     const value = moment();
     const timeFormat = 'HH:mm:ss';
-    const { wrapper } = setupCalendar({ value, timeFormat, hasDefaultTime: true }, true);
-    expect(wrapper.find('.n2o-calendar-time-container').text()).toBe(value.format(timeFormat));
+    const { wrapper } = setupCalendar(
+      { value, timeFormat, hasDefaultTime: true },
+      true
+    );
+    expect(wrapper.find('.n2o-calendar-time-container').text()).toBe(
+      value.format(timeFormat)
+    );
   });
 });

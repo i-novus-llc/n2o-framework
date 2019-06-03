@@ -7,8 +7,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
-import net.n2oapp.framework.api.metadata.aware.SrcAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
+import net.n2oapp.framework.api.metadata.aware.SrcAware;
 
 import java.util.List;
 import java.util.Map;

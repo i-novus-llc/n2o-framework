@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>n2o</artifactId>
-    <version>7.0.7-SNAPSHOT</version>
+    <version>7.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>n2o</name>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>backend</artifactId>
-        <version>7.0.7-SNAPSHOT</version>
+        <version>7.2.2-SNAPSHOT</version>
     </parent>
 
     <modules>
@@ -25,10 +25,8 @@
         <module>n2o-engine-sqlt</module>
         <module>n2o-engine-ejb</module>
         <module>n2o-rest</module>
-        <module>n2o-header</module>
         <module>n2o-access</module>
         <module>n2o-context</module>
-        <module>n2o-config-audit</module>
         <module>n2o-test</module>
         <module>n2o-spring-boot-starter</module>
         <module>n2o-export</module>

@@ -14,6 +14,10 @@ import java.util.Set;
  */
 @Setter
 public class Security implements Serializable {
+    /**
+     * Ключ объекта Security в properties
+     */
+    public static String SECURITY_PROP_NAME = "security";
 
     private Map<String, SecurityObject> securityMap;
 

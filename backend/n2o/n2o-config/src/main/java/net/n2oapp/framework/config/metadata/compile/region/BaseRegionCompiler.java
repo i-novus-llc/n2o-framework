@@ -26,7 +26,8 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         return compiled;
     }
 
-    protected <I extends Region.Item> List<I> initItems(N2oRegion source, PageContext pageContext, CompileProcessor p, Class<I> itemClass) {
+    @SuppressWarnings("unchecked")
+    protected <I extends Region.Item> List<I> initItems(N2oRegion source, CompileProcessor p, Class<I> itemClass) {
         List<I> items = new ArrayList<>();
         if (source.getWidgets() != null) {
             IndexScope index = new IndexScope(1);
@@ -47,4 +48,5 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
     }
 
     protected abstract Region.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p);
+
 }

@@ -7,7 +7,8 @@ import _ from 'lodash';
  * @param value
  * @returns {Object}
  */
-export const setIn = (object, path, value) => _.setWith(_.clone(object), path, value, _.clone);
+export const setIn = (object, path, value) =>
+  _.setWith(_.clone(object), path, value, _.clone);
 
 function http_build_query(formdata, numeric_prefix, arg_separator) {
   let key,
@@ -102,13 +103,19 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
         if (_.isObject($val)) {
           generateFlatQuery(
             $val,
-            Key ? [Key, '?[?]'.format(key, $key)].join(delimiter) : '?[?]'.format(key, $key),
+            Key
+              ? [Key, '?[?]'.format(key, $key)].join(delimiter)
+              : '?[?]'.format(key, $key),
             $Res,
             delimiter,
             options
           );
         } else if ($val !== null && $val !== undefined) {
-          $Res[Key ? [Key, '?[?]'.format(key, $key)].join(delimiter) : '?[?]'.format(key, $key)] =
+          $Res[
+            Key
+              ? [Key, '?[?]'.format(key, $key)].join(delimiter)
+              : '?[?]'.format(key, $key)
+          ] =
             !needLinked($val) && _.isString($val) && !withoutEncode
               ? encodeURIComponent($val)
               : $val;
@@ -119,10 +126,18 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
     }
 
     if (_.isObject(val)) {
-      generateFlatQuery(val, Key ? Key + delimiter + key : key, $Res, delimiter, options);
+      generateFlatQuery(
+        val,
+        Key ? Key + delimiter + key : key,
+        $Res,
+        delimiter,
+        options
+      );
     } else if ((val !== null || ignoreNull) && val !== undefined) {
       $Res[Key ? Key + delimiter + key : key] =
-        !needLinked(val) && _.isString(val) && !withoutEncode ? encodeURIComponent(val) : val;
+        !needLinked(val) && _.isString(val) && !withoutEncode
+          ? encodeURIComponent(val)
+          : val;
     }
   });
   return $Res;
@@ -146,7 +161,12 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
  * @returns {Object}
  * @param {Object} [$resultObject]
  */
-export function createObjectFromDotString(string, defaultValue, delimiter, $resultObject) {
+export function createObjectFromDotString(
+  string,
+  defaultValue,
+  delimiter,
+  $resultObject
+) {
   // defaultValue = defaultValue || {};
   delimiter = delimiter || '.';
   const keys = string.split(delimiter);
@@ -281,7 +301,9 @@ export function difference(object, base) {
     return _.transform(object, (result, value, key) => {
       if (!_.isEqual(value, base[key])) {
         result[key] =
-          _.isObject(value) && _.isObject(base[key]) ? changes(value, base[key]) : value;
+          _.isObject(value) && _.isObject(base[key])
+            ? changes(value, base[key])
+            : value;
       }
     });
   };

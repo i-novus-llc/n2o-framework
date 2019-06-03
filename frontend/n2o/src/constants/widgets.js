@@ -26,3 +26,4 @@ export const RESET_STATE = 'n2o/widgets/RESET_STATE';
 export const SET_WIDGET_METADATA = 'n2o/widgets/SET_WIDGET_METADATA';
 export const SET_TABLE_SELECTED_ID = 'n2o/widgets/CHANGE_SELECTED_ID';
 export const SET_ACTIVE = 'n2o/widgets/SET_ACTIVE';
+export const RESOLVE_DEPENDENCY = 'n2o/widgets/RESOLVE_DEPENDENCY';

@@ -13,8 +13,10 @@ const mapDispatchToProps = dispatch =>
         callActionImpl(src || component, { ...options, dispatch }),
       onInvoke: (widgetId, dataProvider, data, modelLink, meta) =>
         startInvoke(widgetId, dataProvider, data, modelLink, meta),
-      onUpdateModel: (prefix, key, field, values) => updateModel(prefix, key, field, values),
-      onResolveWidget: (widgetId, model) => setModel(PREFIXES.resolve, widgetId, model)
+      onUpdateModel: (prefix, key, field, values) =>
+        updateModel(prefix, key, field, values),
+      onResolveWidget: (widgetId, model) =>
+        setModel(PREFIXES.resolve, widgetId, model),
     },
     dispatch
   );
@@ -41,7 +43,6 @@ export default function(WrappedComponent) {
     ...rest
   }) {
     const callActionImpl = (e, { action, model }) => {
-      e && e.stopPropagation();
       const currentModel = model || defaultModel;
       const currentAction = action || defaultAction;
       currentModel && resolveWidget(currentModel);

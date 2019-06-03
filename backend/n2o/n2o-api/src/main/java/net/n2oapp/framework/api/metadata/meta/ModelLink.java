@@ -45,14 +45,16 @@ public class ModelLink extends BindLink {
     }
 
     /**
-     * Проверяет является ли BindLink ссылкой на другой объект в redux или это константное значение
-     *
-     * @return true, если является ссылкой
+     * Получить ссылку на модель виджета*
      */
-    public boolean isLink() {
-        if (getBindLink() == null && !StringUtils.isJs(getValue()))
-            return false;
-        return true;
+    public ModelLink getWidgetLink() {
+        if (getModel() == null || getWidgetId() == null)
+            return null;
+        ModelLink widgetLink = new ModelLink(getModel(), getWidgetId());
+        if (getFieldId() == null || getFieldId().equals("id")) {
+            widgetLink.setSubModelQuery(getSubModelQuery());
+        }
+        return widgetLink;
     }
 
     /**
@@ -61,11 +63,13 @@ public class ModelLink extends BindLink {
      * @param o Ссылка
      * @return true - эквивалентны, false - нет
      */
+    @Override
     public boolean equalsLink(Object o) {
         if (o == null || o.getClass() != this.getClass())
             return false;
-
         ModelLink that = (ModelLink) o;
+        if (model == null || widgetId == null || that.model == null || that.widgetId == null)
+            return false;
 
         String thisSubModelQueryLink;
         String thatSubModelQueryLink;
@@ -92,10 +96,6 @@ public class ModelLink extends BindLink {
         return fieldId == null
                 ? String.format("models.%s['%s']", model.getId(), widgetId)
                 : String.format("models.%s['%s'].%s", model.getId(), widgetId, fieldId);
-    }
-
-    public boolean isConst() {
-        return !StringUtils.isJs(getValue());
     }
 
     @Override

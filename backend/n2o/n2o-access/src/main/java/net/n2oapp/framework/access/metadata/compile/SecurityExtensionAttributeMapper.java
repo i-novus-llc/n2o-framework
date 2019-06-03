@@ -31,7 +31,7 @@ public class SecurityExtensionAttributeMapper implements ExtensionAttributeMappe
         securityMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityMap);
-        result.put("security", security);
+        result.put(Security.SECURITY_PROP_NAME, security);
         return result;
     }
 

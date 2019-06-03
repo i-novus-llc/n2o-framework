@@ -3,8 +3,6 @@ package net.n2oapp.framework.api.metadata.event.action;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
-import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
@@ -23,8 +21,10 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String masterFieldId;
     private String detailFieldId;
     private String objectId;
+    private String masterParam;
     //on close
     private Boolean refreshOnClose;
+    private Boolean unsavedDataPromptOnClose;
     //on submit
     private String submitOperationId;
     private String submitLabel;
@@ -35,6 +35,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String redirectUrlAfterSubmit;
     private Target redirectTargetAfterSubmit;
     private Boolean refreshAfterSubmit;
+    private String refreshWidgetId;
     //on resolve
     private String labelFieldId;
     private String targetFieldId;

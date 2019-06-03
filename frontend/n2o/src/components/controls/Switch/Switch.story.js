@@ -17,10 +17,15 @@ stories
     withState({ checked: false }, store => {
       const props = {
         disabled: boolean('disabled', false),
-        checked: boolean('checked', store.state.checked)
+        checked: boolean('checked', store.state.checked),
       };
 
-      return <Switch {...props} onChange={() => store.set({ checked: !store.state.checked })} />;
+      return (
+        <Switch
+          {...props}
+          onChange={() => store.set({ checked: !store.state.checked })}
+        />
+      );
     })
   )
   .add('Метаданные', form(() => ({})));

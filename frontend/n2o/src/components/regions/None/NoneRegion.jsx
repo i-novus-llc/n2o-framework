@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
-import withGetWidget from '../withGetWidget';
+import withWidgetProps from '../withWidgetProps';
 import { compose, pure } from 'recompose';
 
 /**
@@ -32,10 +32,10 @@ const NoneRegion = ({ items, getWidget, pageId }) => {
 NoneRegion.propTypes = {
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
-  pageId: PropTypes.string.isRequired
+  pageId: PropTypes.string.isRequired,
 };
 
 export default compose(
   pure,
-  withGetWidget
+  withWidgetProps
 )(NoneRegion);

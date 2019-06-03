@@ -1,12 +1,17 @@
 import React from 'react';
+import cn from 'classnames';
 import PropTypes from 'prop-types';
 import Place from '../Place';
+import { Col } from 'reactstrap';
 import layoutPlaceResolver from '../LayoutPlaceResolver';
 
 /**
  * Layout виджета; Places: left, right
  * @param {object} props - пропсы
  * @param {string} props.className - css-класс
+ * @param {number} props.leftSize - размер левой колонки (указывается в колонках бутстрапа (1, 2, 3 ... 12))
+ * @param {number} props.rightSize - размер правой колонки
+ * @param {object} props.style - стили layout
  * @example
  * <LeftRight>
  *     <Section place="left">
@@ -17,21 +22,30 @@ import layoutPlaceResolver from '../LayoutPlaceResolver';
  *     </Section>
  * </LeftRight>
  */
-let LeftRight = ({ className }) => {
+let LeftRight = ({ leftSize, rightSize, className, style }) => {
   return (
-    <div className={`layout row ${className ? className : ''}`}>
-      <div className="col-md-6">
+    <div className={cn('layout row', className)} style={style}>
+      <Col md={leftSize}>
         <Place name="left" />
-      </div>
-      <div className="col-md-6">
+      </Col>
+      <Col md={rightSize}>
         <Place name="right" />
-      </div>
+      </Col>
     </div>
   );
 };
 
 LeftRight.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  leftSize: PropTypes.number,
+  rightSize: PropTypes.number,
+  style: PropTypes.object,
+};
+
+LeftRight.defaultProps = {
+  leftSize: 6,
+  rightSize: 6,
+  style: {},
 };
 
 export default layoutPlaceResolver(LeftRight);

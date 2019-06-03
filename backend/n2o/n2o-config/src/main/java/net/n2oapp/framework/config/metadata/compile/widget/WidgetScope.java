@@ -15,4 +15,5 @@ public class WidgetScope implements Serializable {
     private String dependsOnQueryId;
     private String clientWidgetId;
     private String widgetId;
+    private String queryId;
 }

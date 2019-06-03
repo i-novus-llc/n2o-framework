@@ -12,6 +12,6 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 public abstract class AccessSchemaCompiler<D extends CompiledAccessSchema, S extends N2oAccessSchema> implements BaseSourceCompiler<D, S, AccessContext> {
 
     protected void compileAccess(D compiled, S source, AccessContext context, CompileProcessor p) {
-        compiled.setId(context.getCompiledId(p));
+        compiled.setId(source.getId());
     }
 }

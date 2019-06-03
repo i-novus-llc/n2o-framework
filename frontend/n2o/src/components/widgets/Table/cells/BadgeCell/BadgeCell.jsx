@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge } from 'reactstrap';
-import { get } from 'lodash';
+import { get, isNil } from 'lodash';
 
 import Text from '../../../../snippets/Text/Text';
 
@@ -30,22 +30,22 @@ class BadgeCell extends React.Component {
       format,
       badgeFormat,
       color,
-      visible
+      visible,
     } = this.props;
     const style = {
-      display: 'flex'
+      display: 'flex',
     };
     const badgeStyle = {
       order: placement === 'right' ? 1 : -1,
       marginLeft: placement === 'right' && 5,
-      marginRight: placement === 'left' && 5
+      marginRight: placement === 'left' && 5,
     };
     const badgeText = get(model, fieldKey || id);
     return (
       visible && (
         <div style={style}>
           <Text text={text} format={format} />
-          {badgeText && (
+          {!isNil(badgeText) && (
             <Badge style={badgeStyle} color={color}>
               <Text text={get(model, fieldKey || id)} format={badgeFormat} />
             </Badge>
@@ -64,15 +64,22 @@ BadgeCell.propTypes = {
   text: PropTypes.string,
   format: PropTypes.string,
   badgeFormat: PropTypes.string,
-  color: PropTypes.oneOf(['secondary', 'primary', 'danger', 'success', 'warning', 'info']),
-  visible: PropTypes.bool
+  color: PropTypes.oneOf([
+    'secondary',
+    'primary',
+    'danger',
+    'success',
+    'warning',
+    'info',
+  ]),
+  visible: PropTypes.bool,
 };
 
 BadgeCell.defaultProps = {
   model: {},
   color: 'secondary',
   placement: 'right',
-  visible: true
+  visible: true,
 };
 
 export default BadgeCell;

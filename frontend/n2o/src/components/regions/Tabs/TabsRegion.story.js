@@ -14,8 +14,10 @@ import authProviderExample from '../../../../.storybook/auth/authProviderExample
 import { makeStore } from '../../../../.storybook/decorators/utils';
 import cloneObject from '../../../utils/cloneObject';
 import { InitWidgentsTabs } from 'N2oStorybook/json';
+import TabsWithDependency from 'N2oStorybook/json/TabsWithDependency';
 import fetchMock from 'fetch-mock';
 import { getStubData } from 'N2oStorybook/fetchMock';
+import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 
 const stories = storiesOf('Регионы/Вкладки', module);
 
@@ -61,7 +63,31 @@ stories
         return getStubData(url);
       });
 
-    store.dispatch(metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') }));
+    store.dispatch(
+      metadataSuccess('Page', { ...pick(InitWidgentsTabs, 'widgets') })
+    );
 
     return <TabsRegion {...omit(InitWidgentsTabs, 'widgets')} pageId="Page" />;
+  })
+  .add('Табы с зависимостью от виджета', () => {
+    fetchMock
+      .restore()
+      .get('begin:n2o/data/test', getStubData)
+      .get('begin:n2o/data2/test', async url => {
+        await new Promise(r =>
+          setTimeout(() => {
+            r();
+          }, 2000)
+        );
+        return getStubData(url);
+      });
+
+    store.dispatch(metadataSuccess('Page', { ...TabsWithDependency }));
+
+    return (
+      <React.Fragment>
+        <div>Второй таб скрыт полностью</div>
+        <TabsRegion {...TabsWithDependency} pageId="Page" />
+      </React.Fragment>
+    );
   });

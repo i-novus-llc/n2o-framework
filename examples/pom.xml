@@ -5,7 +5,7 @@
     <groupId>net.n2oapp.framework.examples</groupId>
     <artifactId>examples</artifactId>
     <packaging>pom</packaging>
-    <version>7.0.5</version>
+    <version>7.0.6</version>
 
     <modules>
         <module>hello-world</module>

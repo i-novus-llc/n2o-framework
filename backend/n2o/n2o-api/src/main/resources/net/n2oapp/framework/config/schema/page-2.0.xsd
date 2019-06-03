@@ -113,6 +113,11 @@
             <xs:element name="line" type="reg:lineDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="panel" type="reg:panelDefinition" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
     </xs:complexType>
 
     <xs:complexType name="actionsDefinition">

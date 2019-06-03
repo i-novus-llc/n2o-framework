@@ -1,6 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <input-select-tree id="inputSelectTree" checkboxes="true" placeholder="Выберите значение">
+        <input-select-tree id="inputSelectTree" checkboxes="true" placeholder="Выберите значение" checking-strategy="all">
             <inheritance-nodes query-id="testSelect" label-field-id="name"
                                parent-field-id="parentId"
                                icon-field-id="icon"

@@ -33,8 +33,6 @@
         </container>
     </containers>
 
-    <properties>
-        <property key="key" value="value"/>
-    </properties>
+
 
 </page>

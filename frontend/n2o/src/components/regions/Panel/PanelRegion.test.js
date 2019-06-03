@@ -15,13 +15,13 @@ const store = configureMockStore()({
         widgets: {
           widgetId: {
             src: 'WireframeWidget',
-            title: 'test'
-          }
-        }
-      }
-    }
+            title: 'test',
+          },
+        },
+      },
+    },
   },
-  models: {}
+  models: {},
 });
 
 const setup = propOverrides => {
@@ -37,7 +37,7 @@ const setup = propOverrides => {
       open: true,
       collapsible: false,
       pageId: 'pageId',
-      panels: [{ widgetId: 'widgetId' }]
+      panels: [{ widgetId: 'widgetId' }],
     },
     propOverrides
   );
@@ -54,7 +54,7 @@ const setup = propOverrides => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 

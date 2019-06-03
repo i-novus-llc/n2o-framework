@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 
 import ListOld from './List';
 import ListItem from './ListItem';
-import withGetWidget from '../withGetWidget';
+import withWidgetProps from '../withWidgetProps';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -52,7 +52,9 @@ class ListRegion extends React.Component {
               active={item.opened}
               id={item.widgetId}
               render={({ permissions, onClick, active }) =>
-                permissions ? React.cloneElement(listItem, { onClick, active }) : null
+                permissions
+                  ? React.cloneElement(listItem, { onClick, active })
+                  : null
               }
             />
           );
@@ -65,7 +67,7 @@ class ListRegion extends React.Component {
 ListRegion.propTypes = {
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
-  pageId: PropTypes.string.isRequired
+  pageId: PropTypes.string.isRequired,
 };
 
-export default withGetWidget(ListRegion);
+export default withWidgetProps(ListRegion);

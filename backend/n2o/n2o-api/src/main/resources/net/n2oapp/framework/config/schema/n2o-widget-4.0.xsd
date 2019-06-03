@@ -7,8 +7,9 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="table" type="tableReferenceDefinition"/>
+    <xs:element name="list" type="listWidgetReferenceDefinition"/>
     <xs:element name="form" type="formReferenceDefinition"/>
-    <!--<xs:element name="tree" type="treeReferenceDefinition"/>-->
+    <xs:element name="tree" type="treeReferenceDefinition"/>
     <!--<xs:element name="chart" type="chartReferenceDefinition"/>-->
     <xs:element name="widget" type="customReferenceDefinition"/>
     <xs:element name="html" type="htmlReferenceDefinition"/>
@@ -17,7 +18,8 @@
         <xs:sequence>
             <xs:element name="table" type="tableReferenceDefinition" minOccurs="0"/>
             <xs:element name="form" type="formReferenceDefinition" minOccurs="0"/>
-            <!--<xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>-->
+            <xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>
+            <xs:element name="list" type="listWidgetReferenceDefinition" minOccurs="0"/>
             <!--<xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>-->
             <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
@@ -56,6 +58,12 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="fetch-on-init" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Настройка получения данных виджета при инициализации
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="upload" type="act:uploadType" use="optional">
             <xs:annotation>
                 <xs:documentation>Источник данных виджета
@@ -66,6 +74,11 @@
             <xs:annotation>
                 <xs:documentation>Ссылка на родительский файл виджета
                 </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="master-param" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Параметр фильтра</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="depends-on" type="xs:string" use="optional">
@@ -131,6 +144,11 @@
                 <xs:documentation>Количество записей, которое отображает виджет</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Видимость виджета</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -190,6 +208,51 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="listWidgetReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет список.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="content" type="contentDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Столбцы списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="pagination" type="paginationDefinition">
+                        <xs:annotation>
+                            <xs:documentation>Паджинация.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="contentDefinition">
+        <xs:annotation>
+            <xs:documentation>Содержимое элемента списка.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="left-top" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="left-bottom" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="header" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="body" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="sub-header" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="right-top" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="right-bottom" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="extra" type="contentElementDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="contentElementDefinition">
+        <xs:complexContent>
+            <xs:extension base="cell:cells">
+                <xs:attribute name="text-field-id" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
 
     <xs:complexType name="tableReferenceDefinition">
         <xs:complexContent>
@@ -319,6 +382,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Предупреждение о несохраненных данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -339,8 +407,21 @@
                 <xs:annotation>
                     <xs:documentation>Виджет дерево.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence/>
-                <!--todo:реализовать-->
+                <xs:sequence>
+                    <xs:element name="pre-filters" type="preFiltersDefinition"/>
+                </xs:sequence>
+                <xs:attribute name="ajax" type="xs:boolean" default="false"/>
+                <xs:attribute name="multi-select" type="xs:boolean" default="false"/>
+                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
+
+                <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
+                <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="label-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="image-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="badge-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="badge-color-field-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -387,6 +468,7 @@
     <xs:complexType name="rowsTableDefinition">
         <xs:sequence>
             <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="click" type="clickDefinition" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="color-field-id" type="xs:string">
             <xs:annotation>
@@ -423,6 +505,31 @@
                 <xs:documentation>Значение, с которым сравнивается value-field-id.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="clickDefinition">
+        <xs:annotation>
+            <xs:documentation>Клик по строке.</xs:documentation>
+        </xs:annotation>
+
+        <xs:complexContent>
+            <xs:extension base="act:actions">
+
+                <xs:attribute name="action-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
+
     </xs:complexType>
 
     <xs:complexType name="paginationDefinition">
@@ -662,6 +769,8 @@
                 <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="param" type="xs:string" use="optional">
+        </xs:attribute>
         <xs:attribute name="ref-model" type="reduxModel" use="optional">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
@@ -716,6 +825,17 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="one-model"/>
             <xs:enumeration value="two-models"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="treeWidgetFilterType">
+        <xs:annotation>
+            <xs:documentation>Тип фильтра</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="includes"/>
+            <xs:enumeration value="startsWith"/>
+            <xs:enumeration value="endsWith"/>
         </xs:restriction>
     </xs:simpleType>
 

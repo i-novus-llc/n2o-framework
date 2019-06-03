@@ -6,7 +6,6 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -38,53 +37,43 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
     public void executeSubModels(List<SubModelQuery> subQueries, DataSet dataSet) {
         if (dataSet.isEmpty() || subQueries == null) return;
         for (SubModelQuery subModelQuery : subQueries) {
-            CompiledQuery subQuery = environment.getReadCompileBindTerminalPipelineFunction()
+            CompiledQuery subQuery = subModelQuery.getQueryId() == null
+                    ? null
+                    : environment.getReadCompileBindTerminalPipelineFunction()
                     .apply(new N2oPipelineSupport(environment))
                     .get(new QueryContext(subModelQuery.getQueryId()), dataSet);
 
-            if (subQuery.containsFilter("id", FilterType.eq)) {
-                executeSubModel(subModelQuery, dataSet, subQuery);
-            }
+            executeSubModel(subModelQuery, dataSet, subQuery);
         }
     }
 
     private void executeSubModel(SubModelQuery subModelQuery, Map<String, Object> dataSet, CompiledQuery subQuery) {
+        String valueFieldId = subModelQuery.getValueFieldId() != null ? subModelQuery.getValueFieldId() : "id";
+        String labelFieldId = subModelQuery.getLabelFieldId() != null ? subModelQuery.getLabelFieldId() : "name";
 
-        Object subModelValue = dataSet.get(subModelQuery.getSubModel());
-        List<Map<String, Object>> subModels;
-        if (subModelValue instanceof Collection) {
-            if (((Collection) subModelValue).isEmpty()) return;
-            if (!(((Collection) subModelValue).iterator().next() instanceof Map))
-                return;
-            subModels = (List<Map<String, Object>>) subModelValue;
-            if (subModels.get(0) == null) {
-                subModels.clear();
-                return;
-            }
-            if (subModels.get(0).get(subModelQuery.getLabelFieldId()) == null && subModels.get(0).get(subModelQuery.getValueFieldId()) == null) {
-                subModels.clear();
-                return;
-            }
-        } else if (subModelValue instanceof Map)
-            subModels = Collections.singletonList((Map<String, Object>) subModelValue);
-        else
-            return;
+        List<Map<String, Object>> subModels = prepareSubModels(subModelQuery, dataSet, labelFieldId, valueFieldId);
 
-        N2oQuery.Field field = subQuery.getFieldsMap().get(subModelQuery.getValueFieldId());
+        if (subModels == null) return;
+
+        if (subQuery != null && subQuery.containsFilter("id", FilterType.eq))
+            executeQuery(subQuery, subModelQuery, subModels, labelFieldId, valueFieldId);
+        else if (subQuery == null)
+            resolveOptions(subModelQuery, subModels, labelFieldId, valueFieldId);
+    }
+
+    private void executeQuery(CompiledQuery subQuery, SubModelQuery subModelQuery,
+                              List<Map<String, Object>> subModels, String labelFieldId, String valueFieldId) {
+        N2oQuery.Field field = subQuery.getFieldsMap().get(valueFieldId);
         if (field == null)
-            throw new N2oException(String.format("field [%s] not found in query [%s]", subModelQuery.getValueFieldId(), subModelQuery.getQueryId()));
+            throw new N2oException(String.format("field [%s] not found in query [%s]", valueFieldId, subModelQuery.getQueryId()));
 
         for (Map<String, Object> subModel : subModels) {
-            if (subModelQuery.getLabelFieldId() == null
-                    || subModel.get(subModelQuery.getLabelFieldId()) != null
-                    || subModelQuery.getValueFieldId() == null
-                    || subModel.get(subModelQuery.getValueFieldId()) == null)
+            if (subModel.get(labelFieldId) != null || subModel.get(valueFieldId) == null)
                 return;
-            Object value = subModel.get(subModelQuery.getValueFieldId());
+            Object value = subModel.get(valueFieldId);
             if (StringUtils.isDynamicValue(value))
                 continue;
-            value = DomainProcessor.getInstance().deserialize(value, field.getDomain());
-            N2oPreparedCriteria criteria = N2oPreparedCriteria.simpleCriteriaOneRecord(subModelQuery.getValueFieldId(), value);
+            N2oPreparedCriteria criteria = N2oPreparedCriteria.simpleCriteriaOneRecord(valueFieldId, value);
             CollectionPage<DataSet> subData = queryProcessor.executeOneSizeQuery(subQuery, criteria);
 
             DataSet first = subData.getCollection().iterator().next();
@@ -92,6 +81,51 @@ public class N2oSubModelsProcessor implements SubModelsProcessor {
                 subModel.put(queryField.getId(), first.get(queryField.getId()));
             }
         }
+    }
+
+    private void resolveOptions(SubModelQuery subModelQuery, List<Map<String, Object>> subModels, String labelFieldId, String valueFieldId) {
+        if (subModelQuery.getOptions() == null) return;
+        for (Map<String, Object> subModel : subModels) {
+            if (subModel.get(labelFieldId) != null || subModel.get(valueFieldId) == null)
+                return;
+            Object value = subModel.get(valueFieldId);
+            if (StringUtils.isDynamicValue(value))
+                continue;
+            subModelQuery.getOptions().forEach(option -> {
+                if (value.equals(option.get(valueFieldId)) && option.get(labelFieldId) != null) {
+                    subModel.put(labelFieldId, option.get(labelFieldId));
+                }
+            });
+        }
+    }
+
+    private List<Map<String, Object>> prepareSubModels(SubModelQuery subModelQuery, Map<String, Object> dataSet, String labelFieldId, String valueFieldId) {
+        Object subModelValue;
+        if (subModelQuery.getSubModel() != null)
+            subModelValue = dataSet.get(subModelQuery.getSubModel());
+        else
+            subModelValue = dataSet;
+
+        List<Map<String, Object>> subModels;
+        if (subModelValue instanceof Collection) {
+            if (((Collection) subModelValue).isEmpty()) return null;
+            if (!(((Collection) subModelValue).iterator().next() instanceof Map))
+                return null;
+            subModels = (List<Map<String, Object>>) subModelValue;
+            if (subModels.get(0) == null) {
+                subModels.clear();
+                return null;
+            }
+            if (subModels.get(0).get(labelFieldId) == null && subModels.get(0).get(valueFieldId) == null) {
+                subModels.clear();
+                return null;
+            }
+        } else if (subModelValue instanceof Map)
+            subModels = Collections.singletonList((Map<String, Object>) subModelValue);
+        else
+            return null;
+
+        return subModels;
     }
 
     @Override

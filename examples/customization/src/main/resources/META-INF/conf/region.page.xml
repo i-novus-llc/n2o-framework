@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="SelectRegion" layout="LeftRightLayout"
+      xmlns:other="http://n2oapp.net/framework/config/schema/custom">
+    <regions>
+        <region src="SelectRegion" place="left" other:title="Заголовок региона SelectRegion" other:pageId="region">
+            <form id="firstWidget" other:label="Первый элемент региона" other:active="true">
+                <fields>
+                    <input-text id="id" label="Идентификатор"/>
+                </fields>
+            </form>
+            <form id="secondWidget" other:label="Второй элемент региона">
+                <fields>
+                    <input-text id="id" label="Идентификатор"/>
+                    <input-text id="name" label="Название"/>
+                </fields>
+            </form>
+        </region>
+    </regions>
+</page>

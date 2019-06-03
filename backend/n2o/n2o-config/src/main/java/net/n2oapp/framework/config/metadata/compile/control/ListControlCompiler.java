@@ -12,9 +12,7 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.metadata.meta.control.ListControl;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -68,10 +66,30 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         return source.isSingle() ? values : Collections.singletonList(values);
     }
 
+    protected StandardField<T> compileFetchDependencies(StandardField<T> field, S source, CompileProcessor p) {
+        if (source.getPreFilters() != null && field.getDependencies().stream().noneMatch(d -> d.getType() == ValidationType.fetch)) {
+            Set<String> setOn = new HashSet<>();
+            for (N2oPreFilter filter : source.getPreFilters()) {
+                if (StringUtils.hasLink(filter.getValue())) {
+                    String resolveOnJS = p.resolveJS(filter.getValue());
+                    resolveOnJS = resolveOnJS.substring(1, resolveOnJS.length() - 1);
+                    setOn.add(resolveOnJS);
+                }
+            }
+            if (!setOn.isEmpty()) {
+                ControlDependency fetchCD = new ControlDependency();
+                fetchCD.setType(ValidationType.fetch);
+                fetchCD.setOn(new ArrayList<>(setOn));
+                field.addDependency(fetchCD);
+            }
+        }
+        return field;
+    }
+
     private void initSubModel(S source, SubModelsScope scope) {
         if (scope == null)
             return;
-        if (source.getQueryId() != null)
+        if (source.getQueryId() != null || source.getOptions() != null)
             scope.add(createSubModel(source));
     }
 
@@ -81,7 +99,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",
                 item.getLabelFieldId() != null ? item.getLabelFieldId() : "name",
-                !item.isSingle()
+                !item.isSingle(),
+                item.getOptions() == null ? null : Arrays.asList(item.getOptions())
         );
     }
 
@@ -92,8 +111,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
         String route = query.getRoute();
-        p.addRoute(route, queryContext);
-        dataProvider.setUrl(p.resolveText(property("n2o.config.data.route")) + route);
+        p.addRoute(new QueryContext(source.getQueryId(), route));
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
 
         String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
         if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {

@@ -15,7 +15,13 @@ class TableRow extends React.Component {
 
   render() {
     const { color, className } = this.props;
-    return <tr {...this.props} className={cx(className, 'n2o-table-row', color)} tabIndex={1} />;
+    return (
+      <tr
+        {...this.props}
+        className={cx(className, 'n2o-table-row', color)}
+        tabIndex={1}
+      />
+    );
   }
 }
 
@@ -24,7 +30,7 @@ TableRow.propTypes = {
   color: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.string,
-  model: PropTypes.object
+  model: PropTypes.object,
   /* Specific props */
 };
 

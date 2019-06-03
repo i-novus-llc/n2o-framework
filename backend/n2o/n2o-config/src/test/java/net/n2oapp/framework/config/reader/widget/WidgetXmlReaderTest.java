@@ -2,24 +2,24 @@ package net.n2oapp.framework.config.reader.widget;
 
 import net.n2oapp.context.CacheTemplateByMapMock;
 import net.n2oapp.context.StaticSpringContext;
+import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
-import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
-import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
-import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
+import net.n2oapp.framework.api.metadata.event.action.*;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
-import net.n2oapp.framework.api.metadata.global.view.widget.*;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oColorCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.config.reader.widget.cell.*;
 import net.n2oapp.framework.config.selective.reader.SelectiveReader;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.mockito.Mockito.mock;
 
@@ -81,9 +80,6 @@ public class WidgetXmlReaderTest {
         N2oTree inheritanceTree = widgetReader.readByPath("net/n2oapp/framework/config/reader/widget/tree/testWidgetReaderTree1.widget.xml");
         assertWidgetAttribute(inheritanceTree);
         assertInheritanceTree(inheritanceTree);
-
-        N2oTree groupingNodesTree = widgetReader.readByPath("net/n2oapp/framework/config/reader/widget/tree/testWidgetReaderTree2.widget.xml");
-        assertGroupingNodesTree(groupingNodesTree);
     }
 
 
@@ -104,17 +100,19 @@ public class WidgetXmlReaderTest {
 
     protected void assertStandardForm(N2oForm form) {
         assert form.getItems().length == 1;
-        assert  ((N2oField)((N2oFieldsetRow)((N2oFieldSet)form.getItems()[0]).getItems()[0]).getItems()[0]).getId().equals("id");
+        NamespaceUriAware field = ((N2oFieldsetRow) ((N2oFieldSet) form.getItems()[0]).getItems()[0]).getItems()[0];
+        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
     }
 
     protected void assertFieldSetAttribute(N2oForm form, boolean isRow) {
         assert form.getItems().length == 1;
-        N2oFieldSet fieldSet = (N2oFieldSet)form.getItems()[0];
+        N2oFieldSet fieldSet = (N2oFieldSet) form.getItems()[0];
         assert fieldSet.getDependencyCondition().equals("test");
         assert fieldSet.getFieldLabelLocation().name().toLowerCase().equals("left");
         assert fieldSet.getLabel().equals("test");
-        assert ((N2oFieldsetRow)fieldSet.getItems()[0]).getClass().equals(N2oFieldsetRow.class);
-        assert (((N2oField)((N2oFieldsetRow)fieldSet.getItems()[0]).getItems()[0]).getId().equals("id"));
+        assert ((N2oFieldsetRow) fieldSet.getItems()[0]).getClass().equals(N2oFieldsetRow.class);
+        NamespaceUriAware field = ((N2oFieldsetRow) fieldSet.getItems()[0]).getItems()[0];
+        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
     }
 
     protected void assertStandardTable(N2oTable table) {
@@ -128,7 +126,7 @@ public class WidgetXmlReaderTest {
 
         //проверяем чек-бокс
         N2oCheckboxCell checkBoxCell = (N2oCheckboxCell) ((N2oSimpleColumn) table.getColumns()[0]).getCell();
-        assert ((N2oInvokeAction)checkBoxCell.getAction()).getOperationId().equals("update");
+        assert ((N2oInvokeAction) checkBoxCell.getAction()).getOperationId().equals("update");
 
         //проверяем цвет и иконку
         for (N2oSwitch object : Arrays.asList(((N2oColorCell) ((N2oSimpleColumn) table.getColumns()[1]).getCell()).getStyleSwitch(), ((N2oIconCell) ((N2oSimpleColumn) table.getColumns()[2]).getCell()).getIconSwitch())) {
@@ -175,7 +173,9 @@ public class WidgetXmlReaderTest {
 
         assert table.getFilterOpened().equals(true);
         assert table.getFilterPosition().name().toLowerCase().equals("left");
-        assert ((N2oField)((N2oFieldSet)((N2oFieldSet)table.getFilters()[0]).getItems()[1]).getItems()[0]).getId().equals("id");
+
+        NamespaceUriAware field = ((N2oFieldSet) ((N2oFieldSet) table.getFilters()[0]).getItems()[1]).getItems()[0];
+        assert !(field instanceof N2oField) || ((N2oField) field).getId().equals("id");
 
         assert table.getColumns()[0].getSortingDirection().toString().toLowerCase().equals("asc");
 
@@ -189,25 +189,14 @@ public class WidgetXmlReaderTest {
 
     protected void assertInheritanceTree(N2oTree tree) {
         assertBaseTree(tree);
-        assert tree.getInheritanceNodes().getParentFieldId().equals("id");
-        assert tree.getInheritanceNodes().getLabelFieldId().equals("id");
-        assert tree.getInheritanceNodes().getHasChildrenFieldId().equals("id");
+        assert tree.getParentFieldId().equals("id");
+        assert tree.getLabelFieldId().equals("id");
+        assert tree.getHasChildrenFieldId().equals("id");
     }
 
-    protected void assertGroupingNodesTree(N2oTree groupingNodesTree) {
-        assertBaseTree(groupingNodesTree);
-        List<GroupingNodes.Node> nodes = groupingNodesTree.getGroupingNodes().getNodes();
-        for (int i = 0; i < 2; i++) {
-            assert nodes.size() == 1;
-            assert nodes.get(0).getLabelFieldId().equals("id");
-            assert nodes.get(0).getValueFieldId().equals("id");
-            nodes = nodes.get(0).getNodes();
-        }
-    }
 
     protected void assertCustomWidget(N2oCustomWidget custom) {
         assert custom.getSrc().equals("test");
-        assert custom.getProperties().get("key").equals("value");
     }
 
     protected void assertRefWidget(N2oPage page) {

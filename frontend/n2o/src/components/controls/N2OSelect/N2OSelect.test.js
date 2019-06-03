@@ -17,14 +17,14 @@ const props = {
     {
       id: 123412,
       icon: 'fa fa-square',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
     },
     {
       id: '33',
       icon: 'fa fa-square',
-      image: 'https://i.stack.imgur.com/2zqqC.jpg'
-    }
-  ]
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+    },
+  ],
 };
 
 const setup = (propOverrides, defaultProps = props) => {
@@ -34,7 +34,7 @@ const setup = (propOverrides, defaultProps = props) => {
 
   return {
     props,
-    wrapper
+    wrapper,
   };
 };
 
@@ -54,7 +54,9 @@ describe('<N2OSelect />', () => {
   it('проверяет параметр placeholder', () => {
     const { wrapper } = setup();
 
-    expect(wrapper.find('input.form-control').props().placeholder).toBe(props.placeholder);
+    expect(wrapper.find('input.form-control').props().placeholder).toBe(
+      props.placeholder
+    );
   });
 
   it('проверяет параметр onSelect', () => {
@@ -81,5 +83,14 @@ describe('<N2OSelect />', () => {
       .at(0)
       .simulate('click');
     expect(wrapper.find('N2OSelect').state().selected).toEqual([]);
+  });
+  it('проверяет cleanable в N2OSelect', () => {
+    const { wrapper } = setup({ cleanable: false });
+    wrapper
+      .find('button.n2o-eclipse-content')
+      .last()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-clear')).toHaveLength(0);
   });
 });

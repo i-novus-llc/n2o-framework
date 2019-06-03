@@ -3,8 +3,8 @@ import { id } from '../../../../../utils/id';
 
 export const MODIFIERS = {
   preventOverflow: {
-    boundariesElement: 'window'
-  }
+    boundariesElement: 'window',
+  },
 };
 
 export const initUid = WrappedComponenet =>

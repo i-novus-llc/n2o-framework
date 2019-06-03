@@ -22,7 +22,6 @@ public class N2oUserException extends N2oException {
         super();
         setUserMessage(userMessage);
         setHttpStatus(400);
-        setAlertKey(alertKey);
         this.messages = messages;
     }
 

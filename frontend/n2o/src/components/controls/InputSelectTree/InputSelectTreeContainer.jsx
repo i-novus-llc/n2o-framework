@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import InputSelectTree from './InputSelectTree';
 import listContainer from '../listContainer.js';
 import { propTypes, defaultProps } from './allProps';
-import { isEmpty, isEqual, unionWith } from 'lodash';
+import { isEmpty, isEqual, unionWith, map, omit, isArray } from 'lodash';
+import { withProps, compose } from 'recompose';
 
 /**
  * Контейнер для {@link InputSelect}
@@ -39,7 +40,7 @@ class InputSelectTreeContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: props.data
+      data: props.data,
     };
   }
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -48,9 +49,14 @@ class InputSelectTreeContainer extends Component {
     }
     return { data: nextProps.data };
   }
+
   render() {
     return (
-      <InputSelectTree {...this.props} data={this.state.data} loading={this.props.isLoading} />
+      <InputSelectTree
+        {...this.props}
+        data={this.state.data}
+        loading={this.props.isLoading}
+      />
     );
   }
 }
@@ -58,4 +64,21 @@ class InputSelectTreeContainer extends Component {
 InputSelectTreeContainer.propTypes = propTypes;
 InputSelectTreeContainer.defaultProps = defaultProps;
 
-export default listContainer(InputSelectTreeContainer);
+const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
+  const newValue = isArray(value) ? value : [value];
+  if (isEmpty(data) && !isEmpty(value)) {
+    return {
+      data: map(newValue, val => ({
+        ...omit(val, [
+          parentFieldId || defaultProps.parentFieldId,
+          'hasChildren',
+        ]),
+      })),
+    };
+  }
+});
+
+export default compose(
+  listContainer,
+  overrideDataWithValue
+)(InputSelectTreeContainer);

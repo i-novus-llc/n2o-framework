@@ -21,18 +21,19 @@ public class BadgeCellCompiler extends AbstractCellCompiler<N2oBadgeCell, N2oBad
     }
 
     @Override
-    public N2oBadgeCell compile(N2oBadgeCell source, CompileContext<?,?> context, CompileProcessor p) {
+    public N2oBadgeCell compile(N2oBadgeCell source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oBadgeCell cell = new N2oBadgeCell();
         build(cell, source, context, p, property("n2o.default.cell.badge.src"));
-        if (source.getPosition() != null){
+        if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());
         }
         if (source.getText() != null) {
             cell.setText(p.resolveJS(source.getText()));
             cell.setTextFormat(source.getTextFormat());
         }
-        if (source.getN2oSwitch() != null)
-            cell.setColor(ScriptProcessor.buildExpressionForSwitch(source.getN2oSwitch()));
+        if (source.getN2oSwitch() != null) {
+            cell.setColor(compileSwitch(source.getN2oSwitch(), p));
+        }
         else
             cell.setColor(p.resolveJS(source.getColor()));
         if (source.getFormat() != null)

@@ -3,30 +3,30 @@ import {
   REQUEST_CONFIG,
   REQUEST_CONFIG_SUCCESS,
   REQUEST_CONFIG_FAIL,
-  CHANGE_ROOT_PAGE
+  CHANGE_ROOT_PAGE,
 } from '../constants/global';
 import {
   changeLocale,
   requestConfig,
   requestConfigSuccess,
   requestConfigFail,
-  changeRootPage
+  changeRootPage,
 } from './global';
 
 const params = {
   a: 1,
-  b: 2
+  b: 2,
 };
 
 const config = {
   toolbar: {},
   actions: {},
-  page: 'test'
+  page: 'test',
 };
 
 const error = {
   text: 'Not found',
-  status: 404
+  status: 404,
 };
 
 describe('Тесты экшенов global', () => {

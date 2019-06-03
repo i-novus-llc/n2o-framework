@@ -1,11 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, filter, map, pick, difference, pullAll, first } from 'lodash';
+import { compose } from 'recompose';
+import {
+  isEmpty,
+  filter,
+  map,
+  pick,
+  difference,
+  pullAll,
+  first,
+  isNil,
+} from 'lodash';
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
-import withGetWidget from '../withGetWidget';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
+import withWidgetProps from '../withWidgetProps';
 
 /**
  * Регион Лист
@@ -31,36 +41,64 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { items, getWidget, pageId } = this.props;
+    const { items, getWidget, getWidgetProps, pageId } = this.props;
 
     this.activeKeys = map(filter(items, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, 'type', 'forceRender');
-
     return (
-      <Collapse defaultActiveKey={this.activeKeys} onChange={this.handleChange} {...collapseProps}>
+      <Collapse
+        defaultActiveKey={this.activeKeys}
+        onChange={this.handleChange}
+        {...collapseProps}
+      >
         {items.map(item => {
-          const listItem = (
-            <Panel
-              key={item.widgetId}
-              id={item.widgetId}
-              header={item.label || item.widgetId}
-              {...panelProps}
-            >
-              <Factory id={item.widgetId} level={WIDGETS} {...getWidget(pageId, item.widgetId)} />
-            </Panel>
-          );
+          const widgetProps = getWidgetProps(item.widgetId);
+
+          const listItemProps = {
+            key: item.widgetId,
+            id: item.widgetId,
+            header: item.label || item.widgetId,
+            active: item.opened,
+          };
+
           const { security } = item;
           return isEmpty(security) ? (
-            listItem
+            <Panel
+              {...listItemProps}
+              {...panelProps}
+              style={{ display: widgetProps.isVisible === false ? 'none' : '' }}
+            >
+              <Factory
+                id={item.widgetId}
+                level={WIDGETS}
+                {...getWidget(pageId, item.widgetId)}
+              />
+            </Panel>
           ) : (
             <SecurityCheck
+              {...listItemProps}
               config={security}
               active={item.opened}
               id={item.widgetId}
-              render={({ permissions, onClick, active }) =>
-                permissions ? React.cloneElement(listItem, { onClick, active }) : null
-              }
+              render={({ permissions, ...rest }) => {
+                return permissions ? (
+                  <Panel
+                    {...panelProps}
+                    {...listItemProps}
+                    {...rest}
+                    style={{
+                      display: widgetProps.isVisible === false ? 'none' : '',
+                    }}
+                  >
+                    <Factory
+                      id={item.widgetId}
+                      level={WIDGETS}
+                      {...getWidget(pageId, item.widgetId)}
+                    />
+                  </Panel>
+                ) : null;
+              }}
             />
           );
         })}
@@ -73,7 +111,8 @@ ListRegion.propTypes = {
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
   pageId: PropTypes.string.isRequired,
-  forceRender: PropTypes.bool
+  forceRender: PropTypes.bool,
+  resolveVisibleDependency: PropTypes.func,
 };
 
-export default withGetWidget(ListRegion);
+export default compose(withWidgetProps)(ListRegion);

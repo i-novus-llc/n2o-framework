@@ -1,5 +1,8 @@
 import {
   isObject,
+  omit,
+  pick,
+  isEqual,
   isArray,
   isBoolean,
   isFunction,
@@ -9,7 +12,7 @@ import {
   pickBy,
   get,
   compact,
-  map
+  map,
 } from 'lodash';
 import { isPromise } from '../../tools/helpers';
 import * as presets from './presets';
@@ -35,10 +38,14 @@ function hasError(messages) {
     .reduce((res, msg) => msg.severity === 'danger' || res, false);
 }
 
-export default function createValidator(validationConfig = {}, formName, state) {
+export default function createValidator(
+  validationConfig = {},
+  formName,
+  state
+) {
   return {
     asyncValidate: validateField(validationConfig, formName, state),
-    asyncChangeFields: Object.keys(validationConfig || {})
+    asyncChangeFields: Object.keys(validationConfig || {}),
   };
 }
 
@@ -50,18 +57,24 @@ export default function createValidator(validationConfig = {}, formName, state) 
  * @param isTouched
  * @returns {Promise<any[]>}
  */
-export const validateField = (validationConfig, formName, state, isTouched = false) => (
-  values,
-  dispatch
-) => {
-  const registeredFields = get(state, [formName, 'registeredFields']);
+export const validateField = (
+  validationConfig,
+  formName,
+  state,
+  isTouched = false
+) => (values, dispatch) => {
+  const registeredFields = get(state, ['form', formName, 'registeredFields']);
+  const fields = get(state, ['form', formName, 'fields']);
   const validation = pickBy(validationConfig, (value, key) =>
     get(registeredFields, `${key}.visible`, true)
   );
-
   const errors = {};
   const promiseList = [Promise.resolve()];
-  const addError = (fieldId, { text = true, severity = true }, options = {}) => {
+  const addError = (
+    fieldId,
+    { text = true, severity = true },
+    options = {}
+  ) => {
     !errors[fieldId] && (errors[fieldId] = []);
     errors[fieldId].push({});
     const last = errors[fieldId].length - 1;
@@ -102,15 +115,20 @@ export const validateField = (validationConfig, formName, state, isTouched = fal
   });
   return Promise.all(promiseList).then(() => {
     const messagesAction = compact(
-      map(
-        errors,
-        (messages, fieldId) =>
-          !isEmpty(messages) &&
-          addFieldMessage(formName, fieldId, findPriorityMessage(messages), isTouched)
-      )
+      map(errors, (messages, fieldId) => {
+        if (!isEmpty(messages)) {
+          const message = findPriorityMessage(messages);
+          if (
+            !isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
+            !get(fields, [fieldId, 'touched'])
+          ) {
+            return addFieldMessage(formName, fieldId, message, isTouched);
+          }
+        }
+      })
     );
 
-    dispatch(batchActions(messagesAction));
+    messagesAction && dispatch(batchActions(messagesAction));
 
     return hasError(errors);
   });

@@ -8,7 +8,9 @@
                     src ="test"
                     route="/test"
                     redirect-url="/testUrl"
-                    redirect-target="newWindow"/>
+                    redirect-target="newWindow"
+                    refresh-widget-id="testWidget"
+            />
         </action>
     </actions>
 </page>

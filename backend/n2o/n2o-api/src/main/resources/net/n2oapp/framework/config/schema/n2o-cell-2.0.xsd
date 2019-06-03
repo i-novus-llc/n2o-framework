@@ -365,72 +365,41 @@
                 <xs:annotation>
                     <xs:documentation>Редактирование значения.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="hidden" type="ctr:controlHiddenDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="debug" type="ctr:controlDebugDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="input-text" type="ctr:controlInputTextDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="password" type="ctr:controlPasswordDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="output-text" type="ctr:controlOutputTextDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="masked-input" type="ctr:controlMaskedInputDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="checkbox" type="ctr:controlSimpleFieldDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="date-time" type="ctr:controlDateDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="date-interval" type="ctr:controlDateIntervalDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="text-area" type="ctr:controlTextArea" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="text-editor" type="ctr:controlTextEditor" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="html" type="ctr:controlHtml" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="code-editor" type="ctr:controlCodeEditor" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="custom" type="ctr:controlCustom" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="classifier" type="ctr:controlClassifierDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="checkbox-group" type="ctr:controlOptionasListInlineDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="multi-classifier" type="ctr:controlMultiClassifierDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="radio-group" type="ctr:controlOptionasListInlineDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="select" type="ctr:controlOptionsListDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="buttons" type="ctr:buttonsDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="select-tree" type="ctr:selectTreeDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="input-select-tree" type="ctr:inputSelectTreeDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="file-upload" type="ctr:controlFileUploadDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="checkbox-grid" type="ctr:controlCheckboxGridDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="code-merge" type="ctr:controlCodeMergeDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="group-classifier" type="ctr:groupClassifierDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="edit-grid" type="ctr:editGridDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="input-select" type="ctr:controlInputSelectDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="time" type="ctr:timeDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="time-interval" type="ctr:controlTimeIntervalDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="input-interval" type="ctr:controlInputIntervalDefinition" minOccurs="0"
-                                maxOccurs="unbounded"/>
-                    <xs:element name="button" type="ctr:controlButtonDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="text" type="ctr2:controlText" minOccurs="0"/>
-                    <xs:any namespace="##other" processContents="strict">
-                        <xs:annotation>
-                            <xs:documentation>Подключаемый через библиотеку контрол.</xs:documentation>
-                        </xs:annotation>
-                    </xs:any>
+                <xs:sequence maxOccurs="1" minOccurs="1" >
+                    <xs:element name="hidden" type="ctr2:controlHiddenDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="text-area" type="ctr2:controlTextArea" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="text-editor" type="ctr2:controlTextEditor" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="code-editor" type="ctr2:controlCodeEditor" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="input-text" type="ctr2:controlInputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="output-text" type="ctr2:controlOutputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="masked-input" type="ctr2:controlMaskedInputDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="checkbox" type="ctr2:controlSimpleFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="password" type="ctr2:controlPasswordDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="date-interval" type="ctr2:controlDateIntervalDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="file-upload" type="ctr2:controlFileUploadDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="checkbox-group" type="ctr2:controlOptionsListInlineDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="radio-group" type="ctr2:controlOptionsListInlineDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="select" type="ctr2:controlSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="input-select-tree" type="ctr2:inputSelectTreeDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="search-buttons" type="ctr2:controlSearchButtonsDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="html" type="ctr2:controlHtml" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="text" type="ctr2:controlText" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attribute name="invoke-action-id" type="xs:string" use="optional">
+                <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое выполнится при завершении редактирования.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="editType" use="optional">
+                <xs:attribute name="format" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Формат текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="editType" use="optional" default="inline">
                     <xs:annotation>
                         <xs:documentation>Расположение.</xs:documentation>
                     </xs:annotation>

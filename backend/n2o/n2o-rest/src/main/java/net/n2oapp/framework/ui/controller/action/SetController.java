@@ -44,23 +44,10 @@ public abstract class SetController implements ControllerTypeAware {
             return resDataSet;
         } catch (N2oException e) {
             dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet, e);
-            e.setAlertKey(requestInfo.getFailAlertWidgetId());
             responseInfo.prepare(inDataSet);
             throw e;
         } catch (Exception exception) {
             throw new N2oException(exception, requestInfo.getFailAlertWidgetId());
         }
-    }
-
-    public void setDataProcessingStack(DataProcessingStack dataProcessingStack) {
-        this.dataProcessingStack = dataProcessingStack;
-    }
-
-    public void setDomainsProcessor(DomainProcessor domainsProcessor) {
-        this.domainsProcessor = domainsProcessor;
-    }
-
-    public void setActionProcessor(N2oOperationProcessor actionProcessor) {
-        this.actionProcessor = actionProcessor;
     }
 }

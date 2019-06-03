@@ -4,7 +4,7 @@ import pathToRegexp from 'path-to-regexp';
 import { fetchInputSelectData } from '../../core/api';
 import cachingStore from '../../utils/cacher';
 import { connect } from 'react-redux';
-import { get, isArray, has, isEqual, unionBy } from 'lodash';
+import { get, isArray, has, unionBy } from 'lodash';
 import { addAlert, removeAlerts } from '../../actions/alerts';
 import { getParams } from '../../utils/compileUrl';
 
@@ -25,7 +25,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         count: 0,
         size: props.size,
         page: 1,
-        hasError: false
+        hasError: false,
       };
 
       this._fetchData = this._fetchData.bind(this);
@@ -40,7 +40,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     static getDerivedStateFromProps(nextProps) {
       if (nextProps.data && nextProps.data.length) {
         return {
-          data: nextProps.data
+          data: nextProps.data,
         };
       }
     }
@@ -111,14 +111,23 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @returns {Promise<void>}
      * @private
      */
-    async _fetchDataProvider({ pathMapping, queryMapping, url }, extraParams = {}) {
+    async _fetchDataProvider(
+      { pathMapping, queryMapping, url },
+      extraParams = {}
+    ) {
       const pathParams = this._mapping(pathMapping);
       const queryParams = this._mapping(queryMapping);
       const basePath = pathToRegexp.compile(url)(pathParams);
-      let response = this._findResponseInCache({ basePath, queryParams, extraParams });
+      let response = this._findResponseInCache({
+        basePath,
+        queryParams,
+        extraParams,
+      });
 
       if (!response) {
-        response = await apiCaller({ ...queryParams, ...extraParams }, null, { basePath });
+        response = await apiCaller({ ...queryParams, ...extraParams }, null, {
+          basePath,
+        });
         cachingStore.add({ basePath, queryParams, extraParams }, response);
       }
 
@@ -137,11 +146,13 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
     _setResponseToData({ list, count, size, page }, merge = false) {
       const { valueFieldId } = this.props;
       this.setState({
-        data: merge ? unionBy(this.state.data, list, valueFieldId || 'id') : list,
+        data: merge
+          ? unionBy(this.state.data, list, valueFieldId || 'id')
+          : list,
         isLoading: false,
         count,
         size,
-        page
+        page,
       });
     }
 
@@ -155,12 +166,16 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
     async _fetchData(extraParams = {}, merge = false) {
       const { dataProvider, removeAlerts } = this.props;
-      const { hasError } = this.state;
+      const { hasError, data } = this.state;
       if (!dataProvider) return;
 
       this.setState({ loading: true });
       try {
-        const response = await this._fetchDataProvider(dataProvider, extraParams);
+        if (!merge && data) this.setState({ data: [] });
+        const response = await this._fetchDataProvider(
+          dataProvider,
+          extraParams
+        );
         if (has(response, 'message')) this._addAlertMessage(response.message);
         this._setResponseToData(response, merge);
         hasError && removeAlerts();
@@ -189,19 +204,21 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
   WithFetchData.propTypes = {
     caching: PropTypes.bool,
-    size: PropTypes.number
+    size: PropTypes.number,
   };
 
   WithFetchData.contextTypes = { store: PropTypes.object };
 
   WithFetchData.defaultProps = {
     caching: false,
-    size: 10
+    size: 10,
   };
 
   const mapDispatchToProps = (dispatch, ownProps) => ({
-    addAlert: message => dispatch(addAlert(ownProps.form + '.' + ownProps.labelFieldId, message)),
-    removeAlerts: () => dispatch(removeAlerts(ownProps.form + '.' + ownProps.labelFieldId))
+    addAlert: message =>
+      dispatch(addAlert(ownProps.form + '.' + ownProps.labelFieldId, message)),
+    removeAlerts: () =>
+      dispatch(removeAlerts(ownProps.form + '.' + ownProps.labelFieldId)),
   });
 
   return connect(

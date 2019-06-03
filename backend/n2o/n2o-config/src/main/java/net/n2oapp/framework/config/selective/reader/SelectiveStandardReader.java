@@ -14,7 +14,6 @@ import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv1;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
@@ -103,7 +102,6 @@ public class SelectiveStandardReader extends SelectiveReader {
     public SelectiveStandardReader addEventsReader() {
         addReader(InvokeActionReaderV1.getInstance());
         addReader(new AnchorReaderV1());
-        addReader(new UpdateModelEventReaderV1());
         addReader(new OnClickReaderV1());
         addReader(new SetValueExpressionEventReaderV1());
         addReader(new OpenPageReaderV1());
@@ -118,7 +116,7 @@ public class SelectiveStandardReader extends SelectiveReader {
 
 
     public SelectiveStandardReader addObjectReader() {
-        return addReader(new ObjectElementIOv1()).addReader(new ObjectElementIOv2()).addReader(new ObjectElementIOv3());
+        return addReader(new ObjectElementIOv2()).addReader(new ObjectElementIOv3());
     }
 
     public SelectiveStandardReader addInvocationsReader2() {
@@ -148,7 +146,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new TreeXmlReaderV3());
         addReader(new N2oChartReaderV3());
         addReader(new CustomWidgetXmlReaderV3());
-        addReader(new WidgetListReaderV3());
         addReader(new HtmlWidgetXmlReaderV3());
         addReader(new WizardXmlReaderV3());
 

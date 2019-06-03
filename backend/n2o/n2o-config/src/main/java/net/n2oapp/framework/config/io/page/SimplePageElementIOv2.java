@@ -21,7 +21,7 @@ public class SimplePageElementIOv2 implements NamespaceIO<N2oSimplePage> {
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);
-        p.extensionAttributes(e, m::getExtAttributes, m::setExtAttributes);
+        p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e,null, m::getWidget, m::setWidget, p.anyOf(N2oWidget.class), widgetDefaultNamespace);
         m.setNamespaceUri(getNamespaceUri());
     }

@@ -146,10 +146,14 @@
                   "fields": [
                     {
                       "id": "testId",
-                      "src": "FilterButtonsField",
-                      "searchLabel": "searchLabel",
-                      "resetLabel": "resetLabel",
-                      "dependency": []
+                      "src": "StandardField",
+                      "dependency": [],
+                      "control": {
+                        "id": "testId",
+                        "src": "FilterButtonsField",
+                        "searchLabel": "searchLabel",
+                        "resetLabel": "resetLabel"
+                      }
                     }
                   ]
                 }
@@ -167,7 +171,7 @@
       "size": 10,
       "fetchOnInit": true,
       "hasSelect": true,
-      "rowColor": "`gender.id == '1' ? 'red' : gender.id == '2' ? 'blue' : gender.id == '3' ? 'white' : 'green'`",
+      "rowColor": "`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`",
       "style": {},
       "hasFocus": true,
       "autoFocus": false,

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { setDisplayName } from 'recompose';
 import Input from '../Input/Input';
+import cx from 'classnames';
 
 /**
  * Компонент Radio
@@ -19,7 +20,7 @@ class Radio extends React.Component {
     const { label, disabled, value, checked, onChange } = this.props;
 
     return (
-      <div className="radio">
+      <div className={cx('radio', { checked })}>
         <label>
           <Input
             disabled={disabled}
@@ -40,7 +41,7 @@ Radio.propTypes = {
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
-  label: PropTypes.string
+  label: PropTypes.string,
 };
 
 export default setDisplayName('Radio')(Radio);

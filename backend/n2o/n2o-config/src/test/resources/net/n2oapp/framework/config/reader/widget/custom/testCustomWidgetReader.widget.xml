@@ -7,7 +7,4 @@
     <default-values-query-id>form</default-values-query-id>
     <object-id>blank</object-id>
     <size>32</size>
-    <properties>
-        <property key="key" value="value"/>
-    </properties>
 </custom>

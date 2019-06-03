@@ -1,10 +1,13 @@
-import { checkOnNeed, getDependencyButtons } from './toolbar';
-import { CHANGE_BUTTON_DISABLED, CHANGE_BUTTON_VISIBILITY } from '../constants/toolbar';
+import { prepareButton } from './toolbar';
+import {
+  CHANGE_BUTTON_DISABLED,
+  CHANGE_BUTTON_VISIBILITY,
+} from '../constants/toolbar';
 import { put } from 'redux-saga/effects';
 import {
   resolveButton,
   resolveConditions,
-  setParentVisibleIfAllChildChangeVisible
+  setParentVisibleIfAllChildChangeVisible,
 } from './toolbar';
 import { changeButtonVisiblity } from '../actions/toolbar';
 
@@ -14,20 +17,81 @@ const setupResolveButton = () => {
       visible: [
         {
           expression: "test === 'test'",
-          modelLink: 'model'
-        }
+          modelLink: 'model',
+        },
       ],
       enabled: [
         {
           expression: "test !== 'test'",
-          modelLink: 'model'
-        }
-      ]
-    }
+          modelLink: 'model',
+        },
+      ],
+    },
   });
 };
 
 describe('Проверка саги toolbar', () => {
+  it('генератор prepareButton должен вернуть массив кнопок по ключам modelLink', () => {
+    const buttons = {
+      "models.resolve['__patients-update']": [
+        {
+          name: 'buttonsButton',
+        },
+      ],
+    };
+    const payload = {
+      name: 'payloadButton',
+      conditions: {
+        visible: [
+          {
+            modelLink: "models.resolve['__patients']",
+          },
+        ],
+        enabled: [
+          {
+            modelLink: "model.resolve['__contacts']",
+          },
+        ],
+      },
+    };
+    expect(prepareButton(buttons, payload)).toEqual({
+      ...buttons,
+      "models.resolve['__patients']": [
+        {
+          name: 'payloadButton',
+          conditions: {
+            visible: [
+              {
+                modelLink: "models.resolve['__patients']",
+              },
+            ],
+            enabled: [
+              {
+                modelLink: "model.resolve['__contacts']",
+              },
+            ],
+          },
+        },
+      ],
+      "model.resolve['__contacts']": [
+        {
+          name: 'payloadButton',
+          conditions: {
+            visible: [
+              {
+                modelLink: "models.resolve['__patients']",
+              },
+            ],
+            enabled: [
+              {
+                modelLink: "model.resolve['__contacts']",
+              },
+            ],
+          },
+        },
+      ],
+    });
+  });
   it('Тестирование вызова  экшена на саге', () => {
     const gen = setupResolveButton();
     gen.next();
@@ -46,8 +110,8 @@ describe('Проверка саги toolbar', () => {
         [
           {
             expression: "test === 'test'",
-            modelLink: 'model'
-          }
+            modelLink: 'model',
+          },
         ],
         { model: { test: 'test' } }
       )
@@ -57,8 +121,8 @@ describe('Проверка саги toolbar', () => {
         [
           {
             expression: "test === 'test'",
-            modelLink: 'no_model'
-          }
+            modelLink: 'no_model',
+          },
         ],
         { model: { test: 'test' } }
       )
@@ -70,8 +134,8 @@ describe('Проверка саги toolbar', () => {
         [
           {
             expression: "test === 'test'",
-            modelLink: 'model'
-          }
+            modelLink: 'model',
+          },
         ],
         null
       )
@@ -83,18 +147,21 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
   it('Тестирование скрытия родителя если все потомки скрыты', () => {
     const testData = {
       btnId: {
-        visible: true
+        visible: true,
       },
       btnChild1Id: {
         visible: false,
-        parentId: 'btnId'
+        parentId: 'btnId',
       },
       btnChild2Id: {
         visible: false,
-        parentId: 'btnId'
-      }
+        parentId: 'btnId',
+      },
     };
-    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    const gen = setParentVisibleIfAllChildChangeVisible({
+      id: 'btnChild1Id',
+      key: 'fieldKey',
+    });
     gen.next();
     expect(gen.next(testData).value).toEqual(
       put(changeButtonVisiblity('fieldKey', 'btnId', false))
@@ -104,155 +171,46 @@ describe('setParentVisibleIfAllChildChangeVisible', () => {
   it('Тестирование показа родителя если все потомки видимы', () => {
     const testData = {
       btnId: {
-        visible: false
+        visible: false,
       },
       btnChild1Id: {
         visible: true,
-        parentId: 'btnId'
+        parentId: 'btnId',
       },
       btnChild2Id: {
         visible: true,
-        parentId: 'btnId'
-      }
+        parentId: 'btnId',
+      },
     };
-    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    const gen = setParentVisibleIfAllChildChangeVisible({
+      id: 'btnChild1Id',
+      key: 'fieldKey',
+    });
     gen.next();
-    expect(gen.next(testData).value).toEqual(put(changeButtonVisiblity('fieldKey', 'btnId', true)));
+    expect(gen.next(testData).value).toEqual(
+      put(changeButtonVisiblity('fieldKey', 'btnId', true))
+    );
     expect(gen.next().done).toBe(true);
   });
   it('Экшен не отправляется если родитель имеет такую же видимость как и потомки', () => {
     const testData = {
       btnId: {
-        visible: true
+        visible: true,
       },
       btnChild1Id: {
         visible: true,
-        parentId: 'btnId'
+        parentId: 'btnId',
       },
       btnChild2Id: {
         visible: true,
-        parentId: 'btnId'
-      }
+        parentId: 'btnId',
+      },
     };
-    const gen = setParentVisibleIfAllChildChangeVisible({ id: 'btnChild1Id', key: 'fieldKey' });
+    const gen = setParentVisibleIfAllChildChangeVisible({
+      id: 'btnChild1Id',
+      key: 'fieldKey',
+    });
     gen.next();
     expect(gen.next().done).toBe(true);
-  });
-  it('checkOnNeed должен вернуть объект кнопки с совпадающим в conditions visible modelLink', () => {
-    expect(
-      checkOnNeed(
-        {
-          name: 'test',
-          conditions: {
-            visible: [
-              {
-                modelLink: 'test_link'
-              }
-            ]
-          }
-        },
-        'test_link'
-      )
-    ).toEqual({
-      name: 'test',
-      conditions: {
-        visible: [
-          {
-            modelLink: 'test_link'
-          }
-        ]
-      }
-    });
-    expect(
-      checkOnNeed(
-        {
-          name: 'test',
-          conditions: {
-            enabled: [
-              {
-                modelLink: 'other_link'
-              }
-            ]
-          }
-        },
-        'other_link'
-      )
-    ).toEqual({
-      name: 'test',
-      conditions: {
-        enabled: [
-          {
-            modelLink: 'other_link'
-          }
-        ]
-      }
-    });
-  });
-  it('checkOnNeed должен вернуть false для объекта кнопки с несовпадающим modelLink', () => {
-    expect(
-      checkOnNeed(
-        {
-          name: 'button without conditions',
-          conditions: {
-            visible: [
-              {
-                modelLink: 'other link to model'
-              }
-            ]
-          }
-        },
-        'models[resolve][test]'
-      )
-    ).toEqual(false);
-  });
-  it('checkOnNeed должен вернуть false для объекта кнопки без conditions', () => {
-    expect(checkOnNeed({})).toEqual(false);
-  });
-  it('getDependencyButton должен вернуть кнопки с подходящим modelLink', () => {
-    const modelLink = 'neededLink';
-    const toolbar = {
-      widgetId1: {
-        firstButton: {
-          name: 'firstButton',
-          conditions: {
-            visible: [
-              {
-                modelLink
-              }
-            ]
-          }
-        },
-        secondButton: {
-          name: 'secondButton',
-          conditions: {
-            enabled: [
-              {
-                modelLink
-              }
-            ]
-          }
-        }
-      },
-      widgetId2: {
-        buttonWithCond: {
-          name: 'newButton',
-          conditions: {
-            visible: [
-              {
-                modelLink
-              }
-            ]
-          }
-        },
-        buttonWithoutCond: {
-          name: 'buttonWithoutLink'
-        }
-      }
-    };
-    expect(getDependencyButtons(toolbar, modelLink)).toEqual([
-      toolbar.widgetId1.firstButton,
-      toolbar.widgetId1.secondButton,
-      toolbar.widgetId2.buttonWithCond
-    ]);
   });
 });

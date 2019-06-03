@@ -3,12 +3,7 @@ package net.n2oapp.framework.api.metadata.compile;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
-
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Процессор сборки метаданных
@@ -26,14 +21,6 @@ public interface CompileProcessor {
      * @return Собранный объект
      */
     <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope);
-
-    /**
-     * Связать метаданные с данными
-     *
-     * @param compiled Метаданная
-     * @param <D>      Тип метаданной
-     */
-    <D extends Compiled> void bind(D compiled);
 
     /**
      * Собрать дополнительные атрибуты
@@ -74,13 +61,21 @@ public interface CompileProcessor {
     /**
      * Зарегистрировать новый маршрут метаданных под контекст
      *
-     * @param urlPattern Шаблон URL
      * @param context    Контекст сборки
      */
-    <D extends Compiled> void addRoute(String urlPattern, CompileContext<D, ?> context);
+    <D extends Compiled> void addRoute(CompileContext<D, ?> context);
 
     /**
-     * Заменить плейсхолдер на значение
+     * Зарегистрировать новый маршрут метаданных под контекст
+     *
+     * @param route      Шаблон URL
+     * @param context    Контекст сборки
+     */
+    <D extends Compiled> void addRoute(String route, CompileContext<D, ?> context);
+
+
+    /**
+     * Заменить плейсхолдер на значение и конвертировать в класс
      *
      * @param placeholder Плейсхолдер
      * @param <T>         Тип значения
@@ -89,82 +84,21 @@ public interface CompileProcessor {
     <T> T resolve(String placeholder, Class<T> clazz);
 
     /**
-     * Конвентировать значение в объект по домену
+     * Заменить плейсхолдер на значение конвертировать по домену
      *
-     * @param value  значение для конвертации
+     * @param placeholder  значение для конвертации
      * @param domain Домен значения
      * @return значение
      */
-    Object resolve(String value, String domain);
+    Object resolve(String placeholder, String domain);
 
     /**
-     * Конвентировать значение в объект
+     * Заменить плейсхолдер на значение и конвертировать с автоподбором типа
      *
-     * @param value значение для конвертации
+     * @param placeholder значение для конвертации
      * @return значение
      */
-    Object resolve(String value);
-
-
-    /**
-     * Заменить в тексте плейсхолдеры на значения
-     *
-     * @param text Текст с плейсхолдерами
-     * @return Текст со значениями вместо плейсхолдеров
-     */
-    String resolveText(String text);
-
-    /**
-     * Заменить в строке плейсхолдеры {...} на значения, кроме исключений
-     *
-     * @param text Строка с плейсхолдерами
-     * @return Строка со значениями вместо плейсхолдеров
-     */
-    String resolveParams(String text);
-
-    /**
-     * Заменить в адресе плейсхолдеры на значения
-     *
-     * @param url           Адрес
-     * @param pathMappings  path параметры
-     * @param queryMappings query параметры
-     * @return Адрес со значениями вместо плейсхолдеров
-     */
-    String resolveUrl(String url, Map<String, ? extends BindLink> pathMappings, Map<String, ? extends BindLink> queryMappings);
-
-    /**
-     * Заменить в адресе параметры, которые ссылаются на переданную модель
-     *
-     * @param url    Адрес
-     * @param link   Ссылка на модель, по которой определяем какие параметры необходимо заменить
-     * @return Измененный адрес
-     */
-    String resolveUrlParams(String url, ModelLink link);
-
-    /**
-     * Попытаться разрешить значение ModelLink
-     *
-     * @param link исходная ссылка на значение
-     * @return ссылка с константой(если получилось разрешить ссылку) или исходная ссылка
-     */
-    ModelLink resolveLink(ModelLink link);
-
-    /**
-     * Попытаться разрешить вложенные модели ссылки
-     *
-     * @param link  ссылка на значение
-     * @param links исходный список ссылок
-     */
-    void resolveSubModels(ModelLink link, List<ModelLink> links);
-
-    /**
-     * Заменить в тексте плейсхолдеры на значения, используя модель
-     *
-     * @param text Текст с плейсхолдерами
-     * @param link Ссылка на модель, на которую ссылаются плейсхолдеры
-     * @return Текст со значениями вместо плейсхолдеров
-     */
-    String resolveText(String text, ModelLink link);
+    Object resolve(String placeholder);
 
     /**
      * Превратить текст с ссылками в JS код

@@ -6,5 +6,6 @@
   "outputFormat": "DD-MMM-YY HH:mm",
   "disabled": false,
   "placeholder": "Введите дату",
-  "locale": "ru"
+  "locale": "ru",
+  "openOnFocus": false
 }

@@ -17,64 +17,64 @@ stories.add('Компонент', () => {
       {
         id: 'id_1',
         component: TextTableHeader,
-        label: 'date DD.MM.YYYY HH:mm'
+        label: 'date DD.MM.YYYY HH:mm',
       },
       {
         id: 'id_2',
         component: TextTableHeader,
-        label: 'date DD.MM.YYYY'
+        label: 'date DD.MM.YYYY',
       },
       {
         id: 'id_3',
         component: TextTableHeader,
-        label: 'password'
+        label: 'password',
       },
       {
         id: 'id_4',
         component: TextTableHeader,
-        label: 'number 0,0.00'
+        label: 'number 0,0.00',
       },
       {
         id: 'id_5',
         component: TextTableHeader,
-        label: 'dateFromNow DD.MM.YYYY'
+        label: 'dateFromNow DD.MM.YYYY',
       },
       {
         id: 'id_6',
         component: TextTableHeader,
-        label: 'a.b.c'
-      }
+        label: 'a.b.c',
+      },
     ],
     cells: [
       {
         id: 'format_1',
         component: TextCell,
-        format: 'date DD.MM.YYYY HH:mm'
+        format: 'date DD.MM.YYYY HH:mm',
       },
       {
         id: 'format_2',
         component: TextCell,
-        format: 'date DD.MM.YYYY'
+        format: 'date DD.MM.YYYY',
       },
       {
         id: 'format_3',
         component: TextCell,
-        format: 'password'
+        format: 'password',
       },
       {
         id: 'format_4',
         component: TextCell,
-        format: 'number 0,0.00'
+        format: 'number 0,0.00',
       },
       {
         id: 'format_5',
         component: TextCell,
-        format: 'dateFromNow DD.MM.YYYY'
+        format: 'dateFromNow DD.MM.YYYY',
       },
       {
         id: 'a.b.c',
-        component: TextCell
-      }
+        component: TextCell,
+      },
     ],
     datasource: [
       {
@@ -85,11 +85,11 @@ stories.add('Компонент', () => {
         format_5: '',
         a: {
           b: {
-            c: 'deep'
-          }
-        }
-      }
-    ]
+            c: 'deep',
+          },
+        },
+      },
+    ],
   };
 
   return (

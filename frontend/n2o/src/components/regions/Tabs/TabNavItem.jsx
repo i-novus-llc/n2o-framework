@@ -41,7 +41,11 @@ class TabNavItem extends React.Component {
     const style = disabled ? { cursor: 'not-allowed' } : {};
     return (
       <li style={style} className="nav-item">
-        <a onClick={this.handleClick} className={cx('nav-link', { active, disabled })} href="#">
+        <a
+          onClick={this.handleClick}
+          className={cx('nav-link', { active, disabled })}
+          href="#"
+        >
           {icon && <span className={icon} />} {title}
         </a>
       </li>
@@ -55,7 +59,7 @@ TabNavItem.propTypes = {
   disabled: PropTypes.bool,
   title: PropTypes.string,
   icon: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default TabNavItem;

@@ -18,7 +18,9 @@ class TabContent extends React.Component {
     const { className, children, ...props } = this.props;
     return (
       <div className={cx('tab-content', className)}>
-        {React.Children.map(children, child => React.cloneElement(child, props))}
+        {React.Children.map(children, child =>
+          React.cloneElement(child, props)
+        )}
       </div>
     );
   }
@@ -27,7 +29,7 @@ class TabContent extends React.Component {
 TabContent.propTypes = {
   className: PropTypes.string,
   activeId: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default TabContent;

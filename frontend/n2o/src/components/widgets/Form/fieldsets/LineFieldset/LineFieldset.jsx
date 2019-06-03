@@ -18,7 +18,7 @@ class LineFieldset extends React.Component {
       type: this.props.type,
       label: this.props.label,
       expand: this.props.expand,
-      className: this.props.className
+      className: this.props.className,
     };
   }
 
@@ -27,7 +27,7 @@ class LineFieldset extends React.Component {
       render: this.props.render,
       rows: this.props.rows,
       title: this.props.label,
-      className: this.props.className
+      className: this.props.className,
     };
   }
 
@@ -52,7 +52,7 @@ LineFieldset.propTypes = {
   collapsible: PropTypes.bool,
   type: PropTypes.string,
   expand: PropTypes.bool,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default LineFieldset;

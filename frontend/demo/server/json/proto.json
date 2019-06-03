@@ -3,82 +3,82 @@
   "routes": {
     "list": [
       {
+        "path": "/proto/create2",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/contacts/create",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/name",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/surname",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/view",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update2",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/:proto_patients_id/update_patient",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
+        "path": "/proto/create",
+        "exact": true,
+        "isOtherPage": true
+      },
+      {
         "path": "/proto",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients",
+        "path": "/proto/:proto_patients_id",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/:proto_patients_id",
+        "path": "/proto/:proto_patients_id/contacts",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/create",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/update_patient",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/update2",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/view",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/surname",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/name",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/update",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/contacts",
+        "path": "/proto/:proto_patients_id/contacts/:proto_contacts_id",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id",
+        "path": "/proto/:patient_id/card",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/proto/patients/:proto_patients_id/contacts/create",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/update",
-        "exact": true,
-        "isOtherPage": true
-      },
-      {
-        "path": "/proto/patients/:patient_id/card",
-        "exact": true,
-        "isOtherPage": false
-      },
-      {
-        "path": "/proto/patients/:patient_id/card/:proto_form_id",
+        "path": "/proto/:patient_id/card/:proto_form_id",
         "exact": true,
         "isOtherPage": false
       }
@@ -144,21 +144,6 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_bdate_end": {
-        "get": {
-          "type": "n2o/models/UPDATE",
-          "payload": {
-            "prefix": "filter",
-            "key": "proto_patients",
-            "field": "bdate.end",
-            "value": ":proto_patients_bdate_end"
-          }
-        },
-        "set": {
-          "value": "`bdate.end`",
-          "link": "models.filter['proto_patients']"
-        }
-      },
       "proto_patients_bdate_begin": {
         "get": {
           "type": "n2o/models/UPDATE",
@@ -171,6 +156,21 @@
         },
         "set": {
           "value": "`bdate.begin`",
+          "link": "models.filter['proto_patients']"
+        }
+      },
+      "proto_patients_bdate_end": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "proto_patients",
+            "field": "bdate.end",
+            "value": ":proto_patients_bdate_end"
+          }
+        },
+        "set": {
+          "value": "`bdate.end`",
           "link": "models.filter['proto_patients']"
         }
       },
@@ -270,21 +270,6 @@
           "link": "widgets['proto_patients'].sorting.age"
         }
       },
-      "proto_contacts_type_id": {
-        "get": {
-          "type": "n2o/models/UPDATE",
-          "payload": {
-            "prefix": "filter",
-            "key": "proto_contacts",
-            "field": "type.id",
-            "value": ":proto_contacts_type_id"
-          }
-        },
-        "set": {
-          "value": "`type.id`",
-          "link": "models.filter['proto_contacts']"
-        }
-      },
       "sorting_contacts_value": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
@@ -367,9 +352,9 @@
   },
   "widgets": {
     "proto_patients": {
-      "src": "TableWidget",
+      "src": "AdvancedTableWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients",
+        "url": "n2o/data/proto",
         "pathMapping": {},
         "queryMapping": {
           "proto_patients_surname": {
@@ -380,12 +365,12 @@
             "value": "`name`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_bdate_end": {
-            "value": "`bdate.end`",
-            "link": "models.filter['proto_patients']"
-          },
           "proto_patients_bdate_begin": {
             "value": "`bdate.begin`",
+            "link": "models.filter['proto_patients']"
+          },
+          "proto_patients_bdate_end": {
+            "value": "`bdate.end`",
             "link": "models.filter['proto_patients']"
           },
           "proto_patients_genders_id": {
@@ -408,6 +393,7 @@
                 "icon": "fa fa-plus",
                 "actionId": "create",
                 "hint": "Создать",
+                "hintPosition": "bottom",
                 "conditions": {},
                 "title": "Создать"
               },
@@ -416,6 +402,7 @@
                 "icon": "fa fa-pencil",
                 "actionId": "update_patient",
                 "hint": "Изменить",
+                "hintPosition": "bottom",
                 "conditions": {
                   "enabled": [
                     {
@@ -430,6 +417,7 @@
                 "id": "delete",
                 "actionId": "delete",
                 "hint": "Удалить",
+                "hintPosition": "bottom",
                 "conditions": {
                   "enabled": [
                     {
@@ -439,10 +427,11 @@
                   ]
                 },
                 "confirm": {
-                  "text": "Вы уверены, что хотите удалить пациента '{surname}'?",
+                  "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                   "title": "Предупреждение",
                   "okLabel": "Да",
-                  "cancelLabel": "Нет"
+                  "cancelLabel": "Нет",
+                  "modelLink": "models.resolve['proto_patients']"
                 },
                 "title": "Удалить"
               }
@@ -458,16 +447,17 @@
                 "icon": "fa fa-edit",
                 "actionId": "update2",
                 "hint": "Кнопка скрывается, если в строке имя Мария",
+                "hintPosition": "bottom",
                 "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_patients']"
-                    }
-                  ],
                   "visible": [
                     {
                       "expression": "name!='Мария'",
+                      "modelLink": "models.resolve['proto_patients']"
+                    }
+                  ],
+                  "enabled": [
+                    {
+                      "expression": "!_.isEmpty(this)",
                       "modelLink": "models.resolve['proto_patients']"
                     }
                   ]
@@ -479,6 +469,7 @@
                 "icon": "fa fa-book",
                 "actionId": "view",
                 "hint": "Кнопка блокируется, если в фильтре имя Анна",
+                "hintPosition": "right",
                 "conditions": {
                   "enabled": [
                     {
@@ -506,12 +497,14 @@
                 "icon": "fa fa-filter",
                 "actionId": "menuItem5",
                 "hint": "Изменить видимость фильтров",
+                "hintPosition": "bottom",
                 "conditions": {}
               },
               {
                 "id": "menuItem6",
                 "icon": "fa fa-table",
                 "hint": "Изменить видимость колонок",
+                "hintPosition": "bottom",
                 "conditions": {},
                 "dropdownSrc": "ToggleColumn"
               },
@@ -520,12 +513,14 @@
                 "icon": "fa fa-refresh",
                 "actionId": "menuItem7",
                 "hint": "Обновить данные",
+                "hintPosition": "bottom",
                 "conditions": {}
               },
               {
                 "id": "menuItem8",
                 "icon": "fa fa-bars",
                 "hint": "Изменить размер",
+                "hintPosition": "bottom",
                 "conditions": {},
                 "dropdownSrc": "ChangeSize"
               }
@@ -534,15 +529,46 @@
         ]
       },
       "actions": {
+        "update_birthday": {
+          "id": "update_birthday",
+          "src": "perform",
+          "options": {
+            "type": "n2o/actionImpl/START_INVOKE",
+            "payload": {
+              "widgetId": "proto_patients",
+              "dataProvider": {
+                "url": "n2o/data/proto/:proto_patients_id/update_birthday",
+                "pathMapping": {
+                  "proto_patients_id": {
+                    "link": "models.resolve['proto_patients'].id"
+                  }
+                },
+                "method": "POST"
+              },
+              "modelLink": "models.resolve['proto_patients']"
+            },
+            "meta": {
+              "success": {
+                "refresh": {
+                  "type": "widget",
+                  "options": {
+                    "widgetId": "proto_patients"
+                  }
+                }
+              },
+              "fail": {}
+            }
+          }
+        },
         "create": {
           "id": "create",
           "src": "perform",
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_create",
-              "pageId": "proto_patients_create",
-              "pageUrl": "/proto/patients/create",
+              "name": "proto_create",
+              "pageId": "proto_create",
+              "pageUrl": "/proto/create",
               "pathMapping": {},
               "queryMapping": {},
               "closeButton": true,
@@ -556,9 +582,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_update_patient",
-              "pageId": "proto_patients_update_patient",
-              "pageUrl": "/proto/patients/:proto_patients_id/update_patient",
+              "name": "proto_update_patient",
+              "pageId": "proto_update_patient",
+              "pageUrl": "/proto/:proto_patients_id/update_patient",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -578,7 +604,7 @@
             "payload": {
               "widgetId": "proto_patients",
               "dataProvider": {
-                "url": "n2o/data/proto/patients/:proto_patients_id/delete",
+                "url": "n2o/data/proto/:proto_patients_id/delete",
                 "pathMapping": {
                   "proto_patients_id": {
                     "link": "models.resolve['proto_patients'].id"
@@ -605,7 +631,7 @@
           "id": "update2",
           "src": "link",
           "options": {
-            "path": "/proto/patients/:proto_patients_id/update2",
+            "path": "/proto/:proto_patients_id/update2",
             "target": "application",
             "pathMapping": {
               "proto_patients_id": {
@@ -621,9 +647,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_view",
-              "pageId": "proto_patients_view",
-              "pageUrl": "/proto/patients/:proto_patients_id/view",
+              "name": "proto_view",
+              "pageId": "proto_view",
+              "pageUrl": "/proto/:proto_patients_id/view",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -659,7 +685,7 @@
           "id": "surname",
           "src": "link",
           "options": {
-            "path": "/proto/patients/:proto_patients_id/surname",
+            "path": "/proto/:proto_patients_id/surname",
             "target": "application",
             "pathMapping": {
               "proto_patients_id": {
@@ -675,9 +701,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_name",
-              "pageId": "proto_patients_name",
-              "pageUrl": "/proto/patients/:proto_patients_id/name",
+              "name": "proto_name",
+              "pageId": "proto_name",
+              "pageUrl": "/proto/:proto_patients_id/name",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -697,7 +723,7 @@
             "payload": {
               "widgetId": "proto_patients",
               "dataProvider": {
-                "url": "n2o/data/proto/patients/:proto_patients_id/vip",
+                "url": "n2o/data/proto/:proto_patients_id/vip",
                 "pathMapping": {
                   "proto_patients_id": {
                     "link": "models.resolve['proto_patients'].id"
@@ -726,9 +752,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_update",
-              "pageId": "proto_patients_update",
-              "pageUrl": "/proto/patients/:proto_patients_id/update",
+              "name": "proto_update",
+              "pageId": "proto_update",
+              "pageUrl": "/proto/:proto_patients_id/update",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -754,12 +780,13 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
+                        "id": "surname",
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "surname"
                         }
                       }
                     ]
@@ -767,12 +794,13 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
+                        "id": "name",
                         "label": "Имя",
                         "dependency": [],
                         "control": {
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "name"
                         }
                       }
                     ]
@@ -780,12 +808,13 @@
                   {
                     "fields": [
                       {
-                        "id": "bdate",
                         "src": "StandardField",
+                        "id": "bdate",
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
                           "src": "DateInterval",
+                          "id": "bdate",
                           "dateFormat": "DD.MM.YYYY",
                           "outputFormat": "DD.MM.YYYY HH:mm:ss"
                         }
@@ -797,13 +826,16 @@
               {
                 "cols": [
                   {
+                    "size": 10,
                     "fields": [
                       {
-                        "id": "genders",
                         "src": "StandardField",
+                        "id": "genders",
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "src": "CheckboxGroup",
+                          "id": "genders",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -813,22 +845,21 @@
                             "quickSearchParam": "name"
                           },
                           "inline": true,
-                          "type": "n2o",
-                          "src": "CheckboxGroup"
+                          "type": "n2o"
                         }
                       }
-                    ],
-                    "size": 10
+                    ]
                   },
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
+                        "id": "vip",
                         "dependency": [],
                         "control": {
-                          "label": "VIP",
-                          "src": "Checkbox"
+                          "src": "Checkbox",
+                          "id": "vip",
+                          "label": "VIP"
                         }
                       }
                     ]
@@ -858,7 +889,7 @@
               "id": "surname",
               "src": "link",
               "options": {
-                "path": "/proto/patients/:proto_patients_id/surname",
+                "path": "/proto/:proto_patients_id/surname",
                 "target": "application",
                 "pathMapping": {
                   "proto_patients_id": {
@@ -880,9 +911,9 @@
               "options": {
                 "type": "n2o/modals/INSERT",
                 "payload": {
-                  "name": "proto_patients_name",
-                  "pageId": "proto_patients_name",
-                  "pageUrl": "/proto/patients/:proto_patients_id/name",
+                  "name": "proto_name",
+                  "pageId": "proto_name",
+                  "pageUrl": "/proto/:proto_patients_id/name",
                   "pathMapping": {
                     "proto_patients_id": {
                       "link": "models.resolve['proto_patients'].id"
@@ -899,15 +930,55 @@
             "id": "patrName",
             "fieldKey": "patrName",
             "src": "LinkCell",
-            "visible" : "`name!='Мария'`",
-            "url" : "`'/patients/'+id+'/update2'`",
-            "target" : "application"
+            "url": "`'/'+id+'/update2'`",
+            "target": "application",
+            "visible": "`name!='Мария'`"
           },
           {
             "id": "birthday",
             "fieldKey": "birthday",
-            "src": "TextCell",
-            "format": "date DD.MM.YYYY"
+            "src": "EditableCell",
+            "actionId": "update_birthday",
+            "control": {
+              "src": "DatePicker",
+              "id": "date",
+              "dateFormat": "DD.MM.YYYY",
+              "outputFormat": "DD.MM.YYYY HH:mm:ss"
+            },
+            "format": "date DD.MM.YYYY",
+            "editType": "inline",
+            "editable": true,
+            "action": {
+              "id": "update_birthday",
+              "src": "perform",
+              "options": {
+                "type": "n2o/actionImpl/START_INVOKE",
+                "payload": {
+                  "widgetId": "proto_patients",
+                  "dataProvider": {
+                    "url": "n2o/data/proto/:proto_patients_id/update_birthday",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      }
+                    },
+                    "method": "POST"
+                  },
+                  "modelLink": "models.resolve['proto_patients']"
+                },
+                "meta": {
+                  "success": {
+                    "refresh": {
+                      "type": "widget",
+                      "options": {
+                        "widgetId": "proto_patients"
+                      }
+                    }
+                  },
+                  "fail": {}
+                }
+              }
+            }
           },
           {
             "id": "genderName",
@@ -919,8 +990,8 @@
             "id": "vip",
             "fieldKey": "vip",
             "src": "CheckboxCell",
-            "disabled" : "`!(name!='Мария')`",
             "actionId": "vip",
+            "disabled": "`!(name!='Мария')`",
             "action": {
               "id": "vip",
               "src": "perform",
@@ -929,7 +1000,7 @@
                 "payload": {
                   "widgetId": "proto_patients",
                   "dataProvider": {
-                    "url": "n2o/data/proto/patients/:proto_patients_id/vip",
+                    "url": "n2o/data/proto/:proto_patients_id/vip",
                     "pathMapping": {
                       "proto_patients_id": {
                         "link": "models.resolve['proto_patients'].id"
@@ -975,7 +1046,7 @@
                         "payload": {
                           "widgetId": "proto_patients",
                           "dataProvider": {
-                            "url": "n2o/data/proto/patients/:proto_patients_id/delete",
+                            "url": "n2o/data/proto/:proto_patients_id/delete",
                             "pathMapping": {
                               "proto_patients_id": {
                                 "link": "models.resolve['proto_patients'].id"
@@ -998,7 +1069,6 @@
                         }
                       }
                     },
-                    "hint": "Удалить",
                     "conditions": {
                       "enabled": [
                         {
@@ -1008,10 +1078,11 @@
                       ]
                     },
                     "confirm": {
-                      "text": "Вы уверены, что хотите удалить пациента '{surname}'?",
+                      "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                       "title": "Предупреждение",
                       "okLabel": "Да",
-                      "cancelLabel": "Нет"
+                      "cancelLabel": "Нет",
+                      "modelLink": "models.resolve['proto_patients']"
                     },
                     "title": "Удалить"
                   },
@@ -1025,9 +1096,9 @@
                       "options": {
                         "type": "n2o/modals/INSERT",
                         "payload": {
-                          "name": "proto_patients_update",
-                          "pageId": "proto_patients_update",
-                          "pageUrl": "/proto/patients/:proto_patients_id/update",
+                          "name": "proto_update",
+                          "pageId": "proto_update",
+                          "pageUrl": "/proto/:proto_patients_id/update",
                           "pathMapping": {
                             "proto_patients_id": {
                               "link": "models.resolve['proto_patients'].id"
@@ -1039,7 +1110,6 @@
                         }
                       }
                     },
-                    "hint": "Изменить",
                     "conditions": {
                       "enabled": [
                         {
@@ -1104,20 +1174,15 @@
       }
     },
     "proto_contacts": {
-      "src": "TableWidget",
+      "src": "ListWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients/:proto_patients_id/contacts",
+        "url": "n2o/data/proto/:proto_patients_id/contacts",
         "pathMapping": {
           "proto_patients_id": {
             "link": "models.resolve['proto_patients'].id"
           }
         },
-        "queryMapping": {
-          "proto_contacts_type_id": {
-            "value": "`type.id`",
-            "link": "models.filter['proto_contacts']"
-          }
-        }
+        "queryMapping": {}
       },
       "toolbar": {
         "topLeft": [
@@ -1128,45 +1193,8 @@
                 "id": "create",
                 "icon": "fa fa-plus",
                 "actionId": "create",
-                "hint": "Создать",
                 "conditions": {},
                 "title": "Создать"
-              },
-              {
-                "id": "update",
-                "icon": "fa fa-pencil",
-                "actionId": "update",
-                "hint": "Изменить",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_contacts']"
-                    }
-                  ]
-                },
-                "title": "Изменить"
-              },
-              {
-                "id": "delete",
-                "icon": "fa fa-trash",
-                "actionId": "delete",
-                "hint": "Удалить",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_contacts']"
-                    }
-                  ]
-                },
-                "confirm": {
-                  "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
-                  "title": "Предупреждение",
-                  "okLabel": "Да",
-                  "cancelLabel": "Нет"
-                },
-                "title": "Удалить"
               }
             ]
           }
@@ -1179,9 +1207,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_contacts_create",
-              "pageId": "proto_patients_contacts_create",
-              "pageUrl": "/proto/patients/:proto_patients_id/contacts/create",
+              "name": "proto_contacts_create",
+              "pageId": "proto_contacts_create",
+              "pageUrl": "/proto/:proto_patients_id/contacts/create",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -1199,9 +1227,9 @@
           "options": {
             "type": "n2o/modals/INSERT",
             "payload": {
-              "name": "proto_patients_contacts_update",
-              "pageId": "proto_patients_contacts_update",
-              "pageUrl": "/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/update",
+              "name": "proto_contacts_update",
+              "pageId": "proto_contacts_update",
+              "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
@@ -1224,7 +1252,7 @@
             "payload": {
               "widgetId": "proto_contacts",
               "dataProvider": {
-                "url": "n2o/data/proto/patients/:proto_patients_id/contacts/:proto_contacts_id/delete",
+                "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
                 "pathMapping": {
                   "proto_contacts_id": {
                     "link": "models.resolve['proto_contacts'].id"
@@ -1256,101 +1284,135 @@
           {
             "on": "models.resolve['proto_patients']"
           }
+        ],
+        "visible": [
+          {
+            "on": "models.resolve['proto_patients']",
+            "condition": "name != 'Мария'"
+          }
         ]
       },
-      "paging": {
-        "size": 10
-      },
-      "filter": {
-        "filterFieldsets": [
-          {
-            "src": "StandardFieldset",
-            "rows": [
-              {
-                "cols": [
-                  {
-                    "fields": [
-                      {
-                        "id": "type",
-                        "src": "StandardField",
-                        "label": "Тип контакта",
-                        "help": "Тип контакта",
-                        "dependency": [],
-                        "control": {
-                          "valueFieldId": "id",
-                          "labelFieldId": "name",
-                          "hasSearch": false,
-                          "data": [
-                            {
-                              "name": "Моб. телефон",
-                              "id": 2
-                            },
-                            {
-                              "name": "Эл. почт",
-                              "id": 4
-                            },
-                            {
-                              "name": "Факс",
-                              "id": 7
-                            }
-                          ],
-                          "multiSelect": false,
-                          "hasCheckboxes": false,
-                          "resetOnBlur": true,
-                          "src": "InputSelect"
-                        }
+      "list": {
+        "leftTop": {
+          "src": "IconCell",
+          "icon": "`type.id == 2 ? 'fa fa-phone' : type.id == 4 ? 'fa fa-envelop' : type.id == 7 ? 'fa fa-fax' : null`"
+        },
+        "extra": {
+          "src": "ButtonsCell",
+          "buttons": [
+            {
+              "id": "update",
+              "icon": "fa fa-pencil",
+              "actionId": "update",
+              "action": {
+                "id": "update",
+                "src": "perform",
+                "options": {
+                  "type": "n2o/modals/INSERT",
+                  "payload": {
+                    "name": "proto_contacts_update",
+                    "pageId": "proto_contacts_update",
+                    "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      },
+                      "proto_contacts_id": {
+                        "link": "models.resolve['proto_contacts'].id"
                       }
-                    ]
+                    },
+                    "queryMapping": {},
+                    "closeButton": true,
+                    "visible": true
+                  }
+                }
+              },
+              "conditions": {
+                "enabled": [
+                  {
+                    "expression": "!_.isEmpty(this)",
+                    "modelLink": "models.resolve['proto_contacts']"
                   }
                 ]
-              }
-            ]
-          }
-        ],
-        "filterButtonId": "filter",
-        "blackResetList": [],
-        "filterPlace": "top",
-        "validation": {}
+              },
+              "title": "Изменить"
+            },
+            {
+              "id": "delete",
+              "icon": "fa fa-trash",
+              "actionId": "delete",
+              "action": {
+                "id": "delete",
+                "src": "perform",
+                "options": {
+                  "type": "n2o/actionImpl/START_INVOKE",
+                  "payload": {
+                    "widgetId": "proto_contacts",
+                    "dataProvider": {
+                      "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
+                      "pathMapping": {
+                        "proto_contacts_id": {
+                          "link": "models.resolve['proto_contacts'].id"
+                        },
+                        "proto_patients_id": {
+                          "link": "models.resolve['proto_patients'].id"
+                        }
+                      },
+                      "method": "POST"
+                    },
+                    "modelLink": "models.resolve['proto_contacts']"
+                  },
+                  "meta": {
+                    "success": {
+                      "refresh": {
+                        "type": "widget",
+                        "options": {
+                          "widgetId": "proto_contacts"
+                        }
+                      }
+                    },
+                    "fail": {}
+                  }
+                }
+              },
+              "conditions": {
+                "enabled": [
+                  {
+                    "expression": "!_.isEmpty(this)",
+                    "modelLink": "models.resolve['proto_contacts']"
+                  }
+                ]
+              },
+              "confirm": {
+                "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
+                "title": "Предупреждение",
+                "okLabel": "Да",
+                "cancelLabel": "Нет"
+              },
+              "title": "Удалить"
+            }
+          ]
+        },
+        "header": {
+          "id": "type.name",
+          "fieldKey": "type.name",
+          "src": "TextCell",
+          "className": "text-muted"
+        },
+        "body": {
+          "id": "value",
+          "fieldKey": "value",
+          "src": "TextCell"
+        }
       },
-      "table": {
-        "fetchOnInit": false,
-        "size": 10,
-        "autoFocus": true,
-        "hasFocus": true,
-        "cells": [
-          {
-            "id": "value",
-            "fieldKey": "value",
-            "src": "TextCell"
-          },
-          {
-            "id": "typeId",
-            "fieldKey": "typeId",
-            "src": "TextCell"
-          }
-        ],
-        "headers": [
-          {
-            "id": "value",
-            "label": "Значение",
-            "src": "TextTableHeader",
-            "sortable": true
-          },
-          {
-            "id": "typeId",
-            "label": "Тип",
-            "src": "TextTableHeader",
-            "sortable": false
-          }
-        ],
-        "sorting": {},
-        "hasSelect": true
+      "paging": {
+        "size": 5
       }
     },
     "proto_form": {
       "src": "FormWidget",
       "dataProvider": {
-        "url": "n2o/data/proto/patients/:patient_id/card",
+        "url": "n2o/data/proto/:patient_id/card",
         "pathMapping": {
           "patient_id": {
             "link": "models.resolve['proto_patients'].id"
@@ -1376,12 +1438,13 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
+                        "id": "surname",
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "surname"
                         }
                       }
                     ]
@@ -1389,12 +1452,13 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
+                        "id": "name",
                         "label": "Имя",
                         "dependency": [],
                         "control": {
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "name"
                         }
                       }
                     ]
@@ -1404,14 +1468,17 @@
               {
                 "cols": [
                   {
+                    "size": 8,
                     "fields": [
                       {
-                        "id": "gender",
                         "src": "StandardField",
+                        "id": "gender",
                         "enabled": false,
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "src": "RadioGroup",
+                          "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
                           "hasSearch": false,
@@ -1421,23 +1488,22 @@
                             "queryMapping": {},
                             "quickSearchParam": "name"
                           },
-                          "type": "n2o",
-                          "src": "RadioGroup"
+                          "type": "n2o"
                         }
                       }
-                    ],
-                    "size": 8
+                    ]
                   },
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
+                        "id": "vip",
                         "enabled": false,
                         "dependency": [],
                         "control": {
-                          "label": "VIP",
-                          "src": "Checkbox"
+                          "src": "Checkbox",
+                          "id": "vip",
+                          "label": "VIP"
                         }
                       }
                     ]
@@ -1463,6 +1529,7 @@
             "icon": "fa fa-plus",
             "actionId": "create2",
             "hint": "Добавить пациента",
+            "hintPosition": "bottom",
             "conditions": {},
             "color": "primary",
             "title": "Добавить пациента"
@@ -1473,8 +1540,7 @@
   },
   "breadcrumb": [
     {
-      "label": "Список контактов",
-      "pathMapping": {}
+      "label": "Список контактов"
     }
   ],
   "actions": {

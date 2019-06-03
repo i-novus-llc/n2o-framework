@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
+import { isEqual } from 'lodash';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**
@@ -17,6 +18,7 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
  * @reactProps {boolean} guide - @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
  * @reactProps {boolean} keepCharPositions - @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
  * @reactProps {boolean} resetOnNotValid - сбрасывать / оставлять невалижное значение при потере фокуса
+ * @reactProps {object} presetConfig - настройки пресета для InputMoney
  * @example
  * <InputMask onChange={this.onChange}
  *             mask="99 x 99"
@@ -33,7 +35,7 @@ class InputMask extends React.Component {
       '9': /\d/,
       S: /[A-Za-z]/,
       Б: /[А-Яа-я]/,
-      ...props.dictionary
+      ...props.dictionary,
     };
     this.mask = this.mask.bind(this);
     this.preset = this.preset.bind(this);
@@ -65,6 +67,7 @@ class InputMask extends React.Component {
    * @returns (number) возвращает массив-маску для пресета-аргумента
    */
   preset(preset) {
+    const { presetConfig } = this.props;
     switch (preset) {
       case 'phone':
         return this._mapToArray('+9 (999)-999-99-99');
@@ -73,7 +76,7 @@ class InputMask extends React.Component {
       case 'date':
         return this._mapToArray('99.99.9999');
       case 'money':
-        return createNumberMask({ prefix: '', suffix: 'Р' });
+        return createNumberMask(presetConfig);
       case 'percentage':
         return createNumberMask({ prefix: '', suffix: '%' });
       case 'card':
@@ -98,7 +101,9 @@ class InputMask extends React.Component {
         .map(item => item instanceof RegExp)
         .lastIndexOf(true);
     } else if (typeof mask === 'string') {
-      return Math.max(...Object.keys(this.dict).map(char => mask.lastIndexOf(char)));
+      return Math.max(
+        ...Object.keys(this.dict).map(char => mask.lastIndexOf(char))
+      );
     } else if (Array.isArray(mask)) {
       return mask.map(item => item instanceof RegExp).lastIndexOf(true);
     }
@@ -112,7 +117,9 @@ class InputMask extends React.Component {
     if (guide) {
       return value && this._indexOfFirstPlaceHolder(value) === -1;
     }
-    return value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask);
+    return (
+      value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask)
+    );
   }
 
   /**
@@ -138,7 +145,9 @@ class InputMask extends React.Component {
     this.valid = this._isValid(value);
     if (!this.valid) {
       const newValue = resetOnNotValid ? '' : value;
-      this.setState({ value: newValue, guide: false }, () => this.props.onChange(newValue));
+      this.setState({ value: newValue, guide: false }, () =>
+        this.props.onChange(newValue)
+      );
     }
   }
 
@@ -150,11 +159,15 @@ class InputMask extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    if (props.value && props.value !== state.prevPropsValue && props.value !== state.value) {
+    if (
+      props.value &&
+      props.value !== state.prevPropsValue &&
+      props.value !== state.value
+    ) {
       return {
         ...state,
         prevPropsValue: props.value,
-        value: props.value
+        value: props.value,
       };
     }
     return null;
@@ -163,7 +176,10 @@ class InputMask extends React.Component {
   /**
    * обработка новых пропсов
    */
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.value, this.props.value)) {
+      this.setState({ value: this.props.value });
+    }
     this.dict = { ...this.dict, ...this.props.dictionary };
     this.valid = this._isValid(this.state.value);
   }
@@ -186,6 +202,10 @@ class InputMask extends React.Component {
         onChange={this._onChange.bind(this)}
         onFocus={this._onFocus.bind(this)}
         keepCharPositions={this.props.keepCharPositions}
+        render={(ref, props) => {
+          delete props.defaultValue;
+          return <input ref={ref} {...props} />;
+        }}
       />
     );
   }
@@ -199,13 +219,18 @@ InputMask.defaultProps = {
   resetOnNotValid: true,
   value: '',
   dictionary: {},
-  mask: ''
+  mask: '',
+  presetConfig: {},
 };
 
 InputMask.propTypes = {
   className: PropTypes.string,
   preset: PropTypes.string,
-  mask: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.func]),
+  mask: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.func,
+  ]),
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   placeholderChar: PropTypes.string,
@@ -213,7 +238,8 @@ InputMask.propTypes = {
   dictionary: PropTypes.object,
   guide: PropTypes.bool,
   keepCharPositions: PropTypes.bool,
-  resetOnNotValid: PropTypes.bool
+  resetOnNotValid: PropTypes.bool,
+  presetConfig: PropTypes.object,
 };
 
 export default InputMask;

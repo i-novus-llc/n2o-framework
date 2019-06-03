@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
-import net.n2oapp.framework.api.metadata.local.context.CompileContext;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.SourceInfo;
@@ -30,13 +29,11 @@ public class CompileInfo extends SourceInfo {
     private NamespaceReader<? extends N2oMetadata> metadataReader;
     private Class<? extends Compiled> compiledMetadataClass;
     private Class<? extends SourceMetadata> sourceMetadataClass;
-    private CompileContext compileContext;
 
     public CompileInfo(XmlInfo info) {
         origin = info.getOrigin();
         path = info.getLocalPath() != null && !info.getLocalPath().isEmpty() ? info.getLocalPath() : info.getId();
         sourceMetadataClass = info.getBaseSourceClass();
-        compileContext = info.getContext();
     }
 
     public CompileInfo(String path) {
@@ -61,16 +58,6 @@ public class CompileInfo extends SourceInfo {
         this.id = id;
         this.sourceMetadataClass = metadataSourceClass;
     }
-
-
-    public void setCompileContext(CompileContext compileContext) {
-        this.compileContext = compileContext;
-    }
-
-    public CompileContext getCompileContext() {
-        return compileContext;
-    }
-
 
     public String getPath() {
         return path;
@@ -134,10 +121,6 @@ public class CompileInfo extends SourceInfo {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getKey() {
-        return CacheControl.Key.createSourceKey(getId(), getSourceMetadataClass() != null ? getSourceMetadataClass() : getCompileContext().getMetadataClass());
     }
 
     public String getUri() {

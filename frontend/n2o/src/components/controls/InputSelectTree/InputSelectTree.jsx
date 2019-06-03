@@ -1,5 +1,6 @@
-import React from 'react';
-import TreeSelect, { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
+import React, { Fragment } from 'react';
+import TreeSelect from 'rc-tree-select';
+import ReactDOM from 'react-dom';
 import {
   difference,
   filter as filterF,
@@ -19,7 +20,7 @@ import {
   uniq,
   uniqBy,
   unionWith,
-  isEqual
+  isEqual,
 } from 'lodash';
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
@@ -27,7 +28,7 @@ import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import { defaultProps, propTypes } from './allProps';
 import { compose, withState } from 'recompose';
 import propsResolver from '../../../utils/propsResolver';
-import { visiblePartPopup } from './until';
+import { visiblePartPopup, getCheckedStrategy } from './until';
 import TreeNode from './TreeSelectNode';
 import { injectIntl } from 'react-intl';
 import cx from 'classnames';
@@ -76,12 +77,15 @@ function InputSelectTree({
   value,
   onBlur,
   searchPlaceholder,
+  dropdownExpanded,
+  setDropdownExpanded,
   placeholder,
   setTreeExpandedKeys,
   notFoundContent,
   treeExpandedKeys,
   closePopupOnSelect,
   loading,
+  isLoading,
   parentFieldId,
   valueFieldId,
   labelFieldId,
@@ -116,7 +120,7 @@ function InputSelectTree({
     imageFieldId,
     labelFieldId,
     badgeFieldId,
-    badgeColorFieldId
+    badgeColorFieldId,
   };
 
   /**
@@ -138,8 +142,8 @@ function InputSelectTree({
             ? propsResolver({ format }, item).format
             : visiblePartPopup(item, popupProps),
           ...(ajax && { isLeaf: !item[hasChildrenFieldId] }),
-          children: []
-        }
+          children: [],
+        },
       }),
       {}
     );
@@ -150,7 +154,9 @@ function InputSelectTree({
         itemsByID[itemsByID[key][parentFieldId]] &&
         itemsByID[itemsByID[key][parentFieldId]].children
       ) {
-        itemsByID[itemsByID[key][parentFieldId]].children.push({ ...itemsByID[key] });
+        itemsByID[itemsByID[key][parentFieldId]].children.push({
+          ...itemsByID[key],
+        });
       }
     });
 
@@ -158,20 +164,6 @@ function InputSelectTree({
       .filter(key => !itemsByID[key][parentFieldId])
       .reduce((acc, key) => [...acc, { ...itemsByID[key] }], []);
   });
-
-  /**
-   * Если нет data но есть value
-   * строим дерево из value иначе будет неправильное отображение
-   * @param items
-   * @returns {*}
-   */
-  const setData = items => {
-    const newValue = isArray(value) ? value : [value];
-    if (isEmpty(items) && !isEmpty(value)) {
-      return createTree(newValue);
-    }
-    return createTree(items);
-  };
 
   /**
    * Функция для поиска.
@@ -194,7 +186,8 @@ function InputSelectTree({
    * ['id', 'id'] => [{ id: 'id', ... },{ id: 'id', ... }]
    * @param ids
    */
-  const getDataByIds = ids => filterF(data, node => some(ids, v => v === node[valueFieldId]));
+  const getDataByIds = ids =>
+    filterF(data, node => some(ids, v => v === node[valueFieldId]));
 
   /**
    * Берет всех потомков у родителей
@@ -263,14 +256,13 @@ function InputSelectTree({
 
   const getSingleValue = value => find(data, [valueFieldId, value]);
   const getMultiValue = value => {
-    if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
-      return getChildWithParenId(value, data);
-    } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
-      return getParentsWithChildId(value, data);
-    } else {
-      // стратегия SHOW_ALL
-      return getDataByIds(value);
-    }
+    // if (isArray(value) && eq(showCheckedStrategy, SHOW_PARENT)) {
+    //   return getChildWithParenId(value, data);
+    // } else if (isArray(value) && eq(showCheckedStrategy, SHOW_CHILD)) {
+    //   return getParentsWithChildId(value, data);
+    // } else {
+    // стратегия SHOW_ALL
+    return getDataByIds(value);
   };
   /**
    * Функция преобразования value rcTreeSelect в формат n2o
@@ -327,7 +319,6 @@ function InputSelectTree({
     onSearch(value);
     return true;
   };
-
   /**
    * Функция для контроля открытия/закрытия popup
    * @param visible
@@ -340,9 +331,10 @@ function InputSelectTree({
       onBlur();
     }
     onToggle(visible);
+    setDropdownExpanded(visible);
     visible ? onOpen() : onClose();
     if (ajax) setTreeExpandedKeys([]);
-    return true;
+    return false;
   };
 
   /**
@@ -357,23 +349,33 @@ function InputSelectTree({
     setTreeExpandedKeys(keys);
   };
 
-  const renderSwitcherIcon = ({ isLeaf }) => (isLeaf ? null : <Icon name="fa fa-chevron-right" />);
+  const renderSwitcherIcon = ({ isLeaf }) =>
+    isLeaf ? null : <Icon name="fa fa-chevron-right" />;
 
   const clearIcon = <Icon name="fa fa-times" />;
 
-  const inputIcon = loading ? <InlineSpinner /> : <Icon name="fa fa-chevron-down" />;
+  const inputIcon = loading ? (
+    <InlineSpinner />
+  ) : (
+    <Icon name="fa fa-chevron-down" />
+  );
+
+  const getPopupContainer = container => container;
+
+  const open = !loading ? dropdownExpanded : false;
 
   return (
     <TreeSelect
       tabIndex={-1}
       {...value && { value: setValue(value) }}
+      open={open}
       onDropdownVisibleChange={handleDropdownVisibleChange}
-      className={cx('n2o', className)}
+      className={cx('n2o', className, { loading })}
       switcherIcon={renderSwitcherIcon}
       inputIcon={inputIcon}
       multiple={multiSelect}
       treeCheckable={hasCheckboxes && <CheckboxN2O inline />}
-      treeData={setData(data)}
+      treeData={createTree(data)}
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
       removeIcon={clearIcon}
@@ -385,18 +387,19 @@ function InputSelectTree({
       onTreeExpand={onTreeExpand}
       dropdownPopupAlign={dropdownPopupAlign}
       prefixCls="n2o-select-tree"
-      showCheckedStrategy={showCheckedStrategy}
+      showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
+      getPopupContainer={getPopupContainer}
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
-        defaultMessage: notFoundContent || ' '
+        defaultMessage: notFoundContent || ' ',
       })}
       placeholder={intl.formatMessage({
         id: 'inputSelectTree.placeholder',
-        defaultMessage: placeholder || ' '
+        defaultMessage: placeholder || ' ',
       })}
       searchPlaceholder={intl.formatMessage({
         id: 'inputSelectTree.searchPlaceholder',
-        defaultMessage: searchPlaceholder || ' '
+        defaultMessage: searchPlaceholder || ' ',
       })}
       {...rest}
     >
@@ -408,9 +411,10 @@ function InputSelectTree({
 InputSelectTree.defaultProps = defaultProps;
 InputSelectTree.propTypes = propTypes;
 
-export { SHOW_ALL, SHOW_CHILD, SHOW_PARENT, TreeNode };
+export { TreeNode };
 
 export default compose(
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
+  withState('dropdownExpanded', 'setDropdownExpanded', false),
   injectIntl
 )(InputSelectTree);

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.util.RestClient;
 import net.n2oapp.framework.engine.util.json.DateFormatHolder;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.config.RequestConfig;
@@ -219,7 +218,7 @@ public class ApacheRestClient implements RestClient {
                     request = new HttpDelete(url);
                     break;
                 default:
-                    return null;
+                    throw new UnsupportedOperationException("Http method is not specified");
             }
             if (logger.isDebugEnabled()) {
                 logger.debug("Request to remote http service.\r\n  URL: {}\r\n  Method: {}\r\n  Headers: {}", url.trim(),

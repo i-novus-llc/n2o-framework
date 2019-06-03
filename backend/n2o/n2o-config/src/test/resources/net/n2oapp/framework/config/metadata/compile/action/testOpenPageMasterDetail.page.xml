@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="second">
     <regions>
-        <none place="single">
-            <form query-id="testRefbook" id="main">
+        <region place="single">
+            <form query-id="testRefbook" id="main" route="/">
                 <toolbar>
                     <button id="newPage" model="filter">
                         <open-page page-id="testOpenPageSimplePageAction1" route="/level3"/>
                     </button>
                 </toolbar>
             </form>
-        </none>
+        </region>
     </regions>
 </page>
 

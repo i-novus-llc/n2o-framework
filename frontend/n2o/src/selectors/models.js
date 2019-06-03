@@ -46,7 +46,11 @@ const getModelSelector = modelLink => state => {
 
 const getModelsByDependency = dependency => state => {
   return (
-    dependency && dependency.map(config => ({ model: getModelSelector(config.on)(state), config }))
+    dependency &&
+    dependency.map(config => ({
+      model: getModelSelector(config.on)(state),
+      config,
+    }))
   );
 };
 
@@ -55,9 +59,12 @@ const getModelsByDependency = dependency => state => {
  * @param prefix
  */
 const makeModelsByPrefixSelector = prefix =>
-  createSelector(modelsSelector, modelsState => {
-    return modelsState[prefix] || {};
-  });
+  createSelector(
+    modelsSelector,
+    modelsState => {
+      return modelsState[prefix] || {};
+    }
+  );
 
 /**
  * Селектор-генератор для получения конкретной модели
@@ -65,27 +72,36 @@ const makeModelsByPrefixSelector = prefix =>
  * @param key
  */
 const makeGetModelByPrefixSelector = (prefix, key) =>
-  createSelector(makeModelsByPrefixSelector(prefix), prefixModelsState => {
-    return prefixModelsState[key];
-  });
+  createSelector(
+    makeModelsByPrefixSelector(prefix),
+    prefixModelsState => {
+      return prefixModelsState[key];
+    }
+  );
 
 /**
  * Селектор-генератор для получения resolve модели
  * @param key
  */
 const makeGetResolveModelSelector = key =>
-  createSelector(resolveSelector, modelsState => {
-    return modelsState[key];
-  });
+  createSelector(
+    resolveSelector,
+    modelsState => {
+      return modelsState[key];
+    }
+  );
 
 /**
  * Селектор-генератор для получения filter модели
  * @param key
  */
 const makeGetFilterModelSelector = key =>
-  createSelector(filterSelector, modelsState => {
-    return modelsState[key];
-  });
+  createSelector(
+    filterSelector,
+    modelsState => {
+      return modelsState[key];
+    }
+  );
 
 /*
   Остальные селекторы
@@ -99,5 +115,5 @@ export {
   makeGetResolveModelSelector,
   makeGetFilterModelSelector,
   getModelSelector,
-  getModelsByDependency
+  getModelsByDependency,
 };

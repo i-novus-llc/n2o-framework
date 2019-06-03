@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.metadata.compile;
 
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoint;
+import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFiltersAccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oPageAccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oUrlAccessPoint;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
@@ -53,25 +54,31 @@ public class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
 
         assertThat(accessSchema.getN2oUserAccesses().size(), is(1));
         assertThat(accessSchema.getN2oUserAccesses().get(0).getAccessPoints()[0], instanceOf(N2oUrlAccessPoint.class));
+        assertThat(accessSchema.getN2oUserAccesses().get(0).getAccessPoints()[1], instanceOf(N2oObjectFiltersAccessPoint.class));
 
-        assertThat(accessSchema.getAuthenticatedPoints().size(), is(1));
+        assertThat(accessSchema.getAuthenticatedPoints().size(), is(2));
         assertThat(accessSchema.getAuthenticatedPoints().get(0), instanceOf(N2oUrlAccessPoint.class));
+        assertThat(accessSchema.getAuthenticatedPoints().get(1), instanceOf(N2oObjectFiltersAccessPoint.class));
 
-        assertThat(accessSchema.getAnonymousPoints().size(), is(2));
+        assertThat(accessSchema.getAnonymousPoints().size(), is(3));
         assertThat(accessSchema.getAnonymousPoints().get(0), instanceOf(N2oObjectAccessPoint.class));
         assertThat(accessSchema.getAnonymousPoints().get(1), instanceOf(N2oObjectAccessPoint.class));
+        assertThat(accessSchema.getAnonymousPoints().get(2), instanceOf(N2oObjectFiltersAccessPoint.class));
 
-        assertThat(accessSchema.getPermitAllPoints().size(), is(2));
+        assertThat(accessSchema.getPermitAllPoints().size(), is(3));
         assertThat(accessSchema.getPermitAllPoints().get(0), instanceOf(N2oObjectAccessPoint.class));
         assertThat(accessSchema.getPermitAllPoints().get(1), instanceOf(N2oObjectAccessPoint.class));
+        assertThat(accessSchema.getPermitAllPoints().get(2), instanceOf(N2oObjectFiltersAccessPoint.class));
 
         assertThat(accessSchema.getN2oRoles().size(), is(1));
         assertThat(accessSchema.getN2oRoles().get(0).getAccessPoints()[0], instanceOf(N2oObjectAccessPoint.class));
         assertThat(accessSchema.getN2oRoles().get(0).getAccessPoints()[1], instanceOf(N2oObjectAccessPoint.class));
         assertThat(accessSchema.getN2oRoles().get(0).getAccessPoints()[2], instanceOf(N2oPageAccessPoint.class));
+        assertThat(accessSchema.getN2oRoles().get(0).getAccessPoints()[3], instanceOf(N2oObjectFiltersAccessPoint.class));
 
         assertThat(accessSchema.getN2oPermissions().size(), is(1));
         assertThat(accessSchema.getN2oPermissions().get(0).getAccessPoints()[0], instanceOf(N2oObjectAccessPoint.class));
         assertThat(accessSchema.getN2oPermissions().get(0).getAccessPoints()[1], instanceOf(N2oObjectAccessPoint.class));
+        assertThat(accessSchema.getN2oPermissions().get(0).getAccessPoints()[2], instanceOf(N2oObjectFiltersAccessPoint.class));
     }
 }

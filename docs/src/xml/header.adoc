@@ -1,27 +1,9 @@
 == Хедеры
 
-Подключение::
-[source,xml]
-----
-<dependency>
-  <groupId>net.n2oapp.framework</groupId>
-  <artifactId>n2o-header</artifactId>
-  <version>${n2o.version}</version>
-</dependency>
-----
-
-=== Простой хедер <header>
-
 Библиотека компонентов::
 ```
-http://n2oapp.net/framework/config/schema/simple-header-1.0
+http://n2oapp.net/framework/config/schema/header-2.0
 ```
 
-==== <menu>
-==== <user-menu>
-=== Модульный хедер <header>
-
-Библиотека компонентов::
-```
-http://n2oapp.net/framework/config/schema/standard-header-1.0
-```
+=== <nav>
+=== <extra-menu>

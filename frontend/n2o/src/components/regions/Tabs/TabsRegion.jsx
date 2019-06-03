@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, each } from 'lodash';
-
+import { isEmpty, each, map } from 'lodash';
+import { compose } from 'recompose';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import WidgetFactory from '../../widgets/WidgetFactory';
-import withGetWidget from '../withGetWidget';
+import withWidgetProps from '../withWidgetProps';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 
 import Factory from '../../../core/factory/Factory';
@@ -16,6 +16,7 @@ import SecurityCheck from '../../../core/auth/SecurityCheck';
  * @reactProps {array} tabs - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
+ * @reactProps {function} resolveVisibleDependency - резол видимости таба
  */
 class TabRegion extends React.Component {
   constructor(props) {
@@ -45,9 +46,12 @@ class TabRegion extends React.Component {
   }
 
   render() {
-    const { tabs, getWidget, pageId } = this.props;
+    const { tabs, getWidget, getWidgetProps, pageId } = this.props;
     return (
-      <Tabs ref={el => (this._tabsEl = el)} onChangeActive={this.handleChangeActive}>
+      <Tabs
+        ref={el => (this._tabsEl = el)}
+        onChangeActive={this.handleChangeActive}
+      >
         {tabs.map(tab => {
           const tabProps = {
             key: tab.widgetId,
@@ -55,11 +59,15 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: true
+            visible: getWidgetProps(tab.widgetId).isVisible,
           };
           const tabEl = (
             <Tab {...tabProps}>
-              <Factory id={tab.widgetId} level={WIDGETS} {...getWidget(pageId, tab.widgetId)} />
+              <Factory
+                id={tab.widgetId}
+                level={WIDGETS}
+                {...getWidget(pageId, tab.widgetId)}
+              />
             </Tab>
           );
 
@@ -67,7 +75,7 @@ class TabRegion extends React.Component {
 
           const onPermissionsSet = permissions => {
             this.setState({
-              [tab.widgetId]: permissions
+              [tab.widgetId]: permissions,
             });
           };
 
@@ -80,7 +88,9 @@ class TabRegion extends React.Component {
               config={security}
               onPermissionsSet={onPermissionsSet}
               render={({ permissions, active, visible }) => {
-                return permissions ? React.cloneElement(tabEl, { active, visible }) : null;
+                return permissions
+                  ? React.cloneElement(tabEl, { active, visible })
+                  : null;
               }}
             />
           );
@@ -95,12 +105,13 @@ TabRegion.propTypes = {
   getWidget: PropTypes.func.isRequired,
   pageId: PropTypes.string.isRequired,
   alwaysRefresh: PropTypes.bool,
-  mode: PropTypes.oneOf(['single', 'all'])
+  mode: PropTypes.oneOf(['single', 'all']),
+  resolveVisibleDependency: PropTypes.func,
 };
 
 TabRegion.defaultProps = {
   alwaysRefresh: false,
-  mode: 'single'
+  mode: 'single',
 };
 
-export default withGetWidget(TabRegion);
+export default compose(withWidgetProps)(TabRegion);

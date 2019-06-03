@@ -52,7 +52,7 @@ function PopupItems({
   onRemoveItem,
   onSelect,
   setActiveValueId,
-  activeValueId
+  activeValueId,
 }) {
   const handleRef = item => {
     if (item) {
@@ -76,8 +76,12 @@ function PopupItems({
   const renderSingleItem = item => {
     return (
       <DropdownItem
-        className={cx('n2o-eclipse-content', { active: activeValueId === item[valueFieldId] })}
-        onMouseOver={() => setActiveValueId && setActiveValueId(item[valueFieldId])}
+        className={cx('n2o-eclipse-content', {
+          active: activeValueId === item[valueFieldId],
+        })}
+        onMouseOver={() =>
+          setActiveValueId && setActiveValueId(item[valueFieldId])
+        }
         disabled={!hasCheckboxes && isDisabled(item, selected, disabledValues)}
         ref={handleRef}
         key={item.id}
@@ -93,21 +97,31 @@ function PopupItems({
     );
   };
 
-  const renderIcon = (item, iconFieldId) => item[iconFieldId] && <Icon name={item[iconFieldId]} />;
+  const renderIcon = (item, iconFieldId) =>
+    item[iconFieldId] && <Icon name={item[iconFieldId]} />;
   const renderImage = (item, imageFieldId) =>
     item[imageFieldId] && <img src={item[imageFieldId]} />;
   const renderBadge = (item, badgeFieldId, badgeColorFieldId) => (
     <Badge color={item[badgeColorFieldId]}>{item[badgeFieldId]}</Badge>
   );
   const renderCheckbox = (item, selected) => (
-    <CheckboxN2O value={inArray(selected, item)} label={displayTitle(item)} inline />
+    <CheckboxN2O
+      value={inArray(selected, item)}
+      label={displayTitle(item)}
+      inline
+    />
   );
-  const renderLabel = item => <span className="text-cropped">{displayTitle(item)}</span>;
+  const renderLabel = item => (
+    <span className="text-cropped">{displayTitle(item)}</span>
+  );
 
-  const renderSingleItems = options => options.map((item, i) => renderSingleItem(item, i));
+  const renderSingleItems = options =>
+    options.map((item, i) => renderSingleItem(item, i));
   const renderGroupedItems = (options, groupFieldId) => {
     const groupedData = groupData(options, groupFieldId);
-    return Object.keys(groupedData).map(key => renderGroup(key, groupedData[key]));
+    return Object.keys(groupedData).map(key =>
+      renderGroup(key, groupedData[key])
+    );
   };
 
   const renderGroup = (key, value) => (
@@ -121,7 +135,9 @@ function PopupItems({
   );
 
   const renderMenuItems = options =>
-    groupFieldId ? renderGroupedItems(options, groupFieldId) : renderSingleItems(options);
+    groupFieldId
+      ? renderGroupedItems(options, groupFieldId)
+      : renderSingleItems(options);
 
   const renderMenu = options => {
     if (options && options[0] !== null && options.length) {
@@ -152,7 +168,7 @@ PopupItems.propTypes = {
   onRemoveItem: PropTypes.func,
   format: PropTypes.string,
   setActiveValueId: PropTypes.func,
-  activeValueId: PropTypes.string
+  activeValueId: PropTypes.string,
 };
 
 export default PopupItems;

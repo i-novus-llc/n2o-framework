@@ -30,7 +30,12 @@ class RadioN2O extends React.Component {
     const { label, disabled, value, checked, onChange, inline } = this.props;
 
     return (
-      <div className={cx('custom-control custom-radio', { 'custom-control-inline': inline })}>
+      <div
+        className={cx('custom-control custom-radio', {
+          'custom-control-inline': inline,
+          checked,
+        })}
+      >
         <Input
           id={this.elementId}
           className="custom-control-input"
@@ -54,13 +59,13 @@ RadioN2O.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   label: PropTypes.string,
-  inline: PropTypes.bool
+  inline: PropTypes.bool,
 };
 
 RadioN2O.defaultProps = {
   disabled: false,
   checked: false,
-  inline: false
+  inline: false,
 };
 
 export default setDisplayName('RadioN2O')(RadioN2O);

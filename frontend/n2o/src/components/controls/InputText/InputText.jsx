@@ -49,14 +49,14 @@ class InputText extends React.Component {
       onKeyDown,
       autoFocus,
       className,
-      style
+      style,
     } = this.props;
     const inputClass = `form-control ${className}`;
     return (
       <Input
         type="text"
         className={inputClass}
-        ref={inputRef}
+        inputRef={inputRef}
         style={style}
         autoFocus={autoFocus}
         maxLength={length}
@@ -86,14 +86,14 @@ Input.propTypes = {
   onChange: PropTypes.func,
   autoFocus: PropTypes.bool,
   length: PropTypes.string,
-  inputRef: PropTypes.any
+  inputRef: PropTypes.any,
 };
 
 Input.defaultProps = {
   onChange: () => {},
   className: '',
   disabled: false,
-  autoFocus: false
+  autoFocus: false,
 };
 
 export default InputText;

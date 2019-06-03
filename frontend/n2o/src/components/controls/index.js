@@ -20,6 +20,7 @@ import InputHidden from './InputHidden/InputHidden';
 import ButtonUploader from './FileUploader/ButtonUploader';
 import DropZone from './FileUploader/DropZone';
 import Switch from './Switch/Switch';
+import InputMoney from './InputMoney/InputMoney';
 
 export default {
   InputText: InputText,
@@ -43,5 +44,6 @@ export default {
   InputHidden: InputHidden,
   ButtonUploader: ButtonUploader,
   DropZone: DropZone,
-  Switch: Switch
+  Switch: Switch,
+  InputMoney: InputMoney,
 };

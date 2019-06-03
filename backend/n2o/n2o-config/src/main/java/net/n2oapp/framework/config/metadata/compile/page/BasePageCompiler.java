@@ -1,10 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
@@ -27,7 +29,7 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
      * @return Маршрут
      */
     protected String initPageRoute(N2oPage source, PageContext context, CompileProcessor p) {
-        return p.cast(context.getRoute(p), source.getRoute(), normalize(source.getId()));
+        return normalize(p.cast(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId())));
     }
 
     /**
@@ -38,10 +40,9 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
      * @param p       Процессор сборки
      */
     protected void registerRoutes(PageRoutes routes, PageContext context, CompileProcessor p) {
-        PageContext pageContext = new PageContext(context, p);
         for (PageRoutes.Route route : routes.getList()) {
             if (!route.getIsOtherPage())
-                p.addRoute(route.getPath(), pageContext);
+                p.addRoute(route.getPath(), context);
         }
     }
 

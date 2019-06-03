@@ -8,7 +8,7 @@ import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
 } from 'reactstrap';
 import cx from 'classnames';
 import { isEmpty, every } from 'lodash';
@@ -20,6 +20,7 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
+import DropdownCustomItem from '../snippets/DropdownCustomItem/DropdownCustomItem';
 
 /**
  * Компонент redux-обертка для тулбара
@@ -79,7 +80,7 @@ class Actions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      confirmVisibleId: null
+      confirmVisibleId: null,
     };
     this.closeConfirm = this.closeConfirm.bind(this);
     this.onClickHelper = this.onClickHelper.bind(this);
@@ -99,14 +100,14 @@ class Actions extends React.Component {
    * @param confirm
    */
   onClickHelper(button, confirm) {
-    const { actions, resolve, options, containerKey } = this.props;
+    const { actions, resolve, options } = this.props;
     this.onClick(
       button.actionId,
       button.id,
       confirm,
       actions,
       resolve,
-      containerKey,
+      button.validatedWidgetId,
       button.validate,
       options
     );
@@ -123,11 +124,11 @@ class Actions extends React.Component {
       const { modelLink, text } = confirm;
       const resolvedText = linkResolver(store, {
         link: modelLink,
-        value: text
+        value: text,
       });
       return {
         ...confirm,
-        text: resolvedText
+        text: resolvedText,
       };
     }
   }
@@ -182,7 +183,9 @@ class Actions extends React.Component {
         } else {
           buttonEl = this.renderButton(Button, button);
         }
-        return <SecurityNotRender config={button.security} component={buttonEl} />;
+        return (
+          <SecurityNotRender config={button.security} component={buttonEl} />
+        );
       })
     );
   }
@@ -190,17 +193,26 @@ class Actions extends React.Component {
   /**
    * резолв экшена
    */
-  onClick(actionId, id, confirm, actions, resolve, containerKey, validate = true, options = {}) {
+  onClick(
+    actionId,
+    id,
+    confirm,
+    actions,
+    resolve,
+    validatedWidgetId,
+    validate = true,
+    options = {}
+  ) {
     if (confirm) {
       this.setState({ confirmVisibleId: id });
     } else {
-      resolve(actions[actionId].src, containerKey, {
+      resolve(actions[actionId].src, validatedWidgetId, {
         ...actions[actionId].options,
         actionId,
         buttonId: id,
         validate,
         pageId: this.props.pageId,
-        ...options[actionId]
+        ...options[actionId],
       });
     }
   }
@@ -208,17 +220,37 @@ class Actions extends React.Component {
   /**
    * рендер кнопки-дропдауна
    */
-  renderDropdownButton({ title, color, id, hint, visible, subMenu, icon, size, disabled }) {
-    const dropdownProps = { size, title, color, hint, icon, visible, disabled };
-
+  renderDropdownButton({
+    title,
+    color,
+    id,
+    hint,
+    visible,
+    hintPosition,
+    subMenu,
+    icon,
+    size,
+    disabled,
+  }) {
+    const dropdownProps = {
+      size,
+      title,
+      color,
+      hint,
+      icon,
+      visible,
+      disabled,
+      hintPosition,
+    };
     return (
       <ButtonContainer
         id={id}
         component={DropdownMenu}
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
+        color={color}
       >
-        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
+        {subMenu.map(item => this.renderButton(DropdownCustomItem, item, id))}
       </ButtonContainer>
     );
   }
@@ -229,6 +261,7 @@ class Actions extends React.Component {
    * @param color
    * @param id
    * @param hint
+   * @param hintPosition
    * @param visible
    * @param subMenu
    * @param dropdownSrc
@@ -242,16 +275,25 @@ class Actions extends React.Component {
     color,
     id,
     hint,
+    hintPosition,
     visible,
     subMenu,
     dropdownSrc,
     icon,
     actionId,
-    size
+    size,
   }) {
     const { containerKey } = this.props;
     const CustomMenu = factoryResolver(dropdownSrc);
-    const dropdownProps = { size, title, color, hint, visible, icon };
+    const dropdownProps = {
+      size,
+      title,
+      color,
+      hint,
+      hintPosition,
+      visible,
+      icon,
+    };
     return (
       <ButtonContainer
         id={id}
@@ -276,13 +318,15 @@ class Actions extends React.Component {
           const buttonGroup = (
             <ButtonGroup
               style={style}
-              className={cx({ 'mr-2': toolbar.lenght === i + 1 }, className)}
+              className={cx({ 'mr-2': toolbar.length === i + 1 }, className)}
             >
               {this.renderButtons(buttons)}
             </ButtonGroup>
           );
 
-          return <SecurityNotRender config={security} component={buttonGroup} />;
+          return (
+            <SecurityNotRender config={security} component={buttonGroup} />
+          );
         })}
       </ButtonToolbar>
     );
@@ -290,11 +334,11 @@ class Actions extends React.Component {
 }
 
 Actions.contextTypes = {
-  store: PropTypes.object
+  store: PropTypes.object,
 };
 
 Actions.defaultProps = {
-  toolbar: []
+  toolbar: [],
 };
 
 Actions.propTypes = {
@@ -304,7 +348,7 @@ Actions.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   resolve: PropTypes.func,
-  options: PropTypes.object
+  options: PropTypes.object,
 };
 
 /**
@@ -313,9 +357,11 @@ Actions.propTypes = {
  */
 const mapDispatchToProps = dispatch => {
   return {
-    resolve: (actionSrc, containerKey, options) => {
-      dispatch(callActionImpl(actionSrc, { ...options, dispatch, containerKey }));
-    }
+    resolve: (actionSrc, validatedWidgetId, options) => {
+      dispatch(
+        callActionImpl(actionSrc, { ...options, dispatch, validatedWidgetId })
+      );
+    },
   };
 };
 
