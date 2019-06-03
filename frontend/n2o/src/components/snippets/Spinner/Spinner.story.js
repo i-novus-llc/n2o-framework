@@ -93,20 +93,68 @@ stories
   .add('Компонент', () => {
     const props = {
       loading: boolean('loading', true),
-      type: select('type', ['cover', 'inline'], 'inline'),
+      type: select('type', ['cover', 'inline'], 'cover'),
       text: text('text', 'text'),
       delay: select('delay', [1000, 2000, 3000, 4000], 1000),
-      mode: select('mode', ['dark', 'light', 'transparent'], 'dark'),
     };
     return (
       <Fragment>
         <Spinner {...props}>
-          <div>dzfvzdfvzdfvzdfvzdfv</div>
-          <div>dzfvzdfvzdfvzdfvzdfv</div>
-          <div>dzfvzdfvzdfvzdfvzdfv</div>
-          <div>dzfvzdfvzdfvzdfvzdfv</div>
-          <div>dzfvzdfvzdfvzdfvzdfv</div>
-          <div>dzfvzdfvzdfvzdfvzdfv</div>
+          <div>
+            <div style={{ display: 'flex' }}>
+              <Input />
+            </div>
+            <div style={{ marginTop: 50, position: 'relative' }}>
+              <Table>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.Cell
+                      as="th"
+                      component={TextTableHeader}
+                      id="name"
+                      sortable={false}
+                      label="Имя"
+                    />
+                    <Table.Cell
+                      as="th"
+                      component={TextTableHeader}
+                      id="surname"
+                      sortable={false}
+                      label="Фамилия"
+                    />
+                    <Table.Cell
+                      as="th"
+                      component={TextTableHeader}
+                      id="birthday"
+                      sortable={false}
+                      label="Дата рождения"
+                    />
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {tableData.map(data => (
+                    <Table.Row>
+                      <Table.Cell
+                        component={TextCell}
+                        model={data}
+                        id="name"
+                        fieldKey="name"
+                      />
+                      <Table.Cell id="surname">
+                        <TextCell model={data} fieldKey="surname" />
+                      </Table.Cell>
+                      <Table.Cell
+                        component={TextCell}
+                        model={data}
+                        id="birthday"
+                        fieldKey="birthday"
+                      />
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </div>
+          </div>
         </Spinner>
       </Fragment>
     );
