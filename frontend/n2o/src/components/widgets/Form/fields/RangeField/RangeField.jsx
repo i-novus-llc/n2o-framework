@@ -129,7 +129,7 @@ function RangeField({
             <Control
               placeholder={placeholder}
               visible={visible}
-              autoFocus={autoFocus}
+              autoFocus={false}
               value={end}
               onBlur={onBlur}
               onFocus={onFocus}
@@ -145,15 +145,12 @@ function RangeField({
             {loading && <InlineSpinner />}
           </div>
         </div>
-        <Description value={description} />
-        <div
-          className={cx(
-            'n2o-validation-message',
-            validationMap[validationClass]
-          )}
-        >
-          {touched && message && message.text}
-        </div>
+      </div>
+      <Description value={description} />
+      <div
+        className={cx('n2o-validation-message', validationMap[validationClass])}
+      >
+        {touched && message && message.text}
       </div>
     </div>
   ) : null;
@@ -179,8 +176,8 @@ RangeField.propTypes = {
   labelAlignment: PropTypes.oneOf(['left', 'right']),
   labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
   message: PropTypes.object,
-  help: PropTypes.oneOf(PropTypes.string, PropTypes.node),
-  divider: PropTypes.oneOf(PropTypes.bool, PropTypes.string),
+  help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  divider: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 
 RangeField.defaultProps = {
@@ -193,7 +190,7 @@ RangeField.defaultProps = {
   enabled: true,
   disabled: false,
   onChange: () => {},
-  diver: false,
+  divider: false,
 };
 
 export default compose(
@@ -205,6 +202,6 @@ export default compose(
   withHandlers({
     onBeginValueChange: ({ end, onChange }) => begin =>
       onChange({ begin, end }),
-    onBndValueChange: ({ begin, onChange }) => end => onChange({ begin, end }),
+    onEndValueChange: ({ begin, onChange }) => end => onChange({ begin, end }),
   })
 )(RangeField);
