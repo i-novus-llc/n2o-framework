@@ -51,7 +51,7 @@ class FactoryProvider extends Component {
   }
 
   getComponent(src, level, security) {
-    if (level && this.factories[level]) {
+    if (level && this.factories[level] && this.factories[level][src]) {
       return this.checkSecurityAndRender(
         this.factories[level][src],
         security,

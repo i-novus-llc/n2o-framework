@@ -69,7 +69,7 @@ describe('<HintDropDown />', () => {
       open: true,
     });
     const toggler = wrapper.find('.n2o-buttons-cell-toggler');
-    toggler.at(0).simulate('focus');
+    toggler.at(0).simulate('click');
     expect(wrapper.find('.n2o-buttons-cell-dropdown').exists()).toBeTruthy();
     expect(wrapper.find('DropdownCustomItem').exists()).toBeTruthy();
   });
@@ -87,7 +87,7 @@ describe('<HintDropDown />', () => {
     });
 
     const toggler = wrapper.find('.n2o-buttons-cell-toggler');
-    toggler.at(0).simulate('focus');
+    toggler.at(0).simulate('click');
 
     wrapper
       .find('DropdownCustomItem')

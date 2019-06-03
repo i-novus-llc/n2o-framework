@@ -122,7 +122,8 @@
     "whatwg-fetch": "2.0.3",
     "why-did-you-update": "0.1.1",
     "xhr-mock": "2.4.1",
-    "rc-slider": "^8.6.11"
+    "rc-slider": "^8.6.11",
+    "copy-to-clipboard": "^3.2.0"
   },
   "peerDependencies": {
     "react": "^16.0.0",

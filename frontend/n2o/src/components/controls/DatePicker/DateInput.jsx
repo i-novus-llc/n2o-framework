@@ -127,6 +127,7 @@ class DateInput extends React.Component {
             disabled={disabled}
             onClick={this.onButtonClick}
             className="btn n2o-calendar-button"
+            tabIndex={-1}
           >
             <i className="fa fa-calendar" aria-hidden="true" />
           </button>
