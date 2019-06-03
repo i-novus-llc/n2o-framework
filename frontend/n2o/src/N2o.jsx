@@ -88,8 +88,16 @@ class N2o extends Component {
 
 N2o.propTypes = {
   ...factoryConfigShape,
-  defaultTemplate: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.node]),
-  defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.node]),
+  defaultTemplate: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
+  defaultBreadcrumb: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
   defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
@@ -98,7 +106,11 @@ N2o.propTypes = {
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string,
-      component: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.node]),
+      component: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       exact: PropTypes.bool,
       strict: PropTypes.bool,
     })
@@ -142,8 +154,16 @@ const EnhancedN2O = compose(
   }),
   withContext(
     {
-      defaultTemplate: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.node]),
-      defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.element, PropTypes.node]),
+      defaultTemplate: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
+      defaultBreadcrumb: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       defaultPromptMessage: PropTypes.string,
     },
     props => ({

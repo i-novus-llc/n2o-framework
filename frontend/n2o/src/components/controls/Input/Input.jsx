@@ -120,7 +120,6 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
-  obBlur: PropTypes.func,
   className: PropTypes.string,
   style: PropTypes.object,
   placeholder: PropTypes.string,

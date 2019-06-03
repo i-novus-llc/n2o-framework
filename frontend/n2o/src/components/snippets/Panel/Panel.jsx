@@ -44,8 +44,9 @@ function Panel({
       style={style}
       onToggle={onToggle}
       color={color}
+      // expanded={open}
       outline
-      onKeyDown={e => onKeyPress(e)}
+      onKeyDown={onKeyPress}
       tabIndex="-1"
     >
       {children}

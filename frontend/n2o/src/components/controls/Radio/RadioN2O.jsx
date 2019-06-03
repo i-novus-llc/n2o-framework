@@ -28,8 +28,7 @@ class RadioN2O extends React.Component {
 
   render() {
     const { label, disabled, value, checked, onChange, inline } = this.props;
-    console.log('point');
-    console.log(value);
+
     return (
       <div
         className={cx('custom-control custom-radio', {

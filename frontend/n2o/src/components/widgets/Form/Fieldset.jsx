@@ -231,7 +231,11 @@ Fieldset.propTypes = {
   labelAlignment: PropTypes.array,
   defaultCol: PropTypes.number,
   autoFocusId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  component: PropTypes.node,
+  component: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
   children: PropTypes.node,
   visible: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

@@ -71,7 +71,11 @@ ReduxField.defaultProps = {
 
 ReduxField.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  component: PropTypes.node,
+  component: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
 };
 
 export default withObserveDependency(config)(ReduxField);

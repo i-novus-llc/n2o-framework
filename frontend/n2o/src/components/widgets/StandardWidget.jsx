@@ -74,6 +74,7 @@ class StandardWidget extends React.Component {
 
   render() {
     const { widgetId, disabled, filter, className, style } = this.props;
+
     return (
       <StandardWidgetLayout
         className={cx(className, { 'n2o-disabled': disabled })}
@@ -114,10 +115,18 @@ StandardWidget.propTypes = {
   disabled: PropTypes.bool,
   left: PropTypes.element,
   top: PropTypes.element,
-  topLeft: PropTypes.array,
-  topRight: PropTypes.array,
-  bottomLeft: PropTypes.array,
-  bottomRight: PropTypes.array,
+  topLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  topRight: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  bottomLeft: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array,
+    PropTypes.node,
+  ]),
+  bottomRight: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array,
+    PropTypes.node,
+  ]),
   children: PropTypes.node,
 };
 

@@ -48,7 +48,7 @@ function AdvancedTableFilterPopup({
 }
 
 AdvancedTableFilterPopup.propTypes = {
-  value: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   onResetFilter: PropTypes.func,
   onSetFilter: PropTypes.func,

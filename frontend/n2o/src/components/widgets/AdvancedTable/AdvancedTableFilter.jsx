@@ -95,7 +95,7 @@ AdvancedTableFilter.propTypes = {
   children: PropTypes.object,
   id: PropTypes.string,
   onFilter: PropTypes.func,
-  value: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 AdvancedTableFilter.defaultProps = {

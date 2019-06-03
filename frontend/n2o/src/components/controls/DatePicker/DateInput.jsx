@@ -7,6 +7,9 @@ import DateTimeControl from './DateTimeControl';
 import MaskedInput from 'react-text-mask';
 import { formatToMask, hasInsideMixMax } from './utils';
 
+const inputStyle = { flexGrow: 1 };
+const dashStyle = { alignSelf: 'center' };
+
 /**
  * Компонент DateInput
  * @reactProps {string} dateFormat
@@ -91,8 +94,7 @@ class DateInput extends React.Component {
       dateFormat,
       inputClassName,
     } = this.props;
-    const inputStyle = { flexGrow: 1 };
-    const dashStyle = { alignSelf: 'center' };
+
     return (
       <div
         className={cx('n2o-date-input', {

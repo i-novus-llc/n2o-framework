@@ -41,6 +41,7 @@ class CheckboxN2O extends React.Component {
       onFocus,
       onBlur,
     } = this.props;
+
     return (
       <div
         className={cx('custom-control', 'custom-checkbox', className, {

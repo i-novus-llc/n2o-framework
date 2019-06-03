@@ -372,7 +372,7 @@ const FileUploaderControl = WrappedComponent => {
     onChange: PropTypes.func,
     className: PropTypes.string,
     mapper: PropTypes.func,
-    children: PropTypes.oneOf(PropTypes.func, PropTypes.node),
+    children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   };
 
   return ReturnedComponent;

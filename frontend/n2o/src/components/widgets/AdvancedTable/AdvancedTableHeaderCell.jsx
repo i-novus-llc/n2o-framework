@@ -144,16 +144,16 @@ class AdvancedTableHeaderCell extends Component {
 }
 
 AdvancedTableHeaderCell.propTypes = {
-  children: PropTypes.oneOf(
+  children: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
-    PropTypes.object
-  ),
+    PropTypes.object,
+  ]),
   className: PropTypes.string,
   columnId: PropTypes.string,
   dataIndex: PropTypes.string,
   id: PropTypes.string,
-  index: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+  index: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.string,
   multiHeader: PropTypes.bool,
   onCell: PropTypes.func,
@@ -162,7 +162,11 @@ AdvancedTableHeaderCell.propTypes = {
   onResize: PropTypes.func,
   onSort: PropTypes.func,
   sorting: PropTypes.object,
-  title: PropTypes.oneOf(PropTypes.string, PropTypes.func),
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   width: PropTypes.number,
   resizable: PropTypes.bool,
   selectionHead: PropTypes.bool,
