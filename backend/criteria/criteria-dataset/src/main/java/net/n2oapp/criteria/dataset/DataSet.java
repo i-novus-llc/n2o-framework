@@ -107,19 +107,11 @@ public class DataSet extends NestedMap {
     }
 
     @Override
-    protected Object wrapValue(Object value) {
-        if (value instanceof DataSet)
-            return new DataSet((DataSet) value);
-        return super.wrapValue(value);
-    }
-
-
-    protected NestedMap createNestedMap(String key) {
-        return new DataSet();
-    }
-
     protected NestedMap createNestedMap(Map map) {
-        return new DataSet(map);
+        if (map == null)
+            return new DataSet();
+        else
+            return new DataSet(map);
     }
 
     /**
