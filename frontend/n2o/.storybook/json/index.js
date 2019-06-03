@@ -25,6 +25,7 @@ import InputSelectTreeDefaultValue from './InputSelectTreeDefaultValue';
 import alertStackedErrors from './alertStackedErrors';
 import placeholderToConfirm from './placeholderToConfirm';
 import FormFieldsetSecurity from './FormFieldsetSecurity';
+import FormPlaceholder from './FormPlaceholder';
 
 export {
   filterMetadata,
@@ -53,5 +54,6 @@ export {
   FormHighlyLoadedTest,
   InputSelectTreeDefaultValue,
   alertStackedErrors,
-  placeholderToConfirm
+  placeholderToConfirm,
+  FormPlaceholder
 };

@@ -8,6 +8,7 @@ import { withKnobs, text, boolean, object } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import withPage from 'N2oStorybook/decorators/withPage';
+import { FormPlaceholder } from 'N2oStorybook/json';
 import {
   FormFields,
   FormValidations,
@@ -197,5 +198,23 @@ stories
           </div>
         </div>
       </Router>
+    );
+  })
+  .add('Placeholder', () => {
+    fetchMock
+      .restore()
+      .get(
+        'begin:n2o/data',
+        () => new Promise(res => setTimeout(() => res(getStubData), 3000))
+      );
+
+    return (
+      <div>
+        <Factory
+          level={WIDGETS}
+          {...FormPlaceholder['Page_Form']}
+          id="Page_Form"
+        />
+      </div>
     );
   });
