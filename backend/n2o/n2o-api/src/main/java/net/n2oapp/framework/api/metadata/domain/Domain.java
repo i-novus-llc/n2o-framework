@@ -10,6 +10,8 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -23,6 +25,8 @@ public enum Domain {
     date(Date.class, N2oDatePicker.class),
     localdate(LocalDate.class, N2oDatePicker.class),
     localdatetime(LocalDateTime.class, N2oDatePicker.class),
+    zoneddatetime(ZonedDateTime.class, N2oDatePicker.class),
+    offsetdatetime(OffsetDateTime.class, N2oDatePicker.class),
     object(DataSet.class, N2oClassifier.class),
     long_(Long.class, N2oInputText.class) {
         @Override
