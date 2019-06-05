@@ -98,7 +98,8 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "utc": false
+                          "utc": false,
+                          "outputFormat": "YYYY-MM-DDTHH:mm:ss"
                         }
                       }
                     ]
@@ -108,6 +109,7 @@
                       {
                         "src": "StandardField",
                         "id": "vip",
+                        "dependency": [],
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
@@ -226,8 +228,8 @@
       "options": {
         "type": "n2o/modals/CLOSE",
         "payload": {
-          "name": "proto_create",
-          "prompt": true
+          "prompt": true,
+          "name": "proto_create"
         },
         "meta": {
           "closeLastModal": true

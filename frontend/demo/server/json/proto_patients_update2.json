@@ -193,7 +193,8 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "utc": false
+                          "utc": false,
+                          "outputFormat": "YYYY-MM-DDTHH:mm:ss"
                         }
                       }
                     ]

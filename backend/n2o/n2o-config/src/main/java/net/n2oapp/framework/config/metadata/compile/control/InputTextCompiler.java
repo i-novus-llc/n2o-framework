@@ -48,25 +48,25 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
 
     private void compileDomain(InputText inputText, N2oInputText source, CompileProcessor p) {
         Domain domain = Domain.getByName(source.getDomain());
-        if (domain == null) domain = Domain.string;
+        if (domain == null) domain = Domain.STRING;
         switch (domain) {
-            case integer:
-            case long_:
+            case INTEGER:
+            case LONG:
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Integer.class), Integer.MIN_VALUE));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), Integer.class), Integer.MAX_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
-            case short_:
+            case SHORT:
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Short.class), Short.MIN_VALUE));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), Short.class), Short.MIN_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
-            case numeric:
+            case NUMERIC:
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Long.class), "-999999999"));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), Long.class), "999999999"));
                 inputText.setStep(castDefault(source.getStep(), "0.01"));
                 return;
-            case string:
+            case STRING:
                 inputText.setLength(source.getLength());
                 inputText.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.input.text.src"), String.class)));
                 return;

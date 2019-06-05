@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.script;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import org.apache.commons.io.IOUtils;
@@ -630,7 +631,7 @@ public class ScriptProcessor {
         if (value instanceof String)
             return "'" + value.toString() + "'";
         else if (value instanceof Date)
-            return "'" + new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format((Date) value) + "'";
+            return "'" + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format((Date) value) + "'";
         return value.toString();
     }
 

@@ -212,13 +212,16 @@ public class DomainProcessorTest {
     }
 
     @Test
-    public void testDateDeserialize() { //java.text.ParseException: Cannot parse date "01.12.2019 23:50:40": not compatible with any of standard forms ("yyyy-MM-dd'T'HH:mm:ss.SSSZ", "yyyy-MM-dd'T'HH:mm:ss.SSS", "EEE, dd MMM yyyy HH:mm:ss zzz", "yyyy-MM-dd")
+    public void testDateDeserialize() {
         DomainProcessor proc = new DomainProcessor();
         assertThat(proc.deserialize("2019-12-15T23:50:40", "date"), instanceOf(Date.class));
-        assertThat(proc.deserialize("2019-12-01T23:50:40", "localdatetime"), instanceOf(LocalDateTime.class));
         assertThat(proc.deserialize("2019-12-01", "localdate"), instanceOf(LocalDate.class));
+        assertThat(proc.deserialize("2019-12-01T00:00:00", "localdate"), instanceOf(LocalDate.class));
+        assertThat(proc.deserialize("2019-12-01T23:50:40", "localdatetime"), instanceOf(LocalDateTime.class));
+        assertThat(proc.deserialize("2019-12-01T23:50:40.200", "localdatetime"), instanceOf(LocalDateTime.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40+03:00", "offsetdatetime"), instanceOf(OffsetDateTime.class));
         assertThat(proc.deserialize("2019-12-15T23:50:40+03:00", "zoneddatetime"), instanceOf(ZonedDateTime.class));
-        assertThat(proc.deserialize("2019-12-15T23:50:40-03:00", "offsetdatetime"), instanceOf(OffsetDateTime.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40+03:00[Europe/Moscow]", "zoneddatetime"), instanceOf(ZonedDateTime.class));
     }
 
     @Test
