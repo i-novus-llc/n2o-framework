@@ -201,12 +201,16 @@ public class NestedMap extends LinkedHashMap<String, Object> {
         int endLeft = -1;
         if (key.startsWith("[")) {
             //case: "['a']"
-            endLeft = key.indexOf(']');
-            if (endLeft < 0)
-                throw new IllegalArgumentException("Key must contain ']', but was " + key);
-            if (key.charAt(1) != '\'' && key.charAt(1) != '"'
-                    && key.charAt(endLeft - 1) != '\'' && key.charAt(endLeft - 1) != '"')
+            if (key.charAt(1) != '\'' && key.charAt(1) != '"') {
                 throw new IllegalArgumentException("Key in brackets must be in quotes, but was " + key);
+            }
+            endLeft = key.indexOf(']');
+            if (endLeft < 0) {
+                throw new IllegalArgumentException("Key must contain ']', but was " + key);
+            }
+            if (key.charAt(endLeft - 1) != '\'' && key.charAt(endLeft - 1) != '"') {
+                throw new IllegalArgumentException("Key in brackets must be in quotes, but was " + key);
+            }
             left = key.substring(2, endLeft - 1);//['abc'] -> abc
             endLeft = endLeft + 1;
         } else {
