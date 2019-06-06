@@ -16,7 +16,6 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static net.n2oapp.framework.access.metadata.SecurityFilters.SECURITY_FILTERS_PROP_NAME;
@@ -48,8 +47,8 @@ public class N2oSecurityModule extends N2oModule {
             if (security != null) {
                 securityProvider.checkAccess(security, requestInfo.getUser());
                 if (requestInfo.getSize() != 1) {
-                    List<Restriction> filters = securityProvider.collectRestrictions(getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
-                    requestInfo.getCriteria().addRestrictions(filters);
+                    List<Restriction> securityFilters = securityProvider.collectRestrictions(getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
+                    requestInfo.getCriteria().addRestrictions(securityFilters);
                 }
             }
         }
@@ -58,8 +57,9 @@ public class N2oSecurityModule extends N2oModule {
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
         if (requestInfo.getUpload().equals(UploadType.query) && requestInfo.getSize() == 1) {
+            DataSet data = page.getCollection().iterator().next();
             securityProvider.checkAccess(getSecurityObject(requestInfo.getQuery()), requestInfo.getUser());
-            // todo проверка результата на соответсвие фильтрам
+            securityProvider.checkRestrictions(data, getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());
         }
     }
 

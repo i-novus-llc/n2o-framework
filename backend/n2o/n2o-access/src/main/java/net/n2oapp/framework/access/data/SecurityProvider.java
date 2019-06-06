@@ -1,5 +1,6 @@
 package net.n2oapp.framework.access.data;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.Security;
@@ -44,7 +45,7 @@ public class SecurityProvider {
      */
     public List<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
         if (securityFilters == null)
-            return null;
+            return Collections.emptyList();
         Set<N2oObjectFilter> filters = new HashSet<>();
         Set<String> removeFilters = new HashSet<>();
         if (securityFilters.getPermitAllFilters() != null) {
@@ -93,7 +94,28 @@ public class SecurityProvider {
                     .forEach(u -> removeFilters.addAll(securityFilters.getRemoveUserFilters().get(u)));
         }
         filters.removeIf(f -> removeFilters.contains(f.getId()));
-        return filters.stream().map(f -> new Restriction(f.getFieldId(), f.getValue(), f.getType())).collect(Collectors.toList());
+        return filters.stream().map(this::restriction).collect(Collectors.toList());
+    }
+
+    private Restriction restriction(N2oObjectFilter filter) {
+        Object value = filter.isArray() ? Arrays.asList(filter.getValues()) : filter.getValue();
+        return new Restriction(filter.getFieldId(), value, filter.getType());
+    }
+
+    /**
+     * Вызывает исключение, если данные не удовлетворяют фильтрам доступа
+     * @param data Данные
+     * @param securityFilters Фильтры доступа
+     * @param userContext Контекст пользователя
+     */
+    public void checkRestrictions(DataSet data, SecurityFilters securityFilters, UserContext userContext) {
+        List<Restriction> restrictions = collectRestrictions(securityFilters, userContext);
+        for (Restriction securityFilter : restrictions) {
+            Object value = data.get(securityFilter.getFieldId());
+            boolean valid = securityFilter.check(value);
+            if (!valid)
+                throw new AccessDeniedException("Access denied by field " + securityFilter.getFieldId());
+        }
     }
 
     /**

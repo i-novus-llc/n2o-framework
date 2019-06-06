@@ -3,9 +3,7 @@ package net.n2oapp.criteria.filters;
 import java.io.Serializable;
 
 /**
- * User: operehod
- * Date: 12.11.2014
- * Time: 11:32
+ * Фильтр
  */
 public class Filter implements Serializable {
 
