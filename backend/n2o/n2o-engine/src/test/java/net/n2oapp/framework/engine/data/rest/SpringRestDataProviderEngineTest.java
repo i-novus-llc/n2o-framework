@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.data.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
@@ -228,7 +229,10 @@ public class SpringRestDataProviderEngineTest {
     public void testDateSerializing() {
         TestRestTemplate restClient = new TestRestTemplate("");
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        objectMapper.setDateFormat(dateFormat);
+        objectMapper.registerModule(new JavaTimeModule());
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
         actionEngine.setBaseRestUrl("http://localhost:8080");
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
@@ -236,11 +240,11 @@ public class SpringRestDataProviderEngineTest {
         dataProvider.setFiltersSeparator("&");
 
         Map<String, Object> request = new HashMap<>();
+
         request.put("date.begin", new Date(0));
         request.put("filters", Collections.singletonList("date={date.begin}"));
-
         actionEngine.invoke(dataProvider, request);
-        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?date=1970-01-01T03:00:00"));
+        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?date=1970-01-01T00:00:00"));
     }
 
     @Test
