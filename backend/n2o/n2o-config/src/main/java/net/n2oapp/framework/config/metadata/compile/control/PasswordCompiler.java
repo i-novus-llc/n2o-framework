@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.meta.control.Password;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 
 /**
  * Компиляция поля для ввода текста
@@ -30,6 +32,7 @@ public class PasswordCompiler extends StandardFieldCompiler<Password, N2oPasswor
         Password password = new Password();
         password.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         password.setLength(source.getLength());
+        password.setEye(p.cast(source.getEye(), p.resolve(property("n2o.api.control.input.password.eye"), Boolean.class)));
         return compileStandardField(password, source, context, p);
     }
 
