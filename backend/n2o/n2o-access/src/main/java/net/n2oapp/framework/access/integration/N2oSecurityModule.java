@@ -38,6 +38,7 @@ public class N2oSecurityModule extends N2oModule {
     @Override
     public void processAction(ActionRequestInfo requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
         securityProvider.checkAccess(getSecurityObject(requestInfo.getOperation()), requestInfo.getUser());
+        securityProvider.checkRestrictions(dataSet, getSecurityFilters(requestInfo.getOperation()), requestInfo.getUser());
     }
 
     @Override
