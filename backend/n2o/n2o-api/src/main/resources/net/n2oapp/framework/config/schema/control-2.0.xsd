@@ -602,6 +602,7 @@
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="length" type="xs:integer" use="optional"/>
+                <xs:attribute name="eye" type="xs:boolean" use="optional" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
