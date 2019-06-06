@@ -56,7 +56,9 @@ public class N2oSecurityModule extends N2oModule {
 
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
-        if (requestInfo.getUpload().equals(UploadType.query) && requestInfo.getSize() == 1) {
+        if (requestInfo.getUpload().equals(UploadType.query)
+                && requestInfo.getSize() == 1
+                && UploadType.query.equals(requestInfo.getUpload())) {
             DataSet data = page.getCollection().iterator().next();
             securityProvider.checkAccess(getSecurityObject(requestInfo.getQuery()), requestInfo.getUser());
             securityProvider.checkRestrictions(data, getSecurityFilters(requestInfo.getQuery()), requestInfo.getUser());

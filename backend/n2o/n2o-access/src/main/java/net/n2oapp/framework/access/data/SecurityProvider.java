@@ -1,12 +1,14 @@
 package net.n2oapp.framework.access.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
+import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.user.UserContext;
 
@@ -110,11 +112,17 @@ public class SecurityProvider {
      */
     public void checkRestrictions(DataSet data, SecurityFilters securityFilters, UserContext userContext) {
         List<Restriction> restrictions = collectRestrictions(securityFilters, userContext);
-        for (Restriction securityFilter : restrictions) {
-            Object value = data.get(securityFilter.getFieldId());
-            boolean valid = securityFilter.check(value);
-            if (!valid)
-                throw new AccessDeniedException("Access denied by field " + securityFilter.getFieldId());
+        ContextProcessor contextProcessor = new ContextProcessor(userContext);
+        for (Restriction securityRestriction : restrictions) {
+            Object realValue = data.get(securityRestriction.getFieldId());
+            if (realValue != null) {
+                Object filterValue = contextProcessor.resolve(securityRestriction.getValue());
+                if (filterValue != null) {
+                    Filter securityFilter = new Filter(filterValue, securityRestriction.getType());
+                    if (!securityFilter.check(realValue))
+                        throw new AccessDeniedException("Access denied by field " + securityRestriction.getFieldId());
+                }
+            }
         }
     }
 
