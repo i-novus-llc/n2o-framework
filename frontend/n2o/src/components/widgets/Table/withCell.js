@@ -42,10 +42,12 @@ export default function(WrappedComponent) {
     dataProvider,
     ...rest
   }) {
-    const callActionImpl = (e, { action, model }) => {
+    const callActionImpl = (e, { action, model }, withOutResolve = false) => {
       const currentModel = model || defaultModel;
       const currentAction = action || defaultAction;
-      currentModel && resolveWidget(currentModel);
+      if (!withOutResolve) {
+        currentModel && resolveWidget(currentModel);
+      }
       currentAction && onActionImpl(currentAction);
     };
 
