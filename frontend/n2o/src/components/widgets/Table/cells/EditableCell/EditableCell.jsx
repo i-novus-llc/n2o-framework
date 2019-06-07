@@ -1,6 +1,5 @@
 import React from 'react';
 import cn from 'classnames';
-import { findDOMNode } from 'react-dom';
 import { compose } from 'recompose';
 import { HotKeys } from 'react-hotkeys';
 import PropTypes from 'prop-types';
@@ -96,7 +95,8 @@ export class EditableCell extends React.Component {
           ...model,
           [id]: value,
         },
-      }
+      },
+      true
     );
   }
 
@@ -114,14 +114,20 @@ export class EditableCell extends React.Component {
       valueFieldId,
       ...rest
     } = this.props;
+
     const { value, editing } = this.state;
+    const style = {
+      width: parentWidth,
+      height: parentHeight,
+    };
+
+    const events = { events: 'enter' };
+    const handlers = { events: this.handleKeyDown };
+
     return (
       visible && (
         <div
-          style={{
-            width: parentWidth,
-            height: parentHeight,
-          }}
+          style={style}
           className={cn({ 'n2o-editable-cell': editable })}
           onClick={e => e.stopPropagation()}
         >
@@ -137,14 +143,8 @@ export class EditableCell extends React.Component {
             </div>
           )}
           {editable && editing && (
-            <HotKeys
-              keyMap={{ events: 'enter' }}
-              handlers={{ events: this.handleKeyDown }}
-            >
-              <div
-                className="n2o-editable-cell-control"
-                style={{ height: parentHeight }}
-              >
+            <HotKeys keyMap={events} handlers={handlers}>
+              <div className="n2o-editable-cell-control" style={style}>
                 {React.createElement(control.component, {
                   ...control,
                   className: 'n2o-advanced-table-edit-control',
