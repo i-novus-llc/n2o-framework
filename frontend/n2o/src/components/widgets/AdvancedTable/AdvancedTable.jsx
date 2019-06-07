@@ -21,6 +21,7 @@ import _, {
   values,
   eq,
   get,
+  forEach,
 } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
@@ -92,6 +93,8 @@ class AdvancedTable extends Component {
     this.setSelectionRef = this.setSelectionRef.bind(this);
     this.getModelsFromData = this.getModelsFromData.bind(this);
     this.setTableRef = this.setTableRef.bind(this);
+    this.openAllRows = this.openAllRows.bind(this);
+    this.closeAllRows = this.closeAllRows.bind(this);
   }
 
   componentDidMount() {
@@ -269,6 +272,29 @@ class AdvancedTable extends Component {
       this.rows[this.state.focusIndex].focus();
   }
 
+  openAllRows() {
+    const { data } = this.props;
+    const keys = [];
+    const getKeys = array => {
+      return map(array, item => {
+        keys.push(item.id);
+        if (item.children) {
+          getKeys(item.children);
+        }
+      });
+    };
+    getKeys(data);
+    this.setState({
+      expandedRowKeys: keys,
+    });
+  }
+
+  closeAllRows() {
+    this.setState({
+      expandedRowKeys: [],
+    });
+  }
+
   handleExpandedRowsChange(rows) {
     this.setState({
       expandedRowKeys: rows,
@@ -427,6 +453,7 @@ class AdvancedTable extends Component {
       rowSelection,
       expandedFieldId,
       expandedComponent,
+      components,
     } = this.props;
     const columns = this.mapColumns(this.state.columns);
     return (
@@ -450,10 +477,12 @@ class AdvancedTable extends Component {
               header: {
                 row: AdvancedTableHeaderRow,
                 cell: AdvancedTableHeaderCell,
+                ...get(components, 'header', {}),
               },
               body: {
                 row: AdvancedTableRow,
                 cell: AdvancedTableCell,
+                ...get(components, 'body', {}),
               },
             }}
             rowKey={record => record.key}

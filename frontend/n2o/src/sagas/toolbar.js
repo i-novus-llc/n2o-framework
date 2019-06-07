@@ -7,7 +7,7 @@ import {
   actionChannel,
   fork,
 } from 'redux-saga/effects';
-import { every, filter, forOwn, get, has, isEmpty, values } from 'lodash';
+import { every, filter, forOwn, get, some, isEmpty, values } from 'lodash';
 import { SET } from '../constants/models';
 import { getContainerButtons } from '../selectors/toolbar';
 import {
@@ -44,13 +44,13 @@ export function* handleAction(action) {
 export function* setParentVisibleIfAllChildChangeVisible({ key, id }) {
   const buttons = yield select(getContainerButtons(key));
   const currentBtn = get(buttons, id);
+  const parentId = get(currentBtn, 'parentId');
 
-  if (has(currentBtn, 'parentId')) {
-    const parentId = get(currentBtn, 'parentId');
+  if (parentId) {
     const currentBtnGroup = filter(buttons, ['parentId', parentId]);
 
     const isAllChildHidden = every(currentBtnGroup, ['visible', false]);
-    const isAllChildVisible = every(currentBtnGroup, ['visible', true]);
+    const isAllChildVisible = some(currentBtnGroup, ['visible', true]);
     const isParentVisible = get(buttons, [parentId, 'visible'], false);
 
     if (isAllChildHidden && isParentVisible) {

@@ -3,6 +3,7 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
+import net.n2oapp.framework.access.metadata.compile.SecurityExtensionAttributeMapper;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -38,7 +39,8 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testQuery.query.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
-                .transformers(new ToolbarAccessTransformer(), new InvokeActionAccessTransformer());
+                .transformers(new ToolbarAccessTransformer(), new InvokeActionAccessTransformer())
+                .extensions(new SecurityExtensionAttributeMapper());
     }
 
     @Test
@@ -134,7 +136,12 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security
         Button subMenu4 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(3);
         assertThat(subMenu4.getSubMenu().get(0).getProperties().get(SECURITY_PROP_NAME), notNullValue());
-        assertThat(subMenu4.getSubMenu().get(1).getProperties(), nullValue());
+        assertThat(subMenu4.getSubMenu().get(1).getProperties().isEmpty(), is(true));
         assertThat(subMenu4.getProperties(), nullValue());
+
+        //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security
+        assertThat(subMenu4.getSubMenu().get(2).getProperties().get(SECURITY_PROP_NAME), notNullValue());
+        assertThat(((Security) subMenu4.getSubMenu().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), notNullValue());
+        assertThat(((Security) subMenu4.getSubMenu().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom").getPermissions(), hasItem("test"));
     }
 }

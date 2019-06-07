@@ -46,7 +46,7 @@ export function* watchDependency() {
           widgetId,
           dependency
         );
-        yield fork(
+        yield call(
           resolveWidgetDependency,
           prevState,
           state,
@@ -58,7 +58,7 @@ export function* watchDependency() {
       case SET:
       case COPY:
       case CLEAR: {
-        yield fork(
+        yield call(
           resolveWidgetDependency,
           prevState,
           state,
@@ -119,7 +119,7 @@ export function* resolveWidgetDependency(
         dependency[widgetDependenciesKeys[j]]
       )(state);
       if (!isEqual(prevModel, model)) {
-        yield fork(
+        yield call(
           resolveDependency,
           widgetDependenciesKeys[j],
           widgetId,

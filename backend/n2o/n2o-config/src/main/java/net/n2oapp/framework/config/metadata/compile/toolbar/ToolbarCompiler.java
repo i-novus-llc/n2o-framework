@@ -101,6 +101,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setId(castDefault(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
+        button.setProperties(p.mapAttributes(source));
         if (source.getType() != null && source.getType().equals(LabelType.icon)) {
             button.setIcon(source.getIcon());
         } else if (source.getType() != null && source.getType().equals(LabelType.text)) {
@@ -117,20 +118,19 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 Action action = p.compile(butAction, context, new ComponentScope(source));
                 button.setActionId(action.getId());
 
-                if (action instanceof InvokeAction && source instanceof N2oButton) {
+                if (action instanceof InvokeAction) {
                     CompiledObject compiledObject = p.getScope(CompiledObject.class);
                     CompiledObject.Operation operation = compiledObject != null && compiledObject.getOperations() != null ?
                             compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
 
                     if ((source.getConfirm() != null && source.getConfirm()) ||
                             (source.getConfirm() == null && operation != null && operation.getConfirm() != null && operation.getConfirm())) {
-                        N2oButton srcBtn = (N2oButton) source;
 
                         Confirm confirm = new Confirm();
-                        confirm.setText(p.cast(srcBtn.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
-                        confirm.setTitle(p.cast(srcBtn.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
-                        confirm.setOkLabel(p.cast(srcBtn.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
-                        confirm.setCancelLabel(p.cast(srcBtn.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
+                        confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
+                        confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
+                        confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
+                        confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
                         if (StringUtils.hasLink(confirm.getText())) {
                             Set<String> links = StringUtils.collectLinks(confirm.getText());
                             String text = Placeholders.js("'" + confirm.getText() + "'");

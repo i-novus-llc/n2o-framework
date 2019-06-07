@@ -56,6 +56,7 @@ class N2o extends Component {
               <IntlProvider locale={locale} messages={messages}>
                 <FactoryProvider
                   config={createFactoryConfig(this.generateCustomConfig())}
+                  securityBlackList={['actions']}
                 >
                   <ConnectedRouter history={history}>
                     <Switch>

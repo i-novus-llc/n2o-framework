@@ -1,6 +1,6 @@
 {
   "name": "n2o-demo-client",
-  "version": "7.2.1",
+  "version": "7.2.21",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -8,7 +8,7 @@
     "@atlaskit/table-tree": "^1.0.0",
     "bootstrap": "~4.3.0",
     "moment": "^2.21.0",
-    "n2o": "^7.2.1",
+    "n2o": "^7.2.21",
     "react": "^16.2.0",
     "react-avatar": "^3.4.6",
     "react-beautiful-dnd": "^6.0.1",
@@ -30,11 +30,11 @@
   },
   "proxy": {
     "/n2o/data": {
-      "target": "http://localhost:9000/",
+      "target": "https://n2o.i-novus.ru/dev/",
       "changeOrigin": true
     },
     "/n2o": {
-      "target": "http://localhost:9000/",
+      "target": "https://n2o.i-novus.ru/dev/",
       "changeOrigin": true
     }
   },

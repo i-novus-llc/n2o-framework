@@ -1,5 +1,5 @@
 import { put, select, takeEvery, take, fork, cancel } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import { push, LOCATION_CHANGE } from 'connected-react-router';
 import { isArray, map, get, toPairs, flow, keys } from 'lodash';
 import { reset, touch } from 'redux-form';
 import { batchActions } from 'redux-batched-actions';
@@ -44,7 +44,7 @@ export function* redirectEffect(action) {
 
 function* fetchFlow(options) {
   while (true) {
-    yield take(MAP_URL);
+    yield take([LOCATION_CHANGE]);
     return yield put(dataRequestWidget(options.widgetId, options.options));
   }
 }

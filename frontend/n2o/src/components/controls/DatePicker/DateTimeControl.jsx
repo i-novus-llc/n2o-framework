@@ -1,5 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -56,17 +57,18 @@ class DateTimeControl extends React.Component {
       ),
       isPopUpVisible: false,
       isTimeSet: {},
+      focused: false,
     };
 
     this.select = this.select.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onBlur = this.onBlur.bind(this);
     this.setVisibility = this.setVisibility.bind(this);
     this.setPlacement = this.setPlacement.bind(this);
     this.onClickOutside = this.onClickOutside.bind(this);
     this.markTimeAsSet = this.markTimeAsSet.bind(this);
     this.setInputRef = this.setInputRef.bind(this);
+    this.onFocus = this.onFocus.bind(this);
   }
 
   /**
@@ -131,22 +133,6 @@ class DateTimeControl extends React.Component {
   }
 
   /**
-   * вызов onBlur
-   */
-  onBlur(date, inputName) {
-    this.setState(
-      state => {
-        return {
-          inputs: { ...this.state.inputs, [inputName]: date },
-        };
-      },
-      () => {
-        this.onChange(inputName);
-      }
-    );
-  }
-
-  /**
    * Выбор даты, прокидывается в календарь
    */
   select(day, inputName, close = true) {
@@ -192,10 +178,18 @@ class DateTimeControl extends React.Component {
    * @todo объеденить методы select и onInputChange в 1 метод
    */
   onInputChange(date, inputName) {
-    let { locale } = this.props;
+    const { timeFormat } = this.props;
+    const newDate =
+      !timeFormat && inputName === DateTimeControl.endInputName
+        ? date
+            .add(23, 'h')
+            .add(59, 'm')
+            .add(59, 's')
+        : date;
+
     this.setState(
       {
-        inputs: { ...this.state.inputs, [inputName]: date },
+        inputs: { ...this.state.inputs, [inputName]: newDate },
       },
       () => this.onChange(inputName)
     );
@@ -206,6 +200,7 @@ class DateTimeControl extends React.Component {
   setVisibility(visible) {
     this.setState({
       isPopUpVisible: visible,
+      focused: visible,
     });
   }
   /**
@@ -248,13 +243,15 @@ class DateTimeControl extends React.Component {
       e.target.className.includes('n2o-pop-up') ||
       (!datePicker.contains(e.target) && !dateInput.contains(e.target))
     ) {
-      this.setVisibility(false);
-      if (this.props.type === 'date-interval') {
-        const start = this.state.inputs[DateTimeControl.beginInputName];
-        const end = this.state.inputs[DateTimeControl.endInputName];
-        this.onChange([start, end]);
+      if (this.state.focused) {
+        if (this.props.type === 'date-interval') {
+          const start = this.state.inputs[DateTimeControl.beginInputName];
+          const end = this.state.inputs[DateTimeControl.endInputName];
+          this.onChange([start, end]);
+        }
+        this.props.onBlur();
       }
-      this.props.onBlur();
+      this.setVisibility(false);
     }
   }
   /**
@@ -285,6 +282,16 @@ class DateTimeControl extends React.Component {
     return isPopUpVisible && popUp;
   }
 
+  onFocus(e) {
+    const { onFocus } = this.props;
+    this.setState(
+      {
+        focused: true,
+      },
+      () => onFocus(e)
+    );
+  }
+
   setInputRef(poperRef) {
     return r => {
       this.inputGroup = r;
@@ -299,12 +306,12 @@ class DateTimeControl extends React.Component {
       disabled,
       placeholder,
       className,
-      onFocus,
       onBlur,
       autoFocus,
       openOnFocus,
     } = this.props;
     const { inputs } = this.state;
+    const dateInputGroupProps = pick(this.props, ['max', 'min']);
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
@@ -322,28 +329,31 @@ class DateTimeControl extends React.Component {
                   setVisibility={this.setVisibility}
                   setWidth={this.setWidth}
                   onBlur={this.onBlur}
-                  onFocus={onFocus}
+                  onFocus={this.onFocus}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
+                  {...dateInputGroupProps}
                 />
               )}
             </Reference>
-            <Popper
-              placement="bottom-start"
-              modifiers={MODIFIERS}
-              positionFixed={true}
-            >
-              {({ ref, style, placement }) => (
-                <div
-                  ref={ref}
-                  style={style}
-                  data-placement={placement}
-                  className="n2o-pop-up"
-                >
-                  {this.renderPopUp(this.width)}
-                </div>
-              )}
-            </Popper>
+            {this.state.isPopUpVisible && (
+              <Popper
+                placement="bottom-start"
+                modifiers={MODIFIERS}
+                positionFixed={true}
+              >
+                {({ ref, style, placement }) => (
+                  <div
+                    ref={ref}
+                    style={style}
+                    data-placement={placement}
+                    className="n2o-pop-up"
+                  >
+                    {this.renderPopUp(this.width)}
+                  </div>
+                )}
+              </Popper>
+            )}
           </Manager>
         </div>
       </div>
