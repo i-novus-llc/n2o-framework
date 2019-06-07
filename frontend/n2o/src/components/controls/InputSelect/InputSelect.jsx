@@ -239,6 +239,8 @@ class InputSelect extends React.Component {
    * @private
    */
   _setInputFocus(inputFocus) {
+    console.log('111');
+    console.log(inputFocus);
     this.setState({ inputFocus });
   }
 
@@ -341,7 +343,7 @@ class InputSelect extends React.Component {
       }),
       () => {
         selectCallback();
-        this.props.onBlur();
+        // this.props.onBlur();
       }
     );
   }
@@ -378,7 +380,7 @@ class InputSelect extends React.Component {
     if (isExpanded) {
       this._hideOptionsList();
       resetOnBlur && this._handleValueChangeOnBlur();
-      this.props.onBlur();
+      // this.props.onBlur();
     }
   }
 
@@ -435,10 +437,6 @@ class InputSelect extends React.Component {
           disabled,
         })}
         toggle={() => {}}
-        onFocus={() => {
-          this._setInputFocus(true);
-          this._setSelected(true);
-        }}
         isOpen={this.state.isExpanded && !disabled}
       >
         <DropdownToggle tag="div" disabled={disabled}>
