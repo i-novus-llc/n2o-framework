@@ -4,6 +4,11 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import org.junit.Test;
 import org.springframework.core.io.DefaultResourceLoader;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -30,7 +35,7 @@ public class TestDataProviderEngineTest {
         inParams.put("gender.id", 2);
         inParams.put("gender.name", "Женский");
         inParams.put("vip", true);
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTimeInMillis(0);
         inParams.put("birthday", c.getTime());
 
@@ -41,7 +46,7 @@ public class TestDataProviderEngineTest {
         assertTrue((Boolean) result.get("vip"));
         assertThat(((Map) result.get("gender")).get("id"), is(2));
         assertThat(((Map) result.get("gender")).get("name"), is("Женский"));
-        assertThat(result.get("birthday"), is("01.01.1970 03:00:00"));
+        assertThat(result.get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
 
         //Проверка, что после создания элемент появился в хранилище
         provider.setOperation(findAll);
@@ -126,18 +131,18 @@ public class TestDataProviderEngineTest {
         inParamsForUpdate.put("name", "test");
         inParamsForUpdate.put("gender.id", 1);
         inParamsForUpdate.put("gender.name", "Мужской");
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTimeInMillis(0);
+
         inParamsForUpdate.put("birthday", c.getTime());
         inParamsForUpdate.put("vip", false);
 
         engine.invoke(provider, inParamsForUpdate);
 
-
         provider.setOperation(findAll);
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("test"));
-        assertThat(result.get(0).get("birthday"), is("01.01.1970 03:00:00"));
+        assertThat(result.get(0).get("birthday"), is(new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(new Date(0))));
         assertFalse((Boolean) result.get(0).get("vip"));
         assertThat(((Map) result.get(0).get("gender")).get("id"), is(1));
         assertThat(((Map) result.get(0).get("gender")).get("name"), is("Мужской"));

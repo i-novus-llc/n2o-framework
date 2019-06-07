@@ -23,9 +23,9 @@ public class FilterChecker {
             case notEq:
                 return !equals(filter.getValue(), value);
             case in:
-                return contains((List) filter.getValue(), value);
+                return containsOne((List) filter.getValue(), value);
             case notIn:
-                return !contains((List) filter.getValue(), value);
+                return !containsOne((List) filter.getValue(), value);
             case more:
                 return compare(filter.getValue(), value) < 0;
             case less:
@@ -46,28 +46,27 @@ public class FilterChecker {
                 return overlap((List) filter.getValue(), value);
             case contains:
                 return contains((List) filter.getValue(), value);
+            default:
+                throw new IllegalArgumentException(String.format("Unknown filter-type '%s'", filter.getType()));
         }
-        throw new IllegalArgumentException(String.format("Unknown filter-type '%s'", filter.getType()));
     }
 
     private static boolean equals(Object filterValue, Object realValue) {
+        filterValue = castToRealType(filterValue, realValue);
         if (filterValue instanceof Number && realValue instanceof Number) {
             return ((Number) filterValue).longValue() == ((Number) realValue).longValue();
         }
         return filterValue.equals(realValue);
     }
 
-    private static boolean containsOne(List values, Object value) {
-        if (value instanceof Number) {
-            return values.stream().anyMatch(v -> equals(v, value));
-        }
-        return values.contains(value);
+    private static boolean containsOne(List<?> values, Object value) {
+        return values.stream().anyMatch(fv -> equals(fv, value));
     }
 
-    private static boolean contains(List values, Object value) {
+    private static boolean contains(List<?> values, Object value) {
         if (value instanceof Collection) {
             final boolean[] res = {true};
-            ((Collection) value).stream().forEach(v -> {
+            ((Collection<?>) value).forEach(v -> {
                 if (!containsOne(values, v)) {
                     res[0] = false;
                 }
@@ -77,18 +76,20 @@ public class FilterChecker {
         return containsOne(values, value);
     }
 
-    private static boolean overlap(List values, Object value) {
+    private static boolean overlap(List<?> values, Object value) {
         if (value instanceof Collection) {
-            return ((Collection) value).stream().anyMatch(v -> contains(values, v));
+            return ((Collection<?>) value).stream().anyMatch(v -> contains(values, v));
         }
         return containsOne(values, value);
     }
 
+    @SuppressWarnings("unchecked")
     private static int compare(Object filterValue, Object realValue) {
-        if (filterValue instanceof Number && realValue instanceof Number) {
-            return (int) (((Number) filterValue).longValue() - ((Number) realValue).longValue());
+        Object value = castToRealType(filterValue, realValue);
+        if (value instanceof Number && realValue instanceof Number) {
+            return (int) (((Number) value).longValue() - ((Number) realValue).longValue());
         }
-        return ((Comparable) filterValue).compareTo(realValue);
+        return ((Comparable) value).compareTo(realValue);
     }
 
     private static boolean like(Object filterValue, Object realValue) {
@@ -101,5 +102,23 @@ public class FilterChecker {
         if (!(filterValue instanceof String) || !(realValue instanceof String))
             return false;
         return ((String) filterValue).matches(realValue + ".*");
+    }
+
+    private static Object castToRealType(Object filterValue, Object realValue) {
+        if (filterValue instanceof String && !(realValue instanceof String)) {
+            String strValue = (String) filterValue;
+            if (realValue instanceof Boolean && (strValue.equals("true") || strValue.equals("false")))
+                return Boolean.valueOf(strValue);
+            if (realValue instanceof Number && strValue.matches("([\\d]+)")) {
+                try {
+                    return Long.parseLong(strValue);
+                } catch (NumberFormatException e) {
+                    return filterValue;
+                }
+            }
+        } else if (filterValue != null && !(filterValue instanceof String) && realValue instanceof String) {
+            return filterValue.toString();
+        }
+        return filterValue;
     }
 }

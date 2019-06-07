@@ -5,9 +5,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * User: operehod
- * Date: 05.12.2014
- * Time: 19:04
+ * Test for {@link FilterChecker}
  */
 public class FilterCheckerTest {
 
@@ -16,6 +14,9 @@ public class FilterCheckerTest {
     public void test() throws Exception {
         //eq
         assert new Filter(1, FilterType.eq).check(1);
+        assert new Filter("1", FilterType.eq).check("1");
+        assert new Filter("1", FilterType.eq).check(1);
+        assert new Filter(1, FilterType.eq).check("1");
         assert !new Filter(1, FilterType.eq).check(2);
         assert !new Filter(1, FilterType.eq).check(null);
 
@@ -35,9 +36,11 @@ public class FilterCheckerTest {
 
         //in
         assert new Filter(Arrays.asList(1, 2), FilterType.in).check(1);
+        assert new Filter(Arrays.asList(1, 2), FilterType.in).check("1");
+        assert new Filter(Arrays.asList("1", "2"), FilterType.in).check(1);
         assert !new Filter(Arrays.asList(1, 2), FilterType.in).check(3);
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.in).check(Arrays.asList(1, 2));
-        assert !new Filter(Arrays.asList(1, 2, 3), FilterType.in).check(Arrays.asList(1, 4));
+        assert new Filter(Arrays.asList(Arrays.asList(1, 3), Arrays.asList(1, 2), Arrays.asList(2, 3)), FilterType.in).check(Arrays.asList(1, 2));
+        assert !new Filter(Arrays.asList(1, 2, 3), FilterType.in).check(Arrays.asList(1, 2));
         assert !new Filter(Arrays.asList(1, 2), FilterType.in).check(null);
 
         //notIn
@@ -75,14 +78,16 @@ public class FilterCheckerTest {
         //overlap
         assert new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(1));
         assert new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(2, 5));
+        assert new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(3, 1, 2));
         assert !new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(5));
         assert !new Filter(Arrays.asList(1, 2), FilterType.overlaps).check(null);
 
         //contains
         assert new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(1));
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(2, 3));
+        assert new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(3, 1));
+        assert new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(3, 1, 2));
         assert !new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(1, 5));
-        assert !new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(4, 5));
+        assert !new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(1, 2, 3, 4));
         assert !new Filter(Arrays.asList(1, 2), FilterType.contains).check(null);
     }
 }

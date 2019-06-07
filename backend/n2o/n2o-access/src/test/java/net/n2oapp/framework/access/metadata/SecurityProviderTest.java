@@ -1,5 +1,6 @@
 package net.n2oapp.framework.access.metadata;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.access.data.SecurityProvider;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
@@ -16,8 +17,7 @@ import org.junit.Test;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +34,7 @@ public class SecurityProviderTest {
     }
 
     @Test(expected = UnauthorizedException.class)
-    public void testDenied() {
+    public void checkAccessDenied() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);;
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(true);
@@ -47,7 +47,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testPermitAll() {
+    public void checkAccessPermitAll() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
@@ -60,7 +60,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testUserIsNotAuthenticated() {
+    public void checkAccessUserIsNotAuthenticated() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
@@ -84,7 +84,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testAuthenticated() {
+    public void checkAccessAuthenticated() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -101,7 +101,7 @@ public class SecurityProviderTest {
     }
 
     @Test(expected = AccessDeniedException.class)
-    public void testRolesUsernamesPermissionsAreNull() {
+    public void checkAccessRolesUsernamesPermissionsAreNull() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -119,7 +119,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testHasRole() {
+    public void checkAccessHasRole() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -152,7 +152,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testHasPermission() {
+    public void checkAccessHasPermission() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -185,7 +185,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testHasUsernames() {
+    public void checkAccessHasUsernames() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -225,7 +225,7 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testCombinations() {
+    public void checkAccessCombinations() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
@@ -302,26 +302,34 @@ public class SecurityProviderTest {
     }
 
     @Test
-    public void testEmptySecurity() {
+    public void checkAccessEmptySecurity() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
         securityProvider.checkAccess(new Security(), userContext);
     }
 
     @Test
-    public void testCollectRestrictions() {
+    public void collectRestrictionsPermitAllFilters() {
         SecurityProvider securityProvider = new SecurityProvider(permissionApi);
         UserContext userContext = new UserContext(new TestContextEngine());
-        //проверка добавления фильтров применимых ко всем
         SecurityFilters securityFilters = new SecurityFilters();
+        //проверка добавления фильтров применимых ко всем
         ArrayList<N2oObjectFilter> permitAllFilters = new ArrayList<>();
         permitAllFilters.add(new N2oObjectFilter("gender", "man", FilterType.eq, "genderFilter"));
         permitAllFilters.add(new N2oObjectFilter("position", "developer", FilterType.eq, "positionFilter"));
         securityFilters.setPermitAllFilters(permitAllFilters);
+
         List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.size(), is(2));
         assertThat(restrictions.contains(new Restriction("gender", "man", FilterType.eq)), is(true));
         assertThat(restrictions.contains(new Restriction("position", "developer", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void collectRestrictionsAuthenticatedAndAnonymousFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров применимых к авторизованным пользователям
         ArrayList<N2oObjectFilter> authFilters = new ArrayList<>();
         authFilters.add(new N2oObjectFilter("authGender", "man", FilterType.eq, "authGenderFilter"));
@@ -332,16 +340,23 @@ public class SecurityProviderTest {
         anonymFilters.add(new N2oObjectFilter("anonymPosition", "developer", FilterType.eq, "anonymPositionFilter"));
         securityFilters.setAnonymousFilters(anonymFilters);
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(4));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        assertThat(restrictions.size(), is(2));
         assertThat(restrictions.contains(new Restriction("authGender", "man", FilterType.eq)), is(true));
         assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterType.eq)), is(true));
         //проверка добавления фильтров применимых к неавторизованным пользователям
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
         restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(4));
+        assertThat(restrictions.size(), is(2));
         assertThat(restrictions.contains(new Restriction("anonymGender", "man", FilterType.eq)), is(true));
         assertThat(restrictions.contains(new Restriction("anonymPosition", "developer", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void collectRestrictionsRoleFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров по ролям
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(false);
@@ -355,9 +370,16 @@ public class SecurityProviderTest {
         roleFilters.put("role1", role1Filters);
         roleFilters.put("role2", role2Filters);
         securityFilters.setRoleFilters(roleFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(5));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        assertThat(restrictions.size(), is(1));
         assertThat(restrictions.contains(new Restriction("role2Gender", "man", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void collectRestrictionsPermissionFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров по привелегиям
         when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "permission2")).thenReturn(true);
@@ -370,78 +392,295 @@ public class SecurityProviderTest {
         permissionFilters.put("permission1", permission1Filters);
         permissionFilters.put("permission2", permission2Filters);
         securityFilters.setPermissionFilters(permissionFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(8));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        assertThat(restrictions.size(), is(3));
         assertThat(restrictions.contains(new Restriction("permission1Gender", "man", FilterType.eq)), is(true));
         assertThat(restrictions.contains(new Restriction("permission1Position", "developer", FilterType.eq)), is(true));
         assertThat(restrictions.contains(new Restriction("permission2Gender", "man", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void collectRestrictionsUsernameFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров по пользователям
-        when(permissionApi.hasUsername(userContext, "username")).thenReturn(true);
+        when(permissionApi.hasUsername(userContext, "username1")).thenReturn(true);
+        Map<String, List<N2oObjectFilter>> userFilters = new HashMap<>();
         List<N2oObjectFilter> user1Filters = new ArrayList<>();
         user1Filters.add(new N2oObjectFilter("userGender", "man", FilterType.eq, "userGenderFilter"));
-        Map<String, List<N2oObjectFilter>> userFilters = new HashMap<>();
-        userFilters.put("username", user1Filters);
+        List<N2oObjectFilter> user2Filters = new ArrayList<>();
+        user2Filters.add(new N2oObjectFilter("userGender", "woman", FilterType.eq, "userGenderFilter2"));
+        userFilters.put("username1", user1Filters);
+        userFilters.put("username2", user2Filters);
         securityFilters.setUserFilters(userFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(9));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        assertThat(restrictions.size(), is(1));
         assertThat(restrictions.contains(new Restriction("userGender", "man", FilterType.eq)), is(true));
+    }
 
+    @Test
+    public void collectRestrictionsRemoveUserFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
         //проверка удаления фильтров по пользователям
+
+        when(permissionApi.hasUsername(userContext, "username1")).thenReturn(true);
+        Map<String, List<N2oObjectFilter>> userFilters = new HashMap<>();
+        List<N2oObjectFilter> user1Filters = new ArrayList<>();
+        user1Filters.add(new N2oObjectFilter("userGender", "man", FilterType.eq, "userGenderFilter"));
+        user1Filters.add(new N2oObjectFilter("userName", "Joe", FilterType.eq, "userGenderFilter2"));
+        userFilters.put("username1", user1Filters);
+        securityFilters.setUserFilters(userFilters);
         Set<String> user1RemoveFilters = new HashSet<>();
         user1RemoveFilters.add("userGenderFilter");
         Map<String, Set<String>> userRemoveFilters = new HashMap<>();
-        userRemoveFilters.put("username", user1RemoveFilters);
+        userRemoveFilters.put("username1", user1RemoveFilters);
         securityFilters.setRemoveUserFilters(userRemoveFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(8));
+
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        assertThat(restrictions.size(), is(1));
         assertThat(restrictions.contains(new Restriction("userGender", "man", FilterType.eq)), is(false));
+        assertThat(restrictions.contains(new Restriction("userName", "Joe", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void collectRestrictionsRemovePermissionFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
         //проверка удаления фильтров по привелегиям
+        when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
+        when(permissionApi.hasPermission(userContext, "permission2")).thenReturn(true);
+        List<N2oObjectFilter> permission1Filters = new ArrayList<>();
+        permission1Filters.add(new N2oObjectFilter("permission1Gender", "man", FilterType.eq, "permission1GenderFilter"));
+        permission1Filters.add(new N2oObjectFilter("permission1Position", "developer", FilterType.eq, "permission1PositionFilter"));
+        List<N2oObjectFilter> permission2Filters = new ArrayList<>();
+        permission2Filters.add(new N2oObjectFilter("permission2Gender", "man", FilterType.eq, "permission2GenderFilter"));
+        Map<String, List<N2oObjectFilter>> permissionFilters = new HashMap<>();
+        permissionFilters.put("permission1", permission1Filters);
+        permissionFilters.put("permission2", permission2Filters);
+        securityFilters.setPermissionFilters(permissionFilters);
+
         Set<String> permission1RemoveFilters = new HashSet<>();
         permission1RemoveFilters.add("permission2GenderFilter");
         permission1RemoveFilters.add("permission1PositionFilter");
         Map<String, Set<String>> permissionRemoveFilters = new HashMap<>();
         permissionRemoveFilters.put("permission1", permission1RemoveFilters);
         securityFilters.setRemovePermissionFilters(permissionRemoveFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(6));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        assertThat(restrictions.size(), is(1));
         assertThat(restrictions.contains(new Restriction("permission1Gender", "man", FilterType.eq)), is(true));
         assertThat(restrictions.contains(new Restriction("permission1Position", "developer", FilterType.eq)), is(false));
         assertThat(restrictions.contains(new Restriction("permission2Gender", "man", FilterType.eq)), is(false));
+    }
+
+    @Test
+    public void collectRestrictionsRemoveRoleFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
         //проверка удаления фильтров по ролям
+        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
+        when(permissionApi.hasRole(userContext, "role2")).thenReturn(true);
+        List<N2oObjectFilter> role1Filters = new ArrayList<>();
+        role1Filters.add(new N2oObjectFilter("role1Gender", "man", FilterType.eq, "role1GenderFilter"));
+        role1Filters.add(new N2oObjectFilter("role1Position", "developer", FilterType.eq, "role1PositionFilter"));
+        List<N2oObjectFilter> role2Filters = new ArrayList<>();
+        role2Filters.add(new N2oObjectFilter("role2Gender", "man", FilterType.eq, "role2GenderFilter"));
+        Map<String, List<N2oObjectFilter>> roleFilters = new HashMap<>();
+        roleFilters.put("role1", role1Filters);
+        roleFilters.put("role2", role2Filters);
+        securityFilters.setRoleFilters(roleFilters);
+
         Set<String> role2RemoveFilters = new HashSet<>();
         role2RemoveFilters.add("role2GenderFilter");
         Map<String, Set<String>> roleRemoveFilters = new HashMap<>();
         roleRemoveFilters.put("role2", role2RemoveFilters);
         securityFilters.setRemoveRoleFilters(roleRemoveFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(5));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
+        assertThat(restrictions.size(), is(2));
         assertThat(restrictions.contains(new Restriction("role2Gender", "man", FilterType.eq)), is(false));
+        assertThat(restrictions.contains(new Restriction("role1Gender", "man", FilterType.eq)), is(true));
+        assertThat(restrictions.contains(new Restriction("role1Position", "developer", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void collectRestrictionsRemoveAuthenticatedAndAnonymousFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
+        ArrayList<N2oObjectFilter> anonymFilters = new ArrayList<>();
+        anonymFilters.add(new N2oObjectFilter("anonymGender", "man", FilterType.eq, "anonymGenderFilter"));
+        anonymFilters.add(new N2oObjectFilter("anonymPosition", "developer", FilterType.eq, "anonymPositionFilter"));
+        securityFilters.setAnonymousFilters(anonymFilters);
+        ArrayList<N2oObjectFilter> authFilters = new ArrayList<>();
+        authFilters.add(new N2oObjectFilter("authGender", "man", FilterType.eq, "authGenderFilter"));
+        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterType.eq, "authPositionFilter"));
+        securityFilters.setAuthenticatedFilters(authFilters);
+
         //проверка удаления фильтров по неавторизованным пользователям
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
         Set<String> anonymRemoveFilters = new HashSet<>();
         anonymRemoveFilters.add("anonymGenderFilter");
         securityFilters.setRemoveAnonymousFilters(anonymRemoveFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(4));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.contains(new Restriction("anonymGender", "man", FilterType.eq)), is(false));
         assertThat(restrictions.contains(new Restriction("anonymPosition", "developer", FilterType.eq)), is(true));
+
         //проверка удаления фильтров по авторизованным пользователям
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         Set<String> authRemoveFilters = new HashSet<>();
         authRemoveFilters.add("authGenderFilter");
         securityFilters.setRemoveAuthenticatedFilters(authRemoveFilters);
         restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(4));
         assertThat(restrictions.contains(new Restriction("authGender", "man", FilterType.eq)), is(false));
         assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void collectRestrictionsRemovePermitAllFilters() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
+        ArrayList<N2oObjectFilter> authFilters = new ArrayList<>();
+        authFilters.add(new N2oObjectFilter("authGender", "man", FilterType.eq, "authGenderFilter"));
+        authFilters.add(new N2oObjectFilter("authPosition", "developer", FilterType.eq, "authPositionFilter"));
+        securityFilters.setAuthenticatedFilters(authFilters);
+
         //проверка удаления фильтров по всем пользователям
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         Set<String> permitAllRemoveFilters = new HashSet<>();
         permitAllRemoveFilters.add("authPositionFilter");
-        permitAllRemoveFilters.add("positionFilter");
         securityFilters.setRemovePermitAllFilters(permitAllRemoveFilters);
-        restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
-        assertThat(restrictions.size(), is(2));
-        assertThat(restrictions.contains(new Restriction("position", "developer", FilterType.eq)), is(false));
+        List<Restriction> restrictions = securityProvider.collectRestrictions(securityFilters, userContext);
         assertThat(restrictions.contains(new Restriction("authPosition", "developer", FilterType.eq)), is(false));
+        assertThat(restrictions.contains(new Restriction("authGender", "man", FilterType.eq)), is(true));
+    }
+
+    @Test
+    public void checkRestrictions() {
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        UserContext userContext = new UserContext(new TestContextEngine());
+        SecurityFilters securityFilters = new SecurityFilters();
+
+        securityFilters.setAuthenticatedFilters(Collections.singletonList(
+                new N2oObjectFilter("foo", "1", FilterType.eq, "filter1")));
+        securityFilters.setAnonymousFilters(Collections.singletonList(
+                new N2oObjectFilter("foo", "1", FilterType.notEq, "filter2")));
+        securityFilters.setRoleFilters(Collections.singletonMap("role1", Collections.singletonList(
+                new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterType.in, "filter3"))));
+        securityFilters.setPermissionFilters(Collections.singletonMap("permission1", Collections.singletonList(
+                new N2oObjectFilter("list", new String[]{"1", "2", "3"}, FilterType.contains, "filter4"))));
+        securityFilters.setUserFilters(Collections.singletonMap("username1", Collections.singletonList(
+                new N2oObjectFilter("name", "#{username}", FilterType.eq, "filter5"))));
+
+        //аутентифицирован
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        //foo == 1
+        securityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
+        //foo != 1
+        try {
+            securityProvider.checkRestrictions(new DataSet().add("foo", 2), securityFilters, userContext);
+            Assert.fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("foo"));
+        }
+
+        //анонимный доступ
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
+        //foo != 1
+        try {
+            securityProvider.checkRestrictions(new DataSet().add("foo", 2), securityFilters, userContext);
+        } catch (AccessDeniedException e) {
+            Assert.fail();
+        }
+        //foo == 1
+        try {
+            securityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
+            Assert.fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("foo"));
+        }
+
+        //доступ аутентифицированным и по ролям
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
+        //bar in (1, 2, 3)
+        try {
+            securityProvider.checkRestrictions(new DataSet()
+                            .add("foo", 1)
+                            .add("bar", 2),
+                    securityFilters, userContext);
+        } catch (AccessDeniedException e) {
+            Assert.fail();
+        }
+        //bar not in (1, 2, 3)
+        try {
+            securityProvider.checkRestrictions(new DataSet()
+                    .add("foo", 1)
+                    .add("bar", 4),
+                    securityFilters, userContext);
+            Assert.fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("bar"));
+        }
+
+        //доступ аутентифицированным, по ролям и по полномочиям
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
+        when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
+        //list contains (1, 2, 3)
+        try {
+            securityProvider.checkRestrictions(new DataSet()
+                            .add("foo", 1)
+                            .add("bar", 2)
+                            .add("list", Arrays.asList(3, 2)),
+                    securityFilters, userContext);
+        } catch (AccessDeniedException e) {
+            Assert.fail();
+        }
+
+        //list not contains (1, 2, 3)
+        try {
+            securityProvider.checkRestrictions(new DataSet()
+                            .add("foo", 1)
+                            .add("bar", 2)
+                            .add("list", Arrays.asList(1, 2, 3, 4)),
+                    securityFilters, userContext);
+            Assert.fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("list"));
+        }
+
+        //доступ аутентифицированным, по ролям, по полномочиям, по имени пользователя
+        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
+        when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
+        when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
+        when(permissionApi.hasUsername(userContext, "username1")).thenReturn(true);
+        userContext.set("username", "Joe");
+        //name == #{username}
+        try {
+            securityProvider.checkRestrictions(new DataSet()
+                            .add("foo", 1)
+                            .add("bar", 2)
+                            .add("list", Arrays.asList(3, 2))
+                            .add("name", "Joe"),
+                    securityFilters, userContext);
+        } catch (AccessDeniedException e) {
+            Assert.fail();
+        }
+        //name != #{username}
+        try {
+            securityProvider.checkRestrictions(new DataSet()
+                            .add("foo", 1)
+                            .add("bar", 2)
+                            .add("list", Arrays.asList(3, 2))
+                            .add("name", "Doe"),
+                    securityFilters, userContext);
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("name"));
+        }
     }
 }
