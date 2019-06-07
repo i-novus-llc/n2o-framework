@@ -28,14 +28,11 @@ public abstract class NestedUtils {
         return true;
     }
 
-    public static boolean isObjectAccess(String key) {
-        String[] words = key.split("\\.");
-        for (String word : words) {
-            if (word.isEmpty())
-                return false;
-            if (!isJavaVariable(word))
-                return false;
-        }
+    public static boolean isNestedKey(String key) {
+        int wordIdx = getEndOfWord(key);
+        if (!isJavaVariable(key.substring(0, wordIdx)))
+            return false;
+        key = key.substring(wordIdx);
         return true;
     }
 
@@ -97,6 +94,20 @@ public abstract class NestedUtils {
             value = result;
         }
         return value;
+    }
+
+    public static String encodeKey(String key) {
+        return key.replace("'", "@27").replace("\"", "@22");
+    }
+
+    public static String decodeKey(String key) {
+        return key.replace("@27", "'").replace("@22", "\"");
+    }
+
+    public static String wrapKey(String key) {
+        if (key == null || key.isEmpty())
+            return key;
+        return "['" + encodeKey(key) + "']";
     }
 
     public static boolean applicableFor(Object value, String key) {

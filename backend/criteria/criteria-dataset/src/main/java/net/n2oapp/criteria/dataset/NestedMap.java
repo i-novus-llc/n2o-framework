@@ -11,6 +11,7 @@ import static net.n2oapp.criteria.dataset.NestedUtils.*;
  *    Map map = new NestedMap();
  *    map.put("foo.bar", 1);
  *    assert ((Map)map.get("foo")).get("bar").equals(1);
+ *    assert map.get("foo.bar").equals(1);
  * </pre>
  * <p>
  * Example 2:
@@ -18,6 +19,7 @@ import static net.n2oapp.criteria.dataset.NestedUtils.*;
  *    Map map = new NestedMap();
  *    map.put("foo[0].bar", 1);
  *    assert ((Map)((List)map.get("foo")).get(0)).get("bar").equals(1);
+ *    assert map.get("foo[0].bar").equals(1);
  * </pre>
  */
 public class NestedMap extends LinkedHashMap<String, Object> {
@@ -35,10 +37,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     @Override
     public void putAll(Map<? extends String, ?> m) {
         for (String key : m.keySet()) {
-            if (NestedUtils.isObjectAccess(key))
-                put(key, m.get(key));
-            else
-                put("['" + key + "']", m.get(key));
+            put(wrapKey(key), m.get(key));
         }
     }
 
@@ -201,17 +200,19 @@ public class NestedMap extends LinkedHashMap<String, Object> {
         int endLeft = -1;
         if (key.startsWith("[")) {
             //case: "['a']"
-            if (key.charAt(1) != '\'' && key.charAt(1) != '"') {
+            char quote = key.charAt(1);
+            if (quote != '\'' && quote != '"') {
                 throw new IllegalArgumentException("Key in brackets must be in quotes, but was " + key);
             }
-            endLeft = key.indexOf(']');
+            int endQuote = key.indexOf(quote, 2);
+            if (endQuote < 0) {
+                throw new IllegalArgumentException("Key in brackets must started and finished in same quotes, but was " + key);
+            }
+            endLeft = key.indexOf(']', endQuote);
             if (endLeft < 0) {
                 throw new IllegalArgumentException("Key must contain ']', but was " + key);
             }
-            if (key.charAt(endLeft - 1) != '\'' && key.charAt(endLeft - 1) != '"') {
-                throw new IllegalArgumentException("Key in brackets must be in quotes, but was " + key);
-            }
-            left = key.substring(2, endLeft - 1);//['abc'] -> abc
+            left = decodeKey(key.substring(2, endLeft - 1));//['abc'] -> abc
             endLeft = endLeft + 1;
         } else {
             endLeft = getEndOfWord(key);
@@ -245,6 +246,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
     }
 
     private static class KeyInfo {
+
         private String property;
         private String right;
         private boolean spread;

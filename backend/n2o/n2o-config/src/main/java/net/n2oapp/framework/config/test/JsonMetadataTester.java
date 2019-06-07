@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.NestedUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineFunction;
@@ -101,7 +102,7 @@ public class JsonMetadataTester {
             assert result != null : "Result mustn't be null in " + position;
             assert result instanceof Map : "Result must be [Map] in " + position;
             for (Map.Entry<String, Object> resultEntry : ((Map<String, Object>) source).entrySet()) {
-                assertDeepEquals(resultEntry.getValue(), ((Map) result).get(resultEntry.getKey()), !position.isEmpty() ? position + "." + resultEntry.getKey() : resultEntry.getKey());
+                assertDeepEquals(resultEntry.getValue(), ((Map) result).get(NestedUtils.wrapKey(resultEntry.getKey())), !position.isEmpty() ? position + "." + resultEntry.getKey() : resultEntry.getKey());
             }
             Set<String> keys = new HashSet<>(((Map) result).keySet());
             keys.removeAll(((Map) source).keySet());
