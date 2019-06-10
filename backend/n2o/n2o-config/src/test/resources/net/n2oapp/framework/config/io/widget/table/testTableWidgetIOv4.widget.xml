@@ -5,7 +5,7 @@
        object-id="stub" icon="testIcon" class="testClass" route="testRoute" selected="false" master-param="uid"
        fetch-on-init="true" table-size="lg" scroll-x="300" scroll-y="300">
     <columns>
-        <column text-field-id="buttons" label="buttonsTest" resizable="true">
+        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left">
             <toolbar generate="update,delete" src="test">
                 <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true">
                     <invoke operation-id="testId" route="route" src="src"
@@ -70,7 +70,7 @@
                 </switch>
             </badge>
         </column>
-        <column text-field-id="test11">
+        <column text-field-id="test11" fixed="right">
             <list color="test" size="3">
                 <switch value-field-id="gender.id">
                     <case value="1">Мужской</case>

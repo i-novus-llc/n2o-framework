@@ -354,6 +354,11 @@
                         <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="fixed" type="columnFixedPosition" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Прилипание столбца к краю.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="label" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Наименование заголовка столбца.</xs:documentation>
@@ -871,6 +876,16 @@
             <xs:enumeration value="includes"/>
             <xs:enumeration value="startsWith"/>
             <xs:enumeration value="endsWith"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="columnFixedPosition">
+        <xs:annotation>
+            <xs:documentation>Тип прилипания</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
 

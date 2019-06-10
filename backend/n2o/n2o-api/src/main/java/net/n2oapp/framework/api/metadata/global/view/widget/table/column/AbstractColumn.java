@@ -27,6 +27,7 @@ public abstract class AbstractColumn implements IdAware, Serializable{
     private String visibilityCondition;
     private String sortingFieldId;
     private DirectionType sortingDirection;
+    private ColumnFixedPosition fixed;
 
 
     public abstract boolean isDynamic();
