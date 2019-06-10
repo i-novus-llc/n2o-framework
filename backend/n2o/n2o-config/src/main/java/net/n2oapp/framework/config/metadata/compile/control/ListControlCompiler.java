@@ -115,11 +115,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         p.addRoute(new QueryContext(source.getQueryId(), route));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
 
-        String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
-        if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
-            dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
-        } else if (searchFilterId != null && listControl.isHasSearch()) {
-            throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
+        if (listControl.isHasSearch()) {
+            String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
+            if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
+                dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
+            } else if (searchFilterId != null && listControl.isHasSearch()) {
+                throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
+            }
         }
 
         N2oPreFilter[] preFilters = source.getPreFilters();
