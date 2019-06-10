@@ -304,6 +304,6 @@ public class SpringRestDataProviderEngineTest {
         request.put("filters", Arrays.asList("f1={space}", "f2={cyrillic}", "f3={quote}"));
 
         actionEngine.invoke(dataProvider, request);
-        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?f1=%20&f2=%D1%8B&f3=%5C"));
+        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?f1=%20&f2=%D1%8B&f3=%22"));
     }
 }

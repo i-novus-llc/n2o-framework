@@ -157,14 +157,20 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
     }
 
     private String replacePlaceholder(String target, String key, Object value) {
-        try {
-            return target.replace(
-                    "{" + key + "}",
-                    objectMapper.writeValueAsString(value).replace("\"", "")
-            );
-        } catch (JsonProcessingException e) {
-            throw new N2oException(e);
+        if (value == null)
+            return target;
+        String result;
+        if (value instanceof String || value instanceof Boolean)
+            result = value.toString();
+        else {
+            try {
+                result = objectMapper.writeValueAsString(value).replace("\"", "");
+            } catch (JsonProcessingException e) {
+                throw new N2oException(e);
+            }
         }
+
+        return target.replace("{" + key + "}", result);
     }
 
     private static String getURL(String host, Integer port, String url) {
