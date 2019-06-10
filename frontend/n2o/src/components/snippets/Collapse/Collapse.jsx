@@ -43,8 +43,8 @@ const Collapse = ({ className, children, dataKey, ...rest }) => {
 };
 
 Collapse.propTypes = {
-  activeKey: PropTypes.oneOfType(PropTypes.string, PropTypes.array),
-  defaultActiveKey: PropTypes.oneOfType(PropTypes.string, PropTypes.array),
+  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   destroyInactivePanel: PropTypes.bool,
   accordion: PropTypes.bool,
   children: PropTypes.node,

@@ -117,8 +117,8 @@ class Rating extends Component {
 }
 
 Rating.propTypes = {
-  max: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
-  rating: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+  max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   half: PropTypes.bool,
   showTooltip: PropTypes.bool,
   onChange: PropTypes.func,

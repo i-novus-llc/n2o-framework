@@ -43,6 +43,8 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
           data: nextProps.data,
         };
       }
+
+      return null;
     }
 
     /**

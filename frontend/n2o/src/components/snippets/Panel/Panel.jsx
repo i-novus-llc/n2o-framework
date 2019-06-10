@@ -43,10 +43,10 @@ function Panel({
       className={panelClass}
       style={style}
       onToggle={onToggle}
-      expanded={open}
       color={color}
+      // expanded={open}
       outline
-      onKeyDown={e => onKeyPress(e)}
+      onKeyDown={onKeyPress}
       tabIndex="-1"
     >
       {children}

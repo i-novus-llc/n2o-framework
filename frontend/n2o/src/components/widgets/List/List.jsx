@@ -272,7 +272,7 @@ List.propTypes = {
   maxHeight: PropTypes.number,
   fetchOnScroll: PropTypes.bool,
   divider: PropTypes.bool,
-  selectedId: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+  selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 List.defaultProps = {
   onItemClick: () => {},

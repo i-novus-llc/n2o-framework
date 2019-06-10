@@ -87,7 +87,7 @@ class DateInputGroup extends React.Component {
 DateInput.propTypes = {
   dateFormat: PropTypes.string,
   disabled: PropTypes.bool,
-  placeholder: PropTypes.bool,
+  placeholder: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   value: PropTypes.instanceOf(moment),
   onInputChange: PropTypes.func,
   setVisibility: PropTypes.func,

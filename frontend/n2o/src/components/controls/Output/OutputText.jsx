@@ -130,7 +130,7 @@ OutPutText.propTypes = {
   value: PropTypes.string,
   format: PropTypes.string,
   ellipsis: PropTypes.bool,
-  expandable: PropTypes.oneOf(PropTypes.bool, PropTypes.number),
+  expandable: PropTypes.oneOf([PropTypes.bool, PropTypes.number]),
 };
 
 OutPutText.defaultProps = {

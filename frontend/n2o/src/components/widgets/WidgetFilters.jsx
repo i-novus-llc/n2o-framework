@@ -166,7 +166,7 @@ WidgetFilters.propTypes = {
   validation: PropTypes.object,
   clearFilterModel: PropTypes.func,
   setFilterModel: PropTypes.func,
-  reduxFormFilter: PropTypes.func,
+  reduxFormFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   fetchWidget: PropTypes.func,
   hideButtons: PropTypes.bool,
   searchOnChange: PropTypes.bool,

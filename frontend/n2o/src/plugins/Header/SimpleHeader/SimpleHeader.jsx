@@ -165,7 +165,7 @@ class SimpleHeader extends React.Component {
 }
 
 SimpleHeader.propTypes = {
-  activeId: PropTypes.string.isRequired,
+  activeId: PropTypes.string,
   brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   items: PropTypes.arrayOf(

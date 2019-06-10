@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map, get } from 'lodash';
+import { map, get, omit } from 'lodash';
 import { ButtonGroup } from 'reactstrap';
 import HintButton from './HintButton';
 import HintDropDown from './HintDropDown';
@@ -39,9 +39,10 @@ function ButtonsCell({
     callActionImpl(e, { action });
   };
 
-  const createGroupItems = ({ subMenu, ...rest }) =>
+  const createGroupItems = ({ subMenu, ...rest }, i) =>
     subMenu ? (
       <HintDropDown
+        key={i}
         positionFixed={positionFixed}
         modifiers={modifiers}
         menu={subMenu}
@@ -59,7 +60,13 @@ function ButtonsCell({
       <ButtonGroup
         key={id}
         className={cx('n2o-buttons-cell', className)}
-        {...other}
+        {...omit(other, [
+          'columnId',
+          'dispatch',
+          'fieldKey',
+          'updateFieldInModel',
+          'callInvoke',
+        ])}
       >
         {map(buttons, createGroupItems)}
       </ButtonGroup>

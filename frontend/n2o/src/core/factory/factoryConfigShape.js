@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 
 const factoryConfigShape = PropTypes.shape({
-  controls: PropTypes.objectOf(PropTypes.element),
-  widgets: PropTypes.objectOf(PropTypes.element),
-  regions: PropTypes.objectOf(PropTypes.element),
-  layouts: PropTypes.objectOf(PropTypes.element),
-  cells: PropTypes.objectOf(PropTypes.element),
-  headers: PropTypes.objectOf(PropTypes.element),
-  fieldsets: PropTypes.objectOf(PropTypes.element),
-  fields: PropTypes.objectOf(PropTypes.element),
-  snippets: PropTypes.objectOf(PropTypes.element),
+  controls: PropTypes.objectOf(PropTypes.func),
+  widgets: PropTypes.objectOf(PropTypes.func),
+  regions: PropTypes.objectOf(PropTypes.func),
+  layouts: PropTypes.objectOf(PropTypes.func),
+  cells: PropTypes.objectOf(PropTypes.func),
+  headers: PropTypes.objectOf(PropTypes.func),
+  fieldsets: PropTypes.objectOf(PropTypes.func),
+  fields: PropTypes.objectOf(PropTypes.func),
+  snippets: PropTypes.objectOf(PropTypes.func),
 });
 
 export default factoryConfigShape;

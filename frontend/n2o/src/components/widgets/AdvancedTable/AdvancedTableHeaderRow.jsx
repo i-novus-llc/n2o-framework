@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 
 /**
  * Компонент создания строки заголовка
@@ -6,14 +7,12 @@ import React from 'react';
  * @constructor
  */
 function AdvancedTableHeaderRow(props) {
-  return React.createElement(
-    'tr',
-    {
-      ...props,
-      className: 'n2o-advanced-table-header-row',
-    },
-    [...props.children]
-  );
+  const rowProps = {
+    ...props,
+    className: 'n2o-advanced-table-header-row',
+  };
+
+  return React.createElement('tr', rowProps, [...props.children]);
 }
 
-export default AdvancedTableHeaderRow;
+export default pure(AdvancedTableHeaderRow);

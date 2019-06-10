@@ -106,6 +106,7 @@ class StandardField extends React.Component {
       flex: labelWidthPixels ? 'none' : undefined,
       ...labelStyle,
     };
+
     return (
       visible && (
         <div
@@ -164,7 +165,12 @@ class StandardField extends React.Component {
 
 StandardField.propTypes = {
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  control: PropTypes.node,
+  control: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.node,
+    PropTypes.string,
+    PropTypes.object,
+  ]),
   visible: PropTypes.bool,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
@@ -182,7 +188,7 @@ StandardField.propTypes = {
   labelAlignment: PropTypes.oneOf(['left', 'right']),
   labelPosition: PropTypes.oneOf(['top-left', 'top-right', 'left', 'right']),
   message: PropTypes.object,
-  help: PropTypes.oneOf(PropTypes.string, PropTypes.node),
+  help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 StandardField.defaultProps = {

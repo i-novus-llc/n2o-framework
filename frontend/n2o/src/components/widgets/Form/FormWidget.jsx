@@ -83,7 +83,7 @@ FormWidget.defaultProps = {
 FormWidget.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  containerId: PropTypes.string.isRequired,
+  containerId: PropTypes.string,
   pageId: PropTypes.string.isRequired,
   widgetId: PropTypes.string,
   visible: PropTypes.bool,

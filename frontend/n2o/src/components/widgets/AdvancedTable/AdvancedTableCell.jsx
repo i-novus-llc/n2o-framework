@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import { filter, isString } from 'lodash';
 
@@ -53,15 +54,22 @@ class AdvancedTableCell extends React.Component {
     return (
       <td colSpan={colSpan} rowSpan={rowSpan}>
         <div ref={this.setRef} className="n2o-advanced-table-cell-expand">
-          {React.Children.map(
-            children,
-            child =>
-              child &&
-              React.cloneElement(child, {
-                ...child.props,
+          {React.Children.map(children, child => {
+            if (!child) return;
+
+            let props = {
+              ...child.props,
+            };
+
+            if (child.key) {
+              props = {
+                ...props,
                 ...this.getCellSize(),
-              })
-          )}
+              };
+            }
+
+            return child && React.cloneElement(child, props);
+          })}
         </div>
       </td>
     );
@@ -79,4 +87,4 @@ AdvancedTableCell.defaultProps = {
   record: {},
 };
 
-export default AdvancedTableCell;
+export default pure(AdvancedTableCell);

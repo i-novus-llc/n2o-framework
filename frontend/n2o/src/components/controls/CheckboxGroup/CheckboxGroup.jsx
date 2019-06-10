@@ -114,7 +114,7 @@ class CheckboxGroup extends React.Component {
 }
 
 CheckboxGroup.propTypes = {
-  value: PropTypes.array,
+  value: PropTypes.any,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   visible: PropTypes.bool,
