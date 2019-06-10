@@ -6,6 +6,7 @@ import PanelContainer from './Panel/PanelShortHand';
 import Title from './Typography/Title/Title';
 import Text from './Typography/Text/Text';
 import Paragraph from './Typography/Paragraph/Paragraph';
+import Spinner from './Spinner/Spinner';
 
 export default {
   Alert,
@@ -16,4 +17,5 @@ export default {
   Wireframe,
   Title,
   Paragraph,
+  Spinner,
 };

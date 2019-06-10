@@ -31,6 +31,7 @@ class FormWidget extends React.Component {
         resolveProps(this.props.form.fieldsets, Fieldsets.StandardFieldset)
       ),
       toolbar: this.props.toolbar,
+      placeholder: this.props.placeholder,
       actions: this.props.actions,
       validation: this.props.form.validation,
       fetchOnInit: this.props.form.fetchOnInit,

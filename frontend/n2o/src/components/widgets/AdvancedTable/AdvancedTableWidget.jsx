@@ -37,6 +37,7 @@ class AdvancedTableWidget extends Component {
       autoFocus,
       rowSelection,
       tableSize,
+
       useFixedHeader,
       expandable,
       scroll,
@@ -47,7 +48,7 @@ class AdvancedTableWidget extends Component {
       expandedFieldId,
       rowClass,
     } = this.props.table;
-    const { toolbar, actions, dataProvider } = this.props;
+    const { toolbar, actions, dataProvider, placeholder } = this.props;
     const { resolveProps } = this.context;
     return {
       headers: values(resolveProps(headers)),
@@ -59,6 +60,7 @@ class AdvancedTableWidget extends Component {
       hasSelect,
       autoFocus,
       dataProvider,
+      placeholder,
       rowSelection,
       tableSize,
       useFixedHeader,

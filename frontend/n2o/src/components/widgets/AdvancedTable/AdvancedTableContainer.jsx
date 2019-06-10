@@ -238,6 +238,7 @@ export default compose(
           redux: true,
           rowSelection: props.rowSelection,
           tableSize: props.tableSize,
+          placeholder: props.placeholder,
           useFixedHeader: props.useFixedHeader,
           expandable: props.expandable,
           scroll: props.scroll,
