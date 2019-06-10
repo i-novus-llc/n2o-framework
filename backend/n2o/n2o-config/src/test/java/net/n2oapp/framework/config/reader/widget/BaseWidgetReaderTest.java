@@ -49,7 +49,7 @@ public abstract class BaseWidgetReaderTest {
             assert column.getTextFieldId().equals("id");
             assert column.getTooltipFieldId().equals("id");
             assert column.getFormat().equals("date DD.MM.YYYY");
-            assert column.getWidth().equals("100");
+            assert column.getWidth().equals(100);
         }
 
         //проверяем чек-бокс

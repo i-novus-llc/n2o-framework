@@ -246,7 +246,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeaders().size(), is(5));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
-        assertThat(headers.get(0).getWidth(), is("100"));
+        assertThat(headers.get(0).getWidth(), is(100));
         assertThat(headers.get(1).getWidth(), nullValue());
     }
 
