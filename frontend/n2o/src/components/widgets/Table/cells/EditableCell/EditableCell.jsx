@@ -112,6 +112,7 @@ export class EditableCell extends React.Component {
       parentWidth,
       parentHeight,
       valueFieldId,
+      format,
       ...rest
     } = this.props;
 
@@ -138,7 +139,7 @@ export class EditableCell extends React.Component {
             >
               <Text
                 text={isObject(value) ? value[valueFieldId] : value}
-                {...rest}
+                format={format}
               />
             </div>
           )}
@@ -170,7 +171,7 @@ EditableCell.propTypes = {
   control: PropTypes.object,
   editable: PropTypes.bool,
   value: PropTypes.string,
-  disabled: false,
+  disabled: PropTypes.bool,
   valueFieldId: PropTypes.string,
 };
 

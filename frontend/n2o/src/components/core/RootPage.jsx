@@ -27,7 +27,11 @@ function RootPage({ rootPageId, defaultTemplate, match: { params } }) {
 }
 
 RootPage.propTypes = {
-  defaultTemplate: PropTypes.element,
+  defaultTemplate: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
   rootPageId: PropTypes.string,
 };
 
@@ -40,7 +44,11 @@ export default compose(
     defaultTemplate: SimpleTemplate,
   }),
   getContext({
-    defaultTemplate: PropTypes.element,
+    defaultTemplate: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.element,
+      PropTypes.node,
+    ]),
   }),
   connect(mapStateToProps)
 )(RootPage);

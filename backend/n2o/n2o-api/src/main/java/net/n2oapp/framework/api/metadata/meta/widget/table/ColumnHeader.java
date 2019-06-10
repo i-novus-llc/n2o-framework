@@ -22,6 +22,8 @@ public class ColumnHeader implements IdAware, Compiled {
     @JsonProperty
     private String label;
     @JsonProperty
+    private String icon;
+    @JsonProperty
     private String src = "TextTableHeader";
     @JsonProperty
     private Boolean sortable;

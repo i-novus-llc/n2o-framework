@@ -37,6 +37,7 @@ class AdvancedTableWidget extends Component {
       autoFocus,
       rowSelection,
       tableSize,
+
       useFixedHeader,
       expandable,
       scroll,
@@ -47,7 +48,7 @@ class AdvancedTableWidget extends Component {
       expandedFieldId,
       rowClass,
     } = this.props.table;
-    const { toolbar, actions, dataProvider } = this.props;
+    const { toolbar, actions, dataProvider, placeholder } = this.props;
     const { resolveProps } = this.context;
     return {
       headers: values(resolveProps(headers)),
@@ -59,6 +60,7 @@ class AdvancedTableWidget extends Component {
       hasSelect,
       autoFocus,
       dataProvider,
+      placeholder,
       rowSelection,
       tableSize,
       useFixedHeader,
@@ -124,25 +126,22 @@ AdvancedTableWidget.defaultProps = {
 };
 
 AdvancedTableWidget.propTypes = {
-  containerId: PropTypes.string.isRequired,
   pageId: PropTypes.string.isRequired,
   widgetId: PropTypes.string,
   actions: PropTypes.object,
   toolbar: PropTypes.object,
   dataProvider: PropTypes.object,
-  table: PropTypes.arrayOf(
-    PropTypes.shape({
-      size: PropTypes.number,
-      fetchOnInit: PropTypes.bool,
-      hasSelect: PropTypes.bool,
-      className: PropTypes.string,
-      style: PropTypes.object,
-      autoFocus: PropTypes.bool,
-      sorting: PropTypes.object,
-      headers: PropTypes.array,
-      cells: PropTypes.array,
-    })
-  ),
+  table: PropTypes.shape({
+    size: PropTypes.number,
+    fetchOnInit: PropTypes.bool,
+    hasSelect: PropTypes.bool,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    autoFocus: PropTypes.bool,
+    sorting: PropTypes.object,
+    headers: PropTypes.array,
+    cells: PropTypes.array,
+  }),
   bordered: PropTypes.bool,
   rowClick: PropTypes.object,
   paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),

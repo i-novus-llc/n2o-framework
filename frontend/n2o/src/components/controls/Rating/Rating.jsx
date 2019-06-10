@@ -22,7 +22,6 @@ class Rating extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value !== prevState.value && nextProps.value) {
-      console.log({ value: nextProps.value });
       return {
         value: nextProps.value,
       };
@@ -117,8 +116,8 @@ class Rating extends Component {
 }
 
 Rating.propTypes = {
-  max: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
-  rating: PropTypes.oneOfType(PropTypes.number, PropTypes.string),
+  max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   half: PropTypes.bool,
   showTooltip: PropTypes.bool,
   onChange: PropTypes.func,

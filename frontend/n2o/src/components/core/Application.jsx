@@ -15,13 +15,17 @@ import numeral from 'numeral';
 import 'numeral/locales/ru';
 import { requestConfig as requestConfigAction } from '../../actions/global';
 import { globalSelector } from '../../selectors/global';
-import CoverSpinner from '../snippets/Spinner/CoverSpinner';
+import Spinner from '../snippets/Spinner/Spinner';
 import Alert from '../snippets/Alerts/Alert';
 
 numeral.locale('ru');
 
-function Application({ locale, messages, render }) {
-  return render(locale, messages);
+function Application({ locale, loading, messages, render }) {
+  return (
+    <Spinner type="cover" loading={loading}>
+      {render(locale, messages)}
+    </Spinner>
+  );
 }
 
 Application.propTypes = {
@@ -66,7 +70,7 @@ export default compose(
       this.props.requestConfig();
     },
   }),
-  branch(props => props.loading, renderComponent(CoverSpinner)),
+  // branch(props => props.loading, renderComponent(CoverSpinner)),
   // todo: Исправить через Alerts систему N2O или через нотификации
   branch(
     props => props.error,

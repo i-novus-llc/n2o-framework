@@ -312,6 +312,7 @@ class DateTimeControl extends React.Component {
     } = this.props;
     const { inputs } = this.state;
     const dateInputGroupProps = pick(this.props, ['max', 'min']);
+
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
@@ -384,18 +385,8 @@ DateTimeControl.propTypes = {
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
     PropTypes.string,
-    PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.oneOfType([
-          PropTypes.instanceOf(moment),
-          PropTypes.instanceOf(Date),
-          PropTypes.string,
-        ]),
-        name: PropTypes.oneOf(['beginDate', 'endDate']),
-        defaultTime: PropTypes.string,
-      })
-    ),
-  ]).isRequired,
+    PropTypes.array,
+  ]),
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),

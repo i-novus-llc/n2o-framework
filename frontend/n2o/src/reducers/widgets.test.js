@@ -499,13 +499,13 @@ describe('Тесты widget reducer', () => {
           type: SET_TABLE_SELECTED_ID,
           payload: {
             widgetId: 'widget',
-            value: 'testId'
+            value: 'testId',
           },
         }
       )
     ).toEqual({
       widget: {
-        selectedId: 'testId'
+        selectedId: 'testId',
       },
     });
   });
@@ -520,13 +520,13 @@ describe('Тесты widget reducer', () => {
           type: SET_TABLE_SELECTED_ID,
           payload: {
             widgetId: 'widget',
-            value: 613241
+            value: 613241,
           },
         }
       )
     ).toEqual({
       widget: {
-        selectedId: 613241
+        selectedId: 613241,
       },
     });
   });

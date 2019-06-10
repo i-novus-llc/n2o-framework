@@ -6,6 +6,7 @@ import { forEach, get, isEqual, isFunction } from 'lodash';
 import cx from 'classnames';
 import { batchActions } from 'redux-batched-actions';
 import { callActionImpl } from '../../actions/toolbar';
+import Placeholder from '../snippets/Placeholder/Placeholder';
 
 import {
   dataRequestWidget,
@@ -37,7 +38,7 @@ import {
 import observeStore from '../../utils/observeStore';
 import propsResolver from '../../utils/propsResolver';
 import { removeAlerts } from '../../actions/alerts';
-import CoverSpinner from '../snippets/Spinner/CoverSpinner';
+import Spinner from '../snippets/Spinner/Spinner';
 
 const s = {};
 
@@ -196,7 +197,12 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        *Базовый рендер
        */
       render() {
-        const { visible, isLoading, deferredSpinnerStart } = this.props;
+        const {
+          visible,
+          isLoading,
+          deferredSpinnerStart,
+          placeholder,
+        } = this.props;
         const { isMinTimeOut } = this.state;
         const propsToPass = mapProps({
           ...this.props,
@@ -209,6 +215,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         const style = {
           position: 'relative',
         };
+
         return (
           <div
             className={cx(
@@ -217,11 +224,19 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             )}
             style={style}
           >
-            {!isMinTimeOut ||
-              (isLoading && (
-                <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
-              ))}
-            <WrappedComponent {...propsToPass} />
+            <Placeholder
+              once={true}
+              loading={placeholder && isLoading}
+              {...placeholder}
+            >
+              <Spinner
+                delay={isMinTimeOut || deferredSpinnerStart}
+                loading={isLoading}
+                type="cover"
+              >
+                <WrappedComponent {...propsToPass} />
+              </Spinner>
+            </Placeholder>
           </div>
         );
       }
@@ -232,6 +247,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       widgetId: PropTypes.string,
       pageId: PropTypes.string,
       fetchOnInit: PropTypes.bool,
+      placeholder: PropTypes.oneOfType(PropTypes.bool, PropTypes.object),
       size: PropTypes.number,
       page: PropTypes.number,
       filterDefaultValues: PropTypes.object,
@@ -260,6 +276,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       resolveModel: {},
       defaultSorting: {},
       deferredSpinnerStart: 0,
+      placeholder: false,
     };
 
     WidgetContainer.contextTypes = {

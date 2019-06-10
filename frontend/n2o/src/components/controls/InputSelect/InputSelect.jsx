@@ -7,7 +7,7 @@ import cx from 'classnames';
 import InputSelectGroup from './InputSelectGroup';
 import PopupList from './PopupList';
 import InputContent from './InputContent';
-import { find, isEqual, isEmpty, isNil } from 'lodash';
+import { find, isEqual, isEmpty } from 'lodash';
 import Alert from '../../snippets/Alerts/Alert';
 import Popup from './Popup';
 
@@ -85,6 +85,7 @@ class InputSelect extends React.Component {
     this.setSelectedItemsRef = this.setSelectedItemsRef.bind(this);
     this.setTextareaRef = this.setTextareaRef.bind(this);
     this.setSelectedListRef = this.setSelectedListRef.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
   }
 
   setTextareaRef(input) {
@@ -239,8 +240,6 @@ class InputSelect extends React.Component {
    * @private
    */
   _setInputFocus(inputFocus) {
-    console.log('111');
-    console.log(inputFocus);
     this.setState({ inputFocus });
   }
 
@@ -343,7 +342,7 @@ class InputSelect extends React.Component {
       }),
       () => {
         selectCallback();
-        // this.props.onBlur();
+        this.props.onBlur();
       }
     );
   }
@@ -380,7 +379,7 @@ class InputSelect extends React.Component {
     if (isExpanded) {
       this._hideOptionsList();
       resetOnBlur && this._handleValueChangeOnBlur();
-      // this.props.onBlur();
+      this.props.onBlur();
     }
   }
 
@@ -394,6 +393,12 @@ class InputSelect extends React.Component {
       if (element && element.getBoundingClientRect) {
         return element.getBoundingClientRect().width || undefined;
       }
+    }
+  }
+
+  onInputBlur() {
+    if (!this.state.isExpanded) {
+      this.props.onBlur();
     }
   }
   /**
@@ -456,6 +461,7 @@ class InputSelect extends React.Component {
             setSelectedItemsRef={this.setSelectedItemsRef}
           >
             <InputContent
+              onBlur={this.onInputBlur}
               loading={loading}
               value={this.state.input}
               disabled={disabled}

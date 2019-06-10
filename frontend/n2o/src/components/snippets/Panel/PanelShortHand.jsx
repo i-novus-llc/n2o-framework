@@ -211,7 +211,7 @@ PanelContainer.propTypes = {
   toolbar: PropTypes.array,
   className: PropTypes.string,
   style: PropTypes.object,
-  color: PropTypes.oneOf([Object.values(panelStyles)]),
+  color: PropTypes.oneOf(Object.values(panelStyles)),
   icon: PropTypes.string,
   headerTitle: PropTypes.string,
   footerTitle: PropTypes.string,

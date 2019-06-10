@@ -57,7 +57,7 @@ ButtonUploader.propTypes = {
   onChange: PropTypes.func,
   statusBarColor: PropTypes.string,
   showSize: PropTypes.bool,
-  children: PropTypes.oneOf(PropTypes.node, PropTypes.func),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 export default withFileUploader(ButtonUploader);

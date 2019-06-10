@@ -188,6 +188,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         column.setId(p.cast(column.getId(), column.getTextFieldId()));
         column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));
         header.setId(column.getId());
+        header.setIcon(column.getLabelIcon());
         header.setWidth(column.getWidth());
         header.setResizable(column.getResizable());
         header.setFixed(column.getFixed());
