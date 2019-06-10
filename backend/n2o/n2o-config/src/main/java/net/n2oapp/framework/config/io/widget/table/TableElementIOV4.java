@@ -2,10 +2,7 @@ package net.n2oapp.framework.config.io.widget.table;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRow;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.DirectionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
@@ -41,6 +38,9 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
     public void io(Element e, N2oTable t, IOProcessor p) {
         super.io(e, t, p);
         p.attributeBoolean(e, "selected", t::getSelected, t::setSelected);
+        p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
+        p.attributeInteger(e, "max-width", t::getScrollX, t::setScrollX);
+        p.attributeInteger(e, "max-height", t::getScrollY, t::setScrollY);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns,
                 p.oneOf(AbstractColumn.class).add("column", N2oSimpleColumn.class, this::column));
         p.child(e, null, "rows", t::getRows, t::setRows, N2oRow::new, this::rows);

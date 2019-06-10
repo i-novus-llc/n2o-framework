@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.widget.table.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
@@ -16,7 +15,7 @@ public class ProgressCellElementIOv2 extends AbstractCellElementIOv2<N2oProgress
         super.io(e, c, p);
         p.attribute(e, "value", c::getValue, c::setValue);
         p.attributeBoolean(e, "active", c::getActive, c::setActive);
-        p.attributeEnum(e, "size", c::getSize, c::setSize, Size.class);
+        p.attributeEnum(e, "size", c::getSize, c::setSize, N2oProgressBarCell.Size.class);
         p.attributeBoolean(e, "striped", c::getStriped, c::setStriped);
         p.attribute(e, "color", c::getColor, c::setColor);
     }

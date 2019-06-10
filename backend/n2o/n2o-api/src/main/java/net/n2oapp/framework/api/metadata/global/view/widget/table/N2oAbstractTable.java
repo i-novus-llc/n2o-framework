@@ -17,6 +17,9 @@ public abstract class N2oAbstractTable extends N2oWidget {
     private Boolean hasCheckboxes;
     private Boolean autoSelect;
     private Boolean selected;
+    private Size tableSize;
+    private Integer scrollX;
+    private Integer scrollY;
 
     public enum PagingMode {
         on, off, lazy
