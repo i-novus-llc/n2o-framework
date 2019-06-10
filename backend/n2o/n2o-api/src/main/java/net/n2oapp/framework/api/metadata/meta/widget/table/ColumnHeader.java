@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
+import net.n2oapp.framework.api.metadata.meta.control.Control;
 
 
 /**
@@ -28,5 +29,9 @@ public class ColumnHeader implements IdAware, Compiled {
     private Integer width;
     @JsonProperty
     private ColumnFixedPosition fixed;
+    @JsonProperty
+    private Boolean filterable;
+    @JsonProperty
+    private Control filterControl;
 
 }
