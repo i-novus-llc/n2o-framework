@@ -3,7 +3,7 @@
        id="test" src="AdvancedTableWidget" class="n2o" size="10" query-id="testTable" route="/test" fetch-on-init="true">
     <columns>
         <column text-field-id="name" label="Имя" width="50"/>
-        <column text-field-id="surname" label="Фамилия">
+        <column text-field-id="surname" label="Фамилия" icon="fa fa-plus">
             <icon type="iconAndText" icon="fa fa-plus"/>
         </column>
         <column text-field-id="birthday" label="Дата рождения" sorting-direction="asc"/>
