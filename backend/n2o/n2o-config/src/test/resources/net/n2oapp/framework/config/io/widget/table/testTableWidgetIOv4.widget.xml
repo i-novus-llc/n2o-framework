@@ -5,7 +5,7 @@
        object-id="stub" icon="testIcon" class="testClass" route="testRoute" selected="false" master-param="uid"
        fetch-on-init="true" table-size="lg" scroll-x="300" scroll-y="300">
     <columns>
-        <column text-field-id="buttons" label="buttonsTest">
+        <column text-field-id="buttons" label="buttonsTest" resizable="true">
             <toolbar generate="update,delete" src="test">
                 <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true">
                     <invoke operation-id="testId" route="route" src="src"

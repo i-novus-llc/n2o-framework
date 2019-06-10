@@ -344,9 +344,14 @@
                         <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:string" use="optional">
+                <xs:attribute name="width" type="xs:integer" use="optional">
                     <xs:annotation>
                         <xs:documentation>Ширина столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="resizable" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="label" type="xs:string" use="optional">
