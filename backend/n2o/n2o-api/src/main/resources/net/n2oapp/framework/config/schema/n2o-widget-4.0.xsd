@@ -299,6 +299,21 @@
                         <xs:documentation>Таблица без выделенных записей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="table-size" type="sizeEnum">
+                    <xs:annotation>
+                        <xs:documentation>Размер строк таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="scroll-x" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина таблицы, после которой появится горизонтальный скрол.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="scroll-y" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Высота таблицы, после которой появится вертикальный скрол.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -329,9 +344,19 @@
                         <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:string" use="optional">
+                <xs:attribute name="width" type="xs:integer" use="optional">
                     <xs:annotation>
                         <xs:documentation>Ширина столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="resizable" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fixed" type="columnFixedPosition" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Прилипание столбца к краю.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="label" type="xs:string" use="optional">
@@ -598,6 +623,15 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="sizeEnum">
+        <xs:restriction base="xs:string">
+            <!--не задано-->
+            <xs:enumeration value="sm"/>
+            <!--по возрастанию-->
+            <xs:enumeration value="lg"/>
+        </xs:restriction>
+    </xs:simpleType>
+
 
     <xs:simpleType name="generateDefinition">
         <xs:annotation>
@@ -842,6 +876,16 @@
             <xs:enumeration value="includes"/>
             <xs:enumeration value="startsWith"/>
             <xs:enumeration value="endsWith"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="columnFixedPosition">
+        <xs:annotation>
+            <xs:documentation>Тип прилипания</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
 
