@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 
+import java.util.List;
+
 
 /**
  * Заголовки столбцов таблицы
@@ -33,5 +35,9 @@ public class ColumnHeader implements IdAware, Compiled {
     private Boolean filterable;
     @JsonProperty
     private Control filterControl;
+    @JsonProperty
+    private Boolean multiHeader;
+    @JsonProperty
+    private List<ColumnHeader> children;
 
 }
