@@ -97,10 +97,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       constructor(props) {
         super(props);
 
-        this.state = {
-          isMinTimeOut: false,
-        };
-
         this.initIfNeeded();
         this.onFocus = this.onFocus.bind(this);
         this.onFetch = this.onFetch.bind(this);
@@ -114,11 +110,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         if (fetchOnInit && visible) {
           this.onFetch();
         }
-        setTimeout(() => {
-          this.setState({
-            isMinTimeOut: true,
-          });
-        }, 500);
       }
 
       componentDidUpdate(prevProps) {
@@ -197,13 +188,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        *Базовый рендер
        */
       render() {
-        const {
-          visible,
-          isLoading,
-          deferredSpinnerStart,
-          placeholder,
-        } = this.props;
-        const { isMinTimeOut } = this.state;
+        const { visible, isLoading, placeholder } = this.props;
         const propsToPass = mapProps({
           ...this.props,
           onSetModel: this.onSetModel,
@@ -229,11 +214,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
               loading={placeholder && isLoading}
               {...placeholder}
             >
-              <Spinner
-                delay={isMinTimeOut || deferredSpinnerStart}
-                loading={isLoading}
-                type="cover"
-              >
+              <Spinner loading={isLoading} type="cover">
                 <WrappedComponent {...propsToPass} />
               </Spinner>
             </Placeholder>
@@ -266,7 +247,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       dispatch: PropTypes.func,
       isInit: PropTypes.bool,
       isActive: PropTypes.bool,
-      deferredSpinnerStart: PropTypes.number,
     };
 
     WidgetContainer.defaultProps = {
@@ -275,7 +255,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       isLoading: false,
       resolveModel: {},
       defaultSorting: {},
-      deferredSpinnerStart: 0,
       placeholder: false,
     };
 
