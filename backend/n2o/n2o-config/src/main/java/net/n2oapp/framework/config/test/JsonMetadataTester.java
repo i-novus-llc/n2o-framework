@@ -116,9 +116,10 @@ public class JsonMetadataTester {
                 assertDeepEquals(((List) source).get(i), ((List) result).get(i), position + "[" + i + "]");
             }
 
-        } else {
+        } else if (source != null) {
             assert source.equals(result) : "Value not equals in " + position + ". Expected " + source + ", but actual " + result;
-        }
+        } else
+            assert result == null;
     }
 
 

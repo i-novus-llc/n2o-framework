@@ -22,6 +22,6 @@ public class ColumnHeader implements IdAware, Compiled {
     @JsonProperty
     private Boolean sortable;
     @JsonProperty
-    private String width;
+    private Integer width;
 
 }

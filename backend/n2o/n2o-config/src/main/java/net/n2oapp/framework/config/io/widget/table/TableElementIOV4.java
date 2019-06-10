@@ -39,8 +39,8 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         super.io(e, t, p);
         p.attributeBoolean(e, "selected", t::getSelected, t::setSelected);
         p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
-        p.attributeInteger(e, "max-width", t::getScrollX, t::setScrollX);
-        p.attributeInteger(e, "max-height", t::getScrollY, t::setScrollY);
+        p.attributeInteger(e, "scroll-x", t::getScrollX, t::setScrollX);
+        p.attributeInteger(e, "scroll-y", t::getScrollY, t::setScrollY);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns,
                 p.oneOf(AbstractColumn.class).add("column", N2oSimpleColumn.class, this::column));
         p.child(e, null, "rows", t::getRows, t::setRows, N2oRow::new, this::rows);
@@ -59,7 +59,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
         p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
-        p.attribute(e, "width", c::getWidth, c::setWidth);
+        p.attributeInteger(e, "width", c::getWidth, c::setWidth);
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, DirectionType.class);
     }
 
