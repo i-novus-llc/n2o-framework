@@ -6,7 +6,7 @@ const NotFoundPage = () => (
 );
 const ForbiddenPage = () => <ErrorPage status={403} error="Доступ запрещён" />;
 const ServerErrorPage = () => (
-  <ErrorPage status={500} error="Сервер не доступен" />
+  <ErrorPage status={500} error="Внутренняя ошибка приложения" />
 );
 
 const createErrorPages = ({
