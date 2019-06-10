@@ -366,27 +366,15 @@
                     <xs:documentation>Редактирование значения.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence maxOccurs="1" minOccurs="1" >
-                    <xs:element name="hidden" type="ctr2:controlHiddenDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="text-area" type="ctr2:controlTextArea" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="text-editor" type="ctr2:controlTextEditor" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="code-editor" type="ctr2:controlCodeEditor" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="input-text" type="ctr2:controlInputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="output-text" type="ctr2:controlOutputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="masked-input" type="ctr2:controlMaskedInputDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="checkbox" type="ctr2:controlSimpleFieldDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="password" type="ctr2:controlPasswordDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="date-interval" type="ctr2:controlDateIntervalDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="file-upload" type="ctr2:controlFileUploadDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="checkbox-group" type="ctr2:controlOptionsListInlineDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="radio-group" type="ctr2:controlOptionsListInlineDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="select" type="ctr2:controlSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="input-select-tree" type="ctr2:inputSelectTreeDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="search-buttons" type="ctr2:controlSearchButtonsDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="html" type="ctr2:controlHtml" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="text" type="ctr2:controlText" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
