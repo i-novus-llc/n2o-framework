@@ -58,7 +58,7 @@ public class SubmitGenerator implements ButtonGenerator {
         N2oInvokeAction saveAction = new N2oInvokeAction();
         if (context instanceof PageContext) {
             PageContext pageContext = (PageContext) context;
-            saveAction.setCloseAfterSuccess(pageContext.getCloseOnSuccessSubmit());
+            saveAction.setCloseOnSuccess(pageContext.getCloseOnSuccessSubmit());
             saveAction.setRedirectTarget(pageContext.getRedirectTargetOnSuccessSubmit());
             saveAction.setRedirectUrl(pageContext.getRedirectUrlOnSuccessSubmit());
             saveAction.setRefreshOnSuccess(pageContext.getRefreshOnSuccessSubmit());

@@ -9,7 +9,7 @@
             <toolbar generate="update,delete" src="test">
                 <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true">
                     <invoke operation-id="testId" route="route" src="src"
-                            redirect-url="/url" redirect-target="newWindow" close-after-success="true"/>
+                            redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
                 <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
                     <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"
