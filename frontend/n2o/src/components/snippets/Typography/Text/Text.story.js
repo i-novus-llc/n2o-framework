@@ -56,4 +56,10 @@ stories
         />
       ))}
     </Fragment>
+  ))
+  .add('Текст с переносами \\n', () => (
+    <Text
+      preLine={true}
+      text={'The five \n boxing \n wizards \n jump quickly'}
+    />
   ));
