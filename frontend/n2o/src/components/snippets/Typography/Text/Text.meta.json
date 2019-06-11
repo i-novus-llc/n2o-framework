@@ -8,5 +8,6 @@
   "text": "Title",
   "editable": false,
   "copyable": false,
-  "color": ""
+  "color": "",
+  "preLine": false
 }

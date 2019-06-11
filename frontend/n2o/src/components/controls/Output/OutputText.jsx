@@ -7,9 +7,9 @@ import Icon from '../../snippets/Icon/Icon';
 
 const TypesComponents = {
   icon: ({ icon }) => <Icon className="icon" name={icon} />,
-  text: ({ value, format, expandable, showFullText }) => (
+  text: ({ value, format, expandable, showFullText, preLine }) => (
     <div className="text">
-      <Text text={value} format={format} />
+      <Text text={value} format={format} preLine={preLine} />
       {expandable && (
         <a href="#" onClick={showFullText} className="details-label">
           Подробнее
@@ -17,11 +17,11 @@ const TypesComponents = {
       )}
     </div>
   ),
-  iconAndText: ({ icon, value, format, expandable, showFullText }) => (
+  iconAndText: ({ icon, value, format, expandable, showFullText, preLine }) => (
     <Fragment>
       {icon && <Icon className="icon" name={icon} />}
       <div className="text">
-        <Text text={value} format={format} />
+        <Text text={value} format={format} preLine={preLine} />
         {expandable && (
           <a href="#" onClick={showFullText} className="details-label">
             Подробнее

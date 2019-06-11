@@ -13,9 +13,15 @@ import Text from '../../../../snippets/Text/Text';
  */
 class TextCell extends React.Component {
   render() {
-    const { model, fieldKey, id, visible, ...rest } = this.props;
+    const { model, fieldKey, id, visible, preLine, ...rest } = this.props;
     return (
-      visible && <Text text={model && get(model, fieldKey || id)} {...rest} />
+      visible && (
+        <Text
+          text={model && get(model, fieldKey || id)}
+          preLine={preLine}
+          {...rest}
+        />
+      )
     );
   }
 }
