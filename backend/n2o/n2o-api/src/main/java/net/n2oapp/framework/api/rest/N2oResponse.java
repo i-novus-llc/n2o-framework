@@ -32,28 +32,7 @@ public class N2oResponse {
     }
 
     public N2oResponse(List<ResponseMessage> messages, String widgetId) {
-        meta = new MetaSaga();
-        MessageSaga messageSaga = new MessageSaga();
-        AlertSaga alert = new AlertSaga();
-        Map<String, ResponseMessage> fieldMessages = new HashMap<>();
-        List<ResponseMessage> widgetMessages = new ArrayList<>();
-        for (ResponseMessage message : messages) {
-            if (message.getField() != null) {
-                fieldMessages.put(message.getField(), message);
-            } else {
-                widgetMessages.add(message);
-            }
-        }
-        if (!widgetMessages.isEmpty()) {
-            alert.setAlertKey(widgetId);
-            alert.setMessages(widgetMessages);
-            meta.setAlert(alert);
-        }
-        if (!fieldMessages.isEmpty()) {
-            messageSaga.setFields(fieldMessages);
-            messageSaga.setForm(widgetId);
-            meta.setMessages(messageSaga);
-        }
+        addResponseMessages(messages, widgetId);
     }
 
 
@@ -75,8 +54,11 @@ public class N2oResponse {
             getMeta().getAlert().getMessages().add(message);
             getMeta().getAlert().setAlertKey(widgetId);
         } else {
-            if (getMeta().getMessages() == null)
-                getMeta().setMessages(new MessageSaga());
+            if (getMeta().getMessages() == null) {
+                MessageSaga messages = new MessageSaga();
+                messages.setForm(widgetId);
+                getMeta().setMessages(messages);
+            }
             if (getMeta().getMessages().getFields() == null)
                 getMeta().getMessages().setFields(new HashMap<>());
             getMeta().getMessages().getFields().putIfAbsent(message.getField(), message);
