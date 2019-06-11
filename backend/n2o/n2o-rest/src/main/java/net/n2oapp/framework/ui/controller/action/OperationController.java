@@ -46,28 +46,35 @@ public class OperationController extends SetController {
                                              ActionResponseInfo responseInfo) {
         try {
             DataSet data = handleActionRequest(requestInfo, responseInfo);
-            SetDataResponse dataWithMessageResponse = constructSuccessSetDataResponse(requestInfo.getOperation(), data,
-                    requestInfo, responseInfo);
-            return dataWithMessageResponse;
+            return constructSuccessSetDataResponse(data, requestInfo, responseInfo);
         } catch (N2oException e) {
-            String widgetId = requestInfo.getFailAlertWidgetId() == null
-                    ? requestInfo.getMessagesForm()
-                    : requestInfo.getFailAlertWidgetId();
-            SetDataResponse response = new SetDataResponse(errorMessageBuilder.buildMessages(e), widgetId);
-            response.setStatus(e.getHttpStatus());
+            SetDataResponse response = constructFailSetDataResponse(e, requestInfo);
             logger.error("Error response " + response.getStatus() + " " + e.getSeverity(), e);
             return response;
         }
     }
 
+    private SetDataResponse constructFailSetDataResponse(N2oException e, ActionRequestInfo<DataSet> requestInfo) {
+        SetDataResponse response = new SetDataResponse();
+        if (requestInfo.isMessageOnFail()) {
+            String widgetId = requestInfo.getFailAlertWidgetId() == null
+                    ? requestInfo.getMessagesForm()
+                    : requestInfo.getFailAlertWidgetId();
+            response.addResponseMessages(errorMessageBuilder.buildMessages(e), widgetId);
+        }
+        response.setStatus(e.getHttpStatus());
+        return response;
+    }
 
-    private SetDataResponse constructSuccessSetDataResponse(CompiledObject.Operation operation, DataSet data,
+
+    private SetDataResponse constructSuccessSetDataResponse(DataSet data,
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse();
         response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.getStackedMessages());
         response.setData(data);
-        response.addResponseMessage(createSuccess(operation, data), requestInfo.getSuccessAlertWidgetId());
+        if (requestInfo.isMessageOnSuccess())
+            response.addResponseMessage(createSuccess(requestInfo.getOperation(), data), requestInfo.getSuccessAlertWidgetId());
         return response;
     }
 

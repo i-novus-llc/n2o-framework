@@ -34,14 +34,15 @@ export class EditableCell extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!isEqual(prevProps.value, this.props.value)) {
+    if (!isEqual(prevProps.model, this.props.model)) {
       this.setState({ value: this.getValueFromModel(this.props) });
     }
 
     if (
       !this.state.editing &&
       isEqual(prevState.prevValue, prevState.value) &&
-      !isEqual(this.state.prevValue, this.state.value)
+      !isEqual(this.state.prevValue, this.state.value) &&
+      !isEqual(prevProps.model, this.props.model)
     ) {
       {
         this.callAction(this.state.value);
@@ -86,19 +87,13 @@ export class EditableCell extends React.Component {
   }
 
   callAction(value) {
-    const { model, id, callActionImpl, action, resolveWidget } = this.props;
-    const newModel = {
-      ...model,
-      [id]: value,
-    };
-    resolveWidget(newModel);
-    callActionImpl(
-      {},
+    const { model, id, callInvoke, action } = this.props;
+    callInvoke(
       {
-        action,
-        model: newModel,
+        ...model,
+        [id]: value,
       },
-      true
+      get(action, 'options.payload.dataProvider')
     );
   }
 

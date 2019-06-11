@@ -266,7 +266,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-after-success" type="xs:boolean" use="optional">
+                <xs:attribute name="close-on-success" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после успешного выполнения действия</xs:documentation>
                     </xs:annotation>
@@ -301,6 +301,20 @@
                     <xs:annotation>
                         <xs:documentation>
                             Необходимо ли обновлять виджет (по умолчанию true)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="message-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Показать сообщение об успешном выполнении действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="message-on-fail" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Показать сообщение о неудачном выполнении действия
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
