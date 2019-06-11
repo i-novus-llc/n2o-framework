@@ -86,15 +86,17 @@ export class EditableCell extends React.Component {
   }
 
   callAction(value) {
-    const { model, id, callActionImpl, action } = this.props;
+    const { model, id, callActionImpl, action, resolveWidget } = this.props;
+    const newModel = {
+      ...model,
+      [id]: value,
+    };
+    resolveWidget(newModel);
     callActionImpl(
       {},
       {
         action,
-        model: {
-          ...model,
-          [id]: value,
-        },
+        model: newModel,
       },
       true
     );
