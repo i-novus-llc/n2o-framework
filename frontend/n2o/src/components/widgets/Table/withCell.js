@@ -42,17 +42,15 @@ export default function(WrappedComponent) {
     dataProvider,
     ...rest
   }) {
-    const callActionImpl = (e, { action, model }, withOutResolve = false) => {
+    const callActionImpl = (e, { action, model }) => {
       const currentModel = model || defaultModel;
       const currentAction = action || defaultAction;
-      if (!withOutResolve) {
-        currentModel && resolveWidget(currentModel);
-      }
+      currentModel && resolveWidget(currentModel);
       currentAction && onActionImpl(currentAction);
     };
 
-    const callInvoke = data => {
-      onInvoke(widgetId, dataProvider, data);
+    const callInvoke = (data, customProvider = null) => {
+      onInvoke(widgetId, customProvider || dataProvider, data);
     };
 
     const updateFieldInModel = (value, prefix = 'datasource') => {
