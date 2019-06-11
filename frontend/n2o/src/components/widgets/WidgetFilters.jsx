@@ -90,7 +90,7 @@ class WidgetFilters extends React.Component {
   }
 
   handleFilter() {
-    this.validateAndFetch({ page: 1, withoutSelectedId: true });
+    this.validateAndFetch({ page: 1 });
   }
 
   handleReset() {
@@ -117,7 +117,7 @@ class WidgetFilters extends React.Component {
       () => {
         resetFilterModel(this.formName);
         setFilterModel(widgetId, newReduxForm);
-        this.validateAndFetch({ withoutSelectedId: true });
+        this.validateAndFetch();
       }
     );
   }
