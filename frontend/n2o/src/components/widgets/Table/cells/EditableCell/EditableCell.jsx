@@ -1,10 +1,9 @@
 import React from 'react';
 import cn from 'classnames';
-import { findDOMNode } from 'react-dom';
 import { compose } from 'recompose';
 import { HotKeys } from 'react-hotkeys';
 import PropTypes from 'prop-types';
-import { isEqual, get } from 'lodash';
+import { isEqual, get, isObject } from 'lodash';
 import Text from '../../../../snippets/Text/Text';
 import withActionsEditableCell from './withActionsEditableCell';
 import withCell from '../../withCell';
@@ -31,11 +30,23 @@ export class EditableCell extends React.Component {
     this.toggleEdit = this.toggleEdit.bind(this);
     this.getValueFromModel = this.getValueFromModel.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.callAction = this.callAction.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.value, this.props.value)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (!isEqual(prevProps.model, this.props.model)) {
       this.setState({ value: this.getValueFromModel(this.props) });
+    }
+
+    if (
+      !this.state.editing &&
+      isEqual(prevState.prevValue, prevState.value) &&
+      !isEqual(this.state.prevValue, this.state.value) &&
+      !isEqual(prevProps.model, this.props.model)
+    ) {
+      {
+        this.callAction(this.state.value);
+      }
     }
   }
 
@@ -45,19 +56,16 @@ export class EditableCell extends React.Component {
   }
 
   onChange(value) {
-    this.setState({ value });
+    this.setState(() => ({ value }));
   }
 
   toggleEdit() {
     const {
       model,
-      id,
       prevResolveModel,
       onResolve,
       onSetSelectedId,
       widgetId,
-      callActionImpl,
-      action,
     } = this.props;
     let newState = {
       editing: !this.state.editing,
@@ -67,16 +75,7 @@ export class EditableCell extends React.Component {
       onSetSelectedId();
     }
     if (!newState.editing && !isEqual(this.state.prevValue, this.state.value)) {
-      callActionImpl(
-        {},
-        {
-          action,
-          model: {
-            ...model,
-            [id]: this.state.value,
-          },
-        }
-      );
+      this.callAction(this.state.value);
     }
 
     newState = {
@@ -87,38 +86,60 @@ export class EditableCell extends React.Component {
     this.setState(newState);
   }
 
+  callAction(value) {
+    const { model, id, callInvoke, action } = this.props;
+    callInvoke({
+      ...model,
+      [id]: value,
+    }, get(action, 'options.payload.dataProvider'));
+  }
+
   handleKeyDown() {
     this.toggleEdit();
   }
 
   render() {
-    const { visible, control, editable, ...rest } = this.props;
+    const {
+      visible,
+      control,
+      editable,
+      parentWidth,
+      parentHeight,
+      valueFieldId,
+      format,
+      ...rest
+    } = this.props;
+
     const { value, editing } = this.state;
-    const controlHeight = this.node && findDOMNode(this.node).clientHeight;
+    const style = {
+      width: parentWidth,
+      height: parentHeight,
+    };
+
+    const events = { events: 'enter' };
+    const handlers = { events: this.handleKeyDown };
+
     return (
       visible && (
         <div
+          style={style}
           className={cn({ 'n2o-editable-cell': editable })}
           onClick={e => e.stopPropagation()}
-          ref={el => (this.node = el)}
         >
           {!editing && (
             <div
               className="n2o-editable-cell-text"
               onClick={editable && this.toggleEdit}
             >
-              <Text text={value} {...rest} />
+              <Text
+                text={isObject(value) ? value[valueFieldId] : value}
+                format={format}
+              />
             </div>
           )}
           {editable && editing && (
-            <HotKeys
-              keyMap={{ events: 'enter' }}
-              handlers={{ events: this.handleKeyDown }}
-            >
-              <div
-                className="n2o-editable-cell-control"
-                style={{ height: controlHeight }}
-              >
+            <HotKeys keyMap={events} handlers={handlers}>
+              <div className="n2o-editable-cell-control" style={style}>
                 {React.createElement(control.component, {
                   ...control,
                   className: 'n2o-advanced-table-edit-control',
@@ -126,9 +147,9 @@ export class EditableCell extends React.Component {
                   onBlur: this.toggleEdit,
                   autoFocus: true,
                   value: value,
-                  resetOnNotValid: false,
                   openOnFocus: true,
                   showButtons: false,
+                  resetOnNotValid: false,
                 })}
               </div>
             </HotKeys>
@@ -144,12 +165,14 @@ EditableCell.propTypes = {
   control: PropTypes.object,
   editable: PropTypes.bool,
   value: PropTypes.string,
-  disabled: false,
+  disabled: PropTypes.bool,
+  valueFieldId: PropTypes.string,
 };
 
 EditableCell.defaultProps = {
   visible: true,
   disabled: false,
+  valueFieldId: 'id',
 };
 
 export default compose(

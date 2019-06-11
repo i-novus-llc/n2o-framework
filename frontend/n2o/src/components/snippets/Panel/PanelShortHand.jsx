@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
+import cn from 'classnames';
 
 import Panel from './Panel';
 import panelStyles from './panelStyles';
@@ -116,38 +117,48 @@ class PanelContainer extends React.Component {
       header,
     } = this.props;
 
-    const fullScreenIcon = this.state.isFullScreen ? 'compress' : 'expand';
+    const fullScreenIcon = this.state.isFullScreen
+      ? 'fa-compress'
+      : 'fa-expand';
+
     return (
       <Panel
         color={color}
         style={style}
-        className={className}
+        className={cn(className, {
+          'n2o-panel-region--tabs': hasTabs,
+        })}
         open={this.state.open}
         isFullScreen={this.state.isFullScreen}
         onKeyPress={this.handleKeyPress}
       >
         {header && (
           <Panel.Heading>
-            <Panel.Title
-              collapsible={collapsible}
-              icon={icon}
-              onToggle={this.toggleCollapse}
-            >
+            <Panel.Title collapsible={collapsible} icon={icon}>
               {headerTitle}
             </Panel.Title>
             <Panel.Menu
               fullScreen={fullScreen}
               onFullScreenClick={this.handleFullScreen}
               fullScreenIcon={fullScreenIcon}
+              isOpen={this.state.open}
+              onToggle={this.toggleCollapse}
+              collapsible={collapsible}
             >
               {hasTabs &&
-                tabs.map(tab => {
+                tabs.map((tab, i) => {
+                  let activeTab = this.state.activeTab;
+
+                  if (!activeTab && i === 0) {
+                    this.changeActiveTab(tab.id);
+                  }
+
                   return (
                     <Panel.NavItem
                       id={tab.id}
-                      active={this.state.activeTab === tab.id}
+                      active={activeTab === tab.id}
                       disabled={tab.disabled}
-                      className={tab.className}
+                      className={cn('nav-item--tab', tab.className)}
                       style={tab.style}
                       onClick={() => this.changeActiveTab(tab.id)}
                     >
@@ -160,7 +171,7 @@ class PanelContainer extends React.Component {
                   <Panel.NavItem
                     id={item.id}
                     disabled={item.disabled}
-                    className={item.className}
+                    className={cn('nav-item--toolbar', item.className)}
                     style={item.style}
                     onClick={item.onClick}
                     isToolBar={true}
@@ -171,7 +182,12 @@ class PanelContainer extends React.Component {
             </Panel.Menu>
           </Panel.Heading>
         )}
-        <Panel.Collapse isOpen={this.state.open}>
+        <Panel.Collapse
+          className={cn({
+            'd-flex flex-column n2o-panel-region--grow': this.state.open,
+          })}
+          isOpen={this.state.open}
+        >
           <Panel.Body hasTabs={hasTabs} activeKey={this.state.activeTab}>
             {hasTabs
               ? tabs.map(tab => {
@@ -195,7 +211,7 @@ PanelContainer.propTypes = {
   toolbar: PropTypes.array,
   className: PropTypes.string,
   style: PropTypes.object,
-  color: PropTypes.oneOf([Object.values(panelStyles)]),
+  color: PropTypes.oneOf(Object.values(panelStyles)),
   icon: PropTypes.string,
   headerTitle: PropTypes.string,
   footerTitle: PropTypes.string,

@@ -6,11 +6,11 @@
 
             <table query-id="customization" size="5">
                 <columns>
-                    <column text-field-id="name" label="Название (CopyTextCell)" width="20%">
+                    <column text-field-id="name" label="Название (CopyTextCell)" width="20">
                         <cell src="CopyTextCell"/>
                     </column>
-                    <column text-field-id="engine" width="20%" label="Объем двигателя, л"></column>
-                    <column text-field-id="power" width="20%" label="Мощность, л.с."></column>
+                    <column text-field-id="engine" width="20" label="Объем двигателя, л"></column>
+                    <column text-field-id="power" width="20" label="Мощность, л.с."></column>
                 </columns>
             </table>
         </region>

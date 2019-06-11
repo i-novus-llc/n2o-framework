@@ -31,12 +31,14 @@ class FormWidget extends React.Component {
         resolveProps(this.props.form.fieldsets, Fieldsets.StandardFieldset)
       ),
       toolbar: this.props.toolbar,
+      placeholder: this.props.placeholder,
       actions: this.props.actions,
       validation: this.props.form.validation,
       fetchOnInit: this.props.form.fetchOnInit,
       modelPrefix: this.props.form.modelPrefix,
       dataProvider: this.props.dataProvider,
       prompt: this.props.form.prompt,
+      autoFocus: this.props.form.autoFocus,
     };
   }
 
@@ -82,7 +84,7 @@ FormWidget.defaultProps = {
 FormWidget.propTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
-  containerId: PropTypes.string.isRequired,
+  containerId: PropTypes.string,
   pageId: PropTypes.string.isRequired,
   widgetId: PropTypes.string,
   visible: PropTypes.bool,

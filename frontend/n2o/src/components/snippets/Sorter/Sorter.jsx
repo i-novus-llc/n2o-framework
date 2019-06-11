@@ -61,7 +61,7 @@ class Sorter extends React.Component {
       'fa fa-sort-amount-desc': sorting === SORT_TYPE.DESC,
     });
     return (
-      <a href="#" title={title} onClick={this.handleClick}>
+      <a href="#" title={title} tabIndex={-1} onClick={this.handleClick}>
         {children}{' '}
         {iconClass && (
           <i className={cx('n2o-sorting-icon', iconClass)} aria-hidden="true" />

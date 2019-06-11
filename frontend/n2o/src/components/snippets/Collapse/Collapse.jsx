@@ -5,6 +5,8 @@ import cx from 'classnames';
 import Panel from './Panel';
 import Icon from '../Icon/Icon';
 
+import { map } from 'lodash';
+
 const expandIcon = ({ isActive }) => (
   <div className="n2o-collapse-icon-wrapper">
     <Icon
@@ -24,27 +26,37 @@ const expandIcon = ({ isActive }) => (
  * @constructor
  */
 
-const Collapse = ({ className, ...rest }) => (
-  <BaseCollapse
-    className={cx('n2o-collapse', className)}
-    expandIcon={expandIcon}
-    {...rest}
-  />
-);
+const Collapse = ({ className, children, dataKey, ...rest }) => {
+  const renderPanels = ({ text, ...panelProps }) => (
+    <Panel {...panelProps}>{text}</Panel>
+  );
+
+  return (
+    <BaseCollapse
+      className={cx('n2o-collapse', className)}
+      expandIcon={expandIcon}
+      {...rest}
+    >
+      {children || map(rest[dataKey], renderPanels)}
+    </BaseCollapse>
+  );
+};
 
 Collapse.propTypes = {
-  activeKey: PropTypes.oneOfType(PropTypes.string, PropTypes.array),
-  defaultActiveKey: PropTypes.oneOfType(PropTypes.string, PropTypes.array),
+  activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   destroyInactivePanel: PropTypes.bool,
   accordion: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
   onChange: PropTypes.func,
+  dataKey: PropTypes.string,
 };
 
 Collapse.defaultProps = {
   destroyInactivePanel: false,
   accordion: false,
+  dataKey: 'items',
 };
 
 export { Panel };

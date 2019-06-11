@@ -61,4 +61,44 @@ stories
         <Factory level={WIDGETS} {...newProps} id="Page_Table" />
       </div>
     );
+  })
+  .add('Поиск при изменений поля', () => {
+    fetchMock.restore().get('begin:n2o/data', getStubData);
+    const filter = {
+      filterPlace: 'top',
+      filterFieldsets: [
+        {
+          src: 'StandardFieldset',
+          rows: [
+            {
+              cols: [
+                {
+                  fields: [
+                    {
+                      id: 'surname',
+                      label: 'Фамилия',
+                      control: {
+                        src: 'InputText',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      filterButtonId: 'filter',
+      blackResetList: ['name'],
+      searchOnChange: true,
+      hideButtons: true,
+    };
+
+    const newProps = { ...set(TableData['Page_Table'], 'filter', filter) };
+
+    return (
+      <div>
+        <Factory level={WIDGETS} {...newProps} id="Page_Table" />
+      </div>
+    );
   });

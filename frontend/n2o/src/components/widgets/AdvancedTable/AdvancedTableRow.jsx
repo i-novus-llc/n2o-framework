@@ -1,4 +1,6 @@
 import React from 'react';
+import { pure } from 'recompose';
+import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -9,39 +11,43 @@ import cn from 'classnames';
  */
 function AdvancedTableRow(props) {
   const {
-    color,
     className,
     isRowActive,
     setRef,
     children,
     model,
     rowClick,
+    rowClass,
   } = props;
+
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
-    [`table-${color}`]: color,
     'table-active': isRowActive,
     'row-click': !!rowClick,
+    [rowClass]: rowClass,
   });
-  return React.createElement(
-    'tr',
-    {
-      ...props,
-      ref: el => setRef && setRef(el, model.id),
-      tabIndex: 1,
-      key: model.id,
-      className: classes,
-    },
-    [...children]
-  );
+  const newProps = {
+    ...pick(props, [
+      'className',
+      'data-row-key',
+      'onClick',
+      'onFocus',
+      'style',
+    ]),
+    ref: el => setRef && setRef(el, model.id),
+    tabIndex: 0,
+    key: model.id,
+    className: classes,
+  };
+
+  return React.createElement('tr', newProps, [...children]);
 }
 
 AdvancedTableRow.propTypes = {
-  color: PropTypes.string,
   className: PropTypes.string,
   isRowActive: PropTypes.bool,
   setRef: PropTypes.func,
-  children: PropTypes.object,
+  children: PropTypes.array,
   model: PropTypes.object,
 };
 
-export default AdvancedTableRow;
+export default pure(AdvancedTableRow);

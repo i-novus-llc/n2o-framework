@@ -9,6 +9,7 @@ import cells from '../../components/widgets/Table/cells';
 import fieldsets from '../../components/widgets/Form/fieldsets';
 import fields from '../../components/widgets/Form/fields';
 import actions from '../../impl/actions';
+import snippets from '../../components/snippets';
 
 export const factories = {
   controls,
@@ -20,6 +21,7 @@ export const factories = {
   fieldsets,
   fields,
   actions,
+  snippets,
 };
 
 export default function createFactoryConfig(customConfig) {

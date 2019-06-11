@@ -2,7 +2,7 @@
 @import "~bootstrap/scss/_variables";
 @import "~bootstrap/scss/mixins";
 
-@import "~n2o/src/sass/variables";
+@import "../../../scss/variables";
 
 .rating-control {
   .rating-control-star {
@@ -10,7 +10,7 @@
     transition: color 100ms linear;
 
     &_active {
-      color: $primary;
+      color: $orange;
     }
   }
 }

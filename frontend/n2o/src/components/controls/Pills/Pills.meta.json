@@ -1,0 +1,8 @@
+{
+  "valueFieldId": "id",
+  "labelFieldId": "label",
+  "multiSelect": false,
+  "dataProvider": {
+    "url": "n2o/data/test"
+  }
+}

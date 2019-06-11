@@ -51,7 +51,7 @@ DropZone.propTypes = {
   minSize: PropTypes.number,
   multiple: PropTypes.bool,
   onChange: PropTypes.func,
-  children: PropTypes.oneOf(PropTypes.node, PropTypes.func),
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
 export default withFileUploader(DropZone);

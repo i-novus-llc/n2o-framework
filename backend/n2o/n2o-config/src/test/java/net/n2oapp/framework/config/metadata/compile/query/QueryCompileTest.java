@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QueryCompileTest extends SourceCompileTestBase {
@@ -73,6 +74,11 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(testFilter.getFilterList()[0].getRequired(), is(true));
         assertThat(testFilter.getFilterList()[0].getFilterField(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterField(), is("testFilter_in"));
+
+        N2oQuery.Field withEmptySelect = query.getFieldsMap().get("withEmptySelect");
+        assertThat(withEmptySelect.getSelectBody(), nullValue());
+        assertThat(withEmptySelect.getSelectMapping(), is("['withEmptySelect']"));
+        assertThat(withEmptySelect.getSortingMapping(), nullValue());
     }
 
 //    @Test

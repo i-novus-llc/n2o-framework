@@ -1,10 +1,8 @@
 package net.n2oapp.framework.ui.controller.count;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
@@ -18,13 +16,11 @@ public class CountController extends AbstractController {
     private DataProcessingStack dataProcessingStack;
     private QueryProcessor queryProcessor;
 
-    public CountController(ObjectMapper objectMapper,
+    public CountController(MetadataEnvironment environment,
                            MetadataRouter router,
-                           ReadCompileBindTerminalPipeline pipeline,
-                           DomainProcessor domainProcessor,
                            DataProcessingStack dataProcessingStack,
                            QueryProcessor queryProcessor) {
-        super(objectMapper, router, pipeline, domainProcessor);
+        super(environment, router);
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
     }

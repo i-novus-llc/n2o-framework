@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 public class N2oInvokeAction extends N2oAbstractAction {
     private String operationId;
     private String objectId;
-    private Boolean closeAfterSuccess;
+    private Boolean closeOnSuccess;
     private Boolean refreshOnSuccess;
     private String confirmationText;
     private String bulkConfirmationText;
@@ -22,6 +22,8 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String redirectUrl;
     private Target redirectTarget;
     private String refreshWidgetId;
+    private Boolean messageOnSuccess;
+    private Boolean messageOnFail;
 
     public N2oInvokeAction() {
     }

@@ -9,24 +9,17 @@ import { CardBody, TabContent } from 'reactstrap';
  * @reactProps {string|number} activeKey - ключ активного таба
  * @reactProps {node} children - вставляемый внутрь PanelBody элемент
  */
+function PanelBody({ id, activeKey, hasTabs, children }) {
+  const tabContainer = (
+    <TabContent id={id} activeTab={activeKey}>
+      {children}
+    </TabContent>
+  );
+  const element = () => {
+    return hasTabs ? tabContainer : children;
+  };
 
-class PanelBody extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    const tabContainer = (
-      <TabContent id={this.props.id} activeTab={this.props.activeKey}>
-        {this.props.children}
-      </TabContent>
-    );
-    const element = () => {
-      return this.props.hasTabs ? tabContainer : this.props.children;
-    };
-
-    return <CardBody>{element()}</CardBody>;
-  }
+  return <CardBody>{element()}</CardBody>;
 }
 
 PanelBody.propTypes = {

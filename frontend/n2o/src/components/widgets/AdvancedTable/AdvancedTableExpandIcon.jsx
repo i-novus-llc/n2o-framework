@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose, withHandlers, pure } from 'recompose';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -25,7 +26,7 @@ function AdvancedTableExpandIcon({
         'n2o-advanced-table-expand':
           record.children || record[expandedFieldId] || expandedComponent,
       })}
-      onClick={e => onExpand(record, e)}
+      onClick={onExpand}
     >
       {(record[expandedFieldId] || record.children || expandedComponent) && (
         <i
@@ -50,4 +51,9 @@ AdvancedTableExpandIcon.defaultProps = {
   record: {},
 };
 
-export default AdvancedTableExpandIcon;
+export default compose(
+  withHandlers({
+    onExpand: ({ onExpand, record }) => e => onExpand(record, e),
+  }),
+  pure
+)(AdvancedTableExpandIcon);

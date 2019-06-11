@@ -24,7 +24,7 @@ import { values } from 'lodash';
  * @param useFixedHeader - флаг использования фиксированного заголовка
  * @param tableSize - размер таблицы
  * @param rowSelection - флаг использования чекбоксов для мульти селекта
- * @param rowColor - expression цвет строки
+ * @param rowClass - expression цвет строки
  */
 class AdvancedTableWidget extends Component {
   getWidgetProps() {
@@ -35,9 +35,9 @@ class AdvancedTableWidget extends Component {
       hasFocus,
       hasSelect,
       autoFocus,
-      rowColor,
       rowSelection,
       tableSize,
+
       useFixedHeader,
       expandable,
       scroll,
@@ -46,20 +46,21 @@ class AdvancedTableWidget extends Component {
       bordered,
       rowClick,
       expandedFieldId,
+      rowClass,
     } = this.props.table;
-    const { toolbar, actions, dataProvider } = this.props;
+    const { toolbar, actions, dataProvider, placeholder } = this.props;
     const { resolveProps } = this.context;
     return {
       headers: values(resolveProps(headers)),
       cells: values(resolveProps(cells)),
       sorting,
       toolbar,
-      rowColor,
       actions,
       hasFocus,
       hasSelect,
       autoFocus,
       dataProvider,
+      placeholder,
       rowSelection,
       tableSize,
       useFixedHeader,
@@ -70,6 +71,7 @@ class AdvancedTableWidget extends Component {
       bordered,
       rowClick,
       expandedFieldId,
+      rowClass,
     };
   }
 
@@ -124,25 +126,22 @@ AdvancedTableWidget.defaultProps = {
 };
 
 AdvancedTableWidget.propTypes = {
-  containerId: PropTypes.string.isRequired,
   pageId: PropTypes.string.isRequired,
   widgetId: PropTypes.string,
   actions: PropTypes.object,
   toolbar: PropTypes.object,
   dataProvider: PropTypes.object,
-  table: PropTypes.arrayOf(
-    PropTypes.shape({
-      size: PropTypes.number,
-      fetchOnInit: PropTypes.bool,
-      hasSelect: PropTypes.bool,
-      className: PropTypes.string,
-      style: PropTypes.object,
-      autoFocus: PropTypes.bool,
-      sorting: PropTypes.object,
-      headers: PropTypes.array,
-      cells: PropTypes.array,
-    })
-  ),
+  table: PropTypes.shape({
+    size: PropTypes.number,
+    fetchOnInit: PropTypes.bool,
+    hasSelect: PropTypes.bool,
+    className: PropTypes.string,
+    style: PropTypes.object,
+    autoFocus: PropTypes.bool,
+    sorting: PropTypes.object,
+    headers: PropTypes.array,
+    cells: PropTypes.array,
+  }),
   bordered: PropTypes.bool,
   rowClick: PropTypes.object,
   paging: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
@@ -152,7 +151,7 @@ AdvancedTableWidget.propTypes = {
   useFixedHeader: PropTypes.bool,
   tableSize: PropTypes.string,
   rowSelection: PropTypes.bool,
-  rowColor: PropTypes.string,
+  rowClass: PropTypes.string,
   expandFieldId: PropTypes.string,
 };
 

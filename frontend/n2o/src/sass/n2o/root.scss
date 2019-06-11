@@ -1,5 +1,6 @@
 .application {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -61,4 +62,8 @@
 
 .btn-group > .btn, .btn-group-vertical > .btn {
   flex: 0 1 auto;
+}
+
+.n2o-template {
+  display: flex;
 }

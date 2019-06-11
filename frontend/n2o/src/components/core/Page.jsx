@@ -146,9 +146,9 @@ class PageContainer extends React.Component {
               {Object.keys(metadata.layout.regions).map((place, i) => {
                 return (
                   <Section place={place} key={'section' + i}>
-                    {metadata.layout.regions[place].map(region => (
+                    {metadata.layout.regions[place].map((region, j) => (
                       <Factory
-                        key={'region' + i}
+                        key={`region-${place}-${j}`}
                         level={REGIONS}
                         {...region}
                         pageId={metadata.id}
@@ -182,7 +182,11 @@ class PageContainer extends React.Component {
 }
 
 PageContainer.contextTypes = {
-  defaultBreadcrumb: PropTypes.element,
+  defaultBreadcrumb: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
 };
 
 PageContainer.propTypes = {

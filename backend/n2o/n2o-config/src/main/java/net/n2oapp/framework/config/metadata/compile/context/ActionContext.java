@@ -19,6 +19,8 @@ public class ActionContext extends ObjectContext {
     private String successAlertWidgetId;
     private String messagesForm;
     private RedirectSaga redirect;
+    private boolean messageOnSuccess = true;
+    private boolean messageOnFail = true;
 
     /**
      * Создать контекст

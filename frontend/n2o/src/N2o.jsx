@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { pick, keys } from 'lodash';
-import { compose, withContext, defaultProps } from 'recompose';
+import { compose, withContext, defaultProps, withProps } from 'recompose';
 import { IntlProvider, addLocaleData } from 'react-intl';
 
 import history from './history';
@@ -28,6 +28,7 @@ import Application from './components/core/Application';
 import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
+import configureErrorPages from './components/errors';
 
 addLocaleData(ruLocaleData);
 
@@ -37,6 +38,8 @@ class N2o extends Component {
     const config = {
       security: props.security,
       messages: props.messages,
+      customReducers: props.customReducers,
+      customSagas: props.customSagas,
     };
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);
@@ -47,7 +50,11 @@ class N2o extends Component {
   }
 
   render() {
-    const { routes, security } = this.props;
+    const { routes, security, customErrorPages } = this.props;
+
+    const config = createFactoryConfig(this.generateCustomConfig());
+    const errorPages = configureErrorPages(customErrorPages);
+
     return (
       <Provider store={this.store}>
         <SecurityProvider {...security}>
@@ -55,13 +62,16 @@ class N2o extends Component {
             render={(locale, messages) => (
               <IntlProvider locale={locale} messages={messages}>
                 <FactoryProvider
-                  config={createFactoryConfig(this.generateCustomConfig())}
+                  config={config}
                   securityBlackList={['actions']}
                 >
                   <ConnectedRouter history={history}>
                     <Switch>
-                      {routes.map(route => (
-                        <Route {...route} />
+                      {routes.map((route, i) => (
+                        <Route key={'page-' + i} {...route} />
+                      ))}
+                      {errorPages.map((route, i) => (
+                        <Route key={'error-page-' + i} {...route} />
                       ))}
                       <Route path="/:pageUrl*" render={RootPage} />
                     </Switch>
@@ -78,8 +88,16 @@ class N2o extends Component {
 
 N2o.propTypes = {
   ...factoryConfigShape,
-  defaultTemplate: PropTypes.element,
-  defaultBreadcrumb: PropTypes.element,
+  defaultTemplate: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
+  defaultBreadcrumb: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
   defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
@@ -88,7 +106,11 @@ N2o.propTypes = {
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string,
-      component: PropTypes.element,
+      component: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       exact: PropTypes.bool,
       strict: PropTypes.bool,
     })
@@ -109,9 +131,12 @@ N2o.propTypes = {
       info: PropTypes.number,
     }),
   }),
+  customReducers: PropTypes.object,
+  customSagas: PropTypes.array,
+  customErrorPages: PropTypes.object,
 };
 
-export default compose(
+const EnhancedN2O = compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
@@ -124,11 +149,21 @@ export default compose(
     routes: [],
     security: {},
     messages: {},
+    customReducers: {},
+    customSagas: [],
   }),
   withContext(
     {
-      defaultTemplate: PropTypes.element,
-      defaultBreadcrumb: PropTypes.element,
+      defaultTemplate: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
+      defaultBreadcrumb: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       defaultPromptMessage: PropTypes.string,
     },
     props => ({
@@ -136,5 +171,13 @@ export default compose(
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
     })
-  )
+  ),
+  withProps(props => ({
+    ref: props.forwardedRef,
+  }))
 )(N2o);
+
+// This works! Because forwardedRef is now treated like a regular prop.
+export default React.forwardRef(({ ...props }, ref) => (
+  <EnhancedN2O {...props} forwardedRef={ref} />
+));

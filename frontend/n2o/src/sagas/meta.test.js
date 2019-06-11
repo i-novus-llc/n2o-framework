@@ -1,15 +1,17 @@
 import React from 'react';
+import { runSaga } from 'redux-saga';
 import {
   closeModalEffect,
   refreshEffect,
   alertEffect,
   redirectEffect,
   messagesFormEffect,
+  updateWidgetDependencyEffect,
 } from './meta';
-import { CLOSE, DESTROY } from '../constants/modals';
 import { DATA_REQUEST } from '../constants/widgets';
 import { ADD_MULTI, REMOVE_ALL } from '../constants/alerts';
 import { ADD_FIELD_MESSAGE } from '../constants/formPlugin';
+import { UPDATE_WIDGET_DEPENDENCY } from '../constants/dependency';
 
 const setupCloseModal = () => {
   return closeModalEffect({
@@ -102,6 +104,14 @@ const setupMessageFormEffect = () => {
   };
 };
 
+const setupUpdateWidgetDependencyEffect = () => {
+  const meta = {
+    widgetId: 'testWidget',
+  };
+
+  return updateWidgetDependencyEffect({ meta });
+};
+
 describe('Сага для перехвата меты, сайд-эффектов из меты', () => {
   describe('Проверка саги alertEffect', () => {
     it('Проверяет диспатч экшена создания Alert', () => {
@@ -169,6 +179,33 @@ describe('Сага для перехвата меты, сайд-эффектов
       expect(gen.value['PUT'].action.payload[0].payload.message.text).toEqual(
         meta['messages.fields'].text
       );
+    });
+
+    describe('Проверяет сагу updateWidgetDependencyEffect', () => {
+      it('Проверка диспатча саги', () => {
+        const gen = setupUpdateWidgetDependencyEffect();
+        expect(gen.next().value['PUT'].action.type).toEqual(
+          UPDATE_WIDGET_DEPENDENCY
+        );
+        expect(gen.next().done).toEqual(true);
+      });
+
+      it('Проверка payload саги', () => {
+        const gen = setupUpdateWidgetDependencyEffect();
+        expect(gen.next().value['PUT'].action.payload).toEqual({
+          widgetId: 'testWidget',
+        });
+        expect(gen.next().done).toEqual(true);
+      });
+
+      it('Проверка вызова всей цепочки', async () => {
+        const dispatched = [];
+        const fakeStore = {
+          getState: () => ({}),
+          dispatch: action => dispatched.push(action),
+        };
+        await runSaga(fakeStore, updateWidgetDependencyEffect, 'testWidget');
+      });
     });
   });
 });

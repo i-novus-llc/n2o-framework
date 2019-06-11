@@ -46,7 +46,6 @@ class InputMoney extends React.Component {
 
     this.onBlur = this.onBlur.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onBlur = this.onBlur.bind(this);
     this.convertToMoney = this.convertToMoney.bind(this);
     this.convertToFloat = this.convertToFloat.bind(this);
     this.getInputMoneyProps = this.getInputMoneyProps.bind(this);
@@ -77,8 +76,8 @@ class InputMoney extends React.Component {
 
   onBlur(value) {
     const { onBlur } = this.props;
-    const convertedValue = this.convertToFloat(value);
-    onBlur && onBlur(convertedValue);
+    const convertedValue = parseFloat(this.convertToFloat(value));
+    onBlur && onBlur(!isNaN(convertedValue) ? convertedValue : null);
     this.setState({ value: convertedValue });
   }
 
@@ -129,13 +128,6 @@ class InputMoney extends React.Component {
     const { onChange } = this.props;
     const convertedValue = parseFloat(this.convertToFloat(value));
     onChange && onChange(!isNaN(convertedValue) ? convertedValue : null);
-    this.setState({ value: convertedValue });
-  }
-
-  onBlur(value) {
-    const { onBlur } = this.props;
-    const convertedValue = this.convertToFloat(value);
-    onBlur && onBlur(convertedValue);
     this.setState({ value: convertedValue });
   }
 

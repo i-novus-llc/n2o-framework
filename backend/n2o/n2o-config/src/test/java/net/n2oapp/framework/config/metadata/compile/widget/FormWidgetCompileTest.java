@@ -47,7 +47,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     public void uploadDefaults() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile.widget.xml")
                 .get(new WidgetContext("testFormCompile"));
-        assertThat(form.getId(), is("testFormCompile"));
+        assertThat(form.getId(), is("$testFormCompile"));
         assertThat(form.getUpload(), is(UploadType.defaults));
         assertThat(form.getDataProvider(), nullValue());
         assertThat(form.getComponent().getFetchOnInit(), is(false));
@@ -58,13 +58,13 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     public void uploadQuery() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile2.widget.xml")
                 .get(new WidgetContext("testFormCompile2"));
-        assertThat(form.getId(), is("testFormCompile2"));
+        assertThat(form.getId(), is("$testFormCompile2"));
         assertThat(form.getUpload(), is(UploadType.query));
         assertThat(form.getDataProvider(), notNullValue());
         assertThat(form.getComponent().getFetchOnInit(), is(true));
         QueryContext queryContext = (QueryContext) route("/testFormCompile2", CompiledQuery.class);
-        assertThat(queryContext.getFailAlertWidgetId(), is("testFormCompile2"));
-        assertThat(queryContext.getSuccessAlertWidgetId(), is("testFormCompile2"));
+        assertThat(queryContext.getFailAlertWidgetId(), is("$testFormCompile2"));
+        assertThat(queryContext.getSuccessAlertWidgetId(), is("$testFormCompile2"));
     }
 
     @Test

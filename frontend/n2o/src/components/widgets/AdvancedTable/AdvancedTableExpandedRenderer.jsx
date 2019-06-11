@@ -1,4 +1,5 @@
 import React from 'react';
+import { pure } from 'recompose';
 import Table from 'rc-table';
 import PropTypes from 'prop-types';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
@@ -23,10 +24,11 @@ function AdvancedTableExpandedRenderer({ record, expandedFieldId }) {
         />
       );
     } else if (expandedContent.type === 'html') {
+      const innerHtml = { __html: expandedContent.value };
       return (
         <div
           className="n2o-advanced-table-expanded-row-content"
-          dangerouslySetInnerHTML={{ __html: expandedContent.value }}
+          dangerouslySetInnerHTML={innerHtml}
         />
       );
     } else {
@@ -45,4 +47,4 @@ AdvancedTableExpandedRenderer.propTypes = {
   record: PropTypes.object,
 };
 
-export default AdvancedTableExpandedRenderer;
+export default pure(AdvancedTableExpandedRenderer);

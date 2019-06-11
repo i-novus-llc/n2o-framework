@@ -80,8 +80,9 @@ class RatingControl extends React.Component {
           <i
             key={`rate-${idx}`}
             className={cx(
-              idx <= rate ? "fas rating-control-star_active" : "far",
-              "fa-star",
+              idx <= rate
+                ? "fa fa-star rating-control-star_active"
+                : "fa fa-star-o",
               "rating-control-star"
             )}
             onClick={() => this.handleClick(idx)}

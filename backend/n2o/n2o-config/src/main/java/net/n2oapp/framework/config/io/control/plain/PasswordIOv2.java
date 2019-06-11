@@ -12,6 +12,7 @@ public class PasswordIOv2 extends PlainFieldIOv2<N2oPassword> {
     public void io(Element e, N2oPassword m, IOProcessor p) {
         super.io(e, m, p);
         p.attributeInteger(e, "length", m::getLength, m::setLength);
+        p.attributeBoolean(e, "eye", m::getEye, m::setEye);
     }
 
     @Override

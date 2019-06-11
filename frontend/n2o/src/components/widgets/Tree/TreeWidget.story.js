@@ -212,4 +212,22 @@ stories
     const meta = { ...metadata['Page_Tree'], rowClick };
 
     return <Factory level={WIDGETS} {...meta} id="Page_Tree" />;
+  })
+  .add('Placeholder', () => {
+    fetchMock.restore().get('begin:n2o/data', () => {
+      return new Promise(res =>
+        setTimeout(() => {
+          res(dataIcons);
+        }, 3000)
+      );
+    });
+
+    const newMeta = { ...metadata };
+    newMeta['Page_Tree'].placeholder = {
+      rows: 5,
+      chevron: true,
+      type: 'tree',
+    };
+
+    return <Factory level={WIDGETS} {...newMeta['Page_Tree']} id="Page_Tree" />;
   });

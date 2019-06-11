@@ -6,6 +6,7 @@ import { forEach, get, isEqual, isFunction } from 'lodash';
 import cx from 'classnames';
 import { batchActions } from 'redux-batched-actions';
 import { callActionImpl } from '../../actions/toolbar';
+import Placeholder from '../snippets/Placeholder/Placeholder';
 
 import {
   dataRequestWidget,
@@ -37,7 +38,7 @@ import {
 import observeStore from '../../utils/observeStore';
 import propsResolver from '../../utils/propsResolver';
 import { removeAlerts } from '../../actions/alerts';
-import CoverSpinner from '../snippets/Spinner/CoverSpinner';
+import Spinner from '../snippets/Spinner/Spinner';
 
 const s = {};
 
@@ -96,10 +97,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       constructor(props) {
         super(props);
 
-        this.state = {
-          isMinTimeOut: false,
-        };
-
         this.initIfNeeded();
         this.onFocus = this.onFocus.bind(this);
         this.onFetch = this.onFetch.bind(this);
@@ -113,11 +110,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         if (fetchOnInit && visible) {
           this.onFetch();
         }
-        setTimeout(() => {
-          this.setState({
-            isMinTimeOut: true,
-          });
-        }, 500);
       }
 
       componentDidUpdate(prevProps) {
@@ -133,11 +125,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        */
       componentWillUnmount() {
         const { widgetId, dispatch } = this.props;
-        let actions = [
-          removeWidget(widgetId),
-          removeAlerts(widgetId),
-          removeAllModel(widgetId),
-        ];
+        let actions = [removeAlerts(widgetId), removeAllModel(widgetId)];
         dispatch(batchActions(actions));
       }
 
@@ -200,8 +188,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
        *Базовый рендер
        */
       render() {
-        const { visible, isLoading, deferredSpinnerStart } = this.props;
-        const { isMinTimeOut } = this.state;
+        const { visible, isLoading, placeholder } = this.props;
         const propsToPass = mapProps({
           ...this.props,
           onSetModel: this.onSetModel,
@@ -213,6 +200,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         const style = {
           position: 'relative',
         };
+
         return (
           <div
             className={cx(
@@ -221,11 +209,15 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             )}
             style={style}
           >
-            {!isMinTimeOut ||
-              (isLoading && (
-                <CoverSpinner deferredSpinnerStart={deferredSpinnerStart} />
-              ))}
-            <WrappedComponent {...propsToPass} />
+            <Placeholder
+              once={true}
+              loading={placeholder && isLoading}
+              {...placeholder}
+            >
+              <Spinner loading={isLoading} type="cover">
+                <WrappedComponent {...propsToPass} />
+              </Spinner>
+            </Placeholder>
           </div>
         );
       }
@@ -236,6 +228,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       widgetId: PropTypes.string,
       pageId: PropTypes.string,
       fetchOnInit: PropTypes.bool,
+      placeholder: PropTypes.oneOfType(PropTypes.bool, PropTypes.object),
       size: PropTypes.number,
       page: PropTypes.number,
       filterDefaultValues: PropTypes.object,
@@ -254,7 +247,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       dispatch: PropTypes.func,
       isInit: PropTypes.bool,
       isActive: PropTypes.bool,
-      deferredSpinnerStart: PropTypes.number,
     };
 
     WidgetContainer.defaultProps = {
@@ -263,7 +255,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       isLoading: false,
       resolveModel: {},
       defaultSorting: {},
-      deferredSpinnerStart: 0,
+      placeholder: false,
     };
 
     WidgetContainer.contextTypes = {

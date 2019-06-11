@@ -3,6 +3,7 @@ import {
   reduceFunction,
   registerWidgetDependency,
   resolveDependency,
+  sortDependency,
 } from './widgetDependency';
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 import {
@@ -47,16 +48,25 @@ describe('Проверка саги widgetDependency', () => {
     it('вернет новое значение виджетов', () => {
       expect(
         registerWidgetDependency({}, 'test1', {
-          on: 'link',
-          condition: 'condition',
-        }).next().value
+          fetch: [
+            {
+              on: 'link',
+              condition: 'condition',
+            },
+          ],
+        })
       ).toEqual({
         test1: {
           widgetId: 'test1',
           dependency: {
-            on: 'link',
-            condition: 'condition',
+            fetch: [
+              {
+                on: 'link',
+                condition: 'condition',
+              },
+            ],
           },
+          parents: ['link'],
         },
       });
     });
@@ -210,6 +220,31 @@ describe('Проверка саги widgetDependency', () => {
           widgetId: 'test1',
         });
       });
+    });
+  });
+  describe('sortDependency', () => {
+    it('проверка правильности сортировки', () => {
+      expect(
+        sortDependency({
+          fetch: [],
+          visible: [],
+          enabled: [],
+        })
+      ).toEqual({ visible: [], enabled: [], fetch: [] });
+      expect(
+        sortDependency({
+          enabled: [],
+          fetch: [],
+          visible: [],
+        })
+      ).toEqual({ enabled: [], visible: [], fetch: [] });
+      expect(
+        sortDependency({
+          enabled: [],
+          visible: [],
+          fetch: [],
+        })
+      ).toEqual({ enabled: [], visible: [], fetch: [] });
     });
   });
 });

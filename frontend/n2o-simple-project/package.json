@@ -1,11 +1,11 @@
 {
   "name": "n2o-simple-project",
-  "version": "7.2.21",
+  "version": "7.3.0",
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "n2o": "^7.2.21",
-    "n2o-auth": "^7.2.21",
+    "n2o": "^7.3.0",
+    "n2o-auth": "^7.3.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4"
@@ -17,7 +17,7 @@
   },
   "proxy": {
     "/n2o": {
-      "target": "http://localhost:8080/",
+      "target": "http://172.16.1.130:7777/",
       "changeOrigin": true
     }
   }

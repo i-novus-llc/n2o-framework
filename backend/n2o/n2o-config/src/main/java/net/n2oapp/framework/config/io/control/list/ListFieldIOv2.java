@@ -25,6 +25,7 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "format", m::getFormat, m::setFormat);
+        p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "cache", m::getCache, m::setCache);
         p.attributeInteger(e, "size", m::getSize, m::setSize);
         p.child(e, null, "default-value", m::getDefValue, m::setDefValue, HashMap::new, this::defaultValue);

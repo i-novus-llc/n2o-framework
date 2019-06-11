@@ -2,11 +2,9 @@ package net.n2oapp.framework.config.io.widget.table;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRow;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.DirectionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -41,6 +39,9 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
     public void io(Element e, N2oTable t, IOProcessor p) {
         super.io(e, t, p);
         p.attributeBoolean(e, "selected", t::getSelected, t::setSelected);
+        p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
+        p.attributeInteger(e, "scroll-x", t::getScrollX, t::setScrollX);
+        p.attributeInteger(e, "scroll-y", t::getScrollY, t::setScrollY);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns,
                 p.oneOf(AbstractColumn.class).add("column", N2oSimpleColumn.class, this::column));
         p.child(e, null, "rows", t::getRows, t::setRows, N2oRow::new, this::rows);
@@ -59,8 +60,10 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
         p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
         p.attribute(e, "sorting-field-id", c::getSortingFieldId, c::setSortingFieldId);
-        p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeEnum(e, "sorting-direction", c::getSortingDirection, c::setSortingDirection, DirectionType.class);
+        p.attributeInteger(e, "width", c::getWidth, c::setWidth);
+        p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
+        p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
     }
 
     private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
@@ -70,7 +73,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
 
 
     private void rows(Element e, N2oRow r, IOProcessor p) {
-        p.attribute(e, "color-field-id", r::getColorFieldId, r::setColorFieldId);
+        p.attribute(e, "class", r::getRowClass, r::setRowClass);
         p.child(e, null, "switch", r::getColor, r::setColor, new SwitchIO());
         p.child(e, null, "click", r::getRowClick, r::setRowClick, N2oRowClick::new, this::rowClick);
     }

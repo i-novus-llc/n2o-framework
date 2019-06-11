@@ -90,7 +90,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                                      CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId,
                                      String currentWidgetId) {
         MetaSaga meta = new MetaSaga();
-        boolean closeOnSuccess = p.cast(source.getCloseAfterSuccess(), false);
+        boolean closeOnSuccess = p.cast(source.getCloseOnSuccess(), false);
         boolean refresh = p.cast(source.getRefreshOnSuccess(), true);
         boolean redirect = source.getRedirectUrl() != null;
         String messageWidgetId = currentWidgetId;
@@ -177,6 +177,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContext.setFailAlertWidgetId(metaSaga.getFail().getMessageWidgetId());
         actionContext.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
         actionContext.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
+        actionContext.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
+        actionContext.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
         p.addRoute(actionContext);
     }
 

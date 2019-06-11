@@ -1,6 +1,6 @@
 import React from "react";
 import { isEqual, map } from "lodash";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col, Button, Jumbotron } from "reactstrap";
 import ReduxField from "n2o/lib/components/widgets/Form/ReduxField";
 import PropTypes from "prop-types";
 
@@ -36,35 +36,35 @@ class AddMemberFieldset extends React.Component {
   }
 
   addMember() {
-    const rows = this.state.rows;
+    let rows = [...this.state.rows];
     const template = this.createNewRow();
-    rows.push(template[0]);
+    rows = rows.concat(template);
     this.setState({
       rows
     });
   }
 
   renderFields(rows) {
-    return map(rows, ({ cols }) => (
-      <Row>
-        {map(cols, ({ fields }) => (
-          <Col md={6}>
-            {map(fields, item => (
-              <ReduxField {...item} />
+    return (
+      <Jumbotron className="mb-0 p-4">
+        {map(rows, ({ cols }) => (
+          <Row>
+            {map(cols, ({ fields }) => (
+              <Col md={6}>
+                {map(fields, item => (
+                  <ReduxField {...item} />
+                ))}
+              </Col>
             ))}
-          </Col>
+          </Row>
         ))}
-      </Row>
-    ));
+      </Jumbotron>
+    );
   }
 
   render() {
     return (
-      <div
-        style={{
-          padding: "40px"
-        }}
-      >
+      <div>
         <div>
           <div
             style={{
@@ -75,13 +75,13 @@ class AddMemberFieldset extends React.Component {
               {this.renderFields(this.state.rows)}
             </div>
             <div
+              className="ml-4"
               style={{
                 alignSelf: "flex-end",
-                marginLeft: 20,
-                marginBottom: 25
               }}
             >
               <Button
+                color="success"
                 onClick={this.addMember}
                 size={"sm"}
                 style={{ width: 38, height: 38 }}

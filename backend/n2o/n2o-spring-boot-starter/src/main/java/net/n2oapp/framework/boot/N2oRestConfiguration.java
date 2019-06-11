@@ -66,14 +66,13 @@ public class N2oRestConfiguration {
 
     @Bean
     public DataController dataController(ControllerFactory controllerFactory,
-                                         @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
                                          MetadataEnvironment environment,
                                          MetadataRouter router) {
-        return new DataController(controllerFactory, n2oObjectMapper, router, environment);
+        return new DataController(controllerFactory, environment, router);
     }
 
     @Bean
-    public ErrorMessageBuilder errorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+    public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         return new ErrorMessageBuilder(messageSourceAccessor);
     }
 

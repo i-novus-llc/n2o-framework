@@ -28,6 +28,42 @@ const PanelRegionJson = set(
   pullAt(cloneObject(SecurePanelRegion).panels, 0)
 );
 const defaultProps = { panels: PanelRegionJson.panels.slice(0, 1) };
+const defaultTwoPanels = {
+  panels: [
+    {
+      icon: 'fa fa-plus',
+      label: 'Первый таб',
+      id: 'panel1',
+      opened: true,
+      widgetId: 'Page_Html',
+      isVisible: false,
+      dependency: {
+        visible: [
+          {
+            bindLink: 'models.resolve',
+            condition: false,
+          },
+        ],
+      },
+    },
+    {
+      icon: 'fa fa-plus',
+      label: 'Второй таб',
+      id: 'panel2',
+      opened: false,
+      widgetId: 'Page_Html',
+      isVisible: false,
+      dependency: {
+        visible: [
+          {
+            bindLink: 'models.resolve',
+            condition: false,
+          },
+        ],
+      },
+    },
+  ],
+};
 const { store } = makeStore();
 
 stories
@@ -166,9 +202,87 @@ stories
   })
   .add('Вкладки', () => {
     const panelParams = [
-      { ...defaultProps, headerTitle: 'С вкладками', hasTabs: true },
-      { ...defaultProps, headerTitle: 'Без вкладок', hasTabs: false },
+      { ...defaultTwoPanels, headerTitle: 'С вкладками', hasTabs: true },
+      { ...defaultTwoPanels, headerTitle: 'Без вкладок', hasTabs: false },
     ];
+
+    return (
+      <div className="row">
+        {panelParams.map(item => (
+          <div className="col-md-12">
+            <PanelRegion {...item} pageId="Page" />
+          </div>
+        ))}
+      </div>
+    );
+  })
+  .add('Вкладки с экшенами', () => {
+    const panelParams = [
+      {
+        ...defaultTwoPanels,
+        headerTitle: 'С вкладками',
+        hasTabs: true,
+        fullScreen: true,
+        collapsible: true,
+      },
+    ];
+
+    return (
+      <div className="row">
+        {panelParams.map(item => (
+          <div className="col-md-12">
+            <PanelRegion {...item} pageId="Page" />
+          </div>
+        ))}
+      </div>
+    );
+  })
+  .add('Тулбар', () => {
+    const panelParams = [
+      {
+        ...defaultTwoPanels,
+        headerTitle: 'Тулбар в заголовке',
+        hasTabs: false,
+        toolbar: [
+          {
+            id: 1,
+            disabled: false,
+            onClick: () => alert('Hello World!'),
+            header: 'Экшен',
+          },
+        ],
+      },
+    ];
+
+    return (
+      <div className="row">
+        {panelParams.map(item => (
+          <div className="col-md-12">
+            <PanelRegion {...item} pageId="Page" />
+          </div>
+        ))}
+      </div>
+    );
+  })
+  .add('Экшены с тулбаром', () => {
+    const panelParams = [
+      {
+        ...defaultTwoPanels,
+        headerTitle: 'Тулбар в заголовке',
+        hasTabs: false,
+        fullScreen: true,
+        collapsible: true,
+        toolbar: [
+          {
+            id: 1,
+            disabled: false,
+            onClick: () => alert('Hello World!'),
+            header: 'Экшен',
+          },
+        ],
+      },
+    ];
+
     return (
       <div className="row">
         {panelParams.map(item => (

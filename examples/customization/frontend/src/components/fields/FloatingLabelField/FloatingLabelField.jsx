@@ -81,7 +81,7 @@ class FloatingLabelField extends React.Component {
     return (
       visible && (
         <div className="floating-labels" onClick={this.handleFocus}>
-          <FormGroup className={cx({ focused: this.state.focused })}>
+          <FormGroup className={cx({ focused: this.state.focused, filled: value })}>
             <Control
               inputRef={el => (this.control = el)}
               visible={visible}

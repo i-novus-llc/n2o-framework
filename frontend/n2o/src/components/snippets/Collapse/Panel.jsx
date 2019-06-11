@@ -19,6 +19,7 @@ const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
   <BasePanel
     header={
       <span
+        tabIndex={1}
         title={isString(header) && header}
         className="n2o-panel-header-text"
       >
@@ -34,7 +35,7 @@ const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
 );
 
 Panel.propTypes = {
-  header: PropTypes.oneOfType(PropTypes.string, PropTypes.node),
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   headerClass: PropTypes.string,
   showArrow: PropTypes.bool,
   className: PropTypes.string,

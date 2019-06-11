@@ -9,14 +9,16 @@ class ToDoForm extends React.Component {
     priority: false
   };
 
-  handleChange = fieldId => {
-    return e => {
-      this.setState({
-        [fieldId]: isBoolean(e.target.checked)
-          ? e.target.checked
-          : e.target.value
-      });
-    };
+  handleChangeText = e => {
+    this.setState({
+      text: e.target.value
+    });
+  };
+
+  handleChangePriority = e => {
+    this.setState({
+      priority: e.target.checked
+    });
   };
 
   handleAdd = () => {
@@ -34,16 +36,18 @@ class ToDoForm extends React.Component {
           type="textarea"
           name="text"
           value={this.state.text}
-          onChange={this.handleChange("text")}
+          onChange={this.handleChangeText}
         />
         <CustomInput
           type="checkbox"
           id="checkbox-add"
           label="Приоритетная"
-          value={this.state.priority}
-          onChange={this.handleChange("priority")}
+          checked={this.state.priority}
+          onChange={this.handleChangePriority}
         />
-        <Button onClick={this.handleAdd}>Добавить</Button>
+        <Button color="primary" onClick={this.handleAdd}>
+          Добавить
+        </Button>
       </div>
     );
   }

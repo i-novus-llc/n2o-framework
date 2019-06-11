@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues, reset } from 'redux-form';
-import { isEqual, difference, map, isEmpty } from 'lodash';
+import { isEqual, difference, map, isEmpty, unset, debounce } from 'lodash';
 import { createStructuredSelector } from 'reselect';
 
 import ReduxForm from './Form/ReduxForm';
@@ -44,6 +44,7 @@ class WidgetFilters extends React.Component {
     this.handleFilter = this.handleFilter.bind(this);
     this.handleReset = this.handleReset.bind(this);
     this.validateAndFetch = this.validateAndFetch.bind(this);
+    this.debouncedHandleFilter = debounce(this.handleFilter, 1000);
   }
 
   getChildContext() {
@@ -55,11 +56,6 @@ class WidgetFilters extends React.Component {
         reset: this.handleReset,
       },
     };
-  }
-
-  componentWillUnmount() {
-    const { widgetId, clearFilterModel } = this.props;
-    clearFilterModel(widgetId);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -77,10 +73,19 @@ class WidgetFilters extends React.Component {
   }
 
   handleChangeModel(values) {
-    const { widgetId, filterModel, setFilterModel } = this.props;
+    const {
+      widgetId,
+      filterModel,
+      setFilterModel,
+      searchOnChange,
+    } = this.props;
+
     if (!isEqual(filterModel, values)) {
       this.values = { ...values };
       setFilterModel(widgetId, values);
+      if (searchOnChange) {
+        this.debouncedHandleFilter();
+      }
     }
   }
 
@@ -103,7 +108,7 @@ class WidgetFilters extends React.Component {
       blackResetList
     );
     toReset.forEach(field => {
-      delete newReduxForm[field];
+      unset(newReduxForm, field);
     });
     this.setState(
       {
@@ -161,13 +166,15 @@ WidgetFilters.propTypes = {
   validation: PropTypes.object,
   clearFilterModel: PropTypes.func,
   setFilterModel: PropTypes.func,
-  reduxFormFilter: PropTypes.func,
+  reduxFormFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   fetchWidget: PropTypes.func,
   hideButtons: PropTypes.bool,
+  searchOnChange: PropTypes.bool,
 };
 
 WidgetFilters.defaultProps = {
   hideButtons: false,
+  searchOnChange: false,
 };
 
 WidgetFilters.contextTypes = {

@@ -27,6 +27,7 @@ class RadioButton extends React.Component {
           active: checked,
           disabled: disabled,
         })}
+        tabIndex={1}
       >
         <Input
           className="alt-radio"

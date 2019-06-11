@@ -6,10 +6,16 @@ import {
   NavItem,
   NavbarBrand,
   NavbarToggler,
-  Collapse
+  Collapse,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
 } from "reactstrap";
 import { isEmpty } from "lodash";
 import moment from "moment";
+import { NavLink as RouterLink } from "react-router-dom";
 
 import NavbarBrandContent from "n2o/lib/plugins/Header/SimpleHeader/NavbarBrandContent";
 import NavItemContainer from "n2o/lib/plugins/Header/SimpleHeader/NavItemContainer";
@@ -40,13 +46,57 @@ class NavbarWithTime extends React.Component {
     const { items, brandImage, brand } = this.props;
     const { time } = this.state;
     const mapItems = (items, options) =>
-      items.map((item, i) => (
-        <NavItemContainer key={i} item={item} options={options} />
-      ));
+      items.map((item, i) => {
+        if (item.type === "dropdown") {
+          return (
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                {item.label}
+              </DropdownToggle>
+              <DropdownMenu left>
+                {item.subItems.map((subItem, i) => (
+                  <DropdownItem>
+                    {subItem.linkType === "outer" ? (
+                      <NavLink href={subItem.href}>{subItem.label}</NavLink>
+                    ) : (
+                      <RouterLink
+                        exact
+                        className="nav-link"
+                        to={subItem.href}
+                        activeClassName="active"
+                      >
+                        {subItem.label}
+                      </RouterLink>
+                    )}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          );
+        } else {
+          return (
+            <NavItem>
+              {item.linkType === "outer" ? (
+                <NavLink href={item.href}>{item.label}</NavLink>
+              ) : (
+                <RouterLink
+                  exact
+                  className="nav-link"
+                  to={item.href}
+                  activeClassName="active"
+                >
+                  {item.label}
+                </RouterLink>
+              )}
+            </NavItem>
+          );
+        }
+      });
+
     const navItems = mapItems(items);
 
     return (
-      <Navbar color="dark" expand="md" dark>
+      <Navbar color="info" expand="md" dark>
         <NavbarBrand href="/">
           <NavbarBrandContent brand={brand} brandImage={brandImage} />
         </NavbarBrand>
@@ -55,7 +105,7 @@ class NavbarWithTime extends React.Component {
           <Nav navbar>{navItems}</Nav>
           <Nav className="ml-auto" navbar>
             <NavItem>
-              <span className="nav-link">{time}</span>
+              <NavLink><strong>{time}</strong></NavLink>
             </NavItem>
           </Nav>
         </Collapse>
@@ -81,7 +131,8 @@ NavbarWithTime.propTypes = {
 };
 
 NavbarWithTime.defaultProps = {
-  items: []
+  items: [],
+  timeFormat: 'HH:mm:ss'
 };
 
 export default NavbarWithTime;

@@ -1,11 +1,8 @@
 package net.n2oapp.framework.api.ui;
 
 /**
- * @author operehod
- * @since 15.06.2015
+ * Информация об ответе выполненной операции
  */
 public class ActionResponseInfo extends ResponseInfo {
-
-
 
 }
