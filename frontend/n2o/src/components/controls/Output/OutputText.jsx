@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { isEqual, isNumber } from 'lodash';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import Text from '../../snippets/Text/Text';
+import Text from '../../snippets/Typography/Text/Text';
 import Icon from '../../snippets/Icon/Icon';
 
 const TypesComponents = {
