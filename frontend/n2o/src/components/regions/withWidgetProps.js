@@ -11,6 +11,7 @@ import {
   showWidget,
   disableWidget,
   enableWidget,
+  dataRequestWidget,
 } from '../../actions/widgets';
 
 /**
@@ -73,6 +74,8 @@ function withGetWidget(WrappedComponent) {
         showWidget: widgetId => showWidget(widgetId),
         disableWidget: widgetId => disableWidget(widgetId),
         enableWidget: widgetId => enableWidget(widgetId),
+        fetchWidget: (widgetId, options) =>
+          dataRequestWidget(widgetId, options),
       },
       dispatch
     );

@@ -5,6 +5,7 @@ import { set, pullAt, omit, pick } from 'lodash';
 
 import TabsRegion from './TabsRegion';
 import { metadataSuccess } from '../../../actions/pages';
+import { hideWidget, showWidget } from '../../../actions/widgets';
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
 import ListMetadata from '../List/ListMetadata.meta';
 import SecureTabRegionJson from './TabsRegions.meta';
@@ -50,7 +51,7 @@ stories
       </div>
     );
   })
-  .add('Инициализация виджетов', () => {
+  .add('Lazy запрос за данными', () => {
     fetchMock
       .restore()
       .get('begin:n2o/data/test', getStubData)
@@ -69,7 +70,7 @@ stories
 
     return <TabsRegion {...omit(InitWidgentsTabs, 'widgets')} pageId="Page" />;
   })
-  .add('Табы с зависимостью от виджета', () => {
+  .add('Автоматические скрытие', () => {
     fetchMock
       .restore()
       .get('begin:n2o/data/test', getStubData)
@@ -86,7 +87,25 @@ stories
 
     return (
       <React.Fragment>
-        <div>Второй таб скрыт полностью</div>
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            store.dispatch(hideWidget('Page_Table_2'));
+          }}
+        >
+          Скрыть виджет Page_Table_2
+        </button>
+        {` `}
+        <button
+          className="btn btn-secondary"
+          onClick={() => {
+            store.dispatch(showWidget('Page_Table_2'));
+          }}
+        >
+          Показать виджет Page_Table_2
+        </button>
+        <br />
+        <br />
         <TabsRegion {...TabsWithDependency} pageId="Page" />
       </React.Fragment>
     );
