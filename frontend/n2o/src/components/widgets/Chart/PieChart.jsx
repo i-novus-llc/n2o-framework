@@ -1,35 +1,50 @@
 import React from 'react';
+import { pure } from 'recompose';
+import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes';
 import { map } from 'lodash';
 import { PieChart as Chart, Pie } from 'recharts';
-const data01 = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
 
-const data02 = [
-  { name: 'A1', value: 100 },
-  { name: 'A2', value: 300 },
-  { name: 'B1', value: 100 },
-  { name: 'B2', value: 80 },
-  { name: 'B3', value: 40 },
-  { name: 'B4', value: 30 },
-  { name: 'B5', value: 50 },
-  { name: 'C1', value: 100 },
-  { name: 'C2', value: 200 },
-  { name: 'D1', value: 150 },
-  { name: 'D2', value: 50 },
-];
-
-function PieChart({ width, height, margin, pies, data }) {
+/**
+ * График "Пирог"
+ * @param width - длина графика
+ * @param height - высота графика
+ * @param margin - отступы
+ * @param pie
+ * {
+ *     cx: координата центра по x
+ *     cy: координата центра по y
+ *     innerRadius: внутренний радиус
+ *     outerRadius: внешний радиус
+ *     startAngle: начало пирога (в грудусах)
+ *     endAngle: конец пирога (в градусах)
+ *     minAngle: минимальный размер пирога
+ *     paddingAngle: расстояние между секторами
+ *     nameKey: ключ названия сектора
+ *     dataKey: ключ значения сектора
+ *     legendType: тип легенды
+ *     label: подпись сектора
+ *     labelLine: линия от сектора к подписи
+ *     fill: заливка цветом
+ *     animationBegin: дилей до начала анимации
+ *     animationEasing: тип анимации
+ * }
+ * @param data
+ * @return {*}
+ * @constructor
+ */
+function PieChart({ width, height, margin, pie, data }) {
   return (
     <Chart width={width} height={height} margin={margin}>
-      {map(pies, (pie, index) => (
-        <Pie {...pie} data={index === 0 ? data01 : data02} />
-      ))}
+      <Pie {...pie} data={data} />
     </Chart>
   );
 }
 
-export default PieChart;
+PieChart.propTypes = {
+  ...chartTypes,
+  pie: pieTypes,
+};
+
+PieChart.defaultProps = defaultChartProps;
+
+export default pure(PieChart);

@@ -16,10 +16,45 @@
       "baseValue": "auto",
       "margin": { "top": 5, "right": 5, "bottom": 5, "left": 5 },
       "XAxis": {
-        "dataKey": "name"
+        "hide": false,
+        "dataKey": "name",
+        "height": 30,
+        "orientation": "bottom",
+        "type": "category",
+        "allowDecimals": true,
+        "allowDataOverflow": false,
+        "allowDuplicatedCategory": true,
+        "tickCount": 5,
+        "interval": "preserveEnd",
+        "padding": {
+          "left": 0,
+          "right": 0
+        },
+        "minTickGap": 5,
+        "axisLine": true,
+        "tickLine": true,
+        "tickSize": 6,
+        "label": false
       },
       "YAxis": {
-        "dataKey": "name"
+        "hide": false,
+        "height": 30,
+        "orientation": "left",
+        "type": "number",
+        "allowDecimals": true,
+        "allowDataOverflow": false,
+        "allowDuplicatedCategory": true,
+        "tickCount": 5,
+        "interval": "preserveEnd",
+        "padding": {
+          "left": 0,
+          "right": 0
+        },
+        "minTickGap": 5,
+        "axisLine": true,
+        "tickLine": true,
+        "tickSize": 6,
+        "label": false
       },
       "cartesianGrid": {
         "x": 0,

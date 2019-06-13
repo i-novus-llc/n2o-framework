@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import widgetContainer from '../WidgetContainer';
 import { CHART } from '../widgetTypes';
@@ -15,7 +16,14 @@ const Charts = {
   [ChartType.PIE]: PieChart,
 };
 
-function ChartWidgetContainer({ chart, datasource, ...rest }) {
+/**
+ * Контейнер графика
+ * @param chart - настройка графика
+ * @param datasource - данные
+ * @return {*}
+ * @constructor
+ */
+function ChartWidgetContainer({ chart, datasource }) {
   const { type } = chart;
 
   const Component = Charts[type];
@@ -27,10 +35,23 @@ function ChartWidgetContainer({ chart, datasource, ...rest }) {
   );
 }
 
+ChartWidgetContainer.propTypes = {
+  chart: PropTypes.object,
+  datasource: PropTypes.array,
+};
+
+ChartWidgetContainer.defaultProps = {
+  chart: {},
+  datasource: [],
+};
+
 export default compose(
   widgetContainer(
     {
-      mapProps: props => props,
+      mapProps: props => ({
+        chart: props.chart,
+        datasource: props.datasource,
+      }),
     },
     CHART
   )

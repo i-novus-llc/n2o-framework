@@ -16,7 +16,6 @@
       "XAxis": {
         "hide": false,
         "dataKey": "name",
-        "width": 0,
         "height": 30,
         "orientation": "bottom",
         "type": "category",
@@ -37,7 +36,6 @@
       },
       "YAxis": {
         "hide": false,
-        "width": 0,
         "height": 30,
         "orientation": "left",
         "type": "number",

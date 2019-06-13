@@ -12,40 +12,22 @@
       "width": 600,
       "height": 400,
       "margin": { "top": 5, "right": 5, "bottom": 5, "left": 5 },
-      "pies": [
-        {
-          "cx": 200,
-          "cy": 200,
-          "innerRadius": 0,
-          "outerRadius": 60,
-          "startAngle": 0,
-          "endAngle": 360,
-          "minAngle": 0,
-          "paddingAngle": 0,
-          "nameKey": "name",
-          "dataKey": "value",
-          "legendType": "rect",
-          "label": false,
-          "labelLine": false,
-          "fill": "#8884d8"
-        },
-        {
-          "cx": 200,
-          "cy": 200,
-          "innerRadius": 70,
-          "outerRadius": 90,
-          "startAngle": 0,
-          "endAngle": 360,
-          "minAngle": 0,
-          "paddingAngle": 0,
-          "nameKey": "name",
-          "dataKey": "value",
-          "legendType": "rect",
-          "label": true,
-          "labelLine": true,
-          "fill": "#82ca9d"
-        }
-      ]
+      "pie": {
+        "cx": 200,
+        "cy": 200,
+        "innerRadius": 50,
+        "outerRadius": 60,
+        "startAngle": 0,
+        "endAngle": 360,
+        "minAngle": 0,
+        "paddingAngle": 0,
+        "nameKey": "name",
+        "dataKey": "value",
+        "legendType": "rect",
+        "label": true,
+        "labelLine": true,
+        "fill": "#8884d8"
+      }
     }
   }
 }

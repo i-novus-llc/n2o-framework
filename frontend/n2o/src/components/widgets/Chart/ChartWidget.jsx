@@ -5,6 +5,20 @@ import StandardWidget from '../StandardWidget';
 import ChartContainer from './ChartWidgetContainer';
 import Fieldsets from '../Form/fieldsets';
 
+/**
+ * Виджет графиков
+ * @param widgetId
+ * @param toolbar
+ * @param disabled
+ * @param actions
+ * @param chart
+ * @param pageId
+ * @param filter
+ * @param rest
+ * @param resolveProps
+ * @return {*}
+ * @constructor
+ */
 function ChartWidget(
   { id: widgetId, toolbar, disabled, actions, chart, pageId, filter, ...rest },
   { resolveProps }
@@ -52,6 +66,7 @@ ChartWidget.propTypes = {
 ChartWidget.defaultProps = {
   toolbar: {},
   filter: {},
+  chart: {},
 };
 
 ChartWidget.contextTypes = {
