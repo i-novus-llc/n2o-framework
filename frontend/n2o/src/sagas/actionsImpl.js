@@ -138,6 +138,7 @@ export function* handleInvoke(action) {
       )
     );
   } catch (err) {
+    console.error(err);
     yield* handleFailInvoke(
       action.meta.fail || {},
       widgetId,
