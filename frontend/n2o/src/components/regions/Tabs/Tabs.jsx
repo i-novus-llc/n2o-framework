@@ -8,6 +8,7 @@ import _ from 'lodash';
 import TabNav from './TabNav';
 import TabNavItem from './TabNavItem';
 import TabContent from './TabContent';
+import Tab from './Tab';
 
 /**
  * Компонент контейнера табов
@@ -113,6 +114,10 @@ Tabs.propTypes = {
   navClassName: PropTypes.string,
   onChangeActive: PropTypes.func,
   children: PropTypes.node,
+};
+
+Tabs.defaultProps = {
+  onChangeActive: () => {},
 };
 
 export default Tabs;
