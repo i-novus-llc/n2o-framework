@@ -19,6 +19,6 @@ public class EditCell extends N2oActionCell {
     private String format;
     @JsonProperty
     private EditType editType;
-    @JsonProperty
-    private Boolean editable = true;
+    @JsonProperty("editable")
+    private Object enabled;
 }
