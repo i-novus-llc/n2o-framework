@@ -5,7 +5,7 @@
     <artifactId>crud-rest-frontend</artifactId>
     <name>crud-rest-frontend</name>
     <packaging>jar</packaging>
-    <version>7.0.6</version>
+    <version>1.0-SNAPSHOT</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -14,18 +14,22 @@
         <relativePath/>
     </parent>
 
+    <properties>
+        <n2o.version>7.3.0</n2o.version>
+    </properties>
+
     <dependencies>
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-spring-boot-starter</artifactId>
-            <version>${project.version}</version>
+            <version>${n2o.version}</version>
         </dependency>
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-web</artifactId>
-            <version>${project.version}</version>
+            <version>${n2o.version}</version>
         </dependency>
 
     </dependencies>
