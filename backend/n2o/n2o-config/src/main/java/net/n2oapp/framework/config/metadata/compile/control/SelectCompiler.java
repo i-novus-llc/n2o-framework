@@ -26,6 +26,7 @@ public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
     @Override
     public StandardField<Select> compile(N2oSelect source, CompileContext<?, ?> context, CompileProcessor p) {
         Select control = new Select();
+        source.setSearch(p.cast(source.getSearch(), false));
         control.setHasCheckboxes(ListType.checkboxes == source.getType());
         control.setClosePopupOnSelect(!control.getHasCheckboxes());
         control.setCleanable(source.getCleanable());
