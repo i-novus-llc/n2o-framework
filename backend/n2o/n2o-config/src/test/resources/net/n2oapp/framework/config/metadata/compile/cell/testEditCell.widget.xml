@@ -13,8 +13,8 @@
             </edit>
         </column>
         <column text-field-id="test2">
-            <edit type="popup">
-                <text id="txtIdTest"/>
+            <edit type="popup" enabled="false">
+                <input-text id="txtIdTest"/>
             </edit>
         </column>
     </columns>
