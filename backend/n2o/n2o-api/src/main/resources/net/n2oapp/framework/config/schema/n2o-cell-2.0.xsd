@@ -367,13 +367,8 @@
                 </xs:annotation>
                 <xs:sequence maxOccurs="1" minOccurs="1" >
                     <xs:element name="input-text" type="ctr2:controlInputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="masked-input" type="ctr2:controlMaskedInputDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="password" type="ctr2:controlPasswordDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="file-upload" type="ctr2:controlFileUploadDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="select" type="ctr2:controlSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="input-select-tree" type="ctr2:inputSelectTreeDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string" use="optional">

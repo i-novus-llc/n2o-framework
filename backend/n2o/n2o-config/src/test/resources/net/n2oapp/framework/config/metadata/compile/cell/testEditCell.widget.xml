@@ -14,7 +14,7 @@
         </column>
         <column text-field-id="test2">
             <edit type="popup">
-                <text id="txtIdTest"/>
+                <input-text id="txtIdTest"/>
             </edit>
         </column>
     </columns>
