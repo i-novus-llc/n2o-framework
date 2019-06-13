@@ -1,132 +1,10 @@
 {
-  "Page_Table": {
+  "Page_Chart": {
     "src": "ChartWidget",
     "dataProvider": {
       "url": "n2o/data/test",
-      "pathMapping": {
-      },
-      "queryMapping": {
-        "filter.name": {
-          "link": "models.filter['Page_Table'].name"
-        },
-        "filter.surname": {
-          "link": "models.filter['Page_Table'].surname"
-        }
-      }
-    },
-    "toolbar": {
-      "topRight": [
-        {
-          "id": "topRight0",
-          "buttons": [
-            {
-              "id": "menuItem0",
-              "actionId": "menuItem0",
-              "hint": "Изменить видимость фильтров",
-              "icon": "fa fa-filter"
-            },
-            {
-              "id": "menuItem1",
-              "icon": "fa fa-table",
-              "hint": "Изменить видимость колонок",
-              "dropdownSrc": "ToggleColumn"
-            },
-            {
-              "id": "menuItem2",
-              "hint": "Обновить данные",
-              "icon": "fa fa-refresh",
-              "actionId": "menuItem2"
-            },
-            {
-              "id": "menuItem3",
-              "icon": "fa fa-bars",
-              "hint": "Изменить размер",
-              "dropdownSrc": "ChangeSize"
-            },
-            {
-              "id": "menuItem4",
-              "hint": "Экспортировать данные",
-              "icon": "fa fa-download",
-              "actionId": "exportModal"
-            }
-          ]
-        }
-      ]
-    },
-    "actions": {
-      "menuItem0": {
-        "src": "perform",
-        "options": {
-          "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
-          "payload": {
-            "widgetId": "Page_Table"
-          }
-        }
-      },
-      "menuItem2": {
-        "src": "perform",
-        "options": {
-          "type": "n2o/widgets/DATA_REQUEST",
-          "payload": {
-            "widgetId": "Page_Table"
-          }
-        }
-      },
-      "exportModal": {
-        "widgetId": "Page_Table",
-        "src": "perform",
-        "options": {
-          "type": "n2o/modals/INSERT",
-          "payload": {
-            "widgetId": "Page_Table",
-            "type": "n2o/modals/INSERT",
-            "name": "test2",
-            "src": "exportModal",
-            "title": "Экспортровать",
-            "size": "sm",
-            "visible": true,
-            "closeButton": false,
-            "actions": {
-              "export": {
-                "src": "exportTable",
-                "notification": {
-                  "severity": "danger",
-                  "text": "Это сообщение будет отображаться 10 секунд",
-                  "timeout": 10000
-                },
-                "redirectTo": "/test",
-                "options": {
-                  "widgetId": "Page_Table"
-                }
-              },
-              "destroyModal": {
-                "src": "perform",
-                "options": {
-                  "type": "n2o/modals/DESTROY"
-                }
-              }
-            },
-            "toolbar": [
-              {
-                "buttons": [
-                  {
-                    "id": "export",
-                    "title": "Загрузить",
-                    "actionId": "export",
-                    "className": "btn-primary",
-                    "icon": "fa fa-download"
-                  },
-                  {
-                    "id": "cancelExport",
-                    "title": "Отменить",
-                    "actionId": "destroyModal"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
+      "pathMapping": {},
+      "queryMapping": {}
     },
     "chart": {
       "fetchOnInit": true,
@@ -159,7 +37,6 @@
       },
       "YAxis": {
         "hide": false,
-        "dataKey": "name",
         "width": 0,
         "height": 30,
         "orientation": "left",
@@ -187,7 +64,8 @@
         "horizontal": true,
         "vertical": true,
         "horizontalPoints": [],
-        "verticalPoints": []
+        "verticalPoints": [],
+        "strokeDasharray": "3 3"
       },
       "tooltip": {
         "separator": ":",
@@ -205,7 +83,7 @@
         "height": null,
         "layout": "horizontal",
         "align": "center",
-        "verticalAlign": "middle",
+        "verticalAlign": "bottom",
         "iconSize": 14,
         "iconType": "line",
         "margin": {},
