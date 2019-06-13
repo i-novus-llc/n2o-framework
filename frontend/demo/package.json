@@ -1,6 +1,6 @@
 {
   "name": "n2o-demo-client",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "private": true,
   "homepage": ".",
   "dependencies": {
@@ -8,7 +8,7 @@
     "@atlaskit/table-tree": "^1.0.0",
     "bootstrap": "~4.3.0",
     "moment": "^2.21.0",
-    "n2o": "^7.3.0",
+    "n2o": "^7.3.1",
     "react": "^16.2.0",
     "react-avatar": "^3.4.6",
     "react-beautiful-dnd": "^6.0.1",
