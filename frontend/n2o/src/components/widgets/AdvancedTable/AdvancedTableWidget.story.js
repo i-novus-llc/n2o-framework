@@ -328,17 +328,6 @@ stories
       <Factory level={WIDGETS} {...newMeta['Page_Table']} id="Page_Table" />
     );
   })
-  .add('Колонки с длиной в числах', () => {
-    fetchMock.restore().get(urlPattern, url => {
-      return new Promise((res, rej) =>
-        setTimeout(() => res(getStubData(url)), 3000)
-      );
-    });
-
-    return (
-      <Factory level={WIDGETS} {...numberWidth['Page_Table']} id="Page_Table" />
-    );
-  })
   .add('Колонки с длиной в процентах', () => {
     fetchMock.restore().get(urlPattern, url => {
       return new Promise((res, rej) =>
