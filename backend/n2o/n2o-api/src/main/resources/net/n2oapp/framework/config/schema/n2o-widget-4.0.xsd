@@ -344,7 +344,7 @@
                         <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:integer" use="optional">
+                <xs:attribute name="width" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Ширина столбца.</xs:documentation>
                     </xs:annotation>

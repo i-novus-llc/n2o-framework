@@ -17,7 +17,7 @@ public abstract class AbstractColumn implements IdAware, Serializable{
     private String id;
     private String textFieldId;
     private String tooltipFieldId;
-    private Integer width;
+    private String width;
     private String format;
     private String labelName;
     private String labelIcon;
