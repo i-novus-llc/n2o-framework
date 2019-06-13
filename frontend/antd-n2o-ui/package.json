@@ -1,6 +1,6 @@
 {
   "name": "antd-n2o-ui",
-  "version": "7.3.0",
+  "version": "7.4.0",
   "description": "antd-n2o-ui React component",
   "main": "lib/index.js",
   "module": "es/index.js",
