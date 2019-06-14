@@ -217,3 +217,54 @@ export const areasTypes = PropTypes.arrayOf(
     stackId: PropTypes.number,
   })
 );
+
+export const barChartTypes = {
+  ...chartTypes,
+  stackOffset: PropTypes.oneOf([
+    'expand',
+    'none',
+    'wiggle',
+    'silhouette',
+    'sign',
+  ]),
+  barCategoryGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  barGap: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  barSize: PropTypes.number,
+  maxBarSize: PropTypes.number,
+  reverseStackOrder: PropTypes.bool,
+};
+
+export const barsTypes = PropTypes.arrayOf(
+  PropTypes.shape({
+    stackId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    fill: PropTypes.string,
+    layout: PropTypes.oneOf(['horizontal', 'vertical']),
+    dataKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    legendType: PropTypes.oneOf([
+      'line',
+      'square',
+      'rect',
+      'circle',
+      'cross',
+      'diamond',
+      'star',
+      'triangle',
+      'wye',
+      'none',
+    ]),
+    label: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+    ]),
+    barSize: PropTypes.number,
+    maxBarSize: PropTypes.number,
+    background: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.object,
+      PropTypes.node,
+      PropTypes.func,
+    ]),
+  })
+);

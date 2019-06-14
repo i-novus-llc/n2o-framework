@@ -105,7 +105,6 @@
           "label": false,
           "barSize": null,
           "maxBarSize": null,
-          "minPointSize": 0,
           "background": false
         },
         {
@@ -117,7 +116,6 @@
           "label": false,
           "barSize": null,
           "maxBarSize": null,
-          "minPointSize": 0,
           "background": false
         }
       ]
