@@ -1,4 +1,4 @@
-import { omit, mapValues, isEmpty, isNaN } from 'lodash';
+import { omit, mapValues, isEmpty, isNumber } from 'lodash';
 import merge from 'deepmerge';
 import {
   REGISTER,
@@ -148,7 +148,7 @@ function resolve(state = widgetState, action) {
 }
 
 function resolveSelectedId(selectedId) {
-  if (selectedId !== '' && !isNaN(+selectedId)) {
+  if (selectedId !== '' && isNumber(+selectedId)) {
     selectedId = +selectedId;
   }
 
