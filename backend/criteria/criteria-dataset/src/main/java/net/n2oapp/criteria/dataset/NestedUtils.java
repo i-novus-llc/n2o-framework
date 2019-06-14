@@ -74,8 +74,8 @@ public abstract class NestedUtils {
     public static Object wrapValue(Object value,
                                    Function<? super Map, ? extends NestedMap> mapConstructor,
                                    Function<? super List, ? extends NestedList> listConstructor) {
-        if (value instanceof NestedMap)
-            return mapConstructor.apply((NestedMap) value);
+        if (value instanceof NestedMap || value instanceof NestedList)
+            return value;
         if (value instanceof Map) {
             Map map = (Map) value;
             for (Object key : map.keySet()) {

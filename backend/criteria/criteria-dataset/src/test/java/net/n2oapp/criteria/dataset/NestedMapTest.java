@@ -976,17 +976,6 @@ public class NestedMapTest {
         assert newMap.get("gender.name").equals("Мужской");
         assert newMap.get("individual.gender.id").equals(2);
         assert newMap.get("individual.gender.name").equals("Женский");
-
-        //ссылки должны потеряться
-        assert newMap.get("gender") != baseMap.get("gender");
-        assert newMap.get("individual") != baseMap.get("individual");
-        assert newMap.get("individual.gender") != baseMap.get("individual.gender");
-
-        //при put ссылка не должна потеряться
-        NestedMap gender = (NestedMap) newMap.get("gender");
-        newMap.put("gender.type", 4);
-        assert gender.get("type").equals(4);
-
     }
 
     @Test
