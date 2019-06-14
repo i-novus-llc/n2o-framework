@@ -841,8 +841,7 @@
                           "labelFieldId": "name",
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
                           "inline": true,
                           "type": "n2o"
@@ -1485,8 +1484,7 @@
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
                           "type": "n2o"
                         }
