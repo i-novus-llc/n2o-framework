@@ -82,8 +82,7 @@
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
                           "type": "n2o"
                         }
