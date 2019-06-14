@@ -195,7 +195,6 @@ function* getMetadata(action) {
     if (err && err.status) {
       const page = findLast(errorPages, ['status', err.status]);
       if (page) {
-        yield put(push(page.path));
         return;
       }
     }
