@@ -95,7 +95,7 @@ class TabRegion extends React.Component {
             this.setState({
               visibleTabs: {
                 ...visibleTabs,
-                [tab.widgetId]: permissions,
+                [tab.widgetId]: !!permissions,
               },
             });
           };
@@ -105,7 +105,6 @@ class TabRegion extends React.Component {
           ) : (
             <SecurityCheck
               {...tabProps}
-              visible={!!visibleTabs[tab.widgetId]}
               config={security}
               onPermissionsSet={onPermissionsSet}
               render={({ permissions, active, visible }) => {
