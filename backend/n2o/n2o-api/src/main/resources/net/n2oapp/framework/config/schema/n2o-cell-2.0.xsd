@@ -14,10 +14,10 @@
     <xs:element name="checkbox" type="checkboxDefinition"/>
     <xs:element name="progress" type="progressDefinition"/>
     <xs:element name="image" type="imageDefinition"/>
-    <!--<xs:element name="edit" type="editDefinition"/>-->
+    <xs:element name="edit" type="editDefinition"/>
     <xs:element name="toolbar" type="toolbarDefinition"/>
     <xs:element name="badge" type="badgeDefinition"/>
-    <!--<xs:element name="custom" type="customDefinition"/>-->
+    <xs:element name="cell" type="customDefinition"/>
 
     <xs:complexType name="cells">
         <xs:sequence>
@@ -367,13 +367,8 @@
                 </xs:annotation>
                 <xs:sequence maxOccurs="1" minOccurs="1" >
                     <xs:element name="input-text" type="ctr2:controlInputTextDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="masked-input" type="ctr2:controlMaskedInputDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="password" type="ctr2:controlPasswordDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="date-time" type="ctr2:controlDatePickerDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="file-upload" type="ctr2:controlFileUploadDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="select" type="ctr2:controlSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="input-select" type="ctr2:controlInputSelectDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="input-select-tree" type="ctr2:inputSelectTreeDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="field" type="ctr2:fieldCustom" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
@@ -390,6 +385,11 @@
                 <xs:attribute name="type" type="editType" use="optional" default="inline">
                     <xs:annotation>
                         <xs:documentation>Расположение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string" use="optional" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Доступность для редактирования.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
