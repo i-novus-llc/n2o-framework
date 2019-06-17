@@ -189,7 +189,7 @@ function* getMetadata(action) {
     yield put(setStatus(metadata.id, 200));
   } catch (err) {
     if (err && err.status) {
-      yield put(setStatus(metadata.id, err.status));
+      yield put(setStatus(pageId, err.status));
     }
 
     if (rootPage) {
