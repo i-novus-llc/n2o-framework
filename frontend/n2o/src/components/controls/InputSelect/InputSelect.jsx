@@ -441,7 +441,7 @@ class InputSelect extends React.Component {
         className={cx('n2o-input-select n2o-input-select--default', {
           disabled,
         })}
-        toggle={() => {}}
+        toggle={this.props.onToggle}
         isOpen={this.state.isExpanded && !disabled}
       >
         <DropdownToggle tag="div" disabled={disabled}>
@@ -469,8 +469,8 @@ class InputSelect extends React.Component {
               valueFieldId={valueFieldId}
               placeholder={placeholder}
               options={this.state.options}
-              openPopUp={() => this._setIsExpanded(true)}
-              closePopUp={() => this._setIsExpanded(false)}
+              openPopUp={this._setIsExpanded}
+              closePopUp={this._setIsExpanded}
               onInputChange={this._setNewInputValue}
               onRemoveItem={this._removeSelectedItem}
               isExpanded={this.state.isExpanded}
