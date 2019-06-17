@@ -24,7 +24,6 @@ import withPage from '../../../../.storybook/decorators/withPage';
 import { page } from 'N2oStorybook/fetchMock';
 import AdvancedTable from './AdvancedTable';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
-import numberWidth from './json/NumberWidth.meta';
 import percentWidth from './json/PercentWidth.meta';
 import pixelWidth from './json/PixelWidth.meta';
 
