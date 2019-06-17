@@ -88,7 +88,7 @@ function InputContent({
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (!isExpanded) {
-        openPopUp();
+        openPopUp(true);
         setActiveValueId(
           getFirstNotDisabledId(options, selected, disabledValues, valueFieldId)
         );
@@ -132,7 +132,7 @@ function InputContent({
       );
       newValaue && onSelect(newValaue);
     } else if (e.key === 'Escape') {
-      closePopUp();
+      closePopUp(false);
     }
   };
 
@@ -249,7 +249,7 @@ function InputContent({
       ) : (
         <input
           onKeyDown={handleKeyDown}
-          ref={handleRef}
+          // ref={handleRef}
           placeholder={getPlaceholder}
           disabled={disabled}
           value={value}
