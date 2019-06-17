@@ -50,10 +50,9 @@ class N2o extends Component {
   }
 
   render() {
-    const { routes, security, customErrorPages } = this.props;
+    const { routes, security } = this.props;
 
     const config = createFactoryConfig(this.generateCustomConfig());
-    const errorPages = configureErrorPages(customErrorPages);
 
     return (
       <Provider store={this.store}>
@@ -69,9 +68,6 @@ class N2o extends Component {
                     <Switch>
                       {routes.map((route, i) => (
                         <Route key={'page-' + i} {...route} />
-                      ))}
-                      {errorPages.map((route, i) => (
-                        <Route key={'error-page-' + i} {...route} />
                       ))}
                       <Route path="/:pageUrl*" render={RootPage} />
                     </Switch>
@@ -142,6 +138,7 @@ const EnhancedN2O = compose(
     defaultBreadcrumb: DefaultBreadcrumb,
     defaultPromptMessage:
       'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
+    defaultErrorPages: configureErrorPages(),
     formats: {
       dateFormat: 'DD.MM.YYYY',
       timeFormat: 'HH:mm:ss',
@@ -165,11 +162,15 @@ const EnhancedN2O = compose(
         PropTypes.node,
       ]),
       defaultPromptMessage: PropTypes.string,
+      defaultErrorPages: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
+      ),
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
+      defaultErrorPages: props.defaultErrorPages,
     })
   ),
   withProps(props => ({
