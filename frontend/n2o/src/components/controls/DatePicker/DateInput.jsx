@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import cx from 'classnames';
+import { isNaN, isNumber, isObject, get } from 'lodash';
 
 import DateTimeControl from './DateTimeControl';
 import MaskedInput from 'react-text-mask';
@@ -34,10 +35,17 @@ class DateInput extends React.Component {
     this.onBlur = this.onBlur.bind(this);
     this.onButtonClick = this.onButtonClick.bind(this);
     this.onInputClick = this.onInputClick.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
+    this.setInputRef = this.setInputRef.bind(this);
+    this.getDeletedSymbol = this.getDeletedSymbol.bind(this);
   }
 
-  onChange(e) {
-    const { value } = e.target;
+  setInputRef(input) {
+    this._input = input;
+  }
+
+  onChange(e, callback) {
+    const value = isObject(e) ? get(e, 'target.value', '') : e;
     const { dateFormat, name } = this.props;
     if (value === '') {
       this.props.onInputChange(null, name);
@@ -47,7 +55,9 @@ class DateInput extends React.Component {
     ) {
       this.props.onInputChange(moment(value, dateFormat), name);
     } else {
-      this.setState({ value });
+      this.setState({ value }, () => {
+        if (callback) callback();
+      });
     }
   }
 
@@ -82,6 +92,40 @@ class DateInput extends React.Component {
     onClick && onClick(event);
   }
 
+  replaceAt(string, index, replacement) {
+    return (
+      string.substring(0, index - 1) + replacement + string.substring(index, string.length)
+    );
+  }
+
+  setCursorPosition(cursorPosition) {
+    this._input.inputElement.setSelectionRange(cursorPosition, cursorPosition);
+  }
+
+  getDeletedSymbol(index) {
+    return this.state.value.substring(index - 1, index);
+  }
+
+  onKeyDown(e) {
+    const cursorPos = Number(e.target.selectionStart);
+    const keyCode = Number(e.keyCode);
+    const valueFromKey = +String.fromCharCode(keyCode);
+    const deletedChar = +this.getDeletedSymbol(cursorPos);
+
+    if (keyCode === 8 && cursorPos !== 0 && !isNaN(deletedChar)) {
+      e.preventDefault();
+
+      const value = this.replaceAt(this.state.value, cursorPos, '_');
+
+      this.onChange(value, () => this.setCursorPosition(cursorPos - 1));
+    } else if (!isNaN(valueFromKey) && isNumber(valueFromKey)) {
+      e.preventDefault();
+      const value = this.replaceAt(this.state.value, cursorPos + 1, valueFromKey);
+
+      this.onChange(value, () => this.setCursorPosition(cursorPos + 1));
+    }
+  }
+
   /**
    * Базовый рендер
    */
@@ -106,6 +150,8 @@ class DateInput extends React.Component {
           <span style={dashStyle}>-</span>
         )}
         <MaskedInput
+          ref={this.setInputRef}
+          onKeyDown={this.onKeyDown}
           value={this.state.value}
           type="text"
           mask={formatToMask(dateFormat)}
