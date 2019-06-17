@@ -67,3 +67,12 @@
 .n2o-template {
   display: flex;
 }
+
+.white-space-pre-line {
+  white-space: pre-line;
+}
+
+.btn-group:empty {
+  margin: 0 !important;
+  padding: 0 !important;
+}
