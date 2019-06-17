@@ -8,3 +8,4 @@ export const RESET = 'n2o/pages/RESET';
 export const MAP_URL = 'n2o/pages/MAP_URL';
 export const DISABLE = 'n2o/pages/DISABLE';
 export const ENABLE = 'n2o/pages/ENABLE';
+export const SET_STATUS = 'n2o/pages/SET_STATUS';

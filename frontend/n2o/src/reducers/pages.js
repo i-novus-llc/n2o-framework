@@ -7,6 +7,7 @@ import {
   RESET,
   ENABLE,
   DISABLE,
+  SET_STATUS,
 } from '../constants/pages';
 import { SET_WIDGET_METADATA } from '../constants/widgets';
 
@@ -22,6 +23,7 @@ export const pageState = {
   loading: false,
   error: false,
   disabled: false,
+  status: null,
 };
 
 function resolve(state = pageState, action) {
@@ -59,6 +61,10 @@ function resolve(state = pageState, action) {
       return Object.assign({}, state, {
         disabled: true,
       });
+    case SET_STATUS:
+      return Object.assign({}, state, {
+        status: action.payload.status,
+      });
     default:
       return state;
   }
@@ -76,6 +82,7 @@ export default function pages(state = {}, action) {
     case RESET:
     case ENABLE:
     case DISABLE:
+    case SET_STATUS:
       return Object.assign({}, state, {
         [action.payload.pageId]: resolve(state[action.payload.pageId], action),
       });

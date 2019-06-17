@@ -35,7 +35,6 @@ import {
   getLocation,
   LOCATION_CHANGE,
   replace,
-  push,
 } from 'connected-react-router';
 import queryString from 'query-string';
 import {
@@ -47,7 +46,7 @@ import {
   UPDATE_MAP,
 } from '../constants/models';
 import { MAP_URL, METADATA_REQUEST, RESET } from '../constants/pages';
-import { metadataFail, metadataSuccess } from '../actions/pages';
+import { metadataFail, metadataSuccess, setStatus } from '../actions/pages';
 import { combineModels, updateModel } from '../actions/models';
 import { changeRootPage } from '../actions/global';
 import { rootPageSelector } from '../selectors/global';
@@ -57,10 +56,6 @@ import fetchSaga from './fetch.js';
 import { FETCH_PAGE_METADATA } from '../core/api.js';
 import compileUrl from '../utils/compileUrl';
 import linkResolver from '../utils/linkResolver';
-import configureErrorPages from '../components/errors';
-import history from '../history';
-
-const errorPages = configureErrorPages();
 
 function autoDetectBasePath(pathPattern, pathname) {
   const match = matchPath(pathname, {
@@ -191,12 +186,10 @@ function* getMetadata(action) {
     }
     yield fork(watcherDefaultModels, metadata.models);
     yield put(metadataSuccess(metadata.id, metadata));
+    yield put(setStatus(metadata.id, 200));
   } catch (err) {
     if (err && err.status) {
-      const page = findLast(errorPages, ['status', err.status]);
-      if (page) {
-        return;
-      }
+      yield put(setStatus(metadata.id, err.status));
     }
 
     if (rootPage) {

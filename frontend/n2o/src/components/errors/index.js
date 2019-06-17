@@ -17,17 +17,14 @@ const createErrorPages = ({
   return [
     {
       status: 403,
-      path: '/403',
       component: forbidden,
     },
     {
       status: 404,
-      path: '/404',
       component: notFound,
     },
     {
       status: 500,
-      path: '/500',
       component: serverError,
     },
   ];

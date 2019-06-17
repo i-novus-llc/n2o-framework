@@ -30,6 +30,7 @@ import {
   makePageLoadingByIdSelector,
   makePageErrorByIdSelector,
   makePageDisabledByIdSelector,
+  makePageStatusByIdSelected,
 } from '../../selectors/pages';
 import { getLocation } from '../../selectors/global';
 import withActions from './withActions';
@@ -85,6 +86,16 @@ class PageContainer extends React.Component {
     return false;
   }
 
+  getErrorPage() {
+    const { status } = this.props;
+    const { defaultErrorPages } = this.context;
+    return get(
+      find(defaultErrorPages, page => page.status === status),
+      'component',
+      null
+    );
+  }
+
   isEqualPageId(prevProps) {
     return this.props.pageId === prevProps.pageId;
   }
@@ -108,7 +119,12 @@ class PageContainer extends React.Component {
       disabled,
       pageId,
     } = this.props;
-    return (
+
+    const errorPage = this.getErrorPage();
+
+    return errorPage ? (
+      React.createElement(errorPage)
+    ) : (
       <div className={cn({ 'n2o-disabled-page': disabled })}>
         {error && <Alert {...error} visible />}
         {!isEmpty(metadata) && metadata.page && (
@@ -187,6 +203,9 @@ PageContainer.contextTypes = {
     PropTypes.element,
     PropTypes.node,
   ]),
+  defaultErrorPages: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
+  ),
 };
 
 PageContainer.propTypes = {
@@ -196,6 +215,7 @@ PageContainer.propTypes = {
   pageUrl: PropTypes.string,
   pageMapping: PropTypes.object,
   rootPage: PropTypes.bool,
+  status: PropTypes.number,
 };
 
 PageContainer.defaultProps = {
@@ -215,6 +235,7 @@ const mapStateToProps = createStructuredSelector({
   disabled: (state, { pageId }) => {
     return makePageDisabledByIdSelector(pageId)(state);
   },
+  status: (state, { pageId }) => makePageStatusByIdSelected(pageId)(state),
   location: getLocation,
 });
 
