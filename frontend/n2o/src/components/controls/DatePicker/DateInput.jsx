@@ -94,7 +94,9 @@ class DateInput extends React.Component {
 
   replaceAt(string, index, replacement) {
     return (
-      string.substring(0, index - 1) + replacement + string.substring(index, string.length)
+      string.substring(0, index - 1) +
+      replacement +
+      string.substring(index, string.length)
     );
   }
 
@@ -120,7 +122,11 @@ class DateInput extends React.Component {
       this.onChange(value, () => this.setCursorPosition(cursorPos - 1));
     } else if (!isNaN(valueFromKey) && isNumber(valueFromKey)) {
       e.preventDefault();
-      const value = this.replaceAt(this.state.value, cursorPos + 1, valueFromKey);
+      const value = this.replaceAt(
+        this.state.value,
+        cursorPos + 1,
+        valueFromKey
+      );
 
       this.onChange(value, () => this.setCursorPosition(cursorPos + 1));
     }
