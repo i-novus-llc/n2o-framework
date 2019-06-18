@@ -18,7 +18,6 @@ public class FileUploadJsonTest extends JsonMetadataTestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.format.date.client", "DD-MMM-YY HH:mm");
         super.configure(builder);
         builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }

@@ -28,7 +28,7 @@ public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oM
 
     @Override
     public StandardField<MaskedInput> compile(N2oMaskedInput source, CompileContext<?,?> context, CompileProcessor p) {
-        source.setDomain(p.cast(source.getDomain(), Domain.string.getName()));
+        source.setDomain(p.cast(source.getDomain(), Domain.STRING.getName()));
         MaskedInput maskedInput = new MaskedInput();
         maskedInput.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         maskedInput.setMask(p.resolveJS(source.getMask()));
