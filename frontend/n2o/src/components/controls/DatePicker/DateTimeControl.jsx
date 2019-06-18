@@ -337,22 +337,24 @@ class DateTimeControl extends React.Component {
                 />
               )}
             </Reference>
-            <Popper
-              placement="bottom-start"
-              modifiers={MODIFIERS}
-              positionFixed={true}
-            >
-              {({ ref, style, placement }) => (
-                <div
-                  ref={ref}
-                  style={style}
-                  data-placement={placement}
-                  className="n2o-pop-up"
-                >
-                  {this.renderPopUp(this.width)}
-                </div>
-              )}
-            </Popper>
+            {this.state.isPopUpVisible && (
+              <Popper
+                placement="bottom-start"
+                modifiers={MODIFIERS}
+                positionFixed={true}
+              >
+                {({ ref, style, placement }) => (
+                  <div
+                    ref={ref}
+                    style={style}
+                    data-placement={placement}
+                    className="n2o-pop-up"
+                  >
+                    {this.renderPopUp(this.width)}
+                  </div>
+                )}
+              </Popper>
+            )}
           </Manager>
         </div>
       </div>
