@@ -79,6 +79,11 @@ public class NestedListTest {
         assert ((Map) ((List) list.get(1)).get(0)).get("foo").equals(1);
 
         //negative
+        list = new NestedList();
+        list.put("[0]", 1);
+        assert list.put("[0]*.foo", null).equals(1);
+        assert list.get(0) == null;
+
         NestedList list2 = new NestedList();
         assert fail(() -> list2.put("[1]*.foo", 1), IllegalArgumentException.class);//value not an iterable
     }

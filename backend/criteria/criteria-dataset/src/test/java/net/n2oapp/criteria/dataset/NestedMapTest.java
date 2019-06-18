@@ -140,6 +140,11 @@ public class NestedMapTest {
         assert ((Map)map.get("foo")).get("['2019-01-01']").equals(1);
 
         //negative
+        map = new NestedMap();
+        map.put("foo", 1);
+        assert map.put("foo*.bar", null).equals(1);
+        assert map.get("foo") == null;
+
         NestedMap map3 = new NestedMap();
         assert fail(() -> map3.put("foo*.bar", 1), IllegalArgumentException.class);//value not an iterable
     }

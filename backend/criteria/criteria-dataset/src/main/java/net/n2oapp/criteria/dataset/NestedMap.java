@@ -125,8 +125,10 @@ public class NestedMap extends LinkedHashMap<String, Object> {
                 }
             } else {
                 //case: "foo*.bar"
-                List<Object> res = new ArrayList<>();
-                if (value instanceof Iterable) {
+                if (value == null) {
+                    return super.put(info.getProperty(), null);
+                } else if (value instanceof Iterable) {
+                    List<Object> res = new ArrayList<>();
                     Iterable array = (Iterable) value;
                     Object rightValue = super.get(info.getProperty());
                     if (!(rightValue instanceof NestedList)) {

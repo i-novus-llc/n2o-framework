@@ -88,8 +88,10 @@ public class NestedList extends ArrayList<Object> {
                 }
             } else {
                 //case: "[0]*.foo"
-                List<Object> res = new ArrayList<>();
-                if (value instanceof Iterable) {
+                if (value == null) {
+                    return super.set(info.getIndex(), null);
+                } else if (value instanceof Iterable) {
+                    List<Object> res = new ArrayList<>();
                     Iterable array = (Iterable) value;
                     NestedUtils.fillArray(this, info.getIndex());
                     Object rightValue = super.get(info.getIndex());
@@ -99,7 +101,7 @@ public class NestedList extends ArrayList<Object> {
                     }
                     int i = 0;
                     for (Object o : array) {
-                        res.add(((NestedList)rightValue).put("[" + i + "]" + "." + info.getRight(), o));
+                        res.add(((NestedList) rightValue).put("[" + i + "]" + "." + info.getRight(), o));
                         i++;
                     }
                     return res;
