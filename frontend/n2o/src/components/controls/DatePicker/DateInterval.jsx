@@ -76,7 +76,11 @@ DateInterval.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   defaultTime: PropTypes.object,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([
+    PropTypes.instanceOf(moment),
+    PropTypes.instanceOf(Date),
+    PropTypes.string,
+  ]),
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),

@@ -15,4 +15,6 @@ public class Password extends Control {
     private Integer length;
     @JsonProperty
     private String placeholder;
+    @JsonProperty("showPasswordBtn")
+    private Boolean eye;
 }

@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
-import { isEmpty } from 'lodash';
+import { isEmpty, isUndefined } from 'lodash';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -31,12 +31,13 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      yield put(
-        change(formName, fieldName, {
-          keepDirty: false,
-          value: _evalResult,
-        })
-      );
+      yield !isUndefined(_evalResult) &&
+        put(
+          change(formName, fieldName, {
+            keepDirty: false,
+            value: _evalResult,
+          })
+        );
       break;
     case 'reset':
       yield _evalResult &&

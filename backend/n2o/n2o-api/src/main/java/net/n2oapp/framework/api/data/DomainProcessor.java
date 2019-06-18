@@ -8,6 +8,7 @@ import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.domain.Domain;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -104,6 +105,8 @@ public class DomainProcessor {
      * @throws ClassCastException Если конвертированное значение не соответствует классу
      */
     public Object deserialize(Object value, Class<?> clazz) {
+        if (clazz.isEnum())
+            return deserializeEnum(value, (Class<? extends Enum>)clazz);
         Object result = deserialize(value, Domain.getByClass(clazz));
         if (result != null
                 && !StringUtils.isDynamicValue(result)
@@ -114,6 +117,41 @@ public class DomainProcessor {
 
     public Object deserialize(Object value) {
         return deserialize(value, (String) null);
+    }
+
+    /**
+     * Конвертировать значение в Enum объект
+     *
+     * @param value Значение
+     * @param enumClass Enum класс
+     * @return Enum объект или null
+     *
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends Enum<T>> T deserializeEnum(Object value, Class<T> enumClass) {
+        if (value == null)
+            return null;
+        if (enumClass.isAssignableFrom(value.getClass()))
+            return (T) value;
+        if (value instanceof String) {
+            String strValue = (String) value;
+            boolean idAware = IdAware.class.isAssignableFrom(enumClass);
+            if (idAware) {
+                for (Enum enumValue : enumClass.getEnumConstants()) {
+                    IdAware idEnum = (IdAware) enumValue;
+                    if (idEnum.getId().equalsIgnoreCase(strValue)) {
+                        return (T) enumValue;
+                    }
+                }
+            } else {
+                for (Enum enumValue : enumClass.getEnumConstants()) {
+                    if (enumValue.name().equalsIgnoreCase(strValue)) {
+                        return (T) enumValue;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**

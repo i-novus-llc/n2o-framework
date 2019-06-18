@@ -49,8 +49,8 @@ export default function(WrappedComponent) {
       currentAction && onActionImpl(currentAction);
     };
 
-    const callInvoke = data => {
-      onInvoke(widgetId, dataProvider, data);
+    const callInvoke = (data, customProvider = null) => {
+      onInvoke(widgetId, customProvider || dataProvider, data);
     };
 
     const updateFieldInModel = (value, prefix = 'datasource') => {

@@ -106,14 +106,14 @@ function ListItem({
 }
 
 ListItem.propTypes = {
-  leftTop: PropTypes.oneOf(PropTypes.node, PropTypes.object),
-  leftBottom: PropTypes.oneOf(PropTypes.node, PropTypes.object),
-  header: PropTypes.oneOf(PropTypes.node, PropTypes.string),
-  subHeader: PropTypes.oneOf(PropTypes.node, PropTypes.string),
-  body: PropTypes.oneOf(PropTypes.node, PropTypes.string),
-  rightTop: PropTypes.oneOf(PropTypes.node, PropTypes.string),
-  rightBottom: PropTypes.oneOf(PropTypes.node, PropTypes.string),
-  extra: PropTypes.oneOf(PropTypes.node, PropTypes.string),
+  leftTop: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  leftBottom: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  header: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  subHeader: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  body: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  rightTop: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  rightBottom: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
+  extra: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   selected: PropTypes.bool,
   onClick: PropTypes.func,
 };

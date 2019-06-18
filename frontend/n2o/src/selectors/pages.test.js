@@ -10,7 +10,7 @@ import {
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
   makePageDisabledByIdSelector,
-  makePageWidgetsByIdSelector,
+  makePageWidgetsByIdSelector, makePageStatusByIdSelected,
 } from './pages';
 
 const state = {
@@ -30,6 +30,7 @@ const state = {
       loading: true,
       error: false,
       disabled: true,
+      status: 404,
       routes: [
         {
           route: 'route',
@@ -101,6 +102,11 @@ describe('Проверка селекторов pages', () => {
   it('makePageWidgetsByIdSelector должен вернуть widgets по id', () => {
     expect(makePageWidgetsByIdSelector('_')(state)).toEqual(
       state.pages._.metadata.widgets
+    );
+  });
+  it('makePageStatusByIdSelector должен вернуть status по id', () => {
+    expect(makePageStatusByIdSelected('_')(state)).toEqual(
+      state.pages._.status
     );
   });
 });

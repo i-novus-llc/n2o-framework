@@ -6,6 +6,7 @@ import {
   RESET,
   DISABLE,
   ENABLE,
+  SET_STATUS,
 } from '../constants/pages';
 import createActionHelper from './createActionHelper';
 
@@ -74,4 +75,13 @@ export function disablePage(pageId) {
  */
 export function enablePage(pageId) {
   return createActionHelper(ENABLE)({ pageId });
+}
+
+/**
+ * Присвоить статус запроса метаданных страницы
+ * @param pageId
+ * @param status
+ */
+export function setStatus(pageId, status) {
+  return createActionHelper(SET_STATUS)({ pageId, status });
 }

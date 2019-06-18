@@ -35,7 +35,7 @@ const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
 );
 
 Panel.propTypes = {
-  header: PropTypes.oneOfType(PropTypes.string, PropTypes.node),
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   headerClass: PropTypes.string,
   showArrow: PropTypes.bool,
   className: PropTypes.string,

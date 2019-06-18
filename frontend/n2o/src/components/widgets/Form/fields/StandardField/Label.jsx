@@ -19,12 +19,14 @@ import Popover from '../../../../snippets/Popover/Popover';
  */
 
 const Label = ({ id, value, required, className, style, help, ...props }) => {
+  const newProps = {
+    className: cx('col-form-label', className),
+    style: { display: 'inline-block', ...style },
+  };
+
   return React.isValidElement(value) ? (
-    <div className={cx('n2o-field-label')}>
-      {React.cloneElement(value, {
-        className: cx('col-form-label', className),
-        style: { display: 'inline-block', ...style },
-      })}
+    <div className={'n2o-field-label'}>
+      {React.cloneElement(value, newProps)}
       {required ? <span className="n2o-field-label-required">*</span> : ''}
       {help && <Popover id={id} help={help} />}
     </div>

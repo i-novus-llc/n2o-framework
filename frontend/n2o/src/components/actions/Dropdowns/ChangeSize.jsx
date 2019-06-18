@@ -36,9 +36,9 @@ class ChangeSize extends React.Component {
    */
   renderSizeDropdown(sizes) {
     const { size } = this.props;
-    return sizes.map(s => {
+    return sizes.map((s, i) => {
       return (
-        <DropdownItem toggle={false} onClick={() => this.resize(s)}>
+        <DropdownItem key={i} toggle={false} onClick={() => this.resize(s)}>
           <span className="n2o-dropdown-check-container">
             {size === s && <i className="fa fa-check" aria-hidden="true" />}
           </span>

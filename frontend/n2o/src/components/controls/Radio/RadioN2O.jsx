@@ -54,7 +54,7 @@ class RadioN2O extends React.Component {
 }
 
 RadioN2O.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.any,
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,

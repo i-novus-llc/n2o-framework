@@ -7,7 +7,7 @@ import cx from 'classnames';
 import InputSelectGroup from './InputSelectGroup';
 import PopupList from './PopupList';
 import InputContent from './InputContent';
-import { find, isEqual, isEmpty, isNil } from 'lodash';
+import { find, isEqual, isEmpty } from 'lodash';
 import Alert from '../../snippets/Alerts/Alert';
 import Popup from './Popup';
 
@@ -85,6 +85,7 @@ class InputSelect extends React.Component {
     this.setSelectedItemsRef = this.setSelectedItemsRef.bind(this);
     this.setTextareaRef = this.setTextareaRef.bind(this);
     this.setSelectedListRef = this.setSelectedListRef.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
   }
 
   setTextareaRef(input) {
@@ -394,6 +395,12 @@ class InputSelect extends React.Component {
       }
     }
   }
+
+  onInputBlur() {
+    if (!this.state.isExpanded) {
+      this.props.onBlur();
+    }
+  }
   /**
    * Рендер
    */
@@ -434,11 +441,7 @@ class InputSelect extends React.Component {
         className={cx('n2o-input-select n2o-input-select--default', {
           disabled,
         })}
-        toggle={() => {}}
-        onFocus={() => {
-          this._setInputFocus(true);
-          this._setSelected(true);
-        }}
+        toggle={this.props.onToggle}
         isOpen={this.state.isExpanded && !disabled}
       >
         <DropdownToggle tag="div" disabled={disabled}>
@@ -458,6 +461,7 @@ class InputSelect extends React.Component {
             setSelectedItemsRef={this.setSelectedItemsRef}
           >
             <InputContent
+              onBlur={this.onInputBlur}
               loading={loading}
               value={this.state.input}
               disabled={disabled}
@@ -465,8 +469,8 @@ class InputSelect extends React.Component {
               valueFieldId={valueFieldId}
               placeholder={placeholder}
               options={this.state.options}
-              openPopUp={() => this._setIsExpanded(true)}
-              closePopUp={() => this._setIsExpanded(false)}
+              openPopUp={this._setIsExpanded}
+              closePopUp={this._setIsExpanded}
               onInputChange={this._setNewInputValue}
               onRemoveItem={this._removeSelectedItem}
               isExpanded={this.state.isExpanded}

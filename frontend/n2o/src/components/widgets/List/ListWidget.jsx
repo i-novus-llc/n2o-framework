@@ -48,6 +48,7 @@ function ListWidget(
     dataProvider,
     fetchOnInit,
     list,
+    placeholder,
     rowClick,
     hasMoreButton,
     maxHeight,
@@ -105,6 +106,7 @@ function ListWidget(
         deferredSpinnerStart={0}
         divider={divider}
         hasSelect={hasSelect}
+        placeholder={placeholder}
       />
     </StandardWidget>
   );

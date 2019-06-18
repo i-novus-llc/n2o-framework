@@ -304,7 +304,7 @@ public class InvocationProcessorTest {
         List<InvocationParameter> inMapping = new ArrayList<>();
         InvocationParameter param1 = new InvocationParameter();
         param1.setId("id");
-        param1.setMapping("id = :id");
+        param1.setMapping("id");
         inMapping.add(param1);
         List<InvocationParameter> outMapping = new ArrayList<>();
         InvocationParameter outParam = new InvocationParameter();

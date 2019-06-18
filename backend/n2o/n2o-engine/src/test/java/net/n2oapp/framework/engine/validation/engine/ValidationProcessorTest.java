@@ -16,6 +16,7 @@ import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -432,6 +433,8 @@ public class ValidationProcessorTest {
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null");
         Validation condition3 = conditionValidation("date", "date",
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '1970-01-01T03:00:00'");
+                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '"
+                        + new SimpleDateFormat("dd.MM.yyy HH:mm:ss").format(new Date(0)) + "'");
         ((ConditionValidation) condition3).setExpressionOn("date,oneMoreId");
 
         CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
