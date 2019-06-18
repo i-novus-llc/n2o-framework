@@ -942,13 +942,13 @@
             "actionId": "update_birthday",
             "control": {
               "src": "DatePicker",
-              "id": "date",
+              "id": "birthday",
               "dateFormat": "DD.MM.YYYY",
               "outputFormat": "DD.MM.YYYY HH:mm:ss",
               "utc": false
             },
             "format": "date DD.MM.YYYY",
-            "editFieldId": "date",
+            "editFieldId": "birthday",
             "editType": "inline",
             "action": {
               "id": "update_birthday",
