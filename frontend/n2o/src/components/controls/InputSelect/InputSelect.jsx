@@ -86,6 +86,7 @@ class InputSelect extends React.Component {
     this.setTextareaRef = this.setTextareaRef.bind(this);
     this.setSelectedListRef = this.setSelectedListRef.bind(this);
     this.onInputBlur = this.onInputBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this);
   }
 
   setTextareaRef(input) {
@@ -401,6 +402,13 @@ class InputSelect extends React.Component {
       this.props.onBlur();
     }
   }
+
+  onFocus() {
+    const { openOnFocus } = this.props;
+    if (openOnFocus) {
+      this._setIsExpanded(true);
+    }
+  }
   /**
    * Рендер
    */
@@ -461,6 +469,7 @@ class InputSelect extends React.Component {
             setSelectedItemsRef={this.setSelectedItemsRef}
           >
             <InputContent
+              onFocus={this.onFocus}
               onBlur={this.onInputBlur}
               loading={loading}
               value={this.state.input}
