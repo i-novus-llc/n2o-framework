@@ -144,21 +144,6 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_bdate_end": {
-        "get": {
-          "type": "n2o/models/UPDATE",
-          "payload": {
-            "prefix": "filter",
-            "key": "proto_patients",
-            "field": "bdate.end",
-            "value": ":proto_patients_bdate_end"
-          }
-        },
-        "set": {
-          "value": "`bdate.end`",
-          "link": "models.filter['proto_patients']"
-        }
-      },
       "proto_patients_bdate_begin": {
         "get": {
           "type": "n2o/models/UPDATE",
@@ -171,6 +156,21 @@
         },
         "set": {
           "value": "`bdate.begin`",
+          "link": "models.filter['proto_patients']"
+        }
+      },
+      "proto_patients_bdate_end": {
+        "get": {
+          "type": "n2o/models/UPDATE",
+          "payload": {
+            "prefix": "filter",
+            "key": "proto_patients",
+            "field": "bdate.end",
+            "value": ":proto_patients_bdate_end"
+          }
+        },
+        "set": {
+          "value": "`bdate.end`",
           "link": "models.filter['proto_patients']"
         }
       },
@@ -365,12 +365,12 @@
             "value": "`name`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_bdate_end": {
-            "value": "`bdate.end`",
-            "link": "models.filter['proto_patients']"
-          },
           "proto_patients_bdate_begin": {
             "value": "`bdate.begin`",
+            "link": "models.filter['proto_patients']"
+          },
+          "proto_patients_bdate_end": {
+            "value": "`bdate.end`",
             "link": "models.filter['proto_patients']"
           },
           "proto_patients_genders_id": {
@@ -878,6 +878,7 @@
         "autoFocus": true,
         "size": 10,
         "hasFocus": true,
+        "hasSelect": true,
         "cells": [
           {
             "id": "surname",
@@ -946,8 +947,8 @@
               "outputFormat": "YYYY-MM-DDTHH:mm:ss"
             },
             "format": "date DD.MM.YYYY",
+            "editFieldId": "date",
             "editType": "inline",
-            "editable": true,
             "action": {
               "id": "update_birthday",
               "src": "perform",
@@ -978,7 +979,8 @@
                   "fail": {}
                 }
               }
-            }
+            },
+            "editable": true
           },
           {
             "id": "genderName",
@@ -1169,8 +1171,7 @@
         ],
         "sorting": {
           "birthday": "ASC"
-        },
-        "hasSelect": true
+        }
       }
     },
     "proto_contacts": {
