@@ -5,7 +5,8 @@ import {
   MAP_URL,
   RESET,
   DISABLE,
-  ENABLE, SET_STATUS,
+  ENABLE,
+  SET_STATUS,
 } from '../constants/pages';
 import {
   metadataRequest,
@@ -14,7 +15,8 @@ import {
   mapUrl,
   resetPage,
   disablePage,
-  enablePage, setStatus,
+  enablePage,
+  setStatus,
 } from './pages';
 
 const pageId = 'Page.Widget';

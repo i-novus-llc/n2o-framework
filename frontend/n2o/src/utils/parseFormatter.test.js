@@ -3,8 +3,8 @@ import moment from 'moment';
 
 describe('Проверка parseFormatter', () => {
   it('преобразует дату', () => {
-    expect(parseFormatter('26.02.2019 12:28', 'date DD:MM:YYYY')).toEqual(
-      '26:02:2019'
+    expect(parseFormatter('2019-02-01T00:00:00', 'date DD:MM:YYYY')).toEqual(
+      '01:02:2019'
     );
   });
 

@@ -2,9 +2,9 @@ import React from 'react';
 import ErrorPage from './ErrorPage';
 import DocumentTitle from '../core/DocumentTitle';
 
-const PAGE_NOT_FOUND = "Страница не найдена";
-const ACCESS_DENIED = "Доступ запрещён";
-const INNER_APPLICATION_ERROR = "Внутренняя ошибка приложения";
+const PAGE_NOT_FOUND = 'Страница не найдена';
+const ACCESS_DENIED = 'Доступ запрещён';
+const INNER_APPLICATION_ERROR = 'Внутренняя ошибка приложения';
 
 const NotFoundPage = () => (
   <React.Fragment>
@@ -13,10 +13,10 @@ const NotFoundPage = () => (
   </React.Fragment>
 );
 const ForbiddenPage = () => (
- <React.Fragment>
-   <DocumentTitle title={ACCESS_DENIED} />
-   <ErrorPage status={403} error={ACCESS_DENIED} />
- </React.Fragment>
+  <React.Fragment>
+    <DocumentTitle title={ACCESS_DENIED} />
+    <ErrorPage status={403} error={ACCESS_DENIED} />
+  </React.Fragment>
 );
 const ServerErrorPage = () => (
   <React.Fragment>
