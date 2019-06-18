@@ -4,9 +4,12 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.EditType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oEditCell;
 import net.n2oapp.framework.api.metadata.meta.control.EditCell;
+import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -28,12 +31,17 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
         compileAction(cell, source, context, p);
 
         if (source.getN2oField() != null) {
-            net.n2oapp.framework.api.metadata.Component component = p.compile(source.getN2oField(), context);
-            if (component instanceof StandardField) {
-                cell.setControl(((StandardField) component).getControl());
+            Field control = p.compile(source.getN2oField(), context);
+            if (control instanceof StandardField) {
+                cell.setControl(((StandardField) control).getControl());
             } else {
-                cell.setControl(component);
+                cell.setControl(control);
             }
+            ComponentScope columnScope = p.getScope(ComponentScope.class);
+            AbstractColumn column = null;
+            if (columnScope != null)
+                column = columnScope.unwrap(AbstractColumn.class);
+            cell.setEditFieldId(p.cast(control.getId(), column != null ? column.getTextFieldId() : null));
         }
 
         cell.setFormat(source.getFormat());
