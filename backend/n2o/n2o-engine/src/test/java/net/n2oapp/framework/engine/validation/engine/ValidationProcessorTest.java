@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.validation.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
@@ -432,9 +433,8 @@ public class ValidationProcessorTest {
         Validation condition2 = conditionValidation("oneMoreId", "oneMoreId",
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null");
         Validation condition3 = conditionValidation("date", "date",
-                SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '1970-01-01T03:00:00'");
                 SeverityType.warning, N2oValidation.ServerMoment.beforeOperation, "oneMoreId === null && date === '"
-                        + new SimpleDateFormat("dd.MM.yyy HH:mm:ss").format(new Date(0)) + "'");
+                        + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format(new Date(0)) + "'");
         ((ConditionValidation) condition3).setExpressionOn("date,oneMoreId");
 
         CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
