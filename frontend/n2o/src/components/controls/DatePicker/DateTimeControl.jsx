@@ -371,7 +371,7 @@ DateTimeControl.defaultProps = {
   onBlur: () => {},
   onChange: () => {},
   dateDivider: ' ',
-  dateFormat: 'DD/MM/YYYY',
+  dateFormat: 'DD.MM.YYYY',
   outputFormat: 'DD.MM.YYYY HH:mm:ss',
   locale: 'ru',
   autoFocus: false,
