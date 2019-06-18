@@ -51,7 +51,7 @@ export class EditableCell extends React.Component {
   onChange(value) {
     const newModel = Object.assign({}, this.state.model);
     const { editFieldId } = this.props;
-    set(newModel, `${editFieldId}`, value);
+    set(newModel, editFieldId, value);
     this.setState({
       model: newModel,
     });
@@ -142,7 +142,7 @@ export class EditableCell extends React.Component {
                   onChange: this.onChange,
                   onBlur: this.toggleEdit,
                   autoFocus: true,
-                  value: get(model, `${editFieldId}`),
+                  value: get(model, editFieldId),
                   openOnFocus: true,
                   showButtons: false,
                   resetOnNotValid: false,
