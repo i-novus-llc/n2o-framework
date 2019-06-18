@@ -879,6 +879,7 @@
         "autoFocus": true,
         "size": 10,
         "hasFocus": true,
+        "hasSelect": true,
         "cells": [
           {
             "id": "surname",
@@ -947,8 +948,8 @@
               "utc": false
             },
             "format": "date DD.MM.YYYY",
+            "editFieldId": "date",
             "editType": "inline",
-            "editable": true,
             "action": {
               "id": "update_birthday",
               "src": "perform",
@@ -979,7 +980,8 @@
                   "fail": {}
                 }
               }
-            }
+            },
+            "editable": true
           },
           {
             "id": "genderName",
@@ -1170,8 +1172,7 @@
         ],
         "sorting": {
           "birthday": "ASC"
-        },
-        "hasSelect": true
+        }
       }
     },
     "proto_contacts": {
