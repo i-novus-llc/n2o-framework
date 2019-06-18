@@ -55,6 +55,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getControl(), notNullValue());
         assertThat(cell.getControl(), instanceOf(InputText.class));
         assertThat(cell.getControl().getSrc(), is("InputText"));
+        assertThat(cell.getEditFieldId(), is("itIdTest"));
 
         cell = (EditCell)table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("EditableCell"));

@@ -108,7 +108,7 @@ export class EditableCell extends React.Component {
       editable,
       parentWidth,
       parentHeight,
-      valueFieldId,
+      editFieldId,
       format,
       ...rest
     } = this.props;
@@ -135,7 +135,7 @@ export class EditableCell extends React.Component {
               onClick={editable && this.toggleEdit}
             >
               <Text
-                text={isObject(value) ? value[valueFieldId] : value}
+                text={isObject(value) ? value[editFieldId] : value}
                 format={format}
               />
             </div>
@@ -170,12 +170,13 @@ EditableCell.propTypes = {
   value: PropTypes.string,
   disabled: PropTypes.bool,
   valueFieldId: PropTypes.string,
+  editFieldId: PropTypes.string,
 };
 
 EditableCell.defaultProps = {
   visible: true,
   disabled: false,
-  valueFieldId: 'id',
+  editFieldId: 'name',
 };
 
 export default compose(
