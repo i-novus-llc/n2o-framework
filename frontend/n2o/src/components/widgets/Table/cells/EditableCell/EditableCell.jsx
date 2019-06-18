@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { compose } from 'recompose';
 import { HotKeys } from 'react-hotkeys';
 import PropTypes from 'prop-types';
-import { isEqual, get, isObject } from 'lodash';
+import { isEqual, get, isObject, set } from 'lodash';
 import Text from '../../../../snippets/Text/Text';
 import withActionsEditableCell from './withActionsEditableCell';
 import withCell from '../../withCell';
@@ -13,7 +13,7 @@ import withCell from '../../withCell';
  * @reactProps {boolean} visible - флаг видимости
  * @reactProps {object} control - настройки компонента фильтрации
  * @reactProps {boolean} editable - флаг разрешения редактирования
- * @reactProps {string} value - значение ячейки
+ * @reactProps {string} model - значение модели
  * @reactProps {boolean} disabled - флаг активности
  */
 export class EditableCell extends React.Component {
@@ -21,42 +21,40 @@ export class EditableCell extends React.Component {
     super(props);
 
     this.state = {
-      value: this.getValueFromModel(props),
+      model: props.model,
       editing: false,
-      prevValue: this.getValueFromModel(props),
+      prevModel: {},
     };
 
     this.onChange = this.onChange.bind(this);
     this.toggleEdit = this.toggleEdit.bind(this);
-    this.getValueFromModel = this.getValueFromModel.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.callAction = this.callAction.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(prevProps.model, this.props.model)) {
-      this.setState({ value: this.getValueFromModel(this.props) });
+      this.setState({ model: this.props.model });
     }
 
     if (
       !this.state.editing &&
-      isEqual(prevState.prevValue, prevState.value) &&
-      !isEqual(this.state.prevValue, this.state.value) &&
-      !isEqual(prevProps.model, this.props.model)
+      isEqual(prevState.prevModel, prevState.model) &&
+      !isEqual(this.state.prevModel, this.state.model)
     ) {
       {
-        this.callAction(this.state.value);
+        this.callAction(this.state.model);
       }
     }
   }
 
-  getValueFromModel(props) {
-    const { model, fieldKey, id } = props;
-    return get(model, fieldKey || id);
-  }
-
   onChange(value) {
-    this.setState(() => ({ value }));
+    const newModel = Object.assign({}, this.state.model);
+    const { editFieldId } = this.props;
+    set(newModel, editFieldId, value);
+    this.setState({
+      model: newModel,
+    });
   }
 
   toggleEdit() {
@@ -75,30 +73,28 @@ export class EditableCell extends React.Component {
       onSetSelectedId();
     }
     if (!newState.editing && !isEqual(this.state.prevValue, this.state.value)) {
-      this.callAction(this.state.value);
+      this.callAction(this.state.model);
     }
 
     newState = {
       ...newState,
-      prevValue: this.state.value,
+      prevModel: this.state.model,
     };
 
     this.setState(newState);
   }
 
-  callAction(value) {
-    const { model, id, callInvoke, action } = this.props;
-    callInvoke(
-      {
-        ...model,
-        [id]: value,
-      },
-      get(action, 'options.payload.dataProvider')
-    );
+  callAction(model) {
+    const { callInvoke, action } = this.props;
+    callInvoke(model, get(action, 'options.payload.dataProvider'));
   }
 
   handleKeyDown() {
     this.toggleEdit();
+  }
+
+  stopPropagation(e) {
+    e.stopPropagation();
   }
 
   render() {
@@ -108,12 +104,12 @@ export class EditableCell extends React.Component {
       editable,
       parentWidth,
       parentHeight,
-      valueFieldId,
       format,
-      ...rest
+      fieldKey,
+      editFieldId,
     } = this.props;
 
-    const { value, editing } = this.state;
+    const { editing, model } = this.state;
     const style = {
       width: parentWidth,
       height: parentHeight,
@@ -127,17 +123,14 @@ export class EditableCell extends React.Component {
         <div
           style={style}
           className={cn({ 'n2o-editable-cell': editable })}
-          onClick={e => e.stopPropagation()}
+          onClick={this.stopPropagation}
         >
           {!editing && (
             <div
               className="n2o-editable-cell-text"
               onClick={editable && this.toggleEdit}
             >
-              <Text
-                text={isObject(value) ? value[valueFieldId] : value}
-                format={format}
-              />
+              <Text text={get(model, fieldKey)} format={format} />
             </div>
           )}
           {editable && editing && (
@@ -149,7 +142,7 @@ export class EditableCell extends React.Component {
                   onChange: this.onChange,
                   onBlur: this.toggleEdit,
                   autoFocus: true,
-                  value: value,
+                  value: get(model, editFieldId),
                   openOnFocus: true,
                   showButtons: false,
                   resetOnNotValid: false,
@@ -170,12 +163,12 @@ EditableCell.propTypes = {
   value: PropTypes.string,
   disabled: PropTypes.bool,
   valueFieldId: PropTypes.string,
+  editFieldId: PropTypes.string,
 };
 
 EditableCell.defaultProps = {
   visible: true,
   disabled: false,
-  valueFieldId: 'id',
 };
 
 export default compose(
