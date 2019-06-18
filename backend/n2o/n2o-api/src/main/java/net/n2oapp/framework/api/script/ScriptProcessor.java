@@ -3,9 +3,9 @@ package net.n2oapp.framework.api.script;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
-import net.n2oapp.properties.StaticProperties;
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Parser;
@@ -34,7 +34,6 @@ public class ScriptProcessor {
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
     private static final String spread_operator = "*.";
 
-    private String dateFormat;
     private final static ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
 
@@ -632,19 +631,10 @@ public class ScriptProcessor {
         if (value instanceof String)
             return "'" + value.toString() + "'";
         else if (value instanceof Date)
-            return "'" + new SimpleDateFormat(getDateFormat()).format((Date) value) + "'";
+            return "'" + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format((Date) value) + "'";
         return value.toString();
     }
 
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    protected String getDateFormat() {
-        if (dateFormat == null)
-            dateFormat = StaticProperties.getProperty("n2o.format.date");
-        return dateFormat;
-    }
 
     private static boolean isNeedMoment(String script) {
         return momentFuncs.stream().anyMatch(f -> script.contains(f));
