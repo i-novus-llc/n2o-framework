@@ -5,8 +5,6 @@ import {
   ButtonToolbar,
   ButtonGroup,
   Button,
-  Dropdown,
-  DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
@@ -20,7 +18,6 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
-import DropdownCustomItem from '../snippets/DropdownCustomItem/DropdownCustomItem';
 
 /**
  * Компонент redux-обертка для тулбара
@@ -254,7 +251,7 @@ class Actions extends React.Component {
         containerKey={this.props.containerKey}
         color={color}
       >
-        {subMenu.map(item => this.renderButton(DropdownCustomItem, item, id))}
+        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
       </ButtonContainer>
     );
   }
