@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { pure } from 'recompose';
+import { compose, pure } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
@@ -30,6 +30,7 @@ import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
+import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
   const index = _.findIndex(data, model => model.id == selectedId);
@@ -540,7 +541,7 @@ class AdvancedTable extends Component {
             rowKey={this.getRowKey}
             expandIcon={this.renderIcon}
             expandIconAsCell={rowSelection && expandable}
-            expandedRowRender={this.renderExpandedRow}
+            expandedRowRender={this.renderExpandedRow()}
             expandedRowKeys={this.state.expandedRowKeys}
             onExpandedRowsChange={this.handleExpandedRowsChange}
             onExpand={onExpand}
@@ -584,4 +585,7 @@ AdvancedTable.defaultProps = {
   autoFocus: false,
 };
 
-export default pure(AdvancedTable);
+export default compose(
+  pure,
+  withAdvancedTableRef
+)(AdvancedTable);
