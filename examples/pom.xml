@@ -19,6 +19,7 @@
         <module>fields-enabling</module>
         <module>buttons-visibility</module>
         <module>buttons-enabling</module>
+        <module>message</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>master-detail</module>
