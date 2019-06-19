@@ -17,6 +17,7 @@
         <module>fields</module>
         <module>fields-visibility</module>
         <module>fields-enabling</module>
+        <module>buttons-visibility</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>master-detail</module>
