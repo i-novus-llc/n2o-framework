@@ -11,6 +11,7 @@
         <module>hello-world</module>
         <module>header-menu</module>
         <module>tabs</module>
+        <module>panels</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>master-detail</module>
