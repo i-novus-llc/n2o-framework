@@ -70,7 +70,7 @@ export class EditableCell extends React.Component {
       onResolve(widgetId, model);
       onSetSelectedId();
     }
-    if (!newState.editing && !isEqual(this.state.prevValue, this.state.value)) {
+    if (!newState.editing && !isEqual(this.state.prevModel, this.state.model)) {
       this.callAction(this.state.model);
     }
 
