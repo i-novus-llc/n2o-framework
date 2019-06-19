@@ -1,4 +1,4 @@
-package net.n2oapp.framework.tutorial.tabs;
+package net.n2oapp.framework.tutorial.buttons;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

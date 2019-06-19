@@ -1,4 +1,4 @@
-package net.n2oapp.framework.tutorial.tabs;
+package net.n2oapp.framework.tutorial.buttons;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

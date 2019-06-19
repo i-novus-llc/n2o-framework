@@ -1,4 +1,4 @@
-package net.n2oapp.framework.tutorial.form;
+package net.n2oapp.framework.tutorial.panels;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
