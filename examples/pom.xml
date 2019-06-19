@@ -9,7 +9,7 @@
 
     <modules>
         <module>hello-world</module>
-        <module>header-footer</module>
+        <module>header-menu</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>master-detail</module>

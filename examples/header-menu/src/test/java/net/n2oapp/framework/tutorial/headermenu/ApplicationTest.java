@@ -1,4 +1,4 @@
-package net.n2oapp.framework.tutorial.helloworld;
+package net.n2oapp.framework.tutorial.headermenu;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package net.n2oapp.framework.examples.header_footer;
+package net.n2oapp.framework.tutorial.headermenu;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
