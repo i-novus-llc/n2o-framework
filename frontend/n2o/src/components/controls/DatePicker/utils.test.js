@@ -45,15 +45,15 @@ describe('utils', () => {
     expect(
       parseDate(new Date(), 'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm')
     ).toBe(moment().format('DD/MM/YYYY HH:mm'));
-    expect(parseDate('11/12/1111', 'DD/MM/YYYY').format('DD/MM/YYYY')).toBe(
+    expect(parseDate('1111-12-11T00:00:00').format('DD/MM/YYYY')).toBe(
       '11/12/1111'
     );
   });
 
   it('тестирует mapToValue', () => {
     let val = [
-      { name: 'beginDate', value: '11/11/1111' },
-      { name: 'endDate', value: '22/12/2222' },
+      { name: 'beginDate', value: '1111-11-11T00:00:00' },
+      { name: 'endDate', value: '2222-12-22T00:00:00' },
     ];
     let defaultTime = {
       beginDate: { hours: 1, mins: 2 },
@@ -148,13 +148,13 @@ describe('utils', () => {
 
   it('тестируем hasInsideMixMax', () => {
     /*eslint-disable */
-    expect(hasInsideMixMax('15.09.1989',{ dateFormat: 'DD.MM.YYYY', max: '15.09.1990', min: '15.09.1988'}))
+    expect(hasInsideMixMax('1989-09-15T00:00:00',{ max: '1990-09-15T00:00:00', min: '1988-09-15T00:00:00'}))
       .toBe(true);
-    expect(hasInsideMixMax('15.09.1991',{ dateFormat: 'DD.MM.YYYY', max: '15.09.1990', min: '15.09.1988'}))
+    expect(hasInsideMixMax('1991-09-15T00:00:00',{ max: '1990-09-15T00:00:00', min: '1988-09-15T00:00:00'}))
       .toBe(false);
-    expect(hasInsideMixMax('15.09.1987',{ dateFormat: 'DD.MM.YYYY', max: '15.09.1990', min: '15.09.1988'}))
+    expect(hasInsideMixMax('1987-09-15T00:00:00',{ max: '1990-09-15T00:00:00', min: '1988-09-15T00:00:00'}))
       .toBe(false);
-    expect(hasInsideMixMax('15.09.1991',{ dateFormat: 'DD.MM.YYYY' }))
+    expect(hasInsideMixMax('1991-09-15T00:00:00',{}))
       .toBe(true);
     /*eslint-enable */
   });
