@@ -409,7 +409,7 @@ public class TestDataProviderEngineTest {
         provider.setPrimaryKeyType(string);
         provider.setFile("testStringPrimaryKey.json");
         provider.setOperation(create);
-        provider.setPrimaryKeyFieldId("testId");
+        provider.setPrimaryKey("testId");
 
         Map<String, Object> inParams = new LinkedHashMap<>();
         inParams.put("name", "test");
@@ -449,7 +449,7 @@ public class TestDataProviderEngineTest {
         engine.setResourceLoader(new DefaultResourceLoader());
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setPrimaryKeyType(string);
-        provider.setPrimaryKeyFieldId("testId");
+        provider.setPrimaryKey("testId");
         provider.setFile("testStringPrimaryKey.json");
 
         Map<String, Object> inParamsForRead = new LinkedHashMap<>();
@@ -499,7 +499,7 @@ public class TestDataProviderEngineTest {
         provider.setFile("testStringPrimaryKey.json");
         provider.setOperation(findAll);
         provider.setPrimaryKeyType(string);
-        provider.setPrimaryKeyFieldId("testId");
+        provider.setPrimaryKey("testId");
 
         Map<String, Object> inParamsForRead = new LinkedHashMap<>();
         inParamsForRead.put("sorting", new ArrayList<>());

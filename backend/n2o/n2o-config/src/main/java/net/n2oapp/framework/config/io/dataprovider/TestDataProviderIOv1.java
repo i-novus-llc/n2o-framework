@@ -24,6 +24,6 @@ public class TestDataProviderIOv1 implements NamespaceIO<N2oTestDataProvider>, D
         p.attribute(e, "file", m::getFile, m::setFile);
         p.attributeEnum(e, "operation", m::getOperation, m::setOperation, N2oTestDataProvider.Operation.class);
         p.attributeEnum(e, "primary-key-type", m::getPrimaryKeyType, m::setPrimaryKeyType, N2oTestDataProvider.PrimaryKeyType.class);
-        p.attribute(e, "primary-key-field-id", m::getPrimaryKeyFieldId, m::setPrimaryKeyFieldId);
+        p.attribute(e, "primary-key", m::getPrimaryKey, m::setPrimaryKey);
     }
 }

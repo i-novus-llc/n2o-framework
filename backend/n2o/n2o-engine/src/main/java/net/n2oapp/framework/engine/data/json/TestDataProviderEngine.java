@@ -92,7 +92,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
         List<DataSet> modifiableData = new ArrayList<>(data);
         DataSet newElement = new DataSet();
-        newElement.put(invocation.getPrimaryKeyFieldId(), generateKey(invocation.getPrimaryKeyType(), invocation.getFile()));
+        newElement.put(invocation.getPrimaryKey(), generateKey(invocation.getPrimaryKeyType(), invocation.getFile()));
 
         updateElement(newElement, inParams.entrySet());
 
@@ -106,12 +106,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           Map<String, Object> inParams,
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
-        if (inParams.get(invocation.getPrimaryKeyFieldId()) == null)
+        if (inParams.get(invocation.getPrimaryKey()) == null)
             throw new N2oException("Id is required for operation \"update\"");
 
         DataSet element = modifiableData
                 .stream()
-                .filter(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKeyFieldId(), inParams))
+                .filter(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams))
                 .findFirst()
                 .orElseThrow(() -> new N2oException("No such element"));
 
@@ -125,10 +125,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           Map<String, Object> inParams,
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList(data);
-        if (inParams.get(invocation.getPrimaryKeyFieldId()) == null)
+        if (inParams.get(invocation.getPrimaryKey()) == null)
             throw new N2oException("Id is required for operation \"delete\"");
 
-        modifiableData.removeIf(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKeyFieldId(), inParams));
+        modifiableData.removeIf(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams));
         updateRepository(invocation.getFile(), modifiableData);
         return null;
     }
@@ -306,13 +306,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private void initRepository(N2oTestDataProvider invocation) {
         try {
             InputStream inputStream = resourceLoader.getResource("classpath:" + invocation.getFile()).getInputStream();
-            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKeyFieldId());
+            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
             repository.put(invocation.getFile(), data);
             if (integer.equals(invocation.getPrimaryKeyType())) {
                 long maxId = data
                         .stream()
-                        .filter(v -> v.get(invocation.getPrimaryKeyFieldId()) != null)
-                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKeyFieldId()))
+                        .filter(v -> v.get(invocation.getPrimaryKey()) != null)
+                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
                         .max().orElse(-1);
                 if (maxId != -1)
                     sequences.put(invocation.getFile(), new AtomicLong(maxId));
@@ -338,30 +338,4 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
-
-//    private interface KeyGenerator {
-//        Object generateKey();
-//    }
-//
-//    private class NumericKeyGenerator implements KeyGenerator {
-//
-//        private AtomicLong maxId;
-//
-//        public NumericKeyGenerator(long maxId) {
-//            this.maxId = new AtomicLong(maxId);
-//        }
-//
-//        @Override
-//        public Object generateKey() {
-//            return maxId.incrementAndGet();
-//        }
-//    }
-//
-//    private class StringKeyGenerator implements KeyGenerator {
-//
-//        @Override
-//        public Object generateKey() {
-//            return UUID.randomUUID().toString();
-//        }
-//    }
 }

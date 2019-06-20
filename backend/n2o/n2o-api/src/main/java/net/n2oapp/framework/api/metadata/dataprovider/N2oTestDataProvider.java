@@ -14,7 +14,7 @@ import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider
 public class N2oTestDataProvider extends AbstractDataProvider implements N2oMapInvocation {
     private String file;
     private Operation operation;
-    private String primaryKeyFieldId = "id";
+    private String primaryKey = "id";
     private PrimaryKeyType primaryKeyType = integer;
 
     public enum Operation {

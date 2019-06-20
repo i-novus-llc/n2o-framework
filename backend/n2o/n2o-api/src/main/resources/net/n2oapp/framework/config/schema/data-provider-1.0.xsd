@@ -193,7 +193,7 @@
                 <xs:documentation>Тип первичного ключа</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="primary-key-field-id" type="xs:string" default="id">
+        <xs:attribute name="primary-key" type="xs:string" default="id">
             <xs:annotation>
                 <xs:documentation>Поле первичного ключа</xs:documentation>
             </xs:annotation>
