@@ -3,7 +3,6 @@
              name="Таблица">
     <table query-id="test">
         <columns>
-            <column text-field-id="id"/>
             <column text-field-id="name"/>
             <column text-field-id="type"/>
         </columns>

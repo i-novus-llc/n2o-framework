@@ -22,6 +22,7 @@
         <module>buttons-enabling</module>
         <module>message</module>
         <module>modal-window</module>
+        <module>external-links</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>master-detail</module>
