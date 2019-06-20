@@ -1,6 +1,5 @@
-package net.n2oapp.framework.tutorial.crud.sql;
+package net.n2oapp.framework.tutorial.crud_sql;
 
-import net.n2oapp.framework.engine.sql.jdbc.EnableRoutingDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,5 +8,4 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
 }
