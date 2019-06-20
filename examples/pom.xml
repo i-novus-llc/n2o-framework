@@ -13,6 +13,7 @@
         <module>tabs</module>
         <module>panels</module>
         <module>form</module>
+        <module>table</module>
         <module>buttons</module>
         <module>fields</module>
         <module>fields-visibility</module>
@@ -20,6 +21,7 @@
         <module>buttons-visibility</module>
         <module>buttons-enabling</module>
         <module>message</module>
+        <module>modal-window</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>master-detail</module>
