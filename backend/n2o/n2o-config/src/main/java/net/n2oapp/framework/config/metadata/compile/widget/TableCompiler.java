@@ -229,8 +229,8 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         filter.setBlackResetList(Collections.emptyList());
         filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));
         boolean hasSearchButtons = fieldSets.stream()
-                .flatMap(fs -> fs.getRows().stream())
-                .flatMap(r -> r.getCols().stream())
+                .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
+                .flatMap(r -> r.getCols() != null ? r.getCols().stream() : Stream.empty())
                 .flatMap(c -> c.getFields() != null ? c.getFields().stream() : Stream.empty())
                 .filter(f -> f instanceof StandardField)
                 .map(f -> ((StandardField) f).getControl())
