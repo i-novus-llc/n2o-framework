@@ -25,6 +25,7 @@
         <module>embedded-page</module>
         <module>external-links</module>
         <module>master-detail</module>
+        <module>crud</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
         <module>file-upload</module>
