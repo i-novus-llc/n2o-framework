@@ -1,6 +1,6 @@
 == Как начать
 
-Для разработки WEB приложений на N2O вам понадобятся знания следующих технологий:
+Для разработки WEB приложений на N2O Framework вам понадобятся знания следующих технологий:
 
 - Язык разметки https://ru.wikipedia.org/wiki/XML[XML]
 - Язык запросов к реляционным базам данных https://ru.wikipedia.org/wiki/SQL[SQL]
@@ -11,28 +11,24 @@
 - https://ru.wikipedia.org/wiki/JavaScript[JavaScript]
 - https://ru.wikipedia.org/wiki/Java_Platform,_Standard_Edition[Java]
 - https://projects.spring.io/spring-framework/[Spring Framework]
-- http://groovy-lang.org/[Groovy]
 
 === Настройка окружения
 
 Для начала потребуется установить следующее программное обеспечение:
 
-- http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[Oracle Java SE]
-- http://maven.apache.org/download.cgi[Apache Maven]
+- https://openjdk.java.net/[Open JDK 8+]
+- http://maven.apache.org/download.cgi[Apache Maven 3+]
 - http://www.jetbrains.com/idea/download/[IntelliJ IDEA]
 
 NOTE: В качестве сервера баз данных можно использовать встроенную БД H2, что вполне достаточно для исследования возможностей фреймворка и прототипирования интерфейсов. Для создания реальных приложений рекомендуется установить и использовать в проекте какую-либо из полноценных СУБД, например, PostgreSQL.
 
 === Создание проекта
 
-Создайте папку проекта: `/myprojects/[projectname]`
+Для сборки проектов на N2O Framework используется система сборки Maven и библиотека Spring Boot 2.1.1.RELEASE.
 
-Структура папок внутри проекта:
+Создайте папку проекта, например: `/myproject`
 
-image::images\getstarted-c1d22.png[]
-
-Для сборки проектов на N2O используется Maven и Spring Boot.
-Конфигурация сборки Maven задаётся в файле `pom.xml`.
+В папке проекта создайте файл `pom.xml`
 
 .Структура pom.xml
 [source,xml]
@@ -51,53 +47,54 @@ image::images\getstarted-c1d22.png[]
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.7.RELEASE</version>
+        <version>2.1.1.RELEASE</version>
     </parent>
 
-    <properties>
-        <n2o.version>7.0.6</n2o.version>
-    </properties>
-
-    <dependencies>
-     <!-- ...   -->
-    </dependencies>
+    <build>
+      <plugins>
+          <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <configuration>
+                  <executable>true</executable>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
 
 </project>
 ----
 
 [TIP]
-Можно быстро создать проект с помощью сервиса link:https://start.spring.io/[Spring Boot Initializer].
+Для быстрого создания проекта можно использовать сервис link:https://start.spring.io/[Spring Boot Initializer].
 
 ==== Подключение N2O сервера
 
 Сервер N2O подключается к любому Spring Boot проекту.
-Для этого достаточно добавить одну зависимость:
+Для этого в `pom.xml` достаточно добавить одну зависимость:
 
 [source,xml]
 ----
-<dependency>
+<properties>
+  <n2o.version>7.4.0</n2o.version>
+</properties>
+
+<dependencies>
+  <dependency>
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>n2o-spring-boot-starter</artifactId>
     <version>${n2o.version}</version>
-</dependency>
+  </dependency>
+</dependencies>
 ----
 Эта библиотека зарегистрирует REST сервисы, необходимые для работы клиента N2O.
 
-Зависимости N2O выкачиваются из следующего репозитория:
-[source,xml]
-----
-<repository>
-  <id>i-novus-central</id>
-  <url>http://maven.i-novus.ru/libs-release</url>
-</repository>
-----
-
-Для запуска приложения в папке `/src/main/java`
-в пакете вашего проекта нужно создать класс Java с методом `main`:
+В папке проекта `/src/main/java/com/example/myproject` создайте
+java класс `Application.java` с методом `main`:
 
 [source,java]
 ----
-package org.example.myproject;
+package com.example.myproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -110,32 +107,48 @@ public class Application {
 }
 ----
 
+В папку `/src/main/resources/` добавьте файл конфигурации Spring Boot приложения `application.properties`
+с настройками кодировки UTF-8 для http запросов:
+----
+spring.http.encoding.forceResponse=true
+spring.http.encoding.force=true
+----
+
+Таким образом структура папок внутри проекта будет выглядеть следующим образом:
+
+image::images\dirs.png[]
+
+
 [TIP]
 Более полную информацию о сборке Spring Boot приложений можно прочитать https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/[здесь].
 
 ==== Подключение N2O клиента
-Клиент N2O - это link:https://reactjs.org/[React] WEB приложение.
-Его можно создать и собирать как обычный React проект либо подключить уже собранную библиотеку JAR с React проектом внутри.
+Клиент N2O - это обычное link:https://reactjs.org/[ReactJS] WEB приложение.
+Его можно собрать самостоятельно, либо подключить готовую библиотеку `n2o-web-[version].jar` с собранным N2O React проектом внутри.
 
-Если вы создаёте свой N2O React проект, вы можете добавить в него собственные React компоненты,  изменить тему стилей и выполнить любые другие модификации.
+===== Самостоятельное создание N2O React проекта
 
-Если вы подключаете готовый N2O React проект, вы не сможете его кастомизировать.
+Для сборки React проекта используется система сборок link:https://www.npmjs.com/[NPM 6+].
 
-===== Создание N2O React проекта
-
-Для сборки React проекта используется система сборок link:https://www.npmjs.com/[NPM].
 В корне проекта выполните команду:
 
+----
+npm init react-app frontend
+----
+
+Перейдите в папку `/frontend`:
+----
+cd frontend
+----
+и установите библиотеку `n2o-framework`:
 [source]
 ----
-npm init react-app my-app
-cd my-app
-npm install n2o --save
+npm install n2o-framework --save
 ----
 
-В папке `/src` измените файл `index.js`:
+Далее измените файл `/frontend/src/index.js` следующим образом:
 
-[source,javaScript]
+[source]
 ----
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -144,34 +157,50 @@ import N2O from 'n2o';
 import 'n2o/dist/n2o.css';
 import './index.css';
 
-ReactDOM.render(<N2O />, document.getElementById('root'));
+ReactDOM.render(<N2O/>, document.getElementById('root'));
 ----
+Теперь N2O React проект готов.
 
-И `index.css`:
-[source,css]
-----
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
-----
-
-Проект N2O React готов!
 Для сборки выполните команду:
-[source]
 ----
-npm build
+npm run build
 ----
 
-В результате в папке `/build` соберутся статические ресурсы (html, css, js и др.),
-которые в дальнейшем можно будет перенести на web сервер.
+В результате в папке `/build` появится `index.html` и другие статические ресурсы.
+
+Чтобы подключить статические ресурсы из папки `/frontend/build` к N2O серверу,
+в файле `pom.xml` в разделе `<plugins>` добавьте `maven-resources-plugin`:
+[source,xml]
+----
+<plugin>
+    <artifactId>maven-resources-plugin</artifactId>
+    <executions>
+        <execution>
+            <id>Copy frontend build</id>
+            <phase>generate-resources</phase>
+            <goals>
+                <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+                <outputDirectory>target/classes/public</outputDirectory>
+                <overwrite>true</overwrite>
+                <resources>
+                    <resource>
+                        <directory>${project.basedir}/frontend/build</directory>
+                    </resource>
+                </resources>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+----
 
 [TIP]
 Более полную информацию о сборке React приложений можно прочитать link:https://reactjs.org/docs/create-a-new-react-app.html[здесь]
 
 ===== Подключение готового N2O React проекта
-Для подключения готового N2O React проекта необходимо добавить зависимость:
+Для подключения библиотеки с уже собранным стандартным N2O React проектом,
+в файле `pom.xml` в разделе `<dependencies>` добавьте зависимость `n2o-web`:
 [source,xml]
 ----
 <dependency>
@@ -182,121 +211,37 @@ npm build
 ----
 
 === Запуск приложения
-Ваш проект на N2O может быть запущен как автономное приложение со встроенным HTTP сервером.
-Либо развернут как классическое WAR приложение на отдельно стоящем сервере, например, Tomcat.
+Перед тем как запустить приложение, его необходимо собрать системой сборки Maven.
 
-==== Запуск автономного приложения
-Для запуска N2O в качестве автономного приложения
-необходимо в конфигурационном файле `pom.xml` указать вид упаковки `jar`
-и плагин `spring-boot-maven-plugin`:
-
-.Сборка автономного приложения
-[source,xml]
-----
-<project>
-  <packaging>jar</packaging>
-  ...
-  <build>
-      <plugins>
-          <plugin>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-maven-plugin</artifactId>
-              <configuration>
-                  <executable>true</executable>
-              </configuration>
-          </plugin>
-      </plugins>
-  </build>
-</project>
-----
-
-Далее в корне проекта выполнить команду:
+В корне проекта выполните команду:
 [source]
 ----
 mvn clean package
 ----
-В результате появится папка `/target`, в которой будет лежать ваш исполняемый jar файл с именем в формате `[artifactId]-[version].jar`.
+В результате появится папка `/target`, в которой будет лежать исполняемый
+jar файл со встроенным WEB сервером, названный в формате `[artifactId]-[version].jar`.
 Например, `myproject-1.0.jar`.
 
-Приложение запускается командой:
+Запустите сервер командой:
 [source]
 ----
-java -jar myproject-1.0.jar
+java -jar target/myproject-1.0.jar
 ----
-
 Приложение можно будет открыть в браузере по адресу http://localhost:8080.
-
-
-==== Разворачивание на сервере приложений
-
-Для разворачивания N2O на отдельно стоящем сервере приложений необходимо в конфигурационном файле `pom.xml` указать вид упаковки `war`,
-и отказаться от сборки встроенного сервера Tomcat, добавив его в зависимость со scope `provided`:
-
-.Сборка war приложения
-[source,xml]
-----
-<project>
-  <packaging>war</packaging>
-  ...
-  <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-tomcat</artifactId>
-    <scope>provided</scope>
-  </dependency>
-</project>
-----
-
-Так же необходимо модифицировать main класс следующим образом:
-[source,java]
-----
-package org.example.myproject;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class Application extends SpringBootServletInitializer {
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(Application.class);
-    }
-
-}
-----
-
-Далее в корне проекта выполнить команду:
-[source]
-----
-mvn clean package
-----
-В результате появится папка `/target`,
-в которой будет лежать ваш war файл с именем в формате `[artifactId]-[version].war`.
-Например, `myproject-1.0.war`.
-
-Приложение war разворачивается на отдельно стоящем сервере приложений.
-
-Например, в Tomcat нужно скопировать war файл в папку `/webapps`, и запустить сервер из папки `/bin` командой:
-[source]
-----
-catalina start
-----
-
-Приложение можно будет открыть в браузере по адресу http://localhost:8080/myproject-1.0.
-
 
 
 === Моментальный подхват изменений
 
-Одним из преимуществ N2O является отсутствие задержки между изменениями кода
-и получением результата. Вы просто обновляете страницу браузера по F5,
-не перезапуская и не пересобирая проект.
+Приложение на N2O Framework может автоматически подхватывать изменения сделанные в N2O XML файлах.
 
-Для этого необходимо задать настройку `n2o.config.path` перед стартом приложения.
+Для этого, при запуске сервера, в аргументе командной строки укажите путь к папке с XML файлами:
 ----
-java -jar myproject-1.0.jar --n2o.config.path=/Projects/n2o-tutorial/hello-world/src/main/resources/META-INF/conf
+java -jar target/myproject-1.0.jar --n2o.config.path=/myproject/src/main/resources/META-INF/conf
 ----
-Это путь к папке проекта с конфигурациями N2O.
+
+При старте сервера в консоли командной строки будет напечатан путь,
+из которого N2O Framework будет брать XML файлы:
+
 
 === Плагин для Intellij IDEA
 
@@ -311,35 +256,28 @@ link:attachments/n2o-idea-plugin.zip[n2o-idea-plugin.zip]
 image::./images/index-1a4c8.png[]
 
 === Создание Hello World
+В проекте создайте папку `/src/main/resources/META-INF/conf`,
+в которой будут храниться N2O XML файлы.
 
-Если Вы правильно выполнили предыдущие шаги, у Вас создан и успешно собирается проект на N2O, но у него еще нет ни одной страницы.
-
-1) Создайте файл виджета src/main/resources/hello.html
-
-[source,html]
-----
-<div class="container">
-<div class="hero-unit">
-<h1>Hello, N<sub>2</sub>O!</h1>
-<p>This is a simple html widget. There are many other widgets with finished layout in N2O.</p>
-<p><a href="https://n2o.i-novus.ru/react/docs/manual/" class="btn btn-primary btn-large">Learn more »</a></p>
-</div>
-</div>
-----
-
-2) В папке конфигураций N2O создайте файл страницы `src/main/resources/META-INF/conf/index.page.xml`
-
+В папке `/META-INF/conf` создайте файл главной страницы приложения `index.page.xml`
+с формой и одним единственным текстовым полем `hello`:
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
-   <html url="hello.html" name="Hello, world"/>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="Моя первая страница">
+    <form>
+        <fields>
+            <text id="hello">Привет Мир!</text>
+        </fields>
+    </form>
 </simple-page>
 ----
 
-После сборки и разворачивания приложения отобразится следующая страница:
+Если был настроен link:#_Моментальный_подхват_изменений[моментальный подхват изменений],
+то просто обновите страницу браузера `http://localhost:8080/`:
 
 image::images\index-ac3c3.png[]
 
 [TIP]
-Все примеры простых приложений на N2O смотрите здесь: https://git.i-novus.ru/framework/examples
+Другие примеры простых приложений на N2O Framework находятся здесь: https://github.com/i-novus-llc/n2o-framework/tree/master/examples
