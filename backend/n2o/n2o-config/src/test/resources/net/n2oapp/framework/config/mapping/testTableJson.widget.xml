@@ -17,7 +17,7 @@
         </switch>
     </rows>
     <pagination next="true" prev="true"/>
-    <filters search-buttons="false">
+    <filters>
         <search-buttons id="testId" search-label="searchLabel" reset-label="resetLabel"/>
     </filters>
     <toolbar place="topRight" generate="tableSettings"/>
