@@ -1,7 +1,7 @@
 {
-  "name": "n2o-auth",
+  "name": "n2o-framework-auth",
   "version": "7.4.0",
-  "description": "Пакеты для работы с N2O Security",
+  "description": "N2O Security",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -17,7 +17,7 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
-    "n2o": "^7.3.0"
+    "n2o-framework": "^7.4.0"
   },
   "devDependencies": {
     "nwb": "0.23.x",
