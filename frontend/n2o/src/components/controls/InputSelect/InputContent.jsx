@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 import { map, find, reduce, split, isEqual } from 'lodash';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
-import progressBarStyles from '../../widgets/Table/cells/ProgressBarCell/progressBarStyles';
 
 /**
  * InputSelectGroup
@@ -69,6 +68,7 @@ function InputContent({
   setSelectedListRef,
   _textarea,
   _selectedList,
+  setRef,
 }) {
   /**
    * Обработчик изменения инпута при нажатии на клавишу
@@ -249,7 +249,7 @@ function InputContent({
       ) : (
         <input
           onKeyDown={handleKeyDown}
-          // ref={handleRef}
+          ref={setRef}
           placeholder={getPlaceholder}
           disabled={disabled}
           value={value}
