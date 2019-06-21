@@ -35,6 +35,7 @@ import listContainer from '../listContainer.js';
  * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
  * @reactProps {function} fetchData
  * @reactProps {function} onSearch
+ * @reactProps {boolean} openOnFocus
  */
 
 class InputSelectContainer extends React.Component {
@@ -110,6 +111,7 @@ InputSelectContainer.propTypes = {
   fetchData: PropTypes.func,
   onSearch: PropTypes.func,
   autoFocus: PropTypes.bool,
+  openOnFocus: PropTypes.bool,
 };
 
 InputSelectContainer.defaultProps = {
@@ -128,6 +130,7 @@ InputSelectContainer.defaultProps = {
   valueFieldId: 'id',
   flip: false,
   autoFocus: false,
+  openOnFocus: false,
 };
 
 export default listContainer(InputSelectContainer);
