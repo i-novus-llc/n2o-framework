@@ -8,7 +8,7 @@ import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import Calendar from 'react-widgets/lib/Calendar';
 
-import Panel from 'n2o/lib//components/snippets/Panel/PanelShortHand';
+import Panel from 'n2o-framework/lib/components/snippets/Panel/PanelShortHand';
 import Template from '../components/core/Template';
 
 import LastTask from '../components/dashboard/LastTask';

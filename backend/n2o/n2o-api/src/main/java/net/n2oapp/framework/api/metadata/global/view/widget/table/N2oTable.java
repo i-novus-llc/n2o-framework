@@ -11,7 +11,7 @@ public class N2oTable extends N2oAbstractTable {
     private FilterPosition filterPosition;
     private Boolean filterOpened;
     private NamespaceUriAware[] filters;
-    private Boolean searchButtons;
+    private Boolean searchOnChange;
 
 
     public enum FilterPosition {

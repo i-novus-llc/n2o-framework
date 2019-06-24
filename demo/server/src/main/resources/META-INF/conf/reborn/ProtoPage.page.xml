@@ -38,7 +38,7 @@
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
                         <edit action-id="update_birthday" format="date DD.MM.YYYY">
-                            <date-time id="date"/>
+                            <date-time id="birthday"/>
                         </edit>
                     </column>
                     <column text-field-id="genderName">
