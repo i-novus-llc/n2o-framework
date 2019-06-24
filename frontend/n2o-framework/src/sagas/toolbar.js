@@ -6,9 +6,6 @@ import {
   take,
   actionChannel,
   fork,
-  takeEvery,
-  takeLatest,
-  cancelled,
 } from 'redux-saga/effects';
 import { every, filter, forOwn, get, some, isEmpty, values } from 'lodash';
 import { SET } from '../constants/models';
@@ -93,32 +90,33 @@ export function* resolveButton(button) {
   }
 }
 
-export function* watchModel(buttons, { payload }) {
-  const { prefix, key } = payload;
-  const modelLink = `models.${prefix}['${key}']`;
-
-  if (buttons[modelLink]) {
-    yield all(buttons[modelLink].map(button => fork(resolveButton, button)));
-  }
-}
-
 function* watchRegister() {
-  try {
-    while (true) {
-      const { payload: payloadRegister } = yield take(REGISTER_BUTTON);
-      const { conditions } = payloadRegister;
-      let buttons = {};
-
-      if (conditions && !isEmpty(conditions)) {
-        buttons = yield call(prepareButton, buttons, payloadRegister);
-        yield fork(resolveButton, payloadRegister);
-        // todo: Перейти на redux-saga@1.0.0 и использовать takeLeading
-        yield takeLatest(SET, watchModel, buttons);
+  let buttons = {};
+  const chan = yield actionChannel([REGISTER_BUTTON, SET]);
+  while (true) {
+    const action = yield take(chan);
+    const { type, payload } = action;
+    const { conditions } = payload;
+    switch (type) {
+      case REGISTER_BUTTON: {
+        if (conditions && !isEmpty(conditions)) {
+          buttons = yield call(prepareButton, buttons, payload);
+          yield fork(handleAction, action);
+        }
+        break;
       }
-    }
-  } finally {
-    if (yield cancelled()) {
-      // todo: добавить cancel саги, когда кнопка unregister
+      case SET: {
+        const { prefix, key } = payload;
+        const modelLink = `models.${prefix}['${key}']`;
+        if (buttons[modelLink]) {
+          yield all(
+            buttons[modelLink].map(button => call(resolveButton, button))
+          );
+        }
+        break;
+      }
+      default:
+        break;
     }
   }
 }
