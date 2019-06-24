@@ -607,16 +607,8 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="fs:fields">
-                <xs:attribute name="place" type="filterPlaceEnum">
-                    <xs:annotation>
-                        <xs:documentation>Позиция фильтров.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="search-on-change" type="xs:boolean" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Запускать фильтрацию по мере ввода.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
+                <xs:attribute name="place" type="filterPlaceEnum"/>
+                <xs:attribute name="search-buttons" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

@@ -90,7 +90,7 @@
     <pagination src="test" first="false" hide-single-page="false"
                 last="false" next="false" prev="false" show-count="false">
     </pagination>
-    <filters place="left" search-on-change="true">
+    <filters place="left">
         <ctr:input-text id="test"/>
         <set src="test">
             <ctr:input-text id="test"/>

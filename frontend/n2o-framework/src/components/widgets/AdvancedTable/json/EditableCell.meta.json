@@ -31,7 +31,6 @@
           "src": "EditableCell",
           "id": "name",
           "editable": true,
-          "fieldKey": "name",
           "action": {
             "id": "update",
             "src": "perform",
@@ -70,7 +69,6 @@
         {
           "src": "EditableCell",
           "id": "surname",
-          "fieldKey": "surname",
           "icon": "fa fa-plus",
           "type": "iconAndText",
           "textPlace": "right",
@@ -89,7 +87,6 @@
         {
           "src": "EditableCell",
           "id": "birthday",
-          "fieldKey": "birthday",
           "editable": true,
           "control": {
             "src": "DatePicker",
@@ -107,7 +104,7 @@
           "id": "name",
           "sortable": false,
           "label": "Имя",
-          "width": "100px"
+          "width": 200
         },
         {
           "src": "TextTableHeader",

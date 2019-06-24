@@ -21,7 +21,7 @@ export class EditableCell extends React.Component {
     super(props);
 
     this.state = {
-      model: props.model || {},
+      model: props.model,
       editing: false,
       prevModel: {},
     };
@@ -42,7 +42,9 @@ export class EditableCell extends React.Component {
       isEqual(prevState.prevModel, prevState.model) &&
       !isEqual(this.state.prevModel, this.state.model)
     ) {
-      this.callAction(this.state.model);
+      {
+        this.callAction(this.state.model);
+      }
     }
   }
 
@@ -70,7 +72,7 @@ export class EditableCell extends React.Component {
       onResolve(widgetId, model);
       onSetSelectedId();
     }
-    if (!newState.editing && !isEqual(this.state.prevModel, this.state.model)) {
+    if (!newState.editing && !isEqual(this.state.prevValue, this.state.value)) {
       this.callAction(this.state.model);
     }
 
@@ -106,11 +108,13 @@ export class EditableCell extends React.Component {
       fieldKey,
       editFieldId,
     } = this.props;
+
     const { editing, model } = this.state;
     const style = {
       width: parentWidth,
       height: parentHeight,
     };
+
     const events = { events: 'enter' };
     const handlers = { events: this.handleKeyDown };
 

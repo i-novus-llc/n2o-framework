@@ -8,6 +8,3 @@ install:
 ## Build and release to maven central
 script:
   mvn --settings .maven.xml clean deploy -Prelease,examples -B -U
-
-after_failure:
-  - cat /home/travis/.npm/_logs/*-debug.log
