@@ -1,7 +1,7 @@
 {
-  "name": "n2o-framework",
+  "name": "n2o",
   "version": "7.4.0",
-  "description": "Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks",
+  "description": "N2O React",
   "jsnext:main": "es/index.js",
   "main": "lib/index.js",
   "module": "es/index.js",

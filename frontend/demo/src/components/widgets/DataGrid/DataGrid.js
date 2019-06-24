@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { map } from 'lodash';
-import factoryResolver from 'n2o-framework/lib/utils/factoryResolver';
-import StandardWidget from 'n2o-framework/lib/components/widgets/StandardWidget';
+import factoryResolver from 'n2o/lib/utils/factoryResolver';
+import StandardWidget from 'n2o/lib/components/widgets/StandardWidget';
 
 import DataGridContainer from './DataGridContainer';
 

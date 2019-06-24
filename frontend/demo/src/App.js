@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import N2O from 'n2o-framework';
+import N2O from 'n2o/lib//N2o';
 
 import Template from './components/core/Template';
 import DashboardV2 from './pages/DashboardV2';

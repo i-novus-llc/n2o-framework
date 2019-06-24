@@ -1,7 +1,7 @@
 {
-  "name": "n2o-framework-notifications",
-  "version": "7.4.0",
-  "description": "N2O Notifications",
+  "name": "n2o-notifications",
+  "version": "7.3.0-beta.0",
+  "description": "n2o-notifications React component",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -20,7 +20,7 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "n2o-framework": "^7.4.0",
+    "n2o": "^7.3.0",
     "net": "^1.0.2",
     "react-redux": "5.0.6",
     "reactstrap": "^8.0.0",

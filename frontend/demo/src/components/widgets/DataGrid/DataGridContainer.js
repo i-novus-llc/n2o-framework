@@ -1,5 +1,5 @@
 import ReactDataGrid from 'react-data-grid';
-import widgetContainer from 'n2o-framework/lib/components/widgets/WidgetContainer';
+import widgetContainer from 'n2o/lib/components/widgets/WidgetContainer';
 
 /**
  * Обертка в widgetContainer, мэппинг пропсов
