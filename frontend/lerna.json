@@ -1,12 +1,11 @@
 {
   "lerna": "2.11.0",
-  "version": "7.3.0",
+  "version": "7.4.0",
   "packages": [
-    "n2o",
-    "n2o-auth",
+    "n2o-framework",
+    "n2o-framework-auth",
+    "n2o-framework-notifications",
     "demo",
-    "n2o-simple-project",
-    "antd-n2o-ui",
-    "n2o-notifications"
+    "simple-project"
   ]
 }

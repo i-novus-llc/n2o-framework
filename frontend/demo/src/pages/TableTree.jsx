@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Row, Col} from 'reactstrap';
 
-import { HeaderFooterTemplate } from 'n2o/lib/components/core/templates';
+import { HeaderFooterTemplate } from 'n2o-framework/lib/components/core/templates';
 
 import TableTree from '../components/widgets/TableTree/TableTree';
 import staticData from '../components/widgets/TableTree/data.json';
