@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.merge;
 
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -11,6 +12,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
+import org.jdom.Namespace;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,6 +53,12 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(widget.getPreFilters().length, is(2));
         assertThat(widget.getPreFields().length, is(2));
         assertThat(widget.getVisible(), is("true"));
+
+        assertThat(widget.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-1.0"))).get("extAttr1"), is("child1"));
+        assertThat(widget.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-1.0"))).get("extAttr2"), is("child2"));
+
+        assertThat(widget.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("extChild", "http://example.com/n2o/ext-child"))).get("extAttr"), is("child"));
+        assertThat(widget.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("extParent", "http://example.com/n2o/ext-parent"))).get("extAttr"), is("parent"));
     }
 
     @Test
