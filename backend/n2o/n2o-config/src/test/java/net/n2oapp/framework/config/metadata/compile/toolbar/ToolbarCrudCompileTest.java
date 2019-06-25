@@ -56,7 +56,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
 
         assertThat(form.getToolbar().size(), is(2));
         assertThat(form.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(2));
+        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(1));
         List<String> buttonsId = form.getToolbar().get("topLeft").get(0)
                 .getButtons().stream().map(Button::getId).collect(Collectors.toList());
         List<String> buttonsLabel = form.getToolbar().get("topLeft").get(0)
@@ -88,7 +88,6 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         }
 
         assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), notNullValue());//action2
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(1).getConfirm(), nullValue());//submit
     }
 
     @Test

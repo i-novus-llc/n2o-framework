@@ -15,7 +15,7 @@
                                 Скроется, если имя в выбранной записи Афанасий
                             </description>
                             <event>
-                                <invoke-action action-id="dummy"/>
+                                <invoke-action action-id="testId"/>
                             </event>
                             <conditions>
                                 <visibility-condition>
@@ -28,7 +28,7 @@
                                 Заблокируется, если имя в выбранной записи Иннокентий
                             </description>
                             <event >
-                                <invoke-action action-id="dummy"/>
+                                <invoke-action action-id="testId"/>
                             </event>
                             <conditions>
                                 <enabling-condition>
@@ -41,7 +41,7 @@
                                 Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин
                             </description>
                             <event>
-                                <invoke-action action-id="dummy"/>
+                                <invoke-action action-id="testId"/>
                             </event>
                             <conditions>
                                 <visibility-condition>
@@ -59,7 +59,7 @@
                                 Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин
                             </description>
                             <event>
-                                <invoke-action action-id="dummy"/>
+                                <invoke-action action-id="testId"/>
                             </event>
                             <conditions>
                                 <visibility-condition>
