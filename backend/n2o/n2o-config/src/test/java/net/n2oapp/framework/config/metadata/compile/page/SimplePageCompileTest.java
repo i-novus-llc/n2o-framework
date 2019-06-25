@@ -10,7 +10,11 @@ import net.n2oapp.framework.config.io.region.CustomRegionIOv1;
 import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.region.CustomRegionCompiler;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
+import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +42,9 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.ios(new SimplePageElementIOv2(), new CustomRegionIOv1(), new HtmlWidgetElementIOv4())
-                .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler());
+                .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler(), new ToolbarCompiler())
+                .packs(new N2oObjectsPack(), new N2oActionsPack())
+                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"));
     }
 
 
@@ -58,5 +64,15 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
         assertThat(page.getRoutes().getList().get(1).getPath(), is("/test/route/:test_route_main_id"));
         assertThat(route("/test/route", Page.class), notNullValue());
+    }
+
+    @Test
+    public void testCompileWithNonExistentAction() {
+        try {
+            compile("net/n2oapp/framework/config/metadata/compile/page/testCompileWithNonExistentAction.page.xml")
+                    .get(new PageContext("testCompileWithNonExistentAction"));
+        } catch (IllegalArgumentException e) {
+            assertThat(e.getMessage(), is("Value by id = 'nonExistentOperation' not found"));
+        }
     }
 }
