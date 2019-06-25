@@ -52,7 +52,7 @@ public class N2oEngineConfiguration {
     private String timeoutInMillis;
 
     @Value("${n2o.config.path}")
-    private String pathOnDisk;
+    private String configPath;
 
     @Bean
     @ConditionalOnMissingBean
@@ -146,7 +146,7 @@ public class N2oEngineConfiguration {
     @Bean
     public TestDataProviderEngine testDataProviderEngine() {
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
-        testDataProviderEngine.setPathOnDisk(pathOnDisk);
+        testDataProviderEngine.setPathOnDisk(configPath);
         return testDataProviderEngine;
     }
 

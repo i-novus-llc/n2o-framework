@@ -27,6 +27,9 @@ import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider
  */
 public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataProvider>, ResourceLoaderAware {
 
+    /**
+     * Путь к файлу для чтения с диска
+     */
     private String pathOnDisk;
 
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -305,14 +308,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      * Заполняет хранилище данных из файла
      */
     private void initRepository(N2oTestDataProvider invocation) {
-        try {
-            String path = "classpath:";
+        String path = "classpath:";
 
-            if (pathOnDisk != null && new File(pathOnDisk + invocation.getFile()).isFile()) {
-                path = "file:" + pathOnDisk;
-            }
+        if (pathOnDisk != null && new File(pathOnDisk + invocation.getFile()).isFile()) {
+            path = "file:" + pathOnDisk;
+        }
 
-            InputStream inputStream = resourceLoader.getResource(path + invocation.getFile()).getInputStream();
+        try (InputStream inputStream = resourceLoader.getResource(path + invocation.getFile()).getInputStream()) {
             List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
             repository.put(invocation.getFile(), data);
             if (integer.equals(invocation.getPrimaryKeyType())) {
