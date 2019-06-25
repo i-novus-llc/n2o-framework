@@ -23,9 +23,9 @@ describe('Проверка компонента TextField', () => {
   });
   it('Должен отформатировать текст', () => {
     const wrapper = setupTextField({
-      text: '2019-02-01T00:00:00',
+      text: '20.04.1934 00:00:00',
       format: 'date DD.MM.YYYY',
     });
-    expect(wrapper.text()).toEqual('01.02.2019');
+    expect(wrapper.text()).toEqual('20.04.1934');
   });
 });

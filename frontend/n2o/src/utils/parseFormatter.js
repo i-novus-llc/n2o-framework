@@ -3,7 +3,8 @@ import numeral from 'numeral';
 import { split, trim, join, slice, map, isNil, isString } from 'lodash';
 
 const typesFunctions = {
-  date: ({ data, format }) => moment(data).format(format),
+  date: ({ data, format }) =>
+    moment(data, 'DD.MM.YYYY HH:mm:ss').format(format),
   password: ({ data }) => join(map(data, () => '*'), ''),
   number: ({ data, format }) => {
     const number = isString(data) ? Number(data) : data;
