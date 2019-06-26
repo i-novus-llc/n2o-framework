@@ -241,6 +241,11 @@ java -jar target/myproject-1.0.jar --n2o.config.path=/myproject/src/main/resourc
 
 При старте сервера в консоли командной строки будет напечатан путь,
 из которого N2O Framework будет брать XML файлы:
+----
+n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: /myproject/src/main/resources/META-INF/conf
+net.n2oapp.watchdir.WatchDir             : WatchDir is started.
+n.n2oapp.framework.config.ConfigStarter  : N2O was started
+----
 
 
 === Плагин для Intellij IDEA
@@ -268,7 +273,7 @@ image::./images/index-1a4c8.png[]
              name="Моя первая страница">
     <form>
         <fields>
-            <text id="hello">Привет Мир!</text>
+            <text id="hello">Привет, мир!</text>
         </fields>
     </form>
 </simple-page>
