@@ -136,6 +136,18 @@ const makePageDisabledByIdSelector = pageId =>
       return pageState && pageState.disabled;
     }
   );
+/**
+ * Получение свойсва status страницы по ee d
+ * @param pageId
+ * @return
+ */
+const makePageStatusByIdSelected = pageId =>
+  createSelector(
+    makePageByIdSelector(pageId),
+    pageState => {
+      return pageState && pageState.status;
+    }
+  );
 
 export {
   pagesSelector,
@@ -150,4 +162,5 @@ export {
   makePageTitleByIdSelector,
   makePageDisabledByIdSelector,
   makePageWidgetsByIdSelector,
+  makePageStatusByIdSelected,
 };

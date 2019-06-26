@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { compose, pure } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
@@ -29,6 +30,7 @@ import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
+import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
   const index = _.findIndex(data, model => model.id == selectedId);
@@ -73,13 +75,26 @@ class AdvancedTable extends Component {
       expandRowByClick: false,
       selection: {},
       selectAll: false,
-      columns: props.columns,
+      columns: this.mapColumns(props.columns),
       checkedAll: false,
       checked: props.data ? this.mapChecked(props.data) : {},
     };
 
     this.rows = {};
     this._dataStorage = [];
+
+    this.components = {
+      header: {
+        row: AdvancedTableHeaderRow,
+        cell: AdvancedTableHeaderCell,
+        ...get(props.components, 'header', {}),
+      },
+      body: {
+        row: AdvancedTableRow,
+        cell: AdvancedTableCell,
+        ...get(props.components, 'body', {}),
+      },
+    };
 
     this.setRowRef = this.setRowRef.bind(this);
     this.getRowProps = this.getRowProps.bind(this);
@@ -95,6 +110,8 @@ class AdvancedTable extends Component {
     this.setTableRef = this.setTableRef.bind(this);
     this.openAllRows = this.openAllRows.bind(this);
     this.closeAllRows = this.closeAllRows.bind(this);
+    this.renderIcon = this.renderIcon.bind(this);
+    this.renderExpandedRow = this.renderExpandedRow.bind(this);
   }
 
   componentDidMount() {
@@ -124,6 +141,7 @@ class AdvancedTable extends Component {
       selectedId,
       autoFocus,
     } = this.props;
+
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
       if (isAnyTableFocused && !isActive) {
@@ -145,7 +163,7 @@ class AdvancedTable extends Component {
       if (!isEqual(prevProps.columns, this.props.columns)) {
         state = {
           ...state,
-          columns: this.props.columns,
+          columns: this.mapColumns(this.props.columns),
         };
       }
       if (!isEqual(prevProps.selectedId, selectedId)) {
@@ -422,7 +440,49 @@ class AdvancedTable extends Component {
     };
   }
 
-  mapColumns(columns) {
+  getRowKey(row) {
+    return row.key;
+  }
+
+  renderIcon({ record, expanded, onExpand }) {
+    const { expandedFieldId, expandedComponent } = this.props;
+
+    return (
+      <AdvancedTableExpandIcon
+        record={record}
+        expanded={expanded}
+        onExpand={onExpand}
+        expandedFieldId={expandedFieldId}
+        expandedComponent={expandedComponent}
+      />
+    );
+  }
+
+  renderExpandedRow() {
+    const { expandable, expandedComponent, expandedFieldId } = this.props;
+
+    return (
+      expandable &&
+      (expandedComponent
+        ? (record, index, indent) =>
+            React.createElement(expandedComponent, {
+              record,
+              index,
+              indent,
+              expandedFieldId,
+            })
+        : (record, index, indent) => (
+            <AdvancedTableExpandedRenderer
+              record={record}
+              index={index}
+              indent={indent}
+              expandedFieldId={expandedFieldId}
+            />
+          ))
+    );
+  }
+
+  mapColumns(columns = []) {
     const { rowSelection, filters } = this.props;
     let newColumns = columns;
     newColumns = map(newColumns, (col, columnIndex) => ({
@@ -458,11 +518,8 @@ class AdvancedTable extends Component {
       isActive,
       onFocus,
       rowSelection,
-      expandedFieldId,
-      expandedComponent,
-      components,
     } = this.props;
-    const columns = this.mapColumns(this.state.columns);
+
     return (
       <HotKeys
         keyMap={{ events: values(KEY_CODES) }}
@@ -477,51 +534,14 @@ class AdvancedTable extends Component {
               [`table-${tableSize}`]: tableSize,
               'table-bordered': bordered,
             })}
-            columns={columns}
+            columns={this.state.columns}
             data={this.state.data}
             onRow={this.getRowProps}
-            components={{
-              header: {
-                row: AdvancedTableHeaderRow,
-                cell: AdvancedTableHeaderCell,
-                ...get(components, 'header', {}),
-              },
-              body: {
-                row: AdvancedTableRow,
-                cell: AdvancedTableCell,
-                ...get(components, 'body', {}),
-              },
-            }}
-            rowKey={record => record.key}
-            expandIcon={({ record, expanded, onExpand }) => (
-              <AdvancedTableExpandIcon
-                record={record}
-                expanded={expanded}
-                onExpand={onExpand}
-                expandedFieldId={expandedFieldId}
-                expandedComponent={expandedComponent}
-              />
-            )}
+            components={this.components}
+            rowKey={this.getRowKey}
+            expandIcon={this.renderIcon}
             expandIconAsCell={rowSelection && expandable}
-            expandedRowRender={
-              expandable &&
-              (expandedComponent
-                ? (record, index, indent) =>
-                    React.createElement(expandedComponent, {
-                      record,
-                      index,
-                      indent,
-                      expandedFieldId,
-                    })
-                : (record, index, indent) => (
-                    <AdvancedTableExpandedRenderer
-                      record={record}
-                      index={index}
-                      indent={indent}
-                      expandedFieldId={expandedFieldId}
-                    />
-                  ))
-            }
+            expandedRowRender={this.renderExpandedRow()}
             expandedRowKeys={this.state.expandedRowKeys}
             onExpandedRowsChange={this.handleExpandedRowsChange}
             onExpand={onExpand}
@@ -565,4 +585,7 @@ AdvancedTable.defaultProps = {
   autoFocus: false,
 };
 
-export default AdvancedTable;
+export default compose(
+  pure,
+  withAdvancedTableRef
+)(AdvancedTable);

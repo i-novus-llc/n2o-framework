@@ -1,6 +1,6 @@
 {
   "name": "n2o",
-  "version": "7.3.0",
+  "version": "7.4.0",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
   "main": "lib/index.js",
@@ -90,6 +90,7 @@
     "rc-table": "6.4.3",
     "rc-tree-select": "2.3.1",
     "react-ace": "5.9.0",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-draft-wysiwyg": "1.13.1",
     "react-dropzone": "7.0.1",
     "react-helmet": "5.2.0",
@@ -131,7 +132,7 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "@dump247/storybook-state": "^1.3.0",
+    "@dump247/storybook-state": "1.3.0",
     "@storybook/addon-actions": "^3.3.12",
     "@storybook/addon-jest": "^3.3.13",
     "@storybook/addon-knobs": "^3.3.13",

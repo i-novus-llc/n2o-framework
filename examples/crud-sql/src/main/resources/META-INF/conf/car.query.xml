@@ -1,65 +1,48 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<query xmlns:exc="http://n2oapp.net/framework/config/schema/n2o-query-executions-1.0"
-       xmlns="http://n2oapp.net/framework/config/schema/query-3.0">
-    <object-id>car</object-id>
-    <name>Список автомобилей</name>
-    <execution>
-        <exc:sql>
-            <exc:items-query>
-                SELECT :select
-                FROM cars c
-                WHERE :where
-                ORDER BY :order
-            </exc:items-query>
-            <exc:count-query>
-                SELECT count(*)
-                FROM cars c
-                WHERE :where
-            </exc:count-query>
-            <exc:alias>c</exc:alias>
-        </exc:sql>
-    </execution>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
+       object-id="car"
+       name="Список автомобилей">
+
+    <list result-mapping="#this">
+        <sql>
+            SELECT :select
+            FROM cars c
+            WHERE :filters
+            ORDER BY :sorting
+            LIMIT :limit OFFSET :offset
+        </sql>
+    </list>
+    <count count-mapping="[0]['cnt']">
+        <sql>
+            SELECT count(*) as cnt
+            FROM cars c
+            WHERE :filters
+        </sql>
+    </count>
 
     <fields>
-        <field>
-            <id>id</id>
-            <domain>integer</domain>
-            <display/>
+        <field id="id" domain="integer" name="№">
+            <select>id</select>
             <filters>
-                <filter type="eq" filter-field="id"/>
+                <eq filter-id="id" mapping="['id']">id=:id</eq>
             </filters>
         </field>
 
-        <field>
-            <id>name</id>
-            <domain>string</domain>
-            <display/>
-            <sorting/>
+        <field id="name" domain="string" name="Марка">
+            <select>name</select>
+            <sorting mapping="['nameDir']">name :nameDir</sorting>
             <filters>
-                <filter type="eq" filter-field="name"/>
+                <like filter-id="name" mapping="['name']">name like '%'||name</like>
             </filters>
         </field>
 
-        <field>
-            <id>price</id>
-            <domain>long</domain>
-            <display/>
+        <field id="price" domain="long" name="Цена">
+            <select>price</select>
             <filters>
-                <filter type="more" filter-field="minPrice"/>
-                <filter type="less" filter-field="maxPrice"/>
+                <more filter-id="minPrice" mapping="['minPrice']"><![CDATA[price >= :minPrice]]></more>
+                <less filter-id="maxPrice" mapping="['maxPrice']"><![CDATA[price <= :maxPrice]]></less>
             </filters>
-            <sorting/>
-        </field>
-
-        <field>
-            <id>year</id>
-            <domain>date</domain>
-            <display/>
-            <sorting/>
-            <filters>
-                <filter type="more" filter-field="year.begin"/>
-                <filter type="less" filter-field="year.end"/>
-            </filters>
+            <sorting mapping="['priceDir']">price :priceDir</sorting>
         </field>
 
     </fields>

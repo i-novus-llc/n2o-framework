@@ -50,10 +50,9 @@ class N2o extends Component {
   }
 
   render() {
-    const { routes, security, customErrorPages } = this.props;
+    const { routes, security } = this.props;
 
     const config = createFactoryConfig(this.generateCustomConfig());
-    const errorPages = configureErrorPages(customErrorPages);
 
     return (
       <Provider store={this.store}>
@@ -67,11 +66,8 @@ class N2o extends Component {
                 >
                   <ConnectedRouter history={history}>
                     <Switch>
-                      {routes.map(route => (
-                        <Route {...route} />
-                      ))}
-                      {errorPages.map(route => (
-                        <Route {...route} />
+                      {routes.map((route, i) => (
+                        <Route key={'page-' + i} {...route} />
                       ))}
                       <Route path="/:pageUrl*" render={RootPage} />
                     </Switch>
@@ -88,8 +84,16 @@ class N2o extends Component {
 
 N2o.propTypes = {
   ...factoryConfigShape,
-  defaultTemplate: PropTypes.element,
-  defaultBreadcrumb: PropTypes.element,
+  defaultTemplate: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
+  defaultBreadcrumb: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
   defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
@@ -98,7 +102,11 @@ N2o.propTypes = {
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       path: PropTypes.string,
-      component: PropTypes.element,
+      component: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       exact: PropTypes.bool,
       strict: PropTypes.bool,
     })
@@ -130,6 +138,7 @@ const EnhancedN2O = compose(
     defaultBreadcrumb: DefaultBreadcrumb,
     defaultPromptMessage:
       'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
+    defaultErrorPages: configureErrorPages(),
     formats: {
       dateFormat: 'DD.MM.YYYY',
       timeFormat: 'HH:mm:ss',
@@ -142,14 +151,26 @@ const EnhancedN2O = compose(
   }),
   withContext(
     {
-      defaultTemplate: PropTypes.element,
-      defaultBreadcrumb: PropTypes.element,
+      defaultTemplate: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
+      defaultBreadcrumb: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       defaultPromptMessage: PropTypes.string,
+      defaultErrorPages: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
+      ),
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
+      defaultErrorPages: props.defaultErrorPages,
     })
   ),
   withProps(props => ({

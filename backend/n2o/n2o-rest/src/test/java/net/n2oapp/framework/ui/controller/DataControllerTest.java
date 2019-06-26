@@ -278,7 +278,7 @@ public class DataControllerTest extends DataControllerTestBase {
         Map<String, N2oModule> moduleMap = new HashMap<>();
         moduleMap.put("validationModule", validationModule);
         ObjectMapper mapper = new ObjectMapper();
-        DomainProcessor domainProcessor = new DomainProcessor(mapper, "dd.MM.yyyy");
+        DomainProcessor domainProcessor = new DomainProcessor(mapper);
 
         N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, new N2oOperationExceptionHandler());
 

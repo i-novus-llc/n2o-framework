@@ -43,7 +43,7 @@ class BreadcrumbContainer extends React.Component {
 }
 
 BreadcrumbContainer.propTypes = {
-  defaultBreadcrumb: PropTypes.node,
+  defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   items: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,

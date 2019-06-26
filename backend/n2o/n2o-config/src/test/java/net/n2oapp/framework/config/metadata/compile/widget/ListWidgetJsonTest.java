@@ -28,7 +28,7 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testListWidget.widget.xml",
                 "components/widgets/List/List.meta.json")
                 .cutJson("List")
-                .exclude("actions", "hasMoreButton", "fetchOnScroll", "maxHeight", "maxWidth", "showPagination", "divider",
+                .exclude("actions", "hasMoreButton", "fetchOnScroll", "scrollY", "scrollX", "showPagination", "divider",
                         "table.style", "table.autoFocus",
                         "dataProvider.queryMapping",
                         "list.leftTop.title",

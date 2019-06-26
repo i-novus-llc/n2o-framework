@@ -20,6 +20,7 @@ public class InputSelectCompiler extends ListControlCompiler<InputSelect, N2oInp
 
     @Override
     public StandardField<InputSelect> compile(N2oInputSelect source, CompileContext<?,?> context, CompileProcessor p) {
+        source.setSearch(p.cast(source.getSearch(), source.getQueryId() != null));
         InputSelect inputSelect = new InputSelect();
         inputSelect.setResetOnBlur(!p.cast(source.getStoreOnInput(), false));
         inputSelect.setPlaceholder(p.resolveJS(source.getPlaceholder()));

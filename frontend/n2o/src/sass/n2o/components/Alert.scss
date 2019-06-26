@@ -151,3 +151,18 @@
     white-space: nowrap;
   }
 }
+
+.n2o-alerts--absolute,
+.n2o-alerts--relative {
+  & .n2o-alert-body-container {
+    width: calc(100% - 50px);
+  }
+
+  & .n2o-alert-close-container {
+    margin-left: 0;
+  }
+
+  & .details {
+    overflow: auto;
+  }
+}

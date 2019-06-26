@@ -1,4 +1,4 @@
-import { omit, mapValues, isEmpty, isNaN } from 'lodash';
+import { omit, mapValues, isEmpty } from 'lodash';
 import merge from 'deepmerge';
 import {
   REGISTER,
@@ -137,22 +137,12 @@ function resolve(state = widgetState, action) {
     case RESET_STATE:
       return Object.assign({}, state, { isInit: false });
     case SET_TABLE_SELECTED_ID:
-      return Object.assign({}, state, {
-        selectedId: resolveSelectedId(action.payload.value),
-      });
+      return Object.assign({}, state, { selectedId: action.payload.value });
     case SET_ACTIVE:
       return Object.assign({}, state, { isActive: true });
     default:
       return state;
   }
-}
-
-function resolveSelectedId(selectedId) {
-  if (selectedId !== '' && !isNaN(+selectedId)) {
-    selectedId = +selectedId;
-  }
-
-  return selectedId;
 }
 
 /**

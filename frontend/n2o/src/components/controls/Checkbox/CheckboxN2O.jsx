@@ -41,6 +41,7 @@ class CheckboxN2O extends React.Component {
       onFocus,
       onBlur,
     } = this.props;
+
     return (
       <div
         className={cx('custom-control', 'custom-checkbox', className, {
@@ -68,14 +69,14 @@ class CheckboxN2O extends React.Component {
 }
 
 CheckboxN2O.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.any,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
   label: PropTypes.string,
   inline: PropTypes.bool,
   className: PropTypes.string,
-  checked: PropTypes.bool,
+  checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   obBlur: PropTypes.func,
   style: PropTypes.object,
   placeholder: PropTypes.string,

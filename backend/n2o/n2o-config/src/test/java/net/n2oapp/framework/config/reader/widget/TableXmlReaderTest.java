@@ -64,7 +64,7 @@ public class TableXmlReaderTest extends BaseWidgetReaderTest {
         assert imageCell2.getWidth().equals("32");
         assert imageCell2.getShape().equals(ImageShape.circle);
         N2oProgressBarCell progressBarCell = (N2oProgressBarCell) ((N2oSimpleColumn) table3.getColumns()[10]).getCell();
-        assert progressBarCell.getSize().equals(Size.small);
+        assert progressBarCell.getSize().equals(N2oProgressBarCell.Size.small);
         assert progressBarCell.getStriped();
         assert progressBarCell.getActive();
         N2oProgressBarCell progressBarCell1 = (N2oProgressBarCell) ((N2oSimpleColumn) table3.getColumns()[11]).getCell();

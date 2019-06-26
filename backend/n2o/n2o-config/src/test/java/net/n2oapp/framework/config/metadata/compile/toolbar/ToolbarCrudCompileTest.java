@@ -23,8 +23,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ToolbarCrudCompileTest extends SourceCompileTestBase {
@@ -88,8 +87,8 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
             }
         }
 
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), nullValue());
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(1).getConfirm(), nullValue());
+        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), notNullValue());//action2
+        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(1).getConfirm(), nullValue());//submit
     }
 
     @Test

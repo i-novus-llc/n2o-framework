@@ -74,12 +74,10 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": true,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
                           "type": "n2o"
                         }
@@ -98,8 +96,8 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
-                          "utc": false
+                          "utc": false,
+                          "outputFormat": "YYYY-MM-DDTHH:mm:ss"
                         }
                       }
                     ]
@@ -109,6 +107,7 @@
                       {
                         "src": "StandardField",
                         "id": "vip",
+                        "dependency": [],
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
@@ -227,8 +226,8 @@
       "options": {
         "type": "n2o/modals/CLOSE",
         "payload": {
-          "name": "proto_create",
-          "prompt": true
+          "prompt": true,
+          "name": "proto_create"
         },
         "meta": {
           "closeLastModal": true

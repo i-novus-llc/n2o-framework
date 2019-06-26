@@ -24,14 +24,20 @@ public class TableWidgetComponent extends WidgetComponent {
     private String rowClass;
     @JsonProperty("hasFocus")
     private Boolean hasFocus = true;
+    @JsonProperty("hasSelect")
+    private Boolean hasSelect = true;
+    @JsonProperty
+    private Scroll scroll;
+    @JsonProperty
+    private String tableSize;
+
     @JsonProperty("cells")
     private List<N2oCell> cells;
     @JsonProperty("headers")
     private List<ColumnHeader> headers;
+
     @JsonProperty("sorting")
     private Map<String, String> sorting;
-    @JsonProperty("hasSelect")
-    private Boolean hasSelect = true;
     @JsonProperty("rowClick")
     private Action rowClick;
 

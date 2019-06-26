@@ -102,7 +102,6 @@ public abstract class AbstractTableXmlReaderV3<T extends N2oAbstractTable> exten
             column.setTextFieldId(columnFieldId);
             column.setTooltipFieldId(tooltipFieldId);
             column.setWidth(width);
-
             column.setFormat(getAttributeString(columnElement, "format"));
             column.setLabelName(getAttributeString(columnElement, "name"));
             column.setLabelType(getAttributeEnum(columnElement, "type", LabelType.class));

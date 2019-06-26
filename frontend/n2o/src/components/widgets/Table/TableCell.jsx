@@ -66,7 +66,7 @@ TableCell.propTypes = {
   style: PropTypes.string,
   children: PropTypes.node,
   /* Specific props */
-  component: PropTypes.element,
+  component: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
   as: PropTypes.string,
   model: PropTypes.object,
   colSpan: PropTypes.number,

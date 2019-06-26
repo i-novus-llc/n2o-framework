@@ -17,7 +17,6 @@ public class DateIntervalIOv2 extends IntervalFieldIOv2<N2oDateInterval> {
         p.attribute(e, "time-format", m::getTimeFormat, m::setTimeFormat);
         p.attribute(e, "begin-default-time", m::getBeginDefaultTime, m::setBeginDefaultTime);
         p.attribute(e, "end-default-time", m::getEndDefaultTime, m::setEndDefaultTime);
-        p.attributeEnum(e, "popup-placement", m::getPopupPlacement, m::setPopupPlacement, PopupPlacement.class);
         p.attributeBoolean(e, "utc", m::getUtc, m::setUtc);
     }
 

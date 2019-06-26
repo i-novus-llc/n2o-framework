@@ -76,8 +76,8 @@ class InputMoney extends React.Component {
 
   onBlur(value) {
     const { onBlur } = this.props;
-    const convertedValue = this.convertToFloat(value);
-    onBlur && onBlur(convertedValue);
+    const convertedValue = parseFloat(this.convertToFloat(value));
+    onBlur && onBlur(!isNaN(convertedValue) ? convertedValue : null);
     this.setState({ value: convertedValue });
   }
 

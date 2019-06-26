@@ -29,6 +29,7 @@ function PasswordInput({
   length,
   style,
   autoFocus,
+  showPasswordBtn,
   value,
   placeholder,
   disabled,
@@ -45,7 +46,7 @@ function PasswordInput({
       <Input
         maxLength={length}
         className={cn(['form-control', { [className]: className }])}
-        type={showPass ? 'text' : 'password'}
+        type={showPass && showPasswordBtn ? 'text' : 'password'}
         style={style}
         autoFocus={autoFocus}
         value={value == null ? '' : value}
@@ -57,16 +58,16 @@ function PasswordInput({
         onKeyDown={onKeyDown}
         onChange={onChange}
       />
-      <Button
-        className={cn('n2o-input-password-toggler', {
-          'n2o-input-password-toggler--active': showPass,
-        })}
-        onClick={onToggleShowPass}
-        size="sm"
-        color="link"
-      >
-        <i className="fa fa-eye" />
-      </Button>
+      {showPasswordBtn ? (
+        <Button
+          className="n2o-input-password-toggler"
+          onClick={onToggleShowPass}
+          size="sm"
+          color="link"
+        >
+          <i className={cn('fa', showPass ? 'fa-eye-slash' : 'fa-eye')} />
+        </Button>
+      ) : null}
     </div>
   );
 }

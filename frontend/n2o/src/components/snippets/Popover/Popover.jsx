@@ -43,7 +43,7 @@ class N2OPopover extends React.Component {
 }
 
 N2OPopover.propTypes = {
-  help: PropTypes.oneOf(PropTypes.string, PropTypes.node),
+  help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 N2OPopover.defaultProps = {

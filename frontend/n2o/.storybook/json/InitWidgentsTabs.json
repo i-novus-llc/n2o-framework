@@ -25,6 +25,7 @@
       "paging": false,
       "filter": {},
       "table": {
+        "fetchOnInit": true,
         "size": 5,
         "hasSelect": true,
         "className": "n2o",
@@ -36,10 +37,6 @@
           {
             "src": "TextCell",
             "id": "name"
-          },
-          {
-            "src": "TextCell",
-            "id": "surname"
           }
         ],
         "headers": [
@@ -48,18 +45,9 @@
             "id": "name",
             "sortable": false,
             "label": "Имя"
-          },
-          {
-            "src": "TextTableHeader",
-            "id": "surname",
-            "sortable": false,
-            "label": "Фамилия"
           }
         ]
       }
-    },
-    "Page_HTML": {
-
     },
     "Page_Table_2": {
       "src": "TableWidget",
@@ -71,6 +59,7 @@
       "paging": false,
       "filter": {},
       "table": {
+        "fetchOnInit": false,
         "size": 5,
         "hasSelect": true,
         "className": "n2o",
@@ -81,20 +70,10 @@
         "cells": [
           {
             "src": "TextCell",
-            "id": "name"
-          },
-          {
-            "src": "TextCell",
             "id": "surname"
           }
         ],
         "headers": [
-          {
-            "src": "TextTableHeader",
-            "id": "name",
-            "sortable": false,
-            "label": "Имя"
-          },
           {
             "src": "TextTableHeader",
             "id": "surname",

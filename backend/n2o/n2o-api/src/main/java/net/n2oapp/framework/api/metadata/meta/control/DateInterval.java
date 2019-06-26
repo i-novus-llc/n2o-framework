@@ -11,8 +11,8 @@ public class DateInterval extends Control {
     private String dateFormat;
     @JsonProperty
     private String timeFormat;
-    @JsonProperty("outputFormat")
-    private String outputFormat;
     @JsonProperty
     private Boolean utc;
+    @JsonProperty
+    private String outputFormat;
 }

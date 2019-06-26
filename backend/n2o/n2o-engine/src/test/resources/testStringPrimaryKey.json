@@ -1,0 +1,354 @@
+[
+  {
+    "testId": "abcd",
+    "surname":"Сёмина",
+    "name":"Мария",
+    "patrName":"Васильевна",
+    "fullName":"Сёмина Мария Васильевна",
+    "birthday":"27.03.1941 00:00:00",
+    "age":77,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":true,
+    "hasCitizenship":false,
+    "ethnicGroupName":"русские",
+    "socialGroupName":"Студент ВУЗа",
+    "nationality":{
+      "name":"Ингуши",
+      "id":22
+    }
+  },
+  {
+    "testId":"a7e0973e-5dfc-4f77-8e1b-2c284d70453d",
+    "surname":"Test20121026",
+    "name":"Test20121026",
+    "patrName":"Test20121026",
+    "fullName":"Test20121026 Test20121026 Test20121026",
+    "birthday":"26.10.2012 00:00:00",
+    "age":6,
+    "gender":{
+      "name":"Мужской",
+      "id":1
+    },
+    "genderName":"Мужской",
+    "vip":false,
+    "hasCitizenship":false,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Студент ВУЗа",
+    "nationality":{
+      "name":"Андийцы",
+      "id":10
+    }
+  },
+  {
+    "testId":"a8bd38d9-6784-4764-9e28-acc3f1107f67",
+    "surname":"Патронов",
+    "name":"Алексей",
+    "patrName":"Иванович",
+    "fullName":"Патронов Алексей Иванович",
+    "birthday":"10.05.2009 00:00:00",
+    "age":9,
+    "gender":{
+      "name":"Мужской",
+      "id":1
+    },
+    "genderName":"Мужской",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Пенсионер",
+    "nationality":{
+      "name":"Ботлихцы",
+      "id":16
+    }
+  },
+  {
+    "testId":"c4d954d4-496b-4777-af57-8827f8018f09",
+    "surname":"Кежватова",
+    "name":"Анастасия",
+    "patrName":"Викторовна",
+    "fullName":"Кежватова Анастасия Викторовна",
+    "birthday":"08.04.1995 00:00:00",
+    "age":23,
+    "gender":{
+      "name":"Не определенный",
+      "id":3
+    },
+    "genderName":"Не определенный",
+    "vip":false,
+    "hasCitizenship":false,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Учащийся системы профтехобразования",
+    "nationality":{
+      "name":"Андийцы",
+      "id":10
+    }
+  },
+  {
+    "testId":"28c33cff-bbda-469e-8798-78f8a873df09",
+    "surname":"Чекашкина",
+    "name":"Людмила",
+    "patrName":"Ивановна",
+    "fullName":"Чекашкина Людмила Ивановна",
+    "birthday":"28.11.1964 00:00:00",
+    "age":53,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"русские",
+    "socialGroupName":"БОМЖ",
+    "nationality":{
+      "name":"Годоберинцы",
+      "id":19
+    }
+  },
+  {
+    "testId":"7d510ee5-490f-4a70-b59e-55faa808e09e",
+    "surname":"Ативанова",
+    "name":"Елена",
+    "patrName":"Александровна",
+    "fullName":"Ативанова Елена Александровна",
+    "birthday":"27.02.1971 00:00:00",
+    "age":47,
+    "gender":{
+      "name":"Не определенный",
+      "id":3
+    },
+    "genderName":"Не определенный",
+    "vip":false,
+    "hasCitizenship":false,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Рабочие учреждений и организаций Минсельхоза",
+    "nationality":{
+      "name":"Кабардинцы",
+      "id":23
+    }
+  },
+  {
+    "testId":"57af81ac-896d-41b3-b975-25248cc5fa0c",
+    "surname":"Кидяева",
+    "name":"Наталья",
+    "patrName":"Васильевна",
+    "fullName":"Кидяева Наталья Васильевна",
+    "birthday":"27.06.1977 00:00:00",
+    "age":41,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"русские",
+    "socialGroupName":"Неработающий",
+    "nationality":{
+      "name":"Ахвахцы",
+      "id":12
+    }
+  },
+  {
+    "testId":"30a7e254-8848-4b77-8dbc-fdbfedd6e2b1",
+    "surname":"Фомина",
+    "name":"Валентина",
+    "patrName":"Ивановна",
+    "fullName":"Фомина Валентина Ивановна",
+    "birthday":"25.03.1983 00:00:00",
+    "age":35,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Рабочие учреждений и организаций Минсельхоза",
+    "nationality":{
+      "name":"Адыгейцы",
+      "id":8
+    }
+  },
+  {
+    "testId":"44eeac4c-d70e-4629-93f6-e5b93697ebc9",
+    "surname":"Конюхов",
+    "name":"Николай",
+    "patrName":"Васильевич",
+    "fullName":"Конюхов Николай Васильевич",
+    "birthday":"09.08.1977 00:00:00",
+    "age":41,
+    "gender":{
+      "name":"Мужской",
+      "id":1
+    },
+    "genderName":"Мужской",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Учащийся системы профтехобразования",
+    "nationality":{
+      "name":"Ахвахцы",
+      "id":12
+    }
+  },
+  {
+    "testId":"37128f45-e004-450e-b1c5-6afd2adf593c",
+    "surname":"Коняшкина",
+    "name":"Наталья",
+    "patrName":"Михайловна",
+    "fullName":"Коняшкина Наталья Михайловна",
+    "birthday":"25.06.1971 00:00:00",
+    "age":47,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":false,
+    "hasCitizenship":false,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Пенсионер",
+    "nationality":{
+      "name":"Андийцы",
+      "id":10
+    }
+  },
+  {
+    "testId":"a2838c9c-c99c-45bc-8be0-8fc0fb1dbe13",
+    "surname":"Енгуразов",
+    "name":"Адилхан",
+    "patrName":"Махмутович",
+    "fullName":"Енгуразов Адилхан Махмутович",
+    "birthday":"29.06.1968 00:00:00",
+    "age":50,
+    "gender":{
+      "name":"Мужской",
+      "id":1
+    },
+    "genderName":"Мужской",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"русские",
+    "socialGroupName":"Работающий",
+    "nationality":{
+      "name":"Ингуши",
+      "id":22
+    }
+  },
+  {
+    "testId":"a42ac8c0-6fac-45c7-a796-9326303fd93c",
+    "surname":"Еремкин",
+    "name":"Геннадий",
+    "patrName":"Михайлович",
+    "fullName":"Еремкин Геннадий Михайлович",
+    "birthday":"11.09.1953 00:00:00",
+    "age":65,
+    "gender":{
+      "name":"Не определенный",
+      "id":3
+    },
+    "genderName":"Не определенный",
+    "vip":false,
+    "hasCitizenship":false,
+    "ethnicGroupName":"русские",
+    "socialGroupName":"Военнослужащий",
+    "nationality":{
+      "name":"Гинухцы",
+      "id":18
+    }
+  },
+  {
+    "testId":"ea19467a-f713-4614-8f22-d0da54b62008",
+    "surname":"Базайкин",
+    "name":"Алексей",
+    "patrName":"Пантелеевна",
+    "fullName":"Базайкин Алексей Пантелеевна",
+    "birthday":"03.10.1974 00:00:00",
+    "age":44,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Дети, оставшиеся без попечения родителей",
+    "nationality":{
+      "name":"Аварцы",
+      "id":4
+    }
+  },
+  {
+    "testId":"2f01f06a-62ba-40d4-af75-6530d30b9f49",
+    "surname":"Лимина",
+    "name":"Елена",
+    "patrName":"Ивановна",
+    "fullName":"Лимина Елена Ивановна",
+    "birthday":"03.12.1940 00:00:00",
+    "age":77,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"русские",
+    "socialGroupName":"Неработающий",
+    "nationality":{
+      "name":"Гинухцы",
+      "id":18
+    }
+  },
+  {
+    "testId":"898a913d-9a28-4cac-b270-cd191cdc84ba",
+    "surname":"ФЕДОСЕЙКИН",
+    "name":"НИКОЛАЙ",
+    "patrName":"ВАСИЛЬЕВИЧ",
+    "fullName":"ФЕДОСЕЙКИН НИКОЛАЙ ВАСИЛЬЕВИЧ",
+    "birthday":"11.04.1994 00:00:00",
+    "age":24,
+    "gender":{
+      "name":"Мужской",
+      "id":1
+    },
+    "genderName":"Мужской",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"русские",
+    "socialGroupName":"Работающий",
+    "nationality":{
+      "name":"Ахвахцы",
+      "id":12
+    }
+  },
+  {
+    "testId":"a4ead8c6-f3f1-46c3-8b48-7a6085e8cc08",
+    "surname":"пАНКРАТОВА",
+    "name":"АНАСТАСИЯ",
+    "patrName":"#",
+    "fullName":"пАНКРАТОВА АНАСТАСИЯ #",
+    "birthday":"08.11.2018 00:00:00",
+    "age":0,
+    "gender":{
+      "name":"Женский",
+      "id":2
+    },
+    "genderName":"Женский",
+    "vip":true,
+    "hasCitizenship":true,
+    "ethnicGroupName":"монголы-татары",
+    "socialGroupName":"Учащийся",
+    "nationality":{
+      "name":"Балкарцы",
+      "id":13
+    }
+  }
+]

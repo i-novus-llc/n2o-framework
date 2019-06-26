@@ -22,6 +22,7 @@
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="select" type="controlSelectDefinition"/>
+    <xs:element name="pills" type="controlPillsDefinition"/>
     <!--<xs:element name="select-tree" type="controlSelectTreeDefinition"/>-->
     <xs:element name="input-select" type="controlInputSelectDefinition"/>
     <xs:element name="input-select-tree" type="inputSelectTreeDefinition"/>
@@ -48,6 +49,7 @@
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
+            <xs:element name="pills" type="controlPillsDefinition" minOccurs="0"/>
             <!--<xs:element name="select-tree" type="controlSelectTreeDefinition" minOccurs="0"/>-->
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="inputSelectTreeDefinition" minOccurs="0"/>
@@ -456,6 +458,18 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlPillsDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:attribute name="type" type="multiType">
+                    <xs:annotation>
+                        <xs:documentation>Тип выбора значения</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="controlInputSelectDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
@@ -611,6 +625,13 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="single"/>
             <xs:enumeration value="multi"/>
+            <xs:enumeration value="checkboxes"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="multiType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="radio"/>
             <xs:enumeration value="checkboxes"/>
         </xs:restriction>
     </xs:simpleType>

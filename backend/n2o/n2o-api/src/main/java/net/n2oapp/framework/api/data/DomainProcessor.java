@@ -8,6 +8,7 @@ import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.domain.Domain;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -19,49 +20,40 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.ResolverStyle;
+import java.time.format.SignStyle;
 import java.util.*;
 
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
+import static java.time.temporal.ChronoField.*;
+
 /**
- * User: iryabov
- * Date: 14.06.13
- * Time: 18:19
+ * Процессор приведения к типу
  */
 public class DomainProcessor {
+    public static final String JAVA_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+
     private static DomainProcessor ourInstance = new DomainProcessor();
-    private static final Map<Class, String> simpleDomainsMap = new HashMap<Class, String>();
 
     @Deprecated
     public static DomainProcessor getInstance() {
         return ourInstance;
     }
 
-    static {
-        simpleDomainsMap.put(Integer.class, "integer");
-        simpleDomainsMap.put(String.class, "string");
-        simpleDomainsMap.put(Boolean.class, "boolean");
-        simpleDomainsMap.put(Date.class, "date");
-        simpleDomainsMap.put(LocalDate.class, "localdate");
-        simpleDomainsMap.put(LocalDateTime.class, "localdatetime");
-        simpleDomainsMap.put(DataSet.class, "object");
-        simpleDomainsMap.put(BigDecimal.class, "numeric");
-        simpleDomainsMap.put(Long.class, "long");
-        simpleDomainsMap.put(Byte.class, "byte");
-        simpleDomainsMap.put(Short.class, "short");
-    }
-
     private final ObjectMapper objectMapper;
-    private final String dateFormat;
 
-    public DomainProcessor(ObjectMapper objectMapper, String dateFormat) {
-        this.objectMapper = objectMapper;
-        this.dateFormat = dateFormat;
+    public DomainProcessor(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper.setDateFormat(new SimpleDateFormat(JAVA_DATE_FORMAT));
     }
 
     public DomainProcessor() {
-        this.dateFormat = "dd.MM.yyyy HH:mm:ss";
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper.setDateFormat(new SimpleDateFormat(dateFormat));
+        this(new ObjectMapper());
     }
 
     /**
@@ -92,8 +84,16 @@ public class DomainProcessor {
         }
     }
 
-    public Object deserialize(Object value) {
-        return deserialize(value, (String) null);
+    /**
+     * Конвертировать значение в определенный класс
+     *
+     * @param value  Значение
+     * @param domain Тип данных
+     * @return Конвертированное значение
+     * @throws ClassCastException Если конвертированное значение не соответствует классу
+     */
+    public Object deserialize(Object value, Domain domain) {
+        return deserialize(value, domain != null ? domain.getName() : null);
     }
 
     /**
@@ -105,13 +105,53 @@ public class DomainProcessor {
      * @throws ClassCastException Если конвертированное значение не соответствует классу
      */
     public Object deserialize(Object value, Class<?> clazz) {
-        String domain = simpleDomainsMap.get(clazz);
-        Object object = deserialize(value, domain);
-        if (object != null && !StringUtils.isDynamicValue(object)) {
-            if (!clazz.isAssignableFrom(object.getClass()))
-                throw new ClassCastException(String.format("Value [%s] is not a %s", value, clazz));
+        if (clazz.isEnum())
+            return deserializeEnum(value, (Class<? extends Enum>)clazz);
+        Object result = deserialize(value, Domain.getByClass(clazz));
+        if (result != null
+                && !StringUtils.isDynamicValue(result)
+                && !clazz.isAssignableFrom(result.getClass()))
+            throw new ClassCastException(String.format("Value [%s] is not a %s", value, clazz));
+        return result;
+    }
+
+    public Object deserialize(Object value) {
+        return deserialize(value, (String) null);
+    }
+
+    /**
+     * Конвертировать значение в Enum объект
+     *
+     * @param value Значение
+     * @param enumClass Enum класс
+     * @return Enum объект или null
+     *
+     */
+    @SuppressWarnings("unchecked")
+    public <T extends Enum<T>> T deserializeEnum(Object value, Class<T> enumClass) {
+        if (value == null)
+            return null;
+        if (enumClass.isAssignableFrom(value.getClass()))
+            return (T) value;
+        if (value instanceof String) {
+            String strValue = (String) value;
+            boolean idAware = IdAware.class.isAssignableFrom(enumClass);
+            if (idAware) {
+                for (Enum enumValue : enumClass.getEnumConstants()) {
+                    IdAware idEnum = (IdAware) enumValue;
+                    if (idEnum.getId().equalsIgnoreCase(strValue)) {
+                        return (T) enumValue;
+                    }
+                }
+            } else {
+                for (Enum enumValue : enumClass.getEnumConstants()) {
+                    if (enumValue.name().equalsIgnoreCase(strValue)) {
+                        return (T) enumValue;
+                    }
+                }
+            }
         }
-        return object;
+        return null;
     }
 
     /**
@@ -179,8 +219,8 @@ public class DomainProcessor {
         Object end = null;
         String domainElement = domain.replaceAll("interval\\{", "").replaceAll("\\}", "");
         if (value instanceof String
-                && (((String)value).startsWith("{")
-                && ((String)value).endsWith("}"))) {
+                && (((String) value).startsWith("{")
+                && ((String) value).endsWith("}"))) {
             //json
             try {
                 value = objectMapper.readValue((String) value, Map.class);
@@ -221,7 +261,7 @@ public class DomainProcessor {
                 && (((String) value).endsWith("]"))) {
             //json
             try {
-                value = objectMapper.readValue((String)value, List.class);
+                value = objectMapper.readValue((String) value, List.class);
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
@@ -263,35 +303,53 @@ public class DomainProcessor {
         }
         if (value instanceof String) {
             String val = ((String) value).toLowerCase();
-            if (val.equals("true") || value.equals("false")) return Domain.bool.getName();
+            if (val.equals("true") || value.equals("false")) return Domain.BOOLEAN.getName();
             if (val.matches("([\\d]{1,6})")) {
                 try {
                     Integer.parseInt(val);
                 } catch (NumberFormatException e) {
                     throw new N2oException("Value is not Integer [" + val + "]. Set domain explicitly!", e);
                 }
-                return Domain.integer.getName();
+                return Domain.INTEGER.getName();
             }
-            return Domain.string.getName();
+            return Domain.STRING.getName();
         }
         Domain domain = Domain.getByClass(value.getClass());//подбираем домен по классу значения
         return domain != null ? domain.getName() : null;
     }
 
-    private Object toObject(String domain, String value) throws ParseException, IOException, NumberFormatException {
-        if ((value == null) || (value.isEmpty())) return null;
-        if (Domain.bool.getName().equals(domain)) return Boolean.parseBoolean(value);
-        if (Domain.date.getName().equals(domain)) return new SimpleDateFormat(dateFormat).parse(value);
-        if (Domain.localdate.getName().equals(domain))
-            return LocalDate.parse(value, DateTimeFormatter.ofPattern(dateFormat));
-        if (Domain.localdatetime.getName().equals(domain))
-            return LocalDateTime.parse(value, DateTimeFormatter.ofPattern(dateFormat));
-        if (Domain.byte_.getName().equals(domain)) return Byte.parseByte(value);
-        if (Domain.short_.getName().equals(domain)) return Short.parseShort(value);
-        if (Domain.integer.getName().equals(domain)) return Integer.parseInt(value);
-        if (Domain.long_.getName().equals(domain)) return Long.parseLong(value);
-        if (Domain.object.getName().equals(domain)) return objectMapper.readValue(value, DataSet.class);
-        if (Domain.numeric.getName().equals(domain)) return new BigDecimal(value.replace(",", "."));
+    private Object toObject(String domain, String value) throws ParseException, IOException {
+        if ((value == null) || (value.isEmpty()))
+            return null;
+        if (Domain.STRING.getName().equals(domain))
+            return value;
+        if (Domain.BOOLEAN.getName().equals(domain))
+            return Boolean.parseBoolean(value);
+        if (Domain.DATE.getName().equals(domain))
+            return objectMapper.getDateFormat().parse(value);
+        if (Domain.ZONEDDATETIME.getName().equals(domain))
+            return ZonedDateTime.parse(value, DateTimeFormatter.ISO_ZONED_DATE_TIME);
+        if (Domain.OFFSETDATETIME.getName().equals(domain))
+            return OffsetDateTime.parse(value, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        if (Domain.LOCALDATETIME.getName().equals(domain))
+            return LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        if (Domain.LOCALDATE.getName().equals(domain))
+            return LocalDate.parse(value, new DateTimeFormatterBuilder()
+                    .append(ISO_LOCAL_DATE)
+                    .optionalStart().appendLiteral('T')
+                    .append(ISO_LOCAL_TIME).toFormatter());
+        if (Domain.BYTE.getName().equals(domain))
+            return Byte.parseByte(value);
+        if (Domain.SHORT.getName().equals(domain))
+            return Short.parseShort(value);
+        if (Domain.INTEGER.getName().equals(domain))
+            return Integer.parseInt(value);
+        if (Domain.LONG.getName().equals(domain))
+            return Long.parseLong(value);
+        if (Domain.NUMERIC.getName().equals(domain))
+            return new BigDecimal(value.replace(",", "."));
+        if (Domain.OBJECT.getName().equals(domain))
+            return objectMapper.readValue(value, DataSet.class);
         return value;
     }
 
@@ -305,7 +363,7 @@ public class DomainProcessor {
             case nullary:
                 return "boolean";
         }
-        throw new RuntimeException(String.format("arity '%s' for filter-type '%s' is unknown", type.arity, type));
+        throw new IllegalStateException(String.format("arity '%s' for filter-type '%s' is unknown", type.arity, type));
     }
 
 }

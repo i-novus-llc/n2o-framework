@@ -1,4 +1,5 @@
-import { isObject, toPairs, map } from 'lodash';
+import { isObject } from 'lodash';
+import warning from './warning';
 import functions from './functions';
 const windowObjectHack = {};
 Object.keys(window)
@@ -46,7 +47,8 @@ export default function evalExpression(expression, context) {
     const fn = createContextFn(Object.keys(vars), expression);
     return fn.apply(context || {}, Object.values(vars));
   } catch (e) {
-    console.warn(
+    warning(
+      e,
       `Ошибка при выполнение evalExpression! ${
         e.message
       }.\nВыражение: ${expression}\nКонтекст: ${JSON.stringify(context)}`

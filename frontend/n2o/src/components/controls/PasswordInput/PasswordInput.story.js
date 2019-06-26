@@ -16,9 +16,11 @@ stories.addDecorator(withTests('PasswordInput'));
 stories
   .add('Компонент', () => {
     const props = {
+      value: text('value', ''),
       placeholder: text('placeholder', 'Введите значение'),
       disabled: boolean('disabled', false),
       length: number('length', 25),
+      showPasswordBtn: boolean('showPasswordBtn', false),
     };
 
     return <PasswordInput {...props} />;

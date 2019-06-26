@@ -88,7 +88,7 @@ class RadioGroup extends React.Component {
 }
 
 RadioGroup.propTypes = {
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   visible: PropTypes.bool,
