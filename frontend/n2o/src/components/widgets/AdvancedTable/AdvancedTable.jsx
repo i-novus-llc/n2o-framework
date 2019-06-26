@@ -26,6 +26,7 @@ import _, {
   reduce,
   includes,
   has,
+  isNumber,
 } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
@@ -542,6 +543,7 @@ class AdvancedTable extends Component {
         ? `calc(${percentWidth}%${pxWidth > 5 ? ` + ${pxWidth}px` : ''})`
         : pxWidth;
     };
+
     return {
       ...scroll,
       x: calcXScroll(),
@@ -561,7 +563,7 @@ class AdvancedTable extends Component {
       onFocus,
       rowSelection,
     } = this.props;
-
+    console.log('point', this.getScroll());
     return (
       <HotKeys
         keyMap={{ events: values(KEY_CODES) }}

@@ -32,7 +32,7 @@
           "id": "name",
           "sortable": false,
           "label": "Имя",
-          "width": "100px"
+          "width": "300px"
         },
         {
           "src": "TextTableHeader",
