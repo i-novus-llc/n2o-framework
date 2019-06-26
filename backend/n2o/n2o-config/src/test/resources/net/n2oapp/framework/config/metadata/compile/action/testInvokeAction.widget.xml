@@ -7,7 +7,7 @@
     </actions>
     <toolbar>
         <button>
-            <invoke operation-id="update"/>
+            <invoke operation-id="create"/>
         </button>
     </toolbar>
 </table>

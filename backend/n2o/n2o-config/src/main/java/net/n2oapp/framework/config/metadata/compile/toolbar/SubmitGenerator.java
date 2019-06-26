@@ -44,11 +44,8 @@ public class SubmitGenerator implements ButtonGenerator {
         }
         if (submitLabel == null) {
             CompiledObject compiledObject = p.getScope(CompiledObject.class);
-            if (compiledObject != null) {
-                CompiledObject.Operation operation = compiledObject.getOperations().get(submitOperationId);
-                if (operation != null)
-                    submitLabel = operation.getFormSubmitLabel();
-            }
+            if (compiledObject != null && compiledObject.getOperations().containsKey(submitOperationId))
+                submitLabel = compiledObject.getOperations().get(submitOperationId).getFormSubmitLabel();
         }
         N2oButton saveButton = new N2oButton();
         saveButton.setId(GenerateType.submit.name());
