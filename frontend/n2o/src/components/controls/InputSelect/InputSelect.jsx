@@ -43,6 +43,7 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {function} onSearch
  * @reactProps {boolean} expandPopUp
  * @reactProps {array} alerts
+ * @reactProps {boolean} popupAutoSize - флаг включения автоматическиого расчета длины PopUp
  */
 
 class InputSelect extends React.Component {
@@ -87,6 +88,7 @@ class InputSelect extends React.Component {
     this.setSelectedListRef = this.setSelectedListRef.bind(this);
     this.onInputBlur = this.onInputBlur.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.setInputRef = this.setInputRef.bind(this);
   }
 
   setTextareaRef(poperRef) {
@@ -412,6 +414,21 @@ class InputSelect extends React.Component {
       this._setIsExpanded(true);
     }
   }
+
+  setInputRef(popperRef) {
+    return r => {
+      this._input = r;
+      popperRef(r);
+    };
+  }
+
+  calcPopperWidth() {
+    if ((this._input || this._textarea) && !this.props.popupAutoSize) {
+      return this._input
+        ? this._input.getBoundingClientRect().width
+        : this._textarea.getBoundingClientRect().width;
+    }
+  }
   /**
    * Рендер
    */
@@ -472,7 +489,7 @@ class InputSelect extends React.Component {
                 setSelectedItemsRef={this.setSelectedItemsRef}
               >
                 <InputContent
-                  setRef={ref}
+                  setRef={this.setInputRef(ref)}
                   onFocus={this.onFocus}
                   onBlur={this.onInputBlur}
                   loading={loading}
@@ -518,7 +535,11 @@ class InputSelect extends React.Component {
               {({ ref, style, placement }) => (
                 <div
                   ref={ref}
-                  style={style}
+                  style={{
+                    ...style,
+                    minWidth: this.calcPopperWidth(),
+                    maxWidth: 600,
+                  }}
                   data-placement={placement}
                   className="n2o-pop-up"
                 >
@@ -601,6 +622,7 @@ InputSelect.propTypes = {
   alerts: PropTypes.array,
   flip: PropTypes.bool,
   autoFocus: PropTypes.bool,
+  popupAutoSize: PropTypes.bool,
 };
 
 InputSelect.defaultProps = {
@@ -620,6 +642,7 @@ InputSelect.defaultProps = {
   expandPopUp: false,
   flip: false,
   autoFocus: false,
+  popupAutoSize: false,
   onSearch() {},
   onSelect() {},
   onToggle() {},
