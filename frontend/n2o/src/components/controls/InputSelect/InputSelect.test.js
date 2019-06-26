@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
@@ -245,6 +246,57 @@ describe('<InputSelect />', () => {
       .simulate('click');
     expect(wrapper.find('.selected-item img').props().src).toBe(
       props.options[0][props.imageFieldId]
+    );
+  });
+
+  it('проверяет расчет длины выпадающего списка', () => {
+    Element.prototype.getBoundingClientRect = jest.fn(() => {
+      return {
+        width: 120,
+        height: 120,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      };
+    });
+
+    const { wrapper, props } = setup({
+      style: {
+        width: 100,
+        height: 100,
+      },
+    });
+    const node = wrapper.getDOMNode();
+    wrapper.find('InputSelect').setState({ isExpanded: true });
+    expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
+      '120px'
+    );
+  });
+
+  it('проверяет расчет длины выпадающего списка в мулти режиме', () => {
+    Element.prototype.getBoundingClientRect = jest.fn(() => {
+      return {
+        width: 120,
+        height: 120,
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+      };
+    });
+
+    const { wrapper, props } = setup({
+      multiSelect: true,
+      style: {
+        width: 100,
+        height: 100,
+      },
+    });
+    const node = wrapper.getDOMNode();
+    wrapper.find('InputSelect').setState({ isExpanded: true });
+    expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
+      '120px'
     );
   });
 });
