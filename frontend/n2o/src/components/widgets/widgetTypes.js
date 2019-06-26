@@ -5,3 +5,4 @@ export const WIREFRAME = 'wireframe';
 export const ADVANCED_TABLE = 'advancedTable';
 export const TREE = 'tree';
 export const LIST = 'list';
+export const CHART = 'chart';

@@ -108,6 +108,7 @@
     "react-textarea-autosize": "7.0.4",
     "react-virtualized": "^9.21.0",
     "reactstrap": "^8.0.0",
+    "recharts": "^1.6.2",
     "recompose": "0.25.0",
     "redux": "3.6.0",
     "redux-actions": "2.3.2",
