@@ -1,9 +1,14 @@
 package net.n2oapp.framework.engine.data.json;
 
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.springframework.core.io.DefaultResourceLoader;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +25,41 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestDataProviderEngineTest {
 
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
+
+    @Test
+    public void testInitFromDisk() throws IOException {
+        File tempFile = testFolder.newFile("test.json");
+
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(tempFile.getName());
+
+
+        FileWriter fileWriter = new FileWriter(tempFile);
+        fileWriter.write("[" +
+                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}," +
+                "{\"id\":2, \"name\":\"test2\", \"type\":\"2\"}" +
+                "]");
+        fileWriter.close();
+
+        //Проверка, что после создания json файл содержит ожидаемые данные
+        provider.setOperation(findAll);
+
+        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(0).get("name"), is("test1"));
+        assertThat(result.get(0).get("type"), is("1"));
+
+        assertThat(result.get(1).get("id"), is(2L));
+        assertThat(result.get(1).get("name"), is("test2"));
+        assertThat(result.get(1).get("type"), is("2"));
+    }
 
     @Test
     public void testFindAllOperation() {

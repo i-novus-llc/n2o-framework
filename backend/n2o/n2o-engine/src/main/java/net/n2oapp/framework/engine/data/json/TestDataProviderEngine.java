@@ -9,8 +9,8 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.Primar
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -25,8 +25,12 @@ import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider
 /**
  * Тестовый провайдер данных из json файла
  */
-@Component
 public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataProvider>, ResourceLoaderAware {
+
+    /**
+     * Путь к файлу для чтения с диска
+     */
+    private String pathOnDisk;
 
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
@@ -304,8 +308,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      * Заполняет хранилище данных из файла
      */
     private void initRepository(N2oTestDataProvider invocation) {
-        try {
-            InputStream inputStream = resourceLoader.getResource("classpath:" + invocation.getFile()).getInputStream();
+        String path = "classpath:";
+
+        if (pathOnDisk != null && new File(pathOnDisk + invocation.getFile()).isFile()) {
+            path = "file:" + pathOnDisk;
+        }
+
+        try (InputStream inputStream = resourceLoader.getResource(path + invocation.getFile()).getInputStream()) {
             List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
             repository.put(invocation.getFile(), data);
             if (integer.equals(invocation.getPrimaryKeyType())) {
@@ -337,5 +346,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+    }
+
+    public void setPathOnDisk(String pathOnDisk) {
+        this.pathOnDisk = pathOnDisk;
     }
 }
