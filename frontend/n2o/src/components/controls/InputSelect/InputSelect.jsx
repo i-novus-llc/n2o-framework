@@ -424,7 +424,9 @@ class InputSelect extends React.Component {
 
   calcPopperWidth() {
     if ((this._input || this._textarea) && !this.props.popupAutoSize) {
-      return this._input ? this._input.clientWidth : this._textarea.clientWidth;
+      return this._input
+        ? this._input.getBoundingClientRect().width
+        : this._textarea.getBoundingClientRect().width;
     }
   }
   /**
@@ -533,9 +535,11 @@ class InputSelect extends React.Component {
               {({ ref, style, placement }) => (
                 <div
                   ref={ref}
-                  style={Object.assign({}, style, {
+                  style={{
+                    ...style,
                     minWidth: this.calcPopperWidth(),
-                  })}
+                    maxWidth: 600,
+                  }}
                   data-placement={placement}
                   className="n2o-pop-up"
                 >
