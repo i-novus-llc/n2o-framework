@@ -55,6 +55,10 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         WidgetDataProvider wdp = inputSelect.getDataProvider();
 
+        inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(1).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(inputSelect.getDataProvider().getQuickSearchParam(), is("name"));
+
         assertThat(wdp.getUrl(), is("n2o/data/test"));
         assertThat(wdp.getQuickSearchParam(), is("search"));
         assertThat(wdp.getQueryMapping().get("noRef").getBindLink(), is("models.resolve['testInputSelect_main']"));
