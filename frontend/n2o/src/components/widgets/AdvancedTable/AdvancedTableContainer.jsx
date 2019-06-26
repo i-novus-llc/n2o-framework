@@ -116,8 +116,10 @@ class AdvancedTableContainer extends React.Component {
       const cell = find(cells, c => c.id === header.id);
       return {
         ...header,
+        width: header.width || '100px',
         title: this.renderCell({
           ...header,
+          width: header.width || '100px',
           key: header.id,
           columnId: header.id,
           widgetId,

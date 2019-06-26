@@ -23,6 +23,9 @@ import _, {
   eq,
   get,
   forEach,
+  reduce,
+  includes,
+  has,
 } from 'lodash';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
@@ -112,6 +115,7 @@ class AdvancedTable extends Component {
     this.closeAllRows = this.closeAllRows.bind(this);
     this.renderIcon = this.renderIcon.bind(this);
     this.renderExpandedRow = this.renderExpandedRow.bind(this);
+    this.getScroll = this.getScroll.bind(this);
   }
 
   componentDidMount() {
@@ -505,6 +509,45 @@ class AdvancedTable extends Component {
     return newColumns;
   }
 
+  getScroll() {
+    if (!some(this.state.columns, col => has(col, 'fixed')))
+      return this.props.scroll;
+    const { scroll, columns } = this.props;
+    const calcXScroll = () => {
+      const getWidth = (
+        separator,
+        startValue,
+        defaultWidth,
+        tryParse = false
+      ) =>
+        reduce(
+          columns,
+          (result, value) => {
+            if (value.width) {
+              return includes(value.width, separator) ||
+                (tryParse && isNumber(value.width))
+                ? result + parseInt(value.width)
+                : result;
+            } else {
+              return result + defaultWidth;
+            }
+          },
+          startValue
+        );
+
+      const pxWidth = getWidth('px', 5, 100, true);
+      const percentWidth = getWidth('%', 0, 0);
+
+      return percentWidth !== 0
+        ? `calc(${percentWidth}%${pxWidth > 5 ? ` + ${pxWidth}px` : ''})`
+        : pxWidth;
+    };
+    return {
+      ...scroll,
+      x: calcXScroll(),
+    };
+  }
+
   render() {
     const {
       hasFocus,
@@ -513,7 +556,6 @@ class AdvancedTable extends Component {
       onExpand,
       tableSize,
       useFixedHeader,
-      scroll,
       bordered,
       isActive,
       onFocus,
@@ -548,7 +590,7 @@ class AdvancedTable extends Component {
             useFixedHeader={useFixedHeader}
             indentSize={20}
             emptyText={AdvancedTableEmptyText}
-            scroll={scroll}
+            scroll={this.getScroll()}
           />
         </div>
       </HotKeys>
