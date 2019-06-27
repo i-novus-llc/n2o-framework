@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { isEqual, isNumber } from 'lodash';
+import { isEqual, isNumber, isString } from 'lodash';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Text from '../../snippets/Text/Text';
@@ -76,9 +76,9 @@ class OutPutText extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
-  formatValue(value = '') {
+  formatValue(value) {
     const { expandable } = this.props;
-    if (isNumber(expandable)) {
+    if (isNumber(expandable) && isString(value)) {
       return value.substr(0, expandable - 3) + '...';
     } else {
       return value;
