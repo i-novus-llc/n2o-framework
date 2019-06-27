@@ -53,14 +53,15 @@
           "id": "name",
           "sortable": false,
           "label": "Имя",
-          "width": 200,
+          "width": "300px",
           "fixed": "left"
         },
         {
           "src": "TextTableHeader",
           "id": "surname",
           "sortable": true,
-          "label": "Фамилия"
+          "label": "Фамилия",
+          "width": "700px"
         },
         {
           "src": "TextTableHeader",
@@ -68,7 +69,7 @@
           "sortable": true,
           "label": "Дата рождения",
           "fixed": "right",
-          "width": 200
+          "width": "300px"
         }
       ]
     }
