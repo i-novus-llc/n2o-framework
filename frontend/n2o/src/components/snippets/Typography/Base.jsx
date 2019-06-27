@@ -10,12 +10,15 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { keys, pick, flowRight, values, pickBy } from 'lodash';
 import { delay, wrapTags, ICON_STYLE } from './utils';
 import ContentEditable from './ContentEditable';
+import parseFormatter from '../../../utils/parseFormatter';
 
 const PropsEnd = createContext();
 
 const EndTag = () => (
   <PropsEnd.Consumer>
-    {({ text, children }) => <Fragment>{text || children}</Fragment>}
+    {({ text, format, children }) => (
+      <Fragment>{text ? parseFormatter(text, format) : children}</Fragment>
+    )}
   </PropsEnd.Consumer>
 );
 
@@ -80,6 +83,7 @@ class Base extends Component {
     const {
       tag,
       text,
+      format,
       children,
       color,
       copyable,
@@ -123,7 +127,7 @@ class Base extends Component {
         color={color}
       >
         <ContentEditable editable={edit} onChange={this.handleContentEditable}>
-          <PropsEnd.Provider value={{ text, children }}>
+          <PropsEnd.Provider value={{ text, format, children }}>
             <Wrappers />
           </PropsEnd.Provider>
         </ContentEditable>

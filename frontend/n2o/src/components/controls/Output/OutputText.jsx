@@ -7,24 +7,32 @@ import Icon from '../../snippets/Icon/Icon';
 
 const TypesComponents = {
   icon: ({ icon }) => <Icon className="icon" name={icon} />,
-  text: ({ value, format, expandable, showFullText, preLine }) => (
+  text: ({ value, format, expandable, showFullText, preLine, isOpen }) => (
     <div className="text">
       <Text text={value} format={format} preLine={preLine} />
       {expandable && (
         <a href="#" onClick={showFullText} className="details-label">
-          Подробнее
+          {isOpen ? 'Скрыть' : 'Подробнее'}
         </a>
       )}
     </div>
   ),
-  iconAndText: ({ icon, value, format, expandable, showFullText, preLine }) => (
+  iconAndText: ({
+    icon,
+    value,
+    format,
+    expandable,
+    showFullText,
+    preLine,
+    isOpen,
+  }) => (
     <Fragment>
       {icon && <Icon className="icon" name={icon} />}
       <div className="text">
         <Text text={value} format={format} preLine={preLine} />
         {expandable && (
           <a href="#" onClick={showFullText} className="details-label">
-            Подробнее
+            {isOpen ? 'Скрыть' : 'Подробнее'}
           </a>
         )}
       </div>
@@ -114,6 +122,7 @@ class OutPutText extends React.Component {
           value={isOpen ? value : formattedValue}
           expandable={expandable}
           showFullText={this.showFullText}
+          isOpen={isOpen}
         />
       </div>
     );
