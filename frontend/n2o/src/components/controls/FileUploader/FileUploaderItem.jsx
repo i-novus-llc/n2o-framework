@@ -3,7 +3,7 @@ import { Tooltip } from 'reactstrap';
 import cn from 'classnames';
 import { Progress } from 'reactstrap';
 import { convertSize } from './utils';
-import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
+import Spinner from '../../snippets/Spinner/Spinner';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -65,10 +65,10 @@ class FileUploaderItem extends React.Component {
             {!disabled && !loading && (
               <i
                 onClick={() => onRemove(index, file.id)}
-                className={'n2o-file-uploader-remove fa fa-times'}
+                className={'n2o-file-uploader-remove fa fa-times ml-2'}
               />
             )}
-            {loading && <InlineSpinner />}
+            {loading && <Spinner className="ml-2" type="inline" size="sm" />}
           </span>
         </span>
         {loading ||
