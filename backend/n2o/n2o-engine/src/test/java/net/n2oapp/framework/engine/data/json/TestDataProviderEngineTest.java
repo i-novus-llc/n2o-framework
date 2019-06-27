@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.data.json;
 
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.Operation.*;
 import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType.string;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -28,10 +29,21 @@ public class TestDataProviderEngineTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
+    private File tempFile;
+
+
+    @Before
+    public void prepareJsonFile() throws IOException {
+        tempFile = testFolder.newFile("test.json");
+        FileWriter fileWriter = new FileWriter(tempFile);
+        fileWriter.write("[" +
+                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
+                "]");
+        fileWriter.close();
+    }
+
     @Test
     public void testInitFromDisk() throws IOException {
-        File tempFile = testFolder.newFile("test.json");
-
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
         engine.setPathOnDisk(testFolder.getRoot() + "/");
@@ -39,26 +51,206 @@ public class TestDataProviderEngineTest {
         N2oTestDataProvider provider = new N2oTestDataProvider();
         provider.setFile(tempFile.getName());
 
-
-        FileWriter fileWriter = new FileWriter(tempFile);
-        fileWriter.write("[" +
-                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}," +
-                "{\"id\":2, \"name\":\"test2\", \"type\":\"2\"}" +
-                "]");
-        fileWriter.close();
-
         //Проверка, что после создания json файл содержит ожидаемые данные
         provider.setOperation(findAll);
 
         List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(0).get("name"), is("test1"));
+        assertThat(result.get(0).get("type"), is("1"));
+    }
+
+    @Test
+    public void testCreateOnFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(tempFile.getName());
+
+        //Добавление новых данных
+        provider.setOperation(create);
+
+        Map<String, Object> inParamsForCreate = new LinkedHashMap<>();
+        inParamsForCreate.put("id", 9L);
+        inParamsForCreate.put("name", "test9");
+        inParamsForCreate.put("type", "9");
+
+        engine.invoke(provider, inParamsForCreate);
+
+        //Проверка, что после create json файл содержит ожидаемые данные
+        provider.setOperation(findAll);
+
+        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
         assertThat(result.size(), is(2));
+        assertThat(result.get(0).get("id"), is(9L));
+        assertThat(result.get(0).get("name"), is("test9"));
+        assertThat(result.get(0).get("type"), is("9"));
+        assertThat(result.get(1).get("id"), is(1L));
+        assertThat(result.get(1).get("name"), is("test1"));
+        assertThat(result.get(1).get("type"), is("1"));
+    }
+
+    @Test
+    public void testUpdateOnFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(tempFile.getName());
+
+        //Обновление данных
+        provider.setOperation(update);
+
+        Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
+        inParamsForUpdate.put("id", 1L);
+        inParamsForUpdate.put("name", "test9");
+        inParamsForUpdate.put("type", "9");
+
+        engine.invoke(provider, inParamsForUpdate);
+
+        //Проверка, что после update json файл содержит ожидаемые данные
+        provider.setOperation(findAll);
+
+        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(0).get("name"), is("test9"));
+        assertThat(result.get(0).get("type"), is("9"));
+    }
+
+    @Test
+    public void testDeleteOnFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(tempFile.getName());
+
+        //Удаление данных
+        provider.setOperation(delete);
+
+        Map<String, Object> inParamsForDelete = new LinkedHashMap<>();
+        inParamsForDelete.put("id", 1L);
+
+        engine.invoke(provider, inParamsForDelete);
+
+        //Проверка, что после delete json файл содержит ожидаемые данные
+        provider.setOperation(findAll);
+
+        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(0));
+    }
+
+    @Test
+    public void testFindAllAfterChangeInFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(tempFile.getName());
+
+        //Проверка исходных данных в файле
+        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(1L));
         assertThat(result.get(0).get("name"), is("test1"));
         assertThat(result.get(0).get("type"), is("1"));
 
-        assertThat(result.get(1).get("id"), is(2L));
-        assertThat(result.get(1).get("name"), is("test2"));
-        assertThat(result.get(1).get("type"), is("2"));
+        //Добавление новых данных
+        FileWriter fileWriter = new FileWriter(tempFile);
+        fileWriter.write("[" +
+                "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
+                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
+                "]");
+        fileWriter.close();
+
+        //Проверка, что после изменения json, новые данные будут возвращены
+        result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0).get("id"), is(9L));
+        assertThat(result.get(0).get("name"), is("test9"));
+        assertThat(result.get(0).get("type"), is("9"));
+        assertThat(result.get(1).get("id"), is(1L));
+        assertThat(result.get(1).get("name"), is("test1"));
+        assertThat(result.get(1).get("type"), is("1"));
+    }
+
+    @Test
+    public void testFindOneAfterChangeInFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(tempFile.getName());
+
+        //Проверка исходных данных в файле
+        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(0).get("name"), is("test1"));
+        assertThat(result.get(0).get("type"), is("1"));
+
+        //Добавление новых данных
+        FileWriter fileWriter = new FileWriter(tempFile);
+        fileWriter.write("[" +
+                "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
+                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
+                "]");
+        fileWriter.close();
+
+        //Проверка, что после изменения json, новые данные будут возвращены
+        Map<String, Object> inParams = new LinkedHashMap<>();
+        inParams.put("filters", Arrays.asList("id :eq :id"));
+        inParams.put("id", 9L);
+
+        provider.setOperation(findOne);
+
+        Map resultAfterChange = (Map) engine.invoke(provider, inParams);
+        assertThat(resultAfterChange.get("id"), is(9L));
+        assertThat(resultAfterChange.get("name"), is("test9"));
+        assertThat(resultAfterChange.get("type"), is("9"));
+    }
+
+    @Test
+    public void testCountAfterChangeInFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(tempFile.getName());
+
+        //Проверка исходных данных в файле
+        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(0).get("name"), is("test1"));
+        assertThat(result.get(0).get("type"), is("1"));
+
+        //Добавление новых данных
+        FileWriter fileWriter = new FileWriter(tempFile);
+        fileWriter.write("[" +
+                "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
+                "{\"id\":8, \"name\":\"test8\", \"type\":\"8\"}," +
+                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
+                "]");
+        fileWriter.close();
+
+        //Проверка, что после изменения json, количество записей корректно
+        provider.setOperation(count);
+
+        Map<String, Object> inParams = new LinkedHashMap<>();
+        inParams.put("filters", Collections.emptyList());
+
+        Integer resultCount = (Integer) engine.invoke(provider, inParams);
+        assertThat(resultCount, is(3));
     }
 
     @Test

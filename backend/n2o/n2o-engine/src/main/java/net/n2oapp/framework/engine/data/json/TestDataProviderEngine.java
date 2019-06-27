@@ -11,6 +11,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -103,6 +104,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         modifiableData.add(0, newElement);
         updateRepository(invocation.getFile(), modifiableData);
 
+        updateFile(invocation.getFile());
+
         return newElement;
     }
 
@@ -122,6 +125,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         updateElement(element, inParams.entrySet());
         updateRepository(invocation.getFile(), modifiableData);
 
+        updateFile(invocation.getFile());
+
         return null;
     }
 
@@ -134,6 +139,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
         modifiableData.removeIf(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams));
         updateRepository(invocation.getFile(), modifiableData);
+
+        updateFile(invocation.getFile());
+
         return null;
     }
 
@@ -294,9 +302,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
         if (invocation.getFile() == null)
             return new ArrayList<>();
-        if (!repository.containsKey(invocation.getFile())) {
+        if (!repository.containsKey(invocation.getFile()) ||
+                fileExistsOnDisk(invocation.getFile())) {
             initRepository(invocation);
         }
+
         return repository.get(invocation.getFile());
     }
 
@@ -310,7 +320,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private void initRepository(N2oTestDataProvider invocation) {
         String path = "classpath:";
 
-        if (pathOnDisk != null && new File(pathOnDisk + invocation.getFile()).isFile()) {
+        if (fileExistsOnDisk(invocation.getFile())) {
             path = "file:" + pathOnDisk;
         }
 
@@ -350,5 +360,31 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     public void setPathOnDisk(String pathOnDisk) {
         this.pathOnDisk = pathOnDisk;
+    }
+
+    /**
+     * Проверяет существование файла на диске
+     * @param filename Имя файла
+     * @return True если файл с заданным именем и путем,
+     * указанным в переменной pathOnDisk, существует, false иначе
+     */
+    private boolean fileExistsOnDisk(String filename) {
+        return pathOnDisk != null &&
+                new File(pathOnDisk + filename).isFile();
+    }
+
+    /**
+     * Обновляет содержимое файла на диске
+     * @param filename Имя файла
+     */
+    private void updateFile(String filename) {
+        if (fileExistsOnDisk(filename)) {
+            try (FileWriter fileWriter = new FileWriter(pathOnDisk + filename)) {
+                String mapAsJson = new ObjectMapper().writeValueAsString(repository.get(filename));
+                fileWriter.write(mapAsJson);
+            } catch (IOException e) {
+                throw new N2oException(e);
+            }
+        }
     }
 }
