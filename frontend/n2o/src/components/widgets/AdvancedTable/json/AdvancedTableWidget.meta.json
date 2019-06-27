@@ -202,7 +202,7 @@
           "id": "name",
           "sortable": false,
           "label": "Имя",
-          "width": "50"
+          "width": "50px"
         },
         {
           "src": "TextTableHeader",
