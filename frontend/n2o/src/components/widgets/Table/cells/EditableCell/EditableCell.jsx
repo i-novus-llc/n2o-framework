@@ -100,24 +100,17 @@ export class EditableCell extends React.Component {
       visible,
       control,
       editable,
-      parentWidth,
-      parentHeight,
       format,
       fieldKey,
       editFieldId,
     } = this.props;
     const { editing, model } = this.state;
-    const style = {
-      width: parentWidth,
-      height: parentHeight,
-    };
     const events = { events: 'enter' };
     const handlers = { events: this.handleKeyDown };
 
     return (
       visible && (
         <div
-          style={style}
           className={cn({ 'n2o-editable-cell': editable })}
           onClick={this.stopPropagation}
         >
@@ -131,7 +124,7 @@ export class EditableCell extends React.Component {
           )}
           {editable && editing && (
             <HotKeys keyMap={events} handlers={handlers}>
-              <div className="n2o-editable-cell-control" style={style}>
+              <div className="n2o-editable-cell-control">
                 {React.createElement(control.component, {
                   ...control,
                   className: 'n2o-advanced-table-edit-control',
