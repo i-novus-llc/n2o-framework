@@ -84,7 +84,10 @@ export class EditableCell extends React.Component {
 
   callAction(model) {
     const { callInvoke, action } = this.props;
-    callInvoke(model, get(action, 'options.payload.dataProvider'));
+    const dataProvider = get(action, 'options.payload.dataProvider');
+    const meta = get(action, 'options.meta');
+
+    callInvoke(model, dataProvider, meta);
   }
 
   handleKeyDown() {
