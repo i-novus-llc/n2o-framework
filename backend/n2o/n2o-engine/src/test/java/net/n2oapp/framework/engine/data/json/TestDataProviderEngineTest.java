@@ -1,5 +1,8 @@
 package net.n2oapp.framework.engine.data.json;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
 import org.junit.Before;
 import org.junit.Rule;
@@ -80,15 +83,18 @@ public class TestDataProviderEngineTest {
 
         engine.invoke(provider, inParamsForCreate);
 
-        //Проверка, что после create json файл содержит ожидаемые данные
-        provider.setOperation(findAll);
+        //Проверка, что после create, json файл содержит ожидаемые данные
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(tempFile, collectionType);
 
-        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
         assertThat(result.size(), is(2));
-        assertThat(result.get(0).get("id"), is(9L));
+        assertThat(result.get(0).get("id"), is(9));
         assertThat(result.get(0).get("name"), is("test9"));
         assertThat(result.get(0).get("type"), is("9"));
-        assertThat(result.get(1).get("id"), is(1L));
+        assertThat(result.get(1).get("id"), is(1));
         assertThat(result.get(1).get("name"), is("test1"));
         assertThat(result.get(1).get("type"), is("1"));
     }
@@ -112,12 +118,15 @@ public class TestDataProviderEngineTest {
 
         engine.invoke(provider, inParamsForUpdate);
 
-        //Проверка, что после update json файл содержит ожидаемые данные
-        provider.setOperation(findAll);
+        //Проверка, что после update, json файл содержит ожидаемые данные
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(tempFile, collectionType);
 
-        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
         assertThat(result.size(), is(1));
-        assertThat(result.get(0).get("id"), is(1L));
+        assertThat(result.get(0).get("id"), is(1));
         assertThat(result.get(0).get("name"), is("test9"));
         assertThat(result.get(0).get("type"), is("9"));
     }
@@ -139,10 +148,13 @@ public class TestDataProviderEngineTest {
 
         engine.invoke(provider, inParamsForDelete);
 
-        //Проверка, что после delete json файл содержит ожидаемые данные
-        provider.setOperation(findAll);
+        //Проверка, что после delete, json файл содержит ожидаемые данные
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(tempFile, collectionType);
 
-        List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
         assertThat(result.size(), is(0));
     }
 
