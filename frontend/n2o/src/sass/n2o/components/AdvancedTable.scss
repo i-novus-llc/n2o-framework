@@ -122,7 +122,6 @@
     position: absolute;
     top: 0;
     right: 0;
-    height: calc(100% - 17px);
     overflow: hidden;
   }
 
@@ -246,4 +245,8 @@
     box-sizing: border-box;
     cursor: col-resize;
   }
+}
+
+.n2o-editable-cell-text {
+  word-break: break-word;
 }

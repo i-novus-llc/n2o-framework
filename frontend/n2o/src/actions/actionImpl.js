@@ -1,7 +1,13 @@
 import { START_INVOKE } from '../constants/actionImpls';
 import createActionHelper from './createActionHelper';
 
-export function startInvoke(widgetId, dataProvider, data, modelLink) {
+export function startInvoke(
+  widgetId,
+  dataProvider,
+  data,
+  modelLink,
+  meta = { refresh: true }
+) {
   return createActionHelper(START_INVOKE)(
     {
       widgetId,
@@ -9,8 +15,6 @@ export function startInvoke(widgetId, dataProvider, data, modelLink) {
       data,
       modelLink,
     },
-    {
-      refresh: true,
-    }
+    meta
   );
 }
