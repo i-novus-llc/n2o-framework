@@ -1,5 +1,7 @@
-import DefaultPage from './DefaultPage/DefaultPage';
+import LeftRightPage from './LeftRightPage/LeftRightPage';
+import StandardPage from './StandardPage/StandardPage';
 
 export default {
-  DefaultPage: DefaultPage,
+  LeftRightPage: LeftRightPage,
+  StandardPage: StandardPage,
 };

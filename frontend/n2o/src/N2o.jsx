@@ -136,7 +136,7 @@ const EnhancedN2O = compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
-    defaultPage: 'DefaultPage',
+    defaultPage: 'LeftRightPage',
     defaultPromptMessage:
       'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     defaultErrorPages: configureErrorPages(),
