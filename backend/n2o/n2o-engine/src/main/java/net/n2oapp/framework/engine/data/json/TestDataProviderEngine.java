@@ -368,7 +368,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private void validatePath(N2oTestDataProvider invocation) {
         String filename = invocation.getFile();
-        if (!filename.startsWith("/")) {
+        if (filename != null && !filename.startsWith("/")) {
             invocation.setFile("/" + filename);
         }
 
