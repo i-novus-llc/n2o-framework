@@ -123,6 +123,7 @@ describe('Тесты EditableCell', function() {
       },
       editFieldId: 'name',
       model: {
+        id: 1,
         surname: 'Ivanov',
         name: 'Ivan',
         part: 'Ivanovich',
@@ -150,6 +151,7 @@ describe('Тесты EditableCell', function() {
     expect(onSetSelectedId.called).toEqual(true);
     expect(callInvoke.calledOnce).toEqual(true);
     expect(callInvoke.getCall(0).args[0]).toEqual({
+      id: 1,
       surname: 'Ivanov',
       name: 'Sergey',
       part: 'Ivanovich',
