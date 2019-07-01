@@ -1,6 +1,6 @@
 {
   "name": "antd-n2o-ui",
-  "version": "7.3.9",
+  "version": "7.3.10",
   "description": "antd-n2o-ui React component",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -22,7 +22,7 @@
     "bootstrap": "~4.3.0",
     "font-awesome": "4.7.0",
     "lodash": "^4.17.11",
-    "n2o": "^7.3.9",
+    "n2o": "^7.3.10",
     "react": "16.x",
     "recompose": "^0.30.0"
   },
