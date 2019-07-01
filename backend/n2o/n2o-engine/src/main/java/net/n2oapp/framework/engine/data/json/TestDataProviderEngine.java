@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.data.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -44,6 +45,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     @Override
     public Object invoke(N2oTestDataProvider invocation, Map<String, Object> inParams) {
+        validatePath(invocation);
         return execute(invocation, inParams, getData(invocation));
     }
 
@@ -321,7 +323,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         String path = "classpath:";
 
         if (fileExistsOnDisk(invocation.getFile())) {
-            path = "file:" + pathOnDisk;
+            path = "file:" + getResourcePath();
         }
 
         try (InputStream inputStream = resourceLoader.getResource(path + invocation.getFile()).getInputStream()) {
@@ -353,9 +355,35 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         return dataList;
     }
 
+    /**
+     * Возвращает путь к файлу на диске
+     */
+    public String getResourcePath() {
+        return pathOnDisk;
+    }
+
+    /**
+     * Исправляет некорректно заданную пару: путь + имя файла
+     * Удаляет лишнюю косую черту или добавляет недостающую
+     */
+    private void validatePath(N2oTestDataProvider invocation) {
+        String filename = invocation.getFile();
+        if (!filename.startsWith("/")) {
+            invocation.setFile("/" + filename);
+        }
+
+        if (pathOnDisk != null && pathOnDisk.endsWith("/")) {
+            pathOnDisk = pathOnDisk.substring(0, pathOnDisk.length() - 1);
+        }
+    }
+
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+    }
+
+    public String getPathOnDisk() {
+        return pathOnDisk;
     }
 
     public void setPathOnDisk(String pathOnDisk) {
@@ -370,7 +398,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private boolean fileExistsOnDisk(String filename) {
         return pathOnDisk != null &&
-                new File(pathOnDisk + filename).isFile();
+                new File(getResourcePath() + filename).isFile();
     }
 
     /**
@@ -379,8 +407,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private void updateFile(String filename) {
         if (fileExistsOnDisk(filename)) {
-            try (FileWriter fileWriter = new FileWriter(pathOnDisk + filename)) {
-                String mapAsJson = new ObjectMapper().writeValueAsString(repository.get(filename));
+            try (FileWriter fileWriter = new FileWriter(getResourcePath() + filename)) {
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+                String mapAsJson = objectMapper.writeValueAsString(repository.get(filename));
                 fileWriter.write(mapAsJson);
             } catch (IOException e) {
                 throw new N2oException(e);
