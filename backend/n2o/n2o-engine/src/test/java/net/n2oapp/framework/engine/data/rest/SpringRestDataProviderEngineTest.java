@@ -123,7 +123,7 @@ public class SpringRestDataProviderEngineTest {
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();
         dataProvider.setMethod(N2oRestDataProvider.Method.POST);
-        dataProvider.setFiltersSeparator("&");
+//        dataProvider.setFiltersSeparator("&");//by default
         dataProvider.setJoinSeparator(";");
         dataProvider.setSelectSeparator(";");
         dataProvider.setSortingSeparator("&");
