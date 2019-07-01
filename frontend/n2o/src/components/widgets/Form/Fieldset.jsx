@@ -1,12 +1,10 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
 import { isBoolean, isString, each, concat } from 'lodash';
 import { bindActionCreators } from 'redux';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import ReduxField from './ReduxField';
 import {
   showFields,
   hideFields,
@@ -16,6 +14,7 @@ import {
 import propsResolver from '../../../utils/propsResolver';
 import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
+import FieldsetRow from './FieldsetRow';
 
 const config = {
   onChange: function() {
@@ -178,49 +177,18 @@ class Fieldset extends React.Component {
       modelPrefix,
     } = this.props;
     return (
-      <Row key={rowId} {...row.props} className={row.className}>
-        {row.cols &&
-          row.cols.map((col, colId) => {
-            return (
-              <Col
-                xs={col.size || defaultCol}
-                key={colId}
-                className={col.className}
-              >
-                {col.fields &&
-                  col.fields.map((field, i) => {
-                    {
-                      /*this.fields.push(field.id);*/
-                    }
-                    const autoFocus =
-                      field.id && autoFocusId && field.id === autoFocusId;
-                    const key = 'field' + i;
-                    return (
-                      <ReduxField
-                        labelPosition={labelPosition}
-                        labelWidth={labelWidth}
-                        labelAlignment={labelAlignment}
-                        key={key}
-                        autoFocus={autoFocus}
-                        form={this.props.form}
-                        modelPrefix={modelPrefix}
-                        {...field}
-                      />
-                    );
-                  })}
-                {col.fieldsets &&
-                  col.fieldsets.map((fieldset, i) => (
-                    <FieldsetContainer
-                      modelPrefix={modelPrefix}
-                      key={'set' + i}
-                      form={form}
-                      {...fieldset}
-                    />
-                  ))}
-              </Col>
-            );
-          })}
-      </Row>
+      <FieldsetRow
+        key={rowId}
+        row={row}
+        rowId={rowId}
+        labelPosition={labelPosition}
+        labelWidth={labelWidth}
+        labelAlignment={labelAlignment}
+        defaultCol={defaultCol}
+        autoFocusId={autoFocusId}
+        form={form}
+        modelPrefix={modelPrefix}
+      />
     );
   }
 
@@ -237,13 +205,12 @@ class Fieldset extends React.Component {
       return <ElementType>{children}</ElementType>;
     }
 
+    const classes = cx('n2o-fieldset', className, {
+      'd-none': !this.state.visibleFieldset,
+    });
+
     return (
-      <div
-        className={cx('n2o-fieldset', className, {
-          'd-none': !this.state.visibleFieldset,
-        })}
-        style={style}
-      >
+      <div className={classes} style={style}>
         <ElementType
           {...rest}
           render={rows => {
@@ -263,8 +230,12 @@ Fieldset.propTypes = {
   labelWidth: PropTypes.array,
   labelAlignment: PropTypes.array,
   defaultCol: PropTypes.number,
-  autoFocusId: PropTypes.number,
-  component: PropTypes.node,
+  autoFocusId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  component: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node,
+    PropTypes.func,
+  ]),
   children: PropTypes.node,
   visible: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   enabled: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

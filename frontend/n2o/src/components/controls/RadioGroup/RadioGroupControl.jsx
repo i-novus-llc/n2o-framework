@@ -75,7 +75,7 @@ RadioGroupControl.propTypes = {
   data: PropTypes.array,
   valueFieldId: PropTypes.string,
   labelFieldId: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   inline: PropTypes.bool,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,

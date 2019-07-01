@@ -12,7 +12,7 @@
                 <open-page page-id="testOpenPageSimplePageAction2"
                            route="/:page_test_id/action2"
                            page-name="second"
-                           submit-operation-id="test2" detail-field-id="id"/>
+                           submit-operation-id="update" detail-field-id="id"/>
             </button>
             <button id="masterDetail" model="resolve">
                 <open-page page-id="testOpenPageMasterDetail"

@@ -37,6 +37,7 @@ export const withWidgetContainer = widgetContainer(
         modelPrefix: props.modelPrefix,
         prompt: props.prompt,
         setActive: props.onFocus,
+        placeholder: props.placeholder,
       };
     },
   },

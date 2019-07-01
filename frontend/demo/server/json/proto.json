@@ -449,15 +449,15 @@
                 "hint": "Кнопка скрывается, если в строке имя Мария",
                 "hintPosition": "bottom",
                 "conditions": {
-                  "visible": [
-                    {
-                      "expression": "name!='Мария'",
-                      "modelLink": "models.resolve['proto_patients']"
-                    }
-                  ],
                   "enabled": [
                     {
                       "expression": "!_.isEmpty(this)",
+                      "modelLink": "models.resolve['proto_patients']"
+                    }
+                  ],
+                  "visible": [
+                    {
+                      "expression": "name!='Мария'",
                       "modelLink": "models.resolve['proto_patients']"
                     }
                   ]
@@ -816,8 +816,8 @@
                           "src": "DateInterval",
                           "id": "bdate",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
-                          "utc": false
+                          "utc": false,
+                          "outputFormat": "YYYY-MM-DDTHH:mm:ss"
                         }
                       }
                     ]
@@ -839,11 +839,9 @@
                           "id": "genders",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": true,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
                           "inline": true,
                           "type": "n2o"
@@ -880,6 +878,7 @@
         "autoFocus": true,
         "size": 10,
         "hasFocus": true,
+        "hasSelect": true,
         "cells": [
           {
             "id": "surname",
@@ -942,14 +941,14 @@
             "actionId": "update_birthday",
             "control": {
               "src": "DatePicker",
-              "id": "date",
+              "id": "birthday",
               "dateFormat": "DD.MM.YYYY",
-              "outputFormat": "DD.MM.YYYY HH:mm:ss",
-              "utc": false
+              "utc": false,
+              "outputFormat": "YYYY-MM-DDTHH:mm:ss"
             },
             "format": "date DD.MM.YYYY",
+            "editFieldId": "birthday",
             "editType": "inline",
-            "editable": true,
             "action": {
               "id": "update_birthday",
               "src": "perform",
@@ -980,7 +979,8 @@
                   "fail": {}
                 }
               }
-            }
+            },
+            "editable": true
           },
           {
             "id": "genderName",
@@ -1171,8 +1171,7 @@
         ],
         "sorting": {
           "birthday": "ASC"
-        },
-        "hasSelect": true
+        }
       }
     },
     "proto_contacts": {
@@ -1483,12 +1482,10 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": true,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
                           "type": "n2o"
                         }

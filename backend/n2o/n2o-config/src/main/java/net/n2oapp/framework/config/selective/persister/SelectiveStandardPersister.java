@@ -77,6 +77,7 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new OutputTextIOv2())
                 .addPersister(new PasswordIOv2())
                 .addPersister(new RadioGroupIOv2())
+                .addPersister(new PillsIOv2())
                 .addPersister(new SelectTreeIOv2())
                 .addPersister(new SelectIOv2())
                 .addPersister(new TextAreaIOv2())

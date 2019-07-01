@@ -58,6 +58,11 @@ class WidgetFilters extends React.Component {
     };
   }
 
+  componentWillUnmount() {
+    const { widgetId, clearFilterModel } = this.props;
+    clearFilterModel(widgetId);
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { filterModel, reduxFormFilter } = this.props;
     const { defaultValues } = this.state;
@@ -166,7 +171,7 @@ WidgetFilters.propTypes = {
   validation: PropTypes.object,
   clearFilterModel: PropTypes.func,
   setFilterModel: PropTypes.func,
-  reduxFormFilter: PropTypes.func,
+  reduxFormFilter: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
   fetchWidget: PropTypes.func,
   hideButtons: PropTypes.bool,
   searchOnChange: PropTypes.bool,

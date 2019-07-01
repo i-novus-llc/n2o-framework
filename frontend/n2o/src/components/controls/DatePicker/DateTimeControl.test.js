@@ -177,7 +177,7 @@ describe('<DateTimeControl />', () => {
 
   it('устанавливает время', () => {
     const { wrapper } = setup({
-      value: '22/12/2017 12:00',
+      value: '2017-12-22T12:00:00',
       dateFormat: 'DD/MM/YYYY',
       timeFormat: 'HH:mm',
       defaultTime: '12:34',

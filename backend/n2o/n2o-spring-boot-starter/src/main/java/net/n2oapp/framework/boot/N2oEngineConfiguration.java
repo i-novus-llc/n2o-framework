@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
+import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
@@ -49,6 +50,9 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.timeout}")
     private String timeoutInMillis;
+
+    @Value("${n2o.config.path}")
+    private String configPath;
 
     @Bean
     @ConditionalOnMissingBean
@@ -137,6 +141,13 @@ public class N2oEngineConfiguration {
                 restObjectMapper);
         springRestDataProviderEngine.setBaseRestUrl(baseRestUrl);
         return springRestDataProviderEngine;
+    }
+
+    @Bean
+    public TestDataProviderEngine testDataProviderEngine() {
+        TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
+        testDataProviderEngine.setPathOnDisk(configPath);
+        return testDataProviderEngine;
     }
 
     private ObjectMapper restObjectMapper() {

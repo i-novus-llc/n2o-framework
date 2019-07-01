@@ -54,7 +54,7 @@ class TreeWidget extends React.Component {
       draggable,
       childrenFieldId,
     } = this.props;
-    const { toolbar, actions, dataProvider } = this.props;
+    const { toolbar, actions, dataProvider, placeholder } = this.props;
     const { resolveProps } = this.context;
     return {
       toolbar,
@@ -62,6 +62,7 @@ class TreeWidget extends React.Component {
       hasFocus,
       hasSelect,
       autoFocus,
+      placeholder,
       dataProvider,
       rowClick,
       childIcon,

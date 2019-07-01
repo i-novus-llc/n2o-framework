@@ -78,6 +78,7 @@ public class SelectiveStandardReader extends SelectiveReader {
                 .addReader(new OutputTextIOv2())
                 .addReader(new PasswordIOv2())
                 .addReader(new RadioGroupIOv2())
+                .addReader(new PillsIOv2())
                 .addReader(new SelectTreeIOv2())
                 .addReader(new SelectIOv2())
                 .addReader(new TextAreaIOv2())

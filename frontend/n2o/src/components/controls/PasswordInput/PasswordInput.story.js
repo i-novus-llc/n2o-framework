@@ -16,9 +16,11 @@ stories.addDecorator(withTests('PasswordInput'));
 stories
   .add('Компонент', () => {
     const props = {
+      value: text('value', ''),
       placeholder: text('placeholder', 'Введите значение'),
       disabled: boolean('disabled', false),
       length: number('length', 25),
+      showPasswordBtn: boolean('showPasswordBtn', false),
     };
 
     return <PasswordInput {...props} />;
@@ -31,7 +33,22 @@ stories
         placeholder: text('placeholder', PasswordInputJson.placeholder),
         disabled: boolean('disabled', PasswordInputJson.disabled),
         length: number('length', PasswordInputJson.length),
-        value: text('value', PasswordInputJson.value),
+      };
+
+      return props;
+    })
+  )
+  .add(
+    'Фича просмотрал введенного пароля',
+    form(() => {
+      const props = {
+        placeholder: text('placeholder', PasswordInputJson.placeholder),
+        disabled: boolean('disabled', PasswordInputJson.disabled),
+        length: number('length', PasswordInputJson.length),
+        showPasswordBtn: boolean(
+          'showPasswordBtn',
+          PasswordInputJson.showPasswordBtn
+        ),
       };
 
       return props;

@@ -202,11 +202,12 @@
           "id": "name",
           "sortable": false,
           "label": "Имя",
-          "width": "50"
+          "width": "50px"
         },
         {
           "src": "TextTableHeader",
           "id": "surname",
+          "icon": "fa fa-plus",
           "sortable": true,
           "label": "Фамилия"
         },

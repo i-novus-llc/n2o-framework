@@ -2,14 +2,14 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
-import { Dropdown, DropdownToggle } from 'reactstrap';
 import cx from 'classnames';
 import InputSelectGroup from './InputSelectGroup';
 import PopupList from './PopupList';
 import InputContent from './InputContent';
-import { find, isEqual, isEmpty, isNil } from 'lodash';
+import { find, isEqual, isEmpty } from 'lodash';
 import Alert from '../../snippets/Alerts/Alert';
-import Popup from './Popup';
+import { Manager, Reference, Popper } from 'react-popper';
+import { MODIFIERS } from '../DatePicker/utils';
 
 /**
  * InputSelect
@@ -43,6 +43,7 @@ import Popup from './Popup';
  * @reactProps {function} onSearch
  * @reactProps {boolean} expandPopUp
  * @reactProps {array} alerts
+ * @reactProps {boolean} popupAutoSize - флаг включения автоматическиого расчета длины PopUp
  */
 
 class InputSelect extends React.Component {
@@ -85,10 +86,16 @@ class InputSelect extends React.Component {
     this.setSelectedItemsRef = this.setSelectedItemsRef.bind(this);
     this.setTextareaRef = this.setTextareaRef.bind(this);
     this.setSelectedListRef = this.setSelectedListRef.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+    this.setInputRef = this.setInputRef.bind(this);
   }
 
-  setTextareaRef(input) {
-    this._textarea = input;
+  setTextareaRef(poperRef) {
+    return r => {
+      this._textarea = r;
+      poperRef(r);
+    };
   }
 
   setSelectedListRef(selectedList) {
@@ -394,6 +401,34 @@ class InputSelect extends React.Component {
       }
     }
   }
+
+  onInputBlur() {
+    if (!this.state.isExpanded) {
+      this.props.onBlur();
+    }
+  }
+
+  onFocus() {
+    const { openOnFocus } = this.props;
+    if (openOnFocus) {
+      this._setIsExpanded(true);
+    }
+  }
+
+  setInputRef(popperRef) {
+    return r => {
+      this._input = r;
+      popperRef(r);
+    };
+  }
+
+  calcPopperWidth() {
+    if ((this._input || this._textarea) && !this.props.popupAutoSize) {
+      return this._input
+        ? this._input.getBoundingClientRect().width
+        : this._textarea.getBoundingClientRect().width;
+    }
+  }
   /**
    * Рендер
    */
@@ -429,111 +464,127 @@ class InputSelect extends React.Component {
     );
 
     return (
-      <Dropdown
+      <div
         style={inputSelectStyle}
         className={cx('n2o-input-select n2o-input-select--default', {
           disabled,
         })}
-        toggle={() => {}}
-        onFocus={() => {
-          this._setInputFocus(true);
-          this._setSelected(true);
-        }}
-        isOpen={this.state.isExpanded && !disabled}
       >
-        <DropdownToggle tag="div" disabled={disabled}>
-          <InputSelectGroup
-            isExpanded={this.state.isExpanded}
-            setIsExpanded={this._setIsExpanded}
-            loading={loading}
-            selected={this.state.value}
-            input={this.state.input}
-            iconFieldId={iconFieldId}
-            imageFieldId={imageFieldId}
-            multiSelect={multiSelect}
-            isInputInFocus={this.state.inputFocus}
-            onClearClick={this._handleElementClear}
-            disabled={disabled}
-            className={className}
-            setSelectedItemsRef={this.setSelectedItemsRef}
-          >
-            <InputContent
-              loading={loading}
-              value={this.state.input}
-              disabled={disabled}
-              disabledValues={disabledValues}
-              valueFieldId={valueFieldId}
-              placeholder={placeholder}
-              options={this.state.options}
-              openPopUp={() => this._setIsExpanded(true)}
-              closePopUp={() => this._setIsExpanded(false)}
-              onInputChange={this._setNewInputValue}
-              onRemoveItem={this._removeSelectedItem}
-              isExpanded={this.state.isExpanded}
-              isSelected={this.state.isInputSelected}
-              inputFocus={this.state.inputFocus}
-              iconFieldId={iconFieldId}
-              activeValueId={this.state.activeValueId}
-              setActiveValueId={this._setActiveValueId}
-              imageFieldId={imageFieldId}
-              selected={this.state.value}
-              labelFieldId={labelFieldId}
-              clearSelected={this._clearSelected}
-              multiSelect={multiSelect}
-              onClick={this._handleClick}
-              onSelect={this._handleItemSelect}
-              autoFocus={autoFocus}
-              selectedPadding={selectedPadding}
-              setTextareaRef={this.setTextareaRef}
-              setSelectedListRef={this.setSelectedListRef}
-              _textarea={this._textarea}
-              _selectedList={this._selectedList}
-            />
-          </InputSelectGroup>
-        </DropdownToggle>
-        <Popup
-          flip={flip}
-          isExpanded={this.state.isExpanded}
-          expandPopUp={expandPopUp}
-        >
-          <PopupList
-            isExpanded={this.state.isExpanded}
-            activeValueId={this.state.activeValueId}
-            setActiveValueId={this._setActiveValueId}
-            onScrollEnd={onScrollEnd}
-            filterValue={{
-              [labelFieldId]: this.state.input,
-            }}
-            needAddFilter={needAddFilter}
-            options={this.state.options}
-            valueFieldId={valueFieldId}
-            labelFieldId={labelFieldId}
-            iconFieldId={iconFieldId}
-            imageFieldId={imageFieldId}
-            badgeFieldId={badgeFieldId}
-            badgeColorFieldId={badgeColorFieldId}
-            onSelect={this._handleItemSelect}
-            selected={this.state.value}
-            disabledValues={disabledValues}
-            groupFieldId={groupFieldId}
-            hasCheckboxes={hasCheckboxes}
-            onRemoveItem={this._removeSelectedItem}
-            format={format}
-            inputSelect={this.inputSelect}
-          >
-            <div className="n2o-alerts">
-              {alerts &&
-                alerts.map(alert => (
-                  <Alert
-                    key={alert.id}
-                    onDismiss={() => this.props.onDismiss(alert.id)}
-                    {...alert}
-                  />
-                ))}
-            </div>
-          </PopupList>
-        </Popup>
-      </Dropdown>
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <InputSelectGroup
+                isExpanded={this.state.isExpanded}
+                setIsExpanded={this._setIsExpanded}
+                loading={loading}
+                selected={this.state.value}
+                input={this.state.input}
+                iconFieldId={iconFieldId}
+                imageFieldId={imageFieldId}
+                multiSelect={multiSelect}
+                isInputInFocus={this.state.inputFocus}
+                onClearClick={this._handleElementClear}
+                disabled={disabled}
+                className={className}
+                setSelectedItemsRef={this.setSelectedItemsRef}
+              >
+                <InputContent
+                  setRef={this.setInputRef(ref)}
+                  onFocus={this.onFocus}
+                  onBlur={this.onInputBlur}
+                  loading={loading}
+                  value={this.state.input}
+                  disabled={disabled}
+                  disabledValues={disabledValues}
+                  valueFieldId={valueFieldId}
+                  placeholder={placeholder}
+                  options={this.state.options}
+                  openPopUp={this._setIsExpanded}
+                  closePopUp={this._setIsExpanded}
+                  onInputChange={this._setNewInputValue}
+                  onRemoveItem={this._removeSelectedItem}
+                  isExpanded={this.state.isExpanded}
+                  isSelected={this.state.isInputSelected}
+                  inputFocus={this.state.inputFocus}
+                  iconFieldId={iconFieldId}
+                  activeValueId={this.state.activeValueId}
+                  setActiveValueId={this._setActiveValueId}
+                  imageFieldId={imageFieldId}
+                  selected={this.state.value}
+                  labelFieldId={labelFieldId}
+                  clearSelected={this._clearSelected}
+                  multiSelect={multiSelect}
+                  onClick={this._handleClick}
+                  onSelect={this._handleItemSelect}
+                  autoFocus={autoFocus}
+                  selectedPadding={selectedPadding}
+                  setTextareaRef={this.setTextareaRef(ref)}
+                  setSelectedListRef={this.setSelectedListRef}
+                  _textarea={this._textarea}
+                  _selectedList={this._selectedList}
+                />
+              </InputSelectGroup>
+            )}
+          </Reference>
+          {this.state.isExpanded && (
+            <Popper
+              placement="bottom-start"
+              modifiers={MODIFIERS}
+              positionFixed={true}
+            >
+              {({ ref, style, placement }) => (
+                <div
+                  ref={ref}
+                  style={{
+                    ...style,
+                    minWidth: this.calcPopperWidth(),
+                    maxWidth: 600,
+                  }}
+                  data-placement={placement}
+                  className="n2o-pop-up"
+                >
+                  <PopupList
+                    isExpanded={this.state.isExpanded}
+                    activeValueId={this.state.activeValueId}
+                    setActiveValueId={this._setActiveValueId}
+                    onScrollEnd={onScrollEnd}
+                    filterValue={{
+                      [labelFieldId]: this.state.input,
+                    }}
+                    needAddFilter={needAddFilter}
+                    options={this.state.options}
+                    valueFieldId={valueFieldId}
+                    labelFieldId={labelFieldId}
+                    iconFieldId={iconFieldId}
+                    imageFieldId={imageFieldId}
+                    badgeFieldId={badgeFieldId}
+                    badgeColorFieldId={badgeColorFieldId}
+                    onSelect={this._handleItemSelect}
+                    selected={this.state.value}
+                    disabledValues={disabledValues}
+                    groupFieldId={groupFieldId}
+                    hasCheckboxes={hasCheckboxes}
+                    onRemoveItem={this._removeSelectedItem}
+                    format={format}
+                    inputSelect={this.inputSelect}
+                  >
+                    <div className="n2o-alerts">
+                      {alerts &&
+                        alerts.map(alert => (
+                          <Alert
+                            key={alert.id}
+                            onDismiss={() => this.props.onDismiss(alert.id)}
+                            {...alert}
+                          />
+                        ))}
+                    </div>
+                  </PopupList>
+                </div>
+              )}
+            </Popper>
+          )}
+        </Manager>
+      </div>
     );
   }
 }
@@ -571,6 +622,7 @@ InputSelect.propTypes = {
   alerts: PropTypes.array,
   flip: PropTypes.bool,
   autoFocus: PropTypes.bool,
+  popupAutoSize: PropTypes.bool,
 };
 
 InputSelect.defaultProps = {
@@ -590,6 +642,7 @@ InputSelect.defaultProps = {
   expandPopUp: false,
   flip: false,
   autoFocus: false,
+  popupAutoSize: false,
   onSearch() {},
   onSelect() {},
   onToggle() {},

@@ -2,8 +2,8 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        id="test" src="AdvancedTableWidget" class="n2o" size="10" query-id="testTable" route="/test" fetch-on-init="true">
     <columns>
-        <column text-field-id="name" label="Имя" width="50"/>
-        <column text-field-id="surname" label="Фамилия">
+        <column text-field-id="name" label="Имя" width="50px"/>
+        <column text-field-id="surname" label="Фамилия" icon="fa fa-plus">
             <icon type="iconAndText" icon="fa fa-plus"/>
         </column>
         <column text-field-id="birthday" label="Дата рождения" sorting-direction="asc"/>
@@ -17,7 +17,7 @@
         </switch>
     </rows>
     <pagination next="true" prev="true"/>
-    <filters search-buttons="false">
+    <filters>
         <search-buttons id="testId" search-label="searchLabel" reset-label="resetLabel"/>
     </filters>
     <toolbar place="topRight" generate="tableSettings"/>

@@ -14,6 +14,8 @@ import TreeWidget from './Tree/TreeWidget';
 
 import ListWidget from './List/ListWidget';
 
+import ChartWidget from './Chart/ChartWidget';
+
 export default {
   HtmlWidget,
 
@@ -30,4 +32,6 @@ export default {
   ListWidget,
 
   TreeWidget,
+
+  ChartWidget,
 };

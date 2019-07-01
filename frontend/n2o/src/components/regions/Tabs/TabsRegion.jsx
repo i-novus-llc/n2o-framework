@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, each, map } from 'lodash';
+import { isEmpty, filter, map, isUndefined, pull } from 'lodash';
 import { compose } from 'recompose';
 import Tabs from './Tabs';
 import Tab from './Tab';
@@ -21,38 +21,51 @@ import SecurityCheck from '../../../core/auth/SecurityCheck';
 class TabRegion extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    if (props.mode === 'single') {
-      this.hideAllWidgets();
-    }
+    this.state = {
+      readyTabs: this.findReadyTabs(),
+      visibleTabs: {},
+    };
     this.handleChangeActive = this.handleChangeActive.bind(this);
   }
 
   handleChangeActive(widgetId, prevWidgetId) {
-    if (this.props.mode === 'single') {
-      if (this.props.alwaysRefresh) {
-        this.props.hideWidget(prevWidgetId);
+    const { lazy, alwaysRefresh, getWidgetProps, fetchWidget } = this.props;
+    const { readyTabs } = this.state;
+    const widgetProps = getWidgetProps(widgetId);
+
+    if (lazy) {
+      if (alwaysRefresh) {
+        pull(readyTabs, prevWidgetId);
       }
-      this.props.showWidget(widgetId);
+      readyTabs.push(widgetId);
+      this.setState(() => ({
+        readyTabs: [...readyTabs],
+      }));
+    } else if (alwaysRefresh || isEmpty(widgetProps.datasource)) {
+      widgetProps.dataProvider && fetchWidget(widgetId);
     }
   }
 
-  hideAllWidgets() {
-    each(this.props.tabs, tab => {
-      if (!tab.opened) {
-        this.props.hideWidget(tab.widgetId);
-      }
-    });
+  findReadyTabs() {
+    return filter(
+      map(this.props.tabs, tab => {
+        if (tab.opened) {
+          return tab.widgetId;
+        }
+      }),
+      item => item
+    );
   }
 
   render() {
-    const { tabs, getWidget, pageId } = this.props;
+    const { tabs, getWidget, getWidgetProps, pageId, lazy } = this.props;
+    const { readyTabs, visibleTabs } = this.state;
     return (
-      <Tabs
-        ref={el => (this._tabsEl = el)}
-        onChangeActive={this.handleChangeActive}
-      >
+      <Tabs onChangeActive={this.handleChangeActive}>
         {tabs.map(tab => {
+          const { security } = tab;
+          const widgetProps = getWidgetProps(tab.widgetId);
+          const widgetMeta = getWidget(pageId, tab.widgetId);
           const tabProps = {
             key: tab.widgetId,
             id: tab.widgetId,
@@ -60,25 +73,30 @@ class TabRegion extends React.Component {
             icon: tab.icon,
             active: tab.opened,
             visible:
-              typeof this.state[tab.widgetId] !== 'undefined'
-                ? this.state[tab.widgetId]
-                : true,
+              (!isEmpty(widgetProps) ? widgetProps.isVisible : true) &&
+              (!isUndefined(visibleTabs[tab.widgetId])
+                ? visibleTabs[tab.widgetId]
+                : true),
           };
+
           const tabEl = (
             <Tab {...tabProps}>
-              <Factory
-                id={tab.widgetId}
-                level={WIDGETS}
-                {...getWidget(pageId, tab.widgetId)}
-              />
+              {lazy ? (
+                readyTabs.includes(tab.widgetId) && (
+                  <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
+                )
+              ) : (
+                <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
+              )}
             </Tab>
           );
 
-          const { security } = tab;
-
           const onPermissionsSet = permissions => {
             this.setState({
-              [tab.widgetId]: permissions,
+              visibleTabs: {
+                ...visibleTabs,
+                [tab.widgetId]: !!permissions,
+              },
             });
           };
 
@@ -87,7 +105,6 @@ class TabRegion extends React.Component {
           ) : (
             <SecurityCheck
               {...tabProps}
-              visible={!!this.state[tab.widgetId]}
               config={security}
               onPermissionsSet={onPermissionsSet}
               render={({ permissions, active, visible }) => {
@@ -109,11 +126,13 @@ TabRegion.propTypes = {
   pageId: PropTypes.string.isRequired,
   alwaysRefresh: PropTypes.bool,
   mode: PropTypes.oneOf(['single', 'all']),
+  lazy: PropTypes.bool,
   resolveVisibleDependency: PropTypes.func,
 };
 
 TabRegion.defaultProps = {
   alwaysRefresh: false,
+  lazy: false,
   mode: 'single',
 };
 

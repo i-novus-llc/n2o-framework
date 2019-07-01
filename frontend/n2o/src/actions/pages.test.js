@@ -6,6 +6,7 @@ import {
   RESET,
   DISABLE,
   ENABLE,
+  SET_STATUS,
 } from '../constants/pages';
 import {
   metadataRequest,
@@ -15,6 +16,7 @@ import {
   resetPage,
   disablePage,
   enablePage,
+  setStatus,
 } from './pages';
 
 const pageId = 'Page.Widget';
@@ -100,17 +102,29 @@ describe('Тесты экшенов pages', () => {
     });
     it('Возвращает правильный payload', () => {
       const action = disablePage(pageId);
-      expect(action.payload.pageId).toEqual(pageId);
+      expect(action.type).toEqual(DISABLE);
     });
 
     describe('Проверка экшена disablePage', () => {
       it('Генерирует правильное событие', () => {
         const action = enablePage(pageId);
-        expect(action.payload.pageId).toEqual(pageId);
+        expect(action.type).toEqual(ENABLE);
       });
       it('Возвращает правильный payload', () => {
         const action = enablePage(pageId);
         expect(action.payload.pageId).toEqual(pageId);
+      });
+    });
+
+    describe('Проверка экшена setStatus', () => {
+      it('Генирирует правильное событие', () => {
+        const action = setStatus(pageId, 404);
+        expect(action.type).toEqual(SET_STATUS);
+      });
+      it('Возвращает правильный payload', () => {
+        const action = setStatus(pageId, 404);
+        expect(action.payload.pageId).toEqual(pageId);
+        expect(action.payload.status).toEqual(404);
       });
     });
   });

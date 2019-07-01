@@ -2,7 +2,7 @@ import React from 'react';
 import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
-import { Card } from 'reactstrap';
+import Panel from '../../snippets/Panel/Panel';
 import PanelRegion from './PanelRegion';
 import createFactoryConfig from '../../../core/factory/createFactoryConfig';
 import FactoryProvider from '../../../core/factory/FactoryProvider';
@@ -68,7 +68,7 @@ describe('<PanelRegion />', () => {
   it('проверяет стиль панели', () => {
     const { wrapper, props } = setup();
 
-    expect(wrapper.find(Card).props().color).toBe(props.color);
+    expect(wrapper.find(Panel).props().color).toBe(props.color);
   });
 
   it('проверяет скрытие футера', () => {
@@ -91,7 +91,7 @@ describe('<PanelRegion />', () => {
   it('проверяет раскрытие панели', () => {
     const { wrapper, props } = setup();
 
-    expect(wrapper.find(Card).props().expanded).toBe(props.open);
+    expect(wrapper.find(Panel).props().open).toBe(props.open);
   });
 
   it('проверяет создание иконки', () => {

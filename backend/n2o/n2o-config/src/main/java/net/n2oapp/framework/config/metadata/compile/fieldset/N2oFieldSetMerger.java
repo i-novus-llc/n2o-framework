@@ -33,6 +33,7 @@ public class N2oFieldSetMerger<T extends N2oFieldSet> implements BaseSourceMerge
         setIfNotNull(source::setVisible, override::getVisible);
         setIfNotNull(source::setEnabled, override::getEnabled);
         setIfNotNull(source::setDependsOn, override::getDependsOn);
+        mergeExtAttributes(source, override);
         return source;
     }
 }

@@ -31,7 +31,7 @@ public class N2oButtonFieldXmlIOTest extends N2oStandardControlReaderTestBase {
                     assert ((N2oShowModal)buttonField.getEvent()).getPageId().equals("test");
                     assert ((N2oShowModal)buttonField.getEvent()).getMasterFieldId().equals("id");
                     assert ((N2oShowModal)buttonField.getEvent()).getMinWidth().equals("100");
-                    assert ((N2oShowModal)buttonField.getEvent()).getMaxWidth().equals("100");
+                    assert ((N2oShowModal)buttonField.getEvent()).getScrollX().equals("100");
                     assert ((N2oShowModal)buttonField.getEvent()).getWidth().equals("100");
                     assert ((N2oShowModal)buttonField.getEvent()).getResultContainerId().equals("test");
                     N2oPreFilter filter = ((N2oShowModal)buttonField.getEvent()).getPreFilters().get(0);
@@ -51,7 +51,7 @@ public class N2oButtonFieldXmlIOTest extends N2oStandardControlReaderTestBase {
                     assert ((N2oOpenPage)buttonField1.getEvent()).getPageId().equals("test");
                     assert ((N2oOpenPage)buttonField1.getEvent()).getMasterFieldId().equals("id");
                     assert ((N2oOpenPage)buttonField1.getEvent()).getMinWidth().equals("100");
-                    assert ((N2oOpenPage)buttonField1.getEvent()).getMaxWidth().equals("100");
+                    assert ((N2oOpenPage)buttonField1.getEvent()).getScrollX().equals("100");
                     assert ((N2oOpenPage)buttonField1.getEvent()).getWidth().equals("100");
                     assert ((N2oOpenPage)buttonField1.getEvent()).getResultContainerId().equals("test");
                     N2oPreFilter filter1 = ((N2oOpenPage)buttonField1.getEvent()).getPreFilters().get(0);

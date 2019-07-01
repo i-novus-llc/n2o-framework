@@ -5,18 +5,31 @@
     <groupId>net.n2oapp.framework.examples</groupId>
     <artifactId>examples</artifactId>
     <packaging>pom</packaging>
-    <version>7.0.6</version>
+    <version>1.0.-SNAPSHOT</version>
 
     <modules>
         <module>hello-world</module>
-        <module>hello-world-war</module>
-        <module>header-footer</module>
+        <module>header-menu</module>
+        <module>tabs</module>
+        <module>panels</module>
+        <module>form</module>
+        <module>table</module>
+        <module>buttons</module>
+        <module>fields</module>
+        <module>fields-visibility</module>
+        <module>fields-enabling</module>
+        <module>buttons-visibility</module>
+        <module>buttons-enabling</module>
+        <module>message</module>
+        <module>modal-window</module>
+        <module>embedded-page</module>
+        <module>external-links</module>
+        <module>master-detail</module>
+        <module>crud</module>
         <module>crud-sql</module>
         <module>crud-rest</module>
-        <module>crud-jpa</module>
-        <module>master-detail</module>
-        <module>customization</module>
         <module>file-upload</module>
+        <module>customization</module>
     </modules>
 
 </project>

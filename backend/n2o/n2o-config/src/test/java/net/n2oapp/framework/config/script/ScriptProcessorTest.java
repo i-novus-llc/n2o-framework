@@ -24,13 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ScriptProcessorTest {
 
 
-    private ScriptProcessor scriptProcessor = new ScriptProcessor() {
-        @Override
-        protected String getDateFormat() {
-            //на самом деле берется из настроек
-            return "dd.MM.yyyy HH:mm";
-        }
-    };
+    private ScriptProcessor scriptProcessor = new ScriptProcessor();
 
     private ScriptEngine getScriptEngine() {
         return ScriptProcessor.getScriptEngine();

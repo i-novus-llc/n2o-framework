@@ -138,6 +138,7 @@ class ListContainer extends React.Component {
     const {
       hasMoreButton,
       rowClick,
+      placeholder,
       maxHeight,
       fetchOnScroll,
       divider,
@@ -150,6 +151,7 @@ class ListContainer extends React.Component {
       data: this.mapSectionComponents(),
       rowClick,
       hasMoreButton,
+      placeholder,
       maxHeight,
       fetchOnScroll,
       divider,

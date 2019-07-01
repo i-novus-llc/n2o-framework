@@ -1,10 +1,18 @@
 import moment from 'moment';
 import numeral from 'numeral';
-import { split, trim, join, slice, map, isNil, isString } from 'lodash';
+import {
+  split,
+  trim,
+  join,
+  slice,
+  map,
+  isNil,
+  isString,
+  toString,
+} from 'lodash';
 
 const typesFunctions = {
-  date: ({ data, format }) =>
-    moment(data, 'DD.MM.YYYY HH:mm:ss').format(format),
+  date: ({ data, format }) => moment(data).format(format),
   password: ({ data }) => join(map(data, () => '*'), ''),
   number: ({ data, format }) => {
     const number = isString(data) ? Number(data) : data;
@@ -27,7 +35,8 @@ const typesFunctions = {
  * @returns {*}
  */
 function parseFormatter(data, typeAndformat = false) {
-  if (isNil(data) || !typeAndformat) return data;
+  const str = toString(data);
+  if (isNil(data) || !typeAndformat || str === '') return data;
 
   const typeAndFormat = split(trim(typeAndformat), ' ');
 
@@ -36,7 +45,7 @@ function parseFormatter(data, typeAndformat = false) {
   const type = typeAndFormat[0];
   const format = join(slice(typeAndFormat, 1), ' ');
 
-  return typesFunctions[type]({ data, format });
+  return typesFunctions[type]({ data: str, format });
 }
 
 export default parseFormatter;

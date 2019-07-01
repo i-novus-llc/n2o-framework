@@ -292,4 +292,48 @@ stories
       'paging',
     ]);
     return <Factory level={WIDGETS} {...props} id="List" />;
+  })
+  .add('Placeholder', () => {
+    let data = [];
+    for (let i = 0; i < 3; i++) {
+      data.push({
+        leftTop: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        leftBottom: 'a little description',
+        header: "It's a cat",
+        subHeader: 'The cat is stupid',
+        body: 'Some words about cats',
+        rightTop: '14',
+        rightBottom: '01.01.2019',
+        extra: 'Extra?!',
+      });
+    }
+    fetchMock.restore().get(urlPattern, url => {
+      return new Promise((res, rej) =>
+        setTimeout(
+          () =>
+            res({
+              ...getStubData(url),
+              list: data,
+            }),
+          3000
+        )
+      );
+    });
+
+    const newMeta = { ...metadata };
+    newMeta['List'].placeholder = {
+      rows: 3,
+      paragraph: 4,
+      avatar: true,
+      type: 'list',
+    };
+
+    return (
+      <Factory
+        level={WIDGETS}
+        {...metadata['List']}
+        hasMoreNutton={true}
+        id="List"
+      />
+    );
   });

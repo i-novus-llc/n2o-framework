@@ -74,13 +74,10 @@ export function withLocale(date, locale) {
 /**
  * преобразовать дату к moment-объекту
  * @param value
- * @param dateFormat
  */
-export function parseDate(value, dateFormat) {
-  if (value instanceof Date) {
+export function parseDate(value) {
+  if (value) {
     value = moment(value);
-  } else if (typeof value === 'string') {
-    value = moment(value, dateFormat);
     if (!value.isValid()) {
       console.log('Invalid date');
     }
@@ -143,15 +140,15 @@ export function mapToDefaultTime(
     val.map(input => {
       res[input.name] = {
         hours:
-          (input.value && moment(input.value, format).hour()) ||
+          (input.value && moment(input.value).hour()) ||
           moment(input.defaultTime || '00:00', timeFormat).hour() ||
           0,
         mins:
-          (input.value && moment(input.value, format).minute()) ||
+          (input.value && moment(input.value).minute()) ||
           moment(input.defaultTime || '00:00', timeFormat).minute() ||
           0,
         seconds:
-          (input.value && moment(input.value, format).second()) ||
+          (input.value && moment(input.value).second()) ||
           moment(input.defaultTime || '00:00', timeFormat).second() ||
           0,
         hasDefaultTime: false,
@@ -173,9 +170,9 @@ export function mapToDefaultTime(
   if (val) {
     return {
       [defaultName]: {
-        hours: moment(val, format).hour(),
-        mins: moment(val, format).minute(),
-        seconds: moment(val, format).second(),
+        hours: moment(val).hour(),
+        mins: moment(val).minute(),
+        seconds: moment(val).second(),
         hasDefaultTime: true,
       },
     };
@@ -331,20 +328,16 @@ export const MODIFIERS = {
 /**
  * Функция проверки находится ли дата в промежутке max и min
  * @param date
- * @param dateFormat
  * @param max
  * @param min
  * @returns {boolean}
  */
-export const hasInsideMixMax = (date, { dateFormat, max, min }) => {
+export const hasInsideMixMax = (date, { max, min }) => {
   if (!max && !min) return true;
   if (
-    (!max && min && moment(min, dateFormat) <= moment(date, dateFormat)) ||
-    (max && !min && moment(max, dateFormat) >= moment(date, dateFormat)) ||
-    (max &&
-      min &&
-      moment(min, dateFormat) <= moment(date, dateFormat) &&
-      moment(max, dateFormat) >= moment(date, dateFormat))
+    (!max && min && moment(min) <= moment(date)) ||
+    (max && !min && moment(max) >= moment(date)) ||
+    (max && min && moment(min) <= moment(date) && moment(max) >= moment(date))
   ) {
     return true;
   }

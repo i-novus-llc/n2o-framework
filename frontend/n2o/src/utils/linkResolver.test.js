@@ -206,13 +206,13 @@ describe('Проверка linkResolver', () => {
     const res = linkResolver(state, {
       link: 'q.w.e',
       value: {
-        end: "`$.now({ dateFormat: 'DD.MM.YYYY', timeFormat: 'HH:mm:ss' })`",
-        begin: "`$.now({ dateFormat: 'DD.MM.YYYY', timeFormat: 'HH:mm:ss' })`",
+        end: "`$.now({ dateFormat: 'DD.MM.YYYY', timeFormat: 'HH' })`",
+        begin: "`$.now({ dateFormat: 'DD.MM.YYYY', timeFormat: 'HH' })`",
       },
     });
     expect(res).toEqual({
-      begin: moment().format('DD.MM.YYYY HH:mm:ss'),
-      end: moment().format('DD.MM.YYYY HH:mm:ss'),
+      begin: moment().format('DD.MM.YYYY HH'),
+      end: moment().format('DD.MM.YYYY HH'),
     });
   });
   it('value и link (кривой), value обьект', () => {

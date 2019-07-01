@@ -52,7 +52,7 @@ class CheckboxButton extends React.Component {
 }
 
 CheckboxButton.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.any,
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,

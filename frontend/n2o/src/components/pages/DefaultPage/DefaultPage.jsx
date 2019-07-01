@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isEmpty, has } from 'lodash';
+import { isEmpty, has, get } from 'lodash';
 import PropTypes from 'prop-types';
 import { LAYOUTS, REGIONS } from '../../../core/factory/factoryLevels';
 import Alert from '../../snippets/Alerts/Alert';
@@ -22,9 +22,12 @@ class DefaultPage extends Component {
       containerKey,
       error,
       pageId,
+      errorPage,
     } = this.props;
 
-    return (
+    return errorPage ? (
+      React.createElement(errorPage)
+    ) : (
       <React.Fragment>
         {error && <Alert {...error} visible />}
         {!isEmpty(metadata) && metadata.page && (
@@ -62,9 +65,9 @@ class DefaultPage extends Component {
               {Object.keys(metadata.layout.regions).map((place, i) => {
                 return (
                   <Section place={place} key={'section' + i}>
-                    {metadata.layout.regions[place].map(region => (
+                    {metadata.layout.regions[place].map((region, j) => (
                       <Factory
-                        key={'region' + i}
+                        key={`region-${place}-${j}`}
                         level={REGIONS}
                         {...region}
                         pageId={metadata.id}
@@ -108,6 +111,7 @@ DefaultPage.propTypes = {
   toolbar: PropTypes.object,
   actions: PropTypes.object,
   containerKey: PropTypes.string,
+  errorPage: PropTypes.element,
 };
 
 DefaultPage.defaultProps = {

@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { pure } from 'recompose';
 import { isArray, isString } from 'lodash';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
 import AdvancedTableFilter from './AdvancedTableFilter';
+import Icon from '../../snippets/Icon/Icon';
 
 /**
  * Компонент ячейки заголовка
@@ -74,6 +76,7 @@ class AdvancedTableHeaderCell extends Component {
       filterable,
       colSpan,
       rowSpan,
+      icon,
       onFilter,
       filters,
       label,
@@ -93,7 +96,7 @@ class AdvancedTableHeaderCell extends Component {
       cellContent = children;
     }
 
-    const cell = (
+    return (
       <th
         title={label}
         rowSpan={rowSpan}
@@ -104,6 +107,7 @@ class AdvancedTableHeaderCell extends Component {
         })}
       >
         <div className="n2o-advanced-table-header-cell-content">
+          {icon && <Icon name={icon} />}
           {filterable ? (
             <AdvancedTableFilter
               id={id}
@@ -119,8 +123,6 @@ class AdvancedTableHeaderCell extends Component {
         </div>
       </th>
     );
-
-    return cell;
   }
 
   render() {
@@ -145,16 +147,16 @@ class AdvancedTableHeaderCell extends Component {
 }
 
 AdvancedTableHeaderCell.propTypes = {
-  children: PropTypes.oneOf(
+  children: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string,
-    PropTypes.object
-  ),
+    PropTypes.object,
+  ]),
   className: PropTypes.string,
   columnId: PropTypes.string,
   dataIndex: PropTypes.string,
   id: PropTypes.string,
-  index: PropTypes.oneOf(PropTypes.string, PropTypes.number),
+  index: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.string,
   multiHeader: PropTypes.bool,
   onCell: PropTypes.func,
@@ -163,7 +165,11 @@ AdvancedTableHeaderCell.propTypes = {
   onResize: PropTypes.func,
   onSort: PropTypes.func,
   sorting: PropTypes.object,
-  title: PropTypes.oneOf(PropTypes.string, PropTypes.func),
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   width: PropTypes.number,
   resizable: PropTypes.bool,
   selectionHead: PropTypes.bool,
@@ -182,4 +188,4 @@ AdvancedTableHeaderCell.defaultProps = {
   onFilter: () => {},
 };
 
-export default AdvancedTableHeaderCell;
+export default pure(AdvancedTableHeaderCell);

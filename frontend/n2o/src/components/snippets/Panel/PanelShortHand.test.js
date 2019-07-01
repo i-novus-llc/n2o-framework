@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Card } from 'reactstrap';
+import Panel from './Panel';
 
 import PanelShortHand from './PanelShortHand';
 
@@ -65,7 +66,7 @@ describe('<PanelShortHand />', () => {
   it('проверяет раскрытие панели', () => {
     const { wrapper, props } = setup();
 
-    expect(wrapper.find(Card).props().expanded).toBe(props.open);
+    expect(wrapper.find(Panel).props().open).toBe(props.open);
   });
 
   it('проверяет создание иконки', () => {

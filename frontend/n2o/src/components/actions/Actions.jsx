@@ -5,8 +5,6 @@ import {
   ButtonToolbar,
   ButtonGroup,
   Button,
-  Dropdown,
-  DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
@@ -20,7 +18,6 @@ import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
-import DropdownCustomItem from '../snippets/DropdownCustomItem/DropdownCustomItem';
 
 /**
  * Компонент redux-обертка для тулбара
@@ -174,7 +171,7 @@ class Actions extends React.Component {
   renderButtons(buttons) {
     return (
       buttons &&
-      buttons.map(button => {
+      buttons.map((button, index) => {
         let buttonEl = null;
         if (button.subMenu) {
           buttonEl = this.renderDropdownButton(button);
@@ -184,7 +181,11 @@ class Actions extends React.Component {
           buttonEl = this.renderButton(Button, button);
         }
         return (
-          <SecurityNotRender config={button.security} component={buttonEl} />
+          <SecurityNotRender
+            key={index}
+            config={button.security}
+            component={buttonEl}
+          />
         );
       })
     );
@@ -250,7 +251,7 @@ class Actions extends React.Component {
         containerKey={this.props.containerKey}
         color={color}
       >
-        {subMenu.map(item => this.renderButton(DropdownCustomItem, item, id))}
+        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
       </ButtonContainer>
     );
   }
@@ -325,7 +326,11 @@ class Actions extends React.Component {
           );
 
           return (
-            <SecurityNotRender config={security} component={buttonGroup} />
+            <SecurityNotRender
+              key={i}
+              config={security}
+              component={buttonGroup}
+            />
           );
         })}
       </ButtonToolbar>

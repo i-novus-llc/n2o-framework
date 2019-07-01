@@ -35,7 +35,6 @@ import org.springframework.core.env.Environment;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 
 /**
  * Конфигурация контроллеров
@@ -51,9 +50,6 @@ public class N2oRestConfiguration {
 
     @Value("${n2o.api.url:/n2o}")
     private String n2oApiUrl;
-
-    @Value("${n2o.format.date}")
-    private String dataFormat;
 
 
     @Bean

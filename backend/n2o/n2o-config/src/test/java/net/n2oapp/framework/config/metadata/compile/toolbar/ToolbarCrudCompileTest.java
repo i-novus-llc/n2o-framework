@@ -23,8 +23,7 @@ import org.junit.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ToolbarCrudCompileTest extends SourceCompileTestBase {
@@ -57,7 +56,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
 
         assertThat(form.getToolbar().size(), is(2));
         assertThat(form.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(2));
+        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(1));
         List<String> buttonsId = form.getToolbar().get("topLeft").get(0)
                 .getButtons().stream().map(Button::getId).collect(Collectors.toList());
         List<String> buttonsLabel = form.getToolbar().get("topLeft").get(0)
@@ -88,8 +87,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
             }
         }
 
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), nullValue());
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(1).getConfirm(), nullValue());
+        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), notNullValue());//action2
     }
 
     @Test

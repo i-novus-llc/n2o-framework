@@ -1,5 +1,5 @@
 import React from 'react';
-import { get } from 'lodash';
+import { get, set } from 'lodash';
 import { storiesOf } from '@storybook/react';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry } from 'N2oStorybook/json';
@@ -24,6 +24,8 @@ import withPage from '../../../../.storybook/decorators/withPage';
 import { page } from 'N2oStorybook/fetchMock';
 import AdvancedTable from './AdvancedTable';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import percentWidth from './json/PercentWidth.meta';
+import pixelWidth from './json/PixelWidth.meta';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
 
@@ -310,4 +312,44 @@ stories
   })
   .add('Компонент со всеми фичами', () => {
     return <AdvancedTableWidgetStory json={allFeatures} />;
+  })
+  .add('Placeholder', () => {
+    fetchMock.restore().get(urlPattern, url => {
+      return new Promise((res, rej) =>
+        setTimeout(() => res(getStubData(url)), 3000)
+      );
+    });
+
+    const newMeta = { ...metadata };
+    newMeta['Page_Table'].placeholder = { rows: 6, cols: 3, type: 'table' };
+
+    return (
+      <Factory level={WIDGETS} {...newMeta['Page_Table']} id="Page_Table" />
+    );
+  })
+  .add('Колонки с длиной в процентах', () => {
+    fetchMock.restore().get(urlPattern, url => {
+      return new Promise((res, rej) =>
+        setTimeout(() => res(getStubData(url)), 3000)
+      );
+    });
+
+    return (
+      <Factory
+        level={WIDGETS}
+        {...percentWidth['Page_Table']}
+        id="Page_Table"
+      />
+    );
+  })
+  .add('Колонки с длиной в пикселях', () => {
+    fetchMock.restore().get(urlPattern, url => {
+      return new Promise((res, rej) =>
+        setTimeout(() => res(getStubData(url)), 3000)
+      );
+    });
+
+    return (
+      <Factory level={WIDGETS} {...pixelWidth['Page_Table']} id="Page_Table" />
+    );
   });

@@ -4,23 +4,29 @@ import React, {
   createContext,
   Component,
 } from 'react';
+import cn from 'classnames';
 import { propTypes, defaultProps } from './propTypes';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { keys, pick, flowRight, values, pickBy } from 'lodash';
 import { delay, wrapTags, ICON_STYLE } from './utils';
 import ContentEditable from './ContentEditable';
+import parseFormatter from '../../../utils/parseFormatter';
 
 const PropsEnd = createContext();
 
 const EndTag = () => (
   <PropsEnd.Consumer>
-    {({ text, children }) => <Fragment>{text || children}</Fragment>}
+    {({ text, format, children }) => (
+      <Fragment>{text ? parseFormatter(text, format) : children}</Fragment>
+    )}
   </PropsEnd.Consumer>
 );
 
-const MainTag = ({ tag, color, ...props }) =>
+const MainTag = ({ tag, color, className, ...props }) =>
   createElement(tag, {
-    className: color && `text-${color} disabled`,
+    className: cn(className, {
+      [`text-${color} disabled`]: color,
+    }),
     ...props,
   });
 
@@ -77,10 +83,12 @@ class Base extends Component {
     const {
       tag,
       text,
+      format,
       children,
       color,
       copyable,
       editable,
+      className,
       ...rest
     } = this.props;
 
@@ -112,9 +120,14 @@ class Base extends Component {
     );
 
     return (
-      <MainTag tag={tag} onBlur={this.editableTagOnBlur} color={color}>
+      <MainTag
+        className={className}
+        tag={tag}
+        onBlur={this.editableTagOnBlur}
+        color={color}
+      >
         <ContentEditable editable={edit} onChange={this.handleContentEditable}>
-          <PropsEnd.Provider value={{ text, children }}>
+          <PropsEnd.Provider value={{ text, format, children }}>
             <Wrappers />
           </PropsEnd.Provider>
         </ContentEditable>

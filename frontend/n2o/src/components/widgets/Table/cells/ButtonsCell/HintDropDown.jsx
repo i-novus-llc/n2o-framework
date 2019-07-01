@@ -158,7 +158,7 @@ HintDropDown.propTypes = {
   id: PropTypes.string,
   size: PropTypes.string,
   color: PropTypes.string,
-  menu: PropTypes.object,
+  menu: PropTypes.array,
   placement: PropTypes.oneOf([
     'auto',
     'auto-start',

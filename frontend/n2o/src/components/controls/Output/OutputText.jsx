@@ -1,30 +1,38 @@
 import React, { Fragment } from 'react';
-import { isEqual, isNumber } from 'lodash';
+import { isEqual, isNumber, isString } from 'lodash';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import Text from '../../snippets/Text/Text';
+import Text from '../../snippets/Typography/Text/Text';
 import Icon from '../../snippets/Icon/Icon';
 
 const TypesComponents = {
   icon: ({ icon }) => <Icon className="icon" name={icon} />,
-  text: ({ value, format, expandable, showFullText }) => (
+  text: ({ value, format, expandable, showFullText, preLine, isOpen }) => (
     <div className="text">
-      <Text text={value} format={format} />
+      <Text text={value} format={format} preLine={preLine} />
       {expandable && (
         <a href="#" onClick={showFullText} className="details-label">
-          Подробнее
+          {isOpen ? 'Скрыть' : 'Подробнее'}
         </a>
       )}
     </div>
   ),
-  iconAndText: ({ icon, value, format, expandable, showFullText }) => (
+  iconAndText: ({
+    icon,
+    value,
+    format,
+    expandable,
+    showFullText,
+    preLine,
+    isOpen,
+  }) => (
     <Fragment>
       {icon && <Icon className="icon" name={icon} />}
       <div className="text">
-        <Text text={value} format={format} />
+        <Text text={value} format={format} preLine={preLine} />
         {expandable && (
           <a href="#" onClick={showFullText} className="details-label">
-            Подробнее
+            {isOpen ? 'Скрыть' : 'Подробнее'}
           </a>
         )}
       </div>
@@ -76,9 +84,9 @@ class OutPutText extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
   }
 
-  formatValue(value = '') {
+  formatValue(value) {
     const { expandable } = this.props;
-    if (isNumber(expandable)) {
+    if (isNumber(expandable) && isString(value)) {
       return value.substr(0, expandable - 3) + '...';
     } else {
       return value;
@@ -114,6 +122,7 @@ class OutPutText extends React.Component {
           value={isOpen ? value : formattedValue}
           expandable={expandable}
           showFullText={this.showFullText}
+          isOpen={isOpen}
         />
       </div>
     );
@@ -130,7 +139,7 @@ OutPutText.propTypes = {
   value: PropTypes.string,
   format: PropTypes.string,
   ellipsis: PropTypes.bool,
-  expandable: PropTypes.oneOf(PropTypes.bool, PropTypes.number),
+  expandable: PropTypes.oneOf([PropTypes.bool, PropTypes.number]),
 };
 
 OutPutText.defaultProps = {

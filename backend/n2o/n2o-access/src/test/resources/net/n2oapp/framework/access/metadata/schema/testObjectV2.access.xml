@@ -25,8 +25,8 @@
 
     <permit-all>
         <object-filters object-id="testObjectAccess*">
-            <eq field-id="id" id="idFilter"/>
-            <eq field-id="name" id="nameFilter"/>
+            <eq field-id="id" id="idFilter" value="1"/>
+            <eq field-id="name" id="nameFilter" value="2"/>
         </object-filters>
     </permit-all>
 

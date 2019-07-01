@@ -57,4 +57,9 @@ Tab.propTypes = {
   children: PropTypes.node,
 };
 
+Tab.defaultProps = {
+  disabled: false,
+  visible: true,
+};
+
 export default Tab;

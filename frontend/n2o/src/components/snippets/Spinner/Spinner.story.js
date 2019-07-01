@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import {
@@ -7,6 +7,7 @@ import {
   boolean,
   number,
   array,
+  select,
 } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import Input from '../../controls/Input/Input';
@@ -15,6 +16,7 @@ import TextCell from '../../widgets/Table/cells/TextCell/TextCell';
 import TextTableHeader from '../../widgets/Table/headers/TextTableHeader';
 import Table from '../../widgets/Table/Table';
 import CoverSpinner from './CoverSpinner';
+import Spinner from './Spinner';
 
 const stories = storiesOf('UI Компоненты/Спиннеры', module);
 
@@ -26,64 +28,134 @@ const tableData = [
   { id: '3', name: 'Test', surname: 'Tset', birthday: '01.01.0001' },
 ];
 
-stories.add('Базовый функционал', () => {
-  return (
-    <div>
-      <div style={{ display: 'flex' }}>
-        <Input />
-        <InlineSpinner />
-      </div>
-      <div style={{ marginTop: 50, position: 'relative' }}>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.Cell
-                as="th"
-                component={TextTableHeader}
-                id="name"
-                sortable={false}
-                label="Имя"
-              />
-              <Table.Cell
-                as="th"
-                component={TextTableHeader}
-                id="surname"
-                sortable={false}
-                label="Фамилия"
-              />
-              <Table.Cell
-                as="th"
-                component={TextTableHeader}
-                id="birthday"
-                sortable={false}
-                label="Дата рождения"
-              />
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {tableData.map(data => (
+stories
+  .add('Базовый функционал', () => {
+    return (
+      <div>
+        <div style={{ display: 'flex' }}>
+          <Input />
+          <InlineSpinner />
+        </div>
+        <div style={{ marginTop: 50, position: 'relative' }}>
+          <Table>
+            <Table.Header>
               <Table.Row>
                 <Table.Cell
-                  component={TextCell}
-                  model={data}
+                  as="th"
+                  component={TextTableHeader}
                   id="name"
-                  fieldKey="name"
+                  sortable={false}
+                  label="Имя"
                 />
-                <Table.Cell id="surname">
-                  <TextCell model={data} fieldKey="surname" />
-                </Table.Cell>
                 <Table.Cell
-                  component={TextCell}
-                  model={data}
+                  as="th"
+                  component={TextTableHeader}
+                  id="surname"
+                  sortable={false}
+                  label="Фамилия"
+                />
+                <Table.Cell
+                  as="th"
+                  component={TextTableHeader}
                   id="birthday"
-                  fieldKey="birthday"
+                  sortable={false}
+                  label="Дата рождения"
                 />
               </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
-        <CoverSpinner message="Таблица загружается..." />
+            </Table.Header>
+            <Table.Body>
+              {tableData.map(data => (
+                <Table.Row>
+                  <Table.Cell
+                    component={TextCell}
+                    model={data}
+                    id="name"
+                    fieldKey="name"
+                  />
+                  <Table.Cell id="surname">
+                    <TextCell model={data} fieldKey="surname" />
+                  </Table.Cell>
+                  <Table.Cell
+                    component={TextCell}
+                    model={data}
+                    id="birthday"
+                    fieldKey="birthday"
+                  />
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+          <CoverSpinner message="Таблица загружается..." />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  })
+  .add('Компонент', () => {
+    const props = {
+      loading: boolean('loading', true),
+      type: select('type', ['cover', 'inline'], 'cover'),
+      text: text('text', 'text'),
+      delay: select('delay', [1000, 2000, 3000, 4000], 1000),
+    };
+    return (
+      <Fragment>
+        <Spinner {...props}>
+          <div>
+            <div style={{ display: 'flex' }}>
+              <Input />
+            </div>
+            <div style={{ marginTop: 50, position: 'relative' }}>
+              <Table>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.Cell
+                      as="th"
+                      component={TextTableHeader}
+                      id="name"
+                      sortable={false}
+                      label="Имя"
+                    />
+                    <Table.Cell
+                      as="th"
+                      component={TextTableHeader}
+                      id="surname"
+                      sortable={false}
+                      label="Фамилия"
+                    />
+                    <Table.Cell
+                      as="th"
+                      component={TextTableHeader}
+                      id="birthday"
+                      sortable={false}
+                      label="Дата рождения"
+                    />
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {tableData.map(data => (
+                    <Table.Row>
+                      <Table.Cell
+                        component={TextCell}
+                        model={data}
+                        id="name"
+                        fieldKey="name"
+                      />
+                      <Table.Cell id="surname">
+                        <TextCell model={data} fieldKey="surname" />
+                      </Table.Cell>
+                      <Table.Cell
+                        component={TextCell}
+                        model={data}
+                        id="birthday"
+                        fieldKey="birthday"
+                      />
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+              </Table>
+            </div>
+          </div>
+        </Spinner>
+      </Fragment>
+    );
+  });

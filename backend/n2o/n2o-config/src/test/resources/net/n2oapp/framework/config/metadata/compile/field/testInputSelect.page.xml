@@ -18,6 +18,7 @@
                                 </contains>
                             </pre-filters>
                     </input-select>
+                    <input-select id="testId2" query-id="testSelect"/>
                 </fields>
             </form>
         </region>

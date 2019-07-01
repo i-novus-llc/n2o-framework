@@ -6,11 +6,10 @@
   flex-wrap: nowrap;
 
   & .details-label {
-    display: block;
-
-    max-width: 85px;
+    display: inline-block;
     border-bottom: 1px dashed rgba(38, 50, 56, 0.55);
     cursor: pointer;
+    margin-left: $input-btn-padding-y;
   }
 
   & > .text{

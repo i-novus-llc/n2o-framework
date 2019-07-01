@@ -1,7 +1,9 @@
 import React from 'react';
+import { compose, withState, withHandlers } from 'recompose';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Input from '../Input/Input';
+import { Button } from 'reactstrap';
 
 /**
  * Контрол Input для паролей
@@ -19,32 +21,32 @@ import Input from '../Input/Input';
  * @reactProps {string} className - css-класс
  * @reactProps {object} style - объект стилей
  * @reactProps {string} type - тип поля
+ * @reactProps {boolean} showPasswordBtn - кнопка показа пароля
  */
 
-class PasswordInput extends React.Component {
-  /**
-   * Базовый рендер
-   */
-  render() {
-    const {
-      className,
-      length,
-      style,
-      autoFocus,
-      value,
-      placeholder,
-      disabled,
-      onPaste,
-      onFocus,
-      onBlur,
-      onKeyDown,
-      onChange,
-    } = this.props;
-    return (
+function PasswordInput({
+  className,
+  length,
+  style,
+  autoFocus,
+  showPasswordBtn,
+  value,
+  placeholder,
+  disabled,
+  onPaste,
+  onFocus,
+  onBlur,
+  onKeyDown,
+  onChange,
+  onToggleShowPass,
+  showPass,
+}) {
+  return (
+    <div className="n2o-input-password">
       <Input
         maxLength={length}
         className={cn(['form-control', { [className]: className }])}
-        type="password"
+        type={showPass && showPasswordBtn ? 'text' : 'password'}
         style={style}
         autoFocus={autoFocus}
         value={value == null ? '' : value}
@@ -56,8 +58,18 @@ class PasswordInput extends React.Component {
         onKeyDown={onKeyDown}
         onChange={onChange}
       />
-    );
-  }
+      {showPasswordBtn ? (
+        <Button
+          className="n2o-input-password-toggler"
+          onClick={onToggleShowPass}
+          size="sm"
+          color="link"
+        >
+          <i className={cn('fa', showPass ? 'fa-eye-slash' : 'fa-eye')} />
+        </Button>
+      ) : null}
+    </div>
+  );
 }
 
 PasswordInput.propTypes = {
@@ -74,6 +86,7 @@ PasswordInput.propTypes = {
   length: PropTypes.string,
   type: PropTypes.string,
   autoFocus: PropTypes.bool,
+  showPasswordBtn: PropTypes.bool,
 };
 
 PasswordInput.defaultProps = {
@@ -81,6 +94,13 @@ PasswordInput.defaultProps = {
   className: '',
   disabled: false,
   autoFocus: false,
+  showPasswordBtn: true,
 };
 
-export default PasswordInput;
+export default compose(
+  withState('showPass', 'setShowPass', false),
+  withHandlers({
+    onToggleShowPass: ({ showPass, setShowPass }) => () =>
+      setShowPass(!showPass),
+  })
+)(PasswordInput);

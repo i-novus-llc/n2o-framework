@@ -1,11 +1,14 @@
 package net.n2oapp.framework.access.data;
 
+import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.Filter;
 import net.n2oapp.framework.access.exception.AccessDeniedException;
 import net.n2oapp.framework.access.exception.UnauthorizedException;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
 import net.n2oapp.framework.access.simple.PermissionApi;
+import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.user.UserContext;
 
@@ -44,7 +47,7 @@ public class SecurityProvider {
      */
     public List<Restriction> collectRestrictions(SecurityFilters securityFilters, UserContext userContext) {
         if (securityFilters == null)
-            return null;
+            return Collections.emptyList();
         Set<N2oObjectFilter> filters = new HashSet<>();
         Set<String> removeFilters = new HashSet<>();
         if (securityFilters.getPermitAllFilters() != null) {
@@ -93,7 +96,34 @@ public class SecurityProvider {
                     .forEach(u -> removeFilters.addAll(securityFilters.getRemoveUserFilters().get(u)));
         }
         filters.removeIf(f -> removeFilters.contains(f.getId()));
-        return filters.stream().map(f -> new Restriction(f.getFieldId(), f.getValue(), f.getType())).collect(Collectors.toList());
+        return filters.stream().map(this::restriction).collect(Collectors.toList());
+    }
+
+    private Restriction restriction(N2oObjectFilter filter) {
+        Object value = filter.isArray() ? Arrays.asList(filter.getValues()) : filter.getValue();
+        return new Restriction(filter.getFieldId(), value, filter.getType());
+    }
+
+    /**
+     * Вызывает исключение, если данные не удовлетворяют фильтрам доступа
+     * @param data Данные
+     * @param securityFilters Фильтры доступа
+     * @param userContext Контекст пользователя
+     */
+    public void checkRestrictions(DataSet data, SecurityFilters securityFilters, UserContext userContext) {
+        List<Restriction> restrictions = collectRestrictions(securityFilters, userContext);
+        ContextProcessor contextProcessor = new ContextProcessor(userContext);
+        for (Restriction securityRestriction : restrictions) {
+            Object realValue = data.get(securityRestriction.getFieldId());
+            if (realValue != null) {
+                Object filterValue = contextProcessor.resolve(securityRestriction.getValue());
+                if (filterValue != null) {
+                    Filter securityFilter = new Filter(filterValue, securityRestriction.getType());
+                    if (!securityFilter.check(realValue))
+                        throw new AccessDeniedException("Access denied by field " + securityRestriction.getFieldId());
+                }
+            }
+        }
     }
 
     /**

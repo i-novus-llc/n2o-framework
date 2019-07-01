@@ -1,3 +1,4 @@
+import { defaultTo } from 'lodash';
 import { all } from 'redux-saga/effects';
 import { pagesSagas } from './sagas/pages';
 import { widgetsSagas } from './sagas/widgets';
@@ -27,7 +28,7 @@ export default function generateSagas(dispatch, config) {
       ...toolbarSagas,
       ...widgetDependencySagas,
       ...modalsSagas,
-      ...config.customSagas,
+      ...defaultTo(config.customSagas, []),
     ]);
   };
 }
