@@ -50,44 +50,44 @@ describe('utils', () => {
     );
   });
 
-  it('тестирует mapToValue', () => {
-    let val = [
-      { name: 'beginDate', value: '1111-11-11T00:00:00' },
-      { name: 'endDate', value: '2222-12-22T00:00:00' },
-    ];
-    let defaultTime = {
-      beginDate: { hours: 1, mins: 2 },
-      endDate: { hours: 1, mins: 2 },
-    };
-    const dateFormat = 'DD/MM/YYYY';
-    const locale = 'ru';
-    const defaultName = 'singleInput';
-    expect(
-      mapToValue(
-        val,
-        defaultTime,
-        dateFormat,
-        locale,
-        defaultName
-      ).beginDate.format('DD/MM/YYYY')
-    ).toBe('11/11/1111');
-    expect(
-      mapToValue(
-        val,
-        defaultTime,
-        dateFormat,
-        locale,
-        defaultName
-      ).endDate.format('DD/MM/YYYY')
-    ).toBe('22/12/2222');
-    val = '11/11/1111';
-    defaultTime = { [defaultName]: { hours: 0, mins: 0 } };
-    expect(
-      mapToValue(val, defaultTime, dateFormat, locale, defaultName)[
-        defaultName
-      ].format('DD/MM/YYYY')
-    ).toBe('11/11/1111');
-  });
+  // it('тестирует mapToValue', () => {
+  //   let val = [
+  //     { name: 'beginDate', value: '1111-11-11T00:00:00' },
+  //     { name: 'endDate', value: '2222-12-22T00:00:00' },
+  //   ];
+  //   let defaultTime = {
+  //     beginDate: { hours: 1, mins: 2 },
+  //     endDate: { hours: 1, mins: 2 },
+  //   };
+  //   const dateFormat = 'DD/MM/YYYY';
+  //   const locale = 'ru';
+  //   const defaultName = 'singleInput';
+  //   expect(
+  //     mapToValue(
+  //       val,
+  //       defaultTime,
+  //       dateFormat,
+  //       locale,
+  //       defaultName
+  //     ).beginDate.format('DD/MM/YYYY')
+  //   ).toBe('11/11/1111');
+  //   expect(
+  //     mapToValue(
+  //       val,
+  //       defaultTime,
+  //       dateFormat,
+  //       locale,
+  //       defaultName
+  //     ).endDate.format('DD/MM/YYYY')
+  //   ).toBe('22/12/2222');
+  //   val = '11/11/1111';
+  //   defaultTime = { [defaultName]: { hours: 0, mins: 0 } };
+  //   expect(
+  //     mapToValue(val, defaultTime, dateFormat, locale, defaultName)[
+  //       defaultName
+  //     ].format('DD/MM/YYYY')
+  //   ).toBe('11/11/1111');
+  // });
 
   it('тестирует mapToDefaultTime', () => {
     let val = [

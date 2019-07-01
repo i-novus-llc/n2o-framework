@@ -75,9 +75,9 @@ export function withLocale(date, locale) {
  * преобразовать дату к moment-объекту
  * @param value
  */
-export function parseDate(value) {
+export function parseDate(value, dateFormat) {
   if (value) {
-    value = moment(value);
+    value = moment(value, dateFormat);
     if (!value.isValid()) {
       console.log('Invalid date');
     }
