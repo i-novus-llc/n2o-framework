@@ -159,110 +159,136 @@ describe('Тесты Page', () => {
     stubFn.restore();
   });
 
-  // it('Проверка вызова routeMap если pageUrl поменялся и getMetadata если есть error', () => {
-  //   const routeMap = sinon.spy();
-  //   const getMetadata = sinon.spy();
-  //
-  //   const stubFn = sinon
-  //     .stub(PageContainer.prototype, 'shouldGetPageMetadata')
-  //     .returns(false);
-  //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId', routeMap, getMetadata });
-  //   wrapper.setProps({
-  //     metadata: 'test',
-  //     pageUrl: 'newPageUrl',
-  //     routeMap,
-  //     getMetadata,
-  //     error: true,
-  //   });
-  //   expect(routeMap.called).toEqual(true);
-  //   expect(routeMap.calledOnce).toEqual(false);
-  //   expect(routeMap.calledWithMatch()).toEqual(true);
-  //   expect(getMetadata.calledWithMatch()).toEqual(true);
-  //   stubFn.restore();
-  // });
+  it('Проверка вызова routeMap если pageUrl поменялся и getMetadata если есть error', () => {
+    const routeMap = sinon.spy();
+    const getMetadata = sinon.spy();
 
-  // it('shouldGetPageMetadata возвращает true при смене route если route есть в метаданных', () => {
-  //   const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
-  //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-  //
-  //   wrapper.setProps({
-  //     reset: () => null,
-  //     metadata: {
-  //       routes: {
-  //         list: [
-  //           {
-  //             path: '/test',
-  //             exact: true,
-  //             isOtherPage: true,
-  //           },
-  //         ],
-  //       },
-  //     },
-  //     location: {
-  //       pathname: '/test',
-  //     },
-  //   });
-  //
-  //   expect(spyFn.calledOnce).toEqual(true);
-  //   expect(spyFn.returnValues[0]).toEqual(true);
-  //   spyFn.restore();
-  // });
-  //
-  // it('shouldGetPageMetadata возвращает false если silent = true', () => {
-  //   const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
-  //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-  //
-  //   wrapper.setProps({
-  //     reset: () => null,
-  //     metadata: {
-  //       routes: {
-  //         list: [
-  //           {
-  //             path: '/test',
-  //             exact: true,
-  //             isOtherPage: true,
-  //           },
-  //         ],
-  //       },
-  //     },
-  //     location: { state: { silent: true } },
-  //   });
-  //
-  //   expect(spyFn.calledOnce).toEqual(true);
-  //   expect(spyFn.returnValues[0]).toEqual(false);
-  //   spyFn.restore();
-  // });
-  //
-  // it('shouldGetPageMetadata возвращает true если route есть в метаданных но нет isOtherPage', () => {
-  //   const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
-  //   const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-  //
-  //   wrapper.setProps({
-  //     reset: () => null,
-  //     metadata: {
-  //       routes: {
-  //         list: [
-  //           {
-  //             path: '/test',
-  //             exact: true,
-  //           },
-  //         ],
-  //       },
-  //     },
-  //     location: { pathname: '/test' },
-  //   });
-  //
-  //   expect(spyFn.calledOnce).toEqual(true);
-  //   expect(spyFn.returnValues[0]).toEqual(false);
-  //   spyFn.restore();
-  // });
-  // it('Вызов reset при unmount компонента', () => {
-  //   const reset = sinon.spy();
-  //   const component = shallow(
-  //     <PageContainer pageId="pageId" reset={reset} getMetadata={() => null} />
-  //   );
-  //   component.unmount();
-  //   expect(reset.calledOnce).toEqual(true);
-  //   expect(reset.calledWithMatch('pageId')).toEqual(true);
-  // });
+    const stubFn = sinon
+      .stub(PageContainer.prototype, 'shouldGetPageMetadata')
+      .returns(false);
+    const { wrapper } = setup({
+      metadata: 'test',
+      pageId: 'pageId',
+      routeMap,
+      getMetadata,
+    });
+    const newProps = {
+      pageId: 'pageId',
+      metadata: 'test',
+      pageUrl: 'newPageUrl',
+      routeMap,
+      getMetadata,
+      error: true,
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
+    });
+
+    wrapper.update();
+
+    expect(routeMap.calledOnce).toEqual(true);
+    expect(routeMap.calledWithMatch()).toEqual(true);
+    expect(getMetadata.calledWithMatch()).toEqual(true);
+    stubFn.restore();
+  });
+
+  it('shouldGetPageMetadata возвращает true при смене route если route есть в метаданных', () => {
+    const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
+    const getMetadata = sinon.spy();
+    const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
+    const newProps = {
+      reset: () => null,
+      getMetadata,
+      metadata: {
+        routes: {
+          list: [
+            {
+              path: '/test',
+              exact: true,
+              isOtherPage: true,
+            },
+          ],
+        },
+      },
+      location: {
+        pathname: '/test',
+      },
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
+    });
+
+    expect(spyFn.calledOnce).toEqual(true);
+    expect(spyFn.returnValues[0]).toEqual(true);
+    spyFn.restore();
+  });
+
+  it('shouldGetPageMetadata возвращает false если silent = true', () => {
+    const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
+    const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
+    const newProps = {
+      reset: () => null,
+      metadata: {
+        routes: {
+          list: [
+            {
+              path: '/test',
+              exact: true,
+              isOtherPage: true,
+            },
+          ],
+        },
+      },
+      location: {
+        pathname: '/test',
+        state: { silent: true },
+      },
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
+    });
+
+    expect(spyFn.calledOnce).toEqual(true);
+    expect(spyFn.returnValues[0]).toEqual(false);
+    spyFn.restore();
+  });
+
+  it('shouldGetPageMetadata возвращает true если route есть в метаданных но нет isOtherPage', () => {
+    const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
+    const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
+    const newProps = {
+      reset: () => null,
+      metadata: {
+        routes: {
+          list: [
+            {
+              path: '/test',
+              exact: true,
+            },
+          ],
+        },
+      },
+      location: { pathname: '/test' },
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
+    });
+
+    expect(spyFn.calledOnce).toEqual(true);
+    expect(spyFn.returnValues[0]).toEqual(false);
+    spyFn.restore();
+  });
+  it('Вызов reset при unmount компонента', () => {
+    const reset = sinon.spy();
+    const component = shallow(
+      <PageContainer pageId="pageId" reset={reset} getMetadata={() => null} />
+    );
+    component.unmount();
+    expect(reset.calledOnce).toEqual(true);
+    expect(reset.calledWithMatch('pageId')).toEqual(true);
+  });
 });
