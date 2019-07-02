@@ -81,7 +81,7 @@ class StandardWidget extends React.Component {
     ]);
 
     return (
-      <div className={classes}>
+      <div className={classes} style={style}>
         {filter.filterPlace === 'left' && this.renderSection('left')}
         <div className="n2o-standard-widget-layout-center">
           <div>

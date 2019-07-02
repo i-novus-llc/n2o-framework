@@ -22,19 +22,13 @@ function LeftRightPage({ id, regions, width, ...rest }) {
 }
 
 LeftRightPage.propTypes = {
-  metadata: PropTypes.object,
-  toolbar: PropTypes.object,
-  actions: PropTypes.object,
-  containerKey: PropTypes.string,
-  error: PropTypes.object,
-  pageId: PropTypes.string,
+  id: PropTypes.string,
   regions: PropTypes.object,
+  width: PropTypes.object,
 };
 
 LeftRightPage.defaultProps = {
-  metadata: {},
-  toolbar: {},
-  actions: {},
+  width: {},
 };
 
 export default mapProps(props => ({

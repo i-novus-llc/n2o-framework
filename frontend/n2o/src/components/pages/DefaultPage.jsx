@@ -3,9 +3,24 @@ import PropTypes from 'prop-types';
 import { isEmpty, has, get, map } from 'lodash';
 import Alert from '../snippets/Alerts/Alert';
 import DocumentTitle from '../core/DocumentTitle';
+import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb';
 import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer';
 import Actions from '../actions/Actions';
 
+/**
+ * Стандартное наполнение страницы
+ * @param metadata
+ * @param toolbar
+ * @param actions
+ * @param containerKey
+ * @param error
+ * @param pageId
+ * @param regions
+ * @param children
+ * @param context
+ * @return {*}
+ * @constructor
+ */
 function DefaultPage(
   {
     metadata,
@@ -27,7 +42,7 @@ function DefaultPage(
       )}
       {!isEmpty(metadata) && metadata.breadcrumb && (
         <BreadcrumbContainer
-          defaultBreadcrumb={context.defaultBreadcrumb}
+          defaultBreadcrumb={DefaultBreadcrumb}
           items={metadata.breadcrumb}
         />
       )}
@@ -68,8 +83,24 @@ function DefaultPage(
   );
 }
 
-DefaultPage.contextTypes = {
-  defaultBreadcrumb: PropTypes.element,
+DefaultPage.propTypes = {
+  metadata: PropTypes.object,
+  toolbar: PropTypes.object,
+  actions: PropTypes.object,
+  containerKey: PropTypes.string,
+  error: PropTypes.object,
+  pageId: PropTypes.string,
+  regions: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.func,
+    PropTypes.element,
+  ]),
+};
+
+DefaultPage.defaultProps = {
+  toolbar: {},
+  actions: {},
 };
 
 export default DefaultPage;

@@ -1,6 +1,10 @@
 {
   "id": "proto",
   "src": "LeftRightPage",
+  "width": {
+    "left": "69%",
+    "right": "29%"
+  },
   "regions": {
     "left": [
       {
