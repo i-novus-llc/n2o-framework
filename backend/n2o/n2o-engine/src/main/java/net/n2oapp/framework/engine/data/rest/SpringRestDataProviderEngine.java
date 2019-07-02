@@ -57,21 +57,26 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         Map<String, Object> args = new HashMap<>();
         data.forEach(args::put);
         if (!query.contains("http")) {
-            if (!query.startsWith("/"))
+            if (!query.startsWith("/")) {
                 query = "/" + query;
-            if (query.contains("//"))
+            }
+            if (query.contains("//")) {
                 query = query.replace("//", "/");
+            }
             query = baseRestUrl + query;
         }
 
+        String filtersSeparator = invocation.getFiltersSeparator() != null ? invocation.getFiltersSeparator() : "&";
+        String sortingSeparator = invocation.getSortingSeparator() != null ? invocation.getSortingSeparator() : "&";
+        String joinSeparator = invocation.getJoinSeparator() != null ? invocation.getJoinSeparator() : "&";
         query = replaceListPlaceholder(query, "{select}", args.remove("select"), "", (a, b) -> a + invocation.getSelectSeparator() + b);
         query = replaceListPlaceholder(query,
                 "{filters}",
                 args.remove("filters"), "",
-                str -> resolve(str, args, (a, b) -> a + invocation.getFiltersSeparator() + b),
-                (a, b) -> a + invocation.getFiltersSeparator() + b);
-        query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + invocation.getSortingSeparator() + b);
-        query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + invocation.getJoinSeparator() + b);
+                str -> resolve(str, args, (a, b) -> a + filtersSeparator + b),
+                (a, b) -> a + filtersSeparator + b);
+        query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + sortingSeparator + b);
+        query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + joinSeparator + b);
         query = normalizeQueryParams(query);
         return executeQuery(method.name(), query, args, invocation.getProxyHost(), invocation.getProxyPort());
     }
