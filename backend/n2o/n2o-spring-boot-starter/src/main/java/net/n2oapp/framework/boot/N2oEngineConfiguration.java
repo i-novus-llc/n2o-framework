@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
-import net.n2oapp.framework.engine.data.json.SandboxTestDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.SpringRestDataProviderEngine;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
@@ -150,13 +149,6 @@ public class N2oEngineConfiguration {
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
         testDataProviderEngine.setPathOnDisk(configPath);
         return testDataProviderEngine;
-    }
-
-    @Bean
-    public SandboxTestDataProviderEngine sandboxTestDataProviderEngine() {
-        SandboxTestDataProviderEngine sandboxTestDataProviderEngine = new SandboxTestDataProviderEngine();
-        sandboxTestDataProviderEngine.setPathOnDisk(configPath);
-        return sandboxTestDataProviderEngine;
     }
 
     private ObjectMapper restObjectMapper() {
