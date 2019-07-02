@@ -1,5 +1,6 @@
 import React from 'react';
-import { map } from 'lodash';
+import { mapProps } from 'recompose';
+import { map, get } from 'lodash';
 import PropTypes from 'prop-types';
 import DefaultPage from '../DefaultPage';
 import PageRegions from '../PageRegions';
@@ -10,11 +11,11 @@ import PageRegions from '../PageRegions';
  * @param regions
  * @constructor
  */
-function LeftRightPage({ id, regions, ...rest }) {
+function LeftRightPage({ id, regions, width, ...rest }) {
   return (
     <DefaultPage {...rest}>
       <div className="n2o-page n2o-page__left-right-layout">
-        <PageRegions id={id} regions={regions} />
+        <PageRegions id={id} regions={regions} width={width} />
       </div>
     </DefaultPage>
   );
@@ -36,4 +37,7 @@ LeftRightPage.defaultProps = {
   actions: {},
 };
 
-export default LeftRightPage;
+export default mapProps(props => ({
+  ...props,
+  width: get(props, 'metadata.width', {}),
+}))(LeftRightPage);

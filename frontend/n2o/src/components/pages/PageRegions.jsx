@@ -8,12 +8,13 @@ import Factory from '../../core/factory/Factory';
  * Стандартный рендер регионов
  * @param id
  * @param regions
+ * @param width
  * @return {*}
  * @constructor
  */
-function PageRegions({ id, regions }) {
+function PageRegions({ id, regions, width }) {
   return map(regions, (place, key) => (
-    <div className={`n2o-page__${key}`}>
+    <div className={`n2o-page__${key}`} style={{ width: width[key] }}>
       {map(place, (region, index) => (
         <Factory
           key={`region-${key}-${index}`}
@@ -29,10 +30,12 @@ function PageRegions({ id, regions }) {
 PageRegions.propTypes = {
   id: PropTypes.string,
   regions: PropTypes.object,
+  width: PropTypes.object,
 };
 
 PageRegions.defaultProps = {
   regions: {},
+  width: {},
 };
 
 export default PageRegions;
