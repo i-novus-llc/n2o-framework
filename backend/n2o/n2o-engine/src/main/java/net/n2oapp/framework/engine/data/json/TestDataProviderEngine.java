@@ -37,6 +37,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
     private final Map<String, AtomicLong> sequences = new ConcurrentHashMap<>();
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public Class<? extends N2oTestDataProvider> getType() {
@@ -45,7 +46,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     @Override
     public Object invoke(N2oTestDataProvider invocation, Map<String, Object> inParams) {
-        validatePath(invocation);
         return execute(invocation, inParams, getData(invocation));
     }
 
@@ -96,7 +96,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private Object create(N2oTestDataProvider invocation,
                           Map<String, Object> inParams,
                           List<DataSet> data) {
-
         List<DataSet> modifiableData = new ArrayList<>(data);
         DataSet newElement = new DataSet();
         newElement.put(invocation.getPrimaryKey(), generateKey(invocation.getPrimaryKeyType(), invocation.getFile()));
@@ -105,7 +104,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
         modifiableData.add(0, newElement);
         updateRepository(invocation.getFile(), modifiableData);
-
         updateFile(invocation.getFile());
 
         return newElement;
@@ -126,7 +124,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
         updateElement(element, inParams.entrySet());
         updateRepository(invocation.getFile(), modifiableData);
-
         updateFile(invocation.getFile());
 
         return null;
@@ -141,7 +138,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
         modifiableData.removeIf(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams));
         updateRepository(invocation.getFile(), modifiableData);
-
         updateFile(invocation.getFile());
 
         return null;
@@ -320,13 +316,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      * Заполняет хранилище данных из файла
      */
     private void initRepository(N2oTestDataProvider invocation) {
-        String path = "classpath:";
+        String path = "classpath:" + invocation.getFile();;
 
         if (fileExistsOnDisk(invocation.getFile())) {
-            path = "file:" + getResourcePath();
+            path = "file:" + getFullPath(invocation.getFile());
         }
 
-        try (InputStream inputStream = resourceLoader.getResource(path + invocation.getFile()).getInputStream()) {
+        try (InputStream inputStream = resourceLoader.getResource(path).getInputStream()) {
             List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
             repository.put(invocation.getFile(), data);
             if (integer.equals(invocation.getPrimaryKeyType())) {
@@ -345,7 +341,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> loadJson(InputStream is, PrimaryKeyType primaryKeyType, String primaryKeyFieldId) throws IOException {
-        List<DataSet> dataList = Arrays.asList(new ObjectMapper().readValue(is, DataSet[].class));
+        List<DataSet> dataList = Arrays.asList(objectMapper.readValue(is, DataSet[].class));
         for (DataSet data : dataList) {
             if (data.containsKey(primaryKeyFieldId)) {
                 if (integer.equals(primaryKeyType))
@@ -356,25 +352,22 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     /**
-     * Возвращает путь к файлу на диске
+     * Возвращает полный путь к файлу на диске
      */
-    public String getResourcePath() {
-        return pathOnDisk;
+    public String getFullPath(String filename) {
+        return pathOnDisk + validateFilename(filename);
     }
 
     /**
-     * Исправляет некорректно заданную пару: путь + имя файла
-     * Удаляет лишнюю косую черту или добавляет недостающую
+     * Проверяет корректность имени файла и
+     * исправляет в случае необходимости
+     * @param filename Имя файла
      */
-    private void validatePath(N2oTestDataProvider invocation) {
-        String filename = invocation.getFile();
+    protected String validateFilename(String filename) {
         if (filename != null && !filename.startsWith("/")) {
-            invocation.setFile("/" + filename);
+            filename = "/" + filename;
         }
-
-        if (pathOnDisk != null && pathOnDisk.endsWith("/")) {
-            pathOnDisk = pathOnDisk.substring(0, pathOnDisk.length() - 1);
-        }
+        return filename;
     }
 
     @Override
@@ -390,6 +383,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         this.pathOnDisk = pathOnDisk;
     }
 
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     /**
      * Проверяет существование файла на диске
      * @param filename Имя файла
@@ -398,7 +399,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private boolean fileExistsOnDisk(String filename) {
         return pathOnDisk != null &&
-                new File(getResourcePath() + filename).isFile();
+                new File(getFullPath(filename)).isFile();
     }
 
     /**
@@ -407,8 +408,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private void updateFile(String filename) {
         if (fileExistsOnDisk(filename)) {
-            try (FileWriter fileWriter = new FileWriter(getResourcePath() + filename)) {
-                ObjectMapper objectMapper = new ObjectMapper();
+            try (FileWriter fileWriter = new FileWriter(getFullPath(filename))) {
                 objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
                 String mapAsJson = objectMapper.writeValueAsString(repository.get(filename));
                 fileWriter.write(mapAsJson);
