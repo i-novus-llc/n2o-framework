@@ -37,7 +37,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
     private final Map<String, AtomicLong> sequences = new ConcurrentHashMap<>();
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
+
+    public TestDataProviderEngine() {
+        objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
 
     @Override
     public Class<? extends N2oTestDataProvider> getType() {
@@ -409,7 +414,6 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private void updateFile(String filename) {
         if (fileExistsOnDisk(filename)) {
             try (FileWriter fileWriter = new FileWriter(getFullPath(filename))) {
-                objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
                 String mapAsJson = objectMapper.writeValueAsString(repository.get(filename));
                 fileWriter.write(mapAsJson);
             } catch (IOException e) {
