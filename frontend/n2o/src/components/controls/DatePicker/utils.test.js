@@ -52,8 +52,8 @@ describe('utils', () => {
 
   it('тестирует mapToValue', () => {
     let val = [
-      { name: 'beginDate', value: '1111-11-11T00:00:00' },
-      { name: 'endDate', value: '2222-12-22T00:00:00' },
+      { name: 'beginDate', value: '01.06.2019 00:00:00' },
+      { name: 'endDate', value: '07.06.2019 00:00:00' },
     ];
     let defaultTime = {
       beginDate: { hours: 1, mins: 2 },
@@ -70,7 +70,7 @@ describe('utils', () => {
         locale,
         defaultName
       ).beginDate.format('DD/MM/YYYY')
-    ).toBe('11/11/1111');
+    ).toBe('01/06/2019');
     expect(
       mapToValue(
         val,
@@ -79,14 +79,14 @@ describe('utils', () => {
         locale,
         defaultName
       ).endDate.format('DD/MM/YYYY')
-    ).toBe('22/12/2222');
-    val = '11/11/1111';
+    ).toBe('07/06/2019');
+    val = '16.07.2019 00:00:00';
     defaultTime = { [defaultName]: { hours: 0, mins: 0 } };
     expect(
       mapToValue(val, defaultTime, dateFormat, locale, defaultName)[
         defaultName
       ].format('DD/MM/YYYY')
-    ).toBe('11/11/1111');
+    ).toBe('16/07/2019');
   });
 
   it('тестирует mapToDefaultTime', () => {

@@ -41,4 +41,13 @@ stories
     form(() => {
       return DateIntervalJSON;
     })
+  )
+  .add(
+    'Min/Max',
+    form(() => {
+      return {
+        min: '2019-06-28 00:00:00',
+        max: '2019-06-30 00:00:00',
+      };
+    })
   );
