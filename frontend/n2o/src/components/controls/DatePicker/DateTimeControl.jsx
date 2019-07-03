@@ -343,6 +343,7 @@ class DateTimeControl extends React.Component {
                   onFocus={this.onFocus}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
+                  outputFormat={this.props.outputFormat}
                   {...dateInputGroupProps}
                 />
               )}
