@@ -563,7 +563,7 @@ class AdvancedTable extends Component {
       onFocus,
       rowSelection,
     } = this.props;
-    console.log('point', this.getScroll());
+
     return (
       <HotKeys
         keyMap={{ events: values(KEY_CODES) }}
