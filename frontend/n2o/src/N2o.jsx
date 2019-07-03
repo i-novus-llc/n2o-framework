@@ -19,6 +19,7 @@ import createFactoryConfig, {
 } from './core/factory/createFactoryConfig';
 import factoryConfigShape from './core/factory/factoryConfigShape';
 
+import apiProvider from './core/api';
 import SecurityProvider from './core/auth/SecurityProvider';
 
 import RootPage from './components/core/RootPage';
@@ -40,6 +41,7 @@ class N2o extends Component {
       messages: props.messages,
       customReducers: props.customReducers,
       customSagas: props.customSagas,
+      apiProvider: props.apiProvider,
     };
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);
@@ -130,6 +132,7 @@ N2o.propTypes = {
   customReducers: PropTypes.object,
   customSagas: PropTypes.array,
   customErrorPages: PropTypes.object,
+  apiProvider: PropTypes.func,
 };
 
 const EnhancedN2O = compose(
@@ -148,6 +151,7 @@ const EnhancedN2O = compose(
     messages: {},
     customReducers: {},
     customSagas: [],
+    apiProvider,
   }),
   withContext(
     {
