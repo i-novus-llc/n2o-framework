@@ -36,11 +36,6 @@ export default handleActions(
       loading: false,
       error: action.payload.error,
     }),
-    [REQUEST_CONFIG_FAIL]: (state, action) => ({
-      ...state,
-      loading: false,
-      error: action.payload.error,
-    }),
     [CHANGE_ROOT_PAGE]: (state, action) => ({
       ...state,
       rootPageId: action.payload.rootPageId,

@@ -5,10 +5,14 @@ import {
   fetchCancel,
   fetchError,
 } from '../actions/fetch';
-import apiProvider from '../core/api.js';
+import defaultApiProvider from '../core/api';
 import { FETCH_ERROR_CONTINUE } from '../constants/fetch';
 
-export default function* fetchSaga(fetchType, options) {
+export default function* fetchSaga(
+  fetchType,
+  options,
+  apiProvider = defaultApiProvider
+) {
   try {
     yield put(fetchStart(fetchType, options));
     let response = yield call(apiProvider, fetchType, options);

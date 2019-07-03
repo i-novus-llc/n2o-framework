@@ -64,6 +64,7 @@ function PasswordInput({
           onClick={onToggleShowPass}
           size="sm"
           color="link"
+          disabled={disabled}
         >
           <i className={cn('fa', showPass ? 'fa-eye-slash' : 'fa-eye')} />
         </Button>

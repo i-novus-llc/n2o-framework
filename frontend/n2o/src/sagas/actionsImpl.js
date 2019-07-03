@@ -1,4 +1,4 @@
-import { call, put, select, throttle } from 'redux-saga/effects';
+import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
 import { getFormValues, initialize } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
 import { isFunction } from 'lodash';
@@ -24,6 +24,7 @@ import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
 import { disablePage, enablePage } from '../actions/pages';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
+import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
 export function* validate(options) {
   const isTouched = true;
@@ -154,7 +155,9 @@ export function* handleInvoke(action) {
   }
 }
 
-export const actionsImplSagas = [
-  throttle(500, CALL_ACTION_IMPL, handleAction),
-  throttle(500, START_INVOKE, handleInvoke),
-];
+export default apiProvider => {
+  return [
+    throttle(500, CALL_ACTION_IMPL, handleAction),
+    throttle(500, START_INVOKE, handleInvoke, apiProvider),
+  ];
+};

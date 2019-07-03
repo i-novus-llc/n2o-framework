@@ -1,4 +1,12 @@
-import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import {
+  call,
+  fork,
+  put,
+  select,
+  take,
+  takeEvery,
+  throttle,
+} from 'redux-saga/effects';
 import {
   isEmpty,
   isEqual,
@@ -40,6 +48,7 @@ import { FETCH_WIDGET_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
 import { generateErrorMeta } from '../utils/generateErrorMeta';
 import { id } from '../utils/id';
+import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST
@@ -264,9 +273,11 @@ export function* clearOnDisable(action) {
  * Сайд-эффекты для виджет редюсера
  * @ignore
  */
-export const widgetsSagas = [
-  fork(getData),
-  takeEvery(CLEAR, clearForm),
-  takeEvery(RESOLVE, runResolve),
-  takeEvery(DISABLE, clearOnDisable),
-];
+export default apiProvider => {
+  return [
+    fork(getData, apiProvider),
+    takeEvery(CLEAR, clearForm),
+    takeEvery(RESOLVE, runResolve),
+    takeEvery(DISABLE, clearOnDisable),
+  ];
+};
