@@ -34,13 +34,25 @@ export class EditableCell extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!isEqual(prevProps.model, this.props.model)) {
-      this.setState({ model: this.props.model });
+      this.setState({
+        prevModel: this.state.model,
+        model: this.props.prevResolveModel,
+      });
+    } else if (
+      !isEqual(prevProps.prevResolveModel, this.props.prevResolveModel) &&
+      this.state.model.id === this.props.prevResolveModel.id
+    ) {
+      this.setState({
+        prevModel: this.state.model,
+        model: this.props.prevResolveModel,
+      });
     }
 
     if (
       !this.state.editing &&
       isEqual(prevState.prevModel, prevState.model) &&
-      !isEqual(this.state.prevModel, this.state.model)
+      !isEqual(this.state.prevModel, this.state.model) &&
+      !isEqual(this.state.model, this.props.prevResolveModel)
     ) {
       this.callAction(this.state.model);
     }
@@ -66,7 +78,7 @@ export class EditableCell extends React.Component {
     let newState = {
       editing: !this.state.editing,
     };
-    if (!isEqual(prevResolveModel, model)) {
+    if (!isEqual(get(prevResolveModel, 'id'), get(model, 'id'))) {
       onResolve(widgetId, model);
       onSetSelectedId();
     }
