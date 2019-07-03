@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <n2o.version>7.3.5</n2o.version>
+        <n2o.version>7.4.0-SNAPSHOT</n2o.version>
     </properties>
 
     <dependencies>
@@ -61,5 +61,18 @@
         </dependency>
 
     </dependencies>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
