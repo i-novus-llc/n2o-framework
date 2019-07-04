@@ -34,9 +34,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private String pathOnDisk;
     /**
-     * Путь к ресурсу
+     * Путь к ресурсу в classpath
      */
-    private String pathOnResource = "META-INF/conf";
+    private String classpathResourcePath;
 
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
@@ -325,10 +325,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      * Заполняет хранилище данных из файла
      */
     private void initRepository(N2oTestDataProvider invocation) {
-        String path = getResourcePath(invocation.getFile());
+        String path = getFullResourcePath(invocation.getFile());
 
         if (fileExistsOnDisk(invocation.getFile())) {
-            path = "file:" + getFullPath(invocation.getFile());
+            path = "file:" + getFullPathOnDisk(invocation.getFile());
         }
 
         try (InputStream inputStream = resourceLoader.getResource(path).getInputStream()) {
@@ -364,7 +364,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      * Возвращает полный путь к файлу на диске
      * @param filename Имя файла
      */
-    public String getFullPath(String filename) {
+    public String getFullPathOnDisk(String filename) {
         return pathOnDisk + validateFilename(filename);
     }
 
@@ -372,8 +372,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      * Возвращает полный путь к ресурсу в classpath
      * @param filename Имя файла
      */
-    public String getResourcePath(String filename) {
-        return "classpath:" + pathOnResource + validateFilename(filename);
+    public String getFullResourcePath(String filename) {
+        String path = "";
+        if (classpathResourcePath != null) {
+            path = classpathResourcePath;
+        }
+
+        return "classpath:" + path + validateFilename(filename);
     }
 
     /**
@@ -401,12 +406,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         this.pathOnDisk = pathOnDisk;
     }
 
-    public String getPathOnResource() {
-        return pathOnResource;
+    public String getClasspathResourcePath() {
+        return classpathResourcePath;
     }
 
-    public void setPathOnResource(String pathOnResource) {
-        this.pathOnResource = pathOnResource;
+    public void setClasspathResourcePath(String classpathResourcePath) {
+        this.classpathResourcePath = classpathResourcePath;
     }
 
     public ObjectMapper getObjectMapper() {
@@ -425,7 +430,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private boolean fileExistsOnDisk(String filename) {
         return pathOnDisk != null &&
-                new File(getFullPath(filename)).isFile();
+                new File(getFullPathOnDisk(filename)).isFile();
     }
 
     /**
@@ -434,7 +439,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
      */
     private void updateFile(String filename) {
         if (fileExistsOnDisk(filename)) {
-            try (FileWriter fileWriter = new FileWriter(getFullPath(filename))) {
+            try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
                 String mapAsJson = objectMapper.writeValueAsString(repository.get(filename));
                 fileWriter.write(mapAsJson);
             } catch (IOException e) {
