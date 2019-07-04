@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import N2O from 'n2o/lib//N2o';
+import N2O from 'n2o/lib/N2o';
+import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o/lib/core/api';
 
 import Template from './components/core/Template';
 import DashboardV2 from './pages/DashboardV2';
@@ -41,7 +42,49 @@ const config = {
       warning: 0,
       info: 0,
     }
-  }
+  },
+  apiProvider: handleApi({
+    ...defaultApiProvider,
+    [FETCH_APP_CONFIG]: (options) => {
+      console.warn('--------------------- API PROVIDER START ---------------------');
+      console.warn(FETCH_APP_CONFIG);
+      console.warn(options);
+      console.warn('--------------------- API PROVIDER END ---------------------');
+      return Promise.resolve({
+        "messages": {},
+        "menu": {
+          "brand": "My project",
+          "color": "default",
+          "fixed": true,
+          "collapsed": true,
+          "search": false,
+          "items": [
+            {
+              "id": "ya",
+              "label": "Yandex",
+              "href": "http://yandex.ru",
+              "linkType": "outer",
+              "type": "link"
+            }
+          ],
+          "extraItems": [
+            {
+              "id": "goo",
+              "label": "Google",
+              "href": "http://google.com",
+              "linkType": "outer",
+              "type": "link"
+            }
+          ]
+        },
+        "user": {
+          "username": null,
+          "testProperty": "testProperty"
+        }
+      });
+    }
+  }),
+  realTimeConfig: true
 };
 
 class App extends Component {

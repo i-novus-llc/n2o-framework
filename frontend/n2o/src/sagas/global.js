@@ -1,16 +1,14 @@
-import { call, put, takeEvery, select, throttle } from 'redux-saga/effects';
+import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { CHANGE_LOCALE, REQUEST_CONFIG } from '../constants/global';
 import { requestConfigSuccess, requestConfigFail } from '../actions/global';
 import { userLogin } from '../actions/auth';
 import { localeSelector } from '../selectors/global';
 import fetchSaga from './fetch';
 import { FETCH_APP_CONFIG } from '../core/api';
-import { CALL_ACTION_IMPL } from '../constants/toolbar';
-import { START_INVOKE } from '../constants/actionImpls';
-import { handleAction, handleInvoke } from './actionsImpl';
 
 /**
  * Сага для вызова настроек приложения
+ * @param apiProvider
  * @param action
  */
 export function* getConfig(apiProvider, action) {
@@ -26,13 +24,14 @@ export function* getConfig(apiProvider, action) {
     }
     yield put(requestConfigSuccess(config));
   } catch (err) {
-    // todo: реальная ошибка
     yield put(
       requestConfigFail({
-        label: 'Ошибка',
-        text: 'Не удалось получить конфигурацию приложения',
-        closeButton: false,
-        severity: 'danger',
+        stacked: true,
+        messages: {
+          text: 'Не удалось получить конфигурацию приложения',
+          stacktrace: err.stack,
+          severity: 'danger',
+        },
       })
     );
   }

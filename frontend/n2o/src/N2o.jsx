@@ -52,7 +52,7 @@ class N2o extends Component {
   }
 
   render() {
-    const { routes, security } = this.props;
+    const { routes, security, realTimeConfig } = this.props;
 
     const config = createFactoryConfig(this.generateCustomConfig());
 
@@ -60,6 +60,7 @@ class N2o extends Component {
       <Provider store={this.store}>
         <SecurityProvider {...security}>
           <Application
+            realTimeConfig={realTimeConfig}
             render={(locale, messages) => (
               <IntlProvider locale={locale} messages={messages}>
                 <FactoryProvider
@@ -133,6 +134,7 @@ N2o.propTypes = {
   customSagas: PropTypes.array,
   customErrorPages: PropTypes.object,
   apiProvider: PropTypes.func,
+  realTimeConfig: PropTypes.bool,
 };
 
 const EnhancedN2O = compose(
@@ -152,6 +154,7 @@ const EnhancedN2O = compose(
     customReducers: {},
     customSagas: [],
     apiProvider,
+    realTimeConfig: true,
   }),
   withContext(
     {

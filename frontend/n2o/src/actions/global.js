@@ -39,13 +39,18 @@ export function requestConfigSuccess(config) {
 
 /**
  * Ошибки при запросе за настройкой приложения
- * @param error
+ * @param alert
  */
 
-export function requestConfigFail(error) {
-  return createActionHelper(REQUEST_CONFIG_FAIL)({
-    error,
-  });
+export function requestConfigFail(alert) {
+  return createActionHelper(REQUEST_CONFIG_FAIL)(
+    {
+      error: alert,
+    },
+    {
+      alert,
+    }
+  );
 }
 
 /**

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { get } from 'lodash';
+import { get, isFunction, isBoolean } from 'lodash';
 import { connect } from 'react-redux';
 import {
   compose,
@@ -34,6 +34,7 @@ Application.propTypes = {
   menu: PropTypes.object,
   loading: PropTypes.bool,
   render: PropTypes.func,
+  realTimeConfig: PropTypes.oneOfType([PropTypes.bool, PropTypes.func]),
   requestConfig: PropTypes.func,
   error: PropTypes.object,
 };
@@ -43,6 +44,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  dispatch,
   requestConfig: bindActionCreators(requestConfigAction, dispatch),
 });
 
@@ -66,25 +68,11 @@ export default compose(
     })
   ),
   lifecycle({
-    componentWillMount() {
-      this.props.requestConfig();
+    componentDidMount() {
+      const { realTimeConfig, requestConfig } = this.props;
+      if (realTimeConfig) {
+        requestConfig();
+      }
     },
-  }),
-  // branch(props => props.loading, renderComponent(CoverSpinner)),
-  // todo: Исправить через Alerts систему N2O или через нотификации
-  branch(
-    props => props.error,
-    () => props => (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-        }}
-      >
-        <Alert {...props.error} />
-      </div>
-    )
-  )
+  })
 )(Application);
