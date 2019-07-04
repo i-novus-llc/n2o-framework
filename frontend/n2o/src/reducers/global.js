@@ -8,7 +8,7 @@ import {
 } from '../constants/global';
 
 const defaultState = {
-  loading: true,
+  loading: false,
   error: null,
   locale: 'ru_RU',
   messages: {},

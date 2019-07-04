@@ -12,7 +12,6 @@ exports[`Тесты Page Отрисовка Page 1`] = `
       className="breadcrumb"
     >
       <li
-        aria-current={undefined}
         className="breadcrumb-item"
       >
         <a

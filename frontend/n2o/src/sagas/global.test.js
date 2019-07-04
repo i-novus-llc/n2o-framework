@@ -36,13 +36,16 @@ describe('Проверка саги global', () => {
 
   it('Должна выпасть ошибка', async () => {
     const errorObject = {
-      label: 'Ошибка',
-      text: 'Не удалось получить конфигурацию приложения',
-      closeButton: false,
-      severity: 'danger',
+      stacked: true,
+      messages: {
+        text: 'Не удалось получить конфигурацию приложения',
+        severity: 'danger',
+      },
     };
     const gen = getConfig();
     gen.next();
-    expect(gen.next().value.PUT.action).toEqual(requestConfigFail(errorObject));
+    expect(gen.next().value.PUT.action.type).toEqual(
+      requestConfigFail(errorObject).type
+    );
   });
 });
