@@ -9,7 +9,6 @@ exports[`<Breadcrumb /> тестирует снэпшот контейнера �
     className="breadcrumb"
   >
     <li
-      aria-current={undefined}
       className="breadcrumb-item"
     >
       <a
