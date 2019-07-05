@@ -1,6 +1,12 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <date-interval id="test" format="DD/MM/YYYY" placeholder="Введите дату">
+        <date-interval id="test"
+                       min="5/12/2012"
+                       max="15/12/2021"
+                       date-format="DD/MM/YYYY"
+                       time-format="HH:mm:ss"
+                       placeholder="Введите дату"
+                       utc="false">
         </date-interval>
     </fields>
 </form>

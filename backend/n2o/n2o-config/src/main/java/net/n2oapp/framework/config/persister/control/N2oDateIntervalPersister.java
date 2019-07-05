@@ -19,6 +19,8 @@ public class N2oDateIntervalPersister extends N2oControlXmlPersister<N2oDateInte
         setAttribute(n2oDateElement, "popup-placement", n2o.getPopupPlacement());
         setAttribute(n2oDateElement, "begin-default-time", n2o.getBeginDefaultTime());
         setAttribute(n2oDateElement, "end-default-time", n2o.getEndDefaultTime());
+        setAttribute(n2oDateElement, "max", n2o.getMax());
+        setAttribute(n2oDateElement, "min", n2o.getMin());
         setAttribute(n2oDateElement, "utc", n2o.getUtc());
         setControl(n2oDateElement, n2o);
         setField(n2oDateElement, n2o);

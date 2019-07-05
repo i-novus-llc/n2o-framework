@@ -16,6 +16,8 @@ public class N2oDateIntervalXmlReaderV1 extends N2oStandardControlReaderV1<N2oDa
         dateInterval.setDateFormat(getAttributeString(element, "format"));
         dateInterval.setBeginDefaultTime(getAttributeString(element, "begin-default-time"));
         dateInterval.setEndDefaultTime(getAttributeString(element, "end-default-time"));
+        dateInterval.setMax(getAttributeString(element, "max"));
+        dateInterval.setMin(getAttributeString(element, "min"));
         dateInterval.setPopupPlacement(ReaderJdomUtil.getAttributeEnum(element, "popup-placement", PopupPlacement.class));
         dateInterval.setUtc(ReaderJdomUtil.getAttributeBoolean(element, "utc"));
         getControlFieldDefinition(element, dateInterval);
