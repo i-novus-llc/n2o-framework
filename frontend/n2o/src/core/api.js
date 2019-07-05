@@ -41,7 +41,7 @@ function clearEmptyParams(obj) {
  * так как api - Object Literals
  * можно расширять его
  * @param api
- * @returns {function(*, *=): *}
+ * @returns {function(foo: Object, bar: string)}
  */
 export function handleApi(api) {
   invariant(

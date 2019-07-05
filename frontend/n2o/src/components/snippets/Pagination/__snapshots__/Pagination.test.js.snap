@@ -5,7 +5,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
   activePage={1}
   count={151}
   maxButtons={4}
-  onSelect={[Function]}
+  onSelect={[MockFunction]}
   size={10}
   stepIncrement={10}
 >
@@ -20,7 +20,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
       maxButtons={4}
       next={false}
       nextText={null}
-      onSelect={[Function]}
+      onSelect={[MockFunction]}
       prev={false}
       prevText={null}
       showCountRecords={true}
@@ -45,7 +45,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             eventKey={1}
             key="1"
             label={1}
-            onSelect={[Function]}
+            onSelect={[MockFunction]}
             tabIndex={0}
           >
             <li
@@ -69,7 +69,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             eventKey={2}
             key="2"
             label={2}
-            onSelect={[Function]}
+            onSelect={[MockFunction]}
             tabIndex={0}
           >
             <li
@@ -93,7 +93,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             eventKey={3}
             key="3"
             label={3}
-            onSelect={[Function]}
+            onSelect={[MockFunction]}
             tabIndex={0}
           >
             <li
@@ -117,7 +117,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             eventKey={4}
             key="4"
             label={4}
-            onSelect={[Function]}
+            onSelect={[MockFunction]}
             tabIndex={0}
           >
             <li
@@ -141,7 +141,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             eventKey={5}
             key="5"
             label={5}
-            onSelect={[Function]}
+            onSelect={[MockFunction]}
             tabIndex={0}
           >
             <li
@@ -187,7 +187,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
             eventKey={11}
             key="11"
             label={11}
-            onSelect={[Function]}
+            onSelect={[MockFunction]}
             tabIndex={0}
           >
             <li
