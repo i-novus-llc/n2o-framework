@@ -4,8 +4,16 @@ import {
   REQUEST_CONFIG_SUCCESS,
   REQUEST_CONFIG_FAIL,
   CHANGE_ROOT_PAGE,
+  SET_READY,
 } from '../constants/global';
 import createActionHelper from './createActionHelper';
+
+/**
+ * Установить готовность приложения
+ */
+export function setReady() {
+  return createActionHelper(SET_READY)({});
+}
 
 /**
  * Сменить язык интерфейса
