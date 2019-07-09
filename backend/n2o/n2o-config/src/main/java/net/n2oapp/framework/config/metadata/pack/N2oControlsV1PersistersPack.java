@@ -41,6 +41,7 @@ public class N2oControlsV1PersistersPack implements MetadataPack<PersistersBuild
                 new N2oInputSelectPersister(),
                 new N2oCodeMergePersister(),
                 new N2oCheckboxGridPersister(),
-                new N2oButtonFieldPersister());
+                new N2oButtonFieldPersister(),
+                new N2oSliderPersister());
     }
 }

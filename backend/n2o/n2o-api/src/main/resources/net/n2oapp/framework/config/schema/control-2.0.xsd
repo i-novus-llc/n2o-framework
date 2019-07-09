@@ -27,6 +27,7 @@
     <xs:element name="input-select" type="controlInputSelectDefinition"/>
     <xs:element name="input-select-tree" type="inputSelectTreeDefinition"/>
     <xs:element name="search-buttons" type="controlSearchButtonsDefinition"/>
+    <xs:element name="slider" type="controlSliderDefinition"/>
     <xs:element name="html" type="controlHtml"/>
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
@@ -57,6 +58,7 @@
             <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
+            <xs:element name="slider" type="controlSelectDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -454,6 +456,19 @@
             <xs:extension base="controlListFieldDefinition">
                 <xs:attribute name="type" type="inputSelectType"/>
                 <xs:attribute name="cleanable" type="xs:boolean" default="true"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlSliderDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlListFieldDefinition">
+                <xs:attribute name="mode" use="optional" default="false" type="xs:boolean"/>
+                <xs:attribute name="vertical" use="optional" default="false" type="xs:boolean"/>
+                <xs:attribute name="measure" use="optional" type="xs:string"/>
+                <xs:attribute name="max" type="xs:integer"/>
+                <xs:attribute name="min" type="xs:integer"/>
+                <xs:attribute name="step" type="xs:integer"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
