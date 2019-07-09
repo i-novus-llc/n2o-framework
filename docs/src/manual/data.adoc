@@ -1,5 +1,6 @@
 == Связывание с данными
-В фреймворке N2O все UI компоненты связываются с данными через объекты и выборки.
+В N2O Framework визуальные компоненты связываются с данными через объекты и выборки.
+Объекты и выборки делегируют свои вызовы провадйерам данных.
 
 image::images\data-f1687.png[]
 
@@ -714,13 +715,12 @@ Java провайдеры используют тип параметров "ма
 ===== Маппинг входных параметров операции rest
 
 .Запрос rest
-[source]
 ----
 POST /api/myentity
 ----
 
 .Тело запроса
-[source,js]
+[source,json]
 ----
 {
     "firstName" : "John",
@@ -959,20 +959,20 @@ SELECT name as fname, surname as lname FROM mytable
 ===== Маппинг результатов выборки rest
 
 .Запрос rest сервиса
-[source]
 ----
 GET /api/myentity/items
 ----
 
 .Ответ rest сервиса
-[source,js]
+[source,json]
 ----
 {
   "data" : [
       {
         "name" : "John",
         "surname" : "Doe"
-      }, ... //еще 9 записей
+      },
+      ...
   ],
   "cnt" : 123
 }
@@ -1065,13 +1065,12 @@ class MyEntity {
 ===== Маппинг результатов rest
 
 .Запрос rest
-[source]
 ----
 POST /api/myentity
 ----
 
 .Ответ rest
-[source,js]
+[source,json]
 ----
 {
   "result" : 123
