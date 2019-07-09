@@ -636,6 +636,12 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 
 |===
 
+Пример::
+[source,xml]
+----
+<date-time id="date" date-format="DD.MM.YYYY" min="01.01.2018" max="01.01.2019" utc="true"/>
+----
+
 === <file-upload>
 
 Атрибуты::
@@ -812,6 +818,12 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |false
 
 |===
+
+Пример::
+[source,xml]
+----
+<date-interval id="interval" date-format="DD/MM/YYYY" min="5/12/2012" max="15/12/2021" utc="false"/>
+----
 
 === <input-interval>
 === <text-area>
