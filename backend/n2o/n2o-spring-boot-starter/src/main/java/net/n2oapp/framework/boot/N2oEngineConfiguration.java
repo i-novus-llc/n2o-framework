@@ -54,6 +54,9 @@ public class N2oEngineConfiguration {
     @Value("${n2o.config.path}")
     private String configPath;
 
+    @Value("${n2o.engine.test.classpath}")
+    private String resourcePath;
+
     @Bean
     @ConditionalOnMissingBean
     public DataProcessingStack dataProcessingStack(ApplicationContext context) {
@@ -144,9 +147,11 @@ public class N2oEngineConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public TestDataProviderEngine testDataProviderEngine() {
         TestDataProviderEngine testDataProviderEngine = new TestDataProviderEngine();
         testDataProviderEngine.setPathOnDisk(configPath);
+        testDataProviderEngine.setClasspathResourcePath(resourcePath);
         return testDataProviderEngine;
     }
 
