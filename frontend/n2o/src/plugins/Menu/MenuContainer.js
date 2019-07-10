@@ -143,14 +143,14 @@ MenuContainer.defaultProps = {
 
 export default compose(
   getContext({
-    getMenu: PropTypes.func,
+    getMenu: PropTypes.object,
   }),
   withRouter,
   withSecurity,
   mapProps(({ getMenu, ...rest }) => ({
     ...rest,
     ...(getMenu && {
-      ...getMenu(),
+      ...getMenu,
     }),
   }))
 )(MenuContainer);
