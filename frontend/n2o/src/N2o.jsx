@@ -22,7 +22,8 @@ import factoryConfigShape from './core/factory/factoryConfigShape';
 import apiProvider from './core/api';
 import SecurityProvider from './core/auth/SecurityProvider';
 
-import RootPage from './components/core/RootPage';
+import Router from './components/core/Router';
+import Root from './components/core/Root';
 
 import ruLocaleData from 'react-intl/locale-data/ru';
 import Application from './components/core/Application';
@@ -52,7 +53,7 @@ class N2o extends Component {
   }
 
   render() {
-    const { routes, security, realTimeConfig } = this.props;
+    const { security, realTimeConfig, embeddedRouting, children } = this.props;
 
     const config = createFactoryConfig(this.generateCustomConfig());
 
@@ -67,14 +68,7 @@ class N2o extends Component {
                   config={config}
                   securityBlackList={['actions']}
                 >
-                  <ConnectedRouter history={history}>
-                    <Switch>
-                      {routes.map((route, i) => (
-                        <Route key={'page-' + i} {...route} />
-                      ))}
-                      <Route path="/:pageUrl*" render={RootPage} />
-                    </Switch>
-                  </ConnectedRouter>
+                  <Router embeddedRouting={embeddedRouting}>{children}</Router>
                 </FactoryProvider>
               </IntlProvider>
             )}
@@ -102,18 +96,6 @@ N2o.propTypes = {
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
   }),
-  routes: PropTypes.arrayOf(
-    PropTypes.shape({
-      path: PropTypes.string,
-      component: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.element,
-        PropTypes.node,
-      ]),
-      exact: PropTypes.bool,
-      strict: PropTypes.bool,
-    })
-  ),
   security: PropTypes.shape({
     authProvider: PropTypes.func,
     redirectPath: PropTypes.string,
@@ -135,6 +117,11 @@ N2o.propTypes = {
   customErrorPages: PropTypes.object,
   apiProvider: PropTypes.func,
   realTimeConfig: PropTypes.bool,
+  embeddedRouting: PropTypes.bool,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
 };
 
 const EnhancedN2O = compose(
@@ -148,13 +135,13 @@ const EnhancedN2O = compose(
       dateFormat: 'DD.MM.YYYY',
       timeFormat: 'HH:mm:ss',
     },
-    routes: [],
     security: {},
     messages: {},
     customReducers: {},
     customSagas: [],
     apiProvider,
     realTimeConfig: true,
+    embeddedRouting: true,
   }),
   withContext(
     {

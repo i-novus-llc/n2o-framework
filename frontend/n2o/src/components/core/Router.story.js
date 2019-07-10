@@ -8,8 +8,8 @@ import { getStubData } from 'N2oStorybook/fetchMock';
 
 import Page from './Page';
 
-import metadataWelcome from './Router/WelcomeRouterPage.meta';
-import metadataStaff from './Router/StaffRouterPage.meta';
+import metadataWelcome from './json/WelcomeRouterPage.meta';
+import metadataStaff from './json/StaffRouterPage.meta';
 
 storiesOf('Роутинг', module).add('Проверки mapping', () => {
   fetchMock.restore().get('begin:n2o/page', url => {

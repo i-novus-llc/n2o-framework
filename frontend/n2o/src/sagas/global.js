@@ -1,6 +1,10 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { CHANGE_LOCALE, REQUEST_CONFIG } from '../constants/global';
-import { requestConfigSuccess, requestConfigFail } from '../actions/global';
+import {
+  requestConfigSuccess,
+  requestConfigFail,
+  setReady,
+} from '../actions/global';
 import { userLogin } from '../actions/auth';
 import { localeSelector } from '../selectors/global';
 import fetchSaga from './fetch';
@@ -23,6 +27,7 @@ export function* getConfig(apiProvider, action) {
       yield put(userLogin(config.user));
     }
     yield put(requestConfigSuccess(config));
+    yield put(setReady());
   } catch (err) {
     yield put(
       requestConfigFail({

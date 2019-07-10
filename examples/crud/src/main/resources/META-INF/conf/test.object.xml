@@ -3,7 +3,7 @@
     <operations>
         <operation id="create">
             <invocation>
-                <test file="META-INF/conf/test.json" operation="create"/>
+                <test file="test.json" operation="create"/>
             </invocation>
             <in-parameters>
                 <param id="name"/>
@@ -14,7 +14,7 @@
         </operation>
         <operation id="update">
             <invocation>
-                <test file="META-INF/conf/test.json" operation="update"/>
+                <test file="test.json" operation="update"/>
             </invocation>
             <in-parameters>
                 <param id="id"/>
@@ -23,7 +23,7 @@
         </operation>
         <operation id="delete">
             <invocation>
-                <test file="META-INF/conf/test.json" operation="delete"/>
+                <test file="test.json" operation="delete"/>
             </invocation>
             <in-parameters>
                 <param id="id"/>
