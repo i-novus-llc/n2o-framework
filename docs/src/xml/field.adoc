@@ -639,7 +639,7 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 Пример::
 [source,xml]
 ----
-<date-time id="date" date-format="DD.MM.YYYY" min="01.01.2018" max="01.01.2019" utc="true"/>
+<date-time id="date" date-format="DD.MM.YYYY" min="2018-01-01T08:00:00Z" utc="true"/>
 ----
 
 === <file-upload>
@@ -814,7 +814,7 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 
 |utc
 |true false
-|Всемирное координированное время
+|Конвертация даты из локальной в UTC зону
 |false
 
 |===
@@ -822,7 +822,7 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 Пример::
 [source,xml]
 ----
-<date-interval id="interval" date-format="DD/MM/YYYY" min="5/12/2012" max="15/12/2021" utc="false"/>
+<date-interval id="interval" date-format="DD/MM/YYYY"/>
 ----
 
 === <input-interval>
