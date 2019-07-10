@@ -317,10 +317,7 @@ class Actions extends React.Component {
       <ButtonToolbar className={className} style={style}>
         {toolbar.map(({ buttons, style, className, security }, i) => {
           const buttonGroup = (
-            <ButtonGroup
-              style={style}
-              className={cx({ 'mr-2': toolbar[i + 1] }, className)}
-            >
+            <ButtonGroup style={style} className={className}>
               {this.renderButtons(buttons)}
             </ButtonGroup>
           );
