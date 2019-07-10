@@ -751,6 +751,9 @@
                 <xs:annotation>
                     <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="value" type="xs:string" minOccurs="0" maxOccurs="0"/>
+                </xs:sequence>
                 <xs:attribute name="values" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
