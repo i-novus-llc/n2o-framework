@@ -39,7 +39,6 @@ public class N2oControlsV1ReadersPack implements MetadataPack<ReadersBuilder> {
                 new N2oOutputTextXmlReaderV1(),
                 new N2oInputIntervalReaderV1(),
                 new N2oMultiClassifierXmlReaderV1(),
-                new N2oInputSelectTreeXmlReaderV1(),
-                new N2oSliderXmlReaderV1());
+                new N2oInputSelectTreeXmlReaderV1());
     }
 }

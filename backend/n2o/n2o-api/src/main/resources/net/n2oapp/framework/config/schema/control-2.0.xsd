@@ -58,7 +58,7 @@
             <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
-            <xs:element name="slider" type="controlSelectDefinition" minOccurs="0"/>
+            <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -463,7 +463,7 @@
     <xs:complexType name="controlSliderDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="mode" use="optional" default="false" type="xs:boolean"/>
+                <xs:attribute name="mode" use="optional" default="single" type="sliderMode"/>
                 <xs:attribute name="vertical" use="optional" default="false" type="xs:boolean"/>
                 <xs:attribute name="measure" use="optional" type="xs:string"/>
                 <xs:attribute name="max" type="xs:integer"/>
@@ -648,6 +648,13 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="radio"/>
             <xs:enumeration value="checkboxes"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sliderMode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="single"/>
+            <xs:enumeration value="range"/>
         </xs:restriction>
     </xs:simpleType>
 
