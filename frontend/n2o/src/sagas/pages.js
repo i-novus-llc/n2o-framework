@@ -167,6 +167,7 @@ function* processUrl() {
 
 /**
  * сага, фетчит метадату
+ * @param apiProvider
  * @param action
  */
 function* getMetadata(apiProvider, action) {

@@ -118,6 +118,7 @@ class ModalPage extends React.Component {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
+                needMetadata
               />
             ) : src ? (
               this.renderFromSrc(src)

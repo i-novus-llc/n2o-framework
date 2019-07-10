@@ -27,6 +27,7 @@ import { rootPageSelector } from '../../selectors/global';
 import withMetadata from './withMetadata';
 import withActions from './withActions';
 import Alert from '../snippets/Alerts/Alert';
+import Spinner from '../snippets/Spinner/Spinner';
 import { SimpleTemplate } from './templates';
 import Root from './Root';
 
@@ -34,7 +35,6 @@ function Page(props) {
   const {
     pageId,
     metadata,
-    // todo: нужно добавить обработку состояния
     loading,
     error,
     disabled,
@@ -46,6 +46,7 @@ function Page(props) {
     defaultBreadcrumb,
     defaultErrorPages,
     page,
+    rootPage,
   } = props;
 
   const getErrorPage = () => {
@@ -134,11 +135,19 @@ function Page(props) {
   };
 
   return (
-    <Root>
-      <Template>
-        {page ? React.createElement(page, props) : renderDefaultBody()}
-      </Template>
-    </Root>
+    <Spinner type="cover" loading={loading}>
+      {rootPage ? (
+        <Root>
+          <Template>
+            {page ? React.createElement(page, props) : renderDefaultBody()}
+          </Template>
+        </Root>
+      ) : page ? (
+        React.createElement(page, props)
+      ) : (
+        renderDefaultBody()
+      )}
+    </Spinner>
   );
 }
 

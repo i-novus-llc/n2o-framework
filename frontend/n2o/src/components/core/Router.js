@@ -4,7 +4,6 @@ import { Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { pure } from 'recompose';
 import history from '../../history';
-import Root from './Root';
 import Route from './Route';
 import Page from './Page';
 
@@ -44,10 +43,9 @@ function Router({ embeddedRouting, children }) {
         {embeddedRouting ? (
           <Route
             path="/:pageUrl*"
-            render={routeProps => {
-              debugger;
-              return <Page {...routeProps} needMetadata rootPage />;
-            }}
+            render={routeProps => (
+              <Page {...routeProps} needMetadata rootPage />
+            )}
           />
         ) : null}
       </Switch>
