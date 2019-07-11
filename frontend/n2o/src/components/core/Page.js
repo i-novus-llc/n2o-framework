@@ -10,6 +10,7 @@ import {
   branch,
   getContext,
   defaultProps,
+  mapProps,
 } from 'recompose';
 
 import Section from '../layouts/Section';
@@ -171,6 +172,10 @@ const mapStateToProps = createStructuredSelector({
 
 export default compose(
   connect(mapStateToProps),
+  mapProps(props => ({
+    ...props,
+    pageUrl: get(props, 'match.params.pageUrl', '/'),
+  })),
   withPropsOnChange(
     ['pageId', 'pageUrl', 'rootPageId'],
     ({ pageId, pageUrl, rootPageId, rootPage }) => ({
