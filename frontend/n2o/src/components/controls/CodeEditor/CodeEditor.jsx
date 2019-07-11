@@ -59,7 +59,10 @@ class CodeEditor extends React.Component {
     } = this.props;
     return (
       visible && (
-        <div style={{ display: 'flex', border: '1px solid #d1d1d1' }}>
+        <div
+          className={'n2o-code-editor'}
+          style={{ display: 'flex', border: '1px solid #d1d1d1' }}
+        >
           <AceEditor
             mode={lang}
             theme="tomorrow"

@@ -8,7 +8,7 @@ const Html = ({ value, visible, disabled }) => {
   };
   const style = disabled ? disabledStyle : undefined;
   return (
-    <div style={style}>
+    <div style={style} className={'n2o-html'}>
       {visible && <div dangerouslySetInnerHTML={{ __html: value }} />}
     </div>
   );

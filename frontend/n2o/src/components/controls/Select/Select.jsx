@@ -60,7 +60,7 @@ class Select extends React.Component {
 
     return (
       visible !== false && (
-        <div className="form-group">
+        <div className="form-group n2o-select">
           <select
             className={cx('form-control', heightSize)}
             onChange={this.onChange}

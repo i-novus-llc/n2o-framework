@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import Input from '../Input/Input';
 
 /**
@@ -55,7 +56,7 @@ class InputText extends React.Component {
     return (
       <Input
         type="text"
-        className={inputClass}
+        className={cn('n2o-input-text', inputClass)}
         inputRef={inputRef}
         style={style}
         autoFocus={autoFocus}
