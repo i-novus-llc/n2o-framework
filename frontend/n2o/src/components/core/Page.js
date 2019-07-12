@@ -174,7 +174,7 @@ export default compose(
   connect(mapStateToProps),
   mapProps(props => ({
     ...props,
-    pageUrl: get(props, 'match.params.pageUrl', '/'),
+    pageUrl: props.pageUrl || get(props, 'match.params.pageUrl', ''),
   })),
   withPropsOnChange(
     ['pageId', 'pageUrl', 'rootPageId'],
