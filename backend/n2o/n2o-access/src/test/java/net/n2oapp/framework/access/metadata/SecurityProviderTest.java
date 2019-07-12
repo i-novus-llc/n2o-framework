@@ -637,7 +637,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2)),
+                            .add("list", Arrays.asList(3, 2, 1, 4)),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
             Assert.fail();
@@ -648,7 +648,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(1, 2, 3, 4)),
+                            .add("list", Arrays.asList(1, 2)),
                     securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
@@ -666,7 +666,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2))
+                            .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Joe"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
@@ -677,7 +677,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2))
+                            .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Doe"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
