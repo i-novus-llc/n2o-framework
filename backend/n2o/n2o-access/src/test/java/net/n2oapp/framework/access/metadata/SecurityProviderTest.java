@@ -572,7 +572,7 @@ public class SecurityProviderTest {
         securityFilters.setRoleFilters(Collections.singletonMap("role1", Collections.singletonList(
                 new N2oObjectFilter("bar", new String[]{"1", "2", "3"}, FilterType.in, "filter3"))));
         securityFilters.setPermissionFilters(Collections.singletonMap("permission1", Collections.singletonList(
-                new N2oObjectFilter("list", new String[]{"1", "2", "3"}, FilterType.contains, "filter4"))));
+                new N2oObjectFilter("list", new String[]{"1", "2", "#{three}"}, FilterType.contains, "filter4"))));
         securityFilters.setUserFilters(Collections.singletonMap("username1", Collections.singletonList(
                 new N2oObjectFilter("name", "#{username}", FilterType.eq, "filter5"))));
 
@@ -631,12 +631,13 @@ public class SecurityProviderTest {
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasRole(userContext, "role1")).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "permission1")).thenReturn(true);
+        userContext.set("three", 3);
         //list contains (1, 2, 3)
         try {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2)),
+                            .add("list", Arrays.asList(3, 2, 1, 4)),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
             Assert.fail();
@@ -647,7 +648,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(1, 2, 3, 4)),
+                            .add("list", Arrays.asList(1, 2)),
                     securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
@@ -665,7 +666,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2))
+                            .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Joe"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
@@ -676,7 +677,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2))
+                            .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Doe"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {

@@ -64,10 +64,10 @@ public class FilterChecker {
     }
 
     private static boolean contains(List<?> values, Object value) {
-        if (value instanceof Collection) {
+        if (value instanceof List) {
             final boolean[] res = {true};
-            ((Collection<?>) value).forEach(v -> {
-                if (!containsOne(values, v)) {
+            values.forEach(v -> {
+                if (!containsOne((List<?>) value, v)) {
                     res[0] = false;
                 }
             });
@@ -77,8 +77,8 @@ public class FilterChecker {
     }
 
     private static boolean overlap(List<?> values, Object value) {
-        if (value instanceof Collection) {
-            return ((Collection<?>) value).stream().anyMatch(v -> contains(values, v));
+        if (value instanceof List) {
+            return values.stream().anyMatch(v -> contains((List<?>)value, v));
         }
         return containsOne(values, value);
     }

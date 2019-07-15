@@ -88,7 +88,7 @@ const setup = propOverrides => {
   };
 };
 
-describe('Тесты Page', () => {
+describe.skip('Тесты Page', () => {
   it('Установка Page', () => {
     const { wrapper } = setup();
     expect(wrapper).toBeTruthy();
