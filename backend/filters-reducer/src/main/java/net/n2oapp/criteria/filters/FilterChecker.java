@@ -2,6 +2,7 @@ package net.n2oapp.criteria.filters;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Checker for check value by filter
@@ -67,7 +68,7 @@ public class FilterChecker {
         if (value instanceof List) {
             final boolean[] res = {true};
             values.forEach(v -> {
-                if (!containsOne((List<?>) value, v)) {
+                if (!containsOne((List<?>) value, castToRealType(v, ((List<?>) value).get(0)))) {
                     res[0] = false;
                 }
             });
@@ -116,6 +117,8 @@ public class FilterChecker {
                     return filterValue;
                 }
             }
+            if (realValue instanceof UUID)
+                return UUID.fromString((String) filterValue);
         } else if (filterValue != null && !(filterValue instanceof String) && realValue instanceof String) {
             return filterValue.toString();
         }
