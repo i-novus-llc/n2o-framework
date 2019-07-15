@@ -14,9 +14,16 @@ import {
   curry,
 } from 'lodash';
 import { createStructuredSelector } from 'reselect';
-import { compose, withPropsOnChange, branch } from 'recompose';
+import { compose, withPropsOnChange, branch, getContext } from 'recompose';
 import pathToRegexp from 'path-to-regexp';
+
+import Section from '../layouts/Section';
 import Factory from '../../core/factory/Factory';
+import { LAYOUTS, REGIONS } from '../../core/factory/factoryLevels';
+import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer';
+import DocumentTitle from './DocumentTitle';
+import Actions from '../actions/Actions';
+
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
 import {
   makePageMetadataByIdSelector,
@@ -26,8 +33,8 @@ import {
   makePageStatusByIdSelected,
 } from '../../selectors/pages';
 import { getLocation } from '../../selectors/global';
-import withActions from '../core/withActions';
-import { PAGES } from '../../core/factory/factoryLevels';
+import withActions from './withActions';
+import Alert from '../snippets/Alerts/Alert';
 
 class PageContainer extends React.Component {
   componentDidMount() {
@@ -55,22 +62,11 @@ class PageContainer extends React.Component {
     }
   }
 
-  getErrorPage() {
-    const { status } = this.props;
-    const { defaultErrorPages } = this.context;
-    return get(
-      find(defaultErrorPages, page => page.status === status),
-      'component',
-      null
-    );
-  }
-
   shouldGetPageMetadata(prevProps) {
     const {
       metadata,
       location: { pathname, state = {} },
     } = this.props;
-
     if (!isEmpty(metadata) && !isEmpty(metadata.routes)) {
       const findedRoutes = filter(metadata.routes.list, route => {
         const re = pathToRegexp(route.path);
@@ -90,6 +86,16 @@ class PageContainer extends React.Component {
     return false;
   }
 
+  getErrorPage() {
+    const { status } = this.props;
+    const { defaultErrorPages } = this.context;
+    return get(
+      find(defaultErrorPages, page => page.status === status),
+      'component',
+      null
+    );
+  }
+
   isEqualPageId(prevProps) {
     return this.props.pageId === prevProps.pageId;
   }
@@ -103,29 +109,100 @@ class PageContainer extends React.Component {
   }
 
   render() {
-    const { metadata, disabled } = this.props;
-    const { defaultPage } = this.context;
+    const {
+      metadata,
+      defaultTemplate: Template = React.Fragment,
+      toolbar,
+      actions,
+      containerKey,
+      error,
+      disabled,
+      pageId,
+    } = this.props;
+
     const errorPage = this.getErrorPage();
 
     return errorPage ? (
       React.createElement(errorPage)
     ) : (
       <div className={cn({ 'n2o-disabled-page': disabled })}>
-        <Factory
-          level={PAGES}
-          src={metadata && metadata.src ? metadata.src : defaultPage}
-          errorPage={errorPage}
-          id={get(metadata, 'id')}
-          regions={get(metadata, 'regions', {})}
-          {...this.props}
-        />
+        {error && <Alert {...error} visible />}
+        {!isEmpty(metadata) && metadata.page && (
+          <DocumentTitle {...metadata.page} />
+        )}
+        {!isEmpty(metadata) && metadata.breadcrumb && (
+          <BreadcrumbContainer
+            defaultBreadcrumb={this.context.defaultBreadcrumb}
+            items={metadata.breadcrumb}
+          />
+        )}
+        {toolbar && (toolbar.topLeft || toolbar.topRight) && (
+          <div className="n2o-page-actions">
+            <Actions
+              toolbar={toolbar.topLeft}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
+            />
+            <Actions
+              toolbar={toolbar.topRight}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
+            />
+          </div>
+        )}
+        <div className="n2o-page">
+          {has(metadata, 'layout') && (
+            <Factory
+              level={LAYOUTS}
+              src={metadata.layout.src}
+              {...metadata.layout}
+            >
+              {Object.keys(metadata.layout.regions).map((place, i) => {
+                return (
+                  <Section place={place} key={'section' + i}>
+                    {metadata.layout.regions[place].map((region, j) => (
+                      <Factory
+                        key={`region-${place}-${j}`}
+                        level={REGIONS}
+                        {...region}
+                        pageId={metadata.id}
+                      />
+                    ))}
+                  </Section>
+                );
+              })}
+            </Factory>
+          )}
+        </div>
+        {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
+          <div className="n2o-page-actions">
+            <Actions
+              toolbar={toolbar.bottomLeft}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
+            />
+            <Actions
+              toolbar={toolbar.bottomRight}
+              actions={actions}
+              containerKey={containerKey}
+              pageId={pageId}
+            />
+          </div>
+        )}
       </div>
     );
   }
 }
 
 PageContainer.contextTypes = {
-  defaultPage: PropTypes.string,
+  defaultBreadcrumb: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
   defaultErrorPages: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
   ),

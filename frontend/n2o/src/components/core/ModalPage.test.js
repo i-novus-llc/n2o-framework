@@ -4,8 +4,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from '../../reducers';
 import history from '../../history';
-import FactoryProvider from '../../core/factory/FactoryProvider';
-import createFactoryConfig from '../../core/factory/createFactoryConfig';
 function configureStore() {
   return createStore(rootReducer(history));
 }
@@ -20,13 +18,11 @@ const setup = (propOverrides, storeOverrides) => {
   };
   return mount(
     <Provider store={{ ...store, ...storeOverrides }}>
-      <FactoryProvider config={createFactoryConfig({})}>
-        <ModalWindow {...props} {...propOverrides} />
-      </FactoryProvider>
+      <ModalWindow {...props} {...propOverrides} />
     </Provider>
   );
 };
-describe.skip('Тесты ModalPage', function() {
+describe('Тесты ModalPage', function() {
   it('CoverSpinner не должен рендериться, если metadata не пуста', () => {
     const wrapper = setup({
       pageUrl: '/modalPage',

@@ -25,6 +25,7 @@ import Router from './components/core/Router';
 import ruLocaleData from 'react-intl/locale-data/ru';
 import Application from './components/core/Application';
 import { HeaderFooterTemplate } from './components/core/templates';
+import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
 import configureErrorPages from './components/errors';
 
@@ -82,6 +83,11 @@ N2o.propTypes = {
     PropTypes.element,
     PropTypes.node,
   ]),
+  defaultBreadcrumb: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.element,
+    PropTypes.node,
+  ]),
   defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
@@ -118,7 +124,7 @@ N2o.propTypes = {
 const EnhancedN2O = compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
-    defaultPage: 'LeftRightPage',
+    defaultBreadcrumb: DefaultBreadcrumb,
     defaultPromptMessage:
       'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     defaultErrorPages: configureErrorPages(),
@@ -141,17 +147,21 @@ const EnhancedN2O = compose(
         PropTypes.element,
         PropTypes.node,
       ]),
+      defaultBreadcrumb: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       defaultPromptMessage: PropTypes.string,
-      defaultPage: PropTypes.element,
       defaultErrorPages: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
       ),
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
+      defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
       defaultErrorPages: props.defaultErrorPages,
-      defaultPage: props.defaultPage,
     })
   ),
   withProps(props => ({
