@@ -10,6 +10,7 @@ import {
   branch,
   getContext,
   defaultProps,
+  mapProps,
 } from 'recompose';
 
 import Section from '../layouts/Section';
@@ -27,6 +28,7 @@ import { rootPageSelector } from '../../selectors/global';
 import withMetadata from './withMetadata';
 import withActions from './withActions';
 import Alert from '../snippets/Alerts/Alert';
+import Spinner from '../snippets/Spinner/Spinner';
 import { SimpleTemplate } from './templates';
 import Root from './Root';
 
@@ -34,7 +36,6 @@ function Page(props) {
   const {
     pageId,
     metadata,
-    // todo: нужно добавить обработку состояния
     loading,
     error,
     disabled,
@@ -46,6 +47,7 @@ function Page(props) {
     defaultBreadcrumb,
     defaultErrorPages,
     page,
+    rootPage,
   } = props;
 
   const getErrorPage = () => {
@@ -134,11 +136,19 @@ function Page(props) {
   };
 
   return (
-    <Root>
-      <Template>
-        {page ? React.createElement(page, props) : renderDefaultBody()}
-      </Template>
-    </Root>
+    <Spinner type="cover" loading={loading}>
+      {rootPage ? (
+        <Root>
+          <Template>
+            {page ? React.createElement(page, props) : renderDefaultBody()}
+          </Template>
+        </Root>
+      ) : page ? (
+        React.createElement(page, props)
+      ) : (
+        renderDefaultBody()
+      )}
+    </Spinner>
   );
 }
 
@@ -162,6 +172,10 @@ const mapStateToProps = createStructuredSelector({
 
 export default compose(
   connect(mapStateToProps),
+  mapProps(props => ({
+    ...props,
+    pageUrl: props.pageUrl || get(props, 'match.params.pageUrl', ''),
+  })),
   withPropsOnChange(
     ['pageId', 'pageUrl', 'rootPageId'],
     ({ pageId, pageUrl, rootPageId, rootPage }) => ({
