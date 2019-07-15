@@ -10,6 +10,7 @@ import DefaultBreadcrumb from './Breadcrumb/DefaultBreadcrumb';
 import { BrowserRouter } from 'react-router-dom';
 import FactoryProvider from '../../core/factory/FactoryProvider';
 import sinon from 'sinon';
+import createFactoryConfig from '../../core/factory/createFactoryConfig';
 
 const defaultProps = {
   getMetadata: () => {},
@@ -75,7 +76,11 @@ const setup = propOverrides => {
     ...propOverrides,
   };
 
-  const wrapper = mount(<PageContainer {...props} />);
+  const wrapper = mount(
+    <FactoryProvider config={createFactoryConfig({})}>
+      <PageContainer {...props} />
+    </FactoryProvider>
+  );
 
   return {
     wrapper,
@@ -101,7 +106,11 @@ describe.skip('Тесты Page', () => {
       () => ({
         defaultBreadcrumb: DefaultBreadcrumb,
       })
-    )(PageContainer);
+    )(() => (
+      <FactoryProvider config={createFactoryConfig({})}>
+        <PageContainer {...defaultProps} />
+      </FactoryProvider>
+    ));
 
     // И еще закидываем роуты для линков
     const page = renderer
@@ -129,18 +138,24 @@ describe.skip('Тесты Page', () => {
     expect(getMetadata.calledWithMatch()).toEqual(true);
   });
 
-  it('Проверка вызова reset и getMetadate если метадата поменялась', () => {
+  it('Проверка вызова reset и getMetadata если метадата поменялась', () => {
     const getMetadata = sinon.spy();
     const reset = sinon.spy();
 
     const stubFn = sinon
       .stub(PageContainer.prototype, 'shouldGetPageMetadata')
       .returns(true);
-    const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
+    const { wrapper } = setup({
+      metadata: 'test',
+      pageId: 'pageId',
+      reset,
+      getMetadata,
+    });
     wrapper.setProps({ metadata: 'test2', reset, getMetadata });
     expect(reset.calledOnce).toEqual(true);
     expect(reset.calledWithMatch('pageId')).toEqual(true);
-    expect(getMetadata.calledOnce).toEqual(true);
+    expect(getMetadata.called).toEqual(true);
+    expect(getMetadata.calledOnce).toEqual(false);
     stubFn.restore();
   });
 
@@ -151,14 +166,27 @@ describe.skip('Тесты Page', () => {
     const stubFn = sinon
       .stub(PageContainer.prototype, 'shouldGetPageMetadata')
       .returns(false);
-    const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-    wrapper.setProps({
+    const { wrapper } = setup({
+      metadata: 'test',
+      pageId: 'pageId',
+      routeMap,
+      getMetadata,
+    });
+    const newProps = {
+      pageId: 'pageId',
       metadata: 'test',
       pageUrl: 'newPageUrl',
       routeMap,
       getMetadata,
       error: true,
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
     });
+
+    wrapper.update();
+
     expect(routeMap.calledOnce).toEqual(true);
     expect(routeMap.calledWithMatch()).toEqual(true);
     expect(getMetadata.calledWithMatch()).toEqual(true);
@@ -167,10 +195,11 @@ describe.skip('Тесты Page', () => {
 
   it('shouldGetPageMetadata возвращает true при смене route если route есть в метаданных', () => {
     const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
+    const getMetadata = sinon.spy();
     const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-
-    wrapper.setProps({
+    const newProps = {
       reset: () => null,
+      getMetadata,
       metadata: {
         routes: {
           list: [
@@ -185,6 +214,10 @@ describe.skip('Тесты Page', () => {
       location: {
         pathname: '/test',
       },
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
     });
 
     expect(spyFn.calledOnce).toEqual(true);
@@ -195,8 +228,7 @@ describe.skip('Тесты Page', () => {
   it('shouldGetPageMetadata возвращает false если silent = true', () => {
     const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
     const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-
-    wrapper.setProps({
+    const newProps = {
       reset: () => null,
       metadata: {
         routes: {
@@ -209,7 +241,14 @@ describe.skip('Тесты Page', () => {
           ],
         },
       },
-      location: { state: { silent: true } },
+      location: {
+        pathname: '/test',
+        state: { silent: true },
+      },
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
     });
 
     expect(spyFn.calledOnce).toEqual(true);
@@ -220,8 +259,7 @@ describe.skip('Тесты Page', () => {
   it('shouldGetPageMetadata возвращает true если route есть в метаданных но нет isOtherPage', () => {
     const spyFn = sinon.spy(PageContainer.prototype, 'shouldGetPageMetadata');
     const { wrapper } = setup({ metadata: 'test', pageId: 'pageId' });
-
-    wrapper.setProps({
+    const newProps = {
       reset: () => null,
       metadata: {
         routes: {
@@ -234,6 +272,10 @@ describe.skip('Тесты Page', () => {
         },
       },
       location: { pathname: '/test' },
+    };
+
+    wrapper.setProps({
+      children: <PageContainer {...newProps} />,
     });
 
     expect(spyFn.calledOnce).toEqual(true);

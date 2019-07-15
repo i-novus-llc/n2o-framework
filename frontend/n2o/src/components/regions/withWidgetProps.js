@@ -29,7 +29,7 @@ function withGetWidget(WrappedComponent) {
     }
 
     getWidget(pageId, widgetId) {
-      return this.props.pages[pageId].metadata.widgets[widgetId];
+      return get(this.props, `pages[${pageId}].metadata.widgets[${widgetId}]`);
     }
 
     getWidgetProps(widgetId) {
