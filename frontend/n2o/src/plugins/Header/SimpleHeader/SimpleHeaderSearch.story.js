@@ -32,6 +32,31 @@ stories.add('Компонент', () => {
   );
 });
 
+stories.add('Баджи', () => {
+  return (
+    <div>
+      <SimpleHeader
+        brandImage={
+          'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
+        }
+        activeId={'link'}
+        fixed={false}
+        items={simpleHeaderMetadata.itemsWithBadges}
+        extraItems={simpleHeaderMetadata.extraItemsWithBadges}
+        color="inverse"
+      />
+      <div
+        style={{
+          padding: '200px',
+          position: 'relative',
+        }}
+      >
+        <Wireframe className="n2o" title="Тело страницы" />
+      </div>
+    </div>
+  );
+});
+
 SimpleHeader.defaultProps = {
   color: 'default',
   fixed: true,

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
 import { isEmpty, get } from 'lodash';
+import { Badge } from 'reactstrap';
 
 import {
   NavItem,
@@ -33,6 +34,10 @@ const NavItemContainer = ({
     </NavLink>
   );
 
+  const renderBadge = item => (
+    <Badge color={item.badgeColor}>{item.badge}</Badge>
+  );
+
   const handleLink = (item, className) => {
     if (item.linkType === 'outer') {
       return (
@@ -40,6 +45,7 @@ const NavItemContainer = ({
           <a className={cx('nav-link', className)} href={item.href}>
             {item.label}
           </a>
+          {renderBadge(item)}
         </NavItem>
       );
     } else {
@@ -53,6 +59,7 @@ const NavItemContainer = ({
           >
             {item.label}
           </NavLink>
+          {renderBadge(item)}
         </NavItem>
       );
     }
