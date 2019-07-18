@@ -39,6 +39,6 @@ public class RatingCompileTest extends SourceCompileTestBase {
         Rating rating = (Rating) ((StandardField) field).getControl();
         assertThat(rating.getHalf(), is(Boolean.FALSE));
         assertThat(rating.getMax(), is(5));
-        assertThat(rating.getShowToolTip(), is(Boolean.TRUE));
+        assertThat(rating.getShowTooltip(), is(Boolean.TRUE));
     }
 }

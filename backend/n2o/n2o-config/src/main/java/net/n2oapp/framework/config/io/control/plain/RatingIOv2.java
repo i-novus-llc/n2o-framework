@@ -14,7 +14,7 @@ public class RatingIOv2 extends PlainFieldIOv2<N2oRating> {
         super.io(e, m, p);
         p.attributeInteger(e, "max", m::getMax, m::setMax);
         p.attributeBoolean(e, "half", m::getHalf, m::setHalf);
-        p.attributeBoolean(e, "showToolTip", m::getShowToolTip, m::setShowToolTip);
+        p.attributeBoolean(e, "showTooltip", m::getShowTooltip, m::setShowTooltip);
     }
 
     @Override

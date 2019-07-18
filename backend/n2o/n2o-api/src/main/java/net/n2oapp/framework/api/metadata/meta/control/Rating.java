@@ -15,6 +15,6 @@ public class Rating extends Control {
     @JsonProperty
     private Boolean half;
     @JsonProperty
-    private Boolean showToolTip;
+    private Boolean showTooltip;
 
 }

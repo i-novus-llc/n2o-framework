@@ -30,7 +30,7 @@
     <xs:element name="html" type="controlHtml"/>
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
-    <xs:element name="rating" type="controlInputRating"/>
+    <xs:element name="rating" type="controlRating"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -58,7 +58,7 @@
             <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
-            <xs:element name="rating" type="controlInputRating" minOccurs="0"/>
+            <xs:element name="rating" type="controlRating" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -283,12 +283,12 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="controlInputRating">
+    <xs:complexType name="controlRating">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="max" type="xs:integer"/>
                 <xs:attribute name="half" type="xs:boolean"/>
-                <xs:attribute name="showToolTip" type="xs:boolean"/>
+                <xs:attribute name="showTooltip" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
