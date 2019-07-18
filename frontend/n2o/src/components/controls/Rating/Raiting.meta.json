@@ -2,5 +2,5 @@
   "max": 5,
   "half": false,
   "rating": 0,
-  "showToolTip": false
+  "showTooltip": false
 }

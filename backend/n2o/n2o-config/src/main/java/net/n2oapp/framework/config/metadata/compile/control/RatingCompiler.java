@@ -28,7 +28,7 @@ public class RatingCompiler extends StandardFieldCompiler<Rating, N2oRating> {
         Rating rating = new Rating();
         rating.setHalf(source.getHalf());
         rating.setMax(source.getMax());
-        rating.setShowToolTip(source.getShowToolTip());
+        rating.setShowTooltip(source.getShowTooltip());
 
         return compileStandardField(rating, source, context, p);
     }
