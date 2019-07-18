@@ -35,6 +35,6 @@ public class ObjectFiltersAccessPointIOv2 extends AccessPointElementIOv2<N2oObje
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
-        p.childrenToStringArray(e, null, "value", pf::getValues, pf::setValues);
+        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 }

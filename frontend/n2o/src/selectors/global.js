@@ -70,6 +70,14 @@ export const rootPageSelector = createSelector(
 );
 
 /**
+ * Селектор текущей страницы
+ */
+export const readySelector = createSelector(
+  globalSelector,
+  global => global.ready
+);
+
+/**
  * Селектор роутинга
  */
 export const routerSelector = state => state.router || {};

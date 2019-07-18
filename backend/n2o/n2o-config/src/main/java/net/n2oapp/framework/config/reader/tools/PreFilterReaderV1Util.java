@@ -31,7 +31,7 @@ public class PreFilterReaderV1Util {
                 }
                 n2oPreFilter.setTargetWidgetId(getAttributeString(preFilter, "container-id"));
                 n2oPreFilter.setType(getAttributeEnum(preFilter, "type", FilterType.class));
-                n2oPreFilter.setValues(getElementsStringArray(preFilter, "value"));
+                n2oPreFilter.setValueList(getElementsStringArray(preFilter, "value"));
                 n2oPreFilter.setResetMode(getAttributeEnum(preFilter, "reset-mode", N2oPreFilter.ResetMode.class));
                 n2oPreFilter.setOnChange(getAttributeBoolean(preFilter, "on-change"));
                 n2oPreFilters[i] = n2oPreFilter;

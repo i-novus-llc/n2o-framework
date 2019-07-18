@@ -76,18 +76,19 @@ public class FilterCheckerTest {
         assert !new Filter("test text", FilterType.likeStart).check("wee");
 
         //overlap
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(1));
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(2, 5));
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(3, 1, 2));
-        assert !new Filter(Arrays.asList(1, 2, 3), FilterType.overlaps).check(Arrays.asList(5));
+        assert new Filter(Arrays.asList(1), FilterType.overlaps).check(Arrays.asList(1, 2, 3));
+        assert new Filter(Arrays.asList(1, 2), FilterType.overlaps).check(Arrays.asList(2, 3));
+        assert new Filter(Arrays.asList(1, 2), FilterType.overlaps).check(Arrays.asList(2, 1));
+        assert new Filter(Arrays.asList(1, 2), FilterType.overlaps).check(Arrays.asList(1));
+        assert !new Filter(Arrays.asList(1, 2), FilterType.overlaps).check(Arrays.asList(3, 4));
         assert !new Filter(Arrays.asList(1, 2), FilterType.overlaps).check(null);
 
         //contains
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(1));
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(3, 1));
-        assert new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(3, 1, 2));
-        assert !new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(1, 5));
-        assert !new Filter(Arrays.asList(1, 2, 3), FilterType.contains).check(Arrays.asList(1, 2, 3, 4));
+        assert new Filter(Arrays.asList(1), FilterType.contains).check(Arrays.asList(1, 2, 3));
+        assert new Filter(Arrays.asList(3, 1), FilterType.contains).check(Arrays.asList(1, 2, 3));
+        assert new Filter(Arrays.asList(3, 1, 2), FilterType.contains).check(Arrays.asList(1, 2, 3));
+        assert !new Filter(Arrays.asList(1, 5), FilterType.contains).check(Arrays.asList(1, 2, 3));
+        assert !new Filter(Arrays.asList(1, 2, 3, 4), FilterType.contains).check(Arrays.asList(1, 2, 3));
         assert !new Filter(Arrays.asList(1, 2), FilterType.contains).check(null);
     }
 }

@@ -56,6 +56,8 @@ import fetchSaga from './fetch.js';
 import { FETCH_PAGE_METADATA } from '../core/api.js';
 import compileUrl from '../utils/compileUrl';
 import linkResolver from '../utils/linkResolver';
+import { ADD, ADD_MULTI } from '../constants/alerts';
+import { addAlertSideEffect } from './alerts';
 
 function autoDetectBasePath(pathPattern, pathname) {
   const match = matchPath(pathname, {
@@ -165,9 +167,10 @@ function* processUrl() {
 
 /**
  * сага, фетчит метадату
+ * @param apiProvider
  * @param action
  */
-function* getMetadata(action) {
+function* getMetadata(apiProvider, action) {
   let { pageId, rootPage, pageUrl, mapping } = action.payload;
   try {
     const { search } = yield select(getLocation);
@@ -178,7 +181,12 @@ function* getMetadata(action) {
     } else if (rootPage) {
       pageUrl = pageUrl + search;
     }
-    const metadata = yield call(fetchSaga, FETCH_PAGE_METADATA, { pageUrl });
+    const metadata = yield call(
+      fetchSaga,
+      FETCH_PAGE_METADATA,
+      { pageUrl },
+      apiProvider
+    );
 
     yield call(mappingUrlToRedux, metadata.routes);
     if (rootPage) {
@@ -298,7 +306,9 @@ export function* flowDefaultModels(config) {
  * Сайд-эффекты для page редюсера
  * @ignore
  */
-export const pagesSagas = [
-  takeEvery(METADATA_REQUEST, getMetadata),
-  throttle(500, MAP_URL, processUrl),
-];
+export default apiProvider => {
+  return [
+    takeEvery(METADATA_REQUEST, getMetadata, apiProvider),
+    throttle(500, MAP_URL, processUrl),
+  ];
+};

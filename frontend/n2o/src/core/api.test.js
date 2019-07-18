@@ -39,15 +39,11 @@ describe('Проверка api провайдера', () => {
   });
   it('без параметров', async () => {
     expect.assertions(1);
-    return expect(apiProvider()).rejects.toMatch(
-      'Неверно задан тип для apiProvider!'
-    );
+    return expect(() => apiProvider()).toThrowError();
   });
   it('не существующий тип', async () => {
     expect.assertions(1);
-    return expect(apiProvider('test')).rejects.toMatch(
-      'Неверно задан тип для apiProvider!'
-    );
+    return expect(() => apiProvider('test')).toThrowError();
   });
   it('проверка запроса за конфигом', async () => {
     expect.assertions(1);
