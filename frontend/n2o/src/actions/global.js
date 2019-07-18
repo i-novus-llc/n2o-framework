@@ -4,8 +4,16 @@ import {
   REQUEST_CONFIG_SUCCESS,
   REQUEST_CONFIG_FAIL,
   CHANGE_ROOT_PAGE,
+  SET_READY,
 } from '../constants/global';
 import createActionHelper from './createActionHelper';
+
+/**
+ * Установить готовность приложения
+ */
+export function setReady() {
+  return createActionHelper(SET_READY)({});
+}
 
 /**
  * Сменить язык интерфейса
@@ -39,13 +47,18 @@ export function requestConfigSuccess(config) {
 
 /**
  * Ошибки при запросе за настройкой приложения
- * @param error
+ * @param alert
  */
 
-export function requestConfigFail(error) {
-  return createActionHelper(REQUEST_CONFIG_FAIL)({
-    error,
-  });
+export function requestConfigFail(alert) {
+  return createActionHelper(REQUEST_CONFIG_FAIL)(
+    {
+      error: alert,
+    },
+    {
+      alert,
+    }
+  );
 }
 
 /**

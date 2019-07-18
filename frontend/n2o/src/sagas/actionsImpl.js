@@ -1,4 +1,4 @@
-import { call, put, select, throttle } from 'redux-saga/effects';
+import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
 import { getFormValues, initialize } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
 import { isFunction } from 'lodash';
@@ -24,6 +24,7 @@ import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
 import { disablePage, enablePage } from '../actions/pages';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
+import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
 export function* validate(options) {
   const isTouched = true;
@@ -86,15 +87,20 @@ export function* resolveMapping(dataProvider, state) {
  * @param model
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model) {
+export function* fetchInvoke(dataProvider, model, apiProvider) {
   const state = yield select();
   const path = yield resolveMapping(dataProvider, state);
-  const response = yield call(fetchSaga, FETCH_INVOKE_DATA, {
-    basePath: path,
-    baseQuery: {},
-    baseMethod: dataProvider.method,
-    model,
-  });
+  const response = yield call(
+    fetchSaga,
+    FETCH_INVOKE_DATA,
+    {
+      basePath: path,
+      baseQuery: {},
+      baseMethod: dataProvider.method,
+      model,
+    },
+    apiProvider
+  );
   return response;
 }
 
@@ -106,7 +112,7 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
 /**
  * вызов экшена
  */
-export function* handleInvoke(action) {
+export function* handleInvoke(apiProvider, action) {
   const { modelLink, widgetId, pageId, dataProvider, data } = action.payload;
   try {
     if (!dataProvider) {
@@ -122,7 +128,7 @@ export function* handleInvoke(action) {
     if (modelLink) {
       model = yield select(getModelSelector(modelLink));
     }
-    const response = yield call(fetchInvoke, dataProvider, model);
+    const response = yield call(fetchInvoke, dataProvider, model, apiProvider);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
     if (!meta.redirect && !meta.closeLastModal) {
@@ -154,7 +160,9 @@ export function* handleInvoke(action) {
   }
 }
 
-export const actionsImplSagas = [
-  throttle(500, CALL_ACTION_IMPL, handleAction),
-  throttle(500, START_INVOKE, handleInvoke),
-];
+export default apiProvider => {
+  return [
+    throttle(500, CALL_ACTION_IMPL, handleAction),
+    throttle(500, START_INVOKE, handleInvoke, apiProvider),
+  ];
+};
