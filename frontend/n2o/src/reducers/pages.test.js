@@ -2,7 +2,8 @@ import {
   METADATA_REQUEST,
   METADATA_SUCCESS,
   METADATA_FAIL,
-  RESET, SET_STATUS,
+  RESET,
+  SET_STATUS,
 } from '../constants/pages';
 import { SET_WIDGET_METADATA } from '../constants/widgets';
 import pages from './pages';
@@ -107,7 +108,7 @@ describe('Тесты pages reducer', () => {
         metadata: {},
         error: false,
         disabled: false,
-        status: null
+        status: null,
       },
     });
   });
@@ -140,19 +141,22 @@ describe('Тесты pages reducer', () => {
 
   it('Проверка SET_STATUS', () => {
     expect(
-      pages({
-        pageId: {}
-      }, {
-        type: SET_STATUS,
-        payload: {
-          pageId: 'pageId',
-          status: 200
+      pages(
+        {
+          pageId: {},
+        },
+        {
+          type: SET_STATUS,
+          payload: {
+            pageId: 'pageId',
+            status: 200,
+          },
         }
-      })
+      )
     ).toEqual({
       pageId: {
-        status: 200
-      }
-    })
+        status: 200,
+      },
+    });
   });
 });
