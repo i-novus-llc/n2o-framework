@@ -37,6 +37,20 @@ exports[`<SimpleHeader /> проверяет создание компонент
             "label": "text",
             "type": "text",
           },
+          Object {
+            "id": "dropdown1",
+            "label": "список №2",
+            "subItems": Array [
+              Object {
+                "badge": "бадж 1",
+                "badgeColor": "warning",
+                "href": "/",
+                "label": "элемент списка №1",
+                "type": "link",
+              },
+            ],
+            "type": "dropdown",
+          },
         ]
       }
       fixed={true}
@@ -385,6 +399,147 @@ exports[`<SimpleHeader /> проверяет создание компонент
                             </span>
                           </li>
                         </NavItem>
+                      </NavItemContainer>
+                      <NavItemContainer
+                        direction="bottom"
+                        item={
+                          Object {
+                            "id": "dropdown1",
+                            "label": "список №2",
+                            "subItems": Array [
+                              Object {
+                                "badge": "бадж 1",
+                                "badgeColor": "warning",
+                                "href": "/",
+                                "label": "элемент списка №1",
+                                "type": "link",
+                              },
+                            ],
+                            "type": "dropdown",
+                          }
+                        }
+                        key="1"
+                        options={
+                          Object {
+                            "right": true,
+                          }
+                        }
+                      >
+                        <UncontrolledDropdown
+                          direction="bottom"
+                          inNavbar={true}
+                          nav={true}
+                        >
+                          <Dropdown
+                            active={false}
+                            addonType={false}
+                            direction="bottom"
+                            inNavbar={true}
+                            isOpen={false}
+                            nav={true}
+                            setActiveFromChild={false}
+                            toggle={[Function]}
+                          >
+                            <Manager>
+                              <li
+                                className="dropbottom dropdown nav-item"
+                                onKeyDown={[Function]}
+                              >
+                                <DropdownToggle
+                                  aria-haspopup={true}
+                                  caret={true}
+                                  color="secondary"
+                                  nav={true}
+                                >
+                                  <a
+                                    aria-expanded={false}
+                                    aria-haspopup={true}
+                                    className="dropdown-toggle nav-link"
+                                    href="#"
+                                    onClick={[Function]}
+                                  >
+                                    список №2
+                                  </a>
+                                </DropdownToggle>
+                                <DropdownMenu
+                                  flip={true}
+                                  right={true}
+                                  tag="div"
+                                >
+                                  <div
+                                    aria-hidden={true}
+                                    className="dropdown-menu dropdown-menu-right"
+                                    role="menu"
+                                    tabIndex="-1"
+                                  >
+                                    <DropdownItem
+                                      tag="button"
+                                      toggle={true}
+                                    >
+                                      <button
+                                        className="dropdown-item"
+                                        onClick={[Function]}
+                                        role="menuitem"
+                                        tabIndex="0"
+                                        type="button"
+                                      >
+                                        <NavItem
+                                          tag="li"
+                                        >
+                                          <li
+                                            className="nav-item"
+                                          >
+                                            <NavLink
+                                              activeClassName="active"
+                                              aria-current="page"
+                                              className="nav-link dropdown-item"
+                                              exact={true}
+                                              to="/"
+                                            >
+                                              <Route
+                                                exact={true}
+                                                path="\\\\/"
+                                              >
+                                                <Link
+                                                  aria-current="page"
+                                                  className="nav-link dropdown-item active"
+                                                  replace={false}
+                                                  style={Object {}}
+                                                  to="/"
+                                                >
+                                                  <a
+                                                    aria-current="page"
+                                                    className="nav-link dropdown-item active"
+                                                    href="/"
+                                                    onClick={[Function]}
+                                                    style={Object {}}
+                                                  >
+                                                    элемент списка №1
+                                                  </a>
+                                                </Link>
+                                              </Route>
+                                            </NavLink>
+                                            <Badge
+                                              color="warning"
+                                              pill={false}
+                                              tag="span"
+                                            >
+                                              <span
+                                                className="badge badge-warning"
+                                              >
+                                                бадж 1
+                                              </span>
+                                            </Badge>
+                                          </li>
+                                        </NavItem>
+                                      </button>
+                                    </DropdownItem>
+                                  </div>
+                                </DropdownMenu>
+                              </li>
+                            </Manager>
+                          </Dropdown>
+                        </UncontrolledDropdown>
                       </NavItemContainer>
                       <NavItem
                         tag="li"

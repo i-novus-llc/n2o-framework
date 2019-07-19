@@ -35,6 +35,20 @@ const props = {
       label: 'text',
       type: 'text',
     },
+    {
+      id: 'dropdown1',
+      label: 'список №2',
+      type: 'dropdown',
+      subItems: [
+        {
+          label: 'элемент списка №1',
+          href: '/',
+          type: 'link',
+          badge: 'бадж 1',
+          badgeColor: 'warning',
+        },
+      ],
+    },
   ],
   brand: 'N2O',
   search: true,
@@ -73,24 +87,31 @@ describe('<SimpleHeader />', () => {
   it('проверяет открытие меню', () => {
     const { wrapper } = setup();
     wrapper.update();
-    wrapper.find('.dropdown-toggle').simulate('click');
-    expect(wrapper.find('.dropdown-menu').hasClass('show')).toBeTruthy();
+    wrapper
+      .find('.dropdown-toggle')
+      .first()
+      .simulate('click');
+    expect(
+      wrapper
+        .find('.dropdown-menu')
+        .first()
+        .hasClass('show')
+    ).toBeTruthy();
   });
-  // it('проверяет, что активный элемент устанавливается правильно', () => {
-  //   const { wrapper } = setup();
-  //   wrapper.update();
-  //   wrapper
-  //     .find('.dropdown-menu')
-  //     .first()
-  //     .simulate('click');
-  //   console.log(wrapper.find('.dropdown-item').debug());
-  //   expect(
-  //     wrapper
-  //       .find('a.nav-link')
-  //       .first()
-  //       .hasClass('active')
-  //   ).toBeTruthy();
-  // });
+  it('проверяет, что активный элемент устанавливается правильно', () => {
+    const { wrapper } = setup();
+    wrapper.update();
+    wrapper
+      .find('button.dropdown-item')
+      .first()
+      .simulate('click');
+    expect(
+      wrapper
+        .find('a.nav-link.dropdown-item')
+        .last()
+        .hasClass('active')
+    ).toBeTruthy();
+  });
   it('проверяет баджи', () => {
     const { wrapper } = setup();
     wrapper.update();
