@@ -288,7 +288,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="max" type="xs:integer"/>
                 <xs:attribute name="half" type="xs:boolean"/>
-                <xs:attribute name="showTooltip" type="xs:boolean"/>
+                <xs:attribute name="show-tooltip" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
