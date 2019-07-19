@@ -10,7 +10,8 @@ import {
   makePageErrorByIdSelector,
   makePageTitleByIdSelector,
   makePageDisabledByIdSelector,
-  makePageWidgetsByIdSelector, makePageStatusByIdSelected,
+  makePageWidgetsByIdSelector,
+  makePageStatusByIdSelected,
 } from './pages';
 
 const state = {

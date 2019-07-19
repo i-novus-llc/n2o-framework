@@ -111,7 +111,6 @@ class DateInput extends React.Component {
   onKeyDown(e) {
     const cursorPos = Number(e.target.selectionStart);
     const keyCode = Number(e.keyCode);
-    const valueFromKey = +String.fromCharCode(keyCode);
     const deletedChar = +this.getDeletedSymbol(cursorPos);
 
     if (keyCode === 8 && cursorPos !== 0 && !isNaN(deletedChar)) {
@@ -120,15 +119,6 @@ class DateInput extends React.Component {
       const value = this.replaceAt(this.state.value, cursorPos, '_');
 
       this.onChange(value, () => this.setCursorPosition(cursorPos - 1));
-    } else if (!isNaN(valueFromKey) && isNumber(valueFromKey)) {
-      e.preventDefault();
-      const value = this.replaceAt(
-        this.state.value,
-        cursorPos + 1,
-        valueFromKey
-      );
-
-      this.onChange(value, () => this.setCursorPosition(cursorPos + 1));
     }
   }
 
