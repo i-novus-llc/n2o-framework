@@ -286,8 +286,8 @@
     <xs:complexType name="controlRating">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="max" type="xs:integer"/>
-                <xs:attribute name="half" type="xs:boolean"/>
+                <xs:attribute name="max" type="xs:integer" default="5"/>
+                <xs:attribute name="half" type="xs:boolean" default="false"/>
                 <xs:attribute name="show-tooltip" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
