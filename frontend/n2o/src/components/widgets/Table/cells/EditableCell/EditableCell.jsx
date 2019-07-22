@@ -38,14 +38,6 @@ export class EditableCell extends React.Component {
         prevModel: this.state.model,
         model: this.props.prevResolveModel,
       });
-    } else if (
-      !isEqual(prevProps.prevResolveModel, this.props.prevResolveModel) &&
-      this.state.model.id === this.props.prevResolveModel.id
-    ) {
-      this.setState({
-        prevModel: this.state.model,
-        model: this.props.prevResolveModel,
-      });
     }
 
     if (
