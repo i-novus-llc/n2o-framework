@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, PopoverBody } from 'reactstrap';
+import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
 import { id } from '../../../utils/id';
+import cx from 'classnames';
+
+/**
+ * Popover
+ * @reacProps {string} header - заголовок Popover
+ * @reacProps {string} body - тело Popover
+ * @reacProps {string} placement - позиция Popover
+ */
 
 class N2OPopover extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showPopover: false,
     };
@@ -21,11 +28,21 @@ class N2OPopover extends React.Component {
   }
 
   render() {
-    const { help, placement, icon } = this.props;
+    const {
+      header,
+      body,
+      placement,
+      children,
+      className,
+      help,
+      icon,
+    } = this.props;
     return (
-      <div className={'n2o-popover'}>
+      <div className={cx('n2o-popover', className)}>
         <div id={this.fieldId} onClick={this.onToggle}>
-          <i className={icon} />
+          {help && <i className="fa fa-question-circle" />}
+          {icon && <i className={icon} />}
+          {children}
         </div>
         <Popover
           placement={placement}
@@ -33,9 +50,14 @@ class N2OPopover extends React.Component {
           target={this.fieldId}
           toggle={this.onToggle}
         >
-          <PopoverBody>
+          {help ? (
             <div dangerouslySetInnerHTML={{ __html: help }} />
-          </PopoverBody>
+          ) : (
+            <React.Fragment>
+              {header && <PopoverHeader>{header}</PopoverHeader>}
+              {body && <PopoverBody>{body}</PopoverBody>}
+            </React.Fragment>
+          )}
         </Popover>
       </div>
     );
@@ -43,12 +65,18 @@ class N2OPopover extends React.Component {
 }
 
 N2OPopover.propTypes = {
-  help: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  header: PropTypes.string,
+  body: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  placement: PropTypes.string,
+  icon: PropTypes.string,
+  help: PropTypes.string,
 };
 
 N2OPopover.defaultProps = {
+  header: 'header',
+  body: 'body',
   placement: 'right',
-  icon: 'fa fa-question-circle',
+  icon: '',
 };
 
 export default N2OPopover;
