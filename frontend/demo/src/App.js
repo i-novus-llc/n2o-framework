@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import N2O from 'n2o/lib//N2o';
+import N2O from 'n2o/lib/N2o';
+import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o/lib/core/api';
+import Route from 'n2o/lib/components/core/Route';
+import Page from 'n2o/lib/components/core/Page';
 
 import Template from './components/core/Template';
 import DashboardV2 from './pages/DashboardV2';
@@ -19,21 +22,6 @@ const config = {
   fieldsets: {
     CollapsedCardFieldset: CollapsedCardFieldset
   },
-  routes: [
-    {
-      path: '/dashboard/v2',
-      component: DashboardV2,
-    },
-    {
-      path: '/table-tree/',
-      component: TableTree
-
-    },
-    {
-      path: '/select/',
-      component: Select
-    }
-  ],
   messages: {
     timeout: {
       error: 0,
@@ -41,13 +29,92 @@ const config = {
       warning: 0,
       info: 0,
     }
-  }
+  },
+  apiProvider: handleApi({
+    ...defaultApiProvider,
+    [FETCH_APP_CONFIG]: (options) => {
+      console.warn('--------------------- API PROVIDER START ---------------------');
+      console.warn(FETCH_APP_CONFIG);
+      console.warn(options);
+      console.warn('--------------------- API PROVIDER END ---------------------');
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({
+            "messages": {},
+            "menu": {
+              "brand": "My project",
+              "color": "inverse",
+              "fixed": true,
+              "collapsed": true,
+              "search": false,
+              "items": [
+                {
+                  "id": "proto",
+                  "label": "Proto",
+                  "href": "/proto",
+                  "linkType": "inner",
+                  "type": "link"
+                },
+                {
+                  "id": "v1",
+                  "label": "Custom V1",
+                  "href": "/custom/v1",
+                  "linkType": "inner",
+                  "type": "link"
+                },
+                {
+                  "id": "v2",
+                  "label": "Custom V2",
+                  "href": "/custom/v2",
+                  "linkType": "inner",
+                  "type": "link"
+                },
+                {
+                  "id": "v3",
+                  "label": "Custom V3",
+                  "href": "/custom/v3",
+                  "linkType": "inner",
+                  "type": "link"
+                }
+              ],
+              "extraItems": [
+                {
+                  "id": "goo",
+                  "label": "Google",
+                  "href": "http://google.com",
+                  "linkType": "outer",
+                  "type": "link"
+                }
+              ]
+            },
+            "user": {
+              "username": null,
+              "testProperty": "testProperty"
+            }
+          });
+        }, 0);
+      });
+    }
+  }),
+  realTimeConfig: true,
+  embeddedRouting: true,
 };
 
 class App extends Component {
   render() {
     return (
-      <N2O {...config}  />
+      <N2O {...config}>
+        {/* 1 полный кастом */}
+        <Route path="/custom/v1" exact component={DashboardV2} />
+        {/* 2 обертка, без метаданных */}
+        <Route path="/custom/v2" exact render={routeProps => {
+          return (<Page {...routeProps} page={Select} rootPage />);
+        }}  />
+        {/* 3 обертка, метаданные */}
+        <Route path="/custom/v3" exact render={routeProps => <Page {...routeProps} page={Select} needMetadata rootPage />}  />
+        {/* 5 */}
+        {/*<Route path="custom/:id" component={Page} render={Page} page={"DefaultPage" || "MyPage"} needMetadata={true || false} />*/}
+      </N2O>
     );
   }
 }

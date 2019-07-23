@@ -75,7 +75,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
         p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
-        p.childrenToStringArray(e, null, "value", pf::getValues, pf::setValues);
+        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
     private void prefield(Element e, N2oPreField pf, IOProcessor p) {

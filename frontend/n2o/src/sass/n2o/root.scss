@@ -72,7 +72,6 @@
   white-space: pre-line;
 }
 
-.btn-group:empty {
-  margin: 0 !important;
-  padding: 0 !important;
+.btn-group > *:last-child {
+  margin-right: 0.5rem;
 }

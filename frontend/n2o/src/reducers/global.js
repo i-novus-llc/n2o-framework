@@ -5,10 +5,12 @@ import {
   REQUEST_CONFIG_SUCCESS,
   REQUEST_CONFIG_FAIL,
   CHANGE_ROOT_PAGE,
+  SET_READY,
 } from '../constants/global';
 
 const defaultState = {
-  loading: true,
+  ready: false,
+  loading: false,
   error: null,
   locale: 'ru_RU',
   messages: {},
@@ -18,6 +20,10 @@ const defaultState = {
 
 export default handleActions(
   {
+    [SET_READY]: (state, action) => ({
+      ...state,
+      ready: true,
+    }),
     [CHANGE_LOCALE]: (state, action) => ({
       ...state,
       locale: action.payload.locale,
@@ -30,11 +36,6 @@ export default handleActions(
       ...state,
       loading: false,
       ...action.payload.config,
-    }),
-    [REQUEST_CONFIG_FAIL]: (state, action) => ({
-      ...state,
-      loading: false,
-      error: action.payload.error,
     }),
     [REQUEST_CONFIG_FAIL]: (state, action) => ({
       ...state,

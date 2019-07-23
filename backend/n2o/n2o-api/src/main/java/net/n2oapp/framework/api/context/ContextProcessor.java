@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.NotFoundPlaceholderException;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.PlaceHoldersResolver.*;
@@ -68,12 +71,11 @@ public class ContextProcessor {
      * @return значение контекста
      * @throws NotFoundContextPlaceholderException значение отсутствует, но обязательно
      */
-    public Object resolve(Object param) throws NotFoundContextPlaceholderException {
-        try {
-            return contextResolver.resolveValue(param, replaceOptional(context::get));
-        } catch (NotFoundPlaceholderException e) {
-            throw new NotFoundContextPlaceholderException(e.getPlaceholder());
-        }
+    public Object resolve(Object param) {
+        if (param instanceof List)
+            return resolveValues((List<?>) param);
+        else
+            return resolveValue(param);
     }
 
     /**
@@ -103,6 +105,26 @@ public class ContextProcessor {
      */
     public Object get(String name) {
         return context.get(name);
+    }
+
+    private Object resolveValue(Object param) {
+        try {
+            return contextResolver.resolveValue(param, replaceOptional(context::get));
+        } catch (NotFoundPlaceholderException e) {
+            throw new NotFoundContextPlaceholderException(e.getPlaceholder());
+        }
+    }
+
+    private List<?> resolveValues(List<?> params) {
+        List<Object> result = new ArrayList<>();
+        boolean changed = false;
+        for (Object param : params) {
+            Object value = resolveValue(param);
+            if (param != value)
+                changed = true;
+            result.add(value);
+        }
+        return changed ? result : params;
     }
 
 }

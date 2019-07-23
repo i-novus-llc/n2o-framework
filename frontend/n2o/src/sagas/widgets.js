@@ -1,4 +1,12 @@
-import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
+import {
+  call,
+  fork,
+  put,
+  select,
+  take,
+  takeEvery,
+  throttle,
+} from 'redux-saga/effects';
 import {
   isEmpty,
   isEqual,
@@ -28,6 +36,7 @@ import {
 } from '../actions/widgets';
 import { setModel } from '../actions/models';
 import {
+  makeSelectedIdSelector,
   makeWidgetByIdSelector,
   makeWidgetDataProviderSelector,
   makeWidgetPageIdSelector,
@@ -40,6 +49,7 @@ import { FETCH_WIDGET_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
 import { generateErrorMeta } from '../utils/generateErrorMeta';
 import { id } from '../utils/id';
+import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST
@@ -55,12 +65,19 @@ function* getData() {
     lastQuery[id] = { path: newPath, query: { ...newQuery } };
     return res;
   };
+  let prevSelectedId = null;
+
   while (true) {
     const {
       payload: { widgetId, options },
     } = yield take(DATA_REQUEST);
+    const selectedId = yield select(makeSelectedIdSelector(widgetId));
 
-    yield fork(handleFetch, widgetId, options, isQueryEqual);
+    yield fork(handleFetch, widgetId, options, isQueryEqual, prevSelectedId);
+
+    if (prevSelectedId !== selectedId) {
+      prevSelectedId = selectedId;
+    }
   }
 }
 
@@ -171,16 +188,24 @@ export function* setWidgetDataSuccess(
   yield put(dataSuccessWidget(widgetId, data));
 }
 
-export function getWithoutSelectedId(options, location, selectedId) {
+export function getWithoutSelectedId(
+  options,
+  location,
+  selectedId,
+  prevSelectedId
+) {
   if (!options) return null;
-  else if (!location.pathname.includes(selectedId)) {
+  else if (
+    !location.pathname.includes(selectedId) ||
+    prevSelectedId === selectedId
+  ) {
     return true;
   }
 
   return options.withoutSelectedId;
 }
 
-export function* handleFetch(widgetId, options, isQueryEqual) {
+export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
   try {
     const {
       state,
@@ -201,7 +226,8 @@ export function* handleFetch(widgetId, options, isQueryEqual) {
       const withoutSelectedId = getWithoutSelectedId(
         options,
         location,
-        widgetState.selectedId
+        widgetState.selectedId,
+        prevSelectedId
       );
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
         yield put(setTableSelectedId(widgetId, null));
@@ -264,9 +290,11 @@ export function* clearOnDisable(action) {
  * Сайд-эффекты для виджет редюсера
  * @ignore
  */
-export const widgetsSagas = [
-  fork(getData),
-  takeEvery(CLEAR, clearForm),
-  takeEvery(RESOLVE, runResolve),
-  takeEvery(DISABLE, clearOnDisable),
-];
+export default apiProvider => {
+  return [
+    fork(getData, apiProvider),
+    takeEvery(CLEAR, clearForm),
+    takeEvery(RESOLVE, runResolve),
+    takeEvery(DISABLE, clearOnDisable),
+  ];
+};

@@ -16,7 +16,7 @@ describe('Тесты Popover', () => {
   });
   it('Показывает подсказку', () => {
     const wrapper = setupPopover();
-    wrapper.instance().onToggle();
-    expect(wrapper.state().showPopover).toEqual(true);
+    wrapper.find('.n2o-popover-btn').simulate('click');
+    expect(wrapper.find('.n2o-popover-body').exists()).toEqual(true);
   });
 });
