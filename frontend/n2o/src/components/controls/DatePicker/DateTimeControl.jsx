@@ -113,11 +113,14 @@ class DateTimeControl extends React.Component {
    * Приведение к строке
    */
   dateToString(date) {
-    const { outputFormat } = this.props;
+    const { outputFormat, utc } = this.props;
+
     if (date instanceof Date) {
       return date.toString();
     } else if (date instanceof moment) {
-      return date.format(outputFormat);
+      return utc
+        ? moment.utc(date).format(outputFormat)
+        : date.format(outputFormat);
     }
     return date;
   }
