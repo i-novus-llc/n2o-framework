@@ -285,8 +285,8 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, 'YYYY-MM-DD hh:mm:ss')}
-        min={parseDate(min, 'YYYY-MM-DD hh:mm:ss')}
+        max={parseDate(max, "yyyy-MM-dd'T'HH:mm:ss")}
+        min={parseDate(min, "yyyy-MM-dd'T'HH:mm:ss")}
         locale={locale}
       />
     );
