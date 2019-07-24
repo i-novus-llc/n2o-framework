@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.control.N2oActionButton;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
+import net.n2oapp.framework.api.metadata.control.interval.N2oBaseIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
@@ -26,7 +26,10 @@ import org.jdom.Namespace;
 import org.jdom.Text;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
@@ -40,7 +43,8 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public final static Namespace DEFAULT_EVENT_NAMESPACE_URI = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/n2o-event-1.0");
+    public final static Namespace DEFAULT_EVENT_NAMESPACE_URI = Namespace.getNamespace("http://n2oapp" +
+            ".net/framework/config/schema/n2o-event-1.0");
 
     @Override
     public String getNamespaceUri() {
@@ -76,8 +80,8 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             actionButtonsReaderV1.setReaderFactory(readerFactory);
             List<N2oActionButton> buttons = getChildrenAsList(field, "actions", "button", actionButtonsReaderV1);
             if (n2oField instanceof N2oStandardField) {
-                ((N2oStandardField)n2oField).setActionButtons(buttons);
-                ((N2oStandardField)n2oField).setCopied(getAttributeBoolean(field, "copied"));
+                ((N2oStandardField) n2oField).setActionButtons(buttons);
+                ((N2oStandardField) n2oField).setCopied(getAttributeBoolean(field, "copied"));
             }
             if (n2oField instanceof N2oListField) {
                 if ("on".equalsIgnoreCase(getAttributeString(field, "cache")))
@@ -140,7 +144,8 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         res.setValue(condition);
         res.setOn(
                 ScriptProcessor.extractVars(condition).stream()
-                        .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f) //клиент не учитывает вложенные модели
+                        .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f) //клиент не учитывает
+                        // вложенные модели
                         .collect(Collectors.toList()).toArray(new String[0])
         );
         return res;
@@ -224,10 +229,10 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
                 String fieldId = getAttributeString(el, "field-id");
                 values.put(fieldId, el.getText());
             });
-            ((N2oListField)field).setDefValue(values);
-        } else if (field instanceof N2oIntervalField) {
-            ((N2oIntervalField)field).setBegin(getAttributeString(defaultModel, "begin"));
-            ((N2oIntervalField)field).setEnd(getAttributeString(defaultModel, "end"));
+            ((N2oListField) field).setDefValue(values);
+        } else if (field instanceof N2oBaseIntervalField) {
+            ((N2oBaseIntervalField) field).setBegin(getAttributeString(defaultModel, "begin"));
+            ((N2oBaseIntervalField) field).setEnd(getAttributeString(defaultModel, "end"));
         }
     }
 
@@ -264,7 +269,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oControl.setDescription(getElementString(fieldSetElement, "description"));
         n2oControl.setId(getAttributeString(fieldSetElement, "id"));
         if (n2oControl instanceof N2oStandardField) {
-            ((N2oStandardField)n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
+            ((N2oStandardField) n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
         }
     }
 

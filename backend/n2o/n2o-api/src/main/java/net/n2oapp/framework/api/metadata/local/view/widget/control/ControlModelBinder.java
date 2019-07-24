@@ -2,10 +2,13 @@ package net.n2oapp.framework.api.metadata.local.view.widget.control;
 
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
-import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
+import net.n2oapp.framework.api.metadata.control.interval.N2oBaseIntervalField;
 import net.n2oapp.framework.api.metadata.control.plain.N2oPlainField;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: operhod
@@ -56,7 +59,7 @@ public class ControlModelBinder {
 
     private void findListControl(List<N2oField> res, String controlId) {
         for (N2oField field : controls) {
-            if (field.getId().equals(controlId) && (field instanceof N2oListField || field instanceof N2oIntervalField))
+            if (field.getId().equals(controlId) && (field instanceof N2oListField || field instanceof N2oBaseIntervalField))
                 res.add(field);
         }
     }

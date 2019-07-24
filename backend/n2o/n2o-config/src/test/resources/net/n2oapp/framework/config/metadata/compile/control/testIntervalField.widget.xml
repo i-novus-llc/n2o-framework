@@ -1,0 +1,20 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" object-id="utBlank">
+    <fields>
+        <interval-field id="range">
+            <begin>
+                <input-text id="begin" domain="integer" min="0" required="true" default-value="1488"/>
+            </begin>
+            <end>
+                <input-text id="end" domain="integer" max="10">
+                    <validations>
+                        <mandatory id="requiredName" severity="warning"
+                                   field-id="end"
+                                   message="Поле должно быть заполнено и не должно состоять из одних пробелов">
+                            end != null &amp;&amp; end.trim() != ''
+                        </mandatory>
+                    </validations>
+                </input-text>
+            </end>
+        </interval-field>
+    </fields>
+</form>

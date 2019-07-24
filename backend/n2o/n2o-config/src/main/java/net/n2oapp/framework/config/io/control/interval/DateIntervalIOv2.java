@@ -1,13 +1,12 @@
 package net.n2oapp.framework.config.io.control.interval;
 
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
-import net.n2oapp.framework.api.metadata.control.properties.PopupPlacement;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DateIntervalIOv2 extends IntervalFieldIOv2<N2oDateInterval> {
+public class DateIntervalIOv2 extends BaseIntervalFieldIOv2<N2oDateInterval> {
 
     @Override
     public void io(Element e, N2oDateInterval m, IOProcessor p) {

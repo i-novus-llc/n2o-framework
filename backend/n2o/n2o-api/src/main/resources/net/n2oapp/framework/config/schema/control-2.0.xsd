@@ -31,6 +31,7 @@
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
+    <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -59,6 +60,7 @@
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
+            <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -289,6 +291,17 @@
                 <xs:attribute name="max" type="xs:integer" default="5"/>
                 <xs:attribute name="half" type="xs:boolean" default="false"/>
                 <xs:attribute name="show-tooltip" type="xs:boolean"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlRangeFieldDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="begin" type="controls" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="end" type="controls" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

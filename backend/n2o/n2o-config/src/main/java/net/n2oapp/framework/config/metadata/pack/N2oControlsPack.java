@@ -31,7 +31,8 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new SearchButtonsCompiler(),
                 new CustomControlCompiler(),
                 new TextCompiler(),
-                new RatingCompiler()
+                new RatingCompiler(),
+                new IntervalFieldCompiler()
         );
     }
 }
