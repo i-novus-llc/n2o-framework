@@ -64,7 +64,7 @@ function Page(props) {
     return errorPage ? (
       React.createElement(errorPage)
     ) : (
-      <div className={cn({ 'n2o-disabled-page': disabled })}>
+      <div className={cn('n2o-page-body', { 'n2o-disabled-page': disabled })}>
         {error && <Alert {...error} visible />}
         {!isEmpty(metadata) && metadata.page && (
           <DocumentTitle {...metadata.page} />
@@ -135,19 +135,17 @@ function Page(props) {
     );
   };
 
-  return (
+  return rootPage ? (
+    <Root>
+      <Template>
+        <Spinner type="cover" loading={loading}>
+          {page ? React.createElement(page, props) : renderDefaultBody()}
+        </Spinner>
+      </Template>
+    </Root>
+  ) : (
     <Spinner type="cover" loading={loading}>
-      {rootPage ? (
-        <Root>
-          <Template>
-            {page ? React.createElement(page, props) : renderDefaultBody()}
-          </Template>
-        </Root>
-      ) : page ? (
-        React.createElement(page, props)
-      ) : (
-        renderDefaultBody()
-      )}
+      {page ? React.createElement(page, props) : renderDefaultBody()}
     </Spinner>
   );
 }
