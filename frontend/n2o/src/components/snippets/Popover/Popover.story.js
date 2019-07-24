@@ -16,6 +16,11 @@ const props = {
     header: 'Popover Title',
     trigger: 'hover',
   },
+  popConfirm: {
+    header: 'Are you sure?',
+    okText: 'Yes',
+    cancelText: 'No',
+  },
 };
 
 stories.add('Компонент', () => (
@@ -82,7 +87,6 @@ stories.add('Подсказка', () => (
       />
       <label>Legacy</label>
       <Popover
-        {...props}
         placement="right"
         help="right"
         className="row-md-2 mr-md-5"
@@ -101,7 +105,7 @@ stories.add('Placement', () => (
         placement="top-start"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">TL</Button>
+        <Button className="mb-1">Top-start</Button>
       </Popover>
       <Popover
         {...props.placement}
@@ -115,7 +119,7 @@ stories.add('Placement', () => (
         placement="top-end"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">TR</Button>
+        <Button className="mb-1">Top-end</Button>
       </Popover>
     </ButtonGroup>
     <ButtonGroup className="btn-group-vertical col-md-6 align-items-center">
@@ -124,7 +128,7 @@ stories.add('Placement', () => (
         placement="left-start"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">LT</Button>
+        <Button className="mb-1">Left-start</Button>
       </Popover>
       <Popover
         {...props.placement}
@@ -138,7 +142,7 @@ stories.add('Placement', () => (
         placement="left-end"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">LB</Button>
+        <Button className="mb-1">Left-end</Button>
       </Popover>
     </ButtonGroup>
     <ButtonGroup className="btn-group-vertical col-md-6 align-items-md-center">
@@ -147,7 +151,7 @@ stories.add('Placement', () => (
         placement="right-start"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">RT</Button>
+        <Button className="mb-1">Right-start</Button>
       </Popover>
       <Popover
         {...props.placement}
@@ -161,7 +165,7 @@ stories.add('Placement', () => (
         placement="right-end"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">RB</Button>
+        <Button className="mb-1">Right-end</Button>
       </Popover>
     </ButtonGroup>
     <ButtonGroup className="col-md-12 justify-content-center">
@@ -170,7 +174,7 @@ stories.add('Placement', () => (
         placement="bottom-start"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">BL</Button>
+        <Button className="mb-1">Bottom-start</Button>
       </Popover>
       <Popover
         {...props.placement}
@@ -184,7 +188,116 @@ stories.add('Placement', () => (
         placement="bottom-end"
         className="row-md-2 mr-md-5"
       >
-        <Button className="mb-1">BR</Button>
+        <Button className="mb-1">Bottom-end</Button>
+      </Popover>
+    </ButtonGroup>
+  </React.Fragment>
+));
+
+stories.add('popConfirm', () => (
+  <React.Fragment>
+    <ButtonGroup className="col-md-12 justify-content-center">
+      <Popover
+        {...props.popConfirm}
+        placement="top-start"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Top-start</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="top"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Top</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="top-end"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Top-end</Button>
+      </Popover>
+    </ButtonGroup>
+    <ButtonGroup className="btn-group-vertical col-md-6 align-items-center">
+      <Popover
+        {...props.popConfirm}
+        placement="left-start"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Left-start</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="left"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Left</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="left-end"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Left-end</Button>
+      </Popover>
+    </ButtonGroup>
+    <ButtonGroup className="btn-group-vertical col-md-6 align-items-md-center">
+      <Popover
+        {...props.popConfirm}
+        placement="right-start"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Right-start</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="right"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Right</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="right-end"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Right-end</Button>
+      </Popover>
+    </ButtonGroup>
+    <ButtonGroup className="col-md-12 justify-content-center">
+      <Popover
+        {...props.popConfirm}
+        placement="bottom-start"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Bottom-start</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="bottom"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Bottom</Button>
+      </Popover>
+      <Popover
+        {...props.popConfirm}
+        placement="bottom-end"
+        className="row-md-2 mr-md-5"
+        popConfirm={true}
+      >
+        <Button className="mb-1">Bottom-end</Button>
       </Popover>
     </ButtonGroup>
   </React.Fragment>
