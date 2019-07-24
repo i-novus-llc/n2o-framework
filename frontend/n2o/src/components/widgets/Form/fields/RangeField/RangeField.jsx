@@ -80,6 +80,8 @@ function RangeField({
   onChange,
   onBeginValueChange,
   onEndValueChange,
+  onBeginControlBlur,
+  onEndControlBlur,
   begin,
   end,
   divider,
@@ -146,7 +148,7 @@ function RangeField({
                 visible={visible}
                 autoFocus={autoFocus}
                 value={begin}
-                onBlur={onBlur}
+                onBlur={onBeginControlBlur}
                 onFocus={onFocus}
                 onChange={onBeginValueChange}
                 {...beginControl}
@@ -166,7 +168,7 @@ function RangeField({
                 visible={visible}
                 autoFocus={false}
                 value={end}
-                onBlur={onBlur}
+                onBlur={onEndControlBlur}
                 onFocus={onFocus}
                 onChange={onEndValueChange}
                 {...endControl}
@@ -239,5 +241,9 @@ export default compose(
     onBeginValueChange: ({ end, onChange }) => begin =>
       onChange({ begin, end }),
     onEndValueChange: ({ begin, onChange }) => end => onChange({ begin, end }),
+    onBeginControlBlur: ({ end, onBlur }) => event =>
+      onBlur({ begin: get(event, 'target.value'), end }),
+    onEndControlBlur: ({ begin, onBlur }) => event =>
+      onBlur({ begin, end: get(event, 'target.value') }),
   })
 )(RangeField);
