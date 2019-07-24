@@ -1,34 +1,15 @@
 import {
   resolveMapping,
-  handleAction,
-  handleInvoke,
   fetchInvoke,
   validate,
   handleFailInvoke,
 } from './actionsImpl';
 import { runSaga } from 'redux-saga';
 import { put } from 'redux-saga/effects';
-import { CALL_ACTION_IMPL } from '../constants/toolbar';
 import * as api from './fetch';
 import { merge } from 'lodash';
-import mockStore from 'redux-mock-store';
 import { FAIL_INVOKE } from '../constants/actionImpls';
 import createActionHelper from '../actions/createActionHelper';
-
-const store = mockStore()({
-  widgets: {
-    testKey: {
-      validation: {},
-    },
-  },
-  form: {
-    testKey: {
-      values: {
-        some: 'value',
-      },
-    },
-  },
-});
 
 const dataProvider = {
   method: 'POST',
@@ -38,16 +19,6 @@ const dataProvider = {
     },
   },
   url: 'n2o/data/patients/:__patients_id/vip',
-};
-
-const action = {
-  meta: {},
-  payload: {
-    modelLink: '',
-    widgetId: '',
-    dataProvider,
-    data: {},
-  },
 };
 
 const state = {
@@ -91,7 +62,8 @@ describe('Проверка саги actionsImpl', () => {
       validate: true,
       dispatch: () => {},
     };
-    let promise = await runSaga(fakeStore, validate, options).done;
+
+    let promise = await runSaga(fakeStore, validate, options).toPromise();
     const result = await Promise.resolve(promise);
     expect(result).toEqual(false);
   });
@@ -105,7 +77,7 @@ describe('Проверка саги actionsImpl', () => {
     );
     const promise = await runSaga(fakeStore, fetchInvoke, dataProvider, {
       id: 12345,
-    }).done;
+    }).toPromise();
     const result = await Promise.resolve(promise);
     expect(result).toEqual({
       response: 'response from server',
@@ -130,8 +102,8 @@ describe('Проверка саги actionsImpl', () => {
       dataProvider,
       state
     );
-    console.log(await promise)
-    const result = await promise.done;
+
+    const result = await promise.toPromise();
     expect(result).toEqual('n2o/data/patients/111/vip');
   });
 });

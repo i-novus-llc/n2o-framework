@@ -89,7 +89,9 @@ describe('Проверка саги widgets', () => {
       put(setWidgetMetadata(widgetState.pageId, widgetId, response.metadata))
         .payload.action
     );
-    expect(dispatched[5]).toEqual(put(resetWidgetState(widgetId)).payload.action);
+    expect(dispatched[5]).toEqual(
+      put(resetWidgetState(widgetId)).payload.action
+    );
     expect(dispatched[6]).toEqual(
       put(dataSuccessWidget(widgetId, response)).payload.action
     );
@@ -166,7 +168,7 @@ describe('Проверка саги widgets', () => {
       dataProvider,
       widgetState,
       options
-    ).done;
+    ).toPromise();
     const result = await Promise.resolve(promise);
     expect(result).toEqual({
       basePath: '/n2o/12345',
@@ -216,7 +218,7 @@ describe('Проверка саги widgets', () => {
     };
     const widgetId = 'testWidget';
     const saga = await runSaga(fakeStore, prepareFetch, widgetId);
-    const result = await Promise.resolve(saga.done);
+    const result = await Promise.resolve(saga.toPromise());
     expect(result).toEqual({
       dataProvider,
       location: router.location,
