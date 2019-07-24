@@ -85,6 +85,7 @@ export function* resolveMapping(dataProvider, state) {
  * Отправка запроса
  * @param dataProvider
  * @param model
+ * @param apiProvider
  * @returns {IterableIterator<*>}
  */
 export function* fetchInvoke(dataProvider, model, apiProvider) {
@@ -99,6 +100,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       baseMethod: dataProvider.method,
       model,
     },
+    true,
     apiProvider
   );
   return response;

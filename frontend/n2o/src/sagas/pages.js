@@ -185,6 +185,7 @@ function* getMetadata(apiProvider, action) {
       fetchSaga,
       FETCH_PAGE_METADATA,
       { pageUrl },
+      false,
       apiProvider
     );
 
