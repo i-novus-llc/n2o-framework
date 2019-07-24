@@ -44,7 +44,7 @@ describe('Проверка саги global', () => {
     };
     const gen = getConfig();
     gen.next();
-    expect(gen.next().value.PUT.action.type).toEqual(
+    expect(gen.next().value.payload.action.type).toEqual(
       requestConfigFail(errorObject).type
     );
   });

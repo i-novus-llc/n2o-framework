@@ -54,12 +54,12 @@ describe('Проверка саги dependency', () => {
         expression: `testField === 0`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.type).toEqual(ENABLE_FIELD);
-      expect(next.value.PUT.action.payload).toEqual({
+      expect(next.value.payload.action.type).toEqual(ENABLE_FIELD);
+      expect(next.value.payload.action.payload).toEqual({
         name: 'testField',
         form: 'testForm',
       });
-      expect(next.value.PUT.action.meta).toEqual({
+      expect(next.value.payload.action.meta).toEqual({
         form: 'testForm',
       });
       next = gen.next();
@@ -70,12 +70,12 @@ describe('Проверка саги dependency', () => {
         expression: `testField != 0`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.type).toEqual(DISABLE_FIELD);
-      expect(next.value.PUT.action.payload).toEqual({
+      expect(next.value.payload.action.type).toEqual(DISABLE_FIELD);
+      expect(next.value.payload.action.payload).toEqual({
         name: 'testField',
         form: 'testForm',
       });
-      expect(next.value.PUT.action.meta).toEqual({
+      expect(next.value.payload.action.meta).toEqual({
         form: 'testForm',
       });
       next = gen.next();
@@ -86,7 +86,7 @@ describe('Проверка саги dependency', () => {
         expression: `testField === 0`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.type).toEqual(SHOW_FIELD);
+      expect(next.value.payload.action.type).toEqual(SHOW_FIELD);
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type visible с ложным expression', () => {
@@ -94,7 +94,7 @@ describe('Проверка саги dependency', () => {
         expression: `testField != 0`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.type).toEqual(HIDE_FIELD);
+      expect(next.value.payload.action.type).toEqual(HIDE_FIELD);
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type setValue', () => {
@@ -102,7 +102,7 @@ describe('Проверка саги dependency', () => {
         expression: `10 + 2`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.payload).toEqual({
+      expect(next.value.payload.action.payload).toEqual({
         keepDirty: false,
         value: 12,
       });
@@ -121,7 +121,7 @@ describe('Проверка саги dependency', () => {
         expression: `testField === 0`,
       });
       let next = gen.next();
-      expect(next.value.PUT.action.payload).toEqual({
+      expect(next.value.payload.action.payload).toEqual({
         keepDirty: false,
         value: true,
       });

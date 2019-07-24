@@ -77,8 +77,8 @@ describe('Проверка саги actionsImpl', () => {
     };
     const gen = handleFailInvoke(action.meta.fail, widgetId, err.meta);
     const meta = merge(action.meta.fail, err.meta);
-    expect(gen.next().value.PUT.action).toEqual(
-      put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta)).PUT.action
+    expect(gen.next().value.payload.action).toEqual(
+      put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta)).payload.action
     );
     expect(gen.next().done).toEqual(true);
   });
@@ -130,6 +130,7 @@ describe('Проверка саги actionsImpl', () => {
       dataProvider,
       state
     );
+    console.log(await promise)
     const result = await promise.done;
     expect(result).toEqual('n2o/data/patients/111/vip');
   });
