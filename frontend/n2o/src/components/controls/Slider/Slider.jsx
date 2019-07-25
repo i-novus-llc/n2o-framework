@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import { withState } from 'recompose';
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
 import { stringConverter, prepareStyle } from './utils';
 import { propTypes, defaultProps } from './allProps';
@@ -37,6 +38,14 @@ function Slider(props) {
     ...rest
   } = props;
 
+  const onChange = value => {
+    rest.setValue(value);
+  };
+
+  const onAfterChange = () => {
+    rest.onChange(rest.value);
+  };
+
   const expressionFn = tooltipFormatter
     ? value => new Function('', 'return ' + tooltipFormatter).bind(value)()
     : value => value;
@@ -52,12 +61,14 @@ function Slider(props) {
 
   return (
     <RenderSlider
+      {...rest}
       className={cx('n2o-slider', className)}
       tipProps={tooltipProps}
       tipFormatter={expressionFn}
       vertical={vertical}
       style={prepareStyle(vertical, style)}
-      {...rest}
+      onAfterChange={onAfterChange}
+      onChange={onChange}
     />
   );
 }
@@ -73,4 +84,4 @@ const WrapSlider = stringConverter([
 WrapSlider.propTypes = propTypes;
 WrapSlider.defaultProps = defaultProps;
 
-export default WrapSlider;
+export default withState('value', 'setValue', ({ value }) => value)(WrapSlider);
