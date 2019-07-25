@@ -24,7 +24,7 @@
                     <plugin>
                         <groupId>com.github.eirslett</groupId>
                         <artifactId>frontend-maven-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>1.7.5</version>
                         <configuration>
                             <installDirectory>target</installDirectory>
                         </configuration>
@@ -48,6 +48,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>install</arguments>
                                 </configuration>
                             </execution>
@@ -58,6 +61,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run bootstrap</arguments>
                                 </configuration>
                             </execution>
@@ -68,6 +74,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run build</arguments>
                                 </configuration>
                             </execution>
@@ -78,6 +87,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run test</arguments>
                                 </configuration>
                             </execution>
@@ -88,6 +100,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run dev:docs</arguments>
                                 </configuration>
                             </execution>
