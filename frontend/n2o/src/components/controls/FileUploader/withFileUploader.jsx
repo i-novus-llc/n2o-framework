@@ -333,7 +333,7 @@ const FileUploaderControl = WrappedComponent => {
     }
 
     onError(id, error) {
-      const { responseFieldId, onError } = this.props;
+      const { responseFieldId, errorFormatter } = this.props;
 
       const uploading = this.state.uploading;
       if (uploading) {
@@ -345,13 +345,12 @@ const FileUploaderControl = WrappedComponent => {
           if (file.id === id) {
             let formattedError = null;
 
-            if (onError) {
-              formattedError = onError(error);
+            if (errorFormatter) {
+              formattedError = errorFormatter(error);
             } else {
-              formattedError =
-                get(error, `response.data[${responseFieldId}]`, null) ||
-                error.message ||
-                error.status;
+              formattedError = isString(error)
+                ? error
+                : error[responseFieldId] || status;
             }
 
             file.error = formattedError;
