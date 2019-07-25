@@ -16,9 +16,9 @@ jobs:
 
     working_directory: ~/repo
 
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx2048m
+#    environment:
+#       Customize the JVM maximum heap limit
+#      MAVEN_OPTS: -Xmx3000m
 
     steps:
       - checkout
@@ -47,8 +47,8 @@ jobs:
 
       - run:
           name: "build application"
-          command: mvn --settings .maven.xml install -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
+          command: mvn --settings ../.maven.xml install -Dgpg.skip -Dmaven.javadoc.skip=true -B -V
 
       - run:
           name: "release and deploy in public repository"
-          command: mvn --settings .maven.xml clean deploy -Prelease,examples -B -U
+          command: mvn --settings ../.maven.xml clean deploy -Prelease,examples -B -U
