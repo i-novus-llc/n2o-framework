@@ -39,11 +39,11 @@ jobs:
 
       - run:
           name: "export secret keys"
-          command: echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import
+          command: echo $GPG_SECRET_KEYS | base64 --decode | $GPG_EXECUTABLE --import --no-tty --batch --yes
 
       - run:
           name: "export ownertrust"
-          command: echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust
+          command: echo $GPG_OWNERTRUST | base64 --decode | $GPG_EXECUTABLE --import-ownertrust --no-tty --batch --yes
 
       - run:
           name: "build application"
