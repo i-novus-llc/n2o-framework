@@ -780,6 +780,37 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 === <tree>
 === <date-interval>
 === <input-interval>
+=== <interval-field>
+Компонент интервала
+
+Тело::
+<begin> и <end>
+
+Пример::
+[source,xml]
+----
+  <interval-field id="range">
+             <begin>
+                 <input-text id="start-range" domain="integer" max="5" min="0"/>
+             </begin>
+             <end>
+                 <input-text id="end-range" domain="integer" max="5" min="0"/>
+             </end>
+         </interval-field>
+----
+
+===== <begin>
+Начало интервала
+
+Тело::
+Список link:#_Поля_ввода[полей]
+
+===== <end>
+Конец интервала
+
+Тело::
+Список link:#_Поля_ввода[полей]
+
 === <text-area>
 === <text-editor>
 === <code-editor>
@@ -995,6 +1026,8 @@ link:#_Действия[Обработчик действия]
 ----
  <rating max="5" show-tooltip="false" half="false"/>
 ----
+
+
 
 
 === <field>
