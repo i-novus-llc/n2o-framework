@@ -22,8 +22,8 @@
     "ui",
     "javascript"
   ],
-  "author": "I-Novus <n2o@i-novus.com>",
-  "license": "MIT",
+  "author": "I-Novus LLC<n2o@i-novus.ru>",
+  "license": "Apache-2.0",
   "scripts": {
     "eslint": "eslint ./src --ext .js,.jsx",
     "eslint:generate": "eslint ./src --ext .js,.jsx -o ./docs/eslint.json -f json",
