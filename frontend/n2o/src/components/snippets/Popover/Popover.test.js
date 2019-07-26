@@ -1,5 +1,6 @@
 import React from 'react';
 import Popover from './Popover';
+import sinon from 'sinon';
 
 const props = {
   help: {
@@ -9,9 +10,13 @@ const props = {
   confirm: {
     popConfirm: 'true',
   },
+  component: {
+    body: 'body.',
+    header: 'header',
+  },
 };
 
-const setup = propsOverride => {
+const setupHelp = propsOverride => {
   return shallow(<Popover {...props.help} {...propsOverride} />);
 };
 
@@ -19,24 +24,36 @@ const setupConfirm = propsOverride => {
   return shallow(<Popover {...props.confirm} {...propsOverride} />);
 };
 
+const setupComponent = propsOverride => {
+  return shallow(<Popover {...props.component} {...propsOverride} />);
+};
+
 describe('Тесты Popover', () => {
   it('Отрисовывается, если переданы id и help', () => {
-    const wrapper = setup();
-    console.log(wrapper.debug());
+    const wrapper = setupHelp();
+    expect(wrapper.find('.n2o-popover').exists()).toEqual(true);
+  });
+  it('Отрисовывается, если переданы header и body', () => {
+    const wrapper = setupComponent();
     expect(wrapper.find('.n2o-popover').exists()).toEqual(true);
   });
   it('Показывает подсказку', () => {
-    const wrapper = setup();
+    const wrapper = setupHelp();
     wrapper.instance().onToggle();
     expect(wrapper.state().showPopover).toEqual(true);
   });
-  it('onClickYes', () => {
-    const wrapper = setupConfirm();
-    console.log(wrapper.debug());
+  it('Показывает popover', () => {
+    const wrapper = setupComponent();
+    wrapper.instance().onToggle();
+    expect(wrapper.state().showPopover).toEqual(true);
+  });
+  it('Проверка popConfirm', () => {
+    const onClick = sinon.spy();
+    const wrapper = setupConfirm({ onConfirm: onClick });
     wrapper
       .find('.btn-sm')
       .last()
       .simulate('click');
-    expect(wrapper.state().answer).toEqual(true);
+    expect(onClick.called).toEqual(true);
   });
 });

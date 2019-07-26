@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Popover, PopoverHeader, PopoverBody, Button } from 'reactstrap';
 import { id } from '../../../utils/id';
@@ -21,11 +21,11 @@ import cx from 'classnames';
  * @reactProps {string} placement - позиция Popover
  * @reactProps {string} header - заголовок Popover
  * @reactProps {string} body - основная часть Popover
- * @reactProps {Element} children - дочерний компонент
+ * @reactProps {Element} children - дочерний элемент DOM
  * @reactProps {string} help - текст подсказки
  * @reactProps {string} icon - className иконки подсказки
  * @reactProps {string} iconClassName - className для css иконки
- * @reactProps {bool} popConfirm - включение confirmPopover(header отсается как заголовок, св-во body не используется)
+ * @reactProps {bool} popConfirm - включение confirmPopover(header остается как заголовок, св-во body не используется)
  * @reactProps {string} okText - текст кнопки положительного ответа
  * @reactProps {string} cancelText - текст кнопки отрицательного ответа
  * @reactProps {function} onConfirm - callback при подтверждении
@@ -39,7 +39,6 @@ class N2OPopover extends React.Component {
     super(props);
     this.state = {
       showPopover: false,
-      answer: false,
     };
     this.fieldId = id();
     this.onToggle = this.onToggle.bind(this);
@@ -51,7 +50,6 @@ class N2OPopover extends React.Component {
     this.setState(
       {
         showPopover: !this.state.showPopover,
-        answer: true,
       },
       () => this.props.onConfirm()
     );
@@ -61,7 +59,6 @@ class N2OPopover extends React.Component {
     this.setState(
       {
         showPopover: !this.state.showPopover,
-        answer: false,
       },
       () => this.props.onCancel()
     );
@@ -126,7 +123,7 @@ class N2OPopover extends React.Component {
           {help && !popConfirm ? (
             <div dangerouslySetInnerHTML={{ __html: help }} />
           ) : (
-            <React.Fragment>
+            <Fragment>
               {header && !popConfirm && <PopoverHeader>{header}</PopoverHeader>}
               {header && popConfirm && !help && (
                 <PopoverHeader>
@@ -143,7 +140,7 @@ class N2OPopover extends React.Component {
               {!popConfirm && body && <PopoverBody>{body}</PopoverBody>}
               {popConfirm && !help && (
                 <PopoverBody className="d-flex justify-content-between">
-                  <Button className="btn-sm mr-auto" onClick={this.onClickNo}>
+                  <Button className="btn-sm" onClick={this.onClickNo}>
                     {cancelText}
                   </Button>
                   <Button className="btn-sm" onClick={this.onClickYes}>
@@ -151,7 +148,7 @@ class N2OPopover extends React.Component {
                   </Button>
                 </PopoverBody>
               )}
-            </React.Fragment>
+            </Fragment>
           )}
         </Popover>
       </div>
@@ -190,13 +187,8 @@ N2OPopover.propTypes = {
 };
 
 N2OPopover.defaultProps = {
-  trigger: '',
   className: '',
   innerClassName: '',
-  hideArrow: false,
-  modifiers: {},
-  fade: true,
-  flip: true,
   header: 'header',
   body: 'body',
   placement: 'right',
