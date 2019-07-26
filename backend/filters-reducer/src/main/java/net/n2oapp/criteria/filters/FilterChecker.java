@@ -66,6 +66,9 @@ public class FilterChecker {
 
     private static boolean contains(List<?> values, Object value) {
         if (value instanceof List) {
+            if (values == null || values.isEmpty()){
+                return false;
+            }
             final boolean[] res = {true};
             values.forEach(v -> {
                 if (!containsOne((List<?>) value, castToRealType(v, ((List<?>) value).get(0)))) {
