@@ -59,19 +59,19 @@ class BaseSpinner extends Component {
       className,
       text,
       loading,
-      type,
       transparent,
       color,
       ...rest
     } = this.props;
     const { endTimeout } = this.state;
+
     return (
       <div
         className={cx('n2o-spinner-wrapper', {
           [className]: className,
         })}
       >
-        {endTimeout && loading && (
+        {!endTimeout && loading && (
           <Fragment>
             <div className="n2o-spinner-container ">
               <Comp color={color} {...rest} />
