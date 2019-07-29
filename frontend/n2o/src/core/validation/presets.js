@@ -80,7 +80,7 @@ export async function constraint(fieldId, values, options, dispatch) {
       fetchSaga,
       FETCH_VALIDATE,
       { validationKey: options.validationKey }
-    ).done;
+    ).toPromise();
   } else {
     return Promise.reject();
   }

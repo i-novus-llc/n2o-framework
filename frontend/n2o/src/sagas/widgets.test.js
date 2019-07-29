@@ -38,7 +38,7 @@ describe('Проверка саги widgets', () => {
       () => {},
       withoutSelectedId
     );
-    expect(dispatched[0]).toEqual(put(dataFailWidget(widgetId)).PUT.action);
+    expect(dispatched[0]).toEqual(put(dataFailWidget(widgetId)).payload.action);
   });
 
   it('Проверка генератора setWidgetDataSuccess', async () => {
@@ -74,24 +74,26 @@ describe('Проверка саги widgets', () => {
       baseQuery
     );
     expect(dispatched[0]).toEqual(
-      put(setModel(PREFIXES.datasource, widgetId, [])).PUT.action
+      put(setModel(PREFIXES.datasource, widgetId, [])).payload.action
     );
     expect(dispatched[1]).toEqual(
-      put(setModel(PREFIXES.resolve, widgetId, null)).PUT.action
+      put(setModel(PREFIXES.resolve, widgetId, null)).payload.action
     );
     expect(dispatched[2]).toEqual(
-      put(changeCountWidget(widgetId, response.count)).PUT.action
+      put(changeCountWidget(widgetId, response.count)).payload.action
     );
     expect(dispatched[3]).toEqual(
-      put(changePageWidget(widgetId, response.page)).PUT.action
+      put(changePageWidget(widgetId, response.page)).payload.action
     );
     expect(dispatched[4]).toEqual(
       put(setWidgetMetadata(widgetState.pageId, widgetId, response.metadata))
-        .PUT.action
+        .payload.action
     );
-    expect(dispatched[5]).toEqual(put(resetWidgetState(widgetId)).PUT.action);
+    expect(dispatched[5]).toEqual(
+      put(resetWidgetState(widgetId)).payload.action
+    );
     expect(dispatched[6]).toEqual(
-      put(dataSuccessWidget(widgetId, response)).PUT.action
+      put(dataSuccessWidget(widgetId, response)).payload.action
     );
   });
 
@@ -102,11 +104,11 @@ describe('Проверка саги widgets', () => {
       },
     };
     const gen = clearOnDisable(action);
-    expect(gen.next().value.PUT).toEqual(
-      put(setModel(PREFIXES.datasource, action.payload.widgetId, null)).PUT
+    expect(gen.next().value.payload).toEqual(
+      put(setModel(PREFIXES.datasource, action.payload.widgetId, null)).payload
     );
-    expect(gen.next().value.PUT).toEqual(
-      put(changeCountWidget(action.payload.widgetId, 0)).PUT
+    expect(gen.next().value.payload).toEqual(
+      put(changeCountWidget(action.payload.widgetId, 0)).payload
     );
   });
 
@@ -120,14 +122,14 @@ describe('Проверка саги widgets', () => {
       },
     };
     const gen = runResolve(action);
-    expect(gen.next().value.PUT).toEqual(
+    expect(gen.next().value.payload).toEqual(
       put(
         setModel(
           PREFIXES.resolve,
           action.payload.widgetId,
           action.payload.model
         )
-      ).PUT
+      ).payload
     );
   });
 
@@ -166,7 +168,7 @@ describe('Проверка саги widgets', () => {
       dataProvider,
       widgetState,
       options
-    ).done;
+    ).toPromise();
     const result = await Promise.resolve(promise);
     expect(result).toEqual({
       basePath: '/n2o/12345',
@@ -216,7 +218,7 @@ describe('Проверка саги widgets', () => {
     };
     const widgetId = 'testWidget';
     const saga = await runSaga(fakeStore, prepareFetch, widgetId);
-    const result = await Promise.resolve(saga.done);
+    const result = await Promise.resolve(saga.toPromise());
     expect(result).toEqual({
       dataProvider,
       location: router.location,
