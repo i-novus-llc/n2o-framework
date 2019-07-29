@@ -66,8 +66,8 @@ class PopUp extends React.PureComponent {
               timeFormat={timeFormat}
               select={this.props.select}
               setVisibility={this.setVisibility}
-              max={parseDate(max, dateFormat)}
-              min={minDate(input)}
+              max={max}
+              min={min}
               locale={locale}
             />
           );

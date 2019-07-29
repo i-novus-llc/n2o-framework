@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
@@ -35,8 +34,8 @@ stories
         dateFormat: text('dateFormat', 'DD/MM/YYYY'),
         timeFormat: text('timeFormat', 'HH:mm'),
         defaultTime: text('defaultTime', '12:00'),
-        min: text('min', '5/12/2012'),
-        max: text('max', '15/12/2021'),
+        min: text('min', '2012-12-05'),
+        max: text('max', '2021-12-05'),
         disabled: boolean('disabled', false),
         locale: select('locale', ['ru', 'en'], 'ru'),
       };
@@ -85,6 +84,21 @@ stories
     return (
       <div style={{ marginTop: '100px' }}>
         <DatePicker popupPlacement="top" />
+      </div>
+    );
+  })
+  .add('Min/Max', () => {
+    return (
+      <div>
+        Доступные даты с 28.06.2019 по 30.06.2019
+        <DatePicker
+          popupPlacement="top"
+          dateFormat={'YYYY-MM-DD'}
+          timeFormat={'hh:mm:ss'}
+          dateDivider={' '}
+          min="2019-06-28 00:00:00"
+          max="2019-06-30 00:00:00"
+        />
       </div>
     );
   });

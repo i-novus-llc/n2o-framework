@@ -177,17 +177,16 @@ describe('<DateTimeControl />', () => {
 
   it('устанавливает время', () => {
     const { wrapper } = setup({
-      value: '2017-12-22T12:00:00',
-      dateFormat: 'DD/MM/YYYY',
-      timeFormat: 'HH:mm',
-      defaultTime: '12:34',
+      value: '1927-01-21T00:00:00',
+      dateFormat: 'DD.MM.YYYY',
+      outputFormat: 'YYYY-MM-DDTHH:mm:ss',
     });
     expect(
       wrapper
         .find('input')
         .first()
         .props().defaultValue
-    ).toBe('22/12/2017 12:00');
+    ).toBe('21.01.1927');
   });
 
   it('устанавливает value', () => {
