@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.spel;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -47,9 +49,12 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         }
         query.setName(p.cast(source.getName(), source.getId()));
         query.setRoute(normalize(p.cast(source.getRoute(), source.getId())));
+        initSeparators(source.getLists(), p);
+        initSeparators(source.getCounts(), p);
+        initSeparators(source.getUniques(), p);
         query.setLists(source.getLists());
-        query.setCounts(source.getCounts());
         query.setUniques(source.getUniques());
+        query.setCounts(source.getCounts());
         query.setValidations(context.getValidations());
         List<N2oQuery.Field> fields = Arrays.asList(source.getFields());
         fields = initDefaultByObject(fields, query.getObject());
@@ -158,6 +163,28 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
         });
         query.setSelectExpressions(select);
         query.setJoinExpressions(join);
+    }
+
+    private void initSeparators(N2oQuery.Selection[] selections, CompileProcessor p) {
+        if (selections != null) {
+            for (N2oQuery.Selection selection : selections) {
+                if (selection.getInvocation() != null && selection.getInvocation() instanceof N2oRestDataProvider) {
+                    N2oRestDataProvider invocation = (N2oRestDataProvider) selection.getInvocation();
+                    invocation.setFiltersSeparator(invocation.getFiltersSeparator() != null ?
+                            invocation.getFiltersSeparator() : p.resolve(property("n2o.config.separator.filters"),
+                            String.class));
+                    invocation.setSelectSeparator(invocation.getSelectSeparator() != null ?
+                            invocation.getSelectSeparator() : p.resolve(property("n2o.config.separator.select"),
+                            String.class));
+                    invocation.setJoinSeparator(invocation.getJoinSeparator() != null ?
+                            invocation.getJoinSeparator() : p.resolve(property("n2o.config.separator.join"),
+                            String.class));
+                    invocation.setSortingSeparator(invocation.getSortingSeparator() != null ?
+                            invocation.getSortingSeparator() : p.resolve(property("n2o.config.separator.sorting"),
+                            String.class));
+                }
+            }
+        }
     }
 
 
