@@ -57,7 +57,7 @@ public class IntervalFieldCompiler<C extends Control, S extends N2oRangeField> e
 
         field.setBeginControl((C) beginConrol.getControl());
         field.setEndControl((C) endControl.getControl());
-        beginConrol.getDependencies().forEach(f -> field.addDependency(f));
-        endControl.getDependencies().forEach(f -> field.addDependency(f));
+        if (beginConrol.getDependencies() != null) beginConrol.getDependencies().forEach(f -> field.addDependency(f));
+        if (endControl.getDependencies() != null) endControl.getDependencies().forEach(f -> field.addDependency(f));
     }
 }
