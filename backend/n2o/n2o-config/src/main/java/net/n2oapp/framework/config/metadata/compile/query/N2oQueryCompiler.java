@@ -168,13 +168,13 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
                 if (selection.getInvocation() instanceof N2oRestDataProvider) {
                     N2oRestDataProvider invocation = (N2oRestDataProvider) selection.getInvocation();
                     invocation.setFiltersSeparator(p.cast(invocation.getFiltersSeparator(),
-                            p.resolve(property("n2o.config.separator.filters"), String.class)));
+                            p.resolve(property("n2o.config.rest.filters_separator"), String.class)));
                     invocation.setSelectSeparator(p.cast(invocation.getSelectSeparator(),
-                            p.resolve(property("n2o.config.separator.select"), String.class)));
+                            p.resolve(property("n2o.config.rest.select_separator"), String.class)));
                     invocation.setJoinSeparator(p.cast(invocation.getJoinSeparator(), p.resolve(property(
-                            "n2o.config.separator.join"), String.class)));
+                            "n2o.config.rest.join_separator"), String.class)));
                     invocation.setSortingSeparator(p.cast(invocation.getSortingSeparator(),
-                            p.resolve(property("n2o.config.separator.sorting"), String.class)));
+                            p.resolve(property("n2o.config.rest.sorting_separator"), String.class)));
 
                 }
             }
