@@ -163,22 +163,22 @@ public class QueryCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSeparatorsDefaultValue() {
-        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query" +
-                "/testTestInvocationTransformer.query.xml")
-                .get(new QueryContext("testTestInvocationTransformer"));
-        N2oRestDataProvider list = (N2oRestDataProvider) query.getLists()[1].getInvocation();
-        N2oRestDataProvider unique = (N2oRestDataProvider) query.getUniques()[1].getInvocation();
-        N2oRestDataProvider count = (N2oRestDataProvider) query.getCounts()[1].getInvocation();
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testSeparatorsDefaultValue" +
+                ".query.xml")
+                .get(new QueryContext("testSeparatorsDefaultValue"));
+        N2oRestDataProvider list = (N2oRestDataProvider) query.getLists()[0].getInvocation();
+        N2oRestDataProvider unique = (N2oRestDataProvider) query.getUniques()[0].getInvocation();
+        N2oRestDataProvider count = (N2oRestDataProvider) query.getCounts()[0].getInvocation();
 
         assertThat(list.getFiltersSeparator(), is("&"));
         assertThat(list.getJoinSeparator(), is("&"));
         assertThat(list.getSelectSeparator(), is("&"));
         assertThat(list.getSortingSeparator(), is("&"));
 
-        assertThat(unique.getFiltersSeparator(), is("&"));
-        assertThat(unique.getJoinSeparator(), is("&"));
-        assertThat(unique.getSelectSeparator(), is("&"));
-        assertThat(unique.getSortingSeparator(), is("&"));
+        assertThat(unique.getFiltersSeparator(), is("separator"));
+        assertThat(unique.getJoinSeparator(), is("separator"));
+        assertThat(unique.getSelectSeparator(), is("separator"));
+        assertThat(unique.getSortingSeparator(), is("separator"));
 
         assertThat(count.getFiltersSeparator(), is("&"));
         assertThat(count.getJoinSeparator(), is("&"));
