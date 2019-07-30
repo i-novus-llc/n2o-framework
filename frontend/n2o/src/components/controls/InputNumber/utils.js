@@ -1,6 +1,6 @@
 import { isNumber, isNil, toNumber, isNaN } from 'lodash';
 
-export function formatToFloat(val, precision) {
+export function formatToFloat(val, precision, step) {
   if (isNil(val) || val === '') return null;
   const str = val
     .toString()
@@ -11,7 +11,9 @@ export function formatToFloat(val, precision) {
       ? str.length
       : str.indexOf('.', str.indexOf('.') + 1);
   const formattedStr = str.slice(0, end);
-  return toNumber(formattedStr).toFixed(precision);
+  return +step === 1
+    ? toNumber(formattedStr)
+    : toNumber(formattedStr).toFixed(precision);
 }
 
 export function getPrecision(step) {

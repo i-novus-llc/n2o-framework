@@ -69,6 +69,19 @@ stories
     );
   })
 
+  .add('Без дробной части', () => {
+    const props = {
+      value: 1,
+      step: 1,
+      min: -150,
+      max: 150,
+      showButtons: false,
+      allowDecimals: false,
+    };
+
+    return <InputNumber {...props} />;
+  })
+
   .add('Без кнопок', () => {
     const props = {
       value: 1,

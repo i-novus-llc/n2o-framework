@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { toNumber, toString, isNil, isNaN, isEqual } from 'lodash';
+import { toNumber, toString, isNil, isNaN, isEqual, isEmpty } from 'lodash';
 
 import Input from '../Input/Input';
 
@@ -23,6 +23,7 @@ import {
  * @reactProps {string} name - имя поля
  * @reactProps {number} showButtons - отображать кнопки для увеличения/уменьшения значения / не отображать
  * @reactProps {number} onChange - выполняется при изменении значения поля
+ * @reactProps {boolean} allowDecimals - включение / выключение дробных чисел
  * @example
  * <InputNumber onChange={this.onChange}
  *             value={1}
@@ -45,12 +46,13 @@ class InputNumber extends React.Component {
     this.onPaste = this.onPaste.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onBlur = this.onBlur.bind(this);
+    this.resolveValue = this.resolveValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     const { value } = this.props;
     if (prevProps.value !== value && !isNil(value)) {
-      this.setState({ value });
+      this.setState({ value: this.resolveValue(value) });
     } else if (
       !isEqual(prevProps.value, value) &&
       (value === '' || isNil(value))
@@ -59,13 +61,21 @@ class InputNumber extends React.Component {
     }
   }
 
+  resolveValue(value) {
+    const { allowDecimals } = this.props;
+
+    return allowDecimals || isNil(value) || isEmpty(value)
+      ? value
+      : Math.floor(value);
+  }
+
   /**
    * Обработчик вставки
    * @param e
    */
   onPaste(e) {
     this.pasted = true;
-    this.setState({ value: this.inputElement.value });
+    this.setState({ value: this.resolveValue(this.inputElement.value) });
   }
 
   onChange(value) {
@@ -78,7 +88,9 @@ class InputNumber extends React.Component {
       return;
     }
     if (matchesWhiteList(nextValue) || this.pasted) {
-      this.setState({ value }, () => this.props.onChange(nextValue));
+      this.setState({ value: this.resolveValue(value) }, () =>
+        this.props.onChange(nextValue)
+      );
     }
   }
 
@@ -89,12 +101,12 @@ class InputNumber extends React.Component {
   buttonHandler(type) {
     const { min, max, step } = this.props;
     const { value } = this.state;
-    const delta = toNumber(formatToFloat(step, this.precision));
+    const delta = toNumber(formatToFloat(step, this.precision, step));
     const val =
       !isNil(value) && value !== ''
         ? toNumber(value).toFixed(this.precision)
         : null;
-    const currentValue = toNumber(formatToFloat(val, this.precision));
+    const currentValue = toNumber(formatToFloat(val, this.precision, step));
     let newValue = currentValue;
     if (type === 'up') {
       newValue = currentValue + delta;
@@ -102,18 +114,19 @@ class InputNumber extends React.Component {
       newValue = currentValue - delta;
     }
     if (isValid(newValue, min, max)) {
-      this.setState({ value: newValue.toFixed(this.precision) }, () =>
-        this.props.onChange(newValue)
+      this.setState(
+        { value: this.resolveValue(newValue.toFixed(this.precision)) },
+        () => this.props.onChange(newValue)
       );
     }
   }
 
   onBlur(e) {
-    const { max, min } = this.props;
-    const value = formatToFloat(this.state.value, this.precision);
+    const { max, min, step } = this.props;
+    const value = formatToFloat(this.state.value, this.precision, step);
     this.pasted = false;
     if (!isNil(value) && isValid(value, min, max)) {
-      this.setState({ value });
+      this.setState({ value: this.resolveValue(value) });
     } else {
       this.setState({ value: null });
     }
@@ -213,6 +226,7 @@ InputNumber.defaultProps = {
   onChange: val => {},
   onBlur: val => {},
   onFocus: val => {},
+  allowDecimals: true,
 };
 
 InputNumber.propTypes = {
@@ -227,6 +241,7 @@ InputNumber.propTypes = {
   onChange: PropTypes.func,
   className: PropTypes.string,
   autoFocus: PropTypes.bool,
+  allowDecimals: PropTypes.bool,
 };
 
 export default InputNumber;
