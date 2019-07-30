@@ -69,17 +69,31 @@ stories
     );
   })
 
-  .add('Без дробной части', () => {
+  .add('Свойство precision', () => {
     const props = {
       value: 1,
       step: 1,
       min: -150,
       max: 150,
       showButtons: false,
-      allowDecimals: false,
     };
 
-    return <InputNumber {...props} />;
+    return (
+      <React.Fragment>
+        <div className="row mb-1 flex-column">
+          <div className="row">Без дробной части</div>
+          <div className="row">
+            <InputNumber {...props} precision={0} />
+          </div>
+        </div>
+        <div className="row mb-1 flex-column">
+          <div className="row">Только 2 символа после запятой</div>
+          <div className="row">
+            <InputNumber {...props} precision={2} />
+          </div>
+        </div>
+      </React.Fragment>
+    );
   })
 
   .add('Без кнопок', () => {

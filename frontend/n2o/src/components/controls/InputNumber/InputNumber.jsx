@@ -1,7 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { toNumber, toString, isNil, isNaN, isEqual, isEmpty } from 'lodash';
+import {
+  toNumber,
+  toString,
+  isNil,
+  isNaN,
+  isEqual,
+  isEmpty,
+  split,
+  includes,
+} from 'lodash';
 
 import Input from '../Input/Input';
 
@@ -23,7 +32,7 @@ import {
  * @reactProps {string} name - имя поля
  * @reactProps {number} showButtons - отображать кнопки для увеличения/уменьшения значения / не отображать
  * @reactProps {number} onChange - выполняется при изменении значения поля
- * @reactProps {boolean} allowDecimals - включение / выключение дробных чисел
+ * @reactProps {number} precision - количество знаков после запятой
  * @example
  * <InputNumber onChange={this.onChange}
  *             value={1}
@@ -34,12 +43,12 @@ class InputNumber extends React.Component {
   constructor(props) {
     super(props);
     const value = props.value;
-    this.precision = getPrecision(props.step);
+    this.stepPrecition = getPrecision(props.step);
     this.pasted = false;
     this.state = {
       value: this.resolveValue(
         !isNil(value) && !isNaN(toNumber(value)) && value !== ''
-          ? toNumber(value).toFixed(this.precision)
+          ? toNumber(value)
           : null
       ),
     };
@@ -62,14 +71,6 @@ class InputNumber extends React.Component {
     }
   }
 
-  resolveValue(value) {
-    const { allowDecimals } = this.props;
-
-    return allowDecimals || isNil(value) || isEmpty(value)
-      ? value
-      : Math.floor(value);
-  }
-
   /**
    * Обработчик вставки
    * @param e
@@ -79,8 +80,21 @@ class InputNumber extends React.Component {
     this.setState({ value: this.resolveValue(this.inputElement.value) });
   }
 
+  resolveValue(value) {
+    const { precision } = this.props;
+    if (!isNil(precision) && includes(value, '.')) {
+      const valueArr = split(value, '.');
+
+      return precision === 0
+        ? valueArr[0]
+        : `${valueArr[0]}.${toString(valueArr[1]).substring(0, precision)}`;
+    }
+
+    return value;
+  }
+
   onChange(value) {
-    const nextValue = value === '' ? null : toNumber(value);
+    const nextValue = this.resolveValue(value === '' ? null : toNumber(value));
     const { max, min } = this.props;
     if (isNil(nextValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
@@ -90,7 +104,7 @@ class InputNumber extends React.Component {
     }
     if (matchesWhiteList(nextValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () =>
-        this.props.onChange(nextValue)
+        this.props.onChange(this.resolveValue(nextValue))
       );
     }
   }
@@ -102,12 +116,12 @@ class InputNumber extends React.Component {
   buttonHandler(type) {
     const { min, max, step } = this.props;
     const { value } = this.state;
-    const delta = toNumber(formatToFloat(step, this.precision, step));
+    const delta = toNumber(formatToFloat(step, this.stepPrecition));
     const val =
       !isNil(value) && value !== ''
-        ? toNumber(value).toFixed(this.precision)
+        ? toNumber(value).toFixed(this.stepPrecition)
         : null;
-    const currentValue = toNumber(formatToFloat(val, this.precision, step));
+    const currentValue = toNumber(formatToFloat(val, this.stepPrecition));
     let newValue = currentValue;
     if (type === 'up') {
       newValue = currentValue + delta;
@@ -115,23 +129,22 @@ class InputNumber extends React.Component {
       newValue = currentValue - delta;
     }
     if (isValid(newValue, min, max)) {
-      this.setState(
-        { value: this.resolveValue(newValue.toFixed(this.precision)) },
-        () => this.props.onChange(newValue)
+      this.setState({ value: newValue.toFixed(this.stepPrecition) }, () =>
+        this.props.onChange(newValue)
       );
     }
   }
 
-  onBlur(e) {
-    const { max, min, step } = this.props;
-    const value = formatToFloat(this.state.value, this.precision, step);
+  onBlur() {
+    const { max, min } = this.props;
+    const value = this.resolveValue(formatToFloat(this.state.value));
     this.pasted = false;
     if (!isNil(value) && isValid(value, min, max)) {
-      this.setState({ value: this.resolveValue(value) });
+      this.setState({ value });
     } else {
       this.setState({ value: null });
     }
-    this.props.onBlur();
+    this.props.onBlur(value);
   }
 
   /**
@@ -227,7 +240,6 @@ InputNumber.defaultProps = {
   onChange: val => {},
   onBlur: val => {},
   onFocus: val => {},
-  allowDecimals: true,
 };
 
 InputNumber.propTypes = {
@@ -242,7 +254,7 @@ InputNumber.propTypes = {
   onChange: PropTypes.func,
   className: PropTypes.string,
   autoFocus: PropTypes.bool,
-  allowDecimals: PropTypes.bool,
+  precision: PropTypes.number,
 };
 
 export default InputNumber;
