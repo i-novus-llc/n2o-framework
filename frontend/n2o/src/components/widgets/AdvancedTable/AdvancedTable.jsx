@@ -257,14 +257,22 @@ class AdvancedTable extends Component {
     onFilter && onFilter(filter);
   }
 
-  handleRowClick(id, index, noResolve) {
+  handleRowClick(id, index, needReturn, noResolve) {
     const {
       hasFocus,
       hasSelect,
       rowClick,
       onRowClickAction,
       onResolve,
+      isActive,
     } = this.props;
+
+    if (!noResolve && rowClick) {
+      !hasSelect && onResolve(_.find(this._dataStorage, { id }));
+      onRowClickAction();
+    }
+
+    if (isActive === needReturn) return;
 
     if (hasSelect && !noResolve) {
       onResolve(_.find(this._dataStorage, { id }));
@@ -276,10 +284,6 @@ class AdvancedTable extends Component {
       this.setNewFocusIndex(id);
     } else if (hasSelect && !rowClick) {
       this.setNewSelectIndex(id);
-    }
-    if (!noResolve && rowClick) {
-      !hasSelect && onResolve(_.find(this._dataStorage, { id }));
-      onRowClickAction();
     }
   }
 
@@ -400,7 +404,7 @@ class AdvancedTable extends Component {
   }
 
   getRowProps(model, index) {
-    const { isActive, rowClick, rowClass } = this.props;
+    const { rowClick, rowClass } = this.props;
     return {
       index,
       rowClick,
@@ -408,12 +412,8 @@ class AdvancedTable extends Component {
       rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
-      onClick: isActive
-        ? () => this.handleRowClick(model.id, model.id)
-        : undefined,
-      onFocus: !isActive
-        ? () => this.handleRowClick(model.id, model.id, true)
-        : undefined,
+      onClick: () => this.handleRowClick(model.id, model.id, false),
+      onFocus: () => this.handleRowClick(model.id, model.id, true, true),
     };
   }
 
