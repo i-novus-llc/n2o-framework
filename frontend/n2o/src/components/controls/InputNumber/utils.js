@@ -11,7 +11,7 @@ export function formatToFloat(val, precision, step) {
       ? str.length
       : str.indexOf('.', str.indexOf('.') + 1);
   const formattedStr = str.slice(0, end);
-  return +step === 1
+  return +step >= 1
     ? toNumber(formattedStr)
     : toNumber(formattedStr).toFixed(precision);
 }

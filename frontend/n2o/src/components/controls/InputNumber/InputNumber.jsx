@@ -37,10 +37,11 @@ class InputNumber extends React.Component {
     this.precision = getPrecision(props.step);
     this.pasted = false;
     this.state = {
-      value:
+      value: this.resolveValue(
         !isNil(value) && !isNaN(toNumber(value)) && value !== ''
           ? toNumber(value).toFixed(this.precision)
-          : null,
+          : null
+      ),
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);

@@ -121,6 +121,24 @@ describe('<InputNumber />', () => {
     ).toBe('2');
   });
 
+  it('не округляет, если шаг равен 1', () => {
+    const { wrapper } = setup({ value: 2, step: '1' });
+    wrapper.find('input').simulate('change', { target: { value: '1.2' } });
+    expect(wrapper.find('input').props().value).toBe('1.2');
+    wrapper.find('input').simulate('change', { target: { value: '1.9' } });
+    expect(wrapper.find('input').props().value).toBe('1.9');
+  });
+
+  it('не позволяет вводить дробные числа, если allowDecimals = false', () => {
+    const { wrapper } = setup({ value: 2, step: '1', allowDecimals: false });
+
+    wrapper.find('input').simulate('change', { target: { value: '1.' } });
+    expect(wrapper.state().value).toBe(1);
+
+    wrapper.find('input').simulate('change', { target: { value: '8.2' } });
+    expect(wrapper.state().value).toBe(8);
+  });
+
   it('округляет до количества знаков после запятой в step', () => {
     const { wrapper } = setup({ value: 2, step: '0.00' });
     wrapper
