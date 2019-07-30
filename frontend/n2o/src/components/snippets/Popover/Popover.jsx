@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Popover, PopoverHeader, PopoverBody, Button } from 'reactstrap';
+import { compose, defaultProps, withState, withHandlers } from 'recompose';
 import { id } from '../../../utils/id';
 import cx from 'classnames';
 
@@ -34,126 +35,94 @@ import cx from 'classnames';
  * <Popover header="header text" body="body text" />
  */
 
-class N2OPopover extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showPopover: false,
-    };
-    this.fieldId = id();
-    this.onToggle = this.onToggle.bind(this);
-    this.onClickYes = this.onClickYes.bind(this);
-    this.onClickNo = this.onClickNo.bind(this);
-  }
-
-  onClickYes() {
-    this.setState(
-      {
-        showPopover: !this.state.showPopover,
-      },
-      () => this.props.onConfirm()
-    );
-  }
-
-  onClickNo() {
-    this.setState(
-      {
-        showPopover: !this.state.showPopover,
-      },
-      () => this.props.onCancel()
-    );
-  }
-
-  onToggle() {
-    this.setState({
-      showPopover: !this.state.showPopover,
-    });
-  }
-
-  render() {
-    const {
-      trigger,
-      target,
-      container,
-      className,
-      innerClassName,
-      hideArrow,
-      placementPrefix,
-      delay,
-      placement,
-      modifiers,
-      offset,
-      fade,
-      flip,
-      header,
-      body,
-      children,
-      help,
-      icon,
-      iconClassName,
-      popConfirm,
-      okText,
-      cancelText,
-    } = this.props;
-    return (
-      <div className={cx('n2o-popover', className)}>
-        <div id={this.fieldId} onClick={this.onToggle}>
-          {!icon && help && !popConfirm && (
-            <i className={cx('fa fa-question-circle', iconClassName)} />
-          )}
-          {icon && help && <i className={icon} />}
-          {children}
-        </div>
-        <Popover
-          trigger={trigger}
-          container={container}
-          innerClassName={innerClassName}
-          hideArrow={hideArrow}
-          placementPrefix={placementPrefix}
-          delay={delay}
-          placement={placement}
-          modifiers={modifiers}
-          offset={offset}
-          fade={fade}
-          flip={flip}
-          isOpen={this.state.showPopover}
-          target={target ? target : this.fieldId}
-          toggle={this.onToggle}
-        >
-          {help && !popConfirm ? (
-            <div dangerouslySetInnerHTML={{ __html: help }} />
-          ) : (
-            <Fragment>
-              {header && !popConfirm && <PopoverHeader>{header}</PopoverHeader>}
-              {header && popConfirm && !help && (
-                <PopoverHeader>
-                  <i
-                    className={cx(
-                      'fa',
-                      icon ? icon : 'fa fa-question-circle-o',
-                      'mr-1'
-                    )}
-                  />
-                  {header}
-                </PopoverHeader>
-              )}
-              {!popConfirm && body && <PopoverBody>{body}</PopoverBody>}
-              {popConfirm && !help && (
-                <PopoverBody className="d-flex justify-content-between">
-                  <Button className="btn-sm" onClick={this.onClickNo}>
-                    {cancelText}
-                  </Button>
-                  <Button className="btn-sm" onClick={this.onClickYes}>
-                    {okText}
-                  </Button>
-                </PopoverBody>
-              )}
-            </Fragment>
-          )}
-        </Popover>
+export function N2OPopover(props) {
+  const {
+    trigger,
+    target,
+    container,
+    className,
+    innerClassName,
+    hideArrow,
+    placementPrefix,
+    delay,
+    placement,
+    modifiers,
+    offset,
+    fade,
+    flip,
+    header,
+    body,
+    children,
+    help,
+    icon,
+    iconClassName,
+    popConfirm,
+    okText,
+    cancelText,
+    isOpen,
+    stateUpdate,
+    fieldId,
+    ...rest
+  } = props;
+  return (
+    <div className={cx('n2o-popover', className)}>
+      <div id={fieldId} onClick={rest.onToggle} className="toggle-popover">
+        {!icon && help && !popConfirm && (
+          <i className={cx('fa fa-question-circle', iconClassName)} />
+        )}
+        {icon && help && <i className={icon} />}
+        {children}
       </div>
-    );
-  }
+      <Popover
+        className="pop-test"
+        trigger={trigger}
+        container={container}
+        innerClassName={innerClassName}
+        hideArrow={hideArrow}
+        placementPrefix={placementPrefix}
+        delay={delay}
+        placement={placement}
+        modifiers={modifiers}
+        offset={offset}
+        fade={fade}
+        flip={flip}
+        isOpen={isOpen}
+        target={target ? target : fieldId}
+        toggle={rest.onToggle}
+      >
+        {help && !popConfirm ? (
+          <div dangerouslySetInnerHTML={{ __html: help }} />
+        ) : (
+          <Fragment>
+            {header && !popConfirm && <PopoverHeader>{header}</PopoverHeader>}
+            {header && popConfirm && !help && (
+              <PopoverHeader>
+                <i
+                  className={cx(
+                    'fa',
+                    icon ? icon : 'fa fa-question-circle-o',
+                    'mr-1'
+                  )}
+                />
+                {header}
+              </PopoverHeader>
+            )}
+            {!popConfirm && body && <PopoverBody>{body}</PopoverBody>}
+            {popConfirm && !help && (
+              <PopoverBody className="d-flex justify-content-between">
+                <Button className="btn-sm" onClick={rest.onClickNo}>
+                  {cancelText}
+                </Button>
+                <Button className="btn-sm" onClick={rest.onClickYes}>
+                  {okText}
+                </Button>
+              </PopoverBody>
+            )}
+          </Fragment>
+        )}
+      </Popover>
+    </div>
+  );
 }
 
 N2OPopover.propTypes = {
@@ -186,18 +155,35 @@ N2OPopover.propTypes = {
   onCancel: PropTypes.func,
 };
 
-N2OPopover.defaultProps = {
-  className: '',
-  innerClassName: '',
-  header: 'header',
-  body: 'body',
-  placement: 'right',
-  icon: '',
-  popConfirm: false,
-  okText: 'Ok',
-  cancelText: 'Cancel',
-  onConfirm: function() {},
-  onCancel: function() {},
-};
+const enhance = compose(
+  defaultProps({
+    className: '',
+    innerClassName: '',
+    header: 'header',
+    body: 'body',
+    placement: 'right',
+    icon: '',
+    popConfirm: false,
+    okText: 'Ok',
+    cancelText: 'Cancel',
+    onConfirm: function() {},
+    onCancel: function() {},
+  }),
+  withState('fieldId', 'setFieldId', () => id()),
+  withState('isOpen', 'stateUpdate', ({ isOpen }) => isOpen),
+  withHandlers({
+    onClickYes: ({ isOpen, stateUpdate, onConfirm }) => () => {
+      stateUpdate(!isOpen);
+      onConfirm();
+    },
+    onClickNo: ({ isOpen, stateUpdate, onCancel }) => () => {
+      stateUpdate(!isOpen);
+      onCancel();
+    },
+    onToggle: ({ isOpen, stateUpdate }) => () => {
+      stateUpdate(!isOpen);
+    },
+  })
+);
 
-export default N2OPopover;
+export default enhance(N2OPopover);

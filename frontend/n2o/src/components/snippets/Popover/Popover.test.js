@@ -1,5 +1,5 @@
 import React from 'react';
-import Popover from './Popover';
+import { N2OPopover } from './Popover';
 import sinon from 'sinon';
 
 const props = {
@@ -7,25 +7,18 @@ const props = {
     id: 'test',
     help: 'подсказка',
   },
-  confirm: {
-    popConfirm: 'true',
-  },
   component: {
-    body: 'body.',
+    body: 'body',
     header: 'header',
   },
 };
 
 const setupHelp = propsOverride => {
-  return shallow(<Popover {...props.help} {...propsOverride} />);
-};
-
-const setupConfirm = propsOverride => {
-  return shallow(<Popover {...props.confirm} {...propsOverride} />);
+  return shallow(<N2OPopover {...props.help} {...propsOverride} />);
 };
 
 const setupComponent = propsOverride => {
-  return shallow(<Popover {...props.component} {...propsOverride} />);
+  return shallow(<N2OPopover {...props.component} {...propsOverride} />);
 };
 
 describe('Тесты Popover', () => {
@@ -38,18 +31,20 @@ describe('Тесты Popover', () => {
     expect(wrapper.find('.n2o-popover').exists()).toEqual(true);
   });
   it('Показывает подсказку', () => {
-    const wrapper = setupHelp();
-    wrapper.instance().onToggle();
-    expect(wrapper.state().showPopover).toEqual(true);
+    const onClick = sinon.spy();
+    const wrapper = setupHelp({ onToggle: onClick });
+    wrapper.find('.toggle-popover').simulate('click');
+    expect(onClick.called).toEqual(true);
   });
-  it('Показывает popover', () => {
-    const wrapper = setupComponent();
-    wrapper.instance().onToggle();
-    expect(wrapper.state().showPopover).toEqual(true);
+  it('Показывает popover', async () => {
+    const onClick = sinon.spy();
+    const wrapper = setupComponent({ onToggle: onClick });
+    wrapper.find('.toggle-popover').simulate('click');
+    expect(onClick.called).toEqual(true);
   });
   it('Проверка popConfirm', () => {
     const onClick = sinon.spy();
-    const wrapper = setupConfirm({ onConfirm: onClick });
+    const wrapper = setupComponent({ popConfirm: 'true', onClickYes: onClick });
     wrapper
       .find('.btn-sm')
       .last()
