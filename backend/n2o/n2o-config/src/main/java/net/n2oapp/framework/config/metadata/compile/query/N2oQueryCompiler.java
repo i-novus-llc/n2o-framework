@@ -167,14 +167,14 @@ public class N2oQueryCompiler implements BaseSourceCompiler<CompiledQuery, N2oQu
             for (N2oQuery.Selection selection : selections) {
                 if (selection.getInvocation() instanceof N2oRestDataProvider) {
                     N2oRestDataProvider invocation = (N2oRestDataProvider) selection.getInvocation();
-                    invocation.setFiltersSeparator((String) p.cast(invocation.getFiltersSeparator(),
-                            p.resolve(property("n2o.config.separator.filters"))));
-                    invocation.setSelectSeparator((String) p.cast(invocation.getSelectSeparator(),
-                            p.resolve(property("n2o.config.separator.select"))));
-                    invocation.setJoinSeparator((String) p.cast(invocation.getJoinSeparator(), p.resolve(property(
-                            "n2o.config.separator.join"))));
-                    invocation.setSortingSeparator((String) p.cast(invocation.getSortingSeparator(),
-                            p.resolve(property("n2o.config.separator.sorting"))));
+                    invocation.setFiltersSeparator(p.cast(invocation.getFiltersSeparator(),
+                            p.resolve(property("n2o.config.separator.filters"), String.class)));
+                    invocation.setSelectSeparator(p.cast(invocation.getSelectSeparator(),
+                            p.resolve(property("n2o.config.separator.select"), String.class)));
+                    invocation.setJoinSeparator(p.cast(invocation.getJoinSeparator(), p.resolve(property(
+                            "n2o.config.separator.join"), String.class)));
+                    invocation.setSortingSeparator(p.cast(invocation.getSortingSeparator(),
+                            p.resolve(property("n2o.config.separator.sorting"), String.class)));
 
                 }
             }
