@@ -135,6 +135,8 @@ class AdvancedTable extends Component {
         get(data[focusIndex], 'id')
       );
     }
+
+    this._dataStorage = this.getModelsFromData(data);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -145,6 +147,7 @@ class AdvancedTable extends Component {
       isActive,
       selectedId,
       autoFocus,
+      columns,
     } = this.props;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
@@ -157,18 +160,18 @@ class AdvancedTable extends Component {
     }
     if (!isEqual(prevProps, this.props)) {
       let state = {};
-      if (this.props.data && !isEqual(prevProps.data, this.props.data)) {
-        const checked = this.mapChecked(this.props.data);
+      if (data && !isEqual(prevProps.data, data)) {
+        const checked = this.mapChecked(data);
         state = {
-          data: isArray(data) ? data : [this.props.data],
+          data: isArray(data) ? data : [data],
           checked,
         };
-        this._dataStorage = this.getModelsFromData(this.props.data);
+        this._dataStorage = this.getModelsFromData(data);
       }
-      if (!isEqual(prevProps.columns, this.props.columns)) {
+      if (!isEqual(prevProps.columns, columns)) {
         state = {
           ...state,
-          columns: this.mapColumns(this.props.columns),
+          columns: this.mapColumns(columns),
         };
       }
       if (!isEqual(prevProps.selectedId, selectedId)) {
@@ -266,17 +269,18 @@ class AdvancedTable extends Component {
       onResolve,
       isActive,
     } = this.props;
+    const needToReturn = isActive === needReturn;
+
+    if (!needToReturn && hasSelect && !noResolve) {
+      onResolve(_.find(this._dataStorage, { id }));
+    }
 
     if (!noResolve && rowClick) {
       !hasSelect && onResolve(_.find(this._dataStorage, { id }));
       onRowClickAction();
     }
 
-    if (isActive === needReturn) return;
-
-    if (hasSelect && !noResolve) {
-      onResolve(_.find(this._dataStorage, { id }));
-    }
+    if (needToReturn) return;
 
     if (!noResolve && hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(id, id);
