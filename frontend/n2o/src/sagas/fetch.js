@@ -11,17 +11,11 @@ import { FETCH_ERROR_CONTINUE } from '../constants/fetch';
 export default function* fetchSaga(
   fetchType,
   options,
-  optimistic = false,
   apiProvider = defaultApiProvider
 ) {
   try {
     yield put(fetchStart(fetchType, options));
-    let response = null;
-    if (!optimistic) {
-      response = yield call(apiProvider, fetchType, options);
-    } else {
-      response = apiProvider(fetchType, options);
-    }
+    const response = yield call(apiProvider, fetchType, options);
     yield put(fetchEnd(fetchType, options, response));
     return response;
   } catch (error) {

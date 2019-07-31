@@ -1,7 +1,14 @@
-import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
+import {
+  call,
+  put,
+  select,
+  takeEvery,
+  throttle,
+  fork,
+} from 'redux-saga/effects';
 import { getFormValues, initialize } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
-import { isFunction } from 'lodash';
+import { isFunction, get } from 'lodash';
 import merge from 'deepmerge';
 
 import {
@@ -11,7 +18,6 @@ import {
 } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
 
-import createActionHelper from '../actions/createActionHelper';
 import { makeWidgetValidationSelector } from '../selectors/widgets';
 import { getModelSelector } from '../selectors/models';
 
@@ -23,6 +29,7 @@ import { getParams } from '../utils/compileUrl';
 import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
 import { disablePage, enablePage } from '../actions/pages';
+import { successInvoke, failInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
@@ -100,7 +107,6 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       baseMethod: dataProvider.method,
       model,
     },
-    true,
     apiProvider
   );
   return response;
@@ -108,7 +114,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
 
 export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
   const meta = merge(metaInvokeFail, metaResponse);
-  yield put(createActionHelper(FAIL_INVOKE)({ widgetId }, meta));
+  yield put(failInvoke(widgetId, meta));
 }
 
 /**
@@ -120,31 +126,34 @@ export function* handleInvoke(apiProvider, action) {
     if (!dataProvider) {
       throw new Error('dataProvider is undefined');
     }
-    if (pageId) {
+
+    const optimistic = get(dataProvider, 'optimistic', false);
+
+    if (pageId && !optimistic) {
       yield put(disablePage(pageId));
     }
-    if (widgetId) {
+    if (widgetId && !optimistic) {
       yield put(disableWidgetOnFetch(widgetId));
     }
     let model = data || {};
     if (modelLink) {
       model = yield select(getModelSelector(modelLink));
     }
-    const response = yield call(fetchInvoke, dataProvider, model, apiProvider);
+    let response = null;
+
+    if (optimistic) {
+      response = yield fork(fetchInvoke, dataProvider, model, apiProvider);
+    } else {
+      response = yield call(fetchInvoke, dataProvider, model, apiProvider);
+    }
 
     const meta = merge(action.meta.success || {}, response.meta || {});
-    if (!meta.redirect && !meta.closeLastModal) {
-      yield put(setModel(PREFIXES.resolve, widgetId, response.data));
+    if (optimistic || (!meta.redirect && !meta.closeLastModal)) {
+      yield put(
+        setModel(PREFIXES.resolve, widgetId, optimistic ? model : response.data)
+      );
     }
-    yield put(
-      createActionHelper(SUCCESS_INVOKE)(
-        { widgetId },
-        {
-          ...meta,
-          withoutSelectedId: true,
-        }
-      )
-    );
+    yield put(successInvoke(widgetId, { ...meta, withoutSelectedId: true }));
   } catch (err) {
     console.error(err);
     yield* handleFailInvoke(

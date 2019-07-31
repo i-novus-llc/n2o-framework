@@ -21,13 +21,7 @@ export function* getConfig(apiProvider, action) {
       locale: yield select(localeSelector),
       ...action.payload.params,
     };
-    const config = yield call(
-      fetchSaga,
-      FETCH_APP_CONFIG,
-      params,
-      false,
-      apiProvider
-    );
+    const config = yield call(fetchSaga, FETCH_APP_CONFIG, params, apiProvider);
 
     if (config.user) {
       yield put(userLogin(config.user));
