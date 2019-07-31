@@ -73,7 +73,7 @@ describe('<InputNumber />', () => {
         .find('input')
         .first()
         .props().value
-    ).toBe('2');
+    ).toBe('2.4');
     wrapper = setup({ value: 2.4, step: '1.0' }).wrapper;
     expect(
       wrapper
@@ -129,17 +129,18 @@ describe('<InputNumber />', () => {
     expect(wrapper.find('input').props().value).toBe('1.9');
   });
 
-  it('не позволяет вводить дробные числа, если allowDecimals = false', () => {
-    const { wrapper } = setup({ value: 2, step: '1', allowDecimals: false });
-
-    wrapper.find('input').simulate('change', { target: { value: '1.' } });
-    expect(wrapper.state().value).toBe(1);
-
-    wrapper.find('input').simulate('change', { target: { value: '8.2' } });
-    expect(wrapper.state().value).toBe(8);
+  it('не позволяет вводить дробную часть при precision = 0', () => {
+    const { wrapper } = setup({ value: '2.5', step: '1', precision: 0 });
+    expect(wrapper.find('input').props().value).toBe('2.5');
   });
 
-  it('округляет до количества знаков после запятой в step', () => {
+  it('проверяет precision', () => {
+    const { wrapper } = setup({ value: '2.5', step: '1', precision: 2 });
+    wrapper.find('input').simulate('change', { target: { value: '2.132' } });
+    expect(wrapper.state().value).toBe('2.13');
+  });
+
+  it('не округляет до количества знаков после запятой в step', () => {
     const { wrapper } = setup({ value: 2, step: '0.00' });
     wrapper
       .find('input')
@@ -150,27 +151,7 @@ describe('<InputNumber />', () => {
         .find('input')
         .first()
         .props().value
-    ).toBe('101.00');
-  });
-
-  it('добавляет нули после точки', () => {
-    const { wrapper } = setup({ value: 2, step: '0.00' });
-    wrapper.find('input').simulate('change', { target: { value: '100' } });
-    wrapper.find('input').simulate('blur');
-    expect(
-      wrapper
-        .find('input')
-        .first()
-        .props().value
-    ).toBe('100.00');
-    wrapper.find('input').simulate('change', { target: { value: '100.1' } });
-    wrapper.find('input').simulate('blur');
-    expect(
-      wrapper
-        .find('input')
-        .first()
-        .props().value
-    ).toBe('100.10');
+    ).toBe('100.999999');
   });
 
   it('видимый/невидимый по visible ', () => {
