@@ -33,6 +33,7 @@ function Panel({
   color,
   onKeyPress,
   children,
+  innerRef,
 }) {
   const panelClass = cx('n2o-panel-region', className, 'text-dark', {
     'panel-fullscreen': isFullScreen,
@@ -48,6 +49,7 @@ function Panel({
       outline
       onKeyDown={onKeyPress}
       tabIndex="-1"
+      innerRef={innerRef}
     >
       {children}
       <div className="panel-fullscreen-help">
@@ -66,6 +68,7 @@ Panel.propTypes = {
   onToggle: PropTypes.func,
   onKeyPress: PropTypes.func,
   children: PropTypes.node,
+  innerRef: PropTypes.func,
 };
 
 Panel.defaultProps = {

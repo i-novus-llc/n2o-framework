@@ -296,6 +296,8 @@ const FileUploaderControl = WrappedComponent => {
     }
 
     onError(id, error, status) {
+      const { responseFieldId, errorFormatter } = this.props;
+
       const uploading = this.state.uploading;
       if (uploading) {
         uploading[id] = false;
@@ -304,9 +306,17 @@ const FileUploaderControl = WrappedComponent => {
         uploading,
         ...this.state.files.map(file => {
           if (file.id === id) {
-            file.error = isString(error)
-              ? error
-              : error[this.props.responseFieldId] || status;
+            let formattedError = null;
+
+            if (errorFormatter) {
+              formattedError = errorFormatter(error);
+            } else {
+              formattedError = isString(error)
+                ? error
+                : error[responseFieldId] || status;
+            }
+
+            file.error = formattedError;
           }
         }),
       });
@@ -373,6 +383,7 @@ const FileUploaderControl = WrappedComponent => {
     className: PropTypes.string,
     mapper: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    errorFormatter: PropTypes.func,
   };
 
   return ReturnedComponent;

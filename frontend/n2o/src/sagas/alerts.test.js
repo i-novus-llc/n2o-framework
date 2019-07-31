@@ -54,7 +54,7 @@ describe('Проверка саги alerts', () => {
       dispatch: action => dispatched.push(action),
     };
     const result = await runSaga(fakeStore, removeAlertSideEffect, action, 1);
-    await Promise.resolve(result.done);
+    await Promise.resolve(result.toPromise());
     expect(dispatched[0]).toEqual(removeAlert('testKey'));
   });
 });
