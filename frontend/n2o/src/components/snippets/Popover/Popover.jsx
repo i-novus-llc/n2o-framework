@@ -74,7 +74,6 @@ export function N2OPopover(props) {
         {children}
       </div>
       <Popover
-        className="pop-test"
         trigger={trigger}
         container={container}
         innerClassName={innerClassName}

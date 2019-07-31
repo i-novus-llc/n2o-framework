@@ -13,6 +13,7 @@ import { isEmpty, every } from 'lodash';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
+import Popover from '../snippets/Popover/Popover';
 import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
@@ -123,6 +124,7 @@ class Actions extends React.Component {
         link: modelLink,
         value: text,
       });
+      console.log('text ', resolvedText);
       return {
         ...confirm,
         text: resolvedText,
@@ -134,29 +136,50 @@ class Actions extends React.Component {
    * рендер кнопки или элемента списка дропдауна
    * @param Component
    * @param button
+   * @param parentId
+   * @param popover
    * @returns {*}
    */
-  renderButton(Component, button, parentId) {
+  renderButton(Component, button, parentId, popover = true) {
     const btn = (
       <React.Fragment>
         <ButtonContainer
           id={button.id}
-          onClick={() => this.onClickHelper(button, button.confirm)}
+          onClick={
+            popover
+              ? () => this.setState({ confirmVisibleId: button.id })
+              : () => this.onClickHelper(button, button.confirm)
+          }
           initialProps={button}
           component={Component}
           containerKey={this.props.containerKey}
           parentId={parentId}
         />
-        <ModalDialog
-          {...this.mapButtonConfirmProps(button)}
-          visible={this.state.confirmVisibleId === button.id}
-          onConfirm={() => {
-            this.onClickHelper(button);
-            this.closeConfirm();
-          }}
-          onDeny={this.closeConfirm}
-          close={this.closeConfirm}
-        />
+        {!popover && (
+          <ModalDialog
+            {...this.mapButtonConfirmProps(button)}
+            visible={this.state.confirmVisibleId === button.id}
+            onConfirm={() => {
+              this.onClickHelper(button);
+              this.closeConfirm();
+            }}
+            onDeny={this.closeConfirm}
+            close={this.closeConfirm}
+          />
+        )}
+        {popover && (
+          <Popover
+            {...this.mapButtonConfirmProps(button)}
+            target={button.id}
+            popConfirm={true}
+            onConfirm={() => {
+              this.setState({ confirmVisibleId: button.id }, () =>
+                this.closeConfirm()
+              );
+            }}
+            onCancel={this.closeConfirm}
+          />
+        )}
       </React.Fragment>
     );
 
