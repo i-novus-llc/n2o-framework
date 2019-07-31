@@ -97,6 +97,86 @@ describe('<AdvancedTable/>', () => {
     expect(onRowClickAction.calledThrice).toBe(true);
   });
 
+  it('срабатывает rowClick по разным строкам', () => {
+    const onResolve = sinon.spy();
+    const onRowClickAction = sinon.spy();
+
+    const wrapper = setup({
+      rowClick: true,
+      onResolve,
+      onRowClickAction,
+    });
+
+    const rows = wrapper.find('.n2o-table-row');
+
+    rows.at(2).simulate('click');
+    expect(onRowClickAction.calledOnce).toBe(true);
+
+    rows.first().simulate('click');
+    expect(onRowClickAction.calledTwice).toBe(true);
+
+    rows.at(1).simulate('click');
+    expect(onRowClickAction.calledThrice).toBe(true);
+  });
+
+  it('корректно работает rowClick после фокуса', () => {
+    const onResolve = sinon.spy();
+    const onRowClickAction = sinon.spy();
+
+    const wrapper = setup({
+      rowClick: true,
+      onResolve,
+      onRowClickAction,
+    });
+
+    const rows = wrapper.find('.n2o-table-row');
+
+    rows.at(1).simulate('focus');
+
+    expect(onResolve.calledOnce).toBe(false);
+    expect(onRowClickAction.calledOnce).toBe(false);
+
+    rows.at(1).simulate('click');
+
+    expect(onResolve.calledOnce).toBe(true);
+    expect(onRowClickAction.calledOnce).toBe(true);
+
+    rows.at(1).simulate('focus');
+
+    expect(onResolve.calledTwice).toBe(false);
+    expect(onRowClickAction.calledTwice).toBe(false);
+
+    rows.at(1).simulate('click');
+
+    expect(onResolve.calledTwice).toBe(true);
+    expect(onRowClickAction.calledTwice).toBe(true);
+  });
+
+  it('корректно работает rowClick после потери фокуса', () => {
+    const onResolve = sinon.spy();
+    const onRowClickAction = sinon.spy();
+
+    const wrapper = setup({
+      rowClick: true,
+      onResolve,
+      onRowClickAction,
+    });
+
+    const rows = wrapper.find('.n2o-table-row');
+
+    rows.at(1).simulate('click');
+
+    expect(onResolve.calledOnce).toBe(true);
+    expect(onRowClickAction.calledOnce).toBe(true);
+
+    rows.at(1).simulate('blur');
+
+    rows.at(1).simulate('click');
+
+    expect(onResolve.calledTwice).toBe(true);
+    expect(onRowClickAction.calledTwice).toBe(true);
+  });
+
   it('в onResolve приходит правильная строка', () => {
     const onResolve = sinon.spy();
 
