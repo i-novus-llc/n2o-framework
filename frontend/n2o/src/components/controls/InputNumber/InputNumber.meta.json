@@ -5,6 +5,5 @@
   "min": 0,
   "max": 555,
   "name": "InputNumber",
-  "showButtons": true,
-  "allowDecimals": true
+  "showButtons": true
 }
