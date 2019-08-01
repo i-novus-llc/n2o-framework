@@ -18,11 +18,7 @@ export function post(url, file, onProgress, onUpload, onError) {
       onUpload(response);
     })
     .catch(function(error) {
-      if (error.response) {
-        onError(error.response.data || error.message, error.response.status);
-      } else {
-        onError(error.message);
-      }
+      onError(error);
     });
 }
 
