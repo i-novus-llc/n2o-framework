@@ -96,13 +96,15 @@ class Actions extends React.Component {
    * Обертка вокруг onClick
    * @param button
    * @param confirm
+   * @param popoverConfirm
    */
-  onClickHelper(button, confirm) {
+  onClickHelper(button, confirm, popoverConfirm) {
     const { actions, resolve, options } = this.props;
     this.onClick(
       button.actionId,
       button.id,
       confirm,
+      popoverConfirm,
       actions,
       resolve,
       button.validatedWidgetId,
@@ -124,7 +126,6 @@ class Actions extends React.Component {
         link: modelLink,
         value: text,
       });
-      console.log('text ', resolvedText);
       return {
         ...confirm,
         text: resolvedText,
@@ -137,25 +138,22 @@ class Actions extends React.Component {
    * @param Component
    * @param button
    * @param parentId
-   * @param popover
    * @returns {*}
    */
-  renderButton(Component, button, parentId, popover = true) {
+  renderButton(Component, button, parentId) {
     const btn = (
       <React.Fragment>
         <ButtonContainer
           id={button.id}
-          onClick={
-            popover
-              ? () => this.setState({ confirmVisibleId: button.id })
-              : () => this.onClickHelper(button, button.confirm)
+          onClick={() =>
+            this.onClickHelper(button, button.confirm, button.popoverConfirm)
           }
           initialProps={button}
           component={Component}
           containerKey={this.props.containerKey}
           parentId={parentId}
         />
-        {!popover && (
+        {!button.popoverConfirm && (
           <ModalDialog
             {...this.mapButtonConfirmProps(button)}
             visible={this.state.confirmVisibleId === button.id}
@@ -167,15 +165,14 @@ class Actions extends React.Component {
             close={this.closeConfirm}
           />
         )}
-        {popover && (
+        {button.popoverConfirm && (
           <Popover
-            {...this.mapButtonConfirmProps(button)}
+            isOpen={this.state.confirmVisibleId === button.id}
             target={button.id}
             popConfirm={true}
             onConfirm={() => {
-              this.setState({ confirmVisibleId: button.id }, () =>
-                this.closeConfirm()
-              );
+              this.onClickHelper(button);
+              this.closeConfirm();
             }}
             onCancel={this.closeConfirm}
           />
@@ -221,13 +218,14 @@ class Actions extends React.Component {
     actionId,
     id,
     confirm,
+    popoverConfirm,
     actions,
     resolve,
     validatedWidgetId,
     validate = true,
     options = {}
   ) {
-    if (confirm) {
+    if (confirm || popoverConfirm) {
       this.setState({ confirmVisibleId: id });
     } else {
       resolve(actions[actionId].src, validatedWidgetId, {
