@@ -34,6 +34,7 @@ import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
+import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
@@ -79,7 +80,7 @@ class AdvancedTable extends Component {
       expandRowByClick: false,
       selection: {},
       selectAll: false,
-      columns: this.mapColumns(props.columns),
+      columns: [],
       checkedAll: false,
       checked: props.data ? this.mapChecked(props.data) : {},
     };
@@ -120,7 +121,7 @@ class AdvancedTable extends Component {
   }
 
   componentDidMount() {
-    const { rowClick } = this.props;
+    const { rowClick, columns } = this.props;
     const {
       isAnyTableFocused,
       isActive,
@@ -135,6 +136,10 @@ class AdvancedTable extends Component {
         get(data[focusIndex], 'id')
       );
     }
+
+    this.setState({
+      columns: this.mapColumns(columns),
+    });
 
     this._dataStorage = this.getModelsFromData(data);
   }
@@ -339,9 +344,8 @@ class AdvancedTable extends Component {
     });
   }
 
-  checkAll(event) {
+  checkAll(checked) {
     const { onSetSelection } = this.props;
-    const checked = !event.target.checked;
     const newChecked = {};
     onSetSelection(checked ? _.toArray(this.props.data) : []);
     forOwn(this.state.checked, (v, k) => {
@@ -421,18 +425,14 @@ class AdvancedTable extends Component {
     };
   }
 
-  createSelectionColumn() {
-    const isSomeFixed = some(this.state.columns, c => c.fixed);
+  createSelectionColumn(columns) {
+    const isSomeFixed = some(columns, c => c.fixed);
     return {
       title: (
-        <div className="n2o-advanced-table-selection-item">
-          <CheckboxN2O
-            ref={this.setSelectionRef}
-            inline={true}
-            checked={this.state.checkedAll}
-            onChange={this.checkAll}
-          />
-        </div>
+        <AdvancedTableSelectionColumn
+          setRef={this.setSelectionRef}
+          onChange={this.checkAll}
+        />
       ),
       dataIndex: 'row-selection',
       key: 'row-selection',
@@ -441,6 +441,7 @@ class AdvancedTable extends Component {
       fixed: isSomeFixed && 'left',
       render: (value, model) => (
         <CheckboxN2O
+          className="n2o-advanced-table-row-checkbox"
           inline={true}
           checked={this.state.checked[model.id]}
           onChange={event => this.handleChangeChecked(event, model.id)}
@@ -509,7 +510,7 @@ class AdvancedTable extends Component {
       }),
     }));
     if (rowSelection) {
-      newColumns = [this.createSelectionColumn(), ...newColumns];
+      newColumns = [this.createSelectionColumn(columns), ...newColumns];
     }
     return newColumns;
   }

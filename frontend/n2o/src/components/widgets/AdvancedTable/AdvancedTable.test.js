@@ -85,281 +85,376 @@ describe('<AdvancedTable/>', () => {
     expect(wrapper.find('.n2o-table-row').length).toBe(4);
   });
 
-  it('срабатывает rowClick', () => {
-    const onResolve = sinon.spy();
-    const onRowClickAction = sinon.spy();
-
-    const wrapper = setup({
-      rowClick: true,
-      onResolve,
-      onRowClickAction,
-    });
-
-    wrapper
-      .find('.n2o-table-row')
-      .first()
-      .simulate('click');
-
-    expect(onResolve.calledOnce).toBe(true);
-    expect(onRowClickAction.calledOnce).toBe(true);
-  });
-
-  it('срабатывает rowClick 2 и более раз по одной и той же строке', () => {
-    const onResolve = sinon.spy();
-    const onRowClickAction = sinon.spy();
-
-    const wrapper = setup({
-      rowClick: true,
-      onResolve,
-      onRowClickAction,
-    });
-
-    const tableRow = wrapper.find('.n2o-table-row').first();
-
-    tableRow.simulate('click');
-
-    expect(onResolve.calledOnce).toBe(true);
-    expect(onRowClickAction.calledOnce).toBe(true);
-
-    tableRow.simulate('click');
-
-    expect(onResolve.calledTwice).toBe(true);
-    expect(onRowClickAction.calledTwice).toBe(true);
-
-    tableRow.simulate('click');
-
-    expect(onResolve.calledThrice).toBe(true);
-    expect(onRowClickAction.calledThrice).toBe(true);
-  });
-
-  it('фильтр в заголовке отрисовывается', () => {
-    const newColumns = columns.slice();
-    set(newColumns, '[0].filterable', true);
-    const wrapper = setup({ columns });
-
-    expect(wrapper.find('.n2o-advanced-table-filter-btn').exists()).toBe(true);
-  });
-
-  it('фильтр открывается и закрыается', () => {
-    const newColumns = columns.slice();
-    set(newColumns, '[0].filterable', true);
-    const wrapper = setup({ columns });
-    const filter = wrapper.find('AdvancedTableFilter');
-    const button = wrapper
-      .find('.n2o-advanced-table-filter-btn button')
-      .first();
-
-    expect(filter.state().filterOpen).toBe(false);
-    button.simulate('click');
-    expect(filter.state().filterOpen).toBe(true);
-    button.simulate('click');
-    expect(filter.state().filterOpen).toBe(false);
-  });
-
-  it('фильтр сохраняет и сбрасывает значения', () => {
-    const newColumns = columns.slice();
-    set(newColumns, '[0].filterable', true);
-    const wrapper = setup({ columns });
-    const filter = wrapper.find('AdvancedTableFilter');
-    const button = wrapper
-      .find('.n2o-advanced-table-filter-btn button')
-      .first();
-
-    button.simulate('click');
-
-    expect(filter.state().value).toBe(null);
-    wrapper
-      .find('.n2o-advanced-table-filter-dropdown-popup input')
-      .simulate('change', { target: { value: 'test' } });
-    expect(filter.state().value).toBe('test');
-
-    wrapper
-      .find('.n2o-advanced-table-filter-dropdown-buttons button')
-      .at(1)
-      .simulate('click');
-    expect(filter.state().value).toBe('');
-  });
-
-  it('фильтрация корректно вызывается', () => {
-    const onFilter = sinon.spy();
-    const newColumns = columns.slice();
-    set(newColumns, '[0].filterable', true);
-    const wrapper = setup({ columns, onFilter });
-    const button = wrapper
-      .find('.n2o-advanced-table-filter-btn button')
-      .first();
-
-    button.simulate('click');
-
-    wrapper
-      .find('.n2o-advanced-table-filter-dropdown-popup input')
-      .simulate('change', { target: { value: 'test' } });
-    wrapper
-      .find('.n2o-advanced-table-filter-dropdown-buttons button')
-      .first()
-      .simulate('click');
-    expect(onFilter.calledOnce).toBe(true);
-    expect(onFilter.getCall(0).args[0]).toEqual({ id: 'name', value: 'test' });
-  });
-
   it('отрисовывается empty message', () => {
     const wrapper = setup({ data: [] });
 
     expect(wrapper.find('FormattedMessage').exists()).toBe(true);
   });
 
-  it('срабатывает rowClick по разным строкам', () => {
-    const onResolve = sinon.spy();
-    const onRowClickAction = sinon.spy();
+  describe('тесты rowClick', () => {
+    it('срабатывает rowClick', () => {
+      const onResolve = sinon.spy();
+      const onRowClickAction = sinon.spy();
 
-    const wrapper = setup({
-      rowClick: true,
-      onResolve,
-      onRowClickAction,
+      const wrapper = setup({
+        rowClick: true,
+        onResolve,
+        onRowClickAction,
+      });
+
+      wrapper
+        .find('.n2o-table-row')
+        .first()
+        .simulate('click');
+
+      expect(onResolve.calledOnce).toBe(true);
+      expect(onRowClickAction.calledOnce).toBe(true);
     });
 
-    const rows = wrapper.find('.n2o-table-row');
+    it('срабатывает rowClick 2 и более раз по одной и той же строке', () => {
+      const onResolve = sinon.spy();
+      const onRowClickAction = sinon.spy();
 
-    rows.at(2).simulate('click');
-    expect(onRowClickAction.calledOnce).toBe(true);
+      const wrapper = setup({
+        rowClick: true,
+        onResolve,
+        onRowClickAction,
+      });
 
-    rows.first().simulate('click');
-    expect(onRowClickAction.calledTwice).toBe(true);
+      const tableRow = wrapper.find('.n2o-table-row').first();
 
-    rows.at(1).simulate('click');
-    expect(onRowClickAction.calledThrice).toBe(true);
+      tableRow.simulate('click');
+
+      expect(onResolve.calledOnce).toBe(true);
+      expect(onRowClickAction.calledOnce).toBe(true);
+
+      tableRow.simulate('click');
+
+      expect(onResolve.calledTwice).toBe(true);
+      expect(onRowClickAction.calledTwice).toBe(true);
+
+      tableRow.simulate('click');
+
+      expect(onResolve.calledThrice).toBe(true);
+      expect(onRowClickAction.calledThrice).toBe(true);
+    });
+
+    it('срабатывает rowClick по разным строкам', () => {
+      const onResolve = sinon.spy();
+      const onRowClickAction = sinon.spy();
+
+      const wrapper = setup({
+        rowClick: true,
+        onResolve,
+        onRowClickAction,
+      });
+
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(2).simulate('click');
+      expect(onRowClickAction.calledOnce).toBe(true);
+
+      rows.first().simulate('click');
+      expect(onRowClickAction.calledTwice).toBe(true);
+
+      rows.at(1).simulate('click');
+      expect(onRowClickAction.calledThrice).toBe(true);
+    });
+
+    it('корректно работает rowClick после фокуса', () => {
+      const onResolve = sinon.spy();
+      const onRowClickAction = sinon.spy();
+
+      const wrapper = setup({
+        rowClick: true,
+        onResolve,
+        onRowClickAction,
+      });
+
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(1).simulate('focus');
+
+      expect(onResolve.calledOnce).toBe(false);
+      expect(onRowClickAction.calledOnce).toBe(false);
+
+      rows.at(1).simulate('click');
+
+      expect(onResolve.calledOnce).toBe(true);
+      expect(onRowClickAction.calledOnce).toBe(true);
+
+      rows.at(1).simulate('focus');
+
+      expect(onResolve.calledTwice).toBe(false);
+      expect(onRowClickAction.calledTwice).toBe(false);
+
+      rows.at(1).simulate('click');
+
+      expect(onResolve.calledTwice).toBe(true);
+      expect(onRowClickAction.calledTwice).toBe(true);
+    });
+
+    it('корректно работает rowClick после потери фокуса', () => {
+      const onResolve = sinon.spy();
+      const onRowClickAction = sinon.spy();
+
+      const wrapper = setup({
+        rowClick: true,
+        onResolve,
+        onRowClickAction,
+      });
+
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(1).simulate('click');
+
+      expect(onResolve.calledOnce).toBe(true);
+      expect(onRowClickAction.calledOnce).toBe(true);
+
+      rows.at(1).simulate('blur');
+
+      rows.at(1).simulate('click');
+
+      expect(onResolve.calledTwice).toBe(true);
+      expect(onRowClickAction.calledTwice).toBe(true);
+    });
+
+    it('в onResolve приходит правильная строка', () => {
+      const onResolve = sinon.spy();
+
+      const wrapper = setup({
+        onResolve,
+        isActive: true,
+        hasSelect: true,
+      });
+
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(1).simulate('click');
+
+      expect(onResolve.calledOnce).toBe(true);
+      expect(onResolve.getCall(0).args[0]).toEqual(wrapper.props().data[1]);
+
+      rows.first().simulate('click');
+
+      expect(onResolve.calledTwice).toBe(true);
+      expect(onResolve.getCall(1).args[0]).toEqual(wrapper.props().data[0]);
+
+      rows.at(2).simulate('click');
+
+      expect(onResolve.calledThrice).toBe(true);
+      expect(onResolve.getCall(2).args[0]).toEqual(wrapper.props().data[2]);
+    });
   });
 
-  it('отрисовывается подтаблица', () => {
-    const newData = data.slice();
-    set(newData, '[0].expandedContent', {
-      type: 'table',
-      columns: [
-        {
-          id: '1.1',
-          title: 'Sub name',
-          dataIndex: 'subName',
-        },
-      ],
-      data: [
-        {
-          id: '1.1',
-          subName: 'sub name',
-        },
-      ],
-    });
-    const wrapper = setup({
-      expandable: true,
-      expandedFieldId: 'expandedContent',
-      data: newData,
+  describe('тесты фильтров в заголовке', () => {
+    it('фильтр в заголовке отрисовывается', () => {
+      const newColumns = columns.slice();
+      set(newColumns, '[0].filterable', true);
+      const wrapper = setup({ columns });
+
+      expect(wrapper.find('.n2o-advanced-table-filter-btn').exists()).toBe(
+        true
+      );
     });
 
-    wrapper.find('.n2o-advanced-table-expand').simulate('click');
+    it('фильтр открывается и закрыается', () => {
+      const newColumns = columns.slice();
+      set(newColumns, '[0].filterable', true);
+      const wrapper = setup({ columns });
+      const filter = wrapper.find('AdvancedTableFilter');
+      const button = wrapper
+        .find('.n2o-advanced-table-filter-btn button')
+        .first();
 
-    expect(wrapper.find('.n2o-advanced-table-nested').exists()).toBe(true);
+      expect(filter.state().filterOpen).toBe(false);
+      button.simulate('click');
+      expect(filter.state().filterOpen).toBe(true);
+      button.simulate('click');
+      expect(filter.state().filterOpen).toBe(false);
+    });
+
+    it('фильтр сохраняет и сбрасывает значения', () => {
+      const newColumns = columns.slice();
+      set(newColumns, '[0].filterable', true);
+      const wrapper = setup({ columns });
+      const filter = wrapper.find('AdvancedTableFilter');
+      const button = wrapper
+        .find('.n2o-advanced-table-filter-btn button')
+        .first();
+
+      button.simulate('click');
+
+      expect(filter.state().value).toBe(null);
+      wrapper
+        .find('.n2o-advanced-table-filter-dropdown-popup input')
+        .simulate('change', { target: { value: 'test' } });
+      expect(filter.state().value).toBe('test');
+
+      wrapper
+        .find('.n2o-advanced-table-filter-dropdown-buttons button')
+        .at(1)
+        .simulate('click');
+      expect(filter.state().value).toBe('');
+    });
+
+    it('фильтрация корректно вызывается', () => {
+      const onFilter = sinon.spy();
+      const newColumns = columns.slice();
+      set(newColumns, '[0].filterable', true);
+      const wrapper = setup({ columns, onFilter });
+      const button = wrapper
+        .find('.n2o-advanced-table-filter-btn button')
+        .first();
+
+      button.simulate('click');
+
+      wrapper
+        .find('.n2o-advanced-table-filter-dropdown-popup input')
+        .simulate('change', { target: { value: 'test' } });
+      wrapper
+        .find('.n2o-advanced-table-filter-dropdown-buttons button')
+        .first()
+        .simulate('click');
+      expect(onFilter.calledOnce).toBe(true);
+      expect(onFilter.getCall(0).args[0]).toEqual({
+        id: 'name',
+        value: 'test',
+      });
+    });
   });
 
-  it('отрисовывается html в подстроке', () => {
-    const newData = data.slice();
-    set(newData, '[0].expandedContent', {
-      type: 'html',
-      value: '<div class="test-class"/>',
-    });
-    const wrapper = setup({
-      expandable: true,
-      expandedFieldId: 'expandedContent',
-      data: newData,
+  describe('тесты expandedContent', () => {
+    it('отрисовывается подтаблица', () => {
+      const newData = data.slice();
+      set(newData, '[0].expandedContent', {
+        type: 'table',
+        columns: [
+          {
+            id: '1.1',
+            title: 'Sub name',
+            dataIndex: 'subName',
+          },
+        ],
+        data: [
+          {
+            id: '1.1',
+            subName: 'sub name',
+          },
+        ],
+      });
+      const wrapper = setup({
+        expandable: true,
+        expandedFieldId: 'expandedContent',
+        data: newData,
+      });
+
+      wrapper.find('.n2o-advanced-table-expand').simulate('click');
+
+      expect(wrapper.find('.n2o-advanced-table-nested').exists()).toBe(true);
     });
 
-    wrapper.find('.n2o-advanced-table-expand').simulate('click');
+    it('отрисовывается html в подстроке', () => {
+      const newData = data.slice();
+      set(newData, '[0].expandedContent', {
+        type: 'html',
+        value: '<div class="test-class"/>',
+      });
+      const wrapper = setup({
+        expandable: true,
+        expandedFieldId: 'expandedContent',
+        data: newData,
+      });
 
-    expect(
-      wrapper.find('.n2o-advanced-table-expanded-row-content').exists()
-    ).toBe(true);
+      wrapper.find('.n2o-advanced-table-expand').simulate('click');
+
+      expect(
+        wrapper.find('.n2o-advanced-table-expanded-row-content').exists()
+      ).toBe(true);
+    });
   });
 
-  it('корректно работает rowClick после фокуса', () => {
-    const onResolve = sinon.spy();
-    const onRowClickAction = sinon.spy();
+  describe('тесты rowSelection', () => {
+    it('чекбокс в колонке отрисовался', () => {
+      const wrapper = setup({ rowSelection: true });
 
-    const wrapper = setup({
-      rowClick: true,
-      onResolve,
-      onRowClickAction,
+      expect(wrapper.find('.n2o-advanced-table-selection-item').exists()).toBe(
+        true
+      );
     });
 
-    const rows = wrapper.find('.n2o-table-row');
+    it('отрисовалось правильное количество чекбоксов в строках', () => {
+      const wrapper = setup({
+        rowSelection: true,
+      });
 
-    rows.at(1).simulate('focus');
-
-    expect(onResolve.calledOnce).toBe(false);
-    expect(onRowClickAction.calledOnce).toBe(false);
-
-    rows.at(1).simulate('click');
-
-    expect(onResolve.calledOnce).toBe(true);
-    expect(onRowClickAction.calledOnce).toBe(true);
-
-    rows.at(1).simulate('focus');
-
-    expect(onResolve.calledTwice).toBe(false);
-    expect(onRowClickAction.calledTwice).toBe(false);
-
-    rows.at(1).simulate('click');
-
-    expect(onResolve.calledTwice).toBe(true);
-    expect(onRowClickAction.calledTwice).toBe(true);
-  });
-
-  it('корректно работает rowClick после потери фокуса', () => {
-    const onResolve = sinon.spy();
-    const onRowClickAction = sinon.spy();
-
-    const wrapper = setup({
-      rowClick: true,
-      onResolve,
-      onRowClickAction,
+      expect(wrapper.find('CheckboxN2O').length).toBe(4);
     });
 
-    const rows = wrapper.find('.n2o-table-row');
+    it('корректно отрабатывает выбор всех строк', () => {
+      const wrapper = setup({
+        rowSelection: true,
+      });
 
-    rows.at(1).simulate('click');
+      wrapper
+        .find('CheckboxN2O input')
+        .first()
+        .simulate('change', { target: { checked: false } });
 
-    expect(onResolve.calledOnce).toBe(true);
-    expect(onRowClickAction.calledOnce).toBe(true);
+      expect(wrapper.find('AdvancedTable').state().checkedAll).toBe(true);
+      expect(wrapper.find('AdvancedTable').state().checked).toEqual({
+        '1': true,
+        '2': true,
+        '3': true,
+      });
 
-    rows.at(1).simulate('blur');
+      wrapper
+        .find('CheckboxN2O input')
+        .first()
+        .simulate('change', { target: { checked: true } });
 
-    rows.at(1).simulate('click');
-
-    expect(onResolve.calledTwice).toBe(true);
-    expect(onRowClickAction.calledTwice).toBe(true);
-  });
-
-  it('в onResolve приходит правильная строка', () => {
-    const onResolve = sinon.spy();
-
-    const wrapper = setup({
-      onResolve,
-      isActive: true,
-      hasSelect: true,
+      expect(wrapper.find('AdvancedTable').state().checkedAll).toBe(false);
+      expect(wrapper.find('AdvancedTable').state().checked).toEqual({
+        '1': false,
+        '2': false,
+        '3': false,
+      });
     });
 
-    const rows = wrapper.find('.n2o-table-row');
+    it('корректно отрабатывает выбор строк', () => {
+      const wrapper = setup({
+        rowSelection: true,
+      });
 
-    rows.at(1).simulate('click');
+      const table = wrapper.find('AdvancedTable');
+      const checkboxes = wrapper.find('CheckboxN2O input');
 
-    expect(onResolve.calledOnce).toBe(true);
-    expect(onResolve.getCall(0).args[0]).toEqual(wrapper.props().data[1]);
+      checkboxes.at(1).simulate('change', { target: { checked: false } });
 
-    rows.first().simulate('click');
+      expect(table.state().checkedAll).toBe(false);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': false,
+        '3': false,
+      });
 
-    expect(onResolve.calledTwice).toBe(true);
-    expect(onResolve.getCall(1).args[0]).toEqual(wrapper.props().data[0]);
+      checkboxes.at(2).simulate('change', { target: { checked: false } });
 
-    rows.at(2).simulate('click');
+      expect(table.state().checkedAll).toBe(false);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': true,
+        '3': false,
+      });
 
-    expect(onResolve.calledThrice).toBe(true);
-    expect(onResolve.getCall(2).args[0]).toEqual(wrapper.props().data[2]);
+      checkboxes.at(3).simulate('change', { target: { checked: false } });
+
+      expect(table.state().checkedAll).toBe(true);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': true,
+        '3': true,
+      });
+    });
   });
 });
