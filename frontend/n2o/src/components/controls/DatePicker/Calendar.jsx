@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 
 import Day from './Day';
 import CalendarHeader from './CalendarHeader';
-import Clock from './Clock';
 import {
   weeks,
   isDateFromPrevMonth,
@@ -101,19 +100,17 @@ class Calendar extends React.Component {
     } = this;
     return (
       <CalendarHeader
-        {...{
-          nextMonth,
-          nextYear,
-          prevMonth,
-          prevYear,
-          nextDecade,
-          prevDecade,
-          displayesMonth,
-          setValue,
-          locale,
-          calendarType,
-          changeCalendarType,
-        }}
+        nextMonth={nextMonth}
+        nextYear={nextYear}
+        prevMonth={prevMonth}
+        prevYear={prevYear}
+        nextDecade={nextDecade}
+        prevDecade={prevDecade}
+        displayesMonth={displayesMonth}
+        setValue={setValue}
+        locale={locale}
+        calendarType={calendarType}
+        changeCalendarType={changeCalendarType}
       />
     );
   }
@@ -232,18 +229,19 @@ class Calendar extends React.Component {
     const { min, max, value, select, inputName } = this.props;
     let disabled = false;
     if (min && max) {
-      disabled = day.isBefore(min, 'day') || day.isAfter(max, 'day');
+      disabled = day.isBefore(min) || day.isAfter(max);
     } else if (min) {
-      disabled = day.isBefore(min, 'day');
+      disabled = day.isBefore(min);
     } else if (max) {
-      disabled = day.isAfter(max, 'day');
+      disabled = day.isAfter(max);
     }
+
     const displayesMonth = this.state.displayesMonth.clone();
     const otherMonth =
       isDateFromNextMonth(day, displayesMonth) ||
       isDateFromPrevMonth(day, displayesMonth);
-    const selected = day.isSame(value, 'day');
-    const current = !value && day.isSame(moment(), 'day');
+    const selected = day.isSame(value);
+    const current = !value && day.isSame(moment());
     const props = {
       day,
       otherMonth,

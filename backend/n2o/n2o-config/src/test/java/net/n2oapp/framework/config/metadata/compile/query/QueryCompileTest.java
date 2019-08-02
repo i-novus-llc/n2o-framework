@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.query;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -158,5 +159,30 @@ public class QueryCompileTest extends SourceCompileTestBase {
         assertThat(query.getFieldsMap().get("id").getSelectBody(), is("id"));
         assertThat(query.getFieldsMap().get("id").getSortingBody(), is("id :idDirection"));
         assertThat(query.getFieldsMap().get("id").getFilterList()[0].getText(), is("id :eq :id"));
+    }
+
+    @Test
+    public void testSeparatorsDefaultValue() {
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testSeparatorsDefaultValue" +
+                ".query.xml")
+                .get(new QueryContext("testSeparatorsDefaultValue"));
+        N2oRestDataProvider list = (N2oRestDataProvider) query.getLists()[0].getInvocation();
+        N2oRestDataProvider unique = (N2oRestDataProvider) query.getUniques()[0].getInvocation();
+        N2oRestDataProvider count = (N2oRestDataProvider) query.getCounts()[0].getInvocation();
+
+        assertThat(list.getFiltersSeparator(), is("&"));
+        assertThat(list.getJoinSeparator(), is("&"));
+        assertThat(list.getSelectSeparator(), is("&"));
+        assertThat(list.getSortingSeparator(), is("&"));
+
+        assertThat(unique.getFiltersSeparator(), is("separator"));
+        assertThat(unique.getJoinSeparator(), is("separator"));
+        assertThat(unique.getSelectSeparator(), is("separator"));
+        assertThat(unique.getSortingSeparator(), is("separator"));
+
+        assertThat(count.getFiltersSeparator(), is("&"));
+        assertThat(count.getJoinSeparator(), is("&"));
+        assertThat(count.getSelectSeparator(), is("&"));
+        assertThat(count.getSortingSeparator(), is("&"));
     }
 }

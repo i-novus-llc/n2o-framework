@@ -31,7 +31,8 @@ describe('Тесты ModalPage', function() {
       pages: {},
       loading: false,
     });
-
-    expect(wrapper.find('.n2o-spinner-container').exists()).toBeFalsy();
+    setTimeout(() => {
+      expect(wrapper.find('.n2o-spinner-container').exists()).toBeFalsy();
+    }, 500);
   });
 });

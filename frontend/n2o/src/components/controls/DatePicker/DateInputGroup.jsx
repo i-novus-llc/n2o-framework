@@ -58,6 +58,7 @@ class DateInputGroup extends React.Component {
               autoFocus={autoFocus}
               openOnFocus={openOnFocus}
               inputClassName={inputClassName}
+              outputFormat={this.props.outputFormat}
               {...dateInputProps}
             />
           );
