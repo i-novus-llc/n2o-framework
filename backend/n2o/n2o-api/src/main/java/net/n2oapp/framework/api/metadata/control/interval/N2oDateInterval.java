@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.control.properties.PopupPlacement;
  */
 @Getter
 @Setter
-public class N2oDateInterval extends N2oBaseIntervalField {
+public class N2oDateInterval extends N2oSimpleIntervalField {
 
     @Deprecated
     private PopupPlacement popupPlacement;

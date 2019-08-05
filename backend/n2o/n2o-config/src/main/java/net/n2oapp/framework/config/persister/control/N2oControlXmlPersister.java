@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.control.interval.N2oBaseIntervalField;
+import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -174,12 +174,12 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
                 setAttribute(value, "field-id", field);
                 value.setText(val);
             });
-        } else if (listField instanceof N2oBaseIntervalField) {
-            if (((N2oBaseIntervalField) listField).getBegin() == null && ((N2oBaseIntervalField) listField).getEnd() == null)
+        } else if (listField instanceof N2oSimpleIntervalField) {
+            if (((N2oSimpleIntervalField) listField).getBegin() == null && ((N2oSimpleIntervalField) listField).getEnd() == null)
                 return;
             Element defaultModel = setEmptyElement(element, "default-model");
-            setAttribute(defaultModel, "begin", ((N2oBaseIntervalField) listField).getBegin());
-            setAttribute(defaultModel, "end", ((N2oBaseIntervalField) listField).getEnd());
+            setAttribute(defaultModel, "begin", ((N2oSimpleIntervalField) listField).getBegin());
+            setAttribute(defaultModel, "end", ((N2oSimpleIntervalField) listField).getEnd());
         }
     }
 

@@ -327,14 +327,16 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    protected void compileDefaultValues(Object defValue, String controlId, S source, CompileProcessor p) {
+    protected void compileDefaultValues(String defaultValue, String domain, String controlId, S source,
+                                        CompileProcessor p) {
         UploadScope uploadScope = p.getScope(UploadScope.class);
         if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
             return;
-        ModelsScope defaultValues = p.getScope(ModelsScope.class);
-        if (defaultValues != null && defaultValues.hasModels()) {
-            if (source.getDefaultValue() != null) {
-                defValue = p.resolve(source.getDefaultValue(), source.getDomain());
+        ModelsScope modelScopeDefaultValues = p.getScope(ModelsScope.class);
+        if (modelScopeDefaultValues != null && modelScopeDefaultValues.hasModels()) {
+            Object defValue = null;
+            if (defaultValue != null) {
+                defValue = p.resolve(defaultValue, domain);
             } else if (defValue == null) {
                 defValue = compileDefValues(source, p);
             }
@@ -343,17 +345,18 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     defValue = ScriptProcessor.resolveExpression((String) defValue);
                 }
                 if (StringUtils.isJs(defValue)) {
-                    ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
-                    defaultValue.setValue(defValue);
-                    defaultValues.add(controlId, defaultValue);
+                    ModelLink linkDefaultValue = new ModelLink(modelScopeDefaultValues.getModel(),
+                            modelScopeDefaultValues.getWidgetId());
+                    linkDefaultValue.setValue(defValue);
+                    modelScopeDefaultValues.add(controlId, linkDefaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(controlId, p);
-                    ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(),
+                    ModelLink modelLink = new ModelLink(modelScopeDefaultValues.getModel(), modelScopeDefaultValues.getWidgetId(),
                             controlId);
                     if (defValue instanceof DefaultValues) {
-                        DefaultValues defaultValue = (DefaultValues) defValue;
-                        Map<String, Object> values = defaultValue.getValues();
-                        if (defaultValue.getValues() != null) {
+                        DefaultValues defaultValues = (DefaultValues) defValue;
+                        Map<String, Object> values = defaultValues.getValues();
+                        if (defaultValues.getValues() != null) {
                             for (String param : values.keySet()) {
                                 if (values.get(param) instanceof String) {
                                     Object value = ScriptProcessor.resolveExpression((String) values.get(param));
@@ -365,7 +368,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     }
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
-                    defaultValues.add(controlId, modelLink);
+                    modelScopeDefaultValues.add(controlId, modelLink);
                 }
             }
         }

@@ -32,7 +32,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             throw new N2oException("control src is required");
         control.setId(source.getId());
         control.setClassName(p.resolveJS(source.getCssClass()));
-        compileDefaultValues(null, control.getId(), source, p);
+        compileDefaultValues(source.getDefaultValue(), source.getDomain(), control.getId(), source, p);
     }
 
     @Override

@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BaseIntervalField<C extends Control> extends Field {
-    @JsonProperty("beginControl")
+public class IntervalField<C extends Control> extends Field {
+    @JsonProperty
     protected C beginControl;
 
-    @JsonProperty("endControl")
+    @JsonProperty
     protected C endControl;
 
 }

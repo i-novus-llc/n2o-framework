@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.BaseIntervalField;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
+import net.n2oapp.framework.api.metadata.meta.control.IntervalField;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -36,9 +36,9 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
                 ".xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(new WidgetContext("testIntervalField"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        BaseIntervalField baseIntervalField = (BaseIntervalField) field;
-        InputText beginControl = (InputText) baseIntervalField.getBeginControl();
-        InputText endControl = (InputText) baseIntervalField.getEndControl();
+        IntervalField intervalField = (IntervalField) field;
+        InputText beginControl = (InputText) intervalField.getBeginControl();
+        InputText endControl = (InputText) intervalField.getEndControl();
         assertThat(beginControl.getId(), is("begin"));
         assertThat(beginControl.getMin(), is(0));
         assertThat(endControl.getId(), is("end"));

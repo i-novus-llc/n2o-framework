@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.control.N2oActionButton;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.control.interval.N2oBaseIntervalField;
+import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
@@ -230,9 +230,9 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
                 values.put(fieldId, el.getText());
             });
             ((N2oListField) field).setDefValue(values);
-        } else if (field instanceof N2oBaseIntervalField) {
-            ((N2oBaseIntervalField) field).setBegin(getAttributeString(defaultModel, "begin"));
-            ((N2oBaseIntervalField) field).setEnd(getAttributeString(defaultModel, "end"));
+        } else if (field instanceof N2oSimpleIntervalField) {
+            ((N2oSimpleIntervalField) field).setBegin(getAttributeString(defaultModel, "begin"));
+            ((N2oSimpleIntervalField) field).setEnd(getAttributeString(defaultModel, "end"));
         }
     }
 

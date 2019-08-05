@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.local.view.widget.control;
 
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
-import net.n2oapp.framework.api.metadata.control.interval.N2oBaseIntervalField;
+import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.control.plain.N2oPlainField;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class ControlModelBinder {
 
     private void findListControl(List<N2oField> res, String controlId) {
         for (N2oField field : controls) {
-            if (field.getId().equals(controlId) && (field instanceof N2oListField || field instanceof N2oBaseIntervalField))
+            if (field.getId().equals(controlId) && (field instanceof N2oListField || field instanceof N2oSimpleIntervalField))
                 res.add(field);
         }
     }
