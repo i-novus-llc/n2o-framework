@@ -1,20 +1,20 @@
 {
   "presets": [
-    "stage-1",
-    "react"
+    "@babel/preset-env",
+    "@babel/preset-react"
   ],
   "plugins": [
-    "transform-runtime"
+    "@babel/plugin-transform-runtime"
   ],
   "env": {
     "commonjs": {
       "presets": [
-        "es2015"
+        "@babel/preset-es2015"
       ]
     },
     "es": {
       "presets": [
-        ["es2015", {
+        ["@babel/preset-es2015", {
           "modules": false
         }]
       ]
@@ -22,7 +22,7 @@
     "test": {
       "plugins": [
         [
-          "transform-es2015-modules-commonjs"
+          "@babel/plugin-transform-modules-commonjs"
         ]
       ]
     }
