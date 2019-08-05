@@ -32,6 +32,8 @@ public class DateIntervalCompiler  extends StandardFieldCompiler<DateInterval, N
         dateInterval.setOutputFormat(domain.getJsFormat());
         dateInterval.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.date_interval.format"), String.class)));
         dateInterval.setTimeFormat(source.getTimeFormat());
+        dateInterval.setMin(source.getMin());
+        dateInterval.setMax(source.getMax());
         dateInterval.setUtc(p.cast(source.getUtc(), p.resolve(property("n2o.api.control.date_interval.utc"), Boolean.class)));
         return compileStandardField(dateInterval, source, context, p);
     }

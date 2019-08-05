@@ -12,6 +12,10 @@ public class DateInterval extends Control {
     @JsonProperty
     private String timeFormat;
     @JsonProperty
+    private String max;
+    @JsonProperty
+    private String min;
+    @JsonProperty
     private Boolean utc;
     @JsonProperty
     private String outputFormat;
