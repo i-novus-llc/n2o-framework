@@ -16,6 +16,8 @@ public class DateIntervalIOv2 extends BaseIntervalFieldIOv2<N2oDateInterval> {
         p.attribute(e, "time-format", m::getTimeFormat, m::setTimeFormat);
         p.attribute(e, "begin-default-time", m::getBeginDefaultTime, m::setBeginDefaultTime);
         p.attribute(e, "end-default-time", m::getEndDefaultTime, m::setEndDefaultTime);
+        p.attribute(e, "max", m::getMax, m::setMax);
+        p.attribute(e, "min", m::getMin, m::setMin);
         p.attributeBoolean(e, "utc", m::getUtc, m::setUtc);
     }
 
