@@ -23,10 +23,6 @@ const setup = (propOverrides, storeOverrides) => {
   );
 };
 describe('Тесты ModalPage', function() {
-  it('CoverSpinner должен рендериться, если metadata пуста', () => {
-    const wrapper = setup();
-    expect(wrapper.find('.spinner-container').exists()).toBeTruthy();
-  });
   it('CoverSpinner не должен рендериться, если metadata не пуста', () => {
     const wrapper = setup({
       pageUrl: '/modalPage',
@@ -35,7 +31,8 @@ describe('Тесты ModalPage', function() {
       pages: {},
       loading: false,
     });
-
-    expect(wrapper.find('.spinner-container').exists()).toBeFalsy();
+    setTimeout(() => {
+      expect(wrapper.find('.n2o-spinner-container').exists()).toBeFalsy();
+    }, 500);
   });
 });

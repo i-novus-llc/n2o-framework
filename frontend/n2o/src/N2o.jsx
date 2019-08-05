@@ -4,8 +4,6 @@ import 'whatwg-fetch';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
 import { pick, keys } from 'lodash';
 import { compose, withContext, defaultProps, withProps } from 'recompose';
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -23,7 +21,6 @@ import apiProvider from './core/api';
 import SecurityProvider from './core/auth/SecurityProvider';
 
 import Router from './components/core/Router';
-import Root from './components/core/Root';
 
 import ruLocaleData from 'react-intl/locale-data/ru';
 import Application from './components/core/Application';
@@ -62,7 +59,7 @@ class N2o extends Component {
         <SecurityProvider {...security}>
           <Application
             realTimeConfig={realTimeConfig}
-            render={(locale, messages) => (
+            render={({ locale, messages }) => (
               <IntlProvider locale={locale} messages={messages}>
                 <FactoryProvider
                   config={config}

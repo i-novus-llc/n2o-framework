@@ -41,7 +41,7 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
         p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
-        p.childrenToStringArray(e, null, "value", pf::getValues, pf::setValues);
+        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
     private void option(Element e, Map<String, String> map, IOProcessor p) {

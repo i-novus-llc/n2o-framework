@@ -1,7 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { toNumber, toString, isNil, isNaN, isEqual } from 'lodash';
+import {
+  toNumber,
+  toString,
+  isNil,
+  isNaN,
+  isEqual,
+  isEmpty,
+  split,
+  includes,
+} from 'lodash';
 
 import Input from '../Input/Input';
 
@@ -23,6 +32,7 @@ import {
  * @reactProps {string} name - имя поля
  * @reactProps {number} showButtons - отображать кнопки для увеличения/уменьшения значения / не отображать
  * @reactProps {number} onChange - выполняется при изменении значения поля
+ * @reactProps {number} precision - количество знаков после запятой
  * @example
  * <InputNumber onChange={this.onChange}
  *             value={1}
@@ -33,24 +43,26 @@ class InputNumber extends React.Component {
   constructor(props) {
     super(props);
     const value = props.value;
-    this.precision = getPrecision(props.step);
+    this.stepPrecition = getPrecision(props.step);
     this.pasted = false;
     this.state = {
-      value:
+      value: this.resolveValue(
         !isNil(value) && !isNaN(toNumber(value)) && value !== ''
-          ? toNumber(value).toFixed(this.precision)
-          : null,
+          ? toNumber(value)
+          : null
+      ),
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
     this.onBlur = this.onBlur.bind(this);
+    this.resolveValue = this.resolveValue.bind(this);
   }
 
   componentDidUpdate(prevProps) {
     const { value } = this.props;
     if (prevProps.value !== value && !isNil(value)) {
-      this.setState({ value });
+      this.setState({ value: this.resolveValue(value) });
     } else if (
       !isEqual(prevProps.value, value) &&
       (value === '' || isNil(value))
@@ -65,11 +77,24 @@ class InputNumber extends React.Component {
    */
   onPaste(e) {
     this.pasted = true;
-    this.setState({ value: this.inputElement.value });
+    this.setState({ value: this.resolveValue(this.inputElement.value) });
+  }
+
+  resolveValue(value) {
+    const { precision } = this.props;
+    if (!isNil(precision) && includes(value, '.')) {
+      const valueArr = split(value, '.');
+
+      return precision === 0
+        ? valueArr[0]
+        : `${valueArr[0]}.${toString(valueArr[1]).substring(0, precision)}`;
+    }
+
+    return value;
   }
 
   onChange(value) {
-    const nextValue = value === '' ? null : toNumber(value);
+    const nextValue = this.resolveValue(value === '' ? null : toNumber(value));
     const { max, min } = this.props;
     if (isNil(nextValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
@@ -78,7 +103,9 @@ class InputNumber extends React.Component {
       return;
     }
     if (matchesWhiteList(nextValue) || this.pasted) {
-      this.setState({ value }, () => this.props.onChange(nextValue));
+      this.setState({ value: this.resolveValue(value) }, () =>
+        this.props.onChange(this.resolveValue(nextValue))
+      );
     }
   }
 
@@ -89,12 +116,12 @@ class InputNumber extends React.Component {
   buttonHandler(type) {
     const { min, max, step } = this.props;
     const { value } = this.state;
-    const delta = toNumber(formatToFloat(step, this.precision));
+    const delta = toNumber(formatToFloat(step, this.stepPrecition));
     const val =
       !isNil(value) && value !== ''
-        ? toNumber(value).toFixed(this.precision)
+        ? toNumber(value).toFixed(this.stepPrecition)
         : null;
-    const currentValue = toNumber(formatToFloat(val, this.precision));
+    const currentValue = toNumber(formatToFloat(val, this.stepPrecition));
     let newValue = currentValue;
     if (type === 'up') {
       newValue = currentValue + delta;
@@ -102,22 +129,22 @@ class InputNumber extends React.Component {
       newValue = currentValue - delta;
     }
     if (isValid(newValue, min, max)) {
-      this.setState({ value: newValue.toFixed(this.precision) }, () =>
+      this.setState({ value: newValue.toFixed(this.stepPrecition) }, () =>
         this.props.onChange(newValue)
       );
     }
   }
 
-  onBlur(e) {
+  onBlur() {
     const { max, min } = this.props;
-    const value = formatToFloat(this.state.value, this.precision);
+    const value = this.resolveValue(formatToFloat(this.state.value));
     this.pasted = false;
     if (!isNil(value) && isValid(value, min, max)) {
       this.setState({ value });
     } else {
       this.setState({ value: null });
     }
-    this.props.onBlur();
+    this.props.onBlur(value);
   }
 
   /**
@@ -227,6 +254,7 @@ InputNumber.propTypes = {
   onChange: PropTypes.func,
   className: PropTypes.string,
   autoFocus: PropTypes.bool,
+  precision: PropTypes.number,
 };
 
 export default InputNumber;

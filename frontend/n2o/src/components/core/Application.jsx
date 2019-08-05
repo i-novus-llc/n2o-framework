@@ -15,23 +15,19 @@ import Spinner from '../snippets/Spinner/Spinner';
 
 numeral.locale('ru');
 
-function Application({ ready, locale, loading, messages, render }) {
+function Application({ ready, loading, render, ...config }) {
   return (
     <Spinner type="cover" loading={loading}>
-      {ready && render(locale, messages)}
+      {ready && render(config)}
     </Spinner>
   );
 }
 
 Application.propTypes = {
   ready: PropTypes.bool,
-  locale: PropTypes.string,
-  messages: PropTypes.object,
-  menu: PropTypes.object,
   loading: PropTypes.bool,
   realTimeConfig: PropTypes.bool,
   render: PropTypes.func,
-  requestConfig: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -50,15 +46,9 @@ export default compose(
   ),
   withContext(
     {
-      getLocale: PropTypes.func,
-      getMessages: PropTypes.func,
-      getMenu: PropTypes.object,
       getFromConfig: PropTypes.func,
     },
     props => ({
-      getLocale: () => props.locale,
-      getMessages: () => props.messages,
-      getMenu: props.menu,
       getFromConfig: key => get(props, key),
     })
   ),

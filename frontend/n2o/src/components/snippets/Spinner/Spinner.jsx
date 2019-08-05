@@ -54,21 +54,30 @@ class BaseSpinner extends Component {
   }
 
   renderCoverSpiner() {
-    const { children, className, text, loading, type, ...rest } = this.props;
+    const {
+      children,
+      className,
+      text,
+      loading,
+      transparent,
+      color,
+      ...rest
+    } = this.props;
     const { endTimeout } = this.state;
+
     return (
       <div
         className={cx('n2o-spinner-wrapper', {
           [className]: className,
         })}
       >
-        {endTimeout && loading && (
+        {!endTimeout && loading && (
           <Fragment>
             <div className="n2o-spinner-container ">
-              <Comp color="primary" {...rest} />
+              <Comp color={color} {...rest} />
               <div className="loading_text">{text}</div>
             </div>
-            <div className="spinner-background" />
+            {!transparent ? <div className="spinner-background" /> : null}
           </Fragment>
         )}
         {children}
@@ -94,6 +103,8 @@ BaseSpinner.propTypes = {
   type: PropTypes.oneOf(values(TYPE)),
   delay: PropTypes.number,
   text: PropTypes.string,
+  transparent: PropTypes.bool,
+  color: PropTypes.string,
 };
 
 BaseSpinner.defaultProps = {
@@ -101,6 +112,8 @@ BaseSpinner.defaultProps = {
   type: 'inline',
   delay: 400,
   text: '',
+  transparent: false,
+  color: 'primary',
 };
 
 export default BaseSpinner;

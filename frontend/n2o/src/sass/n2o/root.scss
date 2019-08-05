@@ -17,6 +17,16 @@
 .application-body {
   flex-grow: 1;
   padding-top: 1rem;
+
+  &--aside {
+    height: calc(100vh - #{$footer-height});
+
+    overflow: auto;
+  }
+}
+
+.n2o-footer {
+  height: $footer-height;
 }
 
 .navbar-brand {
@@ -72,7 +82,6 @@
   white-space: pre-line;
 }
 
-.btn-group:empty {
-  margin: 0 !important;
-  padding: 0 !important;
+.btn-group > *:last-child {
+  margin-right: 0.5rem;
 }

@@ -36,6 +36,7 @@ import {
 } from '../actions/widgets';
 import { setModel } from '../actions/models';
 import {
+  makeSelectedIdSelector,
   makeWidgetByIdSelector,
   makeWidgetDataProviderSelector,
   makeWidgetPageIdSelector,
@@ -64,12 +65,19 @@ function* getData() {
     lastQuery[id] = { path: newPath, query: { ...newQuery } };
     return res;
   };
+  let prevSelectedId = null;
+
   while (true) {
     const {
       payload: { widgetId, options },
     } = yield take(DATA_REQUEST);
+    const selectedId = yield select(makeSelectedIdSelector(widgetId));
 
-    yield fork(handleFetch, widgetId, options, isQueryEqual);
+    yield fork(handleFetch, widgetId, options, isQueryEqual, prevSelectedId);
+
+    if (prevSelectedId !== selectedId) {
+      prevSelectedId = selectedId;
+    }
   }
 }
 
@@ -180,16 +188,24 @@ export function* setWidgetDataSuccess(
   yield put(dataSuccessWidget(widgetId, data));
 }
 
-export function getWithoutSelectedId(options, location, selectedId) {
+export function getWithoutSelectedId(
+  options,
+  location,
+  selectedId,
+  prevSelectedId
+) {
   if (!options) return null;
-  else if (!location.pathname.includes(selectedId)) {
+  else if (
+    !location.pathname.includes(selectedId) ||
+    prevSelectedId === selectedId
+  ) {
     return true;
   }
 
   return options.withoutSelectedId;
 }
 
-export function* handleFetch(widgetId, options, isQueryEqual) {
+export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
   try {
     const {
       state,
@@ -210,7 +226,8 @@ export function* handleFetch(widgetId, options, isQueryEqual) {
       const withoutSelectedId = getWithoutSelectedId(
         options,
         location,
-        widgetState.selectedId
+        widgetState.selectedId,
+        prevSelectedId
       );
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
         yield put(setTableSelectedId(widgetId, null));

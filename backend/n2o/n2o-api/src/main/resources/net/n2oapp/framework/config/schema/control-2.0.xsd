@@ -31,6 +31,7 @@
     <xs:element name="html" type="controlHtml"/>
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
+    <xs:element name="rating" type="controlRating"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -59,6 +60,7 @@
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
+            <xs:element name="rating" type="controlRating" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -279,6 +281,16 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="format" type="xs:string"/>
                 <xs:anyAttribute namespace="##other"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlRating">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="max" type="xs:integer" default="5"/>
+                <xs:attribute name="half" type="xs:boolean" default="false"/>
+                <xs:attribute name="show-tooltip" type="xs:boolean"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

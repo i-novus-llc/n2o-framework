@@ -92,7 +92,7 @@ const config = {
               "testProperty": "testProperty"
             }
           });
-        }, 1000);
+        }, 0);
       });
     }
   }),

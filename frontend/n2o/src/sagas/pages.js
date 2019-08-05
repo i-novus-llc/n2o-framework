@@ -1,4 +1,3 @@
-import { delay } from 'redux-saga';
 import {
   all,
   call,
@@ -11,6 +10,7 @@ import {
   fork,
   actionChannel,
   cancelled,
+  delay,
 } from 'redux-saga/effects';
 import { matchPath } from 'react-router';
 import { batchActions } from 'redux-batched-actions';
@@ -167,6 +167,7 @@ function* processUrl() {
 
 /**
  * сага, фетчит метадату
+ * @param apiProvider
  * @param action
  */
 function* getMetadata(apiProvider, action) {
