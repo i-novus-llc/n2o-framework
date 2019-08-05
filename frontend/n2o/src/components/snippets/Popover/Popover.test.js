@@ -1,6 +1,9 @@
 import React from 'react';
 import { N2OPopover } from './Popover';
 import sinon from 'sinon';
+import Actions from '../../actions/Actions';
+import mockStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
 
 const props = {
   help: {
@@ -13,6 +16,33 @@ const props = {
   },
 };
 
+const setupAction = store => {
+  return mount(
+    <Provider store={mockStore()(store)}>
+      <Actions
+        actions={{
+          dummy: {
+            src: 'dummyImpl',
+          },
+        }}
+        toolbar={[
+          {
+            buttons: [
+              {
+                id: 'test',
+                title: 'Кнопка',
+                actionId: 'dummy',
+                popoverConfirm: true,
+              },
+            ],
+          },
+        ]}
+        containerKey="test"
+      />
+    </Provider>
+  );
+};
+
 const setupHelp = propsOverride => {
   return shallow(<N2OPopover {...props.help} {...propsOverride} />);
 };
@@ -20,6 +50,16 @@ const setupHelp = propsOverride => {
 const setupComponent = propsOverride => {
   return shallow(<N2OPopover {...props.component} {...propsOverride} />);
 };
+
+if (global.document)
+  document.createRange = () => ({
+    setStart: () => {},
+    setEnd: () => {},
+    commonAncestorContainer: {
+      nodeName: 'BODY',
+      ownerDocument: document,
+    },
+  });
 
 describe('Тесты Popover', () => {
   it('Отрисовывается, если переданы id и help', () => {
@@ -50,5 +90,14 @@ describe('Тесты Popover', () => {
       .last()
       .simulate('click');
     expect(onClick.called).toEqual(true);
+  });
+  it('проверка popoverConfirm', () => {
+    const onClick = sinon.spy();
+    const div = document.createElement('div');
+    div.setAttribute('id', 'test');
+    document.body.appendChild(div);
+    const wrapper = setupAction({ onClick: onClick });
+    wrapper.find('.toggle-popover').simulate('click');
+    expect(wrapper.find('Popover').props().isOpen).toEqual(true);
   });
 });

@@ -167,6 +167,7 @@ class Actions extends React.Component {
         )}
         {button.popoverConfirm && (
           <Popover
+            {...button}
             isOpen={this.state.confirmVisibleId === button.id}
             target={button.id}
             popConfirm={true}

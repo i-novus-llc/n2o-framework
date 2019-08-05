@@ -5,53 +5,12 @@ import Button from 'reactstrap/es/Button';
 import ButtonGroup from 'reactstrap/es/ButtonGroup';
 import { text, boolean, withKnobs } from '@storybook/addon-knobs/dist/react';
 import Factory from '../../../core/factory/Factory';
-import { SNIPPETS, WIDGETS } from '../../../core/factory/factoryLevels';
-import fetchMock from 'fetch-mock';
-import { page } from 'N2oStorybook/fetchMock';
+import { SNIPPETS } from '../../../core/factory/factoryLevels';
+import Actions from '../../actions/Actions';
 
 const stories = storiesOf('UI Компоненты/Popover', module);
 
 const props = {
-  Page_Form: {
-    src: 'FormWidget',
-    toolbar: {
-      bottomLeft: [
-        {
-          buttons: [
-            {
-              id: 'update',
-              title: 'Открыть confirm',
-              actionId: 'showModal',
-              popoverConfirm: true,
-            },
-          ],
-        },
-      ],
-    },
-    actions: {
-      showModal: {
-        src: 'perform',
-        options: {
-          type: 'n2o/modals/INSERT',
-          payload: {
-            name: 'test',
-            pageUrl: '/Uid',
-            pathMapping: {},
-            modelLink: "models.resolve['Uid']",
-            title: "`'Заголовок: ' + modalTitle`",
-            size: 'sm',
-            visible: true,
-            closeButton: true,
-            pageId: 'Uid',
-          },
-        },
-      },
-    },
-    form: {
-      fetchOnInit: false,
-      fieldsets: [],
-    },
-  },
   component: {
     body: 'Sed posuere consectetur est at lobortis. Aenean eu leo quam.',
     header: 'Popover Title',
@@ -68,9 +27,9 @@ const props = {
     className: 'row-md-2 mr-md-5',
   },
   popConfirm: {
-    header: 'Are you sure?',
-    okText: 'Yes',
-    cancelText: 'No',
+    header: 'Вы уверены?',
+    okText: 'Да',
+    cancelText: 'Нет',
     className: 'row-md-2 mr-md-5',
     popConfirm: true,
   },
@@ -221,8 +180,33 @@ stories
   ))
 
   .add('popConfirm из Actions', () => {
-    fetchMock.restore().get('begin:n2o/page', page);
-    return <Factory level={WIDGETS} {...props.Page_Form} id="Page_Form" />;
+    return (
+      <div className="col-md-12 d-flex justify-content-center">
+        <Actions
+          actions={{
+            dummy: {
+              src: 'dummyImpl',
+            },
+          }}
+          toolbar={[
+            {
+              buttons: [
+                {
+                  id: 'test',
+                  title: 'Кнопка с confirm',
+                  actionId: 'dummy',
+                  popoverConfirm: true,
+                  header: 'Вы уверены?',
+                  okText: 'Да',
+                  cancelText: 'Нет',
+                },
+              ],
+            },
+          ]}
+          containerKey="test"
+        />
+      </div>
+    );
   })
 
   .add('Создание через Factory', () => {
