@@ -8,8 +8,8 @@ import DateTimeControl from './DateTimeControl';
  * Компонент для выбора временного интервала. Состоит 2 {@link DatePicker}
  * @reactProps {object} defaultTime
  * @reactProps {array} value - массив, объекты которого задают дефолтные значения, имя ('beginDate' или 'endDate') и дефолтное время каждому пикеру.
- * @reactProps {string|moment|Date} min - самая ранняя доступная дата
- * @reactProps {string|moment|Date} max - самая поздняя дотсупная дата
+ * @reactProps {string|moment|Date} min - самая ранняя доступная даустанавливает времята
+ * @reactProps {string|moment|Date} max - самая поздняя доступная дата
  * @reactProps {function} onChange - вызывается при изменении
  * @reactProps {string} dateFormat - формат даты. Пример: "DD-MM_YYYY"
  * @reactProps {string} timeFormat - формат времени. Пример: "HH:mm"

@@ -40,7 +40,7 @@ export class EditableCell extends React.Component {
       });
     } else if (
       !isEqual(prevProps.prevResolveModel, this.props.prevResolveModel) &&
-      this.state.model.id === this.props.prevResolveModel.id
+      this.props.prevResolveModel.id === this.state.model.id
     ) {
       this.setState({
         prevModel: this.state.model,
@@ -68,18 +68,11 @@ export class EditableCell extends React.Component {
   }
 
   toggleEdit() {
-    const {
-      model,
-      prevResolveModel,
-      onResolve,
-      onSetSelectedId,
-      widgetId,
-    } = this.props;
+    const { model, prevResolveModel, onSetSelectedId } = this.props;
     let newState = {
       editing: !this.state.editing,
     };
     if (!isEqual(get(prevResolveModel, 'id'), get(model, 'id'))) {
-      onResolve(widgetId, model);
       onSetSelectedId();
     }
     if (!newState.editing && !isEqual(this.state.prevModel, this.state.model)) {
@@ -95,11 +88,12 @@ export class EditableCell extends React.Component {
   }
 
   callAction(model) {
-    const { callInvoke, action } = this.props;
+    const { callInvoke, action, onResolve, widgetId } = this.props;
     const dataProvider = get(action, 'options.payload.dataProvider');
     const meta = get(action, 'options.meta');
 
     callInvoke(model, dataProvider, meta);
+    onResolve(widgetId, model);
   }
 
   handleKeyDown() {
