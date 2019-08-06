@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.IntervalField;
@@ -39,9 +40,13 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
         IntervalField intervalField = (IntervalField) field;
         InputText beginControl = (InputText) intervalField.getBeginControl();
         InputText endControl = (InputText) intervalField.getEndControl();
-        assertThat(beginControl.getId(), is("begin"));
+        assertThat(beginControl.getId(), is("beginTest"));
         assertThat(beginControl.getMin(), is(0));
-        assertThat(endControl.getId(), is("end"));
+
+        assertThat(endControl.getId(), is("endTest"));
         assertThat(endControl.getMax(), is(10));
+
+        assertThat(field.getServerValidations().get(0).getSeverity(), is(SeverityType.danger));
+        assertThat(field.getServerValidations().get(0).getFieldId(), is("range"));
     }
 }
