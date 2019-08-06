@@ -6,7 +6,6 @@ import ButtonGroup from 'reactstrap/es/ButtonGroup';
 import { text, boolean, withKnobs } from '@storybook/addon-knobs/dist/react';
 import Factory from '../../../core/factory/Factory';
 import { SNIPPETS } from '../../../core/factory/factoryLevels';
-import Actions from '../../actions/Actions';
 
 const stories = storiesOf('UI Компоненты/Popover', module);
 
@@ -26,12 +25,12 @@ const props = {
     trigger: 'hover',
     className: 'row-md-2 mr-md-5',
   },
-  popConfirm: {
+  popoverConfirm: {
     header: 'Вы уверены?',
     okText: 'Да',
     cancelText: 'Нет',
     className: 'row-md-2 mr-md-5',
-    popConfirm: true,
+    popoverConfirm: true,
   },
 };
 
@@ -130,84 +129,54 @@ stories
     </Fragment>
   ))
 
-  .add('popConfirm', () => (
+  .add('popoverConfirm', () => (
     <Fragment>
       <ButtonGroup className="col-md-12 justify-content-center">
-        <Popover {...props.popConfirm} placement="top-start">
+        <Popover {...props.popoverConfirm} placement="top-start">
           <Button className="mb-1">Top-start</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="top">
+        <Popover {...props.popoverConfirm} placement="top">
           <Button className="mb-1">Top</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="top-end">
+        <Popover {...props.popoverConfirm} placement="top-end">
           <Button className="mb-1">Top-end</Button>
         </Popover>
       </ButtonGroup>
       <ButtonGroup className="btn-group-vertical col-md-6 align-items-center">
-        <Popover {...props.popConfirm} placement="left-start">
+        <Popover {...props.popoverConfirm} placement="left-start">
           <Button className="mb-1">Left-start</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="left">
+        <Popover {...props.popoverConfirm} placement="left">
           <Button className="mb-1">Left</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="left-end">
+        <Popover {...props.popoverConfirm} placement="left-end">
           <Button className="mb-1">Left-end</Button>
         </Popover>
       </ButtonGroup>
       <ButtonGroup className="btn-group-vertical col-md-6 align-items-md-center">
-        <Popover {...props.popConfirm} placement="right-start">
+        <Popover {...props.popoverConfirm} placement="right-start">
           <Button className="mb-1">Right-start</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="right">
+        <Popover {...props.popoverConfirm} placement="right">
           <Button className="mb-1">Right</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="right-end">
+        <Popover {...props.popoverConfirm} placement="right-end">
           <Button className="mb-1">Right-end</Button>
         </Popover>
       </ButtonGroup>
       <ButtonGroup className="col-md-12 justify-content-center">
-        <Popover {...props.popConfirm} placement="bottom-start">
+        <Popover {...props.popoverConfirm} placement="bottom-start">
           <Button className="mb-1">Bottom-start</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="bottom">
+        <Popover {...props.popoverConfirm} placement="bottom">
           <Button className="mb-1">Bottom</Button>
         </Popover>
-        <Popover {...props.popConfirm} placement="bottom-end">
+        <Popover {...props.popoverConfirm} placement="bottom-end">
           <Button className="mb-1">Bottom-end</Button>
         </Popover>
       </ButtonGroup>
     </Fragment>
   ))
-
-  .add('popConfirm из Actions', () => {
-    return (
-      <div className="col-md-12 d-flex justify-content-center">
-        <Actions
-          actions={{
-            dummy: {
-              src: 'dummyImpl',
-            },
-          }}
-          toolbar={[
-            {
-              buttons: [
-                {
-                  id: 'test',
-                  title: 'Кнопка с confirm',
-                  actionId: 'dummy',
-                  popoverConfirm: true,
-                  header: 'Вы уверены?',
-                  okText: 'Да',
-                  cancelText: 'Нет',
-                },
-              ],
-            },
-          ]}
-          containerKey="test"
-        />
-      </div>
-    );
-  })
 
   .add('Создание через Factory', () => {
     const dt = {
@@ -216,7 +185,7 @@ stories
       header: text('header', 'Header'),
       body: text('body', 'Body'),
       target: text('target', 'targetId'),
-      popConfirm: boolean('popConfirm', false),
+      popoverConfirm: boolean('popoverConfirm', false),
       okText: text('okText', 'Ok'),
       cancelText: text('cancelText', 'Cancel'),
     };

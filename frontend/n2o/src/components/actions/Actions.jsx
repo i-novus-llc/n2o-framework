@@ -141,6 +141,11 @@ class Actions extends React.Component {
    * @returns {*}
    */
   renderButton(Component, button, parentId) {
+    const isConfirmVisible = this.state.confirmVisibleId === button.id;
+    const onConfirm = () => {
+      this.onClickHelper(button);
+      this.closeConfirm();
+    };
     const btn = (
       <React.Fragment>
         <ButtonContainer
@@ -153,29 +158,22 @@ class Actions extends React.Component {
           containerKey={this.props.containerKey}
           parentId={parentId}
         />
-        {!button.popoverConfirm && (
-          <ModalDialog
-            {...this.mapButtonConfirmProps(button)}
-            visible={this.state.confirmVisibleId === button.id}
-            onConfirm={() => {
-              this.onClickHelper(button);
-              this.closeConfirm();
-            }}
-            onDeny={this.closeConfirm}
-            close={this.closeConfirm}
-          />
-        )}
-        {button.popoverConfirm && (
+        {button.popoverConfirm ? (
           <Popover
             {...button}
-            isOpen={this.state.confirmVisibleId === button.id}
+            isOpen={isConfirmVisible}
             target={button.id}
-            popConfirm={true}
-            onConfirm={() => {
-              this.onClickHelper(button);
-              this.closeConfirm();
-            }}
+            popoverConfirm={true}
+            onConfirm={onConfirm}
             onCancel={this.closeConfirm}
+          />
+        ) : (
+          <ModalDialog
+            {...this.mapButtonConfirmProps(button)}
+            visible={isConfirmVisible}
+            onConfirm={onConfirm}
+            onDeny={this.closeConfirm}
+            close={this.closeConfirm}
           />
         )}
       </React.Fragment>

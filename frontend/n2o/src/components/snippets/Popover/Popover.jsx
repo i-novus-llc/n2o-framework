@@ -8,25 +8,29 @@ import cx from 'classnames';
 /**
  * Popover
  * @reactProps {string} trigger - список триггеров, разделенных пробелами (например, "click hover focus")
+ * @reactProps {bool} isOpen - состотяние Popover
+ * @reactProps {function} toggle - callback для переключения isOpen в управляющем компоненте
+ * @reactProps {string|Element} boundariesElement - границы для popper, могут быть scrollParent, window, viewport или любым элементом DOM
  * @reactProps {string|func|Element} target - привязываемый компонент
  * @reactProps {string|func|Element} container - куда размещать popper, по умолчанию body
  * @reactProps {string} className - className компонента
  * @reactProps {string} innerClassName - класс внутреннего поповера
+ * @reactProps {bool} disabled - вк/выкл Popover
  * @reactProps {bool} hideArrow - отображается стрелка Popover или нет
  * @reactProps {string} placementPrefix - префикс рамещения
  * @reactProps {number} delay -задержка поповера
+ * @reactProps {string} placement - позиция Popover
  * @reactProps {object} modifiers - пользовательские модификаторы, которые передаются в Popper.js, см. Https://popper.js.org/popper-documentation.html#modifiers.
  * @reactProps {string|number} offset - смещение
  * @reactProps {bool} fade - показать/скрыть поповер с эффектом затухания
  * @reactProps {bool} flip - стоит ли менять напаравление поповера, если край контейнера слишком близко
- * @reactProps {string} placement - позиция Popover
  * @reactProps {string} header - заголовок Popover
  * @reactProps {string} body - основная часть Popover
  * @reactProps {Element} children - дочерний элемент DOM
  * @reactProps {string} help - текст подсказки
  * @reactProps {string} icon - className иконки подсказки
  * @reactProps {string} iconClassName - className для css иконки
- * @reactProps {bool} popConfirm - включение confirmPopover(header остается как заголовок, св-во body не используется)
+ * @reactProps {bool} popoverConfirm - включение confirmPopover(header остается как заголовок, св-во body не используется)
  * @reactProps {string} okText - текст кнопки положительного ответа
  * @reactProps {string} cancelText - текст кнопки отрицательного ответа
  * @reactProps {function} onConfirm - callback при подтверждении
@@ -38,10 +42,13 @@ import cx from 'classnames';
 export function N2OPopover(props) {
   const {
     trigger,
+    isOpen,
+    boundariesElement,
     target,
     container,
     className,
     innerClassName,
+    disabled,
     hideArrow,
     placementPrefix,
     delay,
@@ -56,18 +63,17 @@ export function N2OPopover(props) {
     help,
     icon,
     iconClassName,
-    popConfirm,
+    popoverConfirm,
     okText,
     cancelText,
-    isOpen,
     stateUpdate,
-    fieldId,
+    targetId,
     ...rest
   } = props;
   return (
     <div className={cx('n2o-popover', className)}>
-      <div id={fieldId} onClick={rest.onToggle} className="toggle-popover">
-        {!icon && help && !popConfirm && (
+      <div id={targetId} onClick={rest.onToggle} className="toggle-popover">
+        {!icon && help && !popoverConfirm && (
           <i className={cx('fa fa-question-circle', iconClassName)} />
         )}
         {icon && help && <i className={icon} />}
@@ -75,8 +81,13 @@ export function N2OPopover(props) {
       </div>
       <Popover
         trigger={trigger}
+        isOpen={isOpen}
+        toggle={rest.onToggle}
+        boundariesElement={boundariesElement}
+        target={target ? target : targetId}
         container={container}
         innerClassName={innerClassName}
+        disabled={disabled}
         hideArrow={hideArrow}
         placementPrefix={placementPrefix}
         delay={delay}
@@ -85,16 +96,15 @@ export function N2OPopover(props) {
         offset={offset}
         fade={fade}
         flip={flip}
-        isOpen={isOpen}
-        target={target ? target : fieldId}
-        toggle={rest.onToggle}
       >
-        {help && !popConfirm ? (
+        {help && !popoverConfirm ? (
           <div dangerouslySetInnerHTML={{ __html: help }} />
         ) : (
           <Fragment>
-            {header && !popConfirm && <PopoverHeader>{header}</PopoverHeader>}
-            {header && popConfirm && !help && (
+            {header && !popoverConfirm && (
+              <PopoverHeader>{header}</PopoverHeader>
+            )}
+            {header && popoverConfirm && !help && (
               <PopoverHeader>
                 <i
                   className={cx(
@@ -106,8 +116,8 @@ export function N2OPopover(props) {
                 {header}
               </PopoverHeader>
             )}
-            {!popConfirm && body && <PopoverBody>{body}</PopoverBody>}
-            {popConfirm && !help && (
+            {!popoverConfirm && body && <PopoverBody>{body}</PopoverBody>}
+            {popoverConfirm && !help && (
               <PopoverBody className="d-flex justify-content-between">
                 <Button className="btn-sm" onClick={rest.onClickNo}>
                   {cancelText}
@@ -126,10 +136,14 @@ export function N2OPopover(props) {
 
 N2OPopover.propTypes = {
   trigger: PropTypes.string,
+  isOpen: PropTypes.bool,
+  toggle: PropTypes.func,
+  boundariesElement: PropTypes.oneOfType([PropTypes.string, Element]),
   target: PropTypes.oneOfType([PropTypes.string, PropTypes.func, Element]),
   container: PropTypes.oneOfType([PropTypes.string, PropTypes.func, Element]),
   className: PropTypes.string,
   innerClassName: PropTypes.string,
+  disabled: PropTypes.bool,
   hideArrow: PropTypes.bool,
   placementPrefix: PropTypes.string,
   delay: PropTypes.oneOfType([
@@ -147,7 +161,7 @@ N2OPopover.propTypes = {
   help: PropTypes.string,
   icon: PropTypes.string,
   iconClassName: PropTypes.string,
-  popConfirm: PropTypes.bool,
+  popoverConfirm: PropTypes.bool,
   okText: PropTypes.string,
   cancelText: PropTypes.string,
   onConfirm: PropTypes.func,
@@ -157,18 +171,17 @@ N2OPopover.propTypes = {
 const enhance = compose(
   defaultProps({
     className: '',
-    innerClassName: '',
     header: 'header',
     body: 'body',
     placement: 'right',
     icon: '',
-    popConfirm: false,
+    popoverConfirm: false,
     okText: 'Ok',
     cancelText: 'Cancel',
     onConfirm: function() {},
     onCancel: function() {},
   }),
-  withState('fieldId', 'setFieldId', () => id()),
+  withState('targetId', 'setTargetId', () => id()),
   withState('isOpen', 'stateUpdate', ({ isOpen }) => isOpen),
   withHandlers({
     onClickYes: ({ isOpen, stateUpdate, onConfirm }) => () => {

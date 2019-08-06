@@ -1,0 +1,7 @@
+{
+  "id": "test",
+  "popoverConfirm": true,
+  "header": "Вы уверены?",
+  "okText": "Да",
+  "cancelText": "Нет"
+}
