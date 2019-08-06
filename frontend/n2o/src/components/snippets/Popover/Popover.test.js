@@ -82,9 +82,12 @@ describe('Тесты Popover', () => {
     wrapper.find('.toggle-popover').simulate('click');
     expect(onClick.called).toEqual(true);
   });
-  it('Проверка popConfirm', () => {
+  it('Проверка popoverConfirm', () => {
     const onClick = sinon.spy();
-    const wrapper = setupComponent({ popConfirm: 'true', onClickYes: onClick });
+    const wrapper = setupComponent({
+      popoverConfirm: 'true',
+      onClickYes: onClick,
+    });
     wrapper
       .find('.btn-sm')
       .last()
