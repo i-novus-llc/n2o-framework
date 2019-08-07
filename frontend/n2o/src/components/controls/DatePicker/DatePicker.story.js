@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
@@ -12,6 +13,7 @@ const stories = storiesOf('Контролы/Выбор дат', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('DateTimeControl'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

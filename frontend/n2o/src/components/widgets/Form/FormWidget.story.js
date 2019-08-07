@@ -4,6 +4,7 @@ import { withContext } from 'recompose';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, object } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { getStubData } from 'N2oStorybook/fetchMock';
@@ -35,6 +36,7 @@ const stories = storiesOf('Виджеты/Форма', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Form'));
+stories.addDecorator(jsxDecorator);
 
 const renderForm = json => (
   <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />

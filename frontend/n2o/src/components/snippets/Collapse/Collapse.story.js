@@ -7,6 +7,7 @@ import {
   select,
   object,
 } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import Collapse, { Panel } from './Collapse';
 import InputSelect from '../../controls/InputSelect/InputSelect';
 import InputSelectJson from '../../controls/InputSelect/InputSelect.meta';
@@ -16,6 +17,7 @@ import Factory from '../../../core/factory/Factory';
 const stories = storiesOf('UI Компоненты/Collapse', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 const textToPanel =
   'Значимость этих проблем настолько очевидна, что сложившаяся структура организации требует определения и уточнения модели развития! Дорогие друзья, рамки и место обучения кадров создаёт предпосылки качественно новых шагов для дальнейших направлений развития проекта! Дорогие друзья, курс на социально-ориентированный национальный проект представляет собой интересный эксперимент проверки дальнейших направлений развития проекта.';

@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { pick } from 'lodash';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry, tableActions } from 'N2oStorybook/json';
@@ -18,6 +19,7 @@ const urlPattern = 'begin:n2o/data';
 const delay = ms => new Promise(r => setTimeout(() => r(), ms));
 stories
   .addDecorator(withPage(metadata))
+  .addDecorator(jsxDecorator)
   .add('Компонент со стандартной реализацией', () => {
     const data = [
       {

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import fetchMock from 'fetch-mock';
@@ -18,6 +19,7 @@ const form = withForm({ src: 'InputSelectTree' });
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelectTree'));
+stories.addDecorator(jsxDecorator);
 
 const dataUrl = 'begin:n2o/data';
 

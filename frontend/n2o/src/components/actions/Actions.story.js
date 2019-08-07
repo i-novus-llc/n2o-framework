@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import Actions from './Actions';
 import MetaJson from './WidgetActions.meta.json';
@@ -8,6 +9,7 @@ import AuthButtonContainer from '../../core/auth/AuthLogin';
 const stories = storiesOf('Действия', module);
 
 stories
+  .addDecorator(jsxDecorator)
   .add('Варианты кнопок', () => {
     const toolbar1 = [
       {

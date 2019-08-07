@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 
 import TextEditor from './TextEditor';
@@ -8,6 +9,7 @@ import withForm from 'N2oStorybook/decorators/withForm';
 const stories = storiesOf('Контролы/Редактор текста', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 const form = withForm({ src: 'TextEditor' });
 

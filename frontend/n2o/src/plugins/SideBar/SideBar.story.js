@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import SideBar from './SideBar';
 import SidebarContainer from './SidebarContainer';
@@ -12,6 +13,7 @@ import sidebarMetadata from './sidebarMetadata.meta.json';
 const stories = storiesOf('UI Компоненты/Меню слева', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

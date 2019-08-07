@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { withState } from '@dump247/storybook-state';
@@ -10,6 +11,7 @@ const stories = storiesOf('Контролы/Радио', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Checkbox'));
+stories.addDecorator(jsxDecorator);
 
 stories.add(
   'Кнопка радио',

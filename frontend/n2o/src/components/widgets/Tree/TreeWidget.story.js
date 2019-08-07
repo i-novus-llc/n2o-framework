@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { select, withKnobs } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
@@ -137,6 +138,7 @@ const dataBadge = {
 
 stories
   .addDecorator(withKnobs)
+  .addDecorator(jsxDecorator)
   .add('Метаданные', () => {
     fetchMock.restore().get('begin:n2o/data', data);
 

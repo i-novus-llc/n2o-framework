@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import fetchMock from 'fetch-mock';
@@ -15,6 +16,7 @@ const stories = storiesOf('Контролы/Выпадающий список', 
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('N2OSelectContainer'));
+stories.addDecorator(jsxDecorator);
 
 const dataUrl = 'begin:n2o/data/test';
 

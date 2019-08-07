@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
 import Actions from './Actions';
@@ -9,6 +10,7 @@ import { Route, Switch } from 'react-router-dom';
 const stories = storiesOf('Действия/Ссылка Link', module);
 
 stories
+  .addDecorator(jsxDecorator)
   .add('Компонент', () => {
     return (
       <Actions toolbar={metadata.toolbar} containerKey={'linkContainer'} />

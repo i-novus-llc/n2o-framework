@@ -1,5 +1,6 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { setAddon, storiesOf } from '@storybook/react';
+import JSXAddon from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { withState } from '@dump247/storybook-state';
@@ -9,13 +10,15 @@ import Checkbox from './Checkbox';
 
 const form = withForm({ src: 'Checkbox' });
 
+setAddon(JSXAddon);
+
 const stories = storiesOf('Контролы/Чекбокс', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Checkbox'));
 
 stories
-  .add(
+  .addWithJSX(
     'Чекбокс',
     withState({ checked: false }, store => {
       const props = {
@@ -31,7 +34,8 @@ stories
           onChange={() => store.set({ checked: !store.state.checked })}
         />
       );
-    })
+    }),
+    { jsx: { skip: 1 } }
   )
   .add(
     'Метаданные',

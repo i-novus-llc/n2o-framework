@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import ButtonUploader from './ButtonUploader';
 import DropZone from './DropZone';
 import withForm from 'N2oStorybook/decorators/withForm';
@@ -15,6 +16,7 @@ const form = withForm({ src: 'DropZone' });
 const stories = storiesOf('Контролы/Загрузчик файлов', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Single кнопка', () => {

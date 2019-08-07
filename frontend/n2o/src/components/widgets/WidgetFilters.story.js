@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
 import { set } from 'lodash';
@@ -9,6 +10,7 @@ import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
 
 const stories = storiesOf('Виджеты/Таблица', module);
+stories.addDecorator(jsxDecorator);
 
 stories
   .addDecorator(withPage(TableData))

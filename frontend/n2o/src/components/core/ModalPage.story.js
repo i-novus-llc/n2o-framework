@@ -3,6 +3,7 @@ import { withContext } from 'recompose';
 import { storiesOf } from '@storybook/react';
 import { pageWithPrompt } from '../../../.storybook/fetchMock/pageWithPrompt';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import { page } from 'N2oStorybook/fetchMock';
 import {
@@ -26,6 +27,7 @@ stories.addDecorator(withTests('ModalPages'));
 stories.addDecorator(withPage(ShowModalTitle));
 
 stories
+  .addDecorator(jsxDecorator)
   .add('Компонент', () => {
     return (
       <ModalWindow

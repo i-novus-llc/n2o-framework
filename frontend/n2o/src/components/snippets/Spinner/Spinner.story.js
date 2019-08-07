@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
@@ -22,6 +23,8 @@ const stories = storiesOf('UI Компоненты/Спиннеры', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Spinner'));
+stories.addDecorator(jsxDecorator);
+
 const tableData = [
   { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001' },
   { id: '2', name: 'X', surname: 'Y', birthday: '01.01.1001' },

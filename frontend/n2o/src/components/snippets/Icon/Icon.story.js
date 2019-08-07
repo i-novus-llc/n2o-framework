@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import Factory from '../../../core/factory/Factory';
@@ -10,6 +11,7 @@ const stories = storiesOf('UI Компоненты/Иконка', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Icon'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

@@ -1,11 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import simpleHeaderMetadata from './simpleHeaderData.json';
 import SimpleHeader from './SimpleHeader';
 import Wireframe from '../../../components/snippets/Wireframe/Wireframe';
 
 const stories = storiesOf('UI Компоненты/Меню сверху', module);
+stories.addDecorator(jsxDecorator);
 
 stories.add('Компонент', () => {
   return (

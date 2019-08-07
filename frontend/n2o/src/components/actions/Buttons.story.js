@@ -9,6 +9,7 @@ import metadata from './ButtonDependency.meta.json';
 import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 const stories = storiesOf(
   'Функциональность/Зависимость кнопок от модели',
@@ -17,13 +18,16 @@ const stories = storiesOf(
 
 stories.addDecorator(withTests('Table'));
 
-stories.addDecorator(withPage(metadata)).add('Метаданные', () => {
-  fetchMock.restore().get('begin:n2o/data', url => {
-    return { ...getStubData(url), list: getStubData(url).list.slice(0, 3) };
+stories
+  .addDecorator(withPage(metadata))
+  .addDecorator(jsxDecorator)
+  .add('Метаданные', () => {
+    fetchMock.restore().get('begin:n2o/data', url => {
+      return { ...getStubData(url), list: getStubData(url).list.slice(0, 3) };
+    });
+    return (
+      <div>
+        <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
+      </div>
+    );
   });
-  return (
-    <div>
-      <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
-    </div>
-  );
-});

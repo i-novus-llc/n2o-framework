@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import withTests from 'N2oStorybook/withTests';
 import Tabs from './Tabs';
@@ -9,6 +10,7 @@ import Wireframe from '../../snippets/Wireframe/Wireframe';
 const stories = storiesOf('Регионы/Вкладки', module);
 
 stories.addDecorator(withTests('Tabs'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

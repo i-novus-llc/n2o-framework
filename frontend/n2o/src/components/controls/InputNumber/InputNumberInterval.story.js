@@ -8,6 +8,7 @@ import {
   number,
   array,
 } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import InputNumberInterval from './InputNumberInterval';
 
@@ -15,6 +16,7 @@ const stories = storiesOf('Контролы/Интервал ввода чисе
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputNumber'));
+stories.addDecorator(jsxDecorator);
 
 stories.add('базовый функционал', () => {
   const props = {

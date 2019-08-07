@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { getStubData } from 'N2oStorybook/fetchMock';
 
 import FormWidgetData from './FormWidget.meta.json';
@@ -7,7 +8,7 @@ import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 
 const stories = storiesOf('Виджеты/Форма', module);
-
+stories.addDecorator(jsxDecorator);
 stories.add('Расположение полей', () => {
   const fieldSets = [
     {

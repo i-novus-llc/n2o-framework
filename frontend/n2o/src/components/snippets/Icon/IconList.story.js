@@ -1,9 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import Icon from './Icon';
 
 const stories = storiesOf('UI Компоненты/Иконка', module);
+
+stories.addDecorator(jsxDecorator);
 
 stories.add('Использование иконок', () => {
   return (

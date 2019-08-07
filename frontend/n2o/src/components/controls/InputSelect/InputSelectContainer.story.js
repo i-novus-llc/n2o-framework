@@ -1,6 +1,7 @@
 import React from 'react';
 import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import {
   withKnobs,
   text,
@@ -24,6 +25,7 @@ const form = withForm();
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelect'));
+stories.addDecorator(jsxDecorator);
 
 const dataUrl = 'begin:n2o/data';
 const data = [

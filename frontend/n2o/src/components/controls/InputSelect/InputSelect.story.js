@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import InputSelect from './InputSelect';
@@ -7,6 +8,7 @@ import InputSelect from './InputSelect';
 const stories = storiesOf('Контролы/InputSelect', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories.add('Компонент ', () => {
   const options = [

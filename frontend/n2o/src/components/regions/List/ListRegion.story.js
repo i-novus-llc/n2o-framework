@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import { set, omit, pullAt, pick } from 'lodash';
 
@@ -21,6 +22,7 @@ import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 const stories = storiesOf('Регионы/Лист', module);
 
 stories.addDecorator(withTests('Лист'));
+stories.addDecorator(jsxDecorator);
 const ListRegionJson = set(
   cloneObject(SecureListRegionJson),
   'items',

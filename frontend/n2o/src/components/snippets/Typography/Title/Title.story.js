@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import { map } from 'lodash';
 
@@ -10,6 +11,7 @@ import { allColors } from '../utils';
 const stories = storiesOf('UI Компоненты/Типография/Title', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 stories
   .add('Компонент', () => {
     const props = {

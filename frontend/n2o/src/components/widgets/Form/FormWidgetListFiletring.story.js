@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import withPage from 'N2oStorybook/decorators/withPage';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import Form from '../../../../.storybook/json/formWidgetListFiltering';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
@@ -42,6 +43,7 @@ fetchMock
   });
 
 const stories = storiesOf('Виджеты/Форма', module);
+stories.addDecorator(jsxDecorator);
 const renderForm = json => (
   <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />
 );

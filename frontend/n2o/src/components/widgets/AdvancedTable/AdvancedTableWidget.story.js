@@ -1,6 +1,7 @@
 import React from 'react';
 import { get, set } from 'lodash';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -150,9 +151,14 @@ class AdvancedTableWidgetStory extends React.Component {
 }
 
 stories
-  .addDecorator(withPage(metadata))
+  // .addDecorator(withPage(metadata))
+  .addDecorator(jsxDecorator)
   .add('Метаданные', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    fetchMock.restore().get(urlPattern, url => {
+      console.log('point');
+      console.log(url);
+      return getStubData(url);
+    });
     return (
       <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
     );

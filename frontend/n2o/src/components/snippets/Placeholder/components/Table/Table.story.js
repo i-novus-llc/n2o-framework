@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import Placeholder from '../../Placeholder';
 import meta from './Table.meta';
@@ -7,6 +8,7 @@ import meta from './Table.meta';
 const stories = storiesOf('UI Компоненты/Placeholder/type=table', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories.add('Компонент', () => {
   const props = {

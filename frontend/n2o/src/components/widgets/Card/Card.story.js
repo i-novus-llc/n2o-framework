@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { CardLink, Row, Col } from 'reactstrap';
 import { zip, map } from 'lodash';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import {
   withKnobs,
   text,
@@ -14,6 +15,8 @@ import Actions from '../../actions/Actions';
 import { items } from './Card.meta';
 
 const stories = storiesOf('Виджеты/Карточка');
+
+stories.addDecorator(jsxDecorator);
 
 const btnAct = [
   {

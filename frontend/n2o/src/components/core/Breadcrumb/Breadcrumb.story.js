@@ -4,6 +4,7 @@ import { withContext } from 'recompose';
 import { Route, Link, Switch } from 'react-router-dom';
 import fetchMock from 'fetch-mock';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, object } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { getStubData } from 'N2oStorybook/fetchMock';
@@ -28,6 +29,7 @@ stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Page'));
 
 stories
+  .addDecorator(jsxDecorator)
   .add('Метаданные', () => {
     const withForward = JSON.parse(JSON.stringify(metadata));
     withForward.id = 'OtherPage';

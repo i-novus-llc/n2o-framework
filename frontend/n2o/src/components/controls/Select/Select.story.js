@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
@@ -17,6 +18,7 @@ const stories = storiesOf('Контролы/Выпадающий список', 
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Select'));
+stories.addDecorator(jsxDecorator);
 
 stories.add('Компонент', () => {
   const props = {

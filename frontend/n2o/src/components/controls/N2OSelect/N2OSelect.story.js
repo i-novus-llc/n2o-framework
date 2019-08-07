@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 
 import InputSelect from './N2OSelect';
@@ -10,6 +11,7 @@ const stories = storiesOf('Контролы/Выпадающий список', 
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelect'));
+stories.addDecorator(jsxDecorator);
 
 stories.add('N2O вариант', () => {
   const options = [

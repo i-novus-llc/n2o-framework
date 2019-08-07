@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, select } from '@storybook/addon-knobs/react';
 import { Card, CardBody } from 'reactstrap';
 
@@ -10,6 +11,7 @@ import { SNIPPETS } from '../../../core/factory/factoryLevels';
 const stories = storiesOf('UI Компоненты/Визуальная заглушка', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

@@ -8,6 +8,7 @@ import {
   number,
   select,
 } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import CodeEditor from './CodeEditor';
@@ -19,6 +20,7 @@ const stories = storiesOf('Контролы/Редактор кода', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CodeEditor'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

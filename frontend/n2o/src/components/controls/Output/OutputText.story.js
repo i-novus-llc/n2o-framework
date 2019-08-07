@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import {
   withKnobs,
   text,
@@ -13,6 +14,7 @@ import OutputJSON from './Output.meta';
 const stories = storiesOf('Контролы/OutputText', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 const props = {
   type: select('type', ['iconAndText', 'icon', 'text'], OutputJSON.type),

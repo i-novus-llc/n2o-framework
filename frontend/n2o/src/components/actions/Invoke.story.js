@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
@@ -12,6 +13,7 @@ const stories = storiesOf('Действия/POST запрос', module);
 const urlPattern = 'begin:n2o/data';
 
 stories
+  .addDecorator(jsxDecorator)
   .add('Компонент', () => {
     const toolbar = [
       {

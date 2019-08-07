@@ -8,6 +8,7 @@ import {
   array,
   select,
 } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import InputMask from './InputMask';
@@ -19,6 +20,7 @@ const form = withForm({ src: 'InputMask' });
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputMask'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

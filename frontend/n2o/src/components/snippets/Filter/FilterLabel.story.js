@@ -9,11 +9,14 @@ import {
   array,
   select,
 } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 
 import Filter from './Filter';
 
 const stories = storiesOf('UI Компоненты/Фильтр', module);
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
+
 stories.add('Текст кнопок', () => {
   const knobs = {
     searchLabel: text('searchLabel', 'Свой текст поиска'),

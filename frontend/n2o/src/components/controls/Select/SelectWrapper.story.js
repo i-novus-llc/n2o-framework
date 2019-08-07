@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import { parseUrl, getStubData } from 'N2oStorybook/fetchMock';
@@ -10,6 +11,7 @@ import withForm from 'N2oStorybook/decorators/withForm';
 const form = withForm({ src: 'N2OSelect' });
 const stories = storiesOf('Контролы/Выпадающий список', module);
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories.add(
   'Метаданные',

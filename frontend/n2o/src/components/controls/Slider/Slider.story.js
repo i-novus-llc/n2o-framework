@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import {
   withKnobs,
   boolean,
@@ -14,6 +15,7 @@ import withForm from 'N2oStorybook/decorators/withForm';
 const stories = storiesOf('Контролы/Ползунок', module);
 const form = withForm({ src: 'Slider' });
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
@@ -13,6 +14,7 @@ const stories = storiesOf('Контролы/Кнопочные фильтры', 
 const form = withForm({ src: 'Pills' });
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 const handleData = list => url => ({ list });
 

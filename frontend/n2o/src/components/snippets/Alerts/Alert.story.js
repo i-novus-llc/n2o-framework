@@ -9,6 +9,7 @@ import {
   array,
   select,
 } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withState } from '@dump247/storybook-state';
 import _ from 'lodash';
 
@@ -25,6 +26,7 @@ import GlobalAlerts from '../../core/GlobalAlerts';
 const stories = storiesOf('UI Компоненты/Сообщения', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 const props = {
   label: 'Лейбл алерта',
@@ -37,117 +39,92 @@ const props = {
 
 stories
   .addDecorator(withPage(widgetWithErrors))
-  .add(
-    'Компонент',
-    withState({ visible: true })(({ store }) => {
-      const knobs = {
-        label: text('label', props.label),
-        text: text('text', props.text),
-        details: text('details', props.details),
-        severity: select(
-          'severity',
-          ['info', 'danger', 'warning', 'success'],
-          props.severity
-        ),
-        visible: boolean('visible', store.state.visible),
-        closeButton: boolean('closeButton', props.closeButton),
-      };
+  .add('Компонент', () => {
+    const knobs = {
+      label: text('label', props.label),
+      text: text('text', props.text),
+      details: text('details', props.details),
+      severity: select(
+        'severity',
+        ['info', 'danger', 'warning', 'success'],
+        props.severity
+      ),
+      visible: boolean('visible', true),
+      closeButton: boolean('closeButton', props.closeButton),
+    };
 
-      return (
-        <Alert
-          {...knobs}
-          onDismiss={e => {
-            action('alert-onDismiss')(e);
-            store.set({ visible: !store.state.visible });
-          }}
-        />
-      );
-    })
-  )
-  .add(
-    'Без деталей',
-    withState({ visible: true })(({ store }) => (
+    return (
       <Alert
-        {..._.omit(props, 'details')}
-        visible={store.state.visible}
+        {...knobs}
         onDismiss={e => {
           action('alert-onDismiss')(e);
-          store.set({ visible: !store.state.visible });
         }}
       />
-    ))
-  )
-  .add(
-    'Без заголовка',
-    withState({ visible: true })(({ store }) => (
-      <Alert
-        {..._.omit(props, 'label')}
-        visible={store.state.visible}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-          store.set({ visible: !store.state.visible });
-        }}
-      />
-    ))
-  )
-  .add(
-    'Без кнопки скрытия',
-    withState({ visible: true })(({ store }) => (
+    );
+  })
+  .add('Без деталей', () => (
+    <Alert
+      {..._.omit(props, 'details')}
+      visible={true}
+      onDismiss={e => {
+        action('alert-onDismiss')(e);
+      }}
+    />
+  ))
+  .add('Без заголовка', () => (
+    <Alert
+      {..._.omit(props, 'label')}
+      visible={true}
+      onDismiss={e => {
+        action('alert-onDismiss')(e);
+      }}
+    />
+  ))
+  .add('Без кнопки скрытия', () => (
+    <Alert
+      {...props}
+      closeButton={false}
+      visible={true}
+      onDismiss={e => {
+        action('alert-onDismiss')(e);
+      }}
+    />
+  ))
+  .add('Цвета', () => (
+    <React.Fragment>
       <Alert
         {...props}
-        closeButton={false}
-        visible={store.state.visible}
+        visible={true}
         onDismiss={e => {
           action('alert-onDismiss')(e);
-          store.set({ visible: !store.state.visible });
         }}
       />
-    ))
-  )
-  .add(
-    'Цвета',
-    withState({ danger: true, warning: true, success: true, default: true })(
-      ({ store }) => (
-        <React.Fragment>
-          <Alert
-            {...props}
-            visible={store.state.default}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ default: !store.state.default });
-            }}
-          />
-          <Alert
-            {...props}
-            severity="danger"
-            visible={store.state.danger}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ danger: !store.state.danger });
-            }}
-          />
-          <Alert
-            {...props}
-            severity="warning"
-            visible={store.state.warning}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ warning: !store.state.warning });
-            }}
-          />
-          <Alert
-            {...props}
-            severity="success"
-            visible={store.state.success}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ success: !store.state.success });
-            }}
-          />
-        </React.Fragment>
-      )
-    )
-  )
+      <Alert
+        {...props}
+        severity="danger"
+        visible={true}
+        onDismiss={e => {
+          action('alert-onDismiss')(e);
+        }}
+      />
+      <Alert
+        {...props}
+        severity="warning"
+        visible={true}
+        onDismiss={e => {
+          action('alert-onDismiss')(e);
+        }}
+      />
+      <Alert
+        {...props}
+        severity="success"
+        visible={true}
+        onDismiss={e => {
+          action('alert-onDismiss')(e);
+        }}
+      />
+    </React.Fragment>
+  ))
   .add('Обновленный Alert', () => {
     const props = {
       label: 'Лейбл алерта',

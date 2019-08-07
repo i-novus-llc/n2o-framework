@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { set, pullAt } from 'lodash';
@@ -21,6 +22,7 @@ const stories = storiesOf('Регионы/Панель', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('PanelRegion'));
+stories.addDecorator(jsxDecorator);
 
 const PanelRegionJson = set(
   cloneObject(SecurePanelRegion),

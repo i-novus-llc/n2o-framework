@@ -7,6 +7,7 @@ import {
   select,
   number,
 } from '@storybook/addon-knobs/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
 import RadioWrapper from './RadioWrapper.meta.json';
@@ -15,6 +16,7 @@ const stories = storiesOf('Контролы/Радио', module);
 const form = withForm({ src: 'RadioGroup' });
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories.add(
   'Метаданные',

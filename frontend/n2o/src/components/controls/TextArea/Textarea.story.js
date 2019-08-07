@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import { withState } from '@dump247/storybook-state';
 import withForm from 'N2oStorybook/decorators/withForm';
@@ -11,6 +12,7 @@ const form = withForm({ src: 'TextArea' });
 const stories = storiesOf('Контролы/Многострочное текстовое поле', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories
   .add(

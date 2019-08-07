@@ -1,45 +1,39 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, object, array } from '@storybook/addon-knobs/react';
-import { Form, FormGroup, Label, Input, Col } from 'reactstrap';
-import { withState } from '@dump247/storybook-state';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { action } from '@storybook/addon-actions';
 import Filter from './Filter';
 
 const stories = storiesOf('UI Компоненты/Фильтр', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
-stories.add(
-  'Компонент',
-  withState({ text: '' })(({ store }) => {
-    const props = {
-      style: object('style', {}),
-      className: text('className', 'n2o'),
-      filters: array('filters', []),
-    };
+stories.add('Компонент', () => {
+  const props = {
+    style: object('style', {}),
+    className: text('className', 'n2o'),
+    filters: array('filters', []),
+  };
 
-    return (
-      <Filter
-        {...props}
-        onReset={e => {
-          store.set({ text: '' });
-        }}
-      >
-        <Form>
-          <FormGroup>
-            <Label for="exampleEmail">Почта</Label>
-            <Input
-              type="email"
-              id="exampleEmail"
-              placeholder="Почта"
-              value={store.state.text}
-              onChange={e => {
-                store.set({ text: e.target.value });
-              }}
-            />
-          </FormGroup>
-        </Form>
-      </Filter>
-    );
-  })
-);
+  return (
+    <Filter {...props} onReset={e => action('filter-onReset')(e)}>
+      <Form>
+        <FormGroup>
+          <Label for="exampleEmail">Почта</Label>
+          <Input
+            type="email"
+            id="exampleEmail"
+            placeholder="Почта"
+            value=""
+            onChange={e => {
+              action('filter-onChange')(e);
+            }}
+          />
+        </FormGroup>
+      </Form>
+    </Filter>
+  );
+});

@@ -1,11 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text } from '@storybook/addon-knobs/react';
 import Input from './InputHidden';
 import InputHiddenMeta from './InputHidden.meta';
 
 const stories = storiesOf('Контролы/Скрытое поле', module);
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

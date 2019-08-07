@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { withState } from '@dump247/storybook-state';
@@ -12,6 +13,7 @@ const stories = storiesOf('UI Компоненты/Диалог', module);
 stories.addDecorator(withKnobs);
 // todo: баг в jest addon
 stories.addDecorator(withTests('ModalDialog'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add(
