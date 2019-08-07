@@ -30,7 +30,7 @@ describe('<Divider />', () => {
     let wrapper = setup();
     expect(wrapper.text()).toBe('title');
   });
-  it('snapshot', () => {
+  it('snapshot test', () => {
     let wrapper = setup();
     expect(wrapper).toMatchSnapshot();
   });
