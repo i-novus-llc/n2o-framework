@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Table from 'rc-table';
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
 import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
-import { HotKeys } from 'react-hotkeys';
+import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
 import _, {
