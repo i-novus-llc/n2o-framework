@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import _, { isEmpty, isEqual, pick } from 'lodash';
 import { pure } from 'recompose';
-import { HotKeys } from 'react-hotkeys';
+import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 
 import propsResolver from '../../../utils/propsResolver';
