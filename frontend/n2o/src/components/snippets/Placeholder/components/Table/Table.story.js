@@ -4,11 +4,17 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import Placeholder from '../../Placeholder';
 import meta from './Table.meta';
+import Table from './Table';
 
 const stories = storiesOf('UI Компоненты/Placeholder/type=table', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [Table],
+  },
+});
 
 stories.add('Компонент', () => {
   const props = {

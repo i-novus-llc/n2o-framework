@@ -35,15 +35,36 @@ const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
 );
 
 Panel.propTypes = {
+  /**
+   * Заголовок панели
+   */
   header: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  /**
+   * Класс заголовка
+   */
   headerClass: PropTypes.string,
+  /**
+   * Флаг показа иконки chevron рядом с заголовком панели
+   */
   showArrow: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
+  /**
+   * Обьект для изменения анимации открытия и закрытия панели
+   */
   openAnimation: PropTypes.object,
+  /**
+   * Флаг активности панели
+   */
   disabled: PropTypes.bool,
+  /**
+   * Флаг рендера неактивных панелей
+   */
   forceRender: PropTypes.bool,
   children: PropTypes.node,
+  /**
+   * Тип панели
+   */
   type: PropTypes.oneOf(['default', 'line', 'divider']),
 };
 

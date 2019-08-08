@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import {
   withKnobs,
   text,
@@ -19,6 +20,7 @@ const stories = storiesOf('Ячейки/Индикатор', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('ProgressBarCell'));
+stories.addDecorator(jsxDecorator);
 
 stories.add('Метаданные', () => {
   const props = {

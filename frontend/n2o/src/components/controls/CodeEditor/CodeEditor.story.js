@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
 import {
   withKnobs,
   text,
@@ -13,6 +12,7 @@ import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import CodeEditor from './CodeEditor';
 import CodeEditorJson from './CodeEditor.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'CodeEditor' });
 
@@ -21,6 +21,13 @@ const stories = storiesOf('Контролы/Редактор кода', module);
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CodeEditor'));
 stories.addDecorator(jsxDecorator);
+
+stories.addParameters({
+  info: {
+    propTables: [CodeEditor],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {
@@ -36,7 +43,6 @@ stories
       maxLines: number('maxLines', 30),
       autocomplete: boolean('autocomplete', true),
       value: text('value', ''),
-      onChange: action('code-editor-on-change'),
     };
 
     return <CodeEditor {...props} />;
@@ -56,7 +62,6 @@ stories
         maxLines: number('maxLines', CodeEditorJson.maxLines),
         autocomplete: boolean('autocomplete', CodeEditorJson.autocomplete),
         value: text('value', CodeEditorJson.value),
-        onChange: action('code-editor-on-change'),
       };
 
       return props;

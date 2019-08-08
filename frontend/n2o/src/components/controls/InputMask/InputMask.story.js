@@ -13,6 +13,7 @@ import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import InputMask from './InputMask';
 import InputMaskJson from './InputMask.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Маскированный ввод', module);
 
@@ -21,6 +22,12 @@ const form = withForm({ src: 'InputMask' });
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputMask'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [InputMask],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {

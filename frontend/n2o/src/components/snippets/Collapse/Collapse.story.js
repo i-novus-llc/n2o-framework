@@ -1,4 +1,5 @@
 import React from 'react';
+import { setDisplayName } from 'recompose';
 import { storiesOf } from '@storybook/react';
 import {
   withKnobs,
@@ -22,7 +23,7 @@ stories.addDecorator(jsxDecorator);
 const textToPanel =
   'Значимость этих проблем настолько очевидна, что сложившаяся структура организации требует определения и уточнения модели развития! Дорогие друзья, рамки и место обучения кадров создаёт предпосылки качественно новых шагов для дальнейших направлений развития проекта! Дорогие друзья, курс на социально-ориентированный национальный проект представляет собой интересный эксперимент проверки дальнейших направлений развития проекта.';
 
-const CollapseToStory = props => (
+const CollapseToStory = setDisplayName('Collapse')(props => (
   <Collapse defaultActiveKey="1">
     <Panel key="1" header="Первый" {...props}>
       {textToPanel}
@@ -34,7 +35,14 @@ const CollapseToStory = props => (
       {textToPanel}
     </Panel>
   </Collapse>
-);
+));
+
+stories.addParameters({
+  info: {
+    propTables: [Collapse, Panel],
+    propTablesExclude: [CollapseToStory, InputSelect],
+  },
+});
 
 stories
   .add('Компонент type=default', () => {

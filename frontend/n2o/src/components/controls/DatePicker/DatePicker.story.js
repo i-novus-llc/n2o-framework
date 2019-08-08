@@ -7,6 +7,7 @@ import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import DatePicker from './DatePicker';
 import DatePickerJson from './DatePicker.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'DatePicker' });
 const stories = storiesOf('Контролы/Выбор дат', module);
@@ -14,6 +15,12 @@ const stories = storiesOf('Контролы/Выбор дат', module);
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('DateTimeControl'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [DatePicker],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {

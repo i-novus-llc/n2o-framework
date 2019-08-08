@@ -4,11 +4,17 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, select, boolean, text } from '@storybook/addon-knobs/react';
 import Placeholder from '../../Placeholder';
 import meta from './Tree.meta';
+import Tree from './Tree';
 
 const stories = storiesOf('UI Компоненты/Placeholder/type=tree', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [Tree],
+  },
+});
 
 stories
   .add('Компонент', () => {

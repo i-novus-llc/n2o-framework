@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import {
   withKnobs,
   text,
@@ -19,6 +20,7 @@ import { page } from 'N2oStorybook/fetchMock';
 const stories = storiesOf('Ячейки/Ссылка', module);
 
 stories.addDecorator(withKnobs);
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Метаданные', () => {

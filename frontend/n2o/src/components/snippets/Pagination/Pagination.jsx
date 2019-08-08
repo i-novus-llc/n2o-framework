@@ -260,22 +260,73 @@ export default class Pagination extends React.Component {
 }
 
 Pagination.propTypes = {
+  /**
+   * Показать/скрыть кнопку быстрого перехода на предыдущую страницу
+   */
   prev: PropTypes.bool,
+  /**
+   * Текст кнопки 'Назад'
+   */
   prevText: PropTypes.string,
+  /**
+   * Показать/скрыть кнопку быстрого перехода на следующую страницу
+   */
   next: PropTypes.bool,
+  /**
+   * Текст кнопки 'Вперед'
+   */
   nextText: PropTypes.string,
+  /**
+   * Показать/скрыть кнопку быстрого перехода на первую страницу
+   */
   first: PropTypes.bool,
+  /**
+   * Показать/скрыть кнопку быстрого перехода на последнюю страницу
+   */
   last: PropTypes.bool,
+  /**
+   * Активировать режим "ленивой" пейджинации
+   */
   lazy: PropTypes.bool,
+  /**
+   * Скрыть тело пагинации
+   */
   withoutBody: PropTypes.bool,
+  /**
+   * Показать индикатор общего кол-ва записей
+   */
   showCountRecords: PropTypes.bool,
+  /**
+   * Скрывать компонент, если страница единственная
+   */
   hideSinglePage: PropTypes.bool,
+  /**
+   * Максимальное кол-во кнопок перехода между страницами
+   */
   maxButtons: PropTypes.number,
+  /**
+   * Шаг дополнительной кнопки (1,2.3 ... 11)
+   */
   stepIncrement: PropTypes.number,
+  /**
+   * Общее кол-во записей
+   */
   count: PropTypes.number,
+  /**
+   * Кол-во записей на одной странице
+   */
   size: PropTypes.number,
+  /**
+   * Номер активной страницы
+   */
   activePage: PropTypes.number,
+  /**
+   * Сallback нажатия по кнопке страницы
+   */
   onSelect: PropTypes.func,
+  /**
+   * Класс для списка внутри nav
+   */
   className: PropTypes.string,
 };
 

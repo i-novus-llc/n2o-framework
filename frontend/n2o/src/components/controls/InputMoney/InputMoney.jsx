@@ -175,16 +175,49 @@ class InputMoney extends React.Component {
 }
 
 InputMoney.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.string,
+  /**
+   * Класс контрола
+   */
   className: PropTypes.string,
+  /**
+   * Строка перед значением
+   */
   prefix: PropTypes.string,
+  /**
+   * Строка после значния
+   */
   suffix: PropTypes.string,
+  /**
+   * Флаг включения разделения по тысячам
+   */
   includeThousandsSeparator: PropTypes.bool,
+  /**
+   * Символ разделяющий тысячи
+   */
   thousandsSeparatorSymbol: PropTypes.string,
+  /**
+   * Разрешить копейки
+   */
   allowDecimal: PropTypes.bool,
+  /**
+   * Символ разделитель копеек
+   */
   decimalSymbol: PropTypes.string,
+  /**
+   * Лимит на количество символов после запятой
+   */
   decimalLimit: PropTypes.number,
+  /**
+   * Целочисленный лимит
+   */
   integerLimit: PropTypes.any,
+  /**
+   * Разрешить ввод отрицательных числе
+   */
   allowNegative: PropTypes.bool,
   allowLeadingZeroes: PropTypes.bool,
 };

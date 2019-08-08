@@ -1,15 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  array,
-  number,
-  select,
-} from '@storybook/addon-knobs/react';
+import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
-import CheckboxGroupWrapper from './CheckboxGroupControl';
 import WrapperJson from './CheckboxWrapper.meta.json';
 import withForm from 'N2oStorybook/decorators/withForm';
 

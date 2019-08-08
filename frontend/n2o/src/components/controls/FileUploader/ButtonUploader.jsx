@@ -1,7 +1,6 @@
 import React from 'react';
 import withFileUploader from './withFileUploader';
 import FileUploader from './FileUploader';
-import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
@@ -38,25 +37,123 @@ class ButtonUploader extends React.Component {
   }
 }
 
+ButtonUploader.defaultProps = {
+  label: 'Загрузить файл',
+  requestParam: 'file',
+  visible: true,
+  icon: 'fa fa-upload',
+  statusBarColor: 'success',
+  multi: true,
+  disabled: false,
+  autoUpload: true,
+  showSize: true,
+  value: [],
+  onChange: value => {},
+};
+
 ButtonUploader.propTypes = {
-  label: PropTypes.string,
-  uploading: PropTypes.object,
-  icon: PropTypes.string,
+  /**
+   * Ключ ID из даныых
+   */
+  valueFieldId: PropTypes.string,
+  /**
+   * Ключ label из данных
+   */
+  labelFieldId: PropTypes.string,
+  /**
+   * Ключ status из данных
+   */
+  statusFieldId: PropTypes.string,
+  /**
+   * Ключ size из данных
+   */
+  sizeFieldId: PropTypes.string,
+  /**
+   * Ключ response из даннах
+   */
+  responseFieldId: PropTypes.string,
+  /**
+   * Ключ url из данных
+   */
+  urlFieldId: PropTypes.string,
+  /**
+   * Url для загрузки файла
+   */
+  uploadUrl: PropTypes.string,
+  /**
+   * Url для удаления файла
+   */
+  deleteUrl: PropTypes.string,
+  /**
+   * Флаг мульти выбора файлов
+   */
+  multi: PropTypes.bool,
+  /**
+   * Массив файлов
+   */
   files: PropTypes.arrayOf(PropTypes.object),
-  className: PropTypes.string,
-  onDrop: PropTypes.func,
-  onRemove: PropTypes.func,
+  /**
+   * Значение
+   */
+  value: PropTypes.arrayOf(PropTypes.object),
+  /**
+   * Флаг автоматической загрузки файлов после выбора
+   */
   autoUpload: PropTypes.bool,
-  visible: PropTypes.bool,
-  disabled: PropTypes.bool,
-  requestParam: PropTypes.string,
+  /**
+   * Максимальный размер файла
+   */
   maxSize: PropTypes.number,
+  /**
+   * Минимальный размер файла
+   */
   minSize: PropTypes.number,
-  multiple: PropTypes.bool,
-  onChange: PropTypes.func,
+  /**
+   * Label контрола
+   */
+  label: PropTypes.string,
+  /**
+   * Название отправлякмого параметра
+   */
+  requestParam: PropTypes.string,
+  /**
+   * Флаг видимости
+   */
+  visible: PropTypes.bool,
+  /**
+   * Флаг активности
+   */
+  disabled: PropTypes.bool,
+  /**
+   * Иконка рядом с label
+   */
+  icon: PropTypes.string,
+  /**
+   * Цвет статус бара
+   */
   statusBarColor: PropTypes.string,
+  /**
+   * Объект стилей кнопки 'Сохранить'
+   */
+  saveBtnStyle: PropTypes.object,
+  /**
+   * Флаг показа размера файла
+   */
   showSize: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  /**
+   * Callback на изменение
+   */
+  onChange: PropTypes.func,
+  /**
+   * Класс контрола
+   */
+  className: PropTypes.string,
+  /**
+   * Mapper значения
+   */
+  mapper: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+  errorFormatter: PropTypes.func,
 };
 
 export default withFileUploader(ButtonUploader);

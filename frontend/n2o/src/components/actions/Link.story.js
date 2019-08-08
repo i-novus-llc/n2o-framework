@@ -3,11 +3,17 @@ import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
-import Actions from './Actions';
+import Actions, { Actions as ActionsComponent } from './Actions';
 import metadata from './Link.meta';
 import { Route, Switch } from 'react-router-dom';
 
 const stories = storiesOf('Действия/Ссылка Link', module);
+stories.addParameters({
+  info: {
+    propTables: [ActionsComponent],
+    propTablesExclude: [Actions, Route, Switch],
+  },
+});
 
 stories
   .addDecorator(jsxDecorator)

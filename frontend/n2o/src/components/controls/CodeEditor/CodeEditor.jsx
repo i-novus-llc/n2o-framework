@@ -86,14 +86,41 @@ class CodeEditor extends React.Component {
 }
 
 CodeEditor.propTypes = {
+  /**
+   * Значение контрола
+   */
   value: PropTypes.string,
+  /**
+   * Callback изменения
+   */
   onChange: PropTypes.func,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Название контрола
+   */
   name: PropTypes.string,
+  /**
+   * Минимальное количество строк
+   */
   minLines: PropTypes.number,
+  /**
+   * Максимальное количество строк
+   */
   maxLines: PropTypes.number,
+  /**
+   * Пресет контрола
+   */
   lang: PropTypes.oneOf(['javascript', 'xml', 'sql', 'groovy', 'java', 'html']),
+  /**
+   * Флаг включения автозаполнения
+   */
   autocomplete: PropTypes.bool,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 

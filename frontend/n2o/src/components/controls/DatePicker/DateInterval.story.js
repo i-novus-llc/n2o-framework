@@ -15,6 +15,7 @@ import withForm from 'N2oStorybook/decorators/withForm';
 import DateIntervalJSON from './DateInterval.meta';
 
 import DateInterval from './DateInterval';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Интервал дат', module);
 
@@ -23,6 +24,13 @@ const form = withForm({ src: 'DateInterval' });
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('DateTimeControl'));
 stories.addDecorator(jsxDecorator);
+
+stories.addParameters({
+  info: {
+    propTables: [DateInterval],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {

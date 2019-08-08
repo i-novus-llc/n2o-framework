@@ -170,18 +170,57 @@ Alert.defaultProps = {
 };
 
 Alert.propTypes = {
+  /**
+   * Заголовок алерта
+   */
   label: PropTypes.string,
+  /**
+   * Текст алерта
+   */
   text: PropTypes.string,
+  /**
+   * Цвет алерта
+   */
   severity: PropTypes.oneOf([['info', 'danger', 'warning', 'success']]),
+  /**
+   * Подробности алерта
+   */
   details: PropTypes.string,
+  /**
+   * Флаг показа кнопки закрытия
+   */
   closeButton: PropTypes.bool,
+  /**
+   * Callback на закрытие
+   */
   onDismiss: PropTypes.func,
+  /**
+   * Класс алерта
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Иконка рядом с заголовком
+   */
   icon: PropTypes.string,
+  /**
+   * Видимость
+   */
   visible: PropTypes.bool,
+  /**
+   * Позиционирование алерта
+   */
   position: PropTypes.string,
+  /**
+   * Кнопка tooltip
+   */
   help: PropTypes.string,
+  /**
+   * Флаг включения всплытия с анимацией
+   */
   animate: PropTypes.bool,
 };
 

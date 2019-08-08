@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { list } from 'N2oStorybook/fetchMock';
@@ -15,6 +16,7 @@ const stories = storiesOf('Ячейки/Ярлыки', module);
 stories.addDecorator(withKnobs);
 // todo: баг в jest addon
 stories.addDecorator(withTests('BadgeCell'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

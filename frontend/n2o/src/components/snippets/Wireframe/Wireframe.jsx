@@ -22,8 +22,17 @@ class Wireframe extends React.Component {
 }
 
 Wireframe.propTypes = {
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Заголовок заглушки
+   */
   title: PropTypes.string,
+  /**
+   * Стили заглушки
+   */
   style: PropTypes.object,
 };
 

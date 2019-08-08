@@ -1,54 +1,49 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withState } from '@dump247/storybook-state';
+import { storiesOf, forceReRender } from '@storybook/react';
+import { StateDecorator, Store } from '@sambego/storybook-state';
 
 import ModalDialog from './ModalDialog';
 
-const stories = storiesOf('UI Компоненты/Диалог', module);
+const store = new Store({
+  visible: false,
+  closeButton: false,
+});
 
-stories.add(
-  'Кнопка закрытия',
-  withState(
-    {
-      visible: false,
-      closeButton: true,
-    },
-    store => {
-      return (
-        <React.Fragment>
-          <div className="btn-group">
-            <button
-              className="btn btn-secondary"
-              onClick={() =>
-                store.set({
-                  visible: true,
-                  closeButton: true,
-                })
-              }
-            >
-              С кнопкой закрытия
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() =>
-                store.set({
-                  visible: true,
-                  closeButton: false,
-                })
-              }
-            >
-              Без кнопки закрытия
-            </button>
-          </div>
-          <ModalDialog
-            closeButton={store.state.closeButton}
-            visible={store.state.visible}
-            onDeny={() => store.set({ visible: false })}
-            onConfirm={() => store.set({ visible: false })}
-            close={() => store.set({ visible: false })}
-          />
-        </React.Fragment>
-      );
-    }
-  )
-);
+store.subscribe(forceReRender);
+
+const stories = storiesOf('UI Компоненты/Диалог', module);
+stories.addDecorator(StateDecorator(store));
+
+stories.addWithJSX('Кнопка закрытия', () => [
+  <div className="btn-group">
+    <button
+      className="btn btn-secondary"
+      onClick={() =>
+        store.set({
+          visible: true,
+          closeButton: true,
+        })
+      }
+    >
+      С кнопкой закрытия
+    </button>
+    <button
+      className="btn btn-secondary"
+      onClick={() =>
+        store.set({
+          visible: true,
+          closeButton: false,
+        })
+      }
+    >
+      Без кнопки закрытия
+    </button>
+  </div>,
+  <ModalDialog
+    closeButton={store.get('closeButton')}
+    visible={store.get('visible')}
+    onDeny={() => store.set({ visible: false })}
+    onConfirm={() => store.set({ visible: false })}
+    close={() => store.set({ visible: false })}
+  />,
+]);

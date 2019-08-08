@@ -4,11 +4,17 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, select, boolean, text } from '@storybook/addon-knobs/react';
 import Placeholder from '../../Placeholder';
 import meta from './List.meta';
+import List from './List';
 
 const stories = storiesOf('UI Компоненты/Placeholder/type=list', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [List],
+  },
+});
 
 stories
   .add('Компонент', () => {

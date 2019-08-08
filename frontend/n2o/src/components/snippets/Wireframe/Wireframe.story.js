@@ -12,6 +12,11 @@ const stories = storiesOf('UI Компоненты/Визуальная загл
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTablesExclude: [Card, CardBody],
+  },
+});
 
 stories
   .add('Компонент', () => {

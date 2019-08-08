@@ -1,6 +1,7 @@
 import React from 'react';
 import { configure, setAddon, addDecorator } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
+import { withInfo } from '@storybook/addon-info';
 import JSXAddon from 'storybook-addon-jsx';
 
 import Container from './Container';
@@ -18,6 +19,11 @@ setOptions({
 });
 
 setAddon(JSXAddon);
+
+addDecorator(withInfo({
+  source: false,
+  inline: true
+}));
 
 addDecorator( (story, path) =>
 {

@@ -1,12 +1,19 @@
 import React from 'react';
-import { setAddon, storiesOf } from '@storybook/react';
+import { setAddon, storiesOf, forceReRender } from '@storybook/react';
 import JSXAddon from 'storybook-addon-jsx';
+import { StateDecorator, Store } from '@sambego/storybook-state';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
-import { withState } from '@dump247/storybook-state';
 import withForm from 'N2oStorybook/decorators/withForm';
 
 import Checkbox from './Checkbox';
+import Factory from '../../../core/factory/Factory';
+
+const store = new Store({
+  checked: false,
+});
+
+store.subscribe(forceReRender);
 
 const form = withForm({ src: 'Checkbox' });
 
@@ -16,27 +23,30 @@ const stories = storiesOf('Контролы/Чекбокс', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Checkbox'));
+stories.addParameters({
+  info: {
+    propTables: [Checkbox],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
-  .addWithJSX(
-    'Чекбокс',
-    withState({ checked: false }, store => {
-      const props = {
-        value: number('value', 2),
-        disabled: boolean('disabled', false),
-        checked: boolean('checked', store.state.checked),
-        label: text('label', 'Label'),
-      };
+  .addWithJSX('Чекбокс', () => {
+    const props = {
+      value: number('value', 2),
+      disabled: boolean('disabled', false),
+      checked: boolean('checked', store.get('checked')),
+      label: text('label', 'Label'),
+    };
 
-      return (
-        <Checkbox
-          {...props}
-          onChange={() => store.set({ checked: !store.state.checked })}
-        />
-      );
-    }),
-    { jsx: { skip: 1 } }
-  )
+    return (
+      <Checkbox
+        {...props}
+        checked={store.get('checked')}
+        onChange={() => store.set({ checked: !store.get('checked') })}
+      />
+    );
+  })
   .add(
     'Метаданные',
     form(() => {

@@ -24,12 +24,7 @@ stories.add('Группа в виде кнопок', () => {
   };
 
   return (
-    <CheckboxGroup
-      name="numbers"
-      isBtnGroup={true}
-      onChange={action('checkbox-on-change')}
-      {...props}
-    >
+    <CheckboxGroup name="numbers" isBtnGroup={true} {...props}>
       <CheckboxButton value="1" label="Первый" />
       <CheckboxButton value="2" label="Второй" />
       <CheckboxButton value="3" label="Третий" />

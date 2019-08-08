@@ -20,11 +20,29 @@ function TitleFieldset({ render, rows, title, showLine, className, subTitle }) {
 }
 
 TitleFieldset.propTypes = {
+  /**
+   * Функция рендера
+   */
   render: PropTypes.func,
+  /**
+   * Масив строк для реднра
+   */
   rows: PropTypes.array,
+  /**
+   * Заголовок
+   */
   title: PropTypes.string,
+  /**
+   * Флаг включения линии рядом с заголовком
+   */
   showLine: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Текст подзаголовка
+   */
   subtitle: PropTypes.string,
 };
 

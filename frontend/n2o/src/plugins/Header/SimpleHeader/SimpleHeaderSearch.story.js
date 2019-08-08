@@ -8,6 +8,11 @@ import Wireframe from '../../../components/snippets/Wireframe/Wireframe';
 
 const stories = storiesOf('UI Компоненты/Меню сверху', module);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTablesExclude: [Wireframe],
+  },
+});
 
 stories.add('Компонент', () => {
   return (

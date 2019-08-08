@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { number, text, withKnobs } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 
@@ -12,6 +13,7 @@ const stories = storiesOf('Ячейки/CollapsedCell', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CollapsedCell'));
+stories.addDecorator(jsxDecorator);
 
 stories
   .add('Метаданные', () => {

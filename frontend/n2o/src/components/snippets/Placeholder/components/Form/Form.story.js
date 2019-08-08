@@ -4,11 +4,17 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, select, boolean, text } from '@storybook/addon-knobs/react';
 import Placeholder from '../../Placeholder';
 import meta from './Form.meta';
+import Form from './Form';
 
 const stories = storiesOf('UI Компоненты/Placeholder/type=form', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [Form],
+  },
+});
 
 stories.add('Компонент', () => {
   const props = {

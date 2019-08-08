@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { boolean, withKnobs } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import CheckboxCellJson from './CheckboxCell.meta.json';
@@ -14,6 +15,7 @@ import CheckboxCell from './CheckboxCell';
 import { set } from 'lodash';
 
 const stories = storiesOf('Ячейки/Чекбокс', module);
+stories.addDecorator(jsxDecorator);
 
 const metadata = {
   Page_Table: {

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { map } from 'lodash';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import {
   number,
   text,
@@ -17,6 +18,7 @@ import metadata from './ButtonsCell.meta';
 import AuthButtonContainer from '../../../../../core/auth/AuthLogin';
 
 const stories = storiesOf('Ячейки/ButtonsCell', module);
+stories.addDecorator(jsxDecorator);
 
 const examplesDataSource = [
   {
