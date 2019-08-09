@@ -2,10 +2,7 @@
   position: fixed;
   top: 0;
   z-index: 9999;
-  > * {
-    transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86), opacity 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86), box-shadow 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-  }
-  .drawer-mask {
+  &-mask {
     background: #000;
     opacity: 0;
     width: 100%;
@@ -15,6 +12,10 @@
     left: 0;
     transition: opacity 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86), height 0s ease 0.3s;
   }
+}
+
+.drawer-animation > * {
+  transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86), opacity 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86), box-shadow 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
 }
 
 .drawer-content-wrapper {
@@ -28,21 +29,21 @@
   position: relative;
 }
 
-//.drawer-handle {
-//  position: absolute;
-//  top: 72px;
-//  width: 41px;
-//  height: 40px;
-//  cursor: pointer;
-//  z-index: 0;
-//  text-align: center;
-//  line-height: 40px;
-//  font-size: 16px;
-//  display: flex;
-//  justify-content: center;
-//  align-items: center;
-//  background: #fff;
-//}
+.drawer-handle {
+  position: absolute;
+  top: 72px;
+  width: 41px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 0;
+  text-align: center;
+  line-height: 40px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+}
 
 .drawer-handle-icon {
   width: 14px;
@@ -68,7 +69,7 @@
 }
 
 .drawer-left, .drawer-right {
-  width: 0%;
+  width: 0;
   height: 100%;
 }
 
@@ -81,7 +82,7 @@
 }
 
 .drawer-left.drawer-open.no-mask, .drawer-right.drawer-open.no-mask {
-  width: 0%;
+  width: 0;
 }
 
 .drawer-left {
@@ -113,7 +114,7 @@
 
 .drawer-top, .drawer-bottom {
   width: 100%;
-  height: 0%;
+  height: 0;
 }
 
 .drawer-top .drawer-content-wrapper, .drawer-bottom .drawer-content-wrapper, .drawer-top .drawer-content, .drawer-bottom .drawer-content {
@@ -125,7 +126,7 @@
 }
 
 .drawer-top.drawer-open.no-mask, .drawer-bottom.drawer-open.no-mask {
-  height: 0%;
+  height: 0;
 }
 
 .drawer-top .drawer-handle, .drawer-bottom .drawer-handle {
