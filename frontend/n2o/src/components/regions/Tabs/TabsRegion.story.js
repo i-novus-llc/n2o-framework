@@ -4,7 +4,7 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import { set, pullAt, omit, pick } from 'lodash';
 
-import TabsRegion from './TabsRegion';
+import TabsRegion, { TabRegion as TabsRegionComponent } from './TabsRegion';
 import { metadataSuccess } from '../../../actions/pages';
 import { hideWidget, showWidget } from '../../../actions/widgets';
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
@@ -25,6 +25,12 @@ const stories = storiesOf('Регионы/Вкладки', module);
 
 stories.addDecorator(withTests('Tabs'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [TabsRegionComponent],
+    propTablesExclude: [TabsRegion, AuthButtonContainer],
+  },
+});
 
 const TabsRegionJson = set(
   cloneObject(SecureTabRegionJson),

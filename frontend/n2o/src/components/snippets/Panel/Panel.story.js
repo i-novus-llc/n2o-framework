@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, boolean, text, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import Factory from '../../../core/factory/Factory';
@@ -13,6 +14,12 @@ const stories = storiesOf('Регионы/Панель', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Panel'));
+stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTablesExclude: [Factory],
+  },
+});
 
 const tabs = [
   {

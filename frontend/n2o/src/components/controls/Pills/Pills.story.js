@@ -6,6 +6,7 @@ import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
 import meta from './Pills.meta';
 import PillsContainer from './PillsContainer';
+import Factory from '../../../core/factory/Factory';
 
 const dataUrl = 'begin:n2o/data';
 
@@ -15,6 +16,12 @@ const form = withForm({ src: 'Pills' });
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [PillsContainer],
+    propTablesExclude: [Factory],
+  },
+});
 
 const handleData = list => url => ({ list });
 

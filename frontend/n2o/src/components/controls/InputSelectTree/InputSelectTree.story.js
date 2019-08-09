@@ -3,12 +3,20 @@ import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import InputSelectTree from './InputSelectTree';
+import InputSelectTree, {
+  InputSelectTree as InputSelectComponent,
+} from './InputSelectTree';
 
 const stories = storiesOf('Контролы/InputSelectTree', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [InputSelectComponent],
+    propTablesExclude: [InputSelectTree],
+  },
+});
 
 stories.add('Компонент ', () => {
   const data = [

@@ -5,7 +5,9 @@ import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { set, pullAt } from 'lodash';
 
-import PanelRegion from './PanelRegion';
+import PanelRegion, {
+  PanelRegion as PanelRegionComponent,
+} from './PanelRegion';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import Wireframe from '../../snippets/Wireframe/Wireframe';
 
@@ -17,12 +19,19 @@ import { makeStore } from '../../../../.storybook/decorators/utils';
 import cloneObject from '../../../utils/cloneObject';
 import panelStyles from '../../snippets/Panel/panelStyles';
 import { dataSuccessWidget, hideWidget } from '../../../actions/widgets';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Регионы/Панель', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('PanelRegion'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [PanelRegionComponent],
+    propTablesExclude: [Factory, PanelRegion, AuthButtonContainer],
+  },
+});
 
 const PanelRegionJson = set(
   cloneObject(SecurePanelRegion),

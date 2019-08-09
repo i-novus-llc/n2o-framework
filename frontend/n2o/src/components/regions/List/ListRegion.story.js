@@ -5,7 +5,7 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import { set, omit, pullAt, pick } from 'lodash';
 
-import ListRegion from './ListRegion';
+import ListRegion, { ListRegion as ListRegionComponent } from './ListRegion';
 import SecureListRegionJson from './ListRegion.meta';
 import { metadataSuccess } from '../../../actions/pages';
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
@@ -18,11 +18,18 @@ import ListWithDependency from 'N2oStorybook/json/ListWithDependency';
 import fetchMock from 'fetch-mock';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Регионы/Лист', module);
 
 stories.addDecorator(withTests('Лист'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [ListRegionComponent],
+    propTablesExclude: [ListRegion, Factory, AuthButtonContainer],
+  },
+});
 const ListRegionJson = set(
   cloneObject(SecureListRegionJson),
   'items',

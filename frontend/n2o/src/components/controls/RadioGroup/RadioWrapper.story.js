@@ -10,13 +10,22 @@ import {
 import { jsxDecorator } from 'storybook-addon-jsx';
 import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
+import Radio from '../Radio/RadioN2O';
 import RadioWrapper from './RadioWrapper.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Радио', module);
 const form = withForm({ src: 'RadioGroup' });
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+
+stories.addParameters({
+  info: {
+    propTables: [Radio],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories.add(
   'Метаданные',

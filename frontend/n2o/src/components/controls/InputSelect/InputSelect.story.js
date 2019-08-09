@@ -3,12 +3,21 @@ import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
-import InputSelect from './InputSelect';
+import InputSelect, {
+  InputSelect as InputSelectComponent,
+} from './InputSelect';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/InputSelect', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [InputSelectComponent],
+    propTablesExclude: [InputSelect, Factory],
+  },
+});
 
 stories.add('Компонент ', () => {
   const options = [

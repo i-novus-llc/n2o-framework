@@ -500,11 +500,29 @@ const FileUploaderControl = WrappedComponent => {
      */
     mapper: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    /**
+     * Callback на старт загрузки файла
+     */
     onStart: PropTypes.func,
+    /**
+     * Callback на успешное завершение загрузки файла
+     */
     onSuccess: PropTypes.func,
+    /**
+     * Callback на ошибку при загрузке
+     */
     onError: PropTypes.func,
+    /**
+     * Callback на удаление файла
+     */
     onDelete: PropTypes.func,
+    /**
+     * Кастомный запрос отправки файла
+     */
     uploadRequest: PropTypes.func,
+    /**
+     * Кастомный запрос удаления файла
+     */
     deleteRequest: PropTypes.func,
   };
 

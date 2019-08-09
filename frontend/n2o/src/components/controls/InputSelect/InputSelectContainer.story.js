@@ -20,12 +20,20 @@ import {
   excludeMetadata,
 } from 'N2oStorybook/json';
 import withForm from 'N2oStorybook/decorators/withForm';
+import { InputSelect as InputSelectComponent } from './InputSelect';
+import Factory from '../../../core/factory/Factory';
 const stories = storiesOf('Контролы/InputSelect', module);
 const form = withForm();
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelect'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [InputSelectComponent],
+    propTablesExclude: [InputSelectContainer, Factory],
+  },
+});
 
 const dataUrl = 'begin:n2o/data';
 const data = [

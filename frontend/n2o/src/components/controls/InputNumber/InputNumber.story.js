@@ -7,12 +7,20 @@ import withForm from 'N2oStorybook/decorators/withForm';
 
 import InputNumber from './InputNumber';
 import InputNumberJson from './InputNumber.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Ввод чисел', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputNumber'));
 stories.addDecorator(jsxDecorator);
+
+stories.addParameters({
+  info: {
+    propTables: [InputNumber],
+    propTablesExclude: [Factory],
+  },
+});
 
 const form = withForm({ src: 'InputNumber' });
 

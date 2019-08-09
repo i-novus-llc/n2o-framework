@@ -4,14 +4,21 @@ import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 
-import InputSelect from './N2OSelect';
+import InputSelect, { N2OSelect } from './N2OSelect';
 import N2OSelectJson from './N2OSelect.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Выпадающий список', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelect'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [N2OSelect],
+    propTablesExclude: [InputSelect, Factory],
+  },
+});
 
 stories.add('N2O вариант', () => {
   const options = [

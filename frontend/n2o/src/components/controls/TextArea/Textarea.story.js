@@ -1,11 +1,18 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf, forceReRender } from '@storybook/react';
+import { StateDecorator, Store } from '@sambego/storybook-state';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import { withState } from '@dump247/storybook-state';
 import withForm from 'N2oStorybook/decorators/withForm';
 import TextArea from './TextArea';
 import TextAreaJson from './TextArea.meta.json';
+import Factory from '../../../core/factory/Factory';
+
+const store = new Store({
+  value: '',
+});
+
+store.subscribe(forceReRender);
 
 const form = withForm({ src: 'TextArea' });
 
@@ -13,26 +20,30 @@ const stories = storiesOf('Контролы/Многострочное текс�
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addDecorator(StateDecorator(store));
+stories.addParameters({
+  info: {
+    propTables: [TextArea],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
-  .add(
-    'Компонент',
-    withState({ value: '' }, store => {
-      const props = {
-        placeholder: text('placeholder', 'Введите значение'),
-        disabled: boolean('disabled', false),
-        rows: number('rows', 5),
-        maxRows: number('maxRows', 10),
-      };
-      return (
-        <TextArea
-          {...props}
-          onChange={e => store.set({ value: e.target.value })}
-          value={store.state.value}
-        />
-      );
-    })
-  )
+  .add('Компонент', () => {
+    const props = {
+      placeholder: text('placeholder', 'Введите значение'),
+      disabled: boolean('disabled', false),
+      rows: number('rows', 5),
+      maxRows: number('maxRows', 10),
+    };
+    return (
+      <TextArea
+        {...props}
+        onChange={e => store.set({ value: e.target.value })}
+        value={store.get('value')}
+      />
+    );
+  })
 
   .add(
     'Метаданные',

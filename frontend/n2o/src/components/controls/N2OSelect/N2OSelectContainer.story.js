@@ -9,7 +9,9 @@ import withForm from 'N2oStorybook/decorators/withForm';
 import { excludeMetadata } from 'N2oStorybook/json';
 
 import N2OSelectContainer from './N2OSelectContainer';
+import { N2OSelect } from './N2OSelect';
 import N2OSelectContainerJson from './N2OSelectContainer.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'N2OSelect' });
 const stories = storiesOf('Контролы/Выпадающий список', module);
@@ -17,6 +19,12 @@ const stories = storiesOf('Контролы/Выпадающий список', 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('N2OSelectContainer'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [N2OSelect],
+    propTablesExclude: [Factory, N2OSelectContainer],
+  },
+});
 
 const dataUrl = 'begin:n2o/data/test';
 

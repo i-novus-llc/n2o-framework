@@ -7,15 +7,22 @@ import {
   number,
   select,
 } from '@storybook/addon-knobs/react';
-import Slider from './Slider';
+import Slider, { Slider as SliderComponent } from './Slider';
 import meta from './Slider.meta';
 
 import withForm from 'N2oStorybook/decorators/withForm';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Ползунок', module);
 const form = withForm({ src: 'Slider' });
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [SliderComponent],
+    propTablesExclude: [Slider, Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {

@@ -2,11 +2,11 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import { withState } from '@dump247/storybook-state';
 import withForm from 'N2oStorybook/decorators/withForm';
 import Rating from './Rating';
 
 import meta from './Raiting.meta';
+import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'Rating' });
 
@@ -14,6 +14,12 @@ const stories = storiesOf('Контролы/Рейтинг', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [Rating],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {
