@@ -1,7 +1,6 @@
 import React from 'react';
 import ImageCell from './ImageCell';
 import imageShapes from './imageShapes';
-import { object, text } from '@storybook/addon-knobs/react';
 import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 

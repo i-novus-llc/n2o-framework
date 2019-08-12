@@ -1,17 +1,9 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
-import { pageWithPrompt } from '../../../.storybook/fetchMock/pageWithPrompt';
-import { withKnobs } from '@storybook/addon-knobs/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 import { StateDecorator, Store } from '@sambego/storybook-state';
 import withTests from 'N2oStorybook/withTests';
 import { page } from 'N2oStorybook/fetchMock';
-import {
-  ShowModalTitle,
-  ShowModal,
-  ModalPage,
-  PromptModal,
-} from 'N2oStorybook/json';
+import { ShowModalTitle, ShowModal } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 
 import ModalPages from './ModalPages';
@@ -28,7 +20,6 @@ store.subscribe(forceReRender);
 
 const stories = storiesOf('Действия/Модальное окно', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('ModalPages'));
 stories.addDecorator(withPage(ShowModalTitle));
 stories.addDecorator(StateDecorator(store));
@@ -41,7 +32,7 @@ stories.addParameters({
 });
 
 stories
-  .addDecorator(jsxDecorator)
+
   .add('Компонент', () => {
     return (
       <ModalWindow

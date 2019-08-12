@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 
@@ -11,9 +10,7 @@ import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Ввод чисел', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputNumber'));
-stories.addDecorator(jsxDecorator);
 
 stories.addParameters({
   info: {
@@ -39,12 +36,12 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        visible: boolean('visible', InputNumberJson.visible),
-        step: text('step', InputNumberJson.step),
-        showButtons: boolean('showButtons', InputNumberJson.showButtons),
-        disabled: boolean('disabled', InputNumberJson.disabled),
-        min: number('min', InputNumberJson.min),
-        max: number('max', InputNumberJson.max),
+        visible: InputNumberJson.visible,
+        step: InputNumberJson.step,
+        showButtons: InputNumberJson.showButtons,
+        disabled: InputNumberJson.disabled,
+        min: InputNumberJson.min,
+        max: InputNumberJson.max,
       };
       return props;
     })

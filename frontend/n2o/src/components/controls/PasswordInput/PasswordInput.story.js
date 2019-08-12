@@ -1,8 +1,8 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
+
 import { StateDecorator, Store } from '@sambego/storybook-state';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import PasswordInput, {
@@ -21,9 +21,8 @@ const stories = storiesOf('Контролы/Ввод пароля', module);
 
 const form = withForm({ src: 'PasswordInput' });
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('PasswordInput'));
-stories.addDecorator(jsxDecorator);
+
 stories.addDecorator(StateDecorator(store));
 stories.addParameters({
   info: {
@@ -35,10 +34,10 @@ stories.addParameters({
 stories
   .add('Компонент', () => {
     const props = {
-      placeholder: text('placeholder', 'Введите значение'),
-      disabled: boolean('disabled', false),
-      length: number('length', 25),
-      showPasswordBtn: boolean('showPasswordBtn', false),
+      placeholder: 'Введите значение',
+      disabled: false,
+      length: 25,
+      showPasswordBtn: false,
     };
 
     return (
@@ -54,9 +53,9 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        placeholder: text('placeholder', PasswordInputJson.placeholder),
-        disabled: boolean('disabled', PasswordInputJson.disabled),
-        length: number('length', PasswordInputJson.length),
+        placeholder: PasswordInputJson.placeholder,
+        disabled: PasswordInputJson.disabled,
+        length: PasswordInputJson.length,
       };
 
       return props;
@@ -66,13 +65,10 @@ stories
     'Фича просмотрал введенного пароля',
     form(() => {
       const props = {
-        placeholder: text('placeholder', PasswordInputJson.placeholder),
-        disabled: boolean('disabled', PasswordInputJson.disabled),
-        length: number('length', PasswordInputJson.length),
-        showPasswordBtn: boolean(
-          'showPasswordBtn',
-          PasswordInputJson.showPasswordBtn
-        ),
+        placeholder: PasswordInputJson.placeholder,
+        disabled: PasswordInputJson.disabled,
+        length: PasswordInputJson.length,
+        showPasswordBtn: PasswordInputJson.showPasswordBtn,
       };
 
       return props;

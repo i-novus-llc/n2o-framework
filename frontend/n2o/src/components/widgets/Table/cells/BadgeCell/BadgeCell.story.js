@@ -1,10 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, select } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
-import { list } from 'N2oStorybook/fetchMock';
-import { get, values } from 'lodash';
 
 import TextTableHeader from '../../headers/TextTableHeader';
 import BadgeCell from './BadgeCell';
@@ -14,10 +10,9 @@ import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Ярлыки', module);
 
-stories.addDecorator(withKnobs);
 // todo: баг в jest addon
 stories.addDecorator(withTests('BadgeCell'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [BadgeCell],
@@ -39,14 +34,10 @@ stories
         {
           id: 'secondary',
           component: BadgeCell,
-          placement: select('placement', ['left', 'right'], 'left'),
-          color: select(
-            'color',
-            ['secondary', 'primary', 'danger', 'success', 'warning', 'info'],
-            'secondary'
-          ),
+          placement: 'left',
+          color: 'secondary',
           fieldKey: 'test',
-          text: text('text', 'Мужской'),
+          text: 'Мужской',
         },
       ],
       datasource: [
@@ -67,16 +58,8 @@ stories
 
   .add('Метаданные', () => {
     const badgeProps = {
-      placement: select(
-        'placement',
-        ['left', 'right'],
-        BadgeCellJson.placement
-      ),
-      color: select(
-        'color',
-        ['secondary', 'primary', 'danger', 'success', 'warning', 'info'],
-        BadgeCellJson.color
-      ),
+      placement: BadgeCellJson.placement,
+      color: BadgeCellJson.color,
       fieldKey: BadgeCellJson.fieldKey,
       text: BadgeCellJson.text,
       format: BadgeCellJson.format,

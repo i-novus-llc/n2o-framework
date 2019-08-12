@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+
 import withTests from 'N2oStorybook/withTests';
 import { StateDecorator, Store } from '@sambego/storybook-state';
 
@@ -20,22 +20,21 @@ const onHide = () => store.set({ visible: false });
 
 const stories = storiesOf('UI Компоненты/Диалог', module);
 
-stories.addDecorator(withKnobs);
 // todo: баг в jest addon
 stories.addDecorator(withTests('ModalDialog'));
 stories.addDecorator(StateDecorator(store));
 
 stories
-  .addWithJSX(
+  .add(
     'Компонент',
     () => {
       const props = {
-        closeButton: boolean('closeButton', true),
-        size: select('size', ['lg', 'sm'], 'lg'),
-        title: text('title', 'Подтвердите действие'),
-        text: text('text', 'Сохранить изменения'),
-        confirmText: text('confirmText', 'Сохранить'),
-        denyText: text('denyText', 'Отмена'),
+        closeButton: true,
+        size: 'lg',
+        title: 'Подтвердите действие',
+        text: 'Сохранить изменения',
+        confirmText: 'Сохранить',
+        denyText: 'Отмена',
       };
 
       return (
@@ -55,14 +54,14 @@ stories
     { jsx: { skip: 1 } }
   )
 
-  .addWithJSX('Метаданные', () => {
+  .add('Метаданные', () => {
     const props = {
-      closeButton: boolean('closeButton', ModalDialogJson.closeButton),
-      size: select('size', ['lg', 'sm'], ModalDialogJson.size),
-      title: text('title', ModalDialogJson.title),
-      text: text('text', ModalDialogJson.text),
-      confirmText: text('confirmText', ModalDialogJson.confirmText),
-      denyText: text('denyText', ModalDialogJson.denyText),
+      closeButton: ModalDialogJson.closeButton,
+      size: ModalDialogJson.size,
+      title: ModalDialogJson.title,
+      text: ModalDialogJson.text,
+      confirmText: ModalDialogJson.confirmText,
+      denyText: ModalDialogJson.denyText,
     };
 
     return (

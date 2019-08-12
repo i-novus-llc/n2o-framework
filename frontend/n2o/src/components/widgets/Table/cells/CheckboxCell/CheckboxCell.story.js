@@ -1,14 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { boolean, withKnobs } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import CheckboxCellJson from './CheckboxCell.meta.json';
 import TextTableHeader from '../../headers/TextTableHeader';
 import Table from '../../Table';
 import Factory from '../../../../../core/factory/Factory';
 import { WIDGETS } from '../../../../../core/factory/factoryLevels';
-import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
 import withPage from 'N2oStorybook/decorators/withPage';
 import CheckboxCell, {
@@ -17,7 +14,7 @@ import CheckboxCell, {
 import { set } from 'lodash';
 
 const stories = storiesOf('Ячейки/Чекбокс', module);
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [CheckboxCellComponent],
@@ -81,7 +78,6 @@ const metadata = {
   },
 };
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CheckboxCell'));
 
 stories.addDecorator(withPage(metadata)).add('Метаданные', () => {

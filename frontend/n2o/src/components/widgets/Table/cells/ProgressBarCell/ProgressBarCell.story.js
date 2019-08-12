@@ -1,15 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import {
-  withKnobs,
-  text,
-  boolean,
-  object,
-  select,
-} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
-
 import Table from '../../Table';
 import progressBarStyles from './progressBarStyles';
 import ProgressBarCell from './ProgressBarCell';
@@ -19,9 +10,8 @@ import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Индикатор', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('ProgressBarCell'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [ProgressBarCell],
@@ -31,15 +21,11 @@ stories.addParameters({
 
 stories.add('Метаданные', () => {
   const props = {
-    id: text('id', ProgressBarJson.id),
-    animated: boolean('animated', ProgressBarJson.animated),
-    striped: boolean('striped', ProgressBarJson.striped),
-    color: select(
-      'color',
-      Object.values(progressBarStyles),
-      ProgressBarJson.color
-    ),
-    size: select('size', ['mini', 'default', 'large'], ProgressBarJson.size),
+    id: ProgressBarJson.id,
+    animated: ProgressBarJson.animated,
+    striped: ProgressBarJson.striped,
+    color: ProgressBarJson.color,
+    size: ProgressBarJson.size,
     model: {
       now: '12',
     },

@@ -1,8 +1,7 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+
 import withTests from 'N2oStorybook/withTests';
 
 import RadioN2O from './RadioN2O';
@@ -15,17 +14,16 @@ store.subscribe(forceReRender);
 
 const stories = storiesOf('Контролы/Радио', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Checkbox'));
-stories.addDecorator(jsxDecorator);
+
 stories.addDecorator(StateDecorator(store));
 
 stories.add('N2O радио', () => {
   const props = {
-    value: number('value', 2),
-    disabled: boolean('disabled', false),
-    checked: boolean('checked', store.get('checked')),
-    label: text('label', 'Label'),
+    value: 2,
+    disabled: false,
+    checked: store.get('checked'),
+    label: 'Label',
   };
 
   return (

@@ -1,8 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { action } from '@storybook/addon-actions';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
+
 import withTests from 'N2oStorybook/withTests';
 
 import RadioGroup from './RadioGroup';
@@ -10,26 +8,19 @@ import RadioButton from '../Radio/RadioButton';
 
 const stories = storiesOf('Контролы/Радио', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CheckboxGroup'));
-stories.addDecorator(jsxDecorator);
 
 stories.add('Группа в виде кнопок', () => {
   const props = {
-    value: text('value', '2'),
-    disabled: boolean('disabled', false),
-    visible: boolean('visible', true),
-    className: text('className', ''),
-    inline: boolean('inline', true),
+    value: '2',
+    disabled: false,
+    visible: true,
+    className: '',
+    inline: true,
   };
 
   return (
-    <RadioGroup
-      name="numbers"
-      isBtnGroup={true}
-      onChange={action('checkbox-on-change')}
-      {...props}
-    >
+    <RadioGroup name="numbers" isBtnGroup={true} onChange={() => {}} {...props}>
       <RadioButton value="1" label="Первый" />
       <RadioButton value="2" label="Второй" />
       <RadioButton value="3" label="Третий" />

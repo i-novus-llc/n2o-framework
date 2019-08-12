@@ -1,7 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, boolean, text } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import { set, pullAt } from 'lodash';
 
@@ -23,9 +21,8 @@ import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Регионы/Панель', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('PanelRegion'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [PanelRegionComponent],
@@ -84,16 +81,16 @@ stories
   })
   .add('Метаданные', () => {
     const props = {
-      className: text('className', PanelRegionJson.className),
-      color: text('color', PanelRegionJson.color),
-      icon: text('icon', PanelRegionJson.icon),
-      hasTabs: boolean('hasTabs', PanelRegionJson.hasTabs),
-      headerTitle: text('headerTitle', PanelRegionJson.headerTitle),
-      footerTitle: text('footerTitle', PanelRegionJson.footerTitle),
-      open: boolean('open', PanelRegionJson.open),
-      collapsible: boolean('collapsible', PanelRegionJson.collapsible),
-      fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
-      header: boolean('header', PanelRegionJson.header),
+      className: PanelRegionJson.className,
+      color: PanelRegionJson.color,
+      icon: PanelRegionJson.icon,
+      hasTabs: PanelRegionJson.hasTabs,
+      headerTitle: PanelRegionJson.headerTitle,
+      footerTitle: PanelRegionJson.footerTitle,
+      open: PanelRegionJson.open,
+      collapsible: PanelRegionJson.collapsible,
+      fullScreen: PanelRegionJson.fullScreen,
+      header: PanelRegionJson.header,
       panels: PanelRegionJson.panels,
     };
 
@@ -306,16 +303,16 @@ stories
   })
   .add('Скрытие панели при visible = false всех виджетов в ней', () => {
     const props = {
-      className: text('className', PanelRegionJson.className),
-      color: text('color', PanelRegionJson.color),
-      icon: text('icon', PanelRegionJson.icon),
-      hasTabs: boolean('hasTabs', PanelRegionJson.hasTabs),
-      headerTitle: text('headerTitle', PanelRegionJson.headerTitle),
-      footerTitle: text('footerTitle', PanelRegionJson.footerTitle),
-      open: boolean('open', PanelRegionJson.open),
-      collapsible: boolean('collapsible', PanelRegionJson.collapsible),
-      fullScreen: boolean('fullScreen', PanelRegionJson.fullScreen),
-      header: boolean('header', PanelRegionJson.header),
+      className: PanelRegionJson.className,
+      color: PanelRegionJson.color,
+      icon: PanelRegionJson.icon,
+      hasTabs: PanelRegionJson.hasTabs,
+      headerTitle: PanelRegionJson.headerTitle,
+      footerTitle: PanelRegionJson.footerTitle,
+      open: PanelRegionJson.open,
+      collapsible: PanelRegionJson.collapsible,
+      fullScreen: PanelRegionJson.fullScreen,
+      header: PanelRegionJson.header,
       panels: PanelRegionJson.panels,
     };
     store.dispatch(

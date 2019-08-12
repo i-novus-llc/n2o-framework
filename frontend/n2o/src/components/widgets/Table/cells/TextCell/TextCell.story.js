@@ -1,7 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { boolean, text, withKnobs } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import TextTableHeader from '../../headers/TextTableHeader';
 import TextCell from './TextCell';
@@ -9,9 +7,8 @@ import Table from '../../Table';
 
 const stories = storiesOf('Ячейки/Форматирование текста', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CheckboxCell'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [TextCell],

@@ -1,14 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import InputMask from './InputMask';
@@ -19,9 +10,8 @@ const stories = storiesOf('Контролы/Маскированный ввод'
 
 const form = withForm({ src: 'InputMask' });
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputMask'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [InputMask],
@@ -32,19 +22,15 @@ stories.addParameters({
 stories
   .add('Компонент', () => {
     const props = {
-      mask: text('mask', '9999'),
-      className: text('className', ''),
-      preset: select(
-        'preset',
-        ['none', 'phone', 'post-code', 'date', 'money', 'percentage', 'card'],
-        'none'
-      ),
-      placeholder: text('placeholder', 'Введите что-нибудь...'),
-      placeholderChar: text('placeholderChar', '_'),
-      value: text('value', 1234),
-      guide: boolean('guide', false),
-      keepCharPosition: boolean('keepCharPosition', true),
-      resetOnNotValid: boolean('resetOnNotValid', true),
+      mask: '9999',
+      className: '',
+      preset: 'none',
+      placeholder: 'Введите что-нибудь...',
+      placeholderChar: '_',
+      value: 1234,
+      guide: false,
+      keepCharPosition: true,
+      resetOnNotValid: true,
     };
 
     return <InputMask {...props} />;
@@ -54,23 +40,13 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        mask: text('mask', InputMaskJson.mask),
-        preset: select(
-          'preset',
-          ['none', 'phone', 'post-code', 'date', 'money', 'percentage', 'card'],
-          InputMaskJson.preset
-        ),
-        placeholder: text('placeholder', InputMaskJson.placeholder),
-        placeholderChar: text('placeholderChar', InputMaskJson.placeholderChar),
-        guide: boolean('guide', InputMaskJson.guide),
-        keepCharPosition: boolean(
-          'keepCharPosition',
-          InputMaskJson.keepCharPositions
-        ),
-        resetOnNotValid: boolean(
-          'resetOnNotValid',
-          InputMaskJson.resetOnNotValid
-        ),
+        mask: InputMaskJson.mask,
+        preset: InputMaskJson.preset,
+        placeholder: InputMaskJson.placeholder,
+        placeholderChar: InputMaskJson.placeholderChar,
+        guide: InputMaskJson.guide,
+        keepCharPosition: InputMaskJson.keepCharPositions,
+        resetOnNotValid: InputMaskJson.resetOnNotValid,
       };
 
       return props;

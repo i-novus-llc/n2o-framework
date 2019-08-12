@@ -1,14 +1,6 @@
 import React from 'react';
 import { setDisplayName } from 'recompose';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  select,
-  object,
-} from '@storybook/addon-knobs/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 import Collapse, { Panel } from './Collapse';
 import InputSelect from '../../controls/InputSelect/InputSelect';
 import InputSelectJson from '../../controls/InputSelect/InputSelect.meta';
@@ -16,9 +8,6 @@ import { SNIPPETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('UI Компоненты/Collapse', module);
-
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 
 const textToPanel =
   'Значимость этих проблем настолько очевидна, что сложившаяся структура организации требует определения и уточнения модели развития! Дорогие друзья, рамки и место обучения кадров создаёт предпосылки качественно новых шагов для дальнейших направлений развития проекта! Дорогие друзья, курс на социально-ориентированный национальный проект представляет собой интересный эксперимент проверки дальнейших направлений развития проекта.';
@@ -47,11 +36,11 @@ stories.addParameters({
 stories
   .add('Компонент type=default', () => {
     const props = {
-      type: select('type', ['default', 'line', 'divider'], 'default'),
-      activeKey: text('activeKey', ''),
-      defaultActiveKey: text('defaultActiveKey', ''),
-      destroyInactivePanel: boolean('destroyInactivePanel', false),
-      accordion: boolean('accordion', false),
+      type: 'default',
+      activeKey: '',
+      defaultActiveKey: '',
+      destroyInactivePanel: false,
+      accordion: false,
     };
 
     return <CollapseToStory {...props} />;
@@ -112,15 +101,15 @@ stories
     const dt = {
       id: 'uniqId',
       src: 'Collapse',
-      type: select('type', ['default', 'line', 'divider'], 'default'),
-      defaultActiveKey: text('defaultActiveKey', '1'),
-      destroyInactivePanel: boolean('destroyInactivePanel', false),
-      accordion: boolean('accordion', false),
-      dataKey: text('dataKey', 'items'),
-      items: object('items', [
+      type: 'default',
+      defaultActiveKey: '1',
+      destroyInactivePanel: false,
+      accordion: false,
+      dataKey: 'items',
+      items: [
         { key: '1', header: 'Первый', text: 'Teкст' },
         { key: '2', header: 'Второй', text: 'Teкст' },
-      ]),
+      ],
     };
     return (
       <React.Fragment>

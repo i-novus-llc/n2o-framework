@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
+
 import withTests from 'N2oStorybook/withTests';
 import { set, omit, pullAt, pick } from 'lodash';
 
@@ -23,7 +23,7 @@ import Factory from '../../../core/factory/Factory';
 const stories = storiesOf('Регионы/Лист', module);
 
 stories.addDecorator(withTests('Лист'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [ListRegionComponent],

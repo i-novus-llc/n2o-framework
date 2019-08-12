@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
@@ -20,7 +19,7 @@ stories.addParameters({
 });
 
 stories
-  .addDecorator(jsxDecorator)
+
   .add('Компонент', () => {
     const toolbar = [
       {

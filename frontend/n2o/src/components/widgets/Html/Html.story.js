@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
 
@@ -8,7 +8,6 @@ import Html from './Html';
 import HtmlJson from './Html.meta.json';
 
 const stories = storiesOf('Виджеты/HtmlWidget', module);
-stories.addDecorator(jsxDecorator);
 
 stories.add('Метаданные', () => {
   const delay = () => new Promise((res, rej) => setTimeout(res, 1000));

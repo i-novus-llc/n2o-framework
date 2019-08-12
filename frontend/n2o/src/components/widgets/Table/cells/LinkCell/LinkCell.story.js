@@ -1,13 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import {
-  withKnobs,
-  text,
-  boolean,
-  object,
-  select,
-} from '@storybook/addon-knobs/react';
 import { Route, Switch } from 'react-router-dom';
 import Table from '../../Table';
 import LinkCell, { LinkCell as LinkCellComponent } from './LinkCell';
@@ -20,8 +12,6 @@ import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Ссылка', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories.addParameters({
   info: {
     propTables: [LinkCellComponent],
@@ -32,9 +22,9 @@ stories.addParameters({
 stories
   .add('Метаданные', () => {
     const props = {
-      id: text('id', LinkCellJson.id),
-      fieldKey: boolean('animated', LinkCellJson.fieldKey),
-      className: boolean('striped', LinkCellJson.className),
+      id: LinkCellJson.id,
+      fieldKey: LinkCellJson.fieldKey,
+      className: LinkCellJson.className,
       action: LinkCellJson.action,
     };
 

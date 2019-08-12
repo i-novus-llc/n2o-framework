@@ -1,8 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-import { action } from '@storybook/addon-actions';
+
 import InputSelect, {
   InputSelect as InputSelectComponent,
 } from './InputSelect';
@@ -10,8 +8,6 @@ import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/InputSelect', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories.addParameters({
   info: {
     propTables: [InputSelectComponent],
@@ -114,40 +110,36 @@ stories.add('Компонент ', () => {
   ];
 
   const props = {
-    loading: boolean('loading', false),
-    disabled: boolean('disabled', false),
-    placeholder: text('placeholder', 'Введите значение'),
-    valueFieldId: text('valueFieldId', 'id'),
-    labelFieldId: text('labelFieldId', 'id'),
-    filter: select(
-      'filter',
-      ['includes', 'startsWith', 'endsWith'],
-      'includes'
-    ),
-    resetOnBlur: boolean('resetOnBlur', false),
-    iconFieldId: text('iconFieldId', 'icon'),
-    imageFieldId: text('imageFieldId', 'image'),
-    multiSelect: boolean('multiSelect', false),
-    groupFieldId: text('groupFieldId', ''),
-    hasCheckboxes: boolean('hasCheckboxes', false),
-    closePopupOnSelect: boolean('closePopupOnSelect', true),
-    format: text('format', ''),
+    loading: false,
+    disabled: false,
+    placeholder: 'Введите значение',
+    valueFieldId: 'id',
+    labelFieldId: 'id',
+    filter: 'includes',
+    resetOnBlur: false,
+    iconFieldId: 'icon',
+    imageFieldId: 'image',
+    multiSelect: false,
+    groupFieldId: '',
+    hasCheckboxes: false,
+    closePopupOnSelect: true,
+    format: '',
     options: options,
-    expandPopUp: boolean('expandPopUp', false),
+    expandPopUp: false,
   };
 
   return (
     <InputSelect
       {...props}
-      onSearch={action('onSearch')}
-      onSelect={action('onSelect')}
-      onToggle={action('onToggle')}
-      onInput={action('onInput')}
-      onOpen={action('onOpen')}
-      onClose={action('onClose')}
-      onChange={action('onChange')}
-      onScrollEnd={action('onScrollEnd')}
-      onElementCreate={action('onElementCreate')}
+      onSearch={() => {}}
+      onSelect={() => {}}
+      onToggle={() => {}}
+      onInput={() => {}}
+      onOpen={() => {}}
+      onClose={() => {}}
+      onChange={() => {}}
+      onScrollEnd={() => {}}
+      onElementCreate={() => {}}
     />
   );
 });

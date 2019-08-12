@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
+
 import fetchMock from 'fetch-mock';
 import widgetWithErrors from './PageWithErrors';
 import withPage from '../../../.storybook/decorators/withPage';
@@ -12,7 +12,7 @@ const stories = storiesOf('Функциональность', module);
 
 stories
   .addDecorator(withPage(widgetWithErrors))
-  .addDecorator(jsxDecorator)
+
   .add('Обработка ошибок', () => {
     const widgetError = {
       meta: {

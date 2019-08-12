@@ -1,13 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  select,
-} from '@storybook/addon-knobs/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import CodeEditor from './CodeEditor';
@@ -18,9 +10,7 @@ const form = withForm({ src: 'CodeEditor' });
 
 const stories = storiesOf('Контролы/Редактор кода', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CodeEditor'));
-stories.addDecorator(jsxDecorator);
 
 stories.addParameters({
   info: {
@@ -32,17 +22,13 @@ stories.addParameters({
 stories
   .add('Компонент', () => {
     const props = {
-      disabled: boolean('disabled', false),
-      visible: boolean('visible', true),
-      lang: select(
-        'lang',
-        ['javascript', 'xml', 'sql', 'groovy', 'java', 'html'],
-        'java'
-      ),
-      minLines: number('minLines', 5),
-      maxLines: number('maxLines', 30),
-      autocomplete: boolean('autocomplete', true),
-      value: text('value', ''),
+      disabled: false,
+      visible: true,
+      lang: 'java',
+      minLines: 5,
+      maxLines: 30,
+      autocomplete: true,
+      value: '',
     };
 
     return <CodeEditor {...props} />;
@@ -52,16 +38,12 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        disabled: boolean('disabled', CodeEditorJson.disabled),
-        lang: select(
-          'lang',
-          ['javascript', 'xml', 'sql', 'groovy', 'java', 'html'],
-          CodeEditorJson.lang
-        ),
-        minLines: number('minLines', CodeEditorJson.micro),
-        maxLines: number('maxLines', CodeEditorJson.maxLines),
-        autocomplete: boolean('autocomplete', CodeEditorJson.autocomplete),
-        value: text('value', CodeEditorJson.value),
+        disabled: CodeEditorJson.disabled,
+        lang: CodeEditorJson.lang,
+        minLines: CodeEditorJson.micro,
+        maxLines: CodeEditorJson.maxLines,
+        autocomplete: CodeEditorJson.autocomplete,
+        value: CodeEditorJson.value,
       };
 
       return props;

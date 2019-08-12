@@ -1,7 +1,5 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 
 import Text from './Text';
 import meta from './Text.meta';
@@ -10,20 +8,18 @@ import { map } from 'lodash';
 
 const stories = storiesOf('UI Компоненты/Типография/Text', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories
   .add('Компонент', () => {
     const props = {
-      code: boolean('code', meta.code),
-      del: boolean('del', meta.del),
-      mark: boolean('mark', meta.mark),
-      strong: boolean('strong', meta.strong),
-      underline: boolean('underline', meta.underline),
-      small: boolean('small', meta.small),
-      copyable: boolean('copyable', meta.copyable),
-      text: text('text', meta.text),
-      editable: boolean('editable', meta.editable),
+      code: meta.code,
+      del: meta.del,
+      mark: meta.mark,
+      strong: meta.strong,
+      underline: meta.underline,
+      small: meta.small,
+      copyable: meta.copyable,
+      text: meta.text,
+      editable: meta.editable,
     };
 
     return <Text {...props} />;

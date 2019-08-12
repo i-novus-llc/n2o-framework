@@ -1,16 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-import { action } from '@storybook/addon-actions';
+
 import InputSelectTree, {
   InputSelectTree as InputSelectComponent,
 } from './InputSelectTree';
 
 const stories = storiesOf('Контролы/InputSelectTree', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories.addParameters({
   info: {
     propTables: [InputSelectComponent],
@@ -99,54 +95,46 @@ stories.add('Компонент ', () => {
   ];
 
   const props = {
-    loading: boolean('loading', false),
-    disabled: boolean('disabled', false),
-    placeholder: text('placeholder', ''),
-    valueFieldId: text('valueFieldId', 'id'),
-    labelFieldId: text('labelFieldId', 'name'),
-    filter: select(
-      'filter',
-      ['includes', 'startsWith', 'endsWith', 'server'],
-      'includes'
-    ),
-    iconFieldId: text('iconFieldId', 'icon'),
-    imageFieldId: text('imageFieldId', 'image'),
-    multiSelect: boolean('multiSelect', false),
-    parentFieldId: text('parentFieldId', 'parentId'),
-    hasCheckboxes: boolean('hasCheckboxes', false),
-    hasChildrenFieldId: boolean('hasChildrenFieldId', true),
-    format: text('format', ''),
-    ajax: boolean('ajax', false),
-    showCheckedStrategy: select(
-      'showCheckedStrategy',
-      ['SHOW_PARENT', 'SHOW_CHILD', 'SHOW_ALL'],
-      'SHOW_CHILD'
-    ),
-    allowClear: boolean('allowClear', true),
-    showSearch: boolean('showSearch', true),
-    notFoundContent: text('notFoundContent', 'Ничего не найдено'),
-    searchPlaceholder: text('searchPlaceholder', 'Поиск'),
-    autoClearSearchValue: boolean('autoClearSearchValue', false),
-    defaultValue: text('defaultValue', ''),
+    loading: false,
+    disabled: false,
+    placeholder: '',
+    valueFieldId: 'id',
+    labelFieldId: 'name',
+    filter: 'includes',
+    iconFieldId: 'icon',
+    imageFieldId: 'image',
+    multiSelect: false,
+    parentFieldId: 'parentId',
+    hasCheckboxes: false,
+    hasChildrenFieldId: true,
+    format: '',
+    ajax: false,
+    showCheckedStrategy: 'SHOW_CHILD',
+    allowClear: true,
+    showSearch: true,
+    notFoundContent: 'Ничего не найдено',
+    searchPlaceholder: 'Поиск',
+    autoClearSearchValue: false,
+    defaultValue: '',
 
-    resetOnBlur: boolean('resetOnBlur', false),
-    groupFieldId: text('groupFieldId', ''),
-    closePopupOnSelect: boolean('closePopupOnSelect', true),
+    resetOnBlur: false,
+    groupFieldId: '',
+    closePopupOnSelect: true,
     data,
   };
 
   return (
     <InputSelectTree
       {...props}
-      onSearch={action('onSearch')}
-      onSelect={action('onSelect')}
-      onToggle={action('onToggle')}
-      onInput={action('onInput')}
-      onOpen={action('onOpen')}
-      onClose={action('onClose')}
-      onChange={action('onChange')}
-      onScrollEnd={action('onScrollEnd')}
-      onElementCreate={action('onElementCreate')}
+      onSearch={() => {}}
+      onSelect={() => {}}
+      onToggle={() => {}}
+      onInput={() => {}}
+      onOpen={() => {}}
+      onClose={() => {}}
+      onChange={() => {}}
+      onScrollEnd={() => {}}
+      onElementCreate={() => {}}
     />
   );
 });

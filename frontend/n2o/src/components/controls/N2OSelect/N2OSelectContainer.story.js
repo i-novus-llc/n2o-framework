@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+
 import withTests from 'N2oStorybook/withTests';
 import fetchMock from 'fetch-mock';
 import { parseUrl, getStubData } from 'N2oStorybook/fetchMock';
@@ -16,9 +15,8 @@ import Factory from '../../../core/factory/Factory';
 const form = withForm({ src: 'N2OSelect' });
 const stories = storiesOf('Контролы/Выпадающий список', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('N2OSelectContainer'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [N2OSelect],
@@ -75,30 +73,24 @@ stories
     'Контейнер для N2O',
     form(() => {
       const props = {
-        loading: boolean('loading', N2OSelectContainerJson.loading),
-        value: text('value', N2OSelectContainerJson.value),
-        disabled: boolean('disabled', N2OSelectContainerJson.disabled),
-        placeholder: text('placeholder', N2OSelectContainerJson.placeholder),
-        valueFieldId: text('valueFieldId', N2OSelectContainerJson.valueFieldId),
-        labelFieldId: text('labelFieldId', N2OSelectContainerJson.labelFieldId),
-        filter: text('filter', N2OSelectContainerJson.filter),
-        resetOnBlur: boolean('resetOnBlur', N2OSelectContainerJson.resetOnBlur),
-        queryId: text('queryId', N2OSelectContainerJson.queryId),
-        size: number('size', N2OSelectContainerJson.size),
-        iconFieldId: text('iconFieldId', N2OSelectContainerJson.iconFieldId),
-        imageFieldId: text('imageFieldId', N2OSelectContainerJson.imageFieldId),
-        groupFieldId: text('groupFieldId', N2OSelectContainerJson.groupFieldId),
-        hasCheckboxes: boolean(
-          'hasCheckboxes',
-          N2OSelectContainerJson.hasCheckboxes
-        ),
-        cleanable: boolean('cleanable', N2OSelectContainerJson.cleanable),
-        closePopupOnSelect: boolean(
-          'closePopupOnSelect',
-          N2OSelectContainerJson.closePopupOnSelect
-        ),
-        format: text('format', N2OSelectContainerJson.format),
-        searchByTap: boolean('searchByTap', N2OSelectContainerJson.searchByTap),
+        loading: N2OSelectContainerJson.loading,
+        value: N2OSelectContainerJson.value,
+        disabled: N2OSelectContainerJson.disabled,
+        placeholder: N2OSelectContainerJson.placeholder,
+        valueFieldId: N2OSelectContainerJson.valueFieldId,
+        labelFieldId: N2OSelectContainerJson.labelFieldId,
+        filter: N2OSelectContainerJson.filter,
+        resetOnBlur: N2OSelectContainerJson.resetOnBlur,
+        queryId: N2OSelectContainerJson.queryId,
+        size: N2OSelectContainerJson.size,
+        iconFieldId: N2OSelectContainerJson.iconFieldId,
+        imageFieldId: N2OSelectContainerJson.imageFieldId,
+        groupFieldId: N2OSelectContainerJson.groupFieldId,
+        hasCheckboxes: N2OSelectContainerJson.hasCheckboxes,
+        cleanable: N2OSelectContainerJson.cleanable,
+        closePopupOnSelect: N2OSelectContainerJson.closePopupOnSelect,
+        format: N2OSelectContainerJson.format,
+        searchByTap: N2OSelectContainerJson.searchByTap,
         dataProvider: N2OSelectContainerJson.dataProvider,
       };
 

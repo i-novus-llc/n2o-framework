@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
+
 import { StateDecorator, Store } from '@sambego/storybook-state';
 
 import SideBar from './SideBar';
@@ -16,7 +16,7 @@ const store = new Store({
 store.subscribe(forceReRender);
 
 const stories = storiesOf('UI Компоненты/Меню слева', module);
-stories.addDecorator(jsxDecorator);
+
 stories.addDecorator(StateDecorator(store));
 stories.addParameters({
   info: {

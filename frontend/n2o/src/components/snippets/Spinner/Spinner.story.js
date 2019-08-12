@@ -1,15 +1,5 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { action } from '@storybook/addon-actions';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import Input from '../../controls/Input/Input';
 import InlineSpinner from './InlineSpinner';
@@ -21,9 +11,7 @@ import Spinner from './Spinner';
 
 const stories = storiesOf('UI Компоненты/Спиннеры', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Spinner'));
-stories.addDecorator(jsxDecorator);
 
 const tableData = [
   { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001' },
@@ -95,10 +83,10 @@ stories
   })
   .add('Компонент', () => {
     const props = {
-      loading: boolean('loading', true),
-      type: select('type', ['cover', 'inline'], 'cover'),
-      text: text('text', 'text'),
-      delay: select('delay', [1000, 2000, 3000, 4000], 1000),
+      loading: true,
+      type: 'cover',
+      text: 'text',
+      delay: 1000,
     };
     return (
       <Fragment>

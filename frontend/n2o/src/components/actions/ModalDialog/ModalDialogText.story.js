@@ -23,7 +23,7 @@ stories.addParameters({
   },
 });
 
-stories.addWithJSX('Текст', () => [
+stories.add('Текст', () => [
   <Form>
     <FormGroup>
       <Label for="Title">Заголовок диалога</Label>

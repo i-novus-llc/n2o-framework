@@ -1,8 +1,6 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 import { StateDecorator, Store } from '@sambego/storybook-state';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import Input from './InputText';
@@ -19,9 +17,8 @@ const form = withForm({ src: 'InputText' });
 
 const stories = storiesOf('Контролы/Ввод текста', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('Input'));
-stories.addDecorator(jsxDecorator);
+
 stories.addDecorator(StateDecorator(store));
 stories.addParameters({
   info: {
@@ -41,9 +38,9 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        placeholder: text('placeholder', InputJson.placeholder),
-        disabled: boolean('disabled', InputJson.disabled),
-        length: number('length', InputJson.length),
+        placeholder: InputJson.placeholder,
+        disabled: InputJson.disabled,
+        length: InputJson.length,
       };
 
       return props;

@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+
 import withTests from 'N2oStorybook/withTests';
 import fetchMock from 'fetch-mock';
 import InputSelectTreeContainer, {
@@ -19,9 +18,8 @@ import Factory from '../../../core/factory/Factory';
 const stories = storiesOf('Контролы/InputSelectTree', module);
 const form = withForm({ src: 'InputSelectTree' });
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelectTree'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [InputSelectComponent],
@@ -158,63 +156,27 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        loading: boolean('loading', InputSelectTreeContainerJson.loading),
-        disabled: boolean('disabled', InputSelectTreeContainerJson.disabled),
-        placeholder: text(
-          'placeholder',
-          InputSelectTreeContainerJson.placeholder
-        ),
-        valueFieldId: text(
-          'valueFieldId',
-          InputSelectTreeContainerJson.valueFieldId
-        ),
-        labelFieldId: text(
-          'labelFieldId',
-          InputSelectTreeContainerJson.labelFieldId
-        ),
-        parentFieldId: text(
-          'parentFieldId',
-          InputSelectTreeContainerJson.parentFieldId
-        ),
-        filter: text('filter', InputSelectTreeContainerJson.filter),
-        value: text('value', InputSelectTreeContainerJson.value),
-        resetOnBlur: boolean(
-          'resetOnBlur',
-          InputSelectTreeContainerJson.resetOnBlur
-        ),
-        queryId: text('queryId', InputSelectTreeContainerJson.queryId),
-        size: number('size', InputSelectTreeContainerJson.size),
-        iconFieldId: text(
-          'iconFieldId',
-          InputSelectTreeContainerJson.iconFieldId
-        ),
-        imageFieldId: text(
-          'imageFieldId',
-          InputSelectTreeContainerJson.imageFieldId
-        ),
-        multiSelect: boolean(
-          'multiSelect',
-          InputSelectTreeContainerJson.multiSelect
-        ),
-        groupFieldId: text(
-          'groupFieldId',
-          InputSelectTreeContainerJson.groupFieldId
-        ),
-        hasCheckboxes: boolean(
-          'hasCheckboxes',
-          InputSelectTreeContainerJson.hasCheckboxes
-        ),
-        closePopupOnSelect: boolean(
-          'closePopupOnSelect',
-          InputSelectTreeContainerJson.closePopupOnSelect
-        ),
-        format: text('format', InputSelectTreeContainerJson.format),
-        ajax: boolean('ajax', InputSelectTreeContainerJson.ajax),
+        loading: InputSelectTreeContainerJson.loading,
+        disabled: InputSelectTreeContainerJson.disabled,
+        placeholder: InputSelectTreeContainerJson.placeholder,
+        valueFieldId: InputSelectTreeContainerJson.valueFieldId,
+        labelFieldId: InputSelectTreeContainerJson.labelFieldId,
+        parentFieldId: InputSelectTreeContainerJson.parentFieldId,
+        filter: InputSelectTreeContainerJson.filter,
+        value: InputSelectTreeContainerJson.value,
+        resetOnBlur: InputSelectTreeContainerJson.resetOnBlur,
+        queryId: InputSelectTreeContainerJson.queryId,
+        size: InputSelectTreeContainerJson.size,
+        iconFieldId: InputSelectTreeContainerJson.iconFieldId,
+        imageFieldId: InputSelectTreeContainerJson.imageFieldId,
+        multiSelect: InputSelectTreeContainerJson.multiSelect,
+        groupFieldId: InputSelectTreeContainerJson.groupFieldId,
+        hasCheckboxes: InputSelectTreeContainerJson.hasCheckboxes,
+        closePopupOnSelect: InputSelectTreeContainerJson.closePopupOnSelect,
+        format: InputSelectTreeContainerJson.format,
+        ajax: InputSelectTreeContainerJson.ajax,
         dataProvider: InputSelectTreeContainerJson.dataProvider,
-        hasChildrenFieldId: boolean(
-          'hasChildrenFieldId',
-          InputSelectTreeContainerJson.hasChildrenFieldId
-        ),
+        hasChildrenFieldId: InputSelectTreeContainerJson.hasChildrenFieldId,
       };
 
       fetchMock.restore().get(dataUrl, handleData(data));

@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+
 import withForm from 'N2oStorybook/decorators/withForm';
 import Rating from './Rating';
 
@@ -12,8 +11,6 @@ const form = withForm({ src: 'Rating' });
 
 const stories = storiesOf('Контролы/Рейтинг', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories.addParameters({
   info: {
     propTables: [Rating],
@@ -24,10 +21,10 @@ stories.addParameters({
 stories
   .add('Компонент', () => {
     const props = {
-      max: number('max', meta.max),
-      half: boolean('half', meta.half),
-      rating: number('rating', meta.rating),
-      showTooltip: boolean('showTooltip', meta.showTooltip),
+      max: meta.max,
+      half: meta.half,
+      rating: meta.rating,
+      showTooltip: meta.showTooltip,
     };
     return <Rating {...props} />;
   })

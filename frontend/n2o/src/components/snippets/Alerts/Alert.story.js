@@ -1,16 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withState } from '@dump247/storybook-state';
 import _ from 'lodash';
 
 import Alert from './Alert';
@@ -25,9 +14,6 @@ import { GLOBAL_KEY } from '../../../constants/alerts';
 import GlobalAlerts from '../../core/GlobalAlerts';
 const stories = storiesOf('UI Компоненты/Сообщения', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
-
 const props = {
   label: 'Лейбл алерта',
   text: 'Текст алерта',
@@ -41,88 +27,31 @@ stories
   .addDecorator(withPage(widgetWithErrors))
   .add('Компонент', () => {
     const knobs = {
-      label: text('label', props.label),
-      text: text('text', props.text),
-      details: text('details', props.details),
-      severity: select(
-        'severity',
-        ['info', 'danger', 'warning', 'success'],
-        props.severity
-      ),
-      visible: boolean('visible', true),
-      closeButton: boolean('closeButton', props.closeButton),
+      label: props.label,
+      text: props.text,
+      details: props.details,
+      severity: props.severity,
+      visible: true,
+      closeButton: props.closeButton,
     };
 
-    return (
-      <Alert
-        {...knobs}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-        }}
-      />
-    );
+    return <Alert {...knobs} onDismiss={e => {}} />;
   })
   .add('Без деталей', () => (
-    <Alert
-      {..._.omit(props, 'details')}
-      visible={true}
-      onDismiss={e => {
-        action('alert-onDismiss')(e);
-      }}
-    />
+    <Alert {..._.omit(props, 'details')} visible={true} onDismiss={e => {}} />
   ))
   .add('Без заголовка', () => (
-    <Alert
-      {..._.omit(props, 'label')}
-      visible={true}
-      onDismiss={e => {
-        action('alert-onDismiss')(e);
-      }}
-    />
+    <Alert {..._.omit(props, 'label')} visible={true} onDismiss={e => {}} />
   ))
   .add('Без кнопки скрытия', () => (
-    <Alert
-      {...props}
-      closeButton={false}
-      visible={true}
-      onDismiss={e => {
-        action('alert-onDismiss')(e);
-      }}
-    />
+    <Alert {...props} closeButton={false} visible={true} onDismiss={e => {}} />
   ))
   .add('Цвета', () => (
     <React.Fragment>
-      <Alert
-        {...props}
-        visible={true}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-        }}
-      />
-      <Alert
-        {...props}
-        severity="danger"
-        visible={true}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-        }}
-      />
-      <Alert
-        {...props}
-        severity="warning"
-        visible={true}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-        }}
-      />
-      <Alert
-        {...props}
-        severity="success"
-        visible={true}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-        }}
-      />
+      <Alert {...props} visible={true} onDismiss={e => {}} />
+      <Alert {...props} severity="danger" visible={true} onDismiss={e => {}} />
+      <Alert {...props} severity="warning" visible={true} onDismiss={e => {}} />
+      <Alert {...props} severity="success" visible={true} onDismiss={e => {}} />
     </React.Fragment>
   ))
   .add('Обновленный Alert', () => {
@@ -247,16 +176,12 @@ stories
     const dt = {
       id: 'widget',
       src: 'Alert',
-      label: text('label', 'Лейбл'),
-      text: text('text', 'Текст'),
-      details: text('details', 'Детали'),
-      severity: select(
-        'severity',
-        ['info', 'danger', 'warning', 'success'],
-        'info'
-      ),
-      visible: boolean('visible', true),
-      closeButton: boolean('closeButton', false),
+      label: 'Лейбл',
+      text: 'Текст',
+      details: 'Детали',
+      severity: 'info',
+      visible: true,
+      closeButton: false,
     };
     return (
       <React.Fragment>

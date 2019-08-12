@@ -1,8 +1,6 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import withForm from 'N2oStorybook/decorators/withForm';
 import Switch from './Switch';
 import SwitchJson from './Switch.meta.json';
@@ -17,8 +15,6 @@ store.subscribe(forceReRender);
 const stories = storiesOf('Контролы/Переключатель', module);
 const form = withForm({ src: SwitchJson.src });
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories.addDecorator(StateDecorator(store));
 stories.addParameters({
   info: {
@@ -30,8 +26,8 @@ stories.addParameters({
 stories
   .add('Компонент', () => {
     const props = {
-      disabled: boolean('disabled', false),
-      checked: boolean('checked', store.get('checked')),
+      disabled: false,
+      checked: store.get('checked'),
     };
 
     return (

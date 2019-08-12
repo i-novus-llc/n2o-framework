@@ -1,7 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
 import meta from './Pills.meta';
@@ -14,8 +12,6 @@ const stories = storiesOf('Контролы/Кнопочные фильтры', 
 
 const form = withForm({ src: 'Pills' });
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories.addParameters({
   info: {
     propTables: [PillsContainer],
@@ -28,9 +24,9 @@ const handleData = list => url => ({ list });
 stories
   .add('Компонент', () => {
     const props = {
-      valueFieldId: text('valueFieldId', meta.valueFieldId),
-      labelFieldId: text('labelFieldId', meta.labelFieldId),
-      multiSelect: boolean('multiSelect', meta.multiSelect),
+      valueFieldId: meta.valueFieldId,
+      labelFieldId: meta.labelFieldId,
+      multiSelect: meta.multiSelect,
     };
 
     const data = [

@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
+
 import fetchMock from 'fetch-mock';
 import { parseUrl, getStubData } from 'N2oStorybook/fetchMock';
 import SelectWrapper from './SelectWrapper';
@@ -10,23 +9,21 @@ import withForm from 'N2oStorybook/decorators/withForm';
 
 const form = withForm({ src: 'N2OSelect' });
 const stories = storiesOf('Контролы/Выпадающий список', module);
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 
 stories.add(
   'Метаданные',
   form(() => {
     const props = {
-      value: text('value', SelectJson.value),
-      visible: boolean('visible', SelectJson.visible),
-      valueFieldId: text('valueFieldId', SelectJson.valueFieldId),
-      labelFieldId: text('labelFieldId', SelectJson.labelFieldId),
-      queryId: text('queryId', SelectJson.queryId),
-      size: number('size', SelectJson.size),
-      heightSize: text('heightSize', SelectJson.heightSize),
-      disabled: boolean('disabled', SelectJson.disabled),
-      autoFocus: boolean('autoFocus', SelectJson.autoFocus),
-      required: boolean('required', SelectJson.required),
+      value: SelectJson.value,
+      visible: SelectJson.visible,
+      valueFieldId: SelectJson.valueFieldId,
+      labelFieldId: SelectJson.labelFieldId,
+      queryId: SelectJson.queryId,
+      size: SelectJson.size,
+      heightSize: SelectJson.heightSize,
+      disabled: SelectJson.disabled,
+      autoFocus: SelectJson.autoFocus,
+      required: SelectJson.required,
       dataProvider: SelectJson.dataProvider,
     };
 

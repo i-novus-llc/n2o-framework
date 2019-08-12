@@ -1,11 +1,10 @@
 import React from 'react';
 import TitleFieldset from './TitleFieldset';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
+
 import meta from './TitleFieldset.meta.json';
 
 const stories = storiesOf('UI Компоненты/TitleFieldset', module);
-stories.addDecorator(jsxDecorator);
 
 stories
   .add('Компонент', () => {

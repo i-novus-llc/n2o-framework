@@ -14,7 +14,7 @@ store.subscribe(forceReRender);
 const stories = storiesOf('UI Компоненты/Диалог', module);
 stories.addDecorator(StateDecorator(store));
 
-stories.addWithJSX('Кнопка закрытия', () => [
+stories.add('Кнопка закрытия', () => [
   <div className="btn-group">
     <button
       className="btn btn-secondary"

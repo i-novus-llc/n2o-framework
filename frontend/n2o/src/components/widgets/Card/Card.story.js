@@ -1,15 +1,6 @@
 import React, { Fragment } from 'react';
 import { CardLink, Row, Col } from 'reactstrap';
-import { zip, map } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import {
-  withKnobs,
-  text,
-  boolean,
-  select,
-  object,
-} from '@storybook/addon-knobs/react';
 import Card from './Card';
 import Actions from '../../actions/Actions';
 import { items } from './Card.meta';
@@ -18,7 +9,6 @@ import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Виджеты/Карточка');
 
-stories.addDecorator(jsxDecorator);
 stories.addParameters({
   info: {
     propTables: [Card, CardItem],
@@ -57,40 +47,37 @@ const btnAct = [
 
 const colors = ['primary', 'success', 'info', 'warning', 'danger'];
 
-stories.addDecorator(withKnobs);
 stories
   .add('Компонент', () => {
     const props = {
-      header: text('header', 'Header'),
-      meta: text('meta', 'Subtitle'),
-      text: text('text', 'Text'),
-      image: text(
-        'image',
-        'https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180'
-      ),
-      extra: text('extra', 'Extra'),
-      linear: boolean('linear', false),
-      circle: boolean('circle', false),
-      color: select('color', [...colors, null]),
-      inverse: boolean('inverse', false),
-      outline: boolean('outline', false),
+      header: 'Header',
+      meta: 'Subtitle',
+      text: 'Text',
+      image:
+        'https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180',
+      extra: 'Extra',
+      linear: false,
+      circle: false,
+      color: [...colors, null],
+      inverse: false,
+      outline: false,
     };
     return <Card.Item {...props} />;
   })
 
   .add('Метаданные', () => {
     const props = {
-      header: text('header', items[1].header),
-      meta: text('meta', items[1].meta),
-      text: text('text', items[1].text),
-      image: text('image', items[1].image),
-      extra: text('extra', items[1].extra),
-      linear: boolean('linear', items[1].linear),
-      rows: object('rows', items[1].rows),
-      circle: boolean('circle', items[1].circle),
-      color: select('color', [...colors, null]),
-      inverse: boolean('inverse', false),
-      outline: boolean('outline', true),
+      header: items[1].header,
+      meta: items[1].meta,
+      text: items[1].text,
+      image: items[1].image,
+      extra: items[1].extra,
+      linear: items[1].linear,
+      rows: items[1].rows,
+      circle: items[1].circle,
+      color: [...colors, null],
+      inverse: false,
+      outline: true,
     };
 
     return <Card.Item {...props} />;

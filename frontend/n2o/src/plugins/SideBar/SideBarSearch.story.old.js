@@ -1,7 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-
 import SideBar from './SideBar';
 import Template from '../OLD_SidebarFixTemplate';
 import Wireframe from '../../components/snippets/Wireframe/Wireframe';
@@ -9,9 +7,9 @@ import sidebarMetadata from './sidebarMetadata.meta.json';
 
 const stories = storiesOf('UI Компоненты/Меню слева', module);
 
-stories.addDecorator(withKnobs);
 
-stories.addWithJSX('Поиск', () => {
+
+stories.add('Поиск', () => {
   return (
     <Template>
       <SideBar

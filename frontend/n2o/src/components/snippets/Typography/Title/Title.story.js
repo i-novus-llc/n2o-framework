@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+
 import { map } from 'lodash';
 
 import Title from './Title';
@@ -10,22 +9,20 @@ import { allColors } from '../utils';
 
 const stories = storiesOf('UI Компоненты/Типография/Title', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(jsxDecorator);
 stories
   .add('Компонент', () => {
     const props = {
-      code: boolean('code', meta.code),
-      del: boolean('del', meta.del),
-      mark: boolean('mark', meta.mark),
-      strong: boolean('strong', meta.strong),
-      underline: boolean('underline', meta.underline),
-      small: boolean('small', meta.small),
-      level: select('level', [1, 2, 3, 4, 5], meta.level),
-      text: text('text', meta.text),
-      color: select('color', allColors, meta.color),
-      editable: boolean('editable', meta.editable),
-      copyable: boolean('copyable', meta.copyable),
+      code: meta.code,
+      del: meta.del,
+      mark: meta.mark,
+      strong: meta.strong,
+      underline: meta.underline,
+      small: meta.small,
+      level: meta.level,
+      text: meta.text,
+      color: meta.color,
+      editable: meta.editable,
+      copyable: meta.copyable,
     };
 
     return <Title {...props} />;

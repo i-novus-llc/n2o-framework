@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 
 import Actions from './Actions';
 import { Actions as ActionsComponent } from './Actions';
@@ -17,7 +16,7 @@ stories.addParameters({
 });
 
 stories
-  .addDecorator(jsxDecorator)
+
   .add('Варианты кнопок', () => {
     const toolbar1 = [
       {

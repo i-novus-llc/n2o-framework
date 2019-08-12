@@ -1,33 +1,18 @@
 import React from 'react';
-import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  select,
-} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import InputSelectContainer from './InputSelectContainer.jsx';
 import InputSelectContainerJson from './InputSelectContainer.meta.json';
 import fetchMock from 'fetch-mock';
 import { parseUrl, getStubData } from 'N2oStorybook/fetchMock';
-import {
-  FormFields,
-  FormValidations,
-  excludeMetadata,
-} from 'N2oStorybook/json';
 import withForm from 'N2oStorybook/decorators/withForm';
 import { InputSelect as InputSelectComponent } from './InputSelect';
 import Factory from '../../../core/factory/Factory';
 const stories = storiesOf('Контролы/InputSelect', module);
 const form = withForm();
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputSelect'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [InputSelectComponent],
@@ -218,57 +203,26 @@ stories
     'Метаданные',
     form(() => {
       const props = {
-        loading: boolean('loading', InputSelectContainerJson.loading),
-        value: text('value', InputSelectContainerJson.value),
-        disabled: boolean('disabled', InputSelectContainerJson.disabled),
-        placeholder: text('placeholder', InputSelectContainerJson.placeholder),
-        valueFieldId: text(
-          'valueFieldId',
-          InputSelectContainerJson.valueFieldId
-        ),
-        labelFieldId: text(
-          'labelFieldId',
-          InputSelectContainerJson.labelFieldId
-        ),
-        filter: select(
-          'filter',
-          ['includes', 'startsWith', 'endsWith'],
-          InputSelectContainerJson.filter
-        ),
-        resetOnBlur: boolean(
-          'resetOnBlur',
-          InputSelectContainerJson.resetOnBlur
-        ),
-        queryId: text('queryId', InputSelectContainerJson.queryId),
-        size: number('size', InputSelectContainerJson.size),
-        iconFieldId: text('iconFieldId', InputSelectContainerJson.iconFieldId),
-        imageFieldId: text(
-          'imageFieldId',
-          InputSelectContainerJson.imageFieldId
-        ),
-        multiSelect: boolean(
-          'multiSelect',
-          InputSelectContainerJson.multiSelect
-        ),
-        groupFieldId: text(
-          'groupFieldId',
-          InputSelectContainerJson.groupFieldId
-        ),
-        hasCheckboxes: boolean(
-          'hasCheckboxes',
-          InputSelectContainerJson.hasCheckboxes
-        ),
-        closePopupOnSelect: boolean(
-          'closePopupOnSelect',
-          InputSelectContainerJson.closePopupOnSelect
-        ),
-        format: text('format', InputSelectContainerJson.format),
+        loading: InputSelectContainerJson.loading,
+        value: InputSelectContainerJson.value,
+        disabled: InputSelectContainerJson.disabled,
+        placeholder: InputSelectContainerJson.placeholder,
+        valueFieldId: InputSelectContainerJson.valueFieldId,
+        labelFieldId: InputSelectContainerJson.labelFieldId,
+        filter: InputSelectContainerJson.filter,
+        resetOnBlur: InputSelectContainerJson.resetOnBlur,
+        queryId: InputSelectContainerJson.queryId,
+        size: InputSelectContainerJson.size,
+        iconFieldId: InputSelectContainerJson.iconFieldId,
+        imageFieldId: InputSelectContainerJson.imageFieldId,
+        multiSelect: InputSelectContainerJson.multiSelect,
+        groupFieldId: InputSelectContainerJson.groupFieldId,
+        hasCheckboxes: InputSelectContainerJson.hasCheckboxes,
+        closePopupOnSelect: InputSelectContainerJson.closePopupOnSelect,
+        format: InputSelectContainerJson.format,
         dataProvider: InputSelectContainerJson.dataProvider,
-        expandPopUp: boolean(
-          'expandPopUp',
-          InputSelectContainerJson.expandPopUp
-        ),
-        flip: boolean('flip', InputSelectContainerJson.flip),
+        expandPopUp: InputSelectContainerJson.expandPopUp,
+        flip: InputSelectContainerJson.flip,
       };
 
       fetchMock

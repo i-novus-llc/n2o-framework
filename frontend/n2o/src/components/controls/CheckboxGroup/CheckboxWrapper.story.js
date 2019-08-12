@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
+
 import fetchMock from 'fetch-mock';
 import WrapperJson from './CheckboxWrapper.meta.json';
 import withForm from 'N2oStorybook/decorators/withForm';
@@ -8,7 +8,6 @@ import withForm from 'N2oStorybook/decorators/withForm';
 const form = withForm({ src: 'CheckboxGroup' });
 
 const stories = storiesOf('Контролы/Группа чекбоксов', module);
-stories.addDecorator(withKnobs);
 
 stories.add(
   'Метаданные',
@@ -32,14 +31,14 @@ stories.add(
     ];
 
     const props = {
-      disabled: boolean('disabled', WrapperJson.disabled),
-      visible: boolean('visible', WrapperJson.visible),
-      className: text('className', WrapperJson.className),
-      inline: boolean('inline', WrapperJson.inline),
-      valueFieldId: text('valueFieldId', WrapperJson.valueFieldId),
-      labelFieldId: text('labelFieldId', WrapperJson.labelFieldId),
+      disabled: WrapperJson.disabled,
+      visible: WrapperJson.visible,
+      className: WrapperJson.className,
+      inline: WrapperJson.inline,
+      valueFieldId: WrapperJson.valueFieldId,
+      labelFieldId: WrapperJson.labelFieldId,
       size: WrapperJson.size,
-      type: select('type', ['default', 'n2o', 'btn'], WrapperJson.type),
+      type: WrapperJson.type,
       dataProvider: WrapperJson.dataProvider,
     };
 

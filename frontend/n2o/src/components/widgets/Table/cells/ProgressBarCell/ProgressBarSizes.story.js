@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
 
 import Table from '../../Table';
 import progressBarStyles from './progressBarStyles';
@@ -9,7 +8,7 @@ import TextTableHeader from '../../headers/TextTableHeader';
 import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Индикатор', module);
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [ProgressBarCell],

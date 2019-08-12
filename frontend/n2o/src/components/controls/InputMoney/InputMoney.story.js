@@ -1,14 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { jsxDecorator } from 'storybook-addon-jsx';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
 import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import InputMoney from './InputMoney';
@@ -19,9 +10,8 @@ const stories = storiesOf('Контролы/Ввод денег', module);
 
 const form = withForm({ src: 'InputMoney' });
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('InputMoney'));
-stories.addDecorator(jsxDecorator);
+
 stories.addParameters({
   info: {
     propTables: [InputMoney],

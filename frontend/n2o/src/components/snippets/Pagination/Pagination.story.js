@@ -1,10 +1,7 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { withKnobs, boolean, number } from '@storybook/addon-knobs/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
 import Pagination from './Pagination';
-import { withState } from '@dump247/storybook-state';
 
 const initPages = {
   simple: 1,
@@ -22,31 +19,29 @@ store.subscribe(forceReRender);
 
 const stories = storiesOf('UI Компоненты/Пагинация', module);
 
-stories.addDecorator(withKnobs);
 stories.addDecorator(StateDecorator(store));
 stories
-  .addWithJSX(
+  .add(
     'Компонент',
     () => {
       const props = {
-        prev: boolean('prev', false),
-        next: boolean('next', false),
-        first: boolean('first', false),
-        last: boolean('last', false),
-        lazy: boolean('lazy', false),
-        showCountRecords: boolean('showCountRecords', true),
-        hideSinglePage: boolean('hideSinglePage', true),
-        activePage: number('activePage', store.get('page')),
-        count: number('count', 100),
-        size: number('size', 10),
-        maxButtons: number('maxButtons', 4),
-        stepIncrement: number('stepIncrement', 10),
+        prev: false,
+        next: false,
+        first: false,
+        last: false,
+        lazy: false,
+        showCountRecords: true,
+        hideSinglePage: true,
+        activePage: store.get('page'),
+        count: 100,
+        size: 10,
+        maxButtons: 4,
+        stepIncrement: 10,
       };
 
       return (
         <Pagination
           onSelect={page => {
-            action('pagination-item-click')(page);
             store.set({ page });
           }}
           activePage={store.get('page')}
@@ -56,7 +51,7 @@ stories
     },
     { jsx: { skip: 1 } }
   )
-  .addWithJSX(
+  .add(
     'Интерактивное использование',
     () => (
       <Pagination
@@ -72,7 +67,7 @@ stories
     ),
     { jsx: { skip: 1 } }
   )
-  .addWithJSX(
+  .add(
     'Вариации',
     () => (
       <React.Fragment>
