@@ -10,6 +10,7 @@ import TextTableHeader from '../../headers/TextTableHeader';
 import BadgeCell from './BadgeCell';
 import Table from '../../Table';
 import BadgeCellJson from './BadgeCell.meta.json';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Ярлыки', module);
 
@@ -17,6 +18,12 @@ stories.addDecorator(withKnobs);
 // todo: баг в jest addon
 stories.addDecorator(withTests('BadgeCell'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [BadgeCell],
+    propTablesExclude: [Table, Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {

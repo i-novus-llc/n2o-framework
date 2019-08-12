@@ -10,17 +10,24 @@ import {
 } from '@storybook/addon-knobs/react';
 import { Route, Switch } from 'react-router-dom';
 import Table from '../../Table';
-import LinkCell from './LinkCell';
+import LinkCell, { LinkCell as LinkCellComponent } from './LinkCell';
 import TextTableHeader from '../../headers/TextTableHeader';
 import LinkCellJson from './LinkCell.meta';
 import LinkCellWithPerformJSON from './LinkCellWithPerform.meta';
 import fetchMock from 'fetch-mock';
 import { page } from 'N2oStorybook/fetchMock';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Ссылка', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [LinkCellComponent],
+    propTablesExclude: [Table, Route, Switch, Factory],
+  },
+});
 
 stories
   .add('Метаданные', () => {

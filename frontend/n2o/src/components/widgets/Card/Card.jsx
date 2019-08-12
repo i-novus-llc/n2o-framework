@@ -40,11 +40,26 @@ function Card({ linear, circle, items, children, outline, inverse, ...rest }) {
 }
 
 Card.propTypes = {
+  /**
+   * Массив элементов
+   */
   items: PropTypes.array,
+  /**
+   * Линейное отображение каждого элемента
+   */
   linear: PropTypes.bool,
+  /**
+   * Закругление изображения
+   */
   circle: PropTypes.bool,
   children: PropTypes.node,
+  /**
+   * Применение свойства color к бордеру,
+   */
   outline: PropTypes.bool,
+  /**
+   * Инверсия цвета текста
+   */
   inverse: PropTypes.bool,
 };
 

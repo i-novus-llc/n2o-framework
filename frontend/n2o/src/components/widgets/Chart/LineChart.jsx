@@ -119,6 +119,7 @@ import {
  * @return {*}
  * @constructor
  */
+
 function LineChart({
   layout,
   width,

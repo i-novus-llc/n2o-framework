@@ -15,12 +15,19 @@ import progressBarStyles from './progressBarStyles';
 import ProgressBarCell from './ProgressBarCell';
 import TextTableHeader from '../../headers/TextTableHeader';
 import ProgressBarJson from './ProgressBarCell.meta';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Индикатор', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('ProgressBarCell'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [ProgressBarCell],
+    propTablesExclude: [Table, Factory],
+  },
+});
 
 stories.add('Метаданные', () => {
   const props = {

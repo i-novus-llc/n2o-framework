@@ -13,12 +13,19 @@ import withTests from 'N2oStorybook/withTests';
 import Table from '../../Table';
 import TextTableHeader from '../../headers/TextTableHeader';
 import TextCell from '../TextCell/TextCell';
-import ButtonsCell from './ButtonsCell';
+import ButtonsCell, { ButtonsCell as ButtonCellComponent } from './ButtonsCell';
 import metadata from './ButtonsCell.meta';
 import AuthButtonContainer from '../../../../../core/auth/AuthLogin';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/ButtonsCell', module);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [ButtonCellComponent],
+    propTablesExclude: [Table, ButtonsCell, Factory, AuthButtonContainer],
+  },
+});
 
 const examplesDataSource = [
   {

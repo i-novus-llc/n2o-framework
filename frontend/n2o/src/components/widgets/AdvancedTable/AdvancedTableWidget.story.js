@@ -23,14 +23,22 @@ import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withPage from '../../../../.storybook/decorators/withPage';
 import { page } from 'N2oStorybook/fetchMock';
-import AdvancedTable from './AdvancedTable';
+import AdvancedTable, {
+  AdvancedTable as AdvancedTableComponent,
+} from './AdvancedTable';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import percentWidth from './json/PercentWidth.meta';
 import pixelWidth from './json/PixelWidth.meta';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
+stories.addParameters({
+  info: {
+    propTables: [AdvancedTableComponent],
+    propTablesExclude: [Factory],
+  },
+});
 
-const urlPattern = 'begin:n2o/data';
+const urlPattern = '*';
 
 class AdvancedTableWidgetStory extends React.Component {
   constructor(props) {
@@ -156,7 +164,6 @@ stories
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => {
       console.log('point');
-      console.log(url);
       return getStubData(url);
     });
     return (

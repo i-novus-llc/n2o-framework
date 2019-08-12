@@ -1,5 +1,5 @@
 import React from 'react';
-import { mapProps } from 'recompose';
+import { compose, setDisplayName, mapProps } from 'recompose';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {
@@ -76,20 +76,59 @@ function CardItem(props) {
 }
 
 CardItem.propTypes = {
+  /**
+   * Заголовок
+   */
   header: PropTypes.string,
+  /**
+   * Подзаголовок
+   */
   meta: PropTypes.string,
+  /**
+   * Отображаемый текст
+   */
   text: PropTypes.string,
+  /**
+   * URL изображения
+   */
   image: PropTypes.string,
+  /**
+   * Линейное отображение
+   */
   linear: PropTypes.bool,
+  /**
+   * Закругление изображения
+   */
   circle: PropTypes.bool,
+  /**
+   * Часть карточки для расширения другими обьектати
+   */
   extra: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   children: PropTypes.node,
+  /**
+   * Возможность передачи компонента для переопределения элемента по умолчанию
+   */
   tag: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
+  /**
+   * Инвертировать цвет текста
+   */
   inverse: PropTypes.bool,
+  /**
+   * Применить свойство color к бордеру карточки
+   */
   outline: PropTypes.bool,
+  /**
+   * Цвет карточки
+   */
   color: PropTypes.string,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
   rows: PropTypes.array,
+  /**
+   * Данные
+   */
   datasource: PropTypes.object,
 };
 
@@ -100,6 +139,8 @@ CardItem.defaultProps = {
   outline: false,
 };
 
-export default mapProps(({ datasource, ...rest }) => extend(datasource, rest))(
-  CardItem
-);
+export { CardItem };
+export default compose(
+  setDisplayName('CardItem'),
+  mapProps(({ datasource, ...rest }) => extend(datasource, rest))
+)(CardItem);

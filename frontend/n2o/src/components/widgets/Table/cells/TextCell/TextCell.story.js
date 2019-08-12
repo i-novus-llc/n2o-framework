@@ -12,6 +12,12 @@ const stories = storiesOf('Ячейки/Форматирование текст�
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('CheckboxCell'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [TextCell],
+    propTablesExclude: [Table],
+  },
+});
 
 stories.add('Компонент', () => {
   const tableProps = {

@@ -14,6 +14,12 @@ import metadata from './List.meta';
 import customRowClick from '../AdvancedTable/json/CustomRowClick.meta';
 
 const stories = storiesOf('Виджеты/Лист', module);
+stories.addParameters({
+  info: {
+    propTables: [List],
+    propTablesExclude: [Factory],
+  },
+});
 
 const urlPattern = 'begin:n2o/data';
 const delay = ms => new Promise(r => setTimeout(() => r(), ms));

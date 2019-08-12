@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { compose, pure } from 'recompose';
+import { compose, pure, setDisplayName } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
@@ -663,7 +663,9 @@ AdvancedTable.defaultProps = {
   autoFocus: false,
 };
 
+export { AdvancedTable };
 export default compose(
+  setDisplayName('AdvancedTable'),
   pure,
   withAdvancedTableRef
 )(AdvancedTable);

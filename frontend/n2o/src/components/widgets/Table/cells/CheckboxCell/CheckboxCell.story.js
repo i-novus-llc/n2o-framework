@@ -11,11 +11,19 @@ import { WIDGETS } from '../../../../../core/factory/factoryLevels';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
 import withPage from 'N2oStorybook/decorators/withPage';
-import CheckboxCell from './CheckboxCell';
+import CheckboxCell, {
+  CheckboxCell as CheckboxCellComponent,
+} from './CheckboxCell';
 import { set } from 'lodash';
 
 const stories = storiesOf('Ячейки/Чекбокс', module);
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [CheckboxCellComponent],
+    propTablesExclude: [Table, CheckboxCell, Factory],
+  },
+});
 
 const metadata = {
   Page_Table: {

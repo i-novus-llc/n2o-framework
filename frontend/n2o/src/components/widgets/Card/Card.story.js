@@ -13,11 +13,18 @@ import {
 import Card from './Card';
 import Actions from '../../actions/Actions';
 import { items } from './Card.meta';
+import { CardItem } from './CardItem';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Виджеты/Карточка');
 
 stories.addDecorator(jsxDecorator);
-
+stories.addParameters({
+  info: {
+    propTables: [Card, CardItem],
+    propTablesExclude: [Factory, Card.Item],
+  },
+});
 const btnAct = [
   {
     buttons: [

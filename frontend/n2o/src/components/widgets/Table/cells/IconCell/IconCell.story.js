@@ -9,12 +9,19 @@ import Table from '../../Table';
 import IconCell from './IconCell';
 import TextTableHeader from '../../headers/TextTableHeader';
 import { iconCellTypes, textPlaceTypes } from './cellTypes';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Иконки', module);
 
 stories.addDecorator(withKnobs);
 stories.addDecorator(withTests('IconCell'));
 stories.addDecorator(jsxDecorator);
+stories.addParameters({
+  info: {
+    propTables: [IconCell],
+    propTablesExclude: [Table, Factory],
+  },
+});
 
 stories.add('Метаданные', () => {
   const props = {
