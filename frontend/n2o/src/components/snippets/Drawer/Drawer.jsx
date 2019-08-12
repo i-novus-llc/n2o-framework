@@ -49,7 +49,6 @@ export function N2ODrawer(props) {
         showMask={backdrop}
         level={null}
         maskClosable={closable}
-        handler={false}
       >
         <div className="p-3">
           <div className="drawer-title">{title}</div>

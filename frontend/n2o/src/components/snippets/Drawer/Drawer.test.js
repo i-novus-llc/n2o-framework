@@ -1,6 +1,5 @@
 import React from 'react';
-import Drawer, { N2ODrawer } from './Drawer';
-import sinon from 'sinon';
+import { N2ODrawer } from './Drawer';
 
 const props = {
   title: 'title',

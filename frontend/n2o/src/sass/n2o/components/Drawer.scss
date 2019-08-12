@@ -29,45 +29,6 @@
   position: relative;
 }
 
-.drawer-handle {
-  position: absolute;
-  top: 72px;
-  width: 41px;
-  height: 40px;
-  cursor: pointer;
-  z-index: 0;
-  text-align: center;
-  line-height: 40px;
-  font-size: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #fff;
-}
-
-.drawer-handle-icon {
-  width: 14px;
-  height: 2px;
-  background: #333;
-  position: relative;
-  transition: background 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-  &:before, &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    background: #333;
-    width: 100%;
-    height: 2px;
-    transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-  }
-  &:before {
-    top: -5px;
-  }
-  &:after {
-    top: 5px;
-  }
-}
-
 .drawer-left, .drawer-right {
   width: 0;
   height: 100%;
