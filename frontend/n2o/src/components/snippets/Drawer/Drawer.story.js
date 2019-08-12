@@ -24,7 +24,7 @@ stories
       return (
         <React.Fragment>
           <Drawer
-            title={<h2>title</h2>}
+            title="title"
             footer="footer"
             {...drawerProps}
             visible={store.state.visible}

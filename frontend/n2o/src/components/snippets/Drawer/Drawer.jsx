@@ -50,11 +50,9 @@ export function N2ODrawer(props) {
         level={null}
         maskClosable={closable}
       >
-        <div className="p-3">
-          <div className="drawer-title">{title}</div>
-          <div className="drawer-children">{children}</div>
-          <div className="drawer-footer">{footer}</div>
-        </div>
+        <div className="drawer-title">{title}</div>
+        <div className="drawer-children">{children}</div>
+        <div className="drawer-footer">{footer}</div>
       </Drawer>
     </React.Fragment>
   );
