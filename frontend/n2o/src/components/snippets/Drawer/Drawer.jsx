@@ -8,9 +8,11 @@ import cx from 'classnames';
  * Drawer
  * @reactProps {string} className - className компонента
  * @reactProps {boolean} visible - состояние Drawer
- * @reactProps {boolean} closable - закрытие Drawer по клику на маску
+ * @reactProps {boolean} backdropClosable - закрытие Drawer по клику на backdrop
+ * @reactProps {boolean} closable - отобразить/скрыть крестик
  * @reactProps {string} placement - позиция Drawer
- * @reactProps {function} onClose - вызывается при закрытии
+ * @reactProps {function} onClose - функция закрытия по клику
+ * @reactProps {function} onHandleClick - функция закрытия по клику на крестик
  * @reactProps {boolean} backdrop - вкл/выкл подложку
  * @reactProps {Element} children - дочерний элемент DOM
  * @reactProps {boolean} animation - вкл/выкл анимацию
@@ -26,9 +28,11 @@ export function N2ODrawer(props) {
   const {
     className,
     closable,
+    backdropClosable,
     visible,
     placement,
     onClose,
+    onHandleClick,
     backdrop,
     animation,
     width,
@@ -48,7 +52,9 @@ export function N2ODrawer(props) {
         onClose={onClose}
         showMask={backdrop}
         level={null}
-        maskClosable={closable}
+        maskClosable={backdropClosable}
+        onHandleClick={onHandleClick}
+        handler={closable}
       >
         <div className="drawer-title">{title}</div>
         <div className="drawer-children">{children}</div>
@@ -61,9 +67,11 @@ export function N2ODrawer(props) {
 N2ODrawer.propTypes = {
   className: PropTypes.string,
   closable: PropTypes.bool,
+  backdropClosable: PropTypes.bool,
   visible: PropTypes.bool,
   placement: PropTypes.string,
   onClose: PropTypes.func,
+  onHandleClick: PropTypes.func,
   backdrop: PropTypes.bool,
   animation: PropTypes.bool,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -75,8 +83,8 @@ N2ODrawer.propTypes = {
 
 const enchance = compose(
   defaultProps({
-    closable: true,
     animation: true,
+    backdropClosable: true,
   })
 );
 
