@@ -1,33 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Divider /> should render a label 1`] = `
-<Component
-  dashed={false}
-  position="left"
-  type="horizontal"
+exports[`<Divider /> renders correctly 1`] = `
+<div
+  className="divider-h divider-h_with-title divider-h_left"
+  style={undefined}
 >
-  <div
-    className="divider-h divider-h_with-title divider-h_left"
-  >
-    <span>
-      title
-    </span>
-  </div>
-</Component>
-`;
-
-exports[`<Divider /> snapshot 1`] = `
-<Component
-  dashed={false}
-  position="left"
-  type="horizontal"
->
-  <div
-    className="divider-h divider-h_with-title divider-h_left"
-  >
-    <span>
-      title
-    </span>
-  </div>
-</Component>
+  <span>
+    title
+  </span>
+</div>
 `;

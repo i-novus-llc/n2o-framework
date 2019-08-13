@@ -1,6 +1,7 @@
 import React from 'react';
 import { Divider } from './Divider';
 import { mount, shallow } from 'enzyme/build';
+import renderer from 'react-test-renderer';
 
 const setup = propOverrides => {
   const props = Object.assign(
@@ -30,8 +31,9 @@ describe('<Divider />', () => {
     let wrapper = setup();
     expect(wrapper.text()).toBe('title');
   });
-  it('snapshot test', () => {
-    let wrapper = setup();
-    expect(wrapper).toMatchSnapshot();
+  it('renders correctly', () => {
+    // eslint-disable-next-line no-undef
+    const tree = renderer.create(<Divider>title</Divider>).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
