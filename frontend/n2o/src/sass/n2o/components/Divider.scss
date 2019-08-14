@@ -1,0 +1,80 @@
+.divider-h {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.divider-v {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+span {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  white-space: nowrap;
+}
+
+/*Horizontal-type*/
+
+.divider_horizontal:before {
+  display: block;
+  width: 100%;
+  content: '';
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  bottom: 43%;
+}
+
+.divider-h_with-title span {
+  &:before {
+    display: block;
+    margin-right: 15px;
+    width: 90%;
+    content: '';
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    bottom: 43%;
+  }
+
+  &:after {
+    display: block;
+    margin-left: 15px;
+    width: 90%;
+    content: '';
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    bottom: 43%;
+  }
+}
+
+/*Vertical-type*/
+
+.divider_vertical:before {
+  display: block;
+  height: 100%;
+  content: '';
+  border-left: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.divider-h_left span:before, .divider-h_right span:after {
+  width: 10%;
+}
+
+.divider-h_dashed {
+  span {
+    &:before, &:after {
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  &:before {
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.4);
+  }
+}
+
+.divider-v_dashed:before {
+  border-left: 1px dashed rgba(0, 0, 0, 0.4);
+}

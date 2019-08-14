@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Divider /> renders correctly 1`] = `
+<div
+  className="divider-h divider-h_with-title divider-h_left"
+>
+  <span>
+    title
+  </span>
+</div>
+`;
