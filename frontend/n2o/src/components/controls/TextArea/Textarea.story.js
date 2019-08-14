@@ -26,21 +26,42 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      placeholder: 'Введите значение',
-      disabled: false,
-      rows: 5,
-      maxRows: 10,
-    };
-    return (
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        placeholder: 'Введите значение',
+        disabled: false,
+        rows: 5,
+        maxRows: 10,
+      };
+      return (
+        <TextArea
+          {...props}
+          onChange={e => store.set({ value: e.target.value })}
+          value={store.get('value')}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Многострочное текстовое поле'
+      ~~~js
+      import TextArea from 'n2o/lib/components/controls/TextArea/TextArea';
+      
       <TextArea
-        {...props}
-        onChange={e => store.set({ value: e.target.value })}
-        value={store.get('value')}
+          placeholder="Введите значение"
+          rows={5}
+          maxRows={10}
+          onChange={onChange}
+          value={value}
       />
-    );
-  })
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add(
     'Метаданные',

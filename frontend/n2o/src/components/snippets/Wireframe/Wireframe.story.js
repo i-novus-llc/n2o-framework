@@ -15,35 +15,65 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      className: 'n2o',
-      title: 'Текст визуальной заглушки',
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        className: 'n2o',
+        title: 'Текст визуальной заглушки',
+      };
 
-    return (
-      <Card>
-        <CardBody
-          style={{
-            padding: '60px',
-            position: 'relative',
-          }}
-        >
-          <Wireframe {...props} />
-        </CardBody>
-      </Card>
-    );
-  })
-  .add('Создание через Factory', () => {
-    const dt = {
-      id: 'uniqId',
-      src: 'Wireframe',
-      className: 'n2o',
-      title: 'Текст визуальной заглушки',
-    };
-    return (
-      <React.Fragment>
-        <Factory level={SNIPPETS} id={'uniqId'} {...dt} />
-      </React.Fragment>
-    );
-  });
+      return (
+        <Card>
+          <CardBody
+            style={{
+              padding: '60px',
+              position: 'relative',
+            }}
+          >
+            <Wireframe {...props} />
+          </CardBody>
+        </Card>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Визуальная заглушка'
+      ~~~js
+      import Wireframe from 'n2o/lib/components/snippets/Wireframe/Wireframe;
+      
+      <Wireframe className="n2o" title="Текст визуальной заглушки" />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Создание через Factory',
+    () => {
+      const dt = {
+        id: 'uniqId',
+        src: 'Wireframe',
+        className: 'n2o',
+        title: 'Текст визуальной заглушки',
+      };
+      return (
+        <React.Fragment>
+          <Factory level={SNIPPETS} id={'uniqId'} {...dt} />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Визуальная заглушка'
+      ~~~js
+      import Factory from 'n2o/lib/core/factory/Factory';
+      
+      <Factory level={SNIPPETS} id="uniqid" {...wireframeProps} />
+      ~~~
+      `,
+      },
+    }
+  );

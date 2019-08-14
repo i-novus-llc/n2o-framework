@@ -8,6 +8,8 @@ import TextTableHeader from '../../widgets/Table/headers/TextTableHeader';
 import Table from '../../widgets/Table/Table';
 import CoverSpinner from './CoverSpinner';
 import Spinner from './Spinner';
+import TableCell from '../../widgets/Table/TableCell';
+import TableRow from '../../widgets/Table/TableRow';
 
 const stories = storiesOf('UI Компоненты/Спиннеры', module);
 
@@ -18,6 +20,12 @@ const tableData = [
   { id: '2', name: 'X', surname: 'Y', birthday: '01.01.1001' },
   { id: '3', name: 'Test', surname: 'Tset', birthday: '01.01.0001' },
 ];
+
+stories.addParameters({
+  info: {
+    propTablesExclude: [Table, TextCell, TableCell, TableRow],
+  },
+});
 
 stories
   .add('Базовый функционал', () => {

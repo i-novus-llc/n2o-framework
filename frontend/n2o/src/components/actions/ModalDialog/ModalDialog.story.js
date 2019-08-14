@@ -33,8 +33,8 @@ stories
         size: 'lg',
         title: 'Подтвердите действие',
         text: 'Сохранить изменения',
-        confirmText: 'Сохранить',
-        denyText: 'Отмена',
+        okLabel: 'Сохранить',
+        cancelLabel: 'Отмена',
       };
 
       return (
@@ -51,31 +51,80 @@ stories
         </React.Fragment>
       );
     },
-    { jsx: { skip: 1 } }
+    {
+      jsx: { skip: 1 },
+      info: {
+        text: `
+        Компонент 'Модальное окно подтверждения'
+
+        ~~~js
+        import ModalDialog from 'n2o/lib/components/actions/ModalDialog/ModalDialog';
+        
+        <ModalDialog 
+            title="Подтвердите действие"
+            text="Сохранить изменения"
+            size="lg"
+            closeButton={true}
+            okLabel="Сохранить"
+            cancelLabel="Отмена"
+            visible={visible}
+            onDeny={onDeny}
+            onConfirm={onConfirm}
+        />
+        ~~~
+        `,
+      },
+    }
   )
 
-  .add('Метаданные', () => {
-    const props = {
-      closeButton: ModalDialogJson.closeButton,
-      size: ModalDialogJson.size,
-      title: ModalDialogJson.title,
-      text: ModalDialogJson.text,
-      confirmText: ModalDialogJson.confirmText,
-      denyText: ModalDialogJson.denyText,
-    };
+  .add(
+    'Метаданные',
+    () => {
+      const props = {
+        closeButton: ModalDialogJson.closeButton,
+        size: ModalDialogJson.size,
+        title: ModalDialogJson.title,
+        text: ModalDialogJson.text,
+        okLabel: ModalDialogJson.okLabel,
+        cancelLabel: ModalDialogJson.cancelLabel,
+      };
 
-    return (
-      <React.Fragment>
-        <button className="btn btn-default" onClick={onShow}>
-          Показать диалог
-        </button>
-        <ModalDialog
-          {...props}
-          visible={store.get('visible')}
-          onDeny={onHide}
-          onConfirm={onHide}
-          close={onHide}
+      return (
+        <React.Fragment>
+          <button className="btn btn-default" onClick={onShow}>
+            Показать диалог
+          </button>
+          <ModalDialog
+            {...props}
+            visible={store.get('visible')}
+            onDeny={onHide}
+            onConfirm={onHide}
+            close={onHide}
+          />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+        Компонент 'Модальное окно подтверждения'
+
+        ~~~js
+        import ModalDialog from 'n2o/lib/components/actions/ModalDialog/ModalDialog';
+        
+        <ModalDialog 
+            title="Подтвердите действие"
+            text="Сохранить изменения"
+            size="lg"
+            closeButton={true}
+            okLabel="Сохранить"
+            cancelLabel="Отмена"
+            visible={visible}
+            onDeny={onDeny}
+            onConfirm={onConfirm}
         />
-      </React.Fragment>
-    );
-  });
+        ~~~
+        `,
+      },
+    }
+  );

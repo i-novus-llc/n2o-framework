@@ -20,27 +20,59 @@ stories.addParameters({
 
 stories
 
-  .add('Компонент', () => {
-    const toolbar = [
-      {
-        buttons: [
-          {
-            id: 'testInvoke',
-            title: 'Пример Invoke',
-            actionId: 'invoke',
-            hint: 'Отправить invoke',
-          },
-        ],
-      },
-    ];
-    return (
+  .add(
+    'Компонент',
+    () => {
+      const toolbar = [
+        {
+          buttons: [
+            {
+              id: 'testInvoke',
+              title: 'Пример Invoke',
+              actionId: 'invoke',
+              hint: 'Отправить invoke',
+            },
+          ],
+        },
+      ];
+      return (
+        <Actions
+          actions={metadata.Page_Table.actions}
+          toolbar={toolbar}
+          containerKey={'actionExample'}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'POST действие'
+      ~~~js
+      import Actions from 'n2o/lib/components/actions/Actions';
+      
+      const toolbar = [
+        {
+          buttons: [
+            {
+              id: 'testInvoke',
+              title: 'Пример Invoke',
+              actionId: 'invoke',
+              hint: 'Отправить invoke',
+            },
+          ],
+        },
+      ];
+      
       <Actions
-        actions={metadata.Page_Table.actions}
+        actions={actions}
         toolbar={toolbar}
-        containerKey={'actionExample'}
+        containerKey="actionExample"
       />
-    );
-  })
+      ~~~
+      `,
+      },
+    }
+  )
   .add('Метаданные', () => {
     fetchMock
       .restore()

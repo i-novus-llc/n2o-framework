@@ -8,17 +8,12 @@ import cx from 'classnames';
  * @reactProps {string} title - текст тайтла
  * @reactProps {object} style - стили компонента WireFrame
  */
-class Wireframe extends React.Component {
-  render() {
-    return (
-      <div
-        style={this.props.style}
-        className={cx('n2o-wireframe', this.props.className)}
-      >
-        {this.props.title}
-      </div>
-    );
-  }
+function Wireframe({ style, className, title, ...rest }) {
+  return (
+    <div style={style} className={cx('n2o-wireframe', className)}>
+      {title}
+    </div>
+  );
 }
 
 Wireframe.propTypes = {

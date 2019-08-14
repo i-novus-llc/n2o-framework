@@ -28,12 +28,27 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => (
-    <Input
-      value={store.get('value')}
-      onChange={value => store.set({ value })}
-    />
-  ))
+  .add(
+    'Компонент',
+    () => (
+      <Input
+        value={store.get('value')}
+        onChange={value => store.set({ value })}
+      />
+    ),
+    {
+      info: {
+        text: `
+      Компонент 'Ввод текста'
+      ~~~js
+      import InputText from 'n2o/lib/components/controls/InputText/InputText';
+      
+      <InputText value={value} onChange={onChange} />
+      ~~~
+      `,
+      },
+    }
+  )
   .add(
     'Метаданные',
     form(() => {

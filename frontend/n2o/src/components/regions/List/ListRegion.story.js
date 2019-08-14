@@ -38,23 +38,79 @@ const ListRegionJson = set(
 const { store } = makeStore();
 
 stories
-  .add('Метаданные', () => {
-    store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
-    return <ListRegion {...ListRegionJson} pageId="Page" />;
-  })
-  .add('Ограничение доступа', () => {
-    store.dispatch(metadataSuccess('Page', ListMetadata));
-    return (
-      <div>
-        <small>
-          Введите <mark>admin</mark>, чтобы увидеть скрытый виджет региона
-        </small>
-        <AuthButtonContainer />
-        <br />
-        <ListRegion {...SecureListRegionJson} pageId="Page" />
-      </div>
-    );
-  })
+  .add(
+    'Метаданные',
+    () => {
+      store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
+      return <ListRegion {...ListRegionJson} pageId="Page" />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Регион Список'
+      ~~~js
+      import ListRegion from 'n2o/lib/components/regions/List/ListRegion';
+      
+      <ListRegion 
+          pageId="Page"
+          items={[
+            {
+            "widgetId": "Page_Html",
+            "label": "HTML",
+            "opened": true
+            }
+          ]}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Ограничение доступа',
+    () => {
+      store.dispatch(metadataSuccess('Page', ListMetadata));
+      return (
+        <div>
+          <small>
+            Введите <mark>admin</mark>, чтобы увидеть скрытый виджет региона
+          </small>
+          <AuthButtonContainer />
+          <br />
+          <ListRegion {...SecureListRegionJson} pageId="Page" />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Регион Список'
+      ~~~js
+      import ListRegion from 'n2o/lib/components/regions/List/ListRegion';
+      
+      <ListRegion 
+          pageId="Page"
+          items={[
+            {
+              "widgetId": "Page_Html",
+              "label": "HTML",
+              "opened": true
+            },
+            {
+              "widgetId": "Page.SecureHtml",
+              "label": "HTML (secure)",
+              "opened": true,
+              "security": {
+                "roles": ["admin"]
+              }
+            }
+          ]}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add('Инициализация виджетов', () => {
     fetchMock

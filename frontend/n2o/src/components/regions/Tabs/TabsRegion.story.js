@@ -41,11 +41,37 @@ const TabsRegionJson = set(
 const { store } = makeStore();
 
 stories
-  .add('Метаданные', () => {
-    store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
+  .add(
+    'Метаданные',
+    () => {
+      store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
 
-    return <TabsRegion {...TabsRegionJson} pageId="Page" />;
-  })
+      return <TabsRegion {...TabsRegionJson} pageId="Page" />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Табы'
+      ~~~js
+      import TabsRegion from 'n2o/lib/components/regions/Tabs/TabsRegion';
+      
+      <TabsRegion 
+          pageId="Page"
+          tabs={[
+            {
+              id: "tab1",
+              opened: true,
+              fetchOnInit: true,
+              widgetId: "Page_Html",
+              label: "HTML"
+            }
+          ]} 
+       />
+      ~~~
+      `,
+      },
+    }
+  )
   .add('Ограничение доступа', () => {
     store.dispatch(metadataSuccess('Page', ListMetadata));
     return (

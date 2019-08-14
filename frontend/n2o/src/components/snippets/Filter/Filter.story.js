@@ -12,15 +12,40 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      style: {},
-      className: 'n2o',
-      filters: [],
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        style: {},
+        className: 'n2o',
+        filters: [],
+      };
 
-    return (
-      <Filter {...props} onReset={() => {}}>
+      return (
+        <Filter {...props} onReset={() => {}}>
+          <Form>
+            <FormGroup>
+              <Label for="exampleEmail">Почта</Label>
+              <Input
+                type="email"
+                id="exampleEmail"
+                placeholder="Почта"
+                value=""
+                onChange={e => {}}
+              />
+            </FormGroup>
+          </Form>
+        </Filter>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Фильтр'
+      ~~~js
+      import Filter from 'n2o/lib/components/snippets/Filter/Filter';
+      
+      <Filter className="n2o" onReset={onReset}>
         <Form>
           <FormGroup>
             <Label for="exampleEmail">Почта</Label>
@@ -34,16 +59,41 @@ stories
           </FormGroup>
         </Form>
       </Filter>
-    );
-  })
-  .add('Текст кнопок', () => {
-    const knobs = {
-      searchLabel: 'Свой текст поиска',
-      resetLabel: 'Свой текст сброса',
-    };
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Текст кнопок',
+    () => {
+      const props = {
+        searchLabel: 'Свой текст поиска',
+        resetLabel: 'Свой текст сброса',
+      };
 
-    return (
-      <Filter {...knobs}>
+      return (
+        <Filter {...props}>
+          <Form>
+            <FormGroup>
+              <Label for="topInput">Почта</Label>
+              <Input type="email" id="topInput" placeholder="Почта" />
+            </FormGroup>
+          </Form>
+        </Filter>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Фильтр'
+      ~~~js
+      import Filter from 'n2o/lib/components/snippets/Filter/Filter';
+      
+      <Filter 
+          searchLabel="Свой текст поиска"
+          resetLabel="Свой текст сброса" 
+          >
         <Form>
           <FormGroup>
             <Label for="topInput">Почта</Label>
@@ -51,5 +101,8 @@ stories
           </FormGroup>
         </Form>
       </Filter>
-    );
-  });
+      ~~~
+      `,
+      },
+    }
+  );

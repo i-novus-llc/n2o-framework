@@ -39,7 +39,7 @@ addDecorator( (story, path) =>
   // }
   return <Container story={story} path={path} />
 });
-addDecorator(centered);
+// addDecorator(centered);
 
 function loadStories() {
   const req = require.context('../src', true, /\.story\.js$/);

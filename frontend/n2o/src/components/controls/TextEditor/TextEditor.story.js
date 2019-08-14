@@ -16,12 +16,59 @@ stories.addParameters({
 const form = withForm({ src: 'TextEditor' });
 
 stories
-  .add('Компонент', () => {
-    return <TextEditor />;
-  })
-  .add('Кастомный тулбар', () => {
-    return <TextEditor toolbarConfig={TextEditorJson.toolbarConfig} />;
-  })
+  .add(
+    'Компонент',
+    () => {
+      return <TextEditor />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Редактор текста'
+      ~~~js
+      import TextEditor from 'n2o/lib/components/controls/TextEditor/TextEditor';
+      
+      <TextEditor />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Кастомный тулбар',
+    () => {
+      return <TextEditor toolbarConfig={TextEditorJson.toolbarConfig} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Редактор текста'
+      ~~~js
+      import TextEditor from 'n2o/lib/components/controls/TextEditor/TextEditor';
+      
+      <TextEditor
+          toolbarConfig={{
+            "inline": {
+              "visible": true,
+              "inDropdown": false,
+              "bold": { "visible": true },
+              "italic": { "visible": true }
+            },
+            "list": {
+              "visible": true,
+              "inDropdown": true
+            },
+            "textAlign": {
+              "visible": true,
+              "inDropdown": true
+            }
+          }}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
   .add(
     'Метаданные',
     form(() => {

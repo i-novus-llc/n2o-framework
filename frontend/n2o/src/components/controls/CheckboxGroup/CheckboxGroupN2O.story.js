@@ -18,20 +18,40 @@ stories.addParameters({
   },
 });
 
-stories.add('N2O группа', () => {
-  const props = {
-    value: ['1', '2'],
-    disabled: false,
-    visible: true,
-    className: '',
-    inline: false,
-  };
+stories.add(
+  'N2O группа',
+  () => {
+    const props = {
+      value: ['1', '2'],
+      disabled: false,
+      visible: true,
+      className: '',
+      inline: false,
+    };
 
-  return (
-    <CheckboxGroup name="numbers" {...props}>
+    return (
+      <CheckboxGroup name="numbers" {...props}>
+        <CheckboxAlt value="1" label="Первый" />
+        <CheckboxAlt value="2" label="Второй" />
+        <CheckboxAlt value="3" label="Третий" />
+      </CheckboxGroup>
+    );
+  },
+  {
+    info: {
+      text: `
+    Компонент 'CheckboxGroupN2O'
+    ~~~js
+    import CheckboxGroup from 'n2o/lib/components/controls/CheckboxGroup/CheckboxGroup';
+    import CheckboxAlt from 'n2o/lib/components/controls/Checkbox/CheckboxN2O';
+    
+    <CheckboxGroup name="numbers" value={['1', '2']} visible={true}>
       <CheckboxAlt value="1" label="Первый" />
       <CheckboxAlt value="2" label="Второй" />
       <CheckboxAlt value="3" label="Третий" />
     </CheckboxGroup>
-  );
-});
+    ~~~
+    `,
+    },
+  }
+);

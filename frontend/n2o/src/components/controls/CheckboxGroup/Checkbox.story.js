@@ -10,20 +10,42 @@ const stories = storiesOf('Контролы/Группа чекбоксов', mo
 
 stories.addDecorator(withTests('CheckboxGroup'));
 
-stories.add('Компонент', () => {
-  const props = {
-    value: ['1', '2'],
-    disabled: false,
-    visible: true,
-    className: '',
-    inline: false,
-  };
+stories.add(
+  'Компонент',
+  () => {
+    const props = {
+      value: ['1', '2'],
+      disabled: false,
+      visible: true,
+      className: '',
+      inline: false,
+    };
 
-  return (
-    <CheckboxGroup name="numbers" {...props}>
+    return (
+      <CheckboxGroup name="numbers" {...props}>
+        <Checkbox value="1" label="Первый" />
+        <Checkbox value="2" label="Второй" />
+        <Checkbox value="3" label="Третий" />
+      </CheckboxGroup>
+    );
+  },
+  {
+    info: {
+      text: `
+    Компонент 'CheckboxGroup'
+    ~~~js
+    import CheckboxGroup from 'n2o/lib/components/controls/CheckboxGroup/CheckboxGroup';
+    
+    <CheckboxGroup 
+        name="numbers"
+        value
+      >
       <Checkbox value="1" label="Первый" />
       <Checkbox value="2" label="Второй" />
       <Checkbox value="3" label="Третий" />
     </CheckboxGroup>
-  );
-});
+    ~~~
+    `,
+    },
+  }
+);

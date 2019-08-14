@@ -13,30 +13,52 @@ stories.addParameters({
   },
 });
 
-stories.add('Компонент', () => {
-  return (
-    <div>
-      <SimpleHeader
-        brandImage={
-          'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
-        }
-        activeId={'link'}
-        fixed={false}
-        items={simpleHeaderMetadata.items}
-        extraItems={simpleHeaderMetadata.extraItems}
-        color="inverse"
-      />
-      <div
-        style={{
-          padding: '200px',
-          position: 'relative',
-        }}
-      >
-        <Wireframe className="n2o" title="Тело страницы" />
+stories.add(
+  'Компонент',
+  () => {
+    return (
+      <div>
+        <SimpleHeader
+          brandImage={
+            'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
+          }
+          activeId={'link'}
+          fixed={false}
+          items={simpleHeaderMetadata.items}
+          extraItems={simpleHeaderMetadata.extraItems}
+          color="inverse"
+        />
+        <div
+          style={{
+            padding: '200px',
+            position: 'relative',
+          }}
+        >
+          <Wireframe className="n2o" title="Тело страницы" />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+  {
+    info: {
+      text: `
+    Компонент 'Меню'
+    ~~~js
+    import SimpleHeader from 'n2o/lib/plugins/Header/SimpleHeader/SimpleHeader';
+    
+    <SimpleHeader
+      brandImage="https://avatars0.githubusercontent.com/u/25926683?s=200&v=4"
+      activeId={'link'}
+      fixed={false}
+      items={simpleHeaderMetadata.items}
+      extraItems={simpleHeaderMetadata.extraItems}
+      color="inverse"
+    />
+    ~~~
+    `,
+    },
+  }
+);
 
 SimpleHeader.defaultProps = {
   color: 'default',

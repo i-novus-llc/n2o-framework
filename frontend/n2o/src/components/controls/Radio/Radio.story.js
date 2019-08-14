@@ -19,19 +19,39 @@ stories.addDecorator(withTests('Checkbox'));
 
 stories.addDecorator(StateDecorator(store));
 
-stories.add('Радио', () => {
-  const props = {
-    value: 2,
-    disabled: false,
-    checked: store.get('checked'),
-    label: 'Label',
-  };
+stories.add(
+  'Радио',
+  () => {
+    const props = {
+      value: 2,
+      disabled: false,
+      checked: store.get('checked'),
+      label: 'Label',
+    };
 
-  return (
+    return (
+      <Radio
+        {...props}
+        checked={store}
+        onChange={() => store.set({ checked: !store.get('checked') })}
+      />
+    );
+  },
+  {
+    info: {
+      text: `
+    Компонент 'Radio'
+    ~~~js
+    import Radio from 'n2o/lib/components/controls/Radio/Radio';
+    
     <Radio
-      {...props}
-      checked={store}
-      onChange={() => store.set({ checked: !store.get('checked') })}
+        value={2}
+        checked={checked}
+        label="Label"
+        onChange="onChange"
     />
-  );
-});
+    ~~~
+    `,
+    },
+  }
+);

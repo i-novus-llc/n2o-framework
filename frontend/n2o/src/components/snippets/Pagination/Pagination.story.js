@@ -49,7 +49,33 @@ stories
         />
       );
     },
-    { jsx: { skip: 1 } }
+    {
+      jsx: { skip: 1 },
+      info: {
+        text: `
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+          onSelect={onSelect}
+          activePage={activePage}
+          prev={false}
+          next={false}
+          first={false}
+          last={false}
+          lazy={false}
+          showCountRecords
+          hideSinglePage
+          count={100}
+          size={10}
+          maxButtons={4}
+          stepIncrement={10}
+        />
+        ~~~
+        `,
+      },
+    }
   )
   .add(
     'Интерактивное использование',
@@ -65,7 +91,26 @@ stories
         stepIncrement={10}
       />
     ),
-    { jsx: { skip: 1 } }
+    {
+      jsx: { skip: 1 },
+      info: {
+        text: `
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+          onSelect={onSelect}
+          activePage={activePage}
+          size={10}
+          count={100}
+          maxButtons={4}
+          stepIncrement={10}
+        />
+        ~~~
+        `,
+      },
+    }
   )
   .add(
     'Вариации',
@@ -121,5 +166,56 @@ stories
         </div>
       </React.Fragment>
     ),
-    { jsx: { skip: 1 } }
+    {
+      jsx: { skip: 1 },
+      info: {
+        text: `
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            prev={true}
+            next={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            first={true}
+            last={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            prev={true}
+            next={true}
+            first={true}
+            last={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+        ~~~
+        `,
+      },
+    }
   );

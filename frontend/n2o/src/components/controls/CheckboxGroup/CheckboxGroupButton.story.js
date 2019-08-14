@@ -9,20 +9,45 @@ const stories = storiesOf('Контролы/Группа чекбоксов', mo
 
 stories.addDecorator(withTests('CheckboxGroup'));
 
-stories.add('Группа в виде кнопок', () => {
-  const props = {
-    value: ['1', '2'],
-    disabled: false,
-    visible: true,
-    className: '',
-    inline: false,
-  };
+stories.add(
+  'Группа в виде кнопок',
+  () => {
+    const props = {
+      value: ['1', '2'],
+      disabled: false,
+      visible: true,
+      className: '',
+      inline: false,
+    };
 
-  return (
-    <CheckboxGroup name="numbers" isBtnGroup={true} {...props}>
+    return (
+      <CheckboxGroup name="numbers" isBtnGroup={true} {...props}>
+        <CheckboxButton value="1" label="Первый" />
+        <CheckboxButton value="2" label="Второй" />
+        <CheckboxButton value="3" label="Третий" />
+      </CheckboxGroup>
+    );
+  },
+  {
+    info: {
+      text: `
+    Компонент 'CheckboxGroupButton'
+    ~~~js
+    import CheckboxGroup from 'n2o/lib/components/controls/CheckboxGroup/CheckboxGroup';
+    import CheckboxButton from 'n2o/lib/components/controls/CheckboxButton/CheckboxButton';
+    
+    <CheckboxGroup 
+        name="numbers" 
+        isBtnGroup={true}
+        value={['1', '2']}
+        visible={true}
+    >
       <CheckboxButton value="1" label="Первый" />
       <CheckboxButton value="2" label="Второй" />
       <CheckboxButton value="3" label="Третий" />
     </CheckboxGroup>
-  );
-});
+    ~~~
+    `,
+    },
+  }
+);

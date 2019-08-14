@@ -32,22 +32,43 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      placeholder: 'Введите значение',
-      disabled: false,
-      length: 25,
-      showPasswordBtn: false,
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        placeholder: 'Введите значение',
+        disabled: false,
+        length: 25,
+        showPasswordBtn: false,
+      };
 
-    return (
+      return (
+        <PasswordInput
+          {...props}
+          value={store.get('value')}
+          onChange={event => store.set({ value: event.target.value })}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод пароля'
+      ~~~js
+      import PasswordInput from 'n2o/lib/components/controls/PasswordInput/PasswordInput';
+      
       <PasswordInput
-        {...props}
-        value={store.get('value')}
-        onChange={event => store.set({ value: event.target.value })}
+          placeholder="Введите значение"
+          length={25}
+          showPasswordBtn={false}
+          value={value}
+          onChange={onChange}
       />
-    );
-  })
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add(
     'Метаданные',
@@ -62,7 +83,7 @@ stories
     })
   )
   .add(
-    'Фича просмотрал введенного пароля',
+    'Фича просмотра введенного пароля',
     form(() => {
       const props = {
         placeholder: PasswordInputJson.placeholder,

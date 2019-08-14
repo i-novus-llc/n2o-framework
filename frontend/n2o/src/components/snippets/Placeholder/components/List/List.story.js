@@ -13,24 +13,65 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      loading: true,
-      type: meta.type,
-      rows: meta.rows,
-      paragraphs: meta.paragraphs,
-      avatar: meta.avatar,
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        loading: true,
+        type: meta.type,
+        rows: meta.rows,
+        paragraphs: meta.paragraphs,
+        avatar: meta.avatar,
+      };
 
-    return <Placeholder {...props} />;
-  })
-  .add('Аватар', () => {
-    const props = {
-      loading: true,
-      avatar: true,
-      row: 1,
-      paragraph: 6,
-    };
+      return <Placeholder {...props} />;
+    },
+    {
+      info: {
+        text: `
+    Компонент 'Placeholder' списка
+    ~~~js
+    import Placeholder from 'n2o/lib/components/snippets/Placeholder/Placeholder';
+    
+    <Placeholder
+        loading={true}
+        type="list"
+        rows={1}
+        paragraphs={2}
+     />
+    ~~~
+    `,
+      },
+    }
+  )
+  .add(
+    'Аватар',
+    () => {
+      const props = {
+        loading: true,
+        avatar: true,
+        row: 1,
+        paragraph: 6,
+      };
 
-    return <Placeholder {...props} />;
-  });
+      return <Placeholder {...props} />;
+    },
+    {
+      info: {
+        text: `
+    Компонент 'Placeholder' списка
+    ~~~js
+    import Placeholder from 'n2o/lib/components/snippets/Placeholder/Placeholder';
+    
+    <Placeholder
+        loading={true}
+        type="list"
+        rows={1}
+        paragraphs={2}
+        avatar={true}
+     />
+    ~~~
+    `,
+      },
+    }
+  );

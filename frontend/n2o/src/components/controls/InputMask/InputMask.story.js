@@ -20,21 +20,45 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      mask: '9999',
-      className: '',
-      preset: 'none',
-      placeholder: 'Введите что-нибудь...',
-      placeholderChar: '_',
-      value: 1234,
-      guide: false,
-      keepCharPosition: true,
-      resetOnNotValid: true,
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        mask: '9999',
+        className: '',
+        preset: 'none',
+        placeholder: 'Введите что-нибудь...',
+        placeholderChar: '_',
+        value: 1234,
+        guide: false,
+        keepCharPosition: true,
+        resetOnNotValid: true,
+      };
 
-    return <InputMask {...props} />;
-  })
+      return <InputMask {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Масктрованный ввод'
+      ~~~js
+      import InputMask from 'n2o/lib/components/controls/InputMask/InputMask';
+      
+      <InputMask
+          mask="9999"
+          preset="none"
+          placeholder="Введите что-нибудь..."
+          placeholderChar="_"
+          value={1234}
+          guide={false}
+          keepCharPosition={true}
+          resetOnNotValid={true}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add(
     'Метаданные',
@@ -53,28 +77,83 @@ stories
     })
   )
 
-  .add('Пресеты', () => {
-    return (
-      <React.Fragment>
-        <InputMask preset="phone" placeholder="Телефон" />
-        <br />
-        <InputMask preset="post-code" placeholder="Индекс" />
-        <br />
-        <InputMask preset="date" placeholder="Дата" />
-        <br />
-        <InputMask preset="money" placeholder="Деньги" />
-        <br />
-        <InputMask preset="percentage" placeholder="Проценты" />
-        <br />
-        <InputMask preset="card" placeholder="Номер карты" />
-        <br />
-      </React.Fragment>
-    );
-  })
+  .add(
+    'Пресеты',
+    () => {
+      return (
+        <React.Fragment>
+          <InputMask preset="phone" placeholder="Телефон" />
+          <br />
+          <InputMask preset="post-code" placeholder="Индекс" />
+          <br />
+          <InputMask preset="date" placeholder="Дата" />
+          <br />
+          <InputMask preset="money" placeholder="Деньги" />
+          <br />
+          <InputMask preset="percentage" placeholder="Проценты" />
+          <br />
+          <InputMask preset="card" placeholder="Номер карты" />
+          <br />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Масктрованный ввод'
+      ~~~js
+      import InputMask from 'n2o/lib/components/controls/InputMask/InputMask';
+      
+      <InputMask preset="phone" placeholder="Телефон" />
+      <InputMask preset="post-code" placeholder="Индекс" />
+      <InputMask preset="date" placeholder="Дата" />
+      <InputMask preset="money" placeholder="Деньги" />
+      <InputMask preset="percentage" placeholder="Проценты" />
+      <InputMask preset="card" placeholder="Номер карты" />
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Комбинации', () => {
-    return (
-      <React.Fragment>
+  .add(
+    'Комбинации',
+    () => {
+      return (
+        <React.Fragment>
+          <InputMask
+            preset={'card'}
+            guide={true}
+            keepCharPositions={false}
+            resetOnNotValid={false}
+            placeholder="C шаблоном значения"
+          />
+          <br />
+          <InputMask
+            preset={'card'}
+            guide={false}
+            keepCharPositions={true}
+            resetOnNotValid={false}
+            placeholder="Сохранять положение символа"
+          />
+          <br />
+          <InputMask
+            preset={'card'}
+            guide={false}
+            keepCharPositions={false}
+            resetOnNotValid={true}
+            placeholder="Сброс при невалидных"
+          />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Масктрованный ввод'
+      ~~~js
+      import InputMask from 'n2o/lib/components/controls/InputMask/InputMask';
+      
         <InputMask
           preset={'card'}
           guide={true}
@@ -82,7 +161,6 @@ stories
           resetOnNotValid={false}
           placeholder="C шаблоном значения"
         />
-        <br />
         <InputMask
           preset={'card'}
           guide={false}
@@ -90,7 +168,6 @@ stories
           resetOnNotValid={false}
           placeholder="Сохранять положение символа"
         />
-        <br />
         <InputMask
           preset={'card'}
           guide={false}
@@ -98,6 +175,8 @@ stories
           resetOnNotValid={true}
           placeholder="Сброс при невалидных"
         />
-      </React.Fragment>
-    );
-  });
+      ~~~
+      `,
+      },
+    }
+  );

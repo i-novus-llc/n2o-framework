@@ -16,11 +16,50 @@ stories.addParameters({
 
 stories
 
-  .add('Компонент', () => {
-    return (
-      <Actions toolbar={metadata.toolbar} containerKey={'linkContainer'} />
-    );
-  })
+  .add(
+    'Компонент',
+    () => {
+      return (
+        <Actions toolbar={metadata.toolbar} containerKey={'linkContainer'} />
+      );
+    },
+    {
+      info: {
+        text: `
+       Компонент 'Действие переход по ссылке'
+       ~~~js
+       import Actions from 'n2o/lib/components/actions/Actions';
+       
+       const props = {
+          "actions": {
+            "redirect": {
+              "src": "link",
+              "options": {
+                "path": "/test",
+                "target": "application"
+              }
+            }
+          },
+          "toolbar": [
+          {
+            "buttons": [
+              {
+                "id": "redirect",
+                "title": "Пример Link",
+                "actionId": "redirect",
+                "hint": "Пример Link"
+              }
+             ]
+            }
+          ]
+        };
+        
+        <Actions {...props} containerKey="linkContainer" /> 
+       ~~~
+      `,
+      },
+    }
+  )
   .add('Метаданные', () => {
     return (
       <React.Fragment>

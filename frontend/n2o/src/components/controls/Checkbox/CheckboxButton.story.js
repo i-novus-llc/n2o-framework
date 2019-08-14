@@ -16,18 +16,37 @@ const stories = storiesOf('Контролы/Чекбокс', module);
 
 stories.addDecorator(withTests('Checkbox'));
 
-stories.add('Кнопка чекбокс', () => {
-  const props = {
-    disabled: false,
-    checked: store.state.checked,
-    label: 'Label',
-  };
+stories.add(
+  'Кнопка чекбокс',
+  () => {
+    const props = {
+      disabled: false,
+      checked: store.state.checked,
+      label: 'Label',
+    };
 
-  return (
-    <CheckboxButton
-      {...props}
-      checked={store.get('checked')}
-      onChange={() => store.set({ checked: !store.get('checked') })}
-    />
-  );
-});
+    return (
+      <CheckboxButton
+        {...props}
+        checked={store.get('checked')}
+        onChange={() => store.set({ checked: !store.get('checked') })}
+      />
+    );
+  },
+  {
+    info: {
+      text: `
+      Компонент 'CheckboxButton'
+      ~~~js
+      import CheckboxButton from 'n2o/lib/components/controls/Checkbox/CheckboxButton';
+      
+      <CheckboxButton
+        label="Label"
+        checked={checked}
+        onChange={onChange}
+      />
+      ~~~
+      `,
+    },
+  }
+);

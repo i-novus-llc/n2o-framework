@@ -20,8 +20,31 @@ stories.addParameters({
   },
 });
 const { store } = makeStore();
-stories.add('Метаданные', () => {
-  store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
+stories.add(
+  'Метаданные',
+  () => {
+    store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
 
-  return <NoneRegion {...NoneRegionsJson} pageId="Page" />;
-});
+    return <NoneRegion {...NoneRegionsJson} pageId="Page" />;
+  },
+  {
+    info: {
+      text: `
+    Компонент 'Простой регион'
+    ~~~js
+    import NoneRegion from 'n2o/lib/components/regions/None/NoneRegion';
+    
+    <NoneRegion 
+      pageId="Page" 
+      items={[
+        {
+            widgetId: "Page_Html",
+            label: "HTML
+        }
+      ]} 
+    />
+    ~~~
+    `,
+    },
+  }
+);

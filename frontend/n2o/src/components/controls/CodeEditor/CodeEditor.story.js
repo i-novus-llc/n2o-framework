@@ -20,19 +20,40 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      disabled: false,
-      visible: true,
-      lang: 'java',
-      minLines: 5,
-      maxLines: 30,
-      autocomplete: true,
-      value: '',
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        disabled: false,
+        visible: true,
+        lang: 'java',
+        minLines: 5,
+        maxLines: 30,
+        autocomplete: true,
+        value: '',
+      };
 
-    return <CodeEditor {...props} />;
-  })
+      return <CodeEditor {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Редактор кода'
+      ~~~js
+      import CodeEditor from 'n2o/lib/components/controls/CodeEditor/CodeEditor';
+      
+      <CodeEditor 
+          lang="java"
+          minLines={5}
+          maxLines={30}
+          autocomplete={true}
+          value=""
+       />
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add(
     'Метаданные',

@@ -13,13 +13,33 @@ stories.addParameters({
   },
 });
 
-stories.add('Компонент', () => {
-  const props = {
-    loading: true,
-    type: meta.type,
-    rows: meta.rows,
-    cols: meta.cols,
-  };
+stories.add(
+  'Компонент',
+  () => {
+    const props = {
+      loading: true,
+      type: meta.type,
+      rows: meta.rows,
+      cols: meta.cols,
+    };
 
-  return <Placeholder {...props} />;
-});
+    return <Placeholder {...props} />;
+  },
+  {
+    info: {
+      text: `
+    Компонент 'Placeholder' формы
+    ~~~js
+    import Placeholder from 'n2o/lib/components/snippets/Placeholder/Placeholder';
+    
+    <Placeholder
+        loading={true}
+        type="form"
+        rows={1}
+        cols={2}
+     />
+    ~~~
+    `,
+    },
+  }
+);

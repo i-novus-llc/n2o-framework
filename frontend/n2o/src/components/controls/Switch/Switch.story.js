@@ -24,18 +24,36 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      disabled: false,
-      checked: store.get('checked'),
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        disabled: false,
+        checked: store.get('checked'),
+      };
 
-    return (
+      return (
+        <Switch
+          {...props}
+          checked={store.get('checked')}
+          onChange={() => store.set({ checked: !store.state.checked })}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Переключатель'
+      ~~~js
+      import Switch from 'n2o/lib/components/controls/Switch/Switch';
+      
       <Switch
-        {...props}
-        checked={store.get('checked')}
-        onChange={() => store.set({ checked: !store.state.checked })}
+          checked={checked}
+          onChange={onChange}
       />
-    );
-  })
+      ~~~
+      `,
+      },
+    }
+  )
   .add('Метаданные', form(() => ({})));

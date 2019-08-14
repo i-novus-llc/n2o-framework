@@ -40,6 +40,50 @@ stories.addParameters({
 
 const urlPattern = '*';
 
+const columns = [
+  {
+    id: 'name',
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    width: 100,
+  },
+  {
+    id: 'surname',
+    title: 'Surname',
+    dataIndex: 'surname',
+    key: 'surname',
+    width: 200,
+  },
+  {
+    id: 'age',
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age',
+  },
+];
+
+const data = [
+  {
+    id: 1,
+    name: 'name1',
+    surname: 'surname1',
+    age: 1,
+  },
+  {
+    id: 2,
+    name: 'name2',
+    surname: 'surname2',
+    age: 2,
+  },
+  {
+    id: 3,
+    name: 'name3',
+    surname: 'surname3',
+    age: 3,
+  },
+];
+
 class AdvancedTableWidgetStory extends React.Component {
   constructor(props) {
     super(props);
@@ -171,80 +215,28 @@ stories
     );
   })
   .add('Resizable колонки', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return (
-      <Factory level={WIDGETS} {...resizable['Page_Table']} id="Page_Table" />
-    );
+    const newColumns = columns.slice();
+    set(newColumns, '[0].resizable', true);
+    set(newColumns, '[1].resizable', true);
+
+    return <AdvancedTable columns={columns} data={data} />;
   })
   .add('Выбор строк чекбоксом', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
-    return (
-      <AdvancedTable
-        columns={[
-          {
-            id: 'name',
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            width: '100px',
-          },
-          {
-            id: 'surname',
-            title: 'Surname',
-            dataIndex: 'surname',
-            key: 'surname',
-            width: '200px',
-          },
-          {
-            id: 'age',
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
-            width: '50px',
-          },
-        ]}
-        data={[
-          {
-            id: 1,
-            name: 'name1',
-            surname: 'surname1',
-            age: 1,
-          },
-          {
-            id: 2,
-            name: 'name2',
-            surname: 'surname2',
-            age: 2,
-          },
-          {
-            id: 3,
-            name: 'name3',
-            surname: 'surname3',
-            age: 3,
-          },
-        ]}
-        rowSelection={true}
-      />
-    );
+    return <AdvancedTable columns={columns} data={data} rowSelection={true} />;
   })
   .add('Фильтр в заголовках', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
     return (
       <Factory level={WIDGETS} {...filterable['Page_Table']} id="Page_Table" />
     );
   })
   .add('Контент в подстроке', () => {
-    fetchMock.restore().get(urlPattern, () => {
-      return {
-        count: 3,
-        filterValue: null,
-        page: 1,
-        size: 10,
-        list: expandedRow.datasource,
-      };
-    });
     return (
-      <Factory level={WIDGETS} {...expandedRow['Page_Table']} id="Page_Table" />
+      <AdvancedTable
+        columns={columns}
+        data={expandedRow.datasource}
+        expandedFieldId="expandedContent"
+        expandable={true}
+      />
     );
   })
   .add('Colspan rowspan', () => {
@@ -264,31 +256,33 @@ stories
     );
   })
   .add('Вид дерево', () => {
-    fetchMock.restore().get(urlPattern, url => {
-      const data = getStubData(url);
-      return {
-        ...data,
-        list: treeView.datasource,
-      };
-    });
-
-    return (
-      <Factory level={WIDGETS} {...treeView['Page_Table']} id="Page_Table" />
-    );
+    return <AdvancedTable columns={columns} data={treeView.datasource} />;
   })
   .add('Фиксированный заголовок', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
     return (
-      <Factory level={WIDGETS} {...fixedHeader['Page_Table']} id="Page_Table" />
+      <AdvancedTable
+        columns={columns}
+        data={[...data, ...data, ...data]}
+        useFixedHeader={true}
+        scroll={{ y: 100 }}
+      />
     );
   })
   .add('Фиксированные колонки', () => {
-    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    const newColumns = columns.slice();
+    set(newColumns, '[0].width', 300);
+    set(newColumns, '[1].width', 700);
+    set(newColumns, '[2].width', 300);
+
+    set(newColumns, '[0].fixed', 'left');
+    set(newColumns, '[2].fixed', 'right');
+
     return (
-      <Factory
-        level={WIDGETS}
-        {...fixedColumns['Page_Table']}
-        id="Page_Table"
+      <AdvancedTable
+        columns={columns}
+        data={[...data, ...data, ...data]}
+        useFixedHeader={true}
+        // scroll={{ y: 300, x: '200%' }}
       />
     );
   })

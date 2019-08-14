@@ -22,15 +22,34 @@ stories.addParameters({
 const form = withForm({ src: 'InputNumber' });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      visible: true,
-      step: '0.1',
-      showButtons: true,
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        visible: true,
+        step: '0.1',
+        showButtons: true,
+      };
 
-    return <InputNumber {...props} />;
-  })
+      return <InputNumber {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+      <InputNumber
+          visible={true}
+          ste="0.1"
+          showButtons={true}
+      />
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add(
     'Метаданные',
@@ -47,69 +66,140 @@ stories
     })
   )
 
-  .add('Min/max', () => {
-    const props = {
-      value: 1,
-      min: -150,
-      max: 150,
-    };
+  .add(
+    'Min/max',
+    () => {
+      const props = {
+        value: 1,
+        min: -150,
+        max: 150,
+      };
 
-    return <InputNumber {...props} />;
-  })
+      return <InputNumber {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+      <InputNumber
+          value={1}
+          min={-150}
+          max={150}
+      />
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Шаги', () => {
-    const props = {
-      value: 1,
-      min: -150,
-      max: 150,
-    };
+  .add(
+    'Шаги',
+    () => {
+      const props = {
+        value: 1,
+        min: -150,
+        max: 150,
+      };
 
-    return (
-      <React.Fragment>
-        <div className="row" style={{ marginBottom: '10px' }}>
-          <InputNumber {...props} step="10" />
-        </div>
-        <div className="row">
-          <InputNumber {...props} step="0.05" />
-        </div>
-      </React.Fragment>
-    );
-  })
-
-  .add('Свойство precision', () => {
-    const props = {
-      value: 1,
-      step: 1,
-      min: -150,
-      max: 150,
-      showButtons: false,
-    };
-
-    return (
-      <React.Fragment>
-        <div className="row mb-1 flex-column">
-          <div className="row">Без дробной части</div>
-          <div className="row">
-            <InputNumber {...props} precision={0} />
+      return (
+        <React.Fragment>
+          <div className="row" style={{ marginBottom: '10px' }}>
+            <InputNumber {...props} step="10" />
           </div>
-        </div>
-        <div className="row mb-1 flex-column">
-          <div className="row">Только 2 символа после запятой</div>
           <div className="row">
-            <InputNumber {...props} precision={2} />
+            <InputNumber {...props} step="0.05" />
           </div>
-        </div>
-      </React.Fragment>
-    );
-  })
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+        <InputNumber {...props} step="10" />
+        <InputNumber {...props} step="0.05" />
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Без кнопок', () => {
-    const props = {
-      value: 1,
-      min: -150,
-      max: 150,
-      showButtons: false,
-    };
+  .add(
+    'Свойство precision',
+    () => {
+      const props = {
+        value: 1,
+        step: 1,
+        min: -150,
+        max: 150,
+        showButtons: false,
+      };
 
-    return <InputNumber {...props} />;
-  });
+      return (
+        <React.Fragment>
+          <div className="row mb-1 flex-column">
+            <div className="row">Без дробной части</div>
+            <div className="row">
+              <InputNumber {...props} precision={0} />
+            </div>
+          </div>
+          <div className="row mb-1 flex-column">
+            <div className="row">Только 2 символа после запятой</div>
+            <div className="row">
+              <InputNumber {...props} precision={2} />
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+        <InputNumber {...props} precision={0} />
+        <InputNumber {...props} precision={2} />
+      ~~~
+      `,
+      },
+    }
+  )
+
+  .add(
+    'Без кнопок',
+    () => {
+      const props = {
+        value: 1,
+        min: -150,
+        max: 150,
+        showButtons: false,
+      };
+
+      return <InputNumber {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+        <InputNumber 
+            value={1}
+            min={-150}
+            max={150}
+            showButtons={false}
+         />
+      ~~~
+      `,
+      },
+    }
+  );

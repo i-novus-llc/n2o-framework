@@ -1,24 +1,20 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { getStubData } from 'N2oStorybook/fetchMock';
-import { filterMetadata, newEntry, tableActions } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
-import { set } from 'lodash';
 import lineChart from './json/LineChart.meta';
 import areaChart from './json/AreaChart.meta';
 import barChart from './json/BarChart.meta';
 import pieChart from './json/PieChart.meta';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
-import { omit } from 'lodash';
-import withPage from '../../../../.storybook/decorators/withPage';
-import { page } from 'N2oStorybook/fetchMock';
 
 const stories = storiesOf('Виджеты/Графики', module);
 
-const urlPattern = 'begin:n2o/data';
-
+const urlPattern = 'n2o/data/test';
+fetchMock.restore().get(urlPattern, url => ({
+  list: data,
+}));
 const data = [
   { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
   { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },

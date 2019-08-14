@@ -22,26 +22,57 @@ stories.addParameters({
 const handleData = list => url => ({ list });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      valueFieldId: meta.valueFieldId,
-      labelFieldId: meta.labelFieldId,
-      multiSelect: meta.multiSelect,
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        valueFieldId: meta.valueFieldId,
+        labelFieldId: meta.labelFieldId,
+        multiSelect: meta.multiSelect,
+      };
 
-    const data = [
-      {
-        id: 1,
-        label: 'text',
-      },
-      {
-        id: 2,
-        label: 'text',
-      },
-    ];
+      const data = [
+        {
+          id: 1,
+          label: 'text',
+        },
+        {
+          id: 2,
+          label: 'text',
+        },
+      ];
 
-    return <PillsContainer {...props} data={data} />;
-  })
+      return <PillsContainer {...props} data={data} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Кнопочные фильтры'
+      ~~~js
+      import Pills from 'n2o/lib/components/controls/Pills/PillsContainer';
+      
+      const data = [
+        {
+          id: 1,
+          label: 'text',
+        },
+        {
+          id: 2,
+          label: 'text',
+        },
+      ];  
+      
+      <PillsContainer 
+          valueFieldId="id"
+          labelFieldId="label"
+          multiSelect={false}
+          data={data}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
   .add(
     'Метаданные',
     form(() => {

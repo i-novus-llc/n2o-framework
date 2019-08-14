@@ -47,6 +47,7 @@ stories.add(
   {
     info: {
       text: `
+    Контрол 'CheckboxN2O'
     ~~~js
     import CheckboxN2O from 'n2o/lib/components/controls/Checkbox/CheckboxN2O;
     

@@ -20,18 +20,41 @@ stories.addParameters({
 });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      min: DatePickerJson.min,
-      max: DatePickerJson.max,
-      disabled: DatePickerJson.disabled,
-      timeFormat: DatePickerJson.timeFormat,
-      dateDivider: ' ',
-      dateFormat: DatePickerJson.dateFormat,
-      locale: DatePickerJson.locale,
-    };
-    return <DatePicker {...props} onChange={() => {}} />;
-  })
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        min: DatePickerJson.min,
+        max: DatePickerJson.max,
+        disabled: DatePickerJson.disabled,
+        timeFormat: DatePickerJson.timeFormat,
+        dateDivider: ' ',
+        dateFormat: DatePickerJson.dateFormat,
+        locale: DatePickerJson.locale,
+      };
+      return <DatePicker {...props} onChange={() => {}} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Выбор даты'
+      ~~~js
+      import DatePicker from 'n2o/lib/components/controls/DatePicker/DatePicker';
+      
+      <DatePicker
+          onChange={onChange}
+          dateFormat="DD/MM/YYYY"
+          timeFormat="HH:mm"
+          placeholder="Введите дату"
+          locale="ru"
+          openOnFocus={false}
+          utc={true}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add(
     'Метаданные',
@@ -49,55 +72,146 @@ stories
     })
   )
 
-  .add('Форматы дат', () => {
-    return (
-      <React.Fragment>
+  .add(
+    'Форматы дат',
+    () => {
+      return (
+        <React.Fragment>
+          <DatePicker
+            dateFormat="DD/MM/YYYY"
+            timeFormat="HH:mm"
+            placeholder="dateFormat=DD/MM/YYYY timeFormat=HH:mm"
+          />
+          <br />
+          <DatePicker dateFormat="DD.MM.YYYY" placeholder="DD.MM.YYYY" />
+          <br />
+          <DatePicker dateFormat="YYYY-MM" placeholder="YYYY-MM" />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Выбор даты'
+      ~~~js
+      import DatePicker from 'n2o/lib/components/controls/DatePicker/DatePicker';
+      
         <DatePicker
           dateFormat="DD/MM/YYYY"
           timeFormat="HH:mm"
           placeholder="dateFormat=DD/MM/YYYY timeFormat=HH:mm"
         />
-        <br />
         <DatePicker dateFormat="DD.MM.YYYY" placeholder="DD.MM.YYYY" />
-        <br />
         <DatePicker dateFormat="YYYY-MM" placeholder="YYYY-MM" />
-      </React.Fragment>
-    );
-  })
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Текущая неделя', () => {
-    return (
-      <React.Fragment>
-        <DatePicker />
-      </React.Fragment>
-    );
-  })
+  .add(
+    'Текущая неделя',
+    () => {
+      return (
+        <React.Fragment>
+          <DatePicker />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Выбор даты'
+      ~~~js
+      import DatePicker from 'n2o/lib/components/controls/DatePicker/DatePicker';
+      
+      <DatePicker />
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Время по умолчанию', () => {
-    return (
-      <React.Fragment>
-        <DatePicker
+  .add(
+    'Время по умолчанию',
+    () => {
+      return (
+        <React.Fragment>
+          <DatePicker
+            dateFormat="DD/MM/YYYY"
+            timeFormat="HH:mm"
+            defaultTime="13:00"
+            placeholder="dateFormat=DD/MM/YYYY timeFormat=HH:mm defaultTime=13:00"
+          />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Выбор даты'
+      ~~~js
+      import DatePicker from 'n2o/lib/components/controls/DatePicker/DatePicker';
+      
+      <DatePicker
           dateFormat="DD/MM/YYYY"
           timeFormat="HH:mm"
           defaultTime="13:00"
           placeholder="dateFormat=DD/MM/YYYY timeFormat=HH:mm defaultTime=13:00"
         />
-      </React.Fragment>
-    );
-  })
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Расположение', () => {
-    return (
-      <div style={{ marginTop: '100px' }}>
-        <DatePicker popupPlacement="top" />
-      </div>
-    );
-  })
-  .add('Min/Max', () => {
-    return (
-      <div>
-        Доступные даты с 28.06.2019 по 30.06.2019
-        <DatePicker
+  .add(
+    'Расположение',
+    () => {
+      return (
+        <div style={{ marginTop: '100px' }}>
+          <DatePicker popupPlacement="top" />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Выбор даты'
+      ~~~js
+      import DatePicker from 'n2o/lib/components/controls/DatePicker/DatePicker';
+      
+      <DatePicker popupPlacement="top" />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Min/Max',
+    () => {
+      return (
+        <div>
+          Доступные даты с 28.06.2019 по 30.06.2019
+          <DatePicker
+            popupPlacement="top"
+            dateFormat={'YYYY-MM-DD'}
+            timeFormat={'hh:mm:ss'}
+            dateDivider={' '}
+            min="2019-06-28 00:00:00"
+            max="2019-06-30 00:00:00"
+          />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Выбор даты'
+      ~~~js
+      import DatePicker from 'n2o/lib/components/controls/DatePicker/DatePicker';
+      
+      <DatePicker
           popupPlacement="top"
           dateFormat={'YYYY-MM-DD'}
           timeFormat={'hh:mm:ss'}
@@ -105,6 +219,8 @@ stories
           min="2019-06-28 00:00:00"
           max="2019-06-30 00:00:00"
         />
-      </div>
-    );
-  });
+      ~~~
+      `,
+      },
+    }
+  );

@@ -25,22 +25,42 @@ stories.addParameters({
 });
 
 stories
-  .add('Чекбокс', () => {
-    const props = {
-      value: 2,
-      disabled: false,
-      checked: store.get('checked'),
-      label: 'Label',
-    };
+  .add(
+    'Чекбокс',
+    () => {
+      const props = {
+        value: 2,
+        disabled: false,
+        checked: store.get('checked'),
+        label: 'Label',
+      };
 
-    return (
+      return (
+        <Checkbox
+          {...props}
+          checked={store.get('checked')}
+          onChange={() => store.set({ checked: !store.get('checked') })}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Checkbox'
+      ~~~js
+      import Checkbox from 'n2o/lib/components/controls/Checkbox/Checkbox';
+      
       <Checkbox
-        {...props}
-        checked={store.get('checked')}
-        onChange={() => store.set({ checked: !store.get('checked') })}
+        value={2}
+        label="Label"
+        checked={checked}
+        onChange={onChange}
       />
-    );
-  })
+      ~~~
+      `,
+      },
+    }
+  )
   .add(
     'Метаданные',
     form(() => {
