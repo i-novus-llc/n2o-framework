@@ -180,11 +180,13 @@ class InputMask extends React.Component {
       placeholder,
       className,
       autoFocus,
+      disabled,
     } = this.props;
     const mask = this.preset(preset);
     return (
       <MaskedInput
         className={cn(['form-control', { [className]: className }])}
+        disabled={disabled}
         placeholderChar={placeholderChar}
         placeholder={placeholder}
         guide={this.state.guide}
@@ -214,6 +216,7 @@ InputMask.defaultProps = {
   mask: '',
   presetConfig: {},
   onBlur: () => {},
+  disabled: false,
 };
 
 InputMask.propTypes = {
@@ -234,6 +237,7 @@ InputMask.propTypes = {
   resetOnNotValid: PropTypes.bool,
   presetConfig: PropTypes.object,
   onBlur: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default InputMask;
