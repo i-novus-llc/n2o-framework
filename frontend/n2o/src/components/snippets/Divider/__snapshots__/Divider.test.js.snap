@@ -3,7 +3,6 @@
 exports[`<Divider /> renders correctly 1`] = `
 <div
   className="divider-h divider-h_with-title divider-h_left"
-  style={undefined}
 >
   <span>
     title

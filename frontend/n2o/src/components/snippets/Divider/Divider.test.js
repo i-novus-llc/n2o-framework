@@ -33,7 +33,9 @@ describe('<Divider />', () => {
   });
   it('renders correctly', () => {
     // eslint-disable-next-line no-undef
-    const tree = renderer.create(<Divider>title</Divider>).toJSON();
+    const tree = renderer
+      .create(<Divider style={undefined}>title</Divider>)
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 });
