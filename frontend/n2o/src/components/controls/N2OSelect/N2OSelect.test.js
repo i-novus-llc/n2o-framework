@@ -82,7 +82,7 @@ describe('<N2OSelect />', () => {
       .find('.n2o-input-clear')
       .at(0)
       .simulate('click');
-    expect(wrapper.find('N2OSelect').state().selected).toEqual([]);
+    expect(wrapper.find('N2OSelect').last().state().selected).toEqual([]);
   });
   it('проверяет cleanable в N2OSelect', () => {
     const { wrapper } = setup({ cleanable: false });
