@@ -1,15 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import ListItem from './ListItem';
 import List from './List';
 import Wireframe from '../../snippets/Wireframe/Wireframe';
 
 const stories = storiesOf('Регионы/Лист', module);
-
-
-// todo: баг в jest addon
-stories.addDecorator(withTests('List'));
 
 stories.add('Компонент', () => {
   return (

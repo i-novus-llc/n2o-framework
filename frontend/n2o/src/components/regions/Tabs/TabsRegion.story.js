@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import { set, pullAt, omit, pick } from 'lodash';
 
 import TabsRegion, { TabRegion as TabsRegionComponent } from './TabsRegion';
@@ -22,8 +21,6 @@ import { getStubData } from 'N2oStorybook/fetchMock';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 
 const stories = storiesOf('Регионы/Вкладки', module);
-
-stories.addDecorator(withTests('Tabs'));
 
 stories.addParameters({
   info: {

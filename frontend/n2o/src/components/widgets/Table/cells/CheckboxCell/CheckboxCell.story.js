@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import CheckboxCellJson from './CheckboxCell.meta.json';
 import TextTableHeader from '../../headers/TextTableHeader';
 import Table from '../../Table';
@@ -77,8 +77,6 @@ const metadata = {
     },
   },
 };
-
-stories.addDecorator(withTests('CheckboxCell'));
 
 stories.addDecorator(withPage(metadata)).add('Метаданные', () => {
   let data = {

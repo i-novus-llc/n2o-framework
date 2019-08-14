@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import IconJson from './IconCell.meta.json';
 import Table from '../../Table';
 import IconCell from './IconCell';
@@ -9,8 +9,6 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes';
 import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Иконки', module);
-
-stories.addDecorator(withTests('IconCell'));
 
 stories.addParameters({
   info: {

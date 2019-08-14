@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import withPage from 'N2oStorybook/decorators/withPage';
 import { FormPlaceholder } from 'N2oStorybook/json';
@@ -32,8 +31,6 @@ import Page from '../../core/Router';
 import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
 
 const stories = storiesOf('Виджеты/Форма', module);
-
-stories.addDecorator(withTests('Form'));
 
 const renderForm = json => (
   <Factory level={WIDGETS} {...json['Page_Form']} id="Page_Form" />

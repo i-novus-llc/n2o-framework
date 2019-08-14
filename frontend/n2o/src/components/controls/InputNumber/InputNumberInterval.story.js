@@ -1,11 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import InputNumberInterval from './InputNumberInterval';
 
 const stories = storiesOf('Контролы/Интервал ввода чисел', module);
-
-stories.addDecorator(withTests('InputNumber'));
 
 stories.add(
   'базовый функционал',

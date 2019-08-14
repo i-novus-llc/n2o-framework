@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { set, omit, pullAt, pick } from 'lodash';
 
 import ListRegion from './ListRegion';
@@ -22,7 +22,6 @@ import { getStubData } from 'N2oStorybook/fetchMock';
 
 const stories = storiesOf('Регионы/Лист', module);
 
-stories.addDecorator(withTests('Лист'));
 const ListRegionJson = set(
   cloneObject(SecureListRegionJson),
   'items',

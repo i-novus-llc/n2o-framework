@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import ImageCellJson from './ImageCell.meta.json';
 import ImageCell, { ImageCell as ImageCellComponent } from './ImageCell';
 import imageShapes from './imageShapes';
@@ -9,8 +9,6 @@ import Table from '../../Table';
 import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Изображение', module);
-
-stories.addDecorator(withTests('ImageCell'));
 
 stories.addParameters({
   info: {

@@ -1,14 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import withTests from 'N2oStorybook/withTests';
 import Factory from '../../../core/factory/Factory';
 import { SNIPPETS } from '../../../core/factory/factoryLevels';
 import Icon from './Icon';
 
 const stories = storiesOf('UI Компоненты/Иконка', module);
-
-stories.addDecorator(withTests('Icon'));
 
 stories
   .add(

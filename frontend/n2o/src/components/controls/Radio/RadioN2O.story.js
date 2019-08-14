@@ -2,8 +2,6 @@ import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
 
-import withTests from 'N2oStorybook/withTests';
-
 import RadioN2O from './RadioN2O';
 
 const store = new Store({
@@ -13,8 +11,6 @@ const store = new Store({
 store.subscribe(forceReRender);
 
 const stories = storiesOf('Контролы/Радио', module);
-
-stories.addDecorator(withTests('Checkbox'));
 
 stories.addDecorator(StateDecorator(store));
 

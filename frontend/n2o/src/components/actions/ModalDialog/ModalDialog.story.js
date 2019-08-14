@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import { StateDecorator, Store } from '@sambego/storybook-state';
 
 import ModalDialog from './ModalDialog';
@@ -20,8 +19,6 @@ const onHide = () => store.set({ visible: false });
 
 const stories = storiesOf('UI Компоненты/Диалог', module);
 
-// todo: баг в jest addon
-stories.addDecorator(withTests('ModalDialog'));
 stories.addDecorator(StateDecorator(store));
 
 stories

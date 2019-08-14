@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import fetchMock from 'fetch-mock';
 import { uniqueId } from 'lodash';
 import InputSelectTreeContainer from '../InputSelectTreeOldDeprecated/InputSelectTreeContainer';
@@ -13,8 +13,6 @@ import InputSelectTree from './InputSelectTree';
 
 const stories = storiesOf('Контролы/InputSelectTree', module);
 const form = withForm({ src: 'InputSelectTree' });
-
-stories.addDecorator(withTests('InputSelectTree'));
 
 const delay = ms => new Promise(r => setTimeout(r, ms));
 const dataUrl = 'begin:n2o/data';

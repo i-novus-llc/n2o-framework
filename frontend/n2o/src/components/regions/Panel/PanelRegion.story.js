@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
 import { set, pullAt } from 'lodash';
 
 import PanelRegion, {
@@ -20,8 +19,6 @@ import { dataSuccessWidget, hideWidget } from '../../../actions/widgets';
 import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Регионы/Панель', module);
-
-stories.addDecorator(withTests('PanelRegion'));
 
 stories.addParameters({
   info: {

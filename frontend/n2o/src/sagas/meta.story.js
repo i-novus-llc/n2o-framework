@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, meta } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -10,8 +10,6 @@ import { WIDGETS } from '../core/factory/factoryLevels';
 import withPage from '../../.storybook/decorators/withPage';
 
 const stories = storiesOf('Функциональность/Сайд-эффекты на экшены', module);
-
-stories.addDecorator(withTests('Table'));
 
 stories
   .addDecorator(withPage(meta))

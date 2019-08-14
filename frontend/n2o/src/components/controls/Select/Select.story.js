@@ -1,13 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-
-import withTests from 'N2oStorybook/withTests';
 import Select from './Select';
 import Option from './Option';
 
 const stories = storiesOf('Контролы/Выпадающий список', module);
-
-stories.addDecorator(withTests('Select'));
 
 stories.add('Компонент', () => {
   const props = {

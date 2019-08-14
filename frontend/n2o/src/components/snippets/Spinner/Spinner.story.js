@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import Input from '../../controls/Input/Input';
 import InlineSpinner from './InlineSpinner';
 import TextCell from '../../widgets/Table/cells/TextCell/TextCell';
@@ -12,8 +12,6 @@ import TableCell from '../../widgets/Table/TableCell';
 import TableRow from '../../widgets/Table/TableRow';
 
 const stories = storiesOf('UI Компоненты/Спиннеры', module);
-
-stories.addDecorator(withTests('Spinner'));
 
 const tableData = [
   { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001' },

@@ -1,14 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
-
 import RadioGroup from './RadioGroup';
 import Radio from '../Radio/Radio';
 
 const stories = storiesOf('Контролы/Радио', module);
-
-stories.addDecorator(withTests('RadioGroup'));
 
 stories.add(
   'Радио группа',

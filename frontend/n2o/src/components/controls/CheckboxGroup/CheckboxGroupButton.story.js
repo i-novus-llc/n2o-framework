@@ -1,13 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
 
 import CheckboxGroup from './CheckboxGroup';
 import CheckboxButton from '../Checkbox/CheckboxButton';
 
 const stories = storiesOf('Контролы/Группа чекбоксов', module);
-
-stories.addDecorator(withTests('CheckboxGroup'));
 
 stories.add(
   'Группа в виде кнопок',

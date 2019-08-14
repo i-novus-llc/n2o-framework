@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
-import withTests from 'N2oStorybook/withTests';
+
 import { page } from 'N2oStorybook/fetchMock';
 import { ShowModalTitle, ShowModal } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -20,7 +20,6 @@ store.subscribe(forceReRender);
 
 const stories = storiesOf('Действия/Модальное окно', module);
 
-stories.addDecorator(withTests('ModalPages'));
 stories.addDecorator(withPage(ShowModalTitle));
 stories.addDecorator(StateDecorator(store));
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import fetchMock from 'fetch-mock';
 import { parseUrl, getStubData } from 'N2oStorybook/fetchMock';
 import withForm from 'N2oStorybook/decorators/withForm';
@@ -14,8 +13,6 @@ import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'N2OSelect' });
 const stories = storiesOf('Контролы/Выпадающий список', module);
-
-stories.addDecorator(withTests('N2OSelectContainer'));
 
 stories.addParameters({
   info: {

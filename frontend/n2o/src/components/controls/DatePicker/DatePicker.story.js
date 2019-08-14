@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 import DatePicker from './DatePicker';
 import DatePickerJson from './DatePicker.meta.json';
@@ -9,8 +8,6 @@ import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'DatePicker' });
 const stories = storiesOf('Контролы/Выбор дат', module);
-
-stories.addDecorator(withTests('DateTimeControl'));
 
 stories.addParameters({
   info: {

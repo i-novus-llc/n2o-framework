@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
 
 import TextTableHeader from '../../headers/TextTableHeader';
 import BadgeCell from './BadgeCell';
@@ -9,9 +8,6 @@ import BadgeCellJson from './BadgeCell.meta.json';
 import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Ярлыки', module);
-
-// todo: баг в jest addon
-stories.addDecorator(withTests('BadgeCell'));
 
 stories.addParameters({
   info: {

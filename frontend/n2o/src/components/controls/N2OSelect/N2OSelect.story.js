@@ -1,15 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
-
 import InputSelect, { N2OSelect } from './N2OSelect';
 import N2OSelectJson from './N2OSelect.meta.json';
 import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Выпадающий список', module);
-
-stories.addDecorator(withTests('InputSelect'));
 
 stories.addParameters({
   info: {

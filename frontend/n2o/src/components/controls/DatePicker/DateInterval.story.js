@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
 
 import withForm from 'N2oStorybook/decorators/withForm';
 import DateIntervalJSON from './DateInterval.meta';
@@ -11,8 +10,6 @@ import Factory from '../../../core/factory/Factory';
 const stories = storiesOf('Контролы/Интервал дат', module);
 
 const form = withForm({ src: 'DateInterval' });
-
-stories.addDecorator(withTests('DateTimeControl'));
 
 stories.addParameters({
   info: {

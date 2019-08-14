@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
 
 import Table from '../../Table';
 import TextTableHeader from '../../headers/TextTableHeader';
@@ -9,8 +8,6 @@ import CollapsedCellJson from './CollapsedCell.meta.json';
 import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/CollapsedCell', module);
-
-stories.addDecorator(withTests('CollapsedCell'));
 
 stories.addParameters({
   info: {

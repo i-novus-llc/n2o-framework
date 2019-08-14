@@ -1,16 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
 import Factory from '../../../core/factory/Factory';
 import { SNIPPETS } from '../../../core/factory/factoryLevels';
 
 import Panel from './PanelShortHand';
 import PanelJson from './Panel.meta.json';
-import panelStyles from './panelStyles';
 
 const stories = storiesOf('Регионы/Панель', module);
-
-stories.addDecorator(withTests('Panel'));
 
 stories.addParameters({
   info: {

@@ -1,15 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import Wireframe from '../../snippets/Wireframe/Wireframe';
 import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Регионы/Вкладки', module);
-
-stories.addDecorator(withTests('Tabs'));
 
 stories.addParameters({
   info: {

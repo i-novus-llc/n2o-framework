@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
 import InputSelectContainer from './InputSelectContainer.jsx';
 import InputSelectContainerJson from './InputSelectContainer.meta.json';
 import fetchMock from 'fetch-mock';
@@ -10,8 +9,6 @@ import { InputSelect as InputSelectComponent } from './InputSelect';
 import Factory from '../../../core/factory/Factory';
 const stories = storiesOf('Контролы/InputSelect', module);
 const form = withForm();
-
-stories.addDecorator(withTests('InputSelect'));
 
 stories.addParameters({
   info: {

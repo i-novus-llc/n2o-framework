@@ -1,8 +1,6 @@
 import React from 'react';
 import { setAddon, storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
-
-import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 
 import Checkbox from './Checkbox';
@@ -16,7 +14,6 @@ store.subscribe(forceReRender);
 const form = withForm({ src: 'Checkbox' });
 const stories = storiesOf('Контролы/Чекбокс', module);
 
-stories.addDecorator(withTests('Checkbox'));
 stories.addParameters({
   info: {
     propTables: [Checkbox],

@@ -1,14 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
-
 import RadioGroup from './RadioGroup';
 import RadioButton from '../Radio/RadioButton';
 
 const stories = storiesOf('Контролы/Радио', module);
-
-stories.addDecorator(withTests('CheckboxGroup'));
 
 stories.add(
   'Группа в виде кнопок',

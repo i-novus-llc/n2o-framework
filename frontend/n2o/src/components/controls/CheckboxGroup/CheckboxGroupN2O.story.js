@@ -1,15 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import CheckboxGroup from './CheckboxGroup';
 import CheckboxAlt, {
   CheckboxN2O as CheckboxComponent,
 } from '../Checkbox/CheckboxN2O';
 
 const stories = storiesOf('Контролы/Группа чекбоксов', module);
-
-stories.addDecorator(withTests('CheckboxGroup'));
 
 stories.addParameters({
   info: {

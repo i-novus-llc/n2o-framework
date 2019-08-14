@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import withForm from 'N2oStorybook/decorators/withForm';
 import CodeEditor from './CodeEditor';
 import CodeEditorJson from './CodeEditor.meta.json';
@@ -9,8 +9,6 @@ import Factory from '../../../core/factory/Factory';
 const form = withForm({ src: 'CodeEditor' });
 
 const stories = storiesOf('Контролы/Редактор кода', module);
-
-stories.addDecorator(withTests('CodeEditor'));
 
 stories.addParameters({
   info: {

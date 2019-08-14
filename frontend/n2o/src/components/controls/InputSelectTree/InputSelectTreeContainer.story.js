@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import fetchMock from 'fetch-mock';
 import InputSelectTreeContainer, {
   InputSelectTreeContainer as InputSelectComponent,
@@ -17,8 +16,6 @@ import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/InputSelectTree', module);
 const form = withForm({ src: 'InputSelectTree' });
-
-stories.addDecorator(withTests('InputSelectTree'));
 
 stories.addParameters({
   info: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -14,8 +14,6 @@ const stories = storiesOf(
   'Функциональность/Зависимость кнопок от модели',
   module
 );
-
-stories.addDecorator(withTests('Table'));
 
 stories
   .addDecorator(withPage(metadata))

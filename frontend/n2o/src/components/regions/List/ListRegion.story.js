@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import { set, omit, pullAt, pick } from 'lodash';
 
 import ListRegion, { ListRegion as ListRegionComponent } from './ListRegion';
@@ -21,8 +20,6 @@ import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Регионы/Лист', module);
-
-stories.addDecorator(withTests('Лист'));
 
 stories.addParameters({
   info: {

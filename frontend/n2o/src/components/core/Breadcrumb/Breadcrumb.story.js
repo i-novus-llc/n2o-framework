@@ -4,7 +4,7 @@ import { withContext } from 'recompose';
 import { Route, Link, Switch } from 'react-router-dom';
 import fetchMock from 'fetch-mock';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 import DefaultBreadcrumb from './DefaultBreadcrumb';
 import metadata from '../Page.meta';
@@ -22,8 +22,6 @@ const PageContext = withContext(
     defaultBreadcrumb: DefaultBreadcrumb,
   })
 )(Page);
-
-stories.addDecorator(withTests('Page'));
 
 stories
 

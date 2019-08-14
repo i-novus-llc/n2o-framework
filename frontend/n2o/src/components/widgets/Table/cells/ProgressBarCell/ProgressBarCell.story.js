@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import Table from '../../Table';
 import progressBarStyles from './progressBarStyles';
 import ProgressBarCell from './ProgressBarCell';
@@ -9,8 +9,6 @@ import ProgressBarJson from './ProgressBarCell.meta';
 import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Индикатор', module);
-
-stories.addDecorator(withTests('ProgressBarCell'));
 
 stories.addParameters({
   info: {

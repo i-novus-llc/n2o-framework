@@ -1,7 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import withTests from 'N2oStorybook/withTests';
 import withForm from 'N2oStorybook/decorators/withForm';
 
 import InputNumber from './InputNumber';
@@ -9,8 +8,6 @@ import InputNumberJson from './InputNumber.meta.json';
 import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Ввод чисел', module);
-
-stories.addDecorator(withTests('InputNumber'));
 
 stories.addParameters({
   info: {
