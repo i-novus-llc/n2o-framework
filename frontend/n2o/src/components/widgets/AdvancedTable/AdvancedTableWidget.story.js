@@ -166,10 +166,51 @@ stories
   .add('Выбор строк чекбоксом', () => {
     fetchMock.restore().get(urlPattern, url => getStubData(url));
     return (
-      <Factory
-        level={WIDGETS}
-        {...rowSelection['Page_Table']}
-        id="Page_Table"
+      <AdvancedTable
+        columns={[
+          {
+            id: 'name',
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            width: '100px',
+          },
+          {
+            id: 'surname',
+            title: 'Surname',
+            dataIndex: 'surname',
+            key: 'surname',
+            width: '200px',
+          },
+          {
+            id: 'age',
+            title: 'Age',
+            dataIndex: 'age',
+            key: 'age',
+            width: '50px',
+          },
+        ]}
+        data={[
+          {
+            id: 1,
+            name: 'name1',
+            surname: 'surname1',
+            age: 1,
+          },
+          {
+            id: 2,
+            name: 'name2',
+            surname: 'surname2',
+            age: 2,
+          },
+          {
+            id: 3,
+            name: 'name3',
+            surname: 'surname3',
+            age: 3,
+          },
+        ]}
+        rowSelection={true}
       />
     );
   })
