@@ -3,7 +3,7 @@
   top: 0;
   z-index: 9999;
   &-mask {
-    background: $drawer-mask-background;
+    background: $drawer-backdrop-bg;
     opacity: 0;
     width: 100%;
     height: 0;
@@ -20,8 +20,8 @@
 
 .drawer-content-wrapper {
   position: fixed;
-  background: $drawer-content-wrapper-background;
-  padding: $drawer-content-wrapper-padding;
+  background: $drawer-content-bg;
+  padding: $drawer-content-pd
 }
 
 .drawer-content {
@@ -145,7 +145,7 @@
   content: '';
   display: block;
   position: absolute;
-  background: $drawer-handle-icon-color;
+  background: $drawer-icon-color;
   width: 18px;
   height: 2px;
 }

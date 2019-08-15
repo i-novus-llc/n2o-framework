@@ -1,7 +1,6 @@
 import React from 'react';
 import Drawer from 'rc-drawer';
 import PropTypes from 'prop-types';
-import { compose, defaultProps } from 'recompose';
 import cx from 'classnames';
 
 /**
@@ -24,7 +23,7 @@ import cx from 'classnames';
  * @example
  */
 
-export function N2ODrawer(props) {
+function N2ODrawer(props) {
   const {
     className,
     closable,
@@ -81,11 +80,9 @@ N2ODrawer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
-const enchance = compose(
-  defaultProps({
-    animation: true,
-    backdropClosable: true,
-  })
-);
+N2ODrawer.defaultProps = {
+  animation: true,
+  backdropClosable: true,
+};
 
-export default enchance(N2ODrawer);
+export default N2ODrawer;

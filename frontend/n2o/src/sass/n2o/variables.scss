@@ -253,15 +253,15 @@ $sidebar-brand-border-left: 0 !default;
 $sidebar-brand-border-right: 0 !default;
 
 // Footer
-$footer-height: 40px !default;;
+$footer-height: 40px !default;
 
 //Drawer
-$drawer-mask-background: #000 !default;
-$drawer-content-wrapper-background: #fff !default;
+$drawer-backdrop-bg: #000 !default;
+$drawer-content-bg: #fff !default;
 $drawer-left-open-shadow: 2px 0 8px rgba(0, 0, 0, 0.15) !default;
 $drawer-right-open-shadow: -2px 0 8px rgba(0, 0, 0, 0.15) !default;
 $drawer-top-open-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !default;
 $drawer-bottom-open-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) !default;
-$drawer-content-wrapper-padding: 30px !default;
+$drawer-content-pd: 30px !default;
 $drawer-border: 1px solid #000 !default;
-$drawer-handle-icon-color: #333 !default;
+$drawer-icon-color: #333 !default;
