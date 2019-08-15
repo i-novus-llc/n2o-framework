@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
+import cx from 'classnames';
 
 import 'brace/mode/java';
 import 'brace/mode/groovy';
@@ -56,11 +57,12 @@ class CodeEditor extends React.Component {
       minLines,
       maxLines,
       autocomplete,
+      className,
     } = this.props;
     return (
       visible && (
         <div
-          className={'n2o-code-editor'}
+          className={cx('n2o-code-editor', className)}
           style={{ display: 'flex', border: '1px solid #d1d1d1' }}
         >
           <AceEditor

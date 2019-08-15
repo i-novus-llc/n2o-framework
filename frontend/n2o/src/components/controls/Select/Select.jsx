@@ -56,11 +56,12 @@ class Select extends React.Component {
       disabled,
       autoFocus,
       required,
+      className,
     } = this.props;
 
     return (
       visible !== false && (
-        <div className="form-group n2o-select">
+        <div className={cx('form-group', 'n2o-select', className)}>
           <select
             className={cx('form-control', heightSize)}
             onChange={this.onChange}
