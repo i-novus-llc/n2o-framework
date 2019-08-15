@@ -1,26 +1,33 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import { Tooltip } from 'reactstrap';
+import { id } from '../utils/id';
 
 /**
  * Если есть подсказка, возвращаем с тултипом
  */
 
-export default function placementwithTooltip(
-  component,
-  hint,
-  hintPosition,
-  id
-) {
-  if (hint) {
-    return (
-      <React.Fragment>
-        {component}
-        <UncontrolledTooltip delay={0} placement={hintPosition} target={id}>
-          {hint}
-        </UncontrolledTooltip>
-      </React.Fragment>
-    );
-  } else {
-    return component;
-  }
+const Id = id();
+
+export default function withTooltip(props) {
+  const { children, hint, placement, id, isOpen, hideArrow } = props;
+  return (
+    <React.Fragment>
+      <Tooltip
+        delay={0}
+        placement={placement}
+        target={id || Id}
+        isOpen={isOpen}
+        trigger={'hover focus'}
+        hideArrow={hideArrow}
+      >
+        {hint}
+      </Tooltip>
+      <div id={Id}>{children}</div>
+    </React.Fragment>
+  );
 }
+
+Tooltip.defaultProps = {
+  isOpen: true,
+  hideArrow: false,
+};

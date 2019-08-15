@@ -1,9 +1,12 @@
 import React from 'react';
 import cx from 'classnames';
-import { withState } from 'recompose';
-import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
+import { withState, compose } from 'recompose';
+import BaseSlider, { Handle } from 'rc-slider';
 import { stringConverter, prepareStyle } from './utils';
 import { propTypes, defaultProps } from './allProps';
+import Tooltip from '../../../utils/withTooltip';
+import { id } from '../../../utils/id';
+
 /**
  * Компонент Slider
  * @reactProps {boolean} multiple - Множественный выбор
@@ -35,6 +38,7 @@ function Slider(props) {
     vertical,
     style,
     className,
+    Id,
     ...rest
   } = props;
 
@@ -42,8 +46,9 @@ function Slider(props) {
     rest.setValue(value);
   };
 
-  const onAfterChange = () => {
-    rest.onChange(rest.value);
+  const onAfterChange = value => {
+    rest.onChange(value);
+    console.log(value);
   };
 
   const expressionFn = tooltipFormatter
@@ -51,20 +56,28 @@ function Slider(props) {
     : value => value;
 
   const Component = multiple ? BaseSlider.Range : BaseSlider;
-  const RenderSlider = showTooltip
-    ? createSliderWithTooltip(Component)
-    : Component;
 
-  const tooltipProps = {
-    placement: tooltipPlacement,
+  const renderHandle = rest => {
+    console.log(Id);
+    if (showTooltip)
+      return (
+        <Tooltip
+          hint={rest.value}
+          placement={tooltipPlacement}
+          isOpen={rest.dragging}
+          id={Id}
+        >
+          <Handle {...rest} id={Id} />
+        </Tooltip>
+      );
+    else return <Handle {...rest} />;
   };
 
   return (
-    <RenderSlider
+    <Component
       {...rest}
       className={cx('n2o-slider', className)}
-      tipProps={tooltipProps}
-      tipFormatter={expressionFn}
+      handle={renderHandle}
       vertical={vertical}
       style={prepareStyle(vertical, style)}
       onAfterChange={onAfterChange}
@@ -84,4 +97,9 @@ const WrapSlider = stringConverter([
 WrapSlider.propTypes = propTypes;
 WrapSlider.defaultProps = defaultProps;
 
-export default withState('value', 'setValue', ({ value }) => value)(WrapSlider);
+const enhance = compose(
+  withState('Id', 'setId', () => id()),
+  withState('value', 'setValue', ({ value }) => value)
+);
+
+export default enhance(WrapSlider);

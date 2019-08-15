@@ -185,10 +185,20 @@ class ButtonContainer extends React.Component {
 
     return isDropdown ? (
       <div className={cx(visible ? 'd-block' : 'd-none')}>
-        {withTooltip(this.renderDropdown(), hint, hintPosition, this.buttonId)}
+        <withTooltip
+          children={this.renderDropdown()}
+          hint={hint}
+          hintPosition={hintPosition}
+          id={this.buttonId}
+        />
       </div>
     ) : visible ? (
-      withTooltip(this.renderButton(), hint, hintPosition, this.buttonId)
+      <withTooltip
+        children={this.renderDropdown()}
+        hint={hint}
+        hintPosition={hintPosition}
+        id={this.buttonId}
+      />
     ) : null;
   }
 }
