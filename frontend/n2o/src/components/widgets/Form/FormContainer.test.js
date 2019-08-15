@@ -221,6 +221,7 @@ describe('FormContainer', () => {
           resolveModel: { resolve: '' },
           datasource: { data: '' },
           isEnabled: false,
+          setDefaultValues: () => {},
         },
         'withPropsOnChangeWidget'
       );

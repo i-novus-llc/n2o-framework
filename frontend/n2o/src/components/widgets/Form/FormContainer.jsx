@@ -80,6 +80,15 @@ export const withPropsOnChangeWidget = withPropsOnChange(
     );
   },
   props => {
+    if (props.datasource === null) {
+      props.setDefaultValues({});
+    } else if (props.datasource && isEmpty(props.defaultValues)) {
+      props.setDefaultValues(
+        merge(props.resolveModel || {}, props.datasource || {}, {
+          arrayMerge: arrayMergeFunction,
+        })
+      );
+    }
     return {
       initialValues: props.defaultValues
         ? props.defaultValues
