@@ -1,5 +1,5 @@
 import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
-import { isEmpty, isUndefined } from 'lodash';
+import { isEmpty, isUndefined, some, includes } from 'lodash';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -70,7 +70,12 @@ export function* checkAndModify(
     if (field.dependency) {
       for (const dep of field.dependency) {
         if (
-          (fieldName && dep.on.includes(fieldName)) ||
+          (fieldName && includes(dep.on, fieldName)) ||
+          (fieldName &&
+            some(
+              dep.on,
+              field => includes(field, '.') && includes(field, fieldName)
+            )) ||
           ((actionType === actionTypes.INITIALIZE ||
             actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)

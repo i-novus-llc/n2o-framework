@@ -46,14 +46,15 @@ class DateInput extends React.Component {
 
   onChange(e, callback) {
     const value = isObject(e) ? get(e, 'target.value', '') : e;
-    const { dateFormat, name } = this.props;
+    const { dateFormat, name, outputFormat } = this.props;
+
     if (value === '') {
       this.props.onInputChange(null, name);
     } else if (
-      moment(value).format(dateFormat) === value &&
+      moment(value, dateFormat).format(dateFormat) === value &&
       hasInsideMixMax(value, this.props)
     ) {
-      this.props.onInputChange(moment(value), name);
+      this.props.onInputChange(moment(value, outputFormat), name);
     } else {
       this.setState({ value }, () => {
         if (callback) callback();
@@ -111,7 +112,6 @@ class DateInput extends React.Component {
   onKeyDown(e) {
     const cursorPos = Number(e.target.selectionStart);
     const keyCode = Number(e.keyCode);
-    const valueFromKey = +String.fromCharCode(keyCode);
     const deletedChar = +this.getDeletedSymbol(cursorPos);
 
     if (keyCode === 8 && cursorPos !== 0 && !isNaN(deletedChar)) {
@@ -120,15 +120,6 @@ class DateInput extends React.Component {
       const value = this.replaceAt(this.state.value, cursorPos, '_');
 
       this.onChange(value, () => this.setCursorPosition(cursorPos - 1));
-    } else if (!isNaN(valueFromKey) && isNumber(valueFromKey)) {
-      e.preventDefault();
-      const value = this.replaceAt(
-        this.state.value,
-        cursorPos + 1,
-        valueFromKey
-      );
-
-      this.onChange(value, () => this.setCursorPosition(cursorPos + 1));
     }
   }
 

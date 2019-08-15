@@ -121,7 +121,9 @@ class Alert extends React.Component {
             </div>
           )}
           <div className={'n2o-alert-body'}>
-            <div className="n2o-alert-body-text">{text}</div>
+            <div className="n2o-alert-body-text white-space-pre-line">
+              {text}
+            </div>
             {details && (
               <a
                 className="alert-link details-label"

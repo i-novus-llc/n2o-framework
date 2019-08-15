@@ -80,6 +80,7 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new PillsIOv2())
                 .addPersister(new SelectTreeIOv2())
                 .addPersister(new SelectIOv2())
+                .addPersister(new SliderIOv2())
                 .addPersister(new TextAreaIOv2())
                 .addPersister(new TextEditorIOv2())
                 .addPersister(new CodeEditorIOv2());

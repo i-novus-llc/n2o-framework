@@ -71,6 +71,6 @@ describe('Проверка саги auth', () => {
       { type: FETCH_ERROR }
     );
     gen.next();
-    expect(gen.next().value.PUT.action).toEqual(push('/login'));
+    expect(gen.next().value.payload.action).toEqual(push('/login'));
   });
 });

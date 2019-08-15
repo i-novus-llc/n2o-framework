@@ -125,8 +125,11 @@ class InputMoney extends React.Component {
   }
 
   onChange(value) {
-    const { onChange } = this.props;
-    const convertedValue = parseFloat(this.convertToFloat(value));
+    const { onChange, allowNegative } = this.props;
+    const convertedValue =
+      allowNegative && value === '-'
+        ? value
+        : parseFloat(this.convertToFloat(value));
     onChange && onChange(!isNaN(convertedValue) ? convertedValue : null);
     this.setState({ value: convertedValue });
   }

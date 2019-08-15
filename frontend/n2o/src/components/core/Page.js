@@ -10,6 +10,7 @@ import {
   branch,
   getContext,
   defaultProps,
+  mapProps,
 } from 'recompose';
 
 import Section from '../layouts/Section';
@@ -63,7 +64,7 @@ function Page(props) {
     return errorPage ? (
       React.createElement(errorPage)
     ) : (
-      <div className={cn({ 'n2o-disabled-page': disabled })}>
+      <div className={cn('n2o-page-body', { 'n2o-disabled-page': disabled })}>
         {error && <Alert {...error} visible />}
         {!isEmpty(metadata) && metadata.page && (
           <DocumentTitle {...metadata.page} />
@@ -134,19 +135,17 @@ function Page(props) {
     );
   };
 
-  return (
+  return rootPage ? (
+    <Root>
+      <Template>
+        <Spinner type="cover" loading={loading}>
+          {page ? React.createElement(page, props) : renderDefaultBody()}
+        </Spinner>
+      </Template>
+    </Root>
+  ) : (
     <Spinner type="cover" loading={loading}>
-      {rootPage ? (
-        <Root>
-          <Template>
-            {page ? React.createElement(page, props) : renderDefaultBody()}
-          </Template>
-        </Root>
-      ) : page ? (
-        React.createElement(page, props)
-      ) : (
-        renderDefaultBody()
-      )}
+      {page ? React.createElement(page, props) : renderDefaultBody()}
     </Spinner>
   );
 }
@@ -171,6 +170,10 @@ const mapStateToProps = createStructuredSelector({
 
 export default compose(
   connect(mapStateToProps),
+  mapProps(props => ({
+    ...props,
+    pageUrl: props.pageUrl || get(props, 'match.params.pageUrl', ''),
+  })),
   withPropsOnChange(
     ['pageId', 'pageUrl', 'rootPageId'],
     ({ pageId, pageUrl, rootPageId, rootPage }) => ({
