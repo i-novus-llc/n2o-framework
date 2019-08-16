@@ -14,7 +14,7 @@ import {
 import Actions from '../actions/Actions';
 import factoryResolver from '../../utils/factoryResolver';
 import withActions from './withActions';
-import CoverSpinner from '../snippets/Spinner/CoverSpinner';
+import Spinner from '../snippets/Spinner/Spinner';
 import { makeShowPromptByName } from '../../selectors/modals';
 
 /**
@@ -96,57 +96,58 @@ class ModalPage extends React.Component {
     return (
       <div className={cn('modal-page-overlay')}>
         {showPrompt && this.showPrompt()}
-        {showSpinner && <CoverSpinner mode="transparent" />}
-        <Modal
-          isOpen={visible}
-          toggle={() => this.closeModal(false)}
-          size={size}
-          backdrop={false}
-          style={{
-            zIndex: 10,
-          }}
-        >
-          <ModalHeader
-            className={classes}
+        <Spinner type="cover" loading={showSpinner} color="light" transparent>
+          <Modal
+            isOpen={visible}
             toggle={() => this.closeModal(false)}
+            size={size}
+            backdrop={false}
+            style={{
+              zIndex: 10,
+            }}
           >
-            {title}
-          </ModalHeader>
-          <ModalBody className={classes}>
-            {pageUrl ? (
-              <Page
-                pageUrl={pageUrl}
-                pageId={pageId}
-                pageMapping={pageMapping}
-                needMetadata
-              />
-            ) : src ? (
-              this.renderFromSrc(src)
-            ) : null}
-          </ModalBody>
-          {toolbar && (
-            <ModalFooter className={classes}>
-              <div
-                className={cn('n2o-modal-actions', {
-                  'n2o-disabled': disabled,
-                })}
-              >
-                <Actions
-                  toolbar={toolbar.bottomLeft}
-                  actions={actions}
-                  containerKey={containerKey}
+            <ModalHeader
+              className={classes}
+              toggle={() => this.closeModal(false)}
+            >
+              {title}
+            </ModalHeader>
+            <ModalBody className={classes}>
+              {pageUrl ? (
+                <Page
+                  pageUrl={pageUrl}
                   pageId={pageId}
+                  pageMapping={pageMapping}
+                  needMetadata
                 />
-                <Actions
-                  toolbar={toolbar.bottomRight}
-                  actions={actions}
-                  containerKey={containerKey}
-                  pageId={pageId}
-                />
-              </div>
-            </ModalFooter>
-          )}
-        </Modal>
+              ) : src ? (
+                this.renderFromSrc(src)
+              ) : null}
+            </ModalBody>
+            {toolbar && (
+              <ModalFooter className={classes}>
+                <div
+                  className={cn('n2o-modal-actions', {
+                    'n2o-disabled': disabled,
+                  })}
+                >
+                  <Actions
+                    toolbar={toolbar.bottomLeft}
+                    actions={actions}
+                    containerKey={containerKey}
+                    pageId={pageId}
+                  />
+                  <Actions
+                    toolbar={toolbar.bottomRight}
+                    actions={actions}
+                    containerKey={containerKey}
+                    pageId={pageId}
+                  />
+                </div>
+              </ModalFooter>
+            )}
+          </Modal>
+        </Spinner>
       </div>
     );
   }

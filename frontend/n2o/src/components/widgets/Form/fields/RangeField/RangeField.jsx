@@ -239,5 +239,6 @@ export default compose(
     onBeginValueChange: ({ end, onChange }) => begin =>
       onChange({ begin, end }),
     onEndValueChange: ({ begin, onChange }) => end => onChange({ begin, end }),
+    onBlur: ({ onBlur }) => () => onBlur(),
   })
 )(RangeField);

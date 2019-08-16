@@ -8,6 +8,8 @@ import {
   reduce,
   every,
   some,
+  get,
+  isFunction,
 } from 'lodash';
 import { post, deleteFile } from './utils';
 import { id } from '../../../utils/id';
@@ -139,20 +141,28 @@ const FileUploaderControl = WrappedComponent => {
      * @param files
      */
     handleDrop(files) {
-      this.setState({
-        files: [
-          ...this.state.files,
-          ...files.map(file => {
-            file.id = id();
-            file.percentage = 0;
-            return file;
-          }),
-        ],
-        uploaderClass: null,
-      });
-      if (this.props.autoUpload) {
-        this.startUpload(files);
-      }
+      const { onChange, autoUpload } = this.props;
+
+      this.setState(
+        {
+          files: [
+            ...this.state.files,
+            ...files.map(file => {
+              file.id = id();
+              file.percentage = 0;
+              return file;
+            }),
+          ],
+          uploaderClass: null,
+        },
+        () => {
+          if (autoUpload) {
+            this.startUpload(files);
+          } else {
+            onChange(files);
+          }
+        }
+      );
     }
 
     /**
@@ -167,15 +177,25 @@ const FileUploaderControl = WrappedComponent => {
         valueFieldId,
         onChange,
         deleteUrl,
+        onDelete,
+        deleteRequest,
       } = this.props;
+
       if (deleteUrl) {
-        deleteFile(this.resolveUrl(deleteUrl), id);
+        if (isFunction(deleteRequest)) {
+          deleteRequest(id);
+        } else {
+          deleteFile(this.resolveUrl(deleteUrl), id);
+          onDelete(index, id);
+        }
       }
+
       const newFiles = this.state.files.slice();
       newFiles.splice(index, 1);
       this.setState({
         files: [...newFiles],
       });
+
       if (value) {
         onChange(multi ? value.filter(f => f[valueFieldId] !== id) : null);
       }
@@ -194,7 +214,15 @@ const FileUploaderControl = WrappedComponent => {
      * @param files
      */
     startUpload(files) {
-      const { labelFieldId, sizeFieldId, requestParam, uploadUrl } = this.props;
+      const {
+        labelFieldId,
+        sizeFieldId,
+        requestParam,
+        uploadUrl,
+        onStart,
+        uploadRequest,
+      } = this.props;
+
       const url = this.resolveUrl(uploadUrl);
 
       this.setState({
@@ -215,13 +243,19 @@ const FileUploaderControl = WrappedComponent => {
 
           const formData = new FormData();
           formData.append(requestParam, file);
-          this.requests[file.id] = post(
-            url,
-            formData,
-            onProgress,
-            onUpload,
-            onError
-          );
+          onStart(file);
+
+          if (isFunction(uploadRequest)) {
+            uploadRequest(formData, onProgress, onUpload, onError);
+          } else {
+            this.requests[file.id] = post(
+              url,
+              formData,
+              onProgress,
+              onUpload,
+              onError
+            );
+          }
         }
       });
     }
@@ -269,6 +303,8 @@ const FileUploaderControl = WrappedComponent => {
      * @param response
      */
     onUpload(id, response) {
+      const { onSuccess } = this.props;
+
       if (response.status < 200 || response.status >= 300) {
         this.onError(id, response.statusText, response.status);
       } else {
@@ -291,11 +327,14 @@ const FileUploaderControl = WrappedComponent => {
           },
         });
         this.requests[id] = undefined;
+        onSuccess(response);
         this.handleChange(file);
       }
     }
 
-    onError(id, error, status) {
+    onError(id, error) {
+      const { responseFieldId, onError } = this.props;
+
       const uploading = this.state.uploading;
       if (uploading) {
         uploading[id] = false;
@@ -304,9 +343,18 @@ const FileUploaderControl = WrappedComponent => {
         uploading,
         ...this.state.files.map(file => {
           if (file.id === id) {
-            file.error = isString(error)
-              ? error
-              : error[this.props.responseFieldId] || status;
+            let formattedError = null;
+
+            if (onError) {
+              formattedError = onError(error);
+            } else {
+              formattedError =
+                get(error, `response.data[${responseFieldId}]`, null) ||
+                error.message ||
+                error.status;
+            }
+
+            file.error = formattedError;
           }
         }),
       });
@@ -344,7 +392,10 @@ const FileUploaderControl = WrappedComponent => {
     autoUpload: true,
     showSize: true,
     value: [],
-    onChange: value => {},
+    onChange: () => {},
+    onStart: () => {},
+    onSuccess: () => {},
+    onDelete: () => {},
   };
 
   ReturnedComponent.propTypes = {
@@ -373,6 +424,12 @@ const FileUploaderControl = WrappedComponent => {
     className: PropTypes.string,
     mapper: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
+    onStart: PropTypes.func,
+    onSuccess: PropTypes.func,
+    onError: PropTypes.func,
+    onDelete: PropTypes.func,
+    uploadRequest: PropTypes.func,
+    deleteRequest: PropTypes.func,
   };
 
   return ReturnedComponent;

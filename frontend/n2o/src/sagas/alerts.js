@@ -6,8 +6,8 @@ import {
   takeEvery,
   take,
   all,
+  delay,
 } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
 
 import { ADD, ADD_MULTI } from '../constants/alerts';
 import { removeAlert, removeAlerts } from '../actions/alerts';
