@@ -13,7 +13,7 @@ const extractLess = new ExtractTextPlugin({
 
 const babelConfig = Object.assign({}, pkg.babel, {
   babelrc: false,
-  presets: pkg.babel.presets.map(x => x === 'latest' ? ['latest', { es2015: { modules: false } }] : x),
+  presets: pkg.babel.presets.map(x => x === 'latest' ? ['latest', { '@babel/preset-es2015': { modules: false } }] : x),
 });
 
 module.exports = {

@@ -29,8 +29,14 @@ function Table({ cols, rows }) {
 }
 
 Table.propTypes = {
-  cols: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
-  rows: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  /**
+   * Количество столбцов
+   */
+  cols: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Количество строк
+   */
+  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 Table.defaultProps = {

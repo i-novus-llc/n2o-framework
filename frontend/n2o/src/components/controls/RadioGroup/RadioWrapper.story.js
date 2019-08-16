@@ -1,20 +1,20 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  select,
-  number,
-} from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
+import Radio from '../Radio/RadioN2O';
 import RadioWrapper from './RadioWrapper.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Радио', module);
 const form = withForm({ src: 'RadioGroup' });
 
-stories.addDecorator(withKnobs);
+stories.addParameters({
+  info: {
+    propTables: [Radio],
+    propTablesExclude: [Factory],
+  },
+});
 
 stories.add(
   'Метаданные',
@@ -35,14 +35,14 @@ stories.add(
     ];
 
     const props = {
-      disabled: boolean('disabled', RadioWrapper.disabled),
-      visible: boolean('visible', RadioWrapper.visible),
-      className: text('className', RadioWrapper.className),
-      inline: boolean('inline', RadioWrapper.inline),
-      valueFieldId: text('valueFieldId', RadioWrapper.valueFieldId),
-      labelFieldId: text('labelFieldId', RadioWrapper.labelFieldId),
+      disabled: RadioWrapper.disabled,
+      visible: RadioWrapper.visible,
+      className: RadioWrapper.className,
+      inline: RadioWrapper.inline,
+      valueFieldId: RadioWrapper.valueFieldId,
+      labelFieldId: RadioWrapper.labelFieldId,
       size: RadioWrapper.size,
-      type: select('type', ['default', 'n2o', 'btn'], RadioWrapper.type),
+      type: RadioWrapper.type,
       dataProvider: RadioWrapper.dataProvider,
     };
 

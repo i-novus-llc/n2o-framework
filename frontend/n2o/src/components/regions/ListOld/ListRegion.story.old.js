@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { set, omit, pullAt, pick } from 'lodash';
 
 import ListRegion from './ListRegion';
@@ -22,7 +22,6 @@ import { getStubData } from 'N2oStorybook/fetchMock';
 
 const stories = storiesOf('Регионы/Лист', module);
 
-stories.addDecorator(withTests('Лист'));
 const ListRegionJson = set(
   cloneObject(SecureListRegionJson),
   'items',
@@ -31,11 +30,11 @@ const ListRegionJson = set(
 const { store } = makeStore();
 
 stories
-  .addWithJSX('Метаданные', () => {
+  .add('Метаданные', () => {
     store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
     return <ListRegion {...ListRegionJson} pageId="Page" />;
   })
-  .addWithJSX('Ограничение доступа', () => {
+  .add('Ограничение доступа', () => {
     store.dispatch(metadataSuccess('Page', ListMetadata));
     return (
       <div>
@@ -49,7 +48,7 @@ stories
     );
   })
 
-  .addWithJSX('Инициализация виджетов', () => {
+  .add('Инициализация виджетов', () => {
     fetchMock
       .restore()
       .get('begin:n2o/data/test', getStubData)

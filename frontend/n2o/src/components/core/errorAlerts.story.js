@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import fetchMock from 'fetch-mock';
 import widgetWithErrors from './PageWithErrors';
 import withPage from '../../../.storybook/decorators/withPage';
@@ -11,6 +12,7 @@ const stories = storiesOf('Функциональность', module);
 
 stories
   .addDecorator(withPage(widgetWithErrors))
+
   .add('Обработка ошибок', () => {
     const widgetError = {
       meta: {

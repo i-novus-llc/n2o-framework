@@ -91,7 +91,12 @@ describe('<InputSelect />', () => {
     const { wrapper, props } = setup({ disabledValues: [] });
     const expectedValue =
       props.options[props.options.length - 1][props.valueFieldId];
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    console.log(wrapper.debug());
+    wrapper
+      .find('InputSelect')
+      .last()
+      .last()
+      .setState({ isExpanded: true });
     wrapper
       .find('button')
       .last()
@@ -101,7 +106,10 @@ describe('<InputSelect />', () => {
 
   it('проверяет параметр disabledValues', () => {
     const { wrapper } = setup({ disabledValues: [props.options[0]] });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(
       wrapper
         .find('button.n2o-eclipse-content')
@@ -122,7 +130,10 @@ describe('<InputSelect />', () => {
   it('проверяет параметр onSelect', () => {
     const onChange = sinon.spy();
     const { wrapper } = setup({ onChange });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(onChange.calledOnce).toEqual(false);
     wrapper
       .find('button.dropdown-item')
@@ -139,7 +150,10 @@ describe('<InputSelect />', () => {
       item[props.labelFieldId].toString().startsWith(strStart)
     );
     let { wrapper } = setup({ filter: false });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     wrapper
       .find('input.n2o-inp')
       .simulate('change', { target: { value: 'asddas' } });
@@ -151,7 +165,10 @@ describe('<InputSelect />', () => {
     wrapper
       .find('input.n2o-inp')
       .simulate('change', { target: { value: strStart } });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(wrapper.find('button.dropdown-item').length).toBe(
       filteredData.length
     );
@@ -160,7 +177,10 @@ describe('<InputSelect />', () => {
   it('проверяет параметр onScroll', () => {
     const onScrollEnd = sinon.spy();
     const { wrapper } = setup({ onScrollEnd });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(onScrollEnd.calledOnce).toEqual(false);
     wrapper.find('div.n2o-dropdown-control').simulate('scroll');
     expect(onScrollEnd.calledOnce).toEqual(true);
@@ -183,13 +203,19 @@ describe('<InputSelect />', () => {
 
   it('проверяет чекбоксы', () => {
     const { wrapper } = setup({ hasCheckboxes: true });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(wrapper.find('.custom-checkbox').exists()).toBeTruthy();
     wrapper
       .find('button.dropdown-item')
       .first()
       .simulate('click');
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(
       wrapper
         .find('input.custom-control-input')
@@ -215,14 +241,20 @@ describe('<InputSelect />', () => {
   it('проверяет группировку', () => {
     const fieldId = 'icon';
     const { wrapper } = setup({ groupFieldId: fieldId });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(wrapper.find('button.dropdown-item').exists()).toBeTruthy();
     expect(wrapper.find('div.dropdown-divider').exists()).toBeTruthy();
   });
 
   it('проверяет мульти выбор', () => {
     const { wrapper, props } = setup({ multiSelect: true });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     wrapper
       .find('button.dropdown-item')
       .first()
@@ -239,7 +271,10 @@ describe('<InputSelect />', () => {
   it('проверяет картинку', () => {
     const fieldId = 'image';
     const { wrapper, props } = setup({ imageFieldId: fieldId });
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     wrapper
       .find('button.dropdown-item')
       .first()
@@ -268,7 +303,10 @@ describe('<InputSelect />', () => {
       },
     });
     const node = wrapper.getDOMNode();
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
       '120px'
     );
@@ -294,7 +332,10 @@ describe('<InputSelect />', () => {
       },
     });
     const node = wrapper.getDOMNode();
-    wrapper.find('InputSelect').setState({ isExpanded: true });
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
     expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
       '120px'
     );

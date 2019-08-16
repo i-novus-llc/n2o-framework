@@ -5,8 +5,16 @@ import Table from '../../Table';
 import progressBarStyles from './progressBarStyles';
 import ProgressBarCell from './ProgressBarCell';
 import TextTableHeader from '../../headers/TextTableHeader';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Индикатор', module);
+
+stories.addParameters({
+  info: {
+    propTables: [ProgressBarCell],
+    propTablesExclude: [Table, Factory],
+  },
+});
 
 stories.add('Размеры', () => {
   const tableProps = {

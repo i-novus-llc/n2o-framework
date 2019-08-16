@@ -1,16 +1,8 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  select,
-} from '@storybook/addon-knobs/react';
+
 import Tree from './Tree';
 import { withState } from 'recompose';
-import { findIndex } from 'lodash';
-import { collectionToComponentObject } from '../until';
 
 const datasource = [
   { id: '1', label: 'Система подогрева' },
@@ -29,40 +21,36 @@ const datasource = [
 ];
 
 const stories = storiesOf('Виджеты/Дерево', module);
-stories.addDecorator(withKnobs);
+
 stories
   .add('Компонент', () => {
     const props = {
-      disabled: boolean('disabled', false),
-      loading: boolean('loading', false),
-      parentFieldId: text('parentFieldId', 'parentId'),
-      valueFieldId: text('valueFieldId', 'id'),
-      labelFieldId: text('label', 'label'),
-      iconFieldId: text('iconFieldId', 'icon'),
-      imageFieldId: text('imageFieldId', 'image'),
-      badgeFieldId: text('badgeFieldId', 'badge'),
-      badgeColorFieldId: text('badgeColorFieldId', 'color'),
-      hasCheckboxes: boolean('hasCheckboxes', false),
-      parentIcon: text('parentIcon', ''),
-      childIcon: text('childIcon', ''),
-      draggable: boolean('draggable', true),
-      multiselect: boolean('multiselect', false),
-      showLine: boolean('showLine', false),
-      filter: select(
-        'filter',
-        ['includes', 'startsWith', 'endsWith', '-'],
-        '-'
-      ),
-      expandBtn: boolean('expandBtn', false),
+      disabled: false,
+      loading: false,
+      parentFieldId: 'parentId',
+      valueFieldId: 'id',
+      labelFieldId: 'label',
+      iconFieldId: 'icon',
+      imageFieldId: 'image',
+      badgeFieldId: 'badge',
+      badgeColorFieldId: 'color',
+      hasCheckboxes: false,
+      parentIcon: '',
+      childIcon: '',
+      draggable: true,
+      multiselect: false,
+      showLine: false,
+      filter: '-',
+      expandBtn: false,
     };
 
     return <Tree datasource={datasource} {...props} />;
   })
   .add('Работа с клавиатурой', () => {
     const props = {
-      multiselect: boolean('multiselect', false),
-      hasCheckboxes: boolean('hasCheckboxes', false),
-      showLine: boolean('showLine', false),
+      multiselect: false,
+      hasCheckboxes: false,
+      showLine: false,
     };
 
     const Comp = withState('resolveModel', 'onResolve', null)(
@@ -95,11 +83,7 @@ stories
   })
   .add('Фильтрация', () => {
     const props = {
-      filter: select(
-        'filter',
-        ['includes', 'startsWith', 'endsWith'],
-        'includes'
-      ),
+      filter: 'includes',
     };
 
     return <Tree datasource={datasource} {...props} />;

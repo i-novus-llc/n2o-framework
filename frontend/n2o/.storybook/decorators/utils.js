@@ -16,7 +16,7 @@ export const history = createHistory();
 const config = {
   security: securityConfig,
   messages: alertsConfig,
-  customSagas: {}
+  customSagas: []
 };
 export const store = configureStore({}, history, config);
 
