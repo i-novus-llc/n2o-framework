@@ -1,5 +1,5 @@
-import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
-import { isEmpty, isUndefined, some, includes } from 'lodash';
+import { call, put, select, takeEvery, throttle, fork } from 'redux-saga/effects';
+import { isEmpty, isUndefined, some, includes, get } from 'lodash';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -13,6 +13,28 @@ import {
   setRequired,
   unsetRequired,
 } from '../actions/formPlugin';
+import { FETCH_VALUE } from "../core/api";
+import fetchSaga from './fetch';
+import { resolveMapping } from "./actionsImpl";
+
+export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+  if (dataProvider) {
+    const state = yield select();
+    const url = yield resolveMapping(dataProvider, state);
+
+    const response = yield call(fetchSaga, FETCH_VALUE, { url });
+    const model = get(response, 'list[0]', null);
+
+    if (model) {
+      yield put(change(form, field, {
+        keepDirty: false,
+        value: valueFieldId ? model[valueFieldId] : model
+      }));
+    }
+  } else {
+    console.error('dataProvider is not defined');
+  }
+}
 
 export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
@@ -52,6 +74,9 @@ export function* modify(values, formName, fieldName, type, options = {}) {
       yield _evalResult
         ? put(setRequired(formName, fieldName))
         : put(unsetRequired(formName, fieldName));
+      break;
+    case 'fetchValue':
+      yield fork(fetchValue, formName, fieldName, options);
       break;
     default:
       break;
