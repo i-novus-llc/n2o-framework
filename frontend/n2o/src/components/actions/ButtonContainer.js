@@ -194,7 +194,7 @@ class ButtonContainer extends React.Component {
       </div>
     ) : visible ? (
       <withTooltip
-        children={this.renderDropdown()}
+        children={this.renderButton()}
         hint={hint}
         hintPosition={hintPosition}
         id={this.buttonId}
