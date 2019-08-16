@@ -118,6 +118,7 @@ InputSelectGroup.defaultProps = {
   loading: false,
   collapseSelected: true,
   setIsExpanded: () => {},
+  onButtonClick: () => {},
 };
 
 export default InputSelectGroup;
