@@ -1,5 +1,5 @@
-import { call, put, select, takeEvery, throttle, fork } from 'redux-saga/effects';
-import { isEmpty, isUndefined, some, includes, get } from 'lodash';
+import { call, put, select, take, throttle, fork, actionChannel } from 'redux-saga/effects';
+import { isEmpty, isUndefined, some, includes, get, isEqual } from 'lodash';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -17,26 +17,44 @@ import { FETCH_VALUE } from "../core/api";
 import fetchSaga from './fetch';
 import { resolveMapping } from "./actionsImpl";
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+export function* watchDependency() {
+  let prevResponseModel = {};
+  const changePrevResponseModel = model => prevResponseModel = model;
+
+  const channel = yield actionChannel([
+    actionTypes.CHANGE,
+    actionTypes.INITIALIZE
+  ]);
+
+  while (true) {
+    const action = yield take(channel);
+
+    yield call(resolveDependency, action, changePrevResponseModel, prevResponseModel);
+  }
+}
+
+export function* fetchValue(form, field, { dataProvider, valueFieldId }, values, changePrevResponseModel, prevResponseModel) {
   if (dataProvider) {
-    const state = yield select();
-    const url = yield resolveMapping(dataProvider, state);
+    if (!isEqual(prevResponseModel, values[field])) {
+      const state = yield select();
+      const url = yield resolveMapping(dataProvider, state);
+      const response = yield call(fetchSaga, FETCH_VALUE, { url });
+      const model = get(response, 'list[0]', null);
 
-    const response = yield call(fetchSaga, FETCH_VALUE, { url });
-    const model = get(response, 'list[0]', null);
-
-    if (model) {
-      yield put(change(form, field, {
-        keepDirty: false,
-        value: valueFieldId ? model[valueFieldId] : model
-      }));
+      if (model) {
+        yield put(change(form, field, {
+          keepDirty: false,
+          value: valueFieldId ? model[valueFieldId] : model
+        }));
+        changePrevResponseModel(model);
+      }
     }
   } else {
     console.error('dataProvider is not defined');
   }
 }
 
-export function* modify(values, formName, fieldName, type, options = {}) {
+export function* modify(values, formName, fieldName, type, options = {}, changePrevResponseModel, prevResponseModel) {
   let _evalResult;
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
@@ -76,7 +94,7 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(unsetRequired(formName, fieldName));
       break;
     case 'fetchValue':
-      yield fork(fetchValue, formName, fieldName, options);
+      yield fork(fetchValue, formName, fieldName, options, values, changePrevResponseModel, prevResponseModel);
       break;
     default:
       break;
@@ -88,7 +106,9 @@ export function* checkAndModify(
   fields,
   formName,
   fieldName,
-  actionType
+  actionType,
+  changePrevResponseModel,
+  prevResponseModel
 ) {
   for (const entry of Object.entries(fields)) {
     const [fieldId, field] = entry;
@@ -105,14 +125,14 @@ export function* checkAndModify(
             actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)
         ) {
-          yield call(modify, values, formName, fieldId, dep.type, dep);
+          yield call(modify, values, formName, fieldId, dep.type, dep, changePrevResponseModel, prevResponseModel);
         }
       }
     }
   }
 }
 
-export function* resolveDependency(action) {
+export function* resolveDependency(action, changePrevResponseModel, prevResponseModel) {
   try {
     const { form: formName, field: fieldName } = action.meta;
     const form = yield select(makeFormByName(formName));
@@ -125,7 +145,9 @@ export function* resolveDependency(action) {
           fields,
           formName,
           fieldName || action.name,
-          action.type
+          action.type,
+          changePrevResponseModel,
+          prevResponseModel
         );
       }
     }
@@ -136,9 +158,8 @@ export function* resolveDependency(action) {
 }
 
 export function* catchAction(dispatch) {
-  yield takeEvery(actionTypes.INITIALIZE, resolveDependency);
   yield throttle(300, REGISTER_FIELD_EXTRA, resolveDependency);
-  yield takeEvery(actionTypes.CHANGE, resolveDependency);
+  yield fork(watchDependency);
 }
 
 export const fieldDependencySagas = [catchAction];
