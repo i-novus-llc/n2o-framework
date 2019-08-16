@@ -46,6 +46,7 @@ describe('Проверка ButtonContainer', () => {
       },
     };
     const wrapper = setup(store, test);
+    console.log(wrapper.debug());
     expect(wrapper.find('.btn-toolbar').exists()).toEqual(true);
   });
   it('Не отрисовывается по visible = false', () => {
