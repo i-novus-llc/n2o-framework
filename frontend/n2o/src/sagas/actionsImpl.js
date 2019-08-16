@@ -139,15 +139,12 @@ export function* handleInvoke(apiProvider, action) {
     if (modelLink) {
       model = yield select(getModelSelector(modelLink));
     }
-    let response = null;
-
-    if (optimistic) {
-      response = yield fork(fetchInvoke, dataProvider, model, apiProvider);
-    } else {
-      response = yield call(fetchInvoke, dataProvider, model, apiProvider);
-    }
+    const response = optimistic
+      ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
+      : yield call(fetchInvoke, dataProvider, model, apiProvider);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
+
     if (optimistic || (!meta.redirect && !meta.closeLastModal)) {
       yield put(
         setModel(PREFIXES.resolve, widgetId, optimistic ? model : response.data)
