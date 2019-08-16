@@ -3,12 +3,11 @@ import withFileUploader from './withFileUploader';
 import FileUploader from './FileUploader';
 import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
 import cn from 'classnames';
 
 function createButtonUploaderChildren(icon, label, children) {
   return (
-    <Button>
+    <div className="n2o-button-uploader-btn btn btn-secondary">
       {children ? (
         children
       ) : (
@@ -17,7 +16,7 @@ function createButtonUploaderChildren(icon, label, children) {
           <span>{label}</span>
         </React.Fragment>
       )}
-    </Button>
+    </div>
   );
 }
 

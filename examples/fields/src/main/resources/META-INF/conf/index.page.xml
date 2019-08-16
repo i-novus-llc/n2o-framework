@@ -23,6 +23,7 @@
                     <input-select id="select" label="Выпадающий список" query-id="test"/>
                     <input-select id="selectMulti" label="Множественный выбор" query-id="test" type="checkboxes"/>
                 </row>
+                <slider id="Проценты" measure="%" min="0" max="100" step="1"/>
                 <row>
                     <radio-group id="radio" label="Радио кнопки">
                         <options>

@@ -1,6 +1,13 @@
 import React from 'react';
+import {
+  compose,
+  lifecycle,
+  withHandlers,
+  withState,
+  defaultProps,
+} from 'recompose';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual, set } from 'lodash';
 import cn from 'classnames';
 
 import Panel from './Panel';
@@ -30,180 +37,112 @@ import panelStyles from './panelStyles';
  * }
  */
 
-class PanelContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isFullScreen: false,
-      activeTab: this.props.tabs.length > 0 ? this.props.tabs[0].id : null,
-      open: this.props.open,
-    };
+function PanelContainer({
+  tabs,
+  toolbar,
+  className,
+  style,
+  color,
+  icon,
+  headerTitle,
+  footerTitle,
+  collapsible,
+  hasTabs,
+  fullScreen,
+  header,
+  fullScreenState,
+  openState,
+  activeTabState,
+  children,
+  handleFullScreen,
+  changeActiveTab,
+  toggleCollapse,
+  handleKeyPress,
+  innerRef,
+}) {
+  const fullScreenIcon = fullScreenState ? 'fa-compress' : 'fa-expand';
 
-    this.handleFullScreen = this.handleFullScreen.bind(this);
-    this.changeActiveTab = this.changeActiveTab.bind(this);
-    this.toggleCollapse = this.toggleCollapse.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-  }
+  return (
+    <Panel
+      color={color}
+      style={style}
+      className={cn(className, {
+        'n2o-panel-region--tabs': hasTabs,
+      })}
+      open={openState}
+      isFullScreen={fullScreenState}
+      onKeyPress={handleKeyPress}
+      innerRef={innerRef}
+    >
+      {header && (
+        <Panel.Heading>
+          <Panel.Title collapsible={collapsible} icon={icon}>
+            {headerTitle}
+          </Panel.Title>
+          <Panel.Menu
+            fullScreen={fullScreen}
+            onFullScreenClick={handleFullScreen}
+            fullScreenIcon={fullScreenIcon}
+            isOpen={openState}
+            onToggle={toggleCollapse}
+            collapsible={collapsible}
+          >
+            {hasTabs &&
+              tabs.map((tab, i) => {
+                let activeTab = activeTabState;
 
-  /**
-   * Обработка нажатия на кнопку полного экрана
-   */
+                if (!activeTab && i === 0) {
+                  changeActiveTab(tab.id);
+                }
 
-  handleFullScreen() {
-    this.setState(prevState => ({
-      isFullScreen: !prevState.isFullScreen,
-    }));
-  }
-
-  /**
-   * Смена активного таба
-   * @param id {string|number} - key для таба
-   */
-
-  changeActiveTab(id) {
-    this.setState({
-      activeTab: id,
-    });
-  }
-
-  /**
-   * Обработка переключения состояние коллапса
-   */
-
-  toggleCollapse() {
-    this.setState({
-      open: !this.state.open,
-    });
-  }
-
-  /**
-   * Обработка нажатия на клавишу для выхода из режима полного экрана
-   * @param event
-   */
-
-  handleKeyPress(event) {
-    if (event.key === 'Escape') {
-      this.setState({
-        isFullScreen: false,
-      });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.open !== this.state.open) {
-      this.setState({
-        open: nextProps.open,
-      });
-    }
-  }
-
-  /**
-   * Рендер
-   */
-
-  render() {
-    const {
-      tabs,
-      toolbar,
-      className,
-      style,
-      color,
-      icon,
-      headerTitle,
-      footerTitle,
-      collapsible,
-      hasTabs,
-      fullScreen,
-      header,
-    } = this.props;
-
-    const fullScreenIcon = this.state.isFullScreen
-      ? 'fa-compress'
-      : 'fa-expand';
-
-    return (
-      <Panel
-        color={color}
-        style={style}
-        className={cn(className, {
-          'n2o-panel-region--tabs': hasTabs,
-        })}
-        open={this.state.open}
-        isFullScreen={this.state.isFullScreen}
-        onKeyPress={this.handleKeyPress}
-      >
-        {header && (
-          <Panel.Heading>
-            <Panel.Title collapsible={collapsible} icon={icon}>
-              {headerTitle}
-            </Panel.Title>
-            <Panel.Menu
-              fullScreen={fullScreen}
-              onFullScreenClick={this.handleFullScreen}
-              fullScreenIcon={fullScreenIcon}
-              isOpen={this.state.open}
-              onToggle={this.toggleCollapse}
-              collapsible={collapsible}
-            >
-              {hasTabs &&
-                tabs.map((tab, i) => {
-                  let activeTab = this.state.activeTab;
-
-                  if (!activeTab && i === 0) {
-                    this.changeActiveTab(tab.id);
-                  }
-
-                  return (
-                    <Panel.NavItem
-                      id={tab.id}
-                      active={activeTab === tab.id}
-                      disabled={tab.disabled}
-                      className={cn('nav-item--tab', tab.className)}
-                      style={tab.style}
-                      onClick={() => this.changeActiveTab(tab.id)}
-                    >
-                      {tab.header}
-                    </Panel.NavItem>
-                  );
-                })}
-              {toolbar &&
-                toolbar.map(item => (
+                return (
                   <Panel.NavItem
-                    id={item.id}
-                    disabled={item.disabled}
-                    className={cn('nav-item--toolbar', item.className)}
-                    style={item.style}
-                    onClick={item.onClick}
-                    isToolBar={true}
+                    id={tab.id}
+                    active={activeTab === tab.id}
+                    disabled={tab.disabled}
+                    className={cn('nav-item--tab', tab.className)}
+                    style={tab.style}
+                    onClick={() => changeActiveTab(tab.id)}
                   >
-                    {item.header}
+                    {tab.header}
                   </Panel.NavItem>
-                ))}
-            </Panel.Menu>
-          </Panel.Heading>
-        )}
-        <Panel.Collapse
-          className={cn({
-            'd-flex flex-column n2o-panel-region--grow': this.state.open,
-          })}
-          isOpen={this.state.open}
-        >
-          <Panel.Body hasTabs={hasTabs} activeKey={this.state.activeTab}>
-            {hasTabs
-              ? tabs.map(tab => {
-                  return (
-                    <Panel.TabBody eventKey={tab.id}>
-                      {tab.content}
-                    </Panel.TabBody>
-                  );
-                })
-              : this.props.children}
-          </Panel.Body>
-          {footerTitle && <Panel.Footer>{footerTitle}</Panel.Footer>}
-        </Panel.Collapse>
-      </Panel>
-    );
-  }
+                );
+              })}
+            {toolbar &&
+              toolbar.map(item => (
+                <Panel.NavItem
+                  id={item.id}
+                  disabled={item.disabled}
+                  className={cn('nav-item--toolbar', item.className)}
+                  style={item.style}
+                  onClick={item.onClick}
+                  isToolBar={true}
+                >
+                  {item.header}
+                </Panel.NavItem>
+              ))}
+          </Panel.Menu>
+        </Panel.Heading>
+      )}
+      <Panel.Collapse
+        className={cn({
+          'd-flex flex-column n2o-panel-region--grow': openState,
+        })}
+        isOpen={openState}
+      >
+        <Panel.Body hasTabs={hasTabs} activeKey={activeTabState}>
+          {hasTabs
+            ? tabs.map(tab => {
+                return (
+                  <Panel.TabBody eventKey={tab.id}>{tab.content}</Panel.TabBody>
+                );
+              })
+            : children}
+        </Panel.Body>
+        {footerTitle && <Panel.Footer>{footerTitle}</Panel.Footer>}
+      </Panel.Collapse>
+    </Panel>
+  );
 }
 
 PanelContainer.propTypes = {
@@ -221,16 +160,60 @@ PanelContainer.propTypes = {
   fullScreen: PropTypes.bool,
   children: PropTypes.node,
   header: PropTypes.bool,
+  isFullScreen: PropTypes.bool,
+  onKeyPress: PropTypes.func,
+  innerRef: PropTypes.func,
 };
 
-PanelContainer.defaultProps = {
-  open: true,
-  collapsible: false,
-  hasTabs: false,
-  fullScreen: false,
-  tabs: [],
-  color: panelStyles.DEFAULT,
-  header: true,
-};
+export default compose(
+  defaultProps({
+    open: true,
+    collapsible: false,
+    hasTabs: false,
+    fullScreen: false,
+    tabs: [],
+    color: panelStyles.DEFAULT,
+    header: true,
+    onKeyPress: () => {},
+  }),
+  withState(
+    'fullScreenState',
+    'setFullScreenState',
+    ({ isFullScreen }) => isFullScreen
+  ),
+  withState('activeTabState', 'setActiveTabState', ({ tabs }) =>
+    tabs.length > 0 ? tabs[0].id : null
+  ),
+  withState('openState', 'setOpenState', ({ open }) => open),
+  withHandlers({
+    handleFullScreen: ({ fullScreenState, setFullScreenState }) => () =>
+      setFullScreenState(!fullScreenState),
+    changeActiveTab: ({ setActiveTabState }) => id => setActiveTabState(id),
+    toggleCollapse: ({ openState, setOpenState }) => () =>
+      setOpenState(!openState),
+    handleKeyPress: ({ setFullScreenState, onKeyPress }) => event => {
+      if (event.key === 'Escape') {
+        setFullScreenState(false);
+        onKeyPress(false);
+      }
+    },
+  }),
+  lifecycle({
+    componentDidUpdate(prevProps) {
+      if (!isEqual(prevProps, this.props)) {
+        const { open, isFullScreen } = this.props;
+        const state = {};
 
-export default PanelContainer;
+        if (prevProps.open !== open) {
+          set(state, 'openState', open);
+        }
+
+        if (prevProps.isFullScreen !== isFullScreen) {
+          set(state, 'fullScreenState', isFullScreen);
+        }
+
+        this.setState(state);
+      }
+    },
+  })
+)(PanelContainer);

@@ -22,13 +22,15 @@
                 {
                   "fields": [
                     {
-                      "id": "name",
+                      "id": "range",
                       "src": "RangeField",
                       "label": "Поле \"Диапазон\"",
                       "beginControl": {
+                        "id": "range-start",
                         "src": "InputNumber"
                       },
                       "endControl": {
+                        "id": "range-end",
                         "src": "InputNumber"
                       }
                     }

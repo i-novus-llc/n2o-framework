@@ -96,12 +96,12 @@ describe('Проверка саги toolbar', () => {
     const gen = setupResolveButton();
     gen.next();
     let { value } = gen.next({ model: { test: 'test' } });
-    expect(value['PUT'].action.type).toEqual(CHANGE_BUTTON_VISIBILITY);
-    expect(value['PUT'].action.payload.visible).toBe(true);
+    expect(value.payload.action.type).toEqual(CHANGE_BUTTON_VISIBILITY);
+    expect(value.payload.action.payload.visible).toBe(true);
     gen.next();
     value = gen.next().value;
-    expect(value['PUT'].action.type).toEqual(CHANGE_BUTTON_DISABLED);
-    expect(value['PUT'].action.payload.disabled).toBe(true);
+    expect(value.payload.action.type).toEqual(CHANGE_BUTTON_DISABLED);
+    expect(value.payload.action.payload.disabled).toBe(true);
     expect(gen.next().done).toBe(true);
   });
   it('Тестирование resolveConditions', () => {
