@@ -114,11 +114,11 @@ export function* modify(
         );
       break;
     case 'reset':
-      yield _evalResult &&
+      yield !isUndefined(_evalResult) &&
         put(
           change(formName, fieldName, {
             keepDirty: false,
-            value: _evalResult,
+            value: null,
           })
         );
       break;

@@ -232,7 +232,7 @@ describe('Тестирование саги', () => {
       put(
         change(mockData.formName, mockData.fields.field1.name, {
           keepDirty: false,
-          value: true,
+          value: null,
         })
       )
     );

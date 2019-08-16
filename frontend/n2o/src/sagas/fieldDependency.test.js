@@ -113,7 +113,10 @@ describe('Проверка саги dependency', () => {
         expression: `testField != 0`,
       });
       let next = gen.next();
-      expect(next.value).toEqual(false);
+      expect(next.value.payload.action.payload).toEqual({
+        keepDirty: false,
+        value: null
+      });
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type reset с истинным expression', () => {
@@ -123,7 +126,7 @@ describe('Проверка саги dependency', () => {
       let next = gen.next();
       expect(next.value.payload.action.payload).toEqual({
         keepDirty: false,
-        value: true,
+        value: null,
       });
       expect(gen.next().done).toEqual(true);
     });
