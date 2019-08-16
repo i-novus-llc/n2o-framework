@@ -65,7 +65,18 @@
 }
 
 .n2o-form-group {
+  position: relative;
   margin-bottom: 0.5rem;
+
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  &__spinner {
+    position: absolute;
+    right: 5px;
+  }
 
   & .n2o-validation-message {
     min-height: 1rem;

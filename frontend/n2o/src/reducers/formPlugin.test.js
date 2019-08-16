@@ -35,6 +35,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -61,6 +62,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -87,6 +89,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -113,6 +116,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: false,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -142,6 +146,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -169,6 +174,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -199,6 +205,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: false,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -226,6 +233,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           required: false,
           dependency: 'dependency',
+          loading: false,
         },
       },
     });
@@ -256,6 +264,7 @@ describe('Тесты formPlugin reducer', () => {
           isInit: true,
           message: null,
           visible: true,
+          loading: false,
           filter: [
             {
               'filter.name': 'Oleg',
@@ -287,6 +296,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: true,
+          loading: false,
         },
       },
     });
@@ -313,6 +323,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });
@@ -338,6 +349,7 @@ describe('Тесты formPlugin reducer', () => {
           visible: true,
           dependency: null,
           required: false,
+          loading: false,
         },
       },
     });

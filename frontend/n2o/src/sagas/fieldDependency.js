@@ -1,4 +1,12 @@
-import { call, put, select, take, throttle, fork, actionChannel } from 'redux-saga/effects';
+import {
+  call,
+  put,
+  select,
+  take,
+  throttle,
+  fork,
+  actionChannel,
+} from 'redux-saga/effects';
 import { isEmpty, isUndefined, some, includes, get, isEqual } from 'lodash';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
@@ -12,49 +20,75 @@ import {
   hideField,
   setRequired,
   unsetRequired,
+  setLoading,
 } from '../actions/formPlugin';
-import { FETCH_VALUE } from "../core/api";
+import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
-import { resolveMapping } from "./actionsImpl";
+import { resolveMapping } from './actionsImpl';
 
 export function* watchDependency() {
   let prevResponseModel = {};
-  const changePrevResponseModel = model => prevResponseModel = model;
+  const changePrevResponseModel = model => (prevResponseModel = model);
 
   const channel = yield actionChannel([
     actionTypes.CHANGE,
-    actionTypes.INITIALIZE
+    actionTypes.INITIALIZE,
   ]);
 
   while (true) {
     const action = yield take(channel);
 
-    yield call(resolveDependency, action, changePrevResponseModel, prevResponseModel);
+    yield call(
+      resolveDependency,
+      action,
+      changePrevResponseModel,
+      prevResponseModel
+    );
   }
 }
 
-export function* fetchValue(form, field, { dataProvider, valueFieldId }, values, changePrevResponseModel, prevResponseModel) {
-  if (dataProvider) {
+export function* fetchValue(
+  form,
+  field,
+  { dataProvider, valueFieldId },
+  values,
+  changePrevResponseModel,
+  prevResponseModel
+) {
+  try {
     if (!isEqual(prevResponseModel, values[field])) {
+      yield put(setLoading(form, field, true));
       const state = yield select();
       const url = yield resolveMapping(dataProvider, state);
       const response = yield call(fetchSaga, FETCH_VALUE, { url });
       const model = get(response, 'list[0]', null);
 
       if (model) {
-        yield put(change(form, field, {
-          keepDirty: false,
-          value: valueFieldId ? model[valueFieldId] : model
-        }));
+        yield put(
+          change(form, field, {
+            keepDirty: false,
+            value: valueFieldId ? model[valueFieldId] : model,
+          })
+        );
         changePrevResponseModel(model);
       }
     }
-  } else {
-    console.error('dataProvider is not defined');
+  } catch (e) {
+    throw e;
+  } finally {
+    yield put(setLoading(form, field, false));
   }
 }
 
-export function* modify(values, formName, fieldName, type, options = {}, changePrevResponseModel, prevResponseModel) {
+export function* modify(
+  values,
+  formName,
+  fieldName,
+  type,
+  options = {},
+  changePrevResponseModel,
+  prevResponseModel
+) {
   let _evalResult;
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
@@ -94,7 +128,15 @@ export function* modify(values, formName, fieldName, type, options = {}, changeP
         : put(unsetRequired(formName, fieldName));
       break;
     case 'fetchValue':
-      yield fork(fetchValue, formName, fieldName, options, values, changePrevResponseModel, prevResponseModel);
+      yield fork(
+        fetchValue,
+        formName,
+        fieldName,
+        options,
+        values,
+        changePrevResponseModel,
+        prevResponseModel
+      );
       break;
     default:
       break;
@@ -125,14 +167,27 @@ export function* checkAndModify(
             actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)
         ) {
-          yield call(modify, values, formName, fieldId, dep.type, dep, changePrevResponseModel, prevResponseModel);
+          yield call(
+            modify,
+            values,
+            formName,
+            fieldId,
+            dep.type,
+            dep,
+            changePrevResponseModel,
+            prevResponseModel
+          );
         }
       }
     }
   }
 }
 
-export function* resolveDependency(action, changePrevResponseModel, prevResponseModel) {
+export function* resolveDependency(
+  action,
+  changePrevResponseModel,
+  prevResponseModel
+) {
   try {
     const { form: formName, field: fieldName } = action.meta;
     const form = yield select(makeFormByName(formName));

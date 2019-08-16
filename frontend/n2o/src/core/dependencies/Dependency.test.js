@@ -143,6 +143,7 @@ const setupModify = mockData => {
 describe('Тестирование саги', () => {
   it('Тестирование вызова функции экшена на саге', () => {
     const gen = setup(mockData);
+    console.log();
     expect(gen.next().value).toEqual(
       call(
         modify,
@@ -150,7 +151,9 @@ describe('Тестирование саги', () => {
         mockData.formName,
         mockData.fields.field1.name,
         mockData.fields.field1.dependency[0].type,
-        mockData.fields.field1.dependency[0]
+        mockData.fields.field1.dependency[0],
+        undefined,
+        undefined
       )
     );
     expect(gen.next().done).toBe(true);
