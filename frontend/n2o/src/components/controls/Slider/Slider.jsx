@@ -1,11 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
-import { withState } from 'recompose';
-import BaseSlider, { Handle } from 'rc-slider';
-import { prepareStyle, stringConverter } from './utils';
-import { defaultProps, propTypes } from './allProps';
-import Tooltip from '../../../utils/withTooltip';
-
+import { omit } from 'lodash';
+import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
+import { stringConverter, prepareStyle } from './utils';
+import { propTypes, defaultProps } from './allProps';
 /**
  * Компонент Slider
  * @reactProps {boolean} multiple - Множественный выбор
@@ -37,49 +35,38 @@ function Slider(props) {
     vertical,
     style,
     className,
-    Id,
+    onChange,
     ...rest
   } = props;
 
-  const onChange = value => {
-    rest.setValue(value);
-  };
-
-  const onAfterChange = value => {
-    rest.onChange(value);
-  };
+  const expressionFn = tooltipFormatter
+    ? value => new Function('', 'return ' + tooltipFormatter).bind(value)()
+    : value => value;
 
   const Component = multiple ? BaseSlider.Range : BaseSlider;
+  const RenderSlider = showTooltip
+    ? createSliderWithTooltip(Component)
+    : Component;
 
-  const renderHandle = rest => {
-    if (showTooltip)
-      return (
-        <Tooltip
-          hint={
-            tooltipFormatter
-              ? new Function('', 'return ' + tooltipFormatter).bind(
-                  rest.value
-                )()
-              : rest.value
-          }
-          placement={tooltipPlacement}
-          isOpen={rest.dragging}
-        >
-          <Handle {...rest} />
-        </Tooltip>
-      );
-    else return <Handle {...rest} />;
+  const tooltipProps = {
+    placement: tooltipPlacement,
   };
 
+  const handleAfterChange = value => {
+    onChange(value);
+  };
+
+  const sliderProps = omit(rest, ['value']);
+
   return (
-    <Component
-      {...rest}
+    <RenderSlider
       className={cx('n2o-slider', className)}
-      handle={renderHandle}
+      tipProps={tooltipProps}
+      tipFormatter={expressionFn}
       vertical={vertical}
       style={prepareStyle(vertical, style)}
-      onAfterChange={onAfterChange}
-      onChange={onChange}
+      onAfterChange={handleAfterChange}
+      {...sliderProps}
     />
   );
 }
@@ -95,4 +82,4 @@ const WrapSlider = stringConverter([
 WrapSlider.propTypes = propTypes;
 WrapSlider.defaultProps = defaultProps;
 
-export default withState('value', 'setValue', ({ value }) => value)(WrapSlider);
+export default WrapSlider;

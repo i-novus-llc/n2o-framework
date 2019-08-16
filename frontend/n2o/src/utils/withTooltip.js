@@ -1,29 +1,26 @@
 import React from 'react';
-import { Tooltip } from 'reactstrap';
-import { id } from '../utils/id';
-import { withState } from 'recompose';
+import { UncontrolledTooltip } from 'reactstrap';
 
 /**
  * Если есть подсказка, возвращаем с тултипом
  */
 
-function withTooltip(props) {
-  const { children, hint, placement, id, Id, isOpen, hideArrow } = props;
-  return (
-    <React.Fragment>
-      <Tooltip
-        delay={0}
-        placement={placement}
-        target={Id || id}
-        isOpen={isOpen}
-        hideArrow={hideArrow}
-        trigger={'hover'}
-      >
-        {hint}
-      </Tooltip>
-      <div id={id ? '' : Id}>{children}</div>
-    </React.Fragment>
-  );
+export default function placementwithTooltip(
+  component,
+  hint,
+  hintPosition,
+  id
+) {
+  if (hint) {
+    return (
+      <React.Fragment>
+        {component}
+        <UncontrolledTooltip delay={0} placement={hintPosition} target={id}>
+          {hint}
+        </UncontrolledTooltip>
+      </React.Fragment>
+    );
+  } else {
+    return component;
+  }
 }
-
-export default withState('Id', 'setId', () => id())(withTooltip);

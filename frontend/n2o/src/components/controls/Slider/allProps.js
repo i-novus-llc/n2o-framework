@@ -14,7 +14,6 @@ export const propTypes = {
   pushable: PropTypes.bool,
   tooltipFormatter: PropTypes.string,
   stringMode: PropTypes.bool,
-  onChange: PropTypes.func,
 };
 
 export const defaultProps = {
@@ -22,5 +21,5 @@ export const defaultProps = {
   showTooltip: false,
   tooltipPlacement: 'top',
   stringMode: true,
-  onChange: function() {},
+  onChange: () => {},
 };
