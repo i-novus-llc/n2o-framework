@@ -53,7 +53,7 @@
     "init": "lerna init"
   },
   "dependencies": {
-    "core-js": "^2.5.7"
+    "core-js": "^3.2.1"
   },
   "husky": {
     "hooks": {
