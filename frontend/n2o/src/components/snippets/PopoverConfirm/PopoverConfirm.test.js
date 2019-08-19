@@ -24,7 +24,7 @@ const setupAction = store => {
           {
             buttons: [
               {
-                id: 'test',
+                target: 'test',
                 title: 'Кнопка',
                 actionId: 'dummy',
                 confirm: 'popover',
@@ -32,7 +32,6 @@ const setupAction = store => {
             ],
           },
         ]}
-        containerKey="test"
       />
     </Provider>
   );

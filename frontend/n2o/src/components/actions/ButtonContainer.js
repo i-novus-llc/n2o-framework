@@ -31,7 +31,7 @@ class ButtonContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.buttonId = props.id || id();
+    this.buttonId = id();
   }
 
   /**

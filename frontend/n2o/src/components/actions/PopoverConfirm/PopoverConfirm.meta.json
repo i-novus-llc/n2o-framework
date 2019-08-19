@@ -6,7 +6,6 @@
           {
             "actionId": "dummy",
             "confirm": "popover",
-            "id": "test",
             "title": "Кнопка c confirm",
             "header": "Вы уверены?",
             "okText": "Да",
