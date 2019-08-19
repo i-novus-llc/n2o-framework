@@ -8,12 +8,10 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import cx from 'classnames';
-import { isEmpty, every } from 'lodash';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
-import Popover from '../snippets/Popover/Popover';
+import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
 import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
@@ -96,15 +94,13 @@ class Actions extends React.Component {
    * Обертка вокруг onClick
    * @param button
    * @param confirm
-   * @param popoverConfirm
    */
-  onClickHelper(button, confirm, popoverConfirm) {
+  onClickHelper(button, confirm) {
     const { actions, resolve, options } = this.props;
     this.onClick(
       button.actionId,
       button.id,
       confirm,
-      popoverConfirm,
       actions,
       resolve,
       button.validatedWidgetId,
@@ -150,31 +146,30 @@ class Actions extends React.Component {
       <React.Fragment>
         <ButtonContainer
           id={button.id}
-          onClick={() =>
-            this.onClickHelper(button, button.confirm, button.popoverConfirm)
-          }
+          onClick={() => this.onClickHelper(button, button.confirm)}
           initialProps={button}
           component={Component}
           containerKey={this.props.containerKey}
           parentId={parentId}
         />
-        {button.popoverConfirm ? (
-          <Popover
+        {button.confirm === 'popover' ? (
+          <PopoverConfirm
             {...button}
             isOpen={isConfirmVisible}
             target={button.id}
-            popoverConfirm={true}
             onConfirm={onConfirm}
             onCancel={this.closeConfirm}
           />
         ) : (
-          <ModalDialog
-            {...this.mapButtonConfirmProps(button)}
-            visible={isConfirmVisible}
-            onConfirm={onConfirm}
-            onDeny={this.closeConfirm}
-            close={this.closeConfirm}
-          />
+          button.confirm && (
+            <ModalDialog
+              {...this.mapButtonConfirmProps(button)}
+              visible={isConfirmVisible}
+              onConfirm={onConfirm}
+              onDeny={this.closeConfirm}
+              close={this.closeConfirm}
+            />
+          )
         )}
       </React.Fragment>
     );
@@ -217,14 +212,13 @@ class Actions extends React.Component {
     actionId,
     id,
     confirm,
-    popoverConfirm,
     actions,
     resolve,
     validatedWidgetId,
     validate = true,
     options = {}
   ) {
-    if (confirm || popoverConfirm) {
+    if (confirm) {
       this.setState({ confirmVisibleId: id });
     } else {
       resolve(actions[actionId].src, validatedWidgetId, {

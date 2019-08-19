@@ -5,7 +5,7 @@
         "buttons": [
           {
             "actionId": "dummy",
-            "popoverConfirm": true,
+            "confirm": "popover",
             "id": "test",
             "title": "Кнопка c confirm",
             "header": "Вы уверены?",
