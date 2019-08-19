@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
+import cx from 'classnames';
 
 /**
  * Компонент TextAreat
@@ -29,7 +30,7 @@ function TextArea({
   const inputClass = `form-control ${className}`;
   return (
     <TextareaAutosize
-      className={inputClass}
+      className={cx('n2o-text-area', inputClass)}
       style={style}
       disabled={disabled}
       placeholder={placeholder}
