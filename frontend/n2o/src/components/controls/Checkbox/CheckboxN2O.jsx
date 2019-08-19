@@ -44,9 +44,15 @@ class CheckboxN2O extends React.Component {
 
     return (
       <div
-        className={cx('custom-control', 'custom-checkbox', className, {
-          'custom-control-inline': inline,
-        })}
+        className={cx(
+          'custom-control',
+          'custom-checkbox',
+          'n2o-checkbox',
+          className,
+          {
+            'custom-control-inline': inline,
+          }
+        )}
       >
         <Input
           id={this.elementId}

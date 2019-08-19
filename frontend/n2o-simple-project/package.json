@@ -3,17 +3,19 @@
   "version": "7.4.0",
   "private": true,
   "homepage": ".",
-  "dependencies": {
-    "n2o": "^7.3.0",
-    "n2o-auth": "^7.3.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "^3.1.1"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "n2o": "^7.3.0",
+    "n2o-auth": "^7.3.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  },
+  "devDependencies": {
+    "react-scripts": "^3.1.1"
   },
   "proxy": {
     "/n2o": {
