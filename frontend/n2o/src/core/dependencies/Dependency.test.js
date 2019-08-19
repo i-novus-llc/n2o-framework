@@ -151,9 +151,7 @@ describe('Тестирование саги', () => {
         mockData.formName,
         mockData.fields.field1.name,
         mockData.fields.field1.dependency[0].type,
-        mockData.fields.field1.dependency[0],
-        undefined,
-        undefined
+        mockData.fields.field1.dependency[0]
       )
     );
     expect(gen.next().done).toBe(true);

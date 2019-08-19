@@ -1,15 +1,19 @@
-import { modify, checkAndModify, resolveDependency } from './fieldDependency';
-import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
+import { modify, checkAndModify, fetchValue } from './fieldDependency';
+import { REGISTER_FIELD_EXTRA, SET_LOADING } from '../constants/formPlugin';
 import {
   DISABLE_FIELD,
   ENABLE_FIELD,
   SHOW_FIELD,
   HIDE_FIELD,
 } from '../constants/formPlugin';
+import { runSaga } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 import { showField } from '../actions/formPlugin';
+import fetchMock from 'fetch-mock';
+import { FETCH_END, FETCH_START } from '../constants/fetch';
+import { actionTypes } from 'redux-form';
 
-const setupModify = (type, options) => {
+const setupModify = (type, options, ...rest) => {
   const values = {
     testField: 0,
   };
@@ -17,7 +21,7 @@ const setupModify = (type, options) => {
   const formName = 'testForm';
   const fieldName = 'testField';
 
-  return modify(values, formName, fieldName, type, options);
+  return modify(values, formName, fieldName, type, options, ...rest);
 };
 
 const setupCheckAndModify = () => {
@@ -115,7 +119,7 @@ describe('Проверка саги dependency', () => {
       let next = gen.next();
       expect(next.value.payload.action.payload).toEqual({
         keepDirty: false,
-        value: null
+        value: null,
       });
       expect(gen.next().done).toEqual(true);
     });
@@ -147,6 +151,64 @@ describe('Проверка саги dependency', () => {
       let next = gen.next();
       expect(next.value).toEqual(put(showField('testForm', 'field.id')));
       expect(gen.next().done).toEqual(true);
+    });
+    it('Проверка зависимости fetchValue', async () => {
+      fetchMock.get('n2o/test', () => ({
+        status: 200,
+        body: {
+          list: [
+            {
+              name: 'new name',
+            },
+          ],
+        },
+      }));
+
+      const dispatched = [];
+      const fakeStore = {
+        getState: () => ({
+          form: {
+            testForm: {
+              registeredFields: {
+                testField: {
+                  loading: false,
+                },
+              },
+            },
+          },
+        }),
+        dispatch: action => dispatched.push(action),
+      };
+      await runSaga(
+        fakeStore,
+        fetchValue,
+        'testForm',
+        'testField',
+        {
+          dataProvider: {
+            url: '/test',
+            pathMapping: {},
+          },
+          valueFieldId: 'name',
+        },
+        { name: 'old value' },
+        () => {},
+        {
+          name: '',
+        }
+      ).toPromise();
+      console.log(dispatched);
+      expect(dispatched[0].type).toBe(SET_LOADING);
+      expect(dispatched[0].payload.loading).toBe(true);
+      expect(dispatched[1].type).toBe(FETCH_START);
+      expect(dispatched[2].type).toBe(FETCH_END);
+      expect(dispatched[3].type).toBe(actionTypes.CHANGE);
+      expect(dispatched[3].payload).toEqual({
+        keepDirty: false,
+        value: 'new name',
+      });
+      expect(dispatched[4].type).toBe(SET_LOADING);
+      expect(dispatched[4].payload.loading).toBe(false);
     });
   });
 });
