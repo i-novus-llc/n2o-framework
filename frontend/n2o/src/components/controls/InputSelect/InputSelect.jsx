@@ -32,7 +32,7 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {function} onSelect
  * @reactProps {function} onScrollENd - callback при прокрутке скролла popup
  * @reactProps {string} placeHolder - подсказка в инпуте
- * @reactProps {boolean} resetOnBlur - фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+ * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно не выбрано из popup, (значение - false) - создает объект в текущем value
  * @reactProps {function} onOpen - callback на открытие попапа
  * @reactProps {function} onClose - callback на закрытие попапа
  * @reactProps {boolean} multiSelect - флаг мульти выбора
@@ -89,6 +89,7 @@ class InputSelect extends React.Component {
     this.onInputBlur = this.onInputBlur.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.setInputRef = this.setInputRef.bind(this);
+    this.addObjectToValue = this.addObjectToValue.bind(this);
   }
 
   setTextareaRef(poperRef) {
@@ -375,6 +376,48 @@ class InputSelect extends React.Component {
   }
 
   /**
+   * Добавлет объект к текущему value, при resetOnBlur = false
+   * @private
+   */
+
+  addObjectToValue() {
+    const { resetOnBlur, multiSelect, labelFieldId } = this.props;
+
+    const userInput = this.state.input;
+    const currentValue = this.state.value;
+    const data = this.props.options;
+
+    const conditionForAddingAnObject = (
+      resetOnBlur,
+      userInput,
+      data,
+      currentValue
+    ) => {
+      return (
+        !resetOnBlur &&
+        userInput.split(' ').every(char => char === '') !== true &&
+        data.some(person => person.id === userInput) !== true &&
+        currentValue.some(person => person.id === userInput) !== true
+      );
+    };
+
+    if (
+      conditionForAddingAnObject(resetOnBlur, userInput, data, currentValue)
+    ) {
+      multiSelect &&
+        this.state.options.length === 0 &&
+        this.setState({
+          value: [...currentValue, { [labelFieldId]: userInput }],
+          input: '',
+        });
+      !multiSelect &&
+        this.setState({
+          value: [{ [labelFieldId]: userInput }],
+        });
+    }
+  }
+
+  /**
    * Обрабатывает клик за пределы компонента
    * @param evt
    */
@@ -382,7 +425,9 @@ class InputSelect extends React.Component {
   handleClickOutside(evt) {
     const { resetOnBlur } = this.props;
     const { isExpanded } = this.state;
+
     if (isExpanded) {
+      this.addObjectToValue();
       this._hideOptionsList();
       resetOnBlur && this._handleValueChangeOnBlur();
       this.props.onBlur();
@@ -403,9 +448,14 @@ class InputSelect extends React.Component {
   }
 
   onInputBlur() {
+    const { resetOnBlur } = this.props;
     if (!this.state.isExpanded) {
       this.props.onBlur();
     }
+    if (resetOnBlur) {
+      this._handleValueChangeOnBlur();
+    }
+    this.addObjectToValue();
   }
 
   onFocus() {
