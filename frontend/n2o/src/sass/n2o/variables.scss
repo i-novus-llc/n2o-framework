@@ -258,10 +258,11 @@ $footer-height: 40px !default;
 //Drawer
 $drawer-backdrop-bg: #000 !default;
 $drawer-content-bg: #fff !default;
-$drawer-left-open-shadow: 2px 0 8px rgba(0, 0, 0, 0.15) !default;
-$drawer-right-open-shadow: -2px 0 8px rgba(0, 0, 0, 0.15) !default;
-$drawer-top-open-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !default;
-$drawer-bottom-open-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-left-shadow: 2px 0 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-right-shadow: -2px 0 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-top-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-bottom-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) !default;
 $drawer-content-pd: 30px !default;
 $drawer-border: 1px solid #000 !default;
 $drawer-icon-color: #333 !default;
+$drawer-animation: 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86) !default;

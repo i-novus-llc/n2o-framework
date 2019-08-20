@@ -1,5 +1,5 @@
 import React from 'react';
-import Drawer from 'rc-drawer';
+import DrawerRC from 'rc-drawer';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
@@ -23,7 +23,7 @@ import cx from 'classnames';
  * @example
  */
 
-function N2ODrawer(props) {
+function Drawer(props) {
   const {
     className,
     closable,
@@ -42,7 +42,7 @@ function N2ODrawer(props) {
   } = props;
   return (
     <React.Fragment>
-      <Drawer
+      <DrawerRC
         className={cx('n2o-drawer', animation && 'drawer-animation', className)}
         open={visible}
         width={width}
@@ -58,12 +58,12 @@ function N2ODrawer(props) {
         <div className="drawer-title">{title}</div>
         <div className="drawer-children">{children}</div>
         <div className="drawer-footer">{footer}</div>
-      </Drawer>
+      </DrawerRC>
     </React.Fragment>
   );
 }
 
-N2ODrawer.propTypes = {
+Drawer.propTypes = {
   className: PropTypes.string,
   closable: PropTypes.bool,
   backdropClosable: PropTypes.bool,
@@ -80,9 +80,9 @@ N2ODrawer.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
-N2ODrawer.defaultProps = {
+Drawer.defaultProps = {
   animation: true,
   backdropClosable: true,
 };
 
-export default N2ODrawer;
+export default Drawer;

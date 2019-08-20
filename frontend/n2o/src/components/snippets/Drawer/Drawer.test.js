@@ -1,5 +1,5 @@
 import React from 'react';
-import { N2ODrawer } from './Drawer';
+import Drawer from './Drawer';
 
 const props = {
   title: 'title',
@@ -8,7 +8,7 @@ const props = {
 };
 
 const setup = propsOverride => {
-  return shallow(<N2ODrawer {...props} {...propsOverride} />);
+  return shallow(<Drawer {...props} {...propsOverride} />);
 };
 
 describe('Тесты Drawer', () => {
