@@ -6,7 +6,7 @@ import {
   SHOW_PROMPT,
   HIDE_PROMPT,
   CLOSE,
-} from '../constants/modals';
+} from '../constants/overlays';
 import createActionHelper from './createActionHelper';
 
 /**
@@ -18,15 +18,17 @@ import createActionHelper from './createActionHelper';
  * @param closeButton
  * @param pageId
  * @param src
+ * @param mod
  */
-export function insertModal(
+export function insertOverlay(
   name,
   visible,
   title,
   size,
   closeButton,
   pageId,
-  src
+  src,
+  mod
 ) {
   return createActionHelper(INSERT)({
     name,
@@ -36,44 +38,45 @@ export function insertModal(
     closeButton,
     pageId,
     src,
+    mod,
   });
 }
 
 /**
- * Показать модальное окно
+ * Показать окно
  * @param name
  */
-export function showModal(name) {
+export function showOverlay(name) {
   return createActionHelper(SHOW)({ name });
 }
 
 /**
- * Скрыть модальное окно
+ * Скрыть окно
  * @param name
  */
-export function hideModal(name) {
+export function hideOverlay(name) {
   return createActionHelper(HIDE)({ name });
 }
 
 /**
- * Удалить модальное окно
+ * Удалить окно
  * @returns {*}
  */
-export function destroyModal() {
+export function destroyOverlay() {
   return createActionHelper(DESTROY)();
 }
 
 /**
- * События при попытке закрыть модальное окно
+ * События при попытке закрыть окно
  * @param name
  * @param prompt
  */
-export function closeModal(name, prompt) {
+export function closeOverlay(name, prompt) {
   return createActionHelper(CLOSE)({ name, prompt });
 }
 
 /**
- * Показать подтверждение закрытия модального окна
+ * Показать подтверждение закрытия окна
  * @param name
  */
 export function showPrompt(name) {
@@ -81,7 +84,7 @@ export function showPrompt(name) {
 }
 
 /**
- * Скрыть подтверждение закрытия модального окна
+ * Скрыть подтверждение закрытия окна
  * @param name
  */
 export function hidePrompt(name) {

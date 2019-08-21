@@ -99,7 +99,7 @@ stories
           id: 'close',
           src: 'perform',
           options: {
-            type: 'n2o/modals/CLOSE',
+            type: 'n2o/overlays/CLOSE',
             payload: {
               name: 'Uid',
               prompt: true,
@@ -147,7 +147,7 @@ stories
       showModal: {
         src: 'perform',
         options: {
-          type: 'n2o/modals/INSERT',
+          type: 'n2o/overlays/INSERT',
           payload: {
             name: 'Uid',
             pageUrl: '/Uid',

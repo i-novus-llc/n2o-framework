@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { closeModal, hidePrompt } from '../../actions/modals';
-import { modalsSelector } from '../../selectors/modals';
+import { closeOverlay, hidePrompt } from '../../actions/overlays';
+import { overlaysSelector } from '../../selectors/overlays';
 import compileUrl from '../../utils/compileUrl';
 
 import ModalPage from './ModalPage';
 
 /**
  * Компонент, отображающий все модальные окна
- * @reactProps {object} modals - Массив объктов модалок (из Redux)
+ * @reactProps {object} overlays - Массив объектов (из Redux)
  * @example
  *  <ModalPages/>
  */
@@ -20,16 +20,16 @@ class ModalPages extends React.Component {
   }
 
   render() {
-    const { modals } = this.props;
-    const modalPages = modals.map(
-      modal =>
-        modal.visible && (
+    const { overlays } = this.props;
+    const modalPages = overlays.map(
+      overlay =>
+        overlay.visible && (
           <ModalPage
-            key={modal.pageId}
+            key={overlay.pageId}
             close={this.props.close}
             hidePrompt={this.props.hidePrompt}
-            {...modal}
-            {...modal.props}
+            {...overlay}
+            {...overlay.props}
           />
         )
     );
@@ -38,21 +38,21 @@ class ModalPages extends React.Component {
 }
 
 ModalPages.propTypes = {
-  modals: PropTypes.array,
+  overlays: PropTypes.array,
 };
 
 ModalPages.defaultProps = {
-  modals: {},
+  overlays: {},
 };
 
 const mapStateToProps = createStructuredSelector({
-  modals: (state, props) => modalsSelector(state),
+  overlays: (state, props) => overlaysSelector(state),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     close: (name, prompt) => {
-      dispatch(closeModal(name, prompt));
+      dispatch(closeOverlay(name, prompt));
     },
     hidePrompt: name => {
       dispatch(hidePrompt(name));
@@ -61,7 +61,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 ModalPages.propTypes = {
-  modals: PropTypes.array,
+  overlays: PropTypes.array,
   options: PropTypes.object,
   actions: PropTypes.object,
 };

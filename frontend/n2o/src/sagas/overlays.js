@@ -1,9 +1,9 @@
 import { takeEvery, select, put, call, race } from 'redux-saga/effects';
 import { isDirty } from 'redux-form';
-import { CLOSE } from '../constants/modals';
+import { CLOSE } from '../constants/overlays';
 import { keys } from 'lodash';
 import { makePageWidgetsByIdSelector } from '../selectors/pages';
-import { showPrompt, destroyModal } from '../actions/modals';
+import { showPrompt, destroyOverlay } from '../actions/overlays';
 
 /**
  * Проверка на изменение данных в формах
@@ -35,13 +35,13 @@ export function* checkPrompt(action) {
     needToShowPrompt = yield call(checkOnDirtyForm, name);
   }
   if (!needToShowPrompt) {
-    yield put(destroyModal());
+    yield put(destroyOverlay());
   } else {
     yield put(showPrompt(name));
   }
 }
 
-export const modalsSagas = [
+export const overlaysSagas = [
   takeEvery(CLOSE, checkPrompt),
   takeEvery(
     action =>

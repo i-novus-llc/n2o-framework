@@ -5,24 +5,25 @@ import { find } from 'lodash';
  * селектор модольных окон
  * @param state
  */
-export const modalsSelector = state => {
-  return state.modals || {};
+export const overlaysSelector = state => {
+  return state.overlays || {};
 };
 
 /**
  * селектор модального окна по индексу
  * @param i
  */
-export const makeModalsbyName = i =>
+export const makeOverlaysbyName = i =>
   createSelector(
-    modalsSelector,
-    modalsState => {
-      return modalsState[i];
+    overlaysSelector,
+    overlaysState => {
+      return overlaysState[i];
     }
   );
 
 export const makeShowPromptByName = name =>
   createSelector(
-    modalsSelector,
-    modalsState => find(modalsState, modal => modal.name === name).showPrompt
+    overlaysSelector,
+    overlaysState =>
+      find(overlaysState, overlay => overlay.name === name).showPrompt
   );

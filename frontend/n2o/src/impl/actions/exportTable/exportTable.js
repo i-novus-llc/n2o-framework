@@ -6,7 +6,7 @@ import {
   makeWidgetSizeSelector,
   makeWidgetCountSelector,
 } from '../../../selectors/widgets';
-import { destroyModal } from '../../../actions/modals';
+import { destroyOverlay } from '../../../actions/overlays';
 
 /**
  * Функция для кодирования query
@@ -43,5 +43,5 @@ export default function resolveExportTable({ dispatch, state, widgetId }) {
     }),
     '_blank'
   );
-  dispatch(destroyModal());
+  dispatch(destroyOverlay());
 }

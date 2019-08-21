@@ -6,12 +6,13 @@ import {
   SHOW,
   SHOW_PROMPT,
   HIDE_PROMPT,
-} from '../constants/modals';
+} from '../constants/overlays';
 
 const defaultState = {
   visible: false,
   name: null,
   showPrompt: false,
+  mod: 'modal',
   props: {
     title: null,
     closeButton: null,
@@ -46,7 +47,7 @@ function resolve(state = defaultState, action) {
 /**
  * Редюсер экшенов модалок
  */
-export default function modals(state = [], action) {
+export default function overlays(state = [], action) {
   const index = state.findIndex(
     modal => modal.name === _.get(action, 'payload.name')
   );

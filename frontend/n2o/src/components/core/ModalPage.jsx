@@ -15,7 +15,7 @@ import Actions from '../actions/Actions';
 import factoryResolver from '../../utils/factoryResolver';
 import withActions from './withActions';
 import Spinner from '../snippets/Spinner/Spinner';
-import { makeShowPromptByName } from '../../selectors/modals';
+import { makeShowPromptByName } from '../../selectors/overlays';
 
 /**
  * Компонент, отображающий модальное окно

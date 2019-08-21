@@ -1,10 +1,10 @@
-import { INSERT, DESTROY, HIDE, SHOW } from '../constants/modals';
-import modals from './modals';
+import { INSERT, DESTROY, HIDE, SHOW } from '../constants/overlays';
+import overlays from './overlays';
 
-describe('Тесты modals reducer', () => {
+describe('Тесты overlays reducer', () => {
   it('Проверка INSERT', () => {
     expect(
-      modals(
+      overlays(
         [
           {
             name: 'stateModal',
@@ -32,7 +32,7 @@ describe('Тесты modals reducer', () => {
 
   it('Проверка SHOW', () => {
     expect(
-      modals(
+      overlays(
         [
           {
             name: 'stateModal',
@@ -58,7 +58,7 @@ describe('Тесты modals reducer', () => {
 
   it('Проверка HIDE', () => {
     expect(
-      modals(
+      overlays(
         [
           {
             name: 'stateModal',
@@ -84,7 +84,7 @@ describe('Тесты modals reducer', () => {
 
   it('Проверка DESTROY', () => {
     expect(
-      modals(
+      overlays(
         [
           {
             modal: {
