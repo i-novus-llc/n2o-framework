@@ -176,7 +176,7 @@ describe('FormContainer', () => {
 
       wrapper.setProps({ datasource: ['newValue'] }).update();
       expect(setDefaultValues.calledOnce).toBe(true);
-      expect(setDefaultValues.calledWith(null)).toBe(true);
+      expect(setDefaultValues.calledWith({})).toBe(true);
     });
   });
 
