@@ -13,7 +13,7 @@ import {
 } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 
-import ModalPages from './ModalPages';
+import OverlayPages from './OverlayPages';
 import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
@@ -22,7 +22,7 @@ import { ModalWindow } from './ModalPage';
 const stories = storiesOf('Действия/Модальное окно', module);
 
 stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('ModalPages'));
+stories.addDecorator(withTests('OverlayPages'));
 stories.addDecorator(withPage(ShowModalTitle));
 
 stories

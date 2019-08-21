@@ -10,7 +10,7 @@ import FactoryProvider from '../../src/core/factory/FactoryProvider';
 import createFactoryConfig from "../../src/core/factory/createFactoryConfig";
 
 import SecurityProvider from '../../src/core/auth/SecurityProvider';
-import ModalPages from '../../src/components/core/ModalPages';
+import OverlayPages from '../../src/components/core/OverlayPages';
 import {makeStore} from "./utils";
 
 addLocaleData(ruLocaleData);
@@ -24,7 +24,7 @@ const ModalPagesWithContext = withContext(
   props => ({
     defaultPromptMessage: 'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
   })
-)(ModalPages);
+)(OverlayPages);
 
 export default (story) => {
   return <IntlProvider locale="ru" messages={{}}>

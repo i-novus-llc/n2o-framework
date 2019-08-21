@@ -7,21 +7,23 @@ import { overlaysSelector } from '../../selectors/overlays';
 import compileUrl from '../../utils/compileUrl';
 
 import ModalPage from './ModalPage';
+import Drawer from '../snippets/Drawer/Drawer';
 
 /**
  * Компонент, отображающий все модальные окна
  * @reactProps {object} overlays - Массив объектов (из Redux)
  * @example
- *  <ModalPages/>
+ *  <OverlayPages/>
  */
-class ModalPages extends React.Component {
+class OverlayPages extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
   }
 
   render() {
     const { overlays } = this.props;
-    const modalPages = overlays.map(
+    const overlayPages = overlays.map(
       overlay =>
         overlay.visible && (
           <ModalPage
@@ -32,16 +34,17 @@ class ModalPages extends React.Component {
             {...overlay.props}
           />
         )
+      // <Drawer key={overlay.pageId} {...overlay} {...overlay.props} />
     );
-    return <div>{modalPages}</div>;
+    return <div>{overlayPages}</div>;
   }
 }
 
-ModalPages.propTypes = {
+OverlayPages.propTypes = {
   overlays: PropTypes.array,
 };
 
-ModalPages.defaultProps = {
+OverlayPages.defaultProps = {
   overlays: {},
 };
 
@@ -60,14 +63,14 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-ModalPages.propTypes = {
+OverlayPages.propTypes = {
   overlays: PropTypes.array,
   options: PropTypes.object,
   actions: PropTypes.object,
 };
 
-ModalPages = connect(
+OverlayPages = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ModalPages);
-export default ModalPages;
+)(OverlayPages);
+export default OverlayPages;
