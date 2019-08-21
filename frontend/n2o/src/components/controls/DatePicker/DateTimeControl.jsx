@@ -74,6 +74,7 @@ class DateTimeControl extends React.Component {
     this.markTimeAsSet = this.markTimeAsSet.bind(this);
     this.setInputRef = this.setInputRef.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.getValue = this.getValue.bind(this);
   }
 
   /**
@@ -124,19 +125,27 @@ class DateTimeControl extends React.Component {
     return date;
   }
 
+  getValue(inputName) {
+    const inputs = { ...this.state.inputs };
+
+    if (inputName === DateTimeControl.defaultInputName) {
+      return this.dateToString(inputs[inputName]);
+    } else {
+      return [
+        this.dateToString(inputs[DateTimeControl.beginInputName]),
+        this.dateToString(inputs[DateTimeControl.endInputName]),
+      ];
+    }
+  }
+
   /**
    * вызов onChange
    */
   onChange(inputName) {
-    const inputs = { ...this.state.inputs };
-    if (inputName === DateTimeControl.defaultInputName) {
-      this.props.onChange(this.dateToString(inputs[inputName]));
-    } else {
-      this.props.onChange([
-        this.dateToString(inputs[DateTimeControl.beginInputName]),
-        this.dateToString(inputs[DateTimeControl.endInputName]),
-      ]);
-    }
+    const { onChange } = this.props;
+    const value = this.getValue(inputName);
+
+    onChange(value);
   }
 
   /**
@@ -179,7 +188,7 @@ class DateTimeControl extends React.Component {
         () => {
           this.onChange(inputName);
           if (type === ControlType.DATE_PICKER) {
-            this.props.onBlur();
+            this.props.onBlur(this.getValue(inputName));
           }
         }
       );
@@ -342,7 +351,6 @@ class DateTimeControl extends React.Component {
                   inputClassName={className}
                   setVisibility={this.setVisibility}
                   setWidth={this.setWidth}
-                  onBlur={this.onBlur}
                   onFocus={this.onFocus}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
