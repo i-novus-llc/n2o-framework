@@ -23,6 +23,6 @@
     "nwb": "0.23.x",
     "phantomjs-prebuilt": "^2.1.16"
   },
-  "author": "I-Novus <n2o@i-novus.com>",
-  "license": "MIT"
+  "author": "I-Novus LLC<n2o@i-novus.ru>",
+  "license": "Apache-2.0"
 }

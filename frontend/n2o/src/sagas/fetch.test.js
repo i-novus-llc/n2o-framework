@@ -26,10 +26,10 @@ describe('Проверка саги fetch', () => {
     await runSaga(fakeStore, fetchSaga, FETCH_APP_CONFIG, { locale: 'ru_RU' });
 
     const startFetch = put(fetchStart(FETCH_APP_CONFIG, { locale: 'ru_RU' }))
-      .PUT.action;
+      .payload.action;
     const endFetch = put(
       fetchEnd(FETCH_APP_CONFIG, { locale: 'ru_RU' }, { some: 'value' })
-    ).PUT.action;
+    ).payload.action;
 
     expect(dispatched[0]).toEqual(startFetch);
     expect(dispatched[1]).toEqual(endFetch);

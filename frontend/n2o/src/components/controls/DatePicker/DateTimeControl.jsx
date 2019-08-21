@@ -48,7 +48,7 @@ class DateTimeControl extends React.Component {
       props.defaultTime,
       DateTimeControl.defaultInputName,
       timeFormat,
-      this.format
+      this.props.outputFormat
     );
 
     const { defaultTime } = this;
@@ -56,7 +56,7 @@ class DateTimeControl extends React.Component {
       inputs: mapToValue(
         value,
         defaultTime,
-        this.format,
+        this.props.outputFormat,
         locale,
         DateTimeControl.defaultInputName
       ),
@@ -88,18 +88,17 @@ class DateTimeControl extends React.Component {
       props.defaultTime,
       DateTimeControl.defaultInputName,
       timeFormat,
-      this.format
+      this.props.outputFormat
     );
 
     this.setState({
       inputs: mapToValue(
         value,
         this.defaultTime,
-        this.format,
+        this.props.outputFormat,
         locale,
         DateTimeControl.defaultInputName
       ),
-      // isPopUpVisible: false
     });
   }
 
@@ -113,11 +112,14 @@ class DateTimeControl extends React.Component {
    * Приведение к строке
    */
   dateToString(date) {
-    const { outputFormat } = this.props;
+    const { outputFormat, utc } = this.props;
+
     if (date instanceof Date) {
       return date.toString();
     } else if (date instanceof moment) {
-      return date.format(outputFormat);
+      return utc
+        ? moment.utc(date).format(outputFormat)
+        : date.format(outputFormat);
     }
     return date;
   }
@@ -269,9 +271,9 @@ class DateTimeControl extends React.Component {
   /**
    * Рендер попапа
    */
-  renderPopUp(width) {
-    const { disabled, placeholder, max, min, locale, timeFormat } = this.props;
-    const { inputs, isPopUpVisible, style, placement } = this.state;
+  renderPopUp() {
+    const { max, min, locale, timeFormat } = this.props;
+    const { inputs, isPopUpVisible, placement } = this.state;
     const popUp = (
       <PopUp
         time={this.defaultTime}
@@ -286,8 +288,8 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, this.format)}
-        min={parseDate(min, this.format)}
+        max={parseDate(max, 'YYYY-MM-DD hh:mm:ss')}
+        min={parseDate(min, 'YYYY-MM-DD hh:mm:ss')}
         locale={locale}
       />
     );
@@ -318,7 +320,6 @@ class DateTimeControl extends React.Component {
       disabled,
       placeholder,
       className,
-      onBlur,
       autoFocus,
       openOnFocus,
     } = this.props;
@@ -345,6 +346,7 @@ class DateTimeControl extends React.Component {
                   onFocus={this.onFocus}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
+                  outputFormat={this.props.outputFormat}
                   {...dateInputGroupProps}
                 />
               )}

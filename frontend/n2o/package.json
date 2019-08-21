@@ -22,8 +22,8 @@
     "ui",
     "javascript"
   ],
-  "author": "I-Novus <n2o@i-novus.com>",
-  "license": "MIT",
+  "author": "I-Novus LLC<n2o@i-novus.ru>",
+  "license": "Apache-2.0",
   "scripts": {
     "eslint": "eslint ./src --ext .js,.jsx",
     "eslint:generate": "eslint ./src --ext .js,.jsx -o ./docs/eslint.json -f json",
@@ -118,7 +118,7 @@
     "redux-form": "7.4.2",
     "redux-logger": "3.0.6",
     "redux-mock-store": "1.5.1",
-    "redux-saga": "0.16.0",
+    "redux-saga": "^1.0.5",
     "redux-thunk": "2.2.0",
     "reselect": "3.0.1",
     "scroll-into-view-if-needed": "2.2.16",

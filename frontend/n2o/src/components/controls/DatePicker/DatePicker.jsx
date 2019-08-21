@@ -9,7 +9,7 @@ import DateTimeControl from './DateTimeControl';
  * @reactProps {string} defaultTime - время выбранной даты. Пример: '11:11'
  * @reactProps {string|moment|Date} date - дефолтная дата.
  * @reactProps {string|moment|Date} min - самая ранняя доступная дата
- * @reactProps {string|moment|Date} max - самая поздняя дотсупная дата
+ * @reactProps {string|moment|Date} max - самая поздняя доступная дата
  * @reactProps {function} onChange - вызывается при изменении
  * @reactProps {string} dateFormat - формат даты. Пример: "DD-MM_YYYY"
  * @reactProps {string} timeFormat - формат времени. Пример: "HH:mm"

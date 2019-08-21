@@ -11,7 +11,7 @@ import {
   isFunction,
   values,
 } from 'lodash';
-import { HotKeys } from 'react-hotkeys';
+import { HotKeys } from 'react-hotkeys/cjs';
 //components
 import { BaseNode } from '../TreeNodes';
 import Filter from './Filter';

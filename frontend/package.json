@@ -8,15 +8,6 @@
     "antd-n2o-ui",
     "n2o-notifications"
   ],
-  "devDependencies": {
-    "command-line-args": "^5.0.2",
-    "concurrently": "^3.5.1",
-    "husky": "^1.0.0-rc.13",
-    "lerna": "2.11.0",
-    "lint-staged": "^7.2.2",
-    "npm-registry-client": "^8.6.0",
-    "phantomjs-prebuilt": "^2.1.16"
-  },
   "scripts": {
     "start:demo": "lerna exec --scope n2o-demo-client npm run start",
     "start:simple": "lerna exec --scope n2o-simple-project npm run start",
@@ -52,8 +43,14 @@
     "clean": "lerna run clean && lerna clean",
     "init": "lerna init"
   },
-  "dependencies": {
-    "core-js": "^2.5.7"
+  "devDependencies": {
+    "command-line-args": "^5.0.2",
+    "concurrently": "^3.5.1",
+    "husky": "^1.0.0-rc.13",
+    "lerna": "2.11.0",
+    "lint-staged": "^7.2.2",
+    "npm-registry-client": "^8.6.0",
+    "phantomjs-prebuilt": "^2.1.16"
   },
   "husky": {
     "hooks": {

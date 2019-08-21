@@ -37,8 +37,8 @@
                                     <goal>install-node-and-npm</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v8.11.3</nodeVersion>
-                                    <npmVersion>5.6.0</npmVersion>
+                                    <nodeVersion>v10.16.0</nodeVersion>
+                                    <npmVersion>6.9.0</npmVersion>
                                 </configuration>
                             </execution>
 
@@ -48,6 +48,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>install</arguments>
                                 </configuration>
                             </execution>
@@ -58,6 +61,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run bootstrap</arguments>
                                 </configuration>
                             </execution>
@@ -68,6 +74,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run build</arguments>
                                 </configuration>
                             </execution>
@@ -78,6 +87,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run test</arguments>
                                 </configuration>
                             </execution>
@@ -88,6 +100,9 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
+                                    <environmentVariables>
+                                        <max_old_space_size>2000</max_old_space_size>
+                                    </environmentVariables>
                                     <arguments>run dev:docs</arguments>
                                 </configuration>
                             </execution>

@@ -45,7 +45,7 @@ export default function createValidator(
 ) {
   return {
     asyncValidate: validateField(validationConfig, formName, state),
-    asyncChangeFields: Object.keys(validationConfig || {}),
+    asyncBlurFields: Object.keys(validationConfig || {}),
   };
 }
 
