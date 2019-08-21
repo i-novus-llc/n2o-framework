@@ -85,4 +85,13 @@ public class StringUtilsTest {
         assert StringUtils.maskMatch("*1Aba*","1Abazzz");
         assert StringUtils.maskMatch("*1Aba*","zzz1Abazzz");
     }
+
+    @Test
+    public void simplify() {
+        assert StringUtils.simplify("").equals("");
+        assert StringUtils.simplify("  abc  ").equals("abc");
+        assert StringUtils.simplify("\nabc\n").equals("abc");
+        assert StringUtils.simplify("  \n  abc  \n  ").equals("abc");
+        assert StringUtils.simplify("  \n  \n abc \n \n  ").equals("abc");
+    }
 }
