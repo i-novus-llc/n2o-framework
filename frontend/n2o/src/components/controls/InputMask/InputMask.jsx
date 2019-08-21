@@ -185,8 +185,12 @@ class InputMask extends React.Component {
     const mask = this.preset(preset);
     return (
       <MaskedInput
-        className={cn(['form-control', { [className]: className }])}
         disabled={disabled}
+        className={cn([
+          'form-control',
+          'n2o-input-mask',
+          { [className]: className },
+        ])}
         placeholderChar={placeholderChar}
         placeholder={placeholder}
         guide={this.state.guide}
