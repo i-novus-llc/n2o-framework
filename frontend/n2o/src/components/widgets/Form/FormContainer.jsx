@@ -56,6 +56,7 @@ export const withLiveCycleMethods = lifecycle({
       defaultValues,
       reduxFormValues,
       setDefaultValues,
+      resolveModel,
     } = this.props;
     if (
       !isEqual(prevProps.activeModel, activeModel) &&
@@ -64,10 +65,10 @@ export const withLiveCycleMethods = lifecycle({
     ) {
       setDefaultValues(activeModel);
     } else if (
-      !isEmpty(defaultValues) &&
-      !isEqual(prevProps.datasource, datasource)
+      (!isEmpty(defaultValues) && !isEqual(prevProps.datasource, datasource)) ||
+      (prevProps.datasource && !datasource)
     ) {
-      setDefaultValues(null);
+      setDefaultValues({});
     }
   },
 });
@@ -81,11 +82,13 @@ export const withPropsOnChangeWidget = withPropsOnChange(
   },
   props => {
     return {
-      initialValues: props.defaultValues
-        ? props.defaultValues
-        : merge(props.resolveModel || {}, props.datasource || {}, {
-            arrayMerge: arrayMergeFunction,
-          }),
+      initialValues:
+        props.defaultValues &&
+        (!props.datasource || !isEmpty(props.defaultValues))
+          ? props.defaultValues
+          : merge(props.resolveModel || {}, props.datasource || {}, {
+              arrayMerge: arrayMergeFunction,
+            }),
     };
   }
 );

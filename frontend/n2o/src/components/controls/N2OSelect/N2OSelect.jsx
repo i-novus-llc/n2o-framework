@@ -317,13 +317,12 @@ class N2OSelect extends React.Component {
         style={inputSelectStyle}
         onBlur={this._handleOnBlur}
       >
-        <Button>
+        <Button onClick={this._handleButtonClick}>
           <InputSelectGroup
             className={className}
             isExpanded={this.state.isExpanded}
             loading={loading}
             disabled={disabled}
-            onButtonClick={this._handleButtonClick}
             iconFieldId={iconFieldId}
             imageFieldId={imageFieldId}
             cleanable={cleanable}

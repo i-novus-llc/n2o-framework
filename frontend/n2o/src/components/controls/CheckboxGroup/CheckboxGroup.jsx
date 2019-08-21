@@ -93,7 +93,7 @@ class CheckboxGroup extends React.Component {
       <React.Fragment>
         {visible !== false && (
           <div
-            className={cx(className, {
+            className={cx('n2o-checkbox-group', className, {
               [`btn-group${inline ? '' : '-vertical'}`]: isBtn,
               'btn-group-toggle': isBtn,
               'n2o-checkbox-inline': inline,
