@@ -139,6 +139,12 @@ $datepicker-day-background-color-selected: $primary !default;
 $datepicker-day-border-color-current: $primary !default;
 $datepicker-button-width: 40px;
 
+// Divider
+$border-default: 1px solid rgba(0, 0, 0, 0.4);
+$border-dashed: 1px dashed rgba(0, 0, 0, 0.4);
+$horizontal: 'divider-h';
+$vertical: 'divider-v';
+
 // Panel Region
 $panel-region-heading-background-color: white !default;
 $panel-region-background-color: $white !default;
