@@ -180,9 +180,7 @@ class DateTimeControl extends React.Component {
         },
         () => {
           this.onChange(inputName);
-          if (type === ControlType.DATE_PICKER) {
-            this.props.onBlur(this.getValue(inputName));
-          }
+          this.props.onBlur(this.getValue(inputName));
         }
       );
     }
