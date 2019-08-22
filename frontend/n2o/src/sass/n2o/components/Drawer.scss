@@ -3,7 +3,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 41px;
+    width: 40px;
     height: 40px;
     cursor: pointer;
     z-index: 0;
@@ -14,11 +14,15 @@
     justify-content: center;
     align-items: center;
     background: #fff;
+    opacity: 0.5;
     &-icon:before {
       transform: translateX(-10px) rotate(45deg);
     }
     &-icon:after {
       transform: translateX(-10px) rotate(-45deg);
+    }
+    &:hover, &:active {
+      opacity: 1;
     }
   }
   &-handle-icon:before,
@@ -36,7 +40,8 @@
   &-content-wrapper {
     position: fixed;
     background: $drawer-content-bg;
-    padding: $drawer-content-pd
+    padding: $drawer-content-pd;
+    min-width: 100px;
   }
   &-content {
     overflow: auto;
@@ -151,6 +156,10 @@
       transition: none;
     }
   }
+  .row {
+     margin-right: 0;
+     margin-left: 0;
+   }
   position: fixed;
   top: 0;
   z-index: 9999;

@@ -41,7 +41,8 @@ describe('Тесты экшенов overlays', () => {
         'lg',
         true,
         'page_id',
-        'TableWidget'
+        'TableWidget',
+        'drawer'
       );
       expect(action.payload.name).toEqual(name);
       expect(action.payload.visible).toEqual(true);
@@ -50,6 +51,7 @@ describe('Тесты экшенов overlays', () => {
       expect(action.payload.closeButton).toEqual(true);
       expect(action.payload.pageId).toEqual('page_id');
       expect(action.payload.src).toEqual('TableWidget');
+      expect(action.payload.mod).toEqual('drawer');
     });
   });
 

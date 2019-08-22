@@ -7,7 +7,7 @@ describe('Тесты overlays reducer', () => {
       overlays(
         [
           {
-            name: 'stateModal',
+            name: 'stateOverlay',
           },
         ],
         {
@@ -20,7 +20,7 @@ describe('Тесты overlays reducer', () => {
       )
     ).toEqual([
       {
-        name: 'stateModal',
+        name: 'stateOverlay',
       },
       {
         name: 'testName',
@@ -35,7 +35,7 @@ describe('Тесты overlays reducer', () => {
       overlays(
         [
           {
-            name: 'stateModal',
+            name: 'stateOverlay',
             modal: {},
             visible: false,
           },
@@ -43,13 +43,13 @@ describe('Тесты overlays reducer', () => {
         {
           type: SHOW,
           payload: {
-            name: 'stateModal',
+            name: 'stateOverlay',
           },
         }
       )
     ).toEqual([
       {
-        name: 'stateModal',
+        name: 'stateOverlay',
         modal: {},
         visible: true,
       },
@@ -61,7 +61,7 @@ describe('Тесты overlays reducer', () => {
       overlays(
         [
           {
-            name: 'stateModal',
+            name: 'stateOverlay',
             modal: {},
             visible: true,
           },
@@ -69,13 +69,13 @@ describe('Тесты overlays reducer', () => {
         {
           type: HIDE,
           payload: {
-            name: 'stateModal',
+            name: 'stateOverlay',
           },
         }
       )
     ).toEqual([
       {
-        name: 'stateModal',
+        name: 'stateOverlay',
         modal: {},
         visible: false,
       },
@@ -88,7 +88,7 @@ describe('Тесты overlays reducer', () => {
         [
           {
             modal: {
-              name: 'stateModal',
+              name: 'stateOverlay',
             },
             visible: true,
           },

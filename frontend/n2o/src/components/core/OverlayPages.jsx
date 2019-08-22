@@ -4,10 +4,9 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { closeOverlay, hidePrompt } from '../../actions/overlays';
 import { overlaysSelector } from '../../selectors/overlays';
-import compileUrl from '../../utils/compileUrl';
 
 import ModalPage from './ModalPage';
-import Drawer from '../snippets/Drawer/Drawer';
+import DrawerPage from './DrawerPage';
 
 /**
  * Компонент, отображающий все модальные окна
@@ -18,23 +17,37 @@ import Drawer from '../snippets/Drawer/Drawer';
 class OverlayPages extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
   }
 
   render() {
+    const renderModalPage = overlay => (
+      <ModalPage
+        key={overlay.pageId}
+        close={this.props.close}
+        hidePrompt={this.props.hidePrompt}
+        {...overlay}
+        {...overlay.props}
+      />
+    );
+    const renderDrawerPage = overlay => (
+      <DrawerPage
+        key={overlay.pageId}
+        close={this.props.close}
+        hidePrompt={this.props.hidePrompt}
+        {...overlay}
+        {...overlay.props}
+      />
+    );
+
     const { overlays } = this.props;
     const overlayPages = overlays.map(
       overlay =>
-        overlay.visible && (
-          <ModalPage
-            key={overlay.pageId}
-            close={this.props.close}
-            hidePrompt={this.props.hidePrompt}
-            {...overlay}
-            {...overlay.props}
-          />
-        )
-      // <Drawer key={overlay.pageId} {...overlay} {...overlay.props} />
+        (overlay.visible &&
+          overlay.mod === 'modal' &&
+          renderModalPage(overlay)) ||
+        (overlay.visible &&
+          overlay.mod === 'drawer' &&
+          renderDrawerPage(overlay))
     );
     return <div>{overlayPages}</div>;
   }

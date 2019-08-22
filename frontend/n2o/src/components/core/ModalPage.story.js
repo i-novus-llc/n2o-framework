@@ -159,6 +159,7 @@ stories
             closeButton: true,
             pageId: 'Uid',
             prompt: true,
+            mod: 'modal',
           },
         },
       },

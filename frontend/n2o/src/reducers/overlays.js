@@ -25,10 +25,11 @@ const defaultState = {
 function resolve(state = defaultState, action) {
   switch (action.type) {
     case INSERT:
-      const { visible, name, ...props } = action.payload;
+      const { visible, name, mod, ...props } = action.payload;
       return Object.assign({}, state, {
         visible,
         name,
+        mod,
         props: Object.assign({}, props),
       });
     case SHOW:
