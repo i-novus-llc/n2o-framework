@@ -271,7 +271,7 @@ class DateTimeControl extends React.Component {
             const end = this.state.inputs[DateTimeControl.endInputName];
             this.onChange([start, end]);
           }
-          this.props.onBlur();
+          this.props.onBlur(this.props.value);
         }
         this.setVisibility(false);
       }
