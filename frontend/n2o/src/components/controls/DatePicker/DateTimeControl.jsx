@@ -14,6 +14,11 @@ import {
 import DateInputGroup from './DateInputGroup';
 import PopUp from './PopUp';
 
+const ControlType = {
+  DATE_PICKER: 'date-picker',
+  DATE_INTERVAL: 'date-interval',
+};
+
 /**
  * Компонент DateTimeControl
  * @reactProps {string} type
@@ -146,7 +151,7 @@ class DateTimeControl extends React.Component {
    */
   select(day, inputName, close = true) {
     const { inputs } = this.state;
-    let { locale } = this.props;
+    const { type } = this.props;
     if (
       inputName === DateTimeControl.defaultInputName ||
       inputName === DateTimeControl.beginInputName ||
@@ -180,7 +185,9 @@ class DateTimeControl extends React.Component {
         },
         () => {
           this.onChange(inputName);
-          this.props.onBlur(this.getValue(inputName));
+          if (type === ControlType.DATE_PICKER) {
+            this.props.onBlur(this.getValue(inputName));
+          }
         }
       );
     }
@@ -261,7 +268,7 @@ class DateTimeControl extends React.Component {
           const end = this.state.inputs[DateTimeControl.endInputName];
           this.onChange([start, end]);
         }
-        this.props.onBlur();
+        this.props.onBlur(this.props.value);
       }
       this.setVisibility(false);
     }
