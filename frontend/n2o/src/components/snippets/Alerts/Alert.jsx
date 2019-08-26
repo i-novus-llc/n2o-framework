@@ -3,7 +3,7 @@ import { defaultTo, isArray, map } from 'lodash';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
-import HelpPopover from '../../../components/widgets/Form/fields/StandardField/HelpPopover.jsx';
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
 
 /**
  * Компонент сообщения-алерта
