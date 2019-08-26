@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Label as BootstrapLabel } from 'reactstrap';
 import cx from 'classnames';
 
-import HelpPopover from '../../../../widgets/Form/fields/StandardField/HelpPopover.jsx';
+import HelpPopover from './HelpPopover';
 
 /**
  * Лейбел поля
