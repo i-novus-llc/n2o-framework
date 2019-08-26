@@ -16,10 +16,10 @@
     background: #fff;
     opacity: 0.5;
     &-icon:before {
-      transform: translateX(-10px) rotate(45deg);
+      transform: translateX(-6px) rotate(45deg);
     }
     &-icon:after {
-      transform: translateX(-10px) rotate(-45deg);
+      transform: translateX(-6px) rotate(-45deg);
     }
     &:hover, &:active {
       opacity: 1;
@@ -31,8 +31,8 @@
     display: block;
     position: absolute;
     background: $drawer-icon-color;
-    width: 18px;
-    height: 2px;
+    width: 14px;
+    height: 3px;
   }
   &-animation > * {
     transition: transform $drawer-animation, opacity $drawer-animation, box-shadow $drawer-animation;
@@ -50,6 +50,7 @@
   }
   &-title {
     border-bottom: $drawer-border;
+    padding: 16px;
   }
   &-footer {
     border-top: $drawer-border;
@@ -111,6 +112,7 @@
   }
   &-top {
     top: 0;
+    left: 0;
     .drawer-content-wrapper, .drawer-content {
       width: 100%;
     }
@@ -129,6 +131,7 @@
   }
   &-bottom {
     bottom: 0;
+    left: 0;
     .drawer-content-wrapper {
       bottom: 0;
     }
@@ -160,9 +163,31 @@
      margin-right: 0;
      margin-left: 0;
    }
+  &-page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 200;
+  }
+  &-spinner {
+    position: fixed;
+    left:50%;
+    top:50%;
+    margin: -50px 0 0 -50px;
+    width: 3rem;
+    height: 3rem;
+  }
+
   position: fixed;
   top: 0;
   z-index: 9999;
+}
+
+.n2o-modal-actions {
+  padding: 10px 0 0 8px;
 }
 
 @keyframes rcDrawerFadeIn {

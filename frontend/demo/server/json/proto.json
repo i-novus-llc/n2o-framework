@@ -572,7 +572,8 @@
               "pathMapping": {},
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mod": "modal"
             }
           }
         },
@@ -592,7 +593,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mod": "modal"
             }
           }
         },
@@ -657,7 +659,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mod": "modal"
             }
           }
         },
@@ -711,7 +714,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mod": "modal"
             }
           }
         },
@@ -762,7 +766,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mod": "modal"
             }
           }
         }
@@ -921,7 +926,8 @@
                   },
                   "queryMapping": {},
                   "closeButton": true,
-                  "visible": true
+                  "visible": true,
+                  "mod": "modal"
                 }
               }
             }
@@ -1108,7 +1114,8 @@
                           },
                           "queryMapping": {},
                           "closeButton": true,
-                          "visible": true
+                          "visible": true,
+                          "mod": "modal"
                         }
                       }
                     },
@@ -1218,7 +1225,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mod": "modal"
             }
           }
         },
@@ -1241,7 +1249,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mod": "modal"
             }
           }
         },
@@ -1324,7 +1333,8 @@
                     },
                     "queryMapping": {},
                     "closeButton": true,
-                    "visible": true
+                    "visible": true,
+                    "mod": "modal"
                   }
                 }
               },

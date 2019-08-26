@@ -17,6 +17,25 @@ import cn from 'classnames';
 import Spinner from '../snippets/Spinner/Spinner';
 import Actions from '../actions/Actions';
 
+/**
+ * Компонент, отображающий Drawer
+ * @reactProps {string} pageId - id пейджа
+ * @reactProps {string} name - имя модалки
+ * @reactProps {boolean} visible - отображается модалка или нет
+ * @reactProps {string} title - заголовок в хэдере
+ * @reactProps {object} actions - объект экшнов
+ * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
+ * @reactProps {object} props - аргументы для экшенов-функций
+ * @reactProps {boolean}  disabled - блокировка модалки
+ * @reactProps {function}  hidePrompt - скрытие окна подтверждения
+ * @example
+ *  <DrawerPage props={props}
+ *             actions={actions}
+ *             name={name}
+ *             pageId={pageId}
+ *  />
+ */
+
 class DrawerPage extends React.Component {
   constructor(props) {
     super(props);
@@ -70,46 +89,56 @@ class DrawerPage extends React.Component {
     const showSpinner = !visible || loading || typeof loading === 'undefined';
     const classes = cn({ 'd-none': loading });
     return (
-      <div className="drawer-overlay">
+      <div className="drawer-page-overlay">
         {showPrompt && this.showPrompt()}
-        <Spinner type="cover" loading={showSpinner} color="light" transparent>
+        <Spinner
+          className="drawer-spinner"
+          loading={showSpinner}
+          type="cover"
+          color="light"
+          transparent
+        >
           <Drawer
-            visible={visible}
+            visible={!loading && visible}
             onHandleClick={() => this.closeDrawer(false)}
             title={title}
-            className={classes}
-            footer={(toolbar, actions, containerKey, pageId) => (
-              <div
-                className={cn('n2o-modal-actions', {
-                  'n2o-disabled': disabled,
-                  classes,
-                })}
-              >
-                <Actions
-                  toolbar={toolbar.bottomLeft}
-                  actions={actions}
-                  containerKey={containerKey}
-                  pageId={pageId}
-                />
-                <Actions
-                  toolbar={toolbar.bottomRight}
-                  actions={actions}
-                  containerKey={containerKey}
-                  pageId={pageId}
-                />
-              </div>
-            )}
+            backdrop={false}
+            footer={
+              toolbar && (
+                <div
+                  className={cn('n2o-modal-actions', {
+                    'n2o-disabled': disabled,
+                    classes,
+                  })}
+                >
+                  <Actions
+                    toolbar={toolbar.bottomLeft}
+                    actions={actions}
+                    containerKey={containerKey}
+                    pageId={pageId}
+                  />
+                  <Actions
+                    toolbar={toolbar.bottomRight}
+                    actions={actions}
+                    containerKey={containerKey}
+                    pageId={pageId}
+                  />
+                </div>
+              )
+            }
           >
-            {pageUrl ? (
-              <Page
-                pageUrl={pageUrl}
-                pageId={pageId}
-                pageMapping={pageMapping}
-                needMetadata
-              />
-            ) : src ? (
-              this.renderFromSrc(src)
-            ) : null}
+            <div className={classes}>
+              {pageUrl ? (
+                <Page
+                  pageUrl={pageUrl}
+                  pageId={pageId}
+                  pageMapping={pageMapping}
+                  needMetadata
+                />
+              ) : src ? (
+                this.renderFromSrc(src)
+              ) : null}
+            </div>
           </Drawer>
         </Spinner>
       </div>

@@ -2,6 +2,5 @@
   "title": "title",
   "footer": "footer",
   "placement": "left",
-  "children": "children",
-  "closable": false
+  "children": "children"
 }

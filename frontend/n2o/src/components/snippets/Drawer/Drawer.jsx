@@ -54,6 +54,7 @@ function Drawer(props) {
         maskClosable={backdropClosable}
         onHandleClick={onHandleClick}
         handler={closable}
+        duration=".0s"
       >
         <div className="drawer-title">{title}</div>
         <div className="drawer-children">{children}</div>

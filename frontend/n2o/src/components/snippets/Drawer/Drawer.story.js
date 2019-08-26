@@ -23,6 +23,7 @@ stories
             visible={store.state.visible}
             onClose={close}
             onHandleClick={close}
+            backdropClosable={false}
           >
             <p>Some contents...</p>
             <p>Some contents...</p>
@@ -46,11 +47,15 @@ stories
 
       return (
         <React.Fragment>
-          <Drawer {...MetaJSON} visible={store.state.visible} onClose={close} />
+          <Drawer
+            {...MetaJSON}
+            visible={store.state.visible}
+            backdropClosable={false}
+            onHandleClick={close}
+            onClose={close}
+          />
           <div className="d-flex justify-content-center">
-            <Button onClick={close}>
-              {store.state.visible ? 'Close' : 'Open'}
-            </Button>
+            <Button onClick={close}>Open</Button>
           </div>
         </React.Fragment>
       );

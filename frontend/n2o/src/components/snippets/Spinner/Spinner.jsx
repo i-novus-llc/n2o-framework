@@ -22,7 +22,7 @@ class BaseSpinner extends Component {
     };
 
     this.delayTimer = this.delayTimer.bind(this);
-    this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
+    this.renderCoverSpinner = this.renderCoverSpinner.bind(this);
     this.renderLineSpinner = this.renderLineSpinner.bind(this);
   }
 
@@ -43,7 +43,6 @@ class BaseSpinner extends Component {
   }
 
   async delayTimer() {
-    const { endTimeout } = this.state;
     const { delay } = this.props;
 
     if (delay) {
@@ -53,7 +52,7 @@ class BaseSpinner extends Component {
     }
   }
 
-  renderCoverSpiner() {
+  renderCoverSpinner() {
     const {
       children,
       className,
@@ -61,7 +60,6 @@ class BaseSpinner extends Component {
       loading,
       transparent,
       color,
-      ...rest
     } = this.props;
     const { endTimeout } = this.state;
 
@@ -74,7 +72,7 @@ class BaseSpinner extends Component {
         {!endTimeout && loading && (
           <Fragment>
             <div className="n2o-spinner-container ">
-              <Comp color={color} {...rest} />
+              <Comp color={color} />
               <div className="loading_text">{text}</div>
             </div>
             {!transparent ? <div className="spinner-background" /> : null}
@@ -93,7 +91,7 @@ class BaseSpinner extends Component {
   render() {
     const { type } = this.props;
     return eq(type, TYPE.COVER)
-      ? this.renderCoverSpiner()
+      ? this.renderCoverSpinner()
       : this.renderLineSpinner();
   }
 }

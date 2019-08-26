@@ -10,7 +10,7 @@ import {
 import createActionHelper from './createActionHelper';
 
 /**
- * Регистрация модального окна в редаксе
+ * Регистрация оверлея в редаксе
  * @param name
  * @param visible
  * @param title
