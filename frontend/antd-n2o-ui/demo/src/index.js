@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import N2O from "n2o-framework/lib/N2o";
-import "n2o/dist/n2o.css";
+import "n2o-framework/dist/n2o.css";
 import "./correct.css";
 import "antd/dist/antd.css";
 

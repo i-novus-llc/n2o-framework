@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import N2O from 'n2o';
 import { authProvider } from 'n2o-auth';
 
-import 'n2o/dist/n2o.css';
+import 'n2o-framework/dist/n2o.css';
 import './index.css';
 
 const config = {

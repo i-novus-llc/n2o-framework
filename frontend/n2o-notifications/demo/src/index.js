@@ -6,7 +6,7 @@ import { id } from "n2o/lib/utils/id";
 
 import AppTemplate from "./AppTemplate";
 
-import "n2o/dist/n2o.css";
+import "n2o-framework/dist/n2o.css";
 import "../../css/n2o-notifications.css";
 
 import { reducer, sagas } from "../../src";
