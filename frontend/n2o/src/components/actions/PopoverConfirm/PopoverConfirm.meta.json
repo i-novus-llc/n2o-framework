@@ -1,0 +1,23 @@
+{
+  "toolbar":
+    [
+      {
+        "buttons": [
+          {
+            "actionId": "dummy",
+            "confirm": "popover",
+            "title": "Кнопка c confirm",
+            "header": "Вы уверены?",
+            "okText": "Да",
+            "cancelText": "Нет"
+          }
+        ]
+      }
+    ],
+  "actions": {
+    "dummy": {
+      "src": "dummyImpl"
+    }
+  }
+}
+

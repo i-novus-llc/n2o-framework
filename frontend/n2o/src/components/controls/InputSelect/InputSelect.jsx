@@ -348,7 +348,7 @@ class InputSelect extends React.Component {
       }),
       () => {
         selectCallback();
-        this.props.onBlur();
+        this.props.onBlur(this._getValue());
       }
     );
   }
@@ -371,6 +371,7 @@ class InputSelect extends React.Component {
       this._clearSearchField();
       this._clearSelected();
       this._setInputFocus(false);
+      this.props.onBlur(null);
     }
   }
 
@@ -385,7 +386,7 @@ class InputSelect extends React.Component {
     if (isExpanded) {
       this._hideOptionsList();
       resetOnBlur && this._handleValueChangeOnBlur();
-      this.props.onBlur();
+      this.props.onBlur(this._getValue());
     }
   }
 
@@ -404,7 +405,7 @@ class InputSelect extends React.Component {
 
   onInputBlur() {
     if (!this.state.isExpanded) {
-      this.props.onBlur();
+      this.props.onBlur(this._getValue());
     }
   }
 

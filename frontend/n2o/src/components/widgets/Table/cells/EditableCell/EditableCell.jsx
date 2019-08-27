@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { compose } from 'recompose';
-import { HotKeys } from 'react-hotkeys';
+import { HotKeys } from 'react-hotkeys/cjs';
 import PropTypes from 'prop-types';
 import { isEqual, get, isObject, set } from 'lodash';
 import Text from '../../../../snippets/Text/Text';
