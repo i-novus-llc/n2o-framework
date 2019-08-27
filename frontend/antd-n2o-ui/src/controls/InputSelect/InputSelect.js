@@ -2,7 +2,7 @@ import React from "react";
 import { Select, Icon, Avatar, Badge } from "antd";
 import { withProps, withHandlers, compose, defaultProps } from "recompose";
 import { map, isArray, filter, find } from "lodash";
-import listContainer from "n2o/lib/components/controls/listContainer";
+import listContainer from "n2o-framework/lib/components/controls/listContainer";
 
 export default compose(
   listContainer,

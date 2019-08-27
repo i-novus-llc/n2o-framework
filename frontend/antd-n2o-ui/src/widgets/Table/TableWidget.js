@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { values, pick } from "lodash";
 import TableContainer from './Table';
-import dependency from 'n2o/lib/core/dependency';
+import dependency from 'n2o-framework/lib/core/dependency';
 
 //TODO: не получилось переделать под HOC.
 class TableWidget extends React.Component {

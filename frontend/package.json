@@ -62,7 +62,7 @@
     }
   },
   "lint-staged": {
-    "n2o/src/**/*.{js,jsx}": [
+    "n2o-framework/src/**/*.{js,jsx}": [
       "npm run dev:prettier",
       "git add",
       "npm run dev:test:hook"
