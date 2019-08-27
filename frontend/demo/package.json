@@ -29,6 +29,16 @@
     "http-proxy-middleware": "^0.19.0",
     "react-scripts": "^3.1.1"
   },
+  "proxy": {
+    "/n2o/data": {
+      "target": "https://n2o.i-novus.ru/dev/",
+      "changeOrigin": true
+    },
+    "/n2o": {
+      "target": "https://n2o.i-novus.ru/dev/",
+      "changeOrigin": true
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
