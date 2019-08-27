@@ -17,7 +17,7 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
-    "n2o": "^7.3.21"
+    "n2o-framework": "^7.3.21"
   },
   "devDependencies": {
     "nwb": "0.23.x",

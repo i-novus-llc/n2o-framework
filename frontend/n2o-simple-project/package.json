@@ -4,7 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "n2o": "^7.3.21",
+    "n2o-framework": "^7.3.21",
     "n2o-auth": "^7.3.21",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
