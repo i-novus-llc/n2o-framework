@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import N2O from 'n2o';
+import N2O from 'n2o-framework';
 import { authProvider } from 'n2o-auth';
 
 import 'n2o-framework/dist/n2o.css';
