@@ -139,9 +139,9 @@ npm install n2o --save
 ----
 import React from 'react';
 import ReactDOM from 'react-dom';
-import N2O from 'n2o';
+import N2O from 'n2o-framework';
 
-import 'n2o/dist/n2o.css';
+import 'n2o-framework/dist/n2o.css';
 import './index.css';
 
 ReactDOM.render(<N2O />, document.getElementById('root'));

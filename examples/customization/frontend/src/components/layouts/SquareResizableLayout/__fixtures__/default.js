@@ -1,5 +1,5 @@
 import React from "react";
-import Section from "n2o/lib/components/layouts/Section";
+import Section from "n2o-framework/lib/components/layouts/Section";
 import SquareResizableLayout from "../SquareResizableLayout";
 
 const TestLayout = () => {

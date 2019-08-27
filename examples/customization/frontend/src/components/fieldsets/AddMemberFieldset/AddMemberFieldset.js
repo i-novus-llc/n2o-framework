@@ -1,7 +1,7 @@
 import React from "react";
 import { isEqual, map } from "lodash";
 import { Row, Col, Button, Jumbotron } from "reactstrap";
-import ReduxField from "n2o/lib/components/widgets/Form/ReduxField";
+import ReduxField from "n2o-framework/lib/components/widgets/Form/ReduxField";
 import PropTypes from "prop-types";
 
 class AddMemberFieldset extends React.Component {

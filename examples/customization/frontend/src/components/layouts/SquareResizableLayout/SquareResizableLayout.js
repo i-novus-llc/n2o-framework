@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Resizable from "re-resizable";
-import layoutPlaceResolver from "n2o/lib/components/layouts/LayoutPlaceResolver";
-import Place from "n2o/lib/components/layouts/Place";
+import layoutPlaceResolver from "n2o-framework/lib/components/layouts/LayoutPlaceResolver";
+import Place from "n2o-framework/lib/components/layouts/Place";
 import "./SquareResizable.scss";
 
 /**

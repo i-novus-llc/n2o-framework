@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { get } from "lodash";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import Icon from "n2o/lib/components/snippets/Icon/Icon";
-import Text from "n2o/lib/components/snippets/Text/Text";
+import Icon from "n2o-framework/lib/components/snippets/Icon/Icon";
+import Text from "n2o-framework/lib/components/snippets/Text/Text";
 import "./CopyText.scss";
 
 class CopyTextCell extends Component {

@@ -1,8 +1,8 @@
 import React from "react";
-import Factory from "n2o/lib/core/factory/Factory";
+import Factory from "n2o-framework/lib/core/factory/Factory";
 import AddMemberFieldset from "../AddMemberFieldset";
-import FactoryProvider from "n2o/lib/core/factory/FactoryProvider";
-import createConfig from "n2o/lib/core/factory/createFactoryConfig";
+import FactoryProvider from "n2o-framework/lib/core/factory/FactoryProvider";
+import createConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 const defaultMeta = {
   id: "proto",
   routes: {

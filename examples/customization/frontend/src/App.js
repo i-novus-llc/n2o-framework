@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import N2o from "n2o";
+import N2o from "n2o-framework";
 import AppTemplate from "./components/AppTemplate";
 import layouts from "./components/layouts";
 import widgets from "./components/widgets";

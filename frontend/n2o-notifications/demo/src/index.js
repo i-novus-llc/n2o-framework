@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Button, ButtonGroup, ButtonToolbar } from "reactstrap";
 import N2O from "n2o-framework";
-import { id } from "n2o/lib/utils/id";
+import { id } from "n2o-framework/lib/utils/id";
 
 import AppTemplate from "./AppTemplate";
 
