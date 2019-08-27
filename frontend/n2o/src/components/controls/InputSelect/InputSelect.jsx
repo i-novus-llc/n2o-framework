@@ -137,11 +137,15 @@ class InputSelect extends React.Component {
    * @private
    */
   _handleValueChangeOnBlur() {
-    const { value, input, options } = this.state;
+    const { value, input, options, isExpanded } = this.state;
     const { onChange, multiSelect, resetOnBlur, labelFieldId } = this.props;
     const newValue = find(options, { [labelFieldId]: input });
 
     const findValue = find(value, [labelFieldId, input]);
+
+    if (isExpanded) {
+      this.addObjectToValue();
+    }
 
     if (input && isEmpty(findValue)) {
       this.setState(
@@ -404,16 +408,15 @@ class InputSelect extends React.Component {
     if (
       conditionForAddingAnObject(resetOnBlur, userInput, data, currentValue)
     ) {
-      multiSelect &&
-        this.state.options.length === 0 &&
-        this.setState({
-          value: [...currentValue, { [labelFieldId]: userInput }],
-          input: '',
-        });
-      !multiSelect &&
-        this.setState({
-          value: [{ [labelFieldId]: userInput }],
-        });
+      multiSelect
+        ? this.state.options.length === 0 &&
+          this.setState({
+            value: [...currentValue, { [labelFieldId]: userInput }],
+            input: '',
+          })
+        : this.setState({
+            value: [{ [labelFieldId]: userInput }],
+          });
     }
   }
 
@@ -423,15 +426,7 @@ class InputSelect extends React.Component {
    */
 
   handleClickOutside(evt) {
-    const { resetOnBlur } = this.props;
-    const { isExpanded } = this.state;
-
-    if (isExpanded) {
-      this.addObjectToValue();
-      this._hideOptionsList();
-      resetOnBlur && this._handleValueChangeOnBlur();
-      this.props.onBlur();
-    }
+    this._hideOptionsList();
   }
 
   setSelectedItemsRef(ref) {
