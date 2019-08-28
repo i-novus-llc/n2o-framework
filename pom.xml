@@ -199,9 +199,6 @@
             </activation>
             <modules>
                 <module>frontend</module>
-                <module>frontend/n2o</module>
-                <module>frontend/demo</module>
-                <module>frontend/n2o-simple-project</module>
             </modules>
         </profile>
         <profile>
