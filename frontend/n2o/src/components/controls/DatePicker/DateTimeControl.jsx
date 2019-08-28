@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { pick } from 'lodash';
+import { pick, every } from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -199,11 +199,11 @@ class DateTimeControl extends React.Component {
   onInputChange(date, inputName) {
     const { timeFormat } = this.props;
     const newDate =
-      !timeFormat && inputName === DateTimeControl.endInputName
+      !timeFormat && inputName === DateTimeControl.endInputName && date
         ? date
-            .add(23, 'h')
-            .add(59, 'm')
-            .add(59, 's')
+          .add(23, 'h')
+          .add(59, 'm')
+          .add(59, 's')
         : date;
 
     this.setState(
@@ -267,8 +267,14 @@ class DateTimeControl extends React.Component {
           const start = this.state.inputs[DateTimeControl.beginInputName];
           const end = this.state.inputs[DateTimeControl.endInputName];
           this.onChange([start, end]);
+          const valueToBlur = this.getValue();
+
+          if (every(valueToBlur, value => value)) {
+            this.props.onBlur(valueToBlur);
+          }
+        } else {
+          this.props.onBlur(this.getValue(DateTimeControl.defaultInputName));
         }
-        this.props.onBlur(this.props.value);
       }
       this.setVisibility(false);
     }
