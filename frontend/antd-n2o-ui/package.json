@@ -22,7 +22,7 @@
     "bootstrap": "~4.3.0",
     "font-awesome": "4.7.0",
     "lodash": "^4.17.11",
-    "n2o-framework": "^7.3.0",
+    "n2o": "^7.3.0",
     "react": "16.x",
     "recompose": "^0.30.0"
   },
