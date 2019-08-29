@@ -9,19 +9,13 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "n2o": "^7.3.0",
+    "n2o-framework": "^7.3.0",
     "n2o-auth": "^7.3.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
   "devDependencies": {
     "react-scripts": "^3.1.1"
-  },
-  "proxy": {
-    "/n2o": {
-      "target": "http://172.16.1.130:7777/",
-      "changeOrigin": true
-    }
   },
   "browserslist": {
     "production": [

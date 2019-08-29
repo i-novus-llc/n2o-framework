@@ -1,5 +1,5 @@
 {
-  "name": "n2o",
+  "name": "n2o-framework",
   "version": "7.4.0",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
@@ -189,7 +189,6 @@
     "fetch-mock": "^6.0.0",
     "file-loader": "^1.1.6",
     "fs-extra": "^4.0.1",
-    "http-proxy-middleware": "^0.17.4",
     "identity-obj-proxy": "^3.0.0",
     "jest": "23.6.0",
     "less": "^2.7.3",
