@@ -99,9 +99,6 @@ class InputNumber extends React.Component {
     if (isNil(nextValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
     }
-    if (!isValid(nextValue, min, max)) {
-      return;
-    }
     if (matchesWhiteList(nextValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () =>
         this.props.onChange(this.resolveValue(nextValue))
