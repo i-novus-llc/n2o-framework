@@ -14,52 +14,38 @@ import DrawerPage from './DrawerPage';
  * @example
  *  <OverlayPages/>
  */
-class OverlayPages extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function OverlayPages(props) {
+  const renderModalPage = overlay => (
+    <ModalPage
+      key={overlay.pageId}
+      close={this.props.close}
+      hidePrompt={this.props.hidePrompt}
+      {...overlay}
+      {...overlay.props}
+    />
+  );
+  const renderDrawerPage = overlay => (
+    <DrawerPage
+      key={overlay.pageId}
+      close={this.props.close}
+      hidePrompt={this.props.hidePrompt}
+      {...overlay}
+      {...overlay.props}
+    />
+  );
 
-  render() {
-    const renderModalPage = overlay => (
-      <ModalPage
-        key={overlay.pageId}
-        close={this.props.close}
-        hidePrompt={this.props.hidePrompt}
-        {...overlay}
-        {...overlay.props}
-      />
-    );
-    const renderDrawerPage = overlay => (
-      <DrawerPage
-        key={overlay.pageId}
-        close={this.props.close}
-        hidePrompt={this.props.hidePrompt}
-        {...overlay}
-        {...overlay.props}
-      />
-    );
-
-    const { overlays } = this.props;
-    const overlayPages = overlays.map(
-      overlay =>
-        (overlay.visible &&
-          overlay.mod === 'modal' &&
-          renderModalPage(overlay)) ||
-        (overlay.visible &&
-          overlay.mod === 'drawer' &&
+  const { overlays } = props;
+  const overlayPages = overlays.map(
+    overlay =>
+      (overlay.visible &&
+        overlay.mod === 'modal' &&
+        renderModalPage(overlay)) ||
+      (overlay.visible &&
+        overlay.mod === 'drawer' &&
           renderDrawerPage(overlay))
-    );
-    return <div>{overlayPages}</div>;
-  }
+  );
+  return <div>{overlayPages}</div>;
 }
-
-OverlayPages.propTypes = {
-  overlays: PropTypes.array,
-};
-
-OverlayPages.defaultProps = {
-  overlays: {},
-};
 
 const mapStateToProps = createStructuredSelector({
   overlays: (state, props) => overlaysSelector(state),
@@ -76,14 +62,17 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+OverlayPages.defaultProps = {
+  overlays: {},
+};
+
 OverlayPages.propTypes = {
   overlays: PropTypes.array,
   options: PropTypes.object,
   actions: PropTypes.object,
 };
 
-OverlayPages = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(OverlayPages);
-export default OverlayPages;

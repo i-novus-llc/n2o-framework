@@ -12,14 +12,8 @@ const defaultState = {
   visible: false,
   name: null,
   showPrompt: false,
-  mod: 'modal',
-  props: {
-    title: null,
-    closeButton: null,
-    pageId: null,
-    size: 'lg',
-    src: null,
-  },
+  mode: 'modal',
+  props: {},
 };
 
 function resolve(state = defaultState, action) {

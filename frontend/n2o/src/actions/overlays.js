@@ -13,32 +13,15 @@ import createActionHelper from './createActionHelper';
  * Регистрация оверлея в редаксе
  * @param name
  * @param visible
- * @param title
- * @param size
- * @param closeButton
- * @param pageId
- * @param src
- * @param mod
+ * @param mode
+ * @param rest
  */
-export function insertOverlay(
-  name,
-  visible,
-  title,
-  size,
-  closeButton,
-  pageId,
-  src,
-  mod
-) {
+export function insertOverlay(name, visible, mode, rest) {
   return createActionHelper(INSERT)({
     name,
     visible,
-    title,
-    size,
-    closeButton,
-    pageId,
-    src,
-    mod,
+    mode,
+    ...rest,
   });
 }
 
