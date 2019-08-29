@@ -3,10 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
+import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -15,6 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionOptions;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -68,25 +71,35 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
         WidgetScope scope = p.getScope(WidgetScope.class);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (scope != null && scope.getClientWidgetId() != null && componentScope != null &&
-                componentScope.unwrap(ModelAware.class) != null) {
-            ReduxModel model = componentScope.unwrap(ModelAware.class).getModel();
-            if (source.getPathParams() != null) {
-                for (N2oAnchor.Param pathParam : source.getPathParams()) {
-                    ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), scope.getClientWidgetId());
-                    link.setValue(p.resolveJS(pathParam.getValue()));
-                    pathMapping.put(pathParam.getName(), link);
+        if (scope != null) {
+            String clientWidgetId = scope.getClientWidgetId();
+            if (componentScope != null) {
+                WidgetIdAware unwrap = componentScope.unwrap(WidgetIdAware.class);
+                if (unwrap != null && unwrap.getWidgetId() != null) {
+                    PageScope pageScope = p.getScope(PageScope.class);
+                    clientWidgetId = pageScope.getGlobalWidgetId(unwrap.getWidgetId());
                 }
-
             }
-            if (source.getQueryParams() != null) {
-                Map<String, ModelLink> queryMapping = new StrictMap<>();
-                for (N2oAnchor.Param pathParam : source.getQueryParams()) {
-                    ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), scope.getClientWidgetId());
-                    link.setValue(p.resolveJS(pathParam.getValue()));
-                    queryMapping.put(pathParam.getName(), link);
+            if (clientWidgetId != null && componentScope != null &&
+                    componentScope.unwrap(ModelAware.class) != null) {
+                ReduxModel model = componentScope.unwrap(ModelAware.class).getModel();
+                if (source.getPathParams() != null) {
+                    for (N2oAnchor.Param pathParam : source.getPathParams()) {
+                        ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), clientWidgetId);
+                        link.setValue(p.resolveJS(pathParam.getValue()));
+                        pathMapping.put(pathParam.getName(), link);
+                    }
+
                 }
-                compiled.getOptions().setQueryMapping(queryMapping);
+                if (source.getQueryParams() != null) {
+                    Map<String, ModelLink> queryMapping = new StrictMap<>();
+                    for (N2oAnchor.Param pathParam : source.getQueryParams()) {
+                        ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), clientWidgetId);
+                        link.setValue(p.resolveJS(pathParam.getValue()));
+                        queryMapping.put(pathParam.getName(), link);
+                    }
+                    compiled.getOptions().setQueryMapping(queryMapping);
+                }
             }
         }
         compiled.getOptions().setPathMapping(pathMapping);
