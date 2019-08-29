@@ -8,7 +8,7 @@
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
-        <artifactId>framework</artifactId>
+        <artifactId>frontend</artifactId>
         <version>7.3.22-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
