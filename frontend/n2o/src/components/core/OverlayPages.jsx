@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import { get, omit } from 'lodash';
 import { closeOverlay, hidePrompt } from '../../actions/overlays';
 import { overlaysSelector } from '../../selectors/overlays';
 
@@ -17,18 +18,16 @@ import DrawerPage from './DrawerPage';
 function OverlayPages(props) {
   const renderModalPage = overlay => (
     <ModalPage
-      key={overlay.pageId}
-      close={this.props.close}
-      hidePrompt={this.props.hidePrompt}
+      key={get(overlay, 'props.pageId', '')}
+      {...props}
       {...overlay}
       {...overlay.props}
     />
   );
   const renderDrawerPage = overlay => (
     <DrawerPage
-      key={overlay.pageId}
-      close={this.props.close}
-      hidePrompt={this.props.hidePrompt}
+      key={get(overlay, 'props.pageId', '')}
+      {...props}
       {...overlay}
       {...overlay.props}
     />
@@ -38,11 +37,11 @@ function OverlayPages(props) {
   const overlayPages = overlays.map(
     overlay =>
       (overlay.visible &&
-        overlay.mod === 'modal' &&
-        renderModalPage(overlay)) ||
+        overlay.mode === 'modal' &&
+        renderModalPage(omit(overlay, ['mode']))) ||
       (overlay.visible &&
-        overlay.mod === 'drawer' &&
-          renderDrawerPage(overlay))
+        overlay.mode === 'drawer' &&
+        renderDrawerPage(omit(overlay, ['mode'])))
   );
   return <div>{overlayPages}</div>;
 }
@@ -62,14 +61,12 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-OverlayPages.defaultProps = {
-  overlays: {},
-};
-
 OverlayPages.propTypes = {
   overlays: PropTypes.array,
-  options: PropTypes.object,
-  actions: PropTypes.object,
+};
+
+OverlayPages.defaultProps = {
+  overlays: {},
 };
 
 export default connect(

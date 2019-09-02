@@ -366,7 +366,7 @@ LeftRightPage
 |Отправка данных формы
 
 |<show-modal>
-|n2o/overlays/INSERT
+|n2o/modals/INSERT
 |Открытие модального окна
 
 |<open-page>
@@ -374,7 +374,7 @@ LeftRightPage
 |Открытие вложенной страницы
 
 |<close>
-|n2o/overlays/CLOSE
+|n2o/modals/CLOSE
 |Закрытие модального окна или возврат на предыдущую страницу
 
 |<refresh>

@@ -19,11 +19,11 @@ const defaultState = {
 function resolve(state = defaultState, action) {
   switch (action.type) {
     case INSERT:
-      const { visible, name, mod, ...props } = action.payload;
+      const { visible, name, mode, ...props } = action.payload;
       return Object.assign({}, state, {
         visible,
         name,
-        mod,
+        mode,
         props: Object.assign({}, props),
       });
     case SHOW:
@@ -40,11 +40,11 @@ function resolve(state = defaultState, action) {
 }
 
 /**
- * Редюсер экшенов модалок
+ * Редюсер экшенов оверлеев
  */
 export default function overlays(state = [], action) {
   const index = state.findIndex(
-    modal => modal.name === _.get(action, 'payload.name')
+    overlay => overlay.name === _.get(action, 'payload.name')
   );
   switch (action.type) {
     case INSERT:

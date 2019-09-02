@@ -37,21 +37,23 @@ describe('Тесты экшенов overlays', () => {
       const action = insertOverlay(
         name,
         true,
+        'drawer',
         'TITLE',
         'lg',
         true,
         'page_id',
-        'TableWidget',
-        'drawer'
+        'TableWidget'
       );
-      expect(action.payload.name).toEqual(name);
-      expect(action.payload.visible).toEqual(true);
-      expect(action.payload.title).toEqual('TITLE');
-      expect(action.payload.size).toEqual('lg');
-      expect(action.payload.closeButton).toEqual(true);
-      expect(action.payload.pageId).toEqual('page_id');
-      expect(action.payload.src).toEqual('TableWidget');
-      expect(action.payload.mod).toEqual('drawer');
+      expect(action.payload).toMatchObject({
+        0: 'TITLE',
+        1: 'lg',
+        2: true,
+        3: 'page_id',
+        4: 'TableWidget',
+        mode: 'drawer',
+        name: 'MODAL_NAME',
+        visible: true,
+      });
     });
   });
 
