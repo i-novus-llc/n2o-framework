@@ -7,7 +7,7 @@
                     <dependencies>
                         <fetch-value query-id="ProtoPatient" on="default">
                             <pre-filters>
-                                <eq field-id="id" value="1"/>
+                                <eq field-id="id" value="5607677"/>
                             </pre-filters>
                         </fetch-value>
                     </dependencies>
@@ -26,7 +26,7 @@
                 </checkbox>
             </row>
             <row>
-                <checkbox id="default" label="Загрузить Имя"/>
+                <input-text id="default" label="Введите что-нибудь, чтобы загрузилось Имя по умолчанию"/>
             </row>
         </fields>
     </form>
