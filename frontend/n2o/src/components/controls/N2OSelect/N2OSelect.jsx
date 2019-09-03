@@ -161,6 +161,7 @@ class N2OSelect extends React.Component {
         selected: [],
       });
       this.props.onChange(null);
+      this.props.onBlur(null);
     }
   }
 
@@ -250,6 +251,7 @@ class N2OSelect extends React.Component {
 
     if (this.props.onChange) {
       this.props.onChange(item);
+      this.props.onBlur(item);
     }
   }
 
@@ -280,7 +282,7 @@ class N2OSelect extends React.Component {
   _handleOnBlur(e) {
     e.preventDefault();
     this._handleResetOnBlur();
-    this.props.onBlur();
+    this.props.onBlur(this.state.selected[0]);
   }
 
   /**

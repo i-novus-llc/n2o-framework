@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import { omit } from 'lodash';
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
 import { stringConverter, prepareStyle } from './utils';
 import { propTypes, defaultProps } from './allProps';
@@ -34,6 +35,7 @@ function Slider(props) {
     vertical,
     style,
     className,
+    onChange,
     ...rest
   } = props;
 
@@ -50,6 +52,12 @@ function Slider(props) {
     placement: tooltipPlacement,
   };
 
+  const handleAfterChange = value => {
+    onChange(value);
+  };
+
+  const sliderProps = omit(rest, ['value']);
+
   return (
     <RenderSlider
       className={cx('n2o-slider', className)}
@@ -57,7 +65,8 @@ function Slider(props) {
       tipFormatter={expressionFn}
       vertical={vertical}
       style={prepareStyle(vertical, style)}
-      {...rest}
+      onAfterChange={handleAfterChange}
+      {...sliderProps}
     />
   );
 }

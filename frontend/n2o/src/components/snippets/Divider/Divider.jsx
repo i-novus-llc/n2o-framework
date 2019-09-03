@@ -21,19 +21,19 @@ const dividerClass = props => {
 
 /**
  * Компонент Divider
- * @param {string} className - Пользовательский className css (default : '');
- * @param {object} style - css стили Divider. Необходимые параметры width-для горизонтального, height-для вертикального (default : none);
- * @param {boolean} dashed - вкл/откл путктирной линии на Divider (default : false);
- * @param {string} position - Позиционирование заголовка. Работает только на горизонтальном Divider и при наличии заголовка (default : 'left');
- * @param {string} type - Тип Divider horizontal или vertical (default : 'horizontal');
- * @param {string} children - Заголовок для горизонтального типа. Указывается между тегами компонента: <Divider>Заголовок</Divider> (default : none);
+ * @reactProps {string} className - Пользовательский className css (default : '');
+ * @reactProps {object} style - css стили Divider. Необходимые параметры width-для горизонтального, height-для вертикального (default : none);
+ * @reactProps {boolean} dashed - вкл/откл путктирной линии на Divider (default : false);
+ * @reactProps{string} position - Позиционирование заголовка. Работает только на горизонтальном Divider и при наличии заголовка (default : 'left');
+ * @reactProps {string} type - Тип Divider horizontal или vertical (default : 'horizontal');
+ * @reactProps {string} children - Заголовок для горизонтального типа. Указывается между тегами компонента: <Divider>Заголовок</Divider> (default : none);
  * **/
 
 export const Divider = props => {
   const { style, children } = props;
   return (
     <div className={dividerClass({ ...props })} style={style}>
-      {children && <span>{children}</span>}
+      {children && <span className="divider-h__title">{children}</span>}
     </div>
   );
 };

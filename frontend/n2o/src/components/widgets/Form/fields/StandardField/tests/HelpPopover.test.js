@@ -1,15 +1,15 @@
 import React from 'react';
-import Popover from './Popover';
+import HelpPopover from '../HelpPopover';
 
 const setupPopover = propsOverride => {
   const props = {
     id: 'test',
     help: 'подсказка',
   };
-  return shallow(<Popover {...props} {...propsOverride} />);
+  return shallow(<HelpPopover {...props} {...propsOverride} />);
 };
 
-describe('Тесты Popover', () => {
+describe('Тесты HelpPopover', () => {
   it('Отрисовывается, если переданы id и help', () => {
     const wrapper = setupPopover();
     expect(wrapper.find('.n2o-popover').exists()).toEqual(true);

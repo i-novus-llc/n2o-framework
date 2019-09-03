@@ -17,12 +17,6 @@
   "devDependencies": {
     "react-scripts": "^3.1.1"
   },
-  "proxy": {
-    "/n2o": {
-      "target": "http://172.16.1.130:7777/",
-      "changeOrigin": true
-    }
-  },
   "browserslist": {
     "production": [
       ">0.2%",
