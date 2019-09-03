@@ -697,7 +697,7 @@
                     <xs:element name="pre-filters" type="act:preFiltersDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="query-id" type="xs:string" use="required"/>
-                <xs:attribute name="value-field-id" type="xs:string" use="required"/>
+                <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
