@@ -197,7 +197,7 @@ describe('<InputNumber />', () => {
       .find('input')
       .simulate('change', { target: { value: '100.999999' } });
     wrapper.find('input').simulate('blur');
-    expect(wrapper.find('input').props().value).toBe('9');
+    expect(wrapper.find('input').props().value).toBe('');
   });
 
   it('значения меньше min невалидны', () => {
@@ -214,7 +214,7 @@ describe('<InputNumber />', () => {
       .find('input')
       .simulate('change', { target: { value: '-100.999999' } });
     wrapper.find('input').simulate('blur');
-    expect(wrapper.find('input').props().value).toBe('9');
+    expect(wrapper.find('input').props().value).toBe('');
   });
 
   it('показывает/скрывает кнопки по showButtons', () => {
