@@ -137,17 +137,11 @@ class InputSelect extends React.Component {
    * @private
    */
   _handleValueChangeOnBlur() {
-    const { value, input, options, isExpanded } = this.state;
+    const { value, input } = this.state;
     const { onChange, multiSelect, resetOnBlur, labelFieldId } = this.props;
-    const newValue = find(options, { [labelFieldId]: input });
-
     const findValue = find(value, [labelFieldId, input]);
 
-    if (isExpanded) {
-      this.addObjectToValue();
-    }
-
-    if (input && isEmpty(findValue)) {
+    if (input && isEmpty(findValue) && resetOnBlur) {
       this.setState(
         {
           input: multiSelect ? '' : (value[0] && value[0][labelFieldId]) || '',
@@ -165,6 +159,7 @@ class InputSelect extends React.Component {
         () => onChange(this._getValue())
       );
     }
+    this.addObjectToValue();
   }
 
   /**
@@ -353,7 +348,7 @@ class InputSelect extends React.Component {
       }),
       () => {
         selectCallback();
-        this.props.onBlur();
+        this.props.onBlur(this._getValue());
       }
     );
   }
@@ -376,6 +371,7 @@ class InputSelect extends React.Component {
       this._clearSearchField();
       this._clearSelected();
       this._setInputFocus(false);
+      this.props.onBlur(null);
     }
   }
 
@@ -408,8 +404,10 @@ class InputSelect extends React.Component {
     if (
       conditionForAddingAnObject(resetOnBlur, userInput, data, currentValue)
     ) {
-      multiSelect
-        ? this.state.options.length === 0 &&
+      const { options } = this.state;
+
+      Array.isArray(options) && multiSelect
+        ? options.length === 0 &&
           this.setState({
             value: [...currentValue, { [labelFieldId]: userInput }],
             input: '',
@@ -443,14 +441,10 @@ class InputSelect extends React.Component {
   }
 
   onInputBlur() {
-    const { resetOnBlur } = this.props;
     if (!this.state.isExpanded) {
-      this.props.onBlur();
+      this.props.onBlur(this._getValue());
     }
-    if (resetOnBlur) {
-      this._handleValueChangeOnBlur();
-    }
-    this.addObjectToValue();
+    this._handleValueChangeOnBlur();
   }
 
   onFocus() {
