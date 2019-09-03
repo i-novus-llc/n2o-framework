@@ -233,6 +233,7 @@ class Table extends React.Component {
 
   render() {
     const {
+      className,
       datasource,
       actions,
       headers,
@@ -263,7 +264,7 @@ class Table extends React.Component {
       >
         <div className="table-responsive">
           <table
-            className={cx('n2o-table table table-sm table-hover', {
+            className={cx('n2o-table table table-sm table-hover', className, {
               'has-focus': hasFocus,
             })}
             ref={table => (this.table = table)}

@@ -15,7 +15,7 @@ export default function* fetchSaga(
 ) {
   try {
     yield put(fetchStart(fetchType, options));
-    let response = yield call(apiProvider, fetchType, options);
+    const response = yield call(apiProvider, fetchType, options);
     yield put(fetchEnd(fetchType, options, response));
     return response;
   } catch (error) {

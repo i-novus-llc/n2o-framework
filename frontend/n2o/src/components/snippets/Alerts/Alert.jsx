@@ -3,7 +3,7 @@ import { defaultTo, isArray, map } from 'lodash';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
-import Popover from '../Popover/Popover';
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
 
 /**
  * Компонент сообщения-алерта
@@ -112,7 +112,9 @@ class Alert extends React.Component {
         })}
         style={style}
       >
-        <div className="n2o-alert-help">{help && <Popover help={help} />}</div>
+        <div className="n2o-alert-help">
+          {help && <HelpPopover help={help} />}
+        </div>
         <div className="n2o-alert-body-container">
           {label && (
             <div className="n2o-alert-header">

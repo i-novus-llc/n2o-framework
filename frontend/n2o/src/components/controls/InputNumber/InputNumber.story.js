@@ -20,6 +20,9 @@ stories
       visible: true,
       step: '0.1',
       showButtons: true,
+      min: 5,
+      max: 100,
+      value: 10,
     };
 
     return <InputNumber {...props} />;
