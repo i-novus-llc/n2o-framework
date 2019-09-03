@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Label as BootstrapLabel } from 'reactstrap';
 import cx from 'classnames';
 
-import Popover from '../../../../snippets/Popover/Popover';
+import HelpPopover from './HelpPopover';
 
 /**
  * Лейбел поля
@@ -28,13 +28,13 @@ const Label = ({ id, value, required, className, style, help, ...props }) => {
     <div className={'n2o-field-label'}>
       {React.cloneElement(value, newProps)}
       {required ? <span className="n2o-field-label-required">*</span> : ''}
-      {help && <Popover id={id} help={help} />}
+      {help && <HelpPopover id={id} help={help} />}
     </div>
   ) : (
     <BootstrapLabel className={cx('n2o-field-label', className)} style={style}>
       {value}
       {required ? <span className="n2o-field-label-required">*</span> : null}
-      {help && <Popover id={id} help={help} />}
+      {help && <HelpPopover id={id} help={help} />}
     </BootstrapLabel>
   );
 };

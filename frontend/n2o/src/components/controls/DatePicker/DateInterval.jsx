@@ -21,11 +21,25 @@ import DateTimeControl from './DateTimeControl';
  * @example
  * <DatePicker  defaultTime = '12:11'/>
  */
-function DateInterval({ value, defaultTime, defaultValue, onChange, ...rest }) {
+function DateInterval({
+  value,
+  defaultTime,
+  defaultValue,
+  onChange,
+  onBlur,
+  ...rest
+}) {
   const newValue = defaults(value, defaultValue);
 
   const handleChange = data => {
     onChange({
+      [DateTimeControl.beginInputName]: data[0],
+      [DateTimeControl.endInputName]: data[1],
+    });
+  };
+
+  const handleBlur = data => {
+    onBlur({
       [DateTimeControl.beginInputName]: data[0],
       [DateTimeControl.endInputName]: data[1],
     });
@@ -49,6 +63,7 @@ function DateInterval({ value, defaultTime, defaultValue, onChange, ...rest }) {
       {...rest}
       value={mappedValue}
       onChange={handleChange}
+      onBlur={handleBlur}
       type="date-interval"
     />
   );

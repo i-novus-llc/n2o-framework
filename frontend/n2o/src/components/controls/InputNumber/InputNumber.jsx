@@ -95,13 +95,11 @@ class InputNumber extends React.Component {
 
   onChange(value) {
     const nextValue = this.resolveValue(value === '' ? null : toNumber(value));
-    const { max, min } = this.props;
+
     if (isNil(nextValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
     }
-    if (!isValid(nextValue, min, max)) {
-      return;
-    }
+
     if (matchesWhiteList(nextValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () =>
         this.props.onChange(this.resolveValue(nextValue))

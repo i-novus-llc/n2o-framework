@@ -12,6 +12,7 @@ import { compose, setDisplayName } from 'recompose';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
+import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
 import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
@@ -133,29 +134,50 @@ class Actions extends React.Component {
    * рендер кнопки или элемента списка дропдауна
    * @param Component
    * @param button
+   * @param parentId
    * @returns {*}
    */
   renderButton(Component, button, parentId) {
+    const isConfirmVisible = this.state.confirmVisibleId === button.id;
+    const onConfirm = () => {
+      this.onClickHelper(button);
+      this.closeConfirm();
+    };
+    const Container = (
+      <ButtonContainer
+        id={button.id}
+        onClick={() => this.onClickHelper(button, button.confirm)}
+        initialProps={button}
+        component={Component}
+        containerKey={this.props.containerKey}
+        parentId={parentId}
+      />
+    );
     const btn = (
       <React.Fragment>
-        <ButtonContainer
-          id={button.id}
-          onClick={() => this.onClickHelper(button, button.confirm)}
-          initialProps={button}
-          component={Component}
-          containerKey={this.props.containerKey}
-          parentId={parentId}
-        />
-        <ModalDialog
-          {...this.mapButtonConfirmProps(button)}
-          visible={this.state.confirmVisibleId === button.id}
-          onConfirm={() => {
-            this.onClickHelper(button);
-            this.closeConfirm();
-          }}
-          onDeny={this.closeConfirm}
-          close={this.closeConfirm}
-        />
+        {button.confirm === 'popover' ? (
+          <PopoverConfirm
+            {...button}
+            isOpen={isConfirmVisible}
+            onConfirm={onConfirm}
+            onCancel={this.closeConfirm}
+          >
+            {Container}
+          </PopoverConfirm>
+        ) : button.confirm ? (
+          <React.Fragment>
+            {Container}
+            <ModalDialog
+              {...this.mapButtonConfirmProps(button)}
+              visible={isConfirmVisible}
+              onConfirm={onConfirm}
+              onDeny={this.closeConfirm}
+              close={this.closeConfirm}
+            />
+          </React.Fragment>
+        ) : (
+          Container
+        )}
       </React.Fragment>
     );
 
