@@ -1,5 +1,5 @@
 {
-  "name": "n2o-framework",
+  "name": "n2o",
   "version": "7.4.0",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
