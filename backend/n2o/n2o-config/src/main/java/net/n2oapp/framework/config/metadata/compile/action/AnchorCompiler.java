@@ -74,10 +74,10 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         if (scope != null) {
             String clientWidgetId = scope.getClientWidgetId();
             if (componentScope != null) {
-                WidgetIdAware unwrap = componentScope.unwrap(WidgetIdAware.class);
-                if (unwrap != null && unwrap.getWidgetId() != null) {
+                WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+                if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
                     PageScope pageScope = p.getScope(PageScope.class);
-                    clientWidgetId = pageScope.getGlobalWidgetId(unwrap.getWidgetId());
+                    clientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
                 }
             }
             if (clientWidgetId != null && componentScope != null &&
