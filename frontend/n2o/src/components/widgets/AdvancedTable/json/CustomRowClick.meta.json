@@ -27,7 +27,6 @@
       "hasSelect": false,
       "hasFocus": false,
       "rowClick": {
-        "enabledCondition" : "deleted==false",
         "src": "perform",
         "options": {
           "type": "n2o/modals/INSERT",

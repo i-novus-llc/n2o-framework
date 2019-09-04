@@ -30,21 +30,18 @@ const columns = [
 
 const data = [
   {
-    deleted: true,
     id: 1,
     name: 'name1',
     surname: 'surname1',
     age: 1,
   },
   {
-    deleted: false,
     id: 2,
     name: 'name2',
     surname: 'surname2',
     age: 2,
   },
   {
-    deleted: false,
     id: 3,
     name: 'name3',
     surname: 'surname3',
@@ -113,12 +110,7 @@ describe('<AdvancedTable/>', () => {
       expect(onResolve.calledOnce).toBe(true);
       expect(onRowClickAction.calledOnce).toBe(true);
     });
-    it('не применяется класс при условии deleted==false ', () => {
-      const wrapper = setup({
-        rowClick: true,
-      });
-      expect(wrapper.find('.row-click').length).toBe(2);
-    });
+
     it('срабатывает rowClick 2 и более раз по одной и той же строке', () => {
       const onResolve = sinon.spy();
       const onRowClickAction = sinon.spy();
@@ -234,7 +226,6 @@ describe('<AdvancedTable/>', () => {
         onResolve,
         isActive: true,
         hasSelect: true,
-        rowClick: false,
       });
 
       const rows = wrapper.find('.n2o-table-row');
