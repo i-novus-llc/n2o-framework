@@ -21,7 +21,14 @@ import DateTimeControl from './DateTimeControl';
  * @example
  * <DatePicker  defaultTime = '12:11'/>
  */
-function DateInterval({ value, defaultTime, defaultValue, onChange, onBlur, ...rest }) {
+function DateInterval({
+  value,
+  defaultTime,
+  defaultValue,
+  onChange,
+  onBlur,
+  ...rest
+}) {
   const newValue = defaults(value, defaultValue);
 
   const handleChange = data => {
