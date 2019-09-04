@@ -63,6 +63,32 @@ export function fetchIfChangeDependencyValue(prevState, state, ref) {
   }
 }
 
+export const getFieldsKeys = fieldsets => {
+  const keys = [];
+
+  const mapFields = fields => {
+    map(fields, ({ id }) => keys.push(id));
+  };
+
+  const mapCols = cols => {
+    map(cols, col => {
+      if (has(col, 'cols')) {
+        mapCols(col.cols);
+      } else if (has(col, 'fields')) {
+        mapFields(col.fields);
+      }
+    });
+  };
+
+  map(fieldsets, ({ rows }) =>
+    map(rows, row => {
+      mapCols(row.cols);
+    })
+  );
+
+  return keys;
+};
+
 const pickByPath = (object, arrayToPath) =>
   reduce(
     arrayToPath,
