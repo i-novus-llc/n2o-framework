@@ -138,8 +138,23 @@ class InputSelect extends React.Component {
    */
   _handleValueChangeOnBlur() {
     const { value, input } = this.state;
-    const { onChange, multiSelect, resetOnBlur, labelFieldId } = this.props;
+    const {
+      onChange,
+      multiSelect,
+      resetOnBlur,
+      labelFieldId,
+      options,
+    } = this.props;
     const findValue = find(value, [labelFieldId, input]);
+
+    const conditionForAddingAnObject = (resetOnBlur, input, options, value) => {
+      return (
+        !resetOnBlur &&
+        input.split(' ').every(char => char === '') !== true &&
+        options.some(person => person.id === input) !== true &&
+        value.some(person => person.id === input) !== true
+      );
+    };
 
     if (input && isEmpty(findValue) && resetOnBlur) {
       this.setState(
@@ -159,7 +174,9 @@ class InputSelect extends React.Component {
         () => onChange(this._getValue())
       );
     }
-    this.addObjectToValue();
+    if (conditionForAddingAnObject(resetOnBlur, input, options, value)) {
+      this.addObjectToValue();
+    }
   }
 
   /**
@@ -381,41 +398,21 @@ class InputSelect extends React.Component {
    */
 
   addObjectToValue() {
-    const { resetOnBlur, multiSelect, labelFieldId } = this.props;
+    const { multiSelect, labelFieldId } = this.props;
 
     const userInput = this.state.input;
     const currentValue = this.state.value;
-    const data = this.props.options;
+    const { options } = this.state;
 
-    const conditionForAddingAnObject = (
-      resetOnBlur,
-      userInput,
-      data,
-      currentValue
-    ) => {
-      return (
-        !resetOnBlur &&
-        userInput.split(' ').every(char => char === '') !== true &&
-        data.some(person => person.id === userInput) !== true &&
-        currentValue.some(person => person.id === userInput) !== true
-      );
-    };
-
-    if (
-      conditionForAddingAnObject(resetOnBlur, userInput, data, currentValue)
-    ) {
-      const { options } = this.state;
-
-      Array.isArray(options) && multiSelect
-        ? options.length === 0 &&
-          this.setState({
-            value: [...currentValue, { [labelFieldId]: userInput }],
-            input: '',
-          })
-        : this.setState({
-            value: [{ [labelFieldId]: userInput }],
-          });
-    }
+    Array.isArray(options) && multiSelect
+      ? options.length === 0 &&
+        this.setState({
+          value: [...currentValue, { [labelFieldId]: userInput }],
+          input: '',
+        })
+      : this.setState({
+          value: [{ [labelFieldId]: userInput }],
+        });
   }
 
   /**
@@ -424,7 +421,13 @@ class InputSelect extends React.Component {
    */
 
   handleClickOutside(evt) {
-    this._hideOptionsList();
+    const { resetOnBlur } = this.props;
+    const { isExpanded } = this.state;
+    if (isExpanded) {
+      this._hideOptionsList();
+      resetOnBlur && this._handleValueChangeOnBlur();
+      this.props.onBlur(this._getValue());
+    }
   }
 
   setSelectedItemsRef(ref) {
