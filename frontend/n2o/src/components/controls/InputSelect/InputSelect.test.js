@@ -166,6 +166,41 @@ describe('<InputSelect />', () => {
     expect(onScrollEnd.calledOnce).toEqual(true);
   });
 
+  it('добавление объекта при resetOnBlur = false', () => {
+    const wrapper = mount(
+      <InputSelect options={props.options} labelFieldId={props.labelFieldId} />
+    );
+    wrapper
+      .find('input.form-control')
+      .simulate('change', { target: { value: 'custom name' } })
+      .simulate('blur');
+
+    console.log(wrapper.find('InputSelect').state());
+
+    expect(wrapper.find('InputSelect').state().value).toEqual([
+      { [props.labelFieldId]: 'custom name' },
+    ]);
+  });
+
+  it('проверяет очистку input при resetOnBlur = true', () => {
+    const wrapper = mount(
+      <InputSelect
+        options={props.options}
+        labelFieldId={props.labelFieldId}
+        resetOnBlur={true}
+      />
+    );
+
+    wrapper
+      .find('input.form-control')
+      .simulate('change', { target: { value: 'custom name' } })
+      .simulate('blur');
+
+    console.log(wrapper.find('InputSelect').state());
+
+    expect(wrapper.find('InputSelect').state().value).toEqual([]);
+  });
+
   it('проверяет параметр format', () => {
     const { wrapper } = setup({ format: "`id+' '+id`" });
     let expected = null;
