@@ -38,7 +38,7 @@ import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = _.findIndex(data, model => model.id == selectedId);
+  const index = _.findIndex(data, model => model.id === selectedId);
   return index >= 0 ? index : 0;
 };
 
@@ -265,7 +265,7 @@ class AdvancedTable extends Component {
     onFilter && onFilter(filter);
   }
 
-  handleRowClick(id, index, needReturn, noResolve) {
+  handleRowClick(id, index, needReturn, noResolve, model) {
     const {
       hasFocus,
       hasSelect,
@@ -282,7 +282,7 @@ class AdvancedTable extends Component {
 
     if (!noResolve && rowClick) {
       !hasSelect && onResolve(_.find(this._dataStorage, { id }));
-      onRowClickAction();
+      onRowClickAction(model);
     }
 
     if (needToReturn) return;
@@ -420,8 +420,9 @@ class AdvancedTable extends Component {
       rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
-      onClick: () => this.handleRowClick(model.id, model.id, false),
-      onFocus: () => this.handleRowClick(model.id, model.id, true, true),
+      onClick: () =>
+        this.handleRowClick(model.id, model.id, false, false, model),
+      onFocus: () => this.handleRowClick(model.id, model.id, true, true, model),
     };
   }
 

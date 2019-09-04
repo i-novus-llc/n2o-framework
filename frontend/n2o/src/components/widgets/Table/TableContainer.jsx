@@ -8,6 +8,7 @@ import { setTableSelectedId } from '../../../actions/widgets';
 import createActionHelper from '../../../actions/createActionHelper';
 import { SET_TABLE_SELECTED_ID } from '../../../constants/widgets';
 import { TABLE } from '../widgetTypes';
+import evalExpression from '../../../utils/evalExpression';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -75,8 +76,11 @@ export const withContainerLiveCycle = lifecycle({
 });
 
 export const withWidgetHandlers = withHandlers({
-  onRowClickAction: ({ rowClick, onActionImpl }) => () => {
-    onActionImpl(rowClick);
+  onRowClickAction: ({ rowClick, onActionImpl }) => model => {
+    const { enabledCondition } = rowClick;
+    if (evalExpression(enabledCondition, model) !== false) {
+      onActionImpl(rowClick);
+    }
   },
 });
 
