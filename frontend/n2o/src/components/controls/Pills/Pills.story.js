@@ -1,10 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
 import withForm from 'N2oStorybook/decorators/withForm';
 import meta from './Pills.meta';
 import PillsContainer from './PillsContainer';
+import Factory from '../../../core/factory/Factory';
 
 const dataUrl = 'begin:n2o/data';
 
@@ -12,31 +12,67 @@ const stories = storiesOf('Контролы/Кнопочные фильтры', 
 
 const form = withForm({ src: 'Pills' });
 
-stories.addDecorator(withKnobs);
+stories.addParameters({
+  info: {
+    propTables: [PillsContainer],
+    propTablesExclude: [Factory],
+  },
+});
 
 const handleData = list => url => ({ list });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      valueFieldId: text('valueFieldId', meta.valueFieldId),
-      labelFieldId: text('labelFieldId', meta.labelFieldId),
-      multiSelect: boolean('multiSelect', meta.multiSelect),
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        valueFieldId: meta.valueFieldId,
+        labelFieldId: meta.labelFieldId,
+        multiSelect: meta.multiSelect,
+      };
 
-    const data = [
-      {
-        id: 1,
-        label: 'text',
-      },
-      {
-        id: 2,
-        label: 'text',
-      },
-    ];
+      const data = [
+        {
+          id: 1,
+          label: 'text',
+        },
+        {
+          id: 2,
+          label: 'text',
+        },
+      ];
 
-    return <PillsContainer {...props} data={data} />;
-  })
+      return <PillsContainer {...props} data={data} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Кнопочные фильтры'
+      ~~~js
+      import Pills from 'n2o/lib/components/controls/Pills/PillsContainer';
+      
+      const data = [
+        {
+          id: 1,
+          label: 'text',
+        },
+        {
+          id: 2,
+          label: 'text',
+        },
+      ];  
+      
+      <PillsContainer 
+          valueFieldId="id"
+          labelFieldId="label"
+          multiSelect={false}
+          data={data}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
   .add(
     'Метаданные',
     form(() => {

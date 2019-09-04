@@ -111,13 +111,37 @@ class TextEditor extends Component {
 }
 
 TextEditor.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.string,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Callback на фокус
+   */
   onFocus: PropTypes.func,
+  /**
+   * Callback на потерю фокуса
+   */
   onBlur: PropTypes.func,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Конфиг тулбара
+   */
   toolbarConfig: PropTypes.object,
 };
 TextEditor.defaultProps = {

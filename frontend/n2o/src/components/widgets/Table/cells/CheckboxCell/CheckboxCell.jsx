@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get, set, isEqual } from 'lodash';
-import { compose, withState, lifecycle, withHandlers } from 'recompose';
+import {
+  compose,
+  withState,
+  lifecycle,
+  withHandlers,
+  setDisplayName,
+} from 'recompose';
 import withCell from '../../withCell';
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O';
 
@@ -33,11 +39,26 @@ function CheckboxCell({
 }
 
 CheckboxCell.propTypes = {
+  /**
+   * ID чейки
+   */
   id: PropTypes.string,
+  /**
+   * Модель данных
+   */
   model: PropTypes.object,
+  /**
+   * Ключ значения из модели
+   */
   fieldKey: PropTypes.string,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
   callInvoke: PropTypes.func,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 
@@ -46,7 +67,9 @@ CheckboxCell.defaultProps = {
   disabled: false,
 };
 
+export { CheckboxCell };
 export default compose(
+  setDisplayName('CheckboxCell'),
   withCell,
   withState(
     'checked',

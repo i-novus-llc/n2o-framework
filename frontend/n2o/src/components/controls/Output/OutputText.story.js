@@ -1,30 +1,18 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  select,
-} from '@storybook/addon-knobs/react';
+
 import OutputText from './OutputText';
 import OutputJSON from './Output.meta';
 
 const stories = storiesOf('Контролы/OutputText', module);
 
-stories.addDecorator(withKnobs);
-
 const props = {
-  type: select('type', ['iconAndText', 'icon', 'text'], OutputJSON.type),
-  textPlace: select('textPlace', ['right', 'left'], OutputJSON.textPlace),
-  icon: text('icon', OutputJSON.icon),
-  value: text('value', 'text'),
-  format: select(
-    'format',
-    ['', 'dateFromNow', 'password', 'number 0,0.00'],
-    ''
-  ),
-  disabled: boolean('disabled', OutputJSON.disabled),
+  type: OutputJSON.type,
+  textPlace: OutputJSON.textPlace,
+  icon: OutputJSON.icon,
+  value: 'text',
+  format: '',
+  disabled: OutputJSON.disabled,
 };
 
 const component = (propsOverride = {}, style = { width: 200 }) => (
@@ -34,36 +22,134 @@ const component = (propsOverride = {}, style = { width: 200 }) => (
 );
 
 stories
-  .add('Компонент', () => {
-    return component();
-  })
-  .add('Длинная строка с переносом', () => {
-    return component({
-      value:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-    });
-  })
-  .add('Длинная строка с ellipsis', () => {
-    return component({
-      value:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-      ellipsis: true,
-    });
-  })
-  .add('"Подробнее" в конце строки', () => {
-    return component(
-      {
+  .add(
+    'Компонент',
+    () => {
+      return component();
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Вывод текста'
+      ~~~js
+      import OutputText from 'n2o/lib/components/controls/OutputText/OutputText';
+      
+      <OutputText
+          className="n2o"
+          type="iconAndText"
+          textPlace="left"
+          icon="fa fa-plus"
+          value="text"
+          expandable={true}
+          ellipsis={true}
+      />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Длинная строка с переносом',
+    () => {
+      return component({
         value:
           'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-        expandable: true,
+      });
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Вывод текста'
+      ~~~js
+      import OutputText from 'n2o/lib/components/controls/OutputText/OutputText';
+      
+      <OutputText
+          {...props}
+          value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente."
+      />
+      ~~~
+      `,
       },
-      { width: 400 }
-    );
-  })
-  .add('"Подробнее" по количеству символов', () => {
-    return component({
-      value:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
-      expandable: 40,
-    });
-  });
+    }
+  )
+  .add(
+    'Длинная строка с ellipsis',
+    () => {
+      return component({
+        value:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
+        ellipsis: true,
+      });
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Вывод текста'
+      ~~~js
+      import OutputText from 'n2o/lib/components/controls/OutputText/OutputText';
+      
+      <OutputText
+          {...props}
+          ellipsis={true}
+          value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente."
+      />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    '"Подробнее" в конце строки',
+    () => {
+      return component(
+        {
+          value:
+            'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
+          expandable: true,
+        },
+        { width: 400 }
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Вывод текста'
+      ~~~js
+      import OutputText from 'n2o/lib/components/controls/OutputText/OutputText';
+      
+      <OutputText
+          {...props}
+          expandable={true}
+          value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente."
+      />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    '"Подробнее" по количеству символов',
+    () => {
+      return component({
+        value:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente.',
+        expandable: 40,
+      });
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Вывод текста'
+      ~~~js
+      import OutputText from 'n2o/lib/components/controls/OutputText/OutputText';
+      
+      <OutputText
+          {...props}
+          expandable={40}
+          value="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut harum laudantium temporibus! Alias cum fugiat iusto laborum, non officia similique sint vel. At blanditiis, eaque explicabo magni quibusdam quisquam! Sapiente."
+      />
+      ~~~
+      `,
+      },
+    }
+  );

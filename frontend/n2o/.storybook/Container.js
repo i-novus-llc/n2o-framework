@@ -13,7 +13,7 @@ export default class Container extends Component {
   render() {
     const {story, path} = this.props;
     return (
-      <div className="container" style={{padding: '3em'}}>
+      <div style={{padding: '2rem'}}>
         <nav aria-label="breadcrumb">
           <ol className="breadcrumb">
             {

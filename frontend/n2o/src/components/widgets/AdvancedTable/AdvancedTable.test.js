@@ -387,22 +387,31 @@ describe('<AdvancedTable/>', () => {
       const wrapper = setup({
         rowSelection: true,
       });
-
-      expect(wrapper.find('CheckboxN2O').length).toBe(4);
+      console.log(wrapper.debug());
+      expect(wrapper.find('CheckboxN2O input').length).toBe(4);
     });
 
     it('корректно отрабатывает выбор всех строк', () => {
       const wrapper = setup({
         rowSelection: true,
       });
-
       wrapper
         .find('CheckboxN2O input')
         .first()
         .simulate('change', { target: { checked: false } });
 
-      expect(wrapper.find('AdvancedTable').state().checkedAll).toBe(true);
-      expect(wrapper.find('AdvancedTable').state().checked).toEqual({
+      expect(
+        wrapper
+          .find('AdvancedTable')
+          .last()
+          .state().checkedAll
+      ).toBe(true);
+      expect(
+        wrapper
+          .find('AdvancedTable')
+          .last()
+          .state().checked
+      ).toEqual({
         '1': true,
         '2': true,
         '3': true,
@@ -413,8 +422,18 @@ describe('<AdvancedTable/>', () => {
         .first()
         .simulate('change', { target: { checked: true } });
 
-      expect(wrapper.find('AdvancedTable').state().checkedAll).toBe(false);
-      expect(wrapper.find('AdvancedTable').state().checked).toEqual({
+      expect(
+        wrapper
+          .find('AdvancedTable')
+          .last()
+          .state().checkedAll
+      ).toBe(false);
+      expect(
+        wrapper
+          .find('AdvancedTable')
+          .last()
+          .state().checked
+      ).toEqual({
         '1': false,
         '2': false,
         '3': false,
@@ -426,11 +445,11 @@ describe('<AdvancedTable/>', () => {
         rowSelection: true,
       });
 
-      const table = wrapper.find('AdvancedTable');
+      const table = wrapper.find('AdvancedTable').last();
       const checkboxes = wrapper.find('CheckboxN2O input');
 
       checkboxes.at(1).simulate('change', { target: { checked: false } });
-
+      console.log('point');
       expect(table.state().checkedAll).toBe(false);
       expect(table.state().checked).toEqual({
         '1': true,

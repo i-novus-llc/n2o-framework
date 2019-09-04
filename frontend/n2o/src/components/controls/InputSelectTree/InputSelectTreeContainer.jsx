@@ -4,7 +4,7 @@ import InputSelectTree from './InputSelectTree';
 import listContainer from '../listContainer.js';
 import { propTypes, defaultProps } from './allProps';
 import { isEmpty, isEqual, unionWith, map, omit, isArray } from 'lodash';
-import { withProps, compose } from 'recompose';
+import { withProps, compose, setDisplayName } from 'recompose';
 
 /**
  * Контейнер для {@link InputSelect}
@@ -78,7 +78,9 @@ const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
   }
 });
 
+export { InputSelectTreeContainer };
 export default compose(
+  setDisplayName('InputSelectTreeContainer'),
   listContainer,
   overrideDataWithValue
 )(InputSelectTreeContainer);

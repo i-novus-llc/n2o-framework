@@ -47,12 +47,33 @@ class Tab extends React.Component {
 }
 
 Tab.propTypes = {
+  /**
+   * ID таба
+   */
   id: PropTypes.string.isRequired,
+  /**
+   * Заголовок таба
+   */
   title: PropTypes.string,
+  /**
+   * Иконка
+   */
   icon: PropTypes.string,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
+  /**
+   * Флаг активного в данный момент таба
+   */
   active: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
   children: PropTypes.node,
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, setDisplayName } from 'recompose';
 import onClickOutside from 'react-onclickoutside';
 import { isEqual, isEmpty } from 'lodash';
 import { Button } from 'reactstrap';
@@ -369,30 +370,99 @@ class N2OSelect extends React.Component {
 }
 
 N2OSelect.propTypes = {
+  /**
+   * Флаг загрузки
+   */
   loading: PropTypes.bool,
+  /**
+   * Данные
+   */
   options: PropTypes.array.isRequired,
+  /**
+   * Ключ id в данных
+   */
   valueFieldId: PropTypes.string.isRequired,
+  /**
+   * Ключ label в данных
+   */
   labelFieldId: PropTypes.string.isRequired,
   cleanable: PropTypes.bool,
+  /**
+   * Ключ icon в данных
+   */
   iconFieldId: PropTypes.string,
+  /**
+   * Ключ image в данных
+   */
   imageFieldId: PropTypes.string,
+  /**
+   * Ключ badge в данных
+   */
   badgeFieldId: PropTypes.string,
+  /**
+   * Ключ badgeColor в данных
+   */
   badgeColorFieldId: PropTypes.string,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Неактивные данные
+   */
   disabledValues: PropTypes.array,
+  /**
+   * Фильтрация
+   */
   filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', false]),
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Callback при вводе в инпут
+   */
   onInput: PropTypes.func,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Callback на изменение
+   */
   onScrollEnd: PropTypes.func,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Сброс значения при потере фокуса
+   */
   resetOnBlur: PropTypes.bool,
+  /**
+   * Callback на открытие попапа
+   */
   onOpen: PropTypes.func,
+  /**
+   * Callback на закрытие попапа
+   */
   onClose: PropTypes.func,
   groupFieldId: PropTypes.string,
+  /**
+   * Формат
+   */
   format: PropTypes.string,
+  /**
+   * Поиск по нажатию кнопки
+   */
   searchByTap: PropTypes.bool,
+  /**
+   * Callback на поиск
+   */
   onSearch: PropTypes.func,
+  /**
+   * Флаг наличия поиска
+   */
   hasSearch: PropTypes.func,
 };
 
@@ -420,4 +490,8 @@ N2OSelect.defaultProps = {
   onBlur() {},
 };
 
-export default onClickOutside(N2OSelect);
+export { N2OSelect };
+export default compose(
+  setDisplayName('N2OSelect'),
+  onClickOutside
+)(N2OSelect);

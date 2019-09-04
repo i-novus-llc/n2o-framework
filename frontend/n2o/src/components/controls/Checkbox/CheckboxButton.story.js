@@ -1,30 +1,48 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
-import { withState } from '@dump247/storybook-state';
+import { storiesOf, forceReRender } from '@storybook/react';
+import { StateDecorator, Store } from '@sambego/storybook-state';
 
 import CheckboxButton from './CheckboxButton';
 
-const stories = storiesOf('Контролы/Чекбокс', module);
+const store = new Store({
+  checked: false,
+});
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('Checkbox'));
+store.subscribe(forceReRender);
+
+const stories = storiesOf('Контролы/Чекбокс', module);
 
 stories.add(
   'Кнопка чекбокс',
-  withState({ checked: false }, store => {
+  () => {
     const props = {
-      disabled: boolean('disabled', false),
-      checked: boolean('checked', store.state.checked),
-      label: text('label', 'Label'),
+      disabled: false,
+      checked: store.state.checked,
+      label: 'Label',
     };
 
     return (
       <CheckboxButton
         {...props}
-        onChange={() => store.set({ checked: !store.state.checked })}
+        checked={store.get('checked')}
+        onChange={() => store.set({ checked: !store.get('checked') })}
       />
     );
-  })
+  },
+  {
+    info: {
+      text: `
+      Компонент 'CheckboxButton'
+      ~~~js
+      import CheckboxButton from 'n2o/lib/components/controls/Checkbox/CheckboxButton';
+      
+      <CheckboxButton
+        label="Label"
+        checked={checked}
+        onChange={onChange}
+      />
+      ~~~
+      `,
+    },
+  }
 );

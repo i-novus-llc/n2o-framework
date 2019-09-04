@@ -2,7 +2,6 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { pick } from 'lodash';
 import { getStubData } from 'N2oStorybook/fetchMock';
-import { filterMetadata, newEntry, tableActions } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 import Factory from '../../../core/factory/Factory';
 import List from './List';
@@ -10,73 +9,109 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withPage from '../../../../.storybook/decorators/withPage';
 import { page } from 'N2oStorybook/fetchMock';
 import metadata from './List.meta';
-import customRowClick from '../AdvancedTable/json/CustomRowClick.meta';
 
 const stories = storiesOf('Виджеты/Лист', module);
+stories.addParameters({
+  info: {
+    propTables: [List],
+    propTablesExclude: [Factory],
+  },
+});
 
-const urlPattern = 'begin:n2o/data';
+const urlPattern = 'n2o/data/testListWidget';
 const delay = ms => new Promise(r => setTimeout(() => r(), ms));
 stories
   .addDecorator(withPage(metadata))
-  .add('Компонент со стандартной реализацией', () => {
-    const data = [
-      {
-        id: 1,
-        leftTop: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
-        },
-        header: "It's a cat",
-        subHeader: 'The cat is stupid',
-        body: 'Some words about cats',
-        rightTop: '14',
-        rightBottom: '01.01.2019',
-        extra: 'Extra?!',
-      },
-      {
-        id: 2,
-        leftTop: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
-        },
-        leftBottom: 'a little description',
-        header: "It's a cat",
-        subHeader: 'The cat is stupid',
-        body: 'Some words about cats',
-        rightTop: '14',
-        rightBottom: '01.01.2019',
-        extra: 'Extra?!',
-      },
-    ];
 
-    return <List data={data} selectedId={2} />;
-  })
-  .add('Компонент без разделителя строк', () => {
-    const data = [
-      {
-        leftTop: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+  .add(
+    'Компонент со стандартной реализацией',
+    () => {
+      const data = [
+        {
+          id: 1,
+          leftTop: {
+            src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          },
+          header: "It's a cat",
+          subHeader: 'The cat is stupid',
+          body: 'Some words about cats',
+          rightTop: '14',
+          rightBottom: '01.01.2019',
+          extra: 'Extra?!',
         },
-        header: "It's a cat",
-        subHeader: 'The cat is stupid',
-        body: 'Some words about cats',
-        rightTop: '14',
-        rightBottom: '01.01.2019',
-        extra: 'Extra?!',
-      },
-      {
-        leftTop: {
-          src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+        {
+          id: 2,
+          leftTop: {
+            src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          },
+          leftBottom: 'a little description',
+          header: "It's a cat",
+          subHeader: 'The cat is stupid',
+          body: 'Some words about cats',
+          rightTop: '14',
+          rightBottom: '01.01.2019',
+          extra: 'Extra?!',
         },
-        header: "It's a cat",
-        subHeader: 'The cat is stupid',
-        body: 'Some words about cats',
-        rightTop: '14',
-        rightBottom: '01.01.2019',
-        extra: 'Extra?!',
-      },
-    ];
+      ];
 
-    return <List data={data} divider={false} />;
-  })
+      return <List data={data} selectedId={2} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Список'
+      ~~~js
+      import List from 'n2o/lib/components/widgets/List/List';
+      
+      <List data={data} selectedId={2} />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Компонент без разделителя строк',
+    () => {
+      const data = [
+        {
+          leftTop: {
+            src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          },
+          header: "It's a cat",
+          subHeader: 'The cat is stupid',
+          body: 'Some words about cats',
+          rightTop: '14',
+          rightBottom: '01.01.2019',
+          extra: 'Extra?!',
+        },
+        {
+          leftTop: {
+            src: 'https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg',
+          },
+          header: "It's a cat",
+          subHeader: 'The cat is stupid',
+          body: 'Some words about cats',
+          rightTop: '14',
+          rightBottom: '01.01.2019',
+          extra: 'Extra?!',
+        },
+      ];
+
+      return <List data={data} divider={false} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Список'
+      ~~~js
+      import List from 'n2o/lib/components/widgets/List/List';
+      
+      <List data={data} divider={false} />
+      ~~~
+      `,
+      },
+    }
+  )
   .add('Метаданные с cells', () => {
     let data = [];
     for (let i = 0; i < 3; i++) {

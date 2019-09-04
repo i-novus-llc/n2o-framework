@@ -44,10 +44,25 @@ class RadioButton extends React.Component {
 }
 
 RadioButton.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Checked контрола
+   */
   checked: PropTypes.bool,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Label контрола
+   */
   label: PropTypes.string,
 };
 

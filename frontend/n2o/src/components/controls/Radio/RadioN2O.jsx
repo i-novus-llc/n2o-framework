@@ -54,11 +54,29 @@ class RadioN2O extends React.Component {
 }
 
 RadioN2O.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.any,
+  /**
+   * Checked контрола
+   */
   checked: PropTypes.bool,
+  /**
+   * Флан активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Label контрола
+   */
   label: PropTypes.string,
+  /**
+   * Флаг рендера label и контрола в одну линию
+   */
   inline: PropTypes.bool,
 };
 
