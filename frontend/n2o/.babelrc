@@ -4,13 +4,12 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    "@babel/plugin-transform-runtime"
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-class-properties"
   ],
   "env": {
     "commonjs": {
-      "presets": [
-        "@babel/preset-es2015"
-      ]
+      "presets": ["@babel/preset-es2015"]
     },
     "es": {
       "presets": [
