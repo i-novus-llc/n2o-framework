@@ -43,13 +43,37 @@ function TextArea({
 }
 
 TextArea.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Минимальное количество строк
+   */
   rows: PropTypes.number,
+  /**
+   * Максимальное количество строк
+   */
   maxRows: PropTypes.number,
 };
 

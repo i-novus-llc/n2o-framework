@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Buttons from './Buttons';
 
@@ -10,7 +9,6 @@ import Buttons from './Buttons';
  * @reactProps {object} style - кастомные стили
  * @reactProps {function} onSearch - callback на поиск
  * @reactProps {function} onReset - callback на сброс
- * @reactProps {array} filters
  * @reactProps {string} className - класс корневого элемента
  * @reactProps {string} searchLabel - лейбел кнопки поиска
  * @reactProps {string} resetLabel - лейбел кнопки сброса
@@ -63,20 +61,36 @@ class Filter extends React.Component {
 Filter.propTypes = {
   children: PropTypes.node,
   style: PropTypes.object,
+  /**
+   * Callback на поиск
+   */
   onSearch: PropTypes.func,
+  /**
+   * Callback на сброс
+   */
   onReset: PropTypes.func,
   className: PropTypes.string,
-  filters: PropTypes.array,
+  /**
+   * Текст кнопки поиска
+   */
   searchLabel: PropTypes.string,
+  /**
+   * Текст кнопки сброса
+   */
   resetLabel: PropTypes.string,
+  /**
+   * Видимость
+   */
   visible: PropTypes.bool,
+  /**
+   * Флаг скрытия кнопок
+   */
   hideButtons: PropTypes.bool,
 };
 
 Filter.defaultProps = {
   onSearch: () => {},
   onReset: () => {},
-  filters: [],
   visible: true,
   style: {},
   className: '',

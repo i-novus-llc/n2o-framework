@@ -9,7 +9,7 @@ const useHMR = !!global.HMR; // Hot Module Replacement (HMR)
 const babelConfig = Object.assign({}, pkg.babel, {
   babelrc: false,
   cacheDirectory: useHMR,
-  presets: pkg.babel.presets.map(x => x === 'latest' ? ['latest', { es2015: { modules: false } }] : x),
+  presets: pkg.babel.presets.map(x => x === 'latest' ? ['latest', { '@babel/preset-es2015': { modules: false } }] : x),
 });
 
 // Webpack configuration (main.js => public/dist/main.{hash}.js)
@@ -18,6 +18,8 @@ const config = {
 
   // The base directory for resolving the entry option
   context: path.resolve(__dirname, '../src'),
+
+  mode: process.env.NODE_ENV === isDebug ? 'development' : 'production',
 
   // The entry point for the bundle
   entry: [
@@ -54,10 +56,6 @@ const config = {
 
   // The list of plugins for Webpack compiler
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': isDebug ? '"development"' : '"production"',
-      __DEV__: isDebug,
-    }),
     // Emit a JSON file with assets paths
     // https://github.com/sporto/assets-webpack-plugin#options
     new AssetsPlugin({
@@ -161,7 +159,6 @@ if (isDebug && useHMR) {
   babelConfig.plugins.unshift('react-hot-loader/babel');
   config.entry.unshift('react-hot-loader/patch', 'webpack-hot-middleware/client');
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
-  config.plugins.push(new webpack.NoEmitOnErrorsPlugin());
 }
 
 module.exports = config;

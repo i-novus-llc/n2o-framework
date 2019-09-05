@@ -2,12 +2,21 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Actions from './Actions';
+import { Actions as ActionsComponent } from './Actions';
 import MetaJson from './WidgetActions.meta.json';
 import AuthButtonContainer from '../../core/auth/AuthLogin';
 
 const stories = storiesOf('Действия', module);
 
+stories.addParameters({
+  info: {
+    propTables: [ActionsComponent],
+    propTablesExclude: [Actions, AuthButtonContainer],
+  },
+});
+
 stories
+
   .add('Варианты кнопок', () => {
     const toolbar1 = [
       {

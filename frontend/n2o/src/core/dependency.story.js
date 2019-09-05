@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import { storiesOf } from '@storybook/react';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { FetchDependency, VisibleDependency } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -37,6 +38,7 @@ stories
     fetchMock.restore().get('begin:n2o/data', url => getStubData(url));
     return story();
   })
+
   .add('Master / Detail', () =>
     withPage(FetchDependency)(() =>
       renderMasterDetail(

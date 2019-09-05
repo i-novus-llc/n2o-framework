@@ -37,10 +37,25 @@ class Radio extends React.Component {
 }
 
 Radio.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Checked контрола
+   */
   checked: PropTypes.bool,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Label контрола
+   */
   label: PropTypes.string,
 };
 

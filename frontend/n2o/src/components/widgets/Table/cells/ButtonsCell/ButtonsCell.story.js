@@ -1,22 +1,22 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { map } from 'lodash';
 import { storiesOf } from '@storybook/react';
-import {
-  number,
-  text,
-  withKnobs,
-  select,
-  boolean,
-} from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
 import Table from '../../Table';
 import TextTableHeader from '../../headers/TextTableHeader';
 import TextCell from '../TextCell/TextCell';
-import ButtonsCell from './ButtonsCell';
+import ButtonsCell, { ButtonsCell as ButtonCellComponent } from './ButtonsCell';
 import metadata from './ButtonsCell.meta';
 import AuthButtonContainer from '../../../../../core/auth/AuthLogin';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/ButtonsCell', module);
+
+stories.addParameters({
+  info: {
+    propTables: [ButtonCellComponent],
+    propTablesExclude: [Table, ButtonsCell, Factory, AuthButtonContainer],
+  },
+});
 
 const examplesDataSource = [
   {
@@ -381,23 +381,21 @@ const createTable = data =>
     return <Table {...tableProps} />;
   });
 
-stories.addDecorator(withKnobs);
-
 stories
   .add('Метаданные', () => {
     const props = {
-      fieldKey: text('fieldKey', metadata.fieldKey),
-      id: text('id', metadata.buttons[0].id),
-      className: text('className', metadata.className),
+      fieldKey: metadata.fieldKey,
+      id: metadata.buttons[0].id,
+      className: metadata.className,
       buttons: [
         {
-          title: text('title', metadata.buttons[0].title),
-          icon: text('color', metadata.buttons[0].icon),
-          hint: text('hint', metadata.buttons[0].hint),
-          size: select('size', ['lg', 'md', 'sm'], metadata.buttons[0].size),
-          visible: boolean('visible', metadata.buttons[0].visible),
-          disabled: boolean('disabled', metadata.buttons[0].disabled),
-          color: text('color', metadata.buttons[0].color),
+          title: metadata.buttons[0].title,
+          icon: metadata.buttons[0].icon,
+          hint: metadata.buttons[0].hint,
+          size: metadata.buttons[0].size,
+          visible: metadata.buttons[0].visible,
+          disabled: metadata.buttons[0].disabled,
+          color: metadata.buttons[0].color,
           action: metadata.buttons[0].action,
         },
         {

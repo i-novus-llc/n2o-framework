@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, setDisplayName } from 'recompose';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
 import { get } from 'lodash';
@@ -67,12 +68,33 @@ class ImageCell extends React.Component {
 }
 
 ImageCell.propTypes = {
+  /**
+   * ID ячейки
+   */
   id: PropTypes.string.isRequired,
+  /**
+   * Модель данных
+   */
   model: PropTypes.object.isRequired,
+  /**
+   * Тип формы изображенич
+   */
   shape: PropTypes.oneOf(Object.values(imageShapes)),
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Заголовок
+   */
   title: PropTypes.string,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 
@@ -80,4 +102,8 @@ ImageCell.defaultProps = {
   visible: true,
 };
 
-export default withCell(ImageCell);
+export { ImageCell };
+export default compose(
+  setDisplayName('ImageCell'),
+  withCell
+)(ImageCell);
