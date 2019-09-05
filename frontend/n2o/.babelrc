@@ -1,6 +1,8 @@
 {
   "presets": [
-    "@babel/preset-env",
+    ["@babel/preset-env", {
+      "modules": false
+    }],
     "@babel/preset-react"
   ],
   "plugins": [
@@ -8,16 +10,6 @@
     "@babel/plugin-proposal-class-properties"
   ],
   "env": {
-    "commonjs": {
-      "presets": ["@babel/preset-es2015"]
-    },
-    "es": {
-      "presets": [
-        ["@babel/preset-es2015", {
-          "modules": false
-        }]
-      ]
-    },
     "test": {
       "plugins": [
         [

@@ -11,6 +11,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "build:n2o": "lerna run --scope n2o build",
     "build:libs": "lerna run --scope n2o --scope n2o-auth --scope n2o-notifications --parallel build",
     "build:projects": "lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
     "build:storybook": "lerna run --scope n2o build-storybook",
@@ -33,7 +34,6 @@
     "start:simple": "lerna run --scope n2o-simple-project start",
     "test": "lerna run test --parallel",
     "test:n2o": "lerna run --scope n2o test",
-    "test:auth": "lerna run --scope n2o-auth test",
     "test:n2o:generate-output": "lerna run --scope n2o test:generate-output",
     "test:n2o:hook": "lerna run --scope n2o test:hook"
   },
