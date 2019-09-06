@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { find, isEqual, isFunction, get, filter, includes } from 'lodash';
+import {
+  find,
+  isEmpty,
+  isFunction,
+  get,
+  filter,
+  includes,
+  isEqual,
+} from 'lodash';
 import { compose } from 'recompose';
 import listContainer from '../listContainer';
 import onClickOutside from 'react-onclickoutside';
+import cn from 'classnames';
 
 import InputContent from '../InputSelect/InputContent';
 
@@ -37,9 +46,10 @@ class AutoComplete extends React.Component {
     this.onSelect = this.onSelect.bind(this);
     this.onBlur = this.onBlur.bind(this);
     this._setActiveValueId = this._setActiveValueId.bind(this);
+    this._handleDataSearch = this._handleDataSearch.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     const { value } = this.props;
 
     if (prevProps.value !== value) {
@@ -67,7 +77,13 @@ class AutoComplete extends React.Component {
   }
 
   _setIsExpanded(isExpanded) {
-    this.setState({ isExpanded });
+    const { disabled, onToggle, onClose, onOpen } = this.props;
+    const { isExpanded: previousIsExpanded } = this.state;
+    if (!disabled && isExpanded !== previousIsExpanded) {
+      this.setState({ isExpanded });
+      onToggle(isExpanded);
+      isExpanded ? onOpen() : onClose();
+    }
   }
 
   setInputRef(popperRef) {
@@ -104,8 +120,36 @@ class AutoComplete extends React.Component {
     this._setIsExpanded(true);
   }
 
+  _handleDataSearch(input, delay = 400, callback) {
+    const { onSearch, filter, valueFieldId, options } = this.props;
+
+    if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
+      const filterFunc = item => String.prototype[filter].call(item, input);
+      const filteredData = options.filter(item =>
+        filterFunc(item[valueFieldId])
+      );
+      this.setState({ options: valueFieldId });
+    } else {
+      //серверная фильтрация
+      const labels = this.state.value.map(item => item[valueFieldId]);
+      if (labels.some(label => label === input)) {
+        onSearch('', delay, callback);
+      } else {
+        onSearch(input, delay, callback);
+      }
+    }
+  }
+
   onChange(value) {
-    this.setState({ value: [value] });
+    const { onInput } = this.props;
+    const onSetNewInputValue = value => {
+      onInput(value);
+      this._handleDataSearch(value);
+    };
+
+    if (!isEqual(this.state.value, value)) {
+      this.setState({ value: [value] }, () => onSetNewInputValue(value));
+    }
   }
 
   onBlur() {
@@ -144,11 +188,9 @@ class AutoComplete extends React.Component {
       loading,
       className,
       valueFieldId,
-      labelFieldId,
       iconFieldId,
       disabled,
       placeholder,
-      multiSelect,
       disabledValues,
       imageFieldId,
       groupFieldId,
@@ -157,58 +199,55 @@ class AutoComplete extends React.Component {
       badgeFieldId,
       badgeColorFieldId,
       onScrollEnd,
-      expandPopUp,
       style,
       alerts,
-      flip,
       autoFocus,
       options,
+      data,
     } = this.props;
     const needAddFilter = !find(
       this.state.value,
-      item => item[labelFieldId] === this.state.input
+      item => item[valueFieldId] === this.state.input
     );
-
-    const filteredOptions = filter(options, item =>
-      includes(item[labelFieldId], value)
+    const filteredOptions = filter(
+      !isEmpty(data) ? data : options,
+      item => includes(item[valueFieldId], value) || isEmpty(value)
     );
 
     return (
-      <div>
+      <div className={cn('n2o-autocomplete w-100', className)} style={style}>
         <Manager>
           <Reference>
             {({ ref }) => (
-              <div style={{ position: 'relative' }}>
-                <InputContent
-                  options={filteredOptions}
-                  setRef={this.setInputRef(ref)}
-                  onInputChange={this.onChange}
-                  setActiveValueId={this._setActiveValueId}
-                  closePopUp={() => this._setIsExpanded(false)}
-                  openPopUp={() => this._setIsExpanded(true)}
-                  selected={value}
-                  value={value}
-                  onFocus={this.onFocus}
-                  onClick={this.onClick}
-                  onBlur={this.onBlur}
-                  isExpanded={isExpanded}
-                  setTextareaRef={this.setTextareaRef(ref)}
-                  setSelectedListRef={this.setSelectedListRef}
-                  valueFieldId={valueFieldId}
-                  activeValueId={activeValueId}
-                  onSelect={this.onSelect}
-                  loading={loading}
-                  disabled={disabled}
-                  disabledValues={disabledValues}
-                  placeholder={placeholder}
-                  iconFieldId={iconFieldId}
-                  imageFieldId={imageFieldId}
-                  labelFieldId={labelFieldId}
-                  autoFocus={autoFocus}
-                  _textarea={this._textarea}
-                  _selectedList={this._selectedList}
-                />
-              </div>
+              <InputContent
+                options={filteredOptions}
+                setRef={this.setInputRef(ref)}
+                onInputChange={this.onChange}
+                setActiveValueId={this._setActiveValueId}
+                closePopUp={() => this._setIsExpanded(false)}
+                openPopUp={() => this._setIsExpanded(true)}
+                selected={value}
+                value={value}
+                onFocus={this.onFocus}
+                onClick={this.onClick}
+                onBlur={this.onBlur}
+                isExpanded={isExpanded}
+                setTextareaRef={this.setTextareaRef(ref)}
+                setSelectedListRef={this.setSelectedListRef}
+                valueFieldId={valueFieldId}
+                activeValueId={activeValueId}
+                onSelect={this.onSelect}
+                loading={loading}
+                disabled={disabled}
+                disabledValues={disabledValues}
+                placeholder={placeholder}
+                iconFieldId={iconFieldId}
+                imageFieldId={imageFieldId}
+                labelFieldId={valueFieldId}
+                autoFocus={autoFocus}
+                _textarea={this._textarea}
+                _selectedList={this._selectedList}
+              />
             )}
           </Reference>
           {isExpanded && (
@@ -236,7 +275,7 @@ class AutoComplete extends React.Component {
                     needAddFilter={needAddFilter}
                     options={filteredOptions}
                     valueFieldId={valueFieldId}
-                    labelFieldId={labelFieldId}
+                    labelFieldId={valueFieldId}
                     iconFieldId={iconFieldId}
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
@@ -270,17 +309,149 @@ class AutoComplete extends React.Component {
 }
 
 AutoComplete.propTypes = {
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
+  /**
+   * Стили
+   */
+  style: PropTypes.object,
+  /**
+   * Флаг загрузки
+   */
+  loading: PropTypes.bool,
+  /**
+   * Массив данных
+   */
+  options: PropTypes.array.isRequired,
+  /**
+   * Ключ значения
+   */
+  valueFieldId: PropTypes.string.isRequired,
+  /**
+   * Ключ icon в данных
+   */
+  iconFieldId: PropTypes.string,
+  /**
+   * Ключ image в данных
+   */
+  imageFieldId: PropTypes.string,
+  /**
+   * Ключ badge в данных
+   */
+  badgeFieldId: PropTypes.string,
+  /**
+   * Ключ цвета badgeColor в данных
+   */
+  badgeColorFieldId: PropTypes.string,
+  /**
+   * Флаг активности
+   */
+  disabled: PropTypes.bool,
+  /**
+   * Неактивные данные
+   */
+  disabledValues: PropTypes.array,
+  /**
+   * Варианты фильтрации
+   */
+  filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', false]),
+  /**
+   * Значение
+   */
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  /**
+   * Callback на переключение
+   */
+  onToggle: PropTypes.func,
+  onInput: PropTypes.func,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Callback на выбор
+   */
+  onSelect: PropTypes.func,
+  /**
+   * Callback на скрол в самый низ
+   */
+  onScrollEnd: PropTypes.func,
+  /**
+   * Placeholder контрола
+   */
+  placeholder: PropTypes.string,
+  /**
+   * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+   */
+  resetOnBlur: PropTypes.bool,
+  /**
+   * Callback на открытие
+   */
+  onOpen: PropTypes.func,
+  /**
+   * Callback на закрытие
+   */
+  onClose: PropTypes.func,
+  /**
+   * Мульти выбор значений
+   */
+  multiSelect: PropTypes.bool,
+  /**
+   * Поле для группировки
+   */
+  groupFieldId: PropTypes.string,
+  /**
+   * Флаг закрытия попапа при выборе
+   */
   closePopupOnSelect: PropTypes.bool,
+  /**
+   * Флаг наличия чекбоксов в селекте
+   */
+  hasCheckboxes: PropTypes.bool,
+  /**
+   * Формат
+   */
+  format: PropTypes.string,
+  /**
+   * Callback на поиск
+   */
+  onSearch: PropTypes.func,
+  expandPopUp: PropTypes.bool,
+  alerts: PropTypes.array,
+  /**
+   * Авто фокусировка на селекте
+   */
+  autoFocus: PropTypes.bool,
+  /**
+   * Флаг авто размера попапа
+   */
+  popupAutoSize: PropTypes.bool,
 };
 
 AutoComplete.defaultProps = {
-  onFocus: () => {},
-  onBlur: () => {},
-  onChange: () => {},
+  valueFieldId: 'label',
+  iconFieldId: 'icon',
+  imageFieldId: 'image',
+  badgeFieldId: 'badge',
+  loading: false,
+  disabled: false,
+  disabledValues: [],
+  resetOnBlur: false,
+  filter: false,
+  multiSelect: false,
   closePopupOnSelect: true,
+  hasCheckboxes: false,
+  expandPopUp: false,
+  flip: false,
+  autoFocus: false,
+  popupAutoSize: false,
+  onSearch() {},
+  onSelect() {},
+  onToggle() {},
+  onInput() {},
+  onOpen() {},
+  onClose() {},
+  onChange() {},
+  onScrollEnd() {},
+  onBlur() {},
 };
 
 const enhance = compose(
