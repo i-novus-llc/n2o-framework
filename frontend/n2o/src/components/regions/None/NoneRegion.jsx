@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withWidgetProps from '../withWidgetProps';
-import { compose, pure } from 'recompose';
+import { compose, pure, setDisplayName } from 'recompose';
 
 /**
  * Регион None (простой див)
@@ -30,12 +30,20 @@ const NoneRegion = ({ items, getWidget, pageId }) => {
 };
 
 NoneRegion.propTypes = {
+  /**
+   * Список элементов
+   */
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
+  /**
+   * ID страницы
+   */
   pageId: PropTypes.string.isRequired,
 };
 
+export { NoneRegion };
 export default compose(
+  setDisplayName('NoneRegion'),
   pure,
   withWidgetProps
 )(NoneRegion);

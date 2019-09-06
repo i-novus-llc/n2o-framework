@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose, setDisplayName } from 'recompose';
 import PropTypes from 'prop-types';
 import InputSelect from './InputSelect';
 import listContainer from '../listContainer.js';
@@ -115,22 +116,67 @@ InputSelectContainer.propTypes = {
 };
 
 InputSelectContainer.defaultProps = {
+  /**
+   * Флаг загрузки
+   */
   loading: false,
+  /**
+   * Флаг активности
+   */
   disabled: false,
+  /**
+   * Неактивные данные
+   */
   disabledValues: [],
+  /**
+   * Значение
+   */
   value: '',
+  /**
+   * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+   */
   resetOnBlur: false,
+  /**
+   * Варианты фильтрации
+   */
   filter: false,
+  /**
+   * Мульти выбор значений
+   */
   multiSelect: false,
+  /**
+   * Флаг закрытия попапа при выборе
+   */
   closePopupOnSelect: true,
+  /**
+   * Флаг наличия чекбоксов в селекте
+   */
   hasCheckboxes: false,
+  /**
+   * Флаг сжатия выбранных элементов
+   */
   collapseSelected: true,
+  /**
+   * От скольки элементов сжимать выбранные элементы
+   */
   lengthToGroup: 3,
   expandPopUp: true,
+  /**
+   * Ключ id в данных
+   */
   valueFieldId: 'id',
   flip: false,
+  /**
+   * Авто фокусировка на селекте
+   */
   autoFocus: false,
+  /**
+   * Флаг открытия попапа при фокусе на контроле
+   */
   openOnFocus: false,
 };
 
-export default listContainer(InputSelectContainer);
+export default compose(
+  setDisplayName('InputSelectContainer'),
+  listContainer
+)(InputSelectContainer);

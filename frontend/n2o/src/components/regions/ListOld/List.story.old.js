@@ -1,19 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
+
 import ListItem from './ListItem';
 import List from './List';
 import Wireframe from '../../snippets/Wireframe/Wireframe';
 
 const stories = storiesOf('Регионы/Лист', module);
 
-stories.addDecorator(withKnobs);
-// todo: баг в jest addon
-stories.addDecorator(withTests('List'));
-
-stories.addWithJSX('Компонент', () => {
+stories.add('Компонент', () => {
   return (
     <List>
       <ListItem id="one" title="Один" active>

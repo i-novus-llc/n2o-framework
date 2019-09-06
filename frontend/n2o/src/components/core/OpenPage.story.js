@@ -1,21 +1,19 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs } from '@storybook/addon-knobs/react';
 import fetchMock from 'fetch-mock';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 
 import page from './OpenPage.meta';
 import Page from './Page';
 
 const stories = storiesOf('Действия/ОpenPage', module);
 
-stories.addDecorator(withKnobs);
-
 stories.add('Переход по кнопке', () => {
   fetchMock.restore().get('begin:n2o/page', page);
 
   return (
     <React.Fragment>
+      <Link to="/test">Ссылка</Link>
       <Page pageId="testSimplePageJson" pageUrl="testSimplePageJson" />
       <Switch>
         <Route

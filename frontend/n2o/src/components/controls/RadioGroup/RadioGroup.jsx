@@ -88,13 +88,34 @@ class RadioGroup extends React.Component {
 }
 
 RadioGroup.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Флаг рендера в одну строку
+   */
   inline: PropTypes.bool,
 };
 

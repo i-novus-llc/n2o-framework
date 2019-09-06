@@ -165,9 +165,21 @@ class SimpleHeader extends React.Component {
 }
 
 SimpleHeader.propTypes = {
+  /**
+   * ID активного элемента
+   */
   activeId: PropTypes.string,
+  /**
+   * Бренд хедера
+   */
   brand: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /**
+   * Картинка бренда
+   */
   brandImage: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  /**
+   * Элементы хедера
+   */
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -178,6 +190,9 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
     })
   ),
+  /**
+   * Extra элементы хедера
+   */
   extraItems: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -188,11 +203,29 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
     })
   ),
+  /**
+   * Строка поиска
+   */
   search: PropTypes.bool,
+  /**
+   * Цвет хедера
+   */
   color: PropTypes.oneOf(['inverse', 'default']),
+  /**
+   * Флаг фиксированного хедера
+   */
   fixed: PropTypes.bool,
+  /**
+   * Флаг сжатости хедера
+   */
   collapsed: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
 };
 

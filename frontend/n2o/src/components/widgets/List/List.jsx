@@ -262,15 +262,45 @@ class List extends Component {
 }
 
 List.propTypes = {
+  /**
+   * Callback на клик по строке
+   */
   onItemClick: PropTypes.func,
+  /**
+   * Флаг включения выбора строк
+   */
   hasSelect: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Данные
+   */
   data: PropTypes.arrayOf(PropTypes.object),
+  /**
+   * Экшен клика по строке
+   */
   rowClick: PropTypes.object,
+  /**
+   * Флаг включения кнопки "Загрузить еще"
+   */
   hasMoreButton: PropTypes.bool,
+  /**
+   * Callback на "Загрузить еще"
+   */
   onFetchMore: PropTypes.func,
+  /**
+   * Максимальная высота
+   */
   maxHeight: PropTypes.number,
+  /**
+   * Флаг получения данных при скролле
+   */
   fetchOnScroll: PropTypes.bool,
+  /**
+   * Линия разделитель
+   */
   divider: PropTypes.bool,
   selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

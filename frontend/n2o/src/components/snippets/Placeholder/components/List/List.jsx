@@ -21,8 +21,17 @@ function List({ paragraphs, rows, avatar }) {
 }
 
 List.propTypes = {
-  rows: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
-  paragraphs: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  /**
+   * Количество строк
+   */
+  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Количество абзацев
+   */
+  paragraphs: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Флаг включения аватара
+   */
   avatar: PropTypes.bool,
 };
 

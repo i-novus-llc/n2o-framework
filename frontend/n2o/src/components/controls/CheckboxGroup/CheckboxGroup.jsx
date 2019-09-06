@@ -114,13 +114,34 @@ class CheckboxGroup extends React.Component {
 }
 
 CheckboxGroup.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.any,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
   children: PropTypes.node.isRequired,
+  /**
+   * Флаг рендера в одну строку
+   */
   inline: PropTypes.bool,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
 };
 

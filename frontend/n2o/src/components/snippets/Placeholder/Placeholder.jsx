@@ -29,9 +29,18 @@ class Placeholder extends Component {
 }
 
 Placeholder.propTypes = {
+  /**
+   * Флаг загрузки данных
+   */
   loading: PropTypes.bool,
+  /**
+   * Тип плейсхолдера
+   */
   type: PropTypes.string,
   children: PropTypes.node,
+  /**
+   * Флаг показа плейсхолдера единожды
+   */
   once: PropTypes.bool,
 };
 

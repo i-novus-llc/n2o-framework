@@ -1,15 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
-import { withState } from '@dump247/storybook-state';
 import _ from 'lodash';
 
 import Alert from './Alert';
@@ -24,8 +14,6 @@ import { GLOBAL_KEY } from '../../../constants/alerts';
 import GlobalAlerts from '../../core/GlobalAlerts';
 const stories = storiesOf('UI Компоненты/Сообщения', module);
 
-stories.addDecorator(withKnobs);
-
 const props = {
   label: 'Лейбл алерта',
   text: 'Текст алерта',
@@ -35,150 +23,276 @@ const props = {
   closeButton: true,
 };
 
+stories.addParameters({
+  info: {
+    propTables: [Alert],
+    propTablesExclude: [Factory],
+  },
+});
+
 stories
   .addDecorator(withPage(widgetWithErrors))
   .add(
     'Компонент',
-    withState({ visible: true })(({ store }) => {
+    () => {
       const knobs = {
-        label: text('label', props.label),
-        text: text('text', props.text),
-        details: text('details', props.details),
-        severity: select(
-          'severity',
-          ['info', 'danger', 'warning', 'success'],
-          props.severity
-        ),
-        visible: boolean('visible', store.state.visible),
-        closeButton: boolean('closeButton', props.closeButton),
+        label: props.label,
+        text: props.text,
+        details: props.details,
+        severity: props.severity,
+        visible: true,
+        closeButton: props.closeButton,
       };
 
-      return (
-        <Alert
-          {...knobs}
-          onDismiss={e => {
-            action('alert-onDismiss')(e);
-            store.set({ visible: !store.state.visible });
-          }}
-        />
-      );
-    })
+      return <Alert {...knobs} onDismiss={e => {}} />;
+    },
+    {
+      info: {
+        text: `
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
+      <Alert
+          label="Лейбл алерта"
+          text="Текст алерта"
+          visible={true}
+          severity="info"
+          details="Подробности алерта"
+          closeButton={true}
+          onDismiss={onDismiss}
+       />
+      ~~~
+      `,
+      },
+    }
   )
   .add(
     'Без деталей',
-    withState({ visible: true })(({ store }) => (
+    () => (
+      <Alert {..._.omit(props, 'details')} visible={true} onDismiss={e => {}} />
+    ),
+    {
+      info: {
+        text: `
+     Компонент Alert
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
       <Alert
-        {..._.omit(props, 'details')}
-        visible={store.state.visible}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-          store.set({ visible: !store.state.visible });
-        }}
-      />
-    ))
+          label="Лейбл алерта"
+          text="Текст алерта"
+          visible={true}
+          severity="info"
+          closeButton={true}
+          onDismiss={onDismiss}
+       />
+      ~~~
+      `,
+      },
+    }
   )
   .add(
     'Без заголовка',
-    withState({ visible: true })(({ store }) => (
+    () => (
+      <Alert {..._.omit(props, 'label')} visible={true} onDismiss={e => {}} />
+    ),
+    {
+      info: {
+        text: `
+     Компонент Alert
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
       <Alert
-        {..._.omit(props, 'label')}
-        visible={store.state.visible}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-          store.set({ visible: !store.state.visible });
-        }}
-      />
-    ))
+          text="Текст алерта"
+          visible={true}
+          severity="info"
+          closeButton={true}
+          onDismiss={onDismiss}
+       />
+      ~~~
+      `,
+      },
+    }
   )
   .add(
     'Без кнопки скрытия',
-    withState({ visible: true })(({ store }) => (
+    () => (
       <Alert
         {...props}
         closeButton={false}
-        visible={store.state.visible}
-        onDismiss={e => {
-          action('alert-onDismiss')(e);
-          store.set({ visible: !store.state.visible });
-        }}
+        visible={true}
+        onDismiss={e => {}}
       />
-    ))
+    ),
+    {
+      info: {
+        text: `
+     Компонент Alert
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
+      <Alert
+          label="Лейбл алерта"
+          text="Текст алерта"
+          visible={true}
+          severity="info"
+          closeButton={false}
+          onDismiss={onDismiss}
+       />
+      ~~~
+      `,
+      },
+    }
   )
   .add(
     'Цвета',
-    withState({ danger: true, warning: true, success: true, default: true })(
-      ({ store }) => (
-        <React.Fragment>
-          <Alert
-            {...props}
-            visible={store.state.default}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ default: !store.state.default });
-            }}
-          />
-          <Alert
-            {...props}
-            severity="danger"
-            visible={store.state.danger}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ danger: !store.state.danger });
-            }}
-          />
-          <Alert
-            {...props}
-            severity="warning"
-            visible={store.state.warning}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ warning: !store.state.warning });
-            }}
-          />
-          <Alert
-            {...props}
-            severity="success"
-            visible={store.state.success}
-            onDismiss={e => {
-              action('alert-onDismiss')(e);
-              store.set({ success: !store.state.success });
-            }}
-          />
-        </React.Fragment>
-      )
-    )
+    () => (
+      <React.Fragment>
+        <Alert {...props} visible={true} onDismiss={e => {}} />
+        <Alert
+          {...props}
+          severity="danger"
+          visible={true}
+          onDismiss={e => {}}
+        />
+        <Alert
+          {...props}
+          severity="warning"
+          visible={true}
+          onDismiss={e => {}}
+        />
+        <Alert
+          {...props}
+          severity="success"
+          visible={true}
+          onDismiss={e => {}}
+        />
+      </React.Fragment>
+    ),
+    {
+      info: {
+        text: `
+     Компонент Alert
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
+      <Alert
+          {...props}
+          color="info"
+       />
+       <Alert
+          {...props}
+          color="danger"
+       />
+       <Alert
+          {...props}
+          color="warning"
+       />
+       <Alert
+          {...props}
+          color="success"
+       />
+      ~~~
+      `,
+      },
+    }
   )
-  .add('Обновленный Alert', () => {
-    const props = {
-      label: 'Лейбл алерта',
-      text: 'Текст алерта',
-      details: 'Подробности алерта',
-      severity: 'success',
-      visible: true,
-      closeButton: true,
-      help: 'A little help',
-    };
+  .add(
+    'Обновленный Alert',
+    () => {
+      const props = {
+        label: 'Лейбл алерта',
+        text: 'Текст алерта',
+        details: 'Подробности алерта',
+        severity: 'success',
+        visible: true,
+        closeButton: true,
+        help: 'A little help',
+      };
 
-    return <Alert {...props} animate={true} />;
-  })
-  .add('С переносами текста', () => {
-    const props = {
-      label: 'Лейбл алерта',
-      text: 'Текст алерта \n new line text',
-      details: 'Подробности алерта',
-      severity: 'success',
-      visible: true,
-      closeButton: true,
-      help: 'A little help',
-    };
+      return <Alert {...props} animate={true} />;
+    },
+    {
+      info: {
+        text: `
+     Компонент Alert
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
+      <Alert
+          label="Лейбл алерта"
+          details="Подробности алерта"
+          text="Текст алерта"
+          visible={true}
+          severity="info"
+          closeButton={true}
+          onDismiss={onDismiss}
+          help="A little help"
+       />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'С переносами текста',
+    () => {
+      const props = {
+        label: 'Лейбл алерта',
+        text: 'Текст алерта \n new line text',
+        details: 'Подробности алерта',
+        severity: 'success',
+        visible: true,
+        closeButton: true,
+        help: 'A little help',
+      };
 
-    return <Alert {...props} animate={true} />;
-  })
-  .add('Alert loader', () => {
-    return (
-      <Alert {...props} loader={true} text={undefined} severity={'secondary'} />
-    );
-  })
+      return <Alert {...props} animate={true} />;
+    },
+    {
+      info: {
+        text: `
+     Компонент Alert
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
+      <Alert
+          label="Лейбл алерта"
+          details="Подробности алерта"
+          text='Текст алерта \n new line text'
+          visible={true}
+          severity="info"
+          closeButton={true}
+          onDismiss={onDismiss}
+          help="A little help"
+       />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Alert loader',
+    () => {
+      return <Alert loader={true} text={undefined} severity="secondary" />;
+    },
+    {
+      info: {
+        text: `
+     Компонент Alert
+      ~~~js
+      import Alert from 'n2o/lib/components/snippets/Alert/Alert';
+      
+      <Alert
+          loader={true}
+          severity="secondary"
+       />
+      ~~~
+      `,
+      },
+    }
+  )
   .add('Абсолютное и относительное позиционирование в виджете', () => {
     const widgetError = {
       meta: {
@@ -270,16 +384,12 @@ stories
     const dt = {
       id: 'widget',
       src: 'Alert',
-      label: text('label', 'Лейбл'),
-      text: text('text', 'Текст'),
-      details: text('details', 'Детали'),
-      severity: select(
-        'severity',
-        ['info', 'danger', 'warning', 'success'],
-        'info'
-      ),
-      visible: boolean('visible', true),
-      closeButton: boolean('closeButton', false),
+      label: 'Лейбл',
+      text: 'Текст',
+      details: 'Детали',
+      severity: 'info',
+      visible: true,
+      closeButton: false,
     };
     return (
       <React.Fragment>

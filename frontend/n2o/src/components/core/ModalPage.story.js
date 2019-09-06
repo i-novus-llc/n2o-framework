@@ -1,16 +1,9 @@
 import React from 'react';
-import { withContext } from 'recompose';
-import { storiesOf } from '@storybook/react';
-import { pageWithPrompt } from '../../../.storybook/fetchMock/pageWithPrompt';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
+import { storiesOf, forceReRender } from '@storybook/react';
+import { StateDecorator, Store } from '@sambego/storybook-state';
+
 import { page } from 'N2oStorybook/fetchMock';
-import {
-  ShowModalTitle,
-  ShowModal,
-  ModalPage,
-  PromptModal,
-} from 'N2oStorybook/json';
+import { ShowModalTitle, ShowModal } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 
 import ModalPages from './ModalPages';
@@ -19,20 +12,34 @@ import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
 import { ModalWindow } from './ModalPage';
 
+const store = new Store({
+  visible: true,
+});
+
+store.subscribe(forceReRender);
+
 const stories = storiesOf('Действия/Модальное окно', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('ModalPages'));
 stories.addDecorator(withPage(ShowModalTitle));
+stories.addDecorator(StateDecorator(store));
+
+stories.addParameters({
+  info: {
+    propTables: [ModalWindow],
+    propTablesExclude: [Factory, ModalPages],
+  },
+});
 
 stories
+
   .add('Компонент', () => {
     return (
       <ModalWindow
         loading={false}
         title={'Заголовок компонента'}
         src={'OutputText'}
-        visible={true}
+        visible={store.get('visible')}
+        close={() => store.set({ visible: false })}
       />
     );
   })

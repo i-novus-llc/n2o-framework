@@ -4,7 +4,13 @@ import cn from 'classnames';
 import { isEqual, map, get } from 'lodash';
 import SidebarItemContainer from './SidebarItemContainer';
 import UserBox from '../../components/snippets/UserBox/UserBox';
-import { compose, withState, lifecycle, withHandlers } from 'recompose';
+import {
+  compose,
+  withState,
+  lifecycle,
+  withHandlers,
+  setDisplayName,
+} from 'recompose';
 
 /**
  * Sidebar
@@ -21,7 +27,7 @@ import { compose, withState, lifecycle, withHandlers } from 'recompose';
  * @returns {*}
  * @constructor
  */
-function SideBar({
+export function SideBar({
   activeId,
   brand,
   brandImage,
@@ -99,15 +105,45 @@ function SideBar({
 }
 
 SideBar.propTypes = {
+  /**
+   * ID активного элемента
+   */
   activeId: PropTypes.string,
+  /**
+   * Бренд сайдбара
+   */
   brand: PropTypes.string,
+  /**
+   * Картинка бренда
+   */
   brandImage: PropTypes.string,
+  /**
+   * Блок пользователя
+   */
   userBox: PropTypes.object,
+  /**
+   * Элементы сайдбара
+   */
   items: PropTypes.array,
+  /**
+   * Флаг сжатия
+   */
   visible: PropTypes.bool,
+  /**
+   * Длина
+   */
   width: PropTypes.number,
+  /**
+   * Флаг включения режима controlled
+   */
   controlled: PropTypes.bool,
+  /**
+   * Callback на переключение сжатия
+   */
   onToggle: PropTypes.func,
+  /**
+   * Extra элементы
+   */
   extra: PropTypes.array,
 };
 
@@ -116,6 +152,7 @@ SideBar.defaultProps = {
 };
 
 export default compose(
+  setDisplayName('Sidebar'),
   withState('visible', 'setVisible', ({ visible }) => visible),
   withHandlers({
     onToggle: ({ visible, setVisible }) => () => setVisible(!visible),

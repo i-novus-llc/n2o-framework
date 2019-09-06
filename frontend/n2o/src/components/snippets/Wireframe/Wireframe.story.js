@@ -1,6 +1,5 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, select } from '@storybook/addon-knobs/react';
 import { Card, CardBody } from 'reactstrap';
 
 import Wireframe from './Wireframe';
@@ -9,38 +8,72 @@ import { SNIPPETS } from '../../../core/factory/factoryLevels';
 
 const stories = storiesOf('UI Компоненты/Визуальная заглушка', module);
 
-stories.addDecorator(withKnobs);
+stories.addParameters({
+  info: {
+    propTablesExclude: [Card, CardBody],
+  },
+});
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      className: text('className', 'n2o'),
-      title: text('title', 'Текст визуальной заглушки'),
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        className: 'n2o',
+        title: 'Текст визуальной заглушки',
+      };
 
-    return (
-      <Card>
-        <CardBody
-          style={{
-            padding: '60px',
-            position: 'relative',
-          }}
-        >
-          <Wireframe {...props} />
-        </CardBody>
-      </Card>
-    );
-  })
-  .add('Создание через Factory', () => {
-    const dt = {
-      id: 'uniqId',
-      src: 'Wireframe',
-      className: text('className', 'n2o'),
-      title: text('title', 'Текст визуальной заглушки'),
-    };
-    return (
-      <React.Fragment>
-        <Factory level={SNIPPETS} id={'uniqId'} {...dt} />
-      </React.Fragment>
-    );
-  });
+      return (
+        <Card>
+          <CardBody
+            style={{
+              padding: '60px',
+              position: 'relative',
+            }}
+          >
+            <Wireframe {...props} />
+          </CardBody>
+        </Card>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Визуальная заглушка'
+      ~~~js
+      import Wireframe from 'n2o/lib/components/snippets/Wireframe/Wireframe;
+      
+      <Wireframe className="n2o" title="Текст визуальной заглушки" />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Создание через Factory',
+    () => {
+      const dt = {
+        id: 'uniqId',
+        src: 'Wireframe',
+        className: 'n2o',
+        title: 'Текст визуальной заглушки',
+      };
+      return (
+        <React.Fragment>
+          <Factory level={SNIPPETS} id={'uniqId'} {...dt} />
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Визуальная заглушка'
+      ~~~js
+      import Factory from 'n2o/lib/core/factory/Factory';
+      
+      <Factory level={SNIPPETS} id="uniqid" {...wireframeProps} />
+      ~~~
+      `,
+      },
+    }
+  );
