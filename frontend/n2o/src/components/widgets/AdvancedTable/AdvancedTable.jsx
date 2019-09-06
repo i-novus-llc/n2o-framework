@@ -38,7 +38,7 @@ import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = _.findIndex(data, model => model.id === selectedId);
+  const index = _.findIndex(data, model => model.id == selectedId);
   return index >= 0 ? index : 0;
 };
 

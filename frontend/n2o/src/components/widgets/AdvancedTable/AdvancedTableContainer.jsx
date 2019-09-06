@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import {
   map,
   isEqual,
@@ -21,8 +21,8 @@ import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import PropTypes from 'prop-types';
-import { withWidgetHandlers } from '../Table/TableContainer';
 import { makeGetFilterModelSelector } from '../../../selectors/models';
+import evalExpression from '../../../utils/evalExpression';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -199,6 +199,15 @@ const mapStateToProps = (state, props) => {
     filters: makeGetFilterModelSelector(props.widgetId)(state, props),
   };
 };
+
+const withWidgetHandlers = withHandlers({
+  onRowClickAction: ({ rowClick, onActionImpl }) => model => {
+    const { enabledCondition } = rowClick;
+    if (evalExpression(enabledCondition, model) !== false) {
+      onActionImpl(rowClick);
+    }
+  },
+});
 
 export default compose(
   widgetContainer(

@@ -7,6 +7,9 @@
   & .row-click{
     cursor: pointer;
   }
+  & .row-deleted{
+    cursor: default;
+  }
 
   & .n2o-calendar-table {
     & td {
