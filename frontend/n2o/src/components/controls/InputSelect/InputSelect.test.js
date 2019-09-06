@@ -186,7 +186,7 @@ describe('<InputSelect />', () => {
     expect(onScrollEnd.calledOnce).toEqual(true);
   });
 
-  it('добавление объекта при resetOnBlur = false', () => {
+  it.skip('добавление объекта при resetOnBlur = false', () => {
     const wrapper = mount(
       <InputSelect options={props.options} labelFieldId={props.labelFieldId} />
     );
@@ -202,7 +202,7 @@ describe('<InputSelect />', () => {
     ]);
   });
 
-  it('проверяет очистку input при resetOnBlur = true', () => {
+  it.skip('проверяет очистку input при resetOnBlur = true', () => {
     const wrapper = mount(
       <InputSelect
         options={props.options}
