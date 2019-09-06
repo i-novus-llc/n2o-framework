@@ -99,7 +99,7 @@ class ModalPage extends React.Component {
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
           <Modal
             isOpen={visible}
-            toggle={() => this.closeModal(false)}
+            toggle={() => this.closeModal(true)}
             size={size}
             backdrop={false}
             style={{
@@ -108,7 +108,7 @@ class ModalPage extends React.Component {
           >
             <ModalHeader
               className={classes}
-              toggle={() => this.closeModal(false)}
+              toggle={() => this.closeModal(true)}
             >
               {title}
             </ModalHeader>
