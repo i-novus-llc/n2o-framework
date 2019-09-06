@@ -75,10 +75,25 @@ function ButtonsCell({
 }
 
 ButtonsCell.propTypes = {
+  /**
+   * Размер кнопок
+   */
   size: PropTypes.string,
+  /**
+   * Кдасс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * ID ячейки
+   */
   id: PropTypes.string,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
   resolveWidget: PropTypes.func,
 };
@@ -89,4 +104,5 @@ ButtonsCell.defaultProps = {
   resolveWidget: () => {},
 };
 
+export { ButtonsCell };
 export default withCell(ButtonsCell);

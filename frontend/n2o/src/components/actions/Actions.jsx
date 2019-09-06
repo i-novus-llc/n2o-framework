@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
+import { compose, setDisplayName } from 'recompose';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
@@ -364,12 +365,33 @@ Actions.defaultProps = {
 };
 
 Actions.propTypes = {
+  /**
+   * Настройка рендера кнопок
+   */
   toolbar: PropTypes.array,
+  /**
+   * Объект экшенов
+   */
   actions: PropTypes.object,
+  /**
+   * Id контейнера
+   */
   containerKey: PropTypes.string,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Функция вызова резолва экшена
+   */
   resolve: PropTypes.func,
+  /**
+   * Доболнительные параметры экшенов
+   */
   options: PropTypes.object,
 };
 
@@ -387,7 +409,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
+export { Actions };
+export default compose(
+  setDisplayName('Actions'),
+  connect(
+    null,
+    mapDispatchToProps
+  )
 )(Actions);

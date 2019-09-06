@@ -1,6 +1,5 @@
 import React from 'react';
 import withFileUploader from './withFileUploader';
-import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import FileUploader from './FileUploader';
 
@@ -13,18 +12,16 @@ function defaultDropZone(icon, label) {
   );
 }
 
-class DropZone extends React.Component {
-  render() {
-    const { icon, label } = this.props;
-    const children = this.props.children || defaultDropZone(icon, label);
-    return (
-      <FileUploader
-        {...this.props}
-        children={children}
-        componentClass={'n2o-drop-zone'}
-      />
-    );
-  }
+function DropZone(props) {
+  const { icon, label, children } = props;
+
+  return (
+    <FileUploader
+      {...props}
+      children={children || defaultDropZone(icon, label)}
+      componentClass={'n2o-drop-zone'}
+    />
+  );
 }
 
 DropZone.defaultProps = {

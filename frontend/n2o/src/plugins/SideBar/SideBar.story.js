@@ -1,8 +1,8 @@
 import React from 'react';
+import { setDisplayName } from 'recompose';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-
 import SideBar from './SideBar';
+import { SideBar as SidebarComponent } from './SideBar';
 import SidebarContainer from './SidebarContainer';
 import AuthButtonContainer from '../../core/auth/AuthLogin';
 import Template from '../OLD_SidebarFixTemplate';
@@ -11,42 +11,147 @@ import sidebarMetadata from './sidebarMetadata.meta.json';
 
 const stories = storiesOf('UI Компоненты/Меню слева', module);
 
-stories.addDecorator(withKnobs);
+const NamedSidebar = setDisplayName('Sidebar')(SideBar);
+
+stories.addParameters({
+  info: {
+    propTables: [SidebarComponent],
+    propTablesExclude: [SideBar, Wireframe, AuthButtonContainer],
+  },
+});
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      brandImage: text(
-        'brandImage',
-        'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
-      ),
-      color: select('color', ['default', 'inverse'], 'inverse'),
-      fixed: boolean('fixed', false),
-      activeId: text('activeId', 'link'),
-      collapse: boolean('collapse', false),
-      className: text('className', 'n2o'),
-      search: boolean('search', false),
-      visible: boolean('visible', true),
-      items: sidebarMetadata.items,
-    };
-    return (
-      <Template>
-        <SideBar {...sidebarMetadata} />
-        <div
-          style={{
-            width: '100%',
-            position: 'relative',
+  .add(
+    'Компонент',
+    () => {
+      return (
+        <Template>
+          <SideBar {...sidebarMetadata} />
+          <div
+            style={{
+              width: '100%',
+              position: 'relative',
+            }}
+          >
+            <Wireframe
+              style={{ top: 0, bottom: 0 }}
+              className="n2o"
+              title="Тело страницы"
+            />
+          </div>
+        </Template>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Боковое меню'
+      ~~~js
+      import Sidebar from 'n2o/lib/plugins/Sidebar/Sidebar';
+      
+      <Sidebar
+          brand="N2O Framework"
+          brandImage="https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png"
+          className=""
+          visible={true}
+          userBox={{
+              "image": "http://tiolly.by/img/empty_user.png",
+              "title": "Александр Петров",
+              "subTitle": "17.01.1987 * Москва",
+              "items": [
+                {
+                  "id": "profile",
+                  "label": "Профиль",
+                  "iconClass": "fa fa-info",
+                  "href": "/profile",
+                  "type": "link"
+                },
+                {
+                  "id": "settings",
+                  "label": "Настройки",
+                  "iconClass": "fa fa-cog",
+                  "type": "dropdown",
+                  "subItems": [
+                    {
+                      "id": "change-name",
+                      "label": "Изменить имя",
+                      "type": "link",
+                      "href": "/change-name"
+                    },
+                    {
+                      "id": "change-password",
+                      "label": "Изменить пароль",
+                      "type": "link",
+                      "href": "/change-password"
+                    }
+                  ]
+                }
+              ]
           }}
-        >
-          <Wireframe
-            style={{ top: 0, bottom: 0 }}
-            className="n2o"
-            title="Тело страницы"
-          />
-        </div>
-      </Template>
-    );
-  })
+          extra={
+          [
+            {
+              "id": "exit",
+              "label": "Выход",
+              "iconClass": "fa fa-sign-out",
+              "href": "/exit",
+              "type": "link"
+            }
+          ]
+        }
+        items={
+          [
+            {
+              "id": "link",
+              "label": "О компании",
+              "iconClass": "fa fa-info-circle",
+              "href": "/",
+              "type": "link"
+            },
+            {
+              "id": "link",
+              "label": "Новости",
+              "iconClass": "fa fa-newspaper-o",
+              "href": "/test",
+              "type": "link",
+              "security": {
+                "roles": ["admin"]
+              }
+            },
+            {
+              "id": "link",
+              "label": "Контакты",
+              "href": "/test1",
+              "type": "link"
+            },
+            {
+              "id": "dropdown",
+              "label": "Наши проекты",
+              "iconClass": "fa fa-github",
+              "type": "dropdown",
+              "subItems": [
+                {
+                  "id": "link1",
+                  "label": "N2O",
+                  "type": "link",
+                  "href": "/test3"
+                },
+                {
+                  "id": "link2",
+                  "label": "LSD",
+                  "type": "link",
+                  "href": "/test4"
+                }
+              ]
+            }
+          ]
+        }
+       />
+      ~~~
+      `,
+      },
+    }
+  )
   .add('Ограничение доступа', () => {
     return (
       <Template>

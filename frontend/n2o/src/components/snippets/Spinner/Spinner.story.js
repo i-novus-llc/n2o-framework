@@ -1,15 +1,6 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import {
-  withKnobs,
-  text,
-  boolean,
-  number,
-  array,
-  select,
-} from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
+
 import Input from '../../controls/Input/Input';
 import InlineSpinner from './InlineSpinner';
 import TextCell from '../../widgets/Table/cells/TextCell/TextCell';
@@ -17,16 +8,22 @@ import TextTableHeader from '../../widgets/Table/headers/TextTableHeader';
 import Table from '../../widgets/Table/Table';
 import CoverSpinner from './CoverSpinner';
 import Spinner from './Spinner';
+import TableCell from '../../widgets/Table/TableCell';
+import TableRow from '../../widgets/Table/TableRow';
 
 const stories = storiesOf('UI Компоненты/Спиннеры', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('Spinner'));
 const tableData = [
   { id: '1', name: 'Foo', surname: 'Bar', birthday: '01.01.2001' },
   { id: '2', name: 'X', surname: 'Y', birthday: '01.01.1001' },
   { id: '3', name: 'Test', surname: 'Tset', birthday: '01.01.0001' },
 ];
+
+stories.addParameters({
+  info: {
+    propTablesExclude: [Table, TextCell, TableCell, TableRow],
+  },
+});
 
 stories
   .add('Базовый функционал', () => {
@@ -92,10 +89,10 @@ stories
   })
   .add('Компонент', () => {
     const props = {
-      loading: boolean('loading', true),
-      type: select('type', ['cover', 'inline'], 'cover'),
-      text: text('text', 'text'),
-      delay: select('delay', [1000, 2000, 3000, 4000], 1000),
+      loading: true,
+      type: 'cover',
+      text: 'text',
+      delay: 1000,
     };
     return (
       <Fragment>

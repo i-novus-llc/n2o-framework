@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty, every } from 'lodash';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
@@ -123,17 +123,53 @@ class PanelRegion extends React.Component {
 }
 
 PanelRegion.propTypes = {
+  /**
+   * Список элементов
+   */
   panels: PropTypes.array.isRequired,
+  /**
+   * ID страницы
+   */
   pageId: PropTypes.string.isRequired,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Цвет панели
+   */
   color: PropTypes.string,
+  /***
+   * Иконка панели
+   */
   icon: PropTypes.string,
+  /**
+   * Текст заголовка
+   */
   headerTitle: PropTypes.string,
+  /**
+   * Текст футера
+   */
   footerTitle: PropTypes.string,
+  /**
+   * Флаг открытия панели
+   */
   open: PropTypes.bool,
+  /**
+   * Флаг возможности скрывать содержимое панели
+   */
   collapsible: PropTypes.bool,
+  /**
+   * Флаг наличия табов
+   */
   hasTabs: PropTypes.bool,
+  /**
+   * Флаг открытия на весь экран
+   */
   fullScreen: PropTypes.bool,
   getWidget: PropTypes.func.isRequired,
   resolveVisibleDependency: PropTypes.func,
@@ -147,7 +183,9 @@ PanelRegion.defaultProps = {
   fullScreen: false,
 };
 
+export { PanelRegion };
 export default compose(
+  setDisplayName('PanelRegion'),
   withSecurity,
   withWidgetProps
 )(PanelRegion);

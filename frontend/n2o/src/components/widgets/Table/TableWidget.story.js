@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata, newEntry, tableActions } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -17,8 +17,6 @@ import withPage from '../../../../.storybook/decorators/withPage';
 import { page } from 'N2oStorybook/fetchMock';
 
 const stories = storiesOf('Виджеты/Таблица', module);
-
-stories.addDecorator(withTests('Table'));
 
 const urlPattern = 'begin:n2o/data';
 

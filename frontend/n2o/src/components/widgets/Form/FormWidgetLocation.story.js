@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 
 import FormWidgetData from './FormWidget.meta.json';

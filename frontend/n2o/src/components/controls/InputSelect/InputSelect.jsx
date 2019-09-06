@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose, setDisplayName } from 'recompose';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
@@ -632,38 +633,124 @@ class InputSelect extends React.Component {
 }
 
 InputSelect.propTypes = {
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Флаг загрузки
+   */
   loading: PropTypes.bool,
+  /**
+   * Массив данных
+   */
   options: PropTypes.array.isRequired,
+  /**
+   * Ключ id в данных
+   */
   valueFieldId: PropTypes.string.isRequired,
+  /**
+   * Ключ label в данных
+   */
   labelFieldId: PropTypes.string.isRequired,
+  /**
+   * Ключ icon в данных
+   */
   iconFieldId: PropTypes.string,
+  /**
+   * Ключ image в данных
+   */
   imageFieldId: PropTypes.string,
+  /**
+   * Ключ badge в данных
+   */
   badgeFieldId: PropTypes.string,
+  /**
+   * Ключ цвета badgeColor в данных
+   */
   badgeColorFieldId: PropTypes.string,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Неактивные данные
+   */
   disabledValues: PropTypes.array,
+  /**
+   * Варианты фильтрации
+   */
   filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', false]),
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  /**
+   * Callback на переключение
+   */
   onToggle: PropTypes.func,
   onInput: PropTypes.func,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Callback на выбор
+   */
   onSelect: PropTypes.func,
+  /**
+   * Callback на скрол в самый низ
+   */
   onScrollEnd: PropTypes.func,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+   */
   resetOnBlur: PropTypes.bool,
+  /**
+   * Callback на открытие
+   */
   onOpen: PropTypes.func,
+  /**
+   * Callback на закрытие
+   */
   onClose: PropTypes.func,
+  /**
+   * Мульти выбор значений
+   */
   multiSelect: PropTypes.bool,
+  /**
+   * Поле для группировки
+   */
   groupFieldId: PropTypes.string,
+  /**
+   * Флаг закрытия попапа при выборе
+   */
   closePopupOnSelect: PropTypes.bool,
+  /**
+   * Флаг наличия чекбоксов в селекте
+   */
   hasCheckboxes: PropTypes.bool,
+  /**
+   * Формат
+   */
   format: PropTypes.string,
+  /**
+   * Callback на поиск
+   */
   onSearch: PropTypes.func,
   expandPopUp: PropTypes.bool,
   alerts: PropTypes.array,
-  flip: PropTypes.bool,
+  /**
+   * Авто фокусировка на селекте
+   */
   autoFocus: PropTypes.bool,
+  /**
+   * Флаг авто размера попапа
+   */
   popupAutoSize: PropTypes.bool,
 };
 
@@ -682,7 +769,6 @@ InputSelect.defaultProps = {
   closePopupOnSelect: true,
   hasCheckboxes: false,
   expandPopUp: false,
-  flip: false,
   autoFocus: false,
   popupAutoSize: false,
   onSearch() {},
@@ -696,4 +782,8 @@ InputSelect.defaultProps = {
   onBlur() {},
 };
 
-export default onClickOutside(InputSelect);
+export { InputSelect };
+export default compose(
+  setDisplayName('InputSelect'),
+  onClickOutside
+)(InputSelect);

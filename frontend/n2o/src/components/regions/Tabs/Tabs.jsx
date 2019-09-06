@@ -110,8 +110,17 @@ class Tabs extends React.Component {
 }
 
 Tabs.propTypes = {
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Класс навигации
+   */
   navClassName: PropTypes.string,
+  /**
+   * Callback на изменение активного таба
+   */
   onChangeActive: PropTypes.func,
   children: PropTypes.node,
 };

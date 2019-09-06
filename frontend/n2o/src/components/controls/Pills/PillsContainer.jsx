@@ -53,10 +53,25 @@ export class PillsContainer extends Component {
 }
 
 PillsContainer.propTypes = {
+  /**
+   * Ключ label в данных
+   */
   labelFieldId: PropTypes.string,
+  /**
+   * Ключ value в данных
+   */
   valueFieldId: PropTypes.string,
+  /**
+   * Данные
+   */
   data: PropTypes.array,
+  /**
+   * Мульти выбор
+   */
   multiSelect: PropTypes.bool,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
   _fetchData: PropTypes.func,
 };

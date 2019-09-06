@@ -1,17 +1,33 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withState } from '@dump247/storybook-state';
+import { storiesOf, forceReRender } from '@storybook/react';
+
+import { StateDecorator, Store } from '@sambego/storybook-state';
 
 import SideBar from './SideBar';
+import { SideBar as SidebarComponent } from './SideBar';
 import Template from '../OLD_SidebarFixTemplate';
 import Wireframe from '../../components/snippets/Wireframe/Wireframe';
 import sidebarMetadata from './sidebarMetadata.meta.json';
 
+const store = new Store({
+  visible: true,
+});
+
+store.subscribe(forceReRender);
+
 const stories = storiesOf('UI Компоненты/Меню слева', module);
+
+stories.addDecorator(StateDecorator(store));
+stories.addParameters({
+  info: {
+    propTables: [SidebarComponent],
+    propTablesExclude: [SideBar, Wireframe],
+  },
+});
 
 stories.add(
   'Сжатие',
-  withState({ visible: true }, store => {
+  () => {
     return (
       <React.Fragment>
         <button
@@ -28,7 +44,7 @@ stories.add(
             }
             activeId={'link'}
             items={sidebarMetadata.items}
-            visible={store.state.visible}
+            visible={store.get('visible')}
             collapse={false}
             color="inverse"
           />
@@ -47,5 +63,24 @@ stories.add(
         </Template>
       </React.Fragment>
     );
-  })
+  },
+  {
+    info: {
+      text: `
+      Компонент 'Боковое меню'
+      ~~~js
+      import Sidebar from 'n2o/lib/plugins/Sidebar/Sidebar';
+      
+       <SideBar
+          brandImage="https://avatars0.githubusercontent.com/u/25926683?s=200&v=4"
+          activeId={'link'}
+          items={sidebarMetadata.items}
+          visible={visible}
+          collapse={false}
+          color="inverse"
+        />
+      ~~~
+    `,
+    },
+  }
 );

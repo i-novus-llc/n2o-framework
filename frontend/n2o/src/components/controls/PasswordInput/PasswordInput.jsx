@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, withState, withHandlers, setDisplayName } from 'recompose';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Input from '../Input/Input';
@@ -74,19 +74,57 @@ function PasswordInput({
 }
 
 PasswordInput.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Callback фокуса
+   */
   onFocus: PropTypes.func,
+  /**
+   * Callback вставки значения
+   */
   onPaste: PropTypes.func,
-  obBlur: PropTypes.func,
+  /**
+   * Callback потери фокуса
+   */
+  onBlur: PropTypes.func,
+  /**
+   * Callback нажатия кнопок
+   */
   onKeyDown: PropTypes.func,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Максимальная длина
+   */
   length: PropTypes.string,
-  type: PropTypes.string,
+  /**
+   * Авто фокусировка на контрол
+   */
   autoFocus: PropTypes.bool,
+  /**
+   * Флаг показа кнопки, которая показывает введенный пароль
+   */
   showPasswordBtn: PropTypes.bool,
 };
 
@@ -98,7 +136,9 @@ PasswordInput.defaultProps = {
   showPasswordBtn: true,
 };
 
+export { PasswordInput };
 export default compose(
+  setDisplayName('InputPassword'),
   withState('showPass', 'setShowPass', false),
   withHandlers({
     onToggleShowPass: ({ showPass, setShowPass }) => () =>

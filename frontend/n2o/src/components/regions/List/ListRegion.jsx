@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import {
   isEmpty,
   filter,
@@ -108,11 +108,24 @@ class ListRegion extends React.Component {
 }
 
 ListRegion.propTypes = {
+  /**
+   * Элементы списка
+   */
   items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
+  /**
+   * ID страницы
+   */
   pageId: PropTypes.string.isRequired,
+  /**
+   * Флаг отключения ленивого рендера
+   */
   forceRender: PropTypes.bool,
   resolveVisibleDependency: PropTypes.func,
 };
 
-export default compose(withWidgetProps)(ListRegion);
+export { ListRegion };
+export default compose(
+  setDisplayName('ListRegion'),
+  withWidgetProps
+)(ListRegion);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { compose, pure } from 'recompose';
+import { compose, pure, setDisplayName } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
@@ -54,7 +54,6 @@ const KEY_CODES = {
  * @reactProps {string} className - класс таблицы
  * @reactProps {Array.<Object>} columns - настройки колонок
  * @reactProps {Array.<Object>} data - данные
- * @reactProps {function} onRow - функция прокидывания дополнительных параметров в компонент строки
  * @reactProps {Object} components - компоненты обертки
  * @reactProps {Node} emptyText - компонент пустых данных
  * @reactProps {object} hotKeys - настройка hot keys
@@ -606,19 +605,49 @@ class AdvancedTable extends Component {
 }
 
 AdvancedTable.propTypes = {
+  /**
+   * Наличие фокуса на строке при клике
+   */
   hasFocus: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Массив колонок
+   */
   columns: PropTypes.arrayOf(PropTypes.object),
+  /**
+   * Данные
+   */
   data: PropTypes.arrayOf(PropTypes.object),
-  onRow: PropTypes.func,
+  /**
+   * Кастомные компоненты
+   */
   components: PropTypes.object,
-  emptyText: PropTypes.node,
-  hotKeys: PropTypes.object,
+  /**
+   * Флаг включения border у таблицы
+   */
   bordered: PropTypes.bool,
+  /**
+   * Флаг включения выбора строк
+   */
   rowSelection: PropTypes.bool,
+  /**
+   * Флаг включения саб контента
+   */
   expandable: PropTypes.bool,
+  /**
+   * Ключ к саб контенту в данных
+   */
   expandedFieldId: PropTypes.string,
+  /**
+   * Кастомный компонент саб строки
+   */
   expandedComponent: PropTypes.any,
+  /**
+   * Автофокус на строке
+   */
   autoFocus: PropTypes.bool,
 };
 
@@ -634,7 +663,9 @@ AdvancedTable.defaultProps = {
   autoFocus: false,
 };
 
+export { AdvancedTable };
 export default compose(
+  setDisplayName('AdvancedTable'),
   pure,
   withAdvancedTableRef
 )(AdvancedTable);

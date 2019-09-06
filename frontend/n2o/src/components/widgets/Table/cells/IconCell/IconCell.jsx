@@ -13,42 +13,52 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes';
  * @reactProps {string} type - тип ячейки
  * @reactProps {string} textPlace - расположение текста
  */
-
-class IconCell extends React.Component {
-  /**
-   * Рендер
-   */
-  render() {
-    const text = this.props.model[this.props.id];
-    const { visible } = this.props;
-    return (
-      visible && (
-        <div title={text}>
-          {this.props.icon && <Icon name={this.props.icon} />}
-          {this.props.type === iconCellTypes.ICONANDTEXT && (
-            <div
-              className="n2o-cell-text"
-              style={{
-                float:
-                  this.props.textPlace === textPlaceTypes.LEFT ? 'left' : null,
-                display: 'inline-block',
-              }}
-            >
-              <Text text={text} />
-            </div>
-          )}
-        </div>
-      )
-    );
-  }
+function IconCell({ id, model, visible, icon, type, textPlace }) {
+  const text = model[id];
+  return (
+    visible && (
+      <div title={text}>
+        {icon && <Icon name={icon} />}
+        {type === iconCellTypes.ICONANDTEXT && (
+          <div
+            className="n2o-cell-text"
+            style={{
+              float: textPlace === textPlaceTypes.LEFT ? 'left' : null,
+              display: 'inline-block',
+            }}
+          >
+            <Text text={text} />
+          </div>
+        )}
+      </div>
+    )
+  );
 }
 
 IconCell.propTypes = {
+  /**
+   * ID ячейки
+   */
   id: PropTypes.string.isRequired,
+  /**
+   * Модель данных
+   */
   model: PropTypes.object.isRequired,
+  /**
+   * Иконка
+   */
   icon: PropTypes.string.isRequired,
+  /**
+   * Тип ячейки
+   */
   type: PropTypes.oneOf(Object.values(iconCellTypes)),
+  /**
+   * Местоположение текста
+   */
   textPlace: PropTypes.oneOf(Object.values(textPlaceTypes)),
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 

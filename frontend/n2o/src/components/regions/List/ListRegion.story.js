@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { set, omit, pullAt, pick } from 'lodash';
 
-import ListRegion from './ListRegion';
+import ListRegion, { ListRegion as ListRegionComponent } from './ListRegion';
 import SecureListRegionJson from './ListRegion.meta';
 import { metadataSuccess } from '../../../actions/pages';
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
@@ -17,10 +17,16 @@ import ListWithDependency from 'N2oStorybook/json/ListWithDependency';
 import fetchMock from 'fetch-mock';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Регионы/Лист', module);
 
-stories.addDecorator(withTests('Лист'));
+stories.addParameters({
+  info: {
+    propTables: [ListRegionComponent],
+    propTablesExclude: [ListRegion, Factory, AuthButtonContainer],
+  },
+});
 const ListRegionJson = set(
   cloneObject(SecureListRegionJson),
   'items',
@@ -29,23 +35,79 @@ const ListRegionJson = set(
 const { store } = makeStore();
 
 stories
-  .add('Метаданные', () => {
-    store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
-    return <ListRegion {...ListRegionJson} pageId="Page" />;
-  })
-  .add('Ограничение доступа', () => {
-    store.dispatch(metadataSuccess('Page', ListMetadata));
-    return (
-      <div>
-        <small>
-          Введите <mark>admin</mark>, чтобы увидеть скрытый виджет региона
-        </small>
-        <AuthButtonContainer />
-        <br />
-        <ListRegion {...SecureListRegionJson} pageId="Page" />
-      </div>
-    );
-  })
+  .add(
+    'Метаданные',
+    () => {
+      store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
+      return <ListRegion {...ListRegionJson} pageId="Page" />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Регион Список'
+      ~~~js
+      import ListRegion from 'n2o/lib/components/regions/List/ListRegion';
+      
+      <ListRegion 
+          pageId="Page"
+          items={[
+            {
+            "widgetId": "Page_Html",
+            "label": "HTML",
+            "opened": true
+            }
+          ]}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Ограничение доступа',
+    () => {
+      store.dispatch(metadataSuccess('Page', ListMetadata));
+      return (
+        <div>
+          <small>
+            Введите <mark>admin</mark>, чтобы увидеть скрытый виджет региона
+          </small>
+          <AuthButtonContainer />
+          <br />
+          <ListRegion {...SecureListRegionJson} pageId="Page" />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Регион Список'
+      ~~~js
+      import ListRegion from 'n2o/lib/components/regions/List/ListRegion';
+      
+      <ListRegion 
+          pageId="Page"
+          items={[
+            {
+              "widgetId": "Page_Html",
+              "label": "HTML",
+              "opened": true
+            },
+            {
+              "widgetId": "Page.SecureHtml",
+              "label": "HTML (secure)",
+              "opened": true,
+              "security": {
+                "roles": ["admin"]
+              }
+            }
+          ]}
+       />
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add('Инициализация виджетов', () => {
     fetchMock

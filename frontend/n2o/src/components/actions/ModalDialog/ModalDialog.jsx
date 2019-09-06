@@ -31,70 +31,91 @@ import { FormattedMessage } from 'react-intl';
  *                  }}
  *               onDeny={this.closeConfirm} />
  */
-
-class ModalDialog extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    const {
-      size,
-      title,
-      text,
-      okLabel,
-      cancelLabel,
-      onConfirm,
-      onDeny,
-      visible,
-      close,
-      closeButton,
-    } = this.props;
-
-    return (
-      <Modal isOpen={visible} size={size} toggle={close}>
-        <ModalHeader toggle={closeButton ? close : null}>
-          {title || (
-            <FormattedMessage
-              id="dialog.title"
-              defaultMessage="Подтвердите действие"
-            />
-          )}
-        </ModalHeader>
-        <ModalBody>
-          {text || (
-            <FormattedMessage id="dialog.text" defaultMessage="Вы уверены?" />
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <ButtonGroup>
-            <Button onClick={onConfirm} color="primary">
-              {okLabel || (
-                <FormattedMessage id="dialog.confirm" defaultMessage="Да" />
-              )}
-            </Button>
-            <Button onClick={onDeny}>
-              {cancelLabel || (
-                <FormattedMessage id="dialog.deny" defaultMessage="Нет" />
-              )}
-            </Button>
-          </ButtonGroup>
-        </ModalFooter>
-      </Modal>
-    );
-  }
+function ModalDialog({
+  size,
+  title,
+  text,
+  okLabel,
+  cancelLabel,
+  onConfirm,
+  onDeny,
+  visible,
+  close,
+  closeButton,
+}) {
+  return (
+    <Modal isOpen={visible} size={size} toggle={close}>
+      <ModalHeader toggle={closeButton ? close : null}>
+        {title || (
+          <FormattedMessage
+            id="dialog.title"
+            defaultMessage="Подтвердите действие"
+          />
+        )}
+      </ModalHeader>
+      <ModalBody>
+        {text || (
+          <FormattedMessage id="dialog.text" defaultMessage="Вы уверены?" />
+        )}
+      </ModalBody>
+      <ModalFooter>
+        <ButtonGroup>
+          <Button onClick={onConfirm} color="primary">
+            {okLabel || (
+              <FormattedMessage id="dialog.confirm" defaultMessage="Да" />
+            )}
+          </Button>
+          <Button onClick={onDeny}>
+            {cancelLabel || (
+              <FormattedMessage id="dialog.deny" defaultMessage="Нет" />
+            )}
+          </Button>
+        </ButtonGroup>
+      </ModalFooter>
+    </Modal>
+  );
 }
 
 ModalDialog.propTypes = {
+  /**
+   * Флаг показа кнопки закрытия в заголовке
+   */
   closeButton: PropTypes.bool,
+  /**
+   * Размер окна
+   */
   size: PropTypes.oneOf(['lg', 'sm']),
+  /**
+   * Заголовок окна
+   */
   title: PropTypes.string,
+  /**
+   * Текст окна
+   */
   text: PropTypes.string,
-  denyText: PropTypes.string,
-  confirmText: PropTypes.string,
+  /**
+   * Текст кнопки отклонения
+   */
+  cancelLabel: PropTypes.string,
+  /**
+   * Текст кнопки подтверждения
+   */
+  okLabel: PropTypes.string,
+  /**
+   * Видимость окна
+   */
   visible: PropTypes.bool,
+  /**
+   * Callback подтверждения
+   */
   onConfirm: PropTypes.func,
+  /**
+   * Callback отклонения
+   */
   onDeny: PropTypes.func,
+  /**
+   * Функция закрытия окна
+   */
   close: PropTypes.func.isRequired,
 };
 
