@@ -166,6 +166,11 @@
             <xs:element name="set-value" type="baseDependencyDefinition"  minOccurs="0"/>
             <xs:element name="requiring" type="baseDependencyDefinition"  minOccurs="0"/>
             <xs:element name="fetch" type="baseDependencyDefinition"  minOccurs="0"/>
+            <xs:element name="fetch-value" type="fetchValueDependencyDefinition"  minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Обновление модели поля ввода</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 
@@ -681,6 +686,18 @@
         <xs:complexContent>
             <xs:extension base="baseDependencyDefinition">
                 <xs:attribute name="reset" type="xs:boolean" default="true"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="fetchValueDependencyDefinition" abstract="true">
+        <xs:complexContent>
+            <xs:extension base="baseDependencyDefinition">
+                <xs:sequence>
+                    <xs:element name="pre-filters" type="act:preFiltersDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="query-id" type="xs:string" use="required"/>
+                <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
