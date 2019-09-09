@@ -367,6 +367,10 @@ class InputSelect extends React.Component {
       () => {
         selectCallback();
         this.props.onBlur(this._getValue());
+
+        if (this._input) {
+          this._input.focus();
+        }
       }
     );
   }
