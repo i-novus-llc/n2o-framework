@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withContext } from 'recompose';
 import { storiesOf } from '@storybook/react';
+import { text } from '@storybook/addon-knobs';
 
 import simpleHeaderMetadata from './simpleHeaderData.json';
 import SimpleHeader from './SimpleHeader';
