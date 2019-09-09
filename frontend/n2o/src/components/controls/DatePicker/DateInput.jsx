@@ -163,6 +163,7 @@ class DateInput extends React.Component {
           onBlur={this.onBlur}
           autoFocus={autoFocus}
           render={(ref, props) => {
+            delete props.defaultValue;
             return <input ref={ref} {...props} />;
           }}
         />
