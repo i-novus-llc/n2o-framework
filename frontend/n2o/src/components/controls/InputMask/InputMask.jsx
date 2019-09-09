@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
-import { isEqual } from 'lodash';
+import { isEqual, omit } from 'lodash';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**
@@ -201,8 +201,7 @@ class InputMask extends React.Component {
         onFocus={this._onFocus.bind(this)}
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
-          delete props.defaultValue;
-          return <input ref={ref} {...props} autoFocus={autoFocus} />;
+          return <input ref={ref} {...omit(props, ['defaultValue'])} autoFocus={autoFocus} />;
         }}
       />
     );
