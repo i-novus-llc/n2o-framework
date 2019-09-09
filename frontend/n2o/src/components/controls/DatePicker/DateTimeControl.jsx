@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { pick, every } from 'lodash';
+import { pick, every, isFunction } from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -75,6 +75,7 @@ class DateTimeControl extends React.Component {
     this.setInputRef = this.setInputRef.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.getValue = this.getValue.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
   }
 
   /**
@@ -196,7 +197,7 @@ class DateTimeControl extends React.Component {
    * Выбор даты, прокидывается в инпут
    * @todo объеденить методы select и onInputChange в 1 метод
    */
-  onInputChange(date, inputName) {
+  onInputChange(date, inputName, callback = null) {
     const { timeFormat } = this.props;
     const newDate =
       !timeFormat && inputName === DateTimeControl.endInputName && date
@@ -210,8 +211,12 @@ class DateTimeControl extends React.Component {
       {
         inputs: { ...this.state.inputs, [inputName]: newDate },
       },
-      () => this.onChange(inputName)
+      () => isFunction(callback) ? callback() : this.onChange(inputName)
     );
+  }
+  onInputBlur(date, inputName) {
+    const { onBlur } = this.props;
+    this.onInputChange(date, inputName, () => onBlur(this.getValue(inputName)));
   }
   /**
    * Устанавливает видимость попапа
@@ -355,6 +360,7 @@ class DateTimeControl extends React.Component {
                   setVisibility={this.setVisibility}
                   setWidth={this.setWidth}
                   onFocus={this.onFocus}
+                  onBlur={this.onInputBlur}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
                   {...dateInputGroupProps}
