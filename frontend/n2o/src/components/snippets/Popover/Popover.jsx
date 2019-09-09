@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UncontrolledPopover, PopoverBody, Button } from 'reactstrap';
+import { UncontrolledPopover, PopoverBody } from 'reactstrap';
 import { id } from '../../../utils/id';
 
 class N2OPopover extends React.Component {
@@ -14,9 +14,9 @@ class N2OPopover extends React.Component {
     const { help, placement, icon } = this.props;
     return (
       <div className={'n2o-popover'}>
-        <Button className={'n2o-popover-btn'} id={this.fieldId} type="button">
+        <button className={'n2o-popover-btn'} id={this.fieldId}>
           <i className={icon} />
-        </Button>
+        </button>
         <UncontrolledPopover
           className={'n2o-popover-body'}
           placement={placement}
