@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, withProps, getContext } from 'recompose';
+import { compose, withProps } from 'recompose';
 import { Prompt } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
 import Form from './Form';
@@ -40,12 +40,11 @@ ReduxForm.defaultProps = {
 ReduxForm.Field = ReduxField;
 
 export default compose(
-  getContext({
-    state: PropTypes.object,
-  }),
   withProps(props => {
+    const state = props.store && props.store.getState();
+
     return {
-      ...createValidator(props.validation, props.form, props.state),
+      ...createValidator(props.validation, props.form, state, props.fields),
       ...props,
     };
   }),
