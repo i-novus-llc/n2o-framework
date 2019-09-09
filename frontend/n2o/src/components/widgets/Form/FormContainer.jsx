@@ -84,7 +84,7 @@ export const withPropsOnChangeWidget = withPropsOnChange(
     return {
       initialValues:
         props.defaultValues &&
-        (!props.datasource || !isEmpty(props.defaultValues))
+        (!props.datasource && !isEmpty(props.defaultValues))
           ? props.defaultValues
           : merge(props.resolveModel || {}, props.datasource || {}, {
               arrayMerge: arrayMergeFunction,

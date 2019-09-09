@@ -196,7 +196,7 @@ describe('FormContainer', () => {
       wrapper.setProps({ isEnabled: true }).update();
       expect(wrapper.find(NullComponent).props()).toHaveProperty(
         'initialValues',
-        []
+        {}
       );
     });
 
