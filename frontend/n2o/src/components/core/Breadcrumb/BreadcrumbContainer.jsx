@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { map, memoize } from 'lodash';
+import { compose, getContext, withProps } from 'recompose';
+import { map } from 'lodash';
 
 import { getModelSelector } from '../../../selectors/models';
 import propsResolver from '../../../utils/propsResolver';
@@ -23,23 +23,14 @@ import propsResolver from '../../../utils/propsResolver';
  *  ]
  * <Breadcrumb  items={items}/>
  * */
-class BreadcrumbContainer extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function BreadcrumbContainer(props) {
+  const DefaultBreadcrumb = props.defaultBreadcrumb;
 
-  /**
-   * Базовый рендер
-   * @returns {*}
-   */
-  render() {
-    const DefaultBreadcrumb = this.props.defaultBreadcrumb;
-    return (
-      <React.Fragment>
-        <DefaultBreadcrumb items={this.props.items} />
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <DefaultBreadcrumb items={props.items} />
+    </React.Fragment>
+  );
 }
 
 BreadcrumbContainer.propTypes = {
@@ -58,25 +49,23 @@ BreadcrumbContainer.defaultProps = {
   defaultBreadcrumb: () => null,
 };
 
-//const memoizedMap = memoize(map);
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    items: map(ownProps.items, item => {
+export default compose(
+  getContext({
+    store: PropTypes.object,
+  }),
+  withProps(props => ({
+    items: map(props.items, item => {
       if (item.modelLink) {
         return {
           ...item,
           label: propsResolver(
             item.label,
-            getModelSelector(item.modelLink)(state)
+            getModelSelector(item.modelLink)(props.store.getState())
           ),
         };
       }
 
       return item;
     }),
-  };
-};
-
-BreadcrumbContainer = connect(mapStateToProps)(BreadcrumbContainer);
-export default BreadcrumbContainer;
+  }))
+)(BreadcrumbContainer);
