@@ -24,6 +24,7 @@ const MenuContext = withContext(
 stories
   .add('Компонент', () => {
     const props = {
+      // eslint-disable-next-line no-undef
       brandImage: text(
         'brandImage',
         'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
