@@ -4,14 +4,27 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
+import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
+import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import net.n2oapp.properties.OverrideProperties;
+import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.ResourceBundleMessageSource;
+
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -35,6 +48,37 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.widget.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"));
+    }
+
+    @Test
+    public void testToolbarGroupping() {
+
+
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGroupping.widget" +
+                ".xml")
+                .get(new WidgetContext("testToolbarGroupping"));
+        List<Group> groupList = form.getToolbar().get("topLeft");
+        assertThat(groupList.size(), is(3));
+        assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
+        assertThat(groupList.get(1).getButtons().get(0).getId(), is("firstInGroup"));
+        assertThat(groupList.get(1).getButtons().get(1).getId(), is("secondInGroup"));
+        assertThat(groupList.get(2).getButtons().get(0).getId(), is("firstAfterGroup"));
+        assertThat(groupList.get(2).getButtons().get(1).getId(), is("secondAfterGroup"));
+
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.api.toolbar" +
+                ".groupping", "false");
+
+        form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGroupping.widget.xml")
+                .get(new WidgetContext("testToolbarGroupping"));
+        groupList = form.getToolbar().get("topLeft");
+        assertThat(groupList.size(), is(4));
+        assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
+        assertThat(groupList.get(1).getButtons().get(0).getId(), is("firstInGroup"));
+        assertThat(groupList.get(1).getButtons().get(1).getId(), is("secondInGroup"));
+        assertThat(groupList.get(2).getButtons().get(0).getId(), is("firstAfterGroup"));
+        assertThat(groupList.get(3).getButtons().get(0).getId(), is("secondAfterGroup"));
+
+
     }
 
     @Test

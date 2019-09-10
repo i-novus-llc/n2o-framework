@@ -87,6 +87,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oGroup)) {
                     buttons.add(getButton(source, source.getItems()[i], index, context, p));
                     i++;
+                    if (!p.resolve(property("n2o.api.toolbar.groupping"), Boolean.class)) break;
                 }
             }
             gr.setButtons(buttons);
