@@ -94,8 +94,11 @@ export function* modify(values, formName, fieldName, type, options = {}) {
       break;
     case 'fetchValue':
       const watcher = yield fork(fetchValue, formName, fieldName, options);
-      yield take(actionTypes.CHANGE);
-      yield cancel(watcher);
+      const action = yield take(actionTypes.CHANGE);
+
+      if (get(action, 'meta.field') !== fieldName) {
+        yield cancel(watcher);
+      }
       break;
     default:
       break;
