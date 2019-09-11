@@ -66,6 +66,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             defaultPlace = property("n2o.api.page.toolbar.place");
         String place = p.cast(source.getPlace(), p.resolve(defaultPlace, String.class));
         int gi = 0;
+        Boolean buttonGrouping = isGrouping(p);
         while (i < source.getItems().length) {
             Group gr = new Group(place + gi);
             List<Button> buttons = new ArrayList<>();
@@ -87,7 +88,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oGroup)) {
                     buttons.add(getButton(source, source.getItems()[i], index, context, p));
                     i++;
-                    if (!p.resolve(property("n2o.api.toolbar.groupping"), Boolean.class)) break;
+                    if (!buttonGrouping) break;
                 }
             }
             gr.setButtons(buttons);
@@ -96,6 +97,12 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         }
         toolbar.put(place, groups);
         return toolbar;
+    }
+
+    private Boolean isGrouping(CompileProcessor p) {
+        Object temp = p.resolve(property("n2o.api.toolbar.grouping"));
+        if (temp instanceof Boolean) return (Boolean) temp;
+        else return Boolean.valueOf(true);
     }
 
     protected void initItem(MenuItem button, AbstractMenuItem source, IndexScope idx,
