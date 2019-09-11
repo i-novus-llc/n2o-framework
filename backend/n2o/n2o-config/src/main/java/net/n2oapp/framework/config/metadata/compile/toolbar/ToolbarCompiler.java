@@ -100,9 +100,9 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
     }
 
     private Boolean isGrouping(CompileProcessor p) {
-        Object temp = p.resolve(property("n2o.api.toolbar.grouping"));
-        if (temp instanceof Boolean) return (Boolean) temp;
-        else return Boolean.valueOf(true);
+        Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
+        if (buttonGrouping instanceof Boolean) return (Boolean) buttonGrouping;
+        else return true;
     }
 
     protected void initItem(MenuItem button, AbstractMenuItem source, IndexScope idx,
