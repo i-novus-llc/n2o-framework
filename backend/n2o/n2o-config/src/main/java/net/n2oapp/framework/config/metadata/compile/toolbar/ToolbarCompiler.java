@@ -99,12 +99,6 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         return toolbar;
     }
 
-    private Boolean isGrouping(CompileProcessor p) {
-        Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
-        if (buttonGrouping instanceof Boolean) return (Boolean) buttonGrouping;
-        else return true;
-    }
-
     protected void initItem(MenuItem button, AbstractMenuItem source, IndexScope idx,
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setId(castDefault(source.getId(), source.getActionId(), "menuItem" + idx.get()));
@@ -165,6 +159,15 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             source.setModel(ReduxModel.RESOLVE);
         compileDependencies(button, source, context, p);
         button.setValidate(source.getValidate());
+    }
+
+    protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getGenerate() != null) {
+            for (String generate : source.getGenerate()) {
+                buttonGeneratorFactory.generate(generate.trim(), source, context, p)
+                        .forEach(i -> source.setItems(push(source, (N2oButton) i)));
+            }
+        }
     }
 
     private void initConfirm(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
@@ -306,13 +309,10 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         return items;
     }
 
-    protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getGenerate() != null) {
-            for (String generate : source.getGenerate()) {
-                buttonGeneratorFactory.generate(generate.trim(), source, context, p)
-                        .forEach(i -> source.setItems(push(source, (N2oButton) i)));
-            }
-        }
+    private Boolean isGrouping(CompileProcessor p) {
+        Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
+        if (buttonGrouping instanceof Boolean) return (Boolean) buttonGrouping;
+        else return true;
     }
 
     @Override
