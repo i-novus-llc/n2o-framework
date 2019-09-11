@@ -21,7 +21,14 @@ import DateTimeControl from './DateTimeControl';
  * @example
  * <DatePicker  defaultTime = '12:11'/>
  */
-function DateInterval({ value, defaultTime, defaultValue, onChange, onBlur, ...rest }) {
+function DateInterval({
+  value,
+  defaultTime,
+  defaultValue,
+  onChange,
+  onBlur,
+  ...rest
+}) {
   const newValue = defaults(value, defaultValue);
 
   const handleChange = data => {
@@ -63,7 +70,6 @@ function DateInterval({ value, defaultTime, defaultValue, onChange, onBlur, ...r
 }
 
 DateInterval.defaultProps = {
-  defaultTime: undefined,
   defaultValue: {
     [DateTimeControl.beginInputName]: null,
     [DateTimeControl.endInputName]: null,
@@ -81,31 +87,73 @@ DateInterval.defaultProps = {
 };
 
 DateInterval.propTypes = {
+  /**
+   * Callback фокуса
+   */
   onFocus: PropTypes.func,
+  /**
+   * Callback потери фокуса
+   */
   onBlur: PropTypes.func,
+  /**
+   * Начальное время
+   */
   defaultTime: PropTypes.object,
+  /**
+   * Значение контрола
+   */
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
     PropTypes.string,
   ]),
+  /**
+   * Минимальная дата
+   */
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
     PropTypes.string,
   ]),
+  /**
+   * Максимальная дата
+   */
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
     PropTypes.string,
   ]),
+  /**
+   * Callback изменения
+   */
   onChange: PropTypes.func,
+  /**
+   * Формат даты
+   */
   dateFormat: PropTypes.string,
+  /**
+   * Формат времени
+   */
   timeFormat: PropTypes.string,
+  /**
+   * Выходной формат
+   */
   outputFormat: PropTypes.string,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Placeholder
+   */
   placeholder: PropTypes.string,
+  /**
+   * Локализация
+   */
   locale: PropTypes.oneOf(['en', 'ru']),
+  /**
+   * Флаг включения открытия при фокусе
+   */
   openOnFocus: PropTypes.bool,
 };
 

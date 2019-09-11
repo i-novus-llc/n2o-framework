@@ -27,9 +27,21 @@ function Text({ text, format, preLine, className, ...rest }) {
 }
 
 Text.propTypes = {
+  /**
+   * Текст компонента
+   */
   text: PropTypes.string,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Формат текста
+   */
   format: PropTypes.string,
+  /**
+   * Флаг сохранения переносов текста
+   */
   preLine: PropTypes.bool,
 };
 

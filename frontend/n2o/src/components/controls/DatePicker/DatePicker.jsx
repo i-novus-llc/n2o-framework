@@ -50,32 +50,74 @@ DatePicker.defaultProps = {
 };
 
 DatePicker.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
     PropTypes.string,
   ]),
+  /**
+   * Минимальная дата ввода
+   */
   min: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
     PropTypes.string,
   ]),
+  /**
+   * Максимальная дата ввода
+   */
   max: PropTypes.oneOfType([
     PropTypes.instanceOf(moment),
     PropTypes.instanceOf(Date),
     PropTypes.string,
   ]),
+  /**
+   * Callback фокуса
+   */
   onFocus: PropTypes.func,
+  /**
+   * Callback потери фокуса
+   */
   onBlur: PropTypes.func,
+  /**
+   *
+   */
   dateDivider: PropTypes.string,
+  /**
+   * Callback изменения
+   */
   onChange: PropTypes.func,
+  /**
+   * Формат даты
+   */
   dateFormat: PropTypes.string,
+  /**
+   * Формат времени
+   */
   timeFormat: PropTypes.string,
+  /**
+   * Выходной фомат
+   */
   outputFormat: PropTypes.string,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
+  /**
+   * Placeholder
+   */
   locale: PropTypes.oneOf(['en', 'ru']),
+  /**
+   * Автофокус на контроле
+   */
   autoFocus: PropTypes.bool,
+  /**
+   * Флаг открытия выбора даты при фокусе
+   */
   openOnFocus: PropTypes.bool,
 };
 

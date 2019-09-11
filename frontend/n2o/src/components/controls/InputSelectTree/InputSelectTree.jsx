@@ -26,7 +26,7 @@ import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
 import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import { defaultProps, propTypes } from './allProps';
-import { compose, withState } from 'recompose';
+import { compose, withState, setDisplayName } from 'recompose';
 import propsResolver from '../../../utils/propsResolver';
 import { visiblePartPopup, getCheckedStrategy } from './until';
 import TreeNode from './TreeSelectNode';
@@ -413,9 +413,10 @@ function InputSelectTree({
 InputSelectTree.defaultProps = defaultProps;
 InputSelectTree.propTypes = propTypes;
 
-export { TreeNode };
+export { TreeNode, InputSelectTree };
 
 export default compose(
+  setDisplayName('InputSelectTree'),
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
   withState('dropdownExpanded', 'setDropdownExpanded', false),
   injectIntl

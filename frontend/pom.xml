@@ -49,35 +49,35 @@
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
                                     <arguments>install</arguments>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm run bootstrap</id>
+                                <id>npm run build:libs</id>
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>run bootstrap</arguments>
+                                    <arguments>run build:libs</arguments>
                                 </configuration>
                             </execution>
-
+                            
                             <execution>
-                                <id>npm run build</id>
+                                <id>npm run build:projects</id>
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>run build</arguments>
+                                    <arguments>run build:projects</arguments>
                                 </configuration>
                             </execution>
 
@@ -88,22 +88,22 @@
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
                                     <arguments>run test</arguments>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm run dev:docs</id>
+                                <id>npm run docs</id>
                                 <goals>
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>run dev:docs</arguments>
+                                    <arguments>run docs</arguments>
                                 </configuration>
                             </execution>
 

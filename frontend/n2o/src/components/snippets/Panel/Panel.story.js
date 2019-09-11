@@ -1,18 +1,18 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, boolean, text, select } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
 import Factory from '../../../core/factory/Factory';
 import { SNIPPETS } from '../../../core/factory/factoryLevels';
 
 import Panel from './PanelShortHand';
 import PanelJson from './Panel.meta.json';
-import panelStyles from './panelStyles';
 
 const stories = storiesOf('Регионы/Панель', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('Panel'));
+stories.addParameters({
+  info: {
+    propTablesExclude: [Factory],
+  },
+});
 
 const tabs = [
   {
@@ -30,16 +30,16 @@ const tabs = [
 stories
   .add('Компонент', () => {
     const props = {
-      className: text('className', PanelJson.className),
-      color: select('color', Object.values(panelStyles), PanelJson.color),
-      icon: text('icon', PanelJson.icon),
-      hasTabs: boolean('hasTabs', PanelJson.hasTabs),
+      className: PanelJson.className,
+      color: PanelJson.color,
+      icon: PanelJson.icon,
+      hasTabs: PanelJson.hasTabs,
       tabs: tabs,
-      headerTitle: text('headerTitle', PanelJson.headerTitle),
-      footerTitle: text('footerTitle', PanelJson.footerTitle),
-      open: boolean('open', PanelJson.open),
-      collapsible: boolean('collapsible', PanelJson.collapsible),
-      fullScreen: boolean('fullScreen', PanelJson.fullScreen),
+      headerTitle: PanelJson.headerTitle,
+      footerTitle: PanelJson.footerTitle,
+      open: PanelJson.open,
+      collapsible: PanelJson.collapsible,
+      fullScreen: PanelJson.fullScreen,
       containers: PanelJson.containers,
     };
 
@@ -54,16 +54,16 @@ stories
       id: 'uniqId',
       src: 'Panel',
       tabs: tabs,
-      className: text('className', PanelJson.className),
-      color: select('color', Object.values(panelStyles), PanelJson.color),
-      icon: text('icon', PanelJson.icon),
-      hasTabs: boolean('hasTabs', true),
-      text: text('text', 'text'),
-      headerTitle: text('headerTitle', PanelJson.headerTitle),
-      footerTitle: text('footerTitle', PanelJson.footerTitle),
-      open: boolean('open', PanelJson.open),
-      collapsible: boolean('collapsible', PanelJson.collapsible),
-      fullScreen: boolean('fullScreen', PanelJson.fullScreen),
+      className: PanelJson.className,
+      color: PanelJson.color,
+      icon: PanelJson.icon,
+      hasTabs: true,
+      text: 'text',
+      headerTitle: PanelJson.headerTitle,
+      footerTitle: PanelJson.footerTitle,
+      open: PanelJson.open,
+      collapsible: PanelJson.collapsible,
+      fullScreen: PanelJson.fullScreen,
       containers: PanelJson.containers,
     };
     return (

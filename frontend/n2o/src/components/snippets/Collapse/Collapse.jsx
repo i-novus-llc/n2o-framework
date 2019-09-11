@@ -43,13 +43,28 @@ const Collapse = ({ className, children, dataKey, ...rest }) => {
 };
 
 Collapse.propTypes = {
+  /**
+   * Массив ключей открытых панелей
+   */
   activeKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  /**
+   * Массив ключей открытых по дефолту панелей
+   */
   defaultActiveKey: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   destroyInactivePanel: PropTypes.bool,
+  /**
+   * Флаг включения режима 'Аккордион' (При открытии панели захлопнуть предыдущую панель)
+   */
   accordion: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
+  /**
+   * Callback на открытие/закрытие панелей
+   */
   onChange: PropTypes.func,
+  /**
+   * Ключ для рендера панелей
+   */
   dataKey: PropTypes.string,
 };
 

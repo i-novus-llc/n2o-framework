@@ -13,36 +13,56 @@ import progressBarStyles from './progressBarStyles';
  * @reactProps {string} color - цвет прогресс бара
  * @reactProps {string} size - размер прогресс бара
  */
-
-class ProgressBarCell extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    const { id, animated, striped, color, size, visible } = this.props;
-
-    return (
-      visible && (
-        <Progress
-          value={this.props.model[id]}
-          className={size}
-          animated={animated}
-          striped={striped}
-          color={color}
-        />
-      )
-    );
-  }
+function ProgressBarCell({
+  id,
+  animated,
+  striped,
+  color,
+  size,
+  visible,
+  model,
+}) {
+  return (
+    visible && (
+      <Progress
+        value={model[id]}
+        className={size}
+        animated={animated}
+        striped={striped}
+        color={color}
+      />
+    )
+  );
 }
 
 ProgressBarCell.propTypes = {
+  /**
+   * ID ячейки
+   */
   id: PropTypes.string.isRequired,
+  /**
+   * Модель данных
+   */
   model: PropTypes.object.isRequired,
+  /**
+   * Флаг анимированности ячейки
+   */
   animated: PropTypes.bool,
+  /**
+   * Флаг штриховки
+   */
   striped: PropTypes.bool,
+  /**
+   * Цвет ячейки
+   */
   color: PropTypes.oneOf(Object.values(progressBarStyles)),
+  /**
+   * Размер ячейки
+   */
   size: PropTypes.oneOf(['mini', 'default', 'large']),
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 

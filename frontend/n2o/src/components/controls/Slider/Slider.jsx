@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { omit } from 'lodash';
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
 import { stringConverter, prepareStyle } from './utils';
-import { propTypes, defaultProps } from './allProps';
 /**
  * Компонент Slider
  * @reactProps {boolean} multiple - Множественный выбор
@@ -71,6 +71,62 @@ function Slider(props) {
   );
 }
 
+Slider.propTypes = {
+  /**
+   * Множественный выбор
+   */
+  multiple: PropTypes.bool,
+  /**
+   * Показать тултип
+   */
+  showTooltip: PropTypes.bool,
+  /**
+   * Позиция тултипа
+   */
+  tooltipPlacement: PropTypes.string,
+  step: PropTypes.number,
+  /**
+   * Отобразить slider вертикально
+   */
+  vertical: PropTypes.bool,
+  /**
+   * Нередактаруем
+   */
+  disabled: PropTypes.bool,
+  /**
+   * Показать шкалу
+   */
+  dots: PropTypes.bool,
+  /**
+   * Начало шкалы
+   */
+  min: PropTypes.number,
+  /**
+   * Конец шкалы
+   */
+  max: PropTypes.number,
+  /**
+   * Подписи к шкале
+   */
+  marks: PropTypes.object,
+  /**
+   * В мульти режиме блокирует смену несколькох ползунков
+   */
+  pushable: PropTypes.bool,
+  /**
+   * Форматированный вывод тултипа
+   */
+  tooltipFormatter: PropTypes.string,
+  stringMode: PropTypes.bool,
+};
+
+Slider.defaultProps = {
+  multiple: false,
+  showTooltip: false,
+  tooltipPlacement: 'top',
+  stringMode: true,
+};
+
 const WrapSlider = stringConverter([
   'value',
   'max',
@@ -79,7 +135,5 @@ const WrapSlider = stringConverter([
   'stoppingValue',
 ])(Slider);
 
-WrapSlider.propTypes = propTypes;
-WrapSlider.defaultProps = defaultProps;
-
+export { Slider };
 export default WrapSlider;

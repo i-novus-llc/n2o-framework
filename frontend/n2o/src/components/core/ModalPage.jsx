@@ -99,7 +99,7 @@ class ModalPage extends React.Component {
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
           <Modal
             isOpen={visible}
-            toggle={() => this.closeModal(false)}
+            toggle={() => this.closeModal(true)}
             size={size}
             backdrop={false}
             style={{
@@ -108,7 +108,7 @@ class ModalPage extends React.Component {
           >
             <ModalHeader
               className={classes}
-              toggle={() => this.closeModal(false)}
+              toggle={() => this.closeModal(true)}
             >
               {title}
             </ModalHeader>
@@ -156,16 +156,46 @@ class ModalPage extends React.Component {
 export const ModalWindow = ModalPage;
 
 ModalPage.propTypes = {
+  /**
+   * ID страницы
+   */
   pageId: PropTypes.string,
+  /**
+   * Видимость модального окна
+   */
   visible: PropTypes.bool,
+  /**
+   * Размер окна
+   */
   size: PropTypes.oneOf(['lg', 'sm']),
+  /**
+   * Заголовок
+   */
   title: PropTypes.string,
+  /**
+   * Включение кнопки закрытия
+   */
   closeButton: PropTypes.bool,
+  /**
+   * Настройка кнопок
+   */
   toolbar: PropTypes.array,
+  /**
+   * Название модалки
+   */
   name: PropTypes.string,
+  /**
+   * Объект экшенов
+   */
   actions: PropTypes.object,
   props: PropTypes.object,
+  /**
+   * Функция закрытия
+   */
   close: PropTypes.func.isRequired,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
 };
 

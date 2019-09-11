@@ -1,24 +1,39 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page  xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first">
-    <table id="test" route="/widget">
-        <toolbar>
-            <button id="id1">
-                <a href="/test"/>
-            </button>
-            <button id="id2">
-                <a href="test2/:param1/:param2?param3=:param3" target="application">
-                    <path-param name="param1" value="{field1}"/>
-                    <path-param name="param2" value="{field2}"/>
-                    <query-param name="param3" value="{field3}"/>
-                </a>
-            </button>
-            <button id="id3">
-                <a href="http://google.com"/>
-            </button>
-            <button id="id4">
-                <show-modal page-id="testAnchorAction2"/>
-            </button>
-        </toolbar>
-    </table>
-</simple-page>
+<page  xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first">
+    <regions>
+        <line place="single">
+            <table id="test" route="/widget">
+                <toolbar>
+                    <button id="id1">
+                        <a href="/test"/>
+                    </button>
+                    <button id="id2">
+                        <a href="test2/:param1/:param2?param3=:param3" target="application">
+                            <path-param name="param1" value="{field1}"/>
+                            <path-param name="param2" value="{field2}"/>
+                            <query-param name="param3" value="{field3}"/>
+                        </a>
+                    </button>
+                    <button id="id3">
+                        <a href="http://google.com"/>
+                    </button>
+                    <button id="id4">
+                        <show-modal page-id="testAnchorAction2"/>
+                    </button>
+                </toolbar>
+            </table>
+        </line>
+        <line place="single">
+            <table id="secondWgt" route="/second">
+                <toolbar>
+                    <button id="secWgt" model="filter" widget-id="test" >
+                        <a  href="test/:minPrice/" target="newWindow">
+                            <path-param name="minPrice" value="{minPrice}"/>
+                        </a>
+                    </button>
+                </toolbar>
+            </table>
+        </line>
+    </regions>
+</page>
 

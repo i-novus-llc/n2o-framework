@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { getStubData } from 'N2oStorybook/fetchMock';
 import { filterMetadata } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
@@ -15,15 +15,16 @@ const stories = storiesOf(
   module
 );
 
-stories.addDecorator(withTests('Table'));
+stories
+  .addDecorator(withPage(metadata))
 
-stories.addDecorator(withPage(metadata)).add('Метаданные', () => {
-  fetchMock.restore().get('begin:n2o/data', url => {
-    return { ...getStubData(url), list: getStubData(url).list.slice(0, 3) };
+  .add('Метаданные', () => {
+    fetchMock.restore().get('begin:n2o/data', url => {
+      return { ...getStubData(url), list: getStubData(url).list.slice(0, 3) };
+    });
+    return (
+      <div>
+        <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
+      </div>
+    );
   });
-  return (
-    <div>
-      <Factory level={WIDGETS} {...metadata['Page_Table']} id="Page_Table" />
-    </div>
-  );
-});

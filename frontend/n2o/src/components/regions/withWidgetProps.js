@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { pick, omit, get } from 'lodash';
+import { omit, get } from 'lodash';
 import { widgetsSelector } from '../../selectors/widgets';
+import { makeModelsByPrefixSelector } from '../../selectors/models';
 
 import { pagesSelector } from '../../selectors/pages';
 import {
@@ -13,6 +14,7 @@ import {
   enableWidget,
   dataRequestWidget,
 } from '../../actions/widgets';
+import { PREFIXES } from '../../constants/models';
 
 /**
  * HOC для работы с данными
@@ -33,7 +35,10 @@ function withGetWidget(WrappedComponent) {
     }
 
     getWidgetProps(widgetId) {
-      return get(this.props.widgets, widgetId, {});
+      return {
+        ...get(this.props.widgets, widgetId, {}),
+        datasource: this.props.widgetsDatasource[widgetId],
+      };
     }
 
     /**
@@ -64,6 +69,7 @@ function withGetWidget(WrappedComponent) {
     return {
       pages: pagesSelector(state),
       widgets: widgetsSelector(state),
+      widgetsDatasource: makeModelsByPrefixSelector(PREFIXES.datasource)(state),
     };
   };
 

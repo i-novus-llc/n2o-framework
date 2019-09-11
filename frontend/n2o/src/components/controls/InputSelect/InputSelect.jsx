@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose, setDisplayName } from 'recompose';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
@@ -32,7 +33,7 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {function} onSelect
  * @reactProps {function} onScrollENd - callback при прокрутке скролла popup
  * @reactProps {string} placeHolder - подсказка в инпуте
- * @reactProps {boolean} resetOnBlur - фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+ * @reactProps {boolean} resetOnBlur - фича, при которой: (значение - true) - сбрасывается значение контрола, если оно не выбрано из popup, (значение - false) - создает объект в текущем value
  * @reactProps {function} onOpen - callback на открытие попапа
  * @reactProps {function} onClose - callback на закрытие попапа
  * @reactProps {boolean} multiSelect - флаг мульти выбора
@@ -89,6 +90,7 @@ class InputSelect extends React.Component {
     this.onInputBlur = this.onInputBlur.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.setInputRef = this.setInputRef.bind(this);
+    this.addObjectToValue = this.addObjectToValue.bind(this);
   }
 
   setTextareaRef(poperRef) {
@@ -136,13 +138,26 @@ class InputSelect extends React.Component {
    * @private
    */
   _handleValueChangeOnBlur() {
-    const { value, input, options } = this.state;
-    const { onChange, multiSelect, resetOnBlur, labelFieldId } = this.props;
-    const newValue = find(options, { [labelFieldId]: input });
-
+    const { value, input } = this.state;
+    const {
+      onChange,
+      multiSelect,
+      resetOnBlur,
+      labelFieldId,
+      options,
+    } = this.props;
     const findValue = find(value, [labelFieldId, input]);
 
-    if (input && isEmpty(findValue)) {
+    const conditionForAddingAnObject = (resetOnBlur, input, options, value) => {
+      return (
+        !resetOnBlur &&
+        input.split(' ').every(char => char === '') !== true &&
+        options.some(person => person.id === input) !== true &&
+        value.some(person => person.id === input) !== true
+      );
+    };
+
+    if (input && isEmpty(findValue) && resetOnBlur) {
       this.setState(
         {
           input: multiSelect ? '' : (value[0] && value[0][labelFieldId]) || '',
@@ -159,6 +174,9 @@ class InputSelect extends React.Component {
         },
         () => onChange(this._getValue())
       );
+    }
+    if (conditionForAddingAnObject(resetOnBlur, input, options, value)) {
+      this.addObjectToValue();
     }
   }
 
@@ -376,6 +394,29 @@ class InputSelect extends React.Component {
   }
 
   /**
+   * Добавлет объект к текущему value, при resetOnBlur = false
+   * @private
+   */
+
+  addObjectToValue() {
+    const { multiSelect, labelFieldId } = this.props;
+
+    const userInput = this.state.input;
+    const currentValue = this.state.value;
+    const { options } = this.state;
+
+    Array.isArray(options) && multiSelect
+      ? options.length === 0 &&
+        this.setState({
+          value: [...currentValue, { [labelFieldId]: userInput }],
+          input: '',
+        })
+      : this.setState({
+          value: [{ [labelFieldId]: userInput }],
+        });
+  }
+
+  /**
    * Обрабатывает клик за пределы компонента
    * @param evt
    */
@@ -407,6 +448,7 @@ class InputSelect extends React.Component {
     if (!this.state.isExpanded) {
       this.props.onBlur(this._getValue());
     }
+    this._handleValueChangeOnBlur();
   }
 
   onFocus() {
@@ -591,38 +633,124 @@ class InputSelect extends React.Component {
 }
 
 InputSelect.propTypes = {
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Флаг загрузки
+   */
   loading: PropTypes.bool,
+  /**
+   * Массив данных
+   */
   options: PropTypes.array.isRequired,
+  /**
+   * Ключ id в данных
+   */
   valueFieldId: PropTypes.string.isRequired,
+  /**
+   * Ключ label в данных
+   */
   labelFieldId: PropTypes.string.isRequired,
+  /**
+   * Ключ icon в данных
+   */
   iconFieldId: PropTypes.string,
+  /**
+   * Ключ image в данных
+   */
   imageFieldId: PropTypes.string,
+  /**
+   * Ключ badge в данных
+   */
   badgeFieldId: PropTypes.string,
+  /**
+   * Ключ цвета badgeColor в данных
+   */
   badgeColorFieldId: PropTypes.string,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Неактивные данные
+   */
   disabledValues: PropTypes.array,
+  /**
+   * Варианты фильтрации
+   */
   filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', false]),
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  /**
+   * Callback на переключение
+   */
   onToggle: PropTypes.func,
   onInput: PropTypes.func,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Callback на выбор
+   */
   onSelect: PropTypes.func,
+  /**
+   * Callback на скрол в самый низ
+   */
   onScrollEnd: PropTypes.func,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Фича, при которой сбрасывается значение контрола, если оно не выбрано из popup
+   */
   resetOnBlur: PropTypes.bool,
+  /**
+   * Callback на открытие
+   */
   onOpen: PropTypes.func,
+  /**
+   * Callback на закрытие
+   */
   onClose: PropTypes.func,
+  /**
+   * Мульти выбор значений
+   */
   multiSelect: PropTypes.bool,
+  /**
+   * Поле для группировки
+   */
   groupFieldId: PropTypes.string,
+  /**
+   * Флаг закрытия попапа при выборе
+   */
   closePopupOnSelect: PropTypes.bool,
+  /**
+   * Флаг наличия чекбоксов в селекте
+   */
   hasCheckboxes: PropTypes.bool,
+  /**
+   * Формат
+   */
   format: PropTypes.string,
+  /**
+   * Callback на поиск
+   */
   onSearch: PropTypes.func,
   expandPopUp: PropTypes.bool,
   alerts: PropTypes.array,
-  flip: PropTypes.bool,
+  /**
+   * Авто фокусировка на селекте
+   */
   autoFocus: PropTypes.bool,
+  /**
+   * Флаг авто размера попапа
+   */
   popupAutoSize: PropTypes.bool,
 };
 
@@ -641,7 +769,6 @@ InputSelect.defaultProps = {
   closePopupOnSelect: true,
   hasCheckboxes: false,
   expandPopUp: false,
-  flip: false,
   autoFocus: false,
   popupAutoSize: false,
   onSearch() {},
@@ -655,4 +782,8 @@ InputSelect.defaultProps = {
   onBlur() {},
 };
 
-export default onClickOutside(InputSelect);
+export { InputSelect };
+export default compose(
+  setDisplayName('InputSelect'),
+  onClickOutside
+)(InputSelect);
