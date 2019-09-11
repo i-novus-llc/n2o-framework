@@ -311,8 +311,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
 
     private Boolean isGrouping(CompileProcessor p) {
         Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
-        if (buttonGrouping instanceof Boolean) return (Boolean) buttonGrouping;
-        else return true;
+        return buttonGrouping instanceof Boolean ? (Boolean) buttonGrouping : true;
     }
 
     @Override
