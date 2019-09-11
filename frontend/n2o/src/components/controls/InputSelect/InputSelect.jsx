@@ -60,7 +60,7 @@ class InputSelect extends React.Component {
     const valueArray = Array.isArray(value) ? value : value ? [value] : [];
     const input = value && !multiSelect ? value[labelFieldId] : '';
     this.state = {
-      inputFocus: false,
+      inputFocus: props.autoFocus || false,
       isExpanded: false,
       isInputSelected: false,
       value: valueArray,
@@ -185,10 +185,7 @@ class InputSelect extends React.Component {
    * @private
    */
   _handleClick() {
-    // const searchCallback = () => {
     this._setIsExpanded(true);
-    //};
-    //this._handleDataSearch(this.state.input, false, searchCallback);
     this._setSelected(false);
     this._setInputFocus(true);
   }
@@ -274,11 +271,11 @@ class InputSelect extends React.Component {
    */
   _setIsExpanded(isExpanded) {
     const { disabled, onToggle, onClose, onOpen } = this.props;
-    const { isExpanded: previousIsExpanded } = this.state;
+    const { isExpanded: previousIsExpanded, inputFocus, input } = this.state;
     if (!disabled && isExpanded !== previousIsExpanded) {
       this.setState({ isExpanded });
       onToggle(isExpanded);
-      isExpanded ? onOpen() : onClose();
+      isExpanded && (!inputFocus || isEmpty(input)) ? onOpen() : onClose();
     }
   }
 
@@ -449,6 +446,7 @@ class InputSelect extends React.Component {
       this.props.onBlur(this._getValue());
     }
     this._handleValueChangeOnBlur();
+    this._setInputFocus(false);
   }
 
   onFocus() {
