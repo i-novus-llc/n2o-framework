@@ -34,16 +34,6 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
     }
 
-    private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
-        p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
-        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
-        p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
-        p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
-        p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
-        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
-    }
-
     private void option(Element e, Map<String, String> map, IOProcessor p) {
         p.otherAttributes(e, Namespace.NO_NAMESPACE, map);
     }
