@@ -120,7 +120,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         N2oRowClick rowClick = source.getRows().getRowClick();
         if (rowClick != null) {
             Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
-            if (enabledCondition == null || enabledCondition instanceof String || enabledCondition instanceof Boolean && Boolean.TRUE.equals(enabledCondition)) {
+            if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
                 if (rowClick.getActionId() != null) {
                     MetaActions actions = p.getScope(MetaActions.class);
                     AbstractAction action = (AbstractAction) actions.get(rowClick.getActionId());
