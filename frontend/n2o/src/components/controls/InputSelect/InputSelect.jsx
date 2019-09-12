@@ -235,7 +235,7 @@ class InputSelect extends React.Component {
   _removeSelectedItem(item) {
     const { onChange } = this.props;
     const value = this.state.value.filter(i => i.id !== item.id);
-    this.setState({ value }, onChange(value));
+    this.setState({ value }, () => onChange(value));
   }
 
   /**

@@ -8,6 +8,10 @@ import {
   filter,
   includes,
   isEqual,
+  map,
+  isArray,
+  isString,
+  isNil,
 } from 'lodash';
 import { compose } from 'recompose';
 import listContainer from '../listContainer';
@@ -15,6 +19,7 @@ import onClickOutside from 'react-onclickoutside';
 import cn from 'classnames';
 
 import InputContent from '../InputSelect/InputContent';
+import InputSelectGroup from '../InputSelect/InputSelectGroup';
 
 import { Manager, Reference, Popper } from 'react-popper';
 import { MODIFIERS } from '../DatePicker/utils';
@@ -24,49 +29,54 @@ import Alert from '../../snippets/Alerts/Alert';
 class AutoComplete extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       isExpanded: false,
       value: [],
+      input: props.value && !props.tags ? props.value : '',
       activeValueId: null,
     };
 
     this._input = null;
     this._textarea = null;
-
-    this.setInputRef = this.setInputRef.bind(this);
-    this._setIsExpanded = this._setIsExpanded.bind(this);
-    this._handleClick = this._handleClick.bind(this);
-    this.calcPopperWidth = this.calcPopperWidth.bind(this);
-    this.setSelectedListRef = this.setSelectedListRef.bind(this);
-    this.setTextareaRef = this.setTextareaRef.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.onClick = this.onClick.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.onChange = this.onChange.bind(this);
-    this.onSelect = this.onSelect.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this._setActiveValueId = this._setActiveValueId.bind(this);
-    this._handleDataSearch = this._handleDataSearch.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    const { value } = this.props;
+  componentDidMount = () => {
+    const { value, tags } = this.props;
+
+    if (!isEmpty(value)) {
+      this.setState({
+        value: isArray(value) ? value : value ? [value] : [],
+        input: value && !tags ? value : '',
+      });
+    }
+  };
+
+  componentDidUpdate = prevProps => {
+    const { value, options, tags } = this.props;
+
+    if (!isEqual(prevProps.options, options)) {
+      this.setState({ options });
+    }
 
     if (prevProps.value !== value) {
-      this.setState({ value: [value] });
+      this.setState({
+        value: isArray(value) ? value : value ? [value] : [],
+        input: value && !tags ? value : '',
+      });
     }
-  }
+  };
 
-  handleClickOutside() {
+  handleClickOutside = () => {
     const { onBlur } = this.props;
     const { isExpanded } = this.state;
     if (isExpanded) {
       this._setIsExpanded(false);
       onBlur();
     }
-  }
+  };
 
-  calcPopperWidth() {
+  calcPopperWidth = () => {
     const { _input, _textarea } = this;
     const { popupAutoSize } = this.props;
     if ((_input || _textarea) && !popupAutoSize) {
@@ -74,9 +84,9 @@ class AutoComplete extends React.Component {
         ? _input.getBoundingClientRect().width
         : _textarea.getBoundingClientRect().width;
     }
-  }
+  };
 
-  _setIsExpanded(isExpanded) {
+  _setIsExpanded = isExpanded => {
     const { disabled, onToggle, onClose, onOpen } = this.props;
     const { isExpanded: previousIsExpanded } = this.state;
     if (!disabled && isExpanded !== previousIsExpanded) {
@@ -84,106 +94,141 @@ class AutoComplete extends React.Component {
       onToggle(isExpanded);
       isExpanded ? onOpen() : onClose();
     }
-  }
+  };
 
-  setInputRef(popperRef) {
+  setInputRef = popperRef => {
     return r => {
       this._input = r;
       popperRef(r);
     };
-  }
+  };
 
-  setTextareaRef(poperRef) {
+  setTextareaRef = poperRef => {
     return r => {
       this._textarea = r;
       poperRef(r);
     };
-  }
+  };
 
-  setSelectedListRef(selectedList) {
+  setSelectedListRef = selectedList => {
     this._selectedList = selectedList;
-  }
+  };
 
-  _handleClick() {
-    this._setIsExpanded(true);
-  }
-
-  onFocus() {
+  onFocus = () => {
     const { openOnFocus } = this.props;
 
     if (openOnFocus) {
       this._setIsExpanded(true);
     }
-  }
+  };
 
-  onClick() {
+  onClick = () => {
     this._setIsExpanded(true);
-  }
+  };
 
-  _handleDataSearch(input, delay = 400, callback) {
+  _handleDataSearch = (input, delay = 400, callback) => {
     const { onSearch, filter, valueFieldId, options } = this.props;
 
     if (filter && ['includes', 'startsWith', 'endsWith'].includes(filter)) {
       const filterFunc = item => String.prototype[filter].call(item, input);
-      const filteredData = options.filter(item =>
+      const filteredData = filter(options, item =>
         filterFunc(item[valueFieldId])
       );
-      this.setState({ options: valueFieldId });
+      this.setState({ options: filteredData });
     } else {
       //серверная фильтрация
-      const labels = this.state.value.map(item => item[valueFieldId]);
+      const labels = map(this.state.value, item => item[valueFieldId]);
       if (labels.some(label => label === input)) {
         onSearch('', delay, callback);
       } else {
         onSearch(input, delay, callback);
       }
     }
-  }
+  };
 
-  onChange(value) {
+  onChange = input => {
     const { onInput } = this.props;
-    const onSetNewInputValue = value => {
-      onInput(value);
-      this._handleDataSearch(value);
+    const onSetNewInputValue = input => {
+      onInput(input);
+      this._handleDataSearch(input);
     };
 
-    if (!isEqual(this.state.value, value)) {
-      this.setState({ value: [value] }, () => onSetNewInputValue(value));
+    if (!isEqual(this.state.input, input)) {
+      this.setState({ input }, () => onSetNewInputValue(input));
     }
-  }
+  };
 
-  onBlur() {
+  onBlur = () => {
     const { onBlur } = this.props;
+    const { value } = this.state;
 
     if (isFunction(onBlur)) {
-      onBlur();
+      onBlur(value);
     }
-  }
+  };
 
-  onSelect(item) {
-    const { valueFieldId, onChange, closePopupOnSelect } = this.props;
-    const value = get(item, valueFieldId);
+  onSelect = item => {
+    const { valueFieldId, onChange, closePopupOnSelect, tags } = this.props;
+    const value = isString(item) ? item : get(item, valueFieldId);
 
     this.setState(
-      {
-        value: [value],
-      },
+      prevState => ({
+        value: tags ? [...prevState.value, value] : [value],
+        input: !tags ? value : '',
+      }),
       () => {
         if (closePopupOnSelect) {
           this._setIsExpanded(false);
         }
 
+        if (isString(value)) {
+          this.forceUpdate();
+        }
+
         onChange(value);
       }
     );
-  }
+  };
 
-  _setActiveValueId(activeValueId) {
+  _handleElementClear = () => {
+    const { onChange, onBlur } = this.props;
+
+    this.setState(
+      {
+        input: '',
+        value: [],
+      },
+      () => {
+        this._handleDataSearch(this.state.input);
+        onChange(this.state.value);
+        onBlur(null);
+      }
+    );
+  };
+
+  _setActiveValueId = activeValueId => {
     this.setState({ activeValueId });
-  }
+  };
+
+  _removeSelectedItem = (item, index = null) => {
+    const { onChange } = this.props;
+    const { value } = this.state;
+    let newValue = value.slice();
+
+    if (!isNil(index)) {
+      newValue.splice(index, 1);
+    } else {
+      newValue = value.slice(0, value.length - 1);
+    }
+
+    this.setState({ value: newValue }, () => {
+      onChange(value);
+      this.forceUpdate();
+    });
+  };
 
   render() {
-    const { isExpanded, value, activeValueId } = this.state;
+    const { isExpanded, value, activeValueId, input } = this.state;
     const {
       loading,
       className,
@@ -204,50 +249,74 @@ class AutoComplete extends React.Component {
       autoFocus,
       options,
       data,
+      tags,
     } = this.props;
-    const needAddFilter = !find(
-      this.state.value,
-      item => item[valueFieldId] === this.state.input
-    );
+    const needAddFilter = !find(value, item => item[valueFieldId] === input);
+    const optionsList = !isEmpty(data) ? data : options;
     const filteredOptions = filter(
-      !isEmpty(data) ? data : options,
-      item => includes(item[valueFieldId], value) || isEmpty(value)
+      optionsList,
+      item => includes(item[valueFieldId], input) || isEmpty(input)
     );
 
     return (
-      <div className={cn('n2o-autocomplete w-100', className)} style={style}>
+      <div
+        className={cn(
+          'n2o-autocomplete w-100 n2o-input-select n2o-input-select--default',
+          className
+        )}
+        style={style}
+      >
         <Manager>
           <Reference>
             {({ ref }) => (
-              <InputContent
-                options={filteredOptions}
-                setRef={this.setInputRef(ref)}
-                onInputChange={this.onChange}
-                setActiveValueId={this._setActiveValueId}
-                closePopUp={() => this._setIsExpanded(false)}
-                openPopUp={() => this._setIsExpanded(true)}
-                selected={value}
-                value={value}
-                onFocus={this.onFocus}
-                onClick={this.onClick}
-                onBlur={this.onBlur}
+              <InputSelectGroup
+                withoutButtons={true}
                 isExpanded={isExpanded}
-                setTextareaRef={this.setTextareaRef(ref)}
-                setSelectedListRef={this.setSelectedListRef}
-                valueFieldId={valueFieldId}
-                activeValueId={activeValueId}
-                onSelect={this.onSelect}
+                setIsExpanded={this._setIsExpanded}
                 loading={loading}
-                disabled={disabled}
-                disabledValues={disabledValues}
-                placeholder={placeholder}
+                selected={value}
                 iconFieldId={iconFieldId}
                 imageFieldId={imageFieldId}
-                labelFieldId={valueFieldId}
-                autoFocus={autoFocus}
-                _textarea={this._textarea}
-                _selectedList={this._selectedList}
-              />
+                multiSelect={tags}
+                disabled={disabled}
+                className={className}
+                setSelectedItemsRef={this.setSelectedItemsRef}
+                input={input}
+                onClearClick={this._handleElementClear}
+              >
+                <InputContent
+                  tags={true}
+                  multiSelect={tags}
+                  options={filteredOptions}
+                  setRef={this.setInputRef(ref)}
+                  onInputChange={this.onChange}
+                  setActiveValueId={this._setActiveValueId}
+                  closePopUp={() => this._setIsExpanded(false)}
+                  openPopUp={() => this._setIsExpanded(true)}
+                  selected={value}
+                  value={input}
+                  onFocus={this.onFocus}
+                  onClick={this.onClick}
+                  onBlur={this.onBlur}
+                  onRemoveItem={this._removeSelectedItem}
+                  isExpanded={isExpanded}
+                  setTextareaRef={this.setTextareaRef(ref)}
+                  setSelectedListRef={this.setSelectedListRef}
+                  valueFieldId={valueFieldId}
+                  activeValueId={activeValueId}
+                  onSelect={this.onSelect}
+                  loading={loading}
+                  disabled={disabled}
+                  disabledValues={disabledValues}
+                  placeholder={placeholder}
+                  iconFieldId={iconFieldId}
+                  imageFieldId={imageFieldId}
+                  labelFieldId={valueFieldId}
+                  autoFocus={autoFocus}
+                  _textarea={this._textarea}
+                  _selectedList={this._selectedList}
+                />
+              </InputSelectGroup>
             )}
           </Reference>
           {isExpanded && (
@@ -268,6 +337,7 @@ class AutoComplete extends React.Component {
                   className="n2o-pop-up"
                 >
                   <PopupList
+                    autocomplete={true}
                     isExpanded={isExpanded}
                     activeValueId={activeValueId}
                     setActiveValueId={this._setActiveValueId}
@@ -424,6 +494,10 @@ AutoComplete.propTypes = {
    * Флаг авто размера попапа
    */
   popupAutoSize: PropTypes.bool,
+  /**
+   * Мод работы Autocomplete
+   */
+  tags: PropTypes.bool,
 };
 
 AutoComplete.defaultProps = {
@@ -443,6 +517,7 @@ AutoComplete.defaultProps = {
   flip: false,
   autoFocus: false,
   popupAutoSize: false,
+  tags: false,
   onSearch() {},
   onSelect() {},
   onToggle() {},
