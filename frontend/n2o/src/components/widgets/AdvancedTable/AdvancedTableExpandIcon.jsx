@@ -51,9 +51,11 @@ AdvancedTableExpandIcon.defaultProps = {
   record: {},
 };
 
-export default compose(
+const enhance = compose(
   withHandlers({
     onExpand: ({ onExpand, record }) => e => onExpand(record, e),
   }),
   pure
-)(AdvancedTableExpandIcon);
+);
+export { AdvancedTableExpandIcon };
+export default enhance(AdvancedTableExpandIcon);
