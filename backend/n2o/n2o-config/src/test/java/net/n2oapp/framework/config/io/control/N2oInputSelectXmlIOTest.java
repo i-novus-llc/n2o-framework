@@ -21,7 +21,7 @@ public class N2oInputSelectXmlIOTest extends N2oStandardControlReaderTestBase {
                     assertCountField(fieldSet, 1);
                     N2oInputSelect n2oInputSelect = (N2oInputSelect) fieldSet.getItems()[0];
                     assertStandardListAttribute(n2oInputSelect);
-                    assert !n2oInputSelect.getStoreOnInput();
+                    assert !n2oInputSelect.getResetOnBlur();
                 });
     }
 }

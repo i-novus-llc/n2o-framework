@@ -21,7 +21,7 @@ public class N2oInputSelectPersister extends N2oControlXmlPersister<N2oInputSele
         setListQuery(element, entity);
         setOptionsList(element, entity.getOptions());
         PersisterJdomUtil.setAttribute(element, "type", entity.getType());
-        PersisterJdomUtil.setAttribute(element, "store-on-input", !entity.getStoreOnInput());
+        PersisterJdomUtil.setAttribute(element, "store-on-input", !entity.getResetOnBlur());
         return element;
     }
 

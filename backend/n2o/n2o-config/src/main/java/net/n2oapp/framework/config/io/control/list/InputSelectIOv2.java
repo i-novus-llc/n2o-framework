@@ -13,7 +13,7 @@ public class InputSelectIOv2 extends ListFieldIOv2<N2oInputSelect> {
     public void io(Element e, N2oInputSelect m, IOProcessor p) {
         super.io(e, m, p);
         p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
-        p.attributeBoolean(e, "reset-on-blur", m::getStoreOnInput, m::setStoreOnInput);
+        p.attributeBoolean(e, "reset-on-blur", m::getResetOnBlur, m::setResetOnBlur);
     }
 
     @Override
