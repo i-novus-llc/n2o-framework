@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -14,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
+import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -24,6 +26,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -90,11 +93,23 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testRowClick() {
-        Table table = (Table)compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.widget.xml")
-                .get(new WidgetContext("testTable4RowClickCompile"));
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
+                .get(new PageContext("testTable4RowClickCompile"));
+        List<AbstractAction> rowClicks = new ArrayList<>();
+        page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((TableWidgetComponent) widget.getComponent()).getRowClick()));
 
-        assertThat(table.getComponent().getRowClick(), notNullValue());
-        assertThat(table.getComponent().getRowClick(), instanceOf(Action.class));
+        assertThat(rowClicks.size(), is(8));
+        assertThat(rowClicks.get(0), is(nullValue(Action.class)));
+        rowClicks.remove(0);
+        rowClicks.forEach(click -> assertThat(click, instanceOf(Action.class)));
+
+        assertThat(rowClicks.get(0).getEnabledCondition(), is(nullValue(String.class)));
+        assertThat(rowClicks.get(1).getEnabledCondition(), is("`false`"));
+        assertThat(rowClicks.get(2).getEnabledCondition(), is("`true`"));
+        assertThat(rowClicks.get(3).getEnabledCondition(), is("`1==1`"));
+        assertThat(rowClicks.get(4).getEnabledCondition(), is("`false`"));
+        assertThat(rowClicks.get(5).getEnabledCondition(), is("`true`"));
+        assertThat(rowClicks.get(6).getEnabledCondition(), is("`1==1`"));
     }
 
     @Test
@@ -213,8 +228,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("sb"));
         assertThat(field.getSrc(), is("StandardField"));
-        assertThat(((StandardField)field).getControl(), instanceOf(SearchButtons.class));
-        assertThat(((StandardField)field).getControl().getSrc(), is("FilterButtonsField"));
+        assertThat(((StandardField) field).getControl(), instanceOf(SearchButtons.class));
+        assertThat(((StandardField) field).getControl().getSrc(), is("FilterButtonsField"));
 
         assertThat(((StandardField<SearchButtons>) field).getControl().getResetLabel(), is("resetLabel"));
         assertThat(((StandardField<SearchButtons>) field).getControl().getSearchLabel(), is("searchLabel"));

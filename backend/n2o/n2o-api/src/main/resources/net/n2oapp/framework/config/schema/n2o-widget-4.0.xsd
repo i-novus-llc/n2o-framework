@@ -551,6 +551,11 @@
                         <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
                         </xs:documentation>
                     </xs:annotation>
+                <xs:attribute name="enabled" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Условие доступности действия
+                        </xs:documentation>
+                    </xs:annotation>
                 </xs:attribute>
 
                 <xs:anyAttribute>
