@@ -201,7 +201,13 @@ class InputMask extends React.Component {
         onFocus={this._onFocus.bind(this)}
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
-          return <input ref={ref} {...omit(props, ['defaultValue'])} autoFocus={autoFocus} />;
+          return (
+            <input
+              ref={ref}
+              {...omit(props, ['defaultValue'])}
+              autoFocus={autoFocus}
+            />
+          );
         }}
       />
     );

@@ -10,7 +10,14 @@
 		"lib",
 		"umd"
 	],
+	"scripts": {
+		"build": "nwb build-react-component --no-demo",
+		"clean": "nwb clean-module && nwb clean-demo",
+		"prepublishOnly": "npm run build",
+		"start": "nwb serve-react-demo"
+	},
 	"dependencies": {
+		"n2o": "^7.4.0",
 		"net": "^1.0.2",
 		"react-redux": "5.0.6",
 		"reactstrap": "^8.0.0",

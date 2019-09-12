@@ -202,8 +202,8 @@ const mapStateToProps = (state, props) => {
 
 const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => model => {
-    const { enabledCondition } = rowClick;
-    if (evalExpression(enabledCondition, model) !== false) {
+    const { enablingCondition } = rowClick;
+    if (evalExpression(enablingCondition, model) !== false) {
       onActionImpl(rowClick);
     }
   },

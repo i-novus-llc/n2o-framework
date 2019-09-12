@@ -8,6 +8,17 @@
 		"es",
 		"lib"
 	],
+	"scripts": {
+		"build": "nwb build-web-module",
+		"clean": "nwb clean-module",
+		"prepublishOnly": "npm run build",
+		"test": "nwb test",
+		"test:coverage": "nwb test --coverage",
+		"test:watch": "nwb test --server"
+	},
+	"dependencies": {
+		"n2o": "^7.4.0"
+	},
 	"devDependencies": {
 		"nwb": "0.23.x"
 	},

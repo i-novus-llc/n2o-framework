@@ -3,7 +3,14 @@
 	"version": "7.4.0",
 	"private": true,
 	"homepage": ".",
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"eject": "react-scripts eject"
+	},
 	"dependencies": {
+		"n2o": "^7.4.0",
+		"n2o-auth": "^7.4.0",
 		"react": "^16.4.1",
 		"react-dom": "^16.4.1"
 	},

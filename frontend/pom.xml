@@ -67,7 +67,7 @@
                                     <arguments>run build:libs</arguments>
                                 </configuration>
                             </execution>
-                            
+
                             <execution>
                                 <id>npm run build:projects</id>
                                 <goals>
