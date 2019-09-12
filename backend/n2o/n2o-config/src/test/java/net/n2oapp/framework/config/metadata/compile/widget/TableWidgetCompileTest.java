@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
@@ -99,17 +98,16 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((TableWidgetComponent) widget.getComponent()).getRowClick()));
 
         assertThat(rowClicks.size(), is(8));
-        assertThat(rowClicks.get(0), is(nullValue(Action.class)));
+        assertThat(rowClicks.get(0), nullValue());
         rowClicks.remove(0);
-        rowClicks.forEach(click -> assertThat(click, instanceOf(Action.class)));
 
-        assertThat(rowClicks.get(0).getEnabledCondition(), is(nullValue(String.class)));
-        assertThat(rowClicks.get(1).getEnabledCondition(), is("`false`"));
-        assertThat(rowClicks.get(2).getEnabledCondition(), is("`true`"));
-        assertThat(rowClicks.get(3).getEnabledCondition(), is("`1==1`"));
-        assertThat(rowClicks.get(4).getEnabledCondition(), is("`false`"));
-        assertThat(rowClicks.get(5).getEnabledCondition(), is("`true`"));
-        assertThat(rowClicks.get(6).getEnabledCondition(), is("`1==1`"));
+        assertThat(rowClicks.get(0).getEnablingCondition(), nullValue(String.class));
+        assertThat(rowClicks.get(1).getEnablingCondition(), is("`false`"));
+        assertThat(rowClicks.get(2).getEnablingCondition(), is("`true`"));
+        assertThat(rowClicks.get(3).getEnablingCondition(), is("`1==1`"));
+        assertThat(rowClicks.get(4).getEnablingCondition(), is("`false`"));
+        assertThat(rowClicks.get(5).getEnablingCondition(), is("`true`"));
+        assertThat(rowClicks.get(6).getEnablingCondition(), is("`1==1`"));
     }
 
     @Test
