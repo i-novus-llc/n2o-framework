@@ -420,13 +420,9 @@ AutoComplete.propTypes = {
    */
   disabledValues: PropTypes.array,
   /**
-   * Варианты фильтрации
-   */
-  filter: PropTypes.oneOf(['includes', 'startsWith', 'endsWith', false]),
-  /**
    * Значение
    */
-  value: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   /**
    * Callback на переключение
    */

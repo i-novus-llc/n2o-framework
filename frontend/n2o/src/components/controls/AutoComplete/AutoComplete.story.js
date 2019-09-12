@@ -1,7 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import withForm from 'N2oStorybook/decorators/withForm';
-import AutoComplete from './AutoComplete';
+import AutoComplete, {
+  AutoComplete as AutoCompleteComponent,
+} from './AutoComplete';
 import fetchMock from 'fetch-mock';
 
 const stories = storiesOf('Контролы/AutoComplete', module);
@@ -22,6 +24,12 @@ const options = [
     name: 'abc',
   },
 ];
+
+stories.addParameters({
+  info: {
+    propTables: [AutoCompleteComponent],
+  },
+});
 
 stories
   .add(
