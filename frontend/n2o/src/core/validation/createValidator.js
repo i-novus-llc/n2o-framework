@@ -13,10 +13,11 @@ import {
   get,
   compact,
   map,
+  has,
 } from 'lodash';
 import { isPromise } from '../../tools/helpers';
 import * as presets from './presets';
-import { addFieldMessage } from '../../actions/formPlugin';
+import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';
 import { batchActions } from 'redux-batched-actions/lib/index';
 
 function findPriorityMessage(messages) {
@@ -41,11 +42,12 @@ function hasError(messages) {
 export default function createValidator(
   validationConfig = {},
   formName,
-  state
+  state,
+  fields
 ) {
   return {
     asyncValidate: validateField(validationConfig, formName, state),
-    asyncBlurFields: Object.keys(validationConfig || {}),
+    asyncBlurFields: fields || [],
   };
 }
 
@@ -127,6 +129,12 @@ export const validateField = (
         }
       })
     );
+
+    map(registeredFields, (field, key) => {
+      if (!has(errors, key) && get(field, 'message', null)) {
+        messagesAction.push(removeFieldMessage(formName, key));
+      }
+    });
 
     messagesAction && dispatch(batchActions(messagesAction));
 

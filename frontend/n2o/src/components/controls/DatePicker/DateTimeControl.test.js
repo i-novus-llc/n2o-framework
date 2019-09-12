@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import sinon from 'sinon';
 import moment from 'moment';
 import { IntlProvider } from 'react-intl';
@@ -63,9 +64,9 @@ describe('<DateTimeControl />', () => {
     });
     expect(
       wrapper
-        .find('input')
+        .find('DateInput')
         .first()
-        .props().defaultValue
+        .state().value
     ).toBe('11/11/1111');
   });
 
@@ -127,9 +128,9 @@ describe('<DateTimeControl />', () => {
     //дефолтное время 00:00
     expect(
       wrapper
-        .find('input')
+        .find('DateInput')
         .first()
-        .props().defaultValue
+        .state().value
     ).toBe('11/11/1111 00:00');
   });
 
@@ -169,9 +170,9 @@ describe('<DateTimeControl />', () => {
     });
     expect(
       wrapper
-        .find('input')
+        .find('DateInput')
         .first()
-        .props().defaultValue
+        .state().value
     ).toBe('22/12/2017 00:00');
   });
 
@@ -183,9 +184,9 @@ describe('<DateTimeControl />', () => {
     });
     expect(
       wrapper
-        .find('input')
+        .find('DateInput')
         .first()
-        .props().defaultValue
+        .state().value
     ).toBe('21.01.1927');
   });
 
@@ -196,9 +197,9 @@ describe('<DateTimeControl />', () => {
     });
     expect(
       wrapper
-        .find('input')
+        .find('DateInput')
         .first()
-        .props().defaultValue
+        .state().value
     ).toBe('11/11/1111');
   });
 

@@ -103,19 +103,13 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
         if (_.isObject($val)) {
           generateFlatQuery(
             $val,
-            Key
-              ? [Key, '?[?]'.format(key, $key)].join(delimiter)
-              : '?[?]'.format(key, $key),
+            Key ? [Key, key].join(delimiter) : key,
             $Res,
             delimiter,
             options
           );
         } else if ($val !== null && $val !== undefined) {
-          $Res[
-            Key
-              ? [Key, '?[?]'.format(key, $key)].join(delimiter)
-              : '?[?]'.format(key, $key)
-          ] =
+          $Res[Key ? [Key, key].join(delimiter) : key] =
             !needLinked($val) && _.isString($val) && !withoutEncode
               ? encodeURIComponent($val)
               : $val;
