@@ -196,7 +196,7 @@ describe('FormContainer', () => {
       wrapper.setProps({ isEnabled: true }).update();
       expect(wrapper.find(NullComponent).props()).toHaveProperty(
         'initialValues',
-        []
+        {}
       );
     });
 
@@ -302,7 +302,7 @@ describe('FormContainer', () => {
     expect(
       wrapper
         .find(
-          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(getContext(withProps(ReduxForm)))))))))'
+          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(withProps(ReduxForm))))))))'
         )
         .exists()
     ).toBe(true);
