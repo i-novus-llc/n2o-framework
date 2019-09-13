@@ -213,12 +213,12 @@ class DateTimeControl extends React.Component {
       {
         inputs: { ...this.state.inputs, [inputName]: newDate },
       },
-      () => isFunction(callback) ? callback() : this.onChange(inputName)
+      () => (isFunction(callback) ? callback() : this.onChange(inputName))
     );
   }
   onInputBlur(date, inputName) {
     const { onBlur } = this.props;
-    this.onInputChange(date, inputName, () => onBlur(this.getValue(inputName)))
+    this.onInputChange(date, inputName, () => onBlur(this.getValue(inputName)));
   }
   /**
    * Устанавливает видимость попапа
