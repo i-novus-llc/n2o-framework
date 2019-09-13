@@ -26,4 +26,14 @@ describe('<WidgetContainer />', () => {
     });
     expect(store.getState().widgets.testWidgetId.pageId).toBe('testId');
   });
+  it('componentDidUpdate -> onFetch', () => {
+    const wrapper = setup({
+      fetchOnInit: false,
+      visible: false,
+      widgetId: 'testWidgetId',
+      pageId: 'testId',
+    });
+    wrapper.setProps({ visible: false });
+    expect(store.getState().widgets.testWidgetId.pageId).toBe('testId');
+  });
 });
