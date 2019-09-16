@@ -1,17 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import {
-  map,
-  isEqual,
-  find,
-  isEmpty,
-  debounce,
-  pick,
-  forOwn,
-  is,
-  omit,
-} from 'lodash';
+import { isEqual, find, isEmpty, pick, forOwn, omit } from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -200,7 +190,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default compose(
+const enhance = compose(
   widgetContainer(
     {
       mapProps: props => {
@@ -257,4 +247,6 @@ export default compose(
     mapStateToProps,
     null
   )
-)(AdvancedTableContainer);
+);
+export { AdvancedTableContainer };
+export default enhance(AdvancedTableContainer);

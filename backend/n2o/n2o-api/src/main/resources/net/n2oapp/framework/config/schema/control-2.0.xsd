@@ -503,7 +503,7 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:attribute name="type" type="inputSelectType"/>
-                <xs:attribute name="store-on-input" type="xs:boolean" default="true"/>
+                <xs:attribute name="reset-on-blur" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

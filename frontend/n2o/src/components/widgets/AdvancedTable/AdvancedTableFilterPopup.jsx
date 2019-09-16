@@ -60,4 +60,5 @@ AdvancedTableFilterPopup.defaultProps = {
   onSetFilter: () => {},
 };
 
+export { AdvancedTableFilterPopup };
 export default pure(AdvancedTableFilterPopup);
