@@ -37,7 +37,6 @@ class AdvancedTableWidget extends Component {
       autoFocus,
       rowSelection,
       tableSize,
-
       useFixedHeader,
       expandable,
       scroll,
