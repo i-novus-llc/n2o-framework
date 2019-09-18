@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { map } from 'lodash';
 import { connect } from 'react-redux';
@@ -12,24 +12,21 @@ import { removeAlert } from '../../actions/alerts';
  * @reactProps {string} widgetId - уникальный индефикатор виджета
  * @reactProps {array} alerts - массив алертов
  */
-class WidgetAlerts extends Component {
-  mapAlertsProps(alerts, onDismiss) {
+export function WidgetAlerts(props) {
+  const { alerts, onDismiss } = props;
+  const mapAlertsProps = (alerts, onDismiss) => {
     return map(alerts, alert => ({
       ...alert,
       key: alert.id,
       onDismiss: () => onDismiss(alert.id),
       details: alert.stacktrace,
     }));
-  }
-
-  render() {
-    const { alerts } = this.props;
-    return (
-      <div className="n2o-alerts">
-        <Alerts alerts={this.mapAlertsProps(alerts, this.props.onDismiss)} />
-      </div>
-    );
-  }
+  };
+  return (
+    <div className="n2o-alerts">
+      <Alerts alerts={mapAlertsProps(alerts, onDismiss)} />
+    </div>
+  );
 }
 
 WidgetAlerts.propTypes = {

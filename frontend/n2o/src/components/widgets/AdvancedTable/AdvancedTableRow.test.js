@@ -1,17 +1,15 @@
 import React from 'react';
-import AdvancedTableRow from "./AdvancedTableRow";
+import AdvancedTableRow from './AdvancedTableRow';
 
-const setup = (propsOverride) => {
+const setup = propsOverride => {
   const props = {
     children: [<td>test</td>],
     model: {
-      id: 1
-    }
+      id: 1,
+    },
   };
 
-  return mount(
-    <AdvancedTableRow {...props} {...propsOverride} />
-  )
+  return mount(<AdvancedTableRow {...props} {...propsOverride} />);
 };
 
 describe('<AdvancedTableRow />', () => {
@@ -27,9 +25,11 @@ describe('<AdvancedTableRow />', () => {
       className: 'test-class',
       isRowActive: true,
       rowClick: () => {},
-      rowClass: 'bg-transparent'
+      rowClass: 'bg-transparent',
     });
 
-    expect(wrapper.find('tr').props().className).toBe('test-class n2o-table-row n2o-advanced-table-row table-active row-click bg-transparent');
+    expect(wrapper.find('tr').props().className).toBe(
+      'test-class n2o-table-row n2o-advanced-table-row table-active row-click bg-transparent'
+    );
   });
 });
