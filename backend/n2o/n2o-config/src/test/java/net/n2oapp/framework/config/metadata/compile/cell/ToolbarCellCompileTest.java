@@ -49,7 +49,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getButtons().get(0).getId(), is("menuItem0"));
         assertThat(toolbar.getButtons().get(0).getLabel(), is("label"));
         assertThat(toolbar.getButtons().get(0).getIcon(), is("icon"));
-        assertThat(toolbar.getButtons().get(0).getConfirm().getMode(), is(ConfirmType.POPOVER));
+        assertThat(toolbar.getButtons().get(0).getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(toolbar.getButtons().get(0).getVisible(), is("`test==1`"));
         assertThat(toolbar.getButtons().get(0).getAction().getId(), is("menuItem0"));
         assertThat(((LinkAction) toolbar.getButtons().get(0).getAction()).getOptions().getPath(), is("https://www.google.com/"));
@@ -61,7 +61,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getButtons().get(1).getId(), is("subMenu1"));
         assertThat(toolbar.getButtons().get(1).getLabel(), is("label"));
         assertThat(toolbar.getButtons().get(1).getIcon(), is("icon"));
-        assertThat(toolbar.getButtons().get(1).getSubMenu().get(0).getConfirm().getMode(), is(ConfirmType.MODAL));
+        assertThat(toolbar.getButtons().get(1).getSubMenu().get(0).getConfirm().getMode(), is(ConfirmType.modal));
         assertThat(toolbar.getButtons().get(1).getSubMenu().get(0).getId(), is("linkAction"));
         assertThat(toolbar.getButtons().get(1).getSubMenu().get(0).getVisible(), is("`test==1`"));
         assertThat((toolbar.getButtons().get(1).getSubMenu().get(0)).getAction().getId(), is("linkAction"));
