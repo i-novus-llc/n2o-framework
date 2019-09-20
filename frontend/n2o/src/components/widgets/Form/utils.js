@@ -76,6 +76,8 @@ export const getFieldsKeys = fieldsets => {
         mapCols(col.cols);
       } else if (has(col, 'fields')) {
         mapFields(col.fields);
+      } else if (has(col, 'fieldsets')) {
+        keys.push(...getFieldsKeys(col.fieldsets));
       }
     });
   };
