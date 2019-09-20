@@ -585,6 +585,7 @@ class InputSelect extends React.Component {
                   className="n2o-pop-up"
                 >
                   <PopupList
+                    loading={loading}
                     isExpanded={this.state.isExpanded}
                     activeValueId={this.state.activeValueId}
                     setActiveValueId={this._setActiveValueId}

@@ -35,6 +35,7 @@ import { groupData, inArray, isDisabled } from './utils';
  */
 
 function PopupItems({
+  loading,
   options,
   activeLabel,
   setActiveLabel,
@@ -143,7 +144,9 @@ function PopupItems({
     if (options && options[0] !== null && options.length) {
       return renderMenuItems(options);
     }
-    return <DropdownItem header>Ничего не найдено</DropdownItem>;
+    if (!loading && options.length === 0) {
+      return <DropdownItem header>Ничего не найдено</DropdownItem>;
+    }
   };
 
   return <React.Fragment>{renderMenu(options)}</React.Fragment>;

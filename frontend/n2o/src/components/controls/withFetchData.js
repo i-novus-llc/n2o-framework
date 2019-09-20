@@ -173,7 +173,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
       this.setState({ loading: true });
       try {
-        if (!merge && data) this.setState({ data: [] });
+        if (!merge && !data) this.setState({ data: [] });
         const response = await this._fetchDataProvider(
           dataProvider,
           extraParams
