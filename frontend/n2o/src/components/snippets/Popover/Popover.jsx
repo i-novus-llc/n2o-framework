@@ -14,7 +14,7 @@ class N2OPopover extends React.Component {
     const { help, placement, icon } = this.props;
     return (
       <div className={'n2o-popover'}>
-        <button className={'n2o-popover-btn'} id={this.fieldId}>
+        <button className={'bg-transparent border-0 n2o-popover-btn'} id={this.fieldId}>
           <i className={icon} />
         </button>
         <UncontrolledPopover
