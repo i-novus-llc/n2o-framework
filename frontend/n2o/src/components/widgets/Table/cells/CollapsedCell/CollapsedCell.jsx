@@ -22,6 +22,7 @@ class CollapsedCell extends React.Component {
   }
 
   _changeVisibility(e) {
+    e.stopPropagation();
     e.preventDefault();
     this.setState(prevState => {
       return { collapsed: !prevState.collapsed };
