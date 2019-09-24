@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isBoolean } from 'lodash';
+import { isBoolean, memoize, some, omit, isEqual } from 'lodash';
 import {
   isInitSelector,
   isVisibleSelector,
@@ -10,9 +10,36 @@ import {
   requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import { compose, pure, withProps, defaultProps } from 'recompose';
+import {
+  compose,
+  pure,
+  withProps,
+  defaultProps,
+  withHandlers,
+  shouldUpdate,
+} from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
+
+const excludedKeys = [
+  'control',
+  'dependencySelector',
+  'dispatch',
+  'onBlur',
+  'onChange',
+  'onDragStart',
+  'onDrop',
+  'onFocus',
+  'registerFieldExtra',
+  'setReRenderRef',
+  'setRef',
+  'touched',
+  'dirty',
+  'pristine',
+  'visited',
+  'asyncValidating',
+  'active',
+];
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -93,37 +120,14 @@ export default Field => {
      * @param error
      * @returns {string}
      */
-    getValidationState(message) {
-      if (!message) return;
-      if (message.severity === 'success') {
-        return 'is-valid';
-      } else if (message.severity === 'warning') {
-        return 'has-warning';
-      }
-      return 'is-invalid';
-    }
-
-    /**
-     * общий мэппинг
-     * @returns {{validationClass: string, value: *, onChange: FieldContainer.onChange, onFocus: FieldContainer.onFocus, onBlur: FieldContainer.onBlur}}
-     */
-    mapProps() {
-      const { input, message, meta, model, ...rest } = this.props;
-      return {
-        ...propsResolver(rest, model),
-        ...meta,
-        validationClass: this.getValidationState(message),
-        message,
-        ...input,
-      };
-    }
 
     /**
      * Бозовый рендер
      * @returns {*}
      */
     render() {
-      return <Field {...this.mapProps()} />;
+      const props = this.props.mapProps(this.props);
+      return <Field {...props} />;
     }
   }
 
@@ -149,6 +153,31 @@ export default Field => {
       disabled: false,
       required: false,
     }),
+    withHandlers({
+      getValidationState: () => message => {
+        if (!message) return;
+        if (message.severity === 'success') {
+          return 'is-valid';
+        } else if (message.severity === 'warning') {
+          return 'has-warning';
+        }
+        return 'is-invalid';
+      },
+    }),
+    withHandlers({
+      mapProps: ({ getValidationState }) =>
+        memoize(props => {
+          if (!props) return;
+          const { input, message, meta, model, ...rest } = props;
+          return {
+            ...propsResolver(rest, model),
+            ...meta,
+            validationClass: getValidationState(message),
+            message,
+            ...input,
+          };
+        }),
+    }),
     withProps(props => ({
       visibleToRegister: props.visible,
       disabledToRegister:
@@ -161,6 +190,14 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
+    shouldUpdate((props, nextProps) => {
+      const prevResolvedProps = omit(props.mapProps(props), excludedKeys);
+      const resolvedProps = omit(props.mapProps(nextProps), excludedKeys);
+      const isEqualResolvedProps = some(resolvedProps, (value, key) => {
+        return !isEqual(value, prevResolvedProps[key]);
+      });
+      return isEqualResolvedProps;
+    }),
     withProps(props => ({
       ref: props.setReRenderRef,
     })),
