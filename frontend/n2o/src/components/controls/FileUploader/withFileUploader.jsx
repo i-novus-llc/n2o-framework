@@ -423,7 +423,6 @@ const FileUploaderControl = WrappedComponent => {
     className: PropTypes.string,
     mapper: PropTypes.func,
     children: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
-    errorFormatter: PropTypes.func,
   };
 
   return ReturnedComponent;
