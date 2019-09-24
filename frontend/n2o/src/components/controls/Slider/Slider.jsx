@@ -40,7 +40,8 @@ function Slider(props) {
   } = props;
 
   const expressionFn = tooltipFormatter
-    ? value => new Function('', 'return ' + tooltipFormatter).bind(value)()
+    ? value =>
+        new Function('', 'return `' + tooltipFormatter + '`').bind(value)()
     : value => value;
 
   const Component = multiple ? BaseSlider.Range : BaseSlider;

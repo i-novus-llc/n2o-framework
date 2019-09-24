@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import cx from 'classnames';
-import { isNaN, isNumber, isObject, get } from 'lodash';
+import { isNaN, omit, isObject, get } from 'lodash';
 
 import DateTimeControl from './DateTimeControl';
 import MaskedInput from 'react-text-mask';
@@ -163,7 +163,7 @@ class DateInput extends React.Component {
           onBlur={this.onBlur}
           autoFocus={autoFocus}
           render={(ref, props) => {
-            return <input ref={ref} {...props} />;
+            return <input ref={ref} {...omit(props, ['defaultValue'])} />;
           }}
         />
         {(name === DateTimeControl.defaultInputName ||

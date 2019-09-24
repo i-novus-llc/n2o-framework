@@ -76,7 +76,7 @@ describe('<AutoCompelte />', () => {
   describe('мод tags', () => {
     it('значение проставляется', () => {
       const wrapper = setup({
-        tags: true
+        tags: true,
       });
       const textarea = wrapper.find('textarea');
 
@@ -84,12 +84,15 @@ describe('<AutoCompelte />', () => {
       textarea.simulate('keydown', { key: 'Enter' });
       textarea.simulate('change', { target: { value: 'some another value' } });
       textarea.simulate('keydown', { key: 'Enter' });
-      expect(wrapper.state().value).toEqual(['some value', 'some another value']);
+      expect(wrapper.state().value).toEqual([
+        'some value',
+        'some another value',
+      ]);
     });
 
     it('значение выбирается из списка', () => {
       const wrapper = setup({
-        tags: true
+        tags: true,
       });
       const textarea = wrapper.find('textarea');
       textarea.simulate('click');
@@ -107,14 +110,23 @@ describe('<AutoCompelte />', () => {
     it('значение удаляется', () => {
       const wrapper = setup({
         tags: true,
-        value: ['a', 'ab', 'abc']
+        value: ['a', 'ab', 'abc'],
       });
       expect(wrapper.state().value).toEqual(['a', 'ab', 'abc']);
-      wrapper.find('button.close').first().simulate('click');
+      wrapper
+        .find('button.close')
+        .first()
+        .simulate('click');
       expect(wrapper.state().value).toEqual(['ab', 'abc']);
-      wrapper.find('button.close').last().simulate('click');
+      wrapper
+        .find('button.close')
+        .last()
+        .simulate('click');
       expect(wrapper.state().value).toEqual(['ab']);
-      wrapper.find('button.close').first().simulate('click');
+      wrapper
+        .find('button.close')
+        .first()
+        .simulate('click');
       expect(wrapper.state().value).toEqual([]);
     });
   });

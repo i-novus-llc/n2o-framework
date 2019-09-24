@@ -1,4 +1,4 @@
-import { findIndex, isEmpty, isString } from 'lodash';
+import { findIndex, isEmpty, isString, defaultTo } from 'lodash';
 
 export const inArray = (array = [], item = {}) => {
   return array.some(arrayItem =>
@@ -8,8 +8,8 @@ export const inArray = (array = [], item = {}) => {
 
 export const groupData = (data, groupFieldId) =>
   data.reduce((r, a) => {
-    r[a[groupFieldId]] = r[a[groupFieldId]] || [];
-    r[a[groupFieldId]].push(a);
+    r[defaultTo(a[groupFieldId], '-')] = r[a[groupFieldId]] || [];
+    r[defaultTo(a[groupFieldId], '-')].push(a);
     return r;
   }, {});
 

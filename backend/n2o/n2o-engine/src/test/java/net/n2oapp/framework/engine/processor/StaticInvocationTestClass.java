@@ -45,10 +45,10 @@ public class StaticInvocationTestClass {
 
     public static CollectionPage<Model> methodWithCriteria(String id, MyCriteria criteria) {
         List<Model> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             list.add(new Model(i, id, criteria.getName()));
         }
-        return new CollectionPage<>(100, list, criteria);
+        return new CollectionPage<>(1, list, criteria);
     }
 
     public static Integer sum(Model entityTypeArgument, Integer primitiveTypeArgument, Model classTypeArgument) {

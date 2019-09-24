@@ -164,7 +164,7 @@ class Actions extends React.Component {
           >
             {Container}
           </PopoverConfirm>
-        ) : button.confirm ? (
+        ) : button.confirm === 'modal' ? (
           <React.Fragment>
             {Container}
             <ModalDialog

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
+import Spinner from '../../snippets/Spinner/Spinner';
 import InputAddon from './InputAddon';
 import cx from 'classnames';
 
@@ -47,17 +48,16 @@ function InputSelectGroup({
     !multiSelect && !!selected.length && (iconFieldId || imageFieldId);
 
   const renderButton = loading => {
-    if (loading) {
-      return <InlineSpinner />;
-    }
     return (
-      <i
-        className={`fa fa-chevron-down`}
-        onClick={() => {
-          setIsExpanded(!isExpanded);
-        }}
-        aria-hidden="true"
-      />
+      <Spinner type="inline" loading={loading} size="sm">
+        <i
+          className={`fa fa-chevron-down`}
+          onClick={() => {
+            setIsExpanded(!isExpanded);
+          }}
+          aria-hidden="true"
+        />
+      </Spinner>
     );
   };
   return (

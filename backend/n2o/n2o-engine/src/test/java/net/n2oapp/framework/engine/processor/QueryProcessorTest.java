@@ -89,6 +89,7 @@ public class QueryProcessorTest {
         criteria.setPage(2);
         criteria.setSize(5);
         criteria.addRestriction(new Restriction("surname", "Фамилия", FilterType.eq));
+        criteria.addRestriction(new Restriction("surname", "Фамилия", FilterType.eq));
         criteria.addRestriction(new Restriction("gender.name", "Женский", FilterType.like));
         criteria.setSorting(new Sorting("name", Direction.DESC));
         CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
@@ -152,6 +153,7 @@ public class QueryProcessorTest {
 //        //case with primitive
         criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("value", "test"));
+        criteria.addRestriction(new Restriction("value", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
         dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
@@ -161,7 +163,7 @@ public class QueryProcessorTest {
         criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("name", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
-        assertThat(collectionPage.getCount(), is(10));
+        assertThat(collectionPage.getCount(), is(1));
         dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
@@ -180,6 +182,12 @@ public class QueryProcessorTest {
         assertThat(collectionPage.getCount(), is(0));
 
         criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
+        criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
+        collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(1));
+
+        criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("id", "1", FilterType.more));
         criteria.addRestriction(new Restriction("id", "45", FilterType.less));
         collectionPage = queryProcessor.execute(query, criteria);
@@ -189,7 +197,7 @@ public class QueryProcessorTest {
         criteria.addRestriction(new Restriction("id", "0", FilterType.eq));
         criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
         collectionPage = queryProcessor.execute(query, criteria);
-        assertThat(collectionPage.getCount(), is(10));
+        assertThat(collectionPage.getCount(), is(1));
         DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
