@@ -88,7 +88,11 @@ class BaseSpinner extends Component {
   renderLineSpinner() {
     const { endTimeout } = this.state;
     const { type, children, delay, loading, ...rest } = this.props;
-    return delay && endTimeout && loading ? <Comp {...rest} /> : children;
+    return delay && endTimeout && loading ? (
+      <Comp className="spinner" {...rest} />
+    ) : React.Children.count(children) ? (
+      children
+    ) : null;
   }
 
   render() {

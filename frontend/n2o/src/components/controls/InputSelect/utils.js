@@ -1,7 +1,9 @@
-import { findIndex, isEmpty, defaultTo } from 'lodash';
+import { findIndex, isEmpty, isString, defaultTo } from 'lodash';
 
 export const inArray = (array = [], item = {}) => {
-  return array.some(arrayItem => arrayItem.id === item.id);
+  return array.some(arrayItem =>
+    isString(item) ? arrayItem === item : arrayItem.id === item.id
+  );
 };
 
 export const groupData = (data, groupFieldId) =>
