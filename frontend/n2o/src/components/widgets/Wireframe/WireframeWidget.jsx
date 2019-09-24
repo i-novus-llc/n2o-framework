@@ -27,9 +27,23 @@ class WireframeWidget extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { fetchOnInit, id: widgetId, toolbar, actions, size } = this.props;
+    const {
+      fetchOnInit,
+      id: widgetId,
+      toolbar,
+      actions,
+      size,
+      className,
+      style,
+    } = this.props;
     return (
-      <StandardWidget widgetId={widgetId} toolbar={toolbar} actions={actions}>
+      <StandardWidget
+        widgetId={widgetId}
+        toolbar={toolbar}
+        actions={actions}
+        className={className}
+        style={style}
+      >
         <WireframeContainer
           widgetId={widgetId}
           fetchOnInit={fetchOnInit}
