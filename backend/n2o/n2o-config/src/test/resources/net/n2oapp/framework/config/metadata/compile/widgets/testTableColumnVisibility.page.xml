@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <panel place="">
+            <table>
+                <columns>
+                    <column visible="{true == false}" text-field-id=""></column>
+                    <column visible="false" text-field-id=""></column>
+                </columns>
+            </table>
+        </panel>
+    </regions>
+</page>

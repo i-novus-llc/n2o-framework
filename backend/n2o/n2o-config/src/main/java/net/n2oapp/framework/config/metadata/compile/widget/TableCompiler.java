@@ -124,12 +124,14 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 if (rowClick.getActionId() != null) {
                     MetaActions actions = p.getScope(MetaActions.class);
                     AbstractAction action = (AbstractAction) actions.get(rowClick.getActionId());
-                    if (StringUtils.isJs(enabledCondition)) action.setEnablingCondition((String) enabledCondition);
+                    if (StringUtils.isJs(enabledCondition))
+                        action.setEnablingCondition((String) enabledCondition);
                     component.setRowClick(action);
                 } else if (rowClick.getAction() != null) {
                     AbstractAction action = p.compile(rowClick.getAction(), context, widgetScope,
                             widgetRouteScope, new ComponentScope(rowClick));
-                    if (StringUtils.isJs(enabledCondition)) action.setEnablingCondition((String) enabledCondition);
+                    if (StringUtils.isJs(enabledCondition))
+                        action.setEnablingCondition((String) enabledCondition);
                     component.setRowClick(action);
                 }
             }
@@ -201,6 +203,13 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         header.setWidth(column.getWidth());
         header.setResizable(column.getResizable());
         header.setFixed(column.getFixed());
+        if (column.getVisible() != null) {
+            Object visible = ScriptProcessor.resolveExpression(column.getVisible());
+            if (StringUtils.isJs(visible))
+                header.setVisible((String) visible);
+            if (visible instanceof Boolean)
+                header.setVisible(String.valueOf(visible));
+        }
         if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
             header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
         } else {
