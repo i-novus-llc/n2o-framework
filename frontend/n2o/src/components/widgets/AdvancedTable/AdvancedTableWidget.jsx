@@ -29,6 +29,7 @@ import { values } from 'lodash';
 class AdvancedTableWidget extends Component {
   getWidgetProps() {
     const {
+      className,
       headers,
       cells,
       sorting,
@@ -72,6 +73,7 @@ class AdvancedTableWidget extends Component {
       rowClick,
       expandedFieldId,
       rowClass,
+      className,
     };
   }
 
@@ -91,6 +93,8 @@ class AdvancedTableWidget extends Component {
       table: { fetchOnInit, size },
       pageId,
       paging,
+      className,
+      style,
     } = this.props;
     return (
       <StandardWidget
@@ -100,6 +104,8 @@ class AdvancedTableWidget extends Component {
         actions={actions}
         filter={this.prepareFilters()}
         bottomLeft={paging && <TablePagination widgetId={widgetId} />}
+        className={className}
+        style={style}
       >
         <AdvancedTableContainer
           widgetId={widgetId}
