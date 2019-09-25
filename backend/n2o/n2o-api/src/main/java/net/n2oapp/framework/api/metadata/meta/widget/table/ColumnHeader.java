@@ -32,7 +32,7 @@ public class ColumnHeader implements IdAware, Compiled {
     @JsonProperty
     private String width;
     @JsonProperty
-    private String visible;
+    private Object visible;
     @JsonProperty
     private ColumnFixedPosition fixed;
     @JsonProperty

@@ -280,7 +280,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
-        assertThat(columnHeaders.get(0).getVisible(), is("`true == false`"));
-        assertThat(columnHeaders.get(1).getVisible(), is("false"));
+        assertThat(columnHeaders.get(0).getVisible(), is("`1 == 1`"));
+        assertThat(columnHeaders.get(1).getVisible(), is(Boolean.FALSE));
     }
 }
