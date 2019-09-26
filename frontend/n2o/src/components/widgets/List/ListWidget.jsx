@@ -89,6 +89,8 @@ function ListWidget(
           />
         )
       }
+      className={className}
+      style={style}
     >
       <ListContainer
         page={1}
