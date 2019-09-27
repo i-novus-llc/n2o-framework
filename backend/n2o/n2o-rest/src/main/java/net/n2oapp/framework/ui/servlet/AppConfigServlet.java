@@ -58,13 +58,10 @@ public class AppConfigServlet extends HttpServlet {
             return pipeline.get(new HeaderContext(headerSourceId), null);
         List<SourceInfo> headers = environment.getMetadataRegister().find(N2oHeader.class);
         if (headers == null || headers.isEmpty()) {
-            if (projectName != null) {
-                CompiledHeader header = new CompiledHeader();
-                header.setBrand(projectName);
-                header.setFixed(false);
-                return header;
-            }
-            return  null;
+            CompiledHeader header = new CompiledHeader();
+            header.setBrand(projectName == null ? "N2O" : projectName);
+            header.setFixed(false);
+            return header;
         }
         return pipeline.get(new HeaderContext(headers.get(0).getId()), null);
     }

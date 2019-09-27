@@ -25,7 +25,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         CompiledHeader header = new CompiledHeader();
         header.setSrc(source.getSrc());
         header.setBrand(p.cast(source.getProjectName(),
-                p.resolve(property("n2o.project.name"), String.class), "N<sub>2</sub>O"));
+                p.resolve(property("n2o.project-name"), String.class), "N<sub>2</sub>O"));
         header.setBrandImage(source.getProjectImageSrc());
         header.setColor(p.cast(source.getColor(), "default"));
         header.setFixed(p.resolve(property("n2o.api.default.header.fixed"), Boolean.class));

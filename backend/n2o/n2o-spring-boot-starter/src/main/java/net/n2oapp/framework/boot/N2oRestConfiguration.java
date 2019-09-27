@@ -51,7 +51,7 @@ public class N2oRestConfiguration {
     @Value("${n2o.api.url:/n2o}")
     private String n2oApiUrl;
 
-    @Value("${n2o.project.name:N2O}")
+    @Value("${n2o.project-name:N2O}")
     private String projectName;
 
     @Bean
