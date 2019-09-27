@@ -229,15 +229,9 @@ public class PlaceHoldersResolver {
             }
             if (idxSuffix > 0) {
                 String placeholder = split[i].substring(0, idxSuffix);
-                if (onlyJavaVariable) {
-                    if (NestedUtils.isJavaVariable(placeholder)) {
-                        Object value = callback.apply(placeholder);
-                        sb.append(value);
-                        sb.append(split[i].substring(idxNext));
-                    } else {
-                        sb.append(prefix);
-                        sb.append(split[i]);
-                    }
+                if (onlyJavaVariable && !NestedUtils.isJavaVariable(placeholder)) {
+                    sb.append(prefix);
+                    sb.append(split[i]);
                 } else {
                     Object value = callback.apply(placeholder);
                     sb.append(value);
