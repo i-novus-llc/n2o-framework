@@ -76,8 +76,10 @@ public class PlaceHoldersResolverTest {
         data.put("b", 1);
         data.put("abc", 2);
 
-        PlaceHoldersResolver resolver = new PlaceHoldersResolver(":", null);
+        PlaceHoldersResolver resolver = new PlaceHoldersResolver(":", "", true);
         assertThat(resolver.resolve("http://example.com", data), is("http://example.com"));
+        assertThat(resolver.resolve("http://example.com:9090/", data), is("http://example.com:9090/"));
+        assertThat(resolver.resolve("http://example.com:9090/ss", data), is("http://example.com:9090/ss"));
         assertThat(resolver.resolve("http://example.com/:b/:abc/c", data), is("http://example.com/1/2/c"));
         assertThat(resolver.resolve("/:b/:abc/c", data), is("/1/2/c"));
     }
