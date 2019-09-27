@@ -30,22 +30,18 @@ public class PlaceHoldersResolver {
     private String prefix;
     private String suffix;
     private Boolean onlyJavaVariable;
-    private Set<String> excludes;
 
     /**
      * Создать замену плейсхолдеров
      *
      * @param prefix Начало плейсхолдера
      * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
-     * @param excludes Строки - исключения
      *
      */
-    public PlaceHoldersResolver(String prefix, String suffix, String... excludes) {
+    public PlaceHoldersResolver(String prefix, String suffix) {
         this.prefix = prefix;
         this.suffix = suffix;
         this.onlyJavaVariable = false;
-        if (excludes != null && excludes.length > 0)
-            this.excludes = new HashSet<>(Arrays.asList(excludes));
     }
 
     /**
@@ -54,15 +50,12 @@ public class PlaceHoldersResolver {
      * @param prefix Начало плейсхолдера
      * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
      * @param onlyJavaVariable Учитывать плейсхолдеры только соответсвующие спецификации java переменных
-     * @param excludes Строки - исключения
      *
      */
-    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable, String... excludes) {
+    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable) {
         this.prefix = prefix;
         this.suffix = suffix;
         this.onlyJavaVariable = onlyJavaVariable;
-        if (excludes != null && excludes.length > 0)
-            this.excludes = new HashSet<>(Arrays.asList(excludes));
     }
 
     /**
