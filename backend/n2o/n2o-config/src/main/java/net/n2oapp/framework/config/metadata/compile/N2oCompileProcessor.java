@@ -33,7 +33,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
-    private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "");
+    private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
 
     /**
      * Сервисы окружения
