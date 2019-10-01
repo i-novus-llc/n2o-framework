@@ -1,6 +1,6 @@
 {
   "name": "n2o-demo-client",
-  "version": "7.3.27",
+  "version": "7.3.28",
   "private": true,
   "homepage": ".",
   "dependencies": {
