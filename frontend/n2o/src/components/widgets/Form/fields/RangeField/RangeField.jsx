@@ -46,7 +46,7 @@ import { FieldActionsPropTypes } from '../StandardField/FieldPropTypes';
  *             description="Введите расстояние от пункта А до пункта Б"
  *             style={display: 'inline-block'}/>
  */
-function RangeField({
+export function RangeField({
   beginControl,
   endControl,
   id,

@@ -19,11 +19,10 @@ function AdvancedTableRow(props) {
     rowClick,
     rowClass,
   } = props;
-  const { deleted } = model;
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
     'table-active': isRowActive,
-    'row-click': rowClick && !deleted,
-    'row-deleted': deleted,
+    'row-click': rowClick && !model.deleted,
+    'row-deleted': model.deleted,
     [rowClass]: rowClass,
   });
   const newProps = {

@@ -17,7 +17,7 @@ function AdvancedTableSelectionColumn({ onChange, checked, setRef }) {
   );
 }
 
-export default compose(
+const enhance = compose(
   withState('checked', 'setChecked', false),
   withHandlers({
     onChange: ({ onChange, setChecked }) => event => {
@@ -27,4 +27,6 @@ export default compose(
       onChange(checked);
     },
   })
-)(AdvancedTableSelectionColumn);
+);
+export { AdvancedTableSelectionColumn };
+export default enhance(AdvancedTableSelectionColumn);

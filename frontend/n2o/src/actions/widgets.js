@@ -88,6 +88,7 @@ export function dataFailWidget(widgetId, err, meta) {
  * Вызывает действие разрешения виджета.
  * Side-effect: зависимости, простановка в resolve-модель
  * @param widgetId - уникальный индефикатор виджета
+ * @param resolveModel - данные виджета
  */
 export function resolveWidget(widgetId, resolveModel) {
   return createActionHelper(RESOLVE)({ widgetId, model: resolveModel });

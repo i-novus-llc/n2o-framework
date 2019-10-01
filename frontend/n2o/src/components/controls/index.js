@@ -24,6 +24,7 @@ import InputMoney from './InputMoney/InputMoney';
 import SliderContainer from './Slider/Slider';
 import Rating from './Rating/Rating';
 import Pills from './Pills';
+import AutoComplete from './AutoComplete/AutoComplete';
 
 export default {
   InputText: InputText,
@@ -52,4 +53,5 @@ export default {
   Slider: SliderContainer,
   Rating: Rating,
   Pills: Pills,
+  AutoComplete: AutoComplete,
 };

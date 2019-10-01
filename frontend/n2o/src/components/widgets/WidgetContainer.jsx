@@ -134,28 +134,37 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       }
 
       onSetModel(newModel) {
-        const { widgetId, modelPrefix } = this.props;
-        this.props.onSetModel(modelPrefix, widgetId, newModel);
+        const { widgetId, modelPrefix, dispatch } = this.props;
+        dispatch(setModel(modelPrefix, widgetId, newModel));
       }
 
       onResolve(newModel) {
-        const { widgetId, resolveModel, datasource } = this.props;
-        this.props.onResolve(newModel, resolveModel, widgetId, datasource);
+        const { widgetId, oldModel, dispatch } = this.props;
+        if (!isEqual(newModel, oldModel)) {
+          dispatch(resolveWidget(widgetId, newModel));
+        }
       }
 
       onSort(id, direction) {
-        const { widgetId, isActive } = this.props;
-        this.props.onSort(id, direction, isActive, widgetId);
+        const { widgetId, isActive, dispatch } = this.props;
+        dispatch(sortByWidget(widgetId, id, direction));
+        dispatch(dataRequestWidget(widgetId));
+        !isActive && dispatch(setActive(widgetId));
       }
 
       onFocus() {
-        const { widgetId } = this.props;
-        this.props.onFocus(widgetId);
+        const { widgetId, dispatch } = this.props;
+        dispatch(setActive(widgetId));
       }
 
       onFetch(options) {
-        const { widgetId } = this.props;
-        this.props.onFetch(widgetId, options);
+        const { widgetId, dispatch } = this.props;
+        dispatch(dataRequestWidget(widgetId, options));
+      }
+
+      onActionImpl() {
+        const { src, component, options, dispatch } = this.props;
+        dispatch(callActionImpl(src || component, { ...options, dispatch }));
       }
 
       /**
@@ -200,6 +209,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           onFocus: this.onFocus,
           onFetch: this.onFetch,
           onSort: this.onSort,
+          onActionImpl: this.onActionImpl,
         });
         const style = {
           position: 'relative',
@@ -293,27 +303,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
     function mapDispatchToProps(dispatch) {
       return {
         dispatch,
-        onSetModel(prefix, widgetId, model) {
-          dispatch(setModel(prefix, widgetId, model));
-        },
-        onResolve(newModel, oldModel, widgetId) {
-          if (!isEqual(newModel, oldModel)) {
-            dispatch(resolveWidget(widgetId, newModel));
-          }
-        },
-        onFetch: (widgetId, options) => {
-          dispatch(dataRequestWidget(widgetId, options));
-        },
-        onSort: (id, direction, isActive, widgetId) => {
-          dispatch(sortByWidget(widgetId, id, direction));
-          dispatch(dataRequestWidget(widgetId));
-          !isActive && dispatch(setActive(widgetId));
-        },
-        onFocus: widgetId => {
-          dispatch(setActive(widgetId));
-        },
-        onActionImpl: ({ src, component, options }) =>
-          dispatch(callActionImpl(src || component, { ...options, dispatch })),
       };
     }
 

@@ -1,17 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import {
-  map,
-  isEqual,
-  find,
-  isEmpty,
-  debounce,
-  pick,
-  forOwn,
-  is,
-  omit,
-} from 'lodash';
+import { isEqual, find, isEmpty, pick, forOwn, omit } from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -203,13 +193,13 @@ const mapStateToProps = (state, props) => {
 const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => model => {
     const { enablingCondition } = rowClick;
-    if (evalExpression(enablingCondition, model) !== false) {
+    if (evalExpression(enablingCondition, model)) {
       onActionImpl(rowClick);
     }
   },
 });
 
-export default compose(
+const enhance = compose(
   widgetContainer(
     {
       mapProps: props => {
@@ -256,6 +246,7 @@ export default compose(
           rowClick: props.rowClick,
           onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
+          className: props.className,
         };
       },
     },
@@ -266,4 +257,6 @@ export default compose(
     mapStateToProps,
     null
   )
-)(AdvancedTableContainer);
+);
+export { AdvancedTableContainer };
+export default enhance(AdvancedTableContainer);

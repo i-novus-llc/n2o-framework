@@ -52,20 +52,20 @@ stories
         <br />
         <h4>tooltipFormatter:</h4>
         <div>
-          tooltipFormatter = <code>"`${'this'}%`"</code>
+          tooltipFormatter = <code>"&#36;&#123;this&#125;%"</code>
         </div>
         <Slider
           showTooltip={true}
           tooltipPlacement="top"
-          tooltipFormatter={'`${this}%`'}
+          tooltipFormatter={'${this}%'}
         />
         <div>
-          tooltipFormatter = <code>"`t=${'this'}℃`"</code>
+          tooltipFormatter = <code>"t=&#36;&#123;this&#125;℃"</code>
         </div>
         <Slider
           showTooltip={true}
           tooltipPlacement="top"
-          tooltipFormatter={'`t=${this}℃`'}
+          tooltipFormatter={'t=${this}℃'}
         />
       </div>
     );

@@ -1,7 +1,5 @@
 import React from 'react';
-import sinon from 'sinon';
 import List from './List';
-import ReactDom from 'react-dom';
 
 const setup = propsOverride => {
   const props = {
