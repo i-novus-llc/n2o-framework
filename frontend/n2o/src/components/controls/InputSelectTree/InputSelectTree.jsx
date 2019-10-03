@@ -391,6 +391,8 @@ function InputSelectTree({
       prefixCls="n2o-select-tree"
       showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
       getPopupContainer={getPopupContainer}
+      treeNodeLabelProp="name"
+      maxTagTextLength="9"
       notFoundContent={intl.formatMessage({
         id: 'inputSelectTree.notFoundContent',
         defaultMessage: notFoundContent || ' ',
