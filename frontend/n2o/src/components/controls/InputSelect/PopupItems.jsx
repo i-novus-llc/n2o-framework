@@ -32,6 +32,7 @@ import { groupData, inArray, isDisabled } from './utils';
  * @reactProps {function} onRemoveItem - callback при удаление элемента
  * @reactProps {function} setActiveValueId
  * @reactProps {string} activeValueId
+ * @reactProps {boolean} autocomplete
  */
 
 function PopupItems({
@@ -54,6 +55,7 @@ function PopupItems({
   onSelect,
   setActiveValueId,
   activeValueId,
+  autocomplete,
 }) {
   const handleRef = item => {
     if (item) {
@@ -83,7 +85,14 @@ function PopupItems({
         onMouseOver={() =>
           setActiveValueId && setActiveValueId(item[valueFieldId])
         }
-        disabled={!hasCheckboxes && isDisabled(item, selected, disabledValues)}
+        disabled={
+          !hasCheckboxes &&
+          isDisabled(
+            autocomplete ? item[valueFieldId] : item,
+            selected,
+            disabledValues
+          )
+        }
         ref={handleRef}
         key={item.id}
         onClick={e => handleItemClick(e, item)}
@@ -172,6 +181,7 @@ PopupItems.propTypes = {
   format: PropTypes.string,
   setActiveValueId: PropTypes.func,
   activeValueId: PropTypes.string,
+  autocomplete: PropTypes.bool,
 };
 
 export default PopupItems;

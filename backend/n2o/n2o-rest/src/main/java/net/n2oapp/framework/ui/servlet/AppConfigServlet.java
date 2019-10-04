@@ -1,8 +1,11 @@
 package net.n2oapp.framework.ui.servlet;
 
+import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.Header;
+import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
+import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,18 +19,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-/**
- * User: operhod
- * Date: 19.09.13
- * Time: 10:25
- */
 public class AppConfigServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(AppConfigServlet.class);
     private AppConfigJsonWriter appConfigJsonWriter;
     private ExposedResourceBundleMessageSource messageSource;
     private ReadCompileBindTerminalPipeline pipeline;
+    private MetadataEnvironment environment;
     private String headerSourceId;
+    private String projectName;
 
     @Override
     public void init() {
@@ -51,14 +51,19 @@ public class AppConfigServlet extends HttpServlet {
         } finally {
             out.close();
         }
-
     }
 
     private Header getMenu() {
         if (headerSourceId != null && !headerSourceId.isEmpty())
             return pipeline.get(new HeaderContext(headerSourceId), null);
-        else
-            return null;
+        List<SourceInfo> headers = environment.getMetadataRegister().find(N2oHeader.class);
+        if (headers == null || headers.isEmpty()) {
+            CompiledHeader header = new CompiledHeader();
+            header.setBrand(projectName == null ? "N2O" : projectName);
+            header.setFixed(false);
+            return header;
+        }
+        return pipeline.get(new HeaderContext(headers.get(0).getId()), null);
     }
 
     private Map<String, String> getMessages() {
@@ -93,5 +98,13 @@ public class AppConfigServlet extends HttpServlet {
 
     public void setHeaderSourceId(String headerSourceId) {
         this.headerSourceId = headerSourceId;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public void setEnvironment(MetadataEnvironment environment) {
+        this.environment = environment;
     }
 }

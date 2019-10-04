@@ -1,0 +1,210 @@
+[
+  {
+    "rows": [
+      {
+        "cols": [
+          {
+            "fieldsets": [
+              {
+                "src": "StandardFieldset",
+                "rows": [
+                  {
+                    "cols": [
+                      {
+                        "fields": [
+                          {
+                            "src": "StandardField",
+                            "id": "dduDate",
+                            "label": "Дата заключения",
+                            "labelClass": "text-nowrap",
+                            "dependency": [
+                              {
+                                "type": "setValue",
+                                "on": [
+                                  "dealType"
+                                ],
+                                "expression": "null",
+                                "applyOnInit": false
+                              },
+                              {
+                                "type": "required",
+                                "on": [
+                                  "dealType"
+                                ],
+                                "expression": "dealType.id==1",
+                                "applyOnInit": true
+                              }
+                            ],
+                            "control": {
+                              "src": "DatePicker",
+                              "id": "dduDate",
+                              "dateFormat": "DD.MM.YYYY",
+                              "outputFormat": "DD.MM.YYYY HH:mm:ss",
+                              "utc": false
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "fields": [
+                          {
+                            "src": "StandardField",
+                            "id": "dduDeveloper",
+                            "label": "Наименование Застройщика",
+                            "labelClass": "text-nowrap",
+                            "dependency": [
+                              {
+                                "type": "setValue",
+                                "on": [
+                                  "dealType"
+                                ],
+                                "expression": "null",
+                                "applyOnInit": false
+                              },
+                              {
+                                "type": "required",
+                                "on": [
+                                  "dealType"
+                                ],
+                                "expression": "dealType.id==1",
+                                "applyOnInit": true
+                              }
+                            ],
+                            "control": {
+                              "src": "InputSelect",
+                              "id": "dduDeveloper",
+                              "valueFieldId": "id",
+                              "labelFieldId": "name",
+                              "hasSearch": true,
+                              "dataProvider": {
+                                "url": "n2o/data/developer",
+                                "queryMapping": {
+                                  "inn": {
+                                    "value": "`dduDeveloperInn`",
+                                    "link": "models.resolve['applications_list_edit_creditCommitmentEdit']"
+                                  }
+                                },
+                                "quickSearchParam": "name"
+                              },
+                              "multiSelect": false,
+                              "hasCheckboxes": false,
+                              "resetOnBlur": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "fields": [
+                          {
+                            "src": "StandardField",
+                            "id": "dduDeveloperInn",
+                            "label": "ИНН Застройщика",
+                            "labelClass": "text-nowrap",
+                            "dependency": [
+                              {
+                                "type": "required",
+                                "on": [
+                                  "dealType"
+                                ],
+                                "expression": "dealType.id==1",
+                                "applyOnInit": true
+                              },
+                              {
+                                "type": "setValue",
+                                "on": [
+                                  "dealType"
+                                ],
+                                "expression": "null",
+                                "applyOnInit": false
+                              },
+                              {
+                                "type": "setValue",
+                                "on": [
+                                  "dduDeveloper"
+                                ],
+                                "expression": "(function(){return dduDeveloper.inn;})()",
+                                "applyOnInit": false
+                              }
+                            ],
+                            "control": {
+                              "src": "InputText",
+                              "id": "dduDeveloperInn"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "fields": [
+                          {
+                            "src": "StandardField",
+                            "id": "dduConcession",
+                            "dependency": [],
+                            "control": {
+                              "src": "Checkbox",
+                              "id": "dduConcession",
+                              "label": "ДДУ (уступка)"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "size": 11,
+                        "fieldsets": [
+                          {
+                            "src": "StandardFieldset",
+                            "rows": [
+                              {
+                                "cols": [
+                                  {},
+                                  {},
+                                  {
+                                    "fields": [
+                                      {
+                                        "src": "StandardField",
+                                        "id": "dduConcessionHelp",
+                                        "label": "Укажите реквизиты договора уступки по ДДУ",
+                                        "dependency": [],
+                                        "control": {
+                                          "src": "OutputText",
+                                          "id": "dduConcessionHelp",
+                                          "ellipsis": false,
+                                          "expandable": false
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "visible": "`!(typeof dduConcession == 'undefined' || dduConcession == null || dduConcession==false)`",
+                            "dependency": [
+                              {
+                                "type": "reRender",
+                                "on": [
+                                  "dduConcession"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "visible": "`dealType.id==1`",
+                "dependency": [
+                  {
+                    "type": "reRender",
+                    "on": [
+                      "dealType"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

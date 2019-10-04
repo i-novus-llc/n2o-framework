@@ -52,10 +52,12 @@ describe('<InputSelect />', () => {
     expect(wrapper.find('div.n2o-input-select').exists()).toBeTruthy();
   });
 
-  it('проверяет параметров loading', () => {
+  it('проверяет параметров loading', async () => {
     const { wrapper } = setup({ loading: true });
-
-    expect(wrapper.find('div.spinner').exists()).toBeTruthy();
+    expect(wrapper.find('.spinner-border').exists()).toBeFalsy();
+    await new Promise(resolve => setTimeout(resolve, 500));
+    wrapper.update();
+    expect(wrapper.find('.spinner-border').exists()).toBeTruthy();
   });
 
   it('проверяет параметр value', () => {

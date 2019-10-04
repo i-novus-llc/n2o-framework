@@ -302,7 +302,7 @@ describe('FormContainer', () => {
     expect(
       wrapper
         .find(
-          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(withProps(ReduxForm))))))))'
+          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(ReduxForm)))))))'
         )
         .exists()
     ).toBe(true);

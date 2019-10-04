@@ -1,13 +1,15 @@
-import { findIndex, isEmpty } from 'lodash';
+import { findIndex, isEmpty, isString, defaultTo } from 'lodash';
 
 export const inArray = (array = [], item = {}) => {
-  return array.some(arrayItem => arrayItem.id === item.id);
+  return array.some(arrayItem =>
+    isString(item) ? arrayItem === item : arrayItem.id === item.id
+  );
 };
 
 export const groupData = (data, groupFieldId) =>
   data.reduce((r, a) => {
-    r[a[groupFieldId]] = r[a[groupFieldId]] || [];
-    r[a[groupFieldId]].push(a);
+    r[defaultTo(a[groupFieldId], '-')] = r[a[groupFieldId]] || [];
+    r[defaultTo(a[groupFieldId], '-')].push(a);
     return r;
   }, {});
 
