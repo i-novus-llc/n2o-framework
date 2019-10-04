@@ -1,35 +1,54 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { action } from '@storybook/addon-actions';
-import { withKnobs, text, boolean, array } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
 
 import CheckboxGroup from './CheckboxGroup';
-import CheckboxAlt from '../Checkbox/CheckboxN2O';
+import CheckboxAlt, {
+  CheckboxN2O as CheckboxComponent,
+} from '../Checkbox/CheckboxN2O';
 
 const stories = storiesOf('Контролы/Группа чекбоксов', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('CheckboxGroup'));
+stories.addParameters({
+  info: {
+    propTables: [CheckboxComponent],
+    propTablesExclude: [CheckboxAlt],
+  },
+});
 
-stories.add('N2O группа', () => {
-  const props = {
-    value: array('value', ['1', '2']),
-    disabled: boolean('disabled', false),
-    visible: boolean('visible', true),
-    className: text('className', ''),
-    inline: boolean('inline', false),
-  };
+stories.add(
+  'N2O группа',
+  () => {
+    const props = {
+      value: ['1', '2'],
+      disabled: false,
+      visible: true,
+      className: '',
+      inline: false,
+    };
 
-  return (
-    <CheckboxGroup
-      name="numbers"
-      onChange={action('checkbox-on-change')}
-      {...props}
-    >
+    return (
+      <CheckboxGroup name="numbers" {...props}>
+        <CheckboxAlt value="1" label="Первый" />
+        <CheckboxAlt value="2" label="Второй" />
+        <CheckboxAlt value="3" label="Третий" />
+      </CheckboxGroup>
+    );
+  },
+  {
+    info: {
+      text: `
+    Компонент 'CheckboxGroupN2O'
+    ~~~js
+    import CheckboxGroup from 'n2o/lib/components/controls/CheckboxGroup/CheckboxGroup';
+    import CheckboxAlt from 'n2o/lib/components/controls/Checkbox/CheckboxN2O';
+    
+    <CheckboxGroup name="numbers" value={['1', '2']} visible={true}>
       <CheckboxAlt value="1" label="Первый" />
       <CheckboxAlt value="2" label="Второй" />
       <CheckboxAlt value="3" label="Третий" />
     </CheckboxGroup>
-  );
-});
+    ~~~
+    `,
+    },
+  }
+);

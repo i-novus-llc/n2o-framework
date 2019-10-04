@@ -6,31 +6,39 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import Text from '../../../../snippets/Typography/Text/Text';
 
-/**
- * Текстовая ячейка таблицы
- * @reactProps {object} model - модель данных
- * @reactProps {string} fieldKey - ключ модели для этой ячейки
- */
-class TextCell extends React.Component {
-  render() {
-    const { model, fieldKey, id, visible, preLine, ...rest } = this.props;
-    return (
-      visible && (
-        <Text
-          text={model && get(model, fieldKey || id)}
-          preLine={preLine}
-          {...rest}
-        />
-      )
-    );
-  }
+/** Описание */
+function TextCell({ model, fieldKey, id, visible, preLine, ...rest }) {
+  return (
+    visible && (
+      <Text
+        text={model && get(model, fieldKey || id)}
+        preLine={preLine}
+        {...rest}
+      />
+    )
+  );
 }
 
 TextCell.propTypes = {
+  /**
+   * Модель данных
+   */
   model: PropTypes.object,
+  /**
+   * Ключ значения из модели
+   */
   fieldKey: PropTypes.string,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Формат
+   */
   format: PropTypes.string,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 

@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
@@ -18,12 +18,13 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,6 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
-
 
 /**
  * Компиляция таблицы
@@ -119,14 +119,19 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                                  CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope) {
         N2oRowClick rowClick = source.getRows().getRowClick();
         if (rowClick != null) {
-            if (rowClick.getActionId() != null) {
-                MetaActions actions = p.getScope(MetaActions.class);
-                Action action = actions.get(rowClick.getActionId());
-                component.setRowClick(action);
-            } else if (rowClick.getAction() != null) {
-                Action action = p.compile(rowClick.getAction(), context, widgetScope,
-                        widgetRouteScope, new ComponentScope(rowClick));
-                component.setRowClick(action);
+            Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
+            if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
+                if (rowClick.getActionId() != null) {
+                    MetaActions actions = p.getScope(MetaActions.class);
+                    AbstractAction action = (AbstractAction) actions.get(rowClick.getActionId());
+                    if (StringUtils.isJs(enabledCondition)) action.setEnablingCondition((String) enabledCondition);
+                    component.setRowClick(action);
+                } else if (rowClick.getAction() != null) {
+                    AbstractAction action = p.compile(rowClick.getAction(), context, widgetScope,
+                            widgetRouteScope, new ComponentScope(rowClick));
+                    if (StringUtils.isJs(enabledCondition)) action.setEnablingCondition((String) enabledCondition);
+                    component.setRowClick(action);
+                }
             }
         }
     }
@@ -240,6 +245,5 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             filter.setHideButtons(true);
         return filter;
     }
-
 }
 

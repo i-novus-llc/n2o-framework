@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import withTests from 'N2oStorybook/withTests';
+
 import { set, pullAt, omit, pick } from 'lodash';
 
-import TabsRegion from './TabsRegion';
+import TabsRegion, { TabRegion as TabsRegionComponent } from './TabsRegion';
 import { metadataSuccess } from '../../../actions/pages';
 import { hideWidget, showWidget } from '../../../actions/widgets';
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
@@ -22,7 +22,12 @@ import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 
 const stories = storiesOf('Регионы/Вкладки', module);
 
-stories.addDecorator(withTests('Tabs'));
+stories.addParameters({
+  info: {
+    propTables: [TabsRegionComponent],
+    propTablesExclude: [TabsRegion, AuthButtonContainer],
+  },
+});
 
 const TabsRegionJson = set(
   cloneObject(SecureTabRegionJson),
@@ -33,11 +38,37 @@ const TabsRegionJson = set(
 const { store } = makeStore();
 
 stories
-  .add('Метаданные', () => {
-    store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
+  .add(
+    'Метаданные',
+    () => {
+      store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
 
-    return <TabsRegion {...TabsRegionJson} pageId="Page" />;
-  })
+      return <TabsRegion {...TabsRegionJson} pageId="Page" />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Табы'
+      ~~~js
+      import TabsRegion from 'n2o/lib/components/regions/Tabs/TabsRegion';
+      
+      <TabsRegion 
+          pageId="Page"
+          tabs={[
+            {
+              id: "tab1",
+              opened: true,
+              fetchOnInit: true,
+              widgetId: "Page_Html",
+              label: "HTML"
+            }
+          ]} 
+       />
+      ~~~
+      `,
+      },
+    }
+  )
   .add('Ограничение доступа', () => {
     store.dispatch(metadataSuccess('Page', ListMetadata));
     return (

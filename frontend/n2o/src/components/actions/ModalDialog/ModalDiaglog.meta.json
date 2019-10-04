@@ -3,7 +3,7 @@
   "size": "lg",
   "title": "Вы уверены?",
   "text": "Вы хотите совершить действие?",
-  "confirmText": "Да",
-  "denyText": "Нет",
+  "okLabel": "Да",
+  "cancelLabel": "Нет",
   "visible": true
 }

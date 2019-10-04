@@ -12,41 +12,48 @@ import cx from 'classnames';
  * @reactProps {boolean} bordered - флаг рамки вокруг иконки
  * @reactProps {boolean} circular - флаг закругления вокруг иконки
  */
+function Icon({ name, className, disabled, spin, circular, bordered, style }) {
+  const iconClass = cx({
+    'n2o-icon': true,
+    [name]: name,
+    [className]: className,
+    disabled,
+    'fa-spin': spin,
+    circular,
+    bordered,
+  });
 
-class Icon extends React.Component {
-  /**
-   * Рендер
-   */
-
-  render() {
-    const iconClass = cx({
-      'n2o-icon': true,
-      [`${this.props.name}`]: this.props.name,
-      [`${this.props.className}`]: this.props.className,
-      disabled: this.props.disabled,
-      'fa-spin': this.props.spin,
-      circular: this.props.circular,
-      bordered: this.props.bordered,
-    });
-
-    return (
-      <i
-        className={iconClass}
-        style={{
-          ...this.props.style,
-        }}
-      />
-    );
-  }
+  return <i className={iconClass} style={style} />;
 }
 
 Icon.propTypes = {
+  /**
+   * Класс иконки
+   */
   className: PropTypes.string,
+  /**
+   * Стили иконки
+   */
   style: PropTypes.object,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Название иконки
+   */
   name: PropTypes.string.isRequired,
+  /**
+   * Флаг вращения иконки
+   */
   spin: PropTypes.bool,
+  /**
+   * Флаг рамки вокруг иконки
+   */
   bordered: PropTypes.bool,
+  /**
+   * Флаг закругления иконки
+   */
   circular: PropTypes.bool,
 };
 

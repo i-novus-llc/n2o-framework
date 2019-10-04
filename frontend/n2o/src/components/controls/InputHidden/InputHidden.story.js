@@ -1,30 +1,58 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text } from '@storybook/addon-knobs/react';
 import Input from './InputHidden';
 import InputHiddenMeta from './InputHidden.meta';
 
 const stories = storiesOf('Контролы/Скрытое поле', module);
-stories.addDecorator(withKnobs);
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      value: text('Значение', 'InputHidden value'),
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        value: 'InputHidden value',
+      };
 
-    return (
-      <div>
-        <p>Здесь находиться скрытое поле</p>
-        <Input {...props} />
-      </div>
-    );
-  })
-  .add('Метаданные', () => {
-    return (
-      <div>
-        <p>Здесь находиться скрытое поле</p>
-        <Input {...InputHiddenMeta} />
-      </div>
-    );
-  });
+      return (
+        <div>
+          <p>Здесь находиться скрытое поле</p>
+          <Input {...props} />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Скрытое поле'
+      ~~~js
+      import InputHidden from 'n2o/lib/components/controls/InputHidden/InputHidden';
+      
+      <InputHidden value="InputHidden value" />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Метаданные',
+    () => {
+      return (
+        <div>
+          <p>Здесь находиться скрытое поле</p>
+          <Input {...InputHiddenMeta} />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Скрытое поле'
+      ~~~js
+      import InputHidden from 'n2o/lib/components/controls/InputHidden/InputHidden';
+      
+      <InputHidden name="InputHidden" value="value" />
+      ~~~
+      `,
+      },
+    }
+  );

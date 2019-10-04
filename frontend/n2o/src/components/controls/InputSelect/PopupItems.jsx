@@ -32,9 +32,11 @@ import { groupData, inArray, isDisabled } from './utils';
  * @reactProps {function} onRemoveItem - callback при удаление элемента
  * @reactProps {function} setActiveValueId
  * @reactProps {string} activeValueId
+ * @reactProps {boolean} autocomplete
  */
 
 function PopupItems({
+  loading,
   options,
   activeLabel,
   setActiveLabel,
@@ -53,6 +55,7 @@ function PopupItems({
   onSelect,
   setActiveValueId,
   activeValueId,
+  autocomplete,
 }) {
   const handleRef = item => {
     if (item) {
@@ -82,7 +85,14 @@ function PopupItems({
         onMouseOver={() =>
           setActiveValueId && setActiveValueId(item[valueFieldId])
         }
-        disabled={!hasCheckboxes && isDisabled(item, selected, disabledValues)}
+        disabled={
+          !hasCheckboxes &&
+          isDisabled(
+            autocomplete ? item[valueFieldId] : item,
+            selected,
+            disabledValues
+          )
+        }
         ref={handleRef}
         key={item.id}
         onClick={e => handleItemClick(e, item)}
@@ -143,7 +153,9 @@ function PopupItems({
     if (options && options[0] !== null && options.length) {
       return renderMenuItems(options);
     }
-    return <DropdownItem header>Ничего не найдено</DropdownItem>;
+    if (!loading && options.length === 0) {
+      return <DropdownItem header>Ничего не найдено</DropdownItem>;
+    }
   };
 
   return <React.Fragment>{renderMenu(options)}</React.Fragment>;
@@ -169,6 +181,7 @@ PopupItems.propTypes = {
   format: PropTypes.string,
   setActiveValueId: PropTypes.func,
   activeValueId: PropTypes.string,
+  autocomplete: PropTypes.bool,
 };
 
 export default PopupItems;

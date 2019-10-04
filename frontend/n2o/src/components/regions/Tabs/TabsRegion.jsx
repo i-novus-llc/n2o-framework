@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty, filter, map, isUndefined, pull } from 'lodash';
-import { compose } from 'recompose';
+import { compose, setDisplayName } from 'recompose';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import WidgetFactory from '../../widgets/WidgetFactory';
@@ -121,11 +121,20 @@ class TabRegion extends React.Component {
 }
 
 TabRegion.propTypes = {
+  /**
+   * Список табов
+   */
   tabs: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
+  /**
+   * ID странцы
+   */
   pageId: PropTypes.string.isRequired,
   alwaysRefresh: PropTypes.bool,
   mode: PropTypes.oneOf(['single', 'all']),
+  /**
+   * Флаг ленивого рендера
+   */
   lazy: PropTypes.bool,
   resolveVisibleDependency: PropTypes.func,
 };
@@ -136,4 +145,8 @@ TabRegion.defaultProps = {
   mode: 'single',
 };
 
-export default compose(withWidgetProps)(TabRegion);
+export { TabRegion };
+export default compose(
+  setDisplayName('TabsRegion'),
+  withWidgetProps
+)(TabRegion);

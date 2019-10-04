@@ -106,4 +106,5 @@ AdvancedTableFilter.defaultProps = {
   onFilter: () => {},
 };
 
+export { AdvancedTableFilter };
 export default pure(AdvancedTableFilter);

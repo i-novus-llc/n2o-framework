@@ -84,14 +84,41 @@ InputNumberInterval.defaultProps = {
 };
 
 InputNumberInterval.propTypes = {
+  /**
+   * Значение [1, 2]
+   */
   value: PropTypes.array,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Шаг кнопки
+   */
   step: PropTypes.string,
+  /**
+   * Минимальное число
+   */
   min: PropTypes.number,
+  /**
+   * Масимальное число
+   */
   max: PropTypes.number,
+  /**
+   * Название контрола
+   */
   name: PropTypes.string,
+  /**
+   * Флаг показа кнопок
+   */
   showButtons: PropTypes.bool,
+  /**
+   * Callback изменения
+   */
   onChange: PropTypes.func,
 };
 

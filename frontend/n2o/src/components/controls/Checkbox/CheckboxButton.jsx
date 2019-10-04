@@ -13,64 +13,74 @@ import Input from '../Input/Input';
  * @reactProps {function} onChange - вызывается при изменении значения
  * @reactProps {string} label - лейбл
  */
-
-class CheckboxButton extends React.Component {
-  /**
-   * базовый рендер
-   * */
-  render() {
-    const {
-      label,
-      disabled,
-      value,
-      checked,
-      onChange,
-      onFocus,
-      onBlur,
-    } = this.props;
-
-    return (
-      <label
-        className={cx('btn btn-secondary', {
-          active: checked,
-          disabled: disabled,
-        })}
-      >
-        <Input
-          disabled={disabled}
-          type="checkbox"
-          value={value}
-          checked={isNil(checked) ? !!value : checked}
-          onChange={onChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-        />
-        {label}
-      </label>
-    );
-  }
+function CheckboxButton({
+  label,
+  disabled,
+  value,
+  checked,
+  onChange,
+  onFocus,
+  onBlur,
+  className,
+}) {
+  return (
+    <label
+      className={cx('btn btn-secondary', className, {
+        active: checked,
+        disabled: disabled,
+      })}
+    >
+      <Input
+        disabled={disabled}
+        type="checkbox"
+        value={value}
+        checked={isNil(checked) ? !!value : checked}
+        onChange={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+      {label}
+    </label>
+  );
 }
 
 CheckboxButton.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.any,
+  /**
+   * Checked
+   */
   checked: PropTypes.bool,
+  /**
+   * Callback изменения
+   */
   onChange: PropTypes.func,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Label контрола
+   */
   label: PropTypes.string,
-  obBlur: PropTypes.func,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
-  placeholder: PropTypes.string,
-  length: PropTypes.string,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.string,
-  autoFocus: PropTypes.bool,
+  /**
+   * Callback фокуса
+   */
   onFocus: PropTypes.func,
+  /**
+   * Callback потери фокуса
+   */
   onBlur: PropTypes.func,
-  onPaste: PropTypes.func,
-  onClick: PropTypes.func,
-  onKeyDown: PropTypes.func,
 };
 
 CheckboxButton.defaultProps = {

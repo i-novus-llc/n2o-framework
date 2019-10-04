@@ -1,108 +1,205 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
+
 import withForm from 'N2oStorybook/decorators/withForm';
 
 import InputNumber from './InputNumber';
 import InputNumberJson from './InputNumber.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Ввод чисел', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('InputNumber'));
+stories.addParameters({
+  info: {
+    propTables: [InputNumber],
+    propTablesExclude: [Factory],
+  },
+});
 
 const form = withForm({ src: 'InputNumber' });
 
 stories
-  .add('Компонент', () => {
-    const props = {
-      visible: true,
-      step: '0.1',
-      showButtons: true,
-    };
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        visible: true,
+        step: '0.1',
+        showButtons: true,
+        min: 5,
+        max: 100,
+        value: 10,
+      };
 
-    return <InputNumber {...props} />;
-  })
+      return <InputNumber {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+      <InputNumber
+          visible={true}
+          ste="0.1"
+          showButtons={true}
+      />
+      ~~~
+      `,
+      },
+    }
+  )
 
   .add(
     'Метаданные',
     form(() => {
       const props = {
-        visible: boolean('visible', InputNumberJson.visible),
-        step: text('step', InputNumberJson.step),
-        showButtons: boolean('showButtons', InputNumberJson.showButtons),
-        disabled: boolean('disabled', InputNumberJson.disabled),
-        min: number('min', InputNumberJson.min),
-        max: number('max', InputNumberJson.max),
+        visible: InputNumberJson.visible,
+        step: InputNumberJson.step,
+        showButtons: InputNumberJson.showButtons,
+        disabled: InputNumberJson.disabled,
+        min: InputNumberJson.min,
+        max: InputNumberJson.max,
       };
       return props;
     })
   )
 
-  .add('Min/max', () => {
-    const props = {
-      value: 1,
-      min: -150,
-      max: 150,
-    };
+  .add(
+    'Min/max',
+    () => {
+      const props = {
+        value: 1,
+        min: -150,
+        max: 150,
+      };
 
-    return <InputNumber {...props} />;
-  })
+      return <InputNumber {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+      <InputNumber
+          value={1}
+          min={-150}
+          max={150}
+      />
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Шаги', () => {
-    const props = {
-      value: 1,
-      min: -150,
-      max: 150,
-    };
+  .add(
+    'Шаги',
+    () => {
+      const props = {
+        value: 1,
+        min: -150,
+        max: 150,
+      };
 
-    return (
-      <React.Fragment>
-        <div className="row" style={{ marginBottom: '10px' }}>
-          <InputNumber {...props} step="10" />
-        </div>
-        <div className="row">
-          <InputNumber {...props} step="0.05" />
-        </div>
-      </React.Fragment>
-    );
-  })
-
-  .add('Свойство precision', () => {
-    const props = {
-      value: 1,
-      step: 1,
-      min: -150,
-      max: 150,
-      showButtons: false,
-    };
-
-    return (
-      <React.Fragment>
-        <div className="row mb-1 flex-column">
-          <div className="row">Без дробной части</div>
-          <div className="row">
-            <InputNumber {...props} precision={0} />
+      return (
+        <React.Fragment>
+          <div className="row" style={{ marginBottom: '10px' }}>
+            <InputNumber {...props} step="10" />
           </div>
-        </div>
-        <div className="row mb-1 flex-column">
-          <div className="row">Только 2 символа после запятой</div>
           <div className="row">
-            <InputNumber {...props} precision={2} />
+            <InputNumber {...props} step="0.05" />
           </div>
-        </div>
-      </React.Fragment>
-    );
-  })
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+        <InputNumber {...props} step="10" />
+        <InputNumber {...props} step="0.05" />
+      ~~~
+      `,
+      },
+    }
+  )
 
-  .add('Без кнопок', () => {
-    const props = {
-      value: 1,
-      min: -150,
-      max: 150,
-      showButtons: false,
-    };
+  .add(
+    'Свойство precision',
+    () => {
+      const props = {
+        value: 1,
+        step: 1,
+        min: -150,
+        max: 150,
+        showButtons: false,
+      };
 
-    return <InputNumber {...props} />;
-  });
+      return (
+        <React.Fragment>
+          <div className="row mb-1 flex-column">
+            <div className="row">Без дробной части</div>
+            <div className="row">
+              <InputNumber {...props} precision={0} />
+            </div>
+          </div>
+          <div className="row mb-1 flex-column">
+            <div className="row">Только 2 символа после запятой</div>
+            <div className="row">
+              <InputNumber {...props} precision={2} />
+            </div>
+          </div>
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+        <InputNumber {...props} precision={0} />
+        <InputNumber {...props} precision={2} />
+      ~~~
+      `,
+      },
+    }
+  )
+
+  .add(
+    'Без кнопок',
+    () => {
+      const props = {
+        value: 1,
+        min: -150,
+        max: 150,
+        showButtons: false,
+      };
+
+      return <InputNumber {...props} />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Ввод чисел'
+      ~~~js
+      import InputNumber from 'n2o/lib/components/controls/InputNumber/InputNumber';
+      
+        <InputNumber 
+            value={1}
+            min={-150}
+            max={150}
+            showButtons={false}
+         />
+      ~~~
+      `,
+      },
+    }
+  );

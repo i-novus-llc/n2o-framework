@@ -1,38 +1,34 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  boolean,
-  number,
-  select,
-} from '@storybook/addon-knobs/react';
-import Slider from './Slider';
+import Slider, { Slider as SliderComponent } from './Slider';
 import meta from './Slider.meta';
-
 import withForm from 'N2oStorybook/decorators/withForm';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Ползунок', module);
 const form = withForm({ src: 'Slider' });
-stories.addDecorator(withKnobs);
+
+stories.addParameters({
+  info: {
+    propTables: [SliderComponent],
+    propTablesExclude: [Slider, Factory],
+  },
+});
 
 stories
   .add('Компонент', () => {
     const props = {
-      multiple: boolean('multiple', meta.multiple),
-      showTooltip: boolean('showTooltip', meta.showTooltip),
-      tooltipPlacement: select(
-        'tooltipPlacement',
-        ['top', 'bottom', 'left', 'right'],
-        meta.tooltipPlacement
-      ),
-      step: number('step', meta.step),
-      vertical: boolean('vertical', meta.showTooltip),
-      disabled: boolean('disabled', meta.showTooltip),
-      dots: boolean('dots', meta.showTooltip),
-      min: number('min', meta.min),
-      max: number('min', meta.max),
+      multiple: meta.multiple,
+      showTooltip: meta.showTooltip,
+      tooltipPlacement: meta.tooltipPlacement,
+      step: meta.step,
+      vertical: meta.showTooltip,
+      disabled: meta.showTooltip,
+      dots: meta.showTooltip,
+      min: meta.min,
+      max: meta.max,
       marks: {},
-      pushable: boolean('pushable', meta.showTooltip),
+      pushable: meta.showTooltip,
     };
 
     return <Slider {...props} />;
@@ -56,20 +52,20 @@ stories
         <br />
         <h4>tooltipFormatter:</h4>
         <div>
-          tooltipFormatter = <code>"`${'this'}%`"</code>
+          tooltipFormatter = <code>"&#36;&#123;this&#125;%"</code>
         </div>
         <Slider
           showTooltip={true}
           tooltipPlacement="top"
-          tooltipFormatter={'`${this}%`'}
+          tooltipFormatter={'${this}%'}
         />
         <div>
-          tooltipFormatter = <code>"`t=${'this'}℃`"</code>
+          tooltipFormatter = <code>"t=&#36;&#123;this&#125;℃"</code>
         </div>
         <Slider
           showTooltip={true}
           tooltipPlacement="top"
-          tooltipFormatter={'`t=${this}℃`'}
+          tooltipFormatter={'t=${this}℃'}
         />
       </div>
     );

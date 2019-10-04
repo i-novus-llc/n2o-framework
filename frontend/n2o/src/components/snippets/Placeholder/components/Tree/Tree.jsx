@@ -16,7 +16,13 @@ function Tree({ rows, chevron }) {
 }
 
 Tree.propTypes = {
-  rows: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  /**
+   * Количество строк
+   */
+  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Флаг включения отрисовки иконки chevron рядом со строкой
+   */
   chevron: PropTypes.bool,
 };
 

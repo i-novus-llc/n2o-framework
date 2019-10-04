@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
-import { isEqual } from 'lodash';
+import { isEqual, omit } from 'lodash';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**
@@ -201,8 +201,13 @@ class InputMask extends React.Component {
         onFocus={this._onFocus.bind(this)}
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
-          delete props.defaultValue;
-          return <input ref={ref} {...props} autoFocus={autoFocus} />;
+          return (
+            <input
+              ref={ref}
+              {...omit(props, ['defaultValue'])}
+              autoFocus={autoFocus}
+            />
+          );
         }}
       />
     );
@@ -224,22 +229,61 @@ InputMask.defaultProps = {
 };
 
 InputMask.propTypes = {
+  /**
+   * Класс контрола
+   */
   className: PropTypes.string,
+  /**
+   * Пресет маски
+   */
   preset: PropTypes.string,
+  /**
+   * Маска
+   */
   mask: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
     PropTypes.func,
   ]),
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Символ, который будет на месте незаполненного символа маски
+   */
   placeholderChar: PropTypes.string,
+  /**
+   * Значение
+   */
   value: PropTypes.string,
+  /**
+   * Дополнительные символы-ключи для маски
+   */
   dictionary: PropTypes.object,
+  /**
+   * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
+   */
   guide: PropTypes.bool,
+  /**
+   * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
+   */
   keepCharPositions: PropTypes.bool,
+  /**
+   * Сбрасывать / оставлять невалидное значение при потере фокуса
+   */
   resetOnNotValid: PropTypes.bool,
+  /**
+   * Настройка пресета
+   */
   presetConfig: PropTypes.object,
+  /**
+   * Callback на потерю фокуса
+   */
   onBlur: PropTypes.func,
   disabled: PropTypes.bool,
 };

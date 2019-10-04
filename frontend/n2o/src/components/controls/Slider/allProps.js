@@ -21,4 +21,5 @@ export const defaultProps = {
   showTooltip: false,
   tooltipPlacement: 'top',
   stringMode: true,
+  onChange: () => {},
 };

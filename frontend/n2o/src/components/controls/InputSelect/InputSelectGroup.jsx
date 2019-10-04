@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
+import Spinner from '../../snippets/Spinner/Spinner';
 import InputAddon from './InputAddon';
 import cx from 'classnames';
 
@@ -20,6 +21,7 @@ import cx from 'classnames';
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {boolean} cleanable - показывать иконку очисть поле
  * @reactProps {boolean} multiSelect - флаг мульти выбора
+ * @reactProps {boolean} withoutButtons - флаг скрытия кнопок действий
  */
 
 function InputSelectGroup({
@@ -39,23 +41,23 @@ function InputSelectGroup({
   setIsExpanded,
   disabled,
   setSelectedItemsRef,
+  withoutButtons,
 }) {
   const iconClass = isExpanded ? 'chevron-up' : 'chevron-down';
   const displayAddon =
     !multiSelect && !!selected.length && (iconFieldId || imageFieldId);
 
   const renderButton = loading => {
-    if (loading) {
-      return <InlineSpinner />;
-    }
     return (
-      <i
-        className={`fa fa-chevron-down`}
-        onClick={() => {
-          setIsExpanded(!isExpanded);
-        }}
-        aria-hidden="true"
-      />
+      <Spinner type="inline" loading={loading} size="sm">
+        <i
+          className={`fa fa-chevron-down`}
+          onClick={() => {
+            setIsExpanded(!isExpanded);
+          }}
+          aria-hidden="true"
+        />
+      </Spinner>
     );
   };
   return (
@@ -76,21 +78,23 @@ function InputSelectGroup({
         )}
         {children}
       </div>
-      <div className="n2o-input-control">
-        {(selected.length || input) && cleanable && (
-          <div
-            className={cx('n2o-input-clear', {
-              'input-in-focus': isInputInFocus,
-            })}
-            onClick={onClearClick}
-          >
-            <i className="fa fa-times" aria-hidden="true" />
+      {!withoutButtons && (
+        <div className="n2o-input-control">
+          {(selected.length || input) && cleanable && (
+            <div
+              className={cx('n2o-input-clear', {
+                'input-in-focus': isInputInFocus,
+              })}
+              onClick={onClearClick}
+            >
+              <i className="fa fa-times" aria-hidden="true" />
+            </div>
+          )}
+          <div className={cx('n2o-popup-control', { isExpanded })}>
+            {renderButton(loading)}
           </div>
-        )}
-        <div className={cx('n2o-popup-control', { isExpanded })}>
-          {renderButton(loading)}
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -110,6 +114,7 @@ InputSelectGroup.propTypes = {
   onClearClick: PropTypes.func,
   setIsExpanded: PropTypes.func,
   cleanable: PropTypes.bool,
+  withoutButtons: PropTypes.bool,
 };
 
 InputSelectGroup.defaultProps = {
@@ -117,6 +122,7 @@ InputSelectGroup.defaultProps = {
   multiSelect: false,
   loading: false,
   collapseSelected: true,
+  withoutButtons: false,
   setIsExpanded: () => {},
   onButtonClick: () => {},
 };

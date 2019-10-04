@@ -116,10 +116,25 @@ class Rating extends Component {
 }
 
 Rating.propTypes = {
+  /**
+   * Максимальное значение
+   */
   max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  /**
+   * Значение
+   */
   rating: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  /**
+   * Флаг включения выбора по половинке
+   */
   half: PropTypes.bool,
+  /**
+   * Флаг показа подсказки
+   */
   showTooltip: PropTypes.bool,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
 };
 

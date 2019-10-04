@@ -1,17 +1,17 @@
 {
   "presets": [
-    "es2015",
-    "stage-3",
-    "react"
+    "@babel/preset-react",
+    "@babel/preset-env"
   ],
   "plugins": [
-    "transform-runtime"
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-class-properties"
   ],
   "env": {
     "test": {
       "plugins": [
         [
-          "transform-es2015-modules-commonjs"
+          "@babel/plugin-transform-modules-commonjs"
         ]
       ]
     }
