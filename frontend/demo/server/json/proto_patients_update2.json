@@ -169,12 +169,11 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": true,
+                          "hasSearch": false,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
                           "type": "n2o"
                         }

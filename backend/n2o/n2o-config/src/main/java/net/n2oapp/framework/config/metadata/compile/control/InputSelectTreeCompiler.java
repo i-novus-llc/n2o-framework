@@ -35,6 +35,7 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setSize(200);
         control.setCheckingStrategy(source.getCheckingStrategy());
         control.setMaxTagCount(source.getMaxTagCount());
+        source.setSearch(p.cast(source.getSearch(), false));
         source.setQueryId(p.resolveJS(source.getInheritanceNodes().getQueryId()));
         source.setLabelFieldId(p.cast(p.resolveJS(source.getInheritanceNodes().getLabelFieldId()), "name"));
         source.setIconFieldId(p.resolveJS(source.getInheritanceNodes().getIconFieldId()));

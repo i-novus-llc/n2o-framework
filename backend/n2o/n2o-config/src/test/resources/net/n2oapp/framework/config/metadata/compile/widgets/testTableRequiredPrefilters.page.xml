@@ -2,7 +2,7 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <table query-id="testTable4Compile">
         <filters>
-            <input-select id="gender" query-id="utBlank" />
+            <input-select id="gender" query-id="utBlank" search="false" />
         </filters>
         <pre-filters>
             <in field-id="gender.id" value="1" required="true" ref-model="filter" />

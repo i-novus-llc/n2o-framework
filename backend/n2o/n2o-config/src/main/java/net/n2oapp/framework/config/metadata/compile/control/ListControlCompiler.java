@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -23,6 +24,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -116,14 +118,26 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
 
         if (listControl.isHasSearch()) {
-            String searchFilterId = p.cast(source.getSearchFieldId(), source.getLabelFieldId());
-            if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
-                dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
-            } else if (searchFilterId != null && listControl.isHasSearch()) {
-                throw new N2oException("For search field id [{0}] is necessary this filter-id in query [{1}]").addData(searchFilterId, query.getId());
+            String quickSearchParam = null;
+            if (source.getSearchFilterId() != null)
+                quickSearchParam = source.getSearchFilterId();
+            else {
+                N2oQuery.Filter[] filterList = query.getFieldsMap().get(source.getLabelFieldId()).getFilterList();
+                if (filterList != null) {
+                    Optional<N2oQuery.Filter> like = Stream.of(filterList).filter(f -> f.getType().equals(FilterType.like)).findAny();
+                    if (like.isPresent())
+                        quickSearchParam = like.get().getFilterField();
+                    else {
+                        Optional<N2oQuery.Filter> eq = Stream.of(filterList).filter(f -> f.getType().equals(FilterType.eq)).findAny();
+                        if (eq.isPresent())
+                            quickSearchParam = eq.get().getFilterField();
+                    }
+                }
+                if (quickSearchParam == null)
+                    throw new N2oException(String.format("For search field id [%s] is necessary this filter-id in query [%s]", source.getLabelFieldId(), query.getId()));
             }
+            dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(quickSearchParam));
         }
-
         N2oPreFilter[] preFilters = source.getPreFilters();
         Map<String, BindLink> queryMap = new StrictMap<>();
         if (preFilters != null) {

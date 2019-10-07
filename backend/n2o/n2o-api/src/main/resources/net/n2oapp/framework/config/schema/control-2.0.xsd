@@ -119,7 +119,7 @@
                 <xs:attribute name="query-id" type="xs:string"/>
                 <xs:attribute name="format" type="xs:string"/>
                 <xs:attribute name="label-field-id" type="xs:string"/>
-                <xs:attribute name="search-field-id" type="xs:string"/>
+                <xs:attribute name="search-filter-id" type="xs:string"/>
                 <xs:attribute name="group-field-id" type="xs:string"/>
                 <xs:attribute name="image-field-id" type="xs:string"/>
                 <xs:attribute name="badge-field-id" type="xs:string"/>

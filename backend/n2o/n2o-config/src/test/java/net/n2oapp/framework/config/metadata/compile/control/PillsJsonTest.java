@@ -24,7 +24,7 @@ public class PillsJsonTest extends JsonMetadataTestBase {
     }
 
     @Test
-    public void testRadioGroup() {
+    public void testRadionGroup() {
         check("net/n2oapp/framework/config/metadata/compile/field/testPills.widget.xml",
                 "components/controls/Pills/Pills.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
