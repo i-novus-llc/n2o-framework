@@ -203,8 +203,8 @@ function InputContent({
       }
 
       return {
-        paddingTop: mainHeight,
-        paddingLeft: mainWidth || undefined,
+        paddingTop: selected.length === 0 ? 5 : mainHeight,
+        paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
       };
     }
   };
