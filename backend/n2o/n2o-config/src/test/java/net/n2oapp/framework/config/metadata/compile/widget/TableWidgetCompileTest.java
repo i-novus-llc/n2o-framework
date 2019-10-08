@@ -3,6 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -271,5 +273,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));
         assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
         assertThat(queryContext.getValidations().get(0).getSeverity(), is(SeverityType.danger));
+    }
+
+    @Test
+    public void testColumnVisibility() {
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
+                .get(new PageContext("testTableColumnVisibility"));
+        List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
+        assertThat(columnHeaders.get(0).getVisible(), is("`1 == 1`"));
+        assertThat(columnHeaders.get(1).getVisible(), is(Boolean.FALSE));
     }
 }
