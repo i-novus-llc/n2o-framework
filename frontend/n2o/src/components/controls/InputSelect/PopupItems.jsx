@@ -136,9 +136,11 @@ function PopupItems({
 
   const renderGroup = (key, value) => (
     <React.Fragment key={key}>
-      <DropdownItem key={key} header>
-        {key}
-      </DropdownItem>
+      {key ? (
+        <DropdownItem key={key} header>
+          {key}
+        </DropdownItem>
+      ) : null}
       {renderSingleItems(value)}
       <DropdownItem divider />
     </React.Fragment>
