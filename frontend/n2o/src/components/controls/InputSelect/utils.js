@@ -6,8 +6,8 @@ export const inArray = (array = [], item = {}) => {
 
 export const groupData = (data, groupFieldId) =>
   data.reduce((r, a) => {
-    r[defaultTo(a[groupFieldId], '-')] = r[a[groupFieldId]] || [];
-    r[defaultTo(a[groupFieldId], '-')].push(a);
+    r[defaultTo(a[groupFieldId], '')] = r[a[groupFieldId]] || [];
+    r[defaultTo(a[groupFieldId], '')].push(a);
     return r;
   }, {});
 
