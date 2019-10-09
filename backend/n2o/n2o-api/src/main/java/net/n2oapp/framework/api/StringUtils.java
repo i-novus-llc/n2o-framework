@@ -128,6 +128,20 @@ public abstract class StringUtils {
     }
 
     /**
+     * Проверка, что строка - ссылка на javaScript выражение
+     * Примеры:
+     * {@code
+     *      isJs("{1 == 1}");       //true
+     *      isJs("1 == 1");         //false
+     *      }
+     * @param s - строка
+     * @return true - ссылка на javaScript выражение, false - не ссылка на javaScript выражение
+     */
+    public static boolean isJsLink(Object s) {
+        return s instanceof String && linkPlaceHoldersResolver.isPlaceHolder(s) && ((String)s).matches("\\{\\$[\\w()+-.]+\\}");
+    }
+
+    /**
      * Проверка, что строка - javaScript функция
      * Примеры:
      * {@code
@@ -154,7 +168,7 @@ public abstract class StringUtils {
         if (!(value instanceof String))
             return false;
         String s = (String) value;
-        return isJs(s) || isContext(s) || isLink(s) || isProperty(s) || isFunction(s);
+        return isJs(s) || isJsLink(s) || isContext(s) || isLink(s) || isProperty(s) || isFunction(s);
     }
 
     /**
