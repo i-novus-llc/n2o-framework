@@ -22,7 +22,6 @@ import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
 
 const excludedKeys = [
-  'control',
   'dependencySelector',
   'dispatch',
   'onBlur',
@@ -168,8 +167,9 @@ export default Field => {
         memoize(props => {
           if (!props) return;
           const { input, message, meta, model, ...rest } = props;
+          const pr = propsResolver(rest, model);
           return {
-            ...propsResolver(rest, model),
+            ...pr,
             ...meta,
             validationClass: getValidationState(message),
             message,
