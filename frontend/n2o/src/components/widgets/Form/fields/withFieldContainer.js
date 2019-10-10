@@ -33,7 +33,6 @@ const excludedKeys = [
   'registerFieldExtra',
   'setReRenderRef',
   'setRef',
-  'touched',
   'dirty',
   'pristine',
   'visited',
