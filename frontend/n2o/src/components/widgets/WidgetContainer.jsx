@@ -103,6 +103,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         this.onResolve = this.onResolve.bind(this);
         this.onSort = this.onSort.bind(this);
         this.onSetModel = this.onSetModel.bind(this);
+        this.onActionImpl = this.onActionImpl.bind(this);
       }
 
       componentDidMount() {
@@ -133,13 +134,13 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         dispatch(batchActions(actions));
       }
 
-      onSetModel(newModel) {
-        const { widgetId, modelPrefix, dispatch } = this.props;
-        dispatch(setModel(modelPrefix, widgetId, newModel));
+      onSetModel(prefix, widgetId, model) {
+        const { dispatch } = this.props;
+        dispatch(setModel(prefix, widgetId, model));
       }
 
-      onResolve(newModel) {
-        const { widgetId, oldModel, dispatch } = this.props;
+      onResolve(newModel, oldModel) {
+        const { widgetId, dispatch } = this.props;
         if (!isEqual(newModel, oldModel)) {
           dispatch(resolveWidget(widgetId, newModel));
         }
@@ -162,8 +163,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         dispatch(dataRequestWidget(widgetId, options));
       }
 
-      onActionImpl() {
-        const { src, component, options, dispatch } = this.props;
+      onActionImpl({ src, component, options }) {
+        const { dispatch } = this.props;
         dispatch(callActionImpl(src || component, { ...options, dispatch }));
       }
 
