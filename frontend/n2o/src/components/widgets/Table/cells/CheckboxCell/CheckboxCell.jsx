@@ -74,7 +74,7 @@ export default compose(
       );
 
       setChecked(checked);
-      callInvoke(data, get(action, 'options.payload.dataProvider'));
+      callActionImpl(e, { action, model: data });
     },
   }),
   lifecycle({
