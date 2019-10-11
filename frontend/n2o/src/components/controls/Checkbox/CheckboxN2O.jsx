@@ -53,6 +53,7 @@ class CheckboxN2O extends React.Component {
             'custom-control-inline': inline,
           }
         )}
+      onClick={onClick}
       >
         <Input
           id={this.elementId}
@@ -62,7 +63,6 @@ class CheckboxN2O extends React.Component {
           value={value}
           checked={isNil(checked) ? !!value : checked}
           onChange={onChange}
-          onClick={onClick}
           onFocus={onFocus}
           onBlur={onBlur}
         />

@@ -15,7 +15,8 @@ function CheckboxCell({
   disabled,
   callInvoke,
   checked,
-  onChange,
+  handleClick,
+  handleChange,
   ...rest
 }) {
   return (
@@ -23,7 +24,8 @@ function CheckboxCell({
       <CheckboxN2O
         className="сheckbox-сell"
         inline={true}
-        onChange={onChange}
+        onClick={handleClick}
+        onChange={handleChange}
         disabled={disabled}
         checked={checked}
         {...rest}
@@ -54,7 +56,10 @@ export default compose(
     ({ model, fieldKey, id }) => model && get(model, fieldKey || id)
   ),
   withHandlers({
-    onChange: ({
+    handleClick: () => e => {
+      e.stopPropagation();
+    },
+    handleChange: ({
       callActionImpl,
       callInvoke,
       action,
