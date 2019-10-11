@@ -19,6 +19,7 @@ import ReduxForm from './ReduxForm';
 import widgetContainer from '../WidgetContainer';
 import { FORM } from '../widgetTypes';
 import { getFieldsKeys } from './utils';
+import createValidator from '../../../core/validation/createValidator';
 
 const arrayMergeFunction = (destinationArray, sourceArray) => sourceArray;
 
@@ -126,11 +127,16 @@ export default compose(
     store: PropTypes.object,
   }),
   withProps(props => {
+    const state = props.store && props.store.getState();
+    const fields = getFieldsKeys(props.fieldsets);
+
     return {
       form: props.widgetId,
       prompt: props.prompt,
       store: props.store,
-      fields: getFieldsKeys(props.fieldsets),
+      fields,
+      ...createValidator(props.validation, props.widgetId, state, fields),
+      ...props,
     };
   }),
   connect(mapStateToProps),

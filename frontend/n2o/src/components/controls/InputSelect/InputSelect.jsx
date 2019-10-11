@@ -232,7 +232,7 @@ class InputSelect extends React.Component {
   _removeSelectedItem(item) {
     const { onChange } = this.props;
     const value = this.state.value.filter(i => i.id !== item.id);
-    this.setState({ value }, onChange(value));
+    this.setState({ value }, () => onChange(value));
   }
 
   /**
@@ -585,6 +585,7 @@ class InputSelect extends React.Component {
                   className="n2o-pop-up"
                 >
                   <PopupList
+                    loading={loading}
                     isExpanded={this.state.isExpanded}
                     activeValueId={this.state.activeValueId}
                     setActiveValueId={this._setActiveValueId}

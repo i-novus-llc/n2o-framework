@@ -45,12 +45,14 @@ import java.util.Optional;
 public class N2oRestConfiguration {
 
 
-    @Value("${n2o.ui.header.id:}")
+    @Value("${n2o.header.id:}")
     private String headerId;
 
     @Value("${n2o.api.url:/n2o}")
     private String n2oApiUrl;
 
+    @Value("${n2o.project-name:N2O}")
+    private String projectName;
 
     @Bean
     ControllerFactory controllerFactory(Map<String, SetController> setControllers, Map<String, GetController> getControllers) {
@@ -133,6 +135,8 @@ public class N2oRestConfiguration {
         AppConfigServlet appConfigServlet = new AppConfigServlet();
         appConfigServlet.setAppConfigJsonWriter(writer);
         appConfigServlet.setMessageSource(clientMessageSource);
+        appConfigServlet.setProjectName(projectName);
+        appConfigServlet.setEnvironment(env);
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy()
                 .compile().transform().cache().copy()

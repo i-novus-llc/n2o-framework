@@ -2,6 +2,7 @@
   "multiple": false,
   "showTooltip": false,
   "tooltipPlacement": "top",
+  "tooltipFormatter": "${this}%",
   "step": 1,
   "vertical": false,
   "disabled": false,

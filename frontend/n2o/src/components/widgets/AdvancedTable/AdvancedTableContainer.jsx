@@ -237,6 +237,7 @@ const enhance = compose(
           rowClick: props.rowClick,
           onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
+          className: props.className,
         };
       },
     },

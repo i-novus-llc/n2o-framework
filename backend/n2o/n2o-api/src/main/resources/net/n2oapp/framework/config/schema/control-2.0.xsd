@@ -32,6 +32,7 @@
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
+    <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -61,6 +62,7 @@
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
+            <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -338,6 +340,30 @@
                 <xs:attribute name="min" type="xs:integer"/>
                 <xs:attribute name="max" type="xs:integer"/>
                 <xs:attribute name="step" type="xs:integer"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlAutoCompleteDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="options" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="option">
+                                    <xs:complexType>
+                                        <xs:attribute name="name" type="xs:string"/>
+                                        <xs:anyAttribute namespace="##local" processContents="skip"/>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="query-id" type="xs:string"/>
+                <xs:attribute name="value-field-id" type="xs:string"/>
+                <xs:attribute name="search-filter-id" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

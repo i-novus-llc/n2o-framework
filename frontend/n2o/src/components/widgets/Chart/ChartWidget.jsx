@@ -14,13 +14,26 @@ import Fieldsets from '../Form/fieldsets';
  * @param chart
  * @param pageId
  * @param filter
+ * @param className
+ * @param style
  * @param rest
  * @param resolveProps
  * @return {*}
  * @constructor
  */
 function ChartWidget(
-  { id: widgetId, toolbar, disabled, actions, chart, pageId, filter, ...rest },
+  {
+    id: widgetId,
+    toolbar,
+    disabled,
+    actions,
+    chart,
+    pageId,
+    filter,
+    className,
+    style,
+    ...rest
+  },
   { resolveProps }
 ) {
   const prepareFilters = () => resolveProps(filter, Fieldsets.StandardFieldset);
@@ -43,6 +56,8 @@ function ChartWidget(
       toolbar={toolbar}
       actions={actions}
       filter={prepareFilters()}
+      className={className}
+      style={style}
     >
       <ChartContainer
         widgetId={widgetId}
