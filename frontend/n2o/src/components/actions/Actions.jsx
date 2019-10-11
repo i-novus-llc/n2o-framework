@@ -9,6 +9,7 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import { compose, setDisplayName } from 'recompose';
+import { get } from 'lodash';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
@@ -155,16 +156,16 @@ class Actions extends React.Component {
     );
     const btn = (
       <React.Fragment>
-        {button.confirm === 'popover' ? (
+        {get(button, 'confirm.mode') === 'popover' ? (
           <PopoverConfirm
-            {...button}
+            {...this.mapButtonConfirmProps(button)}
             isOpen={isConfirmVisible}
             onConfirm={onConfirm}
-            onCancel={this.closeConfirm}
+            onDeny={this.closeConfirm}
           >
             {Container}
           </PopoverConfirm>
-        ) : button.confirm ? (
+        ) : get(button, 'confirm.mode') === 'modal' ? (
           <React.Fragment>
             {Container}
             <ModalDialog
