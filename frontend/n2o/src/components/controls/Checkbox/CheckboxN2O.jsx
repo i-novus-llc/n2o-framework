@@ -41,6 +41,7 @@ function CheckboxN2O({
           'custom-control-inline': inline,
         }
       )}
+      onClick={onClick}
     >
       <Input
         id={elementId}
@@ -50,7 +51,6 @@ function CheckboxN2O({
         value={value}
         checked={isNil(checked) ? !!value : checked}
         onChange={onChange}
-        onClick={onClick}
         onFocus={onFocus}
         onBlur={onBlur}
       />
