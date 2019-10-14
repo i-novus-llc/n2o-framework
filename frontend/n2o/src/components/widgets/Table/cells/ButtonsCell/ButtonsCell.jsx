@@ -6,6 +6,7 @@ import HintButton from './HintButton';
 import HintDropDown from './HintDropDown';
 import cx from 'classnames';
 import withCell from '../../withCell';
+import Actions from '../../../../actions/Actions';
 
 /**
  *
@@ -32,46 +33,20 @@ function ButtonsCell({
   modifiers,
   resolveWidget,
   model,
+  style,
+  toolbar,
+  actions,
   ...other
 }) {
-  const handlerClick = (e, action) => {
-    e.stopPropagation();
-    callActionImpl(e, { action });
-  };
-
-  const createGroupItems = ({ subMenu, ...rest }, i) =>
-    subMenu ? (
-      <HintDropDown
-        key={i}
-        positionFixed={positionFixed}
-        modifiers={modifiers}
-        menu={subMenu}
-        onClick={handlerClick}
-        resolveWidget={resolveWidget}
-        model={model}
-        {...rest}
-      />
-    ) : (
-      <HintButton onClick={handlerClick} {...rest} />
-    );
-
-  return (
-    visible && (
-      <ButtonGroup
-        key={id}
-        className={cx('n2o-buttons-cell', className)}
-        {...omit(other, [
-          'columnId',
-          'dispatch',
-          'fieldKey',
-          'updateFieldInModel',
-          'callInvoke',
-        ])}
-      >
-        {map(buttons, createGroupItems)}
-      </ButtonGroup>
-    )
-  );
+  return visible ? (
+    <Actions
+      className={cx('n2o-buttons-cell', className)}
+      style={style}
+      toolbar={toolbar}
+      actions={actions}
+      containerKey={`${id}_${model.id}`}
+    />
+  ) : null;
 }
 
 ButtonsCell.propTypes = {
