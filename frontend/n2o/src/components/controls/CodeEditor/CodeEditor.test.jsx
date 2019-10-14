@@ -29,6 +29,6 @@ describe('<CodeEditor />', () => {
 
   it('доступен по disabled', () => {
     let { wrapper } = setup({ disabled: true });
-    expect(wrapper.find(AceEditor).props().disabled).toBe(true);
+    expect(wrapper.find(AceEditor).props().readOnly).toBe(true);
   });
 });
