@@ -14,27 +14,21 @@ import ModalPage from './ModalPage';
  * @example
  *  <ModalPages/>
  */
-class ModalPages extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { modals } = this.props;
-    const modalPages = modals.map(
-      modal =>
-        modal.visible && (
-          <ModalPage
-            key={modal.pageId}
-            close={this.props.close}
-            hidePrompt={this.props.hidePrompt}
-            {...modal}
-            {...modal.props}
-          />
-        )
-    );
-    return <div>{modalPages}</div>;
-  }
+function ModalPages(props) {
+  const { modals } = props;
+  const modalPages = modals.map(
+    modal =>
+      modal.visible && (
+        <ModalPage
+          key={modal.pageId}
+          close={props.close}
+          hidePrompt={props.hidePrompt}
+          {...modal}
+          {...modal.props}
+        />
+      )
+  );
+  return <div className="n2o-modal-pages">{modalPages}</div>;
 }
 
 ModalPages.propTypes = {
@@ -66,8 +60,8 @@ ModalPages.propTypes = {
   actions: PropTypes.object,
 };
 
-ModalPages = connect(
+export { ModalPages };
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ModalPages);
-export default ModalPages;
