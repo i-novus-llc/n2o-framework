@@ -4,7 +4,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import cx from 'classnames';
 
 /**
- * Компонент TextAreat
+ * Компонент TextArea
  * @param {string} className
  * @param {object} style
  * @param {boolean} disabled
@@ -14,6 +14,7 @@ import cx from 'classnames';
  * @param {number} maxRows
  * @param {string|number} value
  * @param {function} onChange
+ * @param rest
  * @returns {*}
  * @constructor
  */
@@ -26,6 +27,7 @@ function TextArea({
   maxRows,
   value,
   onChange,
+  ...rest
 }) {
   const inputClass = `form-control ${className}`;
   return (
@@ -38,6 +40,7 @@ function TextArea({
       maxRows={maxRows}
       value={value || ''}
       onChange={onChange}
+      {...rest}
     />
   );
 }
