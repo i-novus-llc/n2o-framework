@@ -4,6 +4,8 @@ import {
   registerWidgetDependency,
   resolveDependency,
   sortDependency,
+  resolveWidgetDependency,
+  forceUpdateDependency,
 } from './widgetDependency';
 import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
 import {
@@ -19,7 +21,106 @@ const getConfig = (model, config) => ({
   config,
 });
 
+const widgetsDependencies = registerWidgetDependency({}, 'test1', {
+  fetch: [
+    {
+      on: "models.resolve['testWidget']",
+    },
+  ],
+});
+
+const prevState = {
+  widgets: {
+    test1: {
+      isVisible: true,
+    },
+  },
+  models: {
+    resolve: {
+      testWidget: {
+        name: 'Ivan',
+      },
+    },
+  },
+};
+const state = {
+  widgets: {
+    testWidget: {
+      isVisible: true,
+    },
+  },
+  models: {
+    resolve: {
+      testWidget: {
+        name: 'Sergey',
+      },
+    },
+  },
+};
+
 describe('Проверка саги widgetDependency', () => {
+  describe('тесты forceUpdateDependency', () => {
+    it('должен вызвать разрешение зависимости', async () => {
+      const dispatched = [];
+      const fakeStore = {
+        getState: () => ({
+          widgets: {
+            test1: {
+              isVisible: true,
+            },
+          },
+          models: {
+            resolve: {
+              testWidget: {
+                name: 'Sergey',
+              },
+            },
+          },
+        }),
+        dispatch: action => dispatched.push(action),
+      };
+      await runSaga(
+        fakeStore,
+        forceUpdateDependency,
+        state,
+        widgetsDependencies,
+        'testWidget'
+      );
+
+      expect(dispatched[0].type).toEqual(DATA_REQUEST);
+    });
+  });
+  describe('тесты resolveWidgetDependency', () => {
+    it('должен вызвать разрешение зависимости', async () => {
+      const dispatched = [];
+      const fakeStore = {
+        getState: () => ({
+          widgets: {
+            test1: {
+              isVisible: true,
+            },
+          },
+          models: {
+            resolve: {
+              testWidget: {
+                name: 'Sergey',
+              },
+            },
+          },
+        }),
+        dispatch: action => dispatched.push(action),
+      };
+      await runSaga(
+        fakeStore,
+        resolveWidgetDependency,
+        prevState,
+        state,
+        widgetsDependencies
+      );
+
+      expect(dispatched[0].type).toBe(DATA_REQUEST);
+    });
+  });
   describe('reduceFunction', () => {
     it('вернет false', () => {
       const model = {
@@ -94,7 +195,7 @@ describe('Проверка саги widgetDependency', () => {
       });
     });
 
-    describe('resolveVisibleDependency', async () => {
+    describe('resolveVisibleDependency', () => {
       it('покажет виджет', async () => {
         const dispatched = [];
         const fakeStore = {
