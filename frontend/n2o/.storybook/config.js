@@ -2,6 +2,7 @@ import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import { withInfo } from '@storybook/addon-info';
+import requireContext from 'require-context.macro';
 
 import Container from './Container';
 
@@ -41,7 +42,7 @@ addDecorator((story, path) => {
 });
 
 function loadStories() {
-  const req = require.context('../src', true, /\.story\.js$/);
+  const req = requireContext('../src', true, /\.story\.js$/);
   req.keys().forEach(filename => req(filename));
 }
 
