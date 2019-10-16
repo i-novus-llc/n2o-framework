@@ -173,6 +173,13 @@ const isAnyTableFocusedSelector = createSelector(
     );
   }
 );
+
+const makeWidgetErrorSelector = widgetId =>
+  createSelector(
+    makeWidgetByIdSelector(widgetId),
+    widgetState => widgetState.error
+  );
+
 /*
   Остальные селекторы
 */
@@ -196,4 +203,5 @@ export {
   makeTypeSelector,
   makeWidgetDataProviderSelector,
   isAnyTableFocusedSelector,
+  makeWidgetErrorSelector,
 };
