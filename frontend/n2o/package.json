@@ -31,7 +31,7 @@
     "esdoc": "./node_modules/.bin/esdoc",
     "stylelint": "stylelint \"components/**/*.css\" \"src/**/*.css\"",
     "lint": "npm run eslint && npm run stylelint",
-    "test": "jest --noStackTrace --coverage ./src ./.storybook",
+    "test": "jest --noStackTrace --coverage ./src",
     "test:watch": "jest --watch --noStackTrace",
     "test:hook": "jest --bail --findRelatedTests",
     "test:generate-output": "jest --json --outputFile=./.storybook/jest-test-results.json || echo 'jest: generate-output finished'",
