@@ -1,26 +1,24 @@
 import React from 'react';
-import AdvancedTableHeaderCell from "./AdvancedTableHeaderCell";
+import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 
 const Classes = {
   HEADER: '.n2o-advanced-table-header-cel',
   CONTENT: '.n2o-advanced-table-header-cell-content',
-  STRING_CHILDREN: ''
+  STRING_CHILDREN: '',
 };
 
-const setup = (propsOverride) => {
+const setup = propsOverride => {
   const props = {
     id: 'name',
   };
-  
-  return (
-    mount(<AdvancedTableHeaderCell {...props} {...propsOverride} />)
-  );
+
+  return mount(<AdvancedTableHeaderCell {...props} {...propsOverride} />);
 };
 
 describe('<AdvancedTableHeaderCell>', () => {
   it('компонент отрисовывается', () => {
     const wrapper = setup({
-      title: 'test'
+      title: 'test',
     });
 
     expect(wrapper.find(Classes.HEADER).exists()).toBe(true);
@@ -29,7 +27,7 @@ describe('<AdvancedTableHeaderCell>', () => {
 
   it('отрисовывается по текстовому children', () => {
     const wrapper = setup({
-      children: 'children string'
+      children: 'children string',
     });
 
     expect(wrapper.find(Classes.HEADER).text()).toBe('children string');
@@ -39,7 +37,7 @@ describe('<AdvancedTableHeaderCell>', () => {
     const wrapper = setup({
       multiHeader: true,
       children: [],
-      component: () => <div>Заголовок</div>
+      component: () => <div>Заголовок</div>,
     });
 
     expect(wrapper.find(Classes.HEADER + ' div').text()).toBe('Заголовок');
@@ -47,7 +45,7 @@ describe('<AdvancedTableHeaderCell>', () => {
 
   it('отрисовывается children компонент', () => {
     const wrapper = setup({
-      children: <div className='custom-component'>Test</div>
+      children: <div className="custom-component">Test</div>,
     });
 
     expect(wrapper.find('.custom-component').exists()).toBe(true);
@@ -57,7 +55,7 @@ describe('<AdvancedTableHeaderCell>', () => {
   it('отрисовывается с иконкой', () => {
     const wrapper = setup({
       title: 'test',
-      icon: 'fa fa-plus'
+      icon: 'fa fa-plus',
     });
 
     expect(wrapper.find('i.fa-plus').exists()).toBe(true);
@@ -66,7 +64,7 @@ describe('<AdvancedTableHeaderCell>', () => {
   it('отрисовывается с фильтрацией', () => {
     const wrapper = setup({
       filterable: true,
-      title: 'test'
+      title: 'test',
     });
 
     expect(wrapper.find('AdvancedTableFilter').exists()).toBe(true);
@@ -76,7 +74,7 @@ describe('<AdvancedTableHeaderCell>', () => {
     const wrapper = setup({
       title: 'test',
       width: '100px',
-      resizable: true
+      resizable: true,
     });
 
     expect(wrapper.find('Resizable').exists()).toBeTruthy();
