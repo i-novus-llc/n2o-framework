@@ -1,29 +1,27 @@
 import React from 'react';
 import sinon from 'sinon';
-import { AdvancedTableFilter } from './AdvancedTableFilter';
+import { AdvancedTableFilter } from "./AdvancedTableFilter";
 
-const setup = propsOverride => {
+const setup = (propsOverride) => {
   const props = {
     id: 1,
-    children: [<div>test</div>],
+    children: [<div>test</div>]
   };
 
-  return shallow(<AdvancedTableFilter {...props} {...propsOverride} />);
+  return shallow(<AdvancedTableFilter {...props} {...propsOverride} />)
 };
 
 describe('<AdvancedTableFilter />', () => {
   it('компонент отрисовывается', () => {
     const wrapper = setup();
 
-    expect(
-      wrapper.find('.n2o-advanced-table-filter-btn').exists()
-    ).toBeTruthy();
+    expect(wrapper.find('.n2o-advanced-table-filter-btn').exists()).toBeTruthy();
   });
 
   it('отрабатывает изменение фильтра', () => {
     const onFilter = sinon.spy();
     const wrapper = setup({
-      onFilter,
+      onFilter
     });
 
     expect(wrapper.state().value).toBe(null);
@@ -33,7 +31,7 @@ describe('<AdvancedTableFilter />', () => {
     expect(onFilter.calledOnce).toBeTruthy();
     expect(onFilter.getCall(0).args[0]).toEqual({
       id: 1,
-      value: 'Ivan',
+      value: 'Ivan'
     });
   });
 
@@ -41,7 +39,7 @@ describe('<AdvancedTableFilter />', () => {
     const onFilter = sinon.spy();
     const wrapper = setup({
       value: 'Sergey',
-      onFilter,
+      onFilter
     });
 
     expect(wrapper.state().value).toBe('Sergey');

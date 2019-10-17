@@ -1,15 +1,17 @@
 import React from 'react';
 import sinon from 'sinon';
-import { AdvancedTableExpandIcon } from './AdvancedTableExpandIcon';
+import { AdvancedTableExpandIcon } from "./AdvancedTableExpandIcon";
 
-const setup = propsOverride => {
+const setup = (propsOverride) => {
   const props = {
     record: {
-      children: [],
+      children: []
     },
   };
 
-  return mount(<AdvancedTableExpandIcon {...props} {...propsOverride} />);
+  return (
+    mount(<AdvancedTableExpandIcon {...props} {...propsOverride} />)
+  );
 };
 
 describe('<AdvancedTableExpandIcon />', () => {
@@ -21,7 +23,7 @@ describe('<AdvancedTableExpandIcon />', () => {
 
   it('компонент не отрисовывается без саб контента', () => {
     const wrapper = setup({
-      record: {},
+      record: {}
     });
 
     expect(wrapper.find('span').props().className).toBe('');
@@ -30,7 +32,7 @@ describe('<AdvancedTableExpandIcon />', () => {
 
   it('компонент открыт', () => {
     const wrapper = setup({
-      expanded: true,
+      expanded: true
     });
 
     expect(wrapper.find('.fa-angle-down').exists()).toBeTruthy();
@@ -38,7 +40,7 @@ describe('<AdvancedTableExpandIcon />', () => {
 
   it('компонент закрыт', () => {
     const wrapper = setup({
-      expanded: false,
+      expanded: false
     });
 
     expect(wrapper.find('.fa-angle-right').exists()).toBeTruthy();
@@ -47,7 +49,7 @@ describe('<AdvancedTableExpandIcon />', () => {
   it('отрабатывает функция открытия', () => {
     const onExpand = sinon.spy();
     const wrapper = setup({
-      onExpand,
+      onExpand
     });
 
     wrapper.find('.n2o-advanced-table-expand').simulate('click');
