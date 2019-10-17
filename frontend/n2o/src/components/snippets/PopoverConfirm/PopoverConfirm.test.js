@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import Actions from '../../actions/Actions';
 import mockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import metaJson from './../../actions/PopoverConfirm/PopoverConfirm.meta';
 
 const props = {
   component: {
@@ -24,10 +25,12 @@ const setupAction = store => {
           {
             buttons: [
               {
-                target: 'test',
                 title: 'Кнопка',
                 actionId: 'dummy',
-                confirm: 'popover',
+                confirm: {
+                  target: 'test',
+                  ...metaJson,
+                },
               },
             ],
           },
@@ -62,10 +65,10 @@ describe('Тесты PopoverConfirm', () => {
     wrapper.find('.toggle-popover').simulate('click');
     expect(onClick.called).toEqual(true);
   });
-  it('Проверка onClickYes', () => {
+  it('Проверка onConfirm', () => {
     const onClick = sinon.spy();
     const wrapper = setupComponent({
-      onClickYes: onClick,
+      onConfirm: onClick,
     });
     wrapper
       .find('.btn-sm')
