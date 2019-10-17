@@ -125,7 +125,12 @@
                 </xs:attribute>
                 <xs:attribute name="confirm" type="xs:boolean" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Показать предупреждение перед выполнением действия.</xs:documentation>
+                        <xs:documentation>Показать предупреждение перед выполнением действия. Варианты popover - поповер, modal - модальное окно, none - не показывать.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="confirm-type" type="confirmType" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Тип предупреждения перед выполнением действия: popover - поповер, modal - модальное окно.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="confirm-text" type="xs:string" use="optional">
@@ -364,6 +369,16 @@
             <xs:enumeration value="right"/>
             <xs:enumeration value="top"/>
             <xs:enumeration value="bottom"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="confirmType">
+        <xs:annotation>
+            <xs:documentation>Подтверждение действия</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="popover"/>
+            <xs:enumeration value="modal"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

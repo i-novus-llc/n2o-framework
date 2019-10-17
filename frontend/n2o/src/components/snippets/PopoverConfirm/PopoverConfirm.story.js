@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 import PopoverConfirm from './PopoverConfirm';
-import Button from 'reactstrap/es/Button';
-import ButtonGroup from 'reactstrap/es/ButtonGroup';
+import { Button } from 'reactstrap';
+import { ButtonGroup } from 'reactstrap';
 import Factory from '../../../core/factory/Factory';
 import { SNIPPETS } from '../../../core/factory/factoryLevels';
 

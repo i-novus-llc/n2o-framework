@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -90,6 +91,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getActionId(), is("testId3"));
         assertThat(f.getActions().containsKey("testId3"), is(true));
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
+        assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
 
@@ -112,6 +114,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         MenuItem item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
+        assertThat(item.getConfirm().getMode(), is(ConfirmType.modal));
         assertThat(item.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }

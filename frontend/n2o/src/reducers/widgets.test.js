@@ -87,6 +87,7 @@ describe('Тесты widget reducer', () => {
         },
         type: 'table',
         validation: {},
+        error: null,
       },
     });
   });
@@ -141,12 +142,14 @@ describe('Тесты widget reducer', () => {
           type: DATA_FAIL,
           payload: {
             widgetId: 'widget',
+            err: 'someError',
           },
         }
       )
     ).toEqual({
       widget: {
         isLoading: false,
+        error: 'someError',
       },
     });
   });

@@ -7,6 +7,7 @@ import {
   redirectEffect,
   messagesFormEffect,
   updateWidgetDependencyEffect,
+  clearFormEffect,
 } from './meta';
 import { DATA_REQUEST } from '../constants/widgets';
 import { ADD_MULTI, REMOVE_ALL } from '../constants/alerts';
@@ -113,6 +114,49 @@ const setupUpdateWidgetDependencyEffect = () => {
 };
 
 describe('Сага для перехвата меты, сайд-эффектов из меты', () => {
+  describe('Проверка саги clearFormEffect', () => {
+    it('должен вызывать экшен сброса формы', () => {
+      const gen = clearFormEffect({
+        meta: {
+          clearForm: 'testForm',
+        },
+      });
+
+      const value = gen.next();
+      expect(value.value.type).toBe('PUT');
+      expect(value.value.payload.action).toEqual({
+        type: '@@redux-form/RESET',
+        meta: {
+          form: 'testForm',
+        },
+      });
+      expect(gen.next().done).toBeTruthy();
+    });
+  });
+  describe('Проверка саги redirectEffect', () => {
+    it('должен вызвать push', async () => {
+      const dispatched = [];
+      const fakeStore = {
+        getState: () => ({}),
+        dispatch: action => dispatched.push(action),
+      };
+      const action = {
+        meta: {
+          redirect: {
+            path: '/n2o/data/1',
+            pathMapping: {},
+            queryMapping: {},
+            target: 'application',
+          },
+        },
+      };
+      await runSaga(fakeStore, redirectEffect, action);
+      expect(dispatched[0].type).toBe('@@router/CALL_HISTORY_METHOD');
+      expect(dispatched[0].payload.method).toBe('push');
+      expect(dispatched[0].payload.args[0]).toBe('/n2o/data/1');
+    });
+  });
+
   describe('Проверка саги alertEffect', () => {
     it('Проверяет диспатч экшена создания Alert', () => {
       const { alert } = setupAlertEffect();

@@ -1,85 +1,65 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import configureStore from '../../../store';
-import history from '../../../history';
-import factoryResolver from '../../../utils/factoryResolver';
+import configureStore from "../../../store";
+import history from "../../../history";
+import factoryResolver from "../../../utils/factoryResolver";
 import { values, isObject, isFunction } from 'lodash';
 import sinon from 'sinon';
 
-import { AdvancedTableContainer } from './AdvancedTableContainer';
+import { AdvancedTableContainer } from "./AdvancedTableContainer";
 
 const store = configureStore({}, history, {});
 
 const props = {
   widgetId: 'tableWidget',
-  cells: values(
-    factoryResolver([
-      {
-        src: 'TextCell',
-        id: 'name',
-      },
-    ])
-  ),
-  headers: values(
-    factoryResolver([
-      {
-        src: 'TextTableHeader',
-        id: 'name',
-        sortable: false,
-        label: 'Имя',
-        width: '50px',
-      },
-    ])
-  ),
+  cells: values(factoryResolver([
+    {
+      src: 'TextCell',
+      id: 'name'
+    }
+  ])),
+  headers: values(factoryResolver([
+    {
+      "src": "TextTableHeader",
+      "id": "name",
+      "sortable": false,
+      "label": "Имя",
+      "width": "50px"
+    }
+  ])),
   datasource: [
     {
       id: 1,
-      name: 'first name',
-    },
+      name: 'first name'
+    }
   ],
   sorting: {},
-  onSort: () => {},
+  onSort: () => {}
 };
 
-const setup = propsOverride => {
+const setup = (propsOverride) => {
   return mount(
     <Provider store={store}>
       <AdvancedTableContainer {...props} {...propsOverride} />
     </Provider>
   );
 };
-const setupShallow = propsOverride => {
-  return shallow(<AdvancedTableContainer {...props} {...propsOverride} />);
+const setupShallow = (propsOverride) => {
+  return shallow(<AdvancedTableContainer {...props} {...propsOverride} />)
 };
 
 describe('<AdvancedTableContainer />', () => {
   it('правильно отработал маппинг колонок', () => {
     const wrapper = setup();
 
-    expect(wrapper.find(AdvancedTableContainer).state().columns[0].id).toBe(
-      'name'
-    );
-    expect(
-      wrapper.find(AdvancedTableContainer).state().columns[0].sortable
-    ).toBe(false);
-    expect(wrapper.find(AdvancedTableContainer).state().columns[0].width).toBe(
-      '50px'
-    );
-    expect(
-      isObject(wrapper.find(AdvancedTableContainer).state().columns[0].title)
-    ).toBe(true);
-    expect(
-      wrapper.find(AdvancedTableContainer).state().columns[0].dataIndex
-    ).toBe('name');
-    expect(
-      wrapper.find(AdvancedTableContainer).state().columns[0].columnId
-    ).toBe('name');
-    expect(wrapper.find(AdvancedTableContainer).state().columns[0].key).toBe(
-      'name'
-    );
-    expect(
-      isFunction(wrapper.find(AdvancedTableContainer).state().columns[0].render)
-    ).toBe(true);
+    expect(wrapper.find(AdvancedTableContainer).state().columns[0].id).toBe('name');
+    expect(wrapper.find(AdvancedTableContainer).state().columns[0].sortable).toBe(false);
+    expect(wrapper.find(AdvancedTableContainer).state().columns[0].width).toBe('50px');
+    expect(isObject(wrapper.find(AdvancedTableContainer).state().columns[0].title)).toBe(true);
+    expect(wrapper.find(AdvancedTableContainer).state().columns[0].dataIndex).toBe('name');
+    expect(wrapper.find(AdvancedTableContainer).state().columns[0].columnId).toBe('name');
+    expect(wrapper.find(AdvancedTableContainer).state().columns[0].key).toBe('name');
+    expect(isFunction(wrapper.find(AdvancedTableContainer).state().columns[0].render)).toBe(true);
   });
 
   it('правильно отработал маппинг данных', () => {
@@ -89,8 +69,8 @@ describe('<AdvancedTableContainer />', () => {
       {
         id: 1,
         name: 'first name',
-        key: 1,
-      },
+        key: 1
+      }
     ]);
   });
 
@@ -100,15 +80,15 @@ describe('<AdvancedTableContainer />', () => {
 
     const wrapper = setupShallow({
       filters: {
-        name: 'Sergey',
+        'name': 'Sergey'
       },
       onSetFilter,
-      onFetch,
+      onFetch
     });
 
     wrapper.instance().handleSetFilter({
       id: 'name',
-      value: 'Ivan',
+      value: 'Ivan'
     });
 
     expect(wrapper.instance()._filter).toEqual({ name: 'Ivan' });

@@ -1,23 +1,10 @@
 {
-  "toolbar":
-    [
-      {
-        "buttons": [
-          {
-            "actionId": "dummy",
-            "confirm": "popover",
-            "title": "Кнопка c confirm",
-            "header": "Вы уверены?",
-            "okText": "Да",
-            "cancelText": "Нет"
-          }
-        ]
-      }
-    ],
-  "actions": {
-    "dummy": {
-      "src": "dummyImpl"
-    }
-  }
+  "closeButton": true,
+  "size": "lg",
+  "title": "Вы уверены?",
+  "text": "Вы хотите совершить действие?",
+  "okLabel": "Да",
+  "cancelLabel": "Нет",
+  "visible": true,
+  "mode": "popover"
 }
-
