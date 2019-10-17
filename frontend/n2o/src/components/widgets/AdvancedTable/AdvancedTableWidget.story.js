@@ -207,7 +207,6 @@ stories
 
   .add('Метаданные', () => {
     fetchMock.restore().get(urlPattern, url => {
-      console.log('point');
       return getStubData(url);
     });
     return (

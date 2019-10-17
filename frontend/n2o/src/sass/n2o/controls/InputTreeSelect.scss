@@ -53,6 +53,9 @@
         & .n2o-select-tree-selection__choice__content {
           cursor: default;
           max-width: $multiselect-item-width;
+          height: 100%;
+          display: flex;
+          align-items: center;
         }
 
         & .n2o-select-tree-selection__choice__remove {

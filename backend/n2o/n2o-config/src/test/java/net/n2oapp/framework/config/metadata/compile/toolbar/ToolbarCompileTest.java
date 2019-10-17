@@ -1,21 +1,24 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.notNullValue;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ToolbarCompileTest extends SourceCompileTestBase {
@@ -35,6 +38,32 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.widget.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml"));
+    }
+
+    @Test
+    public void testToolbarGrouping() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.widget.xml")
+                .get(new WidgetContext("testToolbarGrouping"));
+        List<Group> groupList = form.getToolbar().get("topLeft");
+        assertThat(groupList.size(), is(3));
+        assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
+        assertThat(groupList.get(1).getButtons().get(0).getId(), is("firstInGroup"));
+        assertThat(groupList.get(1).getButtons().get(1).getId(), is("secondInGroup"));
+        assertThat(groupList.get(2).getButtons().get(0).getId(), is("firstAfterGroup"));
+        assertThat(groupList.get(2).getButtons().get(1).getId(), is("secondAfterGroup"));
+
+
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.api.toolbar.grouping", "false");
+
+        form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.widget.xml")
+                .get(new WidgetContext("testToolbarGrouping"));
+        groupList = form.getToolbar().get("topLeft");
+        assertThat(groupList.size(), is(4));
+        assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
+        assertThat(groupList.get(1).getButtons().get(0).getId(), is("firstInGroup"));
+        assertThat(groupList.get(1).getButtons().get(1).getId(), is("secondInGroup"));
+        assertThat(groupList.get(2).getButtons().get(0).getId(), is("firstAfterGroup"));
+        assertThat(groupList.get(3).getButtons().get(0).getId(), is("secondAfterGroup"));
     }
 
     @Test
@@ -62,6 +91,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getActionId(), is("testId3"));
         assertThat(f.getActions().containsKey("testId3"), is(true));
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
+        assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
 
@@ -84,6 +114,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         MenuItem item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
+        assertThat(item.getConfirm().getMode(), is(ConfirmType.modal));
         assertThat(item.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }

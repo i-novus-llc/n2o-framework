@@ -68,7 +68,7 @@ function autoDetectBasePath(pathPattern, pathname) {
   return match && match.url;
 }
 
-function applyPlaceholders(key, obj, placeholders) {
+export function applyPlaceholders(key, obj, placeholders) {
   const newObj = {};
   each(obj, (v, k) => {
     if (isObject(v)) {
@@ -84,10 +84,11 @@ function applyPlaceholders(key, obj, placeholders) {
   return newObj;
 }
 
-function* pathMapping(location, routes) {
+export function* pathMapping(location, routes) {
   const parsedPath = head(
     compact(map(routes.list, route => matchPath(location.pathname, route)))
   );
+
   if (parsedPath && !isEmpty(parsedPath.params)) {
     yield put(
       batchActions(
@@ -100,7 +101,7 @@ function* pathMapping(location, routes) {
   }
 }
 
-function* queryMapping(location, routes) {
+export function* queryMapping(location, routes) {
   const parsedQuery = queryString.parse(location.search);
   if (!isEmpty(parsedQuery)) {
     yield put(
@@ -124,7 +125,7 @@ function* queryMapping(location, routes) {
   }
 }
 
-function* mappingUrlToRedux(routes) {
+export function* mappingUrlToRedux(routes) {
   const location = yield select(getLocation);
   if (routes) {
     yield all([
@@ -151,7 +152,7 @@ function* mappingUrlToRedux(routes) {
   // }
 }
 
-function* processUrl() {
+export function* processUrl() {
   try {
     const location = yield select(getLocation);
     const pageId = yield select(rootPageSelector);
@@ -170,7 +171,7 @@ function* processUrl() {
  * @param apiProvider
  * @param action
  */
-function* getMetadata(apiProvider, action) {
+export function* getMetadata(apiProvider, action) {
   let { pageId, rootPage, pageUrl, mapping } = action.payload;
   try {
     const { search } = yield select(getLocation);

@@ -24,7 +24,8 @@ public class N2oInputSelectXmlReaderV1 extends N2oStandardControlReaderV1<N2oInp
     public N2oInputSelect read(Element element, Namespace namespace) {
         N2oInputSelect inputSelect = new N2oInputSelect();
         inputSelect.setType(getAttributeEnum(element, "type", ListType.class));
-        inputSelect.setStoreOnInput(getAttributeBoolean(element, "store-on-input"));
+        Boolean resetOnBlur = getAttributeBoolean(element, "store-on-input");
+        inputSelect.setResetOnBlur(resetOnBlur != null ? !resetOnBlur : null);
         return getQueryFieldDefinition(element, inputSelect);
     }
 

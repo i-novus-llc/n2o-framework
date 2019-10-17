@@ -37,7 +37,8 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new CustomControlIOv2(),
                 new TextFieldIOv4(),
                 new SliderIOv2(),
-                new RatingIOv2()
+                new RatingIOv2(),
+                new AutoCompleteIOv2()
         );
     }
 }

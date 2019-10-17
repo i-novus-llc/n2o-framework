@@ -41,7 +41,11 @@ class AdvancedTableHeaderCell extends Component {
     return (
       <th
         title={label}
-        className={cn('n2o-advanced-table-header-text-center', className)}
+        className={cn(
+          'n2o-advanced-table-header-cel',
+          'n2o-advanced-table-header-text-center',
+          className
+        )}
         colSpan={colSpan}
         rowSpan={rowSpan}
       >
@@ -57,7 +61,11 @@ class AdvancedTableHeaderCell extends Component {
     const { className, children, colSpan, rowSpan } = this.props;
     return (
       <th
-        className={cn('n2o-advanced-table-header-text-center', className)}
+        className={cn(
+          'n2o-advanced-table-header-cel',
+          'n2o-advanced-table-header-text-center',
+          className
+        )}
         colSpan={colSpan}
         rowSpan={rowSpan}
       >

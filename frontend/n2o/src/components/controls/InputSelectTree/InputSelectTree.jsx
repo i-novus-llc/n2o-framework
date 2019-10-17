@@ -1,26 +1,18 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import TreeSelect from 'rc-tree-select';
 import { findDOMNode } from 'react-dom';
 import {
   difference,
   filter as filterF,
-  eq,
   every,
   find,
   isArray,
-  isNumber,
-  isString,
   isEmpty,
   keys,
   forEach,
   map,
-  reduce,
   memoize,
   some,
-  uniq,
-  uniqBy,
-  unionWith,
-  isEqual,
 } from 'lodash';
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
@@ -387,6 +379,8 @@ function InputSelectTree({
       treeData={createTree(data)}
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
+      treeNodeLabelProp={labelFieldId}
+      maxTagTextLength="10"
       removeIcon={clearIcon}
       clearIcon={clearIcon}
       onChange={handleChange}

@@ -55,7 +55,7 @@ public class DomainProcessorTest {
         DomainProcessor proc = new DomainProcessor();
         assert "{id}".equals(proc.deserialize("{id}", "integer"));
         assert "`1 == 1`".equals(proc.deserialize("`1 == 1`", "boolean"));
-        assert proc.deserialize("{\"id\" : 1}", "object") instanceof Map;
+        assert proc.deserialize("{{\"id\" : 1}}", "object") instanceof Map;
     }
 
     @Test
@@ -86,7 +86,7 @@ public class DomainProcessorTest {
         assert proc.deserialize("2019-12-15T23:50:40-03:00", "offsetdatetime") instanceof OffsetDateTime;
         assert proc.deserialize("125.888", "Numeric") instanceof BigDecimal;
         assert proc.deserialize("11444,878", "Numeric") instanceof BigDecimal;
-        Object dataSet = proc.deserialize("{\"id\":1, \"name\":\"Олег\", \"gender.name\":\"Мужской\", \"age\":\"24.5\", \"real_age\":\"29,8\"}", "Object");
+        Object dataSet = proc.deserialize("{{\"id\":1, \"name\":\"Олег\", \"gender.name\":\"Мужской\", \"age\":\"24.5\", \"real_age\":\"29,8\"}}", "Object");
         assert dataSet instanceof DataSet;
         assert ((DataSet) dataSet).get("id").equals(1);
         assert ((DataSet) dataSet).get("name").equals("Олег");
@@ -167,7 +167,6 @@ public class DomainProcessorTest {
         DomainProcessor proc = new DomainProcessor();
         Date date1 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.02.2014 11:11");
         Date date2 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("02.02.2014 11:11");
-
         //мапа дат
         Map<String, Date> mapDate = new HashMap<>();
         mapDate.put("begin", date1);
@@ -200,12 +199,6 @@ public class DomainProcessorTest {
 
         //список чисел
         value = proc.deserialize(Arrays.asList(1, 2), "interval{integer}");
-        assertThat(value, instanceOf(Interval.class));
-        assertThat(((Interval) value).getBegin(), is(1));
-        assertThat(((Interval) value).getEnd(), is(2));
-
-        //json чисел
-        value = proc.deserialize("{\"from\":1,\"to\":2}", "interval{integer}");
         assertThat(value, instanceOf(Interval.class));
         assertThat(((Interval) value).getBegin(), is(1));
         assertThat(((Interval) value).getEnd(), is(2));

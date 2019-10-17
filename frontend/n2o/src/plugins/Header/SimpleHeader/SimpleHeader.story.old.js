@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withContext } from 'recompose';
 import { storiesOf } from '@storybook/react';
+import { text } from '@storybook/addon-knobs';
 
 import simpleHeaderMetadata from './simpleHeaderData.json';
 import SimpleHeader from './SimpleHeader';
@@ -24,6 +25,7 @@ const MenuContext = withContext(
 stories
   .add('Компонент', () => {
     const props = {
+      // eslint-disable-next-line no-undef
       brandImage: text(
         'brandImage',
         'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { map } from 'lodash';
 
 /**
  * Компонент выбранных элементов для {@Link InputSelectGroup}
@@ -27,7 +28,7 @@ function InputElements({
       <button
         type="button"
         className="close"
-        onClick={() => callback()}
+        onClick={callback}
         disabled={disabled}
       >
         <i className="fa fa-times fa-1" />
@@ -43,10 +44,11 @@ function InputElements({
       return selectedItem(id, title, onDeleteAll);
     }
 
-    return (
-      selected &&
-      selected.map(item =>
-        selectedItem(item.id, item[labelFieldId], onRemoveItem.bind(null, item))
+    return map(selected, (item, index) =>
+      selectedItem(
+        item.id || index,
+        item[labelFieldId] || item,
+        onRemoveItem.bind(null, item, index)
       )
     );
   };

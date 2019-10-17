@@ -81,6 +81,7 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
 
         p.attributeBoolean(e, "confirm", mi::getConfirm, mi::setConfirm);
         p.attribute(e, "confirm-text", mi::getConfirmText, mi::setConfirmText);
+        p.attributeEnum(e, "confirm-type", mi::getConfirmType, mi::setConfirmType, ConfirmType.class);
         p.attribute(e, "confirm-title", mi::getConfirmTitle, mi::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", mi::getConfirmOkLabel, mi::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
