@@ -6,7 +6,7 @@ import scrollIntoView from 'scroll-into-view-if-needed';
 import Icon from '../../snippets/Icon/Icon';
 import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import propsResolver from '../../../utils/propsResolver';
-import { find } from 'lodash';
+import { UNKNOWN_GROUP_FIELD_ID } from './utils';
 import cx from 'classnames';
 import { findDOMNode } from 'react-dom';
 
@@ -136,7 +136,7 @@ function PopupItems({
 
   const renderGroup = (key, value) => (
     <React.Fragment key={key}>
-      {key ? (
+      {key && key !== UNKNOWN_GROUP_FIELD_ID ? (
         <DropdownItem key={key} header>
           {key}
         </DropdownItem>
