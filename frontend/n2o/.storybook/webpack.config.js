@@ -11,7 +11,7 @@ module.exports = {
   resolve: {
     alias: {
       N2oStorybook: path.resolve(__dirname, './'),
-    }
+    },
   },
   plugins: [
     // your custom plugins
@@ -21,9 +21,11 @@ module.exports = {
       // add your custom rules.
       {
         test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-        use: [{
-          loader: 'file-loader'
-        }]
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -36,14 +38,12 @@ module.exports = {
             options: {
               importLoaders: true,
             },
-          }
-        ]
+          },
+        ],
       },
       {
         test: /\.scss/,
-        include: [
-          path.resolve(__dirname, '../src/sass/n2o.scss'),
-        ],
+        include: [path.resolve(__dirname, '../src/sass/n2o.scss')],
         use: [
           {
             loader: 'style-loader',
@@ -59,7 +59,8 @@ module.exports = {
             options: {
               sourceMap: true,
             },
-          }]
+          },
+        ],
       },
       {
         test: /\.(js|jsx)$/,
