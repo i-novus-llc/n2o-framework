@@ -57,13 +57,37 @@ class BadgeCell extends React.Component {
 }
 
 BadgeCell.propTypes = {
+  /**
+   * ID ячейки
+   */
   id: PropTypes.string,
+  /**
+   * Ключ значения в данных
+   */
   fieldKey: PropTypes.string,
+  /**
+   * Модель данных
+   */
   model: PropTypes.object,
+  /**
+   * Расположение текста
+   */
   placement: PropTypes.oneOf(['left', 'right']),
+  /**
+   * Текст
+   */
   text: PropTypes.string,
+  /**
+   * Формат
+   */
   format: PropTypes.string,
+  /**
+   * Формат баджа
+   */
   badgeFormat: PropTypes.string,
+  /**
+   * Цвет баджа
+   */
   color: PropTypes.oneOf([
     'secondary',
     'primary',
@@ -72,6 +96,9 @@ BadgeCell.propTypes = {
     'warning',
     'info',
   ]),
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 

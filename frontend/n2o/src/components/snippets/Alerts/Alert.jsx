@@ -3,7 +3,7 @@ import { defaultTo, isArray, map } from 'lodash';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
-import Popover from '../Popover/Popover';
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
 
 /**
  * Компонент сообщения-алерта
@@ -112,7 +112,9 @@ class Alert extends React.Component {
         })}
         style={style}
       >
-        <div className="n2o-alert-help">{help && <Popover help={help} />}</div>
+        <div className="n2o-alert-help">
+          {help && <HelpPopover help={help} />}
+        </div>
         <div className="n2o-alert-body-container">
           {label && (
             <div className="n2o-alert-header">
@@ -170,18 +172,57 @@ Alert.defaultProps = {
 };
 
 Alert.propTypes = {
+  /**
+   * Заголовок алерта
+   */
   label: PropTypes.string,
+  /**
+   * Текст алерта
+   */
   text: PropTypes.string,
+  /**
+   * Цвет алерта
+   */
   severity: PropTypes.oneOf([['info', 'danger', 'warning', 'success']]),
+  /**
+   * Подробности алерта
+   */
   details: PropTypes.string,
+  /**
+   * Флаг показа кнопки закрытия
+   */
   closeButton: PropTypes.bool,
+  /**
+   * Callback на закрытие
+   */
   onDismiss: PropTypes.func,
+  /**
+   * Класс алерта
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Иконка рядом с заголовком
+   */
   icon: PropTypes.string,
+  /**
+   * Видимость
+   */
   visible: PropTypes.bool,
+  /**
+   * Позиционирование алерта
+   */
   position: PropTypes.string,
+  /**
+   * Кнопка tooltip
+   */
   help: PropTypes.string,
+  /**
+   * Флаг включения всплытия с анимацией
+   */
   animate: PropTypes.bool,
 };
 

@@ -7,6 +7,7 @@ import Title from './Typography/Title/Title';
 import Text from './Typography/Text/Text';
 import Paragraph from './Typography/Paragraph/Paragraph';
 import Spinner from './Spinner/Spinner';
+import PopoverConfirm from './PopoverConfirm/PopoverConfirm';
 
 export default {
   Alert,
@@ -18,4 +19,5 @@ export default {
   Title,
   Paragraph,
   Spinner,
+  PopoverConfirm,
 };

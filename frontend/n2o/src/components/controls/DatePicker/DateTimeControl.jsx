@@ -1,6 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { pick } from 'lodash';
+import { pick, every, isFunction } from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -74,6 +74,8 @@ class DateTimeControl extends React.Component {
     this.markTimeAsSet = this.markTimeAsSet.bind(this);
     this.setInputRef = this.setInputRef.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.getValue = this.getValue.bind(this);
+    this.onInputBlur = this.onInputBlur.bind(this);
   }
 
   /**
@@ -124,19 +126,27 @@ class DateTimeControl extends React.Component {
     return date;
   }
 
+  getValue(inputName) {
+    const inputs = { ...this.state.inputs };
+
+    if (inputName === DateTimeControl.defaultInputName) {
+      return this.dateToString(inputs[inputName]);
+    } else {
+      return [
+        this.dateToString(inputs[DateTimeControl.beginInputName]),
+        this.dateToString(inputs[DateTimeControl.endInputName]),
+      ];
+    }
+  }
+
   /**
    * вызов onChange
    */
   onChange(inputName) {
-    const inputs = { ...this.state.inputs };
-    if (inputName === DateTimeControl.defaultInputName) {
-      this.props.onChange(this.dateToString(inputs[inputName]));
-    } else {
-      this.props.onChange([
-        this.dateToString(inputs[DateTimeControl.beginInputName]),
-        this.dateToString(inputs[DateTimeControl.endInputName]),
-      ]);
-    }
+    const { onChange } = this.props;
+    const value = this.getValue(inputName);
+
+    onChange(value);
   }
 
   /**
@@ -179,7 +189,7 @@ class DateTimeControl extends React.Component {
         () => {
           this.onChange(inputName);
           if (type === ControlType.DATE_PICKER) {
-            this.props.onBlur();
+            this.props.onBlur(this.getValue(inputName));
           }
         }
       );
@@ -189,10 +199,10 @@ class DateTimeControl extends React.Component {
    * Выбор даты, прокидывается в инпут
    * @todo объеденить методы select и onInputChange в 1 метод
    */
-  onInputChange(date, inputName) {
+  onInputChange(date, inputName, callback = null) {
     const { timeFormat } = this.props;
     const newDate =
-      !timeFormat && inputName === DateTimeControl.endInputName
+      !timeFormat && inputName === DateTimeControl.endInputName && date
         ? date
             .add(23, 'h')
             .add(59, 'm')
@@ -203,8 +213,12 @@ class DateTimeControl extends React.Component {
       {
         inputs: { ...this.state.inputs, [inputName]: newDate },
       },
-      () => this.onChange(inputName)
+      () => (isFunction(callback) ? callback() : this.onChange(inputName))
     );
+  }
+  onInputBlur(date, inputName) {
+    const { onBlur } = this.props;
+    this.onInputChange(date, inputName, () => onBlur(this.getValue(inputName)));
   }
   /**
    * Устанавливает видимость попапа
@@ -261,8 +275,14 @@ class DateTimeControl extends React.Component {
             const start = this.state.inputs[DateTimeControl.beginInputName];
             const end = this.state.inputs[DateTimeControl.endInputName];
             this.onChange([start, end]);
+            const valueToBlur = this.getValue();
+
+            if (every(valueToBlur, value => value)) {
+              this.props.onBlur(valueToBlur);
+            }
+          } else {
+            this.props.onBlur(this.getValue(DateTimeControl.defaultInputName));
           }
-          this.props.onBlur();
         }
         this.setVisibility(false);
       }
@@ -288,8 +308,8 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, 'YYYY-MM-DD hh:mm:ss')}
-        min={parseDate(min, 'YYYY-MM-DD hh:mm:ss')}
+        max={parseDate(max, "yyyy-MM-dd'T'HH:mm:ss")}
+        min={parseDate(min, "yyyy-MM-dd'T'HH:mm:ss")}
         locale={locale}
       />
     );
@@ -342,8 +362,8 @@ class DateTimeControl extends React.Component {
                   inputClassName={className}
                   setVisibility={this.setVisibility}
                   setWidth={this.setWidth}
-                  onBlur={this.onBlur}
                   onFocus={this.onFocus}
+                  onBlur={this.onInputBlur}
                   autoFocus={autoFocus}
                   openOnFocus={openOnFocus}
                   outputFormat={this.props.outputFormat}

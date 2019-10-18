@@ -85,5 +85,13 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link3.getOptions().getTarget(), is(Target.application));
         assertThat(link3.getOptions().getPathMapping().size(), is(0));
         assertThat(link3.getOptions().getQueryMapping().size(), is(0));
+
+        LinkAction linkSecond = (LinkAction)page.getWidgets().get("page_secondWgt").getActions().get("secWgt");
+
+        assertThat(linkSecond.getOptions().getPath(), is("/page/second/test/:minPrice"));
+        assertThat(linkSecond.getOptions().getTarget(), is(Target.newWindow));
+        assertThat(linkSecond.getOptions().getPathMapping().size(), is(1));
+        assertThat(linkSecond.getOptions().getPathMapping().get("minPrice").getBindLink(), is("models.filter['page_test']"));
+        assertThat(linkSecond.getOptions().getPathMapping().get("minPrice").getValue(), is("`minPrice`"));
     }
 }

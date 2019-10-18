@@ -1,31 +1,53 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
-import { withState } from '@dump247/storybook-state';
+import { storiesOf, forceReRender } from '@storybook/react';
+
+import { StateDecorator, Store } from '@sambego/storybook-state';
 
 import Radio from './Radio';
 
+const store = new Store({
+  checked: false,
+});
+
+store.subscribe(forceReRender);
+
 const stories = storiesOf('Контролы/Радио', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('Checkbox'));
+stories.addDecorator(StateDecorator(store));
 
 stories.add(
   'Радио',
-  withState({ checked: false }, store => {
+  () => {
     const props = {
-      value: number('value', 2),
-      disabled: boolean('disabled', false),
-      checked: boolean('checked', store.state.checked),
-      label: text('label', 'Label'),
+      value: 2,
+      disabled: false,
+      checked: store.get('checked'),
+      label: 'Label',
     };
 
     return (
       <Radio
         {...props}
-        onChange={() => store.set({ checked: !store.state.checked })}
+        checked={store}
+        onChange={() => store.set({ checked: !store.get('checked') })}
       />
     );
-  })
+  },
+  {
+    info: {
+      text: `
+    Компонент 'Radio'
+    ~~~js
+    import Radio from 'n2o/lib/components/controls/Radio/Radio';
+    
+    <Radio
+        value={2}
+        checked={checked}
+        label="Label"
+        onChange="onChange"
+    />
+    ~~~
+    `,
+    },
+  }
 );

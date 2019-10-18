@@ -1,27 +1,25 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs/react';
-import fetchMock from 'fetch-mock';
-import withForm from 'N2oStorybook/decorators/withForm';
 import meta from './Pills.meta';
 import PillsContainer from './PillsContainer';
-
-const dataUrl = 'begin:n2o/data';
+import Factory from '../../../core/factory/Factory';
 
 const stories = storiesOf('Контролы/Кнопочные фильтры', module);
 
-const form = withForm({ src: 'Pills' });
+stories.addParameters({
+  info: {
+    propTables: [PillsContainer],
+    propTablesExclude: [Factory],
+  },
+});
 
-stories.addDecorator(withKnobs);
-
-const handleData = list => url => ({ list });
-
-stories
-  .add('Компонент', () => {
+stories.add(
+  'Компонент',
+  () => {
     const props = {
-      valueFieldId: text('valueFieldId', meta.valueFieldId),
-      labelFieldId: text('labelFieldId', meta.labelFieldId),
-      multiSelect: boolean('multiSelect', meta.multiSelect),
+      valueFieldId: meta.valueFieldId,
+      labelFieldId: meta.labelFieldId,
+      multiSelect: meta.multiSelect,
     };
 
     const data = [
@@ -36,27 +34,33 @@ stories
     ];
 
     return <PillsContainer {...props} data={data} />;
-  })
-  .add(
-    'Метаданные',
-    form(() => {
+  },
+  {
+    info: {
+      text: `
+      Компонент 'Кнопочные фильтры'
+      ~~~js
+      import Pills from 'n2o/lib/components/controls/Pills/PillsContainer';
+      
       const data = [
         {
           id: 1,
-          label: 'Фамилия',
+          label: 'text',
         },
         {
           id: 2,
-          label: 'Имя',
+          label: 'text',
         },
-        {
-          id: 3,
-          label: 'Отчество',
-        },
-      ];
-
-      fetchMock.get(dataUrl, handleData(data));
-
-      return meta;
-    })
-  );
+      ];  
+      
+      <PillsContainer 
+          valueFieldId="id"
+          labelFieldId="label"
+          multiSelect={false}
+          data={data}
+       />
+      ~~~
+      `,
+    },
+  }
+);

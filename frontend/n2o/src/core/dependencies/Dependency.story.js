@@ -1,6 +1,7 @@
 import React from 'react';
 import { pick } from 'lodash';
 import { storiesOf } from '@storybook/react';
+
 import { WIDGETS } from '../factory/factoryLevels';
 import FieldDependency from './FieldDependency.meta';
 import { parseUrl } from 'N2oStorybook/fetchMock';

@@ -7,6 +7,12 @@ import TextTableHeader from '../../headers/TextTableHeader';
 import { iconCellTypes, textPlaceTypes } from './cellTypes';
 
 const stories = storiesOf('Ячейки/Иконки', module);
+stories.addParameters({
+  info: {
+    propTables: [IconCell],
+    propTablesExclude: [Table],
+  },
+});
 
 stories.add('Компонент', () => {
   const tableProps = {

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { compose, pure } from 'recompose';
+import { compose, pure, setDisplayName } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
 import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
-import { HotKeys } from 'react-hotkeys';
+import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
 import _, {
@@ -34,6 +34,7 @@ import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
+import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
@@ -53,7 +54,6 @@ const KEY_CODES = {
  * @reactProps {string} className - класс таблицы
  * @reactProps {Array.<Object>} columns - настройки колонок
  * @reactProps {Array.<Object>} data - данные
- * @reactProps {function} onRow - функция прокидывания дополнительных параметров в компонент строки
  * @reactProps {Object} components - компоненты обертки
  * @reactProps {Node} emptyText - компонент пустых данных
  * @reactProps {object} hotKeys - настройка hot keys
@@ -79,7 +79,7 @@ class AdvancedTable extends Component {
       expandRowByClick: false,
       selection: {},
       selectAll: false,
-      columns: this.mapColumns(props.columns),
+      columns: [],
       checkedAll: false,
       checked: props.data ? this.mapChecked(props.data) : {},
     };
@@ -120,7 +120,7 @@ class AdvancedTable extends Component {
   }
 
   componentDidMount() {
-    const { rowClick } = this.props;
+    const { rowClick, columns } = this.props;
     const {
       isAnyTableFocused,
       isActive,
@@ -135,6 +135,10 @@ class AdvancedTable extends Component {
         get(data[focusIndex], 'id')
       );
     }
+
+    this.setState({
+      columns: this.mapColumns(columns),
+    });
 
     this._dataStorage = this.getModelsFromData(data);
   }
@@ -339,9 +343,8 @@ class AdvancedTable extends Component {
     });
   }
 
-  checkAll(event) {
+  checkAll(checked) {
     const { onSetSelection } = this.props;
-    const checked = !event.target.checked;
     const newChecked = {};
     onSetSelection(checked ? _.toArray(this.props.data) : []);
     forOwn(this.state.checked, (v, k) => {
@@ -421,18 +424,14 @@ class AdvancedTable extends Component {
     };
   }
 
-  createSelectionColumn() {
-    const isSomeFixed = some(this.state.columns, c => c.fixed);
+  createSelectionColumn(columns) {
+    const isSomeFixed = some(columns, c => c.fixed);
     return {
       title: (
-        <div className="n2o-advanced-table-selection-item">
-          <CheckboxN2O
-            ref={this.setSelectionRef}
-            inline={true}
-            checked={this.state.checkedAll}
-            onChange={this.checkAll}
-          />
-        </div>
+        <AdvancedTableSelectionColumn
+          setRef={this.setSelectionRef}
+          onChange={this.checkAll}
+        />
       ),
       dataIndex: 'row-selection',
       key: 'row-selection',
@@ -441,6 +440,7 @@ class AdvancedTable extends Component {
       fixed: isSomeFixed && 'left',
       render: (value, model) => (
         <CheckboxN2O
+          className="n2o-advanced-table-row-checkbox"
           inline={true}
           checked={this.state.checked[model.id]}
           onChange={event => this.handleChangeChecked(event, model.id)}
@@ -509,7 +509,7 @@ class AdvancedTable extends Component {
       }),
     }));
     if (rowSelection) {
-      newColumns = [this.createSelectionColumn(), ...newColumns];
+      newColumns = [this.createSelectionColumn(columns), ...newColumns];
     }
     return newColumns;
   }
@@ -605,19 +605,49 @@ class AdvancedTable extends Component {
 }
 
 AdvancedTable.propTypes = {
+  /**
+   * Наличие фокуса на строке при клике
+   */
   hasFocus: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Массив колонок
+   */
   columns: PropTypes.arrayOf(PropTypes.object),
+  /**
+   * Данные
+   */
   data: PropTypes.arrayOf(PropTypes.object),
-  onRow: PropTypes.func,
+  /**
+   * Кастомные компоненты
+   */
   components: PropTypes.object,
-  emptyText: PropTypes.node,
-  hotKeys: PropTypes.object,
+  /**
+   * Флаг включения border у таблицы
+   */
   bordered: PropTypes.bool,
+  /**
+   * Флаг включения выбора строк
+   */
   rowSelection: PropTypes.bool,
+  /**
+   * Флаг включения саб контента
+   */
   expandable: PropTypes.bool,
+  /**
+   * Ключ к саб контенту в данных
+   */
   expandedFieldId: PropTypes.string,
+  /**
+   * Кастомный компонент саб строки
+   */
   expandedComponent: PropTypes.any,
+  /**
+   * Автофокус на строке
+   */
   autoFocus: PropTypes.bool,
 };
 
@@ -633,7 +663,9 @@ AdvancedTable.defaultProps = {
   autoFocus: false,
 };
 
+export { AdvancedTable };
 export default compose(
+  setDisplayName('AdvancedTable'),
   pure,
   withAdvancedTableRef
 )(AdvancedTable);

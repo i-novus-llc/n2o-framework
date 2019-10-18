@@ -1,29 +1,28 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { select, text, withKnobs } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
 
 import IconJson from './IconCell.meta.json';
 import Table from '../../Table';
 import IconCell from './IconCell';
 import TextTableHeader from '../../headers/TextTableHeader';
 import { iconCellTypes, textPlaceTypes } from './cellTypes';
+import Factory from '../../../../../core/factory/Factory';
 
 const stories = storiesOf('Ячейки/Иконки', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('IconCell'));
+stories.addParameters({
+  info: {
+    propTables: [IconCell],
+    propTablesExclude: [Table, Factory],
+  },
+});
 
 stories.add('Метаданные', () => {
   const props = {
-    id: text('id', IconJson.id),
-    type: select('type', Object.values(iconCellTypes), IconJson.type),
-    textPlace: select(
-      'textPlace',
-      Object.values(textPlaceTypes),
-      IconJson.textPlace
-    ),
-    icon: text('icon', IconJson.icon),
+    id: IconJson.id,
+    type: IconJson.type,
+    textPlace: IconJson.textPlace,
+    icon: IconJson.icon,
     model: {
       name: 'Иван',
       age: '12',

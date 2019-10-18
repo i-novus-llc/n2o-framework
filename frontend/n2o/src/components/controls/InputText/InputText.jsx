@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import Input from '../Input/Input';
 
 /**
@@ -55,7 +56,7 @@ class InputText extends React.Component {
     return (
       <Input
         type="text"
-        className={inputClass}
+        className={cn('n2o-input-text', inputClass)}
         inputRef={inputRef}
         style={style}
         autoFocus={autoFocus}
@@ -73,23 +74,62 @@ class InputText extends React.Component {
   }
 }
 
-Input.propTypes = {
+InputText.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Callback на фокус
+   */
   onFocus: PropTypes.func,
+  /**
+   * Callback на вставку значения
+   */
   onPaste: PropTypes.func,
+  /**
+   * Callback на потерю фокуса
+   */
   onBlur: PropTypes.func,
+  /**
+   * Callback на нажатие кнопки
+   */
   onKeyDown: PropTypes.func,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Авто фокусировка на контроле
+   */
   autoFocus: PropTypes.bool,
+  /**
+   * Максимальная длина
+   */
   length: PropTypes.string,
+  /**
+   * Функция получения ref
+   */
   inputRef: PropTypes.any,
 };
 
-Input.defaultProps = {
+InputText.defaultProps = {
   onChange: () => {},
   className: '',
   disabled: false,

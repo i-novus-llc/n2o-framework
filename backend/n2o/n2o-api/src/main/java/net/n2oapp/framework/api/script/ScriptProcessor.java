@@ -97,14 +97,14 @@ public class ScriptProcessor {
     public static String resolveFunction(String text) {
         if (text == null)
             return null;
-        String trimmedText = text.trim();
+        String trimmedText = StringUtils.simplify(text);
         if (trimmedText.startsWith("(function")) {
             return text;
         }
         if (trimmedText.startsWith("function")) {
             return String.format("(%s)()", trimmedText);
         }
-        if (trimmedText.contains("return")) {
+        if (trimmedText.contains("return ")) {
             return String.format("(function(){%s})()", trimmedText);
         } else {
             return trimmedText;

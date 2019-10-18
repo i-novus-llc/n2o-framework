@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { get, set, isEqual } from 'lodash';
-import { compose, withState, lifecycle, withHandlers } from 'recompose';
+import {
+  compose,
+  withState,
+  lifecycle,
+  withHandlers,
+  setDisplayName,
+} from 'recompose';
 import withCell from '../../withCell';
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O';
 
@@ -15,7 +21,8 @@ function CheckboxCell({
   disabled,
   callInvoke,
   checked,
-  onChange,
+  handleClick,
+  handleChange,
   ...rest
 }) {
   return (
@@ -23,7 +30,8 @@ function CheckboxCell({
       <CheckboxN2O
         className="сheckbox-сell"
         inline={true}
-        onChange={onChange}
+        onClick={handleClick}
+        onChange={handleChange}
         disabled={disabled}
         checked={checked}
         {...rest}
@@ -33,11 +41,26 @@ function CheckboxCell({
 }
 
 CheckboxCell.propTypes = {
+  /**
+   * ID чейки
+   */
   id: PropTypes.string,
+  /**
+   * Модель данных
+   */
   model: PropTypes.object,
+  /**
+   * Ключ значения из модели
+   */
   fieldKey: PropTypes.string,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
   callInvoke: PropTypes.func,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 
@@ -46,7 +69,9 @@ CheckboxCell.defaultProps = {
   disabled: false,
 };
 
+export { CheckboxCell };
 export default compose(
+  setDisplayName('CheckboxCell'),
   withCell,
   withState(
     'checked',
@@ -54,7 +79,10 @@ export default compose(
     ({ model, fieldKey, id }) => model && get(model, fieldKey || id)
   ),
   withHandlers({
-    onChange: ({
+    handleClick: () => e => {
+      e.stopPropagation();
+    },
+    handleChange: ({
       callActionImpl,
       callInvoke,
       action,
@@ -74,7 +102,7 @@ export default compose(
       );
 
       setChecked(checked);
-      callInvoke(data, get(action, 'options.payload.dataProvider'));
+      callActionImpl(e, { action, model: data });
     },
   }),
   lifecycle({

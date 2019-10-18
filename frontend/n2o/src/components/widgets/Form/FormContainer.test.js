@@ -176,7 +176,7 @@ describe('FormContainer', () => {
 
       wrapper.setProps({ datasource: ['newValue'] }).update();
       expect(setDefaultValues.calledOnce).toBe(true);
-      expect(setDefaultValues.calledWith(null)).toBe(true);
+      expect(setDefaultValues.calledWith({})).toBe(true);
     });
   });
 
@@ -196,7 +196,7 @@ describe('FormContainer', () => {
       wrapper.setProps({ isEnabled: true }).update();
       expect(wrapper.find(NullComponent).props()).toHaveProperty(
         'initialValues',
-        []
+        {}
       );
     });
 
@@ -302,7 +302,7 @@ describe('FormContainer', () => {
     expect(
       wrapper
         .find(
-          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(getContext(withProps(ReduxForm)))))))))'
+          'withProps(Connect(withState(lifecycle(withPropsOnChange(withHandlers(onlyUpdateForKeys(ReduxForm)))))))'
         )
         .exists()
     ).toBe(true);

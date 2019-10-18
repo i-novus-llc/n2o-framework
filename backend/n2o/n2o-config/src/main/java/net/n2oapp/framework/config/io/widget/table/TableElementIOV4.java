@@ -55,7 +55,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.attribute(e, "id", c::getId, c::setId);
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
-        p.attributeBoolean(e, "visible", c::getVisible, c::setVisible);
+        p.attribute(e, "visible", c::getVisible, c::setVisible);
         p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
         p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
@@ -91,6 +91,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
 
     private void rowClick(Element e, N2oRowClick m, IOProcessor p) {
         p.attribute(e, "action-id", m::getActionId, m::setActionId);
+        p.attribute(e, "enabled", m::getEnabled, m::setEnabled);
         p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 }

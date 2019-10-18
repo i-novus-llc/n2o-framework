@@ -130,15 +130,45 @@ class OutPutText extends React.Component {
 }
 
 OutPutText.propTypes = {
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Тип значения
+   */
   type: PropTypes.oneOf(Object.keys(TypesComponents)),
+  /**
+   * Располложение текста
+   */
   textPlace: PropTypes.oneOf(['right', 'left']),
+  /**
+   * Иконка
+   */
   icon: PropTypes.string,
+  /**
+   * Значение
+   */
   value: PropTypes.string,
+  /**
+   * Формт
+   */
   format: PropTypes.string,
+  /**
+   * Троеточие при длинном текста
+   */
   ellipsis: PropTypes.bool,
+  /**
+   * "Подробнее" в конце строки при длинном тексте
+   */
   expandable: PropTypes.oneOf([PropTypes.bool, PropTypes.number]),
 };
 

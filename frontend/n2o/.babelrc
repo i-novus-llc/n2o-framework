@@ -1,29 +1,15 @@
 {
-  "presets": [
-    "stage-1",
-    "react"
-  ],
+  "presets": ["@babel/preset-react", "@babel/preset-env"],
   "plugins": [
-    "transform-runtime"
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-proposal-class-properties"
   ],
   "env": {
-    "commonjs": {
-      "presets": [
-        "es2015"
-      ]
-    },
-    "es": {
-      "presets": [
-        ["es2015", {
-          "modules": false
-        }]
-      ]
-    },
     "test": {
+      "presets": ["@babel/preset-react", "@babel/preset-env"],
       "plugins": [
-        [
-          "transform-es2015-modules-commonjs"
-        ]
+        ["@babel/plugin-transform-modules-commonjs"],
+        "babel-plugin-require-context-hook"
       ]
     }
   }

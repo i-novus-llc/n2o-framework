@@ -6,16 +6,20 @@ import {
   withState,
   lifecycle,
   withPropsOnChange,
+  getContext,
 } from 'recompose';
 import { isEmpty, isEqual } from 'lodash';
 import merge from 'deepmerge';
 import { getFormValues } from 'redux-form';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import ReduxForm from './ReduxForm';
 import widgetContainer from '../WidgetContainer';
 import { FORM } from '../widgetTypes';
+import { getFieldsKeys } from './utils';
+import createValidator from '../../../core/validation/createValidator';
 
 const arrayMergeFunction = (destinationArray, sourceArray) => sourceArray;
 
@@ -56,6 +60,7 @@ export const withLiveCycleMethods = lifecycle({
       defaultValues,
       reduxFormValues,
       setDefaultValues,
+      resolveModel,
     } = this.props;
     if (
       !isEqual(prevProps.activeModel, activeModel) &&
@@ -64,10 +69,10 @@ export const withLiveCycleMethods = lifecycle({
     ) {
       setDefaultValues(activeModel);
     } else if (
-      !isEmpty(defaultValues) &&
-      !isEqual(prevProps.datasource, datasource)
+      (!isEmpty(defaultValues) && !isEqual(prevProps.datasource, datasource)) ||
+      (prevProps.datasource && !datasource)
     ) {
-      setDefaultValues(null);
+      setDefaultValues({});
     }
   },
 });
@@ -81,11 +86,14 @@ export const withPropsOnChangeWidget = withPropsOnChange(
   },
   props => {
     return {
-      initialValues: props.defaultValues
-        ? props.defaultValues
-        : merge(props.resolveModel || {}, props.datasource || {}, {
-            arrayMerge: arrayMergeFunction,
-          }),
+      initialValues:
+        (props.defaultValues && !isEmpty(props.defaultValues)) ||
+        (props.defaultValues &&
+          (!props.datasource && !isEmpty(props.defaultValues)))
+          ? props.defaultValues
+          : merge(props.resolveModel || {}, props.datasource || {}, {
+              arrayMerge: arrayMergeFunction,
+            }),
     };
   }
 );
@@ -115,10 +123,20 @@ export const withWidgetHandlers = withHandlers({
 
 export default compose(
   withWidgetContainer,
+  getContext({
+    store: PropTypes.object,
+  }),
   withProps(props => {
+    const state = props.store && props.store.getState();
+    const fields = getFieldsKeys(props.fieldsets);
+
     return {
       form: props.widgetId,
       prompt: props.prompt,
+      store: props.store,
+      fields,
+      ...createValidator(props.validation, props.widgetId, state, fields),
+      ...props,
     };
   }),
   connect(mapStateToProps),

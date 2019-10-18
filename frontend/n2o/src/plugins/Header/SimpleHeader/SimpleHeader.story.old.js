@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withContext } from 'recompose';
+import { withContext } from 'recompose';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, select } from '@storybook/addon-knobs/react';
-import fetchMock from 'fetch-mock';
+import { text } from '@storybook/addon-knobs';
 
 import simpleHeaderMetadata from './simpleHeaderData.json';
 import SimpleHeader from './SimpleHeader';
@@ -13,8 +12,6 @@ import Wireframe from '../../../components/snippets/Wireframe/Wireframe';
 import AuthButtonContainer from '../../../core/auth/AuthLogin';
 
 const stories = storiesOf('UI Компоненты/Меню сверху', module);
-
-stories.addDecorator(withKnobs);
 
 const MenuContext = withContext(
   {
@@ -26,18 +23,19 @@ const MenuContext = withContext(
 )(MenuContainer);
 
 stories
-  .addWithJSX('Компонент', () => {
+  .add('Компонент', () => {
     const props = {
+      // eslint-disable-next-line no-undef
       brandImage: text(
         'brandImage',
         'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
       ),
-      activeId: text('activeId', 'link'),
-      color: select('color', ['default', 'inverse'], 'inverse'),
-      fixed: boolean('fixed', false),
-      collapsed: boolean('collapsed', false),
-      className: text('className', 'n2o'),
-      search: boolean('search', false),
+      activeId: 'link',
+      color: 'inverse',
+      fixed: false,
+      collapsed: false,
+      className: 'n2o',
+      search: false,
       items: simpleHeaderMetadata.items,
       extraItems: simpleHeaderMetadata.extraItems,
     };
@@ -61,7 +59,7 @@ stories
       </div>
     );
   })
-  .addWithJSX('Ограничение доступа', () => {
+  .add('Ограничение доступа', () => {
     return (
       <div>
         <MenuContext render={config => <SimpleHeader {...config} />} />

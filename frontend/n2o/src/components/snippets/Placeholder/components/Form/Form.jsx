@@ -23,8 +23,14 @@ function Form({ rows, cols }) {
 }
 
 Form.propTypes = {
-  rows: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
-  cols: PropTypes.oneOfType(PropTypes.string, PropTypes.number),
+  /**
+   * Количество строк
+   */
+  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Количество столбцов
+   */
+  cols: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 Form.defaultProps = {

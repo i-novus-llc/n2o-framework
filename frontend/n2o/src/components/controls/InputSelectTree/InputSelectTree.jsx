@@ -1,32 +1,23 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import TreeSelect from 'rc-tree-select';
-import ReactDOM from 'react-dom';
 import {
   difference,
   filter as filterF,
-  eq,
   every,
   find,
   isArray,
-  isNumber,
-  isString,
   isEmpty,
   keys,
   forEach,
   map,
-  reduce,
   memoize,
   some,
-  uniq,
-  uniqBy,
-  unionWith,
-  isEqual,
 } from 'lodash';
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
 import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import { defaultProps, propTypes } from './allProps';
-import { compose, withState } from 'recompose';
+import { compose, withState, setDisplayName } from 'recompose';
 import propsResolver from '../../../utils/propsResolver';
 import { visiblePartPopup, getCheckedStrategy } from './until';
 import TreeNode from './TreeSelectNode';
@@ -370,7 +361,9 @@ function InputSelectTree({
       {...value && { value: setValue(value) }}
       open={open}
       onDropdownVisibleChange={handleDropdownVisibleChange}
-      className={cx('n2o form-control', className, { loading })}
+      className={cx('n2o form-control', 'n2o-input-select-tree', className, {
+        loading,
+      })}
       switcherIcon={renderSwitcherIcon}
       inputIcon={inputIcon}
       multiple={multiSelect}
@@ -378,6 +371,8 @@ function InputSelectTree({
       treeData={createTree(data)}
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
+      treeNodeLabelProp={labelFieldId}
+      maxTagTextLength="10"
       removeIcon={clearIcon}
       clearIcon={clearIcon}
       onChange={handleChange}
@@ -411,9 +406,10 @@ function InputSelectTree({
 InputSelectTree.defaultProps = defaultProps;
 InputSelectTree.propTypes = propTypes;
 
-export { TreeNode };
+export { TreeNode, InputSelectTree };
 
 export default compose(
+  setDisplayName('InputSelectTree'),
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
   withState('dropdownExpanded', 'setDropdownExpanded', false),
   injectIntl

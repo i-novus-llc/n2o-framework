@@ -95,13 +95,11 @@ class InputNumber extends React.Component {
 
   onChange(value) {
     const nextValue = this.resolveValue(value === '' ? null : toNumber(value));
-    const { max, min } = this.props;
+
     if (isNil(nextValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
     }
-    if (!isValid(nextValue, min, max)) {
-      return;
-    }
+
     if (matchesWhiteList(nextValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () =>
         this.props.onChange(this.resolveValue(nextValue))
@@ -243,17 +241,53 @@ InputNumber.defaultProps = {
 };
 
 InputNumber.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.number,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Шаг для изменения значения по кнопкам
+   */
   step: PropTypes.string,
+  /**
+   * Минимальное значение
+   */
   min: PropTypes.number,
+  /**
+   * Максимальное значение
+   */
   max: PropTypes.number,
+  /**
+   * Название контрола
+   */
   name: PropTypes.string,
+  /**
+   * Флаг показа кнопок изменения значения
+   */
   showButtons: PropTypes.bool,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Флаг автофокуса на контрол
+   */
   autoFocus: PropTypes.bool,
+  /**
+   * Количество знаков после запятой
+   */
   precision: PropTypes.number,
 };
 

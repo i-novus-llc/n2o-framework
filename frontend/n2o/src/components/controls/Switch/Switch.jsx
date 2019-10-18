@@ -24,13 +24,25 @@ class N2OSwitch extends React.Component {
 }
 
 N2OSwitch.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
     PropTypes.bool,
   ]),
+  /**
+   * Checked контрола
+   */
   checked: PropTypes.bool,
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
 };
 

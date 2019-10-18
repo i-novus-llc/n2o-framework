@@ -22,6 +22,7 @@ class CollapsedCell extends React.Component {
   }
 
   _changeVisibility(e) {
+    e.stopPropagation();
     e.preventDefault();
     this.setState(prevState => {
       return { collapsed: !prevState.collapsed };
@@ -70,11 +71,29 @@ class CollapsedCell extends React.Component {
 }
 
 CollapsedCell.propTypes = {
+  /**
+   * Модель даных
+   */
   model: PropTypes.object.isRequired,
+  /**
+   * Ключ значения из модели
+   */
   fieldKey: PropTypes.string.isRequired,
+  /**
+   * Цвет
+   */
   color: PropTypes.string,
+  /**
+   * Количество элементов для группировки
+   */
   amountToGroup: PropTypes.number,
+  /**
+   * Ключ label из модели
+   */
   labelFieldId: PropTypes.string,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
 };
 

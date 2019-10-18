@@ -1,30 +1,51 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, object, array } from '@storybook/addon-knobs/react';
-import { Form, FormGroup, Label, Input, Col } from 'reactstrap';
-import { withState } from '@dump247/storybook-state';
+import { Form, FormGroup, Label, Input } from 'reactstrap';
 import Filter from './Filter';
 
 const stories = storiesOf('UI Компоненты/Фильтр', module);
 
-stories.addDecorator(withKnobs);
+stories.addParameters({
+  info: {
+    propTablesExclude: [Form, FormGroup, Label, Input],
+  },
+});
 
-stories.add(
-  'Компонент',
-  withState({ text: '' })(({ store }) => {
-    const props = {
-      style: object('style', {}),
-      className: text('className', 'n2o'),
-      filters: array('filters', []),
-    };
+stories
+  .add(
+    'Компонент',
+    () => {
+      const props = {
+        style: {},
+        className: 'n2o',
+        filters: [],
+      };
 
-    return (
-      <Filter
-        {...props}
-        onReset={e => {
-          store.set({ text: '' });
-        }}
-      >
+      return (
+        <Filter {...props} onReset={() => {}}>
+          <Form>
+            <FormGroup>
+              <Label for="exampleEmail">Почта</Label>
+              <Input
+                type="email"
+                id="exampleEmail"
+                placeholder="Почта"
+                value=""
+                onChange={e => {}}
+              />
+            </FormGroup>
+          </Form>
+        </Filter>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Фильтр'
+      ~~~js
+      import Filter from 'n2o/lib/components/snippets/Filter/Filter';
+      
+      <Filter className="n2o" onReset={onReset}>
         <Form>
           <FormGroup>
             <Label for="exampleEmail">Почта</Label>
@@ -32,14 +53,56 @@ stories.add(
               type="email"
               id="exampleEmail"
               placeholder="Почта"
-              value={store.state.text}
-              onChange={e => {
-                store.set({ text: e.target.value });
-              }}
+              value=""
+              onChange={e => {}}
             />
           </FormGroup>
         </Form>
       </Filter>
-    );
-  })
-);
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Текст кнопок',
+    () => {
+      const props = {
+        searchLabel: 'Свой текст поиска',
+        resetLabel: 'Свой текст сброса',
+      };
+
+      return (
+        <Filter {...props}>
+          <Form>
+            <FormGroup>
+              <Label for="topInput">Почта</Label>
+              <Input type="email" id="topInput" placeholder="Почта" />
+            </FormGroup>
+          </Form>
+        </Filter>
+      );
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Фильтр'
+      ~~~js
+      import Filter from 'n2o/lib/components/snippets/Filter/Filter';
+      
+      <Filter 
+          searchLabel="Свой текст поиска"
+          resetLabel="Свой текст сброса" 
+          >
+        <Form>
+          <FormGroup>
+            <Label for="topInput">Почта</Label>
+            <Input type="email" id="topInput" placeholder="Почта" />
+          </FormGroup>
+        </Form>
+      </Filter>
+      ~~~
+      `,
+      },
+    }
+  );

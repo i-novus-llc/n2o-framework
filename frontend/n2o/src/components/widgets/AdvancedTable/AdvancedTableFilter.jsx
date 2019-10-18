@@ -18,7 +18,7 @@ class AdvancedTableFilter extends Component {
     super(props);
 
     this.state = {
-      value: props.value,
+      value: props.value || null,
       filterOpen: false,
     };
 
@@ -60,7 +60,11 @@ class AdvancedTableFilter extends Component {
     return (
       <React.Fragment>
         {children}
-        <Dropdown isOpen={filterOpen} toggle={this.toggleFilter}>
+        <Dropdown
+          className="n2o-advanced-table-filter-btn"
+          isOpen={filterOpen}
+          toggle={this.toggleFilter}
+        >
           <DropdownToggle tag="div">
             <Button color="link" size="sm">
               <i className="fa fa-filter" />
@@ -102,4 +106,5 @@ AdvancedTableFilter.defaultProps = {
   onFilter: () => {},
 };
 
+export { AdvancedTableFilter };
 export default pure(AdvancedTableFilter);

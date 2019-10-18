@@ -3,43 +3,40 @@
   "version": "7.4.0",
   "private": true,
   "homepage": ".",
-  "dependencies": {
-    "@atlaskit/select": "^1.2.0",
-    "@atlaskit/table-tree": "^1.0.0",
-    "bootstrap": "~4.3.0",
-    "moment": "^2.21.0",
-    "n2o": "^7.3.0",
-    "react": "^16.2.0",
-    "react-avatar": "^3.4.6",
-    "react-beautiful-dnd": "^6.0.1",
-    "react-data-grid": "^4.0.8",
-    "react-dom": "^16.2.0",
-    "react-grid-layout": "^0.16.6",
-    "react-map-gl": "^3.2.5",
-    "react-scripts": "1.1.1",
-    "react-trend": "^1.2.4",
-    "react-widgets": "^4.2.2",
-    "react-widgets-moment": "^4.0.9",
-    "reactstrap": "^7.0.0",
-    "recharts": "^1.0.0-beta.10"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   },
-  "proxy": {
-    "/n2o/data": {
-      "target": "https://n2o.i-novus.ru/dev/",
-      "changeOrigin": true
-    },
-    "/n2o": {
-      "target": "https://n2o.i-novus.ru/dev/",
-      "changeOrigin": true
-    }
+  "dependencies": {
+    "@atlaskit/select": "^1.2.0",
+    "@atlaskit/table-tree": "^1.0.0",
+    "n2o": "^7.4.0",
+    "react": "^16.2.0",
+    "react-avatar": "^3.4.6",
+    "react-data-grid": "^4.0.8",
+    "react-dom": "^16.2.0",
+    "react-map-gl": "^3.2.5",
+    "react-trend": "^1.2.4",
+    "react-widgets": "^4.2.2",
+    "react-widgets-moment": "^4.0.9",
+    "recharts": "^1.7.1",
+    "reactstrap": "^8.0.1",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
-    "express": "^4.16.3",
-    "http-proxy-middleware": "^0.19.0"
+    "react-scripts": "^3.1.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

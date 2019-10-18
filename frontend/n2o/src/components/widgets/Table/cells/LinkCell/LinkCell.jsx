@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { get } from 'lodash';
 import { Button } from 'reactstrap';
+import { compose, setDisplayName } from 'recompose';
 import withCell from '../../withCell';
 import { Link } from 'react-router-dom';
 import { LinkType } from '../../../../../impl/linkTypes';
@@ -91,13 +92,39 @@ function LinkCell({
 }
 
 LinkCell.propTypes = {
+  /**
+   * Иконка
+   */
   icon: PropTypes.string,
+  /**
+   * Тип ячейки
+   */
   type: PropTypes.string,
+  /**
+   * ID ячейки
+   */
   id: PropTypes.string,
+  /**
+   * Ключ значения из модели
+   */
   fieldKey: PropTypes.string,
+  /**
+   * Модель данных
+   */
   model: PropTypes.object,
+  /**
+   * Флаг видимости
+   */
   visible: PropTypes.bool,
+  /**
+   * При наличии этого параметра, в зависимости от
+   * параметра target будет создана ссылка с соответствующим таргетом,
+   * при отсутствии, компонент будет вызывать приходящий экшен
+   */
   url: PropTypes.string,
+  /**
+   * Тип ссылки
+   */
   target: PropTypes.string,
 };
 
@@ -106,4 +133,8 @@ LinkCell.defaultProps = {
   visible: true,
 };
 
-export default withCell(LinkCell);
+export { LinkCell };
+export default compose(
+  setDisplayName('LinkCell'),
+  withCell
+)(LinkCell);

@@ -3,7 +3,7 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import SelectedItems from './SelectedItems';
 import ReactDOM from 'react-dom';
-import { map, find, reduce, split, isEqual } from 'lodash';
+import { find, reduce, split } from 'lodash';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 
@@ -69,6 +69,7 @@ function InputContent({
   _textarea,
   _selectedList,
   setRef,
+  tags,
 }) {
   /**
    * Обработчик изменения инпута при нажатии на клавишу
@@ -126,11 +127,14 @@ function InputContent({
         )
       );
     } else if (e.key === 'Enter') {
-      const newValaue = find(
-        options,
-        item => item[valueFieldId] === activeValueId
-      );
-      newValaue && onSelect(newValaue);
+      e.preventDefault();
+      const newValue =
+        find(options, item => item[valueFieldId] === activeValueId) || value;
+
+      if (newValue) {
+        onSelect(newValue);
+        setActiveValueId(null);
+      }
     } else if (e.key === 'Escape') {
       closePopUp(false);
     }
@@ -149,6 +153,10 @@ function InputContent({
 
   const handleInputChange = e => {
     onInputChange(e.target.value);
+
+    if (tags) {
+      setActiveValueId(null);
+    }
   };
 
   const getPlaceholder = selected.length > 0 ? '' : placeholder;
@@ -203,8 +211,8 @@ function InputContent({
       }
 
       return {
-        paddingTop: mainHeight,
-        paddingLeft: mainWidth || undefined,
+        paddingTop: selected.length === 0 ? 5 : mainHeight,
+        paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
       };
     }
   };

@@ -5,6 +5,7 @@ import {
   withHandlers,
   withState,
   defaultProps,
+  setDisplayName,
 } from 'recompose';
 import PropTypes from 'prop-types';
 import { isEmpty, isEqual, set } from 'lodash';
@@ -166,6 +167,7 @@ PanelContainer.propTypes = {
 };
 
 export default compose(
+  setDisplayName('Panel'),
   defaultProps({
     open: true,
     collapsible: false,

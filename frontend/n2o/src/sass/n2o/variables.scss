@@ -102,7 +102,7 @@ $input-select-control-dropdown-header-padding: 0.5rem 1rem !default;
 
 //InputTreeSelect
 $image-tree-height: 20px !default;
-$multiselect-item-width: 100px !default;
+$multiselect-item-width: auto !default;
 $icon-size: 12px !default;
 $image-width: 24px !default;
 $tree-animation-speed: 0.15s !default;
@@ -138,6 +138,12 @@ $datepicker-day-color-selected: white !default;
 $datepicker-day-background-color-selected: $primary !default;
 $datepicker-day-border-color-current: $primary !default;
 $datepicker-button-width: 40px;
+
+// Divider
+$border-default: 1px solid rgba(0, 0, 0, 0.4);
+$border-dashed: 1px dashed rgba(0, 0, 0, 0.4);
+$horizontal: 'divider-h';
+$vertical: 'divider-v';
 
 // Panel Region
 $panel-region-heading-background-color: white !default;

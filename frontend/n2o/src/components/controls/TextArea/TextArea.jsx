@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
+import cx from 'classnames';
 
 /**
- * Компонент TextAreat
+ * Компонент TextArea
  * @param {string} className
  * @param {object} style
  * @param {boolean} disabled
@@ -13,6 +14,7 @@ import TextareaAutosize from 'react-textarea-autosize';
  * @param {number} maxRows
  * @param {string|number} value
  * @param {function} onChange
+ * @param rest
  * @returns {*}
  * @constructor
  */
@@ -25,11 +27,12 @@ function TextArea({
   maxRows,
   value,
   onChange,
+  ...rest
 }) {
   const inputClass = `form-control ${className}`;
   return (
     <TextareaAutosize
-      className={inputClass}
+      className={cx('n2o-text-area', inputClass)}
       style={style}
       disabled={disabled}
       placeholder={placeholder}
@@ -37,18 +40,43 @@ function TextArea({
       maxRows={maxRows}
       value={value || ''}
       onChange={onChange}
+      {...rest}
     />
   );
 }
 
 TextArea.propTypes = {
+  /**
+   * Значение
+   */
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Флаг активности
+   */
   disabled: PropTypes.bool,
+  /**
+   * Класс
+   */
   className: PropTypes.string,
+  /**
+   * Стили
+   */
   style: PropTypes.object,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Минимальное количество строк
+   */
   rows: PropTypes.number,
+  /**
+   * Максимальное количество строк
+   */
   maxRows: PropTypes.number,
 };
 

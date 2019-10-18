@@ -66,6 +66,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             defaultPlace = property("n2o.api.page.toolbar.place");
         String place = p.cast(source.getPlace(), p.resolve(defaultPlace, String.class));
         int gi = 0;
+        Boolean buttonGrouping = isGrouping(p);
         while (i < source.getItems().length) {
             Group gr = new Group(place + gi);
             List<Button> buttons = new ArrayList<>();
@@ -87,6 +88,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oGroup)) {
                     buttons.add(getButton(source, source.getItems()[i], index, context, p));
                     i++;
+                    if (!buttonGrouping) break;
                 }
             }
             gr.setButtons(buttons);
@@ -159,11 +161,21 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         button.setValidate(source.getValidate());
     }
 
+    protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getGenerate() != null) {
+            for (String generate : source.getGenerate()) {
+                buttonGeneratorFactory.generate(generate.trim(), source, context, p)
+                        .forEach(i -> source.setItems(push(source, (N2oButton) i)));
+            }
+        }
+    }
+
     private void initConfirm(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
         if ((source.getConfirm() == null || !source.getConfirm()) &&
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
         Confirm confirm = new Confirm();
+        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
         confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
         confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
@@ -298,13 +310,9 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         return items;
     }
 
-    protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getGenerate() != null) {
-            for (String generate : source.getGenerate()) {
-                buttonGeneratorFactory.generate(generate.trim(), source, context, p)
-                        .forEach(i -> source.setItems(push(source, (N2oButton) i)));
-            }
-        }
+    private Boolean isGrouping(CompileProcessor p) {
+        Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
+        return buttonGrouping instanceof Boolean ? (Boolean) buttonGrouping : true;
     }
 
     @Override

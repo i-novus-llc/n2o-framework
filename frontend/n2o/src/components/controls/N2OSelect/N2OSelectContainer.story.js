@@ -1,20 +1,25 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs/react';
-import withTests from 'N2oStorybook/withTests';
+
 import fetchMock from 'fetch-mock';
 import { parseUrl, getStubData } from 'N2oStorybook/fetchMock';
 import withForm from 'N2oStorybook/decorators/withForm';
 import { excludeMetadata } from 'N2oStorybook/json';
 
 import N2OSelectContainer from './N2OSelectContainer';
+import { N2OSelect } from './N2OSelect';
 import N2OSelectContainerJson from './N2OSelectContainer.meta.json';
+import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'N2OSelect' });
 const stories = storiesOf('Контролы/Выпадающий список', module);
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(withTests('N2OSelectContainer'));
+stories.addParameters({
+  info: {
+    propTables: [N2OSelect],
+    propTablesExclude: [Factory, N2OSelectContainer],
+  },
+});
 
 const dataUrl = 'begin:n2o/data/test';
 
@@ -65,30 +70,24 @@ stories
     'Контейнер для N2O',
     form(() => {
       const props = {
-        loading: boolean('loading', N2OSelectContainerJson.loading),
-        value: text('value', N2OSelectContainerJson.value),
-        disabled: boolean('disabled', N2OSelectContainerJson.disabled),
-        placeholder: text('placeholder', N2OSelectContainerJson.placeholder),
-        valueFieldId: text('valueFieldId', N2OSelectContainerJson.valueFieldId),
-        labelFieldId: text('labelFieldId', N2OSelectContainerJson.labelFieldId),
-        filter: text('filter', N2OSelectContainerJson.filter),
-        resetOnBlur: boolean('resetOnBlur', N2OSelectContainerJson.resetOnBlur),
-        queryId: text('queryId', N2OSelectContainerJson.queryId),
-        size: number('size', N2OSelectContainerJson.size),
-        iconFieldId: text('iconFieldId', N2OSelectContainerJson.iconFieldId),
-        imageFieldId: text('imageFieldId', N2OSelectContainerJson.imageFieldId),
-        groupFieldId: text('groupFieldId', N2OSelectContainerJson.groupFieldId),
-        hasCheckboxes: boolean(
-          'hasCheckboxes',
-          N2OSelectContainerJson.hasCheckboxes
-        ),
-        cleanable: boolean('cleanable', N2OSelectContainerJson.cleanable),
-        closePopupOnSelect: boolean(
-          'closePopupOnSelect',
-          N2OSelectContainerJson.closePopupOnSelect
-        ),
-        format: text('format', N2OSelectContainerJson.format),
-        searchByTap: boolean('searchByTap', N2OSelectContainerJson.searchByTap),
+        loading: N2OSelectContainerJson.loading,
+        value: N2OSelectContainerJson.value,
+        disabled: N2OSelectContainerJson.disabled,
+        placeholder: N2OSelectContainerJson.placeholder,
+        valueFieldId: N2OSelectContainerJson.valueFieldId,
+        labelFieldId: N2OSelectContainerJson.labelFieldId,
+        filter: N2OSelectContainerJson.filter,
+        resetOnBlur: N2OSelectContainerJson.resetOnBlur,
+        queryId: N2OSelectContainerJson.queryId,
+        size: N2OSelectContainerJson.size,
+        iconFieldId: N2OSelectContainerJson.iconFieldId,
+        imageFieldId: N2OSelectContainerJson.imageFieldId,
+        groupFieldId: N2OSelectContainerJson.groupFieldId,
+        hasCheckboxes: N2OSelectContainerJson.hasCheckboxes,
+        cleanable: N2OSelectContainerJson.cleanable,
+        closePopupOnSelect: N2OSelectContainerJson.closePopupOnSelect,
+        format: N2OSelectContainerJson.format,
+        searchByTap: N2OSelectContainerJson.searchByTap,
         dataProvider: N2OSelectContainerJson.dataProvider,
       };
 
@@ -102,38 +101,86 @@ stories
     return <N2OSelectContainer {...N2OSelectContainerJson} />;
   })
 
-  .add('Кеширование запросов', () => {
-    fetchMock.restore().get(dataUrl, handleData(data));
+  .add(
+    'Кеширование запросов',
+    () => {
+      fetchMock.restore().get(dataUrl, handleData(data));
 
-    return (
-      <React.Fragment>
-        <div className="row">
-          <N2OSelectContainer
-            {...jsonWithoutOptions}
-            placeholder="Стандартный"
-          />
-        </div>
-        <div className="row" style={{ marginTop: '10px' }}>
-          <N2OSelectContainer
-            {...jsonWithoutOptions}
-            placeholder="С кешированием"
-            caching={true}
-          />
-        </div>
-      </React.Fragment>
-    );
-  })
+      return (
+        <React.Fragment>
+          <div className="row">
+            <N2OSelectContainer
+              {...jsonWithoutOptions}
+              placeholder="Стандартный"
+            />
+          </div>
+          <div className="row" style={{ marginTop: '10px' }}>
+            <N2OSelectContainer
+              {...jsonWithoutOptions}
+              placeholder="С кешированием"
+              caching={true}
+            />
+          </div>
+        </React.Fragment>
+      );
+    },
+    {
+      info: {
+        text: `
+    Компонент 'Выпадающий список N2O'
+    ~~~js
+    import N2OSelectContainer from 'n2o/lib/components/controls/N2OSelect/N2OSelectContainer';
+     
+    <N2OSelectContainer 
+        {...props}
+        placeholder="С кешированием"
+        caching={true}
+    />
+    ~~~
+    `,
+      },
+    }
+  )
 
-  .add('Расширяемый popUp', () => {
-    const newProps = {
-      filter: 'includes',
-      iconFieldId: '',
-      imageFieldId: '',
-      groupFieldId: '',
-      format: '',
-    };
-    const props = Object.assign({}, jsonWithoutOptions, newProps);
-    const data = [
+  .add(
+    'Расширяемый popUp',
+    () => {
+      const newProps = {
+        filter: 'includes',
+        iconFieldId: '',
+        imageFieldId: '',
+        groupFieldId: '',
+        format: '',
+      };
+      const props = Object.assign({}, jsonWithoutOptions, newProps);
+      const data = [
+        {
+          id: 'Крузенштерн Розенкранц Николаевич',
+        },
+        {
+          id: 'Комаровский Иммануил Васильевич',
+        },
+        {
+          id: 'Петровский Сергей Вахтангович',
+        },
+      ];
+
+      fetchMock.restore().get(dataUrl, handleData(data));
+
+      return (
+        <div style={{ width: '200px' }}>
+          <N2OSelectContainer {...props} />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+    Компонент 'Выпадающий список N2O'
+    ~~~js
+    import N2OSelectContainer from 'n2o/lib/components/controls/N2OSelect/N2OSelectContainer';
+     
+   const data = [
       {
         id: 'Крузенштерн Розенкранц Николаевич',
       },
@@ -144,28 +191,58 @@ stories
         id: 'Петровский Сергей Вахтангович',
       },
     ];
+     
+    <N2OSelectContainer 
+        {...props}
+    />
+    ~~~
+    `,
+      },
+    }
+  )
 
-    fetchMock.restore().get(dataUrl, handleData(data));
+  .add(
+    'Баджи',
+    () => {
+      const newProps = {
+        filter: 'includes',
+        iconFieldId: '',
+        imageFieldId: '',
+        badgeFieldId: 'badge',
+        groupFieldId: '',
+        format: '',
+        badgeColorFieldId: 'color',
+      };
+      const props = Object.assign({}, jsonWithoutOptions, newProps);
+      const data = [
+        {
+          id: 'Розенкранц',
+          badge: 'Писатель',
+        },
+        {
+          id: 'Иммануил',
+          badge: 'Художник',
+          color: 'danger',
+        },
+        {
+          id: 'Сергей',
+          badge: 'Поэт',
+          color: 'info',
+        },
+      ];
 
-    return (
-      <div style={{ width: '200px' }}>
-        <N2OSelectContainer {...props} />
-      </div>
-    );
-  })
+      fetchMock.restore().get(dataUrl, handleData(data));
 
-  .add('Баджи', () => {
-    const newProps = {
-      filter: 'includes',
-      iconFieldId: '',
-      imageFieldId: '',
-      badgeFieldId: 'badge',
-      groupFieldId: '',
-      format: '',
-      badgeColorFieldId: 'color',
-    };
-    const props = Object.assign({}, jsonWithoutOptions, newProps);
-    const data = [
+      return <N2OSelectContainer {...props} />;
+    },
+    {
+      info: {
+        text: `
+    Компонент 'Выпадающий список N2O'
+    ~~~js
+    import N2OSelectContainer from 'n2o/lib/components/controls/N2OSelect/N2OSelectContainer';
+     
+   const data = [
       {
         id: 'Розенкранц',
         badge: 'Писатель',
@@ -181,11 +258,18 @@ stories
         color: 'info',
       },
     ];
-
-    fetchMock.restore().get(dataUrl, handleData(data));
-
-    return <N2OSelectContainer {...props} />;
-  })
+     
+    <N2OSelectContainer 
+        {...props}
+        filter="includes"
+        badgeFieldId="badge"
+        badgeColorFieldId="color"
+    />
+    ~~~
+    `,
+      },
+    }
+  )
 
   .add('Сжатие текста', () => {
     const newProps = {
