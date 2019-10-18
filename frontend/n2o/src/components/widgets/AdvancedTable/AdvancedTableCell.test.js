@@ -1,16 +1,14 @@
 import React from 'react';
-import AdvancedTableCell from "./AdvancedTableCell";
+import AdvancedTableCell from './AdvancedTableCell';
 
 const COMPONENT_CLASS = '.n2o-advanced-table-cell-expand';
 
-const setup = (propsOverride) => {
+const setup = propsOverride => {
   const props = {
-    children: 'test'
+    children: 'test',
   };
 
-  return mount(
-    <AdvancedTableCell {...props} {...propsOverride} />
-  );
+  return mount(<AdvancedTableCell {...props} {...propsOverride} />);
 };
 
 describe('<AdvancedTableCell>', () => {
@@ -26,9 +24,9 @@ describe('<AdvancedTableCell>', () => {
       record: {
         span: {
           colSpan: 3,
-          rowSpan: 2
-        }
-      }
+          rowSpan: 2,
+        },
+      },
     });
 
     expect(wrapper.find('td').props().colSpan).toBe(3);
