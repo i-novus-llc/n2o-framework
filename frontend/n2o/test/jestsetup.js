@@ -4,6 +4,8 @@
 // Глобал enzyme
 import Enzyme, { shallow, render, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import registerRequireContextHook from 'babel-plugin-require-context-hook/register';
+registerRequireContextHook();
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -12,5 +14,5 @@ global.render = render;
 global.mount = mount;
 
 console.error = message => {
-   // throw new Error(message);
+  // throw new Error(message);
 };
