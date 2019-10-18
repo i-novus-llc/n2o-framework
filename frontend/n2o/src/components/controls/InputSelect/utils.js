@@ -1,4 +1,6 @@
-import { findIndex, isEmpty, isString, defaultTo } from 'lodash';
+import { findIndex, isEmpty, isString, get, reduce, has } from 'lodash';
+
+export const UNKNOWN_GROUP_FIELD_ID = '';
 
 export const inArray = (array = [], item = {}) => {
   return array.some(arrayItem =>
@@ -7,11 +9,21 @@ export const inArray = (array = [], item = {}) => {
 };
 
 export const groupData = (data, groupFieldId) =>
-  data.reduce((r, a) => {
-    r[defaultTo(a[groupFieldId], '')] = r[a[groupFieldId]] || [];
-    r[defaultTo(a[groupFieldId], '')].push(a);
-    return r;
-  }, {});
+  reduce(
+    data,
+    (acc, item) => {
+      const key = get(item, groupFieldId) || UNKNOWN_GROUP_FIELD_ID;
+
+      if (has(acc, key)) {
+        acc[key].push(item);
+      } else {
+        acc[key] = [item];
+      }
+
+      return acc;
+    },
+    {}
+  );
 
 export const isDisabled = (item, selected, disabled) =>
   inArray(disabled, item) || inArray(selected, item);
