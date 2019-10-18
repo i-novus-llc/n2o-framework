@@ -82,5 +82,5 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-ToggleColumn = connect(mapStateToProps)(ToggleColumn);
-export default ToggleColumn;
+export { ToggleColumn };
+export default connect(mapStateToProps)(ToggleColumn);

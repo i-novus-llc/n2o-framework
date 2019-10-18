@@ -78,7 +78,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         if (pageRoutesScope != null) {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
-        compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null, null);
+        compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
@@ -124,12 +124,14 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                 if (rowClick.getActionId() != null) {
                     MetaActions actions = p.getScope(MetaActions.class);
                     AbstractAction action = (AbstractAction) actions.get(rowClick.getActionId());
-                    if (StringUtils.isJs(enabledCondition)) action.setEnablingCondition((String) enabledCondition);
+                    if (StringUtils.isJs(enabledCondition))
+                        action.setEnablingCondition((String) enabledCondition);
                     component.setRowClick(action);
                 } else if (rowClick.getAction() != null) {
                     AbstractAction action = p.compile(rowClick.getAction(), context, widgetScope,
                             widgetRouteScope, new ComponentScope(rowClick));
-                    if (StringUtils.isJs(enabledCondition)) action.setEnablingCondition((String) enabledCondition);
+                    if (StringUtils.isJs(enabledCondition))
+                        action.setEnablingCondition((String) enabledCondition);
                     component.setRowClick(action);
                 }
             }
@@ -137,11 +139,11 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, String route, CompiledQuery query,
+    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, CompiledQuery query,
                                            ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, CompileProcessor p) {
-        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList, subModelsScope, copiedFieldScope, p);
-
+                                           CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
+        QueryContext queryContext = super.getQueryContext(widget, source, context, route, query, validationList,
+                subModelsScope, copiedFieldScope, p, object);
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
             for (AbstractColumn column : source.getColumns()) {
@@ -201,6 +203,8 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         header.setWidth(column.getWidth());
         header.setResizable(column.getResizable());
         header.setFixed(column.getFixed());
+        header.setVisible(ScriptProcessor.resolveExpression(column.getVisible()));
+
         if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
             header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
         } else {

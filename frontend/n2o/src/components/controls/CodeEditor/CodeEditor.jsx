@@ -73,7 +73,7 @@ class CodeEditor extends React.Component {
             fontSize={14}
             showPrintMargin={true}
             showGutter={true}
-            disabled={disabled}
+            readOnly={disabled}
             minLines={minLines}
             maxLines={maxLines}
             highlightActiveLine={true}

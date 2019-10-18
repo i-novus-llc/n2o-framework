@@ -1,10 +1,14 @@
-<object xmlns="http://n2oapp.net/framework/config/schema/object-2.0">
-    <actions>
-        <action id="create">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+    <operations>
+        <operation id="create">
             <invocation/>
-        </action>
-        <action id="update">
+        </operation>
+        <operation id="update">
             <invocation/>
-        </action>
-    </actions>
+            <validations white-list="valid"/>
+        </operation>
+    </operations>
+    <validations>
+        <condition severity="danger" id="valid" server-moment="after-success-query" message="Fail name">name=='test'</condition>
+    </validations>
 </object>

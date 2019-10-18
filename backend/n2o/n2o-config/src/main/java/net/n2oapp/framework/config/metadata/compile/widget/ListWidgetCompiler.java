@@ -38,7 +38,7 @@ public class ListWidgetCompiler extends BaseWidgetCompiler<ListWidget, N2oListWi
         if (pageRoutesScope != null) {
             pageRoutesScope.put(listWidget.getId(), widgetRoute);
         }
-        compileDataProviderAndRoutes(listWidget, source, p, null, widgetRoute, null, null);
+        compileDataProviderAndRoutes(listWidget, source, context, p, null, widgetRoute, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());

@@ -1,4 +1,4 @@
-import { omit, mapValues, isEmpty } from 'lodash';
+import { omit, mapValues, isEmpty, get } from 'lodash';
 import merge from 'deepmerge';
 import {
   REGISTER,
@@ -58,6 +58,7 @@ export const widgetState = {
   pageId: null,
   containerId: null,
   validation: {},
+  error: null,
 };
 
 function resolve(state = widgetState, action) {
@@ -73,6 +74,7 @@ function resolve(state = widgetState, action) {
     case DATA_FAIL:
       return Object.assign({}, state, {
         isLoading: false,
+        error: get(action, 'payload.err', true),
       });
     case RESOLVE:
       return Object.assign({}, state, {
