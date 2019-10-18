@@ -1,6 +1,8 @@
 import React from 'react';
 import sinon from 'sinon';
 import AdvancedTable from './AdvancedTable';
+import { Provider } from 'react-redux';
+import configureMockStore from 'redux-mock-store';
 
 import { set } from 'lodash';
 
@@ -49,13 +51,32 @@ const data = [
   },
 ];
 
+const rows = {
+  test: {
+    denied: false,
+    permitAll: true,
+  },
+};
+
 const setup = propsOverride => {
   const props = {
     columns,
     data,
   };
 
-  return mount(<AdvancedTable {...props} {...propsOverride} />);
+  return mount(
+    <Provider
+      store={configureMockStore()({
+        user: {
+          username: null,
+          testProperty: 'testProperty',
+          isLoggedIn: true,
+        },
+      })}
+    >
+      <AdvancedTable {...props} {...propsOverride} />
+    </Provider>
+  );
 };
 
 describe('<AdvancedTable/>', () => {
@@ -82,6 +103,7 @@ describe('<AdvancedTable/>', () => {
       data: newData,
     });
     wrapper.update();
+    console.log(wrapper.debug())
     expect(wrapper.find('.n2o-table-row').length).toBe(4);
   });
 
@@ -98,10 +120,12 @@ describe('<AdvancedTable/>', () => {
 
       const wrapper = setup({
         rowClick: true,
+        rows,
         onResolve,
         onRowClickAction,
       });
 
+      console.log(wrapper.debug())
       wrapper
         .find('.n2o-table-row')
         .first()

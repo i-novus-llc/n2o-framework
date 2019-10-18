@@ -12,6 +12,7 @@
     "@atlaskit/select": "^1.2.0",
     "@atlaskit/table-tree": "^1.0.0",
     "n2o": "^7.4.0",
+    "n2o-auth": "^7.4.0",
     "react": "^16.2.0",
     "react-avatar": "^3.4.6",
     "react-data-grid": "^4.0.8",

@@ -179,6 +179,11 @@
       "sorting": {
         "birthday": "ASC"
       },
+      "rows": {
+        "security": {
+          "roles": ["admin"]
+        }
+      },
       "cells": [
         {
           "src": "TextCell",

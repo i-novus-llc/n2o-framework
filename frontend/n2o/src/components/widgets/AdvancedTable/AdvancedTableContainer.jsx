@@ -234,10 +234,13 @@ const enhance = compose(
           scroll: props.scroll,
           multiHeader: props.multiHeader,
           bordered: props.bordered,
-          rowClick: props.rowClick,
+          rowClick: {
+            src: 'dummyImpl',
+          },
           onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
           className: props.className,
+          rows: props.rows,
         };
       },
     },

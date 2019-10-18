@@ -9,36 +9,38 @@ import cn from 'classnames';
  * @param props
  * @constructor
  */
-function AdvancedTableRow(props) {
+function AdvancedTableRowWithAction(props) {
   const {
     className,
     isRowActive,
     setRef,
     children,
     model,
+    rowClick,
     rowClass,
-    handleRowClick,
-    handleRowClickFocus,
+    clickWithAction,
+    clickFocusWithAction,
   } = props;
 
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
     'table-active': isRowActive,
+    'row-click': !!rowClick,
     [rowClass]: rowClass,
   });
   const newProps = {
-    ...pick(props, ['className', 'data-row-key', 'style']),
+    ...pick(props, ['className', 'data-row-key', 'onFocus', 'style']),
     ref: el => setRef && setRef(el, model.id),
     tabIndex: 0,
     key: model.id,
     className: classes,
-    onClick: handleRowClick,
-    onFocus: handleRowClickFocus,
+    onClick: clickWithAction,
+    onFocus: clickFocusWithAction,
   };
 
   return React.createElement('tr', newProps, [...children]);
 }
 
-AdvancedTableRow.propTypes = {
+AdvancedTableRowWithAction.propTypes = {
   className: PropTypes.string,
   isRowActive: PropTypes.bool,
   setRef: PropTypes.func,
@@ -46,4 +48,4 @@ AdvancedTableRow.propTypes = {
   model: PropTypes.object,
 };
 
-export default pure(AdvancedTableRow);
+export default pure(AdvancedTableRowWithAction);
