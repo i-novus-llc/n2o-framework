@@ -2,25 +2,32 @@
   "id": "name",
   "src": "ButtonsCell",
   "fieldKey": "name",
-  "className" : "n2o",
-  "style" : {},
-  "buttons": [
+  "className": "n2o",
+  "style": {},
+  "toolbar": [
     {
-      "id": "1",
-      "title": "Кнопка",
-      "icon": "fa fa-vk",
-      "hint": "Подсказка",
-      "hintPosition": "top",
-      "size": "md",
-      "color": "primary",
-      "visible": true,
-      "disabled": false,
-      "action": {
-        "src": "dummyImpl",
-        "options": {
-          "testProp": "testValueProp"
+      "buttons": [
+        {
+          "id": "testBut",
+          "title": "Кнопка",
+          "actionId": "testBut",
+          "icon": "fa fa-vk",
+          "hint": "Подсказка",
+          "hintPosition": "top",
+          "size": "md",
+          "color": "primary",
+          "visible": true,
+          "disabled": false
         }
+      ]
+    }
+  ],
+  "actions": {
+    "testBut": {
+      "src": "dummyImpl",
+      "options": {
+        "testProp": "testValueProp"
       }
     }
-  ]
+  }
 }

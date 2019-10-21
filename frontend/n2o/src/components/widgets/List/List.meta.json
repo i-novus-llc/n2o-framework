@@ -157,40 +157,47 @@
         "id": "extra",
         "src": "ButtonsCell",
         "fieldKey": "name",
-        "className" : "n2o",
-        "style" : {},
-        "buttons": [
+        "className": "n2o",
+        "style": {},
+        "toolbar": [
           {
-            "id": "1",
-            "title": "",
-            "icon": "fa fa-plus",
-            "hint": "Make a cat clever",
-            "size": "md",
-            "visible": true,
-            "disabled": false,
-            "action": {
-              "src": "dummyImpl",
-              "options": {
-                "testProp": "testValueProp"
+            "buttons": [
+              {
+                "id": "1",
+                "title": "",
+                "icon": "fa fa-plus",
+                "hint": "Make a cat clever",
+                "size": "md",
+                "visible": true,
+                "disabled": false
+              },
+              {
+                "id": "2",
+                "title": "",
+                "icon": "fa fa-trash",
+                "hint": "Delete",
+                "size": "md",
+                "visible": true,
+                "disabled": false
               }
+            ]
+          }
+        ],
+        "actions":
+        {
+          "dummy": {
+            "src": "dummyImpl",
+            "options": {
+              "testProp": "testValueProp"
             }
           },
-          {
-            "id": "2",
-            "title": "",
-            "icon": "fa fa-trash",
-            "hint": "Delete",
-            "size": "md",
-            "visible": true,
-            "disabled": false,
-            "action": {
-              "src": "dummyImpl",
-              "options": {
-                "testProp": "testValueProp"
-              }
+          "dummy2": {
+            "src": "dummyImpl",
+            "options": {
+              "testProp": "testValueProp"
             }
           }
-        ]
+        }
       }
     }
   }

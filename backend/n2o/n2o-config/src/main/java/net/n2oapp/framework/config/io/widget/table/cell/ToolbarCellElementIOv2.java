@@ -64,6 +64,7 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
         p.attribute(e, "confirm-title", mi::getConfirmTitle, mi::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", mi::getConfirmOkLabel, mi::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
+        p.attribute(e, "tooltip-position", mi::getTooltipPosition, mi::setTooltipPosition);
         p.anyAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
     }
 

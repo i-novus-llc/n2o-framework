@@ -48,7 +48,7 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
         Page page = pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"));
         Security.SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidgets()
                 .get("testToolbarCellAccessTransformer_main")
-                .getComponent()).getCells().get(0)).getButtons().get(0)
+                .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(0)
                 .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(security.getRoles().size(), is(1));
