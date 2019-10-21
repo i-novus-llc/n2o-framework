@@ -3,6 +3,7 @@ import { pure } from 'recompose';
 import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import evalExpression from '../../../utils/evalExpression';
 
 /**
  * Компонент создания строки в таблице
@@ -19,10 +20,13 @@ function AdvancedTableRow(props) {
     rowClick,
     rowClass,
   } = props;
+  const { enablingCondition } = rowClick;
+  const allowRowClick = evalExpression(enablingCondition, model);
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
     'table-active': isRowActive,
-    'row-click': rowClick && !model.deleted,
-    'row-deleted': model.deleted,
+    'row-click':
+      (rowClick && allowRowClick) || (rowClick && allowRowClick === undefined),
+    'row-deleted': allowRowClick === false,
     [rowClass]: rowClass,
   });
   const newProps = {
