@@ -65,6 +65,8 @@ class DateTimeControl extends React.Component {
       focused: false,
     };
 
+    this._control = null;
+
     this.select = this.select.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -76,6 +78,7 @@ class DateTimeControl extends React.Component {
     this.onFocus = this.onFocus.bind(this);
     this.getValue = this.getValue.bind(this);
     this.onInputBlur = this.onInputBlur.bind(this);
+    this.setControlRef = this.setControlRef.bind(this);
   }
 
   /**
@@ -193,6 +196,8 @@ class DateTimeControl extends React.Component {
           }
         }
       );
+
+      setTimeout(() => findDOMNode(this._control).focus(), 0);
     }
   }
   /**
@@ -332,6 +337,9 @@ class DateTimeControl extends React.Component {
       poperRef(r);
     };
   }
+  setControlRef(el) {
+    this._control = el;
+  }
   /**
    * Базовый рендер
    */
@@ -353,6 +361,7 @@ class DateTimeControl extends React.Component {
             <Reference>
               {({ ref }) => (
                 <DateInputGroup
+                  setControlRef={this.setControlRef}
                   inputRef={this.setInputRef(ref)}
                   dateFormat={this.format}
                   disabled={disabled}

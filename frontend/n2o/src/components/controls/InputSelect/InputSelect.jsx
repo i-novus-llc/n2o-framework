@@ -364,6 +364,10 @@ class InputSelect extends React.Component {
       () => {
         selectCallback();
         this.props.onBlur(this._getValue());
+
+        if (this._input) {
+          this._input.focus();
+        }
       }
     );
   }
@@ -573,7 +577,7 @@ class InputSelect extends React.Component {
               modifiers={MODIFIERS}
               positionFixed={true}
             >
-              {({ ref, style, placement }) => (
+              {({ ref, style, placement, scheduleUpdate }) => (
                 <div
                   ref={ref}
                   style={{
@@ -585,6 +589,7 @@ class InputSelect extends React.Component {
                   className="n2o-pop-up"
                 >
                   <PopupList
+                    scheduleUpdate={scheduleUpdate}
                     loading={loading}
                     isExpanded={this.state.isExpanded}
                     activeValueId={this.state.activeValueId}

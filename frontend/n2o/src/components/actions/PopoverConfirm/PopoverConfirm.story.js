@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MetaJson from './PopoverConfirm.meta';
-import Button from 'reactstrap/es/Button';
+import { Button } from 'reactstrap';
 import PopoverConfirm from '../../snippets/PopoverConfirm/PopoverConfirm';
 
 const stories = storiesOf('Действия/PopoverConfirm', module);

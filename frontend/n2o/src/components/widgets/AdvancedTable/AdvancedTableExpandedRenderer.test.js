@@ -1,14 +1,12 @@
 import React from 'react';
-import AdvancedTableExpandedRenderer from "./AdvancedTableExpandedRenderer";
+import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 
-const setup = (propsOverride) => {
+const setup = propsOverride => {
   const props = {
-    expandedFieldId: 'expandedContent'
+    expandedFieldId: 'expandedContent',
   };
 
-  return (
-    mount(<AdvancedTableExpandedRenderer {...props} {...propsOverride} />)
-  );
+  return mount(<AdvancedTableExpandedRenderer {...props} {...propsOverride} />);
 };
 
 describe('<AdvancedTableExpandedRenderer />', () => {
@@ -30,8 +28,8 @@ describe('<AdvancedTableExpandedRenderer />', () => {
               subName: 'sub value',
             },
           ],
-        }
-      }
+        },
+      },
     });
 
     expect(wrapper.find('Table').exists()).toBeTruthy();
@@ -42,24 +40,30 @@ describe('<AdvancedTableExpandedRenderer />', () => {
       record: {
         expandedContent: {
           type: 'html',
-          value: '<div class="test">test value</div>'
-        }
-      }
+          value: '<div class="test">test value</div>',
+        },
+      },
     });
 
-    expect(wrapper.find('.n2o-advanced-table-expanded-row-content').exists()).toBeTruthy();
+    expect(
+      wrapper.find('.n2o-advanced-table-expanded-row-content').exists()
+    ).toBeTruthy();
   });
 
   it('отрисовывается текстовый контент', () => {
     const wrapper = setup({
       record: {
         expandedContent: {
-          value: 'test value'
-        }
-      }
+          value: 'test value',
+        },
+      },
     });
 
-    expect(wrapper.find('.n2o-advanced-table-expanded-row-content').exists()).toBeTruthy();
-    expect(wrapper.find('.n2o-advanced-table-expanded-row-content').text()).toBe('test value');
+    expect(
+      wrapper.find('.n2o-advanced-table-expanded-row-content').exists()
+    ).toBeTruthy();
+    expect(
+      wrapper.find('.n2o-advanced-table-expanded-row-content').text()
+    ).toBe('test value');
   });
 });
