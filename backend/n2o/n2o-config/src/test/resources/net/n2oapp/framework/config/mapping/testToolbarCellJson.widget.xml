@@ -3,7 +3,8 @@
     <columns>
         <column text-field-id="name">
             <toolbar src="ButtonsCell">
-                <button id="1" label="Кнопка" icon="fa fa-vk" description="Подсказка" visible="true">
+                <button id="testBut" label="Кнопка" icon="fa fa-vk" description="Подсказка" visible="true"
+                        tooltip-position="top" >
                     <custom src="dummyImpl"/>
                 </button>
             </toolbar>

@@ -5,14 +5,17 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oToolbarCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -29,23 +32,33 @@ public class ToolbarCellCompiler extends AbstractCellCompiler<ToolbarCell, N2oTo
 
     private void compileButtons(ToolbarCell cell, N2oToolbarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         Toolbar toolbar = p.compile(new N2oToolbar(source.getGenerate(), source.getItems()), context);
-        List<Button> buttons = toolbar.getGroup(0).getButtons();
+        List<Group> groups = new ArrayList<>();
+        toolbar.values().stream().filter(Objects::nonNull).forEach(g ->
+            g.forEach(group -> {
+                group.setId(null);
+                groups.add(group);
+            }));
+        List<Button> buttons = new ArrayList<>();
+        groups.stream().filter(g -> g.getButtons() != null).forEach(g -> buttons.addAll(g.getButtons()));
         MetaActions metaActions = p.getScope(MetaActions.class);
+        Map<String, Action> actions = new HashMap<>();
         if (metaActions != null) {
             for (Button button : buttons)
-                initActions(button, metaActions);
+                initActions(button, metaActions, actions);
         }
-        cell.setButtons(buttons);
+        cell.setToolbar(groups);
+        if (!actions.isEmpty())
+            cell.setActions(actions);
     }
 
-    private void initActions(MenuItem menuItem, MetaActions actions) {
+    private void initActions(MenuItem menuItem, MetaActions scopeActions, Map<String, Action> actions) {
         if (menuItem instanceof Button && ((Button) menuItem).getSubMenu() != null) {
             for (MenuItem item : ((Button) menuItem).getSubMenu()) {
-                initActions(item, actions);
+                initActions(item, scopeActions, actions);
             }
         }
-        if (menuItem.getActionId() != null && actions.containsKey(menuItem.getActionId()))
-            menuItem.setAction(actions.get(menuItem.getActionId()));
+        if (menuItem.getActionId() != null && scopeActions.containsKey(menuItem.getActionId()))
+            actions.put(menuItem.getActionId(), scopeActions.get(menuItem.getActionId()));
     }
 
     @Override
