@@ -1,9 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import AdvancedTable from './AdvancedTable';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-
+import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import { set } from 'lodash';
 
 const columns = [
@@ -51,10 +49,9 @@ const data = [
   },
 ];
 
-const rows = {
-  test: {
-    denied: false,
-    permitAll: true,
+const components = {
+  body: {
+    row: AdvancedTableRowWithAction,
   },
 };
 
@@ -62,21 +59,10 @@ const setup = propsOverride => {
   const props = {
     columns,
     data,
+    components,
   };
 
-  return mount(
-    <Provider
-      store={configureMockStore()({
-        user: {
-          username: null,
-          testProperty: 'testProperty',
-          isLoggedIn: true,
-        },
-      })}
-    >
-      <AdvancedTable {...props} {...propsOverride} />
-    </Provider>
-  );
+  return mount(<AdvancedTable {...props} {...propsOverride} />);
 };
 
 describe('<AdvancedTable/>', () => {
@@ -103,7 +89,6 @@ describe('<AdvancedTable/>', () => {
       data: newData,
     });
     wrapper.update();
-    console.log(wrapper.debug())
     expect(wrapper.find('.n2o-table-row').length).toBe(4);
   });
 
@@ -120,12 +105,9 @@ describe('<AdvancedTable/>', () => {
 
       const wrapper = setup({
         rowClick: true,
-        rows,
         onResolve,
         onRowClickAction,
       });
-
-      console.log(wrapper.debug())
       wrapper
         .find('.n2o-table-row')
         .first()
@@ -411,7 +393,6 @@ describe('<AdvancedTable/>', () => {
       const wrapper = setup({
         rowSelection: true,
       });
-      console.log(wrapper.debug());
       expect(wrapper.find('CheckboxN2O input').length).toBe(4);
     });
 
@@ -473,7 +454,6 @@ describe('<AdvancedTable/>', () => {
       const checkboxes = wrapper.find('CheckboxN2O input');
 
       checkboxes.at(1).simulate('change', { target: { checked: false } });
-      console.log('point');
       expect(table.state().checkedAll).toBe(false);
       expect(table.state().checked).toEqual({
         '1': true,

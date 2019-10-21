@@ -95,7 +95,7 @@ class AdvancedTable extends Component {
         ...get(props.components, 'header', {}),
       },
       body: {
-        row: this.renderTableRow(),
+        row: this.renderTableRow(props),
         cell: AdvancedTableCell,
         ...get(props.components, 'body', {}),
       },
@@ -187,13 +187,7 @@ class AdvancedTable extends Component {
   }
 
   renderTableRow(props) {
-    // const { rows } = props;
-    const rows = {
-      test: {
-        denied: false,
-        permitAll: true,
-      },
-    };
+    const { rows } = props;
     return props => {
       if (isEmpty(rows)) {
         return <AdvancedTableRow {...props} />;

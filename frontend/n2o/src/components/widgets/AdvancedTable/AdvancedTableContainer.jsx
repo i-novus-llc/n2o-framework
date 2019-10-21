@@ -234,9 +234,7 @@ const enhance = compose(
           scroll: props.scroll,
           multiHeader: props.multiHeader,
           bordered: props.bordered,
-          rowClick: {
-            src: 'dummyImpl',
-          },
+          rowClick: props.rowClick,
           onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
           className: props.className,
