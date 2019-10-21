@@ -106,7 +106,7 @@ public abstract class AbstractTableXmlReaderV3<T extends N2oAbstractTable> exten
             column.setLabelName(getAttributeString(columnElement, "name"));
             column.setLabelType(getAttributeEnum(columnElement, "type", LabelType.class));
             column.setLabelIcon(getAttributeString(columnElement, "icon"));
-            column.setVisible(getAttributeString(columnElement, "visible"));
+            column.setVisible(getAttributeBoolean(columnElement, "visible"));
             column.setVisibilityCondition(getAttributeString(columnElement, "visibility-condition"));
 
             if (isDynamic) {
