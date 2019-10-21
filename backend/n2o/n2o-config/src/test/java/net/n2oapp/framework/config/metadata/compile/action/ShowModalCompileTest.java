@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
@@ -22,6 +23,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -191,6 +193,9 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getWidgets().get("p_update_main").getDataProvider().getUrl(), is("n2o/data/p/222/update"));
         submit = (InvokeAction) modalPage.getActions().get("submit");
         assertThat(submit.getOptions().getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));// :p_main_id заменяется на этапе биндинга
+
+        QueryContext queryContext = (QueryContext) route("/p/123/update", CompiledQuery.class);
+        assertThat(queryContext.getValidations().size(), is(1));
     }
 
     @Test

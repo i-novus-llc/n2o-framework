@@ -1,26 +1,18 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import TreeSelect from 'rc-tree-select';
-import ReactDOM from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import {
   difference,
   filter as filterF,
-  eq,
   every,
   find,
   isArray,
-  isNumber,
-  isString,
   isEmpty,
   keys,
   forEach,
   map,
-  reduce,
   memoize,
   some,
-  uniq,
-  uniqBy,
-  unionWith,
-  isEqual,
 } from 'lodash';
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
@@ -112,6 +104,8 @@ function InputSelectTree({
   dropdownPopupAlign,
   ref,
   showCheckedStrategy,
+  _control,
+  setControlRef,
   ...rest
 }) {
   const popupProps = {
@@ -309,6 +303,10 @@ function InputSelectTree({
    */
   const handleSelect = value => {
     onSelect(getItemByValue(value));
+
+    if (_control) {
+      findDOMNode(_control).focus();
+    }
   };
 
   /**
@@ -366,6 +364,7 @@ function InputSelectTree({
 
   return (
     <TreeSelect
+      ref={setControlRef}
       tabIndex={1}
       {...value && { value: setValue(value) }}
       open={open}
@@ -380,6 +379,8 @@ function InputSelectTree({
       treeData={createTree(data)}
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
+      treeNodeLabelProp={labelFieldId}
+      maxTagTextLength="10"
       removeIcon={clearIcon}
       clearIcon={clearIcon}
       onChange={handleChange}
@@ -419,5 +420,6 @@ export default compose(
   setDisplayName('InputSelectTree'),
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
   withState('dropdownExpanded', 'setDropdownExpanded', false),
+  withState('_control', 'setControlRef', null),
   injectIntl
 )(InputSelectTree);

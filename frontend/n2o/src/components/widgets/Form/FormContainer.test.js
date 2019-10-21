@@ -283,6 +283,7 @@ describe('FormContainer', () => {
           reduxFormValues: { init: 'test' },
           modelPrefix: 'datasource',
           onResolve: () => {},
+          widgetId: 'testWidget'
         },
         'withWidgetHandlers'
       );
@@ -292,7 +293,7 @@ describe('FormContainer', () => {
         .onChange('newValue', null, null, 'prevValue');
 
       expect(onSetModel.calledOnce).toBe(true);
-      expect(onSetModel.calledWith('newValue')).toBe(true);
+      expect(onSetModel.getCall(0).args).toEqual(['datasource', 'testWidget', 'newValue']);
     });
   });
 

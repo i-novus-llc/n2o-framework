@@ -32,7 +32,7 @@ public class CustomWidgetCompiler extends BaseWidgetCompiler<CustomWidget, N2oCu
         if (pageRoutesScope != null) {
             pageRoutesScope.put(widget.getId(), widgetRoute);
         }
-        compileDataProviderAndRoutes(widget, source, p, null, widgetRoute, null, null);
+        compileDataProviderAndRoutes(widget, source, context, p, null, widgetRoute, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());

@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.properties.StaticProperties;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -64,13 +63,7 @@ public class InvocationParametersMapping {
      * @return
      */
     public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping) {
-        if (StaticProperties.get("n2o.engine.mapper").equals("spel")) {
-            return DataSetMapper.mapToMap(dataSet, mapping, null);
-        } else {
-            DataSet result = new DataSet();
-            mapping.forEach((key, value) -> result.put(value, dataSet.get(key)));
-            return result;
-        }
+        return DataSetMapper.mapToMap(dataSet, mapping, null);
     }
 
 

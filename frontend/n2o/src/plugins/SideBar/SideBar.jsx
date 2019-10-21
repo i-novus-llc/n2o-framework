@@ -149,6 +149,7 @@ SideBar.propTypes = {
 
 SideBar.defaultProps = {
   controlled: false,
+  brand: '',
 };
 
 export default compose(

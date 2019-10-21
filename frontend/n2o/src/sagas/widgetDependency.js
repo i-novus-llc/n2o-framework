@@ -204,6 +204,7 @@ export function* resolveWidgetDependency(
       const model = getModelsByDependency(
         dependency[widgetDependenciesKeys[j]]
       )(state);
+
       if (!isEqual(prevModel, model)) {
         yield call(
           resolveDependency,

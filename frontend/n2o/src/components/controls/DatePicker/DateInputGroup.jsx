@@ -37,6 +37,7 @@ class DateInputGroup extends React.Component {
       onBlur,
       autoFocus,
       openOnFocus,
+      setControlRef,
     } = this.props;
     const style = { display: 'flex', flexGrow: 1 };
     const dateInputProps = pick(this.props, ['max', 'min']);
@@ -55,6 +56,7 @@ class DateInputGroup extends React.Component {
               setVisibility={setVisibility}
               onFocus={onFocus}
               onBlur={onBlur}
+              setControlRef={setControlRef}
               autoFocus={autoFocus}
               openOnFocus={openOnFocus}
               inputClassName={inputClassName}

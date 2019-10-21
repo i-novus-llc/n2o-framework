@@ -48,6 +48,8 @@ class N2OSelect extends React.Component {
       selected: this.props.value ? [this.props.value] : [],
     };
 
+    this._control = null;
+
     this._handleButtonClick = this._handleButtonClick.bind(this);
     this._handleInputChange = this._handleInputChange.bind(this);
     this._handleInputFocus = this._handleInputFocus.bind(this);
@@ -57,6 +59,7 @@ class N2OSelect extends React.Component {
     this._clearSelected = this._clearSelected.bind(this);
     this._handleSearchButton = this._handleSearchButton.bind(this);
     this._handleOnBlur = this._handleOnBlur.bind(this);
+    this.setControlRef = this.setControlRef.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -254,6 +257,10 @@ class N2OSelect extends React.Component {
       this.props.onChange(item);
       this.props.onBlur(item);
     }
+
+    if (this._control) {
+      this._control.focus();
+    }
   }
 
   /**
@@ -284,6 +291,10 @@ class N2OSelect extends React.Component {
     e.preventDefault();
     this._handleResetOnBlur();
     this.props.onBlur(this.state.selected[0]);
+  }
+
+  setControlRef(el) {
+    this._control = el;
   }
 
   /**
@@ -320,7 +331,7 @@ class N2OSelect extends React.Component {
         style={inputSelectStyle}
         onBlur={this._handleOnBlur}
       >
-        <Button onClick={this._handleButtonClick}>
+        <Button innerRef={this.setControlRef} onClick={this._handleButtonClick}>
           <InputSelectGroup
             className={className}
             isExpanded={this.state.isExpanded}

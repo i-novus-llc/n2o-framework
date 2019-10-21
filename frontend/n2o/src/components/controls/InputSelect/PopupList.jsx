@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PopupItems from './PopupItems';
+import { lifecycle } from 'recompose';
 import cx from 'classnames';
+import { isEqual, invoke } from 'lodash';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -90,4 +92,11 @@ PopupList.propTypes = {
   needAddFilter: PropTypes.bool,
 };
 
-export default PopupList;
+const enhance = lifecycle({
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps.options, this.props.options)) {
+      invoke(this.props, 'scheduleUpdate');
+    }
+  },
+});
+export default enhance(PopupList);
