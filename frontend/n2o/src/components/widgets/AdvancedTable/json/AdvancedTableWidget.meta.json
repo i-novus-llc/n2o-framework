@@ -181,7 +181,10 @@
       },
       "rows": {
         "security": {
-          "roles": ["admin"]
+          "test": {
+            "denied": false,
+            "permitAll": true
+          }
         }
       },
       "cells": [
