@@ -37,13 +37,13 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         implements CompileTransformer<D, C>, CompiledClassAware {
 
     @Value("${n2o.access.N2oObjectAccessPoint.default:false}")
-    private Boolean defaultObjectAccess;
+    private Boolean defaultObjectAccess = false;
 
     @Value("${n2o.access.N2oPageAccessPoint.default:true}")
-    private Boolean defaultPageAccess;
+    private Boolean defaultPageAccess = true;
 
     @Value("${n2o.access.N2oUrlAccessPoint.default:true}")
-    private Boolean defaultUrlAccess;
+    private Boolean defaultUrlAccess = true;
 
     protected void collectObjectAccess(PropertiesAware compiled, String objectId,
                                        String operationId, SimpleCompiledAccessSchema schema) {
@@ -136,6 +136,8 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
     }
 
     protected void collectPageAccess(PropertiesAware compiled, String pageId, SimpleCompiledAccessSchema schema) {
+        if (pageId == null)
+            return;
         Security security = getSecurity(compiled);
         if (security.getSecurityMap() == null) {
             security.setSecurityMap(new HashMap<>());

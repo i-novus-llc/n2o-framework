@@ -4,8 +4,10 @@
       sec:roles="admin" sec:authenticated="false"
       layout="n2o/layout/single" name="test2">
     <toolbar>
-        <button widget-id="testWidget" action-id="testId" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false"
-                sec:usernames="user" sec:anonymous="false"></button>
+        <button widget-id="testWidget" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false"
+                sec:usernames="user" sec:anonymous="false">
+
+        </button>
     </toolbar>
     <regions>
         <panel place="single" sec:roles="admin" sec:permissions="admin,user" sec:authenticated="false"
