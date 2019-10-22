@@ -390,7 +390,6 @@ class InputSelect extends React.Component {
       this._clearSearchField();
       this._clearSelected();
       this._setInputFocus(false);
-      this.props.onBlur(null);
     }
   }
 
