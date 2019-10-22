@@ -155,7 +155,17 @@ function InputSelectTree({
     });
 
     return keys(itemsByID)
-      .filter(key => !itemsByID[key][parentFieldId])
+      .filter(key => {
+        if (!itemsByID[key][parentFieldId]) {
+          return key;
+        }
+        if (
+          itemsByID[key][parentFieldId] &&
+          !itemsByID.hasOwnProperty(itemsByID[key][parentFieldId])
+        ) {
+          return key;
+        }
+      })
       .reduce((acc, key) => [...acc, { ...itemsByID[key] }], []);
   });
 
