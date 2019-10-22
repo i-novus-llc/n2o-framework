@@ -25,11 +25,11 @@ public class InvokeActionAccessTransformer extends BaseAccessTransformer<InvokeA
     public InvokeAction transform(InvokeAction compiled, CompileContext context, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        mapSecurity(accessSchema, compiled);
+        mapSecurity(accessSchema, compiled, p);
         return compiled;
     }
 
-    private void mapSecurity(SimpleCompiledAccessSchema schema, InvokeAction compiled) {
-        collectObjectAccess(compiled, compiled.getObjectId(), compiled.getOperationId(), schema);
+    private void mapSecurity(SimpleCompiledAccessSchema schema, InvokeAction compiled, CompileProcessor p) {
+        collectObjectAccess(compiled, compiled.getObjectId(), compiled.getOperationId(), schema, p);
     }
 }
