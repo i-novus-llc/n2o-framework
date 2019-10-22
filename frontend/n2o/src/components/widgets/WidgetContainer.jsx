@@ -124,7 +124,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       }
 
       componentDidUpdate(prevProps) {
-        const { visible } = this.props;
+        const { visible, dataProviderFromState } = this.props;
 
         if (
           (!prevProps.visible && visible) ||
