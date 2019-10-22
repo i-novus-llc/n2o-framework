@@ -69,10 +69,7 @@ const overrideDataWithValue = withProps(({ data, value, parentFieldId }) => {
   if (isEmpty(data) && !isEmpty(value)) {
     return {
       data: map(newValue, val => ({
-        ...omit(val, [
-          parentFieldId || defaultProps.parentFieldId,
-          'hasChildren',
-        ]),
+        ...omit(val, ['hasChildren']),
       })),
     };
   }
