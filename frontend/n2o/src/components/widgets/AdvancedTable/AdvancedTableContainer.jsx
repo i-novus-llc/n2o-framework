@@ -194,9 +194,8 @@ const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => model => {
     const { enablingCondition } = rowClick;
     const allowRowClick = evalExpression(enablingCondition, model);
-    if (allowRowClick || allowRowClick === undefined) {
-      onActionImpl(rowClick);
-    }
+    (allowRowClick && onActionImpl(rowClick)) ||
+      (allowRowClick === undefined && onActionImpl(rowClick));
   },
 });
 
