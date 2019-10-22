@@ -61,10 +61,15 @@ class ToggleColumn extends React.Component {
   render() {
     const { columns } = this.props;
     const columnsArray = _.map(columns || {}, (value, key) => ({ key, value }));
+    const filteredColumns = _.filter(
+      columnsArray,
+      ({ value }) => value.frozen !== true
+    );
+
     return (
       <React.Fragment>
-        {_.isArray(columnsArray)
-          ? this.renderColumnDropdown(columnsArray)
+        {_.isArray(filteredColumns)
+          ? this.renderColumnDropdown(filteredColumns)
           : null}
       </React.Fragment>
     );
