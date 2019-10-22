@@ -29,6 +29,7 @@ import {
   makeIsActiveSelector,
   makeSelectedIdSelector,
   makeTypeSelector,
+  makeWidgetDataProviderSelector,
   makeWidgetEnabledSelector,
   makeWidgetIsInitSelector,
   makeWidgetLoadingSelector,
@@ -107,16 +108,28 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       }
 
       componentDidMount() {
-        const { fetchOnInit, visible } = this.props;
-        if (fetchOnInit && visible) {
+        const {
+          fetchOnInit,
+          visible,
+          dataProviderFromState,
+          dataProvider,
+        } = this.props;
+        if (
+          fetchOnInit &&
+          visible &&
+          isEqual(dataProvider, dataProviderFromState)
+        ) {
           this.onFetch();
         }
       }
 
       componentDidUpdate(prevProps) {
-        const { visible } = this.props;
+        const { visible, dataProviderFromState } = this.props;
 
-        if (!prevProps.visible && visible) {
+        if (
+          (!prevProps.visible && visible) ||
+          !isEqual(prevProps.dataProviderFromState, dataProviderFromState)
+        ) {
           this.onFetch();
         }
       }
@@ -127,9 +140,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       componentWillUnmount() {
         const { widgetId, dispatch } = this.props;
         let actions = [
-          removeWidget(widgetId),
           removeAlerts(widgetId),
           removeAllModel(widgetId),
+          setTableSelectedId(widgetId, null),
         ];
         dispatch(batchActions(actions));
       }
@@ -298,6 +311,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         defaultSorting: props.sorting,
         isActive: makeIsActiveSelector(props.widgetId)(state, props),
         type: makeTypeSelector(props.widgetId)(state, props),
+        dataProviderFromState: makeWidgetDataProviderSelector(props.widgetId)(
+          state
+        ),
       };
     };
 
