@@ -1,12 +1,12 @@
 import {
   CHANGE_COLUMN_DISABLED,
   CHANGE_COLUMN_VISIBILITY,
+  CHANGE_FROZEN_COLUMN,
   REGISTER_COLUMN,
   TOGGLE_COLUMN_VISIBILITY,
 } from '../constants/columns';
 
 import createActionHelper from './createActionHelper';
-import { generateKey } from '../utils/id';
 
 /**
  * Изменение видимсоти колонки таблицы
@@ -78,5 +78,12 @@ export function registerColumn(widgetId, columnId, label, visible, disabled) {
     label,
     visible,
     disabled,
+  });
+}
+
+export function changeFrozenColumn(widgetId, columnId) {
+  return createActionHelper(CHANGE_FROZEN_COLUMN)({
+    key: widgetId,
+    columnId,
   });
 }

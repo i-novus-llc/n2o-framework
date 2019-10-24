@@ -1,18 +1,18 @@
-import { omit, map, filter, mapValues } from 'lodash';
+import { mapValues } from 'lodash';
 import {
   CHANGE_COLUMN_DISABLED,
   CHANGE_COLUMN_VISIBILITY,
   REGISTER_COLUMN,
   TOGGLE_COLUMN_VISIBILITY,
+  CHANGE_FROZEN_COLUMN,
 } from '../constants/columns';
-import { generateKey } from '../utils/id';
 import { RESET_STATE } from '../constants/widgets';
-import { buttonState } from './toolbar';
 
 export const columnState = {
   isInit: true,
   visible: true,
   disabled: false,
+  frozen: false,
 };
 
 function resolve(state = columnState, action) {
@@ -31,6 +31,8 @@ function resolve(state = columnState, action) {
       });
     case RESET_STATE:
       return Object.assign({}, state, { isInit: false });
+    case CHANGE_FROZEN_COLUMN:
+      return Object.assign({}, state, { frozen: !state.frozen });
     default:
       return state;
   }
@@ -59,7 +61,7 @@ export default function columns(state = {}, action) {
           [columnId]: resolve(state[key][columnId], action),
         },
       });
-    case RESET_STATE:
+    case RESET_STATE: {
       const { widgetId } = action.payload;
       return {
         ...state,
@@ -67,6 +69,15 @@ export default function columns(state = {}, action) {
           resolve(state[widgetId][columnId], action)
         ),
       };
+    }
+    case CHANGE_FROZEN_COLUMN: {
+      return Object.assign({}, state, {
+        [key]: {
+          ...state[key],
+          [columnId]: resolve(state[key][columnId], action),
+        },
+      });
+    }
     default:
       return state;
   }

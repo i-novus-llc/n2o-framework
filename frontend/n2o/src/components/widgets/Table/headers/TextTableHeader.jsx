@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Sorter from '../../../snippets/Sorter/Sorter';
+import { compose, lifecycle, withHandlers } from 'recompose';
+import { batchActions } from 'redux-batched-actions';
+import {
+  changeFrozenColumn,
+  changeColumnVisiblity,
+} from '../../../../actions/columns';
 
 /**
  * Текстовый заголовок таблицы с возможностью сортировки
@@ -13,6 +19,7 @@ import Sorter from '../../../snippets/Sorter/Sorter';
 class TextTableHeader extends React.Component {
   render() {
     const { id, sortable, sorting, label, onSort } = this.props;
+
     return (
       <span>
         {sortable ? (
@@ -35,4 +42,26 @@ TextTableHeader.propTypes = {
   onSort: PropTypes.func,
 };
 
-export default TextTableHeader;
+const enhance = compose(
+  withHandlers({
+    toggleVisibility: ({ dispatch, widgetId, columnId }) => visible => {
+      dispatch(
+        batchActions([
+          changeColumnVisiblity(widgetId, columnId, visible),
+          changeFrozenColumn(widgetId, columnId),
+        ])
+      );
+    },
+  }),
+  lifecycle({
+    componentDidMount() {
+      const { visible, toggleVisibility } = this.props;
+
+      if (visible === false) {
+        toggleVisibility(visible);
+      }
+    },
+  })
+);
+export { TextTableHeader };
+export default enhance(TextTableHeader);
