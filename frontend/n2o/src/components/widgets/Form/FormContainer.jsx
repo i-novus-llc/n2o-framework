@@ -72,6 +72,12 @@ export const withLiveCycleMethods = lifecycle({
       (prevProps.datasource && !datasource)
     ) {
       setDefaultValues({});
+    } else if (
+      isEqual(prevProps.resolveModel, resolveModel) &&
+      !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
+      isEqual(datasource, resolveModel)
+    ) {
+      setDefaultValues(reduxFormValues);
     }
   },
 });
