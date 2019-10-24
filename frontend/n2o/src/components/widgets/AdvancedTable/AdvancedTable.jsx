@@ -264,7 +264,7 @@ class AdvancedTable extends Component {
     onFilter && onFilter(filter);
   }
 
-  handleRowClick(id, index, needReturn, noResolve) {
+  handleRowClick(id, index, needReturn, noResolve, model) {
     const {
       hasFocus,
       hasSelect,
@@ -281,7 +281,7 @@ class AdvancedTable extends Component {
 
     if (!noResolve && rowClick) {
       !hasSelect && onResolve(_.find(this._dataStorage, { id }));
-      onRowClickAction();
+      onRowClickAction(model);
     }
 
     if (needToReturn) return;
@@ -419,8 +419,9 @@ class AdvancedTable extends Component {
       rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
-      onClick: () => this.handleRowClick(model.id, model.id, false),
-      onFocus: () => this.handleRowClick(model.id, model.id, true, true),
+      onClick: () =>
+        this.handleRowClick(model.id, model.id, false, false, model),
+      onFocus: () => this.handleRowClick(model.id, model.id, true, true, model),
     };
   }
 

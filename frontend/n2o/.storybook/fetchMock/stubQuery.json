@@ -151,6 +151,7 @@
       "age2": 64
     },
     {
+      "deleted" : true,
       "birthday": "01.01.1950 00:00",
       "gender2": {
         "name": "Женский",
