@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
-import { isEqual, omit } from 'lodash';
+import {
+  isEqual,
+  omit,
+  filter,
+  toNumber,
+  toString,
+  replace,
+  isNaN,
+} from 'lodash';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**
@@ -29,7 +37,10 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 class InputMask extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: props.value, guide: false };
+    this.state = {
+      value: this.prepareValue(props.value, props.mask),
+      guide: false,
+    };
     this.valid = false;
     this.dict = {
       '9': /\d/,
@@ -159,13 +170,34 @@ class InputMask extends React.Component {
     }
   }
 
+  getParsedValue = (value, isMask = true) => {
+    return filter(
+      replace(value, / /g, ''),
+      char => !isNaN(toNumber(char)) && (!isMask || toString(char) === '9')
+    ).join('');
+  };
+
+  prepareValue = (value, mask) => {
+    const parsedMask = this.getParsedValue(mask);
+    const parsedValue = this.getParsedValue(value, false);
+    const maskLength = parsedMask.length;
+    const valueLength = parsedValue.length;
+
+    return parsedValue && valueLength > maskLength
+      ? toString(parsedValue).substring(valueLength - maskLength, valueLength)
+      : parsedValue;
+  };
+
   /**
    * обработка новых пропсов
    */
   componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.value, this.props.value)) {
-      this.setState({ value: this.props.value });
+    const { value, mask } = this.props;
+
+    if (!isEqual(prevProps.value, value)) {
+      this.setState({ value: this.prepareValue(value, mask) });
     }
+
     this.dict = { ...this.dict, ...this.props.dictionary };
     this.valid = this._isValid(this.state.value);
   }
@@ -183,6 +215,7 @@ class InputMask extends React.Component {
       disabled,
     } = this.props;
     const mask = this.preset(preset);
+
     return (
       <MaskedInput
         disabled={disabled}
