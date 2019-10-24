@@ -177,7 +177,7 @@ export default function widgets(state = {}, action) {
       return {
         ...state,
         [action.payload.widgetId]: {
-          ...merge.all([widgetState, action.payload.initProps, currentState]),
+          ...merge.all([widgetState, currentState, action.payload.initProps]),
           ...smartState,
           isInit: true,
           type: action.payload.initProps.type,
