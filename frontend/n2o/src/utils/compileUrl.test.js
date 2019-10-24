@@ -38,7 +38,7 @@ describe('Проверка compileUrl', () => {
   });
 
   it('должен вернуть url с queryMapping', () => {
-    const expectedUrl = 'google.com?q=test';
+    const expectedUrl = '/google.com?q=test';
     const url = compileUrl(
       'google.com',
       {
