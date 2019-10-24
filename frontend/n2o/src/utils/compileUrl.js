@@ -1,7 +1,8 @@
-import { each, isEmpty, get } from 'lodash';
+import { each, isEmpty, includes } from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
 import linkResolver from './linkResolver';
+import urlParse from 'url-parse';
 
 export function getParams(mapping, state) {
   const params = {};
@@ -18,22 +19,27 @@ export default function compileUrl(
   state,
   { extraPathParams = {}, extraQueryParams = {} } = {}
 ) {
-  const domainWithProtocol = get(url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i), 0);
-  const urlForCompile = url.split(domainWithProtocol);
+  const { origin, pathname } = urlParse(url);
   const pathParams = getParams(pathMapping, state);
   const queryParams = getParams(queryMapping, state);
-  let compiledUrl = domainWithProtocol && get(urlForCompile, '[1]') ? urlForCompile[1] : url;
+  let compiledUrl = pathname;
+
   if (!isEmpty(pathParams)) {
-    compiledUrl = (domainWithProtocol || '') + pathToRegexp.compile(compiledUrl)({
+    compiledUrl = pathToRegexp.compile(compiledUrl)({
       ...pathParams,
       ...extraPathParams,
     });
   }
   if (!isEmpty(queryParams)) {
-    compiledUrl = (domainWithProtocol || '') + `${compiledUrl}?${queryString.stringify({
+    compiledUrl = `${compiledUrl}?${queryString.stringify({
       ...queryParams,
       ...extraQueryParams,
     })}`;
   }
+
+  if (includes(url, origin)) {
+    compiledUrl = origin + compiledUrl;
+  }
+
   return compiledUrl;
 }
