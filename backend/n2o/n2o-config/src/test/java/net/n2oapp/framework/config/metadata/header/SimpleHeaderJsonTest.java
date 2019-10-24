@@ -42,7 +42,7 @@ public class SimpleHeaderJsonTest extends JsonMetadataTestBase {
     @Test
     public void testExtAttributes() {
         check(new ClassPathResource("net/n2oapp/framework/config/metadata/header/simpleHeaderData.json"))
-                .exclude("extraItems", "activeId", "items[0].security")
+                .exclude("activeId", "items[0].security")
                 .assertEquals(new HeaderContext("testJsonSimpleHeaderWithIcon"));
     }
 

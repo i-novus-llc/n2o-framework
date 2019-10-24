@@ -11,4 +11,11 @@
             <page page-id="testPage1" label="элемент списка №2" route="/pageRoute1"/>
         </sub-menu>
     </nav>
+    <extra-menu>
+        <a label="текст" id="text" href="/"/>
+        <sub-menu xml:id="dropdown1" label="список №2">
+            <a label="элемент списка №1" id="text1" href="/"/>
+            <a label="элемент списка №2" id="text2" href="/"/>
+        </sub-menu>
+    </extra-menu>
 </header>
