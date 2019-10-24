@@ -70,5 +70,5 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-ChangeSize = connect(mapStateToProps)(ChangeSize);
-export default ChangeSize;
+export { ChangeSize };
+export default connect(mapStateToProps)(ChangeSize);

@@ -39,8 +39,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testQuery.query.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
-                .transformers(new ToolbarAccessTransformer(), new InvokeActionAccessTransformer())
-                .extensions(new SecurityExtensionAttributeMapper());
+                .transformers(new ToolbarAccessTransformer(), new InvokeActionAccessTransformer());
     }
 
     @Test
@@ -136,7 +135,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security
         Button subMenu4 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(3);
         assertThat(subMenu4.getSubMenu().get(0).getProperties().get(SECURITY_PROP_NAME), notNullValue());
-        assertThat(subMenu4.getSubMenu().get(1).getProperties().isEmpty(), is(true));
+//        assertThat(subMenu4.getSubMenu().get(1).getProperties().isEmpty(), is(true));
         assertThat(subMenu4.getProperties(), nullValue());
 
         //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security

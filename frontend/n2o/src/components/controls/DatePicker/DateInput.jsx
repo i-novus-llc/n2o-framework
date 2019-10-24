@@ -42,6 +42,7 @@ class DateInput extends React.Component {
 
   setInputRef(input) {
     this._input = input;
+    this.props.setControlRef(input);
   }
 
   onChange(e, callback) {

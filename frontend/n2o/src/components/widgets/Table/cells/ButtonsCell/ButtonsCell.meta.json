@@ -17,7 +17,17 @@
           "size": "md",
           "color": "primary",
           "visible": true,
-          "disabled": false
+          "disabled": false,
+          "confirm": {
+            "closeButton": true,
+            "size": "lg",
+            "title": "Вы уверены?",
+            "text": "Вы хотите совершить действие?",
+            "okLabel": "Да",
+            "cancelLabel": "Нет",
+            "visible": true,
+            "mode": "modal"
+          }
         }
       ]
     }

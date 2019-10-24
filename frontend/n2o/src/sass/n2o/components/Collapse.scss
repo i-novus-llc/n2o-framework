@@ -107,6 +107,10 @@
       .n2o-panel-header-text{
         padding: 0 5px;
       }
+
+      &.n2o-disabled {
+        opacity: 1;
+      }
     }
 
     .rc-collapse-content-box{

@@ -431,7 +431,8 @@
                   "title": "Предупреждение",
                   "okLabel": "Да",
                   "cancelLabel": "Нет",
-                  "modelLink": "models.resolve['proto_patients']"
+                  "modelLink": "models.resolve['proto_patients']",
+                  "mode": "modal"
                 },
                 "title": "Удалить"
               }
@@ -1054,7 +1055,8 @@
                         "title": "Предупреждение",
                         "okLabel": "Да",
                         "cancelLabel": "Нет",
-                        "modelLink": "models.resolve['proto_patients']"
+                        "modelLink": "models.resolve['proto_patients']",
+                        "mode": "modal"
                       },
                       "title": "Удалить"
                     },
@@ -1336,7 +1338,8 @@
                   "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
                   "title": "Предупреждение",
                   "okLabel": "Да",
-                  "cancelLabel": "Нет"
+                  "cancelLabel": "Нет",
+                  "mode": "modal"
                 },
                 "title": "Удалить"
               }

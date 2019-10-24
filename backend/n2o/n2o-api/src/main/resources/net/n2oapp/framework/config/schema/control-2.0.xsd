@@ -244,7 +244,6 @@
     <xs:complexType name="controlCodeEditor">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
                 <xs:attribute name="language" use="optional">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -256,6 +255,8 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
+                <xs:attribute name="min-lines" type="xs:positiveInteger" use="optional"/>
+                <xs:attribute name="max-lines" type="xs:positiveInteger" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

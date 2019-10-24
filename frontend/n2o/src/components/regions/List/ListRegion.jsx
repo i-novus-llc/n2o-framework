@@ -41,15 +41,22 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { items, getWidget, getWidgetProps, pageId } = this.props;
+    const {
+      items,
+      getWidget,
+      getWidgetProps,
+      pageId,
+      collapsible,
+    } = this.props;
 
     this.activeKeys = map(filter(items, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
-    const panelProps = pick(this.props, 'type', 'forceRender');
+    const panelProps = pick(this.props, ['type', 'forceRender', 'collapsible']);
     return (
       <Collapse
         defaultActiveKey={this.activeKeys}
         onChange={this.handleChange}
+        collapsible={collapsible}
         {...collapseProps}
       >
         {items.map(item => {
@@ -122,6 +129,11 @@ ListRegion.propTypes = {
    */
   forceRender: PropTypes.bool,
   resolveVisibleDependency: PropTypes.func,
+  collapsible: PropTypes.bool,
+};
+
+ListRegion.defaultProps = {
+  collapsible: true,
 };
 
 export { ListRegion };

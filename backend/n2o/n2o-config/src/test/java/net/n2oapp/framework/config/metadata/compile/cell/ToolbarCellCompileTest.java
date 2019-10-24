@@ -1,15 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -51,6 +50,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getLabel(), is("label"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("icon"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getVisible(), is("`test==1`"));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(toolbar.getActions().get("menuItem0").getId(), is("menuItem0"));
         assertThat(((LinkAction) toolbar.getActions().get("menuItem0")).getOptions().getPath(), is("https://www.google.com/"));
         assertThat(((LinkAction) toolbar.getActions().get("menuItem0")).getOptions().getTarget(), is(Target.self));
@@ -62,6 +62,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getLabel(), is("label"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getIcon(), is("icon"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getSubMenu().get(0).getId(), is("linkAction"));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getSubMenu().get(0).getConfirm().getMode(), is(ConfirmType.modal));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getSubMenu().get(0).getVisible(), is("`test==1`"));
         assertThat(toolbar.getActions().get("linkAction").getId(), is("linkAction"));
         assertThat(toolbar.getActions().get("linkAction").getSrc(), is("link"));

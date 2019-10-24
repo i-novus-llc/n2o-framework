@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Статусы метаданных
  */
+@Deprecated
 public class InfoStatus {
 
     public enum Status {
