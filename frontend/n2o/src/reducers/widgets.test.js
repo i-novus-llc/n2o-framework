@@ -502,21 +502,34 @@ describe('Тесты widget reducer', () => {
           type: SET_TABLE_SELECTED_ID,
           payload: {
             widgetId: 'widget',
-            value: {
-              id: 1,
-              name: 'Sara',
-              surname: 'Connor',
-            },
+            value: 'testId',
           },
         }
       )
     ).toEqual({
       widget: {
-        selectedId: {
-          id: 1,
-          name: 'Sara',
-          surname: 'Connor',
+        selectedId: 'testId',
+      },
+    });
+  });
+
+  it('Проверка SET_TABLE_SELECTED_ID', () => {
+    expect(
+      widgets(
+        {
+          widget: {},
         },
+        {
+          type: SET_TABLE_SELECTED_ID,
+          payload: {
+            widgetId: 'widget',
+            value: 613241,
+          },
+        }
+      )
+    ).toEqual({
+      widget: {
+        selectedId: 613241,
       },
     });
   });

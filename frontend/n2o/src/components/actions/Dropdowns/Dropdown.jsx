@@ -32,13 +32,14 @@ class Dropdown extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { color, title, children, disabled } = this.props;
+    const { color, title, size, children, disabled } = this.props;
 
     return (
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle
           caret
           color={color}
+          size={size}
           id={this.props.id}
           disabled={disabled}
         >
@@ -52,6 +53,7 @@ class Dropdown extends React.Component {
 
 Dropdown.propTypes = {
   color: PropTypes.string,
+  size: PropTypes.string,
   title: PropTypes.node,
   disabled: PropTypes.bool,
   id: PropTypes.string,

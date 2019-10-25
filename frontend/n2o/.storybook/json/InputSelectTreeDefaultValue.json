@@ -21,6 +21,7 @@
                       "control": {
                         "src": "InputSelectTree",
                         "multiSelect": true,
+                        "hasCheckboxes": true,
                         "dataProvider": {
                           "url": "n2o/data"
                         }

@@ -1,4 +1,5 @@
 {
   "checked": false,
-  "label": "Label"
+  "label": "Label",
+  "defaultUnchecked" : false
 }

@@ -9,6 +9,7 @@ import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,8 +40,8 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
 
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack(), new AccessSchemaPack())
-                .extensions(new SecurityExtensionAttributeMapper())
-                .binders(new SecurityPageBinder(new SecurityProvider(permissionApi)));
+                .binders(new SecurityPageBinder(new SecurityProvider(permissionApi)))
+                .properties("n2o.access.schema.id=testSecurityPageBinder");
     }
 
     @Test
@@ -48,7 +49,8 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
         when(permissionApi.hasAuthentication(anyObject())).thenReturn(true);
         when(permissionApi.hasRole(anyObject(), eq("admin"))).thenReturn(true);
 
-        compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
+        compile("net/n2oapp/framework/access/metadata/schema/testSecurityPageBinder.access.xml",
+                "net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
                 .bind()
                 .get(new PageContext("securityExtAttrMapperTest"), null);
     }
@@ -56,7 +58,8 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
     @Test
     public void unauthorizedExceptionTest() {
         try {
-            compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
+            compile("net/n2oapp/framework/access/metadata/schema/testSecurityPageBinder.access.xml",
+                    "net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
                     .bind()
                     .get(new PageContext("securityExtAttrMapperTest"), null);
 
@@ -71,7 +74,8 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
         when(permissionApi.hasAuthentication(anyObject())).thenReturn(true);
 
         try {
-            compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
+            compile("net/n2oapp/framework/access/metadata/schema/testSecurityPageBinder.access.xml",
+                    "net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
                     .bind()
                     .get(new PageContext("securityExtAttrMapperTest"), null);
 
