@@ -102,12 +102,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(rowClicks.size(), is(8));
         assertThat(rowClicks.get(0), nullValue());
         assertThat(rowClicks.get(1).getEnablingCondition(), nullValue(String.class));
-        assertThat(rowClicks.get(2).getEnablingCondition(), is("`false`"));
-        assertThat(rowClicks.get(3).getEnablingCondition(), is("`true`"));
-        assertThat(rowClicks.get(4).getEnablingCondition(), is("`1==1`"));
-        assertThat(rowClicks.get(5).getEnablingCondition(), is("`false`"));
-        assertThat(rowClicks.get(6).getEnablingCondition(), is("`true`"));
-        assertThat(rowClicks.get(7).getEnablingCondition(), is("`1==1`"));
+        assertThat(rowClicks.get(2).getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(3).getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(4).getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(5).getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(6).getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(7).getEnablingCondition(), is("1==1"));
     }
 
     @Test
