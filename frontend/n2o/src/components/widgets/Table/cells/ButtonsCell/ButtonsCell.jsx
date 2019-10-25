@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map, get, omit } from 'lodash';
-import { ButtonGroup } from 'reactstrap';
-import HintButton from './HintButton';
-import HintDropDown from './HintDropDown';
 import cx from 'classnames';
-import withCell from '../../withCell';
+import get from 'lodash/get';
 import Actions from '../../../../actions/Actions';
 
 /**
@@ -13,11 +9,9 @@ import Actions from '../../../../actions/Actions';
  * @param id
  * @param className
  * @param callActionImpl
- * @param buttons
  * @param visible
- * @param positionFixed
- * @param modifiers
- * @param resolveWidget
+ * @param actions
+ * @param toolbar
  * @param model
  * @param other
  * @returns {*}
@@ -26,34 +20,26 @@ import Actions from '../../../../actions/Actions';
 function ButtonsCell({
   id,
   className,
-  callActionImpl,
-  buttons,
   visible,
-  positionFixed,
-  modifiers,
-  resolveWidget,
   model,
   style,
   toolbar,
   actions,
   ...other
 }) {
+  const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
   return visible ? (
     <Actions
       className={cx('n2o-buttons-cell', className)}
       style={style}
       toolbar={toolbar}
       actions={actions}
-      containerKey={`${id}_${model.id}`}
+      containerKey={key}
     />
   ) : null;
 }
 
 ButtonsCell.propTypes = {
-  /**
-   * Размер кнопок
-   */
-  size: PropTypes.string,
   /**
    * Кдасс
    */
@@ -70,14 +56,11 @@ ButtonsCell.propTypes = {
    * Флаг видимости
    */
   visible: PropTypes.bool,
-  resolveWidget: PropTypes.func,
 };
 
 ButtonsCell.defaultProps = {
-  size: 'sm',
   visible: true,
-  resolveWidget: () => {},
 };
 
 export { ButtonsCell };
-export default withCell(ButtonsCell);
+export default ButtonsCell;

@@ -26,38 +26,14 @@ const setup = (propOverrides = {}) => {
 describe('<ButtonsCell />', () => {
   it('Проверяет создание Кнопки', () => {
     const { wrapper } = setup({
-      buttons: [{ title: 'test' }],
+      toolbar: [
+        {
+          buttons: [{ title: 'test' }],
+        },
+      ],
     });
 
     wrapper.update();
-    expect(wrapper.find('HintButton').exists()).toBeTruthy();
-  });
-
-  it('Проверяет создание Dropdown', () => {
-    const { wrapper } = setup({
-      buttons: [
-        {
-          title: 'test',
-          subMenu: [{ title: 'test' }],
-        },
-      ],
-    });
-    expect(wrapper.find('HintDropDown').exists()).toBeTruthy();
-  });
-  it('Проверяет отправку экшена', () => {
-    const mockFn = sinon.spy();
-    const { wrapper } = setup({
-      callActionImpl: mockFn,
-      buttons: [
-        {
-          title: 'test',
-          action: 'test-action',
-        },
-      ],
-    });
-
-    wrapper.find('HintButton').simulate('click');
-    expect(mockFn.calledOnce).toEqual(true);
-    expect(mockFn.args[0][1]).toEqual({ action: 'test-action' });
+    expect(wrapper.find('Actions').exists()).toBeTruthy();
   });
 });
