@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -257,7 +258,17 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         if (item instanceof N2oButton) {
             N2oButton but = (N2oButton) item;
             button.setProperties(p.mapAttributes(but));
-            button.setColor(but.getColor());
+            if (but.getColor() == null) {
+                ComponentScope componentScope = p.getScope(ComponentScope.class);
+                if (componentScope != null) {
+                    N2oCell component = componentScope.unwrap(N2oCell.class);
+                    if (component != null) {
+                        button.setColor(p.resolve(property("n2o.api.cell.toolbar.button-color"), String.class));
+                    }
+                }
+            } else {
+                button.setColor(but.getColor());
+            }
             button.setDropdownSrc(but.getDropdownSrc());
             initItem(button, but, idx, context, p);
             if (but.getValidate() != null && but.getValidate()) {
