@@ -11,7 +11,7 @@
         </button>
     </toolbar>
     <regions>
-        <panel place="left" header="true" collapsible="false" title="Даннhukые пациента">
+        <panel place="left" header="true" collapsible="false" title="Данные пациента">
             <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10" route="/">
                 <actions>
                     <action id="update_birthday">
@@ -20,7 +20,7 @@
                 </actions>
                 <pagination/>
                 <columns>
-                    <column text-field-id="surname" visible="${oallal}">
+                    <column text-field-id="surname">
                         <link>
                             <open-page page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"
                                        page-name="Карточка пациента: {id}"/>
