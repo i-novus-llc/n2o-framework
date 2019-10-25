@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +32,7 @@ public class ToolbarCellCompiler extends AbstractCellCompiler<ToolbarCell, N2oTo
     }
 
     private void compileButtons(ToolbarCell cell, N2oToolbarCell source, CompileContext<?, ?> context, CompileProcessor p) {
-        Toolbar toolbar = p.compile(new N2oToolbar(source.getGenerate(), source.getItems()), context);
+        Toolbar toolbar = p.compile(new N2oToolbar(source.getGenerate(), source.getItems()), context, new ComponentScope(source));
         List<Group> groups = new ArrayList<>();
         toolbar.values().stream().filter(Objects::nonNull).forEach(g ->
             g.forEach(group -> {

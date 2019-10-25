@@ -1312,6 +1312,7 @@
                 "id": "update",
                 "icon": "fa fa-pencil",
                 "actionId": "update",
+                "color": "link",
                 "conditions": {
                   "enabled": [
                     {
@@ -1326,6 +1327,7 @@
                 "id": "delete",
                 "icon": "fa fa-trash",
                 "actionId": "delete",
+                "color": "link",
                 "conditions": {
                   "enabled": [
                     {

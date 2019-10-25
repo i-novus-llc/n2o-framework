@@ -49,6 +49,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getId(), is("menuItem0"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getLabel(), is("label"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("icon"));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getColor(), is("danger"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getVisible(), is("`test==1`"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(toolbar.getActions().get("menuItem0").getId(), is("menuItem0"));
@@ -76,12 +77,14 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getId(), is("update"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getLabel(), is("Изменить"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("fa fa-pencil"));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getColor(), is("link"));
         assertThat(toolbar.getActions().get("update").getId(), is("update"));
         assertThat(((ShowModal) toolbar.getActions().get("update")).getObjectId(), is("testToolbarCell"));
         assertThat(((ShowModal) toolbar.getActions().get("update")).getOperationId(), is("update"));
 
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getId(), is("delete"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getLabel(), is("Удалить"));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(1).getColor(), is("link"));
         assertThat(toolbar.getActions().get("delete").getId(), is("delete"));
         assertThat(((InvokeAction) toolbar.getActions().get("delete")).getObjectId(), is("testToolbarCell"));
         assertThat(((InvokeAction) toolbar.getActions().get("delete")).getOperationId(), is("delete"));
