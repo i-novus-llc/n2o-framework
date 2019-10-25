@@ -2,7 +2,7 @@ import { isObject, isFunction, isArray, each, isString, isEmpty } from 'lodash';
 import evalExpression, { parseExpression } from './evalExpression';
 import functions from './functions';
 
-const blackList = ['dataProvider', 'action'];
+const blackList = ['dataProvider', 'action', 'actions'];
 
 export function resolve(code) {
   return new Function(

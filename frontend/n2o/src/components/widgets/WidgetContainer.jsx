@@ -195,8 +195,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           defaultSorting,
           validation,
           dataProvider,
+          dataProviderFromState,
         } = this.props;
-        if (!isInit) {
+        if (!isInit || !isEqual(dataProvider, dataProviderFromState)) {
           dispatch(
             registerWidget(widgetId, {
               pageId,

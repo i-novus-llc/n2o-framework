@@ -101,18 +101,14 @@ class ButtonContainer extends React.Component {
       disabled,
       size,
       color,
-      visible,
       title,
-      hint,
-      btnKey,
       component,
     } = this.props;
 
-    const style = title ? { marginRight: 3 } : null;
     const counter =
       (count || '') && count > 0 ? (
         <span
-          className={cx('badge', {
+          className={cx('badge', 'ml-1', {
             'badge-light': color !== 'secondary',
             'badge-dark': color === 'secondary',
           })}
@@ -135,7 +131,7 @@ class ButtonContainer extends React.Component {
         className,
       },
       <React.Fragment>
-        <span style={style}>
+        <span className={cx({ 'mr-1': title })}>
           <i className={icon} />
         </span>
         {title} {counter}
@@ -148,12 +144,13 @@ class ButtonContainer extends React.Component {
    * @returns {*}
    */
   renderDropdown() {
-    const { children, icon, color, title, disabled } = this.props;
+    const { children, icon, color, size, title, disabled } = this.props;
     return (
       <Dropdown
         id={this.buttonId}
         disabled={disabled}
         color={color}
+        size={size}
         title={
           <span>
             <i className={icon} /> {title}
