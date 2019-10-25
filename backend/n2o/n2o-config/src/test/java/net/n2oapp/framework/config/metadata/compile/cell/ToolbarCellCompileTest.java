@@ -49,6 +49,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getId(), is("menuItem0"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getLabel(), is("label"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getIcon(), is("icon"));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getColor(), is("link"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getVisible(), is("`test==1`"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(toolbar.getActions().get("menuItem0").getId(), is("menuItem0"));
