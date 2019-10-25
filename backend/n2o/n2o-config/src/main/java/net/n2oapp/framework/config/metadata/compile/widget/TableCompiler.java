@@ -121,19 +121,17 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         if (rowClick != null) {
             Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
             if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
+                AbstractAction action = null;
                 if (rowClick.getActionId() != null) {
                     MetaActions actions = p.getScope(MetaActions.class);
-                    AbstractAction action = (AbstractAction) actions.get(rowClick.getActionId());
-                    if (StringUtils.isJs(enabledCondition))
-                        action.setEnablingCondition((String) enabledCondition);
-                    component.setRowClick(action);
+                    action = (AbstractAction) actions.get(rowClick.getActionId());
                 } else if (rowClick.getAction() != null) {
-                    AbstractAction action = p.compile(rowClick.getAction(), context, widgetScope,
+                    action = p.compile(rowClick.getAction(), context, widgetScope,
                             widgetRouteScope, new ComponentScope(rowClick));
-                    if (StringUtils.isJs(enabledCondition))
-                        action.setEnablingCondition((String) enabledCondition);
-                    component.setRowClick(action);
                 }
+                if (action != null && StringUtils.isJs(enabledCondition))
+                    action.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
+                component.setRowClick(action);
             }
         }
     }
