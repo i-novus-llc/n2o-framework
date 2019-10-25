@@ -1,7 +1,8 @@
-import { each, isEmpty } from 'lodash';
+import { each, isEmpty, includes } from 'lodash';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
 import linkResolver from './linkResolver';
+import urlParse from 'url-parse';
 
 export function getParams(mapping, state) {
   const params = {};
@@ -18,11 +19,13 @@ export default function compileUrl(
   state,
   { extraPathParams = {}, extraQueryParams = {} } = {}
 ) {
+  const { origin, pathname } = urlParse(url);
   const pathParams = getParams(pathMapping, state);
   const queryParams = getParams(queryMapping, state);
-  let compiledUrl = url;
+  let compiledUrl = pathname;
+
   if (!isEmpty(pathParams)) {
-    compiledUrl = pathToRegexp.compile(url)({
+    compiledUrl = pathToRegexp.compile(compiledUrl)({
       ...pathParams,
       ...extraPathParams,
     });
@@ -33,5 +36,10 @@ export default function compileUrl(
       ...extraQueryParams,
     })}`;
   }
+
+  if (includes(url, origin)) {
+    compiledUrl = origin + compiledUrl;
+  }
+
   return compiledUrl;
 }

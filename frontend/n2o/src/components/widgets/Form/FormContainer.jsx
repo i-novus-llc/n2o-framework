@@ -20,6 +20,7 @@ import widgetContainer from '../WidgetContainer';
 import { FORM } from '../widgetTypes';
 import { getFieldsKeys } from './utils';
 import createValidator from '../../../core/validation/createValidator';
+import { PREFIXES } from '../../../constants/models';
 
 const arrayMergeFunction = (destinationArray, sourceArray) => sourceArray;
 
@@ -73,6 +74,12 @@ export const withLiveCycleMethods = lifecycle({
       (prevProps.datasource && !datasource)
     ) {
       setDefaultValues({});
+    } else if (
+      isEqual(prevProps.resolveModel, resolveModel) &&
+      !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
+      isEqual(datasource, resolveModel)
+    ) {
+      setDefaultValues(reduxFormValues);
     }
   },
 });
@@ -112,7 +119,11 @@ export const withWidgetHandlers = withHandlers({
     if (isEmpty(values) || !props.modelPrefix) {
       props.onResolve(values);
     } else if (!isEqual(props.reduxFormValues, prevValues)) {
-      props.onSetModel(values);
+      props.onSetModel(
+        props.modelPrefix || PREFIXES.resolve,
+        props.widgetId,
+        values
+      );
     }
   },
 });

@@ -8,23 +8,24 @@ import cx from 'classnames';
 /**
  * PopoverConfirm
  * @reactProps {string} className - className компонента
- * @reactProps {string} header - заголовок PopoverConfirm
- * @reactProps {string} okText - текст кнопки положительного ответа
- * @reactProps {string} cancelText - текст кнопки отрицательного ответа
+ * @reactProps {string} title - заголовок PopoverConfirm
+ * @reactProps {string} okLabel - текст кнопки положительного ответа
+ * @reactProps {string} cancelLabel - текст кнопки отрицательного ответа
  * @example
- * <PopoverConfirm header="are you sure?" okText="ok" cancelText="no" />
+ * <PopoverConfirm title="are you sure?" okLabel="ok" cancelLabel="no" />
  */
 
 export function PopoverConfirm(props) {
   const {
     className,
-    header,
+    title,
+    text,
     children,
-    okText,
-    cancelText,
+    okLabel,
+    cancelLabel,
     targetId,
-    onClickNo,
-    onClickYes,
+    onDeny,
+    onConfirm,
     ...rest
   } = props;
   return (
@@ -32,19 +33,22 @@ export function PopoverConfirm(props) {
       <div id={targetId} onClick={rest.toggle} className="toggle-popover">
         {children}
       </div>
-      <Popover {...rest} target={rest.target ? rest.target : targetId}>
+      <Popover {...rest} target={rest.target || targetId}>
         <Fragment>
           <PopoverHeader>
             <i className={cx('fa fa-question-circle-o mr-1')} />
-            {header}
+            {title}
           </PopoverHeader>
-          <PopoverBody className="d-flex justify-content-between">
-            <Button className="btn-sm" onClick={onClickNo}>
-              {cancelText}
-            </Button>
-            <Button className="btn-sm" onClick={onClickYes}>
-              {okText}
-            </Button>
+          <PopoverBody>
+            <div className="mb-1">{text}</div>
+            <div className="d-flex justify-content-between">
+              <Button className="btn-sm" onClick={onDeny}>
+                {cancelLabel}
+              </Button>
+              <Button className="btn-sm" onClick={onConfirm}>
+                {okLabel}
+              </Button>
+            </div>
           </PopoverBody>
         </Fragment>
       </Popover>
@@ -54,19 +58,20 @@ export function PopoverConfirm(props) {
 
 PopoverConfirm.propTypes = {
   className: PropTypes.string,
-  header: PropTypes.oneOfType([PropTypes.string, Element]),
+  title: PropTypes.oneOfType([PropTypes.string, Element]),
   children: PropTypes.oneOfType([PropTypes.string, Element]),
-  okText: PropTypes.string,
-  cancelText: PropTypes.string,
-  onClickNo: PropTypes.func,
-  onClickYes: PropTypes.func,
+  okLabel: PropTypes.string,
+  cancelLabel: PropTypes.string,
+  onDeny: PropTypes.func,
+  onConfirm: PropTypes.func,
 };
 
 PopoverConfirm.defaultProps = {
   className: '',
-  header: 'Вы уверены?',
-  okText: 'Да',
-  cancelText: 'Нет',
+  title: 'Вы уверены?',
+  text: '',
+  okLabel: 'Да',
+  cancelLabel: 'Нет',
 };
 
 const enhance = compose(
@@ -77,11 +82,11 @@ const enhance = compose(
   withState('targetId', 'setTargetId', () => id()),
   withState('isOpen', 'stateUpdate', ({ isOpen }) => isOpen),
   withHandlers({
-    onClickYes: ({ isOpen, stateUpdate, onConfirm }) => () => {
+    onConfirm: ({ isOpen, stateUpdate, onConfirm }) => () => {
       stateUpdate(!isOpen);
       onConfirm();
     },
-    onClickNo: ({ isOpen, stateUpdate, onCancel }) => () => {
+    onDeny: ({ isOpen, stateUpdate, onCancel }) => () => {
       stateUpdate(!isOpen);
       onCancel();
     },

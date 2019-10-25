@@ -35,6 +35,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
@@ -43,6 +44,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -162,12 +164,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    protected void compileDataProviderAndRoutes(D compiled, S source, CompileProcessor p,
+    protected void compileDataProviderAndRoutes(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                                 ValidationList validationList, ParentRouteScope widgetRouteScope,
-                                                SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope) {
+                                                SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
+                                                CompiledObject object) {
         CompiledQuery query = getDataProviderQuery(source, p);
         String widgetRoute = widgetRouteScope.getUrl();
-        compiled.setDataProvider(initDataProvider(compiled, source, widgetRoute, query, p, validationList, widgetRouteScope, subModelsScope, copiedFieldScope));
+        compiled.setDataProvider(initDataProvider(compiled, source, context, widgetRoute, query, p, validationList,
+                widgetRouteScope, subModelsScope, copiedFieldScope, object));
         compileRouteWidget(compiled, source, query, p, widgetRouteScope);
         compileFetchOnInit(source, compiled);
     }
@@ -352,10 +356,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
-    private WidgetDataProvider initDataProvider(D widget, S source, String widgetRoute, CompiledQuery query,
+    private WidgetDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, CompiledQuery query,
                                                 CompileProcessor p, ValidationList validationList,
                                                 ParentRouteScope parentRouteScope, SubModelsScope subModelsScope,
-                                                CopiedFieldScope copiedFieldScope) {
+                                                CopiedFieldScope copiedFieldScope, CompiledObject object) {
         if (query == null)
             return null;
         WidgetDataProvider dataProvider = new WidgetDataProvider();
@@ -373,15 +377,27 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
-        p.addRoute(getQueryContext(widget, source, widgetRoute, query, validationList, subModelsScope, copiedFieldScope, p));
+        p.addRoute(getQueryContext(widget, source, context, widgetRoute, query, validationList, subModelsScope,
+                copiedFieldScope, p, object));
         return dataProvider;
     }
 
-    protected QueryContext getQueryContext(D widget, S source, String route, CompiledQuery query,
+    protected QueryContext getQueryContext(D widget, S source, CompileContext<?, ?> context, String route, CompiledQuery query,
                                            ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, CompileProcessor p) {
+                                           CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
         QueryContext queryContext = new QueryContext(query.getId(), route);
-        queryContext.setValidations(validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER));
+        List<Validation> validations = validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER);
+        if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
+            CompiledObject.Operation operation = object.getOperations().get(((PageContext) context).getSubmitOperationId());
+            if (operation.getValidationList() != null) {
+                if (validations == null) {
+                    validations = operation.getValidationList();
+                } else {
+                    validations.addAll(operation.getValidationList());
+                }
+            }
+        }
+        queryContext.setValidations(validations);
         queryContext.setFilters(widget.getFilters());
         queryContext.setUpload(widget.getUpload());
         queryContext.setFailAlertWidgetId(getFailAlertWidget(widget));

@@ -39,7 +39,6 @@ class WidgetFilters extends React.Component {
       defaultValues: props.filterModel,
     };
     this.formName = generateFormName(props);
-    this.values = {};
     this.handleChangeModel = this.handleChangeModel.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleReset = this.handleReset.bind(this);
@@ -58,14 +57,10 @@ class WidgetFilters extends React.Component {
     };
   }
 
-  componentWillUnmount() {
-    const { widgetId, clearFilterModel } = this.props;
-    clearFilterModel(widgetId);
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { filterModel, reduxFormFilter } = this.props;
     const { defaultValues } = this.state;
+
     if (
       !isEqual(prevProps.filterModel, filterModel) &&
       !isEqual(filterModel, defaultValues) &&
@@ -86,7 +81,6 @@ class WidgetFilters extends React.Component {
     } = this.props;
 
     if (!isEqual(filterModel, values)) {
-      this.values = { ...values };
       setFilterModel(widgetId, values);
       if (searchOnChange) {
         this.debouncedHandleFilter();
@@ -130,8 +124,11 @@ class WidgetFilters extends React.Component {
   validateAndFetch(options) {
     const { widgetId, fetchWidget, validation, dispatch } = this.props;
     const { store } = this.context;
-    validateField(validation, this.formName, store.getState(), true)(
-      this.values,
+    const state = store.getState();
+    const values = getFormValues(`${widgetId}_filter`)(state);
+
+    validateField(validation, this.formName, state, true)(
+      values,
       dispatch
     ).then(hasError => {
       if (!hasError) {
@@ -143,6 +140,7 @@ class WidgetFilters extends React.Component {
   render() {
     const { fieldsets, visible, hideButtons, validation } = this.props;
     const { defaultValues } = this.state;
+
     return (
       <Filter
         style={{ display: !visible ? 'none' : '' }}

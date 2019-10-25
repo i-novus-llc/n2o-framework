@@ -3,10 +3,11 @@ import { pure } from 'recompose';
 import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import evalExpression from '../../../utils/evalExpression';
 
 /**
  * Компонент создания строки в таблице
- * @param props
+ * @reactProps enablingCondition - условие доступности действия rowClick при клике по строке
  * @constructor
  */
 function AdvancedTableRowWithAction(props) {
@@ -24,7 +25,12 @@ function AdvancedTableRowWithAction(props) {
 
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
     'table-active': isRowActive,
-    'row-click': !!rowClick,
+    'row-click':
+      (rowClick && evalExpression(rowClick.enablingCondition, model)) ||
+      (rowClick &&
+        evalExpression(rowClick.enablingCondition, model) === undefined),
+    'row-deleted':
+      rowClick && evalExpression(rowClick.enablingCondition, model) === false,
     [rowClass]: rowClass,
   });
   const newProps = {

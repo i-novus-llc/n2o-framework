@@ -78,7 +78,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         if (pageRoutesScope != null) {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
-        compileDataProviderAndRoutes(table, source, p, validationList, widgetRouteScope, null, null);
+        compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
         component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
         component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
@@ -139,11 +139,11 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, String route, CompiledQuery query,
+    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, CompiledQuery query,
                                            ValidationList validationList, SubModelsScope subModelsScope,
-                                           CopiedFieldScope copiedFieldScope, CompileProcessor p) {
-        QueryContext queryContext = super.getQueryContext(widget, source, route, query, validationList, subModelsScope, copiedFieldScope, p);
-
+                                           CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
+        QueryContext queryContext = super.getQueryContext(widget, source, context, route, query, validationList,
+                subModelsScope, copiedFieldScope, p, object);
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
             for (AbstractColumn column : source.getColumns()) {

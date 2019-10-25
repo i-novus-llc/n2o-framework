@@ -7,14 +7,15 @@ import Icon from '../Icon/Icon';
 
 import { map } from 'lodash';
 
-const expandIcon = ({ isActive }) => (
-  <div className="n2o-collapse-icon-wrapper">
-    <Icon
-      className={cx('n2o-collapse-icon', { isActive })}
-      name="fa fa-angle-right"
-    />
-  </div>
-);
+const expandIcon = ({ isActive }, collapsible) =>
+  collapsible ? (
+    <div className="n2o-collapse-icon-wrapper">
+      <Icon
+        className={cx('n2o-collapse-icon', { isActive })}
+        name="fa fa-angle-right"
+      />
+    </div>
+  ) : null;
 
 /**
  * Компонент Collapse
@@ -22,11 +23,12 @@ const expandIcon = ({ isActive }) => (
  * @param {string | array} defaultActiveKey - активный ключ по умолчанию
  * @param {boolean} destroyInactivePanel - при закрытии панели удалить внутреннее содержимое.
  * @param {boolean} accordion - включить режим accordion (При открытии панели захлопнуть предыдущую панель)
+ * @param {boolean} collapsible - флаг выключения возможности сворачивания
  * @returns {*}
  * @constructor
  */
 
-const Collapse = ({ className, children, dataKey, ...rest }) => {
+const Collapse = ({ className, children, dataKey, collapsible, ...rest }) => {
   const renderPanels = ({ text, ...panelProps }) => (
     <Panel {...panelProps}>{text}</Panel>
   );
@@ -34,7 +36,7 @@ const Collapse = ({ className, children, dataKey, ...rest }) => {
   return (
     <BaseCollapse
       className={cx('n2o-collapse', className)}
-      expandIcon={expandIcon}
+      expandIcon={props => expandIcon(props, collapsible)}
       {...rest}
     >
       {children || map(rest[dataKey], renderPanels)}
@@ -66,12 +68,17 @@ Collapse.propTypes = {
    * Ключ для рендера панелей
    */
   dataKey: PropTypes.string,
+  /**
+   * Флаг выключения возможности сворачивания
+   */
+  collapsible: PropTypes.bool,
 };
 
 Collapse.defaultProps = {
   destroyInactivePanel: false,
   accordion: false,
   dataKey: 'items',
+  collapsible: true,
 };
 
 export { Panel };

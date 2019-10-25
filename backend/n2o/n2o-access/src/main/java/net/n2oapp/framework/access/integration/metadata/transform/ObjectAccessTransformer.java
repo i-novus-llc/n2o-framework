@@ -19,18 +19,18 @@ public class ObjectAccessTransformer extends BaseAccessTransformer<CompiledObjec
     public CompiledObject transform(CompiledObject compiled, ObjectContext context, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        mapSecurity(accessSchema, compiled);
+        mapSecurity(accessSchema, compiled, p);
         return compiled;
     }
 
-    private void mapSecurity(SimpleCompiledAccessSchema schema, CompiledObject compiled) {
+    private void mapSecurity(SimpleCompiledAccessSchema schema, CompiledObject compiled, CompileProcessor p) {
         for (CompiledObject.Operation operation : compiled.getOperations().values()) {
-            mapObjectAccess(schema, operation, compiled.getId());
+            mapObjectAccess(schema, operation, compiled.getId(), p);
         }
     }
 
-    private void mapObjectAccess(SimpleCompiledAccessSchema schema, CompiledObject.Operation compiled, String objectId) {
-        collectObjectAccess(compiled, objectId, compiled.getId(), schema);
+    private void mapObjectAccess(SimpleCompiledAccessSchema schema, CompiledObject.Operation compiled, String objectId, CompileProcessor p) {
+        collectObjectAccess(compiled, objectId, compiled.getId(), schema, p);
         collectObjectFilters(compiled, objectId, compiled.getId(), schema);
     }
 

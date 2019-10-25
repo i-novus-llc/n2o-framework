@@ -325,7 +325,7 @@ class AutoComplete extends React.Component {
               modifiers={MODIFIERS}
               positionFixed={true}
             >
-              {({ ref, style, placement }) => (
+              {({ ref, style, placement, scheduleUpdate }) => (
                 <div
                   ref={ref}
                   style={{
@@ -337,6 +337,7 @@ class AutoComplete extends React.Component {
                   className="n2o-pop-up"
                 >
                   <PopupList
+                    scheduleUpdate={scheduleUpdate}
                     autocomplete={true}
                     isExpanded={isExpanded}
                     activeValueId={activeValueId}

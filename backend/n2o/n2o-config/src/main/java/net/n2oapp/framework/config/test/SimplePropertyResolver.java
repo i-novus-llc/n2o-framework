@@ -17,7 +17,7 @@ public class SimplePropertyResolver implements PropertyResolver {
 
     @Override
     public boolean containsProperty(String key) {
-        return properties.contains(key);
+        return properties.get(key) != null;
     }
 
     @Override

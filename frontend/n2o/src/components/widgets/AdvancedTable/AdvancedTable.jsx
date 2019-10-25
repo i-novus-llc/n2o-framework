@@ -95,7 +95,7 @@ class AdvancedTable extends Component {
         ...get(props.components, 'header', {}),
       },
       body: {
-        row: this.renderTableRow(props),
+        row: AdvancedTableRowWithAction,
         cell: AdvancedTableCell,
         ...get(props.components, 'body', {}),
       },
@@ -304,7 +304,7 @@ class AdvancedTable extends Component {
     }
   }
 
-  handleRowClickWithAction(id, index, needReturn, noResolve) {
+  handleRowClickWithAction(id, index, needReturn, noResolve, model) {
     const {
       hasFocus,
       hasSelect,
@@ -321,7 +321,7 @@ class AdvancedTable extends Component {
 
     if (!noResolve && rowClick) {
       !hasSelect && onResolve(_.find(this._dataStorage, { id }));
-      onRowClickAction();
+      onRowClickAction(model);
     }
 
     if (needToReturn) return;
@@ -463,9 +463,9 @@ class AdvancedTable extends Component {
       handleRowClickFocus: () =>
         this.handleRowClick(model.id, model.id, true, true),
       clickWithAction: () =>
-        this.handleRowClickWithAction(model.id, model.id, false),
+        this.handleRowClickWithAction(model.id, model.id, false, false, model),
       clickFocusWithAction: () =>
-        this.handleRowClickWithAction(model.id, model.id, true, true),
+        this.handleRowClickWithAction(model.id, model.id, true, true, model),
     };
   }
 

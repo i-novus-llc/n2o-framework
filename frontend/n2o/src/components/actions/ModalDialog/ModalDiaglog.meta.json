@@ -5,5 +5,6 @@
   "text": "Вы хотите совершить действие?",
   "okLabel": "Да",
   "cancelLabel": "Нет",
-  "visible": true
+  "visible": true,
+  "mode": "modal"
 }

@@ -1314,6 +1314,17 @@ stories
               hasChildren: true,
             },
             {
+              id: '2',
+              name: 'Игонь Николаев',
+              icon: 'fa fa-address-card',
+              image:
+                'https://img.faceyourmanga.com/mangatars/0/2/2729/large_3156.png',
+              dob: '24.04.1891',
+              country: 'Россия',
+              parentId: '1',
+              hasChildren: true,
+            },
+            {
               id: '5',
               name: 'Николай Патухов',
               icon: 'fa fa-address-card',

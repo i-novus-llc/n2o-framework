@@ -12,10 +12,19 @@ import cx from 'classnames';
  * @param {object} openAnimation - обьект для изменения анимации открытия и закрытия панели
  * @param {boolean} disabled - сделать панель неактивным
  * @param {boolean} forceRender - Рендерить неактивные панели
+ * @param {boolean} collapsible -  флаг выключения возможности сворачивания
  * @returns {*}
  * @constructor
  */
-const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
+const Panel = ({
+  className,
+  headerClass,
+  header,
+  type,
+  children,
+  collapsible,
+  ...rest
+}) => (
   <BasePanel
     header={
       <span
@@ -27,7 +36,9 @@ const Panel = ({ className, headerClass, header, type, children, ...rest }) => (
       </span>
     }
     className={cx('n2o-collapse-panel', type, className)}
-    headerClass={cx('n2o-panel-header', headerClass)}
+    headerClass={cx('n2o-panel-header', headerClass, {
+      'n2o-disabled': !collapsible,
+    })}
     {...rest}
   >
     {children}
@@ -66,10 +77,15 @@ Panel.propTypes = {
    * Тип панели
    */
   type: PropTypes.oneOf(['default', 'line', 'divider']),
+  /**
+   * Флаг выключения возможности сворачивания
+   */
+  collapsible: PropTypes.bool,
 };
 
 Panel.defaultProps = {
   type: 'default',
+  collapsible: true,
 };
 
 export default Panel;

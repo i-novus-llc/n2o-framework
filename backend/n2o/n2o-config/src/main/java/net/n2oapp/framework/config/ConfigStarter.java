@@ -5,18 +5,16 @@ import net.n2oapp.framework.api.event.N2oStartedEvent;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.event.N2oEventBus;
 import net.n2oapp.framework.api.event.N2oStoppedEvent;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
-import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.storage.PathUtil;
-import net.n2oapp.properties.StaticProperties;
 import net.n2oapp.watchdir.WatchDir;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -34,6 +32,11 @@ public class ConfigStarter {
     private WatchDir watchDir;
     private String configPath;
     private N2oApplicationBuilder applicationBuilder;
+
+    @Value("${n2o.config.monitoring.enabled}")
+    private boolean monitoringEnabled = false;
+    @Value("${n2o.config.ignores}")
+    private List<String> monitoringIgnores = Collections.emptyList();
 
     public ConfigStarter(N2oApplicationBuilder applicationBuilder,
                          N2oEventBus eventBus,
@@ -89,7 +92,7 @@ public class ConfigStarter {
 
 
     private void startMonitoringXml() {
-        boolean watchEnabled = StaticProperties.getBoolean("n2o.config.monitoring.enabled");
+        boolean watchEnabled = monitoringEnabled;
         if (!watchEnabled)
             return;
         //получить путь к папке
@@ -109,9 +112,7 @@ public class ConfigStarter {
                 environment.getSourceTypeRegister(),
                 eventBus));
         watchDir.addPath(path);
-        StaticProperties.getList("n2o.config.ignores").forEach((skip -> {
-            watchDir.skipOn(PathUtil.concatAbsoluteAndLocalPath(path, skip));
-        }));
+        monitoringIgnores.forEach((skip -> watchDir.skipOn(PathUtil.concatAbsoluteAndLocalPath(path, skip))));
         watchDir.start();
     }
 
@@ -145,4 +146,7 @@ public class ConfigStarter {
         startingLock.readLock().unlock();
     }
 
+    public void setMonitoringEnabled(boolean monitoringEnabled) {
+        this.monitoringEnabled = monitoringEnabled;
+    }
 }
