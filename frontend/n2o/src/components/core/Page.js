@@ -172,13 +172,13 @@ export default compose(
   connect(mapStateToProps),
   mapProps(props => ({
     ...props,
-    pageUrl: props.pageUrl || get(props, 'match.params.pageUrl', ''),
+    pageUrl: props.pageUrl || '/' + get(props, 'match.params.pageUrl', ''),
   })),
   withPropsOnChange(
     ['pageId', 'pageUrl', 'rootPageId'],
     ({ pageId, pageUrl, rootPageId, rootPage }) => ({
       pageId: (rootPage && rootPageId) || pageId || pageUrl || null,
-      pageUrl: pageUrl ? `/${pageUrl}` : '/',
+      pageUrl: pageUrl ? `${pageUrl}` : '/',
     })
   ),
   branch(({ needMetadata }) => needMetadata, withMetadata),

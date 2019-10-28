@@ -30,7 +30,7 @@ describe('Тесты columns reducer', () => {
           disabled: false,
           isInit: true,
           visible: true,
-          frozen: false
+          frozen: false,
         },
         name: 'testColumns',
       },
@@ -60,7 +60,7 @@ describe('Тесты columns reducer', () => {
           disabled: false,
           isInit: true,
           visible: true,
-          frozen: false
+          frozen: false,
         },
         name: 'testName',
       },
@@ -90,7 +90,7 @@ describe('Тесты columns reducer', () => {
           disabled: true,
           isInit: true,
           visible: true,
-          frozen: false
+          frozen: false,
         },
         name: 'testName',
       },
@@ -119,7 +119,7 @@ describe('Тесты columns reducer', () => {
           disabled: false,
           isInit: true,
           visible: false,
-          frozen: false
+          frozen: false,
         },
         name: 'testName',
       },
