@@ -201,7 +201,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         header.setWidth(column.getWidth());
         header.setResizable(column.getResizable());
         header.setFixed(column.getFixed());
-        header.setVisible(ScriptProcessor.resolveExpression(column.getVisible()));
+        header.setVisible(column.getVisible());
 
         if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
             header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
