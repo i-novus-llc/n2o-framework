@@ -178,7 +178,7 @@ export default compose(
     ['pageId', 'pageUrl', 'rootPageId'],
     ({ pageId, pageUrl, rootPageId, rootPage }) => ({
       pageId: (rootPage && rootPageId) || pageId || pageUrl || null,
-      pageUrl: pageUrl ? `${pageUrl}` : '/',
+      pageUrl: pageUrl || '/',
     })
   ),
   branch(({ needMetadata }) => needMetadata, withMetadata),
