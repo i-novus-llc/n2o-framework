@@ -15,6 +15,8 @@ import factoryConfigShape from './factoryConfigShape';
 import NotFoundFactory from './NotFoundFactory';
 import SecurityCheck from '../auth/SecurityCheck';
 
+const blackList = ['dataProvider', 'action', 'actions'];
+
 class FactoryProvider extends Component {
   getChildContext() {
     return {
@@ -77,7 +79,7 @@ class FactoryProvider extends Component {
     let obj = {};
     if (isObject(props)) {
       Object.keys(props).forEach(key => {
-        if (isObject(props[key])) {
+        if (isObject(props[key]) && !blackList.includes(key)) {
           obj[key] = this.resolveProps(props[key], defaultComponent, paramName);
         } else if (key === 'src') {
           obj[paramName] =
