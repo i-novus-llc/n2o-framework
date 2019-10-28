@@ -95,7 +95,7 @@ class AdvancedTable extends Component {
         ...get(props.components, 'header', {}),
       },
       body: {
-        row: AdvancedTableRowWithAction,
+        row: this.renderTableRow(props),
         cell: AdvancedTableCell,
         ...get(props.components, 'body', {}),
       },
