@@ -35,7 +35,8 @@ public class SecurityProviderTest {
 
     @Test(expected = UnauthorizedException.class)
     public void checkAccessDenied() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);;
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+        ;
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(true);
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
@@ -630,8 +631,8 @@ public class SecurityProviderTest {
         //bar not in (1, 2, 3)
         try {
             securityProvider.checkRestrictions(new DataSet()
-                    .add("foo", 1)
-                    .add("bar", 4),
+                            .add("foo", 1)
+                            .add("bar", 4),
                     securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
@@ -693,39 +694,6 @@ public class SecurityProviderTest {
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("name"));
-        }
-    }
-
-    @Test
-    public void checkAccessWithStrictFiltering() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
-        UserContext userContext = new UserContext(new TestContextEngine());
-        when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        when(permissionApi.hasRole(userContext, "admin")).thenReturn(true);
-        when(permissionApi.hasRole(userContext, "role1")).thenReturn(false);
-        when(permissionApi.hasRole(userContext, "role2")).thenReturn(false);
-        Security.SecurityObject securityObject = new Security.SecurityObject();
-        securityObject.setDenied(false);
-        securityObject.setPermitAll(false);
-        securityObject.setAnonymous(true);
-        securityObject.setAuthenticated(false);
-        securityObject.setRoles(new HashSet<>(Arrays.asList("role2", "role1", "admin")));
-        Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
-        securityObjectMap.put("custom", securityObject);
-        Security security = new Security();
-        security.setSecurityMap(securityObjectMap);
-        try {
-            securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
-        } catch (Exception e) {
-            assertThat(e, instanceOf(AccessDeniedException.class));
-        }
-        when(permissionApi.hasRole(userContext, "admin")).thenReturn(false);
-        try {
-            securityProvider.checkAccess(security, userContext);
-            Assert.fail("Expected exception to be thrown");
-        } catch (Exception e) {
-            assertThat(e, instanceOf(AccessDeniedException.class));
         }
     }
 }
