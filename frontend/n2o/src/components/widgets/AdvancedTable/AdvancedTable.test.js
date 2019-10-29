@@ -1,7 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
 import AdvancedTable from './AdvancedTable';
-import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import { set } from 'lodash';
 
 const columns = [
@@ -52,17 +51,10 @@ const data = [
   },
 ];
 
-const components = {
-  body: {
-    row: AdvancedTableRowWithAction,
-  },
-};
-
 const setup = propsOverride => {
   const props = {
     columns,
     data,
-    components,
   };
 
   return mount(<AdvancedTable {...props} {...propsOverride} />);

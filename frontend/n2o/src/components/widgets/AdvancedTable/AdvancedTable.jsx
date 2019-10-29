@@ -190,7 +190,11 @@ class AdvancedTable extends Component {
     const { rows } = props;
     return props => {
       if (isEmpty(rows)) {
-        return <AdvancedTableRow {...props} />;
+        return get(props, 'rowClick', false) ? (
+          <AdvancedTableRowWithAction {...props} />
+        ) : (
+          <AdvancedTableRow {...props} />
+        );
       } else
         return (
           <SecurityCheck
