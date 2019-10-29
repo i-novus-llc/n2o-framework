@@ -279,7 +279,17 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setId(sub.getId() == null ? "subMenu" + idx.get() : sub.getId());
             button.setLabel(sub.getLabel());
             button.setClassName(sub.getClassName());
-            button.setColor(sub.getColor());
+            if (sub.getColor() == null) {
+                ComponentScope componentScope = p.getScope(ComponentScope.class);
+                if (componentScope != null) {
+                    N2oCell component = componentScope.unwrap(N2oCell.class);
+                    if (component != null) {
+                        button.setColor(p.resolve(property("n2o.api.cell.toolbar.button-color"), String.class));
+                    }
+                }
+            } else {
+                button.setColor(sub.getColor());
+            }
             if (sub.getDescription() != null)
                 button.setHint(sub.getDescription().trim());
             button.setIcon(sub.getIcon());
