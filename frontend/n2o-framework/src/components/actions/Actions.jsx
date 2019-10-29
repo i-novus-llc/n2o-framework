@@ -14,7 +14,6 @@ import { get } from 'lodash';
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
 import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
-import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
@@ -244,17 +243,17 @@ class Actions extends React.Component {
    * рендер кнопки-дропдауна
    */
   renderDropdownButton({
-    title,
-    color,
-    id,
-    hint,
-    visible,
-    hintPosition,
-    subMenu,
-    icon,
-    size,
-    disabled,
-  }) {
+                         title,
+                         color,
+                         id,
+                         hint,
+                         visible,
+                         hintPosition,
+                         subMenu,
+                         icon,
+                         size,
+                         disabled,
+                       }) {
     const dropdownProps = {
       size,
       title,
@@ -294,20 +293,21 @@ class Actions extends React.Component {
    * @returns {*}
    */
   renderCustomDropdown({
-    title,
-    color,
-    id,
-    hint,
-    hintPosition,
-    visible,
-    subMenu,
-    dropdownSrc,
-    icon,
-    actionId,
-    size,
-  }) {
+                         title,
+                         color,
+                         id,
+                         hint,
+                         hintPosition,
+                         visible,
+                         subMenu,
+                         dropdownSrc,
+                         icon,
+                         actionId,
+                         size,
+                       }) {
     const { containerKey } = this.props;
-    const CustomMenu = factoryResolver(dropdownSrc);
+    const { resolveProps } = this.context;
+    const CustomMenu = resolveProps(dropdownSrc);
     const dropdownProps = {
       size,
       title,
@@ -359,6 +359,7 @@ class Actions extends React.Component {
 
 Actions.contextTypes = {
   store: PropTypes.object,
+  resolveProps: PropTypes.func,
 };
 
 Actions.defaultProps = {

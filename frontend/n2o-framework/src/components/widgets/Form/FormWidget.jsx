@@ -22,7 +22,7 @@ import dependency from '../../../core/dependency';
  */
 class FormWidget extends React.Component {
   /**
-   * Замена src на компонент с помощью factoryResolver
+   * Замена src на компонент с помощью resolveProps
    */
   getWidgetProps() {
     const { resolveProps } = this.context;

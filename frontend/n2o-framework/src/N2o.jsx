@@ -37,6 +37,7 @@ class N2o extends Component {
       customReducers: props.customReducers,
       customSagas: props.customSagas,
       apiProvider: props.apiProvider,
+      factories: createFactoryConfig(this.generateCustomConfig()),
     };
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);

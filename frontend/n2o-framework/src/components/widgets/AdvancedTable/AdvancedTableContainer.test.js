@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../../../store';
 import history from '../../../history';
-import factoryResolver from '../../../utils/factoryResolver';
+import factoryResolver from '../../../core/factory/factoryResolver';
 import { values, isObject, isFunction } from 'lodash';
 import sinon from 'sinon';
 

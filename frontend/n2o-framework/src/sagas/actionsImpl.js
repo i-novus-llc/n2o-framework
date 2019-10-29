@@ -22,7 +22,7 @@ import { makeWidgetValidationSelector } from '../selectors/widgets';
 import { getModelSelector } from '../selectors/models';
 
 import { validateField } from '../core/validation/createValidator';
-import factoryResolver from '../utils/factoryResolver';
+import factoryResolver from '../core/factory/factoryResolver';
 import fetchSaga from './fetch.js';
 import { FETCH_INVOKE_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
@@ -58,14 +58,14 @@ export function* validate(options) {
 /**
  * вызов экшена
  */
-export function* handleAction(action) {
+export function* handleAction(factories, action) {
   const { options, actionSrc } = action.payload;
   try {
     let actionFunc;
     if (isFunction(actionSrc)) {
       actionFunc = actionSrc;
     } else {
-      actionFunc = factoryResolver(actionSrc, null, 'function');
+      actionFunc = factoryResolver(actionSrc, null, 'function', factories);
     }
     const state = yield select();
     const notValid = yield validate(options);
@@ -73,10 +73,10 @@ export function* handleAction(action) {
       console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`);
     } else {
       yield actionFunc &&
-        call(actionFunc, {
-          ...options,
-          state,
-        });
+      call(actionFunc, {
+        ...options,
+        state,
+      });
     }
   } catch (err) {
     console.error(err);
@@ -168,9 +168,9 @@ export function* handleInvoke(apiProvider, action) {
   }
 }
 
-export default apiProvider => {
+export default (apiProvider, factories) => {
   return [
-    throttle(500, CALL_ACTION_IMPL, handleAction),
+    throttle(500, CALL_ACTION_IMPL, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
   ];
 };
