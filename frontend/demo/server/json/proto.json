@@ -1037,6 +1037,7 @@
                   "id": "subMenu0",
                   "icon": "fa fa-ellipsis-v",
                   "conditions": {},
+                  "color": "link",
                   "subMenu": [
                     {
                       "id": "delete",
