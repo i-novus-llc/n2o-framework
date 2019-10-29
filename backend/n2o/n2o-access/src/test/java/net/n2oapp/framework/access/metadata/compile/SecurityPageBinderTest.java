@@ -40,7 +40,7 @@ public class SecurityPageBinderTest extends SourceCompileTestBase {
 
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack(), new AccessSchemaPack())
-                .binders(new SecurityPageBinder(new SecurityProvider(permissionApi)))
+                .binders(new SecurityPageBinder(new SecurityProvider(permissionApi, false)))
                 .properties("n2o.access.schema.id=testSecurityPageBinder");
     }
 

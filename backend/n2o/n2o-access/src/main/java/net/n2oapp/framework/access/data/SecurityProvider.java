@@ -21,9 +21,11 @@ import java.util.stream.Collectors;
  */
 public class SecurityProvider {
     private PermissionApi permissionApi;
+    private boolean strictFiltering;
 
-    public SecurityProvider(PermissionApi permissionApi) {
+    public SecurityProvider(PermissionApi permissionApi, boolean strictFiltering) {
         this.permissionApi = permissionApi;
+        this.strictFiltering = strictFiltering;
     }
 
     /**
@@ -115,7 +117,7 @@ public class SecurityProvider {
         ContextProcessor contextProcessor = new ContextProcessor(userContext);
         for (Restriction securityRestriction : restrictions) {
             Object realValue = data.get(securityRestriction.getFieldId());
-            if (realValue != null) {
+            if (realValue != null || strictFiltering) {
                 Object filterValue = contextProcessor.resolve(securityRestriction.getValue());
                 if (filterValue != null) {
                     Filter securityFilter = new Filter(filterValue, securityRestriction.getType());
