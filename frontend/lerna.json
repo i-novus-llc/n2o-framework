@@ -1,14 +1,14 @@
 {
   "lerna": "3.16.4",
-  "version": "7.4.0-RC.0",
+  "version": "7.4.0-next.0",
   "npmClient": "npm",
   "npmClientArgs": [
     "--no-package-lock"
   ],
   "packages": [
     "demo",
-    "n2o",
     "n2o-auth",
+    "n2o-framework",
     "n2o-notifications",
     "n2o-simple-project"
   ]

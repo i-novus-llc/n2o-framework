@@ -1,6 +1,6 @@
 {
   "name": "n2o-demo-client",
-  "version": "7.4.0-RC.0",
+  "version": "7.4.0-next.0",
   "private": true,
   "homepage": ".",
   "scripts": {
@@ -12,7 +12,7 @@
     "@atlaskit/select": "^1.2.0",
     "@atlaskit/table-tree": "^1.0.0",
     "moment": "^2.24.0",
-    "n2o": "^7.4.0-RC.0",
+    "n2o-framework": "^7.4.0-next.0",
     "react": "^16.2.0",
     "react-avatar": "^3.4.6",
     "react-data-grid": "^4.0.8",
