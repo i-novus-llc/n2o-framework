@@ -126,7 +126,7 @@ const EnhancedN2O = compose(
       'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     defaultErrorPages: configureErrorPages(),
     formats: {
-      dateFormat: 'DD.MM.YYYY',
+      dateFormat: 'DD.MM.YY',
       timeFormat: 'HH:mm:ss',
     },
     security: {},
