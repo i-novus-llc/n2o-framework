@@ -248,5 +248,6 @@
       "!src/sagas.js",
       "!src/reducers.js"
     ]
-  }
+  },
+  "gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd"
 }
