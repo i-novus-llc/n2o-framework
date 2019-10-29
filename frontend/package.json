@@ -15,7 +15,7 @@
     "build:libs": "lerna run --scope n2o --scope n2o-auth --scope n2o-notifications --parallel build",
     "build:projects": "lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
     "build:storybook": "lerna run --scope n2o build-storybook",
-    "changeVersion": "lerna publish --skip-git --skip-npm --yes",
+    "changeVersion": "lerna version",
     "clean": "lerna run clean && lerna clean",
     "compile:dist:watch": "lerna run --stream --scope n2o compile:dist:watch",
     "compile:es:watch": "lerna run --stream --scope n2o compile:es:watch",
