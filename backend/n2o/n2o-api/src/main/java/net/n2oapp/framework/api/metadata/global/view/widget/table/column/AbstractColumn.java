@@ -22,7 +22,7 @@ public abstract class AbstractColumn implements IdAware, Serializable{
     private String labelName;
     private String labelIcon;
     private LabelType labelType;
-    private String visible;
+    private Boolean visible;
     private Boolean resizable;
     private String visibilityCondition;
     private String sortingFieldId;

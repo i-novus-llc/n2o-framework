@@ -1,4 +1,4 @@
-import createActionHelper from "n2o/lib/actions/createActionHelper";
+import createActionHelper from "n2o-framework/lib/actions/createActionHelper";
 
 export const ADD = "n2o/notifications/ADD";
 export const DESTROY = "n2o/notifications/DESTROY";

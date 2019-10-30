@@ -24,6 +24,9 @@ public class AccessConfiguration {
     @Value("${n2o.access.admins}")
     private String accessAdmins;
 
+    @Value("${n2o.access.strict_filtering:false}")
+    private Boolean strictFiltering;
+
     @Value("${n2o.access.N2oObjectAccessPoint.default:false}")
     private Boolean defaultObjectAccess;
 
@@ -44,12 +47,12 @@ public class AccessConfiguration {
 
     @Bean
     public SecurityProvider securityProvider(PermissionApi permissionApi) {
-        return new SecurityProvider(permissionApi);
+        return new SecurityProvider(permissionApi, strictFiltering);
     }
 
     @Bean
     public N2oSecurityModule n2oSecurityModule(PermissionApi permissionApi){
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, strictFiltering);
         N2oSecurityModule n2oSecurityModule = new N2oSecurityModule(securityProvider);
         n2oSecurityModule.setAfterAll(true);
         return n2oSecurityModule;

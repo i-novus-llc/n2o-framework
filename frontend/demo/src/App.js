@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import N2O from 'n2o/lib/N2o';
+import N2O from 'n2o-framework/lib/N2o';
 import { authProvider } from 'n2o-auth';
-import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o/lib/core/api';
-import Route from 'n2o/lib/components/core/Route';
+import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o-framework/lib/core/api';
+import Route from 'n2o-framework/lib/components/core/Route';
+import Page from 'n2o-framework/lib/components/core/Page';
 
-import Page from 'n2o/lib/components/core/Page';
 import Template from './components/core/Template';
 import DashboardV2 from './pages/DashboardV2';
 import TableTree from './pages/TableTree';
