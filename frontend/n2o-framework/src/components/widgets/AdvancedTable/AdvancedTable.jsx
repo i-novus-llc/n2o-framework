@@ -200,10 +200,11 @@ class AdvancedTable extends Component {
           <SecurityCheck
             config={rows.security}
             render={({ permissions }) => {
-              if (permissions) {
-                return <AdvancedTableRowWithAction {...props} />;
-              }
-              return <AdvancedTableRow {...props} />;
+              return permissions ? (
+                <AdvancedTableRowWithAction {...props} />
+              ) : (
+                <AdvancedTableRow {...props} />
+              );
             }}
           />
         );
