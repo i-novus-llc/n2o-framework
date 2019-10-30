@@ -22,7 +22,7 @@ import { makeWidgetValidationSelector } from '../selectors/widgets';
 import { getModelSelector } from '../selectors/models';
 
 import { validateField } from '../core/validation/createValidator';
-import factoryResolver from '../core/factory/factoryResolver';
+import actionResolver from '../core/factory/actionResolver';
 import fetchSaga from './fetch.js';
 import { FETCH_INVOKE_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
@@ -65,7 +65,7 @@ export function* handleAction(factories, action) {
     if (isFunction(actionSrc)) {
       actionFunc = actionSrc;
     } else {
-      actionFunc = factoryResolver(actionSrc, null, 'function', factories);
+      actionFunc = actionResolver(actionSrc, factories);
     }
     const state = yield select();
     const notValid = yield validate(options);

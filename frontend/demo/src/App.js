@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import N2O from 'n2o-framework/lib/N2o';
+import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o-framework/lib/core/api';
 import Route from 'n2o-framework/lib/components/core/Route';
 import Page from 'n2o-framework/lib/components/core/Page';
@@ -103,7 +104,7 @@ const config = {
 class App extends Component {
   render() {
     return (
-      <N2O {...config}>
+      <N2O {...createFactoryConfig(config)}>
         {/* 1 полный кастом */}
         <Route path="/custom/v1" exact component={DashboardV2} />
         {/* 2 обертка, без метаданных */}

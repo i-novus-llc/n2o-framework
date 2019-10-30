@@ -9,9 +9,7 @@ import history from './history';
 import configureStore from './store';
 
 import FactoryProvider from './core/factory/FactoryProvider';
-import createFactoryConfig, {
-  factories,
-} from './core/factory/createFactoryConfig';
+import factoryPoints from "./core/factory/factoryPoints";
 import factoryConfigShape from './core/factory/factoryConfigShape';
 
 import apiProvider from './core/api';
@@ -37,20 +35,21 @@ class N2o extends Component {
       customReducers: props.customReducers,
       customSagas: props.customSagas,
       apiProvider: props.apiProvider,
-      factories: createFactoryConfig(this.generateCustomConfig()),
+      factories: this.generateConfig(),
     };
+
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);
   }
 
-  generateCustomConfig() {
-    return pick(this.props, keys(factories));
+  generateConfig() {
+    return pick(this.props, factoryPoints);
   }
 
   render() {
     const { security, realTimeConfig, embeddedRouting, children } = this.props;
 
-    const config = createFactoryConfig(this.generateCustomConfig());
+    const config = this.generateConfig();
 
     return (
       <Provider store={this.store}>

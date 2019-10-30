@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import N2O from 'n2o-framework';
+import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 import { authProvider } from 'n2o-auth';
 
 import 'n2o-framework/dist/n2o.css';
@@ -21,4 +22,4 @@ const config = {
   }
 };
 
-ReactDOM.render(<N2O {...config} />, document.getElementById('n2o'));
+ReactDOM.render(<N2O {...createFactoryConfig(config)} />, document.getElementById('n2o'));
