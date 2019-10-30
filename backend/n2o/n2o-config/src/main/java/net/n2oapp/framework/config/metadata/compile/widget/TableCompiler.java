@@ -102,7 +102,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                     component.setRowClass(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
-            compileRowClick(source, component, context, p, widgetScope, widgetRouteScope);
+            compileRowClick(source, component, context, p, widgetScope, widgetRouteScope, object);
         }
         compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions);
         Boolean prev = null;
@@ -116,7 +116,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
     }
 
     private void compileRowClick(N2oTable source, TableWidgetComponent component, CompileContext<?, ?> context,
-                                 CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope) {
+                                 CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object) {
         N2oRowClick rowClick = source.getRows().getRowClick();
         if (rowClick != null) {
             Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
@@ -127,11 +127,12 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                     action = (AbstractAction) actions.get(rowClick.getActionId());
                 } else if (rowClick.getAction() != null) {
                     action = p.compile(rowClick.getAction(), context, widgetScope,
-                            widgetRouteScope, new ComponentScope(rowClick));
+                            widgetRouteScope, new ComponentScope(rowClick), object);
                 }
                 if (action != null && StringUtils.isJs(enabledCondition))
                     action.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
                 component.setRowClick(action);
+                component.setRows(new TableWidgetComponent.Rows());
             }
         }
     }
