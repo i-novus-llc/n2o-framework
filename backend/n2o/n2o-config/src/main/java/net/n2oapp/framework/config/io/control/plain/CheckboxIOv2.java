@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.control.plain;
 
+import net.n2oapp.framework.api.metadata.control.plain.CheckboxDefaultValueEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oCheckbox;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
@@ -20,5 +21,6 @@ public class CheckboxIOv2 extends PlainFieldIOv2<N2oCheckbox> {
     @Override
     public void io(Element e, N2oCheckbox m, IOProcessor p) {
         super.io(e, m, p);
+        p.attributeEnum(e, "unchecked", m::getUnchecked, m::setUnchecked, CheckboxDefaultValueEnum.class);
     }
 }

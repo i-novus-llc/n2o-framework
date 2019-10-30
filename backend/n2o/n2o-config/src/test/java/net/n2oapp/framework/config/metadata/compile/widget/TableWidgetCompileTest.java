@@ -102,12 +102,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(rowClicks.size(), is(8));
         assertThat(rowClicks.get(0), nullValue());
         assertThat(rowClicks.get(1).getEnablingCondition(), nullValue(String.class));
-        assertThat(rowClicks.get(2).getEnablingCondition(), is("`false`"));
-        assertThat(rowClicks.get(3).getEnablingCondition(), is("`true`"));
-        assertThat(rowClicks.get(4).getEnablingCondition(), is("`1==1`"));
-        assertThat(rowClicks.get(5).getEnablingCondition(), is("`false`"));
-        assertThat(rowClicks.get(6).getEnablingCondition(), is("`true`"));
-        assertThat(rowClicks.get(7).getEnablingCondition(), is("`1==1`"));
+        assertThat(rowClicks.get(2).getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(3).getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(4).getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(5).getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(6).getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(7).getEnablingCondition(), is("1==1"));
     }
 
     @Test
@@ -280,7 +280,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
-        assertThat(columnHeaders.get(0).getVisible(), is("`1 == 1`"));
-        assertThat(columnHeaders.get(1).getVisible(), is(Boolean.FALSE));
+        assertThat(columnHeaders.get(0).getVisible(), is(Boolean.FALSE));
+        assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
     }
 }

@@ -31,6 +31,7 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
 
     private void button(Element e, N2oButton b, IOProcessor p) {
         menuItem(e, b, p);
+        p.attribute(e, "color", b::getColor, b::setColor);
         p.attributeEnum(e, "type", b::getType, b::setType, LabelType.class);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
         p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
@@ -65,6 +66,7 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
         p.attribute(e, "confirm-title", mi::getConfirmTitle, mi::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", mi::getConfirmOkLabel, mi::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
+        p.attribute(e, "tooltip-position", mi::getTooltipPosition, mi::setTooltipPosition);
         p.anyAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
     }
 

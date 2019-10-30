@@ -174,8 +174,9 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
-    public N2oJdomTextProcessing n2oJdomTextProcessing(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor n2oMessageSourceAccessor) {
-        return new N2oJdomTextProcessing(n2oMessageSourceAccessor);
+    public N2oJdomTextProcessing n2oJdomTextProcessing(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor n2oMessageSourceAccessor,
+                                                       ConfigurableEnvironment environment) {
+        return new N2oJdomTextProcessing(n2oMessageSourceAccessor, environment);
     }
 
     @Bean
@@ -437,9 +438,11 @@ public class N2oMetadataConfiguration {
     static class MetadataIOConfiguration {
         @Bean
         IOProcessor readerProcessor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
-                                    NamespaceReaderFactory readerFactory) {
+                                    NamespaceReaderFactory readerFactory,
+                                    ConfigurableEnvironment environment) {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
+            ioProcessor.setSystemProperties(environment);
             if (readerFactory instanceof IOProcessorAware) {
                 ((IOProcessorAware) readerFactory).setIOProcessor(ioProcessor);
             }
@@ -448,9 +451,11 @@ public class N2oMetadataConfiguration {
 
         @Bean
         IOProcessor persisterProcessor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
-                                       NamespacePersisterFactory persisterFactory) {
+                                       NamespacePersisterFactory persisterFactory,
+                                       ConfigurableEnvironment environment) {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(persisterFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
+            ioProcessor.setSystemProperties(environment);
             if (persisterFactory instanceof IOProcessorAware) {
                 ((IOProcessorAware) persisterFactory).setIOProcessor(ioProcessor);
             }

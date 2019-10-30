@@ -339,7 +339,7 @@
                         <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:string" use="optional">
+                <xs:attribute name="visible" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
                     </xs:annotation>

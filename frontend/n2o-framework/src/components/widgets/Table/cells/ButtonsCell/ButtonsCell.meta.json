@@ -1,0 +1,43 @@
+{
+  "id": "name",
+  "src": "ButtonsCell",
+  "fieldKey": "name",
+  "className": "n2o",
+  "style": {},
+  "toolbar": [
+    {
+      "buttons": [
+        {
+          "id": "testBut",
+          "title": "Кнопка",
+          "actionId": "testBut",
+          "icon": "fa fa-vk",
+          "hint": "Подсказка",
+          "hintPosition": "top",
+          "size": "md",
+          "color": "primary",
+          "visible": true,
+          "disabled": false,
+          "confirm": {
+            "closeButton": true,
+            "size": "lg",
+            "title": "Вы уверены?",
+            "text": "Вы хотите совершить действие?",
+            "okLabel": "Да",
+            "cancelLabel": "Нет",
+            "visible": true,
+            "mode": "modal"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": {
+    "testBut": {
+      "src": "dummyImpl",
+      "options": {
+        "testProp": "testValueProp"
+      }
+    }
+  }
+}

@@ -4,8 +4,8 @@
         <panel place="top">
             <table>
                 <columns>
-                    <column visible="{1 == 1}" text-field-id=""></column>
                     <column visible="false" text-field-id=""></column>
+                    <column visible="true" text-field-id=""></column>
                 </columns>
             </table>
         </panel>
