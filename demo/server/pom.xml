@@ -26,16 +26,8 @@
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-demo-client</artifactId>
+            <artifactId>n2o-web</artifactId>
             <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-react</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>

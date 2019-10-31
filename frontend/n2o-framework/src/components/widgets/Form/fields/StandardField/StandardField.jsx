@@ -8,7 +8,7 @@ import Label from './Label';
 import Measure from './Measure';
 import Description from './Description';
 import FieldActions from './FieldActions';
-import InlineSpinner from '../../../../snippets/Spinner/InlineSpinner';
+import Spinner from '../../../../snippets/Spinner/Spinner';
 
 import { FieldActionsPropTypes } from './FieldPropTypes';
 
@@ -113,6 +113,7 @@ class StandardField extends React.Component {
         <div
           className={cx('n2o-form-group', 'form-group', className, {
             ['label-' + labelPosition]: labelPosition,
+            'n2o-form-group--disabled': loading,
           })}
           style={style}
         >
@@ -146,7 +147,13 @@ class StandardField extends React.Component {
               />
               <Measure value={measure} />
               <FieldActions actions={fieldActions} />
-              {loading && <InlineSpinner />}
+              {loading && (
+                <Spinner
+                  className="n2o-form-group__spinner align-self-center"
+                  type="inline"
+                  size="sm"
+                />
+              )}
             </div>
             <Description value={description} />
             <div
