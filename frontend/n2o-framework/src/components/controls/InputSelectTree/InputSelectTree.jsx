@@ -305,6 +305,7 @@ function InputSelectTree({
    */
   const handleChange = value => {
     onChange(getItemByValue(value));
+    onBlur(getItemByValue(value));
   };
 
   /**
@@ -335,8 +336,6 @@ function InputSelectTree({
   const handleDropdownVisibleChange = visible => {
     if (visible) {
       onFocus();
-    } else {
-      onBlur();
     }
     onToggle(visible);
     setDropdownExpanded(visible);
