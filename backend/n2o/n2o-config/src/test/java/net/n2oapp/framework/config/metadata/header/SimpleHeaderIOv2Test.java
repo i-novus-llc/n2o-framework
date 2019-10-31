@@ -1,7 +1,5 @@
 package net.n2oapp.framework.config.metadata.header;
 
-import net.n2oapp.framework.api.pack.PersistersBuilder;
-import net.n2oapp.framework.api.pack.ReadersBuilder;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
 import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderIOv2;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
