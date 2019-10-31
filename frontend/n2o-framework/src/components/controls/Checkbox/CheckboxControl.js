@@ -9,7 +9,7 @@ export default compose(
     onChange: props => event => {
       const value = event.nativeEvent.target.checked;
       const defaultUnchecked =
-        props.defaultUnchecked === 'null' ? null : props.defaultUnchecked;
+        props.defaultUnchecked === 'false' ? false : null;
 
       props.onChange(!value ? defaultUnchecked : value);
     },
