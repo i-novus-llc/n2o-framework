@@ -1,6 +1,7 @@
 {
   "name": "n2o-frontend",
   "private": true,
+  "version": "7.4.0",
   "workspaces": [
     "n2o-framework",
     "n2o-auth",
@@ -28,7 +29,7 @@
     "eslint:generate": "lerna run --scope n2o-framework eslint:generate",
     "prepare": "lerna bootstrap --no-ci",
     "prettier:n2o": "lerna run --scope n2o-framework prettier",
-    "release": "lerna publish --no-git-tag-version --no-push --yes",
+    "release": "lerna publish --canary --force-publish --no-git-tag-version --no-push --yes --preid next",
     "start:demo": "lerna run --scope n2o-demo-client start",
     "start:notify": "lerna run --scope n2o-notifications start",
     "start:simple": "lerna run --scope n2o-simple-project start",
@@ -44,7 +45,7 @@
     "http-proxy-middleware": "^0.20.0",
     "husky": "^1.0.0-rc.13",
     "identity-obj-proxy": "^3.0.0",
-    "lerna": "3.16.4",
+    "lerna": "3.18.3",
     "lint-staged": "^7.2.2",
     "mocha": "^3.4.2",
     "node-sass": "^4.9.2",
