@@ -50,6 +50,7 @@ public class StringUtilsTest {
         assert !StringUtils.isDynamicValue(new Date());
         assert !StringUtils.isDynamicValue("Олег");
         assert StringUtils.isDynamicValue("{id}");
+        assert StringUtils.isDynamicValue("{$.now()}");
         assert StringUtils.isDynamicValue("tomorrow()");
         assert StringUtils.isDynamicValue("`1==1`");
     }

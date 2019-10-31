@@ -27,10 +27,11 @@ public class ToolbarCellJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testToolbarCellJson.widget.xml",
                 "components/widgets/Table/cells/ButtonsCell/ButtonsCell.meta.json")
                 .cutXml("table.cells[0]")
-                .exclude("id", "className", "style", "buttons[0].label", "buttons[0].action.options",
-                        "buttons[0].size", "buttons[0].color",
-                        "buttons[0].disabled", "buttons[0].actionId", "buttons[0].action.id",
-                        "buttons[0].confirm", "buttons[0].conditions", "buttons[0].title", "buttons[0].hintPosition")
+                .exclude("toolbar[0].id", "className", "style", "toolbar[0].buttons[0].label", "actions.testBut.options",
+                        "toolbar[0].buttons[0].size", "toolbar[0].buttons[0].color",
+                        "toolbar[0].buttons[0].disabled", "actions.testBut.id",
+                        "toolbar[0].buttons[0].confirm", "toolbar[0].buttons[0].conditions", "toolbar[0].buttons[0].title",
+                        "toolbar[0].buttons[0].hintPosition")
                 .assertEquals();
     }
 }

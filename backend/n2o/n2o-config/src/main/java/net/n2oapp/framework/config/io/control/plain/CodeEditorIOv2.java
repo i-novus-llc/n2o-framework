@@ -13,7 +13,8 @@ public class CodeEditorIOv2 extends PlainFieldIOv2<N2oCodeEditor> {
         super.io(e, m, p);
         p.attributeEnum(e, "language", m::getLanguage, m::setLanguage, N2oCodeEditor.Language.class);
         p.attribute(e, "height", m::getHeight, m::setHeight);
-        p.attributeInteger(e, "rows", m::getRows, m::setRows);
+        p.attributeInteger(e, "min-lines", m::getMinLines, m::setMinLines);
+        p.attributeInteger(e, "max-lines", m::getMaxLines, m::setMaxLines);
     }
 
     @Override

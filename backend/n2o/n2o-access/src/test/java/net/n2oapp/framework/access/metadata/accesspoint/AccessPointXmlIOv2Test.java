@@ -27,7 +27,7 @@ public class AccessPointXmlIOv2Test {
         tester.check("net/n2oapp/framework/access/metadata/accesspoint/objectFilters.accesspoint.xml",
                 (N2oObjectFiltersAccessPoint access) -> {
                     assert access.getObjectId().equals("test");
-                    assert access.getFilters().length == 1;
+                    assert access.getFilters().length == 3;
                 });
     }
 

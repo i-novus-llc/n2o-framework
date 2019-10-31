@@ -35,7 +35,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         if (pageRoutesScope != null) {
             pageRoutesScope.put(tree.getId(), widgetRoute);
         }
-        compileDataProviderAndRoutes(tree, source, p, null, widgetRoute, null, null);
+        compileDataProviderAndRoutes(tree, source, context, p, null, widgetRoute, null, null, object);
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());

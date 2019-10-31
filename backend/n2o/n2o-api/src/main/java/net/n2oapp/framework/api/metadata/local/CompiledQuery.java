@@ -66,6 +66,10 @@ public class CompiledQuery implements CompiledMetadata, OriginAware, PropertiesA
                 : null;
     }
 
+    public N2oQuery.Filter getFilterByFilterId(String filterId) {
+        return filterFieldsMap.get(filterId);
+    }
+
     @Override
     public boolean isReal() {
         return this.object != null;

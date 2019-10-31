@@ -33,7 +33,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
 
     private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
-    private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "");
+    private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
 
     /**
      * Сервисы окружения
@@ -307,6 +307,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @Override
     public <T extends SourceMetadata> void checkForExists(String id, Class<T> metadataClass, String errorMessage) {
         if (id == null)
+            return;
+        if (id.contains("*"))
             return;
         if (!env.getMetadataRegister().contains(id, metadataClass))
             throw new N2oMetadataValidationException(getMessage(errorMessage, id));

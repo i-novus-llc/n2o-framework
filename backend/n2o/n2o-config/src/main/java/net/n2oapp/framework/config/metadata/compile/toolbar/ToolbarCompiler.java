@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -66,6 +67,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             defaultPlace = property("n2o.api.page.toolbar.place");
         String place = p.cast(source.getPlace(), p.resolve(defaultPlace, String.class));
         int gi = 0;
+        Boolean buttonGrouping = isGrouping(p);
         while (i < source.getItems().length) {
             Group gr = new Group(place + gi);
             List<Button> buttons = new ArrayList<>();
@@ -87,6 +89,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                 while (i < source.getItems().length && !(source.getItems()[i] instanceof N2oGroup)) {
                     buttons.add(getButton(source, source.getItems()[i], index, context, p));
                     i++;
+                    if (!buttonGrouping) break;
                 }
             }
             gr.setButtons(buttons);
@@ -159,11 +162,21 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         button.setValidate(source.getValidate());
     }
 
+    protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getGenerate() != null) {
+            for (String generate : source.getGenerate()) {
+                buttonGeneratorFactory.generate(generate.trim(), source, context, p)
+                        .forEach(i -> source.setItems(push(source, (N2oButton) i)));
+            }
+        }
+    }
+
     private void initConfirm(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
         if ((source.getConfirm() == null || !source.getConfirm()) &&
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
         Confirm confirm = new Confirm();
+        confirm.setMode(p.cast(source.getConfirmType(), ConfirmType.modal));
         confirm.setText(p.cast(source.getConfirmText(), (operation != null ? operation.getConfirmationText() : null), p.getMessage("n2o.confirm.text")));
         confirm.setTitle(p.cast(source.getConfirmTitle(), (operation != null ? operation.getFormSubmitLabel() : null), p.getMessage("n2o.confirm.title")));
         confirm.setOkLabel(p.cast(source.getConfirmOkLabel(), p.getMessage("n2o.confirm.default.okLabel")));
@@ -245,7 +258,17 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         if (item instanceof N2oButton) {
             N2oButton but = (N2oButton) item;
             button.setProperties(p.mapAttributes(but));
-            button.setColor(but.getColor());
+            if (but.getColor() == null) {
+                ComponentScope componentScope = p.getScope(ComponentScope.class);
+                if (componentScope != null) {
+                    N2oCell component = componentScope.unwrap(N2oCell.class);
+                    if (component != null) {
+                        button.setColor(p.resolve(property("n2o.api.cell.toolbar.button-color"), String.class));
+                    }
+                }
+            } else {
+                button.setColor(but.getColor());
+            }
             button.setDropdownSrc(but.getDropdownSrc());
             initItem(button, but, idx, context, p);
             if (but.getValidate() != null && but.getValidate()) {
@@ -256,7 +279,17 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setId(sub.getId() == null ? "subMenu" + idx.get() : sub.getId());
             button.setLabel(sub.getLabel());
             button.setClassName(sub.getClassName());
-            button.setColor(sub.getColor());
+            if (sub.getColor() == null) {
+                ComponentScope componentScope = p.getScope(ComponentScope.class);
+                if (componentScope != null) {
+                    N2oCell component = componentScope.unwrap(N2oCell.class);
+                    if (component != null) {
+                        button.setColor(p.resolve(property("n2o.api.cell.toolbar.button-color"), String.class));
+                    }
+                }
+            } else {
+                button.setColor(sub.getColor());
+            }
             if (sub.getDescription() != null)
                 button.setHint(sub.getDescription().trim());
             button.setIcon(sub.getIcon());
@@ -298,13 +331,9 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         return items;
     }
 
-    protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getGenerate() != null) {
-            for (String generate : source.getGenerate()) {
-                buttonGeneratorFactory.generate(generate.trim(), source, context, p)
-                        .forEach(i -> source.setItems(push(source, (N2oButton) i)));
-            }
-        }
+    private Boolean isGrouping(CompileProcessor p) {
+        Object buttonGrouping = p.resolve(property("n2o.api.toolbar.grouping"));
+        return buttonGrouping instanceof Boolean ? (Boolean) buttonGrouping : true;
     }
 
     @Override

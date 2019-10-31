@@ -12,5 +12,6 @@
         "item3": {
             "subitem1": "subitem"
         }
-    }
+    },
+    "brand":"Test"
 }

@@ -47,18 +47,19 @@ public abstract class GetController implements ControllerTypeAware {
 
 
     public CollectionPage<DataSet> executeQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
+        CollectionPage<DataSet> pageData = null;
         dataProcessingStack.processQuery(requestInfo, responseInfo);
         try {
-            CollectionPage<DataSet> pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
+            pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
             executeSubModels(requestInfo, pageData, responseInfo);
-            dataProcessingStack.processQueryResult(requestInfo, responseInfo, pageData);
-            return pageData;
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
             throw e;
         } catch (Exception e) {
             throw new N2oException(e, requestInfo.getFailAlertWidgetId());
         }
+        dataProcessingStack.processQueryResult(requestInfo, responseInfo, pageData);
+        return pageData;
     }
 
     @SuppressWarnings("unchecked")

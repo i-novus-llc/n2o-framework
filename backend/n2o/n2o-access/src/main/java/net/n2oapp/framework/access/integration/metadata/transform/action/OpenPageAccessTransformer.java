@@ -24,12 +24,12 @@ public class OpenPageAccessTransformer extends BaseAccessTransformer<LinkAction,
     public LinkAction transform(LinkAction compiled, PageContext context, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        mapSecurity(accessSchema, compiled);
+        mapSecurity(accessSchema, compiled, p);
         return compiled;
     }
 
-    private void mapSecurity(SimpleCompiledAccessSchema schema, LinkAction compiled) {
-        collectObjectAccess(compiled, compiled.getObjectId(), compiled.getOperationId(), schema);
-        collectPageAccess(compiled, compiled.getPageId(), schema);
+    private void mapSecurity(SimpleCompiledAccessSchema schema, LinkAction compiled, CompileProcessor p) {
+        collectObjectAccess(compiled, compiled.getObjectId(), compiled.getOperationId(), schema, p);
+        collectPageAccess(compiled, compiled.getPageId(), schema, p);
     }
 }

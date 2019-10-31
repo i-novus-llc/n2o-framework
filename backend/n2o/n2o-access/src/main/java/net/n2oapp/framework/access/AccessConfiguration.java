@@ -14,11 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Configuration
 @ComponentScan(basePackages = "net.n2oapp.framework.access", lazyInit = true)
 public class AccessConfiguration {
@@ -28,6 +23,9 @@ public class AccessConfiguration {
 
     @Value("${n2o.access.admins}")
     private String accessAdmins;
+
+    @Value("${n2o.access.strict_filtering:false}")
+    private Boolean strictFiltering;
 
     @Value("${n2o.access.N2oObjectAccessPoint.default:false}")
     private Boolean defaultObjectAccess;
@@ -49,26 +47,17 @@ public class AccessConfiguration {
 
     @Bean
     public SecurityProvider securityProvider(PermissionApi permissionApi) {
-        return new SecurityProvider(permissionApi);
+        return new SecurityProvider(permissionApi, strictFiltering);
     }
 
     @Bean
     public N2oSecurityModule n2oSecurityModule(PermissionApi permissionApi){
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, strictFiltering);
         N2oSecurityModule n2oSecurityModule = new N2oSecurityModule(securityProvider);
         n2oSecurityModule.setAfterAll(true);
         return n2oSecurityModule;
     }
 
-
-    @Bean
-    @ConditionalOnMissingBean
-    public AdminService adminService () {
-        List<String> admins = accessAdmins == null ?
-                Collections.emptyList() :
-                Arrays.asList(accessAdmins.split(",")).stream().map(String::trim).collect(Collectors.toList());
-        return new AdminService(admins);
-    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -85,18 +74,6 @@ public class AccessConfiguration {
     public MetaType accessType() {
         return new MetaType("access", N2oAccessSchema.class);
     }
-
-    /*
-
-    <bean id="accessPageTransformer" class="net.n2oapp.framework.access.integration.metadata.AccessPageTransformer">
-        <constructor-arg name="accessChecker" ref="accessChecker"/>
-    </bean>
-
-    <bean id="accessHeaderTransformer" class="net.n2oapp.framework.access.integration.metadata.AccessHeaderTransformer">
-        <constructor-arg name="serviceProvider" ref="authorizationServiceProvider"/>
-    </bean>
-
-    * */
 
 
 }

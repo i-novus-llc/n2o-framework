@@ -36,6 +36,7 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     private RefreshPolity refreshPolity;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
     private Boolean confirm;
+    private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;
