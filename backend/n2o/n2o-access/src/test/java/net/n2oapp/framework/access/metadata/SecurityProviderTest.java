@@ -35,7 +35,8 @@ public class SecurityProviderTest {
 
     @Test(expected = UnauthorizedException.class)
     public void checkAccessDenied() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);;
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+        ;
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(true);
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
@@ -48,7 +49,7 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessPermitAll() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(false);
         securityObject.setPermitAll(true);
@@ -61,7 +62,7 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessUserIsNotAuthenticated() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(false);
         Security.SecurityObject securityObject = new Security.SecurityObject();
@@ -85,7 +86,7 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessAuthenticated() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         Security.SecurityObject securityObject = new Security.SecurityObject();
@@ -102,7 +103,7 @@ public class SecurityProviderTest {
 
     @Test(expected = AccessDeniedException.class)
     public void checkAccessRolesUsernamesPermissionsAreNull() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         Security.SecurityObject securityObject = new Security.SecurityObject();
@@ -120,7 +121,7 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessHasRole() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasRole(userContext, "admin")).thenReturn(true);
@@ -153,7 +154,7 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessHasPermission() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasPermission(userContext, "p0")).thenReturn(false);
@@ -186,7 +187,7 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessHasUsernames() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasUsername(userContext, "n0")).thenReturn(false);
@@ -226,7 +227,7 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessCombinations() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
         when(permissionApi.hasUsername(userContext, "n0")).thenReturn(false);
@@ -303,14 +304,14 @@ public class SecurityProviderTest {
 
     @Test
     public void checkAccessEmptySecurity() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         securityProvider.checkAccess(new Security(), userContext);
     }
 
     @Test
     public void collectRestrictionsPermitAllFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров применимых ко всем
@@ -327,7 +328,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsAuthenticatedAndAnonymousFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров применимых к авторизованным пользователям
@@ -354,7 +355,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsRoleFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров по ролям
@@ -377,7 +378,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsPermissionFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров по привелегиям
@@ -401,7 +402,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsUsernameFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка добавления фильтров по пользователям
@@ -421,7 +422,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsRemoveUserFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка удаления фильтров по пользователям
@@ -447,7 +448,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsRemovePermissionFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка удаления фильтров по привелегиям
@@ -478,7 +479,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsRemoveRoleFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         //проверка удаления фильтров по ролям
@@ -508,7 +509,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsRemoveAuthenticatedAndAnonymousFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         ArrayList<N2oObjectFilter> anonymFilters = new ArrayList<>();
@@ -541,7 +542,7 @@ public class SecurityProviderTest {
 
     @Test
     public void collectRestrictionsRemovePermitAllFilters() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
         ArrayList<N2oObjectFilter> authFilters = new ArrayList<>();
@@ -561,12 +562,14 @@ public class SecurityProviderTest {
 
     @Test
     public void checkRestrictions() {
-        SecurityProvider securityProvider = new SecurityProvider(permissionApi);
+        SecurityProvider securityProvider = new SecurityProvider(permissionApi, true);
+        SecurityProvider notStrictSecurityProvider = new SecurityProvider(permissionApi, false);
         UserContext userContext = new UserContext(new TestContextEngine());
         SecurityFilters securityFilters = new SecurityFilters();
 
-        securityFilters.setAuthenticatedFilters(Collections.singletonList(
-                new N2oObjectFilter("foo", "1", FilterType.eq, "filter1")));
+        securityFilters.setAuthenticatedFilters(Arrays.asList(
+                new N2oObjectFilter("foo", "1", FilterType.eq, "filter1"),
+                new N2oObjectFilter("surname", "1", FilterType.eqOrIsNull, "filter6")));
         securityFilters.setAnonymousFilters(Collections.singletonList(
                 new N2oObjectFilter("foo", "1", FilterType.notEq, "filter2")));
         securityFilters.setRoleFilters(Collections.singletonMap("role1", Collections.singletonList(
@@ -578,11 +581,20 @@ public class SecurityProviderTest {
 
         //аутентифицирован
         when(permissionApi.hasAuthentication(userContext)).thenReturn(true);
-        //foo == 1
+        //foo == 1 and surname == null
         securityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
         //foo != 1
+        notStrictSecurityProvider.checkRestrictions(new DataSet().add("foo", 1), securityFilters, userContext);
         try {
             securityProvider.checkRestrictions(new DataSet().add("foo", 2), securityFilters, userContext);
+            Assert.fail();
+        } catch (AccessDeniedException e) {
+            assertThat(e.getMessage(), endsWith("foo"));
+        }
+        //foo == null
+        notStrictSecurityProvider.checkRestrictions(new DataSet(), securityFilters, userContext);
+        try {
+            securityProvider.checkRestrictions(new DataSet(), securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
             assertThat(e.getMessage(), endsWith("foo"));
@@ -619,8 +631,8 @@ public class SecurityProviderTest {
         //bar not in (1, 2, 3)
         try {
             securityProvider.checkRestrictions(new DataSet()
-                    .add("foo", 1)
-                    .add("bar", 4),
+                            .add("foo", 1)
+                            .add("bar", 4),
                     securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
@@ -637,7 +649,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2)),
+                            .add("list", Arrays.asList(3, 2, 1, 4)),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
             Assert.fail();
@@ -648,7 +660,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(1, 2, 3, 4)),
+                            .add("list", Arrays.asList(1, 2)),
                     securityFilters, userContext);
             Assert.fail();
         } catch (AccessDeniedException e) {
@@ -666,7 +678,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2))
+                            .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Joe"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {
@@ -677,7 +689,7 @@ public class SecurityProviderTest {
             securityProvider.checkRestrictions(new DataSet()
                             .add("foo", 1)
                             .add("bar", 2)
-                            .add("list", Arrays.asList(3, 2))
+                            .add("list", Arrays.asList(3, 2, 1, 4))
                             .add("name", "Doe"),
                     securityFilters, userContext);
         } catch (AccessDeniedException e) {

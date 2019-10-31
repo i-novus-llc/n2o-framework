@@ -19,8 +19,8 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.CompiledClassAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileTransformer;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,23 +30,19 @@ import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static net.n2oapp.framework.access.metadata.SecurityFilters.SECURITY_FILTERS_PROP_NAME;
 import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.OBJECT_ACCESS;
 import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.PAGE_ACCESS;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 @Getter
 @Setter
 public abstract class BaseAccessTransformer<D extends Compiled, C extends CompileContext<?, ?>>
         implements CompileTransformer<D, C>, CompiledClassAware {
 
-    @Value("${n2o.access.N2oObjectAccessPoint.default:false}")
-    private Boolean defaultObjectAccess;
-
-    @Value("${n2o.access.N2oPageAccessPoint.default:true}")
-    private Boolean defaultPageAccess;
-
-    @Value("${n2o.access.N2oUrlAccessPoint.default:true}")
-    private Boolean defaultUrlAccess;
+    private static String DEFAULT_OBJECT_ACCESS = "n2o.access.N2oObjectAccessPoint.default";
+    private static String DEFAULT_PAGE_ACCESS = "n2o.access.N2oPageAccessPoint.default";
 
     protected void collectObjectAccess(PropertiesAware compiled, String objectId,
-                                       String operationId, SimpleCompiledAccessSchema schema) {
+                                       String operationId, SimpleCompiledAccessSchema schema,
+                                       CompileProcessor p) {
         if (objectId == null) return;
         Security security = getSecurity(compiled);
         Security.SecurityObject securityObject = new Security.SecurityObject();
@@ -129,13 +125,17 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
 
         if (securityObject.isEmpty()) {
+            Boolean defaultObjectAccess = p.resolve(property(DEFAULT_OBJECT_ACCESS), Boolean.class);
             securityObject.setPermitAll(defaultObjectAccess);
             securityObject.setDenied(!defaultObjectAccess);
         }
         security.getSecurityMap().put("object", securityObject);
     }
 
-    protected void collectPageAccess(PropertiesAware compiled, String pageId, SimpleCompiledAccessSchema schema) {
+    protected void collectPageAccess(PropertiesAware compiled, String pageId, SimpleCompiledAccessSchema schema,
+                                     CompileProcessor p) {
+        if (pageId == null)
+            return;
         Security security = getSecurity(compiled);
         if (security.getSecurityMap() == null) {
             security.setSecurityMap(new HashMap<>());
@@ -223,6 +223,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
 
         if (securityObject.isEmpty()) {
+            Boolean defaultPageAccess = p.resolve(property(DEFAULT_PAGE_ACCESS), Boolean.class);
             securityObject.setPermitAll(defaultPageAccess);
             securityObject.setDenied(!defaultPageAccess);
         }

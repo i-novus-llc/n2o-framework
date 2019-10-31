@@ -21,6 +21,7 @@ public abstract class StringUtils {
     private static PlaceHoldersResolver contextPlaceHoldersResolver = new PlaceHoldersResolver("#{", "}");
     private static PlaceHoldersResolver jsPlaceHoldersResolver = new PlaceHoldersResolver("`", "`");
     private static PlaceHoldersResolver linkPlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
+    private static PlaceHoldersResolver jsonPlaceHoldersResolver = new PlaceHoldersResolver("{{", "}}");
     private static final String PATTERN = "^([a-zA-Z$_][a-zA-Z0-9$_]*\\(\\))$";
 
     /**
@@ -93,7 +94,21 @@ public abstract class StringUtils {
      * @return Является ссылкой (true)
      */
     public static boolean isLink(Object value) {
-        return linkPlaceHoldersResolver.isPlaceHolder(value) && ((String)value).matches("\\{[\\w.]+}");
+        return linkPlaceHoldersResolver.isPlaceHolder(value) && !jsonPlaceHoldersResolver.isPlaceHolder(value);
+    }
+
+    /**
+     * Проверка, что значение - json(то есть обрамлено двойными {{ }} )
+     * Примеры:
+     * {@code
+     *      isJson("{{"a" : "b"}}");        //true
+     *      isJson("{"a" : "b"}");          //false
+     * }
+     * @param value Значение
+     * @return Является json (true)
+     */
+    public static boolean isJson(Object value) {
+        return jsonPlaceHoldersResolver.isPlaceHolder(value);
     }
 
     /**
@@ -259,6 +274,20 @@ public abstract class StringUtils {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * Убирает переводы на новую строку, пробелы в начале и в конце
+     * @param str Строка
+     * @return Строка без начальных и конечныъх переводов на новую строку и пробелов
+     */
+    public static String simplify(String str) {
+        if (str == null || str.isEmpty())
+            return str;
+        String result = str.trim();
+        result = org.springframework.util.StringUtils.trimLeadingCharacter(result, '\n');
+        result = org.springframework.util.StringUtils.trimTrailingCharacter(result, '\n');
+        return result.trim();
     }
 
 }

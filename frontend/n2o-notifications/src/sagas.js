@@ -5,8 +5,8 @@ import { isEmpty, eq } from "lodash";
 import {
   userConfigSelector,
   localizationSelector
-} from "n2o/lib/selectors/global";
-import { REQUEST_CONFIG_SUCCESS } from "n2o/lib/constants/global";
+} from "n2o-framework/lib/selectors/global";
+import { REQUEST_CONFIG_SUCCESS } from "n2o-framework/lib/constants/global";
 import { eventChannel } from "redux-saga";
 import { setCounter, add } from "./actions";
 

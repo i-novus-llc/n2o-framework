@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import { Button, ButtonGroup, ButtonToolbar } from "reactstrap";
 import N2O from "n2o";
-import { id } from "n2o/lib/utils/id";
+import { id } from "n2o-framework/lib/utils/id";
 
 import AppTemplate from "./AppTemplate";
 
-import "n2o/dist/n2o.css";
+import "n2o-framework/dist/n2o.css";
 import "../../css/n2o-notifications.css";
 
 import { reducer, sagas } from "../../src";

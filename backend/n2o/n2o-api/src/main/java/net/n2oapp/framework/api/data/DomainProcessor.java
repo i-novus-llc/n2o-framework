@@ -79,9 +79,10 @@ public class DomainProcessor {
             return convertArray(value, domain);
         } else if (isInterval(domain)) {
             return convertInterval(value, domain);
-        } else {
-            return convertObject(value, domain);
+        } else if (StringUtils.isJson(value)){
+            return convertObject(((String)value).substring(1, ((String) value).length()-1), domain);
         }
+        return convertObject(value, domain);
     }
 
     /**

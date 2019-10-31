@@ -1,0 +1,1235 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots UI Компоненты/Пагинация Вариации 1`] = `
+<div
+  style={
+    Object {
+      "padding": "2rem",
+    }
+  }
+>
+  <nav
+    aria-label="breadcrumb"
+  >
+    <ol
+      className="breadcrumb"
+    >
+      <li
+        className="breadcrumb-item active"
+      >
+        UI Компоненты
+      </li>
+      <li
+        className="breadcrumb-item active"
+      >
+        Пагинация
+      </li>
+      <li
+        className="breadcrumb-item active"
+      >
+        Вариации
+      </li>
+    </ol>
+  </nav>
+  <Card
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+    tag="div"
+  >
+    <CardBody
+      style={
+        Object {
+          "flexBasis": "auto",
+          "flexGrow": 1,
+          "minWidth": "90%",
+        }
+      }
+      tag="div"
+    >
+      <IntlProvider
+        locale="ru"
+        messages={Object {}}
+      >
+        <Provider
+          store={
+            Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+        >
+          <withContext(SecurityProvider)
+            authProvider={[Function]}
+            redirectPath="/login"
+          >
+            <FactoryProvider
+              config={
+                Object {
+                  "actions": Object {
+                    "dummyImpl": [Function],
+                    "exportTable": [Function],
+                    "link": [Function],
+                    "perform": [Function],
+                  },
+                  "cells": Object {
+                    "BadgeCell": [Function],
+                    "ButtonsCell": [Function],
+                    "CheckboxCell": [Function],
+                    "CollapsedCell": [Function],
+                    "EditableCell": [Function],
+                    "IconCell": [Function],
+                    "ImageCell": [Function],
+                    "LinkCell": [Function],
+                    "ProgressBarCell": [Function],
+                    "TextCell": [Function],
+                  },
+                  "controls": Object {
+                    "AutoComplete": [Function],
+                    "ButtonUploader": [Function],
+                    "Checkbox": [Function],
+                    "CheckboxGroup": [Function],
+                    "CodeEditor": [Function],
+                    "DateInterval": [Function],
+                    "DatePicker": [Function],
+                    "DropZone": [Function],
+                    "Html": [Function],
+                    "InputHidden": [Function],
+                    "InputMask": [Function],
+                    "InputMoney": [Function],
+                    "InputNumber": [Function],
+                    "InputSelect": [Function],
+                    "InputSelectTree": [Function],
+                    "InputText": [Function],
+                    "N2OSelect": [Function],
+                    "OutputText": [Function],
+                    "PasswordInput": [Function],
+                    "Pills": [Function],
+                    "RadioGroup": [Function],
+                    "Rating": [Function],
+                    "Select": [Function],
+                    "Slider": [Function],
+                    "Switch": [Function],
+                    "TextArea": [Function],
+                    "TextEditor": [Function],
+                  },
+                  "fields": Object {
+                    "FilterButtonsField": [Function],
+                    "RangeField": [Function],
+                    "StandardField": [Function],
+                    "TextField": [Function],
+                  },
+                  "fieldsets": Object {
+                    "CollapseFieldset": [Function],
+                    "LineFieldset": [Function],
+                    "StandardFieldset": [Function],
+                    "TitleFieldset": [Function],
+                  },
+                  "headers": Object {
+                    "TextTableHeader": [Function],
+                  },
+                  "layouts": Object {
+                    "LeftRightLayout": [Function],
+                    "LeftTopBottomLayout": [Function],
+                    "SingleLayout": [Function],
+                    "TopBottomLayout": [Function],
+                  },
+                  "regions": Object {
+                    "ListRegion": [Function],
+                    "NoneRegion": [Function],
+                    "PanelRegion": [Function],
+                    "TabsRegion": [Function],
+                  },
+                  "snippets": Object {
+                    "Alert": [Function],
+                    "Collapse": [Function],
+                    "Icon": [Function],
+                    "Panel": [Function],
+                    "Paragraph": [Function],
+                    "PopoverConfirm": [Function],
+                    "Spinner": [Function],
+                    "Text": [Function],
+                    "Title": [Function],
+                    "Wireframe": [Function],
+                  },
+                  "widgets": Object {
+                    "AdvancedTableWidget": [Function],
+                    "ChartWidget": [Function],
+                    "EditForm": [Function],
+                    "FormWidget": [Function],
+                    "HtmlWidget": [Function],
+                    "ListWidget": [Function],
+                    "TableWidget": [Function],
+                    "TreeWidget": [Function],
+                    "WireframeWidget": [Function],
+                  },
+                }
+              }
+              securityBlackList={Array []}
+            >
+              <Connect(ConnectedRouter)
+                history={
+                  Object {
+                    "action": "POP",
+                    "block": [Function],
+                    "canGo": [Function],
+                    "createHref": [Function],
+                    "entries": Array [
+                      Object {
+                        "hash": "",
+                        "key": "zybh0s",
+                        "pathname": "/",
+                        "search": "",
+                        "state": undefined,
+                      },
+                    ],
+                    "go": [Function],
+                    "goBack": [Function],
+                    "goForward": [Function],
+                    "index": 0,
+                    "length": 1,
+                    "listen": [Function],
+                    "location": Object {
+                      "hash": "",
+                      "key": "zybh0s",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                    "push": [Function],
+                    "replace": [Function],
+                  }
+                }
+              >
+                <div>
+                  <Story
+                    PropTable={[Function]}
+                    components={
+                      Object {
+                        "a": [Function],
+                        "code": [Function],
+                        "h1": [Function],
+                        "h2": [Function],
+                        "h3": [Function],
+                        "h4": [Function],
+                        "h5": [Function],
+                        "h6": [Function],
+                        "li": [Function],
+                        "p": [Function],
+                        "ul": [Function],
+                      }
+                    }
+                    context={
+                      Object {
+                        "hooks": HooksContext {
+                          "currentContext": [Circular],
+                          "currentDecoratorName": null,
+                          "currentEffects": Array [],
+                          "currentHooks": Array [],
+                          "currentPhase": "NONE",
+                          "hasUpdates": false,
+                          "hookListsMap": WeakMap {},
+                          "mountedDecorators": Set {
+                            [Function],
+                            [Function],
+                            [Function],
+                            [Function],
+                            [Function],
+                          },
+                          "nextHookIndex": 0,
+                          "prevEffects": Array [],
+                          "prevMountedDecorators": Set {},
+                          "renderListener": [Function],
+                        },
+                        "id": "ui-компоненты-пагинация--вариации",
+                        "kind": "UI Компоненты/Пагинация",
+                        "name": "Вариации",
+                        "parameters": Object {
+                          "fileName": "C:\\\\Users\\\\sliskov\\\\Projects\\\\n2o-new\\\\frontend\\\\n2o\\\\src\\\\components\\\\snippets\\\\Pagination\\\\Pagination.story.js",
+                          "framework": "react",
+                          "info": Object {
+                            "text": "
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o-framework/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            prev={true}
+            next={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            first={true}
+            last={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            prev={true}
+            next={true}
+            first={true}
+            last={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+        ~~~
+        ",
+                          },
+                          "jsx": Object {
+                            "skip": 1,
+                          },
+                          "options": Object {
+                            "hierarchyRootSeparator": "|",
+                            "hierarchySeparator": /\\\\/\\|\\\\\\./,
+                          },
+                        },
+                        "story": "Вариации",
+                      }
+                    }
+                    excludedPropTypes={Array []}
+                    info="
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o-framework/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            prev={true}
+            next={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            first={true}
+            last={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+          <Pagination
+            activePage={activePage}
+            onSelect={onSelect}
+            prev={true}
+            next={true}
+            first={true}
+            last={true}
+            size={10}
+            count={100}
+            maxButtons={4}
+            stepIncrement={10}
+          />
+        ~~~
+        "
+                    maxPropArrayLength={3}
+                    maxPropObjectKeys={3}
+                    maxPropStringLength={50}
+                    maxPropsIntoLine={3}
+                    propTableCompare={[Function]}
+                    propTables={Array []}
+                    propTablesExclude={Array []}
+                    showHeader={true}
+                    showInline={true}
+                    showSource={false}
+                    styles={[Function]}
+                  >
+                    <State
+                      parseState={[Function]}
+                      store={
+                        Store {
+                          "callbacks": Array [
+                            Object {
+                              "callback": [Function],
+                              "subscription": "d24ca508-c11a-4ad7-8df1-36a9b612b392",
+                            },
+                          ],
+                          "state": Object {
+                            "combination": 1,
+                            "firstLast": 1,
+                            "page": 1,
+                            "prevNext": 1,
+                            "simple": 1,
+                          },
+                        }
+                      }
+                    >
+                      <div
+                        className="row"
+                      >
+                        <Pagination
+                          activePage={1}
+                          count={100}
+                          first={false}
+                          hideSinglePage={true}
+                          last={false}
+                          lazy={false}
+                          maxButtons={4}
+                          next={false}
+                          nextText={null}
+                          onSelect={[Function]}
+                          prev={false}
+                          prevText={null}
+                          showCountRecords={true}
+                          size={10}
+                          stepIncrement={10}
+                          withoutBody={false}
+                        />
+                      </div>
+                      <div
+                        className="row"
+                      >
+                        <Pagination
+                          activePage={1}
+                          count={100}
+                          first={false}
+                          hideSinglePage={true}
+                          last={false}
+                          lazy={false}
+                          maxButtons={4}
+                          next={true}
+                          nextText={null}
+                          onSelect={[Function]}
+                          prev={true}
+                          prevText={null}
+                          showCountRecords={true}
+                          size={10}
+                          stepIncrement={10}
+                          withoutBody={false}
+                        />
+                      </div>
+                      <div
+                        className="row"
+                      >
+                        <Pagination
+                          activePage={1}
+                          count={100}
+                          first={true}
+                          hideSinglePage={true}
+                          last={true}
+                          lazy={false}
+                          maxButtons={4}
+                          next={false}
+                          nextText={null}
+                          onSelect={[Function]}
+                          prev={false}
+                          prevText={null}
+                          showCountRecords={true}
+                          size={10}
+                          stepIncrement={10}
+                          withoutBody={false}
+                        />
+                      </div>
+                      <div
+                        className="row"
+                      >
+                        <Pagination
+                          activePage={1}
+                          count={100}
+                          first={true}
+                          hideSinglePage={true}
+                          last={true}
+                          lazy={false}
+                          maxButtons={4}
+                          next={true}
+                          nextText={null}
+                          onSelect={[Function]}
+                          prev={true}
+                          prevText={null}
+                          showCountRecords={true}
+                          size={10}
+                          stepIncrement={10}
+                          withoutBody={false}
+                        />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>
+`;
+
+exports[`Storyshots UI Компоненты/Пагинация Интерактивное использование 1`] = `
+<div
+  style={
+    Object {
+      "padding": "2rem",
+    }
+  }
+>
+  <nav
+    aria-label="breadcrumb"
+  >
+    <ol
+      className="breadcrumb"
+    >
+      <li
+        className="breadcrumb-item active"
+      >
+        UI Компоненты
+      </li>
+      <li
+        className="breadcrumb-item active"
+      >
+        Пагинация
+      </li>
+      <li
+        className="breadcrumb-item active"
+      >
+        Интерактивное использование
+      </li>
+    </ol>
+  </nav>
+  <Card
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+    tag="div"
+  >
+    <CardBody
+      style={
+        Object {
+          "flexBasis": "auto",
+          "flexGrow": 1,
+          "minWidth": "90%",
+        }
+      }
+      tag="div"
+    >
+      <IntlProvider
+        locale="ru"
+        messages={Object {}}
+      >
+        <Provider
+          store={
+            Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+        >
+          <withContext(SecurityProvider)
+            authProvider={[Function]}
+            redirectPath="/login"
+          >
+            <FactoryProvider
+              config={
+                Object {
+                  "actions": Object {
+                    "dummyImpl": [Function],
+                    "exportTable": [Function],
+                    "link": [Function],
+                    "perform": [Function],
+                  },
+                  "cells": Object {
+                    "BadgeCell": [Function],
+                    "ButtonsCell": [Function],
+                    "CheckboxCell": [Function],
+                    "CollapsedCell": [Function],
+                    "EditableCell": [Function],
+                    "IconCell": [Function],
+                    "ImageCell": [Function],
+                    "LinkCell": [Function],
+                    "ProgressBarCell": [Function],
+                    "TextCell": [Function],
+                  },
+                  "controls": Object {
+                    "AutoComplete": [Function],
+                    "ButtonUploader": [Function],
+                    "Checkbox": [Function],
+                    "CheckboxGroup": [Function],
+                    "CodeEditor": [Function],
+                    "DateInterval": [Function],
+                    "DatePicker": [Function],
+                    "DropZone": [Function],
+                    "Html": [Function],
+                    "InputHidden": [Function],
+                    "InputMask": [Function],
+                    "InputMoney": [Function],
+                    "InputNumber": [Function],
+                    "InputSelect": [Function],
+                    "InputSelectTree": [Function],
+                    "InputText": [Function],
+                    "N2OSelect": [Function],
+                    "OutputText": [Function],
+                    "PasswordInput": [Function],
+                    "Pills": [Function],
+                    "RadioGroup": [Function],
+                    "Rating": [Function],
+                    "Select": [Function],
+                    "Slider": [Function],
+                    "Switch": [Function],
+                    "TextArea": [Function],
+                    "TextEditor": [Function],
+                  },
+                  "fields": Object {
+                    "FilterButtonsField": [Function],
+                    "RangeField": [Function],
+                    "StandardField": [Function],
+                    "TextField": [Function],
+                  },
+                  "fieldsets": Object {
+                    "CollapseFieldset": [Function],
+                    "LineFieldset": [Function],
+                    "StandardFieldset": [Function],
+                    "TitleFieldset": [Function],
+                  },
+                  "headers": Object {
+                    "TextTableHeader": [Function],
+                  },
+                  "layouts": Object {
+                    "LeftRightLayout": [Function],
+                    "LeftTopBottomLayout": [Function],
+                    "SingleLayout": [Function],
+                    "TopBottomLayout": [Function],
+                  },
+                  "regions": Object {
+                    "ListRegion": [Function],
+                    "NoneRegion": [Function],
+                    "PanelRegion": [Function],
+                    "TabsRegion": [Function],
+                  },
+                  "snippets": Object {
+                    "Alert": [Function],
+                    "Collapse": [Function],
+                    "Icon": [Function],
+                    "Panel": [Function],
+                    "Paragraph": [Function],
+                    "PopoverConfirm": [Function],
+                    "Spinner": [Function],
+                    "Text": [Function],
+                    "Title": [Function],
+                    "Wireframe": [Function],
+                  },
+                  "widgets": Object {
+                    "AdvancedTableWidget": [Function],
+                    "ChartWidget": [Function],
+                    "EditForm": [Function],
+                    "FormWidget": [Function],
+                    "HtmlWidget": [Function],
+                    "ListWidget": [Function],
+                    "TableWidget": [Function],
+                    "TreeWidget": [Function],
+                    "WireframeWidget": [Function],
+                  },
+                }
+              }
+              securityBlackList={Array []}
+            >
+              <Connect(ConnectedRouter)
+                history={
+                  Object {
+                    "action": "POP",
+                    "block": [Function],
+                    "canGo": [Function],
+                    "createHref": [Function],
+                    "entries": Array [
+                      Object {
+                        "hash": "",
+                        "key": "zybh0s",
+                        "pathname": "/",
+                        "search": "",
+                        "state": undefined,
+                      },
+                    ],
+                    "go": [Function],
+                    "goBack": [Function],
+                    "goForward": [Function],
+                    "index": 0,
+                    "length": 1,
+                    "listen": [Function],
+                    "location": Object {
+                      "hash": "",
+                      "key": "zybh0s",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                    "push": [Function],
+                    "replace": [Function],
+                  }
+                }
+              >
+                <div>
+                  <Story
+                    PropTable={[Function]}
+                    components={
+                      Object {
+                        "a": [Function],
+                        "code": [Function],
+                        "h1": [Function],
+                        "h2": [Function],
+                        "h3": [Function],
+                        "h4": [Function],
+                        "h5": [Function],
+                        "h6": [Function],
+                        "li": [Function],
+                        "p": [Function],
+                        "ul": [Function],
+                      }
+                    }
+                    context={
+                      Object {
+                        "hooks": HooksContext {
+                          "currentContext": [Circular],
+                          "currentDecoratorName": null,
+                          "currentEffects": Array [],
+                          "currentHooks": Array [],
+                          "currentPhase": "NONE",
+                          "hasUpdates": false,
+                          "hookListsMap": WeakMap {},
+                          "mountedDecorators": Set {
+                            [Function],
+                            [Function],
+                            [Function],
+                            [Function],
+                            [Function],
+                          },
+                          "nextHookIndex": 0,
+                          "prevEffects": Array [],
+                          "prevMountedDecorators": Set {},
+                          "renderListener": [Function],
+                        },
+                        "id": "ui-компоненты-пагинация--интерактивное-использование",
+                        "kind": "UI Компоненты/Пагинация",
+                        "name": "Интерактивное использование",
+                        "parameters": Object {
+                          "fileName": "C:\\\\Users\\\\sliskov\\\\Projects\\\\n2o-new\\\\frontend\\\\n2o\\\\src\\\\components\\\\snippets\\\\Pagination\\\\Pagination.story.js",
+                          "framework": "react",
+                          "info": Object {
+                            "text": "
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o-framework/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+          onSelect={onSelect}
+          activePage={activePage}
+          size={10}
+          count={100}
+          maxButtons={4}
+          stepIncrement={10}
+        />
+        ~~~
+        ",
+                          },
+                          "jsx": Object {
+                            "skip": 1,
+                          },
+                          "options": Object {
+                            "hierarchyRootSeparator": "|",
+                            "hierarchySeparator": /\\\\/\\|\\\\\\./,
+                          },
+                        },
+                        "story": "Интерактивное использование",
+                      }
+                    }
+                    excludedPropTypes={Array []}
+                    info="
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o-framework/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+          onSelect={onSelect}
+          activePage={activePage}
+          size={10}
+          count={100}
+          maxButtons={4}
+          stepIncrement={10}
+        />
+        ~~~
+        "
+                    maxPropArrayLength={3}
+                    maxPropObjectKeys={3}
+                    maxPropStringLength={50}
+                    maxPropsIntoLine={3}
+                    propTableCompare={[Function]}
+                    propTables={Array []}
+                    propTablesExclude={Array []}
+                    showHeader={true}
+                    showInline={true}
+                    showSource={false}
+                    styles={[Function]}
+                  >
+                    <State
+                      parseState={[Function]}
+                      store={
+                        Store {
+                          "callbacks": Array [
+                            Object {
+                              "callback": [Function],
+                              "subscription": "d24ca508-c11a-4ad7-8df1-36a9b612b392",
+                            },
+                          ],
+                          "state": Object {
+                            "combination": 1,
+                            "firstLast": 1,
+                            "page": 1,
+                            "prevNext": 1,
+                            "simple": 1,
+                          },
+                        }
+                      }
+                    >
+                      <Pagination
+                        activePage={1}
+                        count={100}
+                        first={false}
+                        hideSinglePage={true}
+                        last={false}
+                        lazy={false}
+                        maxButtons={4}
+                        next={false}
+                        nextText={null}
+                        onSelect={[Function]}
+                        prev={false}
+                        prevText={null}
+                        showCountRecords={true}
+                        size={10}
+                        stepIncrement={10}
+                        withoutBody={false}
+                      />
+                    </State>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>
+`;
+
+exports[`Storyshots UI Компоненты/Пагинация Компонент 1`] = `
+<div
+  style={
+    Object {
+      "padding": "2rem",
+    }
+  }
+>
+  <nav
+    aria-label="breadcrumb"
+  >
+    <ol
+      className="breadcrumb"
+    >
+      <li
+        className="breadcrumb-item active"
+      >
+        UI Компоненты
+      </li>
+      <li
+        className="breadcrumb-item active"
+      >
+        Пагинация
+      </li>
+      <li
+        className="breadcrumb-item active"
+      >
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+    tag="div"
+  >
+    <CardBody
+      style={
+        Object {
+          "flexBasis": "auto",
+          "flexGrow": 1,
+          "minWidth": "90%",
+        }
+      }
+      tag="div"
+    >
+      <IntlProvider
+        locale="ru"
+        messages={Object {}}
+      >
+        <Provider
+          store={
+            Object {
+              "dispatch": [Function],
+              "getState": [Function],
+              "replaceReducer": [Function],
+              "subscribe": [Function],
+              Symbol(observable): [Function],
+            }
+          }
+        >
+          <withContext(SecurityProvider)
+            authProvider={[Function]}
+            redirectPath="/login"
+          >
+            <FactoryProvider
+              config={
+                Object {
+                  "actions": Object {
+                    "dummyImpl": [Function],
+                    "exportTable": [Function],
+                    "link": [Function],
+                    "perform": [Function],
+                  },
+                  "cells": Object {
+                    "BadgeCell": [Function],
+                    "ButtonsCell": [Function],
+                    "CheckboxCell": [Function],
+                    "CollapsedCell": [Function],
+                    "EditableCell": [Function],
+                    "IconCell": [Function],
+                    "ImageCell": [Function],
+                    "LinkCell": [Function],
+                    "ProgressBarCell": [Function],
+                    "TextCell": [Function],
+                  },
+                  "controls": Object {
+                    "AutoComplete": [Function],
+                    "ButtonUploader": [Function],
+                    "Checkbox": [Function],
+                    "CheckboxGroup": [Function],
+                    "CodeEditor": [Function],
+                    "DateInterval": [Function],
+                    "DatePicker": [Function],
+                    "DropZone": [Function],
+                    "Html": [Function],
+                    "InputHidden": [Function],
+                    "InputMask": [Function],
+                    "InputMoney": [Function],
+                    "InputNumber": [Function],
+                    "InputSelect": [Function],
+                    "InputSelectTree": [Function],
+                    "InputText": [Function],
+                    "N2OSelect": [Function],
+                    "OutputText": [Function],
+                    "PasswordInput": [Function],
+                    "Pills": [Function],
+                    "RadioGroup": [Function],
+                    "Rating": [Function],
+                    "Select": [Function],
+                    "Slider": [Function],
+                    "Switch": [Function],
+                    "TextArea": [Function],
+                    "TextEditor": [Function],
+                  },
+                  "fields": Object {
+                    "FilterButtonsField": [Function],
+                    "RangeField": [Function],
+                    "StandardField": [Function],
+                    "TextField": [Function],
+                  },
+                  "fieldsets": Object {
+                    "CollapseFieldset": [Function],
+                    "LineFieldset": [Function],
+                    "StandardFieldset": [Function],
+                    "TitleFieldset": [Function],
+                  },
+                  "headers": Object {
+                    "TextTableHeader": [Function],
+                  },
+                  "layouts": Object {
+                    "LeftRightLayout": [Function],
+                    "LeftTopBottomLayout": [Function],
+                    "SingleLayout": [Function],
+                    "TopBottomLayout": [Function],
+                  },
+                  "regions": Object {
+                    "ListRegion": [Function],
+                    "NoneRegion": [Function],
+                    "PanelRegion": [Function],
+                    "TabsRegion": [Function],
+                  },
+                  "snippets": Object {
+                    "Alert": [Function],
+                    "Collapse": [Function],
+                    "Icon": [Function],
+                    "Panel": [Function],
+                    "Paragraph": [Function],
+                    "PopoverConfirm": [Function],
+                    "Spinner": [Function],
+                    "Text": [Function],
+                    "Title": [Function],
+                    "Wireframe": [Function],
+                  },
+                  "widgets": Object {
+                    "AdvancedTableWidget": [Function],
+                    "ChartWidget": [Function],
+                    "EditForm": [Function],
+                    "FormWidget": [Function],
+                    "HtmlWidget": [Function],
+                    "ListWidget": [Function],
+                    "TableWidget": [Function],
+                    "TreeWidget": [Function],
+                    "WireframeWidget": [Function],
+                  },
+                }
+              }
+              securityBlackList={Array []}
+            >
+              <Connect(ConnectedRouter)
+                history={
+                  Object {
+                    "action": "POP",
+                    "block": [Function],
+                    "canGo": [Function],
+                    "createHref": [Function],
+                    "entries": Array [
+                      Object {
+                        "hash": "",
+                        "key": "zybh0s",
+                        "pathname": "/",
+                        "search": "",
+                        "state": undefined,
+                      },
+                    ],
+                    "go": [Function],
+                    "goBack": [Function],
+                    "goForward": [Function],
+                    "index": 0,
+                    "length": 1,
+                    "listen": [Function],
+                    "location": Object {
+                      "hash": "",
+                      "key": "zybh0s",
+                      "pathname": "/",
+                      "search": "",
+                      "state": undefined,
+                    },
+                    "push": [Function],
+                    "replace": [Function],
+                  }
+                }
+              >
+                <div>
+                  <Story
+                    PropTable={[Function]}
+                    components={
+                      Object {
+                        "a": [Function],
+                        "code": [Function],
+                        "h1": [Function],
+                        "h2": [Function],
+                        "h3": [Function],
+                        "h4": [Function],
+                        "h5": [Function],
+                        "h6": [Function],
+                        "li": [Function],
+                        "p": [Function],
+                        "ul": [Function],
+                      }
+                    }
+                    context={
+                      Object {
+                        "hooks": HooksContext {
+                          "currentContext": [Circular],
+                          "currentDecoratorName": null,
+                          "currentEffects": Array [],
+                          "currentHooks": Array [],
+                          "currentPhase": "NONE",
+                          "hasUpdates": false,
+                          "hookListsMap": WeakMap {},
+                          "mountedDecorators": Set {
+                            [Function],
+                            [Function],
+                            [Function],
+                            [Function],
+                            [Function],
+                          },
+                          "nextHookIndex": 0,
+                          "prevEffects": Array [],
+                          "prevMountedDecorators": Set {},
+                          "renderListener": [Function],
+                        },
+                        "id": "ui-компоненты-пагинация--компонент",
+                        "kind": "UI Компоненты/Пагинация",
+                        "name": "Компонент",
+                        "parameters": Object {
+                          "fileName": "C:\\\\Users\\\\sliskov\\\\Projects\\\\n2o-new\\\\frontend\\\\n2o\\\\src\\\\components\\\\snippets\\\\Pagination\\\\Pagination.story.js",
+                          "framework": "react",
+                          "info": Object {
+                            "text": "
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o-framework/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+          onSelect={onSelect}
+          activePage={activePage}
+          prev={false}
+          next={false}
+          first={false}
+          last={false}
+          lazy={false}
+          showCountRecords
+          hideSinglePage
+          count={100}
+          size={10}
+          maxButtons={4}
+          stepIncrement={10}
+        />
+        ~~~
+        ",
+                          },
+                          "jsx": Object {
+                            "skip": 1,
+                          },
+                          "options": Object {
+                            "hierarchyRootSeparator": "|",
+                            "hierarchySeparator": /\\\\/\\|\\\\\\./,
+                          },
+                        },
+                        "story": "Компонент",
+                      }
+                    }
+                    excludedPropTypes={Array []}
+                    info="
+        Компонент 'Пагинация'
+        ~~~js
+        import Pagination from 'n2o-framework/lib/components/snippets/Pagination/Pagination';
+        
+        <Pagination
+          onSelect={onSelect}
+          activePage={activePage}
+          prev={false}
+          next={false}
+          first={false}
+          last={false}
+          lazy={false}
+          showCountRecords
+          hideSinglePage
+          count={100}
+          size={10}
+          maxButtons={4}
+          stepIncrement={10}
+        />
+        ~~~
+        "
+                    maxPropArrayLength={3}
+                    maxPropObjectKeys={3}
+                    maxPropStringLength={50}
+                    maxPropsIntoLine={3}
+                    propTableCompare={[Function]}
+                    propTables={Array []}
+                    propTablesExclude={Array []}
+                    showHeader={true}
+                    showInline={true}
+                    showSource={false}
+                    styles={[Function]}
+                  >
+                    <State
+                      parseState={[Function]}
+                      store={
+                        Store {
+                          "callbacks": Array [
+                            Object {
+                              "callback": [Function],
+                              "subscription": "d24ca508-c11a-4ad7-8df1-36a9b612b392",
+                            },
+                          ],
+                          "state": Object {
+                            "combination": 1,
+                            "firstLast": 1,
+                            "page": 1,
+                            "prevNext": 1,
+                            "simple": 1,
+                          },
+                        }
+                      }
+                    >
+                      <Pagination
+                        activePage={1}
+                        count={100}
+                        first={false}
+                        hideSinglePage={true}
+                        last={false}
+                        lazy={false}
+                        maxButtons={4}
+                        next={false}
+                        nextText={null}
+                        onSelect={[Function]}
+                        prev={false}
+                        prevText={null}
+                        showCountRecords={true}
+                        size={10}
+                        stepIncrement={10}
+                        withoutBody={false}
+                      />
+                    </State>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>
+`;

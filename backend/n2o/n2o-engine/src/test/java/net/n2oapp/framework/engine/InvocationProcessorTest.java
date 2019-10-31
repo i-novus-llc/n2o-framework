@@ -15,7 +15,6 @@ import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.util.TestEntity;
-import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
@@ -296,15 +295,12 @@ public class InvocationProcessorTest {
 
     @Test
     public void testMapsInvocation() {
-        Properties properties = new Properties();
-        properties.put("n2o.engine.mapper", "dataset");
-        new TestStaticProperties().setProperties(properties);
         DataSet dataSet = new DataSet();
         dataSet.put("id", 1);
         List<InvocationParameter> inMapping = new ArrayList<>();
         InvocationParameter param1 = new InvocationParameter();
         param1.setId("id");
-        param1.setMapping("id");
+        param1.setMapping("['id']");
         inMapping.add(param1);
         List<InvocationParameter> outMapping = new ArrayList<>();
         InvocationParameter outParam = new InvocationParameter();

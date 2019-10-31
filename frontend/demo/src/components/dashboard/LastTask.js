@@ -2,11 +2,11 @@
  * Тест таблицы
  */
 import React from 'react';
-import Table from "n2o/lib/components/widgets/Table/Table";
-import TextTableHeader from 'n2o/lib/components/widgets/Table/headers/TextTableHeader';
-import TextCell from 'n2o/lib/components/widgets/Table/cells/TextCell/TextCell';
-import ProgressBarCell from 'n2o/lib/components/widgets/Table/cells/ProgressBarCell/ProgressBarCell';
-import IconCell from 'n2o/lib/components/widgets/Table/cells/IconCell/IconCell';
+import Table from "n2o-framework/lib/components/widgets/Table/Table";
+import TextTableHeader from 'n2o-framework/lib/components/widgets/Table/headers/TextTableHeader';
+import TextCell from 'n2o-framework/lib/components/widgets/Table/cells/TextCell/TextCell';
+import ProgressBarCell from 'n2o-framework/lib/components/widgets/Table/cells/ProgressBarCell/ProgressBarCell';
+import IconCell from 'n2o-framework/lib/components/widgets/Table/cells/IconCell/IconCell';
 
 const tableData = [
   {id: "1", task: "Добавить компонент Input", progress: "15", tags: 'N2O', date: "15.03.2018"},

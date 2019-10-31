@@ -50,6 +50,7 @@ public class StringUtilsTest {
         assert !StringUtils.isDynamicValue(new Date());
         assert !StringUtils.isDynamicValue("Олег");
         assert StringUtils.isDynamicValue("{id}");
+        assert StringUtils.isDynamicValue("{$.now()}");
         assert StringUtils.isDynamicValue("tomorrow()");
         assert StringUtils.isDynamicValue("`1==1`");
     }
@@ -84,5 +85,14 @@ public class StringUtilsTest {
         assert StringUtils.maskMatch("*1Aba*","zzz1Aba");
         assert StringUtils.maskMatch("*1Aba*","1Abazzz");
         assert StringUtils.maskMatch("*1Aba*","zzz1Abazzz");
+    }
+
+    @Test
+    public void simplify() {
+        assert StringUtils.simplify("").equals("");
+        assert StringUtils.simplify("  abc  ").equals("abc");
+        assert StringUtils.simplify("\nabc\n").equals("abc");
+        assert StringUtils.simplify("  \n  abc  \n  ").equals("abc");
+        assert StringUtils.simplify("  \n  \n abc \n \n  ").equals("abc");
     }
 }

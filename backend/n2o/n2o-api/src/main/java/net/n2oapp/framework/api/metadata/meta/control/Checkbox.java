@@ -15,20 +15,6 @@ public class Checkbox extends Control {
     private String label;
     @JsonProperty
     private Boolean readOnly;
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public Boolean getReadOnly() {
-        return readOnly;
-    }
-
-    public void setReadOnly(Boolean readOnly) {
-        this.readOnly = readOnly;
-    }
+    @JsonProperty
+    private Boolean defaultUnchecked;
 }

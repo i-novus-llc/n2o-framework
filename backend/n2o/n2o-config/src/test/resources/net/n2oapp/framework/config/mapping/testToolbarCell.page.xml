@@ -4,13 +4,14 @@
         <columns>
             <column text-field-id="test">
                 <toolbar>
-                    <button class="class" label="label" icon="icon" visible="{test==1}">
+                    <button class="class" label="label" icon="icon" visible="{test==1}" color="danger"
+                            confirm="true" confirm-type="popover">
                         <a href="https://www.google.com/">
                             <query-param name="q" value="{test}"/>
                         </a>
                     </button>
                     <sub-menu icon="icon" label="label" class="lass" type="text">
-                        <menu-item action-id="linkAction" visible="{test==1}"/>
+                        <menu-item action-id="linkAction" visible="{test==1}" confirm="true"/>
                     </sub-menu>
                 </toolbar>
             </column>

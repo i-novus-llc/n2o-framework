@@ -32,7 +32,8 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new RefreshActionCompiler(),
                 new OpenPageCompiler(),
                 new AnchorCompiler(),
-                new ClearActionCompiler());
+                new ClearActionCompiler(),
+                new CopyActionCompiler());
         b.binders(new InvokeActionBinder(), new ReduxActionBinder(), new LinkActionBinder(), new ShowModalBinder());
     }
 }
