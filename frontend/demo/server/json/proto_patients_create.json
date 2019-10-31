@@ -111,7 +111,8 @@
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
-                          "label": "VIP"
+                          "label": "VIP",
+                          "defaultUnchecked": "null"
                         }
                       }
                     ]
