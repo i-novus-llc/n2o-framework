@@ -57,6 +57,8 @@ class InputMask extends React.Component {
     this._onChange = this._onChange.bind(this);
     this._onBlur = this._onBlur.bind(this);
     this._onFocus = this._onFocus.bind(this);
+    this.getParsedValue = this.getParsedValue.bind(this);
+    this.prepareValue = this.prepareValue.bind(this);
   }
 
   /**
@@ -170,14 +172,14 @@ class InputMask extends React.Component {
     }
   }
 
-  getParsedValue = (value, isMask = true) => {
+  getParsedValue(value, isMask = true) {
     return filter(
       replace(value, / /g, ''),
       char => !isNaN(toNumber(char)) && (!isMask || toString(char) === '9')
     ).join('');
-  };
+  }
 
-  prepareValue = (value, mask) => {
+  prepareValue(value, mask) {
     const parsedMask = this.getParsedValue(mask);
     const parsedValue = this.getParsedValue(value, false);
     const maskLength = parsedMask.length;
@@ -186,7 +188,7 @@ class InputMask extends React.Component {
     return parsedValue && valueLength > maskLength
       ? toString(parsedValue).substring(valueLength - maskLength, valueLength)
       : parsedValue;
-  };
+  }
 
   /**
    * обработка новых пропсов
