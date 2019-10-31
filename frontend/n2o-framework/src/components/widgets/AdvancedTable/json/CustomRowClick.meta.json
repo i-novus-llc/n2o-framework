@@ -28,7 +28,7 @@
       "hasFocus": false,
       "rowClick": {
         "enablingCondition" : "deleted==false",
-        "src": "perform",
+        "src": "dummyImpl",
         "options": {
           "type": "n2o/modals/INSERT",
           "payload": {

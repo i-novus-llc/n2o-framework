@@ -179,6 +179,14 @@
       "sorting": {
         "birthday": "ASC"
       },
+      "rows": {
+        "security": {
+          "test": {
+            "denied": false,
+            "permitAll": true
+          }
+        }
+      },
       "cells": [
         {
           "src": "TextCell",

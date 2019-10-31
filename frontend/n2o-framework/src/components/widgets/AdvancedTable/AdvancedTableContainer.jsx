@@ -260,6 +260,7 @@ const enhance = compose(
           onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
           className: props.className,
+          rows: props.rows,
         };
       },
     },
