@@ -7,7 +7,7 @@ import org.springframework.core.io.FileSystemResource;
  */
 public class FrontendFileSystemResource extends FileSystemResource {
 
-    private static String FRONTEND_RELATIVE_PATH = "../../../frontend/n2o/src/";
+    private static String FRONTEND_RELATIVE_PATH = "../../../frontend/n2o-framework/src/";
 
     public FrontendFileSystemResource(String path) {
         super(FRONTEND_RELATIVE_PATH + path);

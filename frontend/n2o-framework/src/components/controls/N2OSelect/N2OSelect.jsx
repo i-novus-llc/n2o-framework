@@ -290,7 +290,6 @@ class N2OSelect extends React.Component {
   _handleOnBlur(e) {
     e.preventDefault();
     this._handleResetOnBlur();
-    this.props.onBlur(this.state.selected[0]);
   }
 
   setControlRef(el) {

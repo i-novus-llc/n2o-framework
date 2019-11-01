@@ -43,6 +43,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
         Assert.assertEquals("#{username}", header.getExtraItems().get(0).getLabel());
         Assert.assertEquals("Test", header.getExtraItems().get(0).getSubItems().get(0).getLabel());
         Assert.assertEquals("https://ya.ru/", header.getExtraItems().get(0).getSubItems().get(0).getHref());
+        Assert.assertEquals("test-icon", header.getExtraItems().get(0).getSubItems().get(0).getIcon());
         Assert.assertEquals(HeaderItem.LinkType.outer, header.getExtraItems().get(0).getSubItems().get(0).getLinkType());
     }
 

@@ -79,7 +79,7 @@ describe('<WidgetFilters />', () => {
     });
     expect(store.getActions()[1]).toEqual(setModel('filter', 'test', 'test'));
     await delay(2000);
-    expect(store.getActions()[3]).toEqual(
+    expect(store.getActions()[4]).toEqual(
       dataRequestWidget('test', { page: 1 })
     );
   });

@@ -12,6 +12,7 @@ import {
   REMOVE_FIELD_MESSAGE,
   REGISTER_DEPENDENCY,
   SET_FIELD_FILTER,
+  SET_LOADING,
 } from '../constants/formPlugin';
 import {
   hideField,
@@ -27,6 +28,7 @@ import {
   registerFieldExtra,
   registerFieldDependency,
   setFilterValue,
+  setLoading,
 } from './formPlugin';
 
 const form = {
@@ -259,6 +261,22 @@ describe('Тесты экшенов formPlugin', () => {
     it('Проверяет правильность meta', () => {
       const action = setFilterValue(form, name, filter);
       expect(action.meta.form).toEqual(form);
+    });
+  });
+
+  describe('Проверка экшена setLoading', () => {
+    it('Генирирует правильное событие', () => {
+      const action = setLoading(form, name, true);
+      expect(action.type).toEqual(SET_LOADING);
+    });
+    it('Проверяет правильность payload', () => {
+      let action = setLoading(form, name, true);
+      expect(action.payload.form).toBe(form);
+      expect(action.payload.name).toBe(name);
+      expect(action.payload.loading).toBe(true);
+
+      action = setLoading(form, name, false);
+      expect(action.payload.loading).toBe(false);
     });
   });
 });

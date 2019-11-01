@@ -143,6 +143,7 @@ const setupModify = mockData => {
 describe('Тестирование саги', () => {
   it('Тестирование вызова функции экшена на саге', () => {
     const gen = setup(mockData);
+    console.log();
     expect(gen.next().value).toEqual(
       call(
         modify,
@@ -229,7 +230,7 @@ describe('Тестирование саги', () => {
       put(
         change(mockData.formName, mockData.fields.field1.name, {
           keepDirty: false,
-          value: true,
+          value: null,
         })
       )
     );

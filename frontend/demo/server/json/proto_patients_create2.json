@@ -58,7 +58,14 @@
                         "id": "name",
                         "required": true,
                         "label": "Имя",
-                        "dependency": [],
+                        "dependency": [{
+                          "type":"fetchValue",
+                          "on":["default"],
+                          "applyOnInit":true,
+                          "dataProvider":{
+                            "url":"n2o/data/ProtoPatient",
+                            "queryMapping":{"id":{"value":5607677}}},"valueFieldId":"name"
+                        }],
                         "control": {
                           "src": "InputText",
                           "id": "name"
@@ -135,11 +142,25 @@
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
-                          "label": "VIP"
+                          "label": "VIP",
+                          "defaultUnchecked": "null"
                         }
                       }
                     ]
                   }
+                ]
+              },
+              {
+                "cols":[
+                  {
+                    "fields":[
+                      {
+                        "src":"StandardField",
+                        "id":"default",
+                        "label":"Введите что-нибудь, чтобы загрузилось Имя по умолчанию",
+                        "dependency":[],
+                        "control":{"src":"InputText","id":"default"}
+                      }]}
                 ]
               }
             ]
