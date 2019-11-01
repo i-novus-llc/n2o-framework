@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { pick, isEmpty } from 'lodash';
+import pick from 'lodash/pick';
+import isEmpty from 'lodash/isEmpty';
 import { Button, UncontrolledTooltip } from 'reactstrap';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';

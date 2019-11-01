@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import cx from 'classnames';
-import { isNaN, omit, isObject, get } from 'lodash';
+import isNaN from 'lodash/isNaN';
+import omit from 'lodash/omit';
+import isObject from 'lodash/isObject';
+import get from 'lodash/get';
 
 import DateTimeControl from './DateTimeControl';
 import MaskedInput from 'react-text-mask';

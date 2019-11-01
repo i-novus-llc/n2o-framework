@@ -7,7 +7,12 @@ import InputSelectGroup from '../InputSelect/InputSelectGroup';
 import InputContent from '../InputSelect/InputContent';
 import Popup from '../InputSelect/Popup';
 import TreeItems from './TreeItems';
-import { isEqual, get, unionBy, find, merge, isNil } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
+import unionBy from 'lodash/unionBy';
+import find from 'lodash/find';
+import merge from 'lodash/merge';
+import isNil from 'lodash/isNil';
 import NODE_SELECTED from './nodeSelected.js';
 import { SHOW_CHILD } from 'rc-tree-select';
 

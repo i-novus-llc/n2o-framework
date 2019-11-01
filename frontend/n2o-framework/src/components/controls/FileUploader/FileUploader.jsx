@@ -2,7 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import cn from 'classnames';
 import { Button } from 'reactstrap';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import FileUploaderList from './FileUploaderList';
 
 class FileUploader extends React.Component {

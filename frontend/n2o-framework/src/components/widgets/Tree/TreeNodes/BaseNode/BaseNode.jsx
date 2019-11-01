@@ -1,5 +1,5 @@
 import React from 'react';
-import { has, uniqueId } from 'lodash';
+import has from 'lodash/has';
 import { Badge } from 'reactstrap';
 //components
 

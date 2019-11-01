@@ -1,5 +1,8 @@
 import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
-import { isEmpty, isUndefined, some, includes } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isUndefined from 'lodash/isUndefined';
+import some from 'lodash/some';
+import includes from 'lodash/includes';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 

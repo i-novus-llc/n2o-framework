@@ -4,7 +4,7 @@ import { Field as ReduxFormField } from 'redux-form';
 import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
 import { compose, withProps } from 'recompose';
-import { some } from 'lodash';
+import some from 'lodash/some';
 import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 
 const config = {

@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import { isEqual, find, isEmpty, pick, forOwn, omit } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
+import pick from 'lodash/pick';
+import forOwn from 'lodash/forOwn';
+import omit from 'lodash/omit';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';

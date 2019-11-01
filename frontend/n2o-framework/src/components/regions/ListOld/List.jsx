@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
-import _ from 'lodash';
+import includes from 'lodash/includes';
 
 /**
  * Компонент Список
@@ -41,7 +40,7 @@ class List extends React.Component {
    */
   handleChangeActive(e, id) {
     let oldIds = Object.assign([], this.state.activeIds);
-    if (_.includes(oldIds, id)) {
+    if (includes(oldIds, id)) {
       _.pull(oldIds, id);
     } else {
       oldIds = oldIds.concat(id);

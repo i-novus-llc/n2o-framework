@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
+import isArray from 'lodash/isArray';
 import { DropdownItem } from 'reactstrap';
 import { connect } from 'react-redux';
 import { toggleColumnVisiblity } from '../../../actions/columns';
@@ -35,7 +37,7 @@ class ToggleColumn extends React.Component {
    */
   renderColumnDropdown(columns) {
     const notActive = (
-      _.filter(columns, item => !item.value.visible) || []
+      filter(columns, item => !item.value.visible) || []
     ).map(col => col.key);
     return columns.map((column, i) => {
       const checked = !notActive.includes(column.key);
@@ -60,15 +62,15 @@ class ToggleColumn extends React.Component {
    */
   render() {
     const { columns } = this.props;
-    const columnsArray = _.map(columns || {}, (value, key) => ({ key, value }));
-    const filteredColumns = _.filter(
+    const columnsArray = map(columns || {}, (value, key) => ({ key, value }));
+    const filteredColumns = filter(
       columnsArray,
       ({ value }) => value.frozen !== true
     );
 
     return (
       <React.Fragment>
-        {_.isArray(filteredColumns)
+        {isArray(filteredColumns)
           ? this.renderColumnDropdown(filteredColumns)
           : null}
       </React.Fragment>

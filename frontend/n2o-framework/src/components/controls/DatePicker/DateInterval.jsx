@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { defaults } from 'lodash';
+import defaults from 'lodash/defaults';
 import DateTimeControl from './DateTimeControl';
 
 /**

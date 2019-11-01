@@ -1,4 +1,5 @@
-import { map, pull } from 'lodash';
+import map from 'lodash/map';
+import pull from 'lodash/pull';
 
 /**
  * Функция для преобразования данных с помоцию ключей указывающих на значение

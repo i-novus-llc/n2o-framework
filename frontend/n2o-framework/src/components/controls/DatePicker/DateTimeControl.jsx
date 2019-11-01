@@ -1,6 +1,8 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { pick, every, isFunction } from 'lodash';
+import pick from 'lodash/pick';
+import every from 'lodash/every';
+import isFunction from 'lodash/isFunction';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';

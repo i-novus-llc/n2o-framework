@@ -2,15 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
-import {
-  isEqual,
-  omit,
-  filter,
-  toNumber,
-  toString,
-  replace,
-  isNaN,
-} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
+import filter from 'lodash/filter';
+import toNumber from 'lodash/toNumber';
+import toString from 'lodash/toString';
+import replace from 'lodash/replace';
+import isNaN from 'lodash/isNaN';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**

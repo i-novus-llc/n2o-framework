@@ -1,19 +1,19 @@
 import React from 'react';
 import TreeSelect from 'rc-tree-select';
 import { findDOMNode } from 'react-dom';
-import {
-  difference,
-  filter as filterF,
-  every,
-  find,
-  isArray,
-  isEmpty,
-  keys,
-  forEach,
-  map,
-  memoize,
-  some,
-} from 'lodash';
+
+import difference from 'lodash/difference';
+import filterF from 'lodash/filter';
+import every from 'lodash/every';
+import find from 'lodash/find';
+import isArray from 'lodash/isArray';
+import keys from 'lodash/keys';
+import isEmpty from 'lodash/isEmpty';
+import forEach from 'lodash/forEach';
+import map from 'lodash/map';
+import memoize from 'lodash/memoize';
+import some from 'lodash/some';
+
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
 import CheckboxN2O from '../Checkbox/CheckboxN2O';

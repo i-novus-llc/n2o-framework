@@ -3,7 +3,9 @@ import { Provider } from 'react-redux';
 import configureStore from '../../../store';
 import history from '../../../history';
 import factoryResolver from '../../../core/factory/factoryResolver';
-import { values, isObject, isFunction } from 'lodash';
+import values from 'lodash/values';
+import isObject from 'lodash/isObject';
+import isFunction from 'lodash/isFunction';
 import sinon from 'sinon';
 
 import { AdvancedTableContainer } from './AdvancedTableContainer';

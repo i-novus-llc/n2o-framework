@@ -8,7 +8,8 @@ import {
 } from 'redux-saga/effects';
 import { getFormValues, initialize } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
-import { isFunction, get } from 'lodash';
+import isFunction from 'lodash/isFunction';
+import get from 'lodash/get';
 import merge from 'deepmerge';
 
 import {
@@ -73,10 +74,10 @@ export function* handleAction(factories, action) {
       console.log(`Форма ${options.validatedWidgetId} не прошла валидацию.`);
     } else {
       yield actionFunc &&
-      call(actionFunc, {
-        ...options,
-        state,
-      });
+        call(actionFunc, {
+          ...options,
+          state,
+        });
     }
   } catch (err) {
     console.error(err);

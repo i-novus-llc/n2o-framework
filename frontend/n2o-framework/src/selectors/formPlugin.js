@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 /**
  * селектор для редакс-форм
@@ -18,7 +18,7 @@ export const makeFormByName = name =>
   createSelector(
     formsSelector,
     formsState => {
-      return _.get(formsState, name) || {};
+      return get(formsState, name) || {};
     }
   );
 

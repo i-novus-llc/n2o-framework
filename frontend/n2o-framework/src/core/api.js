@@ -1,4 +1,12 @@
-import _, { isPlainObject, isMap, isFunction } from 'lodash';
+import isMap from 'lodash/isMap';
+import isPlainObject from 'lodash/isPlainObject';
+import isFunction from 'lodash/isFunction';
+import identity from 'lodash/identity';
+import omitBy from 'lodash/omitBy';
+import pickBy from 'lodash/pickBy';
+import isObject from 'lodash/isObject';
+import isEmpty from 'lodash/isEmpty';
+import assign from 'lodash/assign';
 import flatten from 'flat';
 import invariant from 'invariant';
 import queryString from 'query-string';
@@ -23,17 +31,12 @@ export const FETCH_VALIDATE = 'FETCH_VALIDATE';
  * @returns {*}
  */
 function clearEmptyParams(obj) {
-  return _(obj)
-    .pickBy(_.identity)
-    .pickBy(_.isObject)
-    .omitBy(_.isEmpty)
-    .assign(
-      _(obj)
-        .pickBy(_.identity)
-        .omitBy(_.isObject)
-        .value()
-    )
-    .value();
+  let firstPart = pickBy(obj, identity);
+  firstPart = pickBy(firstPart, isObject);
+  firstPart = omitBy(firstPart, isEmpty);
+  let secondPart = pickBy(obj, identity);
+  secondPart = omitBy(secondPart, isObject);
+  return assign(firstPart, secondPart);
 }
 
 /**

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 
 import fetchMock from 'fetch-mock';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import InputSelectTreeContainer from '../InputSelectTreeOldDeprecated/InputSelectTreeContainer';
 import InputSelectTreeContainerJson from './InputSelectTreeContainer.meta';
 import { parseUrl } from 'N2oStorybook/fetchMock';

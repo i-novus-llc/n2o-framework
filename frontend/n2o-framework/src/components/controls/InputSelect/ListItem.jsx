@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Badge, DropdownItem } from 'reactstrap';
-import cx from 'classnames';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import CheckboxN2o from '../Checkbox/CheckboxN2O';
 import Icon from '../../snippets/Icon/Icon';
 import propsResolver from '../../../utils/propsResolver';

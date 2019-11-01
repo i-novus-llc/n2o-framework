@@ -1,20 +1,15 @@
-import {
-  isObject,
-  omit,
-  pick,
-  isEqual,
-  isArray,
-  isBoolean,
-  isFunction,
-  each,
-  isEmpty,
-  find,
-  pickBy,
-  get,
-  compact,
-  map,
-  has,
-} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isArray from 'lodash/isArray';
+import isBoolean from 'lodash/isBoolean';
+import isFunction from 'lodash/isFunction';
+import each from 'lodash/each';
+import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
+import pickBy from 'lodash/pickBy';
+import get from 'lodash/get';
+import compact from 'lodash/compact';
+import map from 'lodash/map';
+import has from 'lodash/has';
 import { isPromise } from '../../tools/helpers';
 import * as presets from './presets';
 import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';

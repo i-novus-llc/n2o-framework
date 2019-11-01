@@ -9,7 +9,7 @@ import {
   DropdownItem,
 } from 'reactstrap';
 import { compose, setDisplayName } from 'recompose';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 import { callActionImpl } from '../../actions/toolbar';
 import ModalDialog from './ModalDialog/ModalDialog';
@@ -243,17 +243,17 @@ class Actions extends React.Component {
    * рендер кнопки-дропдауна
    */
   renderDropdownButton({
-                         title,
-                         color,
-                         id,
-                         hint,
-                         visible,
-                         hintPosition,
-                         subMenu,
-                         icon,
-                         size,
-                         disabled,
-                       }) {
+    title,
+    color,
+    id,
+    hint,
+    visible,
+    hintPosition,
+    subMenu,
+    icon,
+    size,
+    disabled,
+  }) {
     const dropdownProps = {
       size,
       title,
@@ -293,18 +293,18 @@ class Actions extends React.Component {
    * @returns {*}
    */
   renderCustomDropdown({
-                         title,
-                         color,
-                         id,
-                         hint,
-                         hintPosition,
-                         visible,
-                         subMenu,
-                         dropdownSrc,
-                         icon,
-                         actionId,
-                         size,
-                       }) {
+    title,
+    color,
+    id,
+    hint,
+    hintPosition,
+    visible,
+    subMenu,
+    dropdownSrc,
+    icon,
+    actionId,
+    size,
+  }) {
     const { containerKey } = this.props;
     const { resolveProps } = this.context;
     const CustomMenu = resolveProps(dropdownSrc);

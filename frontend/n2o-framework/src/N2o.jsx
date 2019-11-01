@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { pick, keys } from 'lodash';
+import pick from 'lodash/pick';
 import { compose, withContext, defaultProps, withProps } from 'recompose';
 import { IntlProvider, addLocaleData } from 'react-intl';
 
@@ -9,7 +9,7 @@ import history from './history';
 import configureStore from './store';
 
 import FactoryProvider from './core/factory/FactoryProvider';
-import factoryPoints from "./core/factory/factoryPoints";
+import factoryPoints from './core/factory/factoryPoints';
 import factoryConfigShape from './core/factory/factoryConfigShape';
 
 import apiProvider from './core/api';

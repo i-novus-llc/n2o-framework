@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues, reset } from 'redux-form';
-import { isEqual, difference, map, isEmpty, unset, debounce } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import difference from 'lodash/difference';
+import map from 'lodash/map';
+import unset from 'lodash/unset';
+import debounce from 'lodash/debounce';
 import { createStructuredSelector } from 'reselect';
 
 import ReduxForm from './Form/ReduxForm';

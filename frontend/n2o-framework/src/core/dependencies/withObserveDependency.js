@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, isFunction, map } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isFunction from 'lodash/isFunction';
+import map from 'lodash/map';
 import observeStore from '../../utils/observeStore';
 import { setWatchDependency } from '../../components/widgets/Form/utils';
 import { DEPENDENCY_TYPES } from '../dependencyTypes';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import AdvancedTableFilterPopup from './AdvancedTableFilterPopup';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Dropdown, DropdownToggle, DropdownMenu, Badge } from 'reactstrap';
 import { Button } from 'reactstrap';
 

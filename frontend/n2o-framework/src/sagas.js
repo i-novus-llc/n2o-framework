@@ -1,4 +1,4 @@
-import { defaultTo } from 'lodash';
+import defaultTo from 'lodash/defaultTo';
 import { all } from 'redux-saga/effects';
 import pagesSagas from './sagas/pages';
 import widgetsSagas from './sagas/widgets';

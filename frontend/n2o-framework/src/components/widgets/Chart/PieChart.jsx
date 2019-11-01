@@ -1,7 +1,6 @@
 import React from 'react';
 import { pure } from 'recompose';
 import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes';
-import { map } from 'lodash';
 import { PieChart as Chart, Pie } from 'recharts';
 
 /**

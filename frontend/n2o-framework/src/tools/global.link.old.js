@@ -1,7 +1,8 @@
 /**
  * Created by emamoshin on 19.06.2017.
  */
-import _ from 'lodash';
+import isObject from 'lodash/isObject'
+import each from 'lodash/each';
 
 const defaultTypeList = ['single', 'multi', 'filter', 'context', 'control'];
 
@@ -15,9 +16,9 @@ const defaultTypeList = ['single', 'multi', 'filter', 'context', 'control'];
 export function resolveLink(state, links) {
   const { widgets } = state;
   let result;
-  if (_.isObject(links)) {
+  if (isObject(links)) {
     result = {};
-    _.each(links, (val, key) => {
+    each(links, (val, key) => {
       if (val && isLinkedString(val)) {
         const parsedLink = parseLink(val);
         if (parsedLink) {

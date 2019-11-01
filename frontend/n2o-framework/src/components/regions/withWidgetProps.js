@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { omit, get } from 'lodash';
+import omit from 'lodash/omit';
+import get from 'lodash/get';
 import { widgetsSelector } from '../../selectors/widgets';
 import { makeModelsByPrefixSelector } from '../../selectors/models';
 

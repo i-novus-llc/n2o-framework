@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
-import { isEmpty, get } from 'lodash';
+import get from 'lodash/get';
 
 import {
   NavItem,

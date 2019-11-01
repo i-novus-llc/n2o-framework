@@ -1,7 +1,6 @@
 import React from 'react';
 import { pure } from 'recompose';
 import PropTypes from 'prop-types';
-import { filter, isString } from 'lodash';
 
 /**
  * Компонент обертка Cell

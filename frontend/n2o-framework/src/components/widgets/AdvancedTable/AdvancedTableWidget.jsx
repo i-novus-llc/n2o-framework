@@ -6,7 +6,7 @@ import StandardWidget from '../StandardWidget';
 import Fieldsets from '../Form/fieldsets';
 
 import dependency from '../../../core/dependency';
-import { values } from 'lodash';
+import values from 'lodash/values';
 
 /**
  * Компонент AdvancedTableWidget

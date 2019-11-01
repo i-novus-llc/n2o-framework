@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Button } from 'reactstrap';
 import { compose, setDisplayName } from 'recompose';
 import withCell from '../../withCell';

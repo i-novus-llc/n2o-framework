@@ -1,4 +1,8 @@
-import { isObject, isFunction, isArray, each, isString, isEmpty } from 'lodash';
+import isObject from 'lodash/isObject';
+import isFunction from 'lodash/isFunction';
+import isArray from 'lodash/isArray';
+import each from 'lodash/each';
+import isString from 'lodash/isString';
 import evalExpression, { parseExpression } from './evalExpression';
 import functions from './functions';
 

@@ -11,7 +11,6 @@ import {
   NavbarToggler,
   Collapse,
 } from 'reactstrap';
-import { isEmpty } from 'lodash';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 import NavbarBrandContent from './NavbarBrandContent';

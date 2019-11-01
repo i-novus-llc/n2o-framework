@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { map } from "lodash";
+import map from "lodash/map";
 import { Toast, ToastBody, ToastHeader } from "reactstrap";
 import cx from "classnames";
 

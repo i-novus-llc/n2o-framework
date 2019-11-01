@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import isObject from 'lodash/isObject';
+import isArray from 'lodash/isArray';
+import values from 'lodash/values';
+import isString from 'lodash/isString';
 import merge from 'deepmerge';
 
 import headers from '../../components/widgets/Table/headers';
@@ -56,9 +59,9 @@ export default function factoryResolver(
 ) {
   const config = merge(index, customConfig);
   let obj = {};
-  if (_.isObject(props)) {
+  if (isObject(props)) {
     Object.keys(props).map(key => {
-      if (_.isObject(props[key])) {
+      if (isObject(props[key])) {
         obj[key] = factoryResolver(props[key]);
       } else if (key === 'src') {
         obj[type] = config[props[key]] || config[defaultComponent];
@@ -66,8 +69,8 @@ export default function factoryResolver(
         obj[key] = props[key];
       }
     });
-    return _.isArray(props) ? _.values(obj) : obj;
-  } else if (_.isString(props)) {
+    return isArray(props) ? values(obj) : obj;
+  } else if (isString(props)) {
     return config[props] || config[defaultComponent];
   }
   return props;

@@ -10,7 +10,10 @@ import {
   CardTitle,
   CardSubtitle,
 } from 'reactstrap';
-import { extend, map, pick, uniqueId } from 'lodash';
+import extend from 'lodash/extend';
+import map from 'lodash/map';
+import pick from 'lodash/pick';
+import uniqueId from 'lodash/uniqueId';
 
 /**
  * Карточка

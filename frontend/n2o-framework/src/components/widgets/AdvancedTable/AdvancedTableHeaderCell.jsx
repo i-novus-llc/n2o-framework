@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { pure } from 'recompose';
-import { isArray, isString } from 'lodash';
+import isArray from 'lodash/isArray';
+import isString from 'lodash/isString';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';

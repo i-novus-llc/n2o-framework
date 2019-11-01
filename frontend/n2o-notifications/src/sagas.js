@@ -1,7 +1,8 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { take, call, fork, select, put, takeEvery } from "redux-saga/effects";
-import { isEmpty, eq } from "lodash";
+import isEmpty from 'lodash/isEmpty';
+import eq from 'lodash/eq';
 import {
   userConfigSelector,
   localizationSelector
