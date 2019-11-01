@@ -13,7 +13,6 @@
       "label": "ссылка",
       "href": "/",
       "type": "link",
-      "icon": "icon",
       "linkType": "outer",
       "security": {
         "roles": [

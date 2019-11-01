@@ -1,7 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
 import AdvancedTable from './AdvancedTable';
-
 import { set } from 'lodash';
 
 const columns = [
@@ -104,7 +103,6 @@ describe('<AdvancedTable/>', () => {
         onResolve,
         onRowClickAction,
       });
-
       wrapper
         .find('.n2o-table-row')
         .first()

@@ -8,6 +8,7 @@ import {
   messageSelector,
   dependencySelector,
   filterSelector,
+  loadingSelector,
 } from './formPlugin';
 
 const state = {
@@ -21,12 +22,14 @@ const state = {
           message: 'test',
           dependency: 'some dependency',
           filter: 'field filter',
+          loading: true,
         },
         field2: {
           visible: false,
           disabled: true,
           isInit: false,
           message: 'message',
+          loading: false,
         },
       },
     },
@@ -75,5 +78,9 @@ describe('Проверка селекторов formPlugin', () => {
     expect(filterSelector('formName', 'field1')(state)).toEqual(
       state.form.formName.registeredFields.field1.filter
     );
+  });
+  it('loadingSelector должен вернуть loading поля', () => {
+    expect(loadingSelector('formName', 'field1')(state)).toBe(true);
+    expect(loadingSelector('formName', 'field2')(state)).toBe(false);
   });
 });

@@ -14,7 +14,7 @@
 
     <extra-menu>
         <sub-menu label="#{username}">
-            <a label="Test" href="https://ya.ru/" />
+            <a label="Test" href="https://ya.ru/" icon="test-icon"/>
         </sub-menu>
     </extra-menu>
 
