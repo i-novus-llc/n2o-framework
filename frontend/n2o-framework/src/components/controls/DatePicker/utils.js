@@ -145,18 +145,15 @@ export function mapToDefaultTime(
     let res = {};
     val.map(input => {
       res[input.name] = {
-        hours:
-          (input.value && moment(input.value).hour()) ||
-          moment(input.defaultTime || '00:00', timeFormat).hour() ||
-          0,
-        mins:
-          (input.value && moment(input.value).minute()) ||
-          moment(input.defaultTime || '00:00', timeFormat).minute() ||
-          0,
-        seconds:
-          (input.value && moment(input.value).second()) ||
-          moment(input.defaultTime || '00:00', timeFormat).second() ||
-          0,
+        hours: defaultTime
+          ? moment(input.defaultTime || '00:00', timeFormat).hour()
+          : (input.value && moment(input.value).hour()) || 0,
+        mins: defaultTime
+          ? moment(input.defaultTime || '00:00', timeFormat).minute()
+          : (input.value && moment(input.value).minute()) || 0,
+        seconds: defaultTime
+          ? moment(input.defaultTime || '00:00', timeFormat).second()
+          : (input.value && moment(input.value).second()) || 0,
         hasDefaultTime: false,
       };
 

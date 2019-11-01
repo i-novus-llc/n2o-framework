@@ -24,12 +24,11 @@ describe('<AdvancedTableRow />', () => {
     const wrapper = setup({
       className: 'test-class',
       isRowActive: true,
-      rowClick: () => {},
       rowClass: 'bg-transparent',
     });
 
     expect(wrapper.find('tr').props().className).toBe(
-      'test-class n2o-table-row n2o-advanced-table-row table-active row-click bg-transparent'
+      'test-class n2o-table-row n2o-advanced-table-row table-active bg-transparent'
     );
   });
 });

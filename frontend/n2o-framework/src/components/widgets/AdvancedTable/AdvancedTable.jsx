@@ -27,6 +27,7 @@ import has from 'lodash/has';
 import isNumber from 'lodash/isNumber';
 import toArray from 'lodash/toArray';
 import AdvancedTableRow from './AdvancedTableRow';
+import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
@@ -92,7 +93,7 @@ class AdvancedTable extends Component {
         ...get(props.components, 'header', {}),
       },
       body: {
-        row: AdvancedTableRow,
+        row: this.renderTableRow(props),
         cell: AdvancedTableCell,
         ...get(props.components, 'body', {}),
       },
@@ -183,6 +184,31 @@ class AdvancedTable extends Component {
     }
   }
 
+  renderTableRow(props) {
+    const { rows } = props;
+    return props => {
+      if (isEmpty(rows)) {
+        return get(props, 'rowClick', false) ? (
+          <AdvancedTableRowWithAction {...props} />
+        ) : (
+          <AdvancedTableRow {...props} />
+        );
+      } else
+        return (
+          <SecurityCheck
+            config={rows.security}
+            render={({ permissions }) => {
+              return permissions ? (
+                <AdvancedTableRowWithAction {...props} />
+              ) : (
+                <AdvancedTableRow {...props} />
+              );
+            }}
+          />
+        );
+    };
+  }
+
   mapChecked(data) {
     const checked = {};
     map(data, item => {
@@ -262,7 +288,26 @@ class AdvancedTable extends Component {
     onFilter && onFilter(filter);
   }
 
-  handleRowClick(id, index, needReturn, noResolve, model) {
+  handleRowClick(id, index, needReturn, noResolve) {
+    const { hasFocus, hasSelect, onResolve, isActive } = this.props;
+    const needToReturn = isActive === needReturn;
+
+    if (!needToReturn && hasSelect && !noResolve) {
+      onResolve(_.find(this._dataStorage, { id }));
+    }
+
+    if (needToReturn) return;
+
+    if (!noResolve && hasSelect && hasFocus) {
+      this.setSelectAndFocus(id, id);
+    } else if (hasFocus) {
+      this.setNewFocusIndex(id);
+    } else if (hasSelect) {
+      this.setNewSelectIndex(id);
+    }
+  }
+
+  handleRowClickWithAction(id, index, needReturn, noResolve, model) {
     const {
       hasFocus,
       hasSelect,
@@ -417,9 +462,13 @@ class AdvancedTable extends Component {
       rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
-      onClick: () =>
-        this.handleRowClick(model.id, model.id, false, false, model),
-      onFocus: () => this.handleRowClick(model.id, model.id, true, true, model),
+      handleRowClick: () => this.handleRowClick(model.id, model.id, false),
+      handleRowClickFocus: () =>
+        this.handleRowClick(model.id, model.id, true, true),
+      clickWithAction: () =>
+        this.handleRowClickWithAction(model.id, model.id, false, false, model),
+      clickFocusWithAction: () =>
+        this.handleRowClickWithAction(model.id, model.id, true, true, model),
     };
   }
 
@@ -648,6 +697,10 @@ AdvancedTable.propTypes = {
    * Автофокус на строке
    */
   autoFocus: PropTypes.bool,
+  /**
+   * Конфиг для SecurityCheck
+   */
+  rows: PropTypes.object,
 };
 
 AdvancedTable.defaultProps = {
@@ -660,6 +713,7 @@ AdvancedTable.defaultProps = {
   onFocus: () => {},
   onSetSelection: () => {},
   autoFocus: false,
+  rows: {},
 };
 
 export { AdvancedTable };

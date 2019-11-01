@@ -41,6 +41,7 @@ describe('Проверка хока withRegisterDependency', function() {
           on: ['name'],
         },
       ],
+      loading: false,
       required: false,
     });
   });

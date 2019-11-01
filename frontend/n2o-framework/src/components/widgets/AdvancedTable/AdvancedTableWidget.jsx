@@ -46,6 +46,7 @@ class AdvancedTableWidget extends Component {
       bordered,
       rowClick,
       expandedFieldId,
+      rows,
       rowClass,
     } = this.props.table;
     const { toolbar, actions, dataProvider, placeholder } = this.props;
@@ -68,6 +69,7 @@ class AdvancedTableWidget extends Component {
       scroll,
       onFetch,
       multiHeader,
+      rows,
       bordered,
       rowClick,
       expandedFieldId,

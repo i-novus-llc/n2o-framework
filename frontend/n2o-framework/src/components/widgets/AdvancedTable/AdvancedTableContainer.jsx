@@ -7,6 +7,9 @@ import isEmpty from 'lodash/isEmpty';
 import pick from 'lodash/pick';
 import forOwn from 'lodash/forOwn';
 import omit from 'lodash/omit';
+import findIndex from 'lodash/findIndex';
+import map from 'lodash/map';
+import set from 'lodash/set';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -17,6 +20,7 @@ import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import PropTypes from 'prop-types';
 import { makeGetFilterModelSelector } from '../../../selectors/models';
+import { getContainerColumns } from "../../../selectors/columns";
 import evalExpression from '../../../utils/evalExpression';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
@@ -106,7 +110,16 @@ class AdvancedTableContainer extends React.Component {
   }
 
   mapColumns() {
-    const { cells, headers, widgetId, sorting, onSort } = this.props;
+    const { cells, headers, widgetId, sorting, onSort, registredColumns } = this.props;
+
+    map(registredColumns, ({ frozen, visible }, key) => {
+      if (!(frozen && !visible)) {
+        const headerIndex = findIndex(headers, ({ id }) => id === key);
+
+        set(headers, `[${headerIndex}].needRender`, true);
+      }
+    });
+
     return headers.map(header => {
       const cell = find(cells, c => c.id === header.id);
       return {
@@ -126,6 +139,7 @@ class AdvancedTableContainer extends React.Component {
         key: header.id,
         hasSpan: cell.hasSpan,
         render: (value, record, index) => ({
+          needRender: header.needRender,
           children: this.renderCell({
             index,
             key: cell.id,
@@ -133,6 +147,7 @@ class AdvancedTableContainer extends React.Component {
             columnId: cell.id,
             model: record,
             as: 'div',
+            needRender: header.needRender,
             ...cell,
           }),
         }),
@@ -192,6 +207,7 @@ AdvancedTableContainer.defaultProps = {
 const mapStateToProps = (state, props) => {
   return {
     filters: makeGetFilterModelSelector(props.widgetId)(state, props),
+    registredColumns: getContainerColumns(props.widgetId)(state, props),
   };
 };
 
@@ -252,6 +268,7 @@ const enhance = compose(
           onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
           className: props.className,
+          rows: props.rows,
         };
       },
     },

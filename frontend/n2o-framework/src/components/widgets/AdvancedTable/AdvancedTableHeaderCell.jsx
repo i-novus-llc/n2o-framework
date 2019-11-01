@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { pure } from 'recompose';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
+import get from 'lodash/get';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
@@ -113,6 +114,7 @@ class AdvancedTableHeaderCell extends Component {
         className={cn('n2o-advanced-table-header-cel', {
           [selectionClass]: selectionHead,
           'n2o-advanced-table-header-text-center': multiHeader,
+          'd-none': !get(children, 'props.needRender', false)
         })}
       >
         <div className="n2o-advanced-table-header-cell-content">
@@ -136,6 +138,7 @@ class AdvancedTableHeaderCell extends Component {
 
   render() {
     const { width, onResize, resizable } = this.props;
+
     return (
       <React.Fragment>
         {resizable && width ? (

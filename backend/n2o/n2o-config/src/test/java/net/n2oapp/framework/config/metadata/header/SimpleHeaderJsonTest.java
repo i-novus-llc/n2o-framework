@@ -25,6 +25,7 @@ public class SimpleHeaderJsonTest extends JsonMetadataTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/header/testPage.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/header/testPage1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/header/testJsonSimpleHeaderWithIcon.header.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/header/testJsonSimpleHeader.header.xml"))
                 .packs(new N2oPagesPack(), new N2oHeaderPack())
                 .extensions(new TestExtAttributeMapper());
@@ -41,8 +42,8 @@ public class SimpleHeaderJsonTest extends JsonMetadataTestBase {
     @Test
     public void testExtAttributes() {
         check(new ClassPathResource("net/n2oapp/framework/config/metadata/header/simpleHeaderData.json"))
-                .exclude("extraItems", "activeId", "items[0].security")
-                .assertEquals(new HeaderContext("testJsonSimpleHeader"));
+                .exclude("activeId", "items[0].security")
+                .assertEquals(new HeaderContext("testJsonSimpleHeaderWithIcon"));
     }
 
 }

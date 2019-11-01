@@ -26,7 +26,9 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
     public StandardField<Checkbox> compile(N2oCheckbox source, CompileContext<?,?> context, CompileProcessor p) {
         Checkbox checkbox = new Checkbox();
         if (source.getUnchecked() != null && source.getUnchecked().equals(CheckboxDefaultValueEnum.FALSE)) {
-            checkbox.setDefaultUnchecked(false);
+            checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.FALSE.getId());
+        } else {
+            checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.NULL.getId());
         }
         StandardField<Checkbox> field = compileStandardField(checkbox, source, context, p);
         if (field.getLabel() != null) {

@@ -104,7 +104,6 @@ describe('<AdvancedTable/>', () => {
         onResolve,
         onRowClickAction,
       });
-
       wrapper
         .find('.n2o-table-row')
         .first()
@@ -407,7 +406,6 @@ describe('<AdvancedTable/>', () => {
       const wrapper = setup({
         rowSelection: true,
       });
-      console.log(wrapper.debug());
       expect(wrapper.find('CheckboxN2O input').length).toBe(4);
     });
 
@@ -469,7 +467,6 @@ describe('<AdvancedTable/>', () => {
       const checkboxes = wrapper.find('CheckboxN2O input');
 
       checkboxes.at(1).simulate('change', { target: { checked: false } });
-      console.log('point');
       expect(table.state().checkedAll).toBe(false);
       expect(table.state().checked).toEqual({
         '1': true,

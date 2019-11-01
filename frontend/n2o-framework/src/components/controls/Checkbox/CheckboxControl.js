@@ -3,11 +3,13 @@ import CheckboxN2O from './CheckboxN2O';
 
 export default compose(
   defaultProps({
-    defaultUnchecked: false,
+    defaultUnchecked: 'null',
   }),
   withHandlers({
-    onChange: ({ defaultUnchecked, ...props }) => event => {
+    onChange: props => event => {
       const value = event.nativeEvent.target.checked;
+      const defaultUnchecked =
+        props.defaultUnchecked === 'false' ? false : null;
 
       props.onChange(!value ? defaultUnchecked : value);
     },

@@ -82,10 +82,19 @@ class WidgetFilters extends React.Component {
       filterModel,
       setFilterModel,
       searchOnChange,
+      dispatch,
+      validation,
     } = this.props;
+
+    const { store } = this.context;
+    const state = store.getState();
 
     if (!isEqual(filterModel, values)) {
       setFilterModel(widgetId, values);
+      validateField(validation, this.formName, state, true)(
+        values,
+        dispatch
+      );
       if (searchOnChange) {
         this.debouncedHandleFilter();
       }

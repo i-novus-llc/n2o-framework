@@ -14,6 +14,7 @@ import {
   SET_FIELD_FILTER,
   SET_REQUIRED,
   UNSET_REQUIRED,
+  SET_LOADING,
 } from '../constants/formPlugin';
 import createActionHelper from './createActionHelper';
 
@@ -257,5 +258,24 @@ export function unsetRequired(form, name) {
   )({
     name,
     form,
+  });
+}
+
+/**
+ * Поставить флаг загрузки
+ * @param form
+ * @param name
+ * @param loading
+ * @return {{type}}
+ */
+export function setLoading(form, name, loading) {
+  return createActionHelper(
+    SET_LOADING,
+    payload => payload,
+    ({ form }) => ({ form })
+  )({
+    form,
+    name,
+    loading,
   });
 }

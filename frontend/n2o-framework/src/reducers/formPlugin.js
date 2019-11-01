@@ -19,6 +19,7 @@ import {
   DISABLE_FIELDS,
   SET_REQUIRED,
   UNSET_REQUIRED,
+  SET_LOADING,
 } from '../constants/formPlugin';
 import { actionTypes } from 'redux-form';
 
@@ -30,6 +31,7 @@ const defaultState = {
   filter: [],
   dependency: null,
   required: false,
+  loading: false,
 };
 
 const setValueByNames = (state, names, props) =>
@@ -92,6 +94,8 @@ function resolve(state = defaultState, action) {
       return Object.assign({}, state, { required: true });
     case UNSET_REQUIRED:
       return Object.assign({}, state, { required: false });
+    case SET_LOADING:
+      return Object.assign({}, state, { loading: action.payload.loading });
     default:
       return state;
   }
@@ -137,6 +141,7 @@ export default function formPlugin(state = {}, action) {
     case SET_FIELD_FILTER:
     case SET_REQUIRED:
     case UNSET_REQUIRED:
+    case SET_LOADING:
       return set(
         state,
         ['registeredFields', action.payload.name],

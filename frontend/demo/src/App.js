@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import N2O from 'n2o-framework/lib/N2o';
+import { authProvider } from 'n2o-auth';
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 import functions from "n2o-framework/lib/utils/functions";
 import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o-framework/lib/core/api';
@@ -31,6 +32,10 @@ const config = {
       warning: 0,
       info: 0,
     }
+  },
+  security: {
+    authProvider,
+    externalLoginUrl: '/'
   },
   evalContext: functions,
   apiProvider: handleApi({

@@ -10,6 +10,6 @@
         </sub-menu>
     </nav>
     <extra-menu>
-        <a label="Внешняя ссылка" href="http://example.com"/>
+        <a label="Внешняя ссылка" href="http://example.com" icon="fa fa-hand-peace-o"/>
     </extra-menu>
 </header>
