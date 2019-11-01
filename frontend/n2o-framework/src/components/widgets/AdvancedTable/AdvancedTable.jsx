@@ -293,7 +293,7 @@ class AdvancedTable extends Component {
     const needToReturn = isActive === needReturn;
 
     if (!needToReturn && hasSelect && !noResolve) {
-      onResolve(_.find(this._dataStorage, { id }));
+      onResolve(find(this._dataStorage, { id }));
     }
 
     if (needToReturn) return;
