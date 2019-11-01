@@ -153,7 +153,7 @@ describe('Проверка саги dependency', () => {
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка зависимости fetchValue', async () => {
-      fetchMock.get('n2o/test', () => ({
+      fetchMock.get('/test', () => ({
         status: 200,
         body: {
           list: [
@@ -197,7 +197,6 @@ describe('Проверка саги dependency', () => {
           name: '',
         }
       ).toPromise();
-      console.log(dispatched);
       expect(dispatched[0].type).toBe(SET_LOADING);
       expect(dispatched[0].payload.loading).toBe(true);
       expect(dispatched[1].type).toBe(FETCH_START);

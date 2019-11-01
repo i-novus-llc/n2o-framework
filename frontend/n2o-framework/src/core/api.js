@@ -115,7 +115,7 @@ export const defaultApiProvider = {
         ),
       ].join('')
     ),
-  [FETCH_VALUE]: options => request([API_PREFIX, options.url].join('')),
+  [FETCH_VALUE]: ({ url }) => request(url),
 };
 
 /**
