@@ -112,7 +112,7 @@ class AdvancedTableHeaderCell extends Component {
         className={cn('n2o-advanced-table-header-cel', {
           [selectionClass]: selectionHead,
           'n2o-advanced-table-header-text-center': multiHeader,
-          'd-none': !get(children, 'props.needRender', false)
+          'd-none': !get(children, 'props.needRender', false),
         })}
       >
         <div className="n2o-advanced-table-header-cell-content">

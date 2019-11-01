@@ -35,7 +35,8 @@ public class SimpleHeaderJsonTest extends JsonMetadataTestBase {
     public void simpleHeader() {
         check("plugins/Header/SimpleHeader/simpleHeaderData.json")
                 .exclude("extraItems", "activeId", "items[0].security",
-                        "items[0].extObject")
+                        "items[0].extObject", "items[1].subItems[0].badge", "items[1].subItems[0].badgeColor",
+                        "items[1].subItems[1].badge", "items[1].subItems[1].badgeColor")
                 .assertEquals(new HeaderContext("testJsonSimpleHeader"));
     }
 
