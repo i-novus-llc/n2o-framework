@@ -14,7 +14,7 @@
     <xs:element name="input-text" type="controlInputTextDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
-    <xs:element name="checkbox" type="controlSimpleFieldDefinition"/>
+    <xs:element name="checkbox" type="controlCheckboxDefinition"/>
     <xs:element name="password" type="controlPasswordDefinition"/>
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
@@ -32,6 +32,7 @@
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
+    <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -43,7 +44,7 @@
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
             <xs:element name="masked-input" type="controlMaskedInputDefinition" minOccurs="0"/>
-            <xs:element name="checkbox" type="controlSimpleFieldDefinition" minOccurs="0"/>
+            <xs:element name="checkbox" type="controlCheckboxDefinition" minOccurs="0"/>
             <xs:element name="password" type="controlPasswordDefinition" minOccurs="0"/>
             <xs:element name="date-interval" type="controlDateIntervalDefinition" minOccurs="0"/>
             <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
@@ -61,6 +62,7 @@
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
+            <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -242,7 +244,6 @@
     <xs:complexType name="controlCodeEditor">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
                 <xs:attribute name="language" use="optional">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -254,6 +255,8 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
+                <xs:attribute name="min-lines" type="xs:positiveInteger" use="optional"/>
+                <xs:attribute name="max-lines" type="xs:positiveInteger" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -338,6 +341,30 @@
                 <xs:attribute name="min" type="xs:integer"/>
                 <xs:attribute name="max" type="xs:integer"/>
                 <xs:attribute name="step" type="xs:integer"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlAutoCompleteDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="options" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="option">
+                                    <xs:complexType>
+                                        <xs:attribute name="name" type="xs:string"/>
+                                        <xs:anyAttribute namespace="##local" processContents="skip"/>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="query-id" type="xs:string"/>
+                <xs:attribute name="value-field-id" type="xs:string"/>
+                <xs:attribute name="search-filter-id" type="xs:string"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -503,7 +530,7 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:attribute name="type" type="inputSelectType"/>
-                <xs:attribute name="store-on-input" type="xs:boolean" default="true"/>
+                <xs:attribute name="reset-on-blur" type="xs:boolean" default="true"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -641,6 +668,18 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlCheckboxDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="unchecked" type="uncheckedValue">
+                    <xs:annotation>
+                        <xs:documentation>Значение, которое будет отправлялться если чекбокс не отмечен. По умолчанию null.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="controlPasswordDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
@@ -723,6 +762,16 @@
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="edit"/>
             <xs:enumeration value="selected"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="uncheckedValue">
+        <xs:annotation>
+            <xs:documentation>Значение, которое будет отправлялться если чекбокс не отмечен.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="null"/>
+            <xs:enumeration value="false"/>
         </xs:restriction>
     </xs:simpleType>
 

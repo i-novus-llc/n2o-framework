@@ -3,17 +3,20 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
+import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -24,6 +27,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -90,11 +94,20 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testRowClick() {
-        Table table = (Table)compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.widget.xml")
-                .get(new WidgetContext("testTable4RowClickCompile"));
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
+                .get(new PageContext("testTable4RowClickCompile"));
+        List<AbstractAction> rowClicks = new ArrayList<>();
+        page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((TableWidgetComponent) widget.getComponent()).getRowClick()));
 
-        assertThat(table.getComponent().getRowClick(), notNullValue());
-        assertThat(table.getComponent().getRowClick(), instanceOf(Action.class));
+        assertThat(rowClicks.size(), is(8));
+        assertThat(rowClicks.get(0), nullValue());
+        assertThat(rowClicks.get(1).getEnablingCondition(), nullValue(String.class));
+        assertThat(rowClicks.get(2).getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(3).getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(4).getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(5).getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(6).getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(7).getEnablingCondition(), is("1==1"));
     }
 
     @Test
@@ -213,8 +226,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("sb"));
         assertThat(field.getSrc(), is("StandardField"));
-        assertThat(((StandardField)field).getControl(), instanceOf(SearchButtons.class));
-        assertThat(((StandardField)field).getControl().getSrc(), is("FilterButtonsField"));
+        assertThat(((StandardField) field).getControl(), instanceOf(SearchButtons.class));
+        assertThat(((StandardField) field).getControl().getSrc(), is("FilterButtonsField"));
 
         assertThat(((StandardField<SearchButtons>) field).getControl().getResetLabel(), is("resetLabel"));
         assertThat(((StandardField<SearchButtons>) field).getControl().getSearchLabel(), is("searchLabel"));
@@ -260,5 +273,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));
         assertThat(queryContext.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
         assertThat(queryContext.getValidations().get(0).getSeverity(), is(SeverityType.danger));
+    }
+
+    @Test
+    public void testColumnVisibility() {
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
+                .get(new PageContext("testTableColumnVisibility"));
+        List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
+        assertThat(columnHeaders.get(0).getVisible(), is(Boolean.FALSE));
+        assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
     }
 }

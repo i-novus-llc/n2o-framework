@@ -14,5 +14,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 public class N2oRowClick implements Source {
     private String actionId;
 
+    private String enabled;
+
     private N2oAction action;
 }

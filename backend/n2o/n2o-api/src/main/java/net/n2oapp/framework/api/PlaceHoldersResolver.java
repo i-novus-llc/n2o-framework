@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.POJONode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import net.n2oapp.criteria.dataset.NestedUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.core.env.PropertyResolver;
@@ -28,21 +29,33 @@ public class PlaceHoldersResolver {
 
     private String prefix;
     private String suffix;
-    private Set<String> excludes;
+    private Boolean onlyJavaVariable;
 
     /**
      * Создать замену плейсхолдеров
      *
      * @param prefix Начало плейсхолдера
      * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
-     * @param excludes Строки - исключения
      *
      */
-    public PlaceHoldersResolver(String prefix, String suffix, String... excludes) {
+    public PlaceHoldersResolver(String prefix, String suffix) {
         this.prefix = prefix;
         this.suffix = suffix;
-        if (excludes != null && excludes.length > 0)
-            this.excludes = new HashSet<>(Arrays.asList(excludes));
+        this.onlyJavaVariable = false;
+    }
+
+    /**
+     * Создать замену плейсхолдеров
+     *
+     * @param prefix Начало плейсхолдера
+     * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
+     * @param onlyJavaVariable Учитывать плейсхолдеры только соответсвующие спецификации java переменных
+     *
+     */
+    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable) {
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.onlyJavaVariable = onlyJavaVariable;
     }
 
     /**
@@ -216,9 +229,14 @@ public class PlaceHoldersResolver {
             }
             if (idxSuffix > 0) {
                 String placeholder = split[i].substring(0, idxSuffix);
-                Object value = callback.apply(placeholder);
-                sb.append(value);
-                sb.append(split[i].substring(idxNext));
+                if (onlyJavaVariable && !NestedUtils.isJavaVariable(placeholder)) {
+                    sb.append(prefix);
+                    sb.append(split[i]);
+                } else {
+                    Object value = callback.apply(placeholder);
+                    sb.append(value);
+                    sb.append(split[i].substring(idxNext));
+                }
             }
         }
         return sb.toString();

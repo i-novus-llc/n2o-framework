@@ -2,7 +2,9 @@ package net.n2oapp.criteria.filters;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Test for {@link FilterChecker}
@@ -90,5 +92,7 @@ public class FilterCheckerTest {
         assert !new Filter(Arrays.asList(1, 5), FilterType.contains).check(Arrays.asList(1, 2, 3));
         assert !new Filter(Arrays.asList(1, 2, 3, 4), FilterType.contains).check(Arrays.asList(1, 2, 3));
         assert !new Filter(Arrays.asList(1, 2), FilterType.contains).check(null);
+        assert !new Filter(Arrays.asList(1, 2), FilterType.contains).check(new ArrayList<>());
+        assert !new Filter(Collections.emptyList(), FilterType.contains).check(Arrays.asList(1));
     }
 }

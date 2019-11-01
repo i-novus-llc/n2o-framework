@@ -5,7 +5,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
-import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -23,10 +22,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SpringRestDataProviderEngineTest {
     @Test
     public void testSimple() {
-        Properties properties = new Properties();
-        properties.put("n2o.engine.mapper", "spel");
-        new TestStaticProperties().setProperties(properties);
-
         //самый простой случай
         TestRestTemplate restTemplate = new TestRestTemplate("");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restTemplate, new ObjectMapper());
@@ -264,9 +259,6 @@ public class SpringRestDataProviderEngineTest {
 
     @Test
     public void testListParameters() {
-        Properties properties = new Properties();
-        properties.put("n2o.engine.mapper", "spel");
-        new TestStaticProperties().setProperties(properties);
         TestRestTemplate restClient = new TestRestTemplate("");
         SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, new ObjectMapper());
         N2oRestDataProvider dataProvider = new N2oRestDataProvider();

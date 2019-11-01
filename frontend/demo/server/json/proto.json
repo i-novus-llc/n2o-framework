@@ -431,7 +431,8 @@
                   "title": "Предупреждение",
                   "okLabel": "Да",
                   "cancelLabel": "Нет",
-                  "modelLink": "models.resolve['proto_patients']"
+                  "modelLink": "models.resolve['proto_patients']",
+                  "mode": "modal"
                 },
                 "title": "Удалить"
               }
@@ -863,7 +864,8 @@
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
-                          "label": "VIP"
+                          "label": "VIP",
+                          "defaultUnchecked": "null"
                         }
                       }
                     ]
@@ -1036,102 +1038,108 @@
             "id": "",
             "fieldKey": "",
             "src": "ButtonsCell",
-            "buttons": [
-              {
-                "id": "subMenu0",
-                "icon": "fa fa-ellipsis-v",
-                "conditions": {},
-                "subMenu": [
-                  {
-                    "id": "delete",
-                    "icon": "fa fa-trash",
-                    "actionId": "delete",
-                    "action": {
+            "toolbar": [{
+              "buttons": [
+                {
+                  "id": "subMenu0",
+                  "icon": "fa fa-ellipsis-v",
+                  "conditions": {},
+                  "color": "link",
+                  "subMenu": [
+                    {
                       "id": "delete",
-                      "src": "perform",
-                      "options": {
-                        "type": "n2o/actionImpl/START_INVOKE",
-                        "payload": {
-                          "widgetId": "proto_patients",
-                          "dataProvider": {
-                            "url": "n2o/data/proto/:proto_patients_id/delete",
-                            "pathMapping": {
-                              "proto_patients_id": {
-                                "link": "models.resolve['proto_patients'].id"
-                              }
-                            },
-                            "method": "POST"
-                          },
-                          "modelLink": "models.resolve['proto_patients']"
-                        },
-                        "meta": {
-                          "success": {
-                            "refresh": {
-                              "type": "widget",
-                              "options": {
-                                "widgetId": "proto_patients"
-                              }
-                            }
-                          },
-                          "fail": {}
-                        }
-                      }
+                      "icon": "fa fa-trash",
+                      "actionId": "delete",
+                      "conditions": {
+                        "enabled": [
+                          {
+                            "expression": "!_.isEmpty(this)",
+                            "modelLink": "models.resolve['proto_patients']"
+                          }
+                        ]
+                      },
+                      "confirm": {
+                        "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
+                        "title": "Предупреждение",
+                        "okLabel": "Да",
+                        "cancelLabel": "Нет",
+                        "modelLink": "models.resolve['proto_patients']",
+                        "mode": "modal"
+                      },
+                      "title": "Удалить"
                     },
-                    "conditions": {
-                      "enabled": [
-                        {
-                          "expression": "!_.isEmpty(this)",
-                          "modelLink": "models.resolve['proto_patients']"
-                        }
-                      ]
-                    },
-                    "confirm": {
-                      "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
-                      "title": "Предупреждение",
-                      "okLabel": "Да",
-                      "cancelLabel": "Нет",
-                      "modelLink": "models.resolve['proto_patients']"
-                    },
-                    "title": "Удалить"
-                  },
-                  {
-                    "id": "update",
-                    "icon": "fa fa-pencil",
-                    "actionId": "update",
-                    "action": {
+                    {
                       "id": "update",
-                      "src": "perform",
-                      "options": {
-                        "type": "n2o/overlays/INSERT",
-                        "payload": {
-                          "name": "proto_update",
-                          "pageId": "proto_update",
-                          "pageUrl": "/proto/:proto_patients_id/update",
-                          "pathMapping": {
-                            "proto_patients_id": {
-                              "link": "models.resolve['proto_patients'].id"
-                            }
-                          },
-                          "queryMapping": {},
-                          "closeButton": true,
-                          "visible": true,
-                          "mode": "modal"
+                      "icon": "fa fa-pencil",
+                      "actionId": "update",
+                      "conditions": {
+                        "enabled": [
+                          {
+                            "expression": "!_.isEmpty(this)",
+                            "modelLink": "models.resolve['proto_patients']"
+                          }
+                        ]
+                      },
+                      "title": "Изменить"
+                    }
+                  ]
+                }
+              ]
+            }],
+            "actions": {
+              "delete": {
+                "id": "delete",
+                "src": "perform",
+                "options": {
+                  "type": "n2o/actionImpl/START_INVOKE",
+                  "payload": {
+                    "widgetId": "proto_patients",
+                    "dataProvider": {
+                      "url": "n2o/data/proto/:proto_patients_id/delete",
+                      "pathMapping": {
+                        "proto_patients_id": {
+                          "link": "models.resolve['proto_patients'].id"
+                        }
+                      },
+                      "method": "POST"
+                    },
+                    "modelLink": "models.resolve['proto_patients']"
+                  },
+                  "meta": {
+                    "success": {
+                      "refresh": {
+                        "type": "widget",
+                        "options": {
+                          "widgetId": "proto_patients"
                         }
                       }
                     },
-                    "conditions": {
-                      "enabled": [
-                        {
-                          "expression": "!_.isEmpty(this)",
-                          "modelLink": "models.resolve['proto_patients']"
-                        }
-                      ]
-                    },
-                    "title": "Изменить"
+                    "fail": {}
                   }
-                ]
+                }
+              },
+              "update": {
+                "id": "update",
+                "src": "perform",
+                "options": {
+                  "type": "n2o/overlays/INSERT",
+                  "payload": {
+                    "name": "proto_update",
+                    "pageId": "proto_update",
+                    "pageUrl": "/proto/:proto_patients_id/update",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      }
+                    },
+                    "queryMapping": {},
+                    "closeButton": true,
+                    "visible": true,
+                    "mode": "modal"
+                  }
+                }
               }
-            ]
+            }
           }
         ],
         "headers": [
@@ -1309,100 +1317,107 @@
         },
         "extra": {
           "src": "ButtonsCell",
-          "buttons": [
-            {
-              "id": "update",
-              "icon": "fa fa-pencil",
-              "actionId": "update",
-              "action": {
+          "toolbar": [{
+            "buttons": [
+              {
                 "id": "update",
-                "src": "perform",
-                "options": {
-                  "type": "n2o/overlays/INSERT",
-                  "payload": {
-                    "name": "proto_contacts_update",
-                    "pageId": "proto_contacts_update",
-                    "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
+                "icon": "fa fa-pencil",
+                "actionId": "update",
+                "color": "link",
+                "conditions": {
+                  "enabled": [
+                    {
+                      "expression": "!_.isEmpty(this)",
+                      "modelLink": "models.resolve['proto_contacts']"
+                    }
+                  ]
+                },
+                "title": "Изменить"
+              },
+              {
+                "id": "delete",
+                "icon": "fa fa-trash",
+                "actionId": "delete",
+                "color": "link",
+                "conditions": {
+                  "enabled": [
+                    {
+                      "expression": "!_.isEmpty(this)",
+                      "modelLink": "models.resolve['proto_contacts']"
+                    }
+                  ]
+                },
+                "confirm": {
+                  "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
+                  "title": "Предупреждение",
+                  "okLabel": "Да",
+                  "cancelLabel": "Нет",
+                  "mode": "modal"
+                },
+                "title": "Удалить"
+              }
+            ]
+          }],
+          "actions": {
+            "update": {
+              "id": "update",
+              "src": "perform",
+              "options": {
+                "type": "n2o/overlays/INSERT",
+                "payload": {
+                  "name": "proto_contacts_update",
+                  "pageId": "proto_contacts_update",
+                  "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
+                  "pathMapping": {
+                    "proto_patients_id": {
+                      "link": "models.resolve['proto_patients'].id"
+                    },
+                    "proto_contacts_id": {
+                      "link": "models.resolve['proto_contacts'].id"
+                    }
+                  },
+                  "queryMapping": {},
+                  "closeButton": true,
+                  "visible": true,
+                  "mode": "modal"
+                }
+              }
+            },
+            "delete": {
+              "id": "delete",
+              "src": "perform",
+              "options": {
+                "type": "n2o/actionImpl/START_INVOKE",
+                "payload": {
+                  "widgetId": "proto_contacts",
+                  "dataProvider": {
+                    "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
                     "pathMapping": {
-                      "proto_patients_id": {
-                        "link": "models.resolve['proto_patients'].id"
-                      },
                       "proto_contacts_id": {
                         "link": "models.resolve['proto_contacts'].id"
-                      }
-                    },
-                    "queryMapping": {},
-                    "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
-                  }
-                }
-              },
-              "conditions": {
-                "enabled": [
-                  {
-                    "expression": "!_.isEmpty(this)",
-                    "modelLink": "models.resolve['proto_contacts']"
-                  }
-                ]
-              },
-              "title": "Изменить"
-            },
-            {
-              "id": "delete",
-              "icon": "fa fa-trash",
-              "actionId": "delete",
-              "action": {
-                "id": "delete",
-                "src": "perform",
-                "options": {
-                  "type": "n2o/actionImpl/START_INVOKE",
-                  "payload": {
-                    "widgetId": "proto_contacts",
-                    "dataProvider": {
-                      "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
-                      "pathMapping": {
-                        "proto_contacts_id": {
-                          "link": "models.resolve['proto_contacts'].id"
-                        },
-                        "proto_patients_id": {
-                          "link": "models.resolve['proto_patients'].id"
-                        }
                       },
-                      "method": "POST"
-                    },
-                    "modelLink": "models.resolve['proto_contacts']"
-                  },
-                  "meta": {
-                    "success": {
-                      "refresh": {
-                        "type": "widget",
-                        "options": {
-                          "widgetId": "proto_contacts"
-                        }
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
                       }
                     },
-                    "fail": {}
-                  }
+                    "method": "POST"
+                  },
+                  "modelLink": "models.resolve['proto_contacts']"
+                },
+                "meta": {
+                  "success": {
+                    "refresh": {
+                      "type": "widget",
+                      "options": {
+                        "widgetId": "proto_contacts"
+                      }
+                    }
+                  },
+                  "fail": {}
                 }
-              },
-              "conditions": {
-                "enabled": [
-                  {
-                    "expression": "!_.isEmpty(this)",
-                    "modelLink": "models.resolve['proto_contacts']"
-                  }
-                ]
-              },
-              "confirm": {
-                "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
-                "title": "Предупреждение",
-                "okLabel": "Да",
-                "cancelLabel": "Нет"
-              },
-              "title": "Удалить"
+              }
             }
-          ]
+          }
         },
         "header": {
           "id": "type.name",
@@ -1512,7 +1527,8 @@
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
-                          "label": "VIP"
+                          "label": "VIP",
+                          "defaultUnchecked": "null"
                         }
                       }
                     ]

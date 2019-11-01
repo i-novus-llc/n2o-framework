@@ -1,0 +1,204 @@
+{
+  "List": {
+    "src": "ListWidget",
+    "className": "n2o",
+    "dataProvider": {
+      "url": "n2o/data/testListWidget",
+      "pathMapping": {
+      },
+      "queryMapping": {}
+    },
+    "toolbar": {
+      "topRight": [
+        {
+          "id": "topRight0",
+          "buttons": [
+            {
+              "id": "menuItem0",
+              "actionId": "menuItem0",
+              "hint": "Изменить видимость фильтров",
+              "icon": "fa fa-filter"
+            },
+            {
+              "id": "menuItem2",
+              "hint": "Обновить данные",
+              "icon": "fa fa-refresh",
+              "actionId": "menuItem2"
+            }
+          ]
+        }
+      ]
+    },
+    "actions": {
+      "menuItem0": {
+        "src": "perform",
+        "options": {
+          "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
+          "payload": {
+            "widgetId": "Page_Table"
+          }
+        }
+      },
+      "menuItem2": {
+        "src": "perform",
+        "options": {
+          "type": "n2o/widgets/DATA_REQUEST",
+          "payload": {
+            "widgetId": "Page_Table"
+          }
+        }
+      },
+      "exportModal": {
+        "widgetId": "Page_Table",
+        "src": "perform",
+        "options": {
+          "type": "n2o/overlays/INSERT",
+          "payload": {
+            "widgetId": "Page_Table",
+            "type": "n2o/overlays/INSERT",
+            "name": "test2",
+            "src": "exportModal",
+            "title": "Экспортровать",
+            "size": "sm",
+            "visible": true,
+            "closeButton": false,
+            "actions": {
+              "export": {
+                "src": "exportTable",
+                "notification": {
+                  "severity": "danger",
+                  "text": "Это сообщение будет отображаться 10 секунд",
+                  "timeout": 10000
+                },
+                "redirectTo": "/test",
+                "options": {
+                  "widgetId": "Page_Table"
+                }
+              },
+              "destroyModal": {
+                "src": "perform",
+                "options": {
+                  "type": "n2o/overlays/DESTROY"
+                }
+              }
+            },
+            "toolbar": [
+              {
+                "buttons": [
+                  {
+                    "id": "export",
+                    "title": "Загрузить",
+                    "actionId": "export",
+                    "className": "btn-primary",
+                    "icon": "fa fa-download"
+                  },
+                  {
+                    "id": "cancelExport",
+                    "title": "Отменить",
+                    "actionId": "destroyModal"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "paging": {
+      "size": 10,
+      "prev": true,
+      "next": true
+    },
+    "hasMoreButton": true,
+    "fetchOnScroll": false,
+    "maxHeight": null,
+    "maxWidth": null,
+    "showPagination": false,
+    "divider": true,
+    "list": {
+      "leftTop": {
+        "src": "ImageCell",
+        "id": "leftTop",
+        "className": "list-image",
+        "title": "It's a cat!"
+      },
+      "leftBottom": {
+        "src": "TextCell",
+        "id": "leftBottom",
+        "as": "span"
+      },
+      "header": {
+        "src": "TextCell",
+        "id": "header",
+        "as": "h3"
+      },
+      "body": {
+        "src": "TextCell",
+        "id": "body",
+        "visible": true
+      },
+      "subHeader": {
+        "src": "BadgeCell",
+        "id": "subHeader",
+        "as": "h4"
+      },
+      "rightTop": {
+        "src": "IconCell",
+        "id": "rightTop",
+        "visible": true,
+        "icon": "fa fa-comment"
+      },
+      "rightBottom": {
+        "src": "TextCell",
+        "id": "rightBottom",
+        "visible": true
+      },
+      "extra": {
+        "id": "extra",
+        "src": "ButtonsCell",
+        "fieldKey": "name",
+        "className": "n2o",
+        "style": {},
+        "toolbar": [
+          {
+            "buttons": [
+              {
+                "id": "1",
+                "title": "",
+                "icon": "fa fa-plus",
+                "hint": "Make a cat clever",
+                "size": "md",
+                "visible": true,
+                "disabled": false
+              },
+              {
+                "id": "2",
+                "title": "",
+                "icon": "fa fa-trash",
+                "hint": "Delete",
+                "size": "md",
+                "visible": true,
+                "disabled": false
+              }
+            ]
+          }
+        ],
+        "actions":
+        {
+          "dummy": {
+            "src": "dummyImpl",
+            "options": {
+              "testProp": "testValueProp"
+            }
+          },
+          "dummy2": {
+            "src": "dummyImpl",
+            "options": {
+              "testProp": "testValueProp"
+            }
+          }
+        }
+      }
+    }
+  }
+}
