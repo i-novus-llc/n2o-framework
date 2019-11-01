@@ -3,57 +3,9 @@ import SimpleHeader from './SimpleHeader';
 import { mount } from 'enzyme';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallowToJson } from 'enzyme-to-json';
+import MetaJSON from './simpleHeaderData';
 
-const props = {
-  items: [
-    {
-      id: 'link',
-      label: 'link',
-      href: '/link',
-      type: 'link',
-      linkType: 'inner',
-    },
-    {
-      id: 'dropdown',
-      label: 'dropdown',
-      type: 'dropdown',
-      subItems: [
-        {
-          id: 'link1',
-          label: 'link1',
-          href: 'link1.ru',
-          linkType: 'outer',
-          badge: 'badge1',
-          badgeColor: 'danger',
-        },
-      ],
-    },
-  ],
-  extraItems: [
-    {
-      id: 'text',
-      label: 'text',
-      type: 'text',
-    },
-    {
-      id: 'dropdown1',
-      label: 'список №2',
-      type: 'dropdown',
-      subItems: [
-        {
-          label: 'элемент списка №1',
-          href: '/',
-          type: 'link',
-          badge: 'бадж 1',
-          badgeColor: 'warning',
-        },
-      ],
-    },
-  ],
-  brand: 'N2O',
-  search: true,
-  brandImage: '/image.svg',
-};
+const props = MetaJSON;
 
 const setup = (propOverrides, defaultProps = props) => {
   const props = Object.assign({}, defaultProps, propOverrides);
