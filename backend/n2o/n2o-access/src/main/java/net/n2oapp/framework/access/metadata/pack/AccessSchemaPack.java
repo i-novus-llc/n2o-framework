@@ -5,6 +5,7 @@ import net.n2oapp.framework.access.metadata.accesspoint.io.ObjectFiltersAccessPo
 import net.n2oapp.framework.access.metadata.accesspoint.io.PageAccessPointIOv2;
 import net.n2oapp.framework.access.metadata.accesspoint.io.ObjectAccessPointIOv2;
 import net.n2oapp.framework.access.metadata.accesspoint.io.UrlAccessPointIOv2;
+import net.n2oapp.framework.access.metadata.compile.SecurityExtensionAttributeMapper;
 import net.n2oapp.framework.access.metadata.compile.SimpleAccessSchemaCompiler;
 import net.n2oapp.framework.access.metadata.schema.N2oAccessSchema;
 import net.n2oapp.framework.access.metadata.schema.io.SimpleAccessIOv2;
@@ -27,6 +28,9 @@ public class AccessSchemaPack implements MetadataPack<N2oApplicationBuilder> {
                 .readers(new SimpleAccessSchemaReaderV1())
                 .persisters(new SimpleAccessSchemaPersister())
                 .compilers(new SimpleAccessSchemaCompiler())
-                .packs(new AccessPointsV1Pack());
+                .packs(new AccessPointsV1Pack())
+                .packs(new AccessPointsIOV2Pack())
+                .packs(new AccessTransformersPack())
+                .extensions(new SecurityExtensionAttributeMapper());
     }
 }

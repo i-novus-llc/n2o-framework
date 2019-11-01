@@ -7,7 +7,7 @@
     <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left">
             <toolbar generate="update,delete" src="test">
-                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true">
+                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true" confirm-type="popover">
                     <invoke operation-id="testId" route="route" src="src"
                             redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
@@ -90,7 +90,7 @@
     <pagination src="test" first="false" hide-single-page="false"
                 last="false" next="false" prev="false" show-count="false">
     </pagination>
-    <filters place="left">
+    <filters place="left" search-on-change="true">
         <ctr:input-text id="test"/>
         <set src="test">
             <ctr:input-text id="test"/>
@@ -138,7 +138,7 @@
     </toolbar>
 
     <toolbar place="topLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test"
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test" confirm-type="popover"
                 visibility-condition="test">
             <close src="test"/>
         </button>

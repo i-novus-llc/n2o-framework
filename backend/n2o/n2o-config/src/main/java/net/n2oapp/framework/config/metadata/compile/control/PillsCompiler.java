@@ -24,7 +24,6 @@ public class PillsCompiler extends ListControlCompiler<Pills, N2oPills> {
     @Override
     public StandardField<Pills> compile(N2oPills source, CompileContext<?, ?> context, CompileProcessor p) {
         Pills pills = new Pills();
-        source.setSearch(p.cast(source.getSearch(), false));
         source.setType(p.cast(source.getType(), p.resolve(property("n2o.api.control.pills.type"), MultiType.class)));
         pills.setMulti(source.getType().equals(MultiType.checkboxes));
         StandardField<Pills> result = compileListControl(pills, source, context, p);

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import N2O from 'n2o/lib//N2o';
+import N2O from 'n2o-framework/lib/N2o';
+import { authProvider } from 'n2o-auth';
+import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o-framework/lib/core/api';
+import Route from 'n2o-framework/lib/components/core/Route';
+import Page from 'n2o-framework/lib/components/core/Page';
 
 import Template from './components/core/Template';
 import DashboardV2 from './pages/DashboardV2';
@@ -19,21 +23,6 @@ const config = {
   fieldsets: {
     CollapsedCardFieldset: CollapsedCardFieldset
   },
-  routes: [
-    {
-      path: '/dashboard/v2',
-      component: DashboardV2,
-    },
-    {
-      path: '/table-tree/',
-      component: TableTree
-
-    },
-    {
-      path: '/select/',
-      component: Select
-    }
-  ],
   messages: {
     timeout: {
       error: 0,
@@ -41,13 +30,30 @@ const config = {
       warning: 0,
       info: 0,
     }
-  }
+  },
+  security: {
+    authProvider,
+    externalLoginUrl: '/'
+  },
+  realTimeConfig: true,
+  embeddedRouting: true,
 };
 
 class App extends Component {
   render() {
     return (
-      <N2O {...config}  />
+      <N2O {...config}>
+        {/* 1 полный кастом */}
+        <Route path="/custom/v1" exact component={DashboardV2} />
+        {/* 2 обертка, без метаданных */}
+        <Route path="/custom/v2" exact render={routeProps => {
+          return (<Page {...routeProps} page={Select} rootPage />);
+        }}  />
+        {/* 3 обертка, метаданные */}
+        <Route path="/custom/v3" exact render={routeProps => <Page {...routeProps} page={Select} needMetadata rootPage />}  />
+        {/* 5 */}
+        {/*<Route path="custom/:id" component={Page} render={Page} page={"DefaultPage" || "MyPage"} needMetadata={true || false} />*/}
+      </N2O>
     );
   }
 }

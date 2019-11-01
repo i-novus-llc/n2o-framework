@@ -13,18 +13,20 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import net.n2oapp.properties.StaticProperties;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import net.n2oapp.properties.reader.PropertiesReader;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertiesPropertySource;
+import org.springframework.core.env.PropertyResolver;
+import org.springframework.core.env.PropertySourcesPropertyResolver;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -42,6 +44,7 @@ public final class IOProcessorImpl implements IOProcessor {
     private NamespaceReaderFactory readerFactory;
     private NamespacePersisterFactory persisterFactory;
     private MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(new ResourceBundleMessageSource());
+    private PropertyResolver systemProperties = new SimplePropertyResolver(new Properties());
 
     public IOProcessorImpl(boolean read) {
         this.r = read;
@@ -1000,7 +1003,7 @@ public final class IOProcessorImpl implements IOProcessor {
         if (text == null) {
             return null;
         }
-        String resolve = StringUtils.resolveProperties(text, StaticProperties::get);
+        String resolve = StringUtils.resolveProperties(text, systemProperties::getProperty);
         return StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 
@@ -1148,4 +1151,7 @@ public final class IOProcessorImpl implements IOProcessor {
         this.messageSourceAccessor = messageSourceAccessor;
     }
 
+    public void setSystemProperties(PropertyResolver systemProperties) {
+        this.systemProperties = systemProperties;
+    }
 }

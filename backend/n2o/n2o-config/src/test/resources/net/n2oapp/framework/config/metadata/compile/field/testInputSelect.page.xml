@@ -18,6 +18,16 @@
                                 </contains>
                             </pre-filters>
                     </input-select>
+                    <input-select id="testId2" query-id="testSelect"/>
+                    <input-select id="testFetch">
+                        <dependencies>
+                            <fetch-value on="testId2" query-id="testSelectFetch">
+                                <pre-filters>
+                                    <eq field-id="ref" value="{testId2}"/>
+                                </pre-filters>
+                            </fetch-value>
+                        </dependencies>
+                    </input-select>
                 </fields>
             </form>
         </region>

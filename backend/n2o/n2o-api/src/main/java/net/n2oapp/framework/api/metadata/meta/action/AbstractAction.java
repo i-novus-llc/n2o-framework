@@ -19,6 +19,8 @@ public abstract class AbstractAction<O extends ActionOptions> implements Action 
     private String src;
     @JsonProperty
     private O options;
+    @JsonProperty
+    private String enablingCondition;
     //for PropertiesAware
     private Map<String, Object> properties;
 

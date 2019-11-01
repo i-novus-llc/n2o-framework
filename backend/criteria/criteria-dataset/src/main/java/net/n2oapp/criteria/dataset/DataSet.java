@@ -3,9 +3,7 @@ package net.n2oapp.criteria.dataset;
 import java.util.*;
 
 /**
- * User: iryabov
- * Date: 27.08.13
- * Time: 17:15
+ * Данные объекта
  */
 public class DataSet extends NestedMap {
     public DataSet() {
@@ -112,6 +110,14 @@ public class DataSet extends NestedMap {
             return new DataSet();
         else
             return new DataSet(map);
+    }
+
+    @Override
+    protected NestedList createNestedList(List list) {
+        if (list == null)
+            return new DataList();
+        else
+            return new DataList(list);
     }
 
     /**

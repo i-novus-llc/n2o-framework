@@ -140,6 +140,11 @@ public class NestedMapTest {
         assert ((Map)map.get("foo")).get("['2019-01-01']").equals(1);
 
         //negative
+        map = new NestedMap();
+        map.put("foo", 1);
+        assert map.put("foo*.bar", null).equals(1);
+        assert map.get("foo") == null;
+
         NestedMap map3 = new NestedMap();
         assert fail(() -> map3.put("foo*.bar", 1), IllegalArgumentException.class);//value not an iterable
     }
@@ -976,17 +981,6 @@ public class NestedMapTest {
         assert newMap.get("gender.name").equals("Мужской");
         assert newMap.get("individual.gender.id").equals(2);
         assert newMap.get("individual.gender.name").equals("Женский");
-
-        //ссылки должны потеряться
-        assert newMap.get("gender") != baseMap.get("gender");
-        assert newMap.get("individual") != baseMap.get("individual");
-        assert newMap.get("individual.gender") != baseMap.get("individual.gender");
-
-        //при put ссылка не должна потеряться
-        NestedMap gender = (NestedMap) newMap.get("gender");
-        newMap.put("gender.type", 4);
-        assert gender.get("type").equals(4);
-
     }
 
     @Test

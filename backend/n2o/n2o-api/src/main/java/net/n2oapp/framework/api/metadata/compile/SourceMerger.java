@@ -1,11 +1,10 @@
 package net.n2oapp.framework.api.metadata.compile;
 
-import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -30,9 +29,10 @@ public interface SourceMerger<S> {
 
     /**
      * Установить значение в сеттер, если в геттере оно не null
+     *
      * @param setter Сеттер
      * @param getter Геттер
-     * @param <D> Тип данных
+     * @param <D>    Тип данных
      */
     default <D> void setIfNotNull(Consumer<D> setter, Supplier<D> getter) {
         D d = getter.get();
@@ -58,6 +58,27 @@ public interface SourceMerger<S> {
                 setter.accept(source, c);
             } else {
                 setter.accept(source, b);
+            }
+        }
+    }
+
+    /**
+     * Слияние дополнительных атрибутов
+     */
+    default void mergeExtAttributes(ExtensionAttributesAware source, ExtensionAttributesAware override) {
+        Map<N2oNamespace, Map<String, String>> b = override.getExtAttributes();
+        if (b != null && !b.isEmpty()) {
+            Map<N2oNamespace, Map<String, String>> a = source.getExtAttributes();
+            if (a != null && !a.isEmpty()) {
+                for (Map.Entry<N2oNamespace, Map<String, String>> entry : b.entrySet()) {
+                    if (a.containsKey(entry.getKey())) {
+                        a.get(entry.getKey()).putAll(entry.getValue());
+                    } else {
+                        a.put(entry.getKey(), entry.getValue());
+                    }
+                }
+            } else {
+                source.setExtAttributes(b);
             }
         }
     }

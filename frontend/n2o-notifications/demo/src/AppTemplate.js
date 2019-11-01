@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from "reactstrap";
-import Icon from "n2o/lib/components/snippets/Icon/Icon";
+import Icon from "n2o-framework/lib/components/snippets/Icon/Icon";
 
 import Notifications from "../../src/Notifications";
 import Counter from "../../src/Counter";

@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <test file="test.json" operation="create"/>
+            </invocation>
+            <in-parameters>
+                <param id="name"/>
+            </in-parameters>
+            <out-parameters>
+                <param id="id" mapping="['id']"/>
+            </out-parameters>
+        </operation>
+        <operation id="update">
+            <invocation>
+                <test file="test.json" operation="update"/>
+            </invocation>
+            <in-parameters>
+                <param id="id"/>
+                <param id="name"/>
+            </in-parameters>
+        </operation>
+        <operation id="delete">
+            <invocation>
+                <test file="test.json" operation="delete"/>
+            </invocation>
+            <in-parameters>
+                <param id="id"/>
+            </in-parameters>
+        </operation>
+    </operations>
+</object>

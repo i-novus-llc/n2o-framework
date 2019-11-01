@@ -1,7 +1,7 @@
 import expect from 'expect';
 import {
   SECURITY_CHECK
-} from 'n2o/lib/core/auth/authTypes';
+} from 'n2o-framework/lib/core/auth/authTypes';
 import authProvider, { checkPermission } from 'src/authProvider';
 
 const user = {

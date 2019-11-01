@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 @Setter
 public class Scroll implements Compiled {
     @JsonProperty
-    private Integer x;
+    private String x;
     @JsonProperty
-    private Integer y;
+    private String y;
 }

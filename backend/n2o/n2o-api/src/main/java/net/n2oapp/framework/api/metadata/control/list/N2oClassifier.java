@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.control.list;
 
 import net.n2oapp.framework.api.metadata.control.ShowModalPageFromClassifier;
-import net.n2oapp.properties.StaticProperties;
 
 /**
  * User: iryabov
@@ -67,10 +66,6 @@ public class N2oClassifier extends N2oSingleListFieldAbstract {
 
     public void setWordWrap(Boolean wordWrap) {
         this.wordWrap = wordWrap;
-    }
-
-    public String getDefaultSrc() {
-        return StaticProperties.get("n2o.api.control.classifier.src");
     }
 
     private boolean hasShowModal() {

@@ -23,8 +23,10 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.factory.AwareFactorySupport;
 import net.n2oapp.framework.config.register.route.N2oRouter;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.PropertyResolver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -148,6 +150,17 @@ public class N2oApplicationBuilder implements
 
     public N2oApplicationBuilder generators(ButtonGenerator... generators) {
         Stream.of(generators).forEach(environment.getButtonGeneratorFactory()::add);
+        return this;
+    }
+
+    public N2oApplicationBuilder properties(String... properties) {
+        Stream.of(properties).forEach(p -> {
+            PropertyResolver systemProperties = environment.getSystemProperties();
+            if (!(systemProperties instanceof SimplePropertyResolver))
+                throw new IllegalArgumentException("System properties is readonly");
+            String[] split = p.contains("=") ? p.split("=") : p.split(":");
+            ((SimplePropertyResolver)systemProperties).setProperty(split[0], split[1]);
+        });
         return this;
     }
 

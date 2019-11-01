@@ -34,7 +34,14 @@
                         "id": "name",
                         "required": true,
                         "label": "Имя",
-                        "dependency": [],
+                        "dependency": [{
+                          "type":"fetchValue",
+                          "on":["default"],
+                          "applyOnInit":true,
+                          "dataProvider":{
+                            "url":"n2o/data/ProtoPatient",
+                            "queryMapping":{"id":{"value":5607677}}},"valueFieldId":"name"
+                        }],
                         "control": {
                           "src": "InputText",
                           "id": "name"
@@ -74,7 +81,6 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": false,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
@@ -97,8 +103,8 @@
                           "src": "DatePicker",
                           "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss",
-                          "utc": false
+                          "utc": false,
+                          "outputFormat": "YYYY-MM-DDTHH:mm:ss"
                         }
                       }
                     ]
@@ -108,14 +114,29 @@
                       {
                         "src": "StandardField",
                         "id": "vip",
+                        "dependency": [],
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
-                          "label": "VIP"
+                          "label": "VIP",
+                          "defaultUnchecked": "null"
                         }
                       }
                     ]
                   }
+                ]
+              },
+              {
+                "cols":[
+                  {
+                    "fields":[
+                      {
+                        "src":"StandardField",
+                        "id":"default",
+                        "label":"Введите что-нибудь, чтобы загрузилось Имя по умолчанию",
+                        "dependency":[],
+                        "control":{"src":"InputText","id":"default"}
+                      }]}
                 ]
               }
             ]
@@ -226,8 +247,8 @@
       "options": {
         "type": "n2o/modals/CLOSE",
         "payload": {
-          "name": "proto_create",
-          "prompt": true
+          "prompt": true,
+          "name": "proto_create"
         },
         "meta": {
           "closeLastModal": true

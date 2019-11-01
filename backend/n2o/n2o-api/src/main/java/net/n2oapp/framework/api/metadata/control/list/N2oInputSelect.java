@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.control.multi.N2oMultiListField;
 public class N2oInputSelect extends N2oListField implements N2oSingleListField, N2oMultiListField {
 
     private ListType type;
-    private Boolean storeOnInput;
+    private Boolean resetOnBlur;
 
     @Override
     public boolean isSingle() {

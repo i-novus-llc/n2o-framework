@@ -1,7 +1,7 @@
 package net.n2oapp.criteria.filters;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Checker for check value by filter
@@ -64,10 +64,13 @@ public class FilterChecker {
     }
 
     private static boolean contains(List<?> values, Object value) {
-        if (value instanceof Collection) {
+        if (value instanceof List) {
+            if (values == null || values.isEmpty() || value == null || ((List) value).isEmpty()){
+                return false;
+            }
             final boolean[] res = {true};
-            ((Collection<?>) value).forEach(v -> {
-                if (!containsOne(values, v)) {
+            values.forEach(v -> {
+                if (!containsOne((List<?>) value, castToRealType(v, ((List<?>) value).get(0)))) {
                     res[0] = false;
                 }
             });
@@ -77,8 +80,8 @@ public class FilterChecker {
     }
 
     private static boolean overlap(List<?> values, Object value) {
-        if (value instanceof Collection) {
-            return ((Collection<?>) value).stream().anyMatch(v -> contains(values, v));
+        if (value instanceof List) {
+            return values.stream().anyMatch(v -> contains((List<?>)value, v));
         }
         return containsOne(values, value);
     }
@@ -116,6 +119,8 @@ public class FilterChecker {
                     return filterValue;
                 }
             }
+            if (realValue instanceof UUID)
+                return UUID.fromString((String) filterValue);
         } else if (filterValue != null && !(filterValue instanceof String) && realValue instanceof String) {
             return filterValue.toString();
         }

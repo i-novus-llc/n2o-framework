@@ -4,8 +4,7 @@
         color="invert"
         brand-name="Лого" logo-src="https://avatars0.githubusercontent.com/u/25926683?s=200&amp;v=4">
     <nav>
-        <a label="ссылка" href="/" icon="icon" test:attr1="testAttribute1" test:attr2="testAttribute2"
-           test:attr3="testAttribute3"/>
+        <a label="ссылка" href="/"/>
         <sub-menu label="список">
             <page page-id="testPage"/>
             <page page-id="testPage1" label="элемент списка №2" route="/pageRoute1"/>

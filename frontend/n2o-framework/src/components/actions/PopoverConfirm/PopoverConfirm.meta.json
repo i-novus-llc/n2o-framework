@@ -1,0 +1,10 @@
+{
+  "closeButton": true,
+  "size": "lg",
+  "title": "Вы уверены?",
+  "text": "Вы хотите совершить действие?",
+  "okLabel": "Да",
+  "cancelLabel": "Нет",
+  "visible": true,
+  "mode": "popover"
+}

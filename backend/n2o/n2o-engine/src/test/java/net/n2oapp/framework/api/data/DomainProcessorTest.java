@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -53,7 +55,7 @@ public class DomainProcessorTest {
         DomainProcessor proc = new DomainProcessor();
         assert "{id}".equals(proc.deserialize("{id}", "integer"));
         assert "`1 == 1`".equals(proc.deserialize("`1 == 1`", "boolean"));
-        assert proc.deserialize("{\"id\" : 1}", "object") instanceof Map;
+        assert proc.deserialize("{{\"id\" : 1}}", "object") instanceof Map;
     }
 
     @Test
@@ -77,12 +79,14 @@ public class DomainProcessorTest {
         assert proc.deserialize("123", "Integer") instanceof Integer;
         assert proc.deserialize("123", "Long") instanceof Long;
         assert proc.deserialize("123", "String") instanceof String;
-        assert proc.deserialize("01.02.2014 18:15:00", "Date") instanceof Date;
-        assert proc.deserialize("01.02.2014 18:15:00", "LocalDate") instanceof LocalDate;
-        assert proc.deserialize("01.02.2014 18:15:00", "LocalDateTime") instanceof LocalDateTime;
+        assert proc.deserialize("2014-02-01T18:15:00", "Date") instanceof Date;
+        assert proc.deserialize("2014-02-01", "LocalDate") instanceof LocalDate;
+        assert proc.deserialize("2014-02-01T18:15:00", "LocalDateTime") instanceof LocalDateTime;
+        assert proc.deserialize("2019-12-15T23:50:40Z[Europe/Moscow]", "zoneddatetime") instanceof ZonedDateTime;
+        assert proc.deserialize("2019-12-15T23:50:40-03:00", "offsetdatetime") instanceof OffsetDateTime;
         assert proc.deserialize("125.888", "Numeric") instanceof BigDecimal;
         assert proc.deserialize("11444,878", "Numeric") instanceof BigDecimal;
-        Object dataSet = proc.deserialize("{\"id\":1, \"name\":\"Олег\", \"gender.name\":\"Мужской\", \"age\":\"24.5\", \"real_age\":\"29,8\"}", "Object");
+        Object dataSet = proc.deserialize("{{\"id\":1, \"name\":\"Олег\", \"gender.name\":\"Мужской\", \"age\":\"24.5\", \"real_age\":\"29,8\"}}", "Object");
         assert dataSet instanceof DataSet;
         assert ((DataSet) dataSet).get("id").equals(1);
         assert ((DataSet) dataSet).get("name").equals("Олег");
@@ -163,7 +167,6 @@ public class DomainProcessorTest {
         DomainProcessor proc = new DomainProcessor();
         Date date1 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.02.2014 11:11");
         Date date2 = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("02.02.2014 11:11");
-
         //мапа дат
         Map<String, Date> mapDate = new HashMap<>();
         mapDate.put("begin", date1);
@@ -172,8 +175,8 @@ public class DomainProcessorTest {
 
         //мапа строковых дат
         Map<String, String> mapString = new HashMap<>();
-        mapString.put("begin", "01.02.2014 11:11:00");
-        mapString.put("end", "02.02.2014 11:11:00");
+        mapString.put("begin", "2014-02-01T11:11:00+04");
+        mapString.put("end", "2014-02-02T11:11:00+04");
         checkDates(date1, date2, (Interval) proc.deserialize(mapString, "interval{date}"));
 
         //мапа числел
@@ -199,20 +202,19 @@ public class DomainProcessorTest {
         assertThat(value, instanceOf(Interval.class));
         assertThat(((Interval) value).getBegin(), is(1));
         assertThat(((Interval) value).getEnd(), is(2));
-
-        //json чисел
-        value = proc.deserialize("{\"from\":1,\"to\":2}", "interval{integer}");
-        assertThat(value, instanceOf(Interval.class));
-        assertThat(((Interval) value).getBegin(), is(1));
-        assertThat(((Interval) value).getEnd(), is(2));
     }
 
     @Test
     public void testDateDeserialize() {
         DomainProcessor proc = new DomainProcessor();
-        assertThat(proc.deserialize("01.12.2019 23:50:40", "date"), instanceOf(Date.class));
-        assertThat(proc.deserialize("01.12.2019 23:50:40", "localdatetime"), instanceOf(LocalDateTime.class));
-        assertThat(proc.deserialize("01.12.2019 23:50:40", "localdate"), instanceOf(LocalDate.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40", "date"), instanceOf(Date.class));
+        assertThat(proc.deserialize("2019-12-01", "localdate"), instanceOf(LocalDate.class));
+        assertThat(proc.deserialize("2019-12-01T00:00:00", "localdate"), instanceOf(LocalDate.class));
+        assertThat(proc.deserialize("2019-12-01T23:50:40", "localdatetime"), instanceOf(LocalDateTime.class));
+        assertThat(proc.deserialize("2019-12-01T23:50:40.200", "localdatetime"), instanceOf(LocalDateTime.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40+03:00", "offsetdatetime"), instanceOf(OffsetDateTime.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40+03:00", "zoneddatetime"), instanceOf(ZonedDateTime.class));
+        assertThat(proc.deserialize("2019-12-15T23:50:40+03:00[Europe/Moscow]", "zoneddatetime"), instanceOf(ZonedDateTime.class));
     }
 
     @Test
@@ -222,7 +224,7 @@ public class DomainProcessorTest {
         assert "true".equals(proc.serialize(true));
         assert "123".equals(proc.serialize(123));
         Date date = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse("01.01.2019 11:11");
-        assertThat(proc.serialize(date), is("01.01.2019 11:11:00"));
+        assertThat(proc.serialize(date), is("2019-01-01T11:11:00"));
     }
 
     private void checkDates(Date date1, Date date2, Interval interval) {

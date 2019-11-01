@@ -12,7 +12,7 @@
     <toolbar place="topLeft" generate="crud">
         <button action-id="action1" type="icon"/>
     </toolbar>
-    <toolbar place="bottomLeft" generate="submit">
+    <toolbar place="bottomLeft">
         <button action-id="action2" type="icon" confirm="true"/>
     </toolbar>
 </form>
