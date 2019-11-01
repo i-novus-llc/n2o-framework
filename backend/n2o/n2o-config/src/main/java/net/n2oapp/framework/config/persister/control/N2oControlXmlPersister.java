@@ -158,7 +158,7 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
         PersisterJdomUtil.setAttribute(queryEl, "master-field-id", control.getMasterFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "detail-field-id", control.getDetailFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "label-field-id", control.getLabelFieldId());
-        PersisterJdomUtil.setAttribute(queryEl, "search-field-id", control.getSearchFilterId());
+        PersisterJdomUtil.setAttribute(queryEl, "search-field-id", control.getSearchFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "value-field-id", control.getValueFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "format", control.getFormat());
         PersisterJdomUtil.setAttribute(queryEl, "icon-field-id", control.getIconFieldId());

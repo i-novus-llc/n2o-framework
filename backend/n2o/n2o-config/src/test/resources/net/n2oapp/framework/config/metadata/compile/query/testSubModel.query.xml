@@ -6,11 +6,8 @@
                 <eq filter-id="testName"/>
             </filters>
         </field>
-        <field id="testName">
-            <select/>
-            <filters>
-                <eq/>
-            </filters>
-        </field>
+    </fields>
+    <fields>
+        <field id="name"></field>
     </fields>
 </query>

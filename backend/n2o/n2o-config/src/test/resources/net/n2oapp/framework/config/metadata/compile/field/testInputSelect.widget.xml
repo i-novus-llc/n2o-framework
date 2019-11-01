@@ -3,7 +3,7 @@
         <input-select id="testId" label=""
                       type="checkboxes" placeholder="Введите"
                       query-id="testSelect" label-field-id="name"
-                      search-filter-id="search" icon-field-id="icon"
+                      search-field-id="search" icon-field-id="icon"
                       image-field-id="image" group-field-id="country" format="`id+' '+id`">
             <pre-filters>
                 <notEq field-id="ref" value="`someField`"/>

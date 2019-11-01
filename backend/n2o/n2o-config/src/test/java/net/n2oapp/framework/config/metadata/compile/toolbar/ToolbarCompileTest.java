@@ -119,7 +119,6 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(item.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
     }
 
-
     @Test
     public void testGenerate() {
         Table t = (Table) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.widget.xml")
