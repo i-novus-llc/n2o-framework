@@ -4,7 +4,6 @@ import isArray from 'lodash/isArray';
 import each from 'lodash/each';
 import isString from 'lodash/isString';
 import evalExpression, { parseExpression } from './evalExpression';
-import functions from './functions';
 
 const blackList = ['dataProvider', 'action', 'actions'];
 
@@ -17,18 +16,6 @@ export function resolve(code) {
       '}}catch{ return false }',
     ].join('\n')
   );
-}
-
-function resolveString(str, data) {
-  try {
-    return resolve(str.slice(1, -1))(Object.assign({}, functions, data));
-  } catch (e) {
-    console.warn(
-      `Ошибка при парсинге propsResolver! ${
-        e.message
-      }. Проверьте modelLink и текст`
-    );
-  }
 }
 
 /**

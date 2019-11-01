@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import N2O from 'n2o-framework/lib/N2o';
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
+import functions from "n2o-framework/lib/utils/functions";
 import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o-framework/lib/core/api';
 import Route from 'n2o-framework/lib/components/core/Route';
 import Page from 'n2o-framework/lib/components/core/Page';
@@ -31,6 +32,7 @@ const config = {
       info: 0,
     }
   },
+  evalContext: functions,
   apiProvider: handleApi({
     ...defaultApiProvider,
     [FETCH_APP_CONFIG]: (options) => {

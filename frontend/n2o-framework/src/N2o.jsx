@@ -38,6 +38,8 @@ class N2o extends Component {
       factories: this.generateConfig(),
     };
 
+    window._n2oEvalContext = props.evalContext;
+
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);
   }
@@ -112,6 +114,7 @@ N2o.propTypes = {
   apiProvider: PropTypes.func,
   realTimeConfig: PropTypes.bool,
   embeddedRouting: PropTypes.bool,
+  evalContext: PropTypes.object,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
@@ -136,6 +139,7 @@ const EnhancedN2O = compose(
     apiProvider,
     realTimeConfig: true,
     embeddedRouting: true,
+    evalContext: {},
   }),
   withContext(
     {
