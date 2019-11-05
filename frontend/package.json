@@ -29,7 +29,7 @@
     "eslint:generate": "lerna run --scope n2o-framework eslint:generate",
     "prepare": "lerna bootstrap --no-ci",
     "prettier:n2o": "lerna run --scope n2o-framework prettier",
-    "release": "lerna publish --no-git-tag-version --no-push --yes next",
+    "release": "lerna publish --canary minor --no-git-tag-version --no-push --yes next",
     "start:demo": "lerna run --scope n2o-demo-client start",
     "start:notify": "lerna run --scope n2o-notifications start",
     "start:simple": "lerna run --scope n2o-simple-project start",
