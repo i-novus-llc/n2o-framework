@@ -1,7 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import { isEqual, find, isEmpty, pick, forOwn, omit, set, map, findIndex } from 'lodash';
+import {
+  isEqual,
+  find,
+  isEmpty,
+  pick,
+  forOwn,
+  omit,
+  set,
+  map,
+  findIndex,
+} from 'lodash';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -12,7 +22,7 @@ import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import PropTypes from 'prop-types';
 import { makeGetFilterModelSelector } from '../../../selectors/models';
-import { getContainerColumns } from "../../../selectors/columns";
+import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
@@ -102,7 +112,14 @@ class AdvancedTableContainer extends React.Component {
   }
 
   mapColumns() {
-    const { cells, headers, widgetId, sorting, onSort, registredColumns } = this.props;
+    const {
+      cells,
+      headers,
+      widgetId,
+      sorting,
+      onSort,
+      registredColumns,
+    } = this.props;
 
     map(registredColumns, ({ frozen, visible }, key) => {
       if (!(frozen && !visible)) {
