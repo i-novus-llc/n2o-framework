@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose, setDisplayName } from 'recompose';
 import onClickOutside from 'react-onclickoutside';
 import { isEqual, isEmpty } from 'lodash';
-import { Button } from 'reactstrap';
+import Button from 'reactstrap/lib/Button';
 import Popup from '../InputSelect/Popup';
 import PopupList from '../InputSelect/PopupList';
 import InputSelectGroup from '../InputSelect/InputSelectGroup';

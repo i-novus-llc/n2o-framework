@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { DropdownMenu, Button } from 'reactstrap';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import { createStructuredSelector } from 'reselect';
 import cx from 'classnames';
 

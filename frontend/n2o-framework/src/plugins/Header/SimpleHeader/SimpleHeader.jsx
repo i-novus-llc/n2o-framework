@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  InputGroup,
-  InputGroupAddon,
-  Input,
-  NavbarBrand,
-  NavbarToggler,
-  Collapse,
-} from 'reactstrap';
+import Navbar from 'reactstrap/lib/Navbar';
+import Nav from 'reactstrap/lib/Nav';
+import NavItem from 'reactstrap/lib/NavItem';
+import InputGroup from 'reactstrap/lib/InputGroup';
+import InputGroupAddon from 'reactstrap/lib/InputGroupAddon';
+import Input from 'reactstrap/lib/Input';
+import NavbarBrand from 'reactstrap/lib/NavbarBrand';
+import NavbarToggler from 'reactstrap/lib/NavbarToggler';
+import Collapse from 'reactstrap/lib/Collapse';
 import { isEmpty } from 'lodash';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 

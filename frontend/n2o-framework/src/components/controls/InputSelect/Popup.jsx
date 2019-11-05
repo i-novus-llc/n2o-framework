@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropdownMenu } from 'reactstrap';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import cx from 'classnames';
 import { pure } from 'recompose';
 import { isEqual } from 'lodash';

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Tooltip } from 'reactstrap';
+import Tooltip from 'reactstrap/lib/Tooltip';
 import cn from 'classnames';
-import { Progress } from 'reactstrap';
+import Progress from 'reactstrap/lib/Progress';
 import { convertSize } from './utils';
 import Spinner from '../../snippets/Spinner/Spinner';
 import PropTypes from 'prop-types';

@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { isInteger, eq, round } from 'lodash';

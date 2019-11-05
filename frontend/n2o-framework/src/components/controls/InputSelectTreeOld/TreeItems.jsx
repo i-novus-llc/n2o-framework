@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropdownItem } from 'reactstrap';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
 import NODE_SELECTED from './nodeSelected';
 import TreeNode from './TreeNode';
 import NothingFound from '../InputSelect/NothingFound';

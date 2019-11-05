@@ -1,6 +1,6 @@
 import React from 'react';
 import { has, uniqueId } from 'lodash';
-import { Badge } from 'reactstrap';
+import Badge from 'reactstrap/lib/Badge';
 //components
 
 //fns

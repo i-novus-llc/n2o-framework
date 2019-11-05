@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { DropdownItem } from 'reactstrap';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
 import { connect } from 'react-redux';
 import { toggleColumnVisiblity } from '../../../actions/columns';
 import { getContainerColumns } from '../../../selectors/columns';
