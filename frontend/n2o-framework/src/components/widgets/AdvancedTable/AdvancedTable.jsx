@@ -8,6 +8,7 @@ import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
+import SecurityCheck from '../../../core/auth/SecurityCheck';
 import find from 'lodash/find';
 import some from 'lodash/some';
 import isEqual from 'lodash/isEqual';

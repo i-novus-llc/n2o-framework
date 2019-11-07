@@ -1,4 +1,4 @@
-`import map from 'lodash/map';
+import map from 'lodash/map';
 import values from 'lodash/values';
 import intersection from 'lodash/intersection';
 import isEmpty from 'lodash/isEmpty';
