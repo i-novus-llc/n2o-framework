@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import { Badge } from 'reactstrap';
 
 import {
   NavItem,
@@ -35,6 +37,10 @@ const NavItemContainer = ({
     </NavLink>
   );
 
+  const renderBadge = item => (
+    <Badge color={item.badgeColor}>{item.badge}</Badge>
+  );
+
   const NavItemIcon = () => <i className={cx('mr-1', item.icon)} />;
 
   const handleLink = (item, className) => {
@@ -45,6 +51,7 @@ const NavItemContainer = ({
           <a className={cx('nav-link', className)} href={item.href}>
             {item.label}
           </a>
+          {renderBadge(item)}
         </NavItem>
       );
     } else {
@@ -59,6 +66,7 @@ const NavItemContainer = ({
             {item.icon && <NavItemIcon />}
             {item.label}
           </NavLink>
+          {renderBadge(item)}
         </NavItem>
       );
     }

@@ -26,13 +26,15 @@ function AdvancedTableCell({ children, hasSpan, record }) {
     rowSpan = span.rowSpan;
   }
 
-  const needRender = some(children, (child) => get(child, 'props.needRender'));
+  const needRender = some(children, child => get(child, 'props.needRender'));
 
   return (
-    <td className={cn({ 'd-none': !needRender })} colSpan={colSpan} rowSpan={rowSpan}>
-      <div className="n2o-advanced-table-cell-expand">
-        {children}
-      </div>
+    <td
+      className={cn({ 'd-none': !needRender })}
+      colSpan={colSpan}
+      rowSpan={rowSpan}
+    >
+      <div className="n2o-advanced-table-cell-expand">{children}</div>
     </td>
   );
 }

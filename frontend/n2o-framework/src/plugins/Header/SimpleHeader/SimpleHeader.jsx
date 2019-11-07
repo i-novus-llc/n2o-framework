@@ -44,13 +44,15 @@ import NavItemContainer from './NavItemContainer';
  *       id: 'dropdown',
  *       label: 'dropdown',
  *       type: 'dropdown',
- *       subItems: [{id: 'test1',label: 'test1', href: '/'}, {id: 'test123', label: 'test1', href: '/'}]
+ *       subItems: [{id: 'test1',label: 'test1', href: '/', badge: 'badge1', badgeColor: 'color1'},
+ *       {id: 'test123', label: 'test1', href: '/',  badge: 'badge2', badgeColor: 'color2'}]
  *     },
  *     {
  *       id: 'test',
  *       label: 'test',
  *       type: 'dropdown',
- *       subItems: [{id: 'test123s',label: 'test1', href: '/'}, {id: 'test12asd3',label: 'test1', href: '/'}]
+ *       subItems: [{id: 'test123s',label: 'test1', href: '/', badge: 'badge1', badgeColor: 'color1'},
+ *       {id: 'test12asd3',label: 'test1', href: '/',  badge: 'badge2', badgeColor: 'color2'}]
  *     }
  *     ] }
  *     extraItems = { [
@@ -187,6 +189,8 @@ SimpleHeader.propTypes = {
       linkType: PropTypes.oneOf(['inner', 'outer']),
       type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
       subItems: PropTypes.array,
+      badge: PropTypes.string,
+      badgeColor: PropTypes.string,
     })
   ),
   /**
@@ -200,6 +204,8 @@ SimpleHeader.propTypes = {
       linkType: PropTypes.oneOf(['inner', 'outer']),
       type: PropTypes.oneOf(['dropdown', 'link', 'text']).isRequired,
       subItems: PropTypes.array,
+      badge: 'badge',
+      badgeColor: 'color',
     })
   ),
   /**
