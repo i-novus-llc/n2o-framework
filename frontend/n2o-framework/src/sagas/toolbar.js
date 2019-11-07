@@ -8,7 +8,13 @@ import {
   takeLatest,
   cancelled,
 } from 'redux-saga/effects';
-import { every, filter, forOwn, get, some, isEmpty, values } from 'lodash';
+import every from 'lodash/every';
+import filter from 'lodash/filter';
+import forOwn from 'lodash/forOwn';
+import get from 'lodash/get';
+import some from 'lodash/some';
+import isEmpty from 'lodash/isEmpty';
+import values from 'lodash/values';
 import { SET } from '../constants/models';
 import { getContainerButtons } from '../selectors/toolbar';
 import {

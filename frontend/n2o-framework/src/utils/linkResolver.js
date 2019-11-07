@@ -1,4 +1,5 @@
-import { get, isNumber, isString } from 'lodash';
+import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
 import evalExpression, { parseExpression } from './evalExpression';
 
 /**

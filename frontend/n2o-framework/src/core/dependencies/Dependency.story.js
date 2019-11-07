@@ -1,5 +1,4 @@
 import React from 'react';
-import { pick } from 'lodash';
 import { storiesOf } from '@storybook/react';
 
 import { WIDGETS } from '../factory/factoryLevels';

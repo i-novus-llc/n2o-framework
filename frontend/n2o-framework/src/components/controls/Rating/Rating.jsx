@@ -2,7 +2,9 @@ import React, { Fragment, Component } from 'react';
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { isInteger, eq, round } from 'lodash';
+import isInteger from 'lodash/isInteger';
+import eq from 'lodash/eq';
+import round from 'lodash/round';
 import { id } from '../../../utils/id';
 
 import { mapToNum } from './utils';

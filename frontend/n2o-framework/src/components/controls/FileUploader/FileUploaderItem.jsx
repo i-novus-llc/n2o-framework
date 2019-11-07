@@ -5,7 +5,7 @@ import Progress from 'reactstrap/lib/Progress';
 import { convertSize } from './utils';
 import Spinner from '../../snippets/Spinner/Spinner';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 class FileUploaderItem extends React.Component {
   constructor(props) {

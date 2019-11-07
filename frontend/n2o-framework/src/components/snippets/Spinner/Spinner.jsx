@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import Spinner from 'reactstrap/lib/Spinner';
 import cx from 'classnames';
-import { eq, values } from 'lodash';
+import eq from 'lodash/eq';
+import values from 'lodash/values';
 import PropTypes from 'prop-types';
 
 const TYPE = {

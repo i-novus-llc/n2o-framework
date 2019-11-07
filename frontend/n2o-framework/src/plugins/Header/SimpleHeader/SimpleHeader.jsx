@@ -9,7 +9,6 @@ import Input from 'reactstrap/lib/Input';
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
-import { isEmpty } from 'lodash';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 import NavbarBrandContent from './NavbarBrandContent';

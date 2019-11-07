@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import map from 'lodash/map';
 import Nav from 'reactstrap/lib/Nav';
 import NavItem from 'reactstrap/lib/NavItem';
 import NavLink from 'reactstrap/lib/NavLink';
-import { map } from 'lodash';
 import cx from 'classnames';
 
 /**

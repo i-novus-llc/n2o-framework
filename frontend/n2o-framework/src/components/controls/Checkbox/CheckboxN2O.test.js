@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import CheckboxN2O from './CheckboxN2O';
 import sinon from 'sinon';
-import { isNil } from 'lodash';
 
 const setup = propsOverrides => {
   const props = Object.assign(

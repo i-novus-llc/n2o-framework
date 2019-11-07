@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import Radio from '../Radio/Radio';
 import RadioButton from '../Radio/RadioButton';
 import RadioN2O from '../Radio/RadioN2O';

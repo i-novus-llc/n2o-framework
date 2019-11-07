@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { get, set, isEqual } from 'lodash';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import isEqual from 'lodash/isEqual';
 import {
   compose,
   withState,

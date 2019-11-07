@@ -5,7 +5,7 @@ import NODE_SELECTED from './nodeSelected';
 import TreeNode from './TreeNode';
 import NothingFound from '../InputSelect/NothingFound';
 import groupData from '../../../utils/groupData';
-import { some, find } from 'lodash';
+import find from 'lodash/find';
 
 /**
  * Компонент TreeItems

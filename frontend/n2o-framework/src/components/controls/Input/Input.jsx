@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
 import classNames from 'classnames';
-import { isObject, isArray } from 'lodash';
+import isObject from 'lodash/isObject';
+import isArray from 'lodash/isArray';
 
 /**
  * Контрол Input

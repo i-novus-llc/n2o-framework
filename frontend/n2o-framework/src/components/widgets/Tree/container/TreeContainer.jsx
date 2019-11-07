@@ -1,16 +1,11 @@
 import React from 'react';
 import { compose, withHandlers, withProps } from 'recompose';
-import {
-  isEqual,
-  find,
-  isEmpty,
-  debounce,
-  map,
-  filter,
-  some,
-  isArray,
-  toString,
-} from 'lodash';
+
+import map from 'lodash/map';
+import filter from 'lodash/filter';
+import some from 'lodash/some';
+import isArray from 'lodash/isArray';
+import toString from 'lodash/toString';
 
 import Tree from '../component/Tree';
 import widgetContainer from '../../WidgetContainer';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
-import { map } from 'lodash';
+import map from 'lodash/map';
 import { Popper } from 'react-popper';
 
 class HintDropDownBody extends Component {

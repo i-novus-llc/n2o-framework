@@ -4,7 +4,10 @@ import pathToRegexp from 'path-to-regexp';
 import { fetchInputSelectData } from '../../core/api';
 import cachingStore from '../../utils/cacher';
 import { connect } from 'react-redux';
-import { get, isArray, has, unionBy } from 'lodash';
+import get from 'lodash/get';
+import isArray from 'lodash/isArray';
+import has from 'lodash/has';
+import unionBy from 'lodash/unionBy';
 import { addAlert, removeAlerts } from '../../actions/alerts';
 import { getParams } from '../../utils/compileUrl';
 

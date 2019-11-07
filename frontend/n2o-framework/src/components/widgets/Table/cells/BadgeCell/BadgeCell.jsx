@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import isNil from 'lodash/isNil';
 import Badge from 'reactstrap/lib/Badge';
-import { get, isNil } from 'lodash';
 
 import Text from '../../../../snippets/Text/Text';
 

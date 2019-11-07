@@ -1,8 +1,8 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import cn from 'classnames';
+import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
-import { isEmpty } from 'lodash';
 import FileUploaderList from './FileUploaderList';
 
 class FileUploader extends React.Component {

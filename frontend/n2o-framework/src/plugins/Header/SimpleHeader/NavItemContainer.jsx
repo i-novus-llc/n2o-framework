@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
-import { isEmpty, get } from 'lodash';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import Badge from 'reactstrap/lib/Badge';
-
 import NavItem from 'reactstrap/lib/NavItem';
 import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown';
 import DropdownToggle from 'reactstrap/lib/DropdownToggle';

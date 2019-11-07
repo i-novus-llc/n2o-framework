@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy, throttle, debounce } from 'lodash';
+import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 
