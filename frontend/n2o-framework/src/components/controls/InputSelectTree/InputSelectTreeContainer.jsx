@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import InputSelectTree from './InputSelectTree';
 import listContainer from '../listContainer.js';
 import { propTypes, defaultProps } from './allProps';
