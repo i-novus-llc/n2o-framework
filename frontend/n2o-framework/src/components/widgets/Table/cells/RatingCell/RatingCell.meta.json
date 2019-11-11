@@ -1,0 +1,6 @@
+{
+  "id": "rating",
+  "fieldKey": "rating",
+  "src": "RatingCell",
+  "widgetId": "Page_Table"
+}
