@@ -25,7 +25,7 @@
 		"nwb": "0.23.x"
 	},
 	"peerDependencies": {
-		"n2o-framework": "^7.5.0"
+		"n2o-framework": "^7.4.0"
 	},
 	"author": "",
 	"homepage": "",
