@@ -51,7 +51,7 @@
                                     <environmentVariables>
                                         <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>install --registry=https://npm.i-novus.ru</arguments>
+                                    <arguments>install</arguments>
                                 </configuration>
                             </execution>
 

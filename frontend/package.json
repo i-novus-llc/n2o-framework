@@ -10,7 +10,7 @@
     "n2o-notifications"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --registry=https://npm.i-novus.ru",
     "build": "lerna run build",
     "build:n2o": "lerna run --scope n2o-framework build",
     "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --parallel build",
