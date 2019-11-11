@@ -1,5 +1,15 @@
-import { call, put, select, takeEvery, throttle } from 'redux-saga/effects';
-import { isEmpty, isUndefined, some, includes } from 'lodash';
+import {
+  call,
+  put,
+  select,
+  take,
+  throttle,
+  fork,
+  takeEvery,
+  delay,
+  cancel,
+} from 'redux-saga/effects';
+import { isEmpty, isUndefined, some, includes, get } from 'lodash';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -12,13 +22,42 @@ import {
   hideField,
   setRequired,
   unsetRequired,
+  setLoading,
 } from '../actions/formPlugin';
+import { FETCH_VALUE } from '../core/api';
+import fetchSaga from './fetch';
+import { resolveMapping } from './actionsImpl';
+
+export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
+  try {
+    yield delay(300);
+    yield put(setLoading(form, field, true));
+    const state = yield select();
+    const url = yield resolveMapping(dataProvider, state);
+    const response = yield call(fetchSaga, FETCH_VALUE, { url });
+    const model = get(response, 'list[0]', null);
+
+    if (model) {
+      yield put(
+        change(form, field, {
+          keepDirty: false,
+          value: valueFieldId ? model[valueFieldId] : model,
+        })
+      );
+    }
+  } catch (e) {
+    throw e;
+  } finally {
+    yield put(setLoading(form, field, false));
+  }
+}
 
 export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
+
   switch (type) {
     case 'enabled':
       yield _evalResult
@@ -40,11 +79,11 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         );
       break;
     case 'reset':
-      yield _evalResult &&
+      yield !isUndefined(_evalResult) &&
         put(
           change(formName, fieldName, {
             keepDirty: false,
-            value: _evalResult,
+            value: null,
           })
         );
       break;
@@ -52,6 +91,14 @@ export function* modify(values, formName, fieldName, type, options = {}) {
       yield _evalResult
         ? put(setRequired(formName, fieldName))
         : put(unsetRequired(formName, fieldName));
+      break;
+    case 'fetchValue':
+      const watcher = yield fork(fetchValue, formName, fieldName, options);
+      const action = yield take(actionTypes.CHANGE);
+
+      if (get(action, 'meta.field') !== fieldName) {
+        yield cancel(watcher);
+      }
       break;
     default:
       break;

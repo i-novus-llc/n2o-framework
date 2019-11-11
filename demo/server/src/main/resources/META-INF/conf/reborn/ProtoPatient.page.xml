@@ -3,7 +3,15 @@
         <fields>
             <row>
                 <input-text label="Фамилия" id="surname" required="true" placeholder="Введите значение"/>
-                <input-text label="Имя" id="name" required="true"/>
+                <input-text label="Имя" id="name" required="true">
+                    <dependencies>
+                        <fetch-value query-id="ProtoPatient" on="default">
+                            <pre-filters>
+                                <eq field-id="id" value="5607677"/>
+                            </pre-filters>
+                        </fetch-value>
+                    </dependencies>
+                </input-text>
                 <input-text label="Отчество" id="patrName" default-value="Тест"/>
             </row>
             <row>
@@ -16,6 +24,9 @@
                 </col>
                 <checkbox id="vip">
                 </checkbox>
+            </row>
+            <row>
+                <input-text id="default" label="Введите что-нибудь, чтобы загрузилось Имя по умолчанию"/>
             </row>
         </fields>
     </form>

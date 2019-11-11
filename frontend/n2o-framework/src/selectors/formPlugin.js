@@ -108,3 +108,14 @@ export const requiredSelector = (formName, fieldName) =>
       return field.required;
     }
   );
+/**
+ * Селектор флага загрузки
+ * @param formName
+ * @param fieldName
+ * @return
+ */
+export const loadingSelector = (formName, fieldName) =>
+  createSelector(
+    makeFieldByName(formName, fieldName),
+    field => field.loading
+  );

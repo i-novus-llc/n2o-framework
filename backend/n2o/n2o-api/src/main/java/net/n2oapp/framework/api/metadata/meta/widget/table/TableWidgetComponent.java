@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class TableWidgetComponent extends WidgetComponent {
 
     @Setter
     @Getter
-    public static class Rows implements JsonPropertiesAware {
+    public static class Rows implements JsonPropertiesAware, Serializable {
         private Map<String, Object> properties;
     }
 }

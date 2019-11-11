@@ -3,11 +3,10 @@ import { pure } from 'recompose';
 import { pick } from 'lodash';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import evalExpression from '../../../utils/evalExpression';
 
 /**
  * Компонент создания строки в таблице
- * @reactProps enablingCondition - условие доступности действия rowClick при клике по строке
+ * @param props
  * @constructor
  */
 function AdvancedTableRow(props) {
@@ -17,31 +16,23 @@ function AdvancedTableRow(props) {
     setRef,
     children,
     model,
-    rowClick,
     rowClass,
+    handleRowClick,
+    handleRowClickFocus,
   } = props;
+
   const classes = cn(className, 'n2o-table-row n2o-advanced-table-row', {
     'table-active': isRowActive,
-    'row-click':
-      (rowClick && evalExpression(rowClick.enablingCondition, model)) ||
-      (rowClick &&
-        evalExpression(rowClick.enablingCondition, model) === undefined),
-    'row-deleted':
-      rowClick && evalExpression(rowClick.enablingCondition, model) === false,
     [rowClass]: rowClass,
   });
   const newProps = {
-    ...pick(props, [
-      'className',
-      'data-row-key',
-      'onClick',
-      'onFocus',
-      'style',
-    ]),
+    ...pick(props, ['className', 'data-row-key', 'style']),
     ref: el => setRef && setRef(el, model.id),
     tabIndex: 0,
     key: model.id,
     className: classes,
+    onClick: handleRowClick,
+    onFocus: handleRowClickFocus,
   };
 
   return React.createElement('tr', newProps, [...children]);
