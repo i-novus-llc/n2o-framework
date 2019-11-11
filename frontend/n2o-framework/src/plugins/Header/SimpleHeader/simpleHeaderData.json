@@ -32,14 +32,18 @@
           "label": "Название страницы",
           "href": "/pageRoute",
           "type": "link",
-          "linkType": "inner"
+          "linkType": "inner",
+          "badge": "бадж 1",
+          "badgeColor": "danger"
         },
         {
           "id": "menuItem3",
           "label": "элемент списка №2",
           "href": "/pageRoute1",
           "type": "link",
-          "linkType": "inner"
+          "linkType": "inner",
+          "badge": "бадж 2",
+          "badgeColor": "danger"
         }
       ]
     }
@@ -58,12 +62,16 @@
         {
           "label": "элемент списка №1",
           "href": "/",
-          "type": "link"
+          "type": "link",
+          "badge": "бадж 1",
+          "badgeColor": "warning"
         },
         {
           "label": "элемент списка №2",
           "type": "link",
-          "href": "/"
+          "href": "/",
+          "badge": "бадж 2",
+          "badgeColor": "warning"
         }
       ]
     }
