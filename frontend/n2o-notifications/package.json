@@ -10,6 +10,15 @@
 		"lib",
 		"umd"
 	],
+	"scripts": {
+		"build": "nwb build-react-component --no-demo",
+		"clean": "nwb clean-module && nwb clean-demo",
+		"prepublishOnly": "npm run build",
+		"start": "nwb serve-react-demo",
+		"test": "nwb test-react",
+		"test:coverage": "nwb test-react --coverage",
+		"test:watch": "nwb test-react --server"
+	},
 	"dependencies": {
 		"net": "^1.0.2",
 		"react-redux": "5.0.6",
