@@ -237,7 +237,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
         filter.setBlackResetList(new ArrayList<>(Arrays.stream(source.getFilters())
-                .filter(f -> f instanceof N2oSearchButtons)
+                .filter(f -> f instanceof N2oSearchButtons && ((N2oSearchButtons) f).getClearIgnore() != null)
                 .flatMap(f -> Arrays.stream(((N2oSearchButtons) f).getClearIgnore().split(",")))
                 .map(s -> s.trim())
                 .collect(Collectors.toSet())
