@@ -10,6 +10,7 @@
     "n2o-auth",
     "n2o-framework",
     "n2o-notifications",
-    "n2o-simple-project"
+    "n2o-simple-project",
+    "n2o-ecp-plugin"
   ]
 }
