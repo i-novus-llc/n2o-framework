@@ -2,6 +2,9 @@
   .btn{
     display: inline-flex;
     align-items: center;
+
+    border: none;
+    background: transparent;
     & > i {
       display: flex;
     }
