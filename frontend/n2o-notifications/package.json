@@ -17,7 +17,7 @@
     "start": "nwb serve-react-demo"
   },
   "dependencies": {
-    "n2o-framework": "^7.4.0",
+    "n2o-framework": "^7.3.31",
     "net": "^1.0.2",
     "react-redux": "5.0.6",
     "reactstrap": "^8.0.0",
@@ -32,7 +32,7 @@
     "nwb": "0.23.x"
   },
   "peerDependencies": {
-    "n2o-framework": "^7.4.0"
+    "n2o-framework": "^7.3.31"
   },
   "author": "",
   "homepage": "",

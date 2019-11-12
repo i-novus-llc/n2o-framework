@@ -17,13 +17,13 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
-    "n2o-framework": "^7.4.0"
+    "n2o-framework": "^7.3.31"
   },
   "devDependencies": {
     "nwb": "0.23.x"
   },
   "peerDependencies": {
-    "n2o-framework": "^7.4.0"
+    "n2o-framework": "^7.3.31"
   },
   "author": "I-Novus LLC<n2o@i-novus.ru>",
   "license": "Apache-2.0",

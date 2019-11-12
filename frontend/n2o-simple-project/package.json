@@ -9,8 +9,8 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
-    "n2o-auth": "^7.4.1",
-    "n2o-framework": "^7.4.1",
+    "n2o-auth": "^7.3.31",
+    "n2o-framework": "^7.3.31",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   },
