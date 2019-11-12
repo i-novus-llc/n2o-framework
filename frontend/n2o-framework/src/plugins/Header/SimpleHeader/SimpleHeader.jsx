@@ -1,18 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  InputGroup,
-  InputGroupAddon,
-  Input,
-  NavbarBrand,
-  NavbarToggler,
-  Collapse,
-} from 'reactstrap';
-import { isEmpty } from 'lodash';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
+import Navbar from 'reactstrap/lib/Navbar';
+import Nav from 'reactstrap/lib/Nav';
+import NavItem from 'reactstrap/lib/NavItem';
+import InputGroup from 'reactstrap/lib/InputGroup';
+import InputGroupAddon from 'reactstrap/lib/InputGroupAddon';
+import Input from 'reactstrap/lib/Input';
+import NavbarBrand from 'reactstrap/lib/NavbarBrand';
+import NavbarToggler from 'reactstrap/lib/NavbarToggler';
+import Collapse from 'reactstrap/lib/Collapse';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
@@ -33,6 +29,7 @@ import NavItemContainer from './NavItemContainer';
  * @example
  * //каждый item состоит из id {string}, label {string}, type {string} ('text', 'type' или 'dropdown'),
  * //href {string}(для ссылок), linkType {string}(для ссылок; значения - 'outer' или 'inner')
+ * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('newWindow' или null)
  * //subItems {array} (массив из элементов дропдауна)
  *<SimpleHeader  items = { [
  *     {
@@ -40,6 +37,7 @@ import NavItemContainer from './NavItemContainer';
  *       label: 'link',
  *       href: '/test',
  *       type: 'link',
+ *       target: 'newWindow',
  *     },
  *     {
  *       id: 'dropdown',
@@ -192,6 +190,7 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
       badge: PropTypes.string,
       badgeColor: PropTypes.string,
+      target: PropTypes.string,
     })
   ),
   /**
@@ -207,6 +206,7 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
       badge: 'badge',
       badgeColor: 'color',
+      target: PropTypes.string,
     })
   ),
   /**

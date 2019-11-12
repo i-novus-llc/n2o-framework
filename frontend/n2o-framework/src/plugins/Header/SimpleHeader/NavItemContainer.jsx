@@ -2,17 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
-import { isEmpty, get } from 'lodash';
-import { Badge } from 'reactstrap';
+import get from 'lodash/get';
+import Badge from 'reactstrap/lib/Badge';
 
-import {
-  NavItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
+import NavItem from 'reactstrap/lib/NavItem';
+import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown';
+import DropdownToggle from 'reactstrap/lib/DropdownToggle';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
 
 /**
  * Контейнер navItem'ов, в зависимости от type, создает внутри линк, дропдаун или текст
@@ -30,11 +27,19 @@ const NavItemContainer = ({
   direction,
 }) => {
   const getInnerLink = (item, className) => (
-    <NavLink exact className="nav-link" to={item.href} activeClassName="active">
+    <NavLink
+      exact
+      className={cx('nav-link', className)}
+      to={item.href}
+      activeClassName="active"
+      target={getTarget(item)}
+    >
       {item.icon && <NavItemIcon />}
       {item.label}
     </NavLink>
   );
+
+  const getTarget = item => (item.target === 'newWindow' ? '_blank' : null);
 
   const renderBadge = item => (
     <Badge color={item.badgeColor}>{item.badge}</Badge>
@@ -47,7 +52,11 @@ const NavItemContainer = ({
       return (
         <NavItem>
           {item.icon && <NavItemIcon />}
-          <a className={cx('nav-link', className)} href={item.href}>
+          <a
+            className={cx('nav-link', className)}
+            href={item.href}
+            target={getTarget(item)}
+          >
             {item.label}
           </a>
           {renderBadge(item)}
@@ -61,6 +70,7 @@ const NavItemContainer = ({
             className={cx('nav-link', className)}
             to={item.href}
             activeClassName="active"
+            target={getTarget(item)}
           >
             {item.icon && <NavItemIcon />}
             {item.label}
@@ -105,7 +115,7 @@ const NavItemContainer = ({
     }
   } else if (type === 'sidebar' && item.type === 'dropdown' && sidebarOpen) {
     const defaultLink = item => (
-      <Link className="dropdown-item" to={item.href}>
+      <Link className="dropdown-item" to={item.href} target={getTarget(item)}>
         {item.icon && <NavItemIcon />}
         {item.label}
       </Link>
