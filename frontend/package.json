@@ -7,7 +7,8 @@
     "n2o-auth",
     "demo",
     "n2o-simple-project",
-    "n2o-notifications"
+    "n2o-notifications",
+    "n2o-ecp-plugin"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
