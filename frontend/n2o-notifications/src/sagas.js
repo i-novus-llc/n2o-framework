@@ -50,8 +50,6 @@ export function* createSocketChannel(stompClient) {
       frame => {
         console.log("Connected: " + frame);
 
-        stompClient.send(messagesURLs.getCountUrl);
-
         //Подписка на личные сообщения
         stompClient.subscribe(
           messagesURLs.subscribeUrl,
@@ -63,6 +61,8 @@ export function* createSocketChannel(stompClient) {
           messagesURLs.subscribeCountUrl,
           subscribeMessageCount(emitter)
         );
+
+        stompClient.send(messagesURLs.getCountUrl);
       },
       errorCallback => {
         console.log(errorCallback);
