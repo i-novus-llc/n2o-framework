@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
@@ -30,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -234,7 +236,12 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         AbstractTable.Filter filter = new AbstractTable.Filter();
         filter.setFilterFieldsets(fieldSets);
         filter.setFilterButtonId("filter");
-        filter.setBlackResetList(Collections.emptyList());
+        filter.setBlackResetList(new ArrayList<>(Arrays.stream(source.getFilters())
+                .filter(f -> f instanceof N2oSearchButtons)
+                .flatMap(f -> Arrays.stream(((N2oSearchButtons) f).getClearIgnore().split(",")))
+                .map(s -> s.trim())
+                .collect(Collectors.toSet())
+        ));
         filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));
         boolean hasSearchButtons = fieldSets.stream()
                 .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
