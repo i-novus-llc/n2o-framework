@@ -1,6 +1,6 @@
 {
   "name": "n2o-auth",
-  "version": "7.4.0",
+  "version": "7.4.3",
   "description": "Пакеты для работы с N2O Security",
   "main": "lib/index.js",
   "module": "es/index.js",
