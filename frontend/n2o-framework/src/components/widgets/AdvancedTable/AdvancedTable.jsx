@@ -164,6 +164,7 @@ class AdvancedTable extends Component {
     }
     if (!isEqual(prevProps, this.props)) {
       let state = {};
+      if (isEqual(prevProps.filters, this.props.filters)) this.closeAllRows();
       if (data && !isEqual(prevProps.data, data)) {
         const checked = this.mapChecked(data);
         state = {

@@ -10,12 +10,18 @@ import { compose, setDisplayName } from 'recompose';
 import get from 'lodash/get';
 
 import { callActionImpl } from '../../actions/toolbar';
+import { resolveWidget } from '../../actions/widgets';
 import ModalDialog from './ModalDialog/ModalDialog';
 import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
 import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';
+
+const ConfirmMode = {
+  POPOVER: 'popover',
+  MODAL: 'modal',
+};
 
 /**
  * Компонент redux-обертка для тулбара
@@ -95,7 +101,19 @@ class Actions extends React.Component {
    * @param confirm
    */
   onClickHelper(button, confirm) {
-    const { actions, resolve, options } = this.props;
+    const {
+      actions,
+      resolve,
+      options,
+      resolveBeforeAction,
+      model,
+      resolveWidget,
+    } = this.props;
+
+    if (resolveBeforeAction) {
+      resolveWidget(resolveBeforeAction, model);
+    }
+
     this.onClick(
       button.actionId,
       button.id,
@@ -151,9 +169,11 @@ class Actions extends React.Component {
         parentId={parentId}
       />
     );
+    const confirmMode = get(button, 'confirm.mode', ConfirmMode.MODAL);
+
     const btn = (
-      <React.Fragment>
-        {get(button, 'confirm.mode') === 'popover' ? (
+      <div onClick={e => e.stopPropagation()}>
+        {confirmMode === ConfirmMode.POPOVER ? (
           <PopoverConfirm
             {...this.mapButtonConfirmProps(button)}
             isOpen={isConfirmVisible}
@@ -162,7 +182,7 @@ class Actions extends React.Component {
           >
             {Container}
           </PopoverConfirm>
-        ) : get(button, 'confirm.mode') === 'modal' ? (
+        ) : confirmMode === ConfirmMode.MODAL ? (
           <React.Fragment>
             {Container}
             <ModalDialog
@@ -176,7 +196,7 @@ class Actions extends React.Component {
         ) : (
           Container
         )}
-      </React.Fragment>
+      </div>
     );
 
     return <SecurityNotRender config={button.security} component={btn} />;
@@ -362,6 +382,7 @@ Actions.contextTypes = {
 
 Actions.defaultProps = {
   toolbar: [],
+  resolveBeforeAction: false,
 };
 
 Actions.propTypes = {
@@ -393,6 +414,14 @@ Actions.propTypes = {
    * Доболнительные параметры экшенов
    */
   options: PropTypes.object,
+  /**
+   * Параметр резолва модели перед выполнением экшена
+   */
+  resolveBeforeAction: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  /**
+   * Модель резолва
+   */
+  model: PropTypes.object,
 };
 
 /**
@@ -406,6 +435,8 @@ const mapDispatchToProps = dispatch => {
         callActionImpl(actionSrc, { ...options, dispatch, validatedWidgetId })
       );
     },
+    resolveWidget: (widgetId, model) =>
+      dispatch(resolveWidget(widgetId, model)),
   };
 };
 
