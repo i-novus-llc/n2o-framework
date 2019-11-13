@@ -14,6 +14,4 @@ public class SearchButtons extends Control {
     private String searchLabel;
     @JsonProperty
     private String resetLabel;
-    @JsonProperty
-    private String clearIgnore;
 }
