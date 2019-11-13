@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { Field as ReduxFormField } from 'redux-form';
 import StandardField from '../../widgets/Form/fields/StandardField/StandardField';
 import withFieldContainer from '../../widgets/Form/fields/withFieldContainer';
 import { compose, withProps } from 'recompose';
 import { some } from 'lodash';
 import withObserveDependency from '../../../core/dependencies/withObserveDependency';
+import { loadingSelector } from '../../../selectors/formPlugin';
 
 const config = {
   onChange: function({ dependency }, dependencyType) {
@@ -78,4 +81,11 @@ ReduxField.propTypes = {
   ]),
 };
 
-export default withObserveDependency(config)(ReduxField);
+const mapStateToProps = createStructuredSelector({
+  loading: (state, { form, id }) => loadingSelector(form, id)(state),
+});
+
+export default compose(
+  withObserveDependency(config),
+  connect(mapStateToProps)
+)(ReduxField);

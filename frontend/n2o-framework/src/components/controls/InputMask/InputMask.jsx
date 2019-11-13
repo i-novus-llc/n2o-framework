@@ -178,6 +178,10 @@ class InputMask extends React.Component {
   };
 
   prepareValue = (value, mask) => {
+    if (!mask) {
+      return value;
+    }
+
     const parsedMask = this.getParsedValue(mask);
     const parsedValue = this.getParsedValue(value, false);
     const maskLength = parsedMask.length;

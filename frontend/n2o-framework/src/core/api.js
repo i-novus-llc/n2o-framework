@@ -16,6 +16,7 @@ export const FETCH_PAGE_METADATA = 'FETCH_PAGE_METADATA';
 export const FETCH_WIDGET_DATA = 'FETCH_WIDGET_DATA';
 export const FETCH_INVOKE_DATA = 'FETCH_INVOKE_DATA';
 export const FETCH_VALIDATE = 'FETCH_VALIDATE';
+export const FETCH_VALUE = 'FETCH_VALUE';
 
 /**
  * Удаляет все пустые значения в параметрах запроса
@@ -114,6 +115,7 @@ export const defaultApiProvider = {
         ),
       ].join('')
     ),
+  [FETCH_VALUE]: ({ url }) => request(url),
 };
 
 /**

@@ -26,4 +26,15 @@
       }
     }
   }
+  .navbar {
+    .navbar-collapse {
+      .navbar-nav {
+        .nav-item {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+      }
+    }
+  }
 }

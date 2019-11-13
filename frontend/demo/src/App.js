@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import N2O from 'n2o-framework/lib/N2o';
+import { authProvider } from 'n2o-auth';
+import Ecp from 'n2o-ecp-plugin';
 import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o-framework/lib/core/api';
 import Route from 'n2o-framework/lib/components/core/Route';
 import Page from 'n2o-framework/lib/components/core/Page';
@@ -16,6 +18,9 @@ import CollapsedCardFieldset from './components/fieldset/CollapsedCard/Collapsed
 const config = {
   widgets: {
     DataGrid: DataGrid
+  },
+  controls : {
+    InputText: Ecp
   },
   cells: {
     AvatarCell: AvatarCell
@@ -34,72 +39,10 @@ const config = {
       info: 0,
     }
   },
-  apiProvider: handleApi({
-    ...defaultApiProvider,
-    [FETCH_APP_CONFIG]: (options) => {
-      console.warn('--------------------- API PROVIDER START ---------------------');
-      console.warn(FETCH_APP_CONFIG);
-      console.warn(options);
-      console.warn('--------------------- API PROVIDER END ---------------------');
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve({
-            "messages": {},
-            "menu": {
-              "brand": "My project",
-              "color": "inverse",
-              "fixed": true,
-              "collapsed": true,
-              "search": false,
-              "items": [
-                {
-                  "id": "proto",
-                  "label": "Proto",
-                  "href": "/proto",
-                  "linkType": "inner",
-                  "type": "link"
-                },
-                {
-                  "id": "v1",
-                  "label": "Custom V1",
-                  "href": "/custom/v1",
-                  "linkType": "inner",
-                  "type": "link"
-                },
-                {
-                  "id": "v2",
-                  "label": "Custom V2",
-                  "href": "/custom/v2",
-                  "linkType": "inner",
-                  "type": "link"
-                },
-                {
-                  "id": "v3",
-                  "label": "Custom V3",
-                  "href": "/custom/v3",
-                  "linkType": "inner",
-                  "type": "link"
-                }
-              ],
-              "extraItems": [
-                {
-                  "id": "goo",
-                  "label": "Google",
-                  "href": "http://google.com",
-                  "linkType": "outer",
-                  "type": "link"
-                }
-              ]
-            },
-            "user": {
-              "username": null,
-              "testProperty": "testProperty"
-            }
-          });
-        }, 0);
-      });
-    }
-  }),
+  security: {
+    authProvider,
+    externalLoginUrl: '/'
+  },
   realTimeConfig: true,
   embeddedRouting: true,
 };

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <checkbox id="check1"  label="Label" unchecked="false"/>
+        <checkbox id="check1"  label="Label" unchecked="null"/>
     </fields>
 </form>

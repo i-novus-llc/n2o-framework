@@ -67,6 +67,8 @@ SimpleHeader.defaultProps = {
   className: '',
   items: [],
   extraItems: [],
+  itemsWithBadges: [],
+  extraItemsWithBadges: [],
   search: false,
   style: {},
 };

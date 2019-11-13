@@ -179,6 +179,7 @@ class InputNumber extends React.Component {
       className,
       onFocus,
       autoFocus,
+      placeholder,
     } = this.props;
     const { value } = this.state;
 
@@ -204,6 +205,7 @@ class InputNumber extends React.Component {
             onPaste={this.onPaste}
             disabled={disabled}
             autoFocus={autoFocus}
+            placeholder={placeholder}
           />
           {showButtons && (
             <div className="n2o-input-number-buttons">
