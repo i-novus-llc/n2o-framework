@@ -22,7 +22,8 @@
     "react-widgets": "^4.2.2",
     "react-widgets-moment": "^4.0.9",
     "reactstrap": "^8.0.1",
-    "recharts": "^1.7.1"
+    "recharts": "^1.7.1",
+    "n2o-ecp-plugin": "7.4.0"
   },
   "devDependencies": {
     "react-scripts": "^3.1.1"

@@ -23,11 +23,13 @@
     "react-dom": "^16.0.0"
   },
   "dependencies": {
-    "n2o-framework": "^7.4.0",
     "n2o-auth": "^7.4.0",
+    "n2o-framework": "^7.4.0",
     "n2o-notifications": "^7.4.0",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "reactstrap": "^8.1.1",
+    "recompose": "^0.30.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -36,7 +38,8 @@
     "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/preset-react": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.0.0"
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "cross-env": "^5.2.0"
   },
   "author": "I-Novus LLC<n2o@i-novus.ru>",
   "license": "Apache-2.0"

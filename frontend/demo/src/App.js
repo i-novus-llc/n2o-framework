@@ -6,6 +6,7 @@ import Page from 'n2o-framework/lib/components/core/Page';
 
 import Template from './components/core/Template';
 import DashboardV2 from './pages/DashboardV2';
+import ecp from 'n2o-ecp-plugin';
 import TableTree from './pages/TableTree';
 import Select from './pages/Select';
 import DataGrid from './components/widgets/DataGrid/DataGrid';
@@ -21,6 +22,9 @@ const config = {
   },
   fieldsets: {
     CollapsedCardFieldset: CollapsedCardFieldset
+  },
+  controls: {
+    Text: ecp
   },
   messages: {
     timeout: {
