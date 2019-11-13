@@ -1,43 +1,40 @@
 {
   "name": "n2o-ecp-plugin",
   "version": "7.4.0",
-  "description": "Плагин упращающий работу с КриптоПРО в N2O проектах",
-  "private": true,
+  "description": "n2o-ecp-plugin React component",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
   "scripts": {
-    "build": "npm run build:commonjs && npm run build:es",
-    "build:commonjs": "npm run clean:commonjs && npm run compile:commonjs",
-    "build:es": "npm run clean:es && npm run compile:es",
-    "compile:commonjs": "cross-env NODE_ENV=commonjs babel src --out-dir lib",
-    "compile:es": "cross-env NODE_ENV=es babel src --out-dir es",
-    "compile:commonjs:watch": "cross-env NODE_ENV=commonjs babel src --out-dir lib --copy-files -w",
-    "compile:es:watch": "cross-env NODE_ENV=es babel src --out-dir es --copy-files -w",
-    "clean": "npm run clean:commonjs && npm run clean:es",
-    "clean:commonjs": "rimraf lib",
-    "clean:es": "rimraf es",
-    "cosmos": "cosmos",
-    "watch": "concurrently --kill-others \"npm run compile:commonjs:watch\" \"npm run compile:es:watch\""
-  },
-  "peerDependencies": {
-    "prop-types": "^15.5.4",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "build": "nwb build-react-component",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "npm run build",
+    "start": "nwb serve-react-demo",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "n2o-framework": "^7.4.0",
-    "n2o-auth": "^7.4.0",
-    "n2o-notifications": "^7.4.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "reactstrap": "^8.1.1"
+  },
+  "peerDependencies": {
+    "react": "16.x"
   },
   "devDependencies": {
-    "@babel/cli": "^7.0.0",
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-es2015": "^7.0.0-beta.53",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/plugin-proposal-class-properties": "^7.0.0"
+    "nwb": "0.23.x",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
-  "author": "I-Novus LLC<n2o@i-novus.ru>",
-  "license": "Apache-2.0"
+  "author": "",
+  "homepage": "",
+  "license": "MIT",
+  "repository": "",
+  "keywords": [
+    "react-component"
+  ]
 }

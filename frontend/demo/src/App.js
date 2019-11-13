@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import N2O from 'n2o-framework/lib/N2o';
 import { authProvider } from 'n2o-auth';
+import Ecp from 'n2o-ecp-plugin';
 import { handleApi, defaultApiProvider, FETCH_APP_CONFIG } from 'n2o-framework/lib/core/api';
 import Route from 'n2o-framework/lib/components/core/Route';
 import Page from 'n2o-framework/lib/components/core/Page';
@@ -16,6 +17,9 @@ import CollapsedCardFieldset from './components/fieldset/CollapsedCard/Collapsed
 const config = {
   widgets: {
     DataGrid: DataGrid
+  },
+  controls : {
+    InputText: Ecp
   },
   cells: {
     AvatarCell: AvatarCell

@@ -2,9 +2,9 @@ import expect from 'expect'
 import React from 'react'
 import {render, unmountComponentAtNode} from 'react-dom'
 
-import App from 'src/App'
+import Component from 'src/'
 
-describe('App component', () => {
+describe('Component', () => {
   let node
 
   beforeEach(() => {
@@ -16,8 +16,8 @@ describe('App component', () => {
   })
 
   it('displays a welcome message', () => {
-    render(<App/>, node, () => {
-      expect(node.textContent).toContain('Welcome to React')
+    render(<Component/>, node, () => {
+      expect(node.innerHTML).toContain('Welcome to React components')
     })
   })
 })
