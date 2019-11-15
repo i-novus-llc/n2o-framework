@@ -3,11 +3,8 @@ package net.n2oapp.framework.api.metadata.meta.region;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Клиентская модель региона в виде вкладок.
@@ -18,6 +15,9 @@ public class TabsRegion extends Region {
 
     @JsonProperty
     private List<Tab> tabs;
+
+    @JsonProperty
+    private boolean alwaysRefresh;
 
     @Override
     @JsonProperty("tabs")
