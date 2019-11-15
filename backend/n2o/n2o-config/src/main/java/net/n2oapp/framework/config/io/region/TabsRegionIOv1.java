@@ -14,7 +14,7 @@ public class TabsRegionIOv1 extends BaseRegionIOv1<N2oTabsRegion> {
     @Override
     public void io(Element e, N2oTabsRegion r, IOProcessor p) {
         super.io(e, r, p);
-        p.attributeBoolean(e, "always-refresh", r::isAlwaysRefresh, r::setAlwaysRefresh);
+        p.attributeBoolean(e, "always-refresh", r::getAlwaysRefresh, r::setAlwaysRefresh);
     }
 
     @Override

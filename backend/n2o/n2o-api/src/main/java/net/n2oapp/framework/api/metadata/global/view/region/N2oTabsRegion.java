@@ -10,5 +10,5 @@ import lombok.Setter;
 @Setter
 public class N2oTabsRegion extends N2oRegion {
 
-    private boolean alwaysRefresh;
+    private Boolean alwaysRefresh;
 }

@@ -17,7 +17,7 @@ public class TabsRegion extends Region {
     private List<Tab> tabs;
 
     @JsonProperty
-    private boolean alwaysRefresh;
+    private Boolean alwaysRefresh;
 
     @Override
     @JsonProperty("tabs")
