@@ -14,4 +14,6 @@ public class TextArea extends Control {
     @JsonProperty("maxRows")
     private Integer rows;
 
+    @JsonProperty("placeholder")
+    private String placeholder;
 }
