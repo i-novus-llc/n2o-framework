@@ -1,13 +1,21 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import CodeViewer from './CodeViewer';
+import { CodeViewer as CodeViewerComponent } from './CodeViewer';
 
 const stories = storiesOf('Контролы/Просмотрщик кода', module);
+stories.addParameters({
+  info: {
+    propTables: [CodeViewerComponent],
+  },
+});
 
 stories.add(
   'Компонент',
   () => {
     const props = {
+      title: 'makeWorker',
+      text: 'Фргамент кода makeWorker',
       theme: 'light',
       visible: true,
       language: 'javascript',
@@ -32,6 +40,8 @@ stories.add(
       
       <CodeViewer 
         visible={true}
+        title="title"
+        text="text"
         language="javascript"
         theme="light"
         showLineNumbers={true}
