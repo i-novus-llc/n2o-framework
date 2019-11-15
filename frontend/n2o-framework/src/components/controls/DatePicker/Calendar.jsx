@@ -12,6 +12,7 @@ import {
   isDateFromNextMonth,
   addTime,
 } from './utils';
+import { ControlType } from './DateTimeControl';
 
 /**
  * @reactProps {date} value
@@ -226,7 +227,16 @@ class Calendar extends React.Component {
    * Рендер дня
    */
   renderDay(day, i) {
-    const { min, max, value, select, inputName } = this.props;
+    const {
+      min,
+      max,
+      value,
+      select,
+      inputName,
+      type,
+      index,
+      values,
+    } = this.props;
     let disabled = false;
     if (min && max) {
       disabled = day.isBefore(min) || day.isAfter(max);
@@ -234,6 +244,12 @@ class Calendar extends React.Component {
       disabled = day.isBefore(min);
     } else if (max) {
       disabled = day.isAfter(max);
+    }
+
+    if (type === ControlType.DATE_INTERVAL) {
+      const { begin } = values;
+
+      disabled = index === 1 && day.isBefore(begin);
     }
 
     const displayesMonth = this.state.displayesMonth.clone();

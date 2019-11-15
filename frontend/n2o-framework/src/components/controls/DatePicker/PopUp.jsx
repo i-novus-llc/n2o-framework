@@ -39,6 +39,7 @@ class PopUp extends React.PureComponent {
       locale,
       time,
       isTimeSet,
+      type,
     } = this.props;
 
     let minDate = inputName => {
@@ -58,6 +59,9 @@ class PopUp extends React.PureComponent {
           return (
             <Calendar
               key={i}
+              index={i}
+              values={value}
+              type={type}
               time={timeObj}
               markTimeAsSet={markTimeAsSet}
               hasDefaultTime={hasDefaultTime || isTimeSet[input]}
