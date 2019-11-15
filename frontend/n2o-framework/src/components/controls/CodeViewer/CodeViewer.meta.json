@@ -2,6 +2,8 @@
   "visible": true,
   "theme": "light",
   "children": "",
+  "title": "",
+  "text": "",
   "language": "javascript",
   "showLineNumbers": true,
   "startingLineNumber": 1
