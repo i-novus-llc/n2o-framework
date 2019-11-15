@@ -175,7 +175,7 @@ class Actions extends React.Component {
     const confirmMode = get(button, 'confirm.mode', ConfirmMode.MODAL);
 
     const btn = (
-      <div onClick={e => e.stopPropagation()}>
+      <>
         {confirmMode === ConfirmMode.POPOVER ? (
           <PopoverConfirm
             {...this.mapButtonConfirmProps(button)}
@@ -199,7 +199,7 @@ class Actions extends React.Component {
         ) : (
           Container
         )}
-      </div>
+      </>
     );
 
     return <SecurityNotRender config={button.security} component={btn} />;
@@ -286,17 +286,15 @@ class Actions extends React.Component {
       hintPosition,
     };
     return (
-      <div onClick={e => e.stopPropagation()}>
-        <ButtonContainer
-          id={id}
-          component={DropdownMenu}
-          initialProps={dropdownProps}
-          containerKey={this.props.containerKey}
-          color={color}
-        >
-          {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
-        </ButtonContainer>
-      </div>
+      <ButtonContainer
+        id={id}
+        component={DropdownMenu}
+        initialProps={dropdownProps}
+        containerKey={this.props.containerKey}
+        color={color}
+      >
+        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
+      </ButtonContainer>
     );
   }
 
@@ -340,16 +338,14 @@ class Actions extends React.Component {
       icon,
     };
     return (
-      <div onClick={e => e.stopPropagation()}>
-        <ButtonContainer
-          id={id}
-          component={DropdownMenu}
-          containerKey={this.props.containerKey}
-          initialProps={dropdownProps}
-        >
-          <CustomMenu widgetId={containerKey} />
-        </ButtonContainer>
-      </div>
+      <ButtonContainer
+        id={id}
+        component={DropdownMenu}
+        containerKey={this.props.containerKey}
+        initialProps={dropdownProps}
+      >
+        <CustomMenu widgetId={containerKey} />
+      </ButtonContainer>
     );
   }
 
