@@ -286,15 +286,17 @@ class Actions extends React.Component {
       hintPosition,
     };
     return (
-      <ButtonContainer
-        id={id}
-        component={DropdownMenu}
-        initialProps={dropdownProps}
-        containerKey={this.props.containerKey}
-        color={color}
-      >
-        {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
-      </ButtonContainer>
+      <div onClick={e => e.stopPropagation()}>
+        <ButtonContainer
+          id={id}
+          component={DropdownMenu}
+          initialProps={dropdownProps}
+          containerKey={this.props.containerKey}
+          color={color}
+        >
+          {subMenu.map(item => this.renderButton(DropdownItem, item, id))}
+        </ButtonContainer>
+      </div>
     );
   }
 
@@ -338,14 +340,16 @@ class Actions extends React.Component {
       icon,
     };
     return (
-      <ButtonContainer
-        id={id}
-        component={DropdownMenu}
-        containerKey={this.props.containerKey}
-        initialProps={dropdownProps}
-      >
-        <CustomMenu widgetId={containerKey} />
-      </ButtonContainer>
+      <div onClick={e => e.stopPropagation()}>
+        <ButtonContainer
+          id={id}
+          component={DropdownMenu}
+          containerKey={this.props.containerKey}
+          initialProps={dropdownProps}
+        >
+          <CustomMenu widgetId={containerKey} />
+        </ButtonContainer>
+      </div>
     );
   }
 
