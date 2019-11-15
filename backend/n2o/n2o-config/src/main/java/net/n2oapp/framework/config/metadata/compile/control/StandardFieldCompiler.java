@@ -163,7 +163,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             filters.forEach(f -> {
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterField());
-                filter.setParam(widgetScope.getClientWidgetId() + "_" + f.getParam());
+                filter.setParam(f.getParam());
                 filter.setReloadable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
