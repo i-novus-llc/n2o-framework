@@ -56,27 +56,17 @@ public abstract class RouteUtil {
         if (queryMapping == null || queryMapping.isEmpty())
             return route;
         StringBuilder params = new StringBuilder();
-        if (onlyConstant) {
-            queryMapping.keySet().stream().filter(k -> queryMapping.get(k).isConst()).forEach(k -> {
-                ModelLink link = queryMapping.get(k);
-                if (params.length() > 0) {
-                    params.append("&");
-                }
+        queryMapping.keySet().stream().forEach(k -> {
+            ModelLink link = queryMapping.get(k);
+            if (params.length() > 0) {
+                params.append("&");
+            }
+            if (link.isConst()) {
                 params.append(link.getParam() == null ? k : link.getParam()).append("=").append(link.getValue());
-            });
-        } else {
-            queryMapping.keySet().stream().forEach(k -> {
-                ModelLink link = queryMapping.get(k);
-                if (params.length() > 0) {
-                    params.append("&");
-                }
-                if (link.isConst()) {
-                    params.append(link.getParam() == null ? k : link.getParam()).append("=").append(link.getValue());
-                } else {
-                    params.append(link.getParam() == null ? k : link.getParam()).append("=:").append(k);
-                }
-            });
-        }
+            } else if (!onlyConstant) {
+                params.append(link.getParam() == null ? k : link.getParam()).append("=:").append(k);
+            }
+        } );
         if (params.length() == 0) {
             return route;
         }
