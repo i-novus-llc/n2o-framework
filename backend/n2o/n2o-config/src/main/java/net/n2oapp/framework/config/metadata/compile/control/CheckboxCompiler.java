@@ -29,7 +29,8 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
         if (source.getUnchecked() != null && source.getUnchecked().equals(CheckboxDefaultValueEnum.FALSE) ||
                 source.getUnchecked() == null && defaultUnchecked != null && defaultUnchecked.equals(false)) {
             checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.FALSE.getId());
-            source.setDefaultValue("false");
+            if (source.getDefaultValue() == null)
+                source.setDefaultValue("false");
         } else {
             checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.NULL.getId());
         }
