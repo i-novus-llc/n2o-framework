@@ -14,7 +14,7 @@ class HelpPopover extends React.Component {
     const { help, placement, icon } = this.props;
     return (
       <div className={'n2o-popover'}>
-        <Button className={'n2o-popover-btn'} id={this.fieldId} color='link'>
+        <Button className={'n2o-popover-btn'} id={this.fieldId} color="link">
           <i className={icon} />
         </Button>
         <UncontrolledPopover
