@@ -409,10 +409,22 @@ http://n2oapp.net/framework/config/schema/region-1.0
 === <tabs>
 Регион в виде вкладок.
 
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|always-refresh
+|true false
+|Возможность обновления данных при переключении между вкладками
+|false
+
+|===
+
 Пример::
 [source,xml]
 ----
-<tabs>
+<tabs always-refresh="true">
   <table>...</table> <!-- Первая вкладка -->
   <form>...</form>   <!-- Вторая вкладка -->
 </tabs>
