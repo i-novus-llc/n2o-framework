@@ -14,7 +14,7 @@ export default function linkResolver(state, { link, value }) {
 
   if (isNumber(value)) return value;
   const context = get(state, link);
-  if (!value && link) return context;
+  if (isUndefined(value) && link) return context;
 
   const json = JSON.stringify(value);
   const str = JSON.parse(json, (k, val) => {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose, pure } from 'recompose';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
 import cx from 'classnames';
 import { batchActions } from 'redux-batched-actions';
@@ -119,7 +120,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         if (
           fetchOnInit &&
           visible &&
-          isEqual(dataProvider, dataProviderFromState)
+          (isEqual(dataProvider, dataProviderFromState) || !dataProviderFromState)
         ) {
           this.onFetch();
         }
@@ -130,7 +131,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
         if (
           (!prevProps.visible && visible) ||
-          !isEqual(prevProps.dataProviderFromState, dataProviderFromState)
+          (!isEqual(prevProps.dataProviderFromState, dataProviderFromState) &&
+            !isEmpty(prevProps.dataProviderFromState) &&
+            !isEmpty(dataProviderFromState))
         ) {
           this.onFetch();
         }

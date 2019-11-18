@@ -29,6 +29,7 @@ public class TextAreaCompiler extends StandardFieldCompiler<TextArea, N2oTextAre
     public StandardField<TextArea> compile(N2oTextArea source, CompileContext<?, ?> context, CompileProcessor p) {
         TextArea textArea = new TextArea();
         textArea.setRows(source.getRows());
+        textArea.setPlaceholder(source.getPlaceholder());
         return compileStandardField(textArea, source, context, p);
     }
 }

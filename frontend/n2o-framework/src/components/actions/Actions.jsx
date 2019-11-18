@@ -172,7 +172,7 @@ class Actions extends React.Component {
     const confirmMode = get(button, 'confirm.mode', ConfirmMode.MODAL);
 
     const btn = (
-      <div onClick={e => e.stopPropagation()}>
+      <>
         {confirmMode === ConfirmMode.POPOVER ? (
           <PopoverConfirm
             {...this.mapButtonConfirmProps(button)}
@@ -196,7 +196,7 @@ class Actions extends React.Component {
         ) : (
           Container
         )}
-      </div>
+      </>
     );
 
     return <SecurityNotRender config={button.security} component={btn} />;

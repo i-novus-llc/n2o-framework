@@ -16,7 +16,7 @@ import {
 import DateInputGroup from './DateInputGroup';
 import PopUp from './PopUp';
 
-const ControlType = {
+export const ControlType = {
   DATE_PICKER: 'date-picker',
   DATE_INTERVAL: 'date-interval',
 };
