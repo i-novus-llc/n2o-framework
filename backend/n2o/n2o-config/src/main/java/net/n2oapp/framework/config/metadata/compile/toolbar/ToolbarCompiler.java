@@ -226,11 +226,18 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             }
         }
         if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
-            String widgetId = initWidgetId(source, context, p);
-            ButtonCondition condition = new ButtonCondition();
-            condition.setExpression("!_.isEmpty(this)");
-            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
-            conditions.add(condition);
+            ComponentScope componentScope = p.getScope(ComponentScope.class);
+            Boolean isNotCell = true;
+            if (componentScope != null ) {
+                isNotCell = componentScope.unwrap(N2oCell.class) == null;
+            }
+            if (isNotCell){
+                String widgetId = initWidgetId(source, context, p);
+                ButtonCondition condition = new ButtonCondition();
+                condition.setExpression("!_.isEmpty(this)");
+                condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+                conditions.add(condition);
+            }
         }
         if (!conditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, conditions);
