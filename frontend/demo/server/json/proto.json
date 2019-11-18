@@ -1044,14 +1044,6 @@
                       "id": "delete",
                       "icon": "fa fa-trash",
                       "actionId": "delete",
-                      "conditions": {
-                        "enabled": [
-                          {
-                            "expression": "!_.isEmpty(this)",
-                            "modelLink": "models.resolve['proto_patients']"
-                          }
-                        ]
-                      },
                       "confirm": {
                         "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                         "title": "Предупреждение",
@@ -1066,14 +1058,6 @@
                       "id": "update",
                       "icon": "fa fa-pencil",
                       "actionId": "update",
-                      "conditions": {
-                        "enabled": [
-                          {
-                            "expression": "!_.isEmpty(this)",
-                            "modelLink": "models.resolve['proto_patients']"
-                          }
-                        ]
-                      },
                       "title": "Изменить"
                     }
                   ]
@@ -1315,14 +1299,6 @@
                 "icon": "fa fa-pencil",
                 "actionId": "update",
                 "color": "link",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_contacts']"
-                    }
-                  ]
-                },
                 "title": "Изменить"
               },
               {
@@ -1330,14 +1306,6 @@
                 "icon": "fa fa-trash",
                 "actionId": "delete",
                 "color": "link",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_contacts']"
-                    }
-                  ]
-                },
                 "confirm": {
                   "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
                   "title": "Предупреждение",
