@@ -71,15 +71,15 @@ class BaseSpinner extends Component {
           [className]: className,
         })}
       >
-        {!endTimeout && loading && (
-          <Fragment>
-            <div className="n2o-spinner-container ">
-              <Comp color={color} {...rest} />
-              <div className="loading_text">{text}</div>
-            </div>
-            {!transparent ? <div className="spinner-background" /> : null}
-          </Fragment>
-        )}
+        {(!endTimeout || loading) && (
+            <Fragment>
+              <div className="n2o-spinner-container ">
+                <Comp className="spinner-border" color={color} {...rest} />
+                <div className="loading_text">{text}</div>
+              </div>
+              {!transparent ? <div className="spinner-background" /> : null}
+            </Fragment>
+          )}
         {children}
       </div>
     );
