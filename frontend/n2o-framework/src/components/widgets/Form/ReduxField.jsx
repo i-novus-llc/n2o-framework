@@ -86,6 +86,6 @@ const mapStateToProps = createStructuredSelector({
 });
 
 export default compose(
+  connect(mapStateToProps),
   withObserveDependency(config),
-  connect(mapStateToProps)
 )(ReduxField);
