@@ -48,6 +48,9 @@ public class N2oEngineConfiguration {
     @Value("${n2o.engine.rest.dateformat.deserialize}")
     private String[] deserializingFormats;
 
+    @Value("${n2o.engine.rest.dateformat.exclusion-keys}")
+    private String[] exclusionKeys;
+
     @Value("${n2o.engine.timeout}")
     private String timeoutInMillis;
 
@@ -158,7 +161,7 @@ public class N2oEngineConfiguration {
     private ObjectMapper restObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(serializingFormat));
-        RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats);
+        RestEngineTimeModule module = new RestEngineTimeModule(deserializingFormats, exclusionKeys);
         objectMapper.registerModules(module);
         return objectMapper;
     }
