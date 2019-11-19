@@ -1,13 +1,12 @@
 {
   "name": "n2o-frontend",
   "private": true,
-  "version": "7.4.5",
+  "version": "7.4.6",
   "workspaces": [
     "n2o-framework",
     "n2o-auth",
     "demo",
     "n2o-simple-project",
-
     "n2o-notifications"
   ],
   "scripts": {
@@ -17,7 +16,7 @@
     "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --parallel build",
     "build:projects": "lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
     "build:storybook": "lerna run --scope n2o-framework build-storybook",
-    "changeVersion": "lerna version patch --no-git-tag-version --no-push",
+    "changeVersion": "lerna version --no-git-tag-version --no-push",
     "clean": "lerna run clean && lerna clean",
     "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
     "compile:es:watch": "lerna run --stream --scope n2o-framework compile:es:watch",
