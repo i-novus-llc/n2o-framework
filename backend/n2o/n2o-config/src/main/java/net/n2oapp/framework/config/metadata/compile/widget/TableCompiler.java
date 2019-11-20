@@ -18,6 +18,8 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
@@ -26,6 +28,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpression;
@@ -224,7 +227,15 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         filter.setFilterButtonId("filter");
         filter.setBlackResetList(Collections.EMPTY_LIST);
         filter.setFilterPlace(p.cast(source.getFilterPosition(), N2oTable.FilterPosition.top));
-        filter.setHideButtons(p.cast(source.getSearchButtons(), true) ? null : true);
+        boolean hasSearchButtons = fieldSets.stream()
+                .flatMap(fs -> fs.getRows() != null ? fs.getRows().stream() : Stream.empty())
+                .flatMap(r -> r.getCols() != null ? r.getCols().stream() : Stream.empty())
+                .flatMap(c -> c.getFields() != null ? c.getFields().stream() : Stream.empty())
+                .filter(f -> f instanceof StandardField)
+                .map(f -> ((StandardField) f).getControl())
+                .anyMatch(c -> c instanceof SearchButtons);
+        if (hasSearchButtons)
+            filter.setHideButtons(true);
         return filter;
     }
 
