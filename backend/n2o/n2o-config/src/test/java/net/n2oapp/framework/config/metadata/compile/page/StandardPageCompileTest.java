@@ -243,4 +243,13 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['__form2'].id"));
 
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void validateObjectIdForMainWidget() {
+        PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
+        validateObjectIdForMainWidget.setSubmitOperationId("test");
+        Page page = compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
+                .get(validateObjectIdForMainWidget);
+
+    }
 }

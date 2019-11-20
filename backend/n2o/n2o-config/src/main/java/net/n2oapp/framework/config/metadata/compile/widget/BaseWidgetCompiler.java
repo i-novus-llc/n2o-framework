@@ -44,7 +44,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -65,6 +64,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                  CompiledObject object) {
         String localWidgetId = initLocalWidgetId(source, p);
         source.setId(localWidgetId);
+        validateObject(source, p);
         compiled.setMasterParam(source.getMasterParam());
         compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
         compiled.setClassName(source.getCssClass());
@@ -340,6 +340,23 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
                 ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
                 routes.addQueryMapping(sortParam, onGet, onSet);
+            }
+        }
+    }
+
+    private void validateObject(S source, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (pageScope != null && pageScope.getResultWidgetId() != null &&
+                source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null) {
+            if (source.getObjectId() == null) {
+                if (source.getQueryId() != null) {
+                    CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
+                    if (!query.getObject().getId().equals(pageScope.getObjectId()))
+                        throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
+                }
+            } else {
+                if (!source.getObjectId().equals(pageScope.getObjectId()))
+                    throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
             }
         }
     }
