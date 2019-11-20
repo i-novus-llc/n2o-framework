@@ -51,6 +51,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPageSecondFlow.page.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPage3.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
@@ -365,6 +366,9 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         ShowModal showModal = (ShowModal) rootPage.getWidgets().get("p_main").getActions().get("updateEditWithPrefilters");
         assertThat(showModal.getOptions().getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
+
+        Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
+        assertThat(showModalPage.getId(), is("p_updateEditWithPrefilters"));
     }
 
 }

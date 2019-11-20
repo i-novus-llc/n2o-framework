@@ -346,7 +346,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected CompiledObject getObject(S source, CompileProcessor p) {
         if (source.getObjectId() == null) {
-            if (source.getQueryId() != null) {
+            if (source.getQueryId() == null) {
+                PageScope pageScope = p.getScope(PageScope.class);
+                if (pageScope != null && pageScope.getResultWidgetId() != null &&
+                        source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null) {
+                    return p.getCompiled(new ObjectContext(pageScope.getObjectId()));
+                }
+            } else {
                 CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
                 return query.getObject();
             }
