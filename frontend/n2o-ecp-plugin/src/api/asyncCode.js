@@ -4,7 +4,7 @@ function CertificateAdjuster() {
 }
 
 CertificateAdjuster.prototype.extract = function (from, what) {
-    certName = "";
+    let certName = "";
 
     var begin = from.indexOf(what);
 
@@ -214,7 +214,7 @@ export function FillCertListNumber_Async() {
     });
 }
 
-function getCertificates_Async () {
+export function getCertificates_Async () {
     return new Promise(function (resolve, reject) {
         cadesplugin.async_spawn(function * (arg) {
             var oStore = yield cadesplugin.CreateObjectAsync("CAdESCOM.Store");
@@ -294,7 +294,7 @@ function getCertificates_Async () {
     });
 }
 
-function sign_Async(type, document, certificat, options) {
+export function sign_Async(type, document, certificat, options) {
     return new Promise(function(resolve, reject){
         cadesplugin.async_spawn(function * (arg)
         {
@@ -1180,3 +1180,5 @@ function resolveAdesProfile(options) {
             return cadesplugin.CADESCOM_CADES_BES;
     }
 }
+
+
