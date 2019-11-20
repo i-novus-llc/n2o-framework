@@ -64,7 +64,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                  CompiledObject object) {
         String localWidgetId = initLocalWidgetId(source, p);
         source.setId(localWidgetId);
-        validateObject(source, p);
         compiled.setMasterParam(source.getMasterParam());
         compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
         compiled.setClassName(source.getCssClass());
@@ -344,36 +343,27 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         }
     }
 
-    private void validateObject(S source, CompileProcessor p) {
-        PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope != null && pageScope.getResultWidgetId() != null &&
-                source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null) {
-            if (source.getObjectId() == null) {
-                if (source.getQueryId() != null) {
-                    CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
-                    if (!query.getObject().getId().equals(pageScope.getObjectId()))
-                        throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
-                }
-            } else {
-                if (!source.getObjectId().equals(pageScope.getObjectId()))
-                    throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
-            }
-        }
-    }
-
     protected CompiledObject getObject(S source, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
         if (source.getObjectId() == null) {
             if (source.getQueryId() == null) {
-                PageScope pageScope = p.getScope(PageScope.class);
                 if (pageScope != null && pageScope.getResultWidgetId() != null &&
                         source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null) {
                     return p.getCompiled(new ObjectContext(pageScope.getObjectId()));
                 }
             } else {
                 CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
+                if (pageScope != null && pageScope.getResultWidgetId() != null &&
+                        source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null &&
+                        !query.getObject().getId().equals(pageScope.getObjectId()))
+                    throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
                 return query.getObject();
             }
         } else {
+            if (pageScope != null && pageScope.getResultWidgetId() != null &&
+                    source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null &&
+                    !source.getObjectId().equals(pageScope.getObjectId()))
+                throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
             return p.getCompiled(new ObjectContext(source.getObjectId()));
         }
         return null;
