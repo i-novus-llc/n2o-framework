@@ -1,6 +1,6 @@
 {
   "lerna": "3.18.3",
-  "version": "7.4.6",
+  "version": "7.4.7",
   "npmClient": "npm",
   "npmClientArgs": [
     "--no-package-lock"
