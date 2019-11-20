@@ -1,3 +1,3 @@
-import EcpComponent from './EcpComponent';
+import EcpComponent from './components/EcpComponent';
 
 export default EcpComponent;

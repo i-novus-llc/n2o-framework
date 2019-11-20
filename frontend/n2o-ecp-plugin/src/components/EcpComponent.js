@@ -2,6 +2,7 @@ import React from 'react'
 import compose from 'recompose/compose';
 import withState from 'recompose/withState';
 import withHandlers from 'recompose/withHandlers';
+import lifecycle from 'recompose/lifecycle';
 import Modal from 'reactstrap/lib/Modal';
 import ModalHeader from 'reactstrap/lib/ModalHeader';
 import ModalBody from 'reactstrap/lib/ModalBody';
@@ -10,22 +11,23 @@ import Button from 'reactstrap/lib/Button';
 import InputSelect from 'n2o-framework/lib/components/controls/InputSelect/InputSelect';
 import Alerts from 'n2o-framework/lib/components/snippets/Alerts/Alerts';
 
-function EcpComponent({ toggle, isOpen, content = [
-    { id: '1', name: 'Сертификат',},] }) {
+import EcpApi from '../api/EcpApi';
 
-    const alerts = [ {text: 'text', visible: false, position: 'absolute'},];
+const content = [{ id: '1', name: 'Сертификат',}];
 
-    const Alert = (alerts) => {
-        const errorParams = { label: 'Ошибка!', severity: 'danger' };
-        const successParams = { label: 'Успех', severity: 'success' };
-        return alerts.map(alert => alert.error ? {...alert, ...errorParams} : {...alert, ...successParams})
-    };
-
+function EcpComponent({
+    toggle,
+    isOpen,
+    content = [],
+    error,
+    createAlert,
+    plugin
+}) {
   return (
       <div className="n2o-ecp-plugin">
           <Button onClick={toggle}>Open ECP</Button>
           <Modal isOpen={isOpen}>
-              <Alerts alerts={Alert(alerts)} />
+              {error && <Alerts alerts={createAlert(error, 'danger')} />}
               <ModalHeader>N2O ECP plugin</ModalHeader>
               <ModalBody>
                   <InputSelect options={content} />
@@ -41,11 +43,33 @@ function EcpComponent({ toggle, isOpen, content = [
 
 export default compose(
     withState('isOpen', 'setOpen', ({ isOpen }) => isOpen),
+    withState('error', 'setError', false),
     withHandlers({
         toggle: ({ isOpen, setOpen }) => () => {
             setOpen(!isOpen);
         },
-        onConfirm: ({ isOpen, stateUpdate, onConfirm }) => () => {},
-        onDeny: ({ setOpen, isOpen }) => () => {},
+        createAlert: () => (label, severity) => ([{
+            key: 1,
+            position: 'absolute',
+            severity,
+            label,
+            closeButton: false
+        }]),
+    }),
+    lifecycle({
+        componentDidMount() {
+            const plugin = new EcpApi();
+
+            this.setState({ plugin });
+        },
+        async componentDidUpdate(prevProps) {
+            const { setError, isOpen } = this.props;
+            const { plugin } = this.state;
+
+            if (plugin && prevProps.isOpen !== isOpen) {
+                plugin.hasCertificates()
+                    .catch(setError);
+            }
+        }
     })
 )(EcpComponent)
