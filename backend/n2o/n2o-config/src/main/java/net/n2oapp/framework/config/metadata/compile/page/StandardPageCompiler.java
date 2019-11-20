@@ -36,10 +36,17 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     @Override
     public Page compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
         Page page = new Page();
+        List<N2oWidget> sourceWidgets = collectWidgets(source);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
+        String resultWidgetId = null;
+        if (context.getSubmitOperationId() != null) {
+            pageScope.setObjectId(source.getObjectId());
+            resultWidgetId = initResultWidgetId(context, sourceWidgets);
+            pageScope.setResultWidgetId(resultWidgetId);
+        }
         String pageName = p.cast(context.getPageName(), source.getName());
         page.setPageProperty(initPageName(pageName, context, p));
         page.setProperties(p.mapAttributes(source));
@@ -51,7 +58,6 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         //init base route
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
-        List<N2oWidget> sourceWidgets = collectWidgets(source);
         initDefaults(context, sourceWidgets);
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         ValidationList validationList = new ValidationList(new HashMap<>());
@@ -67,7 +73,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         if (context.getSubmitOperationId() != null)
-            initToolbarGenerate(source, context, p, sourceWidgets);
+            initToolbarGenerate(source, resultWidgetId);
         MetaActions metaActions = new MetaActions();
         compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb, validationList);
         page.setActions(metaActions);
@@ -258,11 +264,10 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         return result;
     }
 
-    private void initToolbarGenerate(N2oStandardPage source, PageContext context, CompileProcessor p, List<N2oWidget> sourceWidgets) {
+    private void initToolbarGenerate(N2oStandardPage source, String resultWidgetId) {
         N2oToolbar n2oToolbar = new N2oToolbar();
         String[] generate = new String[]{GenerateType.submit.name(), GenerateType.close.name()};
         n2oToolbar.setGenerate(generate);
-        String resultWidgetId = initResultWidgetId(context, sourceWidgets);
         n2oToolbar.setTargetWidgetId(resultWidgetId);
         if (source.getToolbars() == null) {
             source.setToolbars(new N2oToolbar[0]);
