@@ -4,7 +4,7 @@
       name="Модальное окно" object-id="testShowModal">
     <regions>
         <region place="left">
-            <form id="main" query-id="testShowModal">
+            <form id="main" default-values-query-id="testShowModal">
 
             </form>
         </region>
