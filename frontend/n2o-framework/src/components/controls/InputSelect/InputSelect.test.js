@@ -93,7 +93,6 @@ describe('<InputSelect />', () => {
     const { wrapper, props } = setup({ disabledValues: [] });
     const expectedValue =
       props.options[props.options.length - 1][props.valueFieldId];
-    console.log(wrapper.debug());
     wrapper
       .find('InputSelect')
       .last()
@@ -197,8 +196,6 @@ describe('<InputSelect />', () => {
       .simulate('change', { target: { value: 'custom name' } })
       .simulate('blur');
 
-    console.log(wrapper.find('InputSelect').state());
-
     expect(wrapper.find('InputSelect').state().value).toEqual([
       { [props.labelFieldId]: 'custom name' },
     ]);
@@ -217,8 +214,6 @@ describe('<InputSelect />', () => {
       .find('input.form-control')
       .simulate('change', { target: { value: 'custom name' } })
       .simulate('blur');
-
-    console.log(wrapper.find('InputSelect').state());
 
     expect(wrapper.find('InputSelect').state().value).toEqual([]);
   });

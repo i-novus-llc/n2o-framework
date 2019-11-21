@@ -11,17 +11,16 @@ const TYPE = {
 
 let Comp = Spinner;
 
-const timer = ms => new Promise(res => setTimeout(res, ms));
-
 class BaseSpinner extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      endTimeout: false,
+      loading: false,
     };
 
-    this.delayTimer = this.delayTimer.bind(this);
+    this._timeoutId = null;
+
     this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
     this.renderLineSpinner = this.renderLineSpinner.bind(this);
   }
@@ -30,26 +29,22 @@ class BaseSpinner extends Component {
     Comp = component;
   }
 
-  async componentDidUpdate(prevProps) {
-    if (!prevProps.loading && this.props.loading) {
-      await this.delayTimer();
-    }
-  }
-
-  async componentDidMount() {
-    if (this.props.loading) {
-      await this.delayTimer();
-    }
-  }
-
-  async delayTimer() {
-    const { endTimeout } = this.state;
+  componentDidMount() {
     const { delay } = this.props;
 
-    if (delay) {
-      this.setState({ endTimeout: false });
-      await timer(delay);
-      this.setState({ endTimeout: true });
+    this._timeoutId = setTimeout(() => this.setState({ loading: true }), delay);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { loading, minSpinnerTimeToShow } = this.props;
+    const { loading: stateLoading } = this.state;
+
+    if (prevProps.loading && !loading && !stateLoading) {
+      clearTimeout(this._timeoutId);
+
+      this.setState({ loading: false });
+    } else if (prevProps.loading && !loading && stateLoading) {
+      setTimeout(() => this.setState({ loading: false }), minSpinnerTimeToShow);
     }
   }
 
@@ -58,12 +53,11 @@ class BaseSpinner extends Component {
       children,
       className,
       text,
-      loading,
       transparent,
       color,
       ...rest
     } = this.props;
-    const { endTimeout } = this.state;
+    const { loading } = this.state;
 
     return (
       <div
@@ -71,7 +65,7 @@ class BaseSpinner extends Component {
           [className]: className,
         })}
       >
-        {!endTimeout && loading && (
+        {loading && (
           <Fragment>
             <div className="n2o-spinner-container ">
               <Comp className="spinner-border" color={color} {...rest} />
@@ -86,9 +80,10 @@ class BaseSpinner extends Component {
   }
 
   renderLineSpinner() {
-    const { endTimeout } = this.state;
-    const { type, children, delay, loading, ...rest } = this.props;
-    return delay && endTimeout && loading ? (
+    const { type, children, delay, ...rest } = this.props;
+    const { loading } = this.state;
+
+    return loading ? (
       <Comp className="spinner" {...rest} />
     ) : React.Children.count(children) ? (
       children
@@ -111,6 +106,7 @@ BaseSpinner.propTypes = {
   text: PropTypes.string,
   transparent: PropTypes.bool,
   color: PropTypes.string,
+  minSpinnerTimeToShow: PropTypes.number,
 };
 
 BaseSpinner.defaultProps = {
@@ -120,6 +116,7 @@ BaseSpinner.defaultProps = {
   text: '',
   transparent: false,
   color: 'primary',
+  minSpinnerTimeToShow: 250,
 };
 
 export default BaseSpinner;
