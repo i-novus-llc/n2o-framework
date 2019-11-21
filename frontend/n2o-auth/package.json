@@ -1,6 +1,6 @@
 {
   "name": "n2o-auth",
-  "version": "7.4.6",
+  "version": "7.4.7",
   "description": "Пакеты для работы с N2O Security",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -17,13 +17,13 @@
     "test:watch": "nwb test --server"
   },
   "dependencies": {
-    "n2o-framework": "^7.4.6"
+    "n2o-framework": "^7.4.7"
   },
   "devDependencies": {
     "nwb": "0.23.x"
   },
   "peerDependencies": {
-    "n2o-framework": "^7.4.6"
+    "n2o-framework": "^7.4.7"
   },
   "author": "I-Novus LLC<n2o@i-novus.ru>",
   "license": "Apache-2.0",
