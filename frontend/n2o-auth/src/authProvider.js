@@ -10,6 +10,7 @@ export function checkPermission(cfg = {}, user = {}) {
   if (cfg.denied) return false;
   if (cfg.permitAll) return true;
   if (cfg.anonymous) return isEmpty(user.username);
+  if (!isEmpty(cfg.permissions) && isEmpty(user.permissions)) return false;
   if (!isEmpty(user.username)) {
     if (cfg.authenticated) return true;
     return !isEmpty(intersection(cfg.roles, user.roles)) ||
