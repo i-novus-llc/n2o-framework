@@ -27,7 +27,7 @@ class BaseSpinner extends Component {
     Comp = component;
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidMount() {
     const { delay } = this.props;
 
     this.setLoadingWithTimeout(false, delay);
