@@ -54,9 +54,6 @@ describe('<InputSelect />', () => {
 
   it('проверяет параметров loading', async () => {
     const { wrapper } = setup({ loading: true });
-    expect(wrapper.find('.spinner-border').exists()).toBeFalsy();
-    await new Promise(resolve => setTimeout(resolve, 500));
-    wrapper.update();
     expect(wrapper.find('.spinner-border').exists()).toBeTruthy();
   });
 

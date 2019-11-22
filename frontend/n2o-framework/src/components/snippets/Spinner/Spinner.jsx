@@ -16,10 +16,8 @@ class BaseSpinner extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
     };
-
-    this._timeoutId = null;
 
     this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
     this.renderLineSpinner = this.renderLineSpinner.bind(this);
@@ -29,24 +27,15 @@ class BaseSpinner extends Component {
     Comp = component;
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps, prevState) {
     const { delay } = this.props;
 
-    this._timeoutId = setTimeout(() => this.setState({ loading: true }), delay);
+    this.setLoadingWithTimeout(false, delay);
   }
 
-  componentDidUpdate(prevProps) {
-    const { loading, minSpinnerTimeToShow } = this.props;
-    const { loading: stateLoading } = this.state;
-
-    if (prevProps.loading && !loading && !stateLoading) {
-      clearTimeout(this._timeoutId);
-
-      this.setState({ loading: false });
-    } else if (prevProps.loading && !loading && stateLoading) {
-      setTimeout(() => this.setState({ loading: false }), minSpinnerTimeToShow);
-    }
-  }
+  setLoadingWithTimeout = (loading, timeout) => {
+    setTimeout(() => this.setState({ loading }), timeout);
+  };
 
   renderCoverSpiner() {
     const {
@@ -55,9 +44,10 @@ class BaseSpinner extends Component {
       text,
       transparent,
       color,
+      loading,
       ...rest
     } = this.props;
-    const { loading } = this.state;
+    const { loading: stateLoading } = this.state;
 
     return (
       <div
@@ -65,7 +55,7 @@ class BaseSpinner extends Component {
           [className]: className,
         })}
       >
-        {loading && (
+        {(loading || stateLoading) && (
           <Fragment>
             <div className="n2o-spinner-container ">
               <Comp className="spinner-border" color={color} {...rest} />
@@ -80,10 +70,10 @@ class BaseSpinner extends Component {
   }
 
   renderLineSpinner() {
-    const { type, children, delay, ...rest } = this.props;
-    const { loading } = this.state;
+    const { type, children, delay, loading, ...rest } = this.props;
+    const { loading: stateLoading } = this.state;
 
-    return loading ? (
+    return loading || stateLoading ? (
       <Comp className="spinner" {...rest} />
     ) : React.Children.count(children) ? (
       children

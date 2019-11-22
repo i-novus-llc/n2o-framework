@@ -145,7 +145,7 @@ function withListContainer(WrappedComponent) {
 
   return connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
   )(WithListContainer);
 }
 
@@ -153,12 +153,6 @@ const mapStateToProps = (state, ownProps) => ({
   alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(
     state
   ),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onDismiss: alertId => {
-    // dispatch(removeAlert(ownProps.form + '.' + ownProps.labelFieldId, alertId));
-  },
 });
 
 export default withListContainer;
