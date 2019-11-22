@@ -10,9 +10,6 @@ const setup = props => {
 describe('Тесты Spinner', () => {
   it('Отрисовывается spinner cover', async () => {
     const wrapper = setup({ loading: true, type: 'cover' });
-    expect(wrapper.find('.spinner-cover').exists()).toEqual(false);
-    await delay(500);
-    wrapper.update();
     expect(wrapper.find('.spinner-cover').exists()).toEqual(true);
   });
   it('Отрисовывается spinner background', async () => {
@@ -22,9 +19,6 @@ describe('Тесты Spinner', () => {
       type: 'cover',
       transparent: false,
     });
-    expect(wrapper.find('.spinner-background').exists()).toEqual(false);
-    await delay(500);
-    wrapper.update();
     expect(wrapper.find('.spinner-background').exists()).toEqual(true);
   });
   it('Отрисовывается children', () => {
