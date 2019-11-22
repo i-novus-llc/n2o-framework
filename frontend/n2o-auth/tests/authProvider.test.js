@@ -134,6 +134,13 @@ describe('Тесты функции проверки прав (checkPermission)'
     };
     expect(checkPermission(cfg, {})).toBe(false);
   });
+  it('не должен дать доступ - в конфиге permission, у юзера нет', () => {
+    const cfg = {
+      permissions: ['edit']
+    };
+
+    expect(checkPermission(cfg, { permissions: [] })).toBe(false);
+  });
 });
 
 describe('Тесты провайдера по типу SECURITY_CHECK', () => {
