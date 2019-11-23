@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import UncontrolledPopover from 'reactstrap/lib/UncontrolledPopover';
+import Button from 'reactstrap/lib/Button';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
 import { id } from '../../../../../utils/id';
 

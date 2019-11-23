@@ -170,9 +170,7 @@ describe('Тестирование саги', () => {
   it('Экшен вызывается при изменении значения формы', () => {
     set(mockData, 'fields.field1.dependency[0].applyOnInit', false);
     set(mockData, 'actionType', REDUX_CHANGE);
-    const gen = setup(
-      mockData
-    );
+    const gen = setup(mockData);
     expect(gen.next().done).toBe(false);
   });
   it('Проверка модификатора зависимостей', () => {

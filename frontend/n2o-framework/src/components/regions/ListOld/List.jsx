@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import includes from 'lodash/includes';
+import pull from 'lodash/pull';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
 
 /**
  * Компонент Список
@@ -41,7 +44,7 @@ class List extends React.Component {
   handleChangeActive(e, id) {
     let oldIds = Object.assign([], this.state.activeIds);
     if (includes(oldIds, id)) {
-      _.pull(oldIds, id);
+      pull(oldIds, id);
     } else {
       oldIds = oldIds.concat(id);
     }
@@ -54,8 +57,8 @@ class List extends React.Component {
    * getter для айдишников открытых по умолчанию элементов списка
    */
   static defaultOpenedId(children) {
-    return _.map(
-      _.filter(React.Children.toArray(children), child => {
+    return map(
+      filter(React.Children.toArray(children), child => {
         return child.props.active;
       }),
       child => child.props.id
@@ -68,7 +71,7 @@ class List extends React.Component {
   getChildProps(child) {
     const { activeIds } = this.state;
     return {
-      active: _.includes(activeIds, child.props.id),
+      active: includes(activeIds, child.props.id),
       onClick: this.handleChangeActive,
     };
   }

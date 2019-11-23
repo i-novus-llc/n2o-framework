@@ -1,5 +1,6 @@
 import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
+import isUndefined from 'lodash/isUndefined';
 import evalExpression, { parseExpression } from './evalExpression';
 
 /**

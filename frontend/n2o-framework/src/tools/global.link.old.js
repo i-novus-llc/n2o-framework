@@ -1,7 +1,7 @@
 /**
  * Created by emamoshin on 19.06.2017.
  */
-import isObject from 'lodash/isObject'
+import isObject from 'lodash/isObject';
 import each from 'lodash/each';
 
 const defaultTypeList = ['single', 'multi', 'filter', 'context', 'control'];
