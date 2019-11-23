@@ -162,7 +162,7 @@
         }
       ],
       "filterButtonId": "filter",
-      "blackResetList": [],
+      "blackResetList": ["surname", "name"],
       "validation": {},
       "hideButtons": true
     },

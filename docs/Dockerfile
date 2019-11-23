@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-LABEL maintainer="abelov@i-novus.ru"
+LABEL maintainer="iryabov@i-novus.ru"
 
 RUN apk add tzdata
 ENV TZ=Europe/Moscow

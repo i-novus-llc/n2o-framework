@@ -27,10 +27,12 @@ public class InputSelectCompiler extends ListControlCompiler<InputSelect, N2oInp
         ListType type = p.cast(source.getType(), ListType.single);
         switch (type) {
             case checkboxes:
+                inputSelect.setClosePopupOnSelect(false);
                 inputSelect.setHasCheckboxes(true);
                 inputSelect.setMultiSelect(true);
                 break;
             case multi:
+                inputSelect.setClosePopupOnSelect(false);
                 inputSelect.setHasCheckboxes(false);
                 inputSelect.setMultiSelect(true);
                 break;

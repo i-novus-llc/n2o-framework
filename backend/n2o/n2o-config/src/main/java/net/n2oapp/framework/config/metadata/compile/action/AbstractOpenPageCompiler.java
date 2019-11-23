@@ -163,7 +163,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setUpload(source.getUpload());
         pageContext.setParentWidgetId(currentClientWidgetId);
         pageContext.setParentModelLink(actionModelLink);
-        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping.keySet()));
+        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping, true));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         if (source.getRefreshWidgetId() != null) {
@@ -201,7 +201,6 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
      * @param actionRoute     Маршрут с параметром
      * @param pathMapping     Параметры, в которые добавится ссылка
      * @param actionModelLink Модель данных действия
-     * @param p
      * @return Наименование параметра ссылки
      */
     private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {

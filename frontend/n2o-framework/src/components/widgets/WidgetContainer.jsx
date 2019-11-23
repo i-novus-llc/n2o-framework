@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, pure } from 'recompose';
-import { forEach, get, isEqual, isFunction } from 'lodash';
+import { forEach, get, isEqual, isFunction, isEmpty } from 'lodash';
 import cx from 'classnames';
 import { batchActions } from 'redux-batched-actions';
 import { callActionImpl } from '../../actions/toolbar';
@@ -117,7 +117,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         if (
           fetchOnInit &&
           visible &&
-          isEqual(dataProvider, dataProviderFromState)
+          (isEqual(dataProvider, dataProviderFromState) ||
+            !dataProviderFromState ||
+            isEmpty(dataProviderFromState))
         ) {
           this.onFetch();
         }
@@ -128,7 +130,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
         if (
           (!prevProps.visible && visible) ||
-          !isEqual(prevProps.dataProviderFromState, dataProviderFromState)
+          (!isEqual(prevProps.dataProviderFromState, dataProviderFromState) &&
+            !isEmpty(prevProps.dataProviderFromState) &&
+            !isEmpty(dataProviderFromState))
         ) {
           this.onFetch();
         }

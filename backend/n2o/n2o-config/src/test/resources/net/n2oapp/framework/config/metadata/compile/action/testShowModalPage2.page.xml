@@ -3,15 +3,15 @@
       modal-size="sm" layout="LeftRightLayout"
       name="Модальное окно" object-id="testShowModal">
     <regions>
-        <none place="left">
+        <region place="left">
             <form id="main" query-id="testShowModal">
 
             </form>
-        </none>
-        <none place="right">
+        </region>
+        <region place="right">
             <form id="second" query-id="testShowModal" depends-on="main">
 
             </form>
-        </none>
+        </region>
     </regions>
 </page>

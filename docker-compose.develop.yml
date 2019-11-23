@@ -1,0 +1,12 @@
+version: "3.6"
+
+services:
+  frontend:
+    ports:
+      - "8700:8080"
+  docs:
+    ports:
+      - "8701:80"
+  storybook:
+    ports:
+      - "8702:80"

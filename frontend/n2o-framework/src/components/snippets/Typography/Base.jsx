@@ -8,6 +8,7 @@ import cn from 'classnames';
 import { propTypes, defaultProps } from './propTypes';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { keys, pick, flowRight, values, pickBy } from 'lodash';
+import isNil from 'lodash/isNil';
 import { delay, wrapTags, ICON_STYLE } from './utils';
 import ContentEditable from './ContentEditable';
 import parseFormatter from '../../../utils/parseFormatter';
@@ -17,7 +18,9 @@ const PropsEnd = createContext();
 const EndTag = () => (
   <PropsEnd.Consumer>
     {({ text, format, children }) => (
-      <Fragment>{text ? parseFormatter(text, format) : children}</Fragment>
+      <Fragment>
+        {!isNil(text) ? parseFormatter(text, format) : children}
+      </Fragment>
     )}
   </PropsEnd.Consumer>
 );
