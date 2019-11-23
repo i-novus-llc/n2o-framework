@@ -29,7 +29,7 @@
     "eslint:generate": "lerna run --scope n2o-framework eslint:generate",
     "prepare": "lerna bootstrap --no-ci",
     "prettier:n2o": "lerna run --scope n2o-framework prettier",
-    "release": "lerna publish patch --no-git-tag-version --registry=https://npm.i-novus.ru --no-push --yes",
+    "release": "lerna publish patch --no-git-tag-version --no-push --yes",
     "start:demo": "lerna run --scope n2o-demo-client start",
     "start:notify": "lerna run --scope n2o-notifications start",
     "start:simple": "lerna run --scope n2o-simple-project start",
@@ -66,5 +66,9 @@
       "git add",
       "npm run test:n2o:hook"
     ]
+  },
+  "dependencies": {
+    "@babel/core": "^7.7.2",
+    "babel-loader": "^8.0.6"
   }
 }
