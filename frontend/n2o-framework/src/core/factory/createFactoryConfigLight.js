@@ -26,7 +26,14 @@ import Rating from '../../components/controls/Rating/Rating';
 import Pills from '../../components/controls/Pills/Pills';
 import AutoComplete from '../../components/controls/AutoComplete/AutoComplete';
 
-import widgets from '../../components/widgets';
+import HtmlWidget from '../../components/widgets/Html/HtmlWidget';
+import FormWidget from '../../components/widgets/Form/FormWidget';
+import EditForm from '../../components/widgets/Form/FormWidget';
+import WireframeWidget from '../../components/widgets/Wireframe/WireframeWidget';
+import AdvancedTableWidget from '../../components/widgets/AdvancedTable/AdvancedTableWidget';
+import TreeWidget from '../../components/widgets/Tree/TreeWidget';
+import ListWidget from '../../components/widgets/List/ListWidget';
+
 import regions from '../../components/regions';
 import layouts from '../../components/layouts';
 import headers from '../../components/widgets/Table/headers';
@@ -64,7 +71,15 @@ export const factoriesLight = {
     Pills: Pills,
     AutoComplete: AutoComplete,
   },
-  widgets,
+  widgets: {
+    HtmlWidget,
+    FormWidget,
+    EditForm,
+    WireframeWidget,
+    AdvancedTableWidget,
+    ListWidget,
+    TreeWidget,
+  },
   regions,
   layouts,
   headers,
