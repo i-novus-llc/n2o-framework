@@ -1,3 +1,4 @@
-import EcpComponent from './components/EcpComponent';
+import EcpButton from "./EcpButton";
+import EcpApi from "./EcpApi";
 
-export default EcpComponent;
+export { EcpButton, EcpApi };

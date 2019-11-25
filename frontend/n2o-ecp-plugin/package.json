@@ -20,6 +20,8 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
+    "crypto-pro": "^1.1.0",
+    "lodash": "^4.17.15",
     "n2o-framework": "^7.4.0",
     "reactstrap": "^8.1.1",
     "recompose": "^0.30.0"
