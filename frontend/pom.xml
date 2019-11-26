@@ -13,6 +13,10 @@
     <artifactId>frontend</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <profiles>
         <profile>
             <id>frontend-build</id>
