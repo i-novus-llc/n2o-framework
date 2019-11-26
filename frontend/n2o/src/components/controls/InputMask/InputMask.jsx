@@ -57,8 +57,6 @@ class InputMask extends React.Component {
     this._onChange = this._onChange.bind(this);
     this._onBlur = this._onBlur.bind(this);
     this._onFocus = this._onFocus.bind(this);
-    this.getParsedValue = this.getParsedValue.bind(this);
-    this.prepareValue = this.prepareValue.bind(this);
   }
 
   /**
@@ -180,6 +178,10 @@ class InputMask extends React.Component {
   }
 
   prepareValue(value, mask) {
+    if (!mask) {
+      return value;
+    }
+
     const parsedMask = this.getParsedValue(mask);
     const parsedValue = this.getParsedValue(value, false);
     const maskLength = parsedMask.length;
@@ -236,7 +238,13 @@ class InputMask extends React.Component {
         onFocus={this._onFocus.bind(this)}
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
-          return <input ref={ref} {...omit(props, ['defaultValue'])} autoFocus={autoFocus} />;
+          return (
+            <input
+              ref={ref}
+              {...omit(props, ['defaultValue'])}
+              autoFocus={autoFocus}
+            />
+          );
         }}
       />
     );
@@ -258,22 +266,61 @@ InputMask.defaultProps = {
 };
 
 InputMask.propTypes = {
+  /**
+   * Класс контрола
+   */
   className: PropTypes.string,
+  /**
+   * Пресет маски
+   */
   preset: PropTypes.string,
+  /**
+   * Маска
+   */
   mask: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.array,
     PropTypes.func,
   ]),
+  /**
+   * Callback на изменение
+   */
   onChange: PropTypes.func,
+  /**
+   * Placeholder контрола
+   */
   placeholder: PropTypes.string,
+  /**
+   * Символ, который будет на месте незаполненного символа маски
+   */
   placeholderChar: PropTypes.string,
+  /**
+   * Значение
+   */
   value: PropTypes.string,
+  /**
+   * Дополнительные символы-ключи для маски
+   */
   dictionary: PropTypes.object,
+  /**
+   * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
+   */
   guide: PropTypes.bool,
+  /**
+   * @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
+   */
   keepCharPositions: PropTypes.bool,
+  /**
+   * Сбрасывать / оставлять невалидное значение при потере фокуса
+   */
   resetOnNotValid: PropTypes.bool,
+  /**
+   * Настройка пресета
+   */
   presetConfig: PropTypes.object,
+  /**
+   * Callback на потерю фокуса
+   */
   onBlur: PropTypes.func,
   disabled: PropTypes.bool,
 };
