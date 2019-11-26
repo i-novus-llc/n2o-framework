@@ -3,7 +3,7 @@
     <parent>
         <artifactId>n2o</artifactId>
         <groupId>net.n2oapp.framework</groupId>
-        <version>7.4.8-SNAPSHOT</version>
+        <version>7.4.8</version>
     </parent>
 
     <artifactId>n2o-engine-ejb</artifactId>
