@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import split from "lodash/split";
 import get from "lodash/get";
 import first from "lodash/first";
+import isFunction from "lodash/isFunction";
 
 import compose from "recompose/compose";
 import withState from "recompose/withState";
@@ -31,7 +32,7 @@ function EcpButton({
   cancelButtonLabel,
   toggle,
   isOpen,
-  data,
+  certificates,
   error,
   createAlert,
   certificate,
@@ -59,7 +60,10 @@ function EcpButton({
                   Владелец: <strong>{get(certificate, "subjectName")}</strong>
                 </div>
                 <div>
-                  Издатель: <strong>{first(split(get(certificate, 'issuerName'), ","))}</strong>
+                  Издатель:{" "}
+                  <strong>
+                    {first(split(get(certificate, "issuerName"), ","))}
+                  </strong>
                 </div>
                 <div>
                   Выдан: <strong>{get(certificate, "validFrom")}</strong>
@@ -71,10 +75,10 @@ function EcpButton({
             </Panel>
           </Collapse>
           <InputSelect
-            disabled={data.length === 0}
+            disabled={certificates.length === 0}
             loading={!error && loading}
             placeholder="Выберите сертификат"
-            options={data}
+            options={certificates}
             valueFieldId="thumbprint"
             labelFieldId="subjectName"
             value={certificate}
@@ -82,7 +86,9 @@ function EcpButton({
           />
         </ModalBody>
         <ModalFooter className="d-flex justify-content-between">
-          <Button onClick={sign} color='primary'>{signButtonLabel}</Button>
+          <Button onClick={sign} color="primary">
+            {signButtonLabel}
+          </Button>
           <Button onClick={toggle}>{cancelButtonLabel}</Button>
         </ModalFooter>
       </Modal>
@@ -99,17 +105,18 @@ EcpButton.propTypes = {
     url: PropTypes.string,
     type: PropTypes.string,
     data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    documentKey: PropTypes.string
   }),
   fileForSign: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   fileSaveService: PropTypes.shape({
     url: PropTypes.string,
     type: PropTypes.string,
-    data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
   }),
   signType: PropTypes.oneOf([SignType.XML, SignType.HASH]),
   typeOfSign: PropTypes.bool,
   successSign: PropTypes.func,
-  errorSign: PropTypes.func,
+  errorSign: PropTypes.func
 };
 
 EcpButton.defaultProps = {
@@ -123,54 +130,79 @@ EcpButton.defaultProps = {
 };
 
 const enhance = compose(
-    withState("loading", "setLoading", false),
-    withState("data", "setData", []),
-    withState("certificate", "setCertificate"),
-    withState("isOpen", "setOpen", ({ isOpen }) => isOpen),
-    withState("error", "setError", false),
-    withHandlers({
-      toggle: ({ isOpen, setOpen }) => () => {
-        setOpen(!isOpen);
-      },
-      createAlert: () => (label, severity) => [
-        {
-          key: 1,
-          position: "absolute",
-          severity,
-          label,
-          closeButton: false
-        }
-      ],
-      sign: ({ signType, certificate, fileForSign, typeOfSign, fileRequestService, fileSaveService, setError }) => () => {
-        EcpApi.sign({ signType, hash: certificate.hash, data: fileForSign, typeOfSign, fileRequestService, fileSaveService })
+  withState("loading", "setLoading", false),
+  withState("certificates", "setCertificates", []),
+  withState("certificate", "setCertificate"),
+  withState("isOpen", "setOpen", ({ isOpen }) => isOpen),
+  withState("error", "setError", false),
+  withHandlers({
+    toggle: ({ isOpen, setOpen }) => () => {
+      setOpen(!isOpen);
+    },
+    createAlert: () => (label, severity) => [
+      {
+        key: 1,
+        position: "absolute",
+        severity,
+        label,
+        closeButton: false
+      }
+    ],
+    sign: ({
+      signType,
+      certificate,
+      fileForSign,
+      typeOfSign,
+      fileRequestService,
+      fileSaveService,
+      setError,
+      successSign,
+      errorSign
+    }) => () => {
+      EcpApi.sign({
+        signType,
+        hash: certificate.thumbprint,
+        data: fileForSign,
+        typeOfSign,
+        fileRequestService,
+        fileSaveService
+      })
+        .then(signedData => {
+          console.log(signedData);
+          if (isFunction(successSign)) successSign(signedData);
+        })
+        .catch(err => {
+          setError(err);
+          console.log(err);
+          if (isFunction(errorSign)) errorSign(err);
+        });
+    }
+  }),
+  lifecycle({
+    componentDidUpdate(prevProps) {
+      const {
+        setError,
+        isOpen,
+        setCertificates,
+        setCertificate,
+        setLoading
+      } = this.props;
+
+      if (prevProps.isOpen !== isOpen) {
+        setLoading(true);
+        EcpApi.getCertificates()
+          .then(certificates => {
+            setCertificates(certificates);
+
+            if (certificates.length === 1) {
+              setCertificate(certificates[0]);
+            }
+          })
+          .then(() => setLoading(false))
           .catch(setError);
       }
-    }),
-    lifecycle({
-      componentDidUpdate(prevProps) {
-        const {
-          setError,
-          isOpen,
-          setData,
-          setCertificate,
-          setLoading
-        } = this.props;
-
-        if (prevProps.isOpen !== isOpen) {
-          setLoading(true);
-          EcpApi.getCertificates()
-              .then(certificates => {
-                setData(certificates);
-
-                if (certificates.length === 1) {
-                  setCertificate(certificates[0]);
-                }
-              })
-              .then(() => setLoading(false))
-              .catch(setError);
-        }
-      }
-    })
+    }
+  })
 );
 
 export { EcpButton };

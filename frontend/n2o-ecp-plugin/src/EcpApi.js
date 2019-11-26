@@ -1,6 +1,6 @@
 import CryptoPro from "crypto-pro";
 
-import isFunction from 'lodash/isFunction';
+import isFunction from "lodash/isFunction";
 
 import { SignType } from "./constants";
 
@@ -9,18 +9,23 @@ class EcpApi {
     return CryptoPro.call("getCertsList");
   }
 
-  static getDocumentBeforeSign({ url, type, data }) {
+  static getCertificate(hash) {
+    return CryptoPro.call("getCert", hash);
+  }
+
+  static getDocumentBeforeSign({ url, type, data, documentKey = "hash" }) {
     return fetch(url, {
       method: type,
       body: isFunction(data) ? data() : data
-    })
-      .then(response => {
-        try {
-          return response.json();
-        } catch (e) {
-          return response.responseText;
-        }
-      });
+    }).then(response => {
+      try {
+        const json = response.json();
+
+        return json[documentKey];
+      } catch (e) {
+        return response.responseText;
+      }
+    });
   }
 
   static saveDocumentAfterSign({ url, type, data }, signedData) {
@@ -30,7 +35,14 @@ class EcpApi {
     });
   }
 
-  static async sign({ signType, hash, data, typeOfSign, fileRequestService, fileSaveService }) {
+  static async sign({
+    signType,
+    hash,
+    data,
+    typeOfSign,
+    fileRequestService,
+    fileSaveService
+  }) {
     let signedData;
 
     if (fileRequestService) {
@@ -38,9 +50,14 @@ class EcpApi {
     }
 
     if (signType === SignType.XML) {
-      signedData = await CryptoPro.call('signDataXml', hash, data);
+      signedData = await CryptoPro.call("signDataXml", hash, data);
     } else {
-      signedData = await CryptoPro.call('signData', hash, data, typeOfSign);
+      signedData = await CryptoPro.call(
+        "signData",
+        hash,
+        btoa(data),
+        typeOfSign
+      );
     }
 
     if (fileSaveService) {
