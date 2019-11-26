@@ -1,6 +1,7 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
@@ -70,10 +71,10 @@ public class MappingProcessor {
      * @param mapping      выражение преобразования
      * @param defaultValue значение по умолчанию
      */
-    public static void outMap(DataSet target, Object value, String fieldId, String mapping, Object defaultValue) {
+    public static void outMap(DataSet target, Object value, String fieldId, String mapping, Object defaultValue, ContextProcessor contextProcessor) {
         Expression expression = readParser.parseExpression(mapping);
         Object obj = expression.getValue(value);
-        target.put(fieldId, obj == null ? defaultValue : obj);
+        target.put(fieldId, obj == null ? contextProcessor.resolve(defaultValue) : obj);
     }
 
     /**

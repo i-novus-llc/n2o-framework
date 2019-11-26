@@ -343,7 +343,7 @@ public class N2oQueryProcessor implements QueryProcessor {
 
     private DataSet mapFields(Object entry, List<N2oQuery.Field> fields) {
         DataSet resultDataSet = new DataSet();
-        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue()));
+        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue(), contextProcessor));
         return normalizeDataSet(resultDataSet, fields);
     }
 
