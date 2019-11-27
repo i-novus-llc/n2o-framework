@@ -237,8 +237,8 @@ public class N2oQueryProcessor implements QueryProcessor {
     private Object prepareValue(Object value, N2oQuery.Filter filter) {
         Object result = value;
         result = contextProcessor.resolve(result);
-        result = domainProcessor.deserialize(result, filter.getDomain());
-        result = normalizeValue(result, filter.getNormalize(), null, parser);
+        result = domainProcessor.deserialize(result, filter == null ? null : filter.getDomain());
+        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), null, parser);
         return result;
     }
 
