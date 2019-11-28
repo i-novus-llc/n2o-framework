@@ -30,7 +30,7 @@
     "prepare": "lerna bootstrap --no-ci",
     "prettier:n2o": "lerna run --scope n2o-framework prettier",
     "release": "lerna publish patch --no-git-tag-version --no-push --yes",
-    "release:open": "lerna publish from-package --no-git-tag-version --no-push --yes",
+    "release:open": "lerna changed && lerna publish --skip-git --yes",
     "start:demo": "lerna run --scope n2o-demo-client start",
     "start:notify": "lerna run --scope n2o-notifications start",
     "start:simple": "lerna run --scope n2o-simple-project start",
