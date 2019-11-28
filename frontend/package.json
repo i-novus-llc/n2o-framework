@@ -1,7 +1,7 @@
 {
   "name": "n2o-frontend",
   "private": true,
-  "version": "7.5.0",
+  "version": "7.5.0-SNAPSHOT",
   "workspaces": [
     "n2o-framework",
     "n2o-auth",
@@ -17,7 +17,6 @@
     "build:projects": "lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
     "build:storybook": "lerna run --scope n2o-framework build-storybook",
     "changeVersion": "lerna version patch --no-git-tag-version --no-push --yes",
-    "changeVersion:dev": "node ./tools/upgradeSnapshot.js",
     "clean": "lerna run clean && lerna clean",
     "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
     "compile:es:watch": "lerna run --stream --scope n2o-framework compile:es:watch",
