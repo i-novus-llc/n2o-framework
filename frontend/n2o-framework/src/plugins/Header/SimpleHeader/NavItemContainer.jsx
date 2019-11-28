@@ -41,8 +41,8 @@ const NavItemContainer = ({
     if (item.linkType === 'outer') {
       return (
         <NavItem>
-          {item.icon && <NavItemIcon />}
           <a className={cx('nav-link', className)} href={item.href}>
+            {item.icon && <NavItemIcon />}
             {item.label}
           </a>
         </NavItem>
