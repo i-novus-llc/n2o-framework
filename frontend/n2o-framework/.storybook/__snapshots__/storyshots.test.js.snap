@@ -1943,7 +1943,7 @@ exports[`Storyshots UI Компоненты/Меню сверху Компоне
                 <div>
                   <Story info=\\"\\\\n    Компонент \\\\'Меню\\\\'\\\\n    ~~~js\\\\n    import SimpleHeader from \\\\'n2o-framework/lib/plugins/Header/SimpleHeader/SimpleHeader\\\\';\\\\n    \\\\n    <SimpleHeader\\\\n      brandImage=\\"https://avatars0.githubusercontent.com/u/25926683?s=200&v=4\\"\\\\n      activeId={\\\\'link\\\\'}\\\\n      fixed={false}\\\\n      items={simpleHeaderMetadata.items}\\\\n      extraItems={simpleHeaderMetadata.extraItems}\\\\n      color=\\"inverse\\"\\\\n    />\\\\n    ~~~\\\\n    \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
-                      <SimpleHeader brandImage=\\"https://avatars0.githubusercontent.com/u/25926683?s=200&v=4\\" activeId=\\"link\\" fixed={false} items={{...}} extraItems={{...}} color=\\"inverse\\" collapsed={true} className=\\"\\" itemsWithBadges={{...}} extraItemsWithBadges={{...}} search={false} style={{...}} />
+                      <SimpleHeader brandImage=\\"https://avatars0.githubusercontent.com/u/25926683?s=200&v=4\\" activeId=\\"link\\" fixed={false} items={{...}} extraItems={{...}} color=\\"inverse\\" collapsed={true} className=\\"\\" search={false} style={{...}} />
                       <div style={{...}}>
                         <Wireframe className=\\"n2o\\" title=\\"Тело страницы\\" />
                       </div>
