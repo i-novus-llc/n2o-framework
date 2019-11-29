@@ -1,56 +1,73 @@
 import React from 'react';
-import sinon from 'sinon';
-import Html from './Html';
+import { shallow, mount, render } from 'enzyme';
+import Html from './Html.jsx';
 
-const setup = propOverrides => {
-  const props = Object.assign(
-    {
-      // use this to assign some default props
-    },
-    propOverrides
+describe('<Html/>', () => {
+  it('should render html 1', () => {
+    const wrapper = shallow(<Html html={'<h1>test1</h1>'} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+  it('should render html 2', () => {
+    const wrapper = shallow(<Html html={'<h1>test2</h1>'} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render html 3 without data', () => {
+    const wrapper = shallow(
+      <Html html={'<h1>test3</h1>'} resolvePlaceholders={true} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render a html with data and resolvePlaceholders = true', () => {
+    const wrapper = shallow(
+      <Html
+        html={'<h1>name is :name , surname id :surname</h1>'}
+        resolvePlaceholders={true}
+        data={{ name: 'Tom', surname: 'Sower' }}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it('should render a html with data and resolvePlaceholders = false', () => {
+    const wrapper = shallow(
+      <Html
+        html={'<h1>name is :name , surname id :surname</h1>'}
+        resolvePlaceholders={false}
+        data={{ name: 'Tom', surname: 'Sower' }}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+
+it('correct class in html', () => {
+  const wrapper = render(
+    <Html html={'<h1 class="some">name is :name , surname id :surname</h1>'}
+    />
   );
+  expect(wrapper.find('.some')).toHaveLength(1);
+});
 
-  const wrapper = mount(<Html {...props} />);
+it('correct string in html (resolve placeholders from data) resolvePlaceholders = true', () => {
+  const wrapper = render(
+    <Html
+      html={'name is :name , surname is :surname'}
+      resolvePlaceholders={true}
+      data={{ name: 'Tom', surname: 'Sower' }}
+    />
+  );
+  expect(wrapper.text()).toBe('name is Tom , surname is Sower');
+});
 
-  return {
-    props,
-    wrapper,
-  };
-};
-
-describe('<Html />', () => {
-  it('tests component existence', () => {
-    const { wrapper } = setup({ url: 'mockHtml.html' });
-    expect(wrapper.exists()).toBe(true);
-  });
-
-  it('contains html', () => {
-    const wrapper = setup({ url: 'mockHtml.html' });
-    const fakeHtml = <div>fake</div>;
-    const promise = Promise.resolve(fakeHtml);
-    sinon.stub(Html.prototype, 'handleResponse').callsFake(() => promise);
-    promise
-      .then(() => wrapper.update())
-      .then(() => wrapper.contains(fakeHtml).toEqual(true));
-  });
-  it('calls componentDidMount', () => {
-    sinon.spy(Html.prototype, 'componentDidMount');
-    const wrapper = setup({ url: 'mockHtml.html' });
-    expect(Html.prototype.componentDidMount.calledOnce).toEqual(true);
-  });
-
-  it('sends alert when didnt find page', done => {
-    const fakeHtml = <div>fake</div>;
-    const fakeResponse = { status: 404, text: () => Promise.resolve(fakeHtml) };
-    const responsePromise = Promise.resolve(fakeResponse);
-    const { wrapper } = setup({ url: 'mockHtml.html' });
-    sinon.spy(Html.prototype, 'sendAlert');
-    Html.prototype.handleResponse.restore();
-    sinon.stub(Html.prototype, 'fetch').callsFake(() => responsePromise);
-    wrapper.instance().handleResponse();
-    responsePromise.then(() => {
-      expect(Html.prototype.sendAlert.calledOnce).toBe(true);
-      done();
-    });
-  });
+it('correct string in html (resolve placeholders from data) resolvePlaceholders = false', () => {
+  const wrapper = render(
+    <Html
+      html={'name is :name , surname is :surname'}
+      resolvePlaceholders={false}
+      data={{ name: 'Tom', surname: 'Sower' }}
+    />
+  );
+  expect(wrapper.text()).toBe('name is :name , surname is :surname');
 });

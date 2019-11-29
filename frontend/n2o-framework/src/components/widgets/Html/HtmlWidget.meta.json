@@ -1,11 +1,18 @@
 {
   "widgets": {
     "Page_Html": {
+      "resolvePlaceholders" : true,
+      "dataProvider": {
+        "url": "/html-data",
+        "pathMapping": {
+        },
+        "queryMapping": {
+        }
+      },
       "src": "HtmlWidget",
       "html": {
-        "url": null,
-        "html": "<h1>Hello</h1>",
-        "fetchOnInit": false
+        "html": "<div class='jumbotron'><h4>user: :username :surname / username: :username / surname: :surname</h4></div><div class='jumbotron'><ul><li>:username</li><li>:surname</li></ul></div>",
+        "fetchOnInit": true
       }
     }
   }
