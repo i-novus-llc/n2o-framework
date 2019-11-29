@@ -14,7 +14,10 @@
     "build": "nwb build-react-component --no-demo",
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
-    "start": "nwb serve-react-demo"
+    "start": "nwb serve-react-demo",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server"
   },
   "dependencies": {
     "n2o-framework": "^7.4.8",
@@ -29,10 +32,16 @@
     "stompjs": "^2.3.3"
   },
   "devDependencies": {
-    "nwb": "0.23.x"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "nwb": "0.23.x",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.0"
   },
   "peerDependencies": {
-    "n2o-framework": "^7.4.7"
+    "n2o-framework": "^7.4.8"
   },
   "author": "",
   "homepage": "",
