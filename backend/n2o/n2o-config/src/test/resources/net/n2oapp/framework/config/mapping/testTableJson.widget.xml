@@ -18,7 +18,7 @@
     </rows>
     <pagination next="true" prev="true"/>
     <filters>
-        <search-buttons id="testId" search-label="searchLabel" reset-label="resetLabel"/>
+        <search-buttons id="testId" search-label="searchLabel" reset-label="resetLabel" clear-ignore="name, surname"/>
     </filters>
     <toolbar place="topRight" generate="tableSettings"/>
 </table>

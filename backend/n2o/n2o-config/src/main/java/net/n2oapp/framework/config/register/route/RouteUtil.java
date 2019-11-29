@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.register.route;
 
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -44,21 +46,27 @@ public abstract class RouteUtil {
 
     /**
      * Изменение исходного url. Добавляет в конец параметры запроса переданные в queryParams
+     * Если это константа, то она сразу попадает в url, иначе добавляется в виде плейсхолдера с :
      *
      * @param route url
-     * @param queryParams параметры запроса для добавления
+     * @param queryMapping параметры запроса для добавления
      * @return  дополненный url
      */
-    public static String addQueryParams(String route, Set<String> queryParams) {
-        if (queryParams == null || queryParams.isEmpty())
+    public static String addQueryParams(String route, Map<String, ModelLink> queryMapping, boolean onlyConstant) {
+        if (queryMapping == null || queryMapping.isEmpty())
             return route;
         StringBuilder params = new StringBuilder();
-        queryParams.forEach(p -> {
+        queryMapping.keySet().stream().forEach(k -> {
+            ModelLink link = queryMapping.get(k);
             if (params.length() > 0) {
                 params.append("&");
             }
-            params.append(p).append("=:").append(p);
-        });
+            if (link.isConst()) {
+                params.append(link.getParam() == null ? k : link.getParam()).append("=").append(link.getValue());
+            } else if (!onlyConstant) {
+                params.append(link.getParam() == null ? k : link.getParam()).append("=:").append(k);
+            }
+        } );
         if (params.length() == 0) {
             return route;
         }
