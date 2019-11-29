@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.register.scanner;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
+import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.register.InfoConstructor;
 import net.n2oapp.framework.config.register.RegisterUtil;
 import net.n2oapp.framework.config.register.storage.PathUtil;
@@ -19,7 +20,7 @@ import static net.n2oapp.framework.config.util.FileSystemUtil.getNodesByLocation
  * Сканер папки переопределений на диске сервера
  */
 @Component
-public class FolderInfoScanner implements OverrideInfoScanner<InfoConstructor>, MetadataEnvironmentAware {
+public class FolderInfoScanner implements MetadataScanner<InfoConstructor>, MetadataEnvironmentAware, ScannerComparable {
 
     private String configPath;
     private SourceTypeRegister sourceTypeRegister;
@@ -42,5 +43,10 @@ public class FolderInfoScanner implements OverrideInfoScanner<InfoConstructor>, 
     @Override
     public void setEnvironment(MetadataEnvironment environment) {
         this.sourceTypeRegister = environment.getSourceTypeRegister();
+    }
+
+    @Override
+    public Integer getOrder() {
+        return 10;
     }
 }

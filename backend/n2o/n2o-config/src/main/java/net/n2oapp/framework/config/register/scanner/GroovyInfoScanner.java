@@ -19,7 +19,7 @@ import static net.n2oapp.framework.config.register.RegisterUtil.collectInfo;
  * Сканер groovy метаданных
  */
 @Component
-public class GroovyInfoScanner implements MetadataScanner<GroovyInfo>, MetadataEnvironmentAware {
+public class GroovyInfoScanner implements MetadataScanner<GroovyInfo>, MetadataEnvironmentAware, ScannerComparable {
 
     private String pattern = "classpath*:META-INF/conf/**/*.*.groovy";
     private SourceTypeRegister sourceTypeRegister;
@@ -44,5 +44,10 @@ public class GroovyInfoScanner implements MetadataScanner<GroovyInfo>, MetadataE
     @Override
     public void setEnvironment(MetadataEnvironment environment) {
         this.sourceTypeRegister = environment.getSourceTypeRegister();
+    }
+
+    @Override
+    public Integer getOrder() {
+        return 4;
     }
 }

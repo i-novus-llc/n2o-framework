@@ -6,6 +6,9 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
@@ -14,6 +17,8 @@ import org.springframework.core.env.Environment;
  * Прогрев сборки хедера и регистрация маршрутов
  */
 public class HeaderWarmUpper implements EnvironmentAware {
+    private static Logger log = LoggerFactory.getLogger(HeaderWarmUpper.class);
+
     private Environment environment;
     private N2oApplicationBuilder applicationBuilder;
 
@@ -29,7 +34,11 @@ public class HeaderWarmUpper implements EnvironmentAware {
             pipeline.get(new HeaderContext(headerId));
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
             PageContext context = new PageContext(welcomePageId, "/");
-            pipeline.get(context);
+            try {
+                pipeline.get(context);
+            } catch (ReferentialIntegrityViolationException ignore) {
+                log.error("Main page not found ");
+            }
         }
     }
 
