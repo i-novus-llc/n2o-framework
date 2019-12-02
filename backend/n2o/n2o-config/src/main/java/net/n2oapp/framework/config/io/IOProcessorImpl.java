@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
+import net.n2oapp.framework.config.register.dynamic.MetadataParamHolder;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.properties.reader.PropertiesReader;
 import org.jdom.Attribute;
@@ -1004,6 +1005,9 @@ public final class IOProcessorImpl implements IOProcessor {
             return null;
         }
         String resolve = StringUtils.resolveProperties(text, systemProperties::getProperty);
+        if (MetadataParamHolder.getParams() != null) {
+            resolve = StringUtils.resolveProperties(resolve, MetadataParamHolder.getParams());
+        }
         return StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 

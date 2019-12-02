@@ -10,8 +10,9 @@ import java.util.stream.Collectors;
  */
 public abstract class RouteUtil {
 
-     /**
+    /**
      * Возврат на один уровень назад в маршруте
+     *
      * @param route Маршрут
      * @return Маршрут на один уровень назад
      */
@@ -48,9 +49,9 @@ public abstract class RouteUtil {
      * Изменение исходного url. Добавляет в конец параметры запроса переданные в queryParams
      * Если это константа, то она сразу попадает в url, иначе добавляется в виде плейсхолдера с :
      *
-     * @param route url
+     * @param route        url
      * @param queryMapping параметры запроса для добавления
-     * @return  дополненный url
+     * @return дополненный url
      */
     public static String addQueryParams(String route, Map<String, ModelLink> queryMapping, boolean onlyConstant) {
         if (queryMapping == null || queryMapping.isEmpty())
@@ -66,7 +67,7 @@ public abstract class RouteUtil {
             } else if (!onlyConstant) {
                 params.append(link.getParam() == null ? k : link.getParam()).append("=:").append(k);
             }
-        } );
+        });
         if (params.length() == 0) {
             return route;
         }
@@ -82,7 +83,7 @@ public abstract class RouteUtil {
      * Получение всех параметров url
      *
      * @param url
-     * @return  список параметров
+     * @return список параметров
      */
     public static List<String> getParams(String url) {
         List<String> result = new ArrayList<>();
@@ -104,6 +105,27 @@ public abstract class RouteUtil {
         }
         return result;
     }
+
+
+    /**
+     * Парсинг части url с query параметрами
+     * name=Ivan&age=4 превращает в ["name":"Ivan", "age":4]
+     *
+     * @param url
+     * @return мапа с параметрами и их значениями
+     */
+    public static HashMap<String, String> parseQueryParams(String url) {
+        if (url == null || !(url.contains("=") || url.contains("&")))
+            return null;
+        HashMap<String, String> result = new HashMap();
+        String[] splitParam = url.split("&");
+        for (int i = 0; i < splitParam.length && i < splitParam.length; i++) {
+            String[] paramValue = splitParam[i].split("=");
+            result.put(paramValue[0], paramValue[1]);
+        }
+        return result;
+    }
+
 
     /**
      * Конвертация URL в идентификатор.
@@ -129,7 +151,7 @@ public abstract class RouteUtil {
     /**
      * Заменить ссылки в маршруте на значения
      *
-     * @param url Маршрут
+     * @param url  Маршрут
      * @param data Значения
      * @return Маршрут без ссылок
      */
@@ -137,11 +159,11 @@ public abstract class RouteUtil {
         return resolveUrlParams(url, data, null, null);
     }
 
-     /**
+    /**
      * Заменить ссылки в маршруте на значения, кроме исключений
      *
-     * @param url Маршрут
-     * @param data Значения
+     * @param url    Маршрут
+     * @param data   Значения
      * @param except Исключения
      * @return Маршрут без ссылок
      */
@@ -162,8 +184,8 @@ public abstract class RouteUtil {
     /**
      * Заменить ссылки в маршруте на значения, кроме исключений
      *
-     * @param url Маршрут
-     * @param data Значения
+     * @param url       Маршрут
+     * @param data      Значения
      * @param whiteList Параметры для замены (если null, значит заменяем все найденные)
      * @param blackList Исключения
      * @return Маршрут без ссылок
@@ -189,6 +211,7 @@ public abstract class RouteUtil {
 
     /**
      * Адресуется ли URL внутри приложения?
+     *
      * @param url Адрес URL
      * @return true внутри, false снаружи
      */
@@ -199,7 +222,8 @@ public abstract class RouteUtil {
 
     /**
      * Преобразование относительного маршрутав абсолютный
-     * @param baseRoute Базовый маршрут
+     *
+     * @param baseRoute     Базовый маршрут
      * @param relativeRoute Относительный маршрут
      * @return Абсолютный маршрут
      */
@@ -213,8 +237,9 @@ public abstract class RouteUtil {
 
     /**
      * Соединение родитеслького маршрута с дочерним
+     *
      * @param parentRoute Родительский маршрут
-     * @param childRoute Отнсительный маршрут
+     * @param childRoute  Отнсительный маршрут
      * @return Соединенный маршрут
      */
     public static String join(String parentRoute, String childRoute) {

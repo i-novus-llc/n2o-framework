@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.register.audit.util.N2oConfigConflictParser;
+import net.n2oapp.framework.config.register.dynamic.MetadataParamHolder;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
@@ -41,6 +43,7 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
         //todo обратоку входных params
         Class<? extends SourceMetadata> sourceClass = info.getBaseSourceClass();
         try (InputStream inputStream = FileSystemUtil.getContentAsStream(info.getURI())) {
+            MetadataParamHolder.setParams(RouteUtil.parseQueryParams(params));
             S source = read(info.getId(), inputStream);
             if (!sourceClass.isAssignableFrom(source.getClass()))
                 throw new MetadataReaderException("read class [" + source.getClass() + "], but expected [" + sourceClass + "]");
@@ -53,9 +56,10 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
                 }
             }
             throw e;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new N2oMetadataReaderException(e, info.getId(), info.getURI(), info.getConfigId().getType());
+        } finally {
+           MetadataParamHolder.setParams(null);
         }
     }
 
