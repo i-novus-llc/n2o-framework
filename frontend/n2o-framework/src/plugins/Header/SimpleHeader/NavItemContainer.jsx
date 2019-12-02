@@ -42,7 +42,7 @@ const NavItemContainer = ({
       return (
         <NavItem>
           <a className={cx('nav-link', className)} href={item.href}>
-            {item.icon && <NavItemIcon />}
+            {item.icon && <i className={cx('mr-1', item.icon)} />}
             {item.label}
           </a>
         </NavItem>
@@ -107,7 +107,7 @@ const NavItemContainer = ({
       item.linkType === 'outer'
         ? defaultLink(item)
         : getInnerLink(item, 'dropdown-item');
-    dropdownItems = item.subItems.map((item, i) => (
+    dropdownItems = item.subItems.map((subItem, i) => (
       <DropdownItem> {linkItem(item)} </DropdownItem>
     ));
   }
