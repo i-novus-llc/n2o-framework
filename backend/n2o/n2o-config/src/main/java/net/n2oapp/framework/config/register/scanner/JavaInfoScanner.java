@@ -14,7 +14,7 @@ import java.util.List;
  * Заполнение регистра информацией о провайдерах метаданных
  */
 @Component
-public class JavaInfoScanner implements MetadataScanner<JavaInfo>, ScannerComparable {
+public class JavaInfoScanner implements MetadataScanner<JavaInfo> {
     private N2oDynamicMetadataProviderFactory factory;
 
     public JavaInfoScanner(@Autowired N2oDynamicMetadataProviderFactory factory) {
@@ -28,10 +28,5 @@ public class JavaInfoScanner implements MetadataScanner<JavaInfo>, ScannerCompar
         providers.stream().filter(p -> p.getMetadataClasses() != null)
                 .forEach(p -> p.getMetadataClasses().forEach(mc -> list.add(new JavaInfo(p.getCode(), mc))));
         return list;
-    }
-
-    @Override
-    public Integer getOrder() {
-        return 6;
     }
 }
