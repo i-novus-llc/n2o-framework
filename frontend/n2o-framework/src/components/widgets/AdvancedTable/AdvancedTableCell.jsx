@@ -25,7 +25,9 @@ function AdvancedTableCell({ children, hasSpan, record }) {
     rowSpan = span.rowSpan;
   }
 
-  const needRender = some(children, child => get(child, 'props.needRender', true));
+  const needRender = some(children, child =>
+    get(child, 'props.needRender', true)
+  );
 
   return (
     <td className={cn({ 'd-none': !needRender })} colSpan={colSpan} rowSpan={rowSpan}>
