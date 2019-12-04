@@ -443,9 +443,6 @@ public class N2oMetadataConfiguration {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
             ioProcessor.setSystemProperties(environment);
-            if (readerFactory instanceof IOProcessorAware) {
-                ((IOProcessorAware) readerFactory).setIOProcessor(ioProcessor);
-            }
             return ioProcessor;
         }
 
@@ -456,9 +453,6 @@ public class N2oMetadataConfiguration {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(persisterFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
             ioProcessor.setSystemProperties(environment);
-            if (persisterFactory instanceof IOProcessorAware) {
-                ((IOProcessorAware) persisterFactory).setIOProcessor(ioProcessor);
-            }
             return ioProcessor;
         }
     }
