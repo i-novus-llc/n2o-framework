@@ -316,8 +316,10 @@ public class N2oQueryProcessor implements QueryProcessor {
         for (Restriction restriction : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(restriction.getFieldId()).get(restriction.getType());
             Object value = prepareValue(restriction.getValue(), filter);
-            if (value != null || FilterType.Arity.nullary == restriction.getType().arity) {
+            if (value != null) {
                 restriction.setValue(value);
+            } else if (FilterType.Arity.nullary == restriction.getType().arity) {
+                restriction.setValue(Boolean.TRUE);
             } else {
                 //удаляем фильтрацию, если в результате резолва контекста значение по умолчанию стало null
                 if (restrictionsForRemove == null)
