@@ -39,7 +39,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
     @Test
     public void simple() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyAction.widget.xml")
-                .get(new WidgetContext("testCopyAction", "/w"));
+                .get(new WidgetContext("testCopyAction", "/w"), null);
 
         CopyAction testAction = (CopyAction) table.getActions().get("test");
         assertThat(testAction.getSrc(), is("perform"));

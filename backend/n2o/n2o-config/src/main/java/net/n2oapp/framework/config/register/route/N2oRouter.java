@@ -33,19 +33,23 @@ public class N2oRouter implements MetadataRouter {
      * @param url url для которого необходимо найти контекст
      * @return результат поиска
      */
-    public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass) {
+    public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass, Map<String, String[]> params) {
         url = url != null ? url : "/";
         CompileContext<D, ?> result = findRoute(url, compiledClass);
         if (result != null)
             return result;
 
-        tryToFindShallow(url, compiledClass);
+        tryToFindShallow(url, compiledClass, params);
         result = findRoute(url, compiledClass);
         if (result != null)
             return result;
 
-        tryToFindDeep(url);
+        tryToFindDeep(url, params);
         result = findRoute(url, compiledClass);
+        if (result == null) {
+            tryToFindShallow(url, compiledClass, params);
+            result = findRoute(url, compiledClass);
+        }
         if (result != null)
             return result;
 
@@ -87,12 +91,13 @@ public class N2oRouter implements MetadataRouter {
      *
      * @param url Часть маршрута
      */
-    private <D extends Compiled> void tryToFindShallow(String url, Class<D> compiledClass) {
+    private <D extends Compiled> void tryToFindShallow(String url, Class<D> compiledClass, Map<String, String[]> params) {
         if (Page.class == compiledClass)
             return;
         CompileContext<Page, ?> result = findRoute(url, Page.class);
-        if (result != null)
-            pipeline.get(result); //warm up
+        if (result != null) {
+            pipeline.get(result, result.getParams(url, params)); //warm up
+        }
     }
 
 
@@ -101,7 +106,7 @@ public class N2oRouter implements MetadataRouter {
      *
      * @param url Часть маршрута
      */
-    private void tryToFindDeep(String url) {
+    private void tryToFindDeep(String url, Map<String, String[]> params) {
         if (url.length() > 1) {
             String subUrl;
             int idx = url.lastIndexOf(ROOT_ROUTE);
@@ -112,11 +117,12 @@ public class N2oRouter implements MetadataRouter {
 
             CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
             if (result == null) {
-                tryToFindDeep(subUrl);
+                tryToFindDeep(subUrl, params);
                 result = findRoute(subUrl, Page.class);
             }
-            if (result != null)
-                pipeline.get(result); //warm up
+            if (result != null) {
+                pipeline.get(result, result.getParams(url, params)); //warm up
+            }
         }
     }
 

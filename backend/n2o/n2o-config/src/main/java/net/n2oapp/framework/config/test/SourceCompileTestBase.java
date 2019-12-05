@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.selective.CompileInfo;
 
+import java.util.HashMap;
 import java.util.stream.Stream;
 
 /**
@@ -41,17 +42,21 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
     }
 
     public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass) {
-        return builder.route(url, compiledClass);
+        return this.route(url, compiledClass, null);
+    }
+
+    public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass, HashMap<String, String[]> params) {
+        return builder.route(url, compiledClass, params);
     }
 
     public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass) {
-        CompileContext<D, ?> context = builder.route(url, compiledClass);
+        CompileContext<D, ?> context = builder.route(url, compiledClass, null);
         return read().compile().bind().get(context, context.getParams(url, null));
     }
 
-    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass, DataSet data) {
-        CompileContext<D, ?> context = builder.route(url, compiledClass);
-        context.getParams(url, null).forEach(data::put);
+    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass, HashMap<String, String[]> params) {
+        CompileContext<D, ?> context = builder.route(url, compiledClass, params);
+        DataSet data = context.getParams(url, params);
         return read().compile().bind().get(context, data);
     }
 }

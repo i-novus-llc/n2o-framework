@@ -48,7 +48,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     @Test
     public void inlineMenu() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.header.xml")
-                .get(new HeaderContext("securityExtAttrMapperTest"));
+                .get(new HeaderContext("securityExtAttrMapperTest"), null);
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
@@ -66,7 +66,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     @Test
     public void inlineToolbarAndRegion() {
         Page page = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.page.xml")
-                .get(new PageContext("securityExtAttrMapperTest"));
+                .get(new PageContext("securityExtAttrMapperTest"), null);
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
@@ -88,7 +88,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     @Test
     public void inlineObjectActions() {
         CompiledObject object = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.object.xml")
-                .get(new ObjectContext("securityExtAttrMapperTest"));
+                .get(new ObjectContext("securityExtAttrMapperTest"), null);
         CompiledObject.Operation operation = object.getOperations().get("create");
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setPermitAll(true);
@@ -110,7 +110,7 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
     @Test
     public void inlineQuery() {
         CompiledQuery query = compile("net/n2oapp/framework/access/metadata/securityExtAttrMapperTest.query.xml")
-                .get(new QueryContext("securityExtAttrMapperTest"));
+                .get(new QueryContext("securityExtAttrMapperTest"), null);
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setPermitAll(true);
         securityObject.setAuthenticated(true);

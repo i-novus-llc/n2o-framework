@@ -131,7 +131,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
                 "net/n2oapp/framework/ui/controller/testPage.page.xml",
                 "net/n2oapp/framework/ui/controller/testQuery.query.xml"
         );
-        pipeline.get(new PageContext("testPage"));
+        pipeline.get(new PageContext("testPage"), null);
         N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 

@@ -57,7 +57,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testTable() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.widget.xml")
-                .get(new WidgetContext("testTable4Compile"));
+                .get(new WidgetContext("testTable4Compile"), null);
         assertThat(table.getId(), is("$testTable4Compile"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().size(), is(3));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getId(), is("testAction"));
@@ -87,7 +87,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testRowColor() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowColorCompile.widget.xml")
-                .get(new WidgetContext("testTable4RowColorCompile"));
+                .get(new WidgetContext("testTable4RowColorCompile"), null);
         assertThat(table.getComponent().getRowClass(), is("`gender.id == 1 ? 'red' : gender.id == 2 ? 'blue' : gender.id == 3 ? 'white' : 'green'`"));
         assertThat(table.getComponent().getHasSelect(), is(true));
     }
@@ -95,7 +95,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testRowClick() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
-                .get(new PageContext("testTable4RowClickCompile"));
+                .get(new PageContext("testTable4RowClickCompile"), null);
         List<AbstractAction> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((TableWidgetComponent) widget.getComponent()).getRowClick()));
 
@@ -114,7 +114,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testSortableColumns() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
-                .get(new WidgetContext("testTable4SortableCompile"));
+                .get(new WidgetContext("testTable4SortableCompile"), null);
         assertThat(table.getId(), is("$testTable4SortableCompile"));
         assertThat(table.getComponent().getHeaders().size(), is(5));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
@@ -150,7 +150,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testFilters() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
-                .get(new PageContext("testTable4FiltersCompile"));
+                .get(new PageContext("testTable4FiltersCompile"), null);
         Table table = (Table) page.getWidgets().get("testTable4FiltersCompile_main");
         Filter filter = table.getFilter("name");
         assertThat(filter.getFilterId(), is("name"));
@@ -236,7 +236,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testDefaultValues() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableCompileFilters.page.xml")
-                .get(new PageContext("testTableCompileFilters"));
+                .get(new PageContext("testTableCompileFilters"), null);
         assertThat(page.getModels().size(), is(8));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("begin"), is("21.10.2018"));
         assertThat(((DefaultValues) page.getModels().get("filter['testTableCompileFilters_testTable'].birthday").getValue()).getValues().get("end"), is("22.11.2018"));
@@ -254,7 +254,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testColumnsWidth() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
-                .get(new WidgetContext("testTable4SortableCompile"));
+                .get(new WidgetContext("testTable4SortableCompile"), null);
         assertThat(table.getId(), is("$testTable4SortableCompile"));
         assertThat(table.getComponent().getHeaders().size(), is(5));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
@@ -266,8 +266,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testRequiredPrefilters() {
         compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableRequiredPrefilters.page.xml")
-                .get(new PageContext("testTableRequiredPrefilters"));
-        QueryContext queryContext = ((QueryContext) builder.route("/testTableRequiredPrefilters", CompiledQuery.class));
+                .get(new PageContext("testTableRequiredPrefilters"), null);
+        QueryContext queryContext = ((QueryContext) builder.route("/testTableRequiredPrefilters", CompiledQuery.class, null));
 
         assertThat(queryContext.getValidations().get(0).getId(), is("gender*.id"));
         assertThat(queryContext.getValidations().get(0).getFieldId(), is("gender*.id"));
@@ -278,7 +278,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void testColumnVisibility() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
-                .get(new PageContext("testTableColumnVisibility"));
+                .get(new PageContext("testTableColumnVisibility"), null);
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
         assertThat(columnHeaders.get(0).getVisible(), is(Boolean.FALSE));
         assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));

@@ -87,7 +87,7 @@ public class DefaultValuesControllerTest {
                 "net/n2oapp/framework/ui/controller/testDefaults.query.xml",
                 "net/n2oapp/framework/ui/controller/testDefaults.widget.xml"
         );
-        pipeline.get(new WidgetContext("testDefaults"));
+        pipeline.get(new WidgetContext("testDefaults"), null);
         return pipeline;
     }
 

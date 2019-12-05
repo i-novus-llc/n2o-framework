@@ -38,7 +38,7 @@ public class FetchDependenceCompileTest extends SourceCompileTestBase {
     @Test
     public void testFetchDependence() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/dependency/testFetchDependency.widget.xml")
-                .get(new WidgetContext("testFetchDependency"));
+                .get(new WidgetContext("testFetchDependency"), null);
 
         Field checkboxGrp1 = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(checkboxGrp1.getId(), is("chb1"));

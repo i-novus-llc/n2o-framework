@@ -42,7 +42,7 @@ public class LinkCellCompilerTest extends SourceCompileTestBase {
     @Test
     public void testCompileActions() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testLinkCell.widget.xml")
-                .get(new WidgetContext("testLinkCell"));
+                .get(new WidgetContext("testLinkCell"), null);
 
         assertThat(table.getComponent().getCells().get(0).getId(), is("test1"));
         assertThat(((N2oLinkCell)table.getComponent().getCells().get(0)).getIcon(), nullValue());

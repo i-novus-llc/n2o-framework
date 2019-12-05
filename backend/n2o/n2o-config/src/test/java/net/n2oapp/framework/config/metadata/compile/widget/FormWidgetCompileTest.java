@@ -46,7 +46,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void uploadDefaults() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile.widget.xml")
-                .get(new WidgetContext("testFormCompile"));
+                .get(new WidgetContext("testFormCompile"), null);
         assertThat(form.getId(), is("$testFormCompile"));
         assertThat(form.getUpload(), is(UploadType.defaults));
         assertThat(form.getDataProvider(), nullValue());
@@ -57,7 +57,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     @Test
     public void uploadQuery() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile2.widget.xml")
-                .get(new WidgetContext("testFormCompile2"));
+                .get(new WidgetContext("testFormCompile2"), null);
         assertThat(form.getId(), is("$testFormCompile2"));
         assertThat(form.getUpload(), is(UploadType.query));
         assertThat(form.getDataProvider(), notNullValue());
@@ -71,7 +71,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     public void testFormClientValidations() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
-                .get(new WidgetContext("testFormValidations"));
+                .get(new WidgetContext("testFormValidations"), null);
         List<Validation> validations = form.getComponent().getValidation().get("testField");
 
         assertThat(validations.size(), is(11));

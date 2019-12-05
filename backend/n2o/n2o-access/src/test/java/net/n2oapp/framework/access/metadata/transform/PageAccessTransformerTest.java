@@ -43,7 +43,7 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
+        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"), null);
         Security.SecurityObject regionSecurityObject = ((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0)
                 .getProperties()
                 .get(SECURITY_PROP_NAME))
@@ -63,7 +63,8 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegionV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
+        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testRegionAccessTransformer"), null);
         Security.SecurityObject regionSecurityObject = ((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0)
                 .getProperties()
                 .get(SECURITY_PROP_NAME))

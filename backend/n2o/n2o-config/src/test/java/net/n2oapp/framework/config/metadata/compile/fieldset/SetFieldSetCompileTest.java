@@ -53,7 +53,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
     @Test
     public void testSetFielsetWithField() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetCompile.widget.xml")
-                .get(new WidgetContext("testFieldsetCompile"));
+                .get(new WidgetContext("testFieldsetCompile"), null);
         FormWidgetComponent component = form.getComponent();
         assertThat(component.getFieldsets().size(), is(4));
 
@@ -136,7 +136,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
     @Test
     public void testFieldSetDependency() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetEVDCompile.widget.xml")
-                .get(new WidgetContext("testFieldsetEVDCompile"));
+                .get(new WidgetContext("testFieldsetEVDCompile"), null);
         java.util.List<FieldSet> fieldSets = form.getComponent().getFieldsets();
         assertThat(fieldSets.size(), is(4));
 
@@ -169,12 +169,12 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetVisibility.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetVisibility.object.xml"
         );
-        pipeline.get(new PageContext("testFieldsetVisibility"));
-        ActionContext context = (ActionContext) builder.route("/testFieldsetVisibility/1/action", CompiledObject.class);
+        pipeline.get(new PageContext("testFieldsetVisibility"), null);
+        ActionContext context = (ActionContext) builder.route("/testFieldsetVisibility/1/action", CompiledObject.class, null);
 
         assertThat(context, notNullValue());
 
-        CompiledObject object = pipeline.get(context);
+        CompiledObject object = pipeline.get(context, null);
 
         List<Validation> validations = object.getOperations().get("test").getValidationList();
         assertThat(validations.get(1).getId(), is("id1"));

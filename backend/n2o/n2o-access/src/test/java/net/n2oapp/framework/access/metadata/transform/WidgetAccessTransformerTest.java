@@ -44,7 +44,7 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
 
         Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testRegionAccessTransformer"));
+                .get(new PageContext("testRegionAccessTransformer"), null);
 
         Security.SecurityObject securityObject = ((Security) page.getWidgets()
                 .get("testRegionAccessTransformer_testTable").getProperties()
@@ -65,7 +65,7 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
 
         Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testRegionAccessTransformer"));
+                .get(new PageContext("testRegionAccessTransformer"), null);
 
         Security.SecurityObject securityObject = ((Security) page.getWidgets()
                 .get("testRegionAccessTransformer_testTable").getProperties()

@@ -43,7 +43,8 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testQuery.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testQueryAccessTransformer.query.xml");
 
-        CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new QueryContext("testQueryAccessTransformer"));
+        CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new QueryContext("testQueryAccessTransformer"), null);
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), nullValue());
@@ -56,7 +57,8 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testQueryV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testQueryAccessTransformer.query.xml");
 
-        CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new QueryContext("testQueryAccessTransformer"));
+        CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new QueryContext("testQueryAccessTransformer"), null);
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), notNullValue());

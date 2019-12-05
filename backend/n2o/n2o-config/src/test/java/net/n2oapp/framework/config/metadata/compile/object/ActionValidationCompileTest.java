@@ -22,7 +22,7 @@ public class ActionValidationCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oObjectsPack());
         object = compile("net/n2oapp/framework/config/metadata/compile/action_validation_compile/utActionValidation.object.xml")
-                .get(new ObjectContext("utActionValidation"));
+                .get(new ObjectContext("utActionValidation"), null);
     }
 
     @Test

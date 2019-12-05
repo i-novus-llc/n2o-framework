@@ -111,23 +111,23 @@ public class N2oPipelineTest {
         assertThat(source.getName(), is("cached test"));//cache hit
 
         // read + compile
-        Page compiled = new N2oReadPipeline(env).read().compile().get(context);
+        Page compiled = new N2oReadPipeline(env).read().compile().get(context, null);
         assertThat(compiled.getPageProperty().getTitle(), is("compiled test"));
 
         // read + cache + compile
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> compilePipeline = N2oPipelineSupport.readPipeline(env).read().cache().copy().compile();
-        compiled = compilePipeline.get(context);
+        compiled = compilePipeline.get(context, null);
         assertThat(compiled.getPageProperty().getTitle(), is("compiled cached test"));//second cache hit
 
         // read + compile + transform
-        compiled = N2oPipelineSupport.readPipeline(env).read().compile().transform().get(context);
+        compiled = N2oPipelineSupport.readPipeline(env).read().compile().transform().get(context, null);
         assertThat(compiled.getPageProperty().getTitle(), is("transformed compiled test"));
 
         // read + compile + cache + transform
-        compiled = N2oPipelineSupport.readPipeline(env).read().compile().cache().transform().get(context);
+        compiled = N2oPipelineSupport.readPipeline(env).read().compile().cache().transform().get(context, null);
         assertThat(compiled.getPageProperty().getTitle(), is("transformed compiled test"));//compile cache miss
 
-        compiled = N2oPipelineSupport.readPipeline(env).read().compile().cache().transform().get(context);
+        compiled = N2oPipelineSupport.readPipeline(env).read().compile().cache().transform().get(context, null);
         assertThat(compiled.getPageProperty().getTitle(), is("transformed cached compiled test"));//compile cache hit
 
         // read + compile + bind

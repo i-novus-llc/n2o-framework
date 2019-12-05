@@ -44,7 +44,7 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
     @Test
     public void testLineFieldSetWithField() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testLineFieldsetCompile.widget.xml")
-                .get(new WidgetContext("testLineFieldsetCompile"));
+                .get(new WidgetContext("testLineFieldsetCompile"), null);
         FormWidgetComponent component = form.getComponent();
         List<FieldSet> fields = component.getFieldsets();
         assertThat(fields.size(), is(4));

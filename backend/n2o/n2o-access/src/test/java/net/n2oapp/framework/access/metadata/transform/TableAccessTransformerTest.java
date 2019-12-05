@@ -43,7 +43,7 @@ public class TableAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testTableAccessTransformer.page.xml");
 
         Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testTableAccessTransformer"));
+                .get(new PageContext("testTableAccessTransformer"), null);
 
         Security.SecurityObject securityObject = ((Security)((TableWidgetComponent) page.getWidgets()
                 .get("testTableAccessTransformer_testTable").getComponent()).getRows().getProperties()

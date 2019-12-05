@@ -37,7 +37,7 @@ public class CustomActionCompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileActions() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testCustomAction.widget.xml")
-                .get(new WidgetContext("testCustomAction"));
+                .get(new WidgetContext("testCustomAction"), null);
         assertThat(((CustomAction)table.getActions().get("test")).getSrc(),is("mySrc"));
         assertThat(((CustomAction)table.getActions().get("menuItem0")).getSrc(),is("mySrc"));
     }

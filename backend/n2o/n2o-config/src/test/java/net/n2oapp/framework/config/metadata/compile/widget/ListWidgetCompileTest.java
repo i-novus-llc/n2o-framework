@@ -33,7 +33,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
     public void testListWidget() {
         ListWidget listWidget = (ListWidget) compile("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetCompile.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
-                .get(new WidgetContext("testListWidgetCompile"));
+                .get(new WidgetContext("testListWidgetCompile"), null);
 
         assertThat(listWidget.getId(), is("$testListWidgetCompile"));
         assertThat(listWidget.getList().get("leftTop").getSrc(), is("ImageCell"));

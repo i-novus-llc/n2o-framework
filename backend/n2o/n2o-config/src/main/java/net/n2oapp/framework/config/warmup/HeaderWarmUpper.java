@@ -26,10 +26,10 @@ public class HeaderWarmUpper implements EnvironmentAware {
                 .read().transform().validate().cache()
                 .compile().transform().cache();
         if (headerId != null && !headerId.isEmpty()) {
-            pipeline.get(new HeaderContext(headerId));
+            pipeline.get(new HeaderContext(headerId), null);
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
             PageContext context = new PageContext(welcomePageId, "/");
-            pipeline.get(context);
+            pipeline.get(context, null);
         }
     }
 

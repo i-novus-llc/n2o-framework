@@ -83,7 +83,7 @@ public class QueryProcessorTest {
     @Test
     public void query3Sql() {
         when(factory.produce(any())).thenReturn(new SqlDataProviderEngineMock());
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"), null);
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.setCount(10);
         criteria.setPage(2);
@@ -104,7 +104,7 @@ public class QueryProcessorTest {
     @Test
     public void query3SqlGetOneRecordTest1() {
         when(factory.produce(any())).thenReturn(new SqlDPEOneSizeMock(1));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"), null);
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
         criteria.setSorting(new Sorting("name", Direction.DESC));
@@ -116,7 +116,7 @@ public class QueryProcessorTest {
     @Test
     public void query3SqlGetOneRecordTest2() {
         when(factory.produce(any())).thenReturn(new SqlDPEOneSizeMock(2));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"), null);
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
         criteria.setSorting(new Sorting("name", Direction.DESC));
@@ -127,7 +127,7 @@ public class QueryProcessorTest {
     @Test
     public void query3SqlGetOneRecordTest0() {
         when(factory.produce(any())).thenReturn(new SqlDPEOneSizeMock(0));
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessor"), null);
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
         criteria.setSorting(new Sorting("name", Direction.DESC));
@@ -142,7 +142,7 @@ public class QueryProcessorTest {
         JavaDataProviderEngine javaDataEngineMock = mock(JavaDataProviderEngine.class);
         List<Object> list = new ArrayList<>();
         ///  when(javaDataEngineMock.invoke(any(), any())).thenReturn(list);
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"), null);
 
         //case without arguments
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -174,7 +174,7 @@ public class QueryProcessorTest {
     @Test
     public void testCriteriaRestrictionMerge() {
         when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"), null);
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("id", "1", FilterType.eq));
         criteria.addRestriction(new Restriction("id", "45", FilterType.eq));
@@ -207,7 +207,7 @@ public class QueryProcessorTest {
     public void query4Unique() {
         TestDataProviderEngine testDataprovider = new TestDataProviderEngine();
         when(factory.produce(any())).thenReturn(testDataprovider);
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorUnique"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorUnique"), null);
 
         //case unique selection
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
@@ -240,7 +240,7 @@ public class QueryProcessorTest {
     @Test
     public void query4Normalize() {
         when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
-        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorNorm"));
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorNorm"), null);
 
         N2oPreparedCriteria criteria = new N2oPreparedCriteria();
         CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);

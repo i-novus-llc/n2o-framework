@@ -253,10 +253,10 @@ public class DataControllerTest extends DataControllerTestBase {
                 "net/n2oapp/framework/ui/controller/testFieldVisibility.page.xml",
                 "net/n2oapp/framework/ui/controller/testQuery.query.xml",
                 "net/n2oapp/framework/ui/controller/testPage.page.xml");
-        pipeline.get(new PageContext("testPage"));
-        pipeline.get(new PageContext("testPageWithRequiredField"));
-        pipeline.get(new PageContext("testFieldVisibility"));
-        pipeline.get(new PageContext("testListControlValidation"));
+        pipeline.get(new PageContext("testPage"), null);
+        pipeline.get(new PageContext("testPageWithRequiredField"), null);
+        pipeline.get(new PageContext("testFieldVisibility"), null);
+        pipeline.get(new PageContext("testListControlValidation"), null);
         return pipeline;
     }
 

@@ -40,7 +40,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
 
     @Test
     public void defaultsByObject() {
-        CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
+        CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"), null);
         N2oQuery.Field objectName = query.getFieldsMap().get("objectName");
         assertThat(objectName.getName(), is("object name"));
         assertThat(objectName.getDomain(), is("string"));
@@ -49,7 +49,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
 
     @Test
     public void defaultsBodyAndMapping() {
-        CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
+        CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"), null);
         N2oQuery.Field field = query.getFieldsMap().get("gender.id");
         assertThat(field.getSelectBody(), nullValue());
         assertThat(field.getSelectMapping(), is("['gender.id']"));
@@ -61,7 +61,7 @@ public class QueryFieldDefaultsCompileTest extends SourceCompileTestBase {
 
     @Test
     public void defaultsBodyAndMappingWithExpression() {
-        CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"));
+        CompiledQuery query = read().compile().get(new QueryContext("utQueryFieldDefaults"), null);
         N2oQuery.Field name = query.getFieldsMap().get("name");
         assertThat(name.getSelectBody(), nullValue());
         assertThat(name.getSelectMapping(), is("['name']"));

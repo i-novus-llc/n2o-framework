@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.register.route;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -15,22 +16,22 @@ import java.util.function.Consumer;
 public class MockBindPipeline implements ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> {
 
     private N2oRouteRegister register;
-    private Map<String, List<BiConsumer<N2oRouteRegister, Class<?>>>> mocks = new HashMap<>();
+    private Map<String, List<BiConsumer<N2oRouteRegister, DataSet>>> mocks = new HashMap<>();
 
     public MockBindPipeline(N2oRouteRegister register) {
         this.register = register;
     }
 
-    public void mock(String sourceId, BiConsumer<N2oRouteRegister, Class<?>> action) {
+    public void mock(String sourceId, BiConsumer<N2oRouteRegister, DataSet> action) {
         mocks.computeIfAbsent(sourceId, k -> new ArrayList<>());
         mocks.get(sourceId).add(action);
     }
 
     @Override
-    public <D extends Compiled> D get(CompileContext<D, ?> context) {
-        List<BiConsumer<N2oRouteRegister, Class<?>>> actions = mocks.get(context.getSourceId(null));
+    public <D extends Compiled> D get(CompileContext<D, ?> context, DataSet params) {
+        List<BiConsumer<N2oRouteRegister, DataSet>> actions = mocks.get(context.getSourceId(null));
         if (actions != null)
-            actions.forEach(a -> a.accept(register, context.getCompiledClass()));
+            actions.forEach(a -> a.accept(register, params));
         return null;
     }
 

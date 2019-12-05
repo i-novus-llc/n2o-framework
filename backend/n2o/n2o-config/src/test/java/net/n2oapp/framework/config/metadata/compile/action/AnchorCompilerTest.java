@@ -32,7 +32,7 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
     @Test
     public void testAnchor() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
-                .get(new PageContext("testAnchorAction"));
+                .get(new PageContext("testAnchorAction"), null);
         LinkAction link1 = (LinkAction)page.getWidgets().get("page_test").getActions().get("id1");
 
         assertThat(link1.getOptions().getPath(), is("/test"));
@@ -60,7 +60,7 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link3.getOptions().getTarget(), is(Target.self));
 
         PageContext modalContext = (PageContext) route("/page/widget/123/id4", Page.class);
-        Page modalPage = read().compile().get(modalContext);
+        Page modalPage = read().compile().get(modalContext, null);
         link1 = (LinkAction)modalPage.getWidgets().get("page_widget_id4_test").getActions().get("id1");
         assertThat(link1.getOptions().getPath(), is("/page/widget/:page_test_id/id4/widget2/test"));
         assertThat(link1.getOptions().getTarget(), is(Target.application));

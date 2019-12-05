@@ -88,7 +88,7 @@ public class CopyValuesControllerTest {
                 "net/n2oapp/framework/ui/controller/testCopy.query.xml",
                 "net/n2oapp/framework/ui/controller/testCopy.widget.xml"
         );
-        pipeline.get(new WidgetContext("testCopy"));
+        pipeline.get(new WidgetContext("testCopy"), null);
         return pipeline;
     }
 

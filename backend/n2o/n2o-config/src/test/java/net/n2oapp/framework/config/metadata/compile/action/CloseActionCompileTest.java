@@ -38,7 +38,8 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     public void closeModal() throws Exception {
         ModalPageContext context = new ModalPageContext("testCloseAction", "/p/w/a");
         context.setClientPageId("p_w_a");
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml").get(context);
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
+                .get(context, null);
         CloseAction testAction = (CloseAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
         assertThat(testAction.getId(), is("test"));
         assertThat(testAction.getSrc(), is("perform"));
@@ -53,7 +54,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testCloseAction", "/p/w/a");
         context.setParentRoute("/p/w");
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
-                .get(context);
+                .get(context, null);
         LinkAction testAction = (LinkAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
         assertThat(testAction.getId(), is("test"));
         assertThat(testAction.getSrc(), is("link"));

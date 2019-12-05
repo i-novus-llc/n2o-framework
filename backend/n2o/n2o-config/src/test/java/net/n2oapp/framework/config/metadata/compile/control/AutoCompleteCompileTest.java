@@ -34,7 +34,7 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
     @Test
     public void testAutoCompleteDataProvider() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/field/testAutoComplete.page.xml")
-                .get(new PageContext("testAutoComplete"));
+                .get(new PageContext("testAutoComplete"), null);
         Form form = (Form) page.getWidgets().get("testAutoComplete_main");
         StandardField<AutoComplete> field = (StandardField<AutoComplete>) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getControl().getDataProvider().getUrl(), is("n2o/data/test"));
