@@ -114,7 +114,7 @@ public abstract class RouteUtil {
      * @param url
      * @return мапа с параметрами и их значениями
      */
-    public static HashMap<String, String> parseQueryParams(String url) {
+    public static Map<String, String> parseQueryParams(String url) {
         if (url == null || !(url.contains("=") || url.contains("&")))
             return null;
         HashMap<String, String> result = new HashMap();

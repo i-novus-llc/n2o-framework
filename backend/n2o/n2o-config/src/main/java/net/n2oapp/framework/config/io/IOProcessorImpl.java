@@ -13,18 +13,13 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import net.n2oapp.framework.config.register.dynamic.MetadataParamHolder;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
-import net.n2oapp.properties.reader.PropertiesReader;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertyResolver;
-import org.springframework.core.env.PropertySourcesPropertyResolver;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -1005,10 +1000,8 @@ public final class IOProcessorImpl implements IOProcessor {
             return null;
         }
         String resolve = StringUtils.resolveProperties(text, systemProperties::getProperty);
-        if (MetadataParamHolder.getParams() != null) {
-            resolve = StringUtils.resolveProperties(resolve, MetadataParamHolder.getParams());
-        }
-        return StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
+        resolve = StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
+        return StringUtils.resolveProperties(resolve, MetadataParamHolder.getParams());
     }
 
     /**

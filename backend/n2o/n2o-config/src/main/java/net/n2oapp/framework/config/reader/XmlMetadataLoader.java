@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.register.audit.util.N2oConfigConflictParser;
-import net.n2oapp.framework.config.register.dynamic.MetadataParamHolder;
+import net.n2oapp.framework.config.io.MetadataParamHolder;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;

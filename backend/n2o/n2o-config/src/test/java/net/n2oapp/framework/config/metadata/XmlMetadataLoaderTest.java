@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.XmlInfo;
-import net.n2oapp.framework.config.register.dynamic.MetadataParamHolder;
+import net.n2oapp.framework.config.io.MetadataParamHolder;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import org.junit.Test;
 
