@@ -37,7 +37,7 @@ public class HeaderWarmUpper implements EnvironmentAware {
             try {
                 pipeline.get(context);
             } catch (ReferentialIntegrityViolationException ignore) {
-                log.error("Main page not found ");
+                log.error("Main page by id " + welcomePageId + " not found ");
             }
         }
     }
