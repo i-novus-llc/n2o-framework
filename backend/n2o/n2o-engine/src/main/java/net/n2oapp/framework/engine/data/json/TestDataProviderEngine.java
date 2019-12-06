@@ -278,6 +278,16 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             })
                             .collect(Collectors.toList());
                 }
+            } else if (filter.contains(":isNull")) {
+                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNull");
+                data = data.stream()
+                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                        .collect(Collectors.toList());
+            } else if (filter.contains(":isNotNull")) {
+                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNotNull");
+                data = data.stream()
+                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) != null)
+                        .collect(Collectors.toList());
             }
         }
         return data;
