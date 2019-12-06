@@ -29,5 +29,4 @@ public class JavaInfoScanner implements MetadataScanner<JavaInfo> {
                 .forEach(p -> p.getMetadataClasses().forEach(mc -> list.add(new JavaInfo(p.getCode(), mc))));
         return list;
     }
-
 }
