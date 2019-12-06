@@ -110,6 +110,14 @@
                       "description": "Зависит от поля №2. Тип зависимости: видимость",
                       "dependency": [
                         {
+                          "type": "reset",
+                          "applyOnInit": true,
+                          "on": [
+                            "email"
+                          ],
+                          "expression": "email == 'test'"
+                        },
+                        {
                           "type": "visible",
                           "applyOnInit": true,
                           "on": [

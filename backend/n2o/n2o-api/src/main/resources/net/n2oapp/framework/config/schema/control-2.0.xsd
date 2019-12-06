@@ -726,7 +726,11 @@
     <xs:complexType name="visibilityDependencyDefinition" abstract="true">
         <xs:complexContent>
             <xs:extension base="baseDependencyDefinition">
-                <xs:attribute name="reset" type="xs:boolean" default="true"/>
+                <xs:attribute name="reset" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Сбросить значение при срабатывании зависимости.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
