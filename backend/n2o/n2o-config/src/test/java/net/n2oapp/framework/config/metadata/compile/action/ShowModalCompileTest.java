@@ -64,7 +64,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     public void create() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
-                .get(pageContext, null);
+                .get(pageContext);
 
         Table table = (Table) rootPage.getWidgets().get("p_main");
         ShowModalPayload payload = ((ShowModal) table.getActions().get("create")).getOptions().getPayload();
@@ -91,7 +91,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         PageContext modalContext = (PageContext) route("/p/create", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
         assertThat(modalContext.getUpload(), is(UploadType.defaults));
-        Page modalPage = read().compile().get(modalContext, null);
+        Page modalPage = read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_create"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
 
@@ -136,7 +136,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     public void update() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
-                .get(pageContext, null);
+                .get(pageContext);
 
         Table table = (Table) rootPage.getWidgets().get("p_main");
         ShowModalPayload payload = ((ShowModal) table.getActions().get("update")).getOptions().getPayload();
@@ -156,7 +156,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
         assertThat(modalContext.getPreFilters().get(0).getValue(), is("{secondId}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
-        Page modalPage = read().compile().get(modalContext, null);
+        Page modalPage = read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_update"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidgets().get("p_update_main");
@@ -203,7 +203,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     public void createFocus() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
-                .get(pageContext, null);
+                .get(pageContext);
         Page showModal = routeAndGet("/p/createFocus", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
         assertThat(submit.getOptions().getMeta().getSuccess().getCloseLastModal(), is(true));
@@ -220,7 +220,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     public void updateFocus() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
-                .get(pageContext, null);
+                .get(pageContext);
         Page showModal = routeAndGet("/p/123/updateFocus", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
         assertThat(submit.getOptions().getMeta().getSuccess().getCloseLastModal(), is(true));
@@ -239,7 +239,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     public void createUpdate() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
-                .get(pageContext, null);
+                .get(pageContext);
         Page showModal = routeAndGet("/p/createUpdate", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
         assertThat(submit.getOptions().getMeta().getSuccess().getCloseLastModal(), is(true));
@@ -257,7 +257,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     @Test
     public void dynamicPage() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalDynamicPage.page.xml")
-                .get(new PageContext("testShowModalDynamicPage", "/page"), null);
+                .get(new PageContext("testShowModalDynamicPage", "/page"));
         PageContext context = (PageContext) route("/page/widget/testOpenPageSimplePageAction1/id1", Page.class);
         DataSet data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction1");
@@ -281,7 +281,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     public void updateWithPreFilters() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
-                .get(pageContext, null);
+                .get(pageContext);
 
         PageContext modalContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
@@ -306,7 +306,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getPreFilters().get(2).getValue(), is("{name}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
 
-        Page modalPage = read().compile().get(modalContext, null);
+        Page modalPage = read().compile().get(modalContext);
         assertThat(modalPage.getId(), is("p_updateWithPrefilters"));
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidgets().get("p_updateWithPrefilters_main");
@@ -363,7 +363,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
     public void updateModelEditWithPreFilters() {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
-                .get(pageContext, null);
+                .get(pageContext);
         ShowModal showModal = (ShowModal) rootPage.getWidgets().get("p_main").getActions().get("updateEditWithPrefilters");
         assertThat(showModal.getOptions().getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
 

@@ -42,7 +42,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
     @Test
     public void masterDetailWithPathParam() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
-                .get(new PageContext("testOpenPageRouteMasterDetail", "/test"), null);
+                .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParam");
         assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open1"));
@@ -58,7 +58,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
     @Test
     public void masterDetailWithoutPathParam() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
-                .get(new PageContext("testOpenPageRouteMasterDetail", "/test"), null);
+                .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withoutParam");
         assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/open2"));
@@ -72,7 +72,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
     @Test
     public void masterDetailWithPathParamWithoutMasterDetail() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
-                .get(new PageContext("testOpenPageRouteMasterDetail", "/test"), null);
+                .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");
         assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open3"));

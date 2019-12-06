@@ -46,7 +46,7 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileActions() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectOperations.object.xml")
-                .get(new ObjectContext("testObjectOperations"), null);
+                .get(new ObjectContext("testObjectOperations"));
         CompiledObject.Operation op1 = object.getOperations().get("op1");
         assertThat(object.getOperations().size(), is(2));
         assertThat(op1.getId(), is("op1"));
@@ -67,7 +67,7 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileOperationValidations() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectValidations.object.xml")
-                .get(new ObjectContext("testObjectValidations"), null);
+                .get(new ObjectContext("testObjectValidations"));
         assertThat(object.getOperations().get("nothing").getValidationList(), is(nullValue()));
         assertThat(object.getOperations().get("white").getValidationList().size(), is(1));
         assertThat(object.getOperations().get("white").getValidationList().get(0).getId(), is("v1"));
@@ -87,7 +87,7 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileValidations() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectValidations.object.xml")
-                .get(new ObjectContext("testObjectValidations"), null);
+                .get(new ObjectContext("testObjectValidations"));
         Validation v1 = object.getValidations().get(0);
         Validation v2 = object.getValidations().get(1);
         Validation v3 = object.getValidations().get(2);
@@ -111,7 +111,7 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileFields() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/testObjectFields.object.xml")
-                .get(new ObjectContext("testObjectFields"), null);
+                .get(new ObjectContext("testObjectFields"));
         assertThat(object.getObjectFields().size(), is(7));
         assertThat(object.getObjectFieldsMap().size(), is(7));
         assertThat(object.getObjectReferenceFieldsMap().size(), is(5));

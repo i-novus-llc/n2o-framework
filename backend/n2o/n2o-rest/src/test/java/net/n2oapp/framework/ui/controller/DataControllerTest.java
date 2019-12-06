@@ -253,10 +253,10 @@ public class DataControllerTest extends DataControllerTestBase {
                 "net/n2oapp/framework/ui/controller/testFieldVisibility.page.xml",
                 "net/n2oapp/framework/ui/controller/testQuery.query.xml",
                 "net/n2oapp/framework/ui/controller/testPage.page.xml");
-        pipeline.get(new PageContext("testPage"), null);
-        pipeline.get(new PageContext("testPageWithRequiredField"), null);
-        pipeline.get(new PageContext("testFieldVisibility"), null);
-        pipeline.get(new PageContext("testListControlValidation"), null);
+        pipeline.get(new PageContext("testPage"));
+        pipeline.get(new PageContext("testPageWithRequiredField"));
+        pipeline.get(new PageContext("testFieldVisibility"));
+        pipeline.get(new PageContext("testListControlValidation"));
         return pipeline;
     }
 
@@ -288,7 +288,7 @@ public class DataControllerTest extends DataControllerTestBase {
         ((SpringDataProcessingStack) dataProcessingStack).setApplicationContext(context);
 
 
-        N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
+        N2oRouter router = new N2oRouter(builder.getEnvironment(), pipeline);
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();

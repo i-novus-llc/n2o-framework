@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.selective.CompileInfo;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -45,7 +46,7 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
         return this.route(url, compiledClass, null);
     }
 
-    public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass, HashMap<String, String[]> params) {
+    public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass, Map<String, String[]> params) {
         return builder.route(url, compiledClass, params);
     }
 

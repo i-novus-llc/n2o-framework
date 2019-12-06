@@ -43,7 +43,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileEditCell() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testEditCell.widget.xml")
-                .get(new WidgetContext("testEditCell"), null);
+                .get(new WidgetContext("testEditCell"));
 
         EditCell cell = (EditCell)table.getComponent().getCells().get(0);
 

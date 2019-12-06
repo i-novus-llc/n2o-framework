@@ -37,7 +37,7 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
     @Test
     public void testCheckboxGroup() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroup.widget.xml")
-                .get(new WidgetContext("testCheckboxGroup", "/test"), null);
+                .get(new WidgetContext("testCheckboxGroup", "/test"));
 
         WidgetDataProvider wdp = ((ListControl) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();

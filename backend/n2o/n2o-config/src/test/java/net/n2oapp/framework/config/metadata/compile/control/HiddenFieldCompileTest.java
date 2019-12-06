@@ -34,7 +34,7 @@ public class HiddenFieldCompileTest extends SourceCompileTestBase {
     @Test
     public void testField() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testHiddenFieldCompile.widget.xml")
-                .get(new WidgetContext("testHiddenFieldCompile"), null);
+                .get(new WidgetContext("testHiddenFieldCompile"));
         assertThat((form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("testId"));
         assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl(), instanceOf(Hidden.class));
         assertThat(((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testId"));

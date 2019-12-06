@@ -33,7 +33,7 @@ public class CheckboxCompileTest extends SourceCompileTestBase {
     @Test
     public void testChechboxDefault() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/field/testCheckbox.page.xml")
-                .get(new PageContext("testCheckbox"), null);
+                .get(new PageContext("testCheckbox"));
 
         Models models = page.getModels();
         assertThat(models.get("resolve['testCheckbox_main'].test").getValue(), is(false));

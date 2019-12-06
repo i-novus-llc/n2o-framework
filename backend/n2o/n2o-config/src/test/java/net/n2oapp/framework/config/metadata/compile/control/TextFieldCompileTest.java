@@ -36,7 +36,7 @@ public class TextFieldCompileTest extends SourceCompileTestBase {
     @Test
     public void testTextField(){
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testTextFieldCompile.widget.xml")
-                .get(new WidgetContext("testTextFieldCompile"), null);
+                .get(new WidgetContext("testTextFieldCompile"));
         Text field = (Text)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         assertThat(field.getSrc(), is("TextField"));

@@ -42,7 +42,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
     @Test
     public void testInputSelectDataProvider() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelect.page.xml")
-                .get(new PageContext("testInputSelect"), null);
+                .get(new PageContext("testInputSelect"));
         Form form = (Form) page.getWidgets().get("testInputSelect_main");
 
         Models models = page.getModels();

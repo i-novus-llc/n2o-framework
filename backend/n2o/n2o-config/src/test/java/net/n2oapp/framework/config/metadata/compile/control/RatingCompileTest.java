@@ -31,7 +31,7 @@ public class RatingCompileTest extends SourceCompileTestBase {
     @Test
     public void testRating() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testRating.widget.xml")
-                .get(new WidgetContext("testRating"), null);
+                .get(new WidgetContext("testRating"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         Rating rating = (Rating) ((StandardField) field).getControl();
         assertThat(rating.getHalf(), is(Boolean.FALSE));

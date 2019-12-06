@@ -34,7 +34,7 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
     @Test
     public void testInputSelectTree() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelectTree.widget.xml")
-                .get(new WidgetContext("testInputSelectTree"), null);
+                .get(new WidgetContext("testInputSelectTree"));
 
         InputSelectTree ist = (InputSelectTree) ((StandardField) form.getComponent().getFieldsets()
                 .get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl();

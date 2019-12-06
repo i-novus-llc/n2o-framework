@@ -48,7 +48,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test
     public void layout() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml")
-                .get(new PageContext("testStandardPage"), null);
+                .get(new PageContext("testStandardPage"));
 
         assertThat(page.getId(), is("testRoute"));
         assertThat(page.getObject().getId(), is("utObjectField"));
@@ -87,7 +87,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         PageContext context = new PageContext("testRoutes", "/page");
         Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
-                .get(context, null);
+                .get(context);
         assertThat(page.getId(), is("page"));
         assertThat(page.getRoutes().getList().size(), is(11));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/page"));
@@ -126,7 +126,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void masterDetails() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.page.xml")
-                .get(new PageContext("testStandardPageDependency"), null);
+                .get(new PageContext("testStandardPageDependency"));
         assertThat(page.getWidgets().size(), is(3));
         assertThat(page.getWidgets().get("testStandardPageDependency_master"), notNullValue());
         assertThat(page.getWidgets().get("testStandardPageDependency_detail"), notNullValue());
@@ -166,7 +166,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void preFilters() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
-                .get(new PageContext("testWidgetPrefilters"), null);
+                .get(new PageContext("testWidgetPrefilters"));
         assertThat(page.getRoutes().getQueryMapping().size(), is(10));
 
         WidgetDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
@@ -228,7 +228,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void testChainFetching() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
-                .get(new PageContext("testChainWidgetFetching"), null);
+                .get(new PageContext("testChainWidgetFetching"));
 
         assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().size(), is(1));
         assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
@@ -248,8 +248,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void validateObjectIdForMainWidget() {
         PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
         validateObjectIdForMainWidget.setSubmitOperationId("test");
-        Page page = compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
-                .get(validateObjectIdForMainWidget, null);
+        compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
+                .get(validateObjectIdForMainWidget);
 
     }
 }

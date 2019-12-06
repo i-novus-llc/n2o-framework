@@ -45,7 +45,7 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/schema/testToolbar.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testToolbarCellAccessTransformer.page.xml"
         );
-        Page page = pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"), null);
+        Page page = pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"));
         Security.SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidgets()
                 .get("testToolbarCellAccessTransformer_main")
                 .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(0)

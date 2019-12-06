@@ -27,7 +27,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileActions() throws Exception {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml")
-                .get(new ObjectContext("utAction"), null);
+                .get(new ObjectContext("utAction"));
         assert object.getOperations().size() == 2;
         assert "create".equals(object.getOperations().get("create").getId());
         assert "delete".equals(object.getOperations().get("delete").getId());
@@ -36,7 +36,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileValidations() throws Exception {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utValidation.object.xml")
-                .get(new ObjectContext("utValidation"), null);
+                .get(new ObjectContext("utValidation"));
         assert 2 == object.getValidations().size();
         assert "v1".equals(object.getValidationsMap().get("v1").getId());
         assert "v2".equals(object.getValidationsMap().get("v2").getId());
@@ -49,7 +49,7 @@ public class ObjectCompileTest extends SourceCompileTestBase {
     @Test
     public void testCompileFields() throws Exception {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml")
-                .get(new ObjectContext("utObjectField"), null);
+                .get(new ObjectContext("utObjectField"));
         assert 2 == object.getObjectFields().size();
         assert "f1".equals(object.getObjectFieldsMap().get("f1").getId());
         assert "f2".equals(object.getObjectFieldsMap().get("f2").getId());

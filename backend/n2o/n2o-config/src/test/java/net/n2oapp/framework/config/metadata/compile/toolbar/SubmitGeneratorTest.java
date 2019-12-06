@@ -33,7 +33,7 @@ public class SubmitGeneratorTest extends SourceCompileTestBase {
 
     @Test
     public void submitLabelFromButton() {
-        read().compile().get(new PageContext("testSubmitGeneratorButton", "/p"), null);
+        read().compile().get(new PageContext("testSubmitGeneratorButton", "/p"));
         Page page = routeAndGet("/p/1/test1", Page.class);
         Button submit = page.getToolbar().getButton("submit");
         assertThat(submit, notNullValue());

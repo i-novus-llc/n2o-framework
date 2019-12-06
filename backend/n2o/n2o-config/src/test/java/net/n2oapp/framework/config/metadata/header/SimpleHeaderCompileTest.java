@@ -31,7 +31,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     @Test
     public void inlineMenu() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
-                "net/n2oapp/framework/config/metadata/header/headerWithMenu.header.xml").get(new HeaderContext("headerWithMenu"), null);
+                "net/n2oapp/framework/config/metadata/header/headerWithMenu.header.xml").get(new HeaderContext("headerWithMenu"));
 
         Assert.assertEquals(3, header.getItems().size());
         Assert.assertEquals(2, header.getItems().get(0).getSubItems().size());
@@ -51,7 +51,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     public void externalMenu() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/header/headerWithExternalMenu.header.xml",
-                "net/n2oapp/framework/config/metadata/header/testMenu.menu.xml").get(new HeaderContext("headerWithExternalMenu"), null);
+                "net/n2oapp/framework/config/metadata/header/testMenu.menu.xml").get(new HeaderContext("headerWithExternalMenu"));
 
         Assert.assertEquals(3, header.getItems().size());
         Assert.assertEquals(2, header.getItems().get(0).getSubItems().size());

@@ -64,9 +64,9 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     @Test
     public void filterModel() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
-                .get(new PageContext("testOpenPageSimplePage"), null);
+                .get(new PageContext("testOpenPageSimplePage"));
         PageContext context = (PageContext) route("/page/widget/action1", Page.class);
-        Page openPage = read().compile().get(context, null);
+        Page openPage = read().compile().get(context);
 
         assertThat(openPage.getBreadcrumb().size(), is(2));
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
@@ -102,7 +102,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     public void resolveModel() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
-                .get(new PageContext("testOpenPageSimplePage", "/page"), null);
+                .get(new PageContext("testOpenPageSimplePage", "/page"));
         assertThat(((LinkAction) page.getWidgets().get("page_test").getActions().get("id2")).getOptions().getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
         assertThat(((LinkAction) page.getWidgets().get("page_test").getActions().get("id2")).getOptions().getQueryMapping().size(), is(0));
 
@@ -117,7 +117,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(context.getParentModelLink().getWidgetId(), is("page_test"));
         assertThat(context.getParentModelLink().getSubModelQuery().getQueryId(), is("testShowModal"));
 
-        Page openPage = read().compile().get(context, null);
+        Page openPage = read().compile().get(context);
         assertThat(openPage.getId(), is("page_widget_action2"));
         assertThat(openPage.getBreadcrumb().size(), is(2));
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
@@ -219,7 +219,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     @Test
     public void masterDetail() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
-                .get(new PageContext("testOpenPageSimplePage", "/page"), null);
+                .get(new PageContext("testOpenPageSimplePage", "/page"));
 
         LinkAction linkAction = (LinkAction) page.getWidgets().get("page_test").getActions().get("masterDetail");
         assertThat(linkAction.getOptions().getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
@@ -253,7 +253,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(2).getType(), is(FilterType.eq));
 
 
-        Page openPage = read().compile().get(context, null);
+        Page openPage = read().compile().get(context);
         assertThat(openPage.getId(), is("page_widget_masterDetail"));
         assertThat(openPage.getBreadcrumb().size(), is(2));
         assertThat(openPage.getBreadcrumb().get(0).getLabel(), is("first"));
@@ -309,7 +309,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     @Test
     public void dynamicPage() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.page.xml")
-                .get(new PageContext("testOpenPageDynamicPage", "/page"), null);
+                .get(new PageContext("testOpenPageDynamicPage", "/page"));
         PageContext context = (PageContext) route("/page/widget/testOpenPageSimplePageAction1/id1", Page.class);
         DataSet data = new DataSet();
         data.put("page_test_id", "testOpenPageSimplePageAction1");
@@ -350,7 +350,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile("net/n2oapp/framework/config/metadata/compile/action/testMasterParam.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterParam.page.xml");
 
-        Page p1 = pipeline.get(new PageContext("testMasterParam", "/page"), null);
+        Page p1 = pipeline.get(new PageContext("testMasterParam", "/page"));
         assertThat(p1.getRoutes().findRouteByUrl("/page"), notNullValue());
         assertThat(p1.getRoutes().findRouteByUrl("/page/master"), notNullValue());
         assertThat(p1.getRoutes().findRouteByUrl("/page/master/:page_master_id"), notNullValue());
@@ -359,7 +359,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail/:page_detail_id"), notNullValue());
         assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail/:sid/menuItem0"), notNullValue());
 
-        Page p2 = pipeline.get(new PageContext("testOpenPageMasterParam"), null);
+        Page p2 = pipeline.get(new PageContext("testOpenPageMasterParam"));
         assertThat(((Filter) p2.getWidgets().get("testOpenPageMasterParam_modalDetail").getFilters().get(0)).getParam(), is("sid"));
         assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/:testOpenPageMasterParam_form_id"), notNullValue());
         assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"), notNullValue());

@@ -51,7 +51,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
     @Test
     public void simple() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeAction.widget.xml")
-                .get(new WidgetContext("testInvokeAction", "/w"), null);
+                .get(new WidgetContext("testInvokeAction", "/w"));
 
         //filter model
         InvokeAction testAction = (InvokeAction) table.getActions().get("test");
@@ -86,7 +86,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
     @Test
     public void validations() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.widget.xml")
-                .get(new WidgetContext("testRegisterActionContext", "/"), null);
+                .get(new WidgetContext("testRegisterActionContext", "/"));
         ActionContext context = (ActionContext) route("/:testRegisterActionContext_id/test", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
@@ -95,7 +95,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(context.getValidations().get(1), instanceOf(ConditionValidation.class));
         assertThat(context.getValidations().get(2), instanceOf(ConstraintValidation.class));
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContextForPageAction.page.xml")
-                .get(new PageContext("testRegisterActionContextForPageAction", "/route"), null);
+                .get(new PageContext("testRegisterActionContextForPageAction", "/route"));
         context = (ActionContext) route("/route/test", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
@@ -131,7 +131,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
     @Test
     public void pageAction() {
         Page page = (Page) compile("net/n2oapp/framework/config/metadata/compile/action/testPageInvokeAction.page.xml")
-                .get(new PageContext("testPageInvokeAction", "/p"), null);
+                .get(new PageContext("testPageInvokeAction", "/p"));
         InvokeAction testAction = (InvokeAction) page.getActions().get("test");
         assertThat(testAction.getSrc(), is("perform"));
         assertThat(testAction.getOptions().getType(), is("n2o/actionImpl/START_INVOKE"));

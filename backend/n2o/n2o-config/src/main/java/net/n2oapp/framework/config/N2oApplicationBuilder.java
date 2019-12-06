@@ -180,7 +180,7 @@ public class N2oApplicationBuilder implements
 
     public <D extends Compiled> CompileContext<D, ?>  route(String url, Class<D> compiledClass, Map<String, String[]> params) {
         build();
-        return new N2oRouter(environment.getRouteRegister(), read()
+        return new N2oRouter(environment, read()
                 .transform().validate().cache().copy()
                 .compile().transform())
                 .get(url, compiledClass, params);

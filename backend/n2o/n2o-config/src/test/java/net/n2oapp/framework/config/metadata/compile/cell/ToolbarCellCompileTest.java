@@ -40,7 +40,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
     @Test
     public void testToolbarCell() {
         Page page = compile("net/n2oapp/framework/config/mapping/testToolbarCell.page.xml")
-                .get(new PageContext("testToolbarCell"), null);
+                .get(new PageContext("testToolbarCell"));
 
         ToolbarCell toolbar = (ToolbarCell) ((TableWidgetComponent) page.getWidgets()
                 .get("testToolbarCell_main").getComponent()).getCells().get(0);

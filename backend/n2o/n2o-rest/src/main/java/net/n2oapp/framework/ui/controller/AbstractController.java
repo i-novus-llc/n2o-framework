@@ -39,7 +39,7 @@ public abstract class AbstractController {
 
     public AbstractController(MetadataEnvironment environment) {
         this.environment = environment;
-        this.router = new N2oRouter(environment.getRouteRegister(), environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
+        this.router = new N2oRouter(environment, environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
     }
 
     public AbstractController(MetadataEnvironment environment, MetadataRouter router) {

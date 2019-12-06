@@ -48,7 +48,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     @Test
     public void testExpression() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml")
-                .get(new QueryContext("utExpression"), null);
+                .get(new QueryContext("utExpression"));
         assert query.getName().equals("utExpression");
         assert query.getObject().getId().equals("utObjectField");
         N2oQuery.Field manual = query.getFieldsMap().get("manual");
@@ -96,7 +96,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testQuery.widget.xml");
-        Form form = (Form) pipeline.get(new WidgetContext("testQuery"), null);
+        Form form = (Form) pipeline.get(new WidgetContext("testQuery"));
 
         //label филда приходит из объекта
         assertThat(((StandardField) form.getComponent().getFieldsets()
@@ -126,9 +126,9 @@ public class QueryCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testSubModel.widget.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
 
-        pipeline.get(new WidgetContext("testSubModel"), null);
+        pipeline.get(new WidgetContext("testSubModel"));
         CompileContext compile = builder.route("/w", CompiledQuery.class, null);
-        CompiledQuery query = pipeline.get((QueryContext) compile, null);
+        CompiledQuery query = pipeline.get((QueryContext) compile);
         assertThat(query.getSubModelQueries().size(), is(1));
         assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
         assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
@@ -138,7 +138,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     @Test
     public void testRequiredPrefilters() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
-                .get(new QueryContext("testRequiredFilters"), null);
+                .get(new QueryContext("testRequiredFilters"));
 
 
         assertThat(query.getFiltersMap().get("test").get(FilterType.eq).getRequired(), is(true));
@@ -155,7 +155,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     public void testTestDataProvider() {
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
                 .transformers(new TestEngineQueryTransformer());
-        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"), null);
+        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
         assertThat(query.getFieldsMap().get("id").getSelectBody(), is("id"));
         assertThat(query.getFieldsMap().get("id").getSortingBody(), is("id :idDirection"));
         assertThat(query.getFieldsMap().get("id").getFilterList()[0].getText(), is("id :eq :id"));
@@ -165,7 +165,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
     public void testSeparatorsDefaultValue() {
         CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testSeparatorsDefaultValue" +
                 ".query.xml")
-                .get(new QueryContext("testSeparatorsDefaultValue"), null);
+                .get(new QueryContext("testSeparatorsDefaultValue"));
         N2oRestDataProvider list = (N2oRestDataProvider) query.getLists()[0].getInvocation();
         N2oRestDataProvider unique = (N2oRestDataProvider) query.getUniques()[0].getInvocation();
         N2oRestDataProvider count = (N2oRestDataProvider) query.getCounts()[0].getInvocation();

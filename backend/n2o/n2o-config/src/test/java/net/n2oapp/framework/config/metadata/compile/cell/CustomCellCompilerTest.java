@@ -37,7 +37,7 @@ public class CustomCellCompilerTest extends SourceCompileTestBase {
     @Test
     public void testCompileActions() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testCustomCell.widget.xml")
-                .get(new WidgetContext("testCustomCell"), null);
+                .get(new WidgetContext("testCustomCell"));
         assertThat(table.getComponent().getCells().get(0).getSrc(),is("MyCell"));
     }
 }

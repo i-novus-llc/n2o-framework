@@ -31,7 +31,7 @@ public class InputMoneyCompileTest extends SourceCompileTestBase {
     @Test
     public void testInputMoney() {
         Form form = (Form) compile("net/n2oapp/framework/config/mapping/testInputMoney.widget.xml")
-                .get(new WidgetContext("testInputMoney"), null);
+                .get(new WidgetContext("testInputMoney"));
         InputMoney inputMoney = (InputMoney) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl();
 

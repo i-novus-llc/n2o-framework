@@ -36,7 +36,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
     @Test
     public void testButtonDependency() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependency.page.xml")
-                .get(new PageContext("testButtonDependency"), null);
+                .get(new PageContext("testButtonDependency"));
         List<Button> buttons = page.getWidgets().get("testButtonDependency_Table").getToolbar().get("topLeft").get(0).getButtons();
         assertThat(buttons.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testButtonDependency_Table']"));
         assertThat(buttons.get(1).getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testButtonDependency_Table']"));

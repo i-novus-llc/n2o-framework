@@ -44,7 +44,7 @@ public class ObjectAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml");
 
         CompiledObject object = (CompiledObject) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new ObjectContext("testObjectAccessTransformer"), null);
+                .get(new ObjectContext("testObjectAccessTransformer"));
 
         CompiledObject.Operation create = object.getOperations().get("create");
         assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().size(), is(3));
@@ -70,7 +70,7 @@ public class ObjectAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml");
 
         CompiledObject object = (CompiledObject) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new ObjectContext("testObjectAccessTransformer"), null);
+                .get(new ObjectContext("testObjectAccessTransformer"));
 
         CompiledObject.Operation create = object.getOperations().get("create");
         assertThat(((Security) create.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().size(), is(3));

@@ -47,7 +47,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
 
         Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testOpenPageAccessTransformer"), null);
+                .get(new PageContext("testOpenPageAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
@@ -90,7 +90,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
 
         Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testOpenPageAccessTransformer"), null);
+                .get(new PageContext("testOpenPageAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");

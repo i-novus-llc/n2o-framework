@@ -31,11 +31,11 @@ public class HeaderWarmUpper implements EnvironmentAware {
                 .read().transform().validate().cache()
                 .compile().transform().cache();
         if (headerId != null && !headerId.isEmpty()) {
-            pipeline.get(new HeaderContext(headerId), null);
+            pipeline.get(new HeaderContext(headerId));
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
             PageContext context = new PageContext(welcomePageId, "/");
             try {
-           	    pipeline.get(context, null);
+           	    pipeline.get(context);
             } catch (ReferentialIntegrityViolationException ignore) {
                 log.error("Main page by id " + welcomePageId + " not found ");
             }

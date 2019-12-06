@@ -34,7 +34,7 @@ public class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
     @Test
     public void accessSchema() {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema) compile("net/n2oapp/framework/access/metadata/simple.access.xml")
-                .get(new AccessContext("simple"), null);
+                .get(new AccessContext("simple"));
         assertThat(accessSchema.getId(), is("simple"));
         assertThat(accessSchema.getAuthenticatedPoints().size(), is(1));
         assertThat(accessSchema.getAuthenticatedPoints().get(0), instanceOf(N2oUrlAccessPoint.class));
@@ -48,7 +48,7 @@ public class SimpleAccessSchemaCompileTest  extends SourceCompileTestBase {
     @Test
     public void accessSchemaV2() {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema) compile("net/n2oapp/framework/access/metadata/simpleV2.access.xml")
-                .get(new AccessContext("simpleV2"), null);
+                .get(new AccessContext("simpleV2"));
 
         assertThat(accessSchema.getId(), is("simpleV2"));
 

@@ -87,7 +87,7 @@ public class DefaultValuesControllerTest {
                 "net/n2oapp/framework/ui/controller/testDefaults.query.xml",
                 "net/n2oapp/framework/ui/controller/testDefaults.widget.xml"
         );
-        pipeline.get(new WidgetContext("testDefaults"), null);
+        pipeline.get(new WidgetContext("testDefaults"));
         return pipeline;
     }
 
@@ -124,7 +124,7 @@ public class DefaultValuesControllerTest {
         Map<String, Object> map = new HashMap<>();
         map.put("SimpleDefaultValuesController", valuesController);
 
-        N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
+        N2oRouter router = new N2oRouter(builder.getEnvironment(), pipeline);
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);

@@ -43,7 +43,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     @Test
     public void testToolbarGrouping() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.widget.xml")
-                .get(new WidgetContext("testToolbarGrouping"), null);
+                .get(new WidgetContext("testToolbarGrouping"));
         List<Group> groupList = form.getToolbar().get("topLeft");
         assertThat(groupList.size(), is(3));
         assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
@@ -56,7 +56,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.api.toolbar.grouping", "false");
 
         form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testToolbarGrouping.widget.xml")
-                .get(new WidgetContext("testToolbarGrouping"), null);
+                .get(new WidgetContext("testToolbarGrouping"));
         groupList = form.getToolbar().get("topLeft");
         assertThat(groupList.size(), is(4));
         assertThat(groupList.get(0).getButtons().get(0).getId(), is("beforeGroup"));
@@ -69,7 +69,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     @Test
     public void testToolbar() {
         Form f = (Form) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.widget.xml")
-                .get(new WidgetContext("testToolbar"), null);
+                .get(new WidgetContext("testToolbar"));
 
         assertThat(f.getToolbar().size(), is(2));
 
@@ -107,7 +107,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     @Test
     public void testToolbarMenuItem() {
         Form f = (Form) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbar.widget.xml")
-                .get(new WidgetContext("testToolbar"), null);
+                .get(new WidgetContext("testToolbar"));
 
         assertThat(f.getToolbar().size(), is(2));
         Button button = f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
@@ -122,7 +122,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
     @Test
     public void testGenerate() {
         Table t = (Table) compile("net/n2oapp/framework/config/metadata/compile/toolbar/testToolbarGenerate.widget.xml")
-                .get(new WidgetContext("testToolbarGenerate"), null);
+                .get(new WidgetContext("testToolbarGenerate"));
 
         assertThat(t.getToolbar().size(), is(4));
         assertThat(t.getToolbar().get("topRight").get(0).getButtons().size(), is(3));

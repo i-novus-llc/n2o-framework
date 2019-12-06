@@ -44,7 +44,7 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testQueryAccessTransformer.query.xml");
 
         CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new QueryContext("testQueryAccessTransformer"), null);
+                .get(new QueryContext("testQueryAccessTransformer"));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), nullValue());
@@ -58,7 +58,7 @@ public class QueryAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testQueryAccessTransformer.query.xml");
 
         CompiledQuery query = (CompiledQuery) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new QueryContext("testQueryAccessTransformer"), null);
+                .get(new QueryContext("testQueryAccessTransformer"));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().contains("role"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
         assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions(), notNullValue());
