@@ -10,9 +10,10 @@ import net.n2oapp.framework.config.io.MetadataParamHolder;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 public class XmlMetadataLoaderTest {
 
@@ -23,6 +24,6 @@ public class XmlMetadataLoaderTest {
                 new ReaderFactoryByMap().register(new SimplePageElementIOv2()).register(new FormElementIOV4()));
         SourceMetadata metadata = xmlMetadataLoader.load(info, "formName=Patients");
         assertThat(((N2oSimplePage)metadata).getWidget().getName(), is("Patients"));
-        assertThat(MetadataParamHolder.getParams(), nullValue());
+        assertThat(MetadataParamHolder.getParams().isEmpty(), is(true));
     }
 }

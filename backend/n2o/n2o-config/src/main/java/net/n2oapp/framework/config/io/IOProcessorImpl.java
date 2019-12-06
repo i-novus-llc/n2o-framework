@@ -999,9 +999,9 @@ public final class IOProcessorImpl implements IOProcessor {
         if (text == null) {
             return null;
         }
-        String resolve = StringUtils.resolveProperties(text, systemProperties::getProperty);
-        resolve = StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
-        return StringUtils.resolveProperties(resolve, MetadataParamHolder.getParams());
+        String resolve = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
+        resolve = StringUtils.resolveProperties(resolve, systemProperties::getProperty);
+        return StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 
     /**

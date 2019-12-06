@@ -51,7 +51,7 @@ public class RouteUtilTest {
     @Test
     public void parseQueryParams() {
         assertThat(RouteUtil.parseQueryParams("text"), nullValue());
-        HashMap<String, String> params = RouteUtil.parseQueryParams("id=123");
+        Map<String, String> params = RouteUtil.parseQueryParams("id=123");
         assertThat(params.get("id"), is("123"));
         params = RouteUtil.parseQueryParams("id=:a");
         assertThat(params.get("id"), is(":a"));
