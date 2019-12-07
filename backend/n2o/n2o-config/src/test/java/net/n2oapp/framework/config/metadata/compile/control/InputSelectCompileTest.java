@@ -50,8 +50,14 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("name"), is("test"));
         assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("isTest"), is(true));
 
-        InputSelect inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
-                .get(0).getCols().get(0).getFields().get(0)).getControl();
+        StandardField field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(0).getCols().get(0).getFields().get(0));
+        assertThat(field.getDependencies().size(), is(1));
+        assertThat(field.getDependencies().get(0).getType(), is(ValidationType.reset));
+        assertThat(field.getDependencies().get(0).getOn().get(0), is("someField"));
+        assertThat(field.getDependencies().get(0).getExpression(), is("true"));
+
+        InputSelect inputSelect = (InputSelect) field.getControl();
         assertThat(inputSelect.getBadgeFieldId(), is("badgeFieldId"));
         assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));
@@ -67,14 +73,14 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(wdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(wdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
 
-        StandardField field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+        field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(2).getCols().get(0).getFields().get(0));
         assertThat(field.getDependencies().get(0), instanceOf(FetchValueDependency.class));
         assertThat(field.getDependencies().get(0).getOn(), is(Arrays.asList("testId2")));
-        assertThat(((FetchValueDependency)field.getDependencies().get(0)).getDataProvider().getUrl(), is("n2o/data/selectFetch"));
-        assertThat(((FetchValueDependency)field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getBindLink(), is("models.resolve['testInputSelect_main']"));
-        assertThat(((FetchValueDependency)field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
-        assertThat(((FetchValueDependency)field.getDependencies().get(0)).getValueFieldId(), is("name"));
+        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getUrl(), is("n2o/data/selectFetch"));
+        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getBindLink(), is("models.resolve['testInputSelect_main']"));
+        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getDataProvider().getQueryMapping().get("ref").getValue(), is("`testId2`"));
+        assertThat(((FetchValueDependency) field.getDependencies().get(0)).getValueFieldId(), is("name"));
         assertThat(field.getDependencies().get(0).getApplyOnInit(), is(true));
         assertThat(field.getDependencies().get(0).getType(), is(ValidationType.fetchValue));
 

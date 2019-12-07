@@ -4,7 +4,7 @@
             <dependencies>
                 <fetch-value query-id="testQuery" on="test" value-field-id="name">
                     <pre-filters>
-                        <eq field-id="testField"/>
+                        <eq field-id="testField" reset-on-change="true"/>
                     </pre-filters>
                 </fetch-value>
             </dependencies>

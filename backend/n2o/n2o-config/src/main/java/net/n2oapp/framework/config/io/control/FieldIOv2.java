@@ -63,6 +63,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
+        p.attributeBoolean(e, "reset-on-change", pf::getResetOnChange, pf::setResetOnChange);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
         p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
