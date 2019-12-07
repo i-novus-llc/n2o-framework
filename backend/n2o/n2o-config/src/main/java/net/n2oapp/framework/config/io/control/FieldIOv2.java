@@ -34,6 +34,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
                 .add("requiring", N2oField.RequiringDependency.class, this::dependency)
                 .add("set-value", N2oField.SetValueDependency.class, this::dependency)
                 .add("fetch", N2oField.FetchDependency.class, this::dependency)
+                .add("reset", N2oField.ResetDependency.class, this::dependency)
                 .add("fetch-value", N2oField.FetchValueDependency.class, this::fetchValueDependency));
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
     }

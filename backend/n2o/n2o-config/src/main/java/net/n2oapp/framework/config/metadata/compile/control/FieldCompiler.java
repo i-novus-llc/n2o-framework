@@ -99,6 +99,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                         dependency.setType(ValidationType.setValue);
                     else if (d instanceof N2oField.FetchDependency)
                         dependency.setType(ValidationType.fetch);
+                    else if (d instanceof N2oField.ResetDependency) {
+                        dependency.setType(ValidationType.reset);
+                        if (d.getValue() == null) {
+                            d.setValue(String.valueOf(Boolean.TRUE));
+                        }
+                    }
                     dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
                 }
                 addToField(dependency, field, d, p);

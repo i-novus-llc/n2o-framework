@@ -42,7 +42,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         InputText inputText = (InputText) ((StandardField) field).getControl();
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
         InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
-        assertThat(field.getDependencies().size(), is(8));
+        assertThat(field.getDependencies().size(), is(10));
         assertThat(field.getDependencies().get(0).getExpression(), is("test2 == null"));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("test2"));
         assertThat(field.getDependencies().get(0).getType(), is(ValidationType.enabled));
@@ -64,9 +64,15 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(6).getExpression(), is("test4 == null"));
         assertThat(field.getDependencies().get(6).getOn().get(0), is("test4"));
         assertThat(field.getDependencies().get(6).getType(), is(ValidationType.visible));
-        assertThat(field.getDependencies().get(7).getOn().get(0), is("name"));
-        assertThat(field.getDependencies().get(7).getOn().get(1), is("type"));
-        assertThat(field.getDependencies().get(7).getType(), is(ValidationType.reRender));
+        assertThat(field.getDependencies().get(7).getOn().get(0), is("test4"));
+        assertThat(field.getDependencies().get(7).getExpression(), is("test4 == null"));
+        assertThat(field.getDependencies().get(7).getType(), is(ValidationType.reset));
+        assertThat(field.getDependencies().get(8).getOn().get(0), is("test4"));
+        assertThat(field.getDependencies().get(8).getExpression(), is("true"));
+        assertThat(field.getDependencies().get(8).getType(), is(ValidationType.reset));
+        assertThat(field.getDependencies().get(9).getOn().get(0), is("name"));
+        assertThat(field.getDependencies().get(9).getOn().get(1), is("type"));
+        assertThat(field.getDependencies().get(9).getType(), is(ValidationType.reRender));
         assertThat(inputText.getSrc(), is("InputText"));
         assertThat(inputText1.getSrc(), is("InputNumber"));
         assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
