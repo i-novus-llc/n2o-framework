@@ -82,6 +82,7 @@ public class PlaceHoldersResolverTest {
         assertThat(resolver.resolve("http://example.com:9090/ss", data), is("http://example.com:9090/ss"));
         assertThat(resolver.resolve("http://example.com:9090/:b/:abc/c", data), is("http://example.com:9090/1/2/c"));
         assertThat(resolver.resolve("/:b/:abc/c", data), is("/1/2/c"));
+        assertThat(resolver.resolve("http://:abc", data), is("http://2"));
     }
 
     @Test
