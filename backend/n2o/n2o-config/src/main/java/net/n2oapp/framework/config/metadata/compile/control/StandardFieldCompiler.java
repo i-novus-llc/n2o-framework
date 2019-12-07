@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
+import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -159,20 +160,41 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             if (query == null)
                 return;
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(source.getId(), query);
-            filters.forEach(f -> {
-                Filter filter = new Filter();
-                filter.setFilterId(f.getFilterField());
-                filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
-                filter.setReloadable(true);
-                SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
-                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
-                link.setSubModelQuery(subModelQuery);
-                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
-                filter.setLink(link);
-                filtersScope.getFilters().add(filter);
-            });
+            for (String filterId : getFilterIds(source)) {
+                List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(filterId, query);
+                filters.forEach(f -> {
+                    Filter filter = new Filter();
+                    filter.setFilterId(f.getFilterField());
+                    filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
+                    filter.setReloadable(true);
+                    SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
+                    ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
+                    link.setSubModelQuery(subModelQuery);
+                    link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
+                    filter.setLink(link);
+                    filtersScope.getFilters().add(filter);
+                });
+            }
         }
+    }
+
+    private List<String> getFilterIds(S source) {
+        List<String> filterIds = new ArrayList<>();
+
+        if (source instanceof N2oIntervalField) {
+            N2oIntervalField s = (N2oIntervalField) source;
+            if (s.getBeginFilterId() != null)
+                filterIds.add(s.getBeginFilterId());
+            if (s.getEndFilterId() != null)
+                filterIds.add(s.getEndFilterId());
+        } else if (source.getFilterId() != null) {
+            filterIds.add(source.getFilterId());
+        }
+
+        if (filterIds.isEmpty())
+            filterIds.add(source.getId());
+
+        return filterIds;
     }
 
     private void compileCopied(S source, CompileProcessor p) {
