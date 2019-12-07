@@ -24,5 +24,9 @@ public interface NamespacePersisterFactory<T extends NamespaceUriAware, P extend
         return produce(entity.getNamespace(), (Class<T>) entity.getClass());
     }
 
+    default boolean check(Namespace namespace, Class<T> clazz) {
+        return true;
+    }
+
     void add(NamespacePersister<T> persister);
 }

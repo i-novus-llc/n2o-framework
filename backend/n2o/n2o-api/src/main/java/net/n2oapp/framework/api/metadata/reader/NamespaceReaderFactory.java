@@ -25,6 +25,18 @@ public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends N
         }
     }
 
+    default boolean check(Element element, Namespace parentNamespace, Namespace defaultNamespace) {
+        if (defaultNamespace != null && element.getNamespace().getURI().equals(parentNamespace.getURI())) {
+            return check(defaultNamespace, element.getName());
+        } else {
+            return check(element.getNamespace(), element.getName());
+        }
+    }
+
+    default boolean check(Namespace namespace, String elementName) {
+        return true;
+    }
+
     void add(NamespaceReader<T> reader);
 
 }
