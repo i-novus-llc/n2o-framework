@@ -27,23 +27,15 @@ public class AccessConfiguration {
     @Value("${n2o.access.strict_filtering:false}")
     private Boolean strictFiltering;
 
-    @Value("${n2o.access.N2oObjectAccessPoint.default:false}")
-    private Boolean defaultObjectAccess;
+    @Value("${n2o.access.deny_objects:true}")
+    private String defaultObjectAccessDeny;
 
-    @Value("${n2o.access.N2oReferenceAccessPoint.default:true}")
-    private Boolean defaultReferenceAccess;
+    @Value("${n2o.access.deny_pages:false}")
+    private String defaultPageAccessDeny;
 
-    @Value("${n2o.access.N2oPageAccessPoint.default:true}")
-    private Boolean defaultPageAccess;
+    @Value("${n2o.access.deny_urls:false}")
+    private String defaultUrlAccessDeny;
 
-    @Value("${n2o.access.N2oUrlAccessPoint.default:true}")
-    private Boolean defaultUrlAccess;
-
-    @Value("${n2o.access.N2oColumnAccessPoint.default:true}")
-    private Boolean defaultColumnAccess;
-
-    @Value("${n2o.access.N2oFilterAccessPoint.default:true}")
-    private Boolean defaultFilterAccess;
 
     @Bean
     public SecurityProvider securityProvider(PermissionApi permissionApi) {
