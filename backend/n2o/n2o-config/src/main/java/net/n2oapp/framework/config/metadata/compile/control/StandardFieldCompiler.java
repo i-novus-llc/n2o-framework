@@ -172,15 +172,15 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                     ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
                     link.setSubModelQuery(subModelQuery);
 
-                    String linkValue = source.getId();
+                    String linkValue = f.getFilterField();
                     if (source instanceof N2oIntervalField) {
                         N2oIntervalField s = (N2oIntervalField) source;
                         if (s.getBeginFilterId() != null && FilterType.more.equals(f.getType()))
-                            linkValue += ".begin";
+                            linkValue = source.getId() + ".begin";
                         else if (s.getEndFilterId() != null && FilterType.less.equals(f.getType()))
-                            linkValue += ".end";
-                    } else if (source.getId().equals(filterId)) {
-                        linkValue = f.getFilterField();
+                            linkValue = source.getId() + ".end";
+                    } else if (source.getFilterId() != null) {
+                        linkValue = source.getId();
                     }
 
                     link.setValue(p.resolveJS(Placeholders.ref(linkValue)));
