@@ -1,5 +1,6 @@
 import React from "react";
-import expect from "expect";
+import { describe, it } from 'mocha';
+import { expect } from 'chai';
 import {
   connectWS,
   subscribeMessage,
@@ -21,14 +22,14 @@ describe("Тест саги для websocket", () => {
       next = generator.next({ token: "test-tocken" });
       next = generator.next({ wsUrl: fakeURL });
       next = generator.next(new SockJS(fakeURL));
-      expect(generator.next().done).toBe(true);
+      expect(generator.next().done).to.be.equal(true);
     });
     it("нет токена", () => {
       const generator = connectWS();
       next = generator.next();
       next = generator.next({ token: "test-tocken" });
       next = generator.next({ wsUrl: fakeURL });
-      expect(() => generator.next({}).value).toThrow("Not access token");
+      expect(() => generator.next({}).value).to.throw("Not access token");
     });
   });
 
@@ -36,14 +37,14 @@ describe("Тест саги для websocket", () => {
     it("subscribeMessage", () => {
       const msg = { body: JSON.stringify({ text: "testMessage", id: 1 }) };
       const emitFn = subscribeMessage(res => {
-        expect(res).toEqual(add(1, { text: "testMessage" }));
+        expect(res).to.be.deep.equal(add(1, { text: "testMessage" }));
       });
       emitFn(msg);
     });
     it("subscribeMessageCount", () => {
       const msg = { body: JSON.stringify({ count: 12 }) };
       const emitFn = subscribeMessageCount(res => {
-        expect(res).toEqual(setCounter("all", 12));
+        expect(res).to.be.deep.equal(setCounter("all", 12));
       });
       emitFn(msg);
     });
@@ -52,7 +53,7 @@ describe("Тест саги для websocket", () => {
     it("createSocketChannel", () => {
       const createChannel = createSocketChannel({
         connect: a => {
-          expect(a).toEqual({});
+          expect(a).to.be.exist;
         }
       });
       createChannel.next();
@@ -60,7 +61,7 @@ describe("Тест саги для websocket", () => {
         subscribeUrl: "test",
         subscribeCountUrl: "test"
       });
-      expect(eventChannet.done).toBe(true);
+      expect(eventChannet.done).to.be.equal(true);
     });
   });
 });

@@ -21,7 +21,6 @@
         <module>n2o-mvc</module>
         <module>n2o-engine</module>
         <module>n2o-engine-sql</module>
-        <module>n2o-engine-sqlt</module>
         <module>n2o-engine-ejb</module>
         <module>n2o-rest</module>
         <module>n2o-access</module>

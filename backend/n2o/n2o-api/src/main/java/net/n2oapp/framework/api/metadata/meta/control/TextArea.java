@@ -6,14 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель многосточного текстового поля
+ * Клиентская модель многострочного текстового поля
  */
 @Getter
 @Setter
 public class TextArea extends Control {
     @JsonProperty("maxRows")
     private Integer rows;
-
-    @JsonProperty("placeholder")
+    @JsonProperty
     private String placeholder;
 }

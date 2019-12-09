@@ -123,10 +123,10 @@ class AdvancedTableContainer extends React.Component {
     } = this.props;
 
     map(registredColumns, ({ frozen, visible }, key) => {
-      if (!(frozen && !visible)) {
+      if (frozen && !visible) {
         const headerIndex = findIndex(headers, ({ id }) => id === key);
 
-        set(headers, `[${headerIndex}].needRender`, true);
+        set(headers, `[${headerIndex}].needRender`, false);
       }
     });
 

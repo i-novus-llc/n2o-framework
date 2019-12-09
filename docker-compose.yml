@@ -2,25 +2,25 @@ version: "3.6"
 
 services:
   frontend:
-    image: 538721144237.dkr.ecr.eu-west-1.amazonaws.com/n2o/demo
+    image: "${DOCKER_REGISTRY}/n2o/demo"
     deploy:
       resources:
         limits:
-          memory: 700M
+          memory: 1024M
       placement:
         constraints:
           - node.labels.dc == hetzner
   docs:
-    image: 538721144237.dkr.ecr.eu-west-1.amazonaws.com/n2o/docs
+    image: "${DOCKER_REGISTRY}/n2o/docs"
     deploy:
       resources:
         limits:
-          memory: 700M
+          memory: 256M
       placement:
         constraints:
           - node.labels.dc == hetzner
   storybook:
-    image: 538721144237.dkr.ecr.eu-west-1.amazonaws.com/n2o/storybook
+    image: "${DOCKER_REGISTRY}/n2o/storybook"
     deploy:
       resources:
         limits:

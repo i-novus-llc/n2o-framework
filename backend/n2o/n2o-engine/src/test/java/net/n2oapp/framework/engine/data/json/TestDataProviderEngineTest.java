@@ -444,6 +444,18 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("id"), is(1L));
         assertThat(result.get(1).get("id"), is(999L));
         assertThat(result.get(2).get("id"), is(5607775L));
+
+        //Фильтр по "isNull"
+        inParams.put("filters", Arrays.asList("age:isNull:age_isNull"));
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(5607771L));
+
+        //Фильтр по "isNotNull"
+        inParams.put("filters", Arrays.asList("newAge:isNotNull:age_isNotNull"));
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(5607771L));
     }
 
     @Test
