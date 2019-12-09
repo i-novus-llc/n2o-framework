@@ -157,7 +157,7 @@ public class N2oMetadataConfiguration {
 
     @Bean
     public MetadataRouter n2oRouter(N2oRouteRegister routeRegister, MetadataEnvironment env) {
-        return new N2oRouter(routeRegister, N2oPipelineSupport.readPipeline(env)
+        return new N2oRouter(env, N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy().compile().transform());
     }
 
