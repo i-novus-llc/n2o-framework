@@ -126,7 +126,7 @@
                 <xs:attribute name="query-id" type="xs:string"/>
                 <xs:attribute name="format" type="xs:string"/>
                 <xs:attribute name="label-field-id" type="xs:string"/>
-                <xs:attribute name="search-field-id" type="xs:string"/>
+                <xs:attribute name="search-filter-id" type="xs:string"/>
                 <xs:attribute name="group-field-id" type="xs:string"/>
                 <xs:attribute name="image-field-id" type="xs:string"/>
                 <xs:attribute name="badge-field-id" type="xs:string"/>
@@ -604,7 +604,7 @@
                     </xs:sequence>
                     <xs:element name="node" type="nodeDefinition" minOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="search-filter-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -668,7 +668,7 @@
                 <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
                 <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="search-filter-id" type="xs:string" use="optional"/>
                 <!--@deprecated <xs:attribute name="can-resolved-field-id" type="xs:string" use="optional"/>-->
                 <xs:attribute name="enabled-field-id" type="xs:string" use="optional"/>
             </xs:extension>

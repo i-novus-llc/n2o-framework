@@ -67,7 +67,7 @@ public class N2oSelectTreeXmlIOTest extends N2oStandardControlReaderTestBase {
                     assert selectTree.getInheritanceNodes().getHasChildrenFieldId().equals("id");
                     assert selectTree.getInheritanceNodes().getIconFieldId().equals("id");
                     assert selectTree.getInheritanceNodes().getMasterFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getSearchFieldId().equals("id");
+                    assert selectTree.getInheritanceNodes().getSearchFilterId().equals("id");
                     assert selectTree.getInheritanceNodes().getEnabledFieldId().equals("test");
                     assertPreFilter(selectTree.getInheritanceNodes().getPreFilters()[0], true);
                 });

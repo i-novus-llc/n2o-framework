@@ -10,7 +10,7 @@
                                enabled-field-id="testId"
                                has-children-field-id="testId"
                                master-field-id="testId"
-                               search-field-id="testId">
+                               search-filter-id="testId">
                 <pre-filters>
                     <pre-filter field-id="testId" value="value" type="contains"/>
                 </pre-filters>

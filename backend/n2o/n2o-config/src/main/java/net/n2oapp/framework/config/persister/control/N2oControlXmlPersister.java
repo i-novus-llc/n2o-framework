@@ -89,7 +89,7 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
             setAttribute(inheritanceNodes, "query-id", in.getQueryId());
             setAttribute(inheritanceNodes, "has-children-field-id", in.getHasChildrenFieldId());
             setAttribute(inheritanceNodes, "icon-field-id", in.getIconFieldId());
-            setAttribute(inheritanceNodes, "search-field-id", in.getSearchFieldId());
+            setAttribute(inheritanceNodes, "search-field-id", in.getSearchFilterId());
             setAttribute(inheritanceNodes, "enabled-field-id", in.getEnabledFieldId());
             PreFilterPersister.setPreFilter(selectTree.getInheritanceNodes().getPreFilters(), inheritanceNodes, Namespace.getNamespace(namespacePrefix, namespaceUri));
             element.addContent(inheritanceNodes);
@@ -158,7 +158,7 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
         PersisterJdomUtil.setAttribute(queryEl, "master-field-id", control.getMasterFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "detail-field-id", control.getDetailFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "label-field-id", control.getLabelFieldId());
-        PersisterJdomUtil.setAttribute(queryEl, "search-field-id", control.getSearchFieldId());
+        PersisterJdomUtil.setAttribute(queryEl, "search-field-id", control.getSearchFilterId());
         PersisterJdomUtil.setAttribute(queryEl, "value-field-id", control.getValueFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "format", control.getFormat());
         PersisterJdomUtil.setAttribute(queryEl, "icon-field-id", control.getIconFieldId());

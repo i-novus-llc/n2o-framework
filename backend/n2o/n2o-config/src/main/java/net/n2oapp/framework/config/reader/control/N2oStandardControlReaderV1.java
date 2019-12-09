@@ -313,7 +313,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oListField.setQueryId(getAttributeString(query, "query-id"));
         n2oListField.setLabelFieldId(getAttributeString(query, "label-field-id"));
         n2oListField.setValueFieldId(getAttributeString(query, "value-field-id"));
-        n2oListField.setSearchFieldId(getAttributeString(query, "search-field-id"));
+        n2oListField.setSearchFilterId(getAttributeString(query, "search-field-id"));
         n2oListField.setImageFieldId(getAttributeString(query, "image-field-id"));
         n2oListField.setIconFieldId(getAttributeString(query, "icon-field-id"));
         n2oListField.setMasterFieldId(getAttributeString(query, "master-field-id"));
@@ -365,7 +365,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
                     inheritanceNodes.setMasterFieldId(getAttributeString(element, "master-field-id"));
                     inheritanceNodes.setDetailFieldId(getAttributeString(element, "detail-field-id"));
                     inheritanceNodes.setValueFieldId(getAttributeString(element, "value-field-id"));
-                    inheritanceNodes.setSearchFieldId(getAttributeString(element, "search-field-id"));
+                    inheritanceNodes.setSearchFilterId(getAttributeString(element, "search-field-id"));
                     inheritanceNodes.setCanResolvedFieldId(getAttributeString(element, "can-resolved-field-id"));
                     inheritanceNodes.setEnabledFieldId(getAttributeString(element, "enabled-field-id"));
                     Element preFilters = element.getChild("pre-filters", namespace);
