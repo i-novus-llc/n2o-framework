@@ -149,6 +149,11 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="master-param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр фильтра</xs:documentation>
@@ -174,7 +179,11 @@
                         <xs:documentation>Размер модального окна.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="object-id" type="xs:string" use="optional"/>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="master-param" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Параметр фильтра</xs:documentation>

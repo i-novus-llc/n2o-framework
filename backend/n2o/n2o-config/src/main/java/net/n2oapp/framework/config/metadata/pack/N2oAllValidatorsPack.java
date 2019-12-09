@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderValidator;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.action.PageActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetColumnValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetRowValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetValidator;
@@ -24,6 +25,6 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
         PropertyResolver prop = b.getEnvironment().getSystemProperties();
         b.validators(new ObjectValidator(), new QueryValidator(), new PageValidator(),
                 new SimpleHeaderValidator(), new SimpleMenuValidator(), new WidgetValidator(), new FieldSetValidator(prop)
-        ,new FieldSetColumnValidator(prop), new FieldSetRowValidator(prop), new FormValidator(prop), new TableValidator(prop));
+                , new FieldSetColumnValidator(prop), new FieldSetRowValidator(prop), new FormValidator(prop), new TableValidator(prop), new PageActionValidator());
     }
 }

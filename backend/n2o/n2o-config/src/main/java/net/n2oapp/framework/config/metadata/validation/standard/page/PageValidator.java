@@ -32,6 +32,8 @@ public class PageValidator implements SourceValidator<N2oStandardPage>, SourceCl
         p.checkIdsUnique(page.getN2oRegions(), "Виджет {0} встречается более чем один раз на странице " + page.getId());
         Set<String> widgetIds = p.safeStreamOf(page.getContainers()).map(N2oMetadata::getId).collect(Collectors.toSet());
         p.safeStreamOf(page.getContainers()).forEach(p::validate);
+        p.safeStreamOf(page.getToolbars())
+                .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions()).forEach(p::validate));
         p.safeStreamOf(page.getContainers())
                 .filter(w -> w.getDependsOn() != null)
                 .forEach(w -> {
