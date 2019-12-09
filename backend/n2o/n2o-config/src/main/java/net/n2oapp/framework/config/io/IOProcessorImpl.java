@@ -13,12 +13,10 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
 
 import java.lang.reflect.Array;
@@ -39,8 +37,8 @@ public final class IOProcessorImpl implements IOProcessor {
     private boolean r;
     private NamespaceReaderFactory readerFactory;
     private NamespacePersisterFactory persisterFactory;
-    private MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(new ResourceBundleMessageSource());
-    private PropertyResolver systemProperties = new SimplePropertyResolver(new Properties());
+    private MessageSourceAccessor messageSourceAccessor;
+    private PropertyResolver systemProperties;
 
     public IOProcessorImpl(boolean read) {
         this.r = read;
@@ -1000,8 +998,8 @@ public final class IOProcessorImpl implements IOProcessor {
             return null;
         }
         String resolve = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
-        resolve = StringUtils.resolveProperties(resolve, systemProperties::getProperty);
-        return StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
+        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(text, systemProperties::getProperty);
+        return messageSourceAccessor == null ? resolve : StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 
     /**

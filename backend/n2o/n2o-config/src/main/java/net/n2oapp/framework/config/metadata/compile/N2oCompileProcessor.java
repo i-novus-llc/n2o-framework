@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -279,6 +280,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     public <T extends Source> void validate(T metadata) {
         if (metadata == null)
             return;
+        if (metadata instanceof RefIdAware && ((RefIdAware) metadata).getRefId() != null)
+            return;
+
         env.getSourceValidatorFactory().validate(metadata, this);
     }
 

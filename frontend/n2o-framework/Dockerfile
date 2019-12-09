@@ -7,4 +7,4 @@ ENV TZ=Europe/Moscow
 
 EXPOSE 80
 
-COPY target/classes/META-INF/resources/docs/storybook /usr/share/nginx/html
+COPY target/classes/META-INF/resources/docs/storybook /usr/share/nginx/html/storybook

@@ -7,4 +7,5 @@ ENV TZ=Europe/Moscow
 
 EXPOSE 80
 
-COPY target/META-INF/resources/docs /usr/share/nginx/html
+COPY target/META-INF/resources /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf

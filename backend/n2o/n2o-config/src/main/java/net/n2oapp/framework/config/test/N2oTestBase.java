@@ -1,9 +1,7 @@
 package net.n2oapp.framework.config.test;
 
-import net.n2oapp.framework.api.N2oWebAppEnvironment;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
-import net.n2oapp.framework.config.metadata.compile.N2oExtensionAttributeMapperFactory;
 import net.n2oapp.framework.config.metadata.pack.N2oOperationsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oSourceTypesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
@@ -31,6 +29,7 @@ public abstract class N2oTestBase {
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
         environment.setSystemProperties(new SimplePropertyResolver(properties));
+
         builder = new N2oApplicationBuilder(environment);
         configure(builder);
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
