@@ -14,7 +14,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     public void validate(N2oAbstractPageAction source, ValidateProcessor p) {
         if (source != null)
             p.checkForExists(source.getObjectId(), N2oObject.class,
-                    " Действие открытия страницы' " + source.getId() + "' ссылается не несуществующий объект '" + source.getObjectId() + "'");
+                    " Действие открытия страницы' " + source.getId() + "' ссылается на не несуществующий объект '" + source.getObjectId() + "'");
     }
 
     @Override
