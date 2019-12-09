@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
@@ -170,7 +171,19 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                     SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                     ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
                     link.setSubModelQuery(subModelQuery);
-                    link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
+
+                    String linkValue = source.getId();
+                    if (source instanceof N2oIntervalField) {
+                        N2oIntervalField s = (N2oIntervalField) source;
+                        if (s.getBeginFilterId() != null && FilterType.more.equals(f.getType()))
+                            linkValue += ".begin";
+                        else if (s.getEndFilterId() != null && FilterType.less.equals(f.getType()))
+                            linkValue += ".end";
+                    } else if (source.getId().equals(filterId)) {
+                        linkValue = f.getFilterField();
+                    }
+
+                    link.setValue(p.resolveJS(Placeholders.ref(linkValue)));
                     filter.setLink(link);
                     filtersScope.getFilters().add(filter);
                 });

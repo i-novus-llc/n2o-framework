@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <fields>
+        <field id="id" domain="long">
+            <select/>
+            <filters>
+                <eq filter-id="id">id={id}</eq>
+            </filters>
+        </field>
+
+        <field id="price" domain="long">
+            <select/>
+            <filters>
+                <more filter-id="minPrice">minPrice={minPrice}</more>
+                <less filter-id="maxP">maxP={maxP}</less>
+            </filters>
+        </field>
+
+        <field id="year" domain="localdate">
+            <select/>
+            <filters>
+                <more filter-id="startDate">startDate={startDate}</more>
+                <less filter-id="endDate">endDate={endDate}</less>
+            </filters>
+        </field>
+
+    </fields>
+</query>
