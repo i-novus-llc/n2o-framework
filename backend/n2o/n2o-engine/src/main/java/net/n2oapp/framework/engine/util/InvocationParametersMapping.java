@@ -48,11 +48,7 @@ public class InvocationParametersMapping {
         if (invocation.getArguments() == null || invocation.getArguments().length == 0) {
             return null;
         }
-        List<String> argClasses = new ArrayList<>();
-        for (Argument arg : invocation.getArguments()) {
-            argClasses.add(arg.getClassName());
-        }
-        return MappingProcessor.map(inDataSet, inMapping, argClasses);
+        return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments());
     }
 
     /**

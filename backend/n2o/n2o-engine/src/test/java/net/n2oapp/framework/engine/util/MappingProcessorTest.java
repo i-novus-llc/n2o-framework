@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
 import org.junit.Test;
@@ -57,7 +58,9 @@ public class MappingProcessorTest {
         mapping.put("valueInt", "[0].valueInt");
         mapping.put("innerObjValueStr", "[0].innerObj.valueStr");
         mapping.put("innerObjValueInt", "[0].innerObj.valueInt");
-        Object[] res = MappingProcessor.map(inDataSet, mapping, Arrays.asList("net.n2oapp.framework.engine.util.TestEntity"));
+        Argument arg = new Argument();
+        arg.setClassName("net.n2oapp.framework.engine.util.TestEntity");
+        Object[] res = MappingProcessor.map(inDataSet, mapping, new Argument[]{arg});
         TestEntity result = (TestEntity) res[0];
         assert result.getInnerObj().getValueStr().equals("inner");
         assert result.getInnerObj().getValueInt().equals(14);
