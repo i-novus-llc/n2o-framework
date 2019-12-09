@@ -55,7 +55,7 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
         return read().compile().bind().get(context, context.getParams(url, null));
     }
 
-    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass, HashMap<String, String[]> params) {
+    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass, Map<String, String[]> params) {
         CompileContext<D, ?> context = builder.route(url, compiledClass, params);
         DataSet data = context.getParams(url, params);
         return read().compile().bind().get(context, data);
