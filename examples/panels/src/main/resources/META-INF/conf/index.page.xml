@@ -4,10 +4,10 @@
       layout="LeftRightLayout">
     <regions>
         <panel place="left">
-            <form name="Панель слева"/>
+            <form name="Панель слева" query-id="utBlank"/>
         </panel>
         <panel place="right">
-            <form name="Панель справа"/>
+            <form name="Панель справа" query-id="utBlank"/>
         </panel>
     </regions>
 </page>
