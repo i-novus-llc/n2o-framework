@@ -8,13 +8,16 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Валидатор действия открытия страницы
+ */
 @Component
 public class PageActionValidator implements SourceValidator<N2oAbstractPageAction>, SourceClassAware {
     @Override
     public void validate(N2oAbstractPageAction source, ValidateProcessor p) {
         if (source != null)
             p.checkForExists(source.getObjectId(), N2oObject.class,
-                    " Действие открытия страницы' " + source.getId() + "' ссылается на не несуществующий объект '" + source.getObjectId() + "'");
+                    "Действие открытия страницы: " + source.getId() + " ссылается на несуществующий объект: " + source.getObjectId());
     }
 
     @Override
