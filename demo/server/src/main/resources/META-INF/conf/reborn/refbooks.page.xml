@@ -18,14 +18,14 @@
                         <input-text id="table_name"/>
                     </row>
                 </filters>
-                <toolbar>
-                    <button id="viewPage" label="Просмотр на странице">
-                        <open-page page-id="{refbooks_main_id}" detail-field-id="pageName"/>
-                    </button>
-                    <button id="viewModal" label="Просмотр в модальном окне">
-                        <show-modal page-id="{refbooks_main_id}" detail-field-id="pageName"/>
-                    </button>
-                </toolbar>
+                <!--                <toolbar>-->
+                <!--                    <button id="viewPage" label="Просмотр на странице">-->
+                <!--                        <open-page page-id="{refbooks_main_id}" detail-field-id="pageName"/>-->
+                <!--                    </button>-->
+                <!--                    <button id="viewModal" label="Просмотр в модальном окне">-->
+                <!--                        <show-modal page-id="{refbooks_main_id}" detail-field-id="pageName"/>-->
+                <!--                    </button>-->
+                <!--                </toolbar>-->
             </table>
         </panel>
     </regions>
