@@ -19,7 +19,7 @@
                         <xs:documentation>Идентификатор региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="place" type="xs:string" use="required">
+                <xs:attribute name="place" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Местоположение региона на странице.</xs:documentation>
                     </xs:annotation>

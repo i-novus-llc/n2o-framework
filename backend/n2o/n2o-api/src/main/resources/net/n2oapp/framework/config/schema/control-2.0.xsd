@@ -169,6 +169,7 @@
             <xs:element name="set-value" type="baseDependencyDefinition"  minOccurs="0"/>
             <xs:element name="requiring" type="baseDependencyDefinition"  minOccurs="0"/>
             <xs:element name="fetch" type="baseDependencyDefinition"  minOccurs="0"/>
+            <xs:element name="reset" type="baseDependencyDefinition"  minOccurs="0"/>
             <xs:element name="fetch-value" type="fetchValueDependencyDefinition"  minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Обновление модели поля ввода</xs:documentation>

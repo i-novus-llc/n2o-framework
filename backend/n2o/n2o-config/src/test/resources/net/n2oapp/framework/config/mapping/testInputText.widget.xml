@@ -11,6 +11,8 @@
                     <visibility on="test4" reset="true">test4 == null</visibility>
                     <visibility on="test4">test4 == null</visibility>
                     <visibility on="test4" reset="false">test4 == null</visibility>
+                    <reset on="test4">test4 == null</reset>
+                    <reset on="test4"/>
                 </dependencies>
             </input-text>
             <input-text id="test1_1"  length="15" domain="integer"

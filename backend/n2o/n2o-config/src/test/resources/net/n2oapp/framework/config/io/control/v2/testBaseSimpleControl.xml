@@ -17,6 +17,7 @@
         <visibility on="type" reset="false">type.id == 1</visibility>
         <set-value on="type">if (type.id == 1) return "Test";</set-value>
         <requiring on="type">type.id == 1</requiring>
+        <reset on="type">type.id == 1</reset>
     </dependencies>
 
     <toolbar>
