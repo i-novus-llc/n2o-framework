@@ -39,7 +39,7 @@ public abstract class AbstractController {
 
     public AbstractController(MetadataEnvironment environment) {
         this.environment = environment;
-        this.router = new N2oRouter(environment.getRouteRegister(), environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
+        this.router = new N2oRouter(environment, environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
     }
 
     public AbstractController(MetadataEnvironment environment, MetadataRouter router) {
@@ -57,7 +57,7 @@ public abstract class AbstractController {
 
     @SuppressWarnings("unchecked")
     protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
-        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class);
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, params);
         DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -168,7 +168,7 @@ public abstract class AbstractController {
 
     protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
         CompiledQuery query;
-        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class, params);
         DataSet data = queryCtx.getParams(path, params);
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
@@ -196,6 +196,6 @@ public abstract class AbstractController {
 
     private <D extends Compiled> CompileContext<D, ?> getRoutingResult(HttpServletRequest req, Class<D> compiledClass) {
         String path = req.getPathInfo();
-        return router.get(path, compiledClass);
+        return router.get(path, compiledClass, req.getParameterMap());
     }
 }

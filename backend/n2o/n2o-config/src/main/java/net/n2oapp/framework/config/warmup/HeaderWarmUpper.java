@@ -35,7 +35,7 @@ public class HeaderWarmUpper implements EnvironmentAware {
         } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
             PageContext context = new PageContext(welcomePageId, "/");
             try {
-                pipeline.get(context);
+           	    pipeline.get(context);
             } catch (ReferentialIntegrityViolationException ignore) {
                 log.error("Main page by id " + welcomePageId + " not found ");
             }
