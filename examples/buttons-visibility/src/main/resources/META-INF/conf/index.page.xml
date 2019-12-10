@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
              name="Скрытие кнопок">
-    <form>
+    <form query-id="utBlank" object-id="utBlank">
         <fields>
             <radio-group id="gender" label="Пол"
                          description="Если нажать на пол 'Женский', то кнопка 'Указать девичью фамилию' станет видимой">
