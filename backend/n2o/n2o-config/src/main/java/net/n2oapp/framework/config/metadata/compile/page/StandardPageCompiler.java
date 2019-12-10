@@ -25,6 +25,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -36,7 +37,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     @Override
     public Page compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
         Page page = new Page();
-        List<N2oWidget> sourceWidgets = collectWidgets(source);
+        Map<String, List<N2oWidget>> sourceWidgets = collectWidgets(source);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
@@ -80,7 +81,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         return page;
     }
 
-    private void initDefaults(PageContext context, List<N2oWidget> sourceWidgets) {
+    private void initDefaults(PageContext context, Map<String, List<N2oWidget>> sourceWidgets) {
         if ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null)) {
             N2oWidget widget = initResultWidget(context, sourceWidgets);
             widget.addPreFilters(context.getPreFilters());
@@ -88,30 +89,32 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         }
     }
 
-    private String initResultWidgetId(PageContext context, List<N2oWidget> sourceWidgets) {
+    private String initResultWidgetId(PageContext context, Map<String, List<N2oWidget>> sourceWidgets) {
         String resultWidgetId = context.getResultWidgetId();
         if (resultWidgetId == null) {
-            List<N2oWidget> sourceIndependents = getSourceIndependents(sourceWidgets);
-            if (sourceIndependents.size() == 1)
-                resultWidgetId = sourceIndependents.get(0).getId();//todo может быть не задан id в виджете
+            Map<String, List<N2oWidget>> sourceIndependents = getSourceIndependents(sourceWidgets);
+            if (sourceIndependents.keySet().size() == 1)
+                resultWidgetId = sourceIndependents.get(sourceIndependents.keySet().stream().findFirst().get()).get(0).getId();//todo может быть не задан id в виджете
             else
                 throw new N2oException("Can't get result widget id. There were two independent's widgets");
         }
         return resultWidgetId;
     }
 
-    private N2oWidget initResultWidget(PageContext context, List<N2oWidget> sourceWidgets) {
+    private N2oWidget initResultWidget(PageContext context, Map<String, List<N2oWidget>> sourceWidgets) {
         String resultWidgetId = context.getResultWidgetId();
         if (resultWidgetId != null) {
-            for (N2oWidget sourceWidget : sourceWidgets) {
-                if (sourceWidget.getId() != null && sourceWidget.getId().equals(resultWidgetId))
-                    return sourceWidget;
+            for (Map.Entry<String, List<N2oWidget>> entry : sourceWidgets.entrySet()) {
+                for (N2oWidget sourceWidget : entry.getValue()) {
+                    if (sourceWidget.getId() != null && sourceWidget.getId().equals(resultWidgetId))
+                        return sourceWidget;
+                }
             }
             throw new N2oException("Widget " + resultWidgetId + " not found!");
         } else {
-            List<N2oWidget> sourceIndependents = getSourceIndependents(sourceWidgets);
+            Map<String, List<N2oWidget>> sourceIndependents = getSourceIndependents(sourceWidgets);
             if (sourceIndependents.size() == 1)
-                return sourceIndependents.get(0);//todo может быть не задан id в виджете
+                return sourceIndependents.values().stream().findFirst().get().get(0);//todo может быть не задан id в виджете
             else
                 throw new N2oException("Can't get result widget id. There were two independent's widgets");
         }
@@ -172,7 +175,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     }
 
     private Toolbar compileToolbar(N2oStandardPage source, PageContext context, CompileProcessor p,
-                                   MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope,  PageRoutes pageRoutes,
+                                   MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
                                    CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
         if (source.getToolbars() == null)
             return null;
@@ -183,17 +186,19 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         return toolbar;
     }
 
-    private Map<String, Widget> initWidgets(ParentRouteScope routeScope, PageRoutes pageRoutes, List<N2oWidget> sourceWidgets,
+    private Map<String, Widget> initWidgets(ParentRouteScope routeScope, PageRoutes pageRoutes, Map<String, List<N2oWidget>> sourceWidgets,
                                             PageContext context, CompileProcessor p,
                                             PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
                                             Models models, PageRoutesScope pageRoutesScope) {
         Map<String, Widget> compiledWidgets = new StrictMap<>();
-        IndexScope indexScope = new IndexScope();
-        List<N2oWidget> independents = getSourceIndependents(sourceWidgets);
-        independents.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
-                sourceWidgets, compiledWidgets,
-                context, p,
-                pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
+        Map<String, List<N2oWidget>> independents = getSourceIndependents(sourceWidgets);
+        independents.forEach((k, v) -> {
+            WidgetInfoScope widgetInfoScope = new WidgetInfoScope(k, new IndexScope(1));
+            v.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
+                    sourceWidgets, compiledWidgets,
+                    context, p, pageScope, breadcrumbs, validationList,
+                    models, widgetInfoScope, pageRoutesScope));
+        });
         return compiledWidgets;
     }
 
@@ -202,16 +207,16 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                ParentRouteScope parentRoute,
                                String parentWidgetId,
                                String parentQueryId,
-                               List<N2oWidget> sourceWidgets,
+                               Map<String, List<N2oWidget>> sourceWidgets,
                                Map<String, Widget> compiledWidgets,
                                PageContext context, CompileProcessor p,
                                PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
-                               Models models, IndexScope indexScope,
+                               Models models, WidgetInfoScope widgetInfoScope,
                                PageRoutesScope pageRoutesScope) {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setDependsOnWidgetId(parentWidgetId);
         widgetScope.setDependsOnQueryId(parentQueryId);
-        Widget compiledWidget = p.compile(w, context, indexScope, routes, pageScope, widgetScope, parentRoute,
+        Widget compiledWidget = p.compile(w, context, widgetInfoScope, routes, pageScope, widgetScope, parentRoute,
                 breadcrumbs, validationList, models, pageRoutesScope);
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
         //compile detail widgets
@@ -220,7 +225,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                 compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
                         sourceWidgets, compiledWidgets,
                         context, p,
-                        pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
+                        pageScope, breadcrumbs, validationList, models, widgetInfoScope, pageRoutesScope));
     }
 
     private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context,
@@ -252,16 +257,19 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         return N2oStandardPage.class;
     }
 
-    private List<N2oWidget> collectWidgets(N2oStandardPage page) {
-        List<N2oWidget> result = new ArrayList<>();
+    private Map<String, List<N2oWidget>> collectWidgets(N2oStandardPage page) {
+        Map<String, List<N2oWidget>> widgets = new HashMap<>();
         if (page.getN2oRegions() != null) {
             for (N2oRegion region : page.getN2oRegions()) {
                 if (region.getWidgets() != null) {
-                    result.addAll(Arrays.asList(region.getWidgets()));
+                    if (!widgets.containsKey(region.getWidgetPrefix())) {
+                        widgets.put(region.getWidgetPrefix(), new ArrayList<>());
+                    }
+                    widgets.get(region.getWidgetPrefix()).addAll(Arrays.asList(region.getWidgets()));
                 }
             }
         }
-        return result;
+        return widgets;
     }
 
     private void initToolbarGenerate(N2oStandardPage source, String resultWidgetId) {
@@ -279,21 +287,19 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         source.setToolbars(n2oToolbars);
     }
 
-    private List<N2oWidget> getSourceIndependents(List<N2oWidget> sourceWidgets) {
-        List<N2oWidget> independents = new ArrayList<>();
-        for (N2oWidget widget : sourceWidgets) {
-            if (widget.getDependsOn() == null)
-                independents.add(widget);
-        }
+    private Map<String, List<N2oWidget>> getSourceIndependents(Map<String, List<N2oWidget>> sourceWidgets) {
+        Map<String, List<N2oWidget>> independents = new HashMap<>();
+        sourceWidgets.forEach((k, v) -> independents.put(k, v.stream().filter(w -> w.getDependsOn() == null).collect(Collectors.toList())));
+
         return independents;
     }
 
-    private List<N2oWidget> getDetails(String widgetId, List<N2oWidget> widgets) {
+    private List<N2oWidget> getDetails(String widgetId, Map<String, List<N2oWidget>> widgets) {
         List<N2oWidget> details = new ArrayList<>();
-        for (N2oWidget widget : widgets) {
-            if (widget.getDependsOn() != null && widget.getDependsOn().equals(widgetId))
-                details.add(widget);
-        }
+        widgets.forEach((k, v) -> v.forEach(w -> {
+            if (w.getDependsOn() != null && w.getDependsOn().equals(widgetId))
+                details.add(w);
+        }));
         return details;
     }
 

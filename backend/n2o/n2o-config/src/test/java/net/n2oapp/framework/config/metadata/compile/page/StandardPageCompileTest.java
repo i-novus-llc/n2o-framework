@@ -68,9 +68,9 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get("attr1"), is("htmlTestAttribute"));
 
         assertThat(page.getWidgets().size(), is(2));
-        assertThat(page.getWidgets().get("testRoute_w0").getProperties().get("attr1"), is("htmlTestAttribute"));
-        assertThat(page.getWidgets().get("testRoute_w0").getName(), is("test1"));
-        assertThat(page.getWidgets().get("testRoute_w1").getName(), is("test2"));
+        assertThat(page.getWidgets().get("testRoute_line1").getProperties().get("attr1"), is("htmlTestAttribute"));
+        assertThat(page.getWidgets().get("testRoute_line1").getName(), is("test1"));
+        assertThat(page.getWidgets().get("testRoute_line2").getName(), is("test2"));
 
         assertThat(page.getToolbar().get("tbTopLeft"), notNullValue());
         assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(0).getActionId(), is("close"));
@@ -130,10 +130,10 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().size(), is(3));
         assertThat(page.getWidgets().get("testStandardPageDependency_master"), notNullValue());
         assertThat(page.getWidgets().get("testStandardPageDependency_detail"), notNullValue());
-        assertThat(page.getWidgets().get("testStandardPageDependency_w0"), notNullValue());
+        assertThat(page.getWidgets().get("testStandardPageDependency_panel1"), notNullValue());
 
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
-        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_detail']"));
+        assertThat(page.getWidgets().get("testStandardPageDependency_panel1").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_detail']"));
 
         List<Filter> preFilters = page.getWidgets().get("testStandardPageDependency_detail").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
@@ -145,18 +145,18 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().size(), is(1));
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
 
-        preFilters = page.getWidgets().get("testStandardPageDependency_w0").getFilters();
+        preFilters = page.getWidgets().get("testStandardPageDependency_panel1").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("parent_id"));
         assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
         assertThat(preFilters.get(0).getLink().getFieldId(), is("parent.id"));
-        dataProvider = page.getWidgets().get("testStandardPageDependency_w0").getDataProvider();
+        dataProvider = page.getWidgets().get("testStandardPageDependency_panel1").getDataProvider();
         assertThat(dataProvider.getQueryMapping().get("parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
 
         assertThat(page.getRoutes().getQueryMapping().size(), is(6));
 
         //Условия видимости виджетов
-        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getVisible(), is(true));
+        assertThat(page.getWidgets().get("testStandardPageDependency_panel1").getVisible(), is(true));
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
 
@@ -230,17 +230,17 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
                 .get(new PageContext("testChainWidgetFetching"));
 
-        assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().size(), is(1));
-        assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
+        assertThat(page.getWidgets().get("form").getDataProvider().getPathMapping().size(), is(1));
+        assertThat(page.getWidgets().get("form").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
 
-        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().size(), is(2));
-        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
-        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['__form'].id"));
+        assertThat(page.getWidgets().get("form2").getDataProvider().getPathMapping().size(), is(2));
+        assertThat(page.getWidgets().get("form2").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
+        assertThat(page.getWidgets().get("form2").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
 
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().size(), is(3));
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['__form'].id"));
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['__form2'].id"));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().size(), is(3));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['form2'].id"));
 
     }
 

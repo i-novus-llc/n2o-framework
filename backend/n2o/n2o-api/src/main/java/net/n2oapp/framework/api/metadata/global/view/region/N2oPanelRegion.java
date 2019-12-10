@@ -33,4 +33,9 @@ public class N2oPanelRegion extends N2oRegion {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String getWidgetPrefix() {
+        return "panel";
+    }
 }
