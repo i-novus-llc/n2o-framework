@@ -25,11 +25,12 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oCellsPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oCellsPack(), new N2oObjectsPack());
         builder.validators(new WidgetValidator(), new PageValidator(), new PageActionValidator(),
                 new TableValidator(new SimplePropertyResolver(PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties"))));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/page/PageAction/blankObject.object.xml"));
     }
 
     @Test(expected = N2oMetadataValidationException.class)
@@ -86,5 +87,17 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
     public void testPageActionValidationPageExists() {
         validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationPageExists.page.xml");
     }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testPageActionValidationOperationExists() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationOperationExists.page.xml");
+    }
+
+    @Test
+    public void testPageActionValidationOperationExists2() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationOperationExists2.page.xml");
+    }
+
+
 
 }
