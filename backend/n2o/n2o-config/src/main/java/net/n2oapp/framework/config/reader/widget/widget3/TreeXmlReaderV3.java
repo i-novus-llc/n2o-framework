@@ -2,14 +2,10 @@ package net.n2oapp.framework.config.reader.widget.widget3;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 
@@ -36,22 +32,6 @@ public class TreeXmlReaderV3 extends WidgetBaseXmlReaderV3<N2oWidget> {
         }
         readWidgetDefinition(element, namespace, n2oTree);
     }
-
-    private static List<GroupingNodes.Node> readNodes(List<Element> nodes, Namespace namespace) {
-        List<GroupingNodes.Node> res = new ArrayList<>();
-        for (Element el : nodes) {
-            GroupingNodes.Node node = new GroupingNodes.Node();
-            node.setValueFieldId(getAttributeString(el, "value-field-id"));
-            node.setLabelFieldId(getAttributeString(el, "label-field-id"));
-            node.setCanResolved(getAttributeBoolean(el, "can-resolved"));
-            node.setEnabled(getAttributeBoolean(el, "enabled"));
-            node.setIcon(getAttributeString(el, "icon"));
-            node.setNodes(readNodes(el.getChildren("node", namespace), namespace));
-            res.add(node);
-        }
-        return res;
-    }
-
 
     @Override
     public Class<N2oWidget> getElementClass() {
