@@ -101,7 +101,7 @@ public class JsonChecker {
                     jsonResource,
                     xmlCutPath, jsonCutPath,
                     jsonExcludePaths,
-                    jsonChangeValuePath, jsonChangeNodePath, new DataSet());
+                    jsonChangeValuePath, jsonChangeNodePath, new HashMap<>());
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -112,7 +112,7 @@ public class JsonChecker {
      * @param route Адрес получения метаданной
      * @param compiledClass Класс собранной метаданной
      */
-    public void assertEquals(String route, Class<? extends Compiled> compiledClass, DataSet queryParams) {
+    public void assertEquals(String route, Class<? extends Compiled> compiledClass, Map<String, String[]> queryParams) {
         try {
             tester.check(route, compiledClass,
                     jsonResource,

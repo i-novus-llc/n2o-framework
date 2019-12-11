@@ -58,7 +58,7 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
                 return;
             case SHORT:
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Short.class), Short.MIN_VALUE));
-                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Short.class), Short.MIN_VALUE));
+                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Short.class), Short.MAX_VALUE));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
             case NUMERIC:

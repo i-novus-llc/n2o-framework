@@ -3,12 +3,12 @@ package net.n2oapp.framework.api.metadata.global.view.widget.tree;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author dfirstov
  * @since 10.02.2015
  */
+@Deprecated
 public class InheritanceNodes implements Serializable {
     private String parentFieldId;
     private String labelFieldId;
@@ -118,5 +118,12 @@ public class InheritanceNodes implements Serializable {
 
     public void setEnabledFieldId(String enabledFieldId) {
         this.enabledFieldId = enabledFieldId;
+    }
+
+    public boolean isEmpty() {
+        return parentFieldId == null && labelFieldId == null && hasChildrenFieldId == null &&
+                queryId == null && iconFieldId == null && valueFieldId == null &&
+                masterFieldId == null && detailFieldId == null && searchFieldId == null &&
+                enabledFieldId == null && (preFilters == null || preFilters.length < 1);
     }
 }

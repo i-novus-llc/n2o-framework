@@ -34,6 +34,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
                 .add("requiring", N2oField.RequiringDependency.class, this::dependency)
                 .add("set-value", N2oField.SetValueDependency.class, this::dependency)
                 .add("fetch", N2oField.FetchDependency.class, this::dependency)
+                .add("reset", N2oField.ResetDependency.class, this::dependency)
                 .add("fetch-value", N2oField.FetchValueDependency.class, this::fetchValueDependency));
         p.attributeArray(e, "depends-on", ",", m::getDependsOn, m::setDependsOn);
     }
@@ -62,6 +63,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
+        p.attributeBoolean(e, "reset-on-change", pf::getResetOnChange, pf::setResetOnChange);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
         p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);

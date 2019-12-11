@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.api.user.UserContext;
+import net.n2oapp.framework.config.register.route.RouteNotFoundException;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -120,8 +121,10 @@ public abstract class N2oServlet extends HttpServlet {
         //render json error
         resp.setContentType("application/json");
         resp.setStatus(status);
-        MetaSaga meta = buildMeta(e);
-        objectMapper.writeValue(resp.getWriter(), Collections.singletonMap("meta", meta));
+        if (!(e instanceof RouteNotFoundException)) {
+            MetaSaga meta = buildMeta(e);
+            objectMapper.writeValue(resp.getWriter(), Collections.singletonMap("meta", meta));
+        }
     }
 
     private MetaSaga buildMeta(Exception exception) {

@@ -28,7 +28,7 @@
             <input-text id="depend3" label="Зависимое поле"
                         description="Зависит от  полей № 3,4. Тип зависимости: комбинированная">
                 <dependencies>
-                    <visibility on="f3">f3 == 'test'</visibility>
+                    <visibility on="f3" reset="false">f3 == 'test'</visibility>
                     <enabling on="f4">f4 == 'test'</enabling>
                 </dependencies>
             </input-text>
@@ -57,7 +57,7 @@
             <col size="6">
                 <input-text id="f12" label="Поле №12. Тип зависимости: Сброс значения">
                     <dependencies>
-                        <visibility on="f11.item">f11.item == 'test'</visibility>
+                        <visibility on="f11.item" reset="false">f11.item == 'test'</visibility>
                     </dependencies>
                 </input-text>
             </col>
