@@ -502,6 +502,7 @@ class InputSelect extends React.Component {
       flip,
       autoFocus,
     } = this.props;
+
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
     const selectedPadding = this.calcSelectedItemsWidth();
     const needAddFilter = !find(

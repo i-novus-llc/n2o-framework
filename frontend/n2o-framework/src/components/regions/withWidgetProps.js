@@ -4,8 +4,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import omit from 'lodash/omit';
 import get from 'lodash/get';
+import reduce from 'lodash/reduce';
 import { widgetsSelector } from '../../selectors/widgets';
-import { makeModelsByPrefixSelector } from '../../selectors/models';
+import {
+  makeModelsByPrefixSelector,
+  modelsSelector,
+} from '../../selectors/models';
 
 import { pagesSelector } from '../../selectors/pages';
 import {
@@ -16,6 +20,10 @@ import {
   dataRequestWidget,
 } from '../../actions/widgets';
 import { PREFIXES } from '../../constants/models';
+
+import { getModelsByDependency } from '../../selectors/models';
+import { makePageMetadataByIdSelector } from '../../selectors/pages';
+import { reduceFunction } from '../../sagas/widgetDependency';
 
 /**
  * HOC для работы с данными
@@ -29,10 +37,29 @@ function withGetWidget(WrappedComponent) {
 
       this.getWidget = this.getWidget.bind(this);
       this.getWidgetProps = this.getWidgetProps.bind(this);
+      this.getVisible = this.getVisible.bind(this);
     }
 
     getWidget(pageId, widgetId) {
-      return this.props.pages[pageId].metadata.widgets[widgetId];
+      const state = this.context.store.getState();
+
+      return get(
+        makePageMetadataByIdSelector(pageId)(state),
+        `widgets[${widgetId}]`
+      );
+    }
+
+    getVisible(pageId, widgetId) {
+      const dependencies = get(
+        this.props,
+        `pages[${pageId}].metadata.widgets[${widgetId}].dependency.visible`,
+        []
+      );
+
+      const model = getModelsByDependency(dependencies)(
+        this.context.store.getState()
+      );
+      return reduce(model, reduceFunction, true);
     }
 
     getWidgetProps(widgetId) {
@@ -47,11 +74,13 @@ function withGetWidget(WrappedComponent) {
      */
     render() {
       const props = omit(this.props, ['widgets']);
+
       return (
         <WrappedComponent
           {...props}
           getWidget={this.getWidget}
           getWidgetProps={this.getWidgetProps}
+          getVisible={this.getVisible}
         />
       );
     }
@@ -66,11 +95,16 @@ function withGetWidget(WrappedComponent) {
     enableWidget: PropTypes.func,
   };
 
+  WithGetWidget.contextTypes = {
+    store: PropTypes.object,
+  };
+
   const mapStateToProps = state => {
     return {
       pages: pagesSelector(state),
       widgets: widgetsSelector(state),
       widgetsDatasource: makeModelsByPrefixSelector(PREFIXES.datasource)(state),
+      models: modelsSelector(state),
     };
   };
 

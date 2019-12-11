@@ -288,7 +288,7 @@ public class DataControllerTest extends DataControllerTestBase {
         ((SpringDataProcessingStack) dataProcessingStack).setApplicationContext(context);
 
 
-        N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
+        N2oRouter router = new N2oRouter(builder.getEnvironment(), pipeline);
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();

@@ -1,6 +1,5 @@
 package net.n2oapp.demo;
 
-import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -14,6 +13,9 @@ import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.FileSystemResource;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Тест синхронизации json и xml метаданных демо стенда
@@ -63,8 +65,8 @@ public class DemoJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void proto_patients_update2() {
-        DataSet data = new DataSet();
-        data.put("id", 5607677);
+        Map<String, String[]> data = new HashMap<>();
+        data.put("id", new String[]{ "5607677" });
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_update2.json"))
                 .assertEquals("/proto/5607677/update2", Page.class, data);
     }

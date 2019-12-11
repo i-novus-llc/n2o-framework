@@ -5,7 +5,7 @@ import {
   all,
   take,
   fork,
-  takeLatest,
+  takeEvery,
   cancelled,
 } from 'redux-saga/effects';
 import every from 'lodash/every';
@@ -117,7 +117,7 @@ function* watchRegister() {
         buttons = yield call(prepareButton, buttons, payloadRegister);
         yield fork(resolveButton, payloadRegister);
         // todo: Перейти на redux-saga@1.0.0 и использовать takeLeading
-        yield takeLatest(SET, watchModel, buttons);
+        yield takeEvery(SET, watchModel, buttons);
       }
     }
   } finally {

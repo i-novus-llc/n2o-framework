@@ -228,7 +228,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
         prevSelectedId
       );
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
-        yield put(setTableSelectedId(widgetId, null));
+        // yield put(setTableSelectedId(widgetId, null));
       } else if (!withoutSelectedId && widgetState.selectedId) {
         baseQuery.selectedId = widgetState.selectedId;
       }

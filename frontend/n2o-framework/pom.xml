@@ -21,8 +21,8 @@
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
-        <directory>docs</directory>
-        <targetPath>META-INF/resources/docs</targetPath>
+        <directory>docs/storybook</directory>
+        <targetPath>META-INF/resources/docs/storybook</targetPath>
       </resource>
     </resources>
   </build>

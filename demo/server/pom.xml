@@ -26,7 +26,7 @@
 
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-web</artifactId>
+            <artifactId>n2o-demo-client</artifactId>
             <version>${project.version}</version>
         </dependency>
 

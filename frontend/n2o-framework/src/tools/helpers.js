@@ -7,6 +7,7 @@ import isString from 'lodash/isString';
 import transform from 'lodash/transform';
 import isEqual from 'lodash/isEqual';
 import cloneDeepWith from 'lodash/cloneDeepWith';
+import map from 'lodash/map';
 
 /**
  * Не мутабельный set
@@ -119,7 +120,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
         } else if ($val !== null && $val !== undefined) {
           $Res[Key ? [Key, key].join(delimiter) : key] =
             !needLinked($val) && isString($val) && !withoutEncode
-              ? encodeURIComponent($val)
+              ? map(val, v => encodeURIComponent(v)).join(`&${key}=`)
               : val.join(`&${key}=`);
         }
       });

@@ -385,18 +385,18 @@ stories
   .add('Метаданные', () => {
     const props = {
       fieldKey: metadata.fieldKey,
-      id: metadata.buttons[0].id,
+      id: metadata.toolbar[0].buttons[0].id,
       className: metadata.className,
       buttons: [
         {
-          title: metadata.buttons[0].title,
-          icon: metadata.buttons[0].icon,
-          hint: metadata.buttons[0].hint,
-          size: metadata.buttons[0].size,
-          visible: metadata.buttons[0].visible,
-          disabled: metadata.buttons[0].disabled,
-          color: metadata.buttons[0].color,
-          action: metadata.buttons[0].action,
+          title: metadata.toolbar[0].buttons[0].title,
+          icon: metadata.toolbar[0].buttons[0].icon,
+          hint: metadata.toolbar[0].buttons[0].hint,
+          size: metadata.toolbar[0].buttons[0].size,
+          visible: metadata.toolbar[0].buttons[0].visible,
+          disabled: metadata.toolbar[0].buttons[0].disabled,
+          color: metadata.toolbar[0].buttons[0].color,
+          action: metadata.toolbar[0].buttons[0].action,
         },
         {
           title: 'Скрытая кнопка',

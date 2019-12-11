@@ -12,19 +12,41 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class RestEngineTimeModule extends SimpleModule {
 
-    public RestEngineTimeModule(String[] patterns) {
+    public RestEngineTimeModule() {
         addSerializer(LocalDateTime.class, LocalDateTimeSerializer.INSTANCE);
         addSerializer(LocalDate.class, LocalDateSerializer.INSTANCE);
         addSerializer(LocalTime.class, LocalTimeSerializer.INSTANCE);
+    }
+
+    public RestEngineTimeModule(String[] patterns) {
+        this();
         setDeserializerModifier(new BeanDeserializerModifier() {
             @Override
             public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
                 if (beanDesc.getBeanClass() == String.class) {
                     CustomDateDeserializer dateDeserializer = new CustomDateDeserializer(deserializer);
                     dateDeserializer.setPatterns(patterns);
+                    return dateDeserializer;
+                }
+                return deserializer;
+            }
+        });
+    }
+
+    public RestEngineTimeModule(String[] patterns, String[] exclusionKeys) {
+        this();
+        setDeserializerModifier(new BeanDeserializerModifier() {
+            @Override
+            public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config, BeanDescription beanDesc, JsonDeserializer<?> deserializer) {
+                if (beanDesc.getBeanClass() == String.class) {
+                    CustomDateDeserializer dateDeserializer = new CustomDateDeserializer(deserializer);
+                    dateDeserializer.setPatterns(patterns);
+                    dateDeserializer.setExclusions(exclusionKeys);
                     return dateDeserializer;
                 }
                 return deserializer;

@@ -26,7 +26,9 @@ function AdvancedTableCell({ children, hasSpan, record }) {
     rowSpan = span.rowSpan;
   }
 
-  const needRender = some(children, child => get(child, 'props.needRender'));
+  const needRender = some(children, child =>
+    get(child, 'props.needRender', true)
+  );
 
   return (
     <td

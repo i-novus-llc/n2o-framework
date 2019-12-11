@@ -121,7 +121,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           fetchOnInit &&
           visible &&
           (isEqual(dataProvider, dataProviderFromState) ||
-            !dataProviderFromState)
+            !dataProviderFromState ||
+            isEmpty(dataProviderFromState))
         ) {
           this.onFetch();
         }

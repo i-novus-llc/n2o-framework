@@ -91,6 +91,9 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     public static class FetchDependency extends Dependency {
     }
 
+    public static class ResetDependency extends Dependency {
+    }
+
     @Getter
     @Setter
     public static class FetchValueDependency extends Dependency {
