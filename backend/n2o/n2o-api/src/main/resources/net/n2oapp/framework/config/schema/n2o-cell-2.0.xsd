@@ -51,6 +51,11 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string" use="optional">
             <xs:annotation>
+                <xs:documentation>CSS класс текста.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
                 <xs:documentation>Стиль текста.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -426,6 +431,7 @@
         <xs:attribute name="icon" type="xs:string" use="optional"/>
         <xs:attribute name="type" type="textType" use="optional"/>
         <xs:attribute name="class" type="xs:string" use="optional"/>
+        <xs:attribute name="style" type="xs:string" use="optional"/>
         <xs:attribute name="generate" type="xs:string" use="optional"/>
     </xs:complexType>
 
@@ -434,6 +440,7 @@
         <xs:attribute name="label" type="xs:string" use="optional"/>
         <xs:attribute name="icon" type="xs:string" use="optional"/>
         <xs:attribute name="class" type="xs:string" use="optional"/>
+        <xs:attribute name="style" type="xs:string" use="optional"/>
         <xs:attribute name="validate" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="visible" type="xs:boolean" use="optional"/>
         <xs:attribute name="visibility-condition" type="xs:string"/>
@@ -557,6 +564,11 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>CSS класс кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Стиль кнопки.</xs:documentation>
             </xs:annotation>

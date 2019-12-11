@@ -23,6 +23,7 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     private LabelType type;
     private String actionId;
     private String className;
+    private String style;
     private Map<String, Object> properties;
     private Boolean defaultAction;
     private Boolean primary;
