@@ -1,7 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { set, pullAt, omit, pick } from 'lodash';
+import set from 'lodash/set';
+import pullAt from 'lodash/pullAt';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 
 import TabsRegion, { TabRegion as TabsRegionComponent } from './TabsRegion';
 import { metadataSuccess } from '../../../actions/pages';

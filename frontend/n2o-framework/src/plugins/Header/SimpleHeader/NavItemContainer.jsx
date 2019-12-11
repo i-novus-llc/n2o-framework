@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
-import { isEmpty, get } from 'lodash';
-import { Badge } from 'reactstrap';
-
-import {
-  NavItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import Badge from 'reactstrap/lib/Badge';
+import NavItem from 'reactstrap/lib/NavItem';
+import UncontrolledDropdown from 'reactstrap/lib/UncontrolledDropdown';
+import DropdownToggle from 'reactstrap/lib/DropdownToggle';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 /**
@@ -47,7 +45,7 @@ const NavItemContainer = ({
       return (
         <NavItem>
           <a className={cx('nav-link', className)} href={item.href}>
-            {item.icon && <NavItemIcon />}
+            {item.icon && <i className={cx('mr-1', item.icon)} />}
             {item.label}
           </a>
           {renderBadge(item)}
@@ -114,7 +112,7 @@ const NavItemContainer = ({
       item.linkType === 'outer'
         ? defaultLink(item)
         : getInnerLink(item, 'dropdown-item');
-    dropdownItems = item.subItems.map((item, i) => (
+    dropdownItems = item.subItems.map((subItem, i) => (
       <DropdownItem> {linkItem(item)} </DropdownItem>
     ));
   }

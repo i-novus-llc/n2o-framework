@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import 'whatwg-fetch';
 import { compose } from 'recompose';
-import { isArray } from 'lodash';
+import isArray from 'lodash/isArray';
 
 import SideBar from './SideBar';
 import withSecurity from '../../core/auth/withSecurity';

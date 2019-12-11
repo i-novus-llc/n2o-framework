@@ -7,9 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -48,6 +46,19 @@ public class RouteUtilTest {
         assertThat(RouteUtil.getParams("/:a?id=123&name=:b"), is(Arrays.asList("a", "b")));
         assertThat(RouteUtil.getParams("/:a/:b/c/d/:e"), is(Arrays.asList("a", "b", "e")));
         assertThat(RouteUtil.getParams("/a/:a/b/:b/:e"), is(Arrays.asList("a", "b", "e")));
+    }
+
+    @Test
+    public void parseQueryParams() {
+        assertThat(RouteUtil.parseQueryParams("text"), nullValue());
+        Map<String, String> params = RouteUtil.parseQueryParams("id=123");
+        assertThat(params.get("id"), is("123"));
+        params = RouteUtil.parseQueryParams("id=:a");
+        assertThat(params.get("id"), is(":a"));
+        params = RouteUtil.parseQueryParams("id=123&name=:b&surname=Ivanov");
+        assertThat(params.get("id"), is("123"));
+        assertThat(params.get("name"), is(":b"));
+        assertThat(params.get("surname"), is("Ivanov"));
     }
 
     @Test

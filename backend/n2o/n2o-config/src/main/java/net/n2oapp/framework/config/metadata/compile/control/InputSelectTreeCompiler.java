@@ -26,8 +26,8 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
     public StandardField<InputSelectTree> compile(N2oInputSelectTree source, CompileContext<?,?> context, CompileProcessor p) {
         InputSelectTree control = new InputSelectTree();
         control.setPlaceholder(p.resolveJS(source.getPlaceholder()));
-        control.setParentFieldId(p.resolveJS(source.getInheritanceNodes().getParentFieldId()));
-        control.setHasChildrenFieldId(p.resolveJS(source.getInheritanceNodes().getHasChildrenFieldId()));
+        control.setParentFieldId(p.resolveJS(source.getParentFieldId()));
+        control.setHasChildrenFieldId(p.resolveJS(source.getHasChildrenFieldId()));
         control.setHasCheckboxes(p.cast(source.getCheckboxes(), false));
         control.setMultiSelect(control.isHasCheckboxes());
         control.setClosePopupOnSelect(!control.isHasCheckboxes());
@@ -35,11 +35,10 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setSize(200);
         control.setCheckingStrategy(source.getCheckingStrategy());
         control.setMaxTagCount(source.getMaxTagCount());
-        source.setQueryId(p.resolveJS(source.getInheritanceNodes().getQueryId()));
-        source.setLabelFieldId(p.cast(p.resolveJS(source.getInheritanceNodes().getLabelFieldId()), "name"));
-        source.setIconFieldId(p.resolveJS(source.getInheritanceNodes().getIconFieldId()));
+        source.setQueryId(p.resolveJS(source.getQueryId()));
+        source.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
+        source.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         return compileListControl(control, source, context, p);
     }
-
 
 }

@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -191,11 +192,11 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
 
-        data = new DataSet();
+        HashMap<String, String[]> params = new HashMap<>();
         data.put("detailId", "12");
         data.put("name", "ivan");
         data.put("secondName", "ivanov");
-        Page masterDetailPage = routeAndGet("/page/123/view/widget/456/masterDetail", Page.class, data);
+        Page masterDetailPage = routeAndGet("/page/123/view/widget/456/masterDetail", Page.class, params);
         assertThat(masterDetailPage.getRoutes().findRouteByUrl("/page/123/view/widget/456/masterDetail"), notNullValue());
         assertThat(masterDetailPage.getBreadcrumb().size(), is(3));
         assertThat(masterDetailPage.getBreadcrumb().get(0).getLabel(), is("parent"));
@@ -205,7 +206,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(masterDetailPage.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(masterDetailPage.getBreadcrumb().get(2).getPath(), nullValue());
 
-        Page level3Page = routeAndGet("/page/123/view/widget/456/masterDetail/level3", Page.class, data);
+        Page level3Page = routeAndGet("/page/123/view/widget/456/masterDetail/level3", Page.class, params);
         assertThat(level3Page.getBreadcrumb().size(), is(4));
         assertThat(level3Page.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(level3Page.getBreadcrumb().get(0).getPath(), is("/page/123"));

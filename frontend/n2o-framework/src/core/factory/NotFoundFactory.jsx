@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'reactstrap';
+import Alert from 'reactstrap/lib/Alert';
 
 function NotFoundFactory({ src, level }) {
   return (

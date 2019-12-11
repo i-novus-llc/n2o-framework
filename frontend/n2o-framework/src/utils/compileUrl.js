@@ -1,4 +1,6 @@
-import { each, isEmpty, includes } from 'lodash';
+import each from 'lodash/each';
+import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
 import linkResolver from './linkResolver';

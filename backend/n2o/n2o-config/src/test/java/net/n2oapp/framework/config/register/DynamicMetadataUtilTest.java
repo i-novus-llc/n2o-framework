@@ -2,9 +2,6 @@ package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.DynamicUtil;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 

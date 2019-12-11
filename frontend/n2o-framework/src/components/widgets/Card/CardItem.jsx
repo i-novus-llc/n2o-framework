@@ -2,15 +2,16 @@ import React from 'react';
 import { compose, setDisplayName, mapProps } from 'recompose';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-} from 'reactstrap';
-import { extend, map, pick, uniqueId } from 'lodash';
+import extend from 'lodash/extend';
+import map from 'lodash/map';
+import pick from 'lodash/pick';
+import uniqueId from 'lodash/uniqueId';
+import Card from 'reactstrap/lib/Card';
+import CardImg from 'reactstrap/lib/CardImg';
+import CardText from 'reactstrap/lib/CardText';
+import CardBody from 'reactstrap/lib/CardBody';
+import CardTitle from 'reactstrap/lib/CardTitle';
+import CardSubtitle from 'reactstrap/lib/CardSubtitle';
 
 /**
  * Карточка

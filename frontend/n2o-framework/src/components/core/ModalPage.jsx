@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import Modal from 'reactstrap/lib/Modal';
+import ModalHeader from 'reactstrap/lib/ModalHeader';
+import ModalBody from 'reactstrap/lib/ModalBody';
+import ModalFooter from 'reactstrap/lib/ModalFooter';
 import { compose } from 'recompose';
 import Page from './Page';
 import { connect } from 'react-redux';
@@ -12,7 +15,6 @@ import {
   makePageTitleByIdSelector,
 } from '../../selectors/pages';
 import Actions from '../actions/Actions';
-import factoryResolver from '../../utils/factoryResolver';
 import withActions from './withActions';
 import Spinner from '../snippets/Spinner/Spinner';
 import { makeShowPromptByName } from '../../selectors/modals';
@@ -46,7 +48,8 @@ class ModalPage extends React.Component {
   }
 
   renderFromSrc(src) {
-    const Component = factoryResolver(src, null);
+    const { resolveProps } = this.context;
+    const Component = resolveProps(src, null);
     return <Component />;
   }
 
@@ -206,6 +209,7 @@ ModalPage.defaultProps = {
 
 ModalPage.contextTypes = {
   defaultPromptMessage: PropTypes.string,
+  resolveProps: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({

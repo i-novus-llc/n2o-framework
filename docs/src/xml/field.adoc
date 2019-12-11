@@ -152,8 +152,35 @@ Java Script выражение
 [source,xml]
 ----
 <dependencies>
-  <visibility on="type">type.id == 1</visibility>
+  <visibility on="type" reset="false">type.id == 1</visibility>
   <!-- Поле видимо, если type.id равен 1 -->
+</dependencies>
+----
+
+===== <reset>
+Сброс значения
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|on
+|Строка
+|Поля, от которых зависит условие сброса
+|Вычисляется по условию
+
+|===
+
+Тело::
+Java Script выражение
+
+Пример::
+[source,xml]
+----
+<dependencies>
+  <reset on="type">type.id == 1</reset>
+  <!-- Сбросить значение, если type.id равен 1 -->
 </dependencies>
 ----
 

@@ -1,18 +1,15 @@
 import React from 'react';
-import {
-  forEach,
-  keys,
-  upperCase,
-  filter,
-  eq,
-  omit,
-  isFunction,
-  get,
-  has,
-  uniqueId,
-  find,
-  some,
-} from 'lodash';
+
+import forEach from 'lodash/forEach';
+import keys from 'lodash/keys';
+import filter from 'lodash/filter';
+import eq from 'lodash/eq';
+import omit from 'lodash/omit';
+import get from 'lodash/get';
+import has from 'lodash/has';
+import uniqueId from 'lodash/uniqueId';
+import find from 'lodash/find';
+import some from 'lodash/some';
 import { KEY_CODES } from './component/constants';
 import { findDOMNode } from 'react-dom';
 import cssAnimation from 'css-animation';

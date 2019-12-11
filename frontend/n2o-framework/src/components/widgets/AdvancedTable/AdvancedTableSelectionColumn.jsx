@@ -2,7 +2,7 @@ import React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
 import Checkbox from '../../controls/Checkbox/CheckboxN2O';
 
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 function AdvancedTableSelectionColumn({ onChange, checked, setRef }) {
   return (

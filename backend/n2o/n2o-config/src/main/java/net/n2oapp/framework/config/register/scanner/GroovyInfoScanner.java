@@ -5,9 +5,7 @@ import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.register.GroovyInfo;
-import net.n2oapp.framework.config.register.InfoConstructor;
 import net.n2oapp.framework.config.register.RegisterUtil;
-import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.springframework.stereotype.Component;
 

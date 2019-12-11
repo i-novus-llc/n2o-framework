@@ -125,7 +125,7 @@ public class CopyValuesControllerTest {
         Map<String, Object> map = new HashMap<>();
         map.put("CopyValuesController", copyValuesController);
 
-        N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
+        N2oRouter router = new N2oRouter(builder.getEnvironment(), pipeline);
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);

@@ -7,8 +7,4 @@ package net.n2oapp.framework.api.metadata.control.list;
  */
 public class N2oInputSelectTree extends N2oSelectTree {
 
-    @Override
-    public String getLabelFieldId() {
-        return getInheritanceNodes() != null ? getInheritanceNodes().getLabelFieldId() : null;
-    }
 }

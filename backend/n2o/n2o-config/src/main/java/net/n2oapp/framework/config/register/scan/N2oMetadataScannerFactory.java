@@ -8,42 +8,59 @@ import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.config.factory.AwareFactorySupport;
+import net.n2oapp.framework.config.register.scanner.DefaultInfoScanner;
 import net.n2oapp.framework.config.register.scanner.OverrideInfoScanner;
 
 import java.util.*;
 
 public class N2oMetadataScannerFactory implements MetadataFactory<MetadataScanner>, MetadataScannerFactory, MetadataEnvironmentAware {
 
-    private List<MetadataScanner> scanners;
+    private LinkedList<MetadataScanner> scanners;
 
     public N2oMetadataScannerFactory() {
-        scanners = new ArrayList<>();
+        scanners = new LinkedList<>();
     }
 
     public N2oMetadataScannerFactory(Map<String, MetadataScanner> scanners) {
-        this.scanners = new ArrayList<>(OverrideBean.removeOverriddenBeans(scanners).values());
+        ArrayList<MetadataScanner> scannersList = new ArrayList<>(OverrideBean.removeOverriddenBeans(scanners).values());
+        this.scanners = getSortedScanners(scannersList);
     }
 
     @Override
     public List<? extends SourceInfo> scan() {
-        LinkedList<MetadataScanner> sorted = new LinkedList<>();
-        for (MetadataScanner scanner : scanners) {
-            if (scanner instanceof OverrideInfoScanner)
-                sorted.addLast(scanner);
-            else
-                sorted.addFirst(scanner);
-        }
         List<SourceInfo> infoList = new ArrayList<>();
-        for (MetadataScanner scanner : sorted) {
+        for (MetadataScanner scanner : scanners) {
             infoList.addAll(scanner.scan());
         }
         return infoList;
     }
 
+    private LinkedList<MetadataScanner> getSortedScanners(List<MetadataScanner> allScaners) {
+        if (allScaners == null || allScaners.isEmpty())
+            return new LinkedList<>();
+        LinkedList<MetadataScanner> sorted = new LinkedList<>();
+        List<OverrideInfoScanner> overrideInfoScanners = new ArrayList<>();
+        for (MetadataScanner scanner : allScaners) {
+            if (scanner instanceof OverrideInfoScanner) {
+                overrideInfoScanners.add((OverrideInfoScanner) scanner);
+            } else if (scanner instanceof DefaultInfoScanner){
+                sorted.addFirst(scanner);
+            } else {
+                sorted.addLast(scanner);
+            }
+        }
+        overrideInfoScanners.forEach(s -> sorted.addLast(s));
+        return sorted;
+    }
 
     @Override
     public N2oMetadataScannerFactory add(MetadataScanner... scanners) {
-        this.scanners.addAll(Arrays.asList(scanners));
+        if (scanners == null)
+            return this;
+        List<MetadataScanner> allScanners = new ArrayList<>();
+        allScanners.addAll(Arrays.asList(scanners));
+        allScanners.addAll(this.scanners);
+        this.scanners = getSortedScanners(allScanners);
         return this;
     }
 

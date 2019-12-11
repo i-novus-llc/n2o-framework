@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { connect } from 'react-redux';
 import { compose, withContext, lifecycle } from 'recompose';
 import numeral from 'numeral';

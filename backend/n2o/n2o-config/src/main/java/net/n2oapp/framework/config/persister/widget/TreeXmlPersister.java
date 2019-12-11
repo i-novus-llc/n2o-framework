@@ -1,12 +1,9 @@
 package net.n2oapp.framework.config.persister.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.stereotype.Component;
-
-import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
 
 /**
  * User: operhod
@@ -40,19 +37,6 @@ public class TreeXmlPersister extends WidgetXmlPersister<N2oTree> {
             inheritanceNodes.setAttribute("icon-field-id", n2o.getIconFieldId());
         rootElement.addContent(inheritanceNodes);
         return rootElement;
-    }
-
-    private void createNode(GroupingNodes.Node node, Namespace namespace, Element root) {
-        Element nodeElement = new Element("node", namespace);
-        nodeElement.setAttribute("value-field-id", node.getValueFieldId());
-        nodeElement.setAttribute("label-field-id", node.getLabelFieldId());
-        if (node.getEnabled() != null)
-            setAttribute(nodeElement, "enabled", node.getEnabled());
-        if (node.getIcon() != null)
-            setAttribute(nodeElement, "icon", node.getIcon());
-        root.addContent(nodeElement);
-        if (node.getNodes() != null && node.getNodes().size() > 0)
-            createNode(node.getNodes().get(0), namespace, nodeElement);
     }
 
     @Override

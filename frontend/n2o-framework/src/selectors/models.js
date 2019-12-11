@@ -2,7 +2,7 @@
  * Created by emamoshin on 03.11.2017.
  */
 import { createSelector } from 'reselect';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { PREFIXES } from '../constants/models';
 
 /*

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Button, Row, Col } from "reactstrap";
+import Button from "reactstrap/lib/Button";
+import Row from "reactstrap/lib/Row";
+import Col from "reactstrap/lib/Col";
 
 class PrintPage extends Component {
   state = {

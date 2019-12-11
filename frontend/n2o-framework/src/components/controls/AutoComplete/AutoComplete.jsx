@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  find,
-  isEmpty,
-  isFunction,
-  get,
-  filter,
-  includes,
-  isEqual,
-  map,
-  isArray,
-  isString,
-  isNil,
-} from 'lodash';
+import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
+import isFunction from 'lodash/isFunction';
+import get from 'lodash/get';
+import filter from 'lodash/filter';
+import includes from 'lodash/includes';
+import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import isArray from 'lodash/isArray';
+import isString from 'lodash/isString';
+import isNil from 'lodash/isNil';
 import { compose } from 'recompose';
 import listContainer from '../listContainer';
 import onClickOutside from 'react-onclickoutside';

@@ -220,7 +220,7 @@ public class PlaceHoldersResolver {
                 }
             } else {
                 String[] ends = split[i].split("\\W");
-                idxSuffix = ends[0].length();
+                idxSuffix = ends.length > 0 ? ends[0].length() : 0;
                 idxNext = idxSuffix;
                 if (idxSuffix == 0) {
                     sb.append(prefix);
