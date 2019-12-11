@@ -37,8 +37,8 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public abstract class BaseAccessTransformer<D extends Compiled, C extends CompileContext<?, ?>>
         implements CompileTransformer<D, C>, CompiledClassAware {
 
-    private static String DEFAULT_OBJECT_ACCESS_DENY = "n2o.access.deny_objects";
-    private static String DEFAULT_PAGE_ACCESS_DENY = "n2o.access.deny_pages";
+    private static String DEFAULT_OBJECT_ACCESS_DENIED = "n2o.access.deny_objects";
+    private static String DEFAULT_PAGE_ACCESS_DENIED = "n2o.access.deny_pages";
 
     protected void collectObjectAccess(PropertiesAware compiled, String objectId,
                                        String operationId, SimpleCompiledAccessSchema schema,
@@ -125,9 +125,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
 
         if (securityObject.isEmpty()) {
-            Boolean defaultObjectAccessDeny = p.resolve(property(DEFAULT_OBJECT_ACCESS_DENY), Boolean.class);
-            securityObject.setPermitAll(!defaultObjectAccessDeny);
-            securityObject.setDenied(defaultObjectAccessDeny);
+            Boolean defaultObjectAccessDenied = p.resolve(property(DEFAULT_OBJECT_ACCESS_DENIED), Boolean.class);
+            securityObject.setPermitAll(!defaultObjectAccessDenied);
+            securityObject.setDenied(defaultObjectAccessDenied);
         }
         security.getSecurityMap().put("object", securityObject);
     }
@@ -223,9 +223,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
 
         if (securityObject.isEmpty()) {
-            Boolean defaultPageAccessDeny = p.resolve(property(DEFAULT_PAGE_ACCESS_DENY), Boolean.class);
-            securityObject.setPermitAll(!defaultPageAccessDeny);
-            securityObject.setDenied(defaultPageAccessDeny);
+            Boolean defaultPageAccessDenied = p.resolve(property(DEFAULT_PAGE_ACCESS_DENIED), Boolean.class);
+            securityObject.setPermitAll(!defaultPageAccessDenied);
+            securityObject.setDenied(defaultPageAccessDenied);
         }
         security.getSecurityMap().put("page", securityObject);
     }

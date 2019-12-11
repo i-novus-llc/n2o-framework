@@ -28,13 +28,13 @@ public class AccessConfiguration {
     private Boolean strictFiltering;
 
     @Value("${n2o.access.deny_objects:true}")
-    private String defaultObjectAccessDeny;
+    private String defaultObjectAccessDenied;
 
     @Value("${n2o.access.deny_pages:false}")
-    private String defaultPageAccessDeny;
+    private String defaultPageAccessDenied;
 
     @Value("${n2o.access.deny_urls:false}")
-    private String defaultUrlAccessDeny;
+    private String defaultUrlAccessDenied;
 
 
     @Bean
