@@ -5,10 +5,16 @@ import {
   all,
   take,
   fork,
-  takeLatest,
+  takeEvery,
   cancelled,
 } from 'redux-saga/effects';
-import { every, filter, forOwn, get, some, isEmpty, values } from 'lodash';
+import every from 'lodash/every';
+import filter from 'lodash/filter';
+import forOwn from 'lodash/forOwn';
+import get from 'lodash/get';
+import some from 'lodash/some';
+import isEmpty from 'lodash/isEmpty';
+import values from 'lodash/values';
 import { SET } from '../constants/models';
 import { getContainerButtons } from '../selectors/toolbar';
 import {
@@ -111,7 +117,7 @@ function* watchRegister() {
         buttons = yield call(prepareButton, buttons, payloadRegister);
         yield fork(resolveButton, payloadRegister);
         // todo: Перейти на redux-saga@1.0.0 и использовать takeLeading
-        yield takeLatest(SET, watchModel, buttons);
+        yield takeEvery(SET, watchModel, buttons);
       }
     }
   } finally {

@@ -2,10 +2,13 @@ import React from 'react';
 import { configure, addDecorator } from '@storybook/react';
 import { setOptions } from '@storybook/addon-options';
 import { withInfo } from '@storybook/addon-info';
+import functions from '../src/utils/functions';
 
 import Container from './Container';
 
 import '../src/sass/n2o.scss';
+
+window._n2oEvalContext = functions;
 
 // Option defaults:
 setOptions({

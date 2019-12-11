@@ -50,7 +50,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void simplePage() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testSimplePage.page.xml").get(new PageContext("testSimplePage"));
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testSimplePage.page.xml")
+                .get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
         assertThat(page.getLayout().getSrc(), is("SingleLayout"));
         assertThat(page.getWidgets().get("test_route_main"), notNullValue());

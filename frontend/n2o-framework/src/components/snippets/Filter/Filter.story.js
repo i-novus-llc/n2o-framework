@@ -1,6 +1,9 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import Form from 'reactstrap/lib/Form';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Label from 'reactstrap/lib/Label';
+import Input from 'reactstrap/lib/Input';
 import Filter from './Filter';
 
 const stories = storiesOf('UI Компоненты/Фильтр', module);

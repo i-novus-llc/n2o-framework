@@ -42,6 +42,7 @@ public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage> {
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
+        //todo когда появится object-id у simple-page необходимо его и id главного виджета добавить в PageScope
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
         page.setPageProperty(initPageName(pageName, context, p));

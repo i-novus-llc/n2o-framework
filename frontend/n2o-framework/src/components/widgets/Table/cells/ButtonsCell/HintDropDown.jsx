@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map, defaultTo, pick, isEmpty } from 'lodash';
-import { Button, UncontrolledTooltip } from 'reactstrap';
+import defaultTo from 'lodash/defaultTo';
+import pick from 'lodash/pick';
+import isEmpty from 'lodash/isEmpty';
+import Button from 'reactstrap/lib/Button';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import Icon from '../../../../snippets/Icon/Icon';
 import { MODIFIERS, initUid } from './until';
 import { compose, withState } from 'recompose';

@@ -14,22 +14,18 @@ import {
 } from 'redux-saga/effects';
 import { matchPath } from 'react-router';
 import { batchActions } from 'redux-batched-actions';
-import {
-  compact,
-  each,
-  head,
-  isEmpty,
-  isObject,
-  map,
-  clone,
-  isEqual,
-  has,
-  findLast,
-  get,
-  set,
-  reduce,
-  pickBy,
-} from 'lodash';
+import compact from 'lodash/compact';
+import each from 'lodash/each';
+import head from 'lodash/head';
+import isEmpty from 'lodash/isEmpty';
+import isObject from 'lodash/isObject';
+import map from 'lodash/map';
+import clone from 'lodash/clone';
+import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import reduce from 'lodash/reduce';
+import pickBy from 'lodash/pickBy';
 import {
   getAction,
   getLocation,

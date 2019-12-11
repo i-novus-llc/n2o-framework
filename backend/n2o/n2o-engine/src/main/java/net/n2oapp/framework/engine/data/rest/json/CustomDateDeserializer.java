@@ -8,6 +8,9 @@ import org.apache.commons.lang.time.DateUtils;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Десериализиует даты, указанных форматов
@@ -15,6 +18,7 @@ import java.text.ParseException;
 public class CustomDateDeserializer extends StdDeserializer<Object> {
 
     private String[] patterns;
+    private Set<String> exclusions;
 
     private final JsonDeserializer<?> defaultDeserializer;
 
@@ -29,7 +33,7 @@ public class CustomDateDeserializer extends StdDeserializer<Object> {
     @Override
     public Object deserialize(JsonParser jsonparser, DeserializationContext context) throws IOException {
         String jsonString = jsonparser.getText();
-        if (patterns == null)
+        if (patterns == null || exclude(jsonparser.getCurrentName()))
             return defaultDeserializer.deserialize(jsonparser, context);
         try {
             return DateUtils.parseDate(jsonString, patterns);
@@ -38,7 +42,17 @@ public class CustomDateDeserializer extends StdDeserializer<Object> {
         }
     }
 
+    private boolean exclude(String key) {
+        return exclusions != null
+                && key != null
+                && exclusions.contains(key);
+    }
+
     public void setPatterns(String[] patterns) {
         this.patterns = patterns;
+    }
+
+    public void setExclusions(String[] exclusions) {
+        this.exclusions = new HashSet<>(Arrays.asList(exclusions));
     }
 }

@@ -13,6 +13,8 @@ import java.io.Serializable;
 @Setter
 public class PageScope implements Serializable {
     private String pageId;
+    private String objectId;
+    private String resultWidgetId;
 
     public String getGlobalWidgetId(String localWidgetId) {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);

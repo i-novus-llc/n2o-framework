@@ -1,9 +1,11 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.*;
 
@@ -34,9 +36,11 @@ public class MappingProcessorTest {
         String result = MappingProcessor.outMap(test, "valueStr", String.class);
         assert result.equals("string");
 
+        ContextProcessor contextProcessor = Mockito.mock(ContextProcessor.class);
+        Mockito.when(contextProcessor.resolve(11)).thenReturn(11);
         DataSet res = new DataSet();
-        MappingProcessor.outMap(res, test, "fieldId", "valueStr", null);
-        MappingProcessor.outMap(res, test, "fieldId2", "valueInt", 11);
+        MappingProcessor.outMap(res, test, "fieldId", "valueStr", null, contextProcessor);
+        MappingProcessor.outMap(res, test, "fieldId2", "valueInt", 11, contextProcessor);
         assert res.get("fieldId").equals("string");
         assert res.get("fieldId2").equals(11);
     }

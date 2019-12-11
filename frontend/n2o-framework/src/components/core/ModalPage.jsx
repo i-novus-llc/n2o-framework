@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import Modal from 'reactstrap/lib/Modal';
+import ModalHeader from 'reactstrap/lib/ModalHeader';
+import ModalBody from 'reactstrap/lib/ModalBody';
+import ModalFooter from 'reactstrap/lib/ModalFooter';
+import { compose } from 'recompose';
 import Page from './Page';
 import cn from 'classnames';
 import Actions from '../actions/Actions';
 import Spinner from '../snippets/Spinner/Spinner';
 import withOverlayMethods from './withOverlayMethods';
-import { compose } from 'recompose';
 
 /**
  * Компонент, отображающий модальное окно
@@ -164,6 +167,7 @@ ModalPage.defaultProps = {
 
 ModalPage.contextTypes = {
   defaultPromptMessage: PropTypes.string,
+  resolveProps: PropTypes.func,
 };
 
 export default compose(withOverlayMethods)(ModalPage);

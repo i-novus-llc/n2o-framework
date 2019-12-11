@@ -1,21 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  ButtonToolbar,
-  ButtonGroup,
-  Button,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
+import ButtonToolbar from 'reactstrap/lib/ButtonToolbar';
+import ButtonGroup from 'reactstrap/lib/ButtonGroup';
+import Button from 'reactstrap/lib/Button';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
 import { compose, setDisplayName } from 'recompose';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 import { callActionImpl } from '../../actions/toolbar';
 import { resolveWidget } from '../../actions/widgets';
 import ModalDialog from './ModalDialog/ModalDialog';
 import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
-import factoryResolver from '../../utils/factoryResolver';
 import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
@@ -175,7 +172,7 @@ class Actions extends React.Component {
     const confirmMode = get(button, 'confirm.mode', ConfirmMode.MODAL);
 
     const btn = (
-      <div onClick={e => e.stopPropagation()}>
+      <>
         {confirmMode === ConfirmMode.POPOVER ? (
           <PopoverConfirm
             {...this.mapButtonConfirmProps(button)}
@@ -199,7 +196,7 @@ class Actions extends React.Component {
         ) : (
           Container
         )}
-      </div>
+      </>
     );
 
     return <SecurityNotRender config={button.security} component={btn} />;
@@ -327,7 +324,8 @@ class Actions extends React.Component {
     size,
   }) {
     const { containerKey } = this.props;
-    const CustomMenu = factoryResolver(dropdownSrc);
+    const { resolveProps } = this.context;
+    const CustomMenu = resolveProps(dropdownSrc);
     const dropdownProps = {
       size,
       title,
@@ -379,6 +377,7 @@ class Actions extends React.Component {
 
 Actions.contextTypes = {
   store: PropTypes.object,
+  resolveProps: PropTypes.func,
 };
 
 Actions.defaultProps = {

@@ -114,14 +114,14 @@
       }
     },
     "queryMapping": {
-      "proto_patients_surname": {
+      "patients_surname": {
         "get": {
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
             "field": "surname",
-            "value": ":proto_patients_surname"
+            "value": ":patients_surname"
           }
         },
         "set": {
@@ -129,14 +129,14 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_name": {
+      "patients_name": {
         "get": {
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
             "field": "name",
-            "value": ":proto_patients_name"
+            "value": ":patients_name"
           }
         },
         "set": {
@@ -144,14 +144,14 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_bdate_begin": {
+      "patients_bdate_begin": {
         "get": {
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
             "field": "bdate.begin",
-            "value": ":proto_patients_bdate_begin"
+            "value": ":patients_bdate_begin"
           }
         },
         "set": {
@@ -159,14 +159,14 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_bdate_end": {
+      "patients_bdate_end": {
         "get": {
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
             "field": "bdate.end",
-            "value": ":proto_patients_bdate_end"
+            "value": ":patients_bdate_end"
           }
         },
         "set": {
@@ -174,14 +174,14 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_genders_id": {
+      "patients_genders_id": {
         "get": {
           "type": "n2o/models/UPDATE_MAP",
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
             "field": "genders",
-            "value": ":proto_patients_genders_id",
+            "value": ":patients_genders_id",
             "map": "id"
           }
         },
@@ -190,14 +190,14 @@
           "link": "models.filter['proto_patients']"
         }
       },
-      "proto_patients_vip": {
+      "patients_vip": {
         "get": {
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
             "field": "vip",
-            "value": ":proto_patients_vip"
+            "value": ":patients_vip"
           }
         },
         "set": {
@@ -357,27 +357,27 @@
         "url": "n2o/data/proto",
         "pathMapping": {},
         "queryMapping": {
-          "proto_patients_surname": {
+          "patients_surname": {
             "value": "`surname`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_name": {
+          "patients_name": {
             "value": "`name`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_bdate_begin": {
+          "patients_bdate_begin": {
             "value": "`bdate.begin`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_bdate_end": {
+          "patients_bdate_end": {
             "value": "`bdate.end`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_genders_id": {
+          "patients_genders_id": {
             "value": "`genders.map(function(t){return t.id})`",
             "link": "models.filter['proto_patients']"
           },
-          "proto_patients_vip": {
+          "patients_vip": {
             "value": "`vip`",
             "link": "models.filter['proto_patients']"
           }
@@ -1050,14 +1050,6 @@
                       "id": "delete",
                       "icon": "fa fa-trash",
                       "actionId": "delete",
-                      "conditions": {
-                        "enabled": [
-                          {
-                            "expression": "!_.isEmpty(this)",
-                            "modelLink": "models.resolve['proto_patients']"
-                          }
-                        ]
-                      },
                       "confirm": {
                         "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
                         "title": "Предупреждение",
@@ -1072,14 +1064,6 @@
                       "id": "update",
                       "icon": "fa fa-pencil",
                       "actionId": "update",
-                      "conditions": {
-                        "enabled": [
-                          {
-                            "expression": "!_.isEmpty(this)",
-                            "modelLink": "models.resolve['proto_patients']"
-                          }
-                        ]
-                      },
                       "title": "Изменить"
                     }
                   ]
@@ -1324,14 +1308,6 @@
                 "icon": "fa fa-pencil",
                 "actionId": "update",
                 "color": "link",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_contacts']"
-                    }
-                  ]
-                },
                 "title": "Изменить"
               },
               {
@@ -1339,14 +1315,6 @@
                 "icon": "fa fa-trash",
                 "actionId": "delete",
                 "color": "link",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_contacts']"
-                    }
-                  ]
-                },
                 "confirm": {
                   "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
                   "title": "Предупреждение",

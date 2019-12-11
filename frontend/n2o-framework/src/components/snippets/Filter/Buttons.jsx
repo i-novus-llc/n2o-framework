@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, ButtonGroup } from 'reactstrap';
+import ButtonGroup from 'reactstrap/lib/ButtonGroup';
+import Button from 'reactstrap/lib/Button';
 import { FormattedMessage } from 'react-intl';
 
 export default function Buttons({

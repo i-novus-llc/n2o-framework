@@ -17,6 +17,48 @@
       "applyOnInit" : true
     },
     {
+      "type" : "reset",
+      "on" : ["test4"],
+      "expression" : "test4 == null",
+      "applyOnInit" : true
+    },
+    {
+      "type" : "visible",
+      "on" : ["test4"],
+      "expression" : "test4 == null",
+      "applyOnInit" : true
+    },
+    {
+      "type" : "reset",
+      "on" : ["test4"],
+      "expression" : "test4 == null",
+      "applyOnInit" : true
+    },
+    {
+      "type" : "visible",
+      "on" : ["test4"],
+      "expression" : "test4 == null",
+      "applyOnInit" : true
+    },
+    {
+      "type" : "visible",
+      "on" : ["test4"],
+      "expression" : "test4 == null",
+      "applyOnInit" : true
+    },
+    {
+      "type" : "reset",
+      "on" : ["test4"],
+      "expression" : "test4 == null",
+      "applyOnInit" : true
+    },
+    {
+      "type" : "reset",
+      "on" : ["test4"],
+      "expression" : "true",
+      "applyOnInit" : true
+    },
+    {
       "type" : "reRender",
       "on" : ["name","type"]
     }

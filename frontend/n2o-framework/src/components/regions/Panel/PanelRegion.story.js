@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { set, pullAt } from 'lodash';
+import set from 'lodash/set';
+import pullAt from 'lodash/pullAt';
 
 import PanelRegion, {
   PanelRegion as PanelRegionComponent,

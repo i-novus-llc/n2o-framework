@@ -1,17 +1,18 @@
 import React from 'react';
 import Spinner from './Spinner';
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 const setup = props => {
   return mount(<Spinner {...props} />);
 };
 
 describe('Тесты Spinner', () => {
-  it('Отрисовывается spinner cover', () => {
-    const wrapper = setup({ endTimeout: false, loading: true, type: 'cover' });
-    console.log(wrapper.debug())
-    expect(wrapper.find('.n2o-spinner-container').exists()).toEqual(true);
+  it('Отрисовывается spinner cover', async () => {
+    const wrapper = setup({ loading: true, type: 'cover' });
+    expect(wrapper.find('.spinner-cover').exists()).toEqual(true);
   });
-  it('Отрисовывается spinner background', () => {
+  it('Отрисовывается spinner background', async () => {
     const wrapper = setup({
       endTimeout: false,
       loading: true,

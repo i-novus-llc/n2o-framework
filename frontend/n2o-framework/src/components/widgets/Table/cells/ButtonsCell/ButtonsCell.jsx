@@ -24,21 +24,18 @@ function ButtonsCell({
   visible,
   model,
   style,
-  buttons,
+  toolbar,
   actions,
   widgetId,
   ...other
 }) {
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
+
   return visible ? (
     <Actions
       className={cx('n2o-buttons-cell', className)}
       style={style}
-      toolbar={[
-        {
-          buttons,
-        },
-      ]}
+      toolbar={toolbar}
       actions={actions}
       containerKey={key}
       resolveBeforeAction={widgetId}

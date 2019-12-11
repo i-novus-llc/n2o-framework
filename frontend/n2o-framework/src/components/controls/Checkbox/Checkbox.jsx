@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isNil } from 'lodash';
+import isNil from 'lodash/isNil';
 import { setDisplayName } from 'recompose';
 import Input from '../Input/Input';
 import cn from 'classnames';

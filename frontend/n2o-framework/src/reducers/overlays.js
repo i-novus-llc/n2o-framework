@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import {
   INSERT,
   DESTROY,
@@ -44,7 +44,7 @@ function resolve(state = defaultState, action) {
  */
 export default function overlays(state = [], action) {
   const index = state.findIndex(
-    overlay => overlay.name === _.get(action, 'payload.name')
+    overlay => overlay.name === get(action, 'payload.name')
   );
   switch (action.type) {
     case INSERT:

@@ -1,7 +1,7 @@
 import { takeEvery, select, put, call, race } from 'redux-saga/effects';
 import { isDirty } from 'redux-form';
 import { CLOSE } from '../constants/overlays';
-import { keys } from 'lodash';
+import keys from 'lodash/keys';
 import { makePageWidgetsByIdSelector } from '../selectors/pages';
 import { showPrompt, destroyOverlay } from '../actions/overlays';
 

@@ -4,30 +4,11 @@ services:
   frontend:
     ports:
       - "8220:8080"
-    deploy:
-      resources:
-        limits:
-          memory: 700M
-      placement:
-        constraints:
-          - node.labels.dc == hetzner
+    environment:
+      - SERVER_SERVLET_CONTEXT_PATH=/latest/demo
   docs:
     ports:
       - "8221:80"
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-      placement:
-        constraints:
-          - node.labels.dc == hetzner
   storybook:
     ports:
       - "8222:80"
-    deploy:
-      resources:
-        limits:
-          memory: 256M
-      placement:
-        constraints:
-          - node.labels.dc == hetzner

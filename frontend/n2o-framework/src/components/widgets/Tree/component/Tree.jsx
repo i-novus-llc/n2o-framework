@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import TreeBase from 'rc-tree';
-import {
-  pick,
-  isEqual,
-  map,
-  eq,
-  difference,
-  filter,
-  isArray,
-  isFunction,
-  values,
-} from 'lodash';
+
+import pick from 'lodash/pick';
+import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import difference from 'lodash/difference';
+import filter from 'lodash/filter';
+import isArray from 'lodash/isArray';
+import values from 'lodash/values';
 import { HotKeys } from 'react-hotkeys/cjs';
 //components
 import { BaseNode } from '../TreeNodes';

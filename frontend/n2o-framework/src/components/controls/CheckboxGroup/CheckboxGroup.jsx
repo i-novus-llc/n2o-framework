@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { xorBy, some, isNull } from 'lodash';
+import xorBy from 'lodash/xorBy';
+import some from 'lodash/some';
+import isNull from 'lodash/isNull';
 
 /**
  * Компонент - группа чекбоксов, содержит {@link Checkbox} как children

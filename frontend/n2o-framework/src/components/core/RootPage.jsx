@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 import { connect } from 'react-redux';
 import { compose, defaultProps, getContext, withProps } from 'recompose';
 import { createStructuredSelector } from 'reselect';

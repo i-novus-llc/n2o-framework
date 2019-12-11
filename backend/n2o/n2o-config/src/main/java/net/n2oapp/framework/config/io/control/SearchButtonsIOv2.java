@@ -20,6 +20,7 @@ public class SearchButtonsIOv2 extends FieldIOv2<N2oSearchButtons>{
         super.io(e, m, p);
         p.attribute(e, "search-label", m::getSearchLabel, m::setSearchLabel);
         p.attribute(e, "reset-label", m::getResetLabel, m::setResetLabel);
+        p.attribute(e, "clear-ignore", m::getClearIgnore, m::setClearIgnore);
     }
 
     @Override

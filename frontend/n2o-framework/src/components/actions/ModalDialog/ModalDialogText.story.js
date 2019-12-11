@@ -1,7 +1,11 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import Form from 'reactstrap/lib/Form';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Label from 'reactstrap/lib/Label';
+import Input from 'reactstrap/lib/Input';
+import Button from 'reactstrap/lib/Button';
 
 import ModalDialog from './ModalDialog';
 

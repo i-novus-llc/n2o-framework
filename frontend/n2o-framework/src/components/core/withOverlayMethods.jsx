@@ -1,5 +1,4 @@
 import React from 'react';
-import factoryResolver from '../../utils/factoryResolver';
 import { createStructuredSelector } from 'reselect';
 import {
   makePageDisabledByIdSelector,
@@ -28,9 +27,9 @@ function withOverlayMethods(WrappedComponent) {
         this.showPrompt();
       }
     }
-
     renderFromSrc(src) {
-      const Component = factoryResolver(src, null);
+      const { resolveProps } = this.context;
+      const Component = resolveProps(src, null);
       return <Component />;
     }
 

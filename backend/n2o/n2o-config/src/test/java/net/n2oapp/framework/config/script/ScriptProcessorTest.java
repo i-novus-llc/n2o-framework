@@ -448,7 +448,7 @@ public class ScriptProcessorTest {
      * */
     @Test
     @Ignore
-    public void testAddMomentJs() throws ExecutionException, InterruptedException {
+    public void testAddMomentJs() throws ExecutionException, InterruptedException, ScriptException {
         String js = "moment(day, 'DD.MM.YYYY').format('DD-MM-YY');";
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {
@@ -462,7 +462,6 @@ public class ScriptProcessorTest {
             String result = ScriptProcessor.eval(js, dataSet);
             return result.equals(format1.format(day.getTime()));
         });
-
     }
 
     /*
@@ -544,26 +543,12 @@ public class ScriptProcessorTest {
 
     @Test
     public void testCustomFunctions() throws ScriptException {
-        ScriptEngine engine = ScriptProcessor.getScriptEngine();
-
-        //n2o
-        assertThat(engine.eval("$.now()"), notNullValue());
-        assertThat(engine.eval("$.today()"), notNullValue());
-        assertThat(engine.eval("$.beginWeek()"), notNullValue());
-        assertThat(engine.eval("$.endWeek()"), notNullValue());
-        assertThat(engine.eval("$.beginMonth()"), notNullValue());
-        assertThat(engine.eval("$.endMonth()"), notNullValue());
-        assertThat(engine.eval("$.beginQuarter()"), notNullValue());
-        assertThat(engine.eval("$.endQuarter()"), notNullValue());
-        assertThat(engine.eval("$.beginYear()"), notNullValue());
-        assertThat(engine.eval("$.endYear()"), notNullValue());
-
         //moment
-        assertThat(engine.eval("moment('06.02.2019').format('DD.MM.YYYY')"), is("02.06.2019"));
+        assertThat(ScriptProcessor.eval("moment('06.02.2019').format('DD.MM.YYYY')", new DataSet()), is("02.06.2019"));
         //numeral
-        assertThat(engine.eval("numeral(1.5).format('0.00')"), is("1.50"));
+        assertThat(ScriptProcessor.eval("numeral(1.5).format('0.00')", new DataSet()), is("1.50"));
         //lodash
-        assertThat(engine.eval("_.join(['a', 'b', 'c'], '~')"), is("a~b~c"));
+        assertThat(ScriptProcessor.eval("_.join(['a', 'b', 'c'], '~')", new DataSet()), is("a~b~c"));
     }
 
     @Test
