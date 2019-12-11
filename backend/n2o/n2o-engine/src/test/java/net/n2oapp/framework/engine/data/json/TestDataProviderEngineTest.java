@@ -444,6 +444,12 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("id"), is(1L));
         assertThat(result.get(1).get("id"), is(999L));
         assertThat(result.get(2).get("id"), is(5607775L));
+        inParams.put("filters", Arrays.asList("name :in :name"));
+        inParams.put("name", "Денис");
+        //Фильтр по name "in" (проверка одиночного значения)
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("name"), is("Денис"));
 
         //Фильтр по "isNull"
         inParams.put("filters", Arrays.asList("age:isNull:age_isNull"));
