@@ -15,7 +15,6 @@
     "clean": "nwb clean-module && nwb clean-demo",
     "prepublishOnly": "npm run build",
     "start": "nwb serve-react-demo",
-    "test": "nwb test-react",
     "test:coverage": "nwb test-react --coverage",
     "test:watch": "nwb test-react --server"
   },
@@ -23,6 +22,7 @@
     "crypto-pro": "^1.1.0",
     "lodash": "^4.17.15",
     "n2o-framework": "^7.5.0-SNAPSHOT",
+    "query-string": "^6.9.0",
     "reactstrap": "^8.1.1",
     "recompose": "^0.30.0"
   },

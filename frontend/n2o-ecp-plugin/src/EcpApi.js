@@ -1,6 +1,9 @@
 import CryptoPro from "crypto-pro";
 
 import isFunction from "lodash/isFunction";
+import set from "lodash/set";
+
+import queryString from "query-string";
 
 import { SignType } from "./constants";
 
@@ -13,11 +16,25 @@ class EcpApi {
     return CryptoPro.call("getCert", hash);
   }
 
-  static getDocumentBeforeSign({ url, type, data, documentKey = "hash" }) {
-    return fetch(url, {
-      method: type,
-      body: isFunction(data) ? data() : data
-    }).then(response => {
+  static getDocumentBeforeSign({
+    url,
+    type = "POST",
+    data,
+    documentKey = "hash"
+  }) {
+    const options = {
+      method: type
+    };
+
+    if (type === "GET") {
+      const query = queryString.stringify(isFunction(data) ? data() : data);
+
+      url += `?${query}`;
+    } else {
+      set(options, "body", JSON.stringify(isFunction(data) ? data() : data));
+    }
+
+    return fetch(url, options).then(response => {
       try {
         const json = response.json();
 
@@ -28,11 +45,26 @@ class EcpApi {
     });
   }
 
-  static saveDocumentAfterSign({ url, type, data }, signedData) {
-    return fetch(url, {
-      method: type,
-      body: isFunction(data) ? data(signedData) : signedData
-    });
+  static saveDocumentAfterSign(
+    { url, type = "POST", data, dataKey = "data" },
+    signedData
+  ) {
+    const options = {
+      method: type
+    };
+    const body = {
+      [dataKey]: signedData,
+      ...data
+    };
+
+    if (type === "GET") {
+      const query = queryString.stringify(body);
+      url += `?${query}`;
+    } else {
+      set(options, "body", JSON.stringify(body));
+    }
+
+    return fetch(url, options);
   }
 
   static async sign({
@@ -49,19 +81,19 @@ class EcpApi {
       data = await EcpApi.getDocumentBeforeSign(fileRequestService);
     }
 
-    if (signType === SignType.XML) {
-      signedData = await CryptoPro.call("signDataXml", hash, data);
-    } else {
+    if (signType === SignType.HASH) {
       signedData = await CryptoPro.call(
         "signData",
         hash,
         btoa(data),
         typeOfSign
       );
+    } else {
+      signedData = await CryptoPro.call("signDataXml", hash, data);
     }
 
     if (fileSaveService) {
-      await EcpApi.saveDocumentAfterSign(fileSaveService);
+      await EcpApi.saveDocumentAfterSign(fileSaveService, signedData);
     }
 
     return signedData;

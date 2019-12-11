@@ -10,6 +10,7 @@ import compose from "recompose/compose";
 import withState from "recompose/withState";
 import withHandlers from "recompose/withHandlers";
 import lifecycle from "recompose/lifecycle";
+import defaultProps from "recompose/defaultProps";
 
 import Modal from "reactstrap/lib/Modal";
 import ModalHeader from "reactstrap/lib/ModalHeader";
@@ -22,7 +23,7 @@ import Collapse, {
   Panel
 } from "n2o-framework/lib/components/snippets/Collapse/Collapse";
 
-import { SignType, TypeOfSign } from "./constants";
+import { SignType } from "./constants";
 import EcpApi from "./EcpApi";
 
 function EcpButton({
@@ -111,7 +112,8 @@ EcpButton.propTypes = {
   fileSaveService: PropTypes.shape({
     url: PropTypes.string,
     type: PropTypes.string,
-    data: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+    data: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+    dataKey: PropTypes.string
   }),
   signType: PropTypes.oneOf([SignType.XML, SignType.HASH]),
   typeOfSign: PropTypes.bool,
@@ -130,15 +132,18 @@ EcpButton.defaultProps = {
 };
 
 const enhance = compose(
+  defaultProps({
+    signType: SignType.HASH,
+    successSign: () => {},
+    errorSign: () => {}
+  }),
   withState("loading", "setLoading", false),
   withState("certificates", "setCertificates", []),
   withState("certificate", "setCertificate"),
   withState("isOpen", "setOpen", ({ isOpen }) => isOpen),
   withState("error", "setError", false),
   withHandlers({
-    toggle: ({ isOpen, setOpen }) => () => {
-      setOpen(!isOpen);
-    },
+    toggle: ({ isOpen, setOpen }) => () => setOpen(!isOpen),
     createAlert: () => (label, severity) => [
       {
         key: 1,

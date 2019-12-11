@@ -16,7 +16,24 @@ const config = {
     DataGrid: DataGrid
   },
   controls: {
-    InputText: EcpButton
+    InputText: () => (
+      <EcpButton
+        fileRequestService={{
+          url: "http://localhost:9000/sign/get",
+          data: {
+            userId: 1
+          },
+          documentKey: "data"
+        }}
+        fileSaveService={{
+          url: "http://localhost:9000/sign/set",
+          type: "POST",
+          data: {
+            userId: 1
+          }
+        }}
+      />
+    )
   },
   cells: {
     AvatarCell: AvatarCell
