@@ -2,6 +2,10 @@ package net.n2oapp.framework.config.metadata.validation.standard;
 
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.core.env.PropertyResolver;
 
@@ -37,6 +41,29 @@ public class IdValidationUtils {
             for (NamespaceUriAware item : items) {
                 if (item instanceof IdAware) {
                     checkId((IdAware) item);
+                }
+            }
+        }
+    }
+
+    public void checkUniqueFieldId(NamespaceUriAware[] items, Set<String> ids, boolean hasDependencies) {
+        if (items != null) {
+            for (NamespaceUriAware item : items) {
+                if (item instanceof N2oField) {
+                    N2oField field = (N2oField) item;
+                    if (field.getDependencies() != null) {
+                        hasDependencies = true;
+                    }
+                    if (ids.contains(field.getId()) && hasDependencies) {
+                        throw new N2oMetadataValidationException("Поле с идентификатором \'" + field.getId() + "\' встречается более одного раза");
+                    }
+                    ids.add(field.getId());
+                } else if (item instanceof N2oFieldSet) {
+                    checkUniqueFieldId(((N2oFieldSet) item).getItems(), ids, hasDependencies);
+                } else if (item instanceof N2oFieldsetColumn) {
+                    checkUniqueFieldId(((N2oFieldsetColumn) item).getItems(), ids, hasDependencies);
+                } else if (item instanceof N2oFieldsetRow) {
+                    checkUniqueFieldId(((N2oFieldsetRow) item).getItems(), ids, hasDependencies);
                 }
             }
         }
