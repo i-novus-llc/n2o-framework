@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import map from 'lodash/map';
 
 /**
  * Не мутабельный set
@@ -111,7 +112,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
         } else if ($val !== null && $val !== undefined) {
           $Res[Key ? [Key, key].join(delimiter) : key] =
             !needLinked($val) && _.isString($val) && !withoutEncode
-              ? encodeURIComponent(val.join(`&${key}=`))
+              ? map(val, v => encodeURIComponent(v)).join(`&${key}=`)
               : val.join(`&${key}=`);
         }
       });

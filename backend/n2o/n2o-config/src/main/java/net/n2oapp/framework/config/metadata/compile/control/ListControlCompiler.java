@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -144,6 +145,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                     queryMap.put(filterParam, link);
                 } else {
                     queryMap.put(filterParam, new ModelLink(prefilterValue));
+                }
+
+                if (Boolean.TRUE.equals(preFilter.getResetOnChange())
+                        && StringUtils.isLink(preFilter.getValue())) {
+                    N2oField.ResetDependency reset = new N2oField.ResetDependency();
+                    reset.setOn(new String[]{preFilter.getValue().substring(1, preFilter.getValue().length() - 1)});
+                    source.addDependency(reset);
                 }
             }
         }

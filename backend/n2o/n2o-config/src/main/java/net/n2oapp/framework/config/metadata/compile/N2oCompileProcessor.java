@@ -137,7 +137,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public <D extends Compiled> D getCompiled(CompileContext<D, ?> context) {
-        return readCompilePipeline.get(context);
+        return readCompilePipeline.get(context, new N2oCompileProcessor(this));
     }
 
     @Override

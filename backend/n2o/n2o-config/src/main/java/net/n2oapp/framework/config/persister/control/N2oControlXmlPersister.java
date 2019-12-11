@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import net.n2oapp.framework.api.metadata.persister.AbstractN2oMetadataPersister;
 import net.n2oapp.framework.config.persister.tools.PreFilterPersister;
@@ -78,11 +77,11 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
         setAttribute(element, "ajax", selectTree.getAjax());
         setAttribute(element, "search", selectTree.getSearch());
         setAttribute(element, "checkboxes", selectTree.getCheckboxes());
-        if (selectTree.getInheritanceNodes() != null) {
-            InheritanceNodes in = selectTree.getInheritanceNodes();
+        InheritanceNodes in = selectTree.getInheritanceNodes();
+        if (in != null) {
             Element inheritanceNodes = new Element("inheritance-nodes", namespacePrefix, namespaceUri);
-            inheritanceNodes.setAttribute("parent-field-id", in.getParentFieldId());
-            inheritanceNodes.setAttribute("label-field-id", in.getLabelFieldId());
+            setAttribute(inheritanceNodes, "parent-field-id", in.getParentFieldId());
+            setAttribute(inheritanceNodes, "label-field-id", in.getLabelFieldId());
             setAttribute(inheritanceNodes, "value-field-id", in.getValueFieldId());
             setAttribute(inheritanceNodes, "detail-field-id", in.getDetailFieldId());
             setAttribute(inheritanceNodes, "master-field-id", in.getMasterFieldId());
@@ -91,37 +90,10 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
             setAttribute(inheritanceNodes, "icon-field-id", in.getIconFieldId());
             setAttribute(inheritanceNodes, "search-field-id", in.getSearchFilterId());
             setAttribute(inheritanceNodes, "enabled-field-id", in.getEnabledFieldId());
-            PreFilterPersister.setPreFilter(selectTree.getInheritanceNodes().getPreFilters(), inheritanceNodes, Namespace.getNamespace(namespacePrefix, namespaceUri));
+            PreFilterPersister.setPreFilter(in.getPreFilters(), inheritanceNodes, Namespace.getNamespace(namespacePrefix, namespaceUri));
             element.addContent(inheritanceNodes);
-        } else if (selectTree.getGroupingNodes() != null) {
-            List<GroupingNodes.Node> nodes = selectTree.getGroupingNodes().getNodes();
-            Element groupingNodes = new Element("grouping-nodes", namespacePrefix, namespaceUri);
-            groupingNodes.setAttribute("query-id", selectTree.getGroupingNodes().getQueryId());
-            setAttribute(groupingNodes, "detail-field-id", selectTree.getGroupingNodes().getDetailFieldId());
-            setAttribute(groupingNodes, "label-field-id", selectTree.getGroupingNodes().getDetailFieldId());
-            setAttribute(groupingNodes, "master-field-id", selectTree.getGroupingNodes().getMasterFieldId());
-            setAttribute(groupingNodes, "value-field-id", selectTree.getGroupingNodes().getValueFieldId());
-            if (selectTree.getGroupingNodes().getSearchFieldId() != null)
-                groupingNodes.setAttribute("search-field-id", selectTree.getGroupingNodes().getSearchFieldId());
-            element.addContent(groupingNodes);
-            createNode(nodes.get(0), namespaceUri, groupingNodes);
-            PreFilterPersister.setPreFilter(selectTree.getGroupingNodes().getPreFilters(), groupingNodes, Namespace.getNamespace(namespacePrefix, namespaceUri));
         }
     }
-
-    private void createNode(GroupingNodes.Node node, String namespace, Element root) {
-        Element nodeElement = new Element("node", namespace);
-        nodeElement.setAttribute("value-field-id", node.getValueFieldId());
-        nodeElement.setAttribute("label-field-id", node.getLabelFieldId());
-        if (node.getIcon() != null)
-            nodeElement.setAttribute("icon", node.getIcon());
-        if (node.getEnabled() != null)
-            nodeElement.setAttribute("enabled", String.valueOf(node.getEnabled()));
-        root.addContent(nodeElement);
-        if (node.getNodes() != null && node.getNodes().size() > 0)
-            createNode(node.getNodes().get(0), namespace, nodeElement);
-    }
-
 
     @SuppressWarnings("unchecked")
     protected void setField(Element element, N2oField n2oField) {

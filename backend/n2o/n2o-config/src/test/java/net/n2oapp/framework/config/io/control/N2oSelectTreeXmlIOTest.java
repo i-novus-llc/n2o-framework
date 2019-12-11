@@ -3,14 +3,12 @@ package net.n2oapp.framework.config.io.control;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelectTree;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.config.reader.control.N2oStandardControlReaderTestBase;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import net.n2oapp.framework.config.selective.persister.SelectiveStandardPersister;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;
 
-import java.util.List;
 
 /*
  * @author enuzhdina
@@ -22,35 +20,21 @@ public class N2oSelectTreeXmlIOTest extends N2oStandardControlReaderTestBase {
             .addPersister(new SelectiveStandardPersister().addFieldsetPersister());
 
     @Test
-    public void testSelectTreeXmlIOV1(){
+    public void testSelectTreeXmlIOV1() {
         assert tester.check("net/n2oapp/framework/config/io/control/testSelectTreeReader1.fieldset.xml",
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 1);
                     N2oSelectTree selectTree = (N2oSelectTree) fieldSet.getItems()[0];
-//                    assertStandardSingleListAttribute(selectTree, false);
 
                     assert selectTree.getAjax().equals(false);
                     assert selectTree.getSearch();
-                    assert selectTree.getGroupingNodes().getMasterFieldId().equals("id");
-                    assert selectTree.getGroupingNodes().getQueryId().equals("blank");
-                    assert selectTree.getGroupingNodes().getDetailFieldId().equals("id");
-                    assert selectTree.getGroupingNodes().getValueFieldId().equals("id");
-                    assert selectTree.getGroupingNodes().getSearchFieldId().equals("id");
+
                     assert selectTree.getCheckboxes() == null;
-                    List<GroupingNodes.Node> nodes = selectTree.getGroupingNodes().getNodes();
-                    for(int i = 0; i < 2; i++) {
-                        assert nodes.size() == 1;
-                        assert nodes.get(0).getLabelFieldId().equals("id");
-                        assert nodes.get(0).getValueFieldId().equals("id");
-                        assert nodes.get(0).getEnabled();
-                        nodes = nodes.get(0).getNodes();
-                    }
-                    assertPreFilter(selectTree.getGroupingNodes().getPreFilters()[0], true);
                 });
     }
 
     @Test
-    public void testSelectTreeXmlIOV2(){
+    public void testSelectTreeXmlIOV2() {
         assert tester.check("net/n2oapp/framework/config/io/control/testSelectTreeReader2.fieldset.xml",
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 1);
@@ -59,22 +43,22 @@ public class N2oSelectTreeXmlIOTest extends N2oStandardControlReaderTestBase {
                     assert selectTree.getAjax().equals(true);
                     assert selectTree.getSearch();
                     assert selectTree.getCheckboxes();
-                    assert selectTree.getInheritanceNodes().getQueryId().equals("blank");
-                    assert selectTree.getInheritanceNodes().getParentFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getValueFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getLabelFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getDetailFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getHasChildrenFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getIconFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getMasterFieldId().equals("id");
-                    assert selectTree.getInheritanceNodes().getSearchFilterId().equals("id");
-                    assert selectTree.getInheritanceNodes().getEnabledFieldId().equals("test");
-                    assertPreFilter(selectTree.getInheritanceNodes().getPreFilters()[0], true);
+                    assert selectTree.getQueryId().equals("blank");
+                    assert selectTree.getParentFieldId().equals("id");
+                    assert selectTree.getValueFieldId().equals("id");
+                    assert selectTree.getLabelFieldId().equals("id");
+                    assert selectTree.getDetailFieldId().equals("id");
+                    assert selectTree.getHasChildrenFieldId().equals("id");
+                    assert selectTree.getIconFieldId().equals("id");
+                    assert selectTree.getMasterFieldId().equals("id");
+                    assert selectTree.getSearchFilterId().equals("id");
+                    assert selectTree.getEnabledFieldId().equals("test");
+                    assertPreFilter(selectTree.getPreFilters()[0], true);
                 });
     }
 
     @Test
-    public void testInputSelectTreeXmlIOV1(){
+    public void testInputSelectTreeXmlIOV1() {
         assert tester.check("net/n2oapp/framework/config/io/control/testInputSelectTreeReader1.fieldset.xml",
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 2);
@@ -83,30 +67,15 @@ public class N2oSelectTreeXmlIOTest extends N2oStandardControlReaderTestBase {
 
                     assert selectTree1.getAjax().equals(false);
                     assert selectTree1.getSearch();
-                    assert selectTree1.getGroupingNodes().getMasterFieldId().equals("id");
-                    assert selectTree1.getGroupingNodes().getQueryId().equals("blank");
-                    assert selectTree1.getGroupingNodes().getDetailFieldId().equals("id");
-                    assert selectTree1.getGroupingNodes().getValueFieldId().equals("id");
-                    assert selectTree1.getGroupingNodes().getSearchFieldId().equals("id");
                     assert selectTree1.getCheckboxes() == null;
-                    List<GroupingNodes.Node> nodes = selectTree1.getGroupingNodes().getNodes();
-                    for(int i = 0; i < 2; i++) {
-                        assert nodes.size() == 1;
-                        assert nodes.get(0).getLabelFieldId().equals("id");
-                        assert nodes.get(0).getValueFieldId().equals("id");
-                        assert nodes.get(0).getEnabled();
-                        nodes = nodes.get(0).getNodes();
-                    }
-                    assertPreFilter(selectTree1.getGroupingNodes().getPreFilters()[0], true);
 
                     N2oInputSelectTree selectTree2 = (N2oInputSelectTree) fieldSet.getItems()[1];
-                    assert selectTree2.getInheritanceNodes() != null;
-                    assert selectTree2.getInheritanceNodes().getEnabledFieldId().equals("test");
-                    assert selectTree2.getInheritanceNodes().getHasChildrenFieldId().equals("test");
-                    assert selectTree2.getInheritanceNodes().getParentFieldId().equals("test");
-                    assert selectTree2.getInheritanceNodes().getLabelFieldId().equals("test");
-                    assert selectTree2.getInheritanceNodes().getDetailFieldId().equals("test");
-                    assert selectTree2.getInheritanceNodes().getIconFieldId().equals("test");
+                    assert selectTree2.getEnabledFieldId().equals("test");
+                    assert selectTree2.getHasChildrenFieldId().equals("test");
+                    assert selectTree2.getParentFieldId().equals("test");
+                    assert selectTree2.getLabelFieldId().equals("test");
+                    assert selectTree2.getDetailFieldId().equals("test");
+                    assert selectTree2.getIconFieldId().equals("test");
                 });
     }
 }

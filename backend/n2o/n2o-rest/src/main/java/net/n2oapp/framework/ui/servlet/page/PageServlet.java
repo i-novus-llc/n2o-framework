@@ -20,7 +20,7 @@ public class PageServlet extends N2oServlet {
     @Override
     public void safeDoGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String path = req.getPathInfo();
-        CompileContext<Page, ?> context = router.get(path, Page.class);
+        CompileContext<Page, ?> context = router.get(path, Page.class, req.getParameterMap());
         Page page = pipeline.get(context, context.getParams(path, req.getParameterMap()));
         resp.setContentType("application/json");
         objectMapper.writeValue(resp.getWriter(), page);
