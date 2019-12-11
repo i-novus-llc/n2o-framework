@@ -3,7 +3,7 @@
         <input-select-tree id="testId" label-field-id="testId" checking-strategy="child" query-id="queryId"
                            parent-field-id="testId" value-field-id="testId" icon-field-id="testId"
                            detail-field-id="testId" enabled-field-id="testId" has-children-field-id="testId"
-                           master-field-id="testId" search-field-id="testId">
+                           master-field-id="testId" search-filter-id="testId">
             <pre-filters>
                 <contains field-id="testId" value="value"/>
             </pre-filters>

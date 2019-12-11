@@ -123,7 +123,7 @@ public class InheritanceNodes implements Serializable {
     public boolean isEmpty() {
         return parentFieldId == null && labelFieldId == null && hasChildrenFieldId == null &&
                 queryId == null && iconFieldId == null && valueFieldId == null &&
-                masterFieldId == null && detailFieldId == null && searchFieldId == null &&
+                masterFieldId == null && detailFieldId == null && searchFilterId == null &&
                 enabledFieldId == null && (preFilters == null || preFilters.length < 1);
     }
 }
