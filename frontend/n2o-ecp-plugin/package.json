@@ -1,7 +1,7 @@
 {
   "name": "n2o-ecp-plugin",
-  "version": "7.5.0",
-  "description": "n2o-ecp-plugin React component",
+  "version": "7.5.0-SNAPSHOT",
+  "description": "Плагин упрощающий работу с Крипто-Про в N2O-7",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -22,7 +22,7 @@
   "dependencies": {
     "crypto-pro": "^1.1.0",
     "lodash": "^4.17.15",
-    "n2o-framework": "^7.4.0",
+    "n2o-framework": "^7.5.0-SNAPSHOT",
     "reactstrap": "^8.1.1",
     "recompose": "^0.30.0"
   },
