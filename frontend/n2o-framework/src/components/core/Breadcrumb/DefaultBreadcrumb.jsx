@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import Breadcrumb from 'reactstrap/lib/Breadcrumb';
+import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 
 function DefaultBreadcrumb({ items }) {
   const crumbs = items.map(({ label, path, modelLink }, index) => {

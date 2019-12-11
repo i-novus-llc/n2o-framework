@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isNil, uniqueId } from 'lodash';
+import isNil from 'lodash/isNil';
+import uniqueId from 'lodash/uniqueId';
 import cx from 'classnames';
 import { compose, lifecycle, setDisplayName } from 'recompose';
 import Input from '../Input/Input';

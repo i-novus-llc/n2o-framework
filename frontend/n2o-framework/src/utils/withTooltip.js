@@ -1,5 +1,5 @@
 import React from 'react';
-import { UncontrolledTooltip } from 'reactstrap';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 
 /**
  * Если есть подсказка, возвращаем с тултипом

@@ -4,7 +4,7 @@ import { storiesOf } from '@storybook/react';
 import Text from './Text';
 import meta from './Text.meta';
 import { allColors } from '../utils';
-import { map } from 'lodash';
+import map from 'lodash/map';
 
 const stories = storiesOf('UI Компоненты/Типография/Text', module);
 

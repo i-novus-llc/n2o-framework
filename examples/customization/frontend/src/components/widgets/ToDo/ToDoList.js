@@ -1,11 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  ListGroup,
-  ListGroupItem,
-  ListGroupItemHeading,
-  ListGroupItemText
-} from "reactstrap";
+import ListGroup from "reactstrap/lib/ListGroup";
 import { map } from "lodash";
 
 import ToDoItem from "./ToDoItem";

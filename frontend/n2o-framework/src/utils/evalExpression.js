@@ -1,7 +1,7 @@
-import { isObject } from 'lodash';
+import isObject from 'lodash/isObject';
 import warning from './warning';
-import functions from './functions';
 const windowObjectHack = {};
+
 Object.keys(window)
   .filter(v => !v.includes('-'))
   .forEach(wh => (windowObjectHack[wh] = undefined));
@@ -41,7 +41,7 @@ export default function evalExpression(expression, context) {
     const vars = Object.assign(
       {},
       windowObjectHack,
-      functions,
+      window._n2oEvalContext,
       isObject(context) ? context : {}
     );
     const fn = createContextFn(Object.keys(vars), expression);

@@ -1,4 +1,4 @@
-import { omit, map, filter, mapValues } from 'lodash';
+import mapValues from 'lodash/mapValues';
 import {
   CHANGE_BUTTON_VISIBILITY,
   CHANGE_BUTTON_TITLE,

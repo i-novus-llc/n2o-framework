@@ -9,7 +9,10 @@ import {
   SHOW_FIELD,
   SET_FIELD_FILTER,
 } from '../../constants/formPlugin';
-import { set, chain, pick, get, omit } from 'lodash';
+import pick from 'lodash/pick';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
+import set from 'lodash/set';
 import configureMockStore from 'redux-mock-store';
 import { call, put } from 'redux-saga/effects';
 import { REGISTER_FIELD_EXTRA } from '../../constants/formPlugin';
@@ -143,7 +146,6 @@ const setupModify = mockData => {
 describe('Тестирование саги', () => {
   it('Тестирование вызова функции экшена на саге', () => {
     const gen = setup(mockData);
-    console.log();
     expect(gen.next().value).toEqual(
       call(
         modify,
@@ -166,12 +168,9 @@ describe('Тестирование саги', () => {
     expect(gen.next().done).toBe(true);
   });
   it('Экшен вызывается при изменении значения формы', () => {
-    const gen = setup(
-      chain(mockData)
-        .set('fields.field1.dependency[0].applyOnInit', false)
-        .set('actionType', REDUX_CHANGE)
-        .value()
-    );
+    set(mockData, 'fields.field1.dependency[0].applyOnInit', false);
+    set(mockData, 'actionType', REDUX_CHANGE);
+    const gen = setup(mockData);
     expect(gen.next().done).toBe(false);
   });
   it('Проверка модификатора зависимостей', () => {

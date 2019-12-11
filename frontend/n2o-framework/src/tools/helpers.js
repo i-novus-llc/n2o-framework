@@ -1,4 +1,12 @@
-import _ from 'lodash';
+import setWith from 'lodash/setWith';
+import clone from 'lodash/clone';
+import each from 'lodash/each';
+import isObject from 'lodash/isObject';
+import isArray from 'lodash/isArray';
+import isString from 'lodash/isString';
+import transform from 'lodash/transform';
+import isEqual from 'lodash/isEqual';
+import cloneDeepWith from 'lodash/cloneDeepWith';
 import map from 'lodash/map';
 
 /**
@@ -9,7 +17,7 @@ import map from 'lodash/map';
  * @returns {Object}
  */
 export const setIn = (object, path, value) =>
-  _.setWith(_.clone(object), path, value, _.clone);
+  setWith(clone(object), path, value, clone);
 
 function http_build_query(formdata, numeric_prefix, arg_separator) {
   let key,
@@ -48,7 +56,7 @@ function http_build_query(formdata, numeric_prefix, arg_separator) {
  */
 export function http_params_query(data) {
   const params = [];
-  _.each(data, (val, key) => {
+  each(data, (val, key) => {
     if (data.hasOwnProperty(key)) {
       params.push({ name: key, value: val });
     }
@@ -88,7 +96,7 @@ export function generateFlatQuery(objectAim, Key, $Res, delimiter) {
 function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
   delimiter = delimiter || '.';
   $Res = $Res || {};
-  if (_.isObject(Key)) {
+  if (isObject(Key)) {
     options = Key || {};
     Key = '';
   } else {
@@ -98,10 +106,10 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
   let ignoreNull = options.ignoreNull || false,
     withoutEncode = options.withoutEncode || false;
 
-  _.each(objectAim, (val, key) => {
-    if (_.isArray(val)) {
-      _.each(val, ($val, $key) => {
-        if (_.isObject($val)) {
+  each(objectAim, (val, key) => {
+    if (isArray(val)) {
+      each(val, ($val, $key) => {
+        if (isObject($val)) {
           generateFlatQuery(
             $val,
             Key ? [Key, key].join(delimiter) : key,
@@ -111,7 +119,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
           );
         } else if ($val !== null && $val !== undefined) {
           $Res[Key ? [Key, key].join(delimiter) : key] =
-            !needLinked($val) && _.isString($val) && !withoutEncode
+            !needLinked($val) && isString($val) && !withoutEncode
               ? map(val, v => encodeURIComponent(v)).join(`&${key}=`)
               : val.join(`&${key}=`);
         }
@@ -120,7 +128,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
       return;
     }
 
-    if (_.isObject(val)) {
+    if (isObject(val)) {
       generateFlatQuery(
         val,
         Key ? Key + delimiter + key : key,
@@ -130,7 +138,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
       );
     } else if ((val !== null || ignoreNull) && val !== undefined) {
       $Res[Key ? Key + delimiter + key : key] =
-        !needLinked(val) && _.isString(val) && !withoutEncode
+        !needLinked(val) && isString(val) && !withoutEncode
           ? encodeURIComponent(val)
           : val;
     }
@@ -168,7 +176,7 @@ export function createObjectFromDotString(
   const res = $resultObject || {};
   let $next = res;
 
-  _.each(keys, (item, i) => {
+  each(keys, (item, i) => {
     // if key array's
     let resRegExp;
     if ((resRegExp = item && item.match(/\[(\d)\]/))) {
@@ -217,7 +225,7 @@ export function createObjectByDotNotationKey(key, obj, delimiter) {
     return res;
   }
 
-  _.each(keys, (item, i) => {
+  each(keys, (item, i) => {
     deep.push(item);
     $next[item] = $next[item] || {};
     $val[item] = $val[item];
@@ -293,10 +301,10 @@ export function isPromise(obj) {
  */
 export function difference(object, base) {
   const changes = (object, base) => {
-    return _.transform(object, (result, value, key) => {
-      if (!_.isEqual(value, base[key])) {
+    return transform(object, (result, value, key) => {
+      if (!isEqual(value, base[key])) {
         result[key] =
-          _.isObject(value) && _.isObject(base[key])
+          isObject(value) && isObject(base[key])
             ? changes(value, base[key])
             : value;
       }
@@ -319,5 +327,5 @@ export function omitDeep(collection, excludeKeys) {
       });
     }
   }
-  return _.cloneDeepWith(collection, omitFn);
+  return cloneDeepWith(collection, omitFn);
 }

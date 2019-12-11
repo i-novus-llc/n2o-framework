@@ -2,17 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
-import {
-  isEmpty,
-  filter,
-  find,
-  isEqual,
-  has,
-  get,
-  clone,
-  setWith,
-  curry,
-} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import has from 'lodash/has';
+import get from 'lodash/get';
 import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange, branch, getContext } from 'recompose';
 import pathToRegexp from 'path-to-regexp';

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { values } from 'lodash';
+import values from 'lodash/values';
 
 import TableContainer from './TableContainer';
 import TablePagination from './TablePagination';
