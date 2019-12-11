@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import cn from 'classnames';
 import ReactDom from 'react-dom';
-import { map, isEqual, isEmpty } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';

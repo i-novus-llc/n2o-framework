@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import {
   INSERT,
   DESTROY,
@@ -48,7 +48,7 @@ function resolve(state = defaultState, action) {
  */
 export default function modals(state = [], action) {
   const index = state.findIndex(
-    modal => modal.name === _.get(action, 'payload.name')
+    modal => modal.name === get(action, 'payload.name')
   );
   switch (action.type) {
     case INSERT:

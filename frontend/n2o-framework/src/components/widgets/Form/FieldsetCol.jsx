@@ -1,6 +1,6 @@
 import React from 'react';
 import { pure } from 'recompose';
-import { Col } from 'reactstrap';
+import Col from 'reactstrap/lib/Col';
 import ReduxField from './ReduxField';
 import FieldsetContainer from './Fieldset';
 

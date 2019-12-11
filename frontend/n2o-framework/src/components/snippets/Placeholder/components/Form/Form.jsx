@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form as BaseForm, FormGroup, Label, Row, Col } from 'reactstrap';
+import BaseForm from 'reactstrap/lib/Form';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Label from 'reactstrap/lib/Label';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
 import { mapToNumOrStr } from '../../utils';
 
 function Form({ rows, cols }) {

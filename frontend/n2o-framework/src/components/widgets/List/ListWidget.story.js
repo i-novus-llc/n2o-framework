@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
 import Factory from '../../../core/factory/Factory';

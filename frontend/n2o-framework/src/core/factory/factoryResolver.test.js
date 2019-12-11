@@ -1,6 +1,6 @@
 import factoryResolver from './factoryResolver';
-import NotFoundFactory from '../core/factory/NotFoundFactory';
-import InputText from '../components/controls/InputText/InputText';
+import NotFoundFactory from '../../core/factory/NotFoundFactory';
+import InputText from '../../components/controls/InputText/InputText';
 
 describe('Проверка factoryResolver', () => {
   it('должен вернуть component', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { set } from 'lodash';
+import set from 'lodash/set';
 import { storiesOf } from '@storybook/react';
 import withPage from 'N2oStorybook/decorators/withPage';
 import RangeFieldJson from 'N2oStorybook/json/RangeField';

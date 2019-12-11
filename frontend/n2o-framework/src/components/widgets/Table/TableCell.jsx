@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { omit } from 'lodash';
-import pure from 'recompose/pure';
-import mapProps from 'recompose/mapProps';
-import propsResolver from '../../../utils/propsResolver';
+import omit from 'lodash/omit';
 import getElementType from '../../../tools/getElementType';
 
 /**

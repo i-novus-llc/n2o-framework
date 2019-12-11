@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import {
-  toNumber,
-  toString,
-  isNil,
-  isNaN,
-  isEqual,
-  isEmpty,
-  split,
-  includes,
-} from 'lodash';
+
+import toNumber from 'lodash/toNumber';
+import toString from 'lodash/toString';
+import isNil from 'lodash/isNil';
+import isNaN from 'lodash/isNaN';
+import isEqual from 'lodash/isEqual';
+import split from 'lodash/split';
+import includes from 'lodash/includes';
 
 import Input from '../Input/Input';
 

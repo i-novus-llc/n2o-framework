@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { map } from 'lodash';
+import map from 'lodash/map';
 import SidebarDropdown from './SidebarDropdown';
 import { NavLink } from 'react-router-dom';
 

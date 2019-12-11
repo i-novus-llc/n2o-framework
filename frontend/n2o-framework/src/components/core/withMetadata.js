@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import { compose, withProps, pure } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import pathToRegexp from 'path-to-regexp';
-import { filter, find, isEmpty, isEqual, pick } from 'lodash';
+import filter from 'lodash/filter';
+import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
 
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
 import {

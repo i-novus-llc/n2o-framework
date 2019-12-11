@@ -2,7 +2,7 @@ import React from 'react';
 import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import InputText from '../../controls/InputText/InputText';
-import { Button } from 'reactstrap';
+import Button from 'reactstrap/lib/Button';
 
 /**
  * Компонент overlay для фильтра
