@@ -33,6 +33,12 @@ public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends N
         }
     }
 
+    /**
+     * Проверка возможности прочитать элемент по неймспейсу и имени элемента
+     * @param namespace Неймспейс
+     * @param elementName имя элемента
+     * @return результат проверки
+     */
     default boolean check(Namespace namespace, String elementName) {
         return true;
     }
