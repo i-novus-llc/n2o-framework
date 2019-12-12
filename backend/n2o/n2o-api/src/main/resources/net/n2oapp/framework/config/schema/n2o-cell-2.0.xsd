@@ -56,7 +56,7 @@
         </xs:attribute>
         <xs:attribute name="style" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>Стиль текста.</xs:documentation>
+                <xs:documentation>Стиль колонки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" use="optional">
@@ -419,6 +419,11 @@
         <xs:attribute name="src" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Реализация ячейки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Стиль колонки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
