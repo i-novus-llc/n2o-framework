@@ -26,7 +26,7 @@
                 </checkbox>
             </row>
             <row>
-                <input-text id="default" label="Введите что-нибудь, чтобы загрузилось Имя по умолчанию"/>
+                <input-text id="default" label="Введите что-нибудь, чтобы загрузилось Имя по умолчанию" style="color: green;"/>
             </row>
         </fields>
     </form>
