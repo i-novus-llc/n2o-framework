@@ -327,7 +327,7 @@ public class PlaceHoldersResolver {
     public static Function<String, Object> replaceRequired(Function<String, Object> callback) {
         return key -> {
             Object value = callback.apply(key);
-            if (value == null)
+            if (StringUtils.isEmpty(value))
                 throw new NotFoundPlaceholderException(key);
             return value;
         };
@@ -341,7 +341,7 @@ public class PlaceHoldersResolver {
         return key -> {
             String placeholder = extractPlaceholder(key);
             Object value = data.apply(placeholder);
-            if (value == null) {
+            if (StringUtils.isEmpty(value)) {
                 if (extractRequired(key))
                     throw new NotFoundPlaceholderException(placeholder);
                 return extractOptional(key);
