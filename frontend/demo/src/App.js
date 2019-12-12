@@ -20,10 +20,10 @@ const config = {
       <EcpButton
         fileRequestService={{
           url: "http://localhost:9000/sign/get",
+          type: "GET",
           data: {
             userId: 1
-          },
-          documentKey: "data"
+          }
         }}
         fileSaveService={{
           url: "http://localhost:9000/sign/set",

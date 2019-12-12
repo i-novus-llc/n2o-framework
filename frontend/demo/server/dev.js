@@ -47,19 +47,45 @@ app.get("/n2o/page/proto/patients/:patientId/update2", (req, res) => {
   res.send(JSON.stringify(json));
 });
 
-app.post("/sign/get", (req, res) => {
+app.all("/sign/get", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "*");
+  // res.send({
+  //   docPackId: 6303,
+  //   docTypeId: 3,
+  //   hash: "9eff17fa13a36e67cb64464020141425fb331e964642057409ab4759e2c4a9e5",
+  //   id: 15642,
+  //   roleId: 4,
+  //   userId: 65
+  // });
   res.send(
-    JSON.stringify({
-      data: "anyDataHash"
-    })
+    JSON.stringify([
+      {
+        docPackId: 6303,
+        docTypeId: 3,
+        hash:
+          "9eff17fa13a36e67cb64464020141425fb331e964642057409ab4759e2c4a9e5",
+        id: 15642,
+        roleId: 4,
+        userId: 65
+      },
+      {
+        docPackId: 6303,
+        docTypeId: 2,
+        hash:
+          "4dd2cbb9e1ee89914f4fd63045d00a38e7023189e7df3db7ec90c585eafd6f42",
+        id: 15623,
+        roleId: 4,
+        userId: 65
+      }
+    ])
   );
 });
 
-app.post("/sign/set", (req, res) => {
+app.all("/sign/set", (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   console.log(req.body);
+  res.send(200);
 });
 
 app.use("/n2o", exampleProxy);
