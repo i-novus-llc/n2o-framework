@@ -30,7 +30,7 @@ public class StandardFieldFilterCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testFieldFilter() {
+    public void testStandardFieldFilter() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/control/testStandardFieldFilter.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/control/testStandardFieldFilter.query.xml")
                 .get(new PageContext("testStandardFieldFilter"));
