@@ -33,6 +33,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/header/headerWithMenu.header.xml").get(new HeaderContext("headerWithMenu"));
 
+        Assert.assertEquals("10px", header.getStyle().get("marginLeft"));
         Assert.assertEquals(3, header.getItems().size());
         Assert.assertEquals(2, header.getItems().get(0).getSubItems().size());
         Assert.assertEquals("test2", header.getItems().get(0).getSubItems().get(0).getLabel());

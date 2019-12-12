@@ -35,7 +35,7 @@
             <html name="test1" test:attr1="htmlTestAttribute"/>
             <html name="test2" />
         </line>
-        <panel place="single"/>
+        <panel place="single" style="margin-left:10px;width:300px"/>
         <tabs place="left"/>
         <region place="single"/>
     </regions>
