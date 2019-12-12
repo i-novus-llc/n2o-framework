@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withContext } from 'recompose';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
-import { omit } from 'lodash';
 import { storiesOf } from '@storybook/react';
 
 import { getStubData } from 'N2oStorybook/fetchMock';

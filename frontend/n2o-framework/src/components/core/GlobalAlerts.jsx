@@ -1,5 +1,5 @@
 import React from 'react';
-import { map } from 'lodash';
+import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';

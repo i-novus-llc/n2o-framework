@@ -1,5 +1,8 @@
 import React from 'react';
-import { isBoolean, isString, each, concat } from 'lodash';
+import isBoolean from 'lodash/isBoolean';
+import isString from 'lodash/isString';
+import each from 'lodash/each';
+import concat from 'lodash/concat';
 import { bindActionCreators } from 'redux';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';

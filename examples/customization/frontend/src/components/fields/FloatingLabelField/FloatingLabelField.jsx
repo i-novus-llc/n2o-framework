@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";
-import { FormGroup, Label } from "reactstrap";
+import FormGroup from "reactstrap/lib/FormGroup";
+import Label from "reactstrap/lib/Label";
 
 import Control from "n2o/lib/components/widgets/Form/fields/StandardField/Control";
 

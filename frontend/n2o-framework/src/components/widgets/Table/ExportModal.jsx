@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { FormattedMessage } from 'react-intl';
 
 import SelectContainer from '../../controls/Select/SelectContainer';
@@ -8,7 +7,8 @@ import RadioGroupContainer from '../../controls/RadioGroup/RadioGroupContainer';
 import ReduxForm from '../Form/ReduxForm';
 import Fieldset from '../Form/Fieldset';
 
-import { Row, Col } from 'reactstrap';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
 
 /**
  * Имя формы экспорта таблицы

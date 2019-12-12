@@ -1,6 +1,8 @@
 import React from 'react';
-import { uniqueId, has, get } from 'lodash';
-import { Badge } from 'reactstrap';
+import uniqueId from 'lodash/uniqueId';
+import has from 'lodash/has';
+import get from 'lodash/get';
+import Badge from 'reactstrap/lib/Badge';
 import Icon from '../../snippets/Icon/Icon';
 import { SHOW_ALL, SHOW_CHILD, SHOW_PARENT } from 'rc-tree-select';
 

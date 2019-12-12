@@ -226,7 +226,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 }
             } else if (filter.contains(":in")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":in");
-                List patterns = (List) inParams.get(splittedFilter[1].replace(":", ""));
+                Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
+                List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
                 if (patterns != null) {
                     data = data
                             .stream()

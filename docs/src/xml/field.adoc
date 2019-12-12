@@ -417,7 +417,7 @@ link:#_Действия[Обработчик действия]
 |Поле выборки, отвечающее за отображение варианта выбора
 |
 
-|search-field-id
+|search-filter-id
 |Поле выборки
 |Поле выборки, отвечающее за поиск вариантов выбора
 |label-field-id
@@ -906,7 +906,7 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
     <input-select-tree id="address" label="Адрес" checkboxes="true" checking-strategy="child">
         <inheritance-nodes parent-field-id="parent_id" label-field-id="name" value-field-id="id"
                            query-id="address" has-children-field-id="hasChildren"
-                           search-field-id="name">
+                           search-filter-id="name">
         </inheritance-nodes>
     </input-select-tree>
 

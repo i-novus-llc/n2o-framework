@@ -310,7 +310,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oListField.setQueryId(getAttributeString(query, "query-id"));
         n2oListField.setLabelFieldId(getAttributeString(query, "label-field-id"));
         n2oListField.setValueFieldId(getAttributeString(query, "value-field-id"));
-        n2oListField.setSearchFieldId(getAttributeString(query, "search-field-id"));
+        n2oListField.setSearchFilterId(getAttributeString(query, "search-field-id"));
         n2oListField.setImageFieldId(getAttributeString(query, "image-field-id"));
         n2oListField.setIconFieldId(getAttributeString(query, "icon-field-id"));
         n2oListField.setMasterFieldId(getAttributeString(query, "master-field-id"));
@@ -351,7 +351,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             selectTree.setMasterFieldId(getAttributeString(in, "master-field-id"));
             selectTree.setDetailFieldId(getAttributeString(in, "detail-field-id"));
             selectTree.setValueFieldId(getAttributeString(in, "value-field-id"));
-            selectTree.setSearchFieldId(getAttributeString(in, "search-field-id"));
+            selectTree.setSearchFilterId(getAttributeString(in, "search-field-id"));
             selectTree.setEnabledFieldId(getAttributeString(in, "enabled-field-id"));
             selectTree.setHasChildrenFieldId(getAttributeString(in, "has-children-field-id"));
             Element preFilters = in.getChild("pre-filters", namespace);

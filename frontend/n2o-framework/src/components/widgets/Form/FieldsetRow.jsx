@@ -1,6 +1,6 @@
 import React from 'react';
 import { pure } from 'recompose';
-import { Row } from 'reactstrap';
+import Row from 'reactstrap/lib/Row';
 import FieldsetCol from './FieldsetCol';
 
 function FieldsetRow({ rowId, row, ...rest }) {

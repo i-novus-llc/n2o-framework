@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import reduce from 'lodash/reduce';
+import has from 'lodash/has';
+import set from 'lodash/set';
+import get from 'lodash/get';
 import merge from 'deepmerge';
 import {
   DISABLE_FIELD,
@@ -35,7 +38,7 @@ const setValueByNames = (state, names, props) =>
   Object.assign(
     {},
     state,
-    _.reduce(
+    reduce(
       names,
       (result, name) => {
         return {
@@ -109,13 +112,13 @@ export function resolveChange(state, { payload, meta }) {
   const { field } = meta;
   let newState = Object.assign({}, state);
 
-  if (_.has(payload, 'keepDirty')) {
-    _.set(newState, `values[${field}]`, payload.value);
+  if (has(payload, 'keepDirty')) {
+    set(newState, `values[${field}]`, payload.value);
     if (!payload.keepDirty) {
-      _.set(newState, `initial[${field}]`, payload.value);
+      set(newState, `initial[${field}]`, payload.value);
     }
   } else {
-    _.set(newState, `values[${field}]`, payload);
+    set(newState, `values[${field}]`, payload);
   }
 
   return newState;
@@ -139,19 +142,19 @@ export default function formPlugin(state = {}, action) {
     case SET_REQUIRED:
     case UNSET_REQUIRED:
     case SET_LOADING:
-      return _.set(
+      return set(
         state,
         ['registeredFields', action.payload.name],
-        resolve(_.get(state, ['registeredFields', action.payload.name]), action)
+        resolve(get(state, ['registeredFields', action.payload.name]), action)
       );
     case SHOW_FIELDS:
     case DISABLE_FIELDS:
     case ENABLE_FIELDS:
     case HIDE_FIELDS:
-      return _.set(
+      return set(
         state,
         'registeredFields',
-        resolve(_.get(state, 'registeredFields'), action)
+        resolve(get(state, 'registeredFields'), action)
       );
     case actionTypes.CHANGE:
       return resolveChange(state, action);

@@ -8,7 +8,8 @@ import {
 } from 'redux-saga/effects';
 import { getFormValues, initialize } from 'redux-form';
 import pathToRegexp from 'path-to-regexp';
-import { isFunction, get } from 'lodash';
+import isFunction from 'lodash/isFunction';
+import get from 'lodash/get';
 import merge from 'deepmerge';
 
 import {
@@ -22,7 +23,7 @@ import { makeWidgetValidationSelector } from '../selectors/widgets';
 import { getModelSelector } from '../selectors/models';
 
 import { validateField } from '../core/validation/createValidator';
-import factoryResolver from '../utils/factoryResolver';
+import actionResolver from '../core/factory/actionResolver';
 import fetchSaga from './fetch.js';
 import { FETCH_INVOKE_DATA } from '../core/api.js';
 import { getParams } from '../utils/compileUrl';
@@ -58,14 +59,14 @@ export function* validate(options) {
 /**
  * вызов экшена
  */
-export function* handleAction(action) {
+export function* handleAction(factories, action) {
   const { options, actionSrc } = action.payload;
   try {
     let actionFunc;
     if (isFunction(actionSrc)) {
       actionFunc = actionSrc;
     } else {
-      actionFunc = factoryResolver(actionSrc, null, 'function');
+      actionFunc = actionResolver(actionSrc, factories);
     }
     const state = yield select();
     const notValid = yield validate(options);
@@ -168,9 +169,9 @@ export function* handleInvoke(apiProvider, action) {
   }
 }
 
-export default apiProvider => {
+export default (apiProvider, factories) => {
   return [
-    throttle(500, CALL_ACTION_IMPL, handleAction),
+    throttle(500, CALL_ACTION_IMPL, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
   ];
 };

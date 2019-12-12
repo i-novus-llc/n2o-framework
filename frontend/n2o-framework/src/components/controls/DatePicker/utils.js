@@ -1,5 +1,8 @@
 import moment from 'moment';
-import { flattenDeep, keys, map, maxBy } from 'lodash';
+import flattenDeep from 'lodash/flattenDeep';
+import keys from 'lodash/keys';
+import map from 'lodash/map';
+import maxBy from 'lodash/maxBy';
 
 /**
  * Дата (date) была после конца месяца другой даты(displayedMonth) или нет
