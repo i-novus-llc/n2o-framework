@@ -39,6 +39,7 @@ public class JavaDataProviderIOv1 implements NamespaceIO<N2oJavaDataProvider>, D
         p.attribute(e, "name", t::getName, t::setName);
         p.attributeEnum(e, "type", t::getType, t::setType, Argument.Type.class);
         p.attribute(e, "class", t::getClassName, t::setClassName);
+        p.attribute(e, "default-value", t::getDefaultValue, t::setDefaultValue);
     }
 
     public void spring(Element e, DIProvider m, IOProcessor p) {

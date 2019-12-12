@@ -36,27 +36,12 @@
                     <wgt:query-id>utBlank</wgt:query-id>
                     <fs:field-set>
                         <ctrl:select-tree id="g1">
-                            <ctrl:grouping-nodes query-id="utBlank">
-                                <ctrl:node label-field-id="test" value-field-id="id">
-                                    <ctrl:node label-field-id="test" value-field-id="id"/>
-                                </ctrl:node>
-                            </ctrl:grouping-nodes>
                         </ctrl:select-tree>
 
                         <ctrl:select-tree id="g2" ajax="false" search="true">
-                            <ctrl:grouping-nodes query-id="utBlank" search-field-id="testg2">
-                                <ctrl:node label-field-id="test" value-field-id="id">
-                                    <ctrl:node label-field-id="test" value-field-id="id"/>
-                                </ctrl:node>
-                            </ctrl:grouping-nodes>
                         </ctrl:select-tree>
 
                         <ctrl:select-tree id="g3" ajax="false" search="true">
-                            <ctrl:grouping-nodes query-id="utBlank">
-                                <ctrl:node label-field-id="testtest" value-field-id="id">
-                                    <ctrl:node label-field-id="testg3" value-field-id="id"/>
-                                </ctrl:node>
-                            </ctrl:grouping-nodes>
                         </ctrl:select-tree>
                     </fs:field-set>
                 </wgt:form>

@@ -65,8 +65,10 @@ public class N2oPreFilter implements Source {
      */
     private Boolean required;
 
-    private ResetMode resetMode;
-    private Boolean onChange;
+    /**
+     * Сбрасывать значение при изменении в модели
+     */
+    private Boolean resetOnChange;
 
     public N2oPreFilter() {
     }
@@ -121,11 +123,6 @@ public class N2oPreFilter implements Source {
     @Override
     public int hashCode() {
         return Objects.hash(fieldId, refWidgetId, refModel, type);
-    }
-
-
-    public enum ResetMode {
-        on, off
     }
 
     public String[] getValues() {

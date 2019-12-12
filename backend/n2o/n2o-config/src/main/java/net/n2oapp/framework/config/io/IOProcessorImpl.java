@@ -997,7 +997,8 @@ public final class IOProcessorImpl implements IOProcessor {
         if (text == null) {
             return null;
         }
-        String resolve = systemProperties == null ? text : StringUtils.resolveProperties(text, systemProperties::getProperty);
+        String resolve = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
+        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(text, systemProperties::getProperty);
         return messageSourceAccessor == null ? resolve : StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 
@@ -1071,20 +1072,16 @@ public final class IOProcessorImpl implements IOProcessor {
             P extends NamespacePersister<? super T>> T read(NamespaceIOFactory<T, R, P> factory, Element element,
                                                             Namespace parentNamespace, Namespace... defaultNamespace) {
         R reader = null;
-        boolean flag = false;
         if (defaultNamespace != null && defaultNamespace.length > 0 && defaultNamespace[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
             for (Namespace namespace : defaultNamespace) {
-                try {
+                if (factory.check(element, parentNamespace, namespace)) {
                     reader = factory.produce(element, parentNamespace, namespace);
                     if (reader != null) {
-                        flag = true;
                         break;
                     }
-                } catch (EngineNotFoundException e) {
-                    continue;
                 }
             }
-            if (!flag) {
+            if (reader == null) {
                 throw new EngineNotFoundException(element.getName());
             }
         } else {
@@ -1105,25 +1102,21 @@ public final class IOProcessorImpl implements IOProcessor {
             P extends NamespacePersister<? super T>> Element persist(NamespaceIOFactory<T, R, P> factory, T entity,
                                                                      Namespace parentNamespace, Namespace... defaultNamespace) {
         P persister = null;
-        boolean flag = false;
 
         if (defaultNamespace != null && defaultNamespace.length > 0 && defaultNamespace[0] != null) {
             for (Namespace namespace : defaultNamespace) {
-                try {
-                    if (entity.getNamespaceUri().equals(parentNamespace.getURI())) {
+                if (entity.getNamespaceUri().equals(parentNamespace.getURI())) {
+                    if (factory.check(namespace, (Class<T>) entity.getClass()))
                         persister = factory.produce(namespace, (Class<T>) entity.getClass());
-                    } else {
-                        persister = factory.produce(entity);
-                    }
-                    if (persister != null) {
-                        flag = true;
-                        break;
-                    }
-                } catch (EngineNotFoundException e) {
-                    continue;
+                } else {
+                    if (factory.check(entity.getNamespace(), (Class<T>) entity.getClass()))
+                        persister = factory.produce(entity.getNamespace(), (Class<T>) entity.getClass());
+                }
+                if (persister != null) {
+                    break;
                 }
             }
-            if (!flag) {
+            if (persister == null) {
                 throw new EngineNotFoundException(defaultNamespace[0].getURI());
             }
         } else {

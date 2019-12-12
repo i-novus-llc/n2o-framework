@@ -2,7 +2,7 @@
       method="get"
       class="className">
     <arguments>
-        <argument name="arg1" type="primitive"/>
+        <argument name="arg1" type="primitive" default-value="test"/>
         <argument class="className" name="arg2" type="class"/>
     </arguments>
     <spring bean="springBean"/>

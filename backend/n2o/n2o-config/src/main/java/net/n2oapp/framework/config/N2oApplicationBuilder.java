@@ -30,6 +30,7 @@ import org.springframework.core.env.PropertyResolver;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -177,12 +178,12 @@ public class N2oApplicationBuilder implements
         return N2oPipelineSupport.readPipeline(environment).read();
     }
 
-    public <D extends Compiled> CompileContext<D, ?>  route(String url, Class<D> compiledClass) {
+    public <D extends Compiled> CompileContext<D, ?>  route(String url, Class<D> compiledClass, Map<String, String[]> params) {
         build();
-        return new N2oRouter(environment.getRouteRegister(), read()
+        return new N2oRouter(environment, read()
                 .transform().validate().cache().copy()
                 .compile().transform())
-                .get(url, compiledClass);
+                .get(url, compiledClass, params);
     }
 
     public MetadataEnvironment getEnvironment() {

@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -24,6 +25,8 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
@@ -63,6 +66,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     private ReadTerminalPipeline<?> readPipeline;
 
     /**
+     * Запрещенные имена идентификаторов
+     */
+    private Set<String> forbiddenIds = Collections.emptySet();
+
+    /**
      * Конструктор процессора сборки метаданных
      *
      * @param env Окружение сборки метаданных
@@ -74,6 +82,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         this.readPipeline = env.getReadPipelineFunction().apply(pipelineSupport);
         this.readCompilePipeline = env.getReadCompilePipelineFunction().apply(pipelineSupport);
         this.compilePipeline = env.getCompilePipelineFunction().apply(pipelineSupport);
+        this.forbiddenIds = env.getSystemProperties().getProperty("n2o.config.field.forbidden_ids", Set.class);
     }
 
     /**
@@ -137,7 +146,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public <D extends Compiled> D getCompiled(CompileContext<D, ?> context) {
-        return readCompilePipeline.get(context);
+        return readCompilePipeline.get(context, new N2oCompileProcessor(this));
     }
 
     @Override
@@ -318,6 +327,18 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             throw new N2oMetadataValidationException(getMessage(errorMessage, id));
     }
 
+    @Override
+    public void checkId(IdAware metadata, String errorMessage) {
+        Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
+        Matcher matcher = pattern.matcher(metadata.getId());
+        if (matcher.find() || metadata.getId().contains(".")) {
+            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+        }
+        String id = metadata.getId();
+        if (id != null && forbiddenIds.contains(id.trim())) {
+            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+        }
+    }
 
     private Object resolvePlaceholder(String placeholder) {
         Object value = placeholder;

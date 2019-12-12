@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { ListGroupItem, CustomInput } from "reactstrap";
+import ListGroupItem from "reactstrap/lib/ListGroupItem";
+import CustomInput from "reactstrap/lib/CustomInput";
 import cx from "classnames";
 
 class ToDoItem extends React.Component {

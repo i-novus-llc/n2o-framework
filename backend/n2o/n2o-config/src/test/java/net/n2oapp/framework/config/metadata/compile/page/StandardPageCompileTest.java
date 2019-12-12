@@ -248,7 +248,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void validateObjectIdForMainWidget() {
         PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
         validateObjectIdForMainWidget.setSubmitOperationId("test");
-        Page page = compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
+        compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
                 .get(validateObjectIdForMainWidget);
 
     }

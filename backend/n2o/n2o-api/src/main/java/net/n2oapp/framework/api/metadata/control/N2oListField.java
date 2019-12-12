@@ -29,7 +29,7 @@ public abstract class N2oListField extends N2oStandardField {
     private String badgeFieldId;
     private String badgeColorFieldId;
     private String groupFieldId;
-    private String searchFieldId;
+    private String searchFilterId;
     private String labelFieldId;
     private String valueFieldId;
     private String masterFieldId;

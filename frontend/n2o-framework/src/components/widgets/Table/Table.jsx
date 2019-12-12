@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import _, { isEmpty, isEqual, pick } from 'lodash';
-import { pure } from 'recompose';
+import find from 'lodash/find';
+import findIndex from 'lodash/findIndex';
+import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
 import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 
@@ -20,7 +22,7 @@ import SecurityCheck from '../../../core/auth/SecurityCheck';
 import withColumn from './withColumn';
 
 export const getIndex = (datasource, selectedId) => {
-  const index = _.findIndex(datasource, model => model.id == selectedId);
+  const index = findIndex(datasource, model => model.id == selectedId);
   return index >= 0 ? index : 0;
 };
 
@@ -129,7 +131,7 @@ class Table extends React.Component {
       rowClick,
     } = this.props;
 
-    hasSelect && !noResolve && this.props.onResolve(_.find(datasource, { id }));
+    hasSelect && !noResolve && this.props.onResolve(find(datasource, { id }));
 
     if (hasSelect && hasFocus && !rowClick) {
       this.setSelectAndFocus(index, index);

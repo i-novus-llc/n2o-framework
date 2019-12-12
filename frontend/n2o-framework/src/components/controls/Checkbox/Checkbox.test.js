@@ -1,7 +1,6 @@
 import React from 'react';
 import Checkbox from './Checkbox';
 import sinon from 'sinon';
-import { isNil } from 'lodash';
 
 const setup = propsOverrides => {
   const props = Object.assign(
