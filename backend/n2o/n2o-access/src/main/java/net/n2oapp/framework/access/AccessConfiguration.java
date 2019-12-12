@@ -18,23 +18,8 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = "net.n2oapp.framework.access", lazyInit = true)
 public class AccessConfiguration {
 
-    @Value("${n2o.access.schema.id}")
-    private String accessSchemaId;
-
-    @Value("${n2o.access.admins}")
-    private String accessAdmins;
-
     @Value("${n2o.access.strict_filtering:false}")
     private Boolean strictFiltering;
-
-    @Value("${n2o.access.deny_objects:true}")
-    private String defaultObjectAccessDenied;
-
-    @Value("${n2o.access.deny_pages:false}")
-    private String defaultPageAccessDenied;
-
-    @Value("${n2o.access.deny_urls:false}")
-    private String defaultUrlAccessDenied;
 
 
     @Bean
