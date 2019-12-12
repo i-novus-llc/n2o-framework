@@ -38,25 +38,25 @@ public class IntervalFieldFilterCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/control/testIntervalFieldFilter.query.xml")
                 .get(new PageContext("testIntervalFieldFilter"));
 
-        Map<String, ModelLink> filters = (Map<String, ModelLink>) page.getWidgets().get("testIntervalFieldFilter_main").getFilters()
+        Map<String, ModelLink> filtersLink = (Map<String, ModelLink>) page.getWidgets().get("testIntervalFieldFilter_main").getFilters()
                 .stream().collect(Collectors.toMap(Filter::getFilterId, Filter::getLink));
 
-        assertThat(filters.size(), is(6));
+        assertThat(filtersLink.size(), is(6));
         // стандартное определение фильтров поля
-        assertTrue(filters.containsKey("date1.begin"));
-        assertThat(filters.get("date1.begin").getValue(), is("`date1.begin`"));
-        assertTrue(filters.containsKey("date1.end"));
-        assertThat(filters.get("date1.end").getValue(), is("`date1.end`"));
+        assertTrue(filtersLink.containsKey("date1.begin"));
+        assertThat(filtersLink.get("date1.begin").getValue(), is("`date1.begin`"));
+        assertTrue(filtersLink.containsKey("date1.end"));
+        assertThat(filtersLink.get("date1.end").getValue(), is("`date1.end`"));
         // определение фильтра поля с помощью begin-filter-id
-        assertTrue(filters.containsKey("start2"));
-        assertThat(filters.get("start2").getValue(), is("`date2.begin`"));
+        assertTrue(filtersLink.containsKey("start2"));
+        assertThat(filtersLink.get("start2").getValue(), is("`date2.begin`"));
         // определение фильтра поля с помощью end-filter-id
-        assertTrue(filters.containsKey("end3"));
-        assertThat(filters.get("end3").getValue(), is("`date3.end`"));
+        assertTrue(filtersLink.containsKey("end3"));
+        assertThat(filtersLink.get("end3").getValue(), is("`date3.end`"));
         // определение фильтров поля с помощью begin-filter-id и end-filter-id
-        assertTrue(filters.containsKey("start4"));
-        assertThat(filters.get("start4").getValue(), is("`date4.begin`"));
-        assertTrue(filters.containsKey("end4"));
-        assertThat(filters.get("end4").getValue(), is("`date4.end`"));
+        assertTrue(filtersLink.containsKey("start4"));
+        assertThat(filtersLink.get("start4").getValue(), is("`date4.begin`"));
+        assertTrue(filtersLink.containsKey("end4"));
+        assertThat(filtersLink.get("end4").getValue(), is("`date4.end`"));
     }
 }

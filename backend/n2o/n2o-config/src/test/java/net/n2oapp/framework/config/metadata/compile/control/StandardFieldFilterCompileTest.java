@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.Filter;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -9,8 +10,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -35,13 +38,15 @@ public class StandardFieldFilterCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/control/testStandardFieldFilter.query.xml")
                 .get(new PageContext("testStandardFieldFilter"));
 
-        List<Filter> filters = page.getWidgets().get("testStandardFieldFilter_main").getFilters();
-        assertThat(filters.size(), is(2));
+        Map<String, ModelLink> filtersLink = (Map<String, ModelLink>) page.getWidgets().get("testStandardFieldFilter_main").getFilters()
+                .stream().collect(Collectors.toMap(Filter::getFilterId, Filter::getLink));
+
+        assertThat(filtersLink.size(), is(2));
         // стандартное определение фильтра поля
-        assertThat(filters.get(0).getFilterId(), is("minPrice"));
-        assertThat(filters.get(0).getLink().getValue(), is("`minPrice`"));
+        assertTrue(filtersLink.containsKey("minPrice"));
+        assertThat(filtersLink.get("minPrice").getValue(), is("`minPrice`"));
         // определение фильтра поля с помощью filter-id
-        assertThat(filters.get(1).getFilterId(), is("maxP"));
-        assertThat(filters.get(1).getLink().getValue(), is("`maxPrice`"));
+        assertTrue(filtersLink.containsKey("maxP"));
+        assertThat(filtersLink.get("maxP").getValue(), is("`maxPrice`"));
     }
 }
