@@ -87,7 +87,8 @@ public class MappingProcessor {
      * @param arguments       список аргументов
      * @return массив объектов
      */
-    public static Object[] map(DataSet dataSet, Map<String, String> mapping, Argument[] arguments) {
+    public static Object[] map(DataSet dataSet, Map<String, String> mapping, Argument[] arguments,
+                               DomainProcessor domainProcessor) {
         List<String> argClasses = new ArrayList<>();
         for (Argument arg : arguments) {
             argClasses.add(arg.getClassName());
@@ -108,7 +109,7 @@ public class MappingProcessor {
         }
         for (int i=0; i < result.length; i++) {
             if (result[i] == null && arguments[i].getDefaultValue() != null) {
-                result[i] = DomainProcessor.getInstance().deserialize(arguments[i].getDefaultValue());
+                result[i] = domainProcessor.deserialize(arguments[i].getDefaultValue());
             }
         }
         return result;
