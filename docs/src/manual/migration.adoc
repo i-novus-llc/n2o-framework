@@ -8,6 +8,12 @@
  - в <input-select-tree> полностью удален <grouping-nodes>,
         атрибуты из <inheritance-nodes> перенесены в <input-select-tree>
 
+==== Миграция с 7.4 на 7.5
+
+*Изменения в XML API*
+
+- Поле `search-field-id` в списковых компонентах переименовано в `search-filter-id`
+
 ==== Миграция с 7.3 на 7.4
 
 *Изменения в настройках*

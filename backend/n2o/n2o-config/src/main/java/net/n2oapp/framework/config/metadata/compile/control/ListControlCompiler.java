@@ -117,7 +117,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
 
         if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
-            String searchFilterId = p.cast(source.getSearchFieldId(), listControl.getLabelFieldId());
+            String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
             if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
                 dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
             } else if (searchFilterId != null && listControl.getHasSearch()) {
