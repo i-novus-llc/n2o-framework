@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 
-import { map } from 'lodash';
+import map from 'lodash/map';
 
 import Title from './Title';
 import meta from './Title.meta';

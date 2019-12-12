@@ -1,18 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavbarBrand,
-  NavbarToggler,
-  Collapse,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from "reactstrap";
+import Navbar from "reactstrap/lib/Navbar";
+import Nav from "reactstrap/lib/Nav";
+import NavItem from "reactstrap/lib/NavItem";
+import NavbarBrand from "reactstrap/lib/NavbarBrand";
+import NavbarToggler from "reactstrap/lib/NavbarToggler";
+import Collapse from "reactstrap/lib/Collapse";
+import NavLink from "reactstrap/lib/NavLink";
+import UncontrolledDropdown from "reactstrap/lib/UncontrolledDropdown";
+import DropdownToggle from "reactstrap/lib/DropdownToggle";
+import DropdownMenu from "reactstrap/lib/DropdownMenu";
+import DropdownItem from "reactstrap/lib/DropdownItem";
 import { isEmpty } from "lodash";
 import moment from "moment";
 import { NavLink as RouterLink } from "react-router-dom";

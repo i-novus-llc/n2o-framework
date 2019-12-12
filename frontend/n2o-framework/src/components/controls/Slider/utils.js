@@ -1,15 +1,14 @@
 import React from 'react';
-import {
-  omit,
-  pick,
-  isEmpty,
-  forEach,
-  isString,
-  isArray,
-  isNaN,
-  map,
-  merge,
-} from 'lodash';
+
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
+import isEmpty from 'lodash/isEmpty';
+import forEach from 'lodash/forEach';
+import isString from 'lodash/isString';
+import isArray from 'lodash/isArray';
+import isNaN from 'lodash/isNaN';
+import map from 'lodash/map';
+import merge from 'lodash/merge';
 
 export const parseToFloat = value =>
   !isNaN(parseFloat(value)) ? parseFloat(value) : undefined;

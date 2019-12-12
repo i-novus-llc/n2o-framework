@@ -4,7 +4,10 @@ import { expect } from "chai";
 import { mount, shallow } from "enzyme";
 import { Notifications } from "../src/Notifications";
 import { Counter } from "../src/Counter";
-import { Toast, ToastBody, ToastHeader, Badge } from "reactstrap";
+import Toast from "reactstrap/lib/Toast";
+import ToastBody from "reactstrap/lib/ToastBody";
+import ToastHeader from "reactstrap/lib/ToastHeader";
+import Badge from "reactstrap/lib/Badge";
 
 describe("Компоненты", () => {
   describe("Notifications", () => {

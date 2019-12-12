@@ -1,15 +1,12 @@
 import React, { Component, Children, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {
-  first,
-  each,
-  isObject,
-  isArray,
-  isString,
-  values,
-  isEmpty,
-  isNil,
-} from 'lodash';
+import first from 'lodash/first';
+import each from 'lodash/each';
+import isObject from 'lodash/isObject';
+import isArray from 'lodash/isArray';
+import isString from 'lodash/isString';
+import values from 'lodash/values';
+import isEmpty from 'lodash/isEmpty';
 
 import factoryConfigShape from './factoryConfigShape';
 import NotFoundFactory from './NotFoundFactory';

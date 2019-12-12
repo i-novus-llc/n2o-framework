@@ -1,15 +1,12 @@
-import _, {
-  isEqual,
-  get,
-  map,
-  reduce,
-  set,
-  merge,
-  every,
-  isNil,
-  isObject,
-  has,
-} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import reduce from 'lodash/reduce';
+import set from 'lodash/set';
+import merge from 'lodash/merge';
+import has from 'lodash/has';
+import each from 'lodash/each';
+import isObjectLike from 'lodash/isObjectLike';
 
 /**
  * Возвращает id первового поля, на котором может быть установлен автофокус
@@ -35,8 +32,8 @@ export function getAutoFocusId(fields) {
  */
 export function flatFields(obj, fields) {
   fields = [];
-  if (_.isObjectLike(obj)) {
-    _.each(obj, (v, k) => {
+  if (isObjectLike(obj)) {
+    each(obj, (v, k) => {
       if (k === 'fields') {
         fields = fields.concat(obj.fields);
       } else {

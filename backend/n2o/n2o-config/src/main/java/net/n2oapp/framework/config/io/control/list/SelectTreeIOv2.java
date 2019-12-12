@@ -36,7 +36,7 @@ public class SelectTreeIOv2 extends ListFieldIOv2<N2oSelectTree> {
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
-        p.attribute(e, "search-field-id", m::getSearchFieldId, m::setSearchFieldId);
+        p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
         p.children(e, "pre-filters", "pre-filter", m::getPreFilters, m::setPreFilters, N2oPreFilter::new, this::prefilters);
     }

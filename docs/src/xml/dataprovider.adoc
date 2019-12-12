@@ -272,6 +272,11 @@ public class MyService {
 
 Для `type="entity"` определяется по атрибуту `entity-class` объекта.
 
+|default-value
+|Строка
+|Значение по умолчанию
+|
+
 |===
 
 ===== <spring>

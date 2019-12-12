@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { values } from 'lodash';
+import values from 'lodash/values';
 import StandardWidget from '../StandardWidget';
 import FormContainer from './FormContainer';
 import Fieldsets from './fieldsets';
@@ -22,7 +22,7 @@ import dependency from '../../../core/dependency';
  */
 class FormWidget extends React.Component {
   /**
-   * Замена src на компонент с помощью factoryResolver
+   * Замена src на компонент с помощью resolveProps
    */
   getWidgetProps() {
     const { resolveProps } = this.context;

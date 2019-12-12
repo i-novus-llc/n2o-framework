@@ -20,7 +20,7 @@ public class N2oSelectTreeXmlIOTest extends N2oStandardControlReaderTestBase {
             .addPersister(new SelectiveStandardPersister().addFieldsetPersister());
 
     @Test
-    public void testSelectTreeXmlIOV1(){
+    public void testSelectTreeXmlIOV1() {
         assert tester.check("net/n2oapp/framework/config/io/control/testSelectTreeReader1.fieldset.xml",
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 1);
@@ -34,7 +34,7 @@ public class N2oSelectTreeXmlIOTest extends N2oStandardControlReaderTestBase {
     }
 
     @Test
-    public void testSelectTreeXmlIOV2(){
+    public void testSelectTreeXmlIOV2() {
         assert tester.check("net/n2oapp/framework/config/io/control/testSelectTreeReader2.fieldset.xml",
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 1);
@@ -51,14 +51,14 @@ public class N2oSelectTreeXmlIOTest extends N2oStandardControlReaderTestBase {
                     assert selectTree.getHasChildrenFieldId().equals("id");
                     assert selectTree.getIconFieldId().equals("id");
                     assert selectTree.getMasterFieldId().equals("id");
-                    assert selectTree.getSearchFieldId().equals("id");
+                    assert selectTree.getSearchFilterId().equals("id");
                     assert selectTree.getEnabledFieldId().equals("test");
                     assertPreFilter(selectTree.getPreFilters()[0], true);
                 });
     }
 
     @Test
-    public void testInputSelectTreeXmlIOV1(){
+    public void testInputSelectTreeXmlIOV1() {
         assert tester.check("net/n2oapp/framework/config/io/control/testInputSelectTreeReader1.fieldset.xml",
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 2);

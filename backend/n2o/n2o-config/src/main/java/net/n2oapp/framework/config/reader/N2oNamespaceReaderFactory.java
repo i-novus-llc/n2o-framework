@@ -45,6 +45,15 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
         return reader;
     }
 
+    @Override
+    public boolean check(Namespace namespace, String elementName) {
+        if (engines == null)
+            initFactory();
+
+        Map<String, NamespaceReader<T>> elementReaders = engines.get(namespace.getURI());
+        return elementReaders != null && elementReaders.containsKey(elementName);
+    }
+
     private synchronized void initFactory() {
         if (engines == null) {
             Map<String, Map<String, NamespaceReader<T>>> result = new HashMap<>();

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { values, isEqual } from 'lodash';
 import cx from 'classnames';
 import { pure } from 'recompose';
 

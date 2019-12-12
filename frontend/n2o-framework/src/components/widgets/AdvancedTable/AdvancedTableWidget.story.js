@@ -1,5 +1,6 @@
 import React from 'react';
-import { get, set } from 'lodash';
+import get from 'lodash/get';
+import set from 'lodash/set';
 import { storiesOf } from '@storybook/react';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
