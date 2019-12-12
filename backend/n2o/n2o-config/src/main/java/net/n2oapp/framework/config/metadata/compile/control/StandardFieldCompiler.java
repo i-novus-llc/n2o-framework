@@ -154,60 +154,29 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         }
     }
 
-    private void compileFilters(S source, CompileProcessor p) {
+    protected void compileFilters(S source, CompileProcessor p) {
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         if (filtersScope != null) {
             CompiledQuery query = p.getScope(CompiledQuery.class);
             if (query == null)
                 return;
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            for (String filterId : getFilterIds(source)) {
-                List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(filterId, query);
-                filters.forEach(f -> {
-                    Filter filter = new Filter();
-                    filter.setFilterId(f.getFilterField());
-                    filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
-                    filter.setReloadable(true);
-                    SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
-                    ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
-                    link.setSubModelQuery(subModelQuery);
+            String filterId = source.getFilterId() == null ? source.getId() : source.getFilterId();
+            List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(filterId, query);
+            filters.forEach(f -> {
+                Filter filter = new Filter();
+                filter.setFilterId(f.getFilterField());
+                filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
+                filter.setReloadable(true);
+                SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
+                ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
+                link.setSubModelQuery(subModelQuery);
+                link.setValue(p.resolveJS(Placeholders.ref(source.getFilterId() == null ? f.getFilterField() : source.getId())));
+                filter.setLink(link);
+                filtersScope.getFilters().add(filter);
+            });
 
-                    String linkValue = f.getFilterField();
-                    if (source instanceof N2oIntervalField) {
-                        N2oIntervalField s = (N2oIntervalField) source;
-                        if (s.getBeginFilterId() != null && FilterType.more.equals(f.getType()))
-                            linkValue = source.getId() + ".begin";
-                        else if (s.getEndFilterId() != null && FilterType.less.equals(f.getType()))
-                            linkValue = source.getId() + ".end";
-                    } else if (source.getFilterId() != null) {
-                        linkValue = source.getId();
-                    }
-
-                    link.setValue(p.resolveJS(Placeholders.ref(linkValue)));
-                    filter.setLink(link);
-                    filtersScope.getFilters().add(filter);
-                });
-            }
         }
-    }
-
-    private List<String> getFilterIds(S source) {
-        List<String> filterIds = new ArrayList<>();
-
-        if (source instanceof N2oIntervalField) {
-            N2oIntervalField s = (N2oIntervalField) source;
-            if (s.getBeginFilterId() != null)
-                filterIds.add(s.getBeginFilterId());
-            if (s.getEndFilterId() != null)
-                filterIds.add(s.getEndFilterId());
-        } else if (source.getFilterId() != null) {
-            filterIds.add(source.getFilterId());
-        }
-
-        if (filterIds.isEmpty())
-            filterIds.add(source.getId());
-
-        return filterIds;
     }
 
     private void compileCopied(S source, CompileProcessor p) {

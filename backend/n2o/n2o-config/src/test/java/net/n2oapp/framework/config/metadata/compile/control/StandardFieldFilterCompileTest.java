@@ -14,7 +14,7 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class FieldFilterCompileTest extends SourceCompileTestBase {
+public class StandardFieldFilterCompileTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -26,24 +26,22 @@ public class FieldFilterCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsV2IOPack(), new N2oCellsPack(), new N2oAllDataPack());
-        builder.compilers(new InputTextCompiler(), new DateIntervalCompiler());
+        builder.compilers(new InputTextCompiler());
     }
 
     @Test
     public void testFieldFilter() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/control/testFilterField.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/control/testFilterField.query.xml")
-                .get(new PageContext("testFilterField"));
+        Page page = compile("net/n2oapp/framework/config/metadata/compile/control/testStandardFieldFilter.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/control/testStandardFieldFilter.query.xml")
+                .get(new PageContext("testStandardFieldFilter"));
 
-        List<Filter> filters = page.getWidgets().get("testFilterField_main").getFilters();
-        assertThat(filters.size(), is(4));
+        List<Filter> filters = page.getWidgets().get("testStandardFieldFilter_main").getFilters();
+        assertThat(filters.size(), is(2));
+        // стандартное определение фильтра поля
         assertThat(filters.get(0).getFilterId(), is("minPrice"));
         assertThat(filters.get(0).getLink().getValue(), is("`minPrice`"));
+        // определение фильтра поля с помощью filter-id
         assertThat(filters.get(1).getFilterId(), is("maxP"));
         assertThat(filters.get(1).getLink().getValue(), is("`maxPrice`"));
-        assertThat(filters.get(2).getFilterId(), is("startDate"));
-        assertThat(filters.get(2).getLink().getValue(), is("`year.begin`"));
-        assertThat(filters.get(3).getFilterId(), is("endDate"));
-        assertThat(filters.get(3).getLink().getValue(), is("`year.end`"));
     }
 }

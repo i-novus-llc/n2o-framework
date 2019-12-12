@@ -16,13 +16,5 @@
             </filters>
         </field>
 
-        <field id="year" domain="localdate">
-            <select/>
-            <filters>
-                <more filter-id="startDate">startDate={startDate}</more>
-                <less filter-id="endDate">endDate={endDate}</less>
-            </filters>
-        </field>
-
     </fields>
 </query>
