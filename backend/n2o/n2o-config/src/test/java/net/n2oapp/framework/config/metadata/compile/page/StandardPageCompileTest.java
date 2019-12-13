@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
+import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -61,6 +62,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getLayout().getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
+        assertThat(((PanelRegion)page.getLayout().getRegions().get("single").get(1)).getStyle().get("width"), is("300px"));
+        assertThat(((PanelRegion)page.getLayout().getRegions().get("single").get(1)).getStyle().get("marginLeft"), is("10px"));
         assertThat(page.getLayout().getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
@@ -241,6 +244,15 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
         assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['__form'].id"));
         assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['__form2'].id"));
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void validateObjectIdForMainWidget() {
+        PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
+        validateObjectIdForMainWidget.setSubmitOperationId("test");
+        compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
+                .get(validateObjectIdForMainWidget);
 
     }
 }

@@ -5,7 +5,7 @@ import Base from '../Base';
 import Paragraph from './Paragraph';
 import meta from './Paragraph.meta';
 import { allColors } from '../utils';
-import { map } from 'lodash';
+import map from 'lodash/map';
 
 const stories = storiesOf('UI Компоненты/Типография/Paragraph', module);
 

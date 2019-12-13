@@ -42,7 +42,7 @@
                 </columns>
             </table>
         </line>
-        <panel place="single" src="PanelRegion" collapsible="true" class="card-header"  header="true">
+        <panel place="single" src="PanelRegion" collapsible="true" class="card-header" style="margin-left:10px;width:300px"  header="true">
             <table>
                 <columns>
                     <column id="test1" text-field-id="test1"/>

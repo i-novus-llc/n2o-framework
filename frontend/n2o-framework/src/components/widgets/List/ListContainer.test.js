@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Provider } from 'react-redux';
 import FactoryProvider from '../../../core/factory/FactoryProvider';
 import createFactoryConfig from '../../../core/factory/createFactoryConfig';

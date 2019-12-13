@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import { CardLink, Row, Col } from 'reactstrap';
+import CardLink from 'reactstrap/lib/CardLink';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
 import { storiesOf } from '@storybook/react';
 import Card from './Card';
 import Actions from '../../actions/Actions';

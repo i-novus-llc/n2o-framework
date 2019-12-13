@@ -26,8 +26,9 @@ public class PreFilterPersister {
             }
             setAttribute(preFilterElement, "container-id", preFilter.getTargetWidgetId());
             setAttribute(preFilterElement, "type", preFilter.getType());
-            setAttribute(preFilterElement, "reset-mode", preFilter.getResetMode());
-            setAttribute(preFilterElement, "on-change", preFilter.getOnChange());
+            if (preFilter.getResetOnChange() != null) {
+                setAttribute(preFilterElement, "reset-mode", preFilter.getResetOnChange() ? "on" : "off");
+            }
             preFiltersElement.addContent(preFilterElement);
             if (preFilter.getValues() != null) {
                 for (String value : preFilter.getValues()) {

@@ -3,7 +3,9 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import SelectedItems from './SelectedItems';
 import ReactDOM from 'react-dom';
-import { find, reduce, split } from 'lodash';
+import find from 'lodash/find';
+import reduce from 'lodash/reduce';
+import split from 'lodash/split';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 

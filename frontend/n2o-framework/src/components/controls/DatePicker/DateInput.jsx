@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import cx from 'classnames';
-import { isNaN, omit, isObject, get } from 'lodash';
+import isNaN from 'lodash/isNaN';
+import omit from 'lodash/omit';
+import isObject from 'lodash/isObject';
+import get from 'lodash/get';
 
 import DateTimeControl from './DateTimeControl';
 import MaskedInput from 'react-text-mask';
@@ -47,7 +50,7 @@ class DateInput extends React.Component {
 
   onChange(e, callback) {
     const value = isObject(e) ? get(e, 'target.value', '') : e;
-    const { dateFormat, name, outputFormat } = this.props;
+    const { dateFormat, name } = this.props;
 
     if (value === '') {
       this.props.onInputChange(null, name);
@@ -55,7 +58,7 @@ class DateInput extends React.Component {
       moment(value, dateFormat).format(dateFormat) === value &&
       hasInsideMixMax(value, this.props)
     ) {
-      this.props.onInputChange(moment(value, outputFormat), name);
+      this.props.onInputChange(moment(value, dateFormat), name);
     } else {
       this.setState({ value }, () => {
         if (callback) callback();

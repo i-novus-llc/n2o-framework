@@ -1,5 +1,6 @@
 import React from 'react';
-import _ from 'lodash';
+import indexOf from 'lodash/indexOf';
+import isEmpty from 'lodash/isEmpty';
 import pure from 'recompose/pure';
 import Thead from './Thead';
 import Tbody from './Tbody';
@@ -30,7 +31,7 @@ class TablePanel extends React.Component {
 
   calculateNextSelectionPosition(rowDelta) {
     const { ids, resolveModel } = this.props;
-    const idx = _.indexOf(ids, resolveModel.id);
+    const idx = indexOf(ids, resolveModel.id);
     return ids[idx + rowDelta] ? ids[idx + rowDelta] : resolveModel.id;
   }
 
@@ -50,7 +51,7 @@ class TablePanel extends React.Component {
     } = this.props;
     let rows = null;
 
-    if (!_.isEmpty(datasource)) {
+    if (!isEmpty(datasource)) {
       rows = datasource.map(model => (
         <RowPure
           id={model.id}

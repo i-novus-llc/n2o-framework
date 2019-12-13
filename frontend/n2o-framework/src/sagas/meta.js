@@ -1,6 +1,11 @@
 import { put, select, takeEvery, take, fork, cancel } from 'redux-saga/effects';
 import { push, LOCATION_CHANGE } from 'connected-react-router';
-import { isArray, map, get, toPairs, flow, keys } from 'lodash';
+import isArray from 'lodash/isArray';
+import map from 'lodash/map';
+import get from 'lodash/get';
+import toPairs from 'lodash/toPairs';
+import flow from 'lodash/flow';
+import keys from 'lodash/keys';
 import { reset, touch } from 'redux-form';
 import { batchActions } from 'redux-batched-actions';
 import { MAP_URL } from '../constants/pages';

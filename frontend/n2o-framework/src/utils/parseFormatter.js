@@ -1,15 +1,13 @@
 import moment from 'moment';
 import numeral from 'numeral';
-import {
-  split,
-  trim,
-  join,
-  slice,
-  map,
-  isNil,
-  isString,
-  toString,
-} from 'lodash';
+import split from 'lodash/split';
+import trim from 'lodash/trim';
+import join from 'lodash/join';
+import slice from 'lodash/slice';
+import map from 'lodash/map';
+import isNil from 'lodash/isNil';
+import isString from 'lodash/isString';
+import toString from 'lodash/toString';
 
 const typesFunctions = {
   date: ({ data, format }) => moment(data).format(format),

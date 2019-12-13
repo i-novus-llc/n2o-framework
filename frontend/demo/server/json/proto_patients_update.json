@@ -140,7 +140,11 @@
                         "id":"default",
                         "label":"Введите что-нибудь, чтобы загрузилось Имя по умолчанию",
                         "dependency":[],
-                        "control":{"src":"InputText","id":"default"}
+                        "control": {
+                          "src":"InputText","id":"default",
+                          "style": {"color": "grey", "borderRadius": "10px", "fontSize": "10pt", "fontWeight": "bold"}
+                        },
+                        "style": {"color": "grey", "fontSize": "12pt"}
                       }]}
                 ]
               }

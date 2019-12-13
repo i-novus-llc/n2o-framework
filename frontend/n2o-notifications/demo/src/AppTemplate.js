@@ -1,5 +1,10 @@
 import React from "react";
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink, Button } from "reactstrap";
+import Nav from "reactstrap/lib/Nav";
+import NavbarBrand from "reactstrap/lib/NavbarBrand";
+import Navbar from "reactstrap/lib/Navbar";
+import NavItem from "reactstrap/lib/NavItem";
+import NavLink from "reactstrap/lib/NavLink";
+import Button from "reactstrap/lib/Button";
 import Icon from "n2o-framework/lib/components/snippets/Icon/Icon";
 
 import Notifications from "../../src/Notifications";

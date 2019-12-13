@@ -4,16 +4,13 @@ import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
 import { makeWidgetPageSelector } from '../../../selectors/widgets';
-import {
-  map,
-  forOwn,
-  isEmpty,
-  isEqual,
-  debounce,
-  keys,
-  get,
-  find,
-} from 'lodash';
+import map from 'lodash/map';
+import forOwn from 'lodash/forOwn';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import debounce from 'lodash/debounce';
+import get from 'lodash/get';
+import find from 'lodash/find';
 import widgetContainer from '../WidgetContainer';
 import List from './List';
 import withColumn from '../Table/withColumn';

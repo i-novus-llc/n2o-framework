@@ -226,7 +226,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 }
             } else if (filter.contains(":in")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":in");
-                List patterns = (List) inParams.get(splittedFilter[1].replace(":", ""));
+                Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
+                List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
                 if (patterns != null) {
                     data = data
                             .stream()
@@ -278,6 +279,16 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                             })
                             .collect(Collectors.toList());
                 }
+            } else if (filter.contains(":isNull")) {
+                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNull");
+                data = data.stream()
+                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                        .collect(Collectors.toList());
+            } else if (filter.contains(":isNotNull")) {
+                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNotNull");
+                data = data.stream()
+                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) != null)
+                        .collect(Collectors.toList());
             }
         }
         return data;

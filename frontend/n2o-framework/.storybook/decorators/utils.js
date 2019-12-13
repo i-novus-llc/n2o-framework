@@ -1,6 +1,7 @@
 import configureStore from '../../src/store';
 import authProviderExample from '../auth/authProviderExample';
 import { createMemoryHistory as createHistory } from 'history';
+import factoryPoints from '../../src/core/factory/factoryPoints';
 
 const securityConfig = {
   authProvider: authProviderExample,
@@ -17,6 +18,7 @@ const config = {
   security: securityConfig,
   messages: alertsConfig,
   customSagas: [],
+  factories: factoryPoints,
 };
 export const store = configureStore({}, history, config);
 

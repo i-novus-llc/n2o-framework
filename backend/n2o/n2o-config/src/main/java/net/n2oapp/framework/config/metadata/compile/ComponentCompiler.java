@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
+import net.n2oapp.framework.config.util.StylesResolver;
 
 /**
  * Сборка компонента
@@ -18,6 +19,7 @@ public abstract class ComponentCompiler<D extends Component, S extends N2oCompon
         if (compiled.getSrc() == null)
             throw new N2oException("component src is required");
         compiled.setClassName(source.getCssClass());
+        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
     }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy, throttle, debounce } from 'lodash';
+import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 
@@ -145,7 +146,7 @@ function withListContainer(WrappedComponent) {
 
   return connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
   )(WithListContainer);
 }
 
@@ -153,12 +154,6 @@ const mapStateToProps = (state, ownProps) => ({
   alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(
     state
   ),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onDismiss: alertId => {
-    // dispatch(removeAlert(ownProps.form + '.' + ownProps.labelFieldId, alertId));
-  },
 });
 
 export default withListContainer;

@@ -6,7 +6,7 @@ import DropZone from './DropZone';
 import withForm from 'N2oStorybook/decorators/withForm';
 import buttonMeta from './ButtonUploader.meta';
 import dropzoneMeta from './DropZone.meta';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 

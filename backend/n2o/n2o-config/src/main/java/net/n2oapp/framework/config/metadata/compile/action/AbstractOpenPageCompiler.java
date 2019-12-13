@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
@@ -163,7 +164,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setUpload(source.getUpload());
         pageContext.setParentWidgetId(currentClientWidgetId);
         pageContext.setParentModelLink(actionModelLink);
-        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping.keySet()));
+        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping, true));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         if (source.getRefreshWidgetId() != null) {
@@ -186,7 +187,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         List<N2oPreFilter> preFilters = initPreFilters(source, masterIdParam, p);
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
-        queryMapping.putAll(initPreFilterParams(preFilters, pathMapping, queryMapping));
+        queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
         pageContext.setQueryRouteMapping(queryMapping);
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
@@ -201,7 +202,6 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
      * @param actionRoute     Маршрут с параметром
      * @param pathMapping     Параметры, в которые добавится ссылка
      * @param actionModelLink Модель данных действия
-     * @param p
      * @return Наименование параметра ссылки
      */
     private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {
@@ -258,15 +258,9 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
 
 
     private Map<String, ModelLink> initPreFilterParams(List<N2oPreFilter> preFilters,
-                                                       Map<String, ModelLink> pathParams,
-                                                       Map<String, ModelLink> queryParams) {
-        if (preFilters == null) return null;
-        Map<String, ModelLink> res = new HashMap<>();
-        Set<String> params = new HashSet<>();
-        params.addAll(pathParams.keySet());
-        params.addAll(queryParams.keySet());
-        preFilters.stream().filter(f -> f.getParam() != null && !params.contains(f.getParam()))
-                .forEach(f -> res.put(f.getParam(), Redux.linkFilter(f)));
-        return res;
+                                                       Map<String, ModelLink> pathParams) {
+        return preFilters == null ? null :
+                preFilters.stream().filter(f -> f.getParam() != null && !pathParams.keySet().contains(f.getParam()))
+                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkFilter));
     }
 }

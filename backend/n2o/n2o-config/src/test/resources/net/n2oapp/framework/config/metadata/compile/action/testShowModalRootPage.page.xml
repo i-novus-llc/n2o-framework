@@ -41,7 +41,8 @@
                         </show-modal>
                     </button>
                     <button id="updateEditWithPrefilters" model="edit">
-                        <show-modal page-id="testShowModalPage" submit-operation-id="update">
+                        <show-modal page-id="testShowModalPage3" upload="defaults"
+                                    submit-operation-id="update" route="/updateEditWithPrefilters">
                             <pre-filters>
                                 <eq field-id="id" value="{id}"/>
                             </pre-filters>

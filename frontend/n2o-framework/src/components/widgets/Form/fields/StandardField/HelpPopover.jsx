@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UncontrolledPopover, PopoverBody, Button } from 'reactstrap';
+import UncontrolledPopover from 'reactstrap/lib/UncontrolledPopover';
+import Button from 'reactstrap/lib/Button';
+import PopoverBody from 'reactstrap/lib/PopoverBody';
 import { id } from '../../../../../utils/id';
 
 class HelpPopover extends React.Component {
@@ -14,9 +16,9 @@ class HelpPopover extends React.Component {
     const { help, placement, icon } = this.props;
     return (
       <div className={'n2o-popover'}>
-        <button className={'n2o-popover-btn'} id={this.fieldId}>
+        <Button className={'n2o-popover-btn'} id={this.fieldId} color="link">
           <i className={icon} />
-        </button>
+        </Button>
         <UncontrolledPopover
           className={'n2o-popover-body'}
           placement={placement}

@@ -8,7 +8,12 @@ import InputSelectTreeContainer, {
 import InputSelectTreeContainerJson from './InputSelectTreeContainer.meta';
 import { parseUrl } from 'N2oStorybook/fetchMock';
 import withForm from 'N2oStorybook/decorators/withForm';
-import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import Col from 'reactstrap/lib/Col';
+import Button from 'reactstrap/lib/Button';
+import Form from 'reactstrap/lib/Form';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Label from 'reactstrap/lib/Label';
+import Input from 'reactstrap/lib/Input';
 import { withState } from 'recompose';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import { InputSelectTreeDefaultValue } from 'N2oStorybook/json';

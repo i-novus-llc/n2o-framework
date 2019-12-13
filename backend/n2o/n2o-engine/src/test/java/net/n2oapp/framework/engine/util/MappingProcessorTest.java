@@ -1,9 +1,13 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.*;
 
@@ -34,9 +38,11 @@ public class MappingProcessorTest {
         String result = MappingProcessor.outMap(test, "valueStr", String.class);
         assert result.equals("string");
 
+        ContextProcessor contextProcessor = Mockito.mock(ContextProcessor.class);
+        Mockito.when(contextProcessor.resolve(11)).thenReturn(11);
         DataSet res = new DataSet();
-        MappingProcessor.outMap(res, test, "fieldId", "valueStr", null);
-        MappingProcessor.outMap(res, test, "fieldId2", "valueInt", 11);
+        MappingProcessor.outMap(res, test, "fieldId", "valueStr", null, contextProcessor);
+        MappingProcessor.outMap(res, test, "fieldId2", "valueInt", 11, contextProcessor);
         assert res.get("fieldId").equals("string");
         assert res.get("fieldId2").equals(11);
     }
@@ -53,7 +59,9 @@ public class MappingProcessorTest {
         mapping.put("valueInt", "[0].valueInt");
         mapping.put("innerObjValueStr", "[0].innerObj.valueStr");
         mapping.put("innerObjValueInt", "[0].innerObj.valueInt");
-        Object[] res = MappingProcessor.map(inDataSet, mapping, Arrays.asList("net.n2oapp.framework.engine.util.TestEntity"));
+        Argument arg = new Argument();
+        arg.setClassName("net.n2oapp.framework.engine.util.TestEntity");
+        Object[] res = MappingProcessor.map(inDataSet, mapping, new Argument[]{arg}, new DomainProcessor());
         TestEntity result = (TestEntity) res[0];
         assert result.getInnerObj().getValueStr().equals("inner");
         assert result.getInnerObj().getValueInt().equals(14);
