@@ -1,5 +1,4 @@
 import React from 'react';
-import { set } from 'lodash';
 import { withContext } from 'recompose';
 import { Route, Link, Switch } from 'react-router-dom';
 import fetchMock from 'fetch-mock';

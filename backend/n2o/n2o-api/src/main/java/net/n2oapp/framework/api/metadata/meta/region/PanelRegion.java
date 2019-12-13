@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Клиентская модель региона в виде панелей.
@@ -14,6 +15,8 @@ import java.util.List;
 public class PanelRegion extends Region {
     @JsonProperty
     private String className;
+    @JsonProperty
+    private Map<String, String> style;
     @JsonProperty
     private String color;
     @JsonProperty

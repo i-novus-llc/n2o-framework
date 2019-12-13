@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, withHandlers, mapProps } from 'recompose';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import Control from '../StandardField/Control';
 import Measure from '../StandardField/Measure';
 import Label from '../StandardField/Label';

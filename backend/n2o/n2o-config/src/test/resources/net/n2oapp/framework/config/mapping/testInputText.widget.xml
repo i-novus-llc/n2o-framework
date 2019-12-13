@@ -1,7 +1,7 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
         <row>
-            <input-text id="test1"  length="15" class="n2o"
+            <input-text id="test1"  length="15" class="n2o" style="padding-top: 0; page-break-before: avoid;"
                         label="InputNumber" default-value="15"
                         placeholder="Введите текст" help="testHelp"
                         label-class="testLabelClass" depends-on="name,type">
@@ -11,6 +11,8 @@
                     <visibility on="test4" reset="true">test4 == null</visibility>
                     <visibility on="test4">test4 == null</visibility>
                     <visibility on="test4" reset="false">test4 == null</visibility>
+                    <reset on="test4">test4 == null</reset>
+                    <reset on="test4"/>
                 </dependencies>
             </input-text>
             <input-text id="test1_1"  length="15" domain="integer"

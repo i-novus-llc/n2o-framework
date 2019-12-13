@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import { filter } from 'lodash';
 
 /*
  селектор для всех кнопок

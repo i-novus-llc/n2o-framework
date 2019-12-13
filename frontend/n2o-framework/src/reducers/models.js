@@ -1,14 +1,11 @@
-import {
-  omit,
-  map as mapFn,
-  isArray,
-  isObject,
-  merge,
-  set,
-  pick,
-  each,
-  isString,
-} from 'lodash';
+import omit from 'lodash/omit';
+import mapFn from 'lodash/map';
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
+import merge from 'lodash/merge';
+import pick from 'lodash/pick';
+import each from 'lodash/each';
+import isString from 'lodash/isString';
 import {
   SET,
   REMOVE,

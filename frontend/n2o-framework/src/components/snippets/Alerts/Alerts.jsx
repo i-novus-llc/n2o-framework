@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { map, isEmpty } from 'lodash';
+import map from 'lodash/map';
+import isEmpty from 'lodash/isEmpty';
 import Alert from './Alert';
 import PropTypes from 'prop-types';
 

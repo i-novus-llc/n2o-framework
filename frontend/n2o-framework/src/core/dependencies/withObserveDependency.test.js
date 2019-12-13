@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducers from '../../reducers';

@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { compose } from "recompose";
-import { FormGroup, Label, Input } from "reactstrap";
+import FormGroup from "reactstrap/lib/FormGroup";
+import Label from "reactstrap/lib/Label";
+import Input from "reactstrap/lib/Input";
 import { isEmpty, filter, map, pick, difference, pullAll, first } from "lodash";
 
 import withWidgetProps from "n2o/lib/components/regions/withWidgetProps";

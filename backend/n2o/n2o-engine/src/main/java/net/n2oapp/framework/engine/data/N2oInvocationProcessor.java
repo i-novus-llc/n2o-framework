@@ -66,7 +66,7 @@ public class N2oInvocationProcessor implements InvocationProcessor {
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
             result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) invocation,
-                    mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping));
+                    mapToArgs((N2oArgumentsInvocation) invocation, inDataSet, inMapping, domainProcessor));
         } else {
             result = engine.invoke(invocation, mapToMap(inDataSet, inMapping));
         }

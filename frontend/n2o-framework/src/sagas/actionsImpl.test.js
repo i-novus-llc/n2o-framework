@@ -8,7 +8,7 @@ import {
 import { runSaga } from 'redux-saga';
 import { put } from 'redux-saga/effects';
 import * as api from './fetch';
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import {
   FAIL_INVOKE,
   START_INVOKE,

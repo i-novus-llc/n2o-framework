@@ -614,6 +614,11 @@
                 <xs:documentation>Параметр фильтра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="reset-on-change" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefValue">

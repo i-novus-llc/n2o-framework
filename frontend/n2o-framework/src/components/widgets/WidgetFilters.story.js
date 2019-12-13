@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
 import fetchMock from 'fetch-mock';
-import { set } from 'lodash';
+import set from 'lodash/set';
 import TableData from './Table/TableWidget.meta.json';
 import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';

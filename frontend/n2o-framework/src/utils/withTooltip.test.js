@@ -1,6 +1,6 @@
 import React from 'react';
 import withTooltip from './withTooltip';
-import { UncontrolledTooltip } from 'reactstrap';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 
 const setup = propsOverride => {
   return mount(
