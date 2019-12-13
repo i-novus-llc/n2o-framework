@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.fieldset;
 
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -29,7 +30,7 @@ public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements Name
         p.attribute(e, "enabled", fs::getEnabled, fs::setEnabled);
         p.attribute(e, "visible", fs::getVisible, fs::setVisible);
         p.attributeArray(e, "depends-on", ",", fs::getDependsOn, fs::setDependsOn);
-        p.anyChildren(e, null, fs::getItems, fs::setItems, p.anyOf(), fieldsetDefaultNamespace, controlDefaultNamespace);
+        p.anyChildren(e, null, fs::getItems, fs::setItems, p.anyOf(SourceComponent.class), fieldsetDefaultNamespace, controlDefaultNamespace);
         p.anyAttributes(e, fs::getExtAttributes, fs::setExtAttributes);
     }
 
