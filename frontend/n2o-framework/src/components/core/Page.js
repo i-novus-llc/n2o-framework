@@ -21,7 +21,7 @@ import Factory from '../../core/factory/Factory';
 import { LAYOUTS, REGIONS } from '../../core/factory/factoryLevels';
 import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer';
 import DocumentTitle from './DocumentTitle';
-import Actions from '../actions/Actions';
+import Actions from '../actions/Actions.old';
 
 import {
   makePageDisabledByIdSelector,

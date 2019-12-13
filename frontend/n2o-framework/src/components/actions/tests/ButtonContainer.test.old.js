@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import mockStore from 'redux-mock-store';
 import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import ButtonContainer from '../ButtonContainer.old';
-import { DropdownMenu } from 'reactstrap';
 
 function test({ disabled }) {
   return <div className={cn('btn-toolbar', { disabled: disabled })}>test</div>;

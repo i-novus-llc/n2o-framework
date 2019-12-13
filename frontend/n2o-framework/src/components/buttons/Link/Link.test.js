@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { push } from 'connected-react-router';
 
 const mockStore = configureMockStore();
+const delay = timeout => new Promise(res => setTimeout(res, timeout));
 
 const setup = props => {
   const store = mockStore({});
@@ -33,6 +34,7 @@ describe('<Link />', () => {
       action: { type: 'n2o/button/Dummy' }
     });
     await wrapper.find('Button').simulate('click');
+    await delay(100);
     expect(store.getActions()[1]).toEqual(push('testUrl'));
   });
 });

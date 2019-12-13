@@ -128,6 +128,7 @@ export default function withActionButton(options = {}) {
       };
 
       handleOpenConfirmModal = cb => {
+        console.log('point')
         this.setState({ confirmVisible: true }, cb);
       };
 

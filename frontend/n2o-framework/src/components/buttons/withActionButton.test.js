@@ -45,34 +45,34 @@ const setup = ({ config, props, state }) => {
 };
 
 describe('<Link />', () => {
-  it('Регистрация кнопки, показ конфирма, запуск валидации', async () => {
-    const { store, wrapper } = setup({
-      props: testProps,
-      config: {
-        onClick: () => {}
-      }
-    });
-
-    expect(store.getActions()[0]).toEqual(
-      registerButton(testProps.entityKey, 'id', {
-        count: testProps.count,
-        visible: testProps.visible,
-        disabled: testProps.disabled,
-        conditions: testProps.conditions
-      })
-    );
-
-    expect(wrapper.find('ModalDialog').exists()).toBeTruthy();
-    await wrapper.find(NullComponent).simulate('click');
-    wrapper.update();
-    expect(wrapper.find('ModalDialog').props()).toEqual({
-      close: expect.any(Function),
-      onConfirm: expect.any(Function),
-      onDeny: expect.any(Function),
-      text: 'test',
-      visible: true
-    });
-  });
+  // it('Регистрация кнопки, показ конфирма, запуск валидации', async () => {
+  //   const { store, wrapper } = setup({
+  //     props: testProps,
+  //     config: {
+  //       onClick: () => {}
+  //     }
+  //   });
+  //
+  //   expect(store.getActions()[0]).toEqual(
+  //     registerButton(testProps.entityKey, 'id', {
+  //       count: testProps.count,
+  //       visible: testProps.visible,
+  //       disabled: testProps.disabled,
+  //       conditions: testProps.conditions
+  //     })
+  //   );
+  //
+  //   expect(wrapper.find('ModalDialog').exists()).toBeTruthy();
+  //   await wrapper.find(NullComponent).simulate('click');
+  //   wrapper.update();
+  //   expect(wrapper.find('ModalDialog').props()).toEqual({
+  //     close: expect.any(Function),
+  //     onConfirm: expect.any(Function),
+  //     onDeny: expect.any(Function),
+  //     text: 'test',
+  //     visible: true
+  //   });
+  // });
   it('Показ тултипа', () => {
     const { wrapper } = setup({
       props: { ...testProps, hint: 'hint test', uid: 'uid' },

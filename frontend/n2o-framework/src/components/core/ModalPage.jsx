@@ -14,7 +14,6 @@ import {
   makePageLoadingByIdSelector,
   makePageTitleByIdSelector,
 } from '../../selectors/pages';
-import { makePageLoadingByIdSelector, makePageTitleByIdSelector } from '../../selectors/pages';
 import Toolbar from '../buttons/Toolbar';
 import withActions from './withActions';
 import Spinner from '../snippets/Spinner/Spinner';
@@ -99,45 +98,46 @@ class ModalPage extends React.Component {
     const classes = cn({ 'd-none': loading });
     return (
       <div className={'modal-page-overlay'}>
-        {showSpinner && <CoverSpinner mode="transparent" />}
-        <Modal
-          isOpen={visible}
-          toggle={close}
-          size={size}
-          backdrop={false}
-          style={{
-            zIndex: 10
-          }}
-        >
-          <ModalHeader className={classes} toggle={close}>
-            {title}
-          </ModalHeader>
-          <ModalBody className={classes}>
-            {pageUrl ? (
-              <Page pageUrl={pageUrl} pageId={pageId} pageMapping={pageMapping} />
-            ) : src ? (
-              this.renderFromSrc(src)
-            ) : null}
-          </ModalBody>
-          {toolbar && (
-            <ModalFooter className={classes}>
-              <div className="n2o-modal-actions">
-                <Actions
-                  toolbar={toolbar.bottomLeft}
-                  actions={actions}
-                  containerKey={containerKey}
-                  pageId={pageId}
-                />
-                <Actions
-                  toolbar={toolbar.bottomRight}
-                  actions={actions}
-                  containerKey={containerKey}
-                  pageId={pageId}
-                />
-              </div>
-            </ModalFooter>
-          )}
-        </Modal>
+        <Spinner type="cover" loading={showSpinner} color="light" transparent>
+          <Modal
+            isOpen={visible}
+            toggle={close}
+            size={size}
+            backdrop={false}
+            style={{
+              zIndex: 10
+            }}
+          >
+            <ModalHeader className={classes} toggle={close}>
+              {title}
+            </ModalHeader>
+            <ModalBody className={classes}>
+              {pageUrl ? (
+                <Page pageUrl={pageUrl} pageId={pageId} pageMapping={pageMapping} />
+              ) : src ? (
+                this.renderFromSrc(src)
+              ) : null}
+            </ModalBody>
+            {toolbar && (
+              <ModalFooter className={classes}>
+                <div className="n2o-modal-actions">
+                  <Actions
+                    toolbar={toolbar.bottomLeft}
+                    actions={actions}
+                    containerKey={containerKey}
+                    pageId={pageId}
+                  />
+                  <Actions
+                    toolbar={toolbar.bottomRight}
+                    actions={actions}
+                    containerKey={containerKey}
+                    pageId={pageId}
+                  />
+                </div>
+              </ModalFooter>
+            )}
+          </Modal>
+        </Spinner>
       </div>
     );
   }
