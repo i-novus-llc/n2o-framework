@@ -22,8 +22,12 @@ public class N2oTable extends N2oAbstractTable {
             return this.name();
         }
     }
-    
+
+    /**
+     * Виды отображения дочерних записей таблицы
+     */
     public enum ChildrenToggle {
-        collapse, expand;
+        collapse,   // свернутый
+        expand      // раскрытый
     }
 }
