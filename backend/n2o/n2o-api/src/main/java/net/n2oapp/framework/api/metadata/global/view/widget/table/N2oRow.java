@@ -17,6 +17,7 @@ public class N2oRow implements Serializable, NamespaceUriAware {
     private N2oSwitch color;
     private N2oRowClick rowClick;
     private String rowClass;
+    private String style;
     private String namespaceUri;
 
 }

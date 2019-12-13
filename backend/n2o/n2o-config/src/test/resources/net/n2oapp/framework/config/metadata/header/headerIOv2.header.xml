@@ -3,7 +3,7 @@
         class="css"
         logo-src="logo"
         color="invert"
-        src="Header" home-page-id="home">
+        src="Header" home-page-id="home" style="margin-left:10px;width:300px">
     <nav src="Nav" ref-id="MenuRef" welcome-page-id="test">
         <page page-id="test1" label="test1" route="/test1" icon="test-icon"/>
         <a href="/a" label="test2" icon="test2-icon" target="newWindow"/>
