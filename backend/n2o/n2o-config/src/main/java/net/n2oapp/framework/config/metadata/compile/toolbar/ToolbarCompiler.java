@@ -126,7 +126,6 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                     CompiledObject compiledObject = p.getScope(CompiledObject.class);
                     operation = compiledObject != null && compiledObject.getOperations() != null ?
                             compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-
                 }
                 //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
             }
@@ -230,10 +229,10 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
             ComponentScope componentScope = p.getScope(ComponentScope.class);
             Boolean isNotCell = true;
-            if (componentScope != null ) {
+            if (componentScope != null) {
                 isNotCell = componentScope.unwrap(N2oCell.class) == null;
             }
-            if (isNotCell){
+            if (isNotCell) {
                 String widgetId = initWidgetId(source, context, p);
                 ButtonCondition condition = new ButtonCondition();
                 condition.setExpression("!_.isEmpty(this)");
