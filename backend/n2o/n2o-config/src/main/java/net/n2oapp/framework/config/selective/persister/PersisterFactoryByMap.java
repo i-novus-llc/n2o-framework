@@ -59,6 +59,12 @@ public class PersisterFactoryByMap implements NamespacePersisterFactory<Namespac
     }
 
     @Override
+    public boolean check(Namespace namespace, Class<NamespaceUriAware> clazz) {
+        Map<String, NamespacePersister> inmap = map.get(clazz);
+        return inmap != null && inmap.containsKey(namespace.getURI());
+    }
+
+    @Override
     public void add(NamespacePersister<NamespaceUriAware> persister) {
         map.computeIfAbsent(persister.getElementClass(), n -> new HashMap<>()).put(persister.getNamespaceUri(), persister);
     }

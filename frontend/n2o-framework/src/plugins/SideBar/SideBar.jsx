@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { isEqual, map, get } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import get from 'lodash/get';
 import SidebarItemContainer from './SidebarItemContainer';
 import UserBox from '../../components/snippets/UserBox/UserBox';
 import {

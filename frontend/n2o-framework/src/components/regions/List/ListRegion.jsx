@@ -1,16 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, setDisplayName } from 'recompose';
-import {
-  isEmpty,
-  filter,
-  map,
-  pick,
-  difference,
-  pullAll,
-  first,
-  isNil,
-} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
+import pick from 'lodash/pick';
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';

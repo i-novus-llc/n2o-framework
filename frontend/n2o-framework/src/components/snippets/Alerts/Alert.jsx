@@ -1,5 +1,7 @@
 import React from 'react';
-import { defaultTo, isArray, map } from 'lodash';
+import defaultTo from 'lodash/defaultTo';
+import isArray from 'lodash/isArray';
+import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';

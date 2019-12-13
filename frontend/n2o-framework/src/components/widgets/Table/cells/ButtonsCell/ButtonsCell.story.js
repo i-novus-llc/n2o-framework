@@ -1,5 +1,5 @@
 import React from 'react';
-import { map } from 'lodash';
+import map from 'lodash/map';
 import { storiesOf } from '@storybook/react';
 import Table from '../../Table';
 import TextTableHeader from '../../headers/TextTableHeader';

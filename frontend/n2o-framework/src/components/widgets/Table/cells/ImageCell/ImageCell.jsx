@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { compose, setDisplayName } from 'recompose';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 /**
  * Ячейка таблицы с картинкой

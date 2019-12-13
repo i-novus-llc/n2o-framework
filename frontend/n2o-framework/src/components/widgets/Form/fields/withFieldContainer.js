@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isBoolean, memoize, some, omit, isEqual } from 'lodash';
+import isBoolean from 'lodash/isBoolean';
+import memoize from 'lodash/memoize';
+import some from 'lodash/some';
+import omit from 'lodash/omit';
+import isEqual from 'lodash/isEqual';
 import {
   isInitSelector,
   isVisibleSelector,

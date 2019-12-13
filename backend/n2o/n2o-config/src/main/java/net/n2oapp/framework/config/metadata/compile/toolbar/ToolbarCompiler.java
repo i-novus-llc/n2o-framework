@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -134,6 +135,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         }
         initConfirm(button, source, context, p, operation);
         button.setClassName(source.getClassName());
+        button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 
         String hint;
         if (LabelType.icon.equals(source.getType()))
@@ -286,6 +288,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setId(sub.getId() == null ? "subMenu" + idx.get() : sub.getId());
             button.setLabel(sub.getLabel());
             button.setClassName(sub.getClassName());
+            button.setStyle(StylesResolver.resolveStyles(sub.getStyle()));
             if (sub.getColor() == null) {
                 ComponentScope componentScope = p.getScope(ComponentScope.class);
                 if (componentScope != null) {

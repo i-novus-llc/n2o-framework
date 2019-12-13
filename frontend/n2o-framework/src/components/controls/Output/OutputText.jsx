@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
-import { isEqual, isNumber, isString } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isNumber from 'lodash/isNumber';
+import isString from 'lodash/isString';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Text from '../../snippets/Typography/Text/Text';

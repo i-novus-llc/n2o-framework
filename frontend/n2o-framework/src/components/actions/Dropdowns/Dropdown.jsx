@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ButtonDropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import ButtonDropdown from 'reactstrap/lib/ButtonDropdown';
+import DropdownToggle from 'reactstrap/lib/DropdownToggle';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 
 /**
  * Дропдаун

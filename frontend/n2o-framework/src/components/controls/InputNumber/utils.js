@@ -1,4 +1,6 @@
-import { isNumber, isNil, toNumber, isNaN } from 'lodash';
+import isNil from 'lodash/isNil';
+import toNumber from 'lodash/toNumber';
+import isNaN from 'lodash/isNaN';
 
 export function formatToFloat(val, stepPrecision) {
   if (isNil(val) || val === '') return null;

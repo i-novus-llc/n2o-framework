@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { values } from 'lodash';
 import dependency from '../../../core/dependency';
 import StandardWidget from '../StandardWidget';
 import WireframeContainer from './WireframeContainer';

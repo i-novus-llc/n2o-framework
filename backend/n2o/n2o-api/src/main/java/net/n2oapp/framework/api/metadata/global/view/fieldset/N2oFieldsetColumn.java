@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 @Setter
 public class N2oFieldsetColumn implements Source, CssClassAware, NamespaceUriAware {
     private String cssClass;
+    private String style;
     private Integer size;
     private String namespaceUri;
     private NamespaceUriAware[] items;

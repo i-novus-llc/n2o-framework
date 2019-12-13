@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from 'classnames';
-import { isEmpty, find, has, get } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
+import has from 'lodash/has';
+import get from 'lodash/get';
 import { createStructuredSelector } from 'reselect';
 import {
   compose,
