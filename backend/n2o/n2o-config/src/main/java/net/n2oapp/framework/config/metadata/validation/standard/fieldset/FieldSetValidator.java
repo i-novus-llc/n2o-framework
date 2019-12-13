@@ -21,6 +21,7 @@ public class FieldSetValidator implements SourceValidator<N2oFieldSet>, SourceCl
     @Override
     public void validate(N2oFieldSet source, ValidateProcessor p) {
         idValidationUtils.checkIds(source.getItems());
+        p.safeStreamOf(source.getItems()).forEach(item -> p.validate(item));
     }
 
     @Override

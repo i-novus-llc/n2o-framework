@@ -277,13 +277,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <T extends Source> void validate(T metadata) {
+    public <T extends Source> void validate(T metadata, Object... scope) {
         if (metadata == null)
             return;
         if (metadata instanceof RefIdAware && ((RefIdAware) metadata).getRefId() != null)
             return;
 
-        env.getSourceValidatorFactory().validate(metadata, this);
+        env.getSourceValidatorFactory().validate(metadata, new N2oCompileProcessor(this, scope));
     }
 
     @Override
@@ -383,8 +383,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     /**
      * Получает значение по ключу и если оно существует, удаляет этот ключ из маппинга
+     *
      * @param mapping Маппинг
-     * @param key Ключ
+     * @param key     Ключ
      * @return Значение
      */
     private Object getValue(Map<String, ? extends BindLink> mapping, String key) {

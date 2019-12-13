@@ -9,8 +9,9 @@ import net.n2oapp.framework.config.metadata.validation.standard.IdValidationUtil
 import org.springframework.core.env.PropertyResolver;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-
+/**
+ * Валидатор виджета форма
+ */
 @Component
 public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware {
 
@@ -23,7 +24,8 @@ public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware
     @Override
     public void validate(N2oForm source, ValidateProcessor p) {
         idValidationUtils.checkIds(source.getItems());
-        idValidationUtils.checkUniqueFieldId(source.getItems(), new HashSet<>(), false);
+        FieldsScope scope = new FieldsScope();
+        p.safeStreamOf(source.getItems()).forEach(item -> p.validate(item, scope));
     }
 
     @Override
