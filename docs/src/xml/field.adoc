@@ -48,6 +48,11 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |CSS класс стилей
 |
 
+|style
+|CSS свойство
+|Стиль поля
+|
+
 |required
 |true false
 |Обязательность поля
@@ -357,6 +362,11 @@ link:#__validations_3[Список валидаций]
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|CSS класс кнопки
+|
+
+|style
+|CSS свойство
 |Стиль кнопки
 |
 

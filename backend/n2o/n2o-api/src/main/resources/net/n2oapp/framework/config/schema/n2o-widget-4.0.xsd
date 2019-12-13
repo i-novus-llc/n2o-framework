@@ -116,6 +116,11 @@
                 <xs:documentation>CSS класс, который будет добавлен к виджету.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Стиль виджета.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="name" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Наименование виджета. По умолчанию равно элементу name выборки, на основе которой
@@ -504,6 +509,11 @@
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон строки).</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
