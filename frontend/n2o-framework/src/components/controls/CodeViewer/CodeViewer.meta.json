@@ -1,10 +1,10 @@
 {
   "visible": true,
-  "theme": "light",
+  "darkTheme": false,
   "children": "",
-  "title": "",
-  "text": "",
   "language": "javascript",
   "showLineNumbers": true,
+  "hideButtons": false,
+  "hideOverflow": true,
   "startingLineNumber": 1
 }
