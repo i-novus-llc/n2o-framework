@@ -53,19 +53,16 @@ public abstract class RouteUtil {
      * @param queryMapping параметры запроса для добавления
      * @return дополненный url
      */
-    public static String addQueryParams(String route, Map<String, ModelLink> queryMapping, boolean onlyConstant) {
+    public static String addQueryParams(String route, Map<String, ModelLink> queryMapping) {
         if (queryMapping == null || queryMapping.isEmpty())
             return route;
         StringBuilder params = new StringBuilder();
         queryMapping.keySet().stream().forEach(k -> {
             ModelLink link = queryMapping.get(k);
-            if (params.length() > 0) {
-                params.append("&");
-            }
             if (link.isConst()) {
-                params.append(link.getParam() == null ? k : link.getParam()).append("=").append(link.getValue());
-            } else if (!onlyConstant) {
-                params.append(link.getParam() == null ? k : link.getParam()).append("=:").append(k);
+                params.append(params.length() > 0 ? "&" : "").append(link.getParam() == null ? k : link.getParam()).append("=").append(link.getValue());
+            } else {
+                params.append(params.length() > 0 ? "&" : "").append(link.getParam() == null ? k : link.getParam()).append("=:").append(k);
             }
         });
         if (params.length() == 0) {

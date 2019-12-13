@@ -65,9 +65,9 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
             filter.setRefWidgetId(widgetId);
             if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
-                filter.setParam(p.cast(source.getMasterParam(), masterIdParam, filter.getFieldId()));
+                filter.setParam(p.cast(source.getMasterParam(), masterIdParam, createGlobalParam(filter.getFieldId(), p)));
             } else {
-                filter.setParam(filter.getFieldId());
+                filter.setParam(createGlobalParam(filter.getFieldId(), p));
             }
             filter.setRefModel(ReduxModel.RESOLVE);
             PageScope pageScope = p.getScope(PageScope.class);
@@ -80,7 +80,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             for (N2oPreFilter preFilter : source.getPreFilters()) {
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(preFilter.getFieldId());
-                filter.setParam(p.cast(preFilter.getParam(), filter.getFieldId()));
+                filter.setParam(p.cast(preFilter.getParam(), createGlobalParam(filter.getFieldId(), p)));
                 filter.setType(preFilter.getType());
                 filter.setValueAttr(preFilter.getValueAttr());
                 filter.setValuesAttr(preFilter.getValuesAttr());
@@ -164,7 +164,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setUpload(source.getUpload());
         pageContext.setParentWidgetId(currentClientWidgetId);
         pageContext.setParentModelLink(actionModelLink);
-        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping, true));
+        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         if (source.getRefreshWidgetId() != null) {
@@ -262,5 +262,13 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         return preFilters == null ? null :
                 preFilters.stream().filter(f -> f.getParam() != null && !pathParams.keySet().contains(f.getParam()))
                         .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkFilter));
+    }
+
+    private String createGlobalParam(String param, CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope == null || widgetScope.getClientWidgetId() == null) {
+            return param;
+        }
+        return widgetScope.getClientWidgetId() + "_" + param;
     }
 }

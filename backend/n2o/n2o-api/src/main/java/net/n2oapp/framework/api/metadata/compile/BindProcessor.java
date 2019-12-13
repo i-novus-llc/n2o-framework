@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
+import javax.script.Bindings;
 import java.util.List;
 import java.util.Map;
 
@@ -118,7 +119,7 @@ public interface BindProcessor {
      *
      * @param link Ссылка
      */
-    <L extends BindLink> void resolveLink(L link);
+    BindLink resolveLink(BindLink link);
 
     /**
      * Попытаться разрешить вложенные модели ссылки

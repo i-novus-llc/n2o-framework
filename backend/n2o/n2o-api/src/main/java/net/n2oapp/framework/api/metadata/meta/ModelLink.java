@@ -23,6 +23,16 @@ public class ModelLink extends BindLink {
         setValue(value);
     }
 
+    public ModelLink(ModelLink link) {
+        super(createBindLink(link.model, link.widgetId, link.fieldId));
+        this.model = link.model;
+        this.widgetId = link.widgetId;
+        this.fieldId = link.fieldId;
+        setValue(link.getValue());
+        setSubModelQuery(link.subModelQuery);
+        setParam(link.param);
+    }
+
     public ModelLink(ReduxModel model, String widgetId) {
         super(createBindLink(model, widgetId, null));
         this.model = model;
@@ -93,6 +103,8 @@ public class ModelLink extends BindLink {
     }
 
     private static String createBindLink(ReduxModel model, String widgetId, String fieldId) {
+        if (model == null)
+            return null;
         return fieldId == null
                 ? String.format("models.%s['%s']", model.getId(), widgetId)
                 : String.format("models.%s['%s'].%s", model.getId(), widgetId, fieldId);
