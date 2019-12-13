@@ -12,6 +12,7 @@ public class N2oTable extends N2oAbstractTable {
     private Boolean filterOpened;
     private NamespaceUriAware[] filters;
     private Boolean searchOnChange;
+    private ChildrenToggle children;
 
 
     public enum FilterPosition {
@@ -20,5 +21,9 @@ public class N2oTable extends N2oAbstractTable {
         public String getName() {
             return this.name();
         }
+    }
+    
+    public enum ChildrenToggle {
+        collapse, expand;
     }
 }

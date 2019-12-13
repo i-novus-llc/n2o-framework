@@ -466,6 +466,11 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |Строка
 |Высота таблицы (% или px), после которой появится вертикальный скрол
 |
+
+|children
+|collapse, expand
+|Отображение дочерних записей в закрытом или раскрытом виде
+|collapse
 |===
 
 Пример::
@@ -473,8 +478,8 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моя таблица"
-  query-id="myQuery" size="10">
+  name="Моя таблица" query-id="myQuery"
+  size="10" children="expand">
   <filters>...</filters>
   <toolbar>...</toolbar>
   <columns>...</columns>

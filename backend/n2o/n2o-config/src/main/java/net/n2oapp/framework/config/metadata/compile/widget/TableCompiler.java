@@ -114,6 +114,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             next = source.getPagination().getNext();
         }
         table.setPaging(createPaging(source.getSize(), prev, next, "n2o.api.default.widget.table.size", p));
+        table.setChildren(source.getChildren() != null ? source.getChildren() : N2oTable.ChildrenToggle.collapse);
         return table;
     }
 
