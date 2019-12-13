@@ -24,7 +24,7 @@ public class CheckFieldIdTest extends SourceValidationTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oControlsPack());
-        builder.validators(new TableValidator(builder.getEnvironment().getSystemProperties()), new PageValidator());
+        builder.validators(new TableValidator(), new PageValidator());
     }
 
     @Test(expected = N2oMetadataValidationException.class)

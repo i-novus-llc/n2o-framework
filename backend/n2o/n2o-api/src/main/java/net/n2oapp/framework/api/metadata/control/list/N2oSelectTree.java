@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.multi.N2oMultiListField;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 
 /**
@@ -14,8 +13,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNode
 @Setter
 public class N2oSelectTree extends N2oListField implements N2oSingleListField, N2oMultiListField {
     private Boolean ajax;
-    private InheritanceNodes inheritanceNodes;
-    private GroupingNodes groupingNodes;
     private Integer size;
     private String parentFieldId;
     private String parentIsNullFieldId;
@@ -25,9 +22,42 @@ public class N2oSelectTree extends N2oListField implements N2oSingleListField, N
     private CheckingStrategy checkingStrategy;
     private Integer maxTagCount;
 
+    private String enabledFieldId;
 
     private boolean hasCheckboxes() {
         return checkboxes != null && checkboxes;
+    }
+
+    @Deprecated
+    public void setInheritanceNodes(InheritanceNodes nodes) {
+        setParentFieldId(nodes.getParentFieldId());
+        setLabelFieldId(nodes.getLabelFieldId());
+        setHasChildrenFieldId(nodes.getHasChildrenFieldId());
+        setQueryId(nodes.getQueryId());
+        setIconFieldId(nodes.getIconFieldId());
+        setValueFieldId(nodes.getValueFieldId());
+        setMasterFieldId(nodes.getMasterFieldId());
+        setDetailFieldId(nodes.getDetailFieldId());
+        setSearchFilterId(nodes.getSearchFilterId());
+        setEnabledFieldId(nodes.getEnabledFieldId());
+        setPreFilters(nodes.getPreFilters());
+    }
+
+    @Deprecated
+    public InheritanceNodes getInheritanceNodes() {
+        InheritanceNodes nodes = new InheritanceNodes();
+        nodes.setParentFieldId(getParentFieldId());
+        nodes.setLabelFieldId(getLabelFieldId());
+        nodes.setHasChildrenFieldId(getHasChildrenFieldId());
+        nodes.setQueryId(getQueryId());
+        nodes.setIconFieldId(getIconFieldId());
+        nodes.setValueFieldId(getValueFieldId());
+        nodes.setMasterFieldId(getMasterFieldId());
+        nodes.setDetailFieldId(getDetailFieldId());
+        nodes.setSearchFilterId(getSearchFilterId());
+        nodes.setEnabledFieldId(getEnabledFieldId());
+        nodes.setPreFilters(getPreFilters());
+        return nodes.isEmpty() ? null : nodes;
     }
 
     @Override

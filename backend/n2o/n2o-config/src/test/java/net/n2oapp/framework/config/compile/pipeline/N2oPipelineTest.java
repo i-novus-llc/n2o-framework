@@ -19,9 +19,12 @@ import net.n2oapp.framework.config.factory.MockMetadataFactory;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.XmlInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -71,6 +74,8 @@ public class N2oPipelineTest {
         when(env.getReadCompilePipelineFunction()).thenReturn(p -> p.read().transform().validate().cache().copy().compile().transform().cache().copy());
         when(env.getCompilePipelineFunction()).thenReturn(p -> p.compile().transform().cache());
         when(env.getBindPipelineFunction()).thenReturn(p -> p.bind());
+
+        when(env.getSystemProperties()).thenReturn(new SimplePropertyResolver(new Properties()));
     }
 
     @Test

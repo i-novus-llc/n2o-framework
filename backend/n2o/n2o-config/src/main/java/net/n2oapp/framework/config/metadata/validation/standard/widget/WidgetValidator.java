@@ -27,12 +27,6 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
 
     @Override
     public void validate(N2oWidget n2oWidget, ValidateProcessor p) {
-        if (!N2oForm.class.isAssignableFrom(n2oWidget.getWidgetClass())) {
-            if (n2oWidget.getQueryId() == null && n2oWidget.getObjectId() == null)
-                throw new N2oMetadataValidationException("В виджете \'" + n2oWidget.getId() + "\' не указаны ни выборка, ни объект!");
-        } else if (n2oWidget.getQueryId() == null && n2oWidget.getDefaultValuesQueryId() == null)
-            throw new N2oMetadataValidationException("В виджете \'" + n2oWidget.getId() + "\' не указана выборка!");
-
         N2oQuery query = null;
         if (n2oWidget.getQueryId() != null) {
             p.checkForExists(n2oWidget.getQueryId(), N2oQuery.class,
@@ -67,35 +61,34 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             p.checkIdsUnique(menuItems, "MenuItem '%s' встречается более чем один раз в виджете '" + n2oWidget.getId() + "'!");
         }
         if (n2oWidget.getPreFilters() != null) {
+            if (query == null)
+                throw new N2oMetadataValidationException("Виджет \'" + n2oWidget.getId() + "\' имеет префильтры, но не задана выборка");
+            if (query.getFields() == null)
+                throw new N2oMetadataValidationException("Виджет \'" + n2oWidget.getId() + "\' имеет префильтры, но в выборке \'" + query.getId()+ "\' нет fields!");
             for (N2oPreFilter preFilter : n2oWidget.getPreFilters()) {
-                if (query != null) {
-                    if (query.getFields() == null)
-                        throw new N2oMetadataValidationException("В выборке \'" + (query.getId() == null ? "" : query.getId()) + "\' нет fields!");
-
-                    N2oQuery.Field exField = null;
-                    for (N2oQuery.Field field : query.getFields()) {
-                        if (preFilter.getFieldId().equals(field.getId())) {
-                            exField = field;
-                            break;
-                        }
+                N2oQuery.Field exField = null;
+                for (N2oQuery.Field field : query.getFields()) {
+                    if (preFilter.getFieldId().equals(field.getId())) {
+                        exField = field;
+                        break;
                     }
-                    if (exField == null)
-                        throw new N2oMetadataValidationException("В выборке \'" + (query.getId() == null ? "" : query.getId()) + "\' нет field \'"+preFilter.getFieldId()+"\'!");
-
-                    if (exField.getFilterList() == null)
-                        throw new N2oMetadataValidationException("В выборке \'" + (query.getId() == null ? "" : query.getId()) + "\' field \'"+preFilter.getFieldId()+"\' не содержит фильтров!");
-
-                    N2oQuery.Filter exFilter = null;
-                    for(N2oQuery.Filter filter : exField.getFilterList()) {
-                        if(preFilter.getType() == filter.getType()) {
-                            exFilter = filter;
-                            break;
-                        }
-                    }
-                    if (exFilter == null)
-                        throw new N2oMetadataValidationException("В выборке \'" + (query.getId() == null ? "" : query.getId()) +
-                                "\' field \'"+preFilter.getFieldId()+"\' не содержит фильтр типа \'"+preFilter.getType()+"\'!");
                 }
+                if (exField == null)
+                    throw new N2oMetadataValidationException("В выборке \'" + (query.getId() == null ? "" : query.getId()) + "\' нет field \'"+preFilter.getFieldId()+"\'!");
+
+                if (exField.getFilterList() == null)
+                    throw new N2oMetadataValidationException("В выборке \'" + (query.getId() == null ? "" : query.getId()) + "\' field \'"+preFilter.getFieldId()+"\' не содержит фильтров!");
+
+                N2oQuery.Filter exFilter = null;
+                for(N2oQuery.Filter filter : exField.getFilterList()) {
+                    if(preFilter.getType() == filter.getType()) {
+                        exFilter = filter;
+                        break;
+                    }
+                }
+                if (exFilter == null)
+                    throw new N2oMetadataValidationException("В выборке \'" + (query.getId() == null ? "" : query.getId()) +
+                            "\' field \'"+preFilter.getFieldId()+"\' не содержит фильтр типа \'"+preFilter.getType()+"\'!");
                 if (object != null) {
                     if (object.getObjectFields() == null)
                         throw new N2oMetadataValidationException("В объекте \'" + (object.getId() == null ? "" : object.getId()) + "\' нет fields!");

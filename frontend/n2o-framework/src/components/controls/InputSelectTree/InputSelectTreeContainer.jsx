@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import InputSelectTree from './InputSelectTree';
 import listContainer from '../listContainer.js';
 import { propTypes, defaultProps } from './allProps';
-import { isEmpty, isEqual, unionWith, map, omit, isArray } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import unionWith from 'lodash/unionWith';
+import map from 'lodash/map';
+import omit from 'lodash/omit';
+import isArray from 'lodash/isArray';
 import { withProps, compose, setDisplayName } from 'recompose';
 
 /**

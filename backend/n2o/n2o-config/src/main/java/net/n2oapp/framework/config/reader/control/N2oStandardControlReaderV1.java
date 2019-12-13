@@ -12,11 +12,8 @@ import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
-import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
 import net.n2oapp.framework.config.reader.tools.ActionButtonsReaderV1;
@@ -313,7 +310,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oListField.setQueryId(getAttributeString(query, "query-id"));
         n2oListField.setLabelFieldId(getAttributeString(query, "label-field-id"));
         n2oListField.setValueFieldId(getAttributeString(query, "value-field-id"));
-        n2oListField.setSearchFieldId(getAttributeString(query, "search-field-id"));
+        n2oListField.setSearchFilterId(getAttributeString(query, "search-field-id"));
         n2oListField.setImageFieldId(getAttributeString(query, "image-field-id"));
         n2oListField.setIconFieldId(getAttributeString(query, "icon-field-id"));
         n2oListField.setMasterFieldId(getAttributeString(query, "master-field-id"));
@@ -344,85 +341,22 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         selectTree.setAjax(getAttributeBoolean(element, "ajax"));
         selectTree.setSearch(getAttributeBoolean(element, "search"));
         selectTree.setCheckboxes(getAttributeBoolean(element, "checkboxes"));
+        selectTree.setEnabledFieldId(getAttributeString(element, "enabled-field-id"));
         Element in = element.getChild("inheritance-nodes", namespace);
-        Element gn = element.getChild("grouping-nodes", namespace);
-        if (in != null && gn != null) throw new MetadataReaderException("Two different types of tree definition");
-        if (in == null && gn == null) throw new MetadataReaderException("Not tree definition");
         if (in != null) {
-            selectTree.setInheritanceNodes(new TypedElementReader<InheritanceNodes>() {
-                @Override
-                public String getElementName() {
-                    return "pre-filters";
-                }
-
-                @Override
-                public InheritanceNodes read(Element element) {
-                    InheritanceNodes inheritanceNodes = new InheritanceNodes();
-                    inheritanceNodes.setQueryId(getAttributeString(element, "query-id"));
-                    inheritanceNodes.setIconFieldId(getAttributeString(element, "icon-field-id"));
-                    inheritanceNodes.setParentFieldId(getAttributeString(element, "parent-field-id"));
-                    inheritanceNodes.setLabelFieldId(getAttributeString(element, "label-field-id"));
-                    inheritanceNodes.setMasterFieldId(getAttributeString(element, "master-field-id"));
-                    inheritanceNodes.setDetailFieldId(getAttributeString(element, "detail-field-id"));
-                    inheritanceNodes.setValueFieldId(getAttributeString(element, "value-field-id"));
-                    inheritanceNodes.setSearchFieldId(getAttributeString(element, "search-field-id"));
-                    inheritanceNodes.setCanResolvedFieldId(getAttributeString(element, "can-resolved-field-id"));
-                    inheritanceNodes.setEnabledFieldId(getAttributeString(element, "enabled-field-id"));
-                    Element preFilters = element.getChild("pre-filters", namespace);
-                    inheritanceNodes.setPreFilters(PreFilterReaderV1Util.getControlPreFilterListDefinition(preFilters));
-                    inheritanceNodes
-                            .setHasChildrenFieldId(getAttributeString(element, "has-children-field-id"));
-                    return inheritanceNodes;
-                }
-
-                @Override
-                public Class<InheritanceNodes> getElementClass() {
-                    return InheritanceNodes.class;
-                }
-            }.read(in));
-        }
-        if (gn != null) {
-            selectTree.setGroupingNodes(new TypedElementReader<GroupingNodes>() {
-                @Override
-                public String getElementName() {
-                    return "pre-filters";
-                }
-
-                @Override
-                public GroupingNodes read(Element element) {
-                    GroupingNodes groupingNodes = new GroupingNodes();
-                    groupingNodes.setQueryId(getAttributeString(element, "query-id"));
-                    groupingNodes.setMasterFieldId(getAttributeString(element, "master-field-id"));
-                    groupingNodes.setDetailFieldId(getAttributeString(element, "detail-field-id"));
-                    groupingNodes.setValueFieldId(getAttributeString(element, "value-field-id"));
-                    groupingNodes.setSearchFieldId(getAttributeString(element, "search-field-id"));
-                    Element preFilters = element.getChild("pre-filters", element.getNamespace());
-                    groupingNodes.setPreFilters(PreFilterReaderV1Util.getControlPreFilterListDefinition(preFilters));
-                    List<Element> nodes = element.getChildren("node", namespace);
-                    groupingNodes.setNodes(readNodes(nodes, namespace));
-                    return groupingNodes;
-                }
-
-                @Override
-                public Class<GroupingNodes> getElementClass() {
-                    return GroupingNodes.class;
-                }
-            }.read(gn));
+            selectTree.setQueryId(getAttributeString(in, "query-id"));
+            selectTree.setIconFieldId(getAttributeString(in, "icon-field-id"));
+            selectTree.setParentFieldId(getAttributeString(in, "parent-field-id"));
+            selectTree.setLabelFieldId(getAttributeString(in, "label-field-id"));
+            selectTree.setMasterFieldId(getAttributeString(in, "master-field-id"));
+            selectTree.setDetailFieldId(getAttributeString(in, "detail-field-id"));
+            selectTree.setValueFieldId(getAttributeString(in, "value-field-id"));
+            selectTree.setSearchFilterId(getAttributeString(in, "search-field-id"));
+            selectTree.setEnabledFieldId(getAttributeString(in, "enabled-field-id"));
+            selectTree.setHasChildrenFieldId(getAttributeString(in, "has-children-field-id"));
+            Element preFilters = in.getChild("pre-filters", namespace);
+            selectTree.setPreFilters(PreFilterReaderV1Util.getControlPreFilterListDefinition(preFilters));
         }
     }
 
-    private List<GroupingNodes.Node> readNodes(List<Element> nodes, Namespace namespace) {
-        List<GroupingNodes.Node> res = new ArrayList<>();
-        for (Element el : nodes) {
-            GroupingNodes.Node node = new GroupingNodes.Node();
-            node.setValueFieldId(getAttributeString(el, "value-field-id"));
-            node.setLabelFieldId(getAttributeString(el, "label-field-id"));
-            node.setIcon(getAttributeString(el, "icon"));
-            node.setCanResolved(getAttributeBoolean(el, "can-resolved"));
-            node.setEnabled(getAttributeBoolean(el, "enabled"));
-            node.setNodes(readNodes(el.getChildren("node", namespace), namespace));
-            res.add(node);
-        }
-        return res;
-    }
 }

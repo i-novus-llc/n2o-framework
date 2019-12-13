@@ -6,16 +6,14 @@ import {
   call,
   put,
 } from 'redux-saga/effects';
-import {
-  keys,
-  isEqual,
-  reduce,
-  map,
-  includes,
-  some,
-  isEmpty,
-  forOwn,
-} from 'lodash';
+import keys from 'lodash/keys';
+import isEqual from 'lodash/isEqual';
+import reduce from 'lodash/reduce';
+import map from 'lodash/map';
+import includes from 'lodash/includes';
+import some from 'lodash/some';
+import isEmpty from 'lodash/isEmpty';
+import forOwn from 'lodash/forOwn';
 import {
   REGISTER_DEPENDENCY,
   UPDATE_WIDGET_DEPENDENCY,

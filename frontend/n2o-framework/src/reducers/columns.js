@@ -1,4 +1,4 @@
-import { mapValues } from 'lodash';
+import mapValues from 'lodash/mapValues';
 import {
   CHANGE_COLUMN_DISABLED,
   CHANGE_COLUMN_VISIBILITY,
