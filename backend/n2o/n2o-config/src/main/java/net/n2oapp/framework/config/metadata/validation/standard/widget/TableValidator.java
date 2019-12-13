@@ -18,7 +18,7 @@ public class TableValidator implements SourceValidator<N2oTable>, SourceClassAwa
     @Override
     public void validate(N2oTable source, ValidateProcessor p) {
         IdValidationUtils.checkIds(source.getFilters(), p);
-        if (source.getRows() != null)
+        if (source.getRows() != null && source.getRows().getRowClick() != null)
             p.validate(source.getRows().getRowClick().getAction());
         p.safeStreamOf(source.getColumns()).filter(abstractColumn -> abstractColumn instanceof N2oSimpleColumn).
                 map(abstractColumn -> ((N2oSimpleColumn) abstractColumn).getCell()).collect(Collectors.toList()).
