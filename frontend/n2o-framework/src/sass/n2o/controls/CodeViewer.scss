@@ -1,5 +1,9 @@
 .code-viewer {
-  &-actions {;
+  &-body {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  &-actions {
   margin-bottom: 10px;
     &-copy {
       cursor: pointer;

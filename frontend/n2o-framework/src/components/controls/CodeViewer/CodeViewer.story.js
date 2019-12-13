@@ -14,8 +14,6 @@ stories.add(
   'Компонент',
   () => {
     const props = {
-      title: 'makeWorker',
-      text: 'Фргамент кода makeWorker',
       theme: 'light',
       visible: true,
       language: 'javascript',
@@ -40,11 +38,12 @@ stories.add(
       
       <CodeViewer 
         visible={true}
-        title="title"
-        text="text"
         language="javascript"
-        theme="light"
+        darkTheme={false}
         showLineNumbers={true}
+        hideButtons={false}
+        startingLineNumber={1}
+        hideOverflow={false}
       >
         {codeString}
       </CodeViewer>
