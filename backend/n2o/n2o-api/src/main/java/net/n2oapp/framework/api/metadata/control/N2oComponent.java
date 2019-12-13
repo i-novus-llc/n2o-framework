@@ -19,5 +19,6 @@ public abstract class N2oComponent implements SourceComponent, SrcAware, Extensi
     private String namespaceUri;
     private String src;
     private String cssClass;
+    private String style;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
 }

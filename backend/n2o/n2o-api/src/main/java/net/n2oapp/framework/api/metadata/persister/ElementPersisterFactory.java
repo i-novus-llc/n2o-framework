@@ -1,8 +1,5 @@
 package net.n2oapp.framework.api.metadata.persister;
 
-import org.jdom.Element;
-import org.jdom.Namespace;
-
 /**
  * Фабрика персистеров элементов
  */

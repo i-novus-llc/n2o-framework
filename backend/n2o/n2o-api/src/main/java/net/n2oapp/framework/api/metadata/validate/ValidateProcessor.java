@@ -74,12 +74,16 @@ public interface ValidateProcessor {
      * @param metadata Метаданная
      * @param errorMessage Сообщение о том, какой идентификатор не соответствует соглашениям об именовании
      */
-    default void checkId(IdAware metadata, String errorMessage) {
-        Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
-        Matcher matcher = pattern.matcher(metadata.getId());
-        if (matcher.find() || metadata.getId().contains(".")) {
-            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
-        }
+    void checkId(IdAware metadata, String errorMessage);
+
+    /**
+     * Проверить идентификатор метаданной на уникальность
+     * @param metadata Метаданная
+     * @param errorMessage Сообщение о том, какой идентификатор не уникален
+     */
+    default void checkUniqueId(IdAware metadata, Set<String> exists, String errorMessage) {
+        if (exists != null && metadata != null && metadata.getId() != null && exists.contains(metadata.getId()))
+            throw new N2oMetadataValidationException(getMessage(errorMessage));
     }
 
     /**

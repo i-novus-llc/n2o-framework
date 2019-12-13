@@ -13,9 +13,9 @@
         </action>
     </actions>
     <toolbar>
-        <button icon="icon" label="label" action-id="testAction" class="className" type="iconAndText"/>
-        <sub-menu>
-            <menu-item action-id="testAction2"/>
+        <button icon="icon" label="label" action-id="testAction" class="className" type="iconAndText" style="padding-top: 0; page-break-before: avoid;"/>
+        <sub-menu style="padding-top: 0; page-break-before: avoid;">
+            <menu-item action-id="testAction2" style="padding-top: 0; page-break-before: avoid;"/>
         </sub-menu>
         <button id="but">
             <invoke operation-id="update"/>
@@ -31,7 +31,7 @@
     </pre-filters>
     <columns>
         <column text-field-id="id">
-            <text format="password">
+            <text format="password" style="margin-left:10px">
                 <switch value-field-id="test">
                     <case value="1">css1</case>
                     <case value="2">css2</case>

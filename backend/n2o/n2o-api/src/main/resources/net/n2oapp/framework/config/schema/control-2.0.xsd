@@ -80,6 +80,7 @@
         <xs:attribute name="clear-ignore" type="xs:string"/>
         <xs:attribute name="src" type="xs:string"/>
         <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="style" type="xs:string"/>
         <xs:attribute name="placeholder" type="xs:string"/>
         <xs:attribute name="required" type="xs:boolean" default="false"/>
         <xs:attribute name="visible" type="xs:boolean" default="true"/>
@@ -126,7 +127,7 @@
                 <xs:attribute name="query-id" type="xs:string"/>
                 <xs:attribute name="format" type="xs:string"/>
                 <xs:attribute name="label-field-id" type="xs:string"/>
-                <xs:attribute name="search-field-id" type="xs:string"/>
+                <xs:attribute name="search-filter-id" type="xs:string"/>
                 <xs:attribute name="group-field-id" type="xs:string"/>
                 <xs:attribute name="image-field-id" type="xs:string"/>
                 <xs:attribute name="badge-field-id" type="xs:string"/>
@@ -547,10 +548,16 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:sequence>
-                    <!--<xs:element name="grouping-nodes" type="groupingNodesDefinition"/>-->
-                    <xs:element name="inheritance-nodes" type="inheritanceNodesDefinition"/>
+                    <!--<xs:element name="inheritance-nodes" type="inheritanceNodesDefinition"/>-->
                     <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
                 </xs:sequence>
+                <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
+                <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="enabled-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="master-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="detail-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
+
                 <xs:attribute name="ajax" type="xs:boolean" default="false"/>
                 <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
                 <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all"/>
@@ -589,7 +596,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="groupingNodesDefinition">
+<!--    <xs:complexType name="groupingNodesDefinition">
         <xs:complexContent>
             <xs:extension base="ctrv1:controlListQueryDefinition">
                 <xs:sequence>
@@ -608,7 +615,7 @@
                 <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
+    </xs:complexType>-->
 
     <xs:complexType name="nodeDefinition">
         <xs:sequence>
@@ -653,7 +660,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="inheritanceNodesDefinition">
+<!--    <xs:complexType name="inheritanceNodesDefinition">
         <xs:complexContent>
             <xs:extension base="ctrv1:controlListQueryDefinition">
                 <xs:sequence>
@@ -670,11 +677,10 @@
                 <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="icon-field-id" type="xs:string" use="optional"/>
                 <xs:attribute name="search-field-id" type="xs:string" use="optional"/>
-                <!--@deprecated <xs:attribute name="can-resolved-field-id" type="xs:string" use="optional"/>-->
                 <xs:attribute name="enabled-field-id" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
+    </xs:complexType>-->
 
     <xs:complexType name="controlCheckboxDefinition">
         <xs:complexContent>
@@ -765,6 +771,7 @@
         <xs:attribute name="icon" type="xs:string"/>
         <xs:attribute name="type" type="buttonTextType"/>
         <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="style" type="xs:string"/>
         <xs:attribute name="action-id" type="xs:string"/>
         <xs:attribute name="model" type="clientModel"/>
     </xs:complexType>

@@ -1,15 +1,13 @@
 import { runSaga } from 'redux-saga';
-import {
-  isEmpty,
-  toString,
-  isNumber,
-  isUndefined,
-  isNull,
-  isNaN,
-  isString,
-  isObject,
-  get,
-} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import toString from 'lodash/toString';
+import isNumber from 'lodash/isNumber';
+import isUndefined from 'lodash/isUndefined';
+import isNull from 'lodash/isNull';
+import isNaN from 'lodash/isNaN';
+import isString from 'lodash/isString';
+import isObject from 'lodash/isObject';
+import get from 'lodash/get';
 import evalExpression from '../../utils/evalExpression';
 import fetchSaga from '../../sagas/fetch.js';
 import { FETCH_VALIDATE } from '../api.js';

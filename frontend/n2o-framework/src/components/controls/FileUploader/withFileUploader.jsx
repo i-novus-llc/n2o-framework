@@ -1,16 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  isEmpty,
-  isEqual,
-  isArray,
-  isString,
-  reduce,
-  every,
-  some,
-  get,
-  isFunction,
-} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import isArray from 'lodash/isArray';
+import reduce from 'lodash/reduce';
+import every from 'lodash/every';
+import some from 'lodash/some';
+import get from 'lodash/get';
+import isFunction from 'lodash/isFunction';
 import { post, deleteFile } from './utils';
 import { id } from '../../../utils/id';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';

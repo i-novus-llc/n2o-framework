@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class FieldSetRowCompiler implements BaseSourceCompiler<FieldSet.Row, N2o
     public FieldSet.Row compile(N2oFieldsetRow source, CompileContext<?, ?> context, CompileProcessor p) {
         FieldSet.Row row = new FieldSet.Row();
         row.setClassName(source.getCssClass());
+        row.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         if (source.getItems() != null) {
             List<FieldSet.Column> columns = new ArrayList<>();
             for (int i = 0; i < source.getItems().length; i++) {

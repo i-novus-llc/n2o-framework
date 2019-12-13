@@ -1,6 +1,9 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Popover, PopoverHeader, PopoverBody, Button } from 'reactstrap';
+import Popover from 'reactstrap/lib/Popover';
+import PopoverHeader from 'reactstrap/lib/PopoverHeader';
+import PopoverBody from 'reactstrap/lib/PopoverBody';
+import Button from 'reactstrap/lib/Button';
 import { compose, defaultProps, withState, withHandlers } from 'recompose';
 import { id } from '../../../utils/id';
 import cx from 'classnames';

@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 @Setter
 public class N2oFieldsetColumn implements SourceComponent, CssClassAware {
     private String cssClass;
+    private String style;
     private Integer size;
     private String namespaceUri;
     private SourceComponent[] items;

@@ -1,7 +1,7 @@
 <header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
         xmlns:test="http://n2oapp.net/framework/config/schema/test"
         src="test" class="test"
-        brand-name="asd" home-page-id="home">
+        brand-name="asd" home-page-id="home" style="margin-left:10px">
 
     <nav welcome-page-id="testPage">
         <sub-menu label="test">
