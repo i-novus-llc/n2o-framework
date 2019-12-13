@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import get from 'lodash/get';
-import Actions from '../../../../actions/Actions';
+import Toolbar from "../../../../buttons/Toolbar";
 
 /**
  *
@@ -32,14 +32,10 @@ function ButtonsCell({
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
 
   return visible ? (
-    <Actions
+    <Toolbar
       className={cx('n2o-buttons-cell', className)}
-      style={style}
+      entityKey={key}
       toolbar={toolbar}
-      actions={actions}
-      containerKey={key}
-      resolveBeforeAction={widgetId}
-      model={model}
     />
   ) : null;
 }
