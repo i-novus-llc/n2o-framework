@@ -79,4 +79,10 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
     public void testPageActionValidationInWidgetsToolbar2() {
         validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationInWidgetsToolbar2.page.xml");
     }
+
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testPageActionValidationPageExists() {
+        validate("net/n2oapp/framework/config/metadata/validation/page/PageAction/testPageActionValidationPageExists.page.xml");
+    }
+
 }
