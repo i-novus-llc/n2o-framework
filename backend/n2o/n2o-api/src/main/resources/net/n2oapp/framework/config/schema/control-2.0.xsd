@@ -80,6 +80,7 @@
         <xs:attribute name="clear-ignore" type="xs:string"/>
         <xs:attribute name="src" type="xs:string"/>
         <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="style" type="xs:string"/>
         <xs:attribute name="placeholder" type="xs:string"/>
         <xs:attribute name="required" type="xs:boolean" default="false"/>
         <xs:attribute name="visible" type="xs:boolean" default="true"/>
@@ -773,6 +774,7 @@
         <xs:attribute name="icon" type="xs:string"/>
         <xs:attribute name="type" type="buttonTextType"/>
         <xs:attribute name="class" type="xs:string"/>
+        <xs:attribute name="style" type="xs:string"/>
         <xs:attribute name="action-id" type="xs:string"/>
         <xs:attribute name="model" type="clientModel"/>
     </xs:complexType>

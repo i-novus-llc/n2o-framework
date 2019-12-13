@@ -39,9 +39,10 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         Form form = (Form) compile("net/n2oapp/framework/config/mapping/testInputText.widget.xml")
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
-        InputText inputText = (InputText) ((StandardField) field).getControl();
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
-        InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(field.getStyle().size(), is(2));
+        assertThat(field.getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(field.getStyle().get("paddingTop"), is("0"));
         assertThat(field.getDependencies().size(), is(10));
         assertThat(field.getDependencies().get(0).getExpression(), is("test2 == null"));
         assertThat(field.getDependencies().get(0).getOn().get(0), is("test2"));
@@ -73,7 +74,9 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(9).getOn().get(0), is("name"));
         assertThat(field.getDependencies().get(9).getOn().get(1), is("type"));
         assertThat(field.getDependencies().get(9).getType(), is(ValidationType.reRender));
+        InputText inputText = (InputText) ((StandardField) field).getControl();
         assertThat(inputText.getSrc(), is("InputText"));
+        InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputText1.getSrc(), is("InputNumber"));
         assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
         assertThat(inputText1.getMin(), is(Integer.MIN_VALUE));

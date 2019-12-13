@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
+import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
 
@@ -57,6 +58,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             throw new N2oException("control src is required");
         control.setId(source.getId());
         control.setClassName(p.resolveJS(source.getCssClass()));
+        control.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compileDefaultValues(control, source, p);
     }
 

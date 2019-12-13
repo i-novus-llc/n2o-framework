@@ -42,6 +42,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
+import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -67,6 +68,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setMasterParam(source.getMasterParam());
         compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
         compiled.setClassName(source.getCssClass());
+        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
         compiled.setQueryId(source.getQueryId());

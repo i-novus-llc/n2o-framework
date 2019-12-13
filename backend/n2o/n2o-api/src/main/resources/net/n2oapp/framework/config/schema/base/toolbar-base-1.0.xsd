@@ -86,6 +86,11 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string" use="optional">
                     <xs:annotation>
+                        <xs:documentation>CSS класс кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string" use="optional">
+                    <xs:annotation>
                         <xs:documentation>Стиль кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -191,6 +196,11 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string" use="optional">
             <xs:annotation>
+                <xs:documentation>Css класс кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
                 <xs:documentation>Стиль кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -233,6 +243,11 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Css класс пункта меню.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Стиль пункта меню.</xs:documentation>
                     </xs:annotation>

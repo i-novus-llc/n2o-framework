@@ -75,6 +75,7 @@ function LinkCell({
         )}
         {(target === LinkType.SELF || target === LinkType.BLANK) && (
           <a
+            onClick={e => e.stopPropagation()}
             href={url}
             target={target === LinkType.BLANK ? '_blank' : ''}
             {...props}
