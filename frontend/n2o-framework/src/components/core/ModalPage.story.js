@@ -7,7 +7,7 @@ import { ShowModalTitle, ShowModal } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 
 import ModalPages from './ModalPages';
-import Actions from '../actions/Actions.old';
+import Actions from '../actions/Actions';
 import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';

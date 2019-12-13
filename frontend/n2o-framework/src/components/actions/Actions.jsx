@@ -13,7 +13,7 @@ import { callActionImpl } from '../../actions/toolbar';
 import { resolveWidget } from '../../actions/widgets';
 import ModalDialog from './ModalDialog/ModalDialog';
 import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
-import ButtonContainer from './ButtonContainer.old';
+import ButtonContainer from './ButtonContainer';
 
 import SecurityNotRender from '../../core/auth/SecurityNotRender';
 import linkResolver from '../../utils/linkResolver';

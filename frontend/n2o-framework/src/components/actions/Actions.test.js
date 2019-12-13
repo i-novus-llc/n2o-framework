@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import mockStore from 'redux-mock-store';
 import { mount, shallow } from 'enzyme';
-import { Actions } from './Actions.old';
+import { Actions } from './Actions';
 
 const setup = propsOverride => {
   const props = {

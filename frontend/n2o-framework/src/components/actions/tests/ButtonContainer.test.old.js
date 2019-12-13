@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { Provider } from 'react-redux';
 import mockStore from 'redux-mock-store';
 import DropdownMenu from 'reactstrap/lib/DropdownMenu';
-import ButtonContainer from '../ButtonContainer.old';
+import ButtonContainer from '../ButtonContainer';
 
 function test({ disabled }) {
   return <div className={cn('btn-toolbar', { disabled: disabled })}>test</div>;

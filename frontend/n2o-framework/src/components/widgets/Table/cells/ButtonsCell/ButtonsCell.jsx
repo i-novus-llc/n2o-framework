@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import get from 'lodash/get';
-import Actions from '../../../../actions/Actions.old';
+import Actions from '../../../../actions/Actions';
 
 /**
  *

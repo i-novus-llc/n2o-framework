@@ -4,9 +4,10 @@ import { map } from 'lodash';
 import { ButtonToolbar, ButtonGroup } from 'reactstrap';
 
 import Factory from '../../core/factory/Factory';
+import { BUTTONS } from "../../core/factory/factoryLevels";
 
 function Toolbar({ toolbar, entityKey }) {
-  const renderButtons = props => <Factory {...props} entityKey={entityKey} />;
+  const renderButtons = props => <Factory {...props} level={BUTTONS} src={'PerformButton'} entityKey={entityKey} />;
 
   const renderBtnGroup = ({ buttons }) => <ButtonGroup>{map(buttons, renderButtons)}</ButtonGroup>;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { PopoverConfirm } from './PopoverConfirm';
 import sinon from 'sinon';
-import Actions from '../../actions/Actions.old';
+import Actions from '../../actions/Actions';
 import mockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import metaJson from './../../actions/PopoverConfirm/PopoverConfirm.meta';
