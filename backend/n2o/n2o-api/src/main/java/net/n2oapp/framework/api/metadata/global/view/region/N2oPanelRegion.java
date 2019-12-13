@@ -35,7 +35,7 @@ public class N2oPanelRegion extends N2oRegion {
     }
 
     @Override
-    public String getWidgetPrefix() {
+    public String getAlias() {
         return "panel";
     }
 }

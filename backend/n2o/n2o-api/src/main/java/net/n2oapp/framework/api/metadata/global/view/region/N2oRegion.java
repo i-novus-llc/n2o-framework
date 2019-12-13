@@ -47,7 +47,7 @@ public abstract class N2oRegion implements Source, IdAware, SrcAware, NamespaceU
         return "region";
     }
 
-    public String getWidgetPrefix() {
+    public String getAlias() {
         return "w";
     }
 }

@@ -13,7 +13,7 @@ public class N2oTabsRegion extends N2oRegion {
     private Boolean alwaysRefresh;
 
     @Override
-    public String getWidgetPrefix() {
+    public String getAlias() {
         return "tab";
     }
 }

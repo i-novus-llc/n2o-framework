@@ -17,7 +17,7 @@ public class N2oLineRegion extends N2oRegion {
 
 
     @Override
-    public String getWidgetPrefix() {
+    public String getAlias() {
         return "line";
     }
 }

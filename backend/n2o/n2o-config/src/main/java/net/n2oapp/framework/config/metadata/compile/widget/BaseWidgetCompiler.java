@@ -39,7 +39,6 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.page.WidgetInfoScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -63,10 +62,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected void compileWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                  CompiledObject object) {
-        String localWidgetId = initLocalWidgetId(source, p);
-        source.setId(localWidgetId);
         compiled.setMasterParam(source.getMasterParam());
-        compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
+        compiled.setId(initGlobalWidgetId(source, context, p));
         compiled.setClassName(source.getCssClass());
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
@@ -198,21 +195,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         });
     }
 
-    private String initGlobalWidgetId(S source, String localWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
+    private String initGlobalWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null) {
-            return pageScope.getGlobalWidgetId(localWidgetId);
+            return pageScope.getGlobalWidgetId(source.getId());
         } else {
             return context.getCompiledId((N2oCompileProcessor) p);
         }
-    }
-
-    private String initLocalWidgetId(S source, CompileProcessor p) {
-        if (source.getId() == null) {
-            WidgetInfoScope widgetInfoScope = p.getScope(WidgetInfoScope.class);
-            return widgetInfoScope != null ? widgetInfoScope.getWidgetPrefix() + widgetInfoScope.getIndexScope().get() : "";
-        }
-        return source.getId();
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
