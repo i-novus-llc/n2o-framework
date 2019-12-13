@@ -875,6 +875,7 @@
         "filterPlace": "top",
         "validation": {}
       },
+      "children": "collapse",
       "table": {
         "fetchOnInit": true,
         "autoFocus": true,
