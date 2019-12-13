@@ -8,9 +8,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidat
 import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceValidationTestBase;
-import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +25,7 @@ public class PageActionValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(), new N2oCellsPack(), new N2oObjectsPack());
         builder.validators(new WidgetValidator(), new PageValidator(), new PageActionValidator(),
-                new TableValidator(new SimplePropertyResolver(PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties"))));
+                new TableValidator());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/validation/page/PageAction/blankObject.object.xml"));
