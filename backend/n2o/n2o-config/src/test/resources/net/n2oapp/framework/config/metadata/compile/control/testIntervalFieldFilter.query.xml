@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+    <fields>
+        <field id="id" domain="long">
+            <select/>
+            <filters>
+                <eq filter-id="id">id={id}</eq>
+            </filters>
+        </field>
+
+        <field id="date1" domain="localdate">
+            <select/>
+            <filters>
+                <more filter-id="date1.begin">start1={date1.begin}</more>
+                <less filter-id="date1.end">end1={date1.end}</less>
+            </filters>
+        </field>
+
+        <field id="date2" domain="localdate">
+            <select/>
+            <filters>
+                <more filter-id="start2">start2={start2}</more>
+            </filters>
+        </field>
+
+        <field id="date3" domain="localdate">
+            <select/>
+            <filters>
+                <less filter-id="end3">end3={end3}</less>
+            </filters>
+        </field>
+
+        <field id="date4" domain="localdate">
+            <select/>
+            <filters>
+                <more filter-id="start4">start4={start4}</more>
+                <less filter-id="end4">end4={end4}</less>
+            </filters>
+        </field>
+
+
+    </fields>
+</query>

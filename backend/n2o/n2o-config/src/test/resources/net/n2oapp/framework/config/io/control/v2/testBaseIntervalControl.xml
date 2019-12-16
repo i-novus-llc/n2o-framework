@@ -7,7 +7,9 @@
             description="testDescription"
             enabled="false"
             label="testLabel"
-            visible="false">
+            visible="false"
+            begin-filter-id="begin"
+            end-filter-id="end">
     <default-value begin="01.01.2019"
                    end="31.12.2019"/>
 </date-interval>
