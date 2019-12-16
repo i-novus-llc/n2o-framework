@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
@@ -38,11 +37,5 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
                     if (!widgetIds.contains(w.getDependsOn()))
                         throw new N2oMetadataValidationException("depends-on link to a non-existent widget " + w.getDependsOn());
                 });
-
-        if (page instanceof N2oStandardPage) {
-            p.checkIdsUnique(((N2oStandardPage) page).getN2oRegions(), "Виджет {0} встречается более чем один раз на странице " + page.getId());
-            p.safeStreamOf(((N2oStandardPage) page).getToolbars())
-                    .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions()).forEach(p::validate));
-        }
     }
 }
