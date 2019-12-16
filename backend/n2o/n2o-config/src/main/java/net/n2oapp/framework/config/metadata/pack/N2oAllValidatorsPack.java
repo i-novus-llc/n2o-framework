@@ -10,6 +10,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSe
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.ListFieldQueryValidation;
@@ -25,6 +26,6 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
         b.validators(new ObjectValidator(), new QueryValidator(), new PageValidator(),
                 new SimpleHeaderValidator(), new SimpleMenuValidator(), new WidgetValidator(),
                 new ListFieldQueryValidation(), new FieldSetValidator()
-                , new FieldSetColumnValidator(), new FieldSetRowValidator(), new FormValidator(), new TableValidator(), new PageActionValidator());
+                , new FieldSetColumnValidator(), new FieldSetRowValidator(), new FormValidator(), new TableValidator(), new PageActionValidator(), new StandardPageValidator());
     }
 }
