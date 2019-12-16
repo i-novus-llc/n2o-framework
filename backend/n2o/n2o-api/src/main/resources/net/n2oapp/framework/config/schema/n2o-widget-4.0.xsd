@@ -319,6 +319,17 @@
                         <xs:documentation>Высота таблицы, после которой появится вертикальный скрол.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="children" use="optional" default="collapse">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="collapse"/>
+                            <xs:enumeration value="expand"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
