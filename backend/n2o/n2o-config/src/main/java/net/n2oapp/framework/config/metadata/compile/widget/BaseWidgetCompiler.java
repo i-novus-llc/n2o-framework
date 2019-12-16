@@ -277,7 +277,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             if (action == null) {
                 throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!").addData(mi.getActionId());
             }
-            mi.setAction(action.getAction());
+            mi.setAction(action.getAction());//todo скорее всего не нужно
             if (mi.getModel() == null)
                 mi.setModel(action.getModel());
             if (mi.getWidgetId() == null)
