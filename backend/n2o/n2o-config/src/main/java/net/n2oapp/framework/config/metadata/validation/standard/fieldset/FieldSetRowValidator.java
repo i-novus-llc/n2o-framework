@@ -14,7 +14,7 @@ public class FieldSetRowValidator implements SourceValidator<N2oFieldsetRow>, So
     @Override
     public void validate(N2oFieldsetRow source, ValidateProcessor p) {
         IdValidationUtils.checkIds(source.getItems(), p);
-        p.safeStreamOf(source.getItems()).forEach(item -> p.validate(item));
+        p.safeStreamOf(source.getItems()).forEach(p::validate);
     }
 
     @Override
