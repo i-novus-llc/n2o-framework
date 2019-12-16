@@ -556,12 +556,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                            WidgetScope widgetScope,
                                            CompiledQuery widgetQuery,
                                            CompiledObject widgetObject,
-                                           ModelsScope modelsScope,
-                                           FiltersScope filtersScope,
-                                           SubModelsScope subModelsScope,
-                                           UploadScope uploadScope,
-                                           MomentScope momentScope,
-                                           CopiedFieldScope copiedFieldScope) {
+                                           Object... scopes) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -584,9 +579,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 newFieldset.setItems(newFieldsetItems.toArray(items));
                 fieldSet = newFieldset;
             }
-            fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
-                    widgetScope, fieldSetScope, modelsScope, filtersScope,
-                    indexScope, subModelsScope, uploadScope, momentScope, copiedFieldScope));
+            List<Object> scopeList = new ArrayList<>();
+            scopeList.addAll(Arrays.asList(scopes));
+            scopeList.addAll(Arrays.asList(widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope));
+            fieldSets.add(p.compile(fieldSet, context, scopeList.toArray()));
         }
         return fieldSets;
     }
