@@ -16,13 +16,11 @@ import org.springframework.stereotype.Component;
 public class PageActionValidator implements SourceValidator<N2oAbstractPageAction>, SourceClassAware {
     @Override
     public void validate(N2oAbstractPageAction source, ValidateProcessor p) {
-        if (source != null) {
-            p.checkForExists(source.getObjectId(), N2oObject.class,
-                    "Действие открытия страницы: " + source.getId() + " ссылается на несуществующий объект: " + source.getObjectId());
+        p.checkForExists(source.getObjectId(), N2oObject.class,
+                "Действие открытия страницы: " + source.getId() + " ссылается на несуществующий объект: " + source.getObjectId());
 
-            p.checkForExists(source.getPageId(), N2oPage.class,
-                    "Действие открытия страницы: " + source.getId() + " ссылается на несуществующую страницу: " + source.getPageId());
-        }
+        p.checkForExists(source.getPageId(), N2oPage.class,
+                "Действие открытия страницы: " + source.getId() + " ссылается на несуществующую страницу: " + source.getPageId());
     }
 
     @Override
