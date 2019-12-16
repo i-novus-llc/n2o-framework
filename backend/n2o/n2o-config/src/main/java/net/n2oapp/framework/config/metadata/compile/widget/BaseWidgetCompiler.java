@@ -63,10 +63,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected void compileWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                  CompiledObject object) {
-        String localWidgetId = initLocalWidgetId(source, p);
-        source.setId(localWidgetId);
         compiled.setMasterParam(source.getMasterParam());
-        compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
+        compiled.setId(initGlobalWidgetId(source, context, p));
         compiled.setClassName(source.getCssClass());
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
@@ -199,21 +197,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         });
     }
 
-    private String initGlobalWidgetId(S source, String localWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
+    private String initGlobalWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null) {
-            return pageScope.getGlobalWidgetId(localWidgetId);
+            return pageScope.getGlobalWidgetId(source.getId());
         } else {
             return context.getCompiledId((N2oCompileProcessor) p);
         }
-    }
-
-    private String initLocalWidgetId(S source, CompileProcessor p) {
-        if (source.getId() == null) {
-            IndexScope indexScope = p.getScope(IndexScope.class);
-            return indexScope != null ? "w" + indexScope.get() : "";
-        }
-        return source.getId();
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
