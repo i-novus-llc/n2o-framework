@@ -117,6 +117,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         this.compilePipeline = parent.compilePipeline;
         this.params = parent.params;
         this.context = parent.context;
+        this.forbiddenIds = parent.forbiddenIds;
     }
 
     @Override
@@ -329,6 +330,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public void checkId(IdAware metadata, String errorMessage) {
+        if (metadata.getId() == null) return;
         Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
         Matcher matcher = pattern.matcher(metadata.getId());
         if (matcher.find() || metadata.getId().contains(".")) {

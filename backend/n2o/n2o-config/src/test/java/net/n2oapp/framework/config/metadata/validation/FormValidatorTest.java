@@ -28,8 +28,8 @@ public class FormValidatorTest extends SourceValidationTestBase {
         super.configure(builder);
         builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
         PropertyResolver props = builder.getEnvironment().getSystemProperties();
-        builder.validators(new FormValidator(props), new FieldSetRowValidator(props),
-                new FieldSetColumnValidator(props), new FieldSetValidator(props), new FieldValidator());
+        builder.validators(new FormValidator(), new FieldSetRowValidator(),
+                new FieldSetColumnValidator(), new FieldSetValidator(), new FieldValidator());
     }
 
     @Test
