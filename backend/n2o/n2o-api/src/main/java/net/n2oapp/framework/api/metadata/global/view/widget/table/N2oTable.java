@@ -12,6 +12,7 @@ public class N2oTable extends N2oAbstractTable {
     private Boolean filterOpened;
     private SourceComponent[] filters;
     private Boolean searchOnChange;
+    private ChildrenToggle children;
 
 
     public enum FilterPosition {
@@ -20,5 +21,13 @@ public class N2oTable extends N2oAbstractTable {
         public String getName() {
             return this.name();
         }
+    }
+
+    /**
+     * Виды отображения дочерних записей таблицы
+     */
+    public enum ChildrenToggle {
+        collapse,   // свернутый
+        expand      // раскрытый
     }
 }

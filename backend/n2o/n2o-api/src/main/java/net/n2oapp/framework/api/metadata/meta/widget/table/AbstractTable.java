@@ -22,6 +22,8 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
     private Pagination paging;
     @JsonProperty
     private Filter filter;
+    @JsonProperty
+    private N2oTable.ChildrenToggle children;
 
     @JsonProperty("table")
     @Override
