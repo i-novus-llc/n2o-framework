@@ -59,11 +59,9 @@ public abstract class RouteUtil {
         StringBuilder params = new StringBuilder();
         queryMapping.keySet().stream().forEach(k -> {
             ModelLink link = queryMapping.get(k);
-            if (link.isConst()) {
-                params.append(params.length() > 0 ? "&" : "").append(link.getParam() == null ? k : link.getParam()).append("=").append(link.getValue());
-            } else {
-                params.append(params.length() > 0 ? "&" : "").append(link.getParam() == null ? k : link.getParam()).append("=:").append(k);
-            }
+            params.append(params.length() > 0 ? "&" : "")
+                    .append(link.getParam() == null ? k : link.getParam()).append("=")
+                    .append(link.isConst() ? link.getValue() : ":" + k);
         });
         if (params.length() == 0) {
             return route;
