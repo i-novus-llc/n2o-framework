@@ -18,7 +18,7 @@ export default function generateSagas(dispatch, config) {
     yield all([
       ...pagesSagas(config.apiProvider),
       ...widgetsSagas(config.apiProvider),
-      ...actionsImplSagas(config.apiProvider),
+      ...actionsImplSagas(config.apiProvider, config.factories),
       ...alertsSagas(config.messages),
       ...formPluginSagas,
       ...fieldDependencySagas.map(saga => saga(dispatch)),

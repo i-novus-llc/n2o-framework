@@ -32,6 +32,7 @@ import { disablePage, enablePage } from '../actions/pages';
 import { successInvoke, failInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
+import actionResolver from '../core/factory/actionResolver';
 
 export function* validate(options) {
   const isTouched = true;
@@ -58,14 +59,14 @@ export function* validate(options) {
 /**
  * вызов экшена
  */
-export function* handleAction(action) {
+export function* handleAction(factories, action) {
   const { options, actionSrc } = action.payload;
   try {
     let actionFunc;
     if (isFunction(actionSrc)) {
       actionFunc = actionSrc;
     } else {
-      actionFunc = factoryResolver(actionSrc, null, 'function');
+      actionFunc = actionResolver(actionSrc, factories);
     }
     const state = yield select();
     const notValid = yield validate(options);
@@ -168,9 +169,9 @@ export function* handleInvoke(apiProvider, action) {
   }
 }
 
-export default apiProvider => {
+export default (apiProvider, factories) => {
   return [
-    throttle(500, CALL_ACTION_IMPL, handleAction),
+    throttle(500, CALL_ACTION_IMPL, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
   ];
 };
