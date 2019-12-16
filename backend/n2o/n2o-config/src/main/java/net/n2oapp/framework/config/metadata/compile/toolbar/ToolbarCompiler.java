@@ -30,6 +30,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectMap;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -114,26 +115,41 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
         }
+
+
         CompiledObject.Operation operation = null;
-        if (source.getActionId() == null) {
-            N2oAction butAction = source.getAction();
-            if (butAction != null) {
-                butAction.setId(p.cast(butAction.getId(), button.getId()));
-                Action action = p.compile(butAction, context, new ComponentScope(source));
-                button.setActionId(action.getId());
+        CompiledObject compiledObject;
+        WidgetObjectMap widgetObjectMap = p.getScope(WidgetObjectMap.class);
+        if (widgetObjectMap != null && widgetObjectMap.containsKey(source.getWidgetId())) {
+            compiledObject = widgetObjectMap.getObject(source.getWidgetId());
+        } else
+            compiledObject = p.getScope(CompiledObject.class);
 
-                if (action instanceof InvokeAction) {
-                    CompiledObject compiledObject = p.getScope(CompiledObject.class);
-                    operation = compiledObject != null && compiledObject.getOperations() != null ?
-                            compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
 
-                }
-                //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
+        N2oAction butAction = source.getAction();
+        Action action;
+        if (butAction != null) {
+            butAction.setId(p.cast(butAction.getId(), button.getId()));
+            action = p.compile(butAction, context, new ComponentScope(source));
+
+            if (action instanceof InvokeAction) {
+                operation = compiledObject != null && compiledObject.getOperations() != null ?
+                        compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
             }
-        } else {
-            button.setActionId(source.getActionId());
+            //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
+
+            if (source.getActionId() == null) {
+                button.setActionId(action.getId());
+            } else {
+                button.setActionId(source.getActionId());
+            }
         }
+
+
+
         initConfirm(button, source, context, p, operation);
+
+
         button.setClassName(source.getClassName());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 
@@ -230,10 +246,10 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
             ComponentScope componentScope = p.getScope(ComponentScope.class);
             Boolean isNotCell = true;
-            if (componentScope != null ) {
+            if (componentScope != null) {
                 isNotCell = componentScope.unwrap(N2oCell.class) == null;
             }
-            if (isNotCell){
+            if (isNotCell) {
                 String widgetId = initWidgetId(source, context, p);
                 ButtonCondition condition = new ButtonCondition();
                 condition.setExpression("!_.isEmpty(this)");
