@@ -262,11 +262,12 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                     ids.put(region.getAlias(), 1);
                 }
                 if (region.getWidgets() != null) {
-                    result.addAll(Arrays.stream(region.getWidgets()).peek((w) -> {
+                    result.addAll(Arrays.stream(region.getWidgets()).map((w) -> {
                         if (w.getId() == null) {
                             String widgetPrefix = region.getAlias();
                             w.setId(widgetPrefix + ids.put(widgetPrefix, ids.get(widgetPrefix) + 1));
                         }
+                        return w;
                     }).collect(Collectors.toList()));
                 }
             }
