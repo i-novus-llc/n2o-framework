@@ -1,8 +1,7 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <code-viewer label="test" description="test" visible="true" id="id" language="java"
-                     theme="test" show-line-numbers="true" starting-line-number="5" height="3">
-            System.out.println("Hello, World!");
+        <code-viewer id="id" title="test" description="test" hide="true" language="javascript"
+                     theme="test" show-line-numbers="true" starting-line-number="5">
         </code-viewer>
     </fields>
 </form>

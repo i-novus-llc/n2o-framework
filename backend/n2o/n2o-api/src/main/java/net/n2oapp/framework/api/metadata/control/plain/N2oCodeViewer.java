@@ -10,10 +10,10 @@ import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 @Getter
 @Setter
 public class N2oCodeViewer extends N2oStandardField {
+    private String title;
     private CodeLanguageEnum language;
     private String theme;
+    private Boolean hide;
     private Boolean showLineNumbers;
     private Integer startingLineNumber;
-    private String children;
-    private Integer height;
 }

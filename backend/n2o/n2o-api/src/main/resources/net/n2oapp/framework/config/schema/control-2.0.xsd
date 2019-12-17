@@ -268,12 +268,12 @@
                 <xs:sequence>
                     <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
+                <xs:attribute name="title" type="xs:string" use="optional"/>
                 <xs:attribute name="language" type="codeLanguage" use="optional"/>
-                <xs:attribute name="language" type="xs:string" use="optional"/>
-                <xs:attribute name="theme" type="xs:string" use="optional" default="light"/>
+                <xs:attribute name="theme" type="xs:string" use="optional"/>
+                <xs:attribute name="hide" type="xs:boolean" use="optional" default="false"/>
                 <xs:attribute name="show-line-numbers" type="xs:boolean" use="optional" default="true"/>
                 <xs:attribute name="starting-line-number" type="xs:integer" use="optional" default="1"/>
-                <xs:attribute name="height" type="xs:positiveInteger" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
