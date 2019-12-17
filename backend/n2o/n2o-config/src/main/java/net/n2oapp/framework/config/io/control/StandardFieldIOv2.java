@@ -29,6 +29,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeBoolean(e, "copied", m::getCopied, m::setCopied);
         p.child(e, null, "validations", m::getValidations, m::setValidations,
                 N2oField.Validations.class, this::inlineValidations);
+        p.attribute(e, "filter-id", m::getFilterId, m::setFilterId);
     }
 
     private void inlineValidations(Element e, N2oField.Validations t, IOProcessor p) {

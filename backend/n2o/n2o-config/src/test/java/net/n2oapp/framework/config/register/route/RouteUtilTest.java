@@ -178,8 +178,7 @@ public class RouteUtilTest {
         queryMapping.put("vip", vipLink);
         ModelLink genderLink = new ModelLink(1);
         queryMapping.put("gender", genderLink);
-
-        assertThat(RouteUtil.addQueryParams("/base", queryMapping, true), is("/base?vipParam=true&gender=1"));
-        assertThat(RouteUtil.addQueryParams("/base", queryMapping, false), is("/base?nameParam=:name&surname=:surname&vipParam=true&gender=1"));
+        assertThat(RouteUtil.addQueryParams("/base", queryMapping),
+                is("/base?nameParam=:name&surname=:surname&vipParam=true&gender=1"));
     }
 }

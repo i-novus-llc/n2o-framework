@@ -245,9 +245,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <L extends BindLink> void resolveLink(L link) {
+    public BindLink resolveLink(BindLink link) {
         if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
-            return;
+            return link;
         Optional<String> res = Optional.empty();
         if (context.getQueryRouteMapping() != null) {
             res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
@@ -260,9 +260,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             if (value instanceof String)
                 value = resolveText((String) value);
             if (value != null) {
-                link.setValue(value);
+                BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+                resultLink.setValue(value);
+                return resultLink;
             }
         }
+        return link;
     }
 
     @Override
@@ -329,6 +332,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public void checkId(IdAware metadata, String errorMessage) {
+        if (metadata == null || metadata.getId() == null)
+            return;
         Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
         Matcher matcher = pattern.matcher(metadata.getId());
         if (matcher.find() || metadata.getId().contains(".")) {

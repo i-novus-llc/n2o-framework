@@ -26,6 +26,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -253,10 +254,20 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
 
     private List<N2oWidget> collectWidgets(N2oStandardPage page) {
         List<N2oWidget> result = new ArrayList<>();
+        Map<String, Integer> ids = new HashMap<>();
         if (page.getN2oRegions() != null) {
             for (N2oRegion region : page.getN2oRegions()) {
+                if (!ids.containsKey(region.getAlias())) {
+                    ids.put(region.getAlias(), 1);
+                }
                 if (region.getWidgets() != null) {
-                    result.addAll(Arrays.asList(region.getWidgets()));
+                    result.addAll(Arrays.stream(region.getWidgets()).map(w -> {
+                        if (w.getId() == null) {
+                            String widgetPrefix = region.getAlias();
+                            w.setId(widgetPrefix + ids.put(widgetPrefix, ids.get(widgetPrefix) + 1));
+                        }
+                        return w;
+                    }).collect(Collectors.toList()));
                 }
             }
         }

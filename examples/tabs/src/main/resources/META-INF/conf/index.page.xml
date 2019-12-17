@@ -3,9 +3,9 @@
       name="Вкладки">
     <regions>
         <tabs place="single">
-            <form id="one" name="Один" query-id="utBlank"/>
-            <form id="two" name="Два" query-id="utBlank"/>
-            <form id="three" name="Три" query-id="utBlank"/>
+            <form id="one" name="Один"/>
+            <form id="two" name="Два"/>
+            <form id="three" name="Три"/>
         </tabs>
     </regions>
 </page>

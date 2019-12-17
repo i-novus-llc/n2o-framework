@@ -62,7 +62,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withoutParam");
         assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/open2"));
-        assertThat(action.getOptions().getQueryMapping().get("detailId"), notNullValue());
+        assertThat(action.getOptions().getQueryMapping().get("test_detail_detailId"), notNullValue());
     }
 
     /**

@@ -8,10 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class BaseCompileContext<D extends Compiled, S> implements CompileContext<D, S> {
     /**
@@ -65,17 +62,17 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     public BaseCompileContext(BaseCompileContext<D, S> context) {
         this(context.sourceId, context.sourceClass, context.compiledClass);
         this.route = context.route;
-        this.pathRouteMapping = context.pathRouteMapping;
-        this.queryRouteMapping = context.queryRouteMapping;
-        this.parentModelLink = context.parentModelLink;
+        this.setPathRouteMapping(context.pathRouteMapping);
+        this.setQueryRouteMapping(context.queryRouteMapping);
+        this.setParentModelLink(context.parentModelLink);
     }
 
     public BaseCompileContext(String route, BaseCompileContext<D, S> context) {
         this(context.sourceId, context.sourceClass, context.compiledClass);
         this.route = route;
-        this.pathRouteMapping = context.pathRouteMapping;
-        this.queryRouteMapping = context.queryRouteMapping;
-        this.parentModelLink = context.parentModelLink;
+        this.setPathRouteMapping(context.pathRouteMapping);
+        this.setQueryRouteMapping(context.queryRouteMapping);
+        this.setParentModelLink(context.parentModelLink);
     }
 
     @Override
@@ -136,10 +133,12 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     }
 
     public void setQueryRouteMapping(Map<String, ModelLink> queryRouteMapping) {
-        if (queryRouteMapping != null)
-            this.queryRouteMapping = Collections.unmodifiableMap(queryRouteMapping);
-        else
+        if (queryRouteMapping != null) {
+            this.queryRouteMapping = new HashMap<>();
+            queryRouteMapping.forEach((k, v) -> this.queryRouteMapping.put(k, new ModelLink(v)));
+        } else {
             this.queryRouteMapping = null;
+        }
     }
 
     @Override

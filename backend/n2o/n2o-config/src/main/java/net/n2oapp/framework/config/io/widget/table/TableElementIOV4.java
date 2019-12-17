@@ -49,6 +49,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
         p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
         p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
+        p.attributeEnum(e, "children", t::getChildren, t::setChildren, N2oTable.ChildrenToggle.class);
     }
 
     private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
