@@ -329,7 +329,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public void checkId(IdAware metadata, String errorMessage) {
-        if (metadata.getId() == null)
+        if (metadata == null || metadata.getId() == null)
             return;
         Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
         Matcher matcher = pattern.matcher(metadata.getId());
