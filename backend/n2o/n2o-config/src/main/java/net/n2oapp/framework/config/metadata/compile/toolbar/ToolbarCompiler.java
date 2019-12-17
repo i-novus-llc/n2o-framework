@@ -116,7 +116,6 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setLabel(source.getLabel());
         }
 
-
         CompiledObject.Operation operation = null;
         CompiledObject compiledObject;
         WidgetObjectMap widgetObjectMap = p.getScope(WidgetObjectMap.class);
@@ -124,32 +123,25 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             compiledObject = widgetObjectMap.getObject(source.getWidgetId());
         } else
             compiledObject = p.getScope(CompiledObject.class);
-
-
         N2oAction butAction = source.getAction();
         Action action;
         if (butAction != null) {
             butAction.setId(p.cast(butAction.getId(), button.getId()));
-            action = p.compile(butAction, context, new ComponentScope(source));
-
+            action = p.compile(butAction, context, compiledObject != null ? compiledObject : null, new ComponentScope(source));
             if (action instanceof InvokeAction) {
                 operation = compiledObject != null && compiledObject.getOperations() != null ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
             }
             //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
-
             if (source.getActionId() == null) {
                 button.setActionId(action.getId());
-            } else {
-                button.setActionId(source.getActionId());
             }
         }
-
-
+        if (source.getActionId() != null) {
+            button.setActionId(source.getActionId());
+        }
 
         initConfirm(button, source, context, p, operation);
-
-
         button.setClassName(source.getClassName());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 
