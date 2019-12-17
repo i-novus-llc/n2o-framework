@@ -70,7 +70,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
         if (p.getScope(WidgetObjectMap.class) != null)
-            p.getScope(WidgetObjectMap.class).put(localWidgetId, object);
+            p.getScope(WidgetObjectMap.class).put(source.getId(), object);
         compiled.setQueryId(source.getQueryId());
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
