@@ -57,6 +57,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
                     }
                 }
             }
+            p.safeStreamOf(menuItems).forEach(menuItem -> p.validate(menuItem.getAction()));
             p.checkIdsUnique(menuItems, "MenuItem '%s' встречается более чем один раз в виджете '" + n2oWidget.getId() + "'!");
         }
         if (n2oWidget.getPreFilters() != null) {
