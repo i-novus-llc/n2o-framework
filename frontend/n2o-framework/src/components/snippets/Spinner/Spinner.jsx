@@ -56,7 +56,7 @@ class BaseSpinner extends Component {
           [className]: className,
         })}
       >
-        {(loading || stateLoading) && (
+        {loading && (
           <Fragment>
             <div className="n2o-spinner-container ">
               <Comp className="spinner-border" color={color} {...rest} />
