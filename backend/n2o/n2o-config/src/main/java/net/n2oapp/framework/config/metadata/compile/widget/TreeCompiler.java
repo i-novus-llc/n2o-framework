@@ -64,7 +64,7 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
     @Override
     protected QueryContext getQueryContext(Tree widget, N2oTree source, CompileContext<?, ?> context, String route, CompiledQuery query, ValidationList validationList, SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
         QueryContext queryContext = super.getQueryContext(widget, source, context, route, query, validationList, subModelsScope, copiedFieldScope, p, object);
-        queryContext.setQuerySize(200);
+        queryContext.setQuerySize(source.getSize() != null ? source.getSize() : 200);
         return queryContext;
     }
 }
