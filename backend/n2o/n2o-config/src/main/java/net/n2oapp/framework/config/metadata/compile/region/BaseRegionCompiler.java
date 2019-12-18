@@ -35,7 +35,7 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
                 Region.Item item = createItem(n2oWidget, index, p);
                 PageScope pageScope = p.getScope(PageScope.class);
                 if (pageScope != null) {
-                    item.setWidgetId(pageScope.getPageId() + "_" + n2oWidget.getId());
+                    item.setWidgetId(pageScope.getGlobalWidgetId(n2oWidget.getId()));
                 } else {
                     item.setWidgetId(n2oWidget.getId());
                 }

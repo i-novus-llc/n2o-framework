@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
@@ -24,6 +25,8 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
@@ -63,6 +66,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     private ReadTerminalPipeline<?> readPipeline;
 
     /**
+     * Запрещенные имена идентификаторов
+     */
+    private Set<String> forbiddenIds = Collections.emptySet();
+
+    /**
      * Конструктор процессора сборки метаданных
      *
      * @param env Окружение сборки метаданных
@@ -74,6 +82,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         this.readPipeline = env.getReadPipelineFunction().apply(pipelineSupport);
         this.readCompilePipeline = env.getReadCompilePipelineFunction().apply(pipelineSupport);
         this.compilePipeline = env.getCompilePipelineFunction().apply(pipelineSupport);
+        this.forbiddenIds = env.getSystemProperties().getProperty("n2o.config.field.forbidden_ids", Set.class);
     }
 
     /**
@@ -236,9 +245,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <L extends BindLink> void resolveLink(L link) {
+    public BindLink resolveLink(BindLink link) {
         if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
-            return;
+            return link;
         Optional<String> res = Optional.empty();
         if (context.getQueryRouteMapping() != null) {
             res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
@@ -251,9 +260,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             if (value instanceof String)
                 value = resolveText((String) value);
             if (value != null) {
-                link.setValue(value);
+                BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+                resultLink.setValue(value);
+                return resultLink;
             }
         }
+        return link;
     }
 
     @Override
@@ -318,6 +330,20 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             throw new N2oMetadataValidationException(getMessage(errorMessage, id));
     }
 
+    @Override
+    public void checkId(IdAware metadata, String errorMessage) {
+        if (metadata == null || metadata.getId() == null)
+            return;
+        Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
+        Matcher matcher = pattern.matcher(metadata.getId());
+        if (matcher.find() || metadata.getId().contains(".")) {
+            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+        }
+        String id = metadata.getId();
+        if (id != null && forbiddenIds.contains(id.trim())) {
+            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+        }
+    }
 
     private Object resolvePlaceholder(String placeholder) {
         Object value = placeholder;

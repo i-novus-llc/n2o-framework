@@ -19,6 +19,7 @@ public abstract class N2oStandardField extends N2oField {
     private String controlSrc;
     private Validations validations;
     private String defaultValue;
+    private String filterId;
 
     @Override
     public void setSrc(String src) {

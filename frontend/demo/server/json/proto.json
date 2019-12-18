@@ -875,6 +875,7 @@
         "filterPlace": "top",
         "validation": {}
       },
+      "children": "collapse",
       "table": {
         "fetchOnInit": true,
         "autoFocus": true,
@@ -1482,11 +1483,13 @@
                         "id": "vip",
                         "enabled": false,
                         "dependency": [],
+                        "style": {"fontWeight": "bold"},
                         "control": {
                           "src": "Checkbox",
                           "id": "vip",
                           "label": "VIP",
-                          "defaultUnchecked": "null"
+                          "defaultUnchecked": "null",
+                          "style": {"fontWeight": "bold"}
                         }
                       }
                     ]

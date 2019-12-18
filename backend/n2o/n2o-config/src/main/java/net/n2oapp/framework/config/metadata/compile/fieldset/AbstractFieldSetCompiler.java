@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ public abstract class AbstractFieldSetCompiler<D extends FieldSet, S extends N2o
 
     protected void compileFieldSet(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         compiled.setClassName(source.getCssClass());
+        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         if (source.getVisible() != null)
             compiled.getVisibilityConditions().add(source.getVisible());

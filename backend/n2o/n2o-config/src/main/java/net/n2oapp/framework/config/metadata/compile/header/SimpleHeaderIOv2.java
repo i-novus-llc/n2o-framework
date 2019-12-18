@@ -35,6 +35,7 @@ public class SimpleHeaderIOv2 implements NamespaceIO<N2oSimpleHeader> {
         p.attribute(e, "brand-name", m::getProjectName, m::setProjectName);
         p.attribute(e, "logo-src", m::getProjectImageSrc, m::setProjectImageSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);
+        p.attribute(e, "style", m::getStyle, m::setStyle);
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "color", m::getColor, m::setColor);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());

@@ -55,6 +55,11 @@
                         <xs:documentation>Местоположение региона на странице.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="style" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Стиль филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="label" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Заголовок филдсета.</xs:documentation>
@@ -147,6 +152,11 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string" use="optional">
                     <xs:annotation>
+                        <xs:documentation>CSS класс филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string" use="optional">
+                    <xs:annotation>
                         <xs:documentation>Стиль филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -171,6 +181,11 @@
                 </xs:sequence>
                 <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
+                        <xs:documentation>CSS класс строки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
                         <xs:documentation>Стиль строки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -193,6 +208,11 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Css класс строки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль строки.</xs:documentation>
                     </xs:annotation>

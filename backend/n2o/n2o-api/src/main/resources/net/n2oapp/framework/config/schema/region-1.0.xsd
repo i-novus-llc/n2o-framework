@@ -86,7 +86,12 @@
                 </xs:attribute>
                 <xs:attribute name="class" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation> Стиль панели.</xs:documentation>
+                        <xs:documentation>CSS класс панели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Стиль панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="header" type="xs:boolean" use="optional">

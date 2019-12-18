@@ -48,6 +48,11 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |CSS класс стилей
 |
 
+|style
+|CSS свойство
+|Стиль поля
+|
+
 |required
 |true false
 |Обязательность поля
@@ -81,6 +86,11 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |depends-on
 |Строка
 |Зависимость от полей
+|
+
+|filter-id
+|Строка
+|Идентификатор фильтра
 |
 
 |===
@@ -357,6 +367,11 @@ link:#__validations_3[Список валидаций]
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|CSS класс кнопки
+|
+
+|style
+|CSS свойство
 |Стиль кнопки
 |
 
@@ -412,7 +427,7 @@ link:#_Действия[Обработчик действия]
 |Поле выборки, отвечающее за отображение варианта выбора
 |
 
-|search-field-id
+|search-filter-id
 |Поле выборки
 |Поле выборки, отвечающее за поиск вариантов выбора
 |label-field-id
@@ -544,13 +559,23 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |Всемирное координированное время
 |false
 
+|begin-filter-id
+|Строка
+|Фильтр начала интервала
+|
+
+|end-filter-id
+|Строка
+|Фильтр окончания интервала
+|
+
 |===
 
 Пример::
 [source,xml]
 ----
 <date-interval>
-  <default-value begin="01.01.2019" end="31.12.2019"/>
+  <default-value begin="01.01.2019" end="31.12.2019" begin-filter-id="beginDate"/>
 </date-interval>
 ----
 
@@ -891,7 +916,7 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
     <input-select-tree id="address" label="Адрес" checkboxes="true" checking-strategy="child">
         <inheritance-nodes parent-field-id="parent_id" label-field-id="name" value-field-id="id"
                            query-id="address" has-children-field-id="hasChildren"
-                           search-field-id="name">
+                           search-filter-id="name">
         </inheritance-nodes>
     </input-select-tree>
 

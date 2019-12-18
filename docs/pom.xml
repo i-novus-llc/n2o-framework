@@ -94,6 +94,28 @@
                             </attributes>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>asciidoc-migration</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>src/migration</sourceDirectory>
+                            <outputDirectory>target/META-INF/resources/docs/migration</outputDirectory>
+                            <backend>html5</backend>
+                            <doctype>article</doctype>
+                            <attributes>
+                                <project-version>${project.version}</project-version>
+                                <imagesdir>./</imagesdir>
+                                <source-highlighter>highlightjs</source-highlighter>
+                                <highlightjs-theme>railscasts</highlightjs-theme>
+                                <icons>font</icons>
+                                <sectanchors>true</sectanchors>
+                                <sectnums>true</sectnums>
+                            </attributes>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

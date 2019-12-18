@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.event.N2oEventBus;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
+import net.n2oapp.framework.config.register.FileInfo;
 import net.n2oapp.framework.config.register.RegisterUtil;
 import net.n2oapp.framework.config.register.storage.Node;
 import org.slf4j.Logger;
@@ -12,22 +13,19 @@ import org.slf4j.LoggerFactory;
 import net.n2oapp.watchdir.FileChangeListener;
 
 import java.io.IOException;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.List;
 
 /**
  * Слушатель измениний xml файлов метаданных в папке ${n2o.config.path}
  */
 public class XMLChangeListener implements FileChangeListener {
-    private static final String JET_BRAINS_SUFFIX = "_jb_";
     private static final Logger log = LoggerFactory.getLogger(XMLChangeListener.class);
-    private String watchFolderPath;
-    private MetadataRegister configRegister;
-    private SourceTypeRegister sourceTypeRegister;
-    private N2oEventBus eventBus;
+    private final String watchFolderPath;
+    private final MetadataRegister configRegister;
+    private final SourceTypeRegister sourceTypeRegister;
+    private final N2oEventBus eventBus;
 
     public XMLChangeListener(String configPath,
                              MetadataRegister configRegister,
@@ -42,9 +40,7 @@ public class XMLChangeListener implements FileChangeListener {
     @Override
     public void fileModified(Path file) {
         try {
-            if (isJetBrainsTempFile(file))
-                return;
-            if (Files.isDirectory(file) || !isXMl(file)) {
+            if (file.toFile().isDirectory() || !isXMl(file)) {
                 return;
             }
             SourceInfo info = getSourceInfo(file.toAbsolutePath().toString());
@@ -60,22 +56,22 @@ public class XMLChangeListener implements FileChangeListener {
     @Override
     public void fileCreated(Path file) {
         try {
-            if (isJetBrainsTempFile(file))
-                return;
-            if (Files.isDirectory(file) || !isXMl(file)) {
+            if (file.toFile().isDirectory() || !isXMl(file)) {
                 try {
                     Files.walkFileTree(file,
                             new SimpleFileVisitor<Path>() {
                                 @Override
                                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws
                                         IOException {
-                                    addSourceFromMemory(file);
+                                    if (isXMl(file)) addSourceFromMemory(file);
                                     return super.visitFile(file, attrs);
                                 }
                             }
                     );
                 } catch (IOException ignored) {
-                    log.error("Created not handled: error add directory " + file);
+                    if (file.toFile().isDirectory()) {
+                        log.error("Created not handled: error add directory " + file);
+                    }
                 }
                 return;
             }
@@ -88,10 +84,10 @@ public class XMLChangeListener implements FileChangeListener {
     @Override
     public void fileDeleted(Path file) {
         try {
-            if (isJetBrainsTempFile(file))
-                return;
-            if (!Files.isDirectory(file) && isXMl(file)) {
+            if (!file.toFile().isDirectory() && isXMl(file)) {
                 deleteSourceFromMemory(file.toAbsolutePath().toString());
+            } else {
+                deleteSourceFromMemoryByPath(file.toAbsolutePath().toString());
             }
         } catch (Exception e) {
             log.error("Fail deleted handled: " + file, e);
@@ -102,6 +98,18 @@ public class XMLChangeListener implements FileChangeListener {
         SourceInfo info = getSourceInfo(path);
         configRegister.remove(info.getId(), info.getBaseSourceClass());
         eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
+        log.debug("Deleted handled: " + path);
+    }
+
+    private void deleteSourceFromMemoryByPath(String path) {
+        if (path.lastIndexOf('/') <= path.lastIndexOf('.')) return; //Хак для отсеивания временных файлов
+
+        Node node = Node.byAbsolutePath(path, watchFolderPath);
+        List<SourceInfo> sourceInfoList = configRegister.find(s -> s instanceof FileInfo && ((FileInfo) s).getLocalPath().startsWith(node.getLocalPath()));
+        for (SourceInfo info : sourceInfoList) {
+            configRegister.remove(info.getId(), info.getBaseSourceClass());
+            eventBus.publish(new MetadataChangedEvent(this, info.getId(), info.getBaseSourceClass()));
+        }
         log.debug("Deleted handled: " + path);
     }
 
@@ -117,22 +125,8 @@ public class XMLChangeListener implements FileChangeListener {
     }
 
     private static boolean isXMl(Path file) {
-        String extension = "";
-        String fileName = file.getFileName().toString();
-        int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = fileName.substring(i + 1);
-        }
-        return "xml".equals(extension);
-    }
-
-    /**
-     * @param file - файл
-     * @return проверяет реальный файл (false) или временный от JetBrains (true)
-     */
-    private static boolean isJetBrainsTempFile(Path file) {
-        String fileName = file.normalize().toString();
-        return fileName.indexOf(JET_BRAINS_SUFFIX) > 0;
+        String fileName = "" + file.getFileName();
+        return fileName.toLowerCase().endsWith(".xml");
     }
 
 }
