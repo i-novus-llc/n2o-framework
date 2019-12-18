@@ -10,8 +10,6 @@ import java.util.HashMap;
 /**
  * Соответсвие идентификатора виджета и объекта
  */
-@Getter
-@Setter
 public class WidgetObjectMap extends HashMap<String, CompiledObject> implements Serializable {
     @Override
     public CompiledObject put(String widgetId, CompiledObject object) {

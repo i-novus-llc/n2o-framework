@@ -127,7 +127,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         Action action;
         if (butAction != null) {
             butAction.setId(p.cast(butAction.getId(), button.getId()));
-            action = p.compile(butAction, context, compiledObject != null ? compiledObject : null, new ComponentScope(source));
+            action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
             if (action instanceof InvokeAction) {
                 operation = compiledObject != null && compiledObject.getOperations() != null ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
