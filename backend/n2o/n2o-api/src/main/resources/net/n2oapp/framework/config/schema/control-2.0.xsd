@@ -8,8 +8,8 @@
 
 
     <xs:element name="hidden" type="controlHiddenDefinition"/>
-    <xs:element name="text-area" type="controlTextArea"/>
-    <xs:element name="text-editor" type="controlTextEditor"/>
+    <xs:element name="text-area" type="controlTextAreaDefinition"/>
+    <xs:element name="text-editor" type="controlTextEditorDefinition"/>
     <xs:element name="code-editor" type="controlCodeEditor"/>
     <xs:element name="input-text" type="controlInputTextDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
@@ -37,8 +37,8 @@
     <xs:complexType name="controls">
         <xs:sequence>
             <xs:element name="hidden" type="controlHiddenDefinition" minOccurs="0"/>
-            <xs:element name="text-area" type="controlTextArea" minOccurs="0"/>
-            <xs:element name="text-editor" type="controlTextEditor" minOccurs="0"/>
+            <xs:element name="text-area" type="controlTextAreaDefinition" minOccurs="0"/>
+            <xs:element name="text-editor" type="controlTextEditorDefinition" minOccurs="0"/>
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
@@ -192,8 +192,16 @@
     <xs:complexType name="controlOptionsListInlineDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="inline" type="xs:boolean" default="false" use="optional"/>
-                <xs:attribute name="type" type="xs:string" use="optional"/>
+                <xs:attribute name="inline" type="xs:boolean" default="false" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Отображение элементов на одной строке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation></xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -252,7 +260,7 @@
 
     <xs:complexType name="controlCodeEditor">
         <xs:complexContent>
-            <xs:extension base="controlSimpleFieldDefinition">
+            <xs:extension base="controlTextDefinition">
                 <xs:attribute name="language" use="optional">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -279,11 +287,33 @@
         <!--</xs:complexContent>-->
     <!--</xs:complexType>-->
 
-    <xs:complexType name="controlTextArea">
+    <xs:complexType name="controlTextDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="rows" type="xs:positiveInteger" use="optional"/>
-                <xs:attribute name="height" type="xs:string" use="optional"/>
+                <xs:attribute name="rows" type="xs:positiveInteger" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:positiveInteger" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Высота поля в строках текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlTextAreaDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlTextDefinition"/>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlTextEditorDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlTextDefinition">
+                <xs:attribute name="toolbar-url" type="xs:string" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -334,22 +364,42 @@
         <xs:anyAttribute namespace="##local" processContents="skip"/>
     </xs:complexType>
 
-    <xs:complexType name="controlTextEditor">
-        <xs:complexContent>
-            <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="toolbar-url" type="xs:string" use="optional"/>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
     <xs:complexType name="controlInputTextDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="domain" type="dmn:domainType"/>
-                <xs:attribute name="length" type="xs:integer"/>
-                <xs:attribute name="min" type="xs:integer"/>
-                <xs:attribute name="max" type="xs:integer"/>
-                <xs:attribute name="step" type="xs:integer"/>
+                <xs:attribute name="domain" type="dmn:domainType">
+                    <xs:annotation>
+                        <xs:documentation>Тип данных</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="length" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Максимальное количество символов в тексте (используется только для domain="string").
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="min" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Минимальное допустимое число (используется только для числовых domain).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Максимальное допустимое число (используется только для числовых domain).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="step" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Шаг инкремента / декремента чисел (используется только для числовых domain).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -402,10 +452,26 @@
     <xs:complexType name="controlOutputTextDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="icon" type="xs:string"/>
-                <xs:attribute name="type" type="iconType"/>
-                <xs:attribute name="position" type="positionType"/>
-                <xs:attribute name="format" type="xs:string"/>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="iconType">
+                    <xs:annotation>
+                        <xs:documentation>Иконка с текстом или без.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="position" type="positionType">
+                    <xs:annotation>
+                        <xs:documentation>Расположение иконки относительно текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="format" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Формат выводимого текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -492,11 +558,31 @@
     <xs:complexType name="controlDatePickerDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="date-format" use="optional" type="dataFormatEnum"/>
-                <xs:attribute name="time-format" use="optional" type="timeFormatEnum"/>
-                <xs:attribute name="max" use="optional" type="xs:string"/>
-                <xs:attribute name="min" use="optional" type="xs:string"/>
-                <xs:attribute name="utc" use="optional" default="false" type="xs:boolean"/>
+                <xs:attribute name="date-format" use="optional" type="dataFormatEnum">
+                    <xs:annotation>
+                        <xs:documentation>Формат отображения даты.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="time-format" use="optional" type="timeFormatEnum">
+                    <xs:annotation>
+                        <xs:documentation>Формат отображения времени.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max" use="optional" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная дата возможная для выбора.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="min" use="optional" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Минимальная дата возможная для выбора.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="utc" use="optional" default="false" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Всемирное координированное время.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -504,8 +590,16 @@
     <xs:complexType name="controlSelectDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="type" type="inputSelectType"/>
-                <xs:attribute name="cleanable" type="xs:boolean" default="true"/>
+                <xs:attribute name="type" type="inputSelectType">
+                    <xs:annotation>
+                        <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cleanable" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Опция очистки компонента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -513,12 +607,36 @@
     <xs:complexType name="controlSliderDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="mode" use="optional" default="single" type="sliderMode"/>
-                <xs:attribute name="vertical" use="optional" default="false" type="xs:boolean"/>
-                <xs:attribute name="measure" use="optional" type="xs:string"/>
-                <xs:attribute name="max" type="xs:integer"/>
-                <xs:attribute name="min" type="xs:integer"/>
-                <xs:attribute name="step" type="xs:integer"/>
+                <xs:attribute name="mode" use="optional" default="single" type="sliderMode">
+                    <xs:annotation>
+                        <xs:documentation>Одиночный ползунок / мульти-режим.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="vertical" use="optional" default="false" type="xs:boolean">
+                    <xs:annotation>
+                        <xs:documentation>Вертикальное расположение элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="measure" use="optional" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="min" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="step" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Шаг приращения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -538,8 +656,16 @@
     <xs:complexType name="controlInputSelectDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="type" type="inputSelectType"/>
-                <xs:attribute name="reset-on-blur" type="xs:boolean" default="true"/>
+                <xs:attribute name="type" type="inputSelectType">
+                    <xs:annotation>
+                        <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="reset-on-blur" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Стирание значения при потере фокуса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -687,7 +813,9 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="unchecked" type="uncheckedValue">
                     <xs:annotation>
-                        <xs:documentation>Значение, которое будет отправлялться если чекбокс не отмечен. По умолчанию null.</xs:documentation>
+                        <xs:documentation>
+                            Значение, которое будет отправляться если чекбокс не отмечен. По умолчанию null.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

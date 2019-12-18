@@ -553,7 +553,7 @@ InputNumber
 
 |<checkbox-group>
 |CheckboxGroup
-|Поле гуруппы чекбоксов
+|Поле группы чекбоксов
 
 |<text-area>
 |TextArea

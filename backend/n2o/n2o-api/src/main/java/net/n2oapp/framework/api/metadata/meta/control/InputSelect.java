@@ -8,6 +8,9 @@ import net.n2oapp.criteria.dataset.DataSet;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ *
+ */
 @Getter
 @Setter
 public class InputSelect extends ListControl {
