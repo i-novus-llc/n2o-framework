@@ -131,7 +131,7 @@
                         "label": "Имя",
                         "dependency": [{
                           "type":"fetchValue",
-                          "on":["default"],
+                          "on":["defaultField"],
                           "applyOnInit":true,
                           "dataProvider":{
                             "url":"n2o/data/ProtoPatient",
@@ -227,11 +227,11 @@
                     "fields":[
                       {
                         "src":"StandardField",
-                        "id":"default",
+                        "id":"defaultField",
                         "label":"Введите что-нибудь, чтобы загрузилось Имя по умолчанию",
                         "dependency":[],
                         "control": {
-                          "src":"InputText","id":"default",
+                          "src":"InputText","id":"defaultField",
                           "style": {"color": "grey", "borderRadius": "10px", "fontSize": "10pt", "fontWeight": "bold"}
                         },
                         "style": {"color": "grey", "fontSize": "12pt"}
