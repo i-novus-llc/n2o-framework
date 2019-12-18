@@ -121,6 +121,13 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(securityObject.getAnonymous());
 
         securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
+                .get(0).getButtons().get(1).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        assertTrue(securityObject.getPermissions().contains("permission"));
+        assertTrue(securityObject.getRoles().contains("admin"));
+        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getAnonymous(), nullValue());
+
+        securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getPermissions(), nullValue());

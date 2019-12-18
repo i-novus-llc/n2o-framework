@@ -12,6 +12,9 @@
                     <button id="create">
                         <show-modal page-id="testToolbarAccessTransformer" submit-operation-id="create" object-id="testObjectAccessTransformer"/>
                     </button>
+                    <button id="update">
+                        <show-modal page-id="testToolbarAccessTransformer" submit-operation-id="update"/>
+                    </button>
                 </toolbar>
             </table>
         </panel>
