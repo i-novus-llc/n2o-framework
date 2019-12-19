@@ -11,7 +11,5 @@ public abstract class IntervalFieldIOv2<T extends N2oIntervalField> extends Stan
         super.io(e, m, p);
         p.childAttribute(e, "default-value", "begin", m::getBegin, m::setBegin);
         p.childAttribute(e, "default-value", "end", m::getEnd, m::setEnd);
-        p.attribute(e, "begin-filter-id", m::getBeginFilterId, m::setBeginFilterId);
-        p.attribute(e, "end-filter-id", m::getEndFilterId, m::setEndFilterId);
     }
 }
