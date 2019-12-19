@@ -38,7 +38,7 @@ class InputMask extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.prepareValue(props.value, props.mask),
+      value: props.value,
       guide: false,
     };
     this.valid = false;
@@ -170,36 +170,14 @@ class InputMask extends React.Component {
     }
   }
 
-  getParsedValue = (value, isMask = true) => {
-    return filter(
-      replace(value, / /g, ''),
-      char => !isNaN(toNumber(char)) && (!isMask || toString(char) === '9')
-    ).join('');
-  };
-
-  prepareValue = (value, mask) => {
-    if (!mask) {
-      return value;
-    }
-
-    const parsedMask = this.getParsedValue(mask);
-    const parsedValue = this.getParsedValue(value, false);
-    const maskLength = parsedMask.length;
-    const valueLength = parsedValue.length;
-
-    return parsedValue && valueLength > maskLength
-      ? toString(parsedValue).substring(valueLength - maskLength, valueLength)
-      : parsedValue;
-  };
-
   /**
    * обработка новых пропсов
    */
   componentDidUpdate(prevProps) {
-    const { value, mask } = this.props;
+    const { value } = this.props;
 
     if (!isEqual(prevProps.value, value)) {
-      this.setState({ value: this.prepareValue(value, mask) });
+      this.setState({ value });
     }
 
     this.dict = { ...this.dict, ...this.props.dictionary };
