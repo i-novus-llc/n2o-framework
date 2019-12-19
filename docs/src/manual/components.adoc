@@ -167,19 +167,19 @@ image::images/page_left_right.png[]
 
 |<form>
 |FormWidget
-|Форма
+|link:https://n2oapp.net/sandbox/new/manual/widget/form[Форма]
 
 |<table>
 |TableWidget
-|Таблица
+|link:https://n2oapp.net/sandbox/new/manual/widget/table[Таблица]
 
 |<list>
 |ListWidget
-|Список
+|link:https://n2oapp.net/sandbox/new/manual/widget/list[Список]
 
 |<tree>
 |TreeWidget
-|Дерево
+|link:https://n2oapp.net/sandbox/new/manual/widget/tree[Дерево]
 
 |<chart>
 |График
@@ -193,16 +193,18 @@ image::images/page_left_right.png[]
 Таблица - виджет N2O, представляющий данные в виде таблицы
 с возможностью сортировки, фильтрации, паджинации.
 
+image::images/table.png[]
+
 .Виджет таблица
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
   name="Моя таблица"
-  query-id="myQuery">
+  query-id="test">
   <columns>
-    <column text-field-id="firstName"/>
-    <column text-field-id="lastName"/>
+    <column text-field-id="firstName" label="Имя"/>
+    <column text-field-id="lastName" label="Фамилия"/>
   </columns>
 </table>
 ----
@@ -213,16 +215,18 @@ image::images/page_left_right.png[]
 Форма - виджет N2O, представляющий одну запись данных
 в виде полей с возможностью просмотра или редактирования.
 
+image::images/form.png[]
+
 .Виджет форма
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
   name="Моя форма"
-  object-id="myObject">
+  object-id="test">
   <fields>
-    <input-text id="firstName"/>
-    <input-text id="lastName"/>
+    <input-text id="firstName" label="Имя"/>
+    <input-text id="lastName" label="Фамилия"/>
   <fields>
 </form>
 ----
