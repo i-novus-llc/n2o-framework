@@ -88,7 +88,6 @@
         <xs:attribute name="description" type="xs:string"/>
         <xs:attribute name="copied" type="xs:boolean" default="false"/>
         <xs:attribute name="depends-on" type="xs:string"/>
-        <xs:attribute name="filter-id" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="controlSimpleFieldDefinition">
@@ -152,8 +151,6 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="begin-filter-id" use="optional"/>
-                <xs:attribute name="end-filter-id" use="optional"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
