@@ -152,7 +152,7 @@ class InputMask extends React.Component {
 
   _onBlur(e) {
     const { resetOnNotValid, onBlur } = this.props;
-    const { value } = this.state;
+    const { value } = e.nativeEvent.target;
     this.valid = this._isValid(value);
     onBlur(value);
     if (!this.valid) {
