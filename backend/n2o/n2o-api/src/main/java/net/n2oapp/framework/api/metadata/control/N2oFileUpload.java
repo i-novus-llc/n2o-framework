@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.util.Map;
 
+/**
+ *  Компонент загрузки файла
+ */
 @Getter
 @Setter
 public class N2oFileUpload extends N2oStandardField {

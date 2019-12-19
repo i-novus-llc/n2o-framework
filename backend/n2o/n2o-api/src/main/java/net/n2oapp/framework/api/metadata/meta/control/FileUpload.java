@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Клиентская модель компонента загрузки файла
+ */
 @Getter
 @Setter
 public class FileUpload extends Control {
