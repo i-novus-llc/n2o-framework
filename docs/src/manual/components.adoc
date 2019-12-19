@@ -457,11 +457,11 @@ image::images/page_left_right.png[]
 
 |<set>
 |StandardFieldset
-|Филдсет без верстки
+|link:https://n2oapp.net/sandbox/new/manual/fieldset/set[Филдсет без верстки]
 
 |<line>
 |LineFieldset
-|Филдсет с горизонтальной чертой
+|link:https://n2oapp.net/sandbox/new/manual/fieldset/line[Филдсет с горизонтальной чертой]
 
 |===
 
@@ -469,23 +469,32 @@ image::images/page_left_right.png[]
 с помощью элементов `<row>` и `<col>`.
 
 .Расположение полей в строку или столбец
+
+--
+image::/images/fieldset_col_row.png[]
 [source,xml]
 ----
 <fields>
-  <set>
-    <row>
-      <!-- Первая строка с двумя столбцами -->
-      <col size="8">
-        ... <!-- Поля первого столбца -->
-      </col>
-      <col size="4">
-        ... <!-- Поля второго столбца -->
-      </col>
-    </row>
-    <row>
-      ... <!-- Втрорая строка -->
-    </row>
-  </set>
+    <set>
+        <row>
+            <!-- Первая строка с двумя столбцами -->
+            <col size="8">
+                <!-- Поля первого столбца -->
+                <input-text id="field1"/>
+                <input-text id="field2"/>
+            </col>
+            <col size="4">
+                <!-- Поля второго столбца -->
+                <input-text id="field3"/>
+                <input-text id="field4"/>
+            </col>
+        </row>
+        <row>
+            <!-- Вторая строка -->
+            <input-text id="field5"/>
+            <input-text id="field6"/>
+        </row>
+    </set>
 </fields>
 ----
 
