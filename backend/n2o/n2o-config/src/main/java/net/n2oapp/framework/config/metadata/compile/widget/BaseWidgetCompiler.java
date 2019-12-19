@@ -569,10 +569,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 newFieldset.setItems(newFieldsetItems.toArray(items));
                 fieldSet = newFieldset;
             }
-            List<Object> scopeList = new ArrayList<>();
-            scopeList.addAll(Arrays.asList(scopes));
-            scopeList.addAll(Arrays.asList(widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope));
-            fieldSets.add(p.compile(fieldSet, context, scopeList.toArray()));
+            fieldSets.add(p.compile(fieldSet, context,
+                    scopes, widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope));
         }
         return fieldSets;
     }
