@@ -14,6 +14,8 @@ image::images\components.png[]
 Простая страница содержит один единственный компонент-виджет,
 занимающий всё свободное пространство.
 
+image::images/page_simple.png[]
+
 .Простая страница
 [source,xml]
 ----
@@ -25,9 +27,8 @@ image::images\components.png[]
 
 Сложные страницы поделены на регионы,
 которые могут располагаться в разных областях страницы.
-Возможные места расположения регионов на странице
-определяются реализаций React компонента.
-Реализация по умолчанию `StandardPage`.
+
+image::images/page_standard.png[]
 
 .Стандартная страница
 [source,xml]
@@ -40,18 +41,22 @@ image::images\components.png[]
   </regions>
 </page>
 ----
-Реализация React компонента задается атрибутом `src`.
-Местоположение региона можно задать через `place`:
+
+Возможные места расположения регионов на странице
+определяются шаблоном. Шаблон страницы задается атрибутом `layout`.
+Шаблон по умолчанию `SingleLayout`. Местоположение региона можно задать через `place`:
+
+image::images/page_left_right.png[]
 
 .Страница с разметкой регионов "слева и справа"
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      src="LeftRightPage">
+      layout="LeftRightLayout" name="Моя страница">
   <regions>
-    <region place="left">...</region>
-    <region place="right">...</region>
+    <panel place="left">...</panel>
+    <panel place="right">...</panel>
   </regions>
 </page>
 ----
@@ -63,12 +68,11 @@ image::images\components.png[]
 
 |<simple-page>
 |SimplePage
-|Страница с единственным виджетом
+|link:https://n2oapp.net/sandbox/new/manual/page/simple[Страница с единственным виджетом]
 
 |<page>
 |StandardPage
-LeftRightPage
-|Страница с регионами
+|link:https://n2oapp.net/sandbox/new/manual/page/standard[Страница с регионами]
 
 |===
 
