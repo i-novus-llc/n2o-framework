@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель компонента загрузки файла
+ * Клиентская модель компонента загрузки файлов
  */
 @Getter
 @Setter

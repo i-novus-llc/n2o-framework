@@ -199,7 +199,7 @@
                 </xs:attribute>
                 <xs:attribute name="type" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation></xs:documentation>
+                        <xs:documentation>Тип кнопок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -293,7 +293,11 @@
     <xs:complexType name="controlMaskedInputDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="mask" type="xs:string" use="required"/>
+                <xs:attribute name="mask" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Маска текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -753,17 +757,59 @@
                     <!--<xs:element name="inheritance-nodes" type="inheritanceNodesDefinition"/>-->
                     <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="parent-field-id" type="xs:string" use="required"/>
-                <xs:attribute name="has-children-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="enabled-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="master-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="detail-field-id" type="xs:string" use="optional"/>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional"/>
+                <xs:attribute name="parent-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор родительского поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="has-children-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation></xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation></xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="master-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор master поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="detail-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор detail поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation></xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
 
-                <xs:attribute name="ajax" type="xs:boolean" default="false"/>
-                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false"/>
-                <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all"/>
-                <xs:attribute name="max-tag-count" type="xs:integer" use="optional"/>
+                <xs:attribute name="ajax" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Поддержка загрузки через ajax запрос.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Отображение чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all">
+                    <xs:annotation>
+                        <xs:documentation>Стратегия выбора данных из дерева.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-tag-count" type="xs:integer" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное количество элементов в поле.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

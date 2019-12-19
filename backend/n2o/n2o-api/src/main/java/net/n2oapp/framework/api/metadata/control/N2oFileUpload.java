@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.util.Map;
 
 /**
- *  Компонент загрузки файла
+ *  Компонент загрузки файлов
  */
 @Getter
 @Setter
