@@ -4,7 +4,7 @@ import withState from 'recompose/withState';
 import withHandlers from 'recompose/withHandlers';
 import PropTypes from 'prop-types';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs, xonokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { vs, xonokai } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import cx from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
