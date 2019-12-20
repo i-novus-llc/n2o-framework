@@ -475,26 +475,20 @@ image::/images/fieldset_col_row.png[]
 [source,xml]
 ----
 <fields>
-    <set>
-        <row>
-            <!-- Первая строка с двумя столбцами -->
-            <col size="8">
-                <!-- Поля первого столбца -->
-                <input-text id="field1"/>
-                <input-text id="field2"/>
-            </col>
-            <col size="4">
-                <!-- Поля второго столбца -->
-                <input-text id="field3"/>
-                <input-text id="field4"/>
-            </col>
-        </row>
-        <row>
-            <!-- Вторая строка -->
-            <input-text id="field5"/>
-            <input-text id="field6"/>
-        </row>
-    </set>
+  <set>
+    <row>
+      <!-- Первая строка с двумя столбцами -->
+      <col size="8">
+        ... <!-- Поля первого столбца -->
+      </col>
+      <col size="4">
+        ... <!-- Поля второго столбца -->
+      </col>
+    </row>
+    <row>
+      ... <!-- Вторая строка -->
+    </row>
+  </set>
 </fields>
 ----
 
