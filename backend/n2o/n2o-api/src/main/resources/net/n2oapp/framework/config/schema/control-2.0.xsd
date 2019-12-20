@@ -754,7 +754,6 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:sequence>
-                    <!--<xs:element name="inheritance-nodes" type="inheritanceNodesDefinition"/>-->
                     <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="parent-field-id" type="xs:string" use="required">
@@ -764,12 +763,14 @@
                 </xs:attribute>
                 <xs:attribute name="has-children-field-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation></xs:documentation>
+                        <xs:documentation>Наличие дочерних элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation></xs:documentation>
+                        <xs:documentation>
+                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="master-field-id" type="xs:string" use="optional">
@@ -784,7 +785,7 @@
                 </xs:attribute>
                 <xs:attribute name="value-field-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation></xs:documentation>
+                        <xs:documentation>Идентификатор узла дерева.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
 
