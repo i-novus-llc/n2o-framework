@@ -10,7 +10,7 @@
                     </button>
                     <button id="update" model="resolve">
                         <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg" master-field-id="secondId"
-                                    upload="query"
+                                    upload="query" master-param="id"
                                     detail-field-id="id" submit-operation-id="update" route="/:id/update"/>
                     </button>
                     <button id="createFocus" model="filter">
