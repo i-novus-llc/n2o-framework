@@ -233,7 +233,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                                               ModelsScope modelsScope, FiltersScope filtersScope,
                                               SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
-                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope, null);
+                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();

@@ -23,17 +23,4 @@ describe('<InputMask />', () => {
     const { wrapper } = setup();
     expect(wrapper.find('input')).toHaveLength(1);
   });
-
-  it('binds value', () => {
-    const { wrapper } = setup({ mask: '9-9', value: '1-1' });
-    expect(wrapper.state().value).toBe('11');
-  });
-
-  it('обрежет значение, если оно больше маски', () => {
-    const { wrapper } = setup({
-      mask: '+7 (999) 999-99-99',
-      value: '89119468608',
-    });
-    expect(wrapper.state().value).toBe('9119468608');
-  });
 });

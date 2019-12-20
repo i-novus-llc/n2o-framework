@@ -27,6 +27,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
@@ -105,29 +106,34 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      * Конструктор процессора внутренней сборки метаданных
      *
      * @param parent Родительский процессор сборки
-     * @param scope  Метаданные, влияющие на сборку. Должны быть разных классов.
+     * @param scopes  Метаданные, влияющие на сборку. Должны быть разных классов.
      */
-    private N2oCompileProcessor(N2oCompileProcessor parent, Object... scope) {
+    private N2oCompileProcessor(N2oCompileProcessor parent, Object... scopes) {
         this.env = parent.env;
         this.scope = new HashMap<>(parent.scope);
-        Stream.of(Optional.ofNullable(scope).orElse(new Compiled[]{})).filter(Objects::nonNull)
+        Stream.of(Optional.ofNullable(scopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
                 .forEach(s -> this.scope.put(s.getClass(), s));
         this.readPipeline = parent.readPipeline;
         this.readCompilePipeline = parent.readCompilePipeline;
         this.compilePipeline = parent.compilePipeline;
         this.params = parent.params;
         this.context = parent.context;
+        this.forbiddenIds = parent.forbiddenIds;
     }
 
     @Override
-    public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope) {
-        return compilePipeline.get(source, context, new N2oCompileProcessor(this, scope));
+    public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes) {
+        Object[] flattedScopes = Arrays.stream(scopes)
+                .filter(Objects::nonNull)
+                .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o)).toArray();
+        return compilePipeline.get(source, context, new N2oCompileProcessor(this, flattedScopes));
     }
 
     @Override
     public <D extends Compiled> void bind(D compiled) {
         bindPipeline.get(compiled, context, params);
     }
+
 
     @Override
     public Map<String, Object> mapAttributes(ExtensionAttributesAware source) {
@@ -289,13 +295,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <T extends Source> void validate(T metadata) {
+    public <T extends Source> void validate(T metadata, Object... scope) {
         if (metadata == null)
             return;
         if (metadata instanceof RefIdAware && ((RefIdAware) metadata).getRefId() != null)
             return;
 
-        env.getSourceValidatorFactory().validate(metadata, this);
+        env.getSourceValidatorFactory().validate(metadata, new N2oCompileProcessor(this, scope));
     }
 
     @Override
@@ -409,8 +415,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     /**
      * Получает значение по ключу и если оно существует, удаляет этот ключ из маппинга
+     *
      * @param mapping Маппинг
-     * @param key Ключ
+     * @param key     Ключ
      * @return Значение
      */
     private Object getValue(Map<String, ? extends BindLink> mapping, String key) {
