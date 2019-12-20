@@ -321,7 +321,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     public <T extends SourceMetadata> void checkForExists(String id, Class<T> metadataClass, String errorMessage) {
         if (id == null)
             return;
-        if (id.contains("*") || (id.startsWith("{") && id.endsWith("}")))
+        if (id.contains("*") || StringUtils.hasLink(id))
             return;
         if (!env.getMetadataRegister().contains(id, metadataClass))
             throw new N2oMetadataValidationException(getMessage(errorMessage, id));
