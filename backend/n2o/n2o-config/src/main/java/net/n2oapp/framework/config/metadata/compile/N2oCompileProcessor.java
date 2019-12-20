@@ -27,7 +27,6 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
@@ -69,7 +68,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     /**
      * Запрещенные имена идентификаторов
      */
-    private Set<String> forbiddenIds = Collections.emptySet();
+    private Set<String> forbiddenIds;
 
     /**
      * Конструктор процессора сборки метаданных
@@ -106,7 +105,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      * Конструктор процессора внутренней сборки метаданных
      *
      * @param parent Родительский процессор сборки
-     * @param scopes  Метаданные, влияющие на сборку. Должны быть разных классов.
+     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов.
      */
     private N2oCompileProcessor(N2oCompileProcessor parent, Object... scopes) {
         this.env = parent.env;
@@ -143,7 +142,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
             Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
-            if (res != null) {
+            res = resolveNestedAttributes(res);
+            if (!res.isEmpty()) {
                 extAttributes.putAll(res);
             }
         });
@@ -349,6 +349,30 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (id != null && forbiddenIds.contains(id.trim())) {
             throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
         }
+    }
+
+    private Map<String, Object> resolveNestedAttributes(Map<String, Object> attributes) {
+        Map<String, Object> result = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
+            String[] keyChain = entry.getKey().split("-");
+            Map<String, Object> nested = result;
+            for (int i = 0; i < keyChain.length - 1; i++) {
+                if (!nested.containsKey(keyChain[i])) {
+                    nested.put(keyChain[i], new HashMap<>());
+                }
+                if (!HashMap.class.equals(nested.get(keyChain[i]).getClass())) {
+                    throw new IllegalArgumentException("The result already contains an element with key " + keyChain[i]);
+                }
+                nested = (Map<String, Object>) nested.get(keyChain[i]);
+            }
+            if (nested.containsKey(keyChain[keyChain.length - 1])) {
+                throw new IllegalArgumentException("The result already contains an element with key " + keyChain[keyChain.length - 1]);
+            }
+            nested.put(keyChain[keyChain.length - 1], env.getDomainProcessor().deserialize(entry.getValue()));
+        }
+
+        return result;
     }
 
     private Object resolvePlaceholder(String placeholder) {
