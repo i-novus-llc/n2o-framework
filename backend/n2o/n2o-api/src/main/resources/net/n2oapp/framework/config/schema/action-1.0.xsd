@@ -619,6 +619,11 @@
                 <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="routable" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Попадает ли фильтр в url для дальнешей возможности восстановления по F5. По умолчанию false.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefValue">

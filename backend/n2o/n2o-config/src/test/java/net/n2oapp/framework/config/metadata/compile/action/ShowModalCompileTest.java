@@ -163,7 +163,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<Filter> filters = modalWidget.getFilters();
         assertThat(filters.get(0).getParam(), is("p_main_id"));
         assertThat(filters.get(0).getFilterId(), is("id"));
-        assertThat(filters.get(0).getReloadable(), is(false));
+        assertThat(filters.get(0).getRoutable(), is(false));
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`secondId`"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main']"));
@@ -313,23 +313,23 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<Filter> filters = modalWidget.getFilters();
         assertThat(filters.get(0).getParam(), is("p_main_id"));
         assertThat(filters.get(0).getFilterId(), is("id"));
-        assertThat(filters.get(0).getReloadable(), is(false));
+        assertThat(filters.get(0).getRoutable(), is(false));
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`id`"));
-        assertThat(filters.get(1).getParam(), is("p_main_secondId"));
+        assertThat(filters.get(1).getParam(), is("secondId"));
         assertThat(filters.get(1).getFilterId(), is("secondId"));
-        assertThat(filters.get(1).getReloadable(), is(false));
+        assertThat(filters.get(1).getRoutable(), is(false));
         assertThat(filters.get(1).getLink().getBindLink(), nullValue());
         assertThat(filters.get(1).getLink().getValue(), is(1));
         assertThat(filters.get(2).getParam(), is("p_main_name"));
         assertThat(filters.get(2).getFilterId(), is("name_eq"));
-        assertThat(filters.get(2).getReloadable(), is(false));
+        assertThat(filters.get(2).getRoutable(), is(false));
         assertThat(filters.get(2).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(2).getLink().getValue(), is("`name`"));
 
         assertThat(modalWidget.getDataProvider().getPathMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main'].id"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_secondId").getBindLink(), nullValue());
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_secondId").getValue(), is(1));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().get("secondId").getBindLink(), nullValue());
+        assertThat(modalWidget.getDataProvider().getQueryMapping().get("secondId").getValue(), is(1));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_name").getBindLink(), is("models.filter['p_second']"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_name").getValue(), is("`name`"));
 

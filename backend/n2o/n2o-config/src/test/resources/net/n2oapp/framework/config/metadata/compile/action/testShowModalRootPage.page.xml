@@ -35,7 +35,7 @@
                     <button id="updateWithPrefilters">
                         <show-modal page-id="testShowModalPage" submit-operation-id="update" detail-field-id="id" upload="query">
                             <pre-filters>
-                                <eq field-id="secondId" value="1"/>
+                                <eq field-id="secondId" value="1" param="secondId"/>
                                 <eq field-id="name" value="{name}" ref-widget-id="second" ref-model="filter"/>
                             </pre-filters>
                         </show-modal>
