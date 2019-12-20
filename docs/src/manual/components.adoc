@@ -144,8 +144,7 @@ image::images/page_left_right.png[]
 
 Или в регион:
 
-link:https://n2oapp.net/sandbox/new/manual/regions/widget-in-region[Виджет внутри региона]
-image:../manual/images/widget_in_region.png[]
+.Виджет внутри региона
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
