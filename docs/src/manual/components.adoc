@@ -82,6 +82,7 @@ image::images/page_left_right.png[]
 Регионы имеют свою верстку для различной компоновки виджетов.
 
 .Регион в виде вкладок
+image::/images/tabs.png[]
 [source,xml]
 ----
 <regions>
