@@ -14,8 +14,15 @@ import java.util.Optional;
 @Getter
 @AllArgsConstructor
 public class FiltersScope  {
+    /**
+     * Фильтры собираемые во время компиляции
+     */
     List<Filter> filters;
 
+    /**
+     * Добавить фильтр
+     * @param filter    фильтр
+     */
     public void addFilter(Filter filter) {
         Optional<Filter> sameFilter = filters.stream().filter(f -> f.getFilterId().equals(filter.getFilterId()) && f.getLink().equalsLink(filter.getLink())).findAny();
         if (!sameFilter.isPresent()) {

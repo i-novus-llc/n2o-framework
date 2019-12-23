@@ -43,7 +43,7 @@ public class N2oPreFilter implements Source {
      */
     private String param;
     /**
-     * Попадает ли фильтр в url для дальнешей возможности восстановления по F5
+     * Попадает ли фильтр в url
      */
     private Boolean routable;
     /**
