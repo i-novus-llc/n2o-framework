@@ -5,9 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель TextField
+ * Клиентская модель компонента текста
  */
-
 @Getter
 @Setter
 public class Text extends Field {
