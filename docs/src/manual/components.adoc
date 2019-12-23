@@ -215,7 +215,7 @@ image::images/table.png[]
 Форма - виджет N2O, представляющий одну запись данных
 в виде полей с возможностью просмотра или редактирования.
 
-image::images/form.png[]
+image::images/widget_form.png[]
 
 .Виджет форма
 [source,xml]
