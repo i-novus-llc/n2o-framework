@@ -5,9 +5,12 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
 /**
@@ -56,5 +59,12 @@ public class TreeCompiler extends BaseWidgetCompiler<Tree, N2oTree> {
         tree.setHasCheckboxes(source.getCheckboxes());
         tree.setAjax(source.getAjax());
         return tree;
+    }
+
+    @Override
+    protected QueryContext getQueryContext(Tree widget, N2oTree source, CompileContext<?, ?> context, String route, CompiledQuery query, ValidationList validationList, SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
+        QueryContext queryContext = super.getQueryContext(widget, source, context, route, query, validationList, subModelsScope, copiedFieldScope, p, object);
+        queryContext.setQuerySize(source.getSize() != null ? source.getSize() : 200);
+        return queryContext;
     }
 }

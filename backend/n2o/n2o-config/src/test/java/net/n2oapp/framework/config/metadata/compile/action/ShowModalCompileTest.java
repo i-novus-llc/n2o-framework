@@ -161,13 +161,14 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidgets().get("p_update_main");
         List<Filter> filters = modalWidget.getFilters();
-        assertThat(filters.get(0).getParam(), is("p_main_id"));
+        assertThat(filters.get(0).getParam(), is("id"));
         assertThat(filters.get(0).getFilterId(), is("id"));
         assertThat(filters.get(0).getReloadable(), is(false));
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`secondId`"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main']"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_id").getValue(), is("`secondId`"));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getValue(), nullValue());
         assertThat(modalWidget.getUpload(), is(UploadType.query));
         List<Button> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
