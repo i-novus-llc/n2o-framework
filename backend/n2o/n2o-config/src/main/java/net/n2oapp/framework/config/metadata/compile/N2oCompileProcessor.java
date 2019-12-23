@@ -22,6 +22,7 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -142,7 +143,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
             Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
-            res = resolveNestedAttributes(res);
+            res = CompileUtil.resolveNestedAttributes(res, env.getDomainProcessor()::deserialize);
             if (!res.isEmpty()) {
                 extAttributes.putAll(res);
             }
@@ -349,30 +350,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         if (id != null && forbiddenIds.contains(id.trim())) {
             throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
         }
-    }
-
-    private Map<String, Object> resolveNestedAttributes(Map<String, Object> attributes) {
-        Map<String, Object> result = new HashMap<>();
-
-        for (Map.Entry<String, Object> entry : attributes.entrySet()) {
-            String[] keyChain = entry.getKey().split("-");
-            Map<String, Object> nested = result;
-            for (int i = 0; i < keyChain.length - 1; i++) {
-                if (!nested.containsKey(keyChain[i])) {
-                    nested.put(keyChain[i], new HashMap<>());
-                }
-                if (!HashMap.class.equals(nested.get(keyChain[i]).getClass())) {
-                    throw new IllegalArgumentException("The result already contains an element with key " + keyChain[i]);
-                }
-                nested = (Map<String, Object>) nested.get(keyChain[i]);
-            }
-            if (nested.containsKey(keyChain[keyChain.length - 1])) {
-                throw new IllegalArgumentException("The result already contains an element with key " + keyChain[keyChain.length - 1]);
-            }
-            nested.put(keyChain[keyChain.length - 1], env.getDomainProcessor().deserialize(entry.getValue()));
-        }
-
-        return result;
     }
 
     private Object resolvePlaceholder(String placeholder) {

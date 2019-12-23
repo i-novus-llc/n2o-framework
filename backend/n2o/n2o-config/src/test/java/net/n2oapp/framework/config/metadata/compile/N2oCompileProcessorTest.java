@@ -18,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -237,12 +236,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     }
 
     @Test
-    public void testMapAttributes() {
-        testResolveDomain();
-        testNestedAttributes();
-    }
-
-    private void testResolveDomain() {
+    public void testMapping() {
         final Map<String, String> map = new HashMap<>();
         CompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
         ExtensionAttributesAware extAttributes = new ExtensionAttributesAware() {
@@ -265,55 +259,5 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         assertThat(result.get("a"), is(1));
         assertThat(result.get("b"), is(true));
         assertThat(result.get("c"), is("string"));
-    }
-
-    private void testNestedAttributes() {
-        final Map<String, String> map = new LinkedHashMap<>();
-        CompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
-        ExtensionAttributesAware extAttributes = new ExtensionAttributesAware() {
-            @Override
-            public void setExtAttributes(Map<N2oNamespace, Map<String, String>> extAttributes) {
-            }
-
-            @Override
-            public Map<N2oNamespace, Map<String, String>> getExtAttributes() {
-                Map<N2oNamespace, Map<String, String>> attrs = new HashMap<>();
-                attrs.put(new N2oNamespace(Namespace.getNamespace("test")), map);
-                return attrs;
-            }
-        };
-
-        map.put("a", "1");
-        map.put("b-x", "2");
-        map.put("b-c-x", "3");
-        map.put("b-c-d-x", "4");
-        map.put("b-c-d-e-x", "5");
-        Map<String, Object> result = processor.mapAttributes(extAttributes);
-        assertThat(result.get("a"), is(1));
-        assertThat(((Map) result.get("b")).get("x"), is(2));
-        assertThat(((Map) ((Map) result.get("b")).get("c")).get("x"), is(3));
-        assertThat(((Map) ((Map) ((Map) result.get("b")).get("c")).get("d")).get("x"), is(4));
-        assertThat(((Map) ((Map) ((Map) ((Map) result.get("b")).get("c")).get("d")).get("e")).get("x"), is(5));
-
-
-        map.clear();
-        map.put("a", "1");
-        map.put("a-b", "true");
-        try {
-            processor.mapAttributes(extAttributes);
-        } catch (IllegalArgumentException e) {
-            //N2oCompileProcessor:365
-            assertThat(e.getMessage(), is("The result already contains an element with key a"));
-        }
-
-        map.clear();
-        map.put("x-x-a", "true");
-        map.put("x-x", "true");
-        try {
-            processor.mapAttributes(extAttributes);
-        } catch (IllegalArgumentException e) {
-            //N2oCompileProcessor:370
-            assertThat(e.getMessage(), is("The result already contains an element with key x"));
-        }
     }
 }
