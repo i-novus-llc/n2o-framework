@@ -498,7 +498,9 @@ image::images/page_left_right.png[]
 
 Поля перечисляются на форме в элементе `<fields>`:
 
-.Поля в форме
+link:https://n2oapp.net/sandbox/new/manual/fields/form[Поля в форме]
+
+image::images/form.png[]
 [source,xml]
 ----
 <form>
@@ -510,12 +512,14 @@ image::images/page_left_right.png[]
 
 Либо вкладываются в филдсет:
 
-.Поля в филдсете
+link:https://n2oapp.net/sandbox/new/manual/fields/fieldset[Поля в филдсете]
+
+image::images/fieldset.png[]
 [source,xml]
 ----
-<set>
+<line>
   <input-text id="name" label="Наименование"/>
-</set>
+</line>
 ----
 
 Все поля должны иметь уникальный в рамках виджета идентификатор `id`.
@@ -529,40 +533,67 @@ image::images/page_left_right.png[]
 |<input-text>
 |InputText
 InputNumber
-|Поле ввода текста или чисел
+|link:https://n2oapp.net/sandbox/new/manual/fields/input_text[Поле ввода текста или чисел]
 
 |<output-text>
 |OutputText
-|Поле вывода текста
+|link:https://n2oapp.net/sandbox/new/manual/fields/output_text[Поле вывода текста]
 
 |<checkbox>
 |Checkbox
-|Поле чекбокса
+|link:https://n2oapp.net/sandbox/new/manual/fields/checkbox[Поле чекбокса]
 
 |<date-time>
 |DatePicker
-|Поле ввода даты и времени
+|link:https://n2oapp.net/sandbox/new/manual/fields/date_time[Поле ввода даты и времени]
 
 |<select>
-|N2OSelect
-|Поле выбора из выпадающего списка
+|Select
+|link:https://n2oapp.net/sandbox/new/manual/fields/select[Поле выбора из выпадающего списка]
 
 |<input-select>
 |InputSelect
-|Поле ввода текста с выбором из выпадающего списка
+|link:https://n2oapp.net/sandbox/new/manual/fields/input_select[Поле ввода текста с выбором из выпадающего списка]
 
 |<radio-group>
 |RadioGroup
-|Поле группы радио кнопок
+|link:https://n2oapp.net/sandbox/new/manual/fields/radio_group[Поле группы радио кнопок]
 
 |<checkbox-group>
 |CheckboxGroup
-|Поле гуруппы чекбоксов
+|link:https://n2oapp.net/sandbox/new/manual/fields/checkbox_group[Поле группы чекбоксов]
 
 |<text-area>
 |TextArea
-|Многострочное поле ввода
+|link:https://n2oapp.net/sandbox/new/manual/fields/text_area[Многострочное поле ввода]
 
+|<input-select-tree>
+|InputSelectTree
+|link:https://n2oapp.net/sandbox/new/manual/fields/input_select_tree[Компонент ввода с выбором в выпадающем списке в виде дерева]
+
+|<text>
+|Text
+|link:https://n2oapp.net/sandbox/new/manual/fields/text[Компонент текста]
+
+|<text-editor>
+|TextEditor
+|link:https://n2oapp.net/sandbox/new/manual/fields/text_editor[Компонент редактора текста]
+
+|<date-interval>
+|DateInterval
+|link:https://n2oapp.net/sandbox/new/manual/fields/date_interval[Компонент ввода интервала дат]
+
+|<code-editor>
+|CodeEditor
+|link:https://n2oapp.net/sandbox/new/manual/fields/code_editor[Компонент редактора кода]
+
+|<file-upload>
+|FileUpload
+|link:https://n2oapp.net/sandbox/new/manual/fields/file_upload[Компонент загрузки файлов]
+
+|<slider>
+|Slider
+|link:https://n2oapp.net/sandbox/new/manual/fields/slider[Компонент ползунок]
 |===
 
 Описание других видов полей можно посмотреть link:docs/xml/index.html#_Поля_ввода[здесь].
