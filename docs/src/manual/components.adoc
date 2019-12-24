@@ -487,7 +487,6 @@ image::images/button-submenu.png[]
 с помощью элементов `<row>` и `<col>`.
 
 .Расположение полей в строку или столбец
-
 --
 image::/images/fieldset_col_row.png[]
 [source,xml]
@@ -512,6 +511,7 @@ image::/images/fieldset_col_row.png[]
 
 Ширина столбца `<col>` задается атрибутом `size`.
 Всего доступно 12 размеров согласно сетки link:https://getbootstrap.com/docs/4.0/layout/grid/[Bootstrap].
+--
 
 === Поля ввода
 Поля ввода - это простейшие компоненты N2O, предназначенные для ввода или вывода различных данных.
