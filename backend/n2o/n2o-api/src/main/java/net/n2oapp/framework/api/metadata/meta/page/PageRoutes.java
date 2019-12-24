@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.meta;
+package net.n2oapp.framework.api.metadata.meta.page;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -36,11 +38,10 @@ public class PageRoutes implements Compiled {
                 .orElseThrow(() -> new N2oException("Route by url [" + urlPattern + "] not found"));
     }
 
-
     /**
      * Добавить маршрут к странице
      *
-     * @param route  Путь
+     * @param route Путь
      */
     public void addRoute(Route route) {
         if (!this.list.contains(route) || route.isOtherPage) {
@@ -52,11 +53,10 @@ public class PageRoutes implements Compiled {
         }
     }
 
-
     /**
      * Добавить маршрут к виджету страницы
      *
-     * @param path     Путь
+     * @param path Путь
      */
     public Route addRoute(String path) {
         Route route = new Route();
@@ -85,7 +85,7 @@ public class PageRoutes implements Compiled {
      */
     public void addPathMappings(Map<String, ReduxAction> pathMappings) {
         if (pathMappings != null)
-            pathMappings.forEach((k,v) -> addPathMapping(k, v));
+            pathMappings.forEach((k, v) -> addPathMapping(k, v));
     }
 
     /**
@@ -104,7 +104,6 @@ public class PageRoutes implements Compiled {
         }
         queryMapping.put(queryParam, query);
     }
-
 
     /**
      * Модель маршрута
@@ -171,5 +170,4 @@ public class PageRoutes implements Compiled {
             return result;
         }
     }
-
 }

@@ -1,10 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 
-import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.PageProperty;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -17,7 +19,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  *
  * @param <S> Тип исходной модели страницы
  */
-public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceCompiler<Page, S, PageContext> {
+public abstract class BasePageCompiler<S extends N2oPage, C extends Page> implements BaseSourceCompiler<C, S, PageContext> {
 
 
     /**

@@ -1,8 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -33,9 +34,9 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testAutoCompleteDataProvider() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/field/testAutoComplete.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testAutoComplete.page.xml")
                 .get(new PageContext("testAutoComplete"));
-        Form form = (Form) page.getWidgets().get("testAutoComplete_main");
+        Form form = (Form) page.getWidget();
         StandardField<AutoComplete> field = (StandardField<AutoComplete>) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getControl().getDataProvider().getUrl(), is("n2o/data/test"));
         assertThat(field.getControl().getDataProvider().getQuickSearchParam(), is("search"));

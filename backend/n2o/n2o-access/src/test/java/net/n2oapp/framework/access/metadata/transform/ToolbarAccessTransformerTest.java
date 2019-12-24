@@ -3,10 +3,10 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
-import net.n2oapp.framework.access.metadata.compile.SecurityExtensionAttributeMapper;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -48,7 +48,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
 
         ReadCompileTerminalPipeline<?> pipeline = compile("net/n2oapp/framework/access/metadata/schema/testToolbar.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml");
-        Page page = pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
+        StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
                 .getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
@@ -79,7 +79,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
 
         ReadCompileTerminalPipeline<?> pipeline = compile("net/n2oapp/framework/access/metadata/schema/testToolbarV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.page.xml");
-        Page page = pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
+        StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testToolbarAccessTransformer"));
         Security.SecurityObject securityObjectToolbar = ((Security) page.getToolbar().get("bottomRight").get(0)
                 .getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         Security.SecurityObject securityObjectAction = ((Security) page.getActions().get("create").getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
@@ -115,7 +115,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testSubMenuAccess.page.xml",
                 "net/n2oapp/framework/access/metadata/transform/testSubMenuAccess.object.xml");
 
-        Page page = pipeline.transform().get(new PageContext("testSubMenuAccess"));
+        StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testSubMenuAccess"));
 
         //permitAll в одном из menuItem делает доступным subMenu
         Button subMenu1 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(0);

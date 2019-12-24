@@ -6,8 +6,10 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -52,7 +54,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testDynamicPage() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml")
                 .get(new PageContext("testDynamicObject", "/test/route"));
         assertThat(page.getWidgets().get("test_route_main"), instanceOf(Table.class));
         assertThat(((Table)page.getWidgets().get("test_route_main")).getComponent().getCells().size(), is(1));
@@ -61,34 +63,34 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
         assertThat(query.getId(), is("testDynamic?Dummy"));
         assertThat(((N2oSqlQuery) query.getLists()[0].getInvocation()).getQuery(), is("test select"));
         // динамическая страница в контекстно-независимой кнопке
-        Page dynamicCreatePage = routeAndGet("/test/route/main/create", Page.class);
+        SimplePage dynamicCreatePage = (SimplePage) routeAndGet("/test/route/main/create", Page.class);
         assertThat(dynamicCreatePage.getId(), is("test_route_main_create"));
         assertThat(dynamicCreatePage.getObject().getId(), is("testDynamic?Dummy"));
-        assertThat(dynamicCreatePage.getWidgets().get("test_route_main_create_main"), instanceOf(Form.class));
-        assertThat((((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
+        assertThat(dynamicCreatePage.getWidget(), instanceOf(Form.class));
+        assertThat((((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
-        assertThat(((StandardField)((Form) dynamicCreatePage.getWidgets().get("test_route_main_create_main")).getComponent().getFieldsets().get(0)
+        assertThat(((StandardField) ((Form) dynamicCreatePage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
         // динамическая страница в контекстной кнопке
-        Page dynamicPage = routeAndGet("/test/route/main/123/update", Page.class);
+        SimplePage dynamicPage = (SimplePage) routeAndGet("/test/route/main/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_main_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
-        assertThat(dynamicPage.getWidgets().get("test_route_main_update_main"), instanceOf(Form.class));
-        assertThat(dynamicPage.getWidgets().get("test_route_main_update_main").getName(), is("Dummy"));
-        assertThat((((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
+        assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
+        assertThat(dynamicPage.getWidget().getName(), is("Dummy"));
+        assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
-        assertThat(((StandardField)((Form) dynamicPage.getWidgets().get("test_route_main_update_main")).getComponent().getFieldsets().get(0)
+        assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
 
 
-        dynamicPage = routeAndGet("/test/route/second/123/update", Page.class);
+        dynamicPage = (SimplePage) routeAndGet("/test/route/second/123/update", Page.class);
         assertThat(dynamicPage.getId(), is("test_route_second_123_update"));
         assertThat(dynamicPage.getObject().getId(), is("testDynamic?Dummy"));
-        assertThat(dynamicPage.getWidgets().get("test_route_second_123_update_main"), instanceOf(Form.class));
-        assertThat(dynamicPage.getWidgets().get("test_route_second_123_update_main").getName(), is("123"));
-        assertThat((((Form) dynamicPage.getWidgets().get("test_route_second_123_update_main")).getComponent().getFieldsets().get(0)
+        assertThat(dynamicPage.getWidget(), instanceOf(Form.class));
+        assertThat(dynamicPage.getWidget().getName(), is("123"));
+        assertThat((((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getId(), is("id"));
-        assertThat(((StandardField)((Form) dynamicPage.getWidgets().get("test_route_second_123_update_main")).getComponent().getFieldsets().get(0)
+        assertThat(((StandardField) ((Form) dynamicPage.getWidget()).getComponent().getFieldsets().get(0)
                 .getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("id"));
     }
 }

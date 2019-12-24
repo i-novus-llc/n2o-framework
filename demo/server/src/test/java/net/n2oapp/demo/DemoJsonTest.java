@@ -1,6 +1,6 @@
 package net.n2oapp.demo;
 
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;

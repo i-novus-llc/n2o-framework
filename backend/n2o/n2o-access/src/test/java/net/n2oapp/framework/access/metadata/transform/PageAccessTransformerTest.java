@@ -4,7 +4,8 @@ import net.n2oapp.framework.access.integration.metadata.transform.PageAccessTran
 import net.n2oapp.framework.access.integration.metadata.transform.WidgetAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -43,8 +44,8 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
-        Security.SecurityObject regionSecurityObject = ((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0)
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
+        Security.SecurityObject regionSecurityObject = ((Security) page.getRegions().get("single").get(0).getItems().get(0)
                 .getProperties()
                 .get(SECURITY_PROP_NAME))
                 .getSecurityMap()
@@ -63,9 +64,9 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegionV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testRegionAccessTransformer"));
-        Security.SecurityObject regionSecurityObject = ((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0)
+        Security.SecurityObject regionSecurityObject = ((Security) page.getRegions().get("single").get(0).getItems().get(0)
                 .getProperties()
                 .get(SECURITY_PROP_NAME))
                 .getSecurityMap()

@@ -1,8 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -41,7 +42,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void masterDetailWithPathParam() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParam");
@@ -57,7 +58,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void masterDetailWithoutPathParam() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withoutParam");
@@ -71,7 +72,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void masterDetailWithPathParamWithoutMasterDetail() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
         LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");

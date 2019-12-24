@@ -44,6 +44,11 @@
                 <xs:documentation>Наименование страницы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="route" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>URL страницы.</xs:documentation>
@@ -59,11 +64,6 @@
                 <xs:documentation>Объект выборки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="layout" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Вёрстка шаблона страницы.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -77,6 +77,11 @@
                 <xs:annotation>
                     <xs:documentation>Страница с единственным виджетом page-2.0</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="src" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Реализация страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="name" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Наименование страницы.</xs:documentation>

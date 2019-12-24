@@ -2,10 +2,10 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
       name="Моя страница"
       object-id="object"
-      layout="LeftRightLayout"
       route="test"
+      src="StandardPage"
       modal-size="lg">
-   <toolbar place="tbBottomRight" generate="submit, close">
+    <toolbar place="BottomRight" generate="submit, close">
        <button action-id="testId" validate="true" model="filter"/>
        <sub-menu>
            <menu-item action-id="miTestId" validate="true" />
