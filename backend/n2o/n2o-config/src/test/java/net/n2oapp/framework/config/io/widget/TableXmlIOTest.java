@@ -4,8 +4,6 @@ import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
 import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.toolbar.ButtonIO;
-import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
 import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
 import net.n2oapp.framework.config.io.widget.table.cell.*;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
@@ -36,8 +34,7 @@ public class TableXmlIOTest {
                 new ListCellIOElementIOv2(),
                 new SetFieldsetElementIOv4(),
                 new InputTextIOv2(),
-                new InvokeActionElementIOV1(),
-                new ButtonIO(), new SubmenuIO()
+                new InvokeActionElementIOV1()
         );
 
         assert tester.check("net/n2oapp/framework/config/io/widget/table/testTableWidgetIOv4.widget.xml");

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.widget;
 
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
-import net.n2oapp.framework.config.io.toolbar.ButtonIO;
+import net.n2oapp.framework.config.io.widget.table.cell.TextCellElementIOv2;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import net.n2oapp.framework.config.selective.persister.SelectiveStandardPersister;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
@@ -16,8 +16,7 @@ public class CustomWidgetIOv4Test {
                         .addReader(new CustomWidgetIOv4()))
                 .addPersister(new SelectiveStandardPersister()
                         .addPersister(new CustomWidgetIOv4())
-                        .addPersister(new InvokeActionElementIOV1()))
-                .ios(new ButtonIO());
+                        .addPersister(new InvokeActionElementIOV1()));
 
         assert tester.check("net/n2oapp/framework/config/io/widget/custom/testWidgetCustomIOv4.widget.xml");
     }

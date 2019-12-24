@@ -13,7 +13,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.packs(new N2oWidgetsIOPack());
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
-                new ToolbarCompiler(), new ButtonCompiler(), new SubmenuCompiler(),
+                new ToolbarCompiler(),
                 new TableCompiler(),
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),

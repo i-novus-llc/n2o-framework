@@ -50,7 +50,6 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "list.extra.toolbar[0].buttons[0].visible",
                         "list.extra.toolbar[0].buttons[0].disabled",
                         "list.extra.toolbar[0].buttons[0].color",
-                        "list.extra.toolbar[0].buttons[0].src",
                         "list.extra.actions",
                         "list.extra.toolbar[0].buttons[0].hintPosition",
                         "list.extra.toolbar[0].buttons[0].conditions",
@@ -60,7 +59,6 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "list.extra.toolbar[0].buttons[1].disabled",
                         "list.extra.toolbar[0].buttons[1].hintPosition",
                         "list.extra.toolbar[0].buttons[1].conditions",
-                        "list.extra.toolbar[0].buttons[1].src",
                         "toolbar")
                 .assertEquals();
     }

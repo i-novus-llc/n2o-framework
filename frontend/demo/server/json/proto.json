@@ -395,7 +395,6 @@
                 "hint": "Создать",
                 "hintPosition": "bottom",
                 "conditions": {},
-                "src": "PerformButton",
                 "title": "Создать"
               },
               {
@@ -412,7 +411,6 @@
                     }
                   ]
                 },
-                "src": "PerformButton",
                 "title": "Изменить"
               },
               {
@@ -436,7 +434,6 @@
                   "modelLink": "models.resolve['proto_patients']",
                   "mode": "modal"
                 },
-                "src": "PerformButton",
                 "title": "Удалить"
               }
             ]
@@ -466,7 +463,6 @@
                     }
                   ]
                 },
-                "src": "PerformButton",
                 "color": "light"
               },
               {
@@ -487,7 +483,6 @@
                     }
                   ]
                 },
-                "src": "PerformButton",
                 "color": "info",
                 "title": "Просмотр"
               }
@@ -504,8 +499,7 @@
                 "actionId": "menuItem5",
                 "hint": "Изменить видимость фильтров",
                 "hintPosition": "bottom",
-                "conditions": {},
-                "src": "PerformButton"
+                "conditions": {}
               },
               {
                 "id": "menuItem6",
@@ -513,7 +507,7 @@
                 "hint": "Изменить видимость колонок",
                 "hintPosition": "bottom",
                 "conditions": {},
-                "src": "ToggleColumn"
+                "dropdownSrc": "ToggleColumn"
               },
               {
                 "id": "menuItem7",
@@ -521,8 +515,7 @@
                 "actionId": "menuItem7",
                 "hint": "Обновить данные",
                 "hintPosition": "bottom",
-                "conditions": {},
-                "src": "PerformButton"
+                "conditions": {}
               },
               {
                 "id": "menuItem8",
@@ -530,7 +523,7 @@
                 "hint": "Изменить размер",
                 "hintPosition": "bottom",
                 "conditions": {},
-                "src": "ChangeSize"
+                "dropdownSrc": "ChangeSize"
               }
             ]
           }
@@ -1046,7 +1039,6 @@
                   "id": "subMenu0",
                   "icon": "fa fa-ellipsis-v",
                   "conditions": {},
-                  "src": "DropdownButton",
                   "color": "link",
                   "subMenu": [
                     {
@@ -1196,7 +1188,6 @@
                 "icon": "fa fa-plus",
                 "actionId": "create",
                 "conditions": {},
-                "src": "PerformButton",
                 "title": "Создать"
               }
             ]
@@ -1309,7 +1300,6 @@
                 "icon": "fa fa-pencil",
                 "actionId": "update",
                 "color": "link",
-                "src": "PerformButton",
                 "title": "Изменить"
               },
               {
@@ -1324,7 +1314,6 @@
                   "cancelLabel": "Нет",
                   "mode": "modal"
                 },
-                "src": "PerformButton",
                 "title": "Удалить"
               }
             ]
@@ -1529,7 +1518,6 @@
             "hint": "Добавить пациента",
             "hintPosition": "bottom",
             "conditions": {},
-            "src": "PerformButton",
             "color": "primary",
             "title": "Добавить пациента"
           }
