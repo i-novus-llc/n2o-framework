@@ -311,7 +311,10 @@ image::/images/tabs.png[]
 Кнопка - это визуальный элемент, на который можно нажать для выполнения действия.
 Кнопка может иметь разный размер, цвет, верстку:
 
+image::images/button-icon.png[]
+
 .Иконка кнопки
+
 [source,xml]
 ----
 <button label="Кнопка"/>
@@ -319,13 +322,18 @@ image::/images/tabs.png[]
 <button label="Иконка" icon="fa fa-pencil" type="icon"/>
 ----
 
+image::images/button-color.png[]
+
 .Цвет кнопки
+
 [source,xml]
 ----
 <button label="Главная" color="primary"/>
 <button label="Опасная" color="danger"/>
 <button label="Ссылка" color="link"/>
 ----
+
+image::images/button-submenu.png[]
 
 .Кнопка с выпадающим списком
 [source,xml]
@@ -345,7 +353,7 @@ image::/images/tabs.png[]
 
 |<button>
 |PerformButton
-|Кнопка с действием
+|link:https://n2oapp.net/sandbox/new/manual/action/button[Кнопка с действием]
 
 |<link>
 |LinkButton
@@ -353,7 +361,7 @@ image::/images/tabs.png[]
 
 |<sub-menu>
 |DropdownButton
-|Кнопка с вложенным меню
+|link:https://n2oapp.net/sandbox/new/manual/action/submenu[Кнопка с вложенным меню]
 
 |===
 
@@ -369,23 +377,31 @@ image::/images/tabs.png[]
 
 |<invoke>
 |n2o/actionImpl/START_INVOKE
-|Отправка данных формы
+|link:https://n2oapp.net/sandbox/new/manual/action/invoke[Отправка данных формы]
 
 |<show-modal>
 |n2o/modals/INSERT
-|Открытие модального окна
+|link:https://n2oapp.net/sandbox/new/manual/action/show_modal[Открытие модального окна]
 
 |<open-page>
 |
-|Открытие вложенной страницы
+|link:https://n2oapp.net/sandbox/new/manual/action/open_page[Открытие вложенной страницы]
 
 |<close>
 |n2o/modals/CLOSE
-|Закрытие модального окна или возврат на предыдущую страницу
+|link:https://n2oapp.net/sandbox/new/manual/action/close[Закрытие модального окна или возврат на предыдущую страницу]
 
 |<refresh>
 |n2o/widgets/DATA_REQUEST
 |Обновление данных виджета
+
+|<clear>
+|n2o/widgets/DATA_REQUEST
+|link:https://n2oapp.net/sandbox/new/manual/action/clear[Очистка данных виджета]
+
+|<copy>
+|n2o/widgets/DATA_REQUEST
+|link:https://n2oapp.net/sandbox/new/manual/action/copy[Копирование данных виджета из одной модели в другую]
 
 |===
 
