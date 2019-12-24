@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.header;
 
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.N2oSimpleHeader;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
@@ -34,7 +33,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setSearch(false);
         initWelcomePage(source, p);
-        header.setHomePageUrl(initHomePage(header, source, p));
+        header.setHomePageUrl(source.getHomePageUrl());
         header.setItems(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         header.setExtraItems(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
         return header;
@@ -43,27 +42,14 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
     private void initWelcomePage(N2oSimpleHeader source, CompileProcessor p) {
 
         String welcomePageId;
-        if (source.getMenu() != null && source.getMenu().getWelcomePageId() != null)
-            welcomePageId = source.getMenu().getWelcomePageId();
+        if (source.getMenu() != null && source.getWelcomePageId() != null)
+            welcomePageId = source.getWelcomePageId();
         else
             welcomePageId = p.resolve(property("n2o.ui.homepage.id"), String.class);
 
 
         PageContext context = new PageContext(welcomePageId, "/");
         p.addRoute(context);
-    }
-
-    private String initHomePage(CompiledHeader compiled, N2oSimpleHeader source, CompileProcessor p) {
-        if (source.getHomePageId() != null) {
-            N2oPage page = p.getSource(source.getHomePageId(), N2oPage.class);
-            if (page.getRoute() != null) {
-                PageContext context = new PageContext(source.getHomePageId(), page.getRoute());
-                p.addRoute(context);
-                compiled.setHomePageUrl(page.getRoute());
-                return page.getRoute();
-            }
-        }
-        return null;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/header/testMenu.menu.xml").get(new HeaderContext("headerWithExternalMenu"));
 
-        Assert.assertEquals("/pageRoute", header.getHomePageUrl());
+        Assert.assertEquals("http://google.com/", header.getHomePageUrl());
         Assert.assertEquals(3, header.getItems().size());
         Assert.assertEquals(2, header.getItems().get(0).getSubItems().size());
         Assert.assertEquals("test2", header.getItems().get(0).getSubItems().get(0).getLabel());
