@@ -305,6 +305,25 @@ public class TestDataProviderEngineTest {
         assertThat(result.get("id"), is(999L));
     }
 
+    /**
+     * Проверка, что при пустом фильтре в findOne будет по умолчанию использоваться :eq
+     */
+    @Test
+    public void testFindOneWithoutFilterOperation() {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile("testNumericPrimaryKey.json");
+        provider.setOperation(findOne);
+
+        Map<String, Object> inParams = new LinkedHashMap<>();
+        inParams.put("age", 20);
+        inParams.put("name", "Олег");
+
+        Map result = (Map) engine.invoke(provider, inParams);
+        assertThat(result.get("id"), is(5607657L));
+    }
+
     @Test
     public void testCountQuery() {
         TestDataProviderEngine engine = new TestDataProviderEngine();

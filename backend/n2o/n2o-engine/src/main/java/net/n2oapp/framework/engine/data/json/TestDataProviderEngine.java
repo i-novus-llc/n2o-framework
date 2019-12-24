@@ -97,6 +97,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private DataSet findOne(Map<String, Object> inParams, List<DataSet> data) {
         List<String> filters = (List<String>) inParams.get("filters");
+        if (filters == null)
+            filters = inParams.keySet().stream().map(k -> k + " :eq :" + k).collect(Collectors.toList());
         List<DataSet> modifiableData = new ArrayList<>(data);
         modifiableData = filter(filters, inParams, modifiableData);
         return modifiableData.isEmpty() ? null : modifiableData.get(0);
