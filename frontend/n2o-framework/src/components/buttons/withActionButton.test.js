@@ -18,15 +18,19 @@ const testProps = {
     icon: 'icon',
     size: 'size',
     color: 'color',
-    outline: 'outline'
+    outline: 'outline',
   },
   confirm: { text: 'test' },
   visible: true,
   disabled: false,
-  count: 'count'
+  count: 'count',
 };
 const NullComponent = ({ onClick, onMouseOver, onMouseEnter }) => (
-  <div onClick={onClick} onMouseOver={onMouseOver} onMouseEnter={onMouseEnter} />
+  <div
+    onClick={onClick}
+    onMouseOver={onMouseOver}
+    onMouseEnter={onMouseEnter}
+  />
 );
 const setup = ({ config, props, state }) => {
   const store = mockStore(state || {});
@@ -77,8 +81,8 @@ describe('<Link />', () => {
     const { wrapper } = setup({
       props: { ...testProps, hint: 'hint test', uid: 'uid' },
       config: {
-        onClick: () => {}
-      }
+        onClick: () => {},
+      },
     });
 
     expect(wrapper.find('UncontrolledTooltip').exists()).toBeTruthy();
@@ -87,16 +91,16 @@ describe('<Link />', () => {
     const { store, wrapper } = setup({
       props: { ...testProps, validate: true },
       config: {
-        onClick: () => {}
+        onClick: () => {},
       },
       state: {
         form: {
           form_name: {
             values: {},
             fields: {
-              name: {}
-            }
-          }
+              name: {},
+            },
+          },
         },
         widgets: {
           form_name: {
@@ -105,13 +109,13 @@ describe('<Link />', () => {
                 {
                   type: 'required',
                   severity: 'danger',
-                  text: 'Поле обязательно для заполнения'
-                }
-              ]
-            }
-          }
-        }
-      }
+                  text: 'Поле обязательно для заполнения',
+                },
+              ],
+            },
+          },
+        },
+      },
     });
     await wrapper.find(NullComponent).simulate('click');
     await delay(400);
@@ -122,10 +126,10 @@ describe('<Link />', () => {
           'name',
           {
             severity: 'danger',
-            text: 'Поле обязательно для заполнения'
+            text: 'Поле обязательно для заполнения',
           },
           true
-        )
+        ),
       ])
     );
   });

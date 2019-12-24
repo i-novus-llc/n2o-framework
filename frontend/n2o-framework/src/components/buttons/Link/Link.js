@@ -6,10 +6,7 @@ import { compose, mapProps } from 'recompose';
 import SimpleButton from '../Simple/Simple';
 import mappingProps from '../Simple/mappingProps';
 import withActionButton from '../withActionButton';
-
-function isLeftClickEvent(event) {
-  return event.button === 0;
-}
+import compileUrl from "../../../utils/compileUrl";
 
 function isModifiedEvent(event) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
@@ -26,19 +23,24 @@ LinkButton.propTypes = {
 
 export default compose(
   withActionButton({
-    onClick: (e, props) => {
+    onClick: (e, props, state) => {
+      e.preventDefault();
+      const { url, pathMapping, queryMapping } = props;
+      const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
+
       if (isModifiedEvent(e)) {
         return;
       }
       if (props.inner) {
-        e.preventDefault();
-        props.dispatch(push(props.url));
+        props.dispatch(push(compiledUrl));
+      } else {
+        window.location = compiledUrl;
       }
     }
   }),
   mapProps(props => ({
     ...mappingProps(props),
     url: props.url,
-    target: props.target
-  }))
+    target: props.target,
+  })),
 )(LinkButton);

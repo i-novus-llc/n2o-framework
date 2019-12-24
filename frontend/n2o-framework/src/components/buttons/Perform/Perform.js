@@ -9,7 +9,7 @@ export default compose(
   withActionButton({
     onClick: (e, props) => {
       props.dispatch(props.action);
-    }
+    },
   }),
   mapProps(props => mappingProps(props))
 )(SimpleButton);

@@ -10,7 +10,7 @@ import {
   isDisabledSelector,
   isInitSelector,
   isVisibleSelector,
-  countSelector
+  countSelector,
 } from '../../selectors/toolbar';
 import { getFormValues } from 'redux-form';
 import { makeWidgetValidationSelector } from '../../selectors/widgets';
@@ -41,15 +41,20 @@ export default function withActionButton(options = {}) {
           isInit,
           entityKey,
           id,
-          initialProps: { visible = true, disabled = false, count, conditions } = {},
-          registerButton
+          initialProps: {
+            visible = true,
+            disabled = false,
+            count,
+            conditions,
+          } = {},
+          registerButton,
         } = this.props;
         !isInit &&
           registerButton(entityKey, id, {
             visible,
             disabled,
             count,
-            conditions
+            conditions,
           });
       };
 
@@ -60,11 +65,11 @@ export default function withActionButton(options = {}) {
           const { modelLink, text } = confirm;
           const resolvedText = linkResolver(store, {
             link: modelLink,
-            value: text
+            value: text,
           });
           return {
             ...confirm,
-            text: resolvedText
+            text: resolvedText,
           };
         }
       };
@@ -76,7 +81,13 @@ export default function withActionButton(options = {}) {
        */
       validationFields = async (isTouched = true) => {
         const { store } = this.context;
-        const { validationConfig, entityKey, validate, dispatch, formValues } = this.props;
+        const {
+          validationConfig,
+          entityKey,
+          validate,
+          dispatch,
+          formValues,
+        } = this.props;
 
         if (validate) {
           const errors = await validateField(
@@ -95,6 +106,7 @@ export default function withActionButton(options = {}) {
         e.persist();
         const failValidate = await this.validationFields();
         const { confirm } = this.props;
+        const state = this.context.store.getState();
 
         if (!onClick || failValidate) {
           return;
@@ -112,10 +124,10 @@ export default function withActionButton(options = {}) {
               'registerButton',
               'uid',
               'validationConfig',
-              'formValues'
+              'formValues',
             ]),
-            isConfirm: this.isConfirm
-          });
+            isConfirm: this.isConfirm,
+          }, state);
           this.lastEvent = null;
         }
       };
@@ -128,7 +140,6 @@ export default function withActionButton(options = {}) {
       };
 
       handleOpenConfirmModal = cb => {
-        console.log('point')
         this.setState({ confirmVisible: true }, cb);
       };
 
@@ -151,7 +162,7 @@ export default function withActionButton(options = {}) {
                   'registerButton',
                   'uid',
                   'validationConfig',
-                  'formValues'
+                  'formValues',
                 ])}
                 onClick={this.handleClick}
                 id={this.generatedButtonId}
@@ -172,13 +183,17 @@ export default function withActionButton(options = {}) {
     }
 
     const mapStateToProps = createStructuredSelector({
-      isInit: (state, ownProps) => isInitSelector(ownProps.entityKey, ownProps.id)(state),
-      visible: (state, ownProps) => isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
-      disabled: (state, ownProps) => isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
-      count: (state, ownProps) => countSelector(ownProps.entityKey, ownProps.id)(state),
+      isInit: (state, ownProps) =>
+        isInitSelector(ownProps.entityKey, ownProps.id)(state),
+      visible: (state, ownProps) =>
+        isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
+      disabled: (state, ownProps) =>
+        isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
+      count: (state, ownProps) =>
+        countSelector(ownProps.entityKey, ownProps.id)(state),
       validationConfig: (state, ownProps) =>
         makeWidgetValidationSelector(ownProps.entityKey)(state),
-      formValues: (state, ownProps) => getFormValues(ownProps.entityKey)(state)
+      formValues: (state, ownProps) => getFormValues(ownProps.entityKey)(state),
     });
 
     function mapDispatchToProps(dispatch) {
@@ -186,7 +201,7 @@ export default function withActionButton(options = {}) {
         dispatch,
         registerButton: (entityKey, id, initialProps) => {
           dispatch(registerButton(entityKey, id, initialProps));
-        }
+        },
       };
     }
 
@@ -198,16 +213,16 @@ export default function withActionButton(options = {}) {
       initialProps: PropTypes.object,
       hint: PropTypes.string,
       className: PropTypes.string,
-      style: PropTypes.object
+      style: PropTypes.object,
     };
 
     ButtonContainer.defaultProps = {
       visible: true,
-      disabled: false
+      disabled: false,
     };
 
     ButtonContainer.contextTypes = {
-      store: PropTypes.object
+      store: PropTypes.object,
     };
 
     return compose(
@@ -215,7 +230,7 @@ export default function withActionButton(options = {}) {
         ['visible', 'disabled', 'count', 'conditions'],
         ({ visible, disabled, count, conditions }) => {
           return {
-            initialProps: { visible, disabled, count, conditions }
+            initialProps: { visible, disabled, count, conditions },
           };
         }
       ),

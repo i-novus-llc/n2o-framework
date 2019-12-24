@@ -24,6 +24,10 @@ const ConfirmMode = {
 };
 
 /**
+ * @deprecated
+ */
+
+/**
  * Компонент redux-обертка для тулбара
  * @reactProps {object} actions - объект с src экшенов
  * @reactProps {object} toolbar - массив из групп кнопок

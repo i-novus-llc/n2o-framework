@@ -391,11 +391,23 @@
               {
                 "id": "create",
                 "icon": "fa fa-plus",
-                "actionId": "create",
+                "src": "PerformButton",
                 "hint": "Создать",
                 "hintPosition": "bottom",
                 "conditions": {},
-                "title": "Создать"
+                "label": "Создать",
+                "action": {
+                  "type": "n2o/modals/INSERT",
+                  "payload": {
+                    "name": "create",
+                    "pageId": "create",
+                    "pageUrl": "/create",
+                    "pathMapping": {},
+                    "queryMapping": {},
+                    "closeButton": true,
+                    "visible": true
+                  }
+                }
               },
               {
                 "id": "update_patient",
@@ -887,21 +899,14 @@
             "id": "surname",
             "fieldKey": "surname",
             "src": "LinkCell",
-            "actionId": "surname",
-            "action": {
-              "id": "surname",
-              "src": "link",
-              "options": {
-                "path": "/proto/:proto_patients_id/surname",
-                "target": "application",
-                "pathMapping": {
-                  "proto_patients_id": {
-                    "link": "models.resolve['proto_patients'].id"
-                  }
-                },
-                "queryMapping": {}
+            "inner": true,
+            "url": "/proto/:proto_patients_id/surname",
+            "pathMapping": {
+              "proto_patients_id": {
+                "link": "models.resolve['proto_patients'].id"
               }
-            }
+            },
+            "queryMapping": {}
           },
           {
             "id": "name",
@@ -909,23 +914,19 @@
             "src": "LinkCell",
             "actionId": "name",
             "action": {
-              "id": "name",
-              "src": "perform",
-              "options": {
-                "type": "n2o/modals/INSERT",
-                "payload": {
-                  "name": "proto_name",
-                  "pageId": "proto_name",
-                  "pageUrl": "/proto/:proto_patients_id/name",
-                  "pathMapping": {
-                    "proto_patients_id": {
-                      "link": "models.resolve['proto_patients'].id"
-                    }
-                  },
-                  "queryMapping": {},
-                  "closeButton": true,
-                  "visible": true
-                }
+              "type": "n2o/modals/INSERT",
+              "payload": {
+                "name": "proto_name",
+                "pageId": "proto_name",
+                "pageUrl": "/proto/:proto_patients_id/name",
+                "pathMapping": {
+                  "proto_patients_id": {
+                    "link": "models.resolve['proto_patients'].id"
+                  }
+                },
+                "queryMapping": {},
+                "closeButton": true,
+                "visible": true
               }
             }
           },

@@ -52,9 +52,9 @@ describe('<Dropdown />', () => {
           outline: 'outline',
           visible: 'visible',
           disabled: 'disabled',
-          count: 'count'
-        }
-      ]
+          count: 'count',
+        },
+      ],
     });
 
     // проверка пропсов SimpleButton
@@ -75,7 +75,7 @@ describe('<Dropdown />', () => {
       outline: 'outline',
       size: 'size',
       tag: DropdownToggle,
-      visible: true
+      visible: true,
     });
 
     expect(
@@ -94,7 +94,7 @@ describe('<Dropdown />', () => {
       outline: 'outline',
       size: 'size',
       tag: DropdownItem,
-      visible: true
+      visible: true,
     });
   });
 });

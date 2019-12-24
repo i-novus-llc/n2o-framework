@@ -9,5 +9,5 @@ export default [
   'fields',
   'actions',
   'snippets',
-  'buttons'
+  'buttons',
 ];

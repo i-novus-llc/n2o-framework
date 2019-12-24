@@ -79,14 +79,12 @@ class ModalPage extends React.Component {
       pathMapping,
       queryMapping,
       size,
-      actions,
       entityKey,
       toolbar,
       visible,
       title,
       loading,
-      disabled,
-      showPrompt,
+      close,
     } = this.props;
 
     const pageMapping = {
@@ -96,6 +94,7 @@ class ModalPage extends React.Component {
 
     const showSpinner = !visible || loading || typeof loading === 'undefined';
     const classes = cn({ 'd-none': loading });
+
     return (
       <div className={'modal-page-overlay'}>
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
@@ -105,7 +104,7 @@ class ModalPage extends React.Component {
             size={size}
             backdrop={false}
             style={{
-              zIndex: 10
+              zIndex: 10,
             }}
           >
             <ModalHeader className={classes} toggle={close}>
@@ -113,7 +112,13 @@ class ModalPage extends React.Component {
             </ModalHeader>
             <ModalBody className={classes}>
               {pageUrl ? (
-                <Page pageUrl={pageUrl} pageId={pageId} pageMapping={pageMapping} />
+                <Page
+                  pageUrl={pageUrl}
+                  pageId={pageId}
+                  pageMapping={pageMapping}
+                  containerKey={entityKey}
+                  needMetadata={true}
+                />
               ) : src ? (
                 this.renderFromSrc(src)
               ) : null}
@@ -121,17 +126,13 @@ class ModalPage extends React.Component {
             {toolbar && (
               <ModalFooter className={classes}>
                 <div className="n2o-modal-actions">
-                  <Actions
+                  <Toolbar
                     toolbar={toolbar.bottomLeft}
-                    actions={actions}
-                    containerKey={containerKey}
-                    pageId={pageId}
+                    containerKey={entityKey}
                   />
-                  <Actions
+                  <Toolbar
                     toolbar={toolbar.bottomRight}
-                    actions={actions}
-                    containerKey={containerKey}
-                    pageId={pageId}
+                    containerKey={entityKey}
                   />
                 </div>
               </ModalFooter>

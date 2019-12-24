@@ -4,25 +4,37 @@ import { map } from 'lodash';
 import { ButtonToolbar, ButtonGroup } from 'reactstrap';
 
 import Factory from '../../core/factory/Factory';
-import { BUTTONS } from "../../core/factory/factoryLevels";
+import { BUTTONS } from '../../core/factory/factoryLevels';
 import cn from 'classnames';
 
 function Toolbar({ className, toolbar, entityKey }) {
-  const renderButtons = props => <Factory {...props} level={BUTTONS} src={'PerformButton'} entityKey={entityKey} />;
+  const renderButtons = props => (
+    <Factory
+      level={BUTTONS}
+      src={'PerformButton'}
+      entityKey={entityKey}
+      {...props}
+    />
+  );
 
-  const renderBtnGroup = ({ buttons }) => <ButtonGroup>{map(buttons, renderButtons)}</ButtonGroup>;
+  const renderBtnGroup = ({ buttons }) => (
+    <ButtonGroup>{map(buttons, renderButtons)}</ButtonGroup>
+  );
 
-  return <ButtonToolbar className={cn('buttons-toolbar', className)}>{map(toolbar, renderBtnGroup)}</ButtonToolbar>;
-
+  return (
+    <ButtonToolbar className={cn('buttons-toolbar', className)}>
+      {map(toolbar, renderBtnGroup)}
+    </ButtonToolbar>
+  );
 }
 
 Toolbar.propTypes = {
   toolbar: PropTypes.array,
-  entityKey: PropTypes.string
+  entityKey: PropTypes.string,
 };
 
 Toolbar.defaultProps = {
-  toolbar: []
+  toolbar: [],
 };
 
 export default Toolbar;

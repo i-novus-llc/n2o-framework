@@ -23,7 +23,7 @@ export const factories = {
   fields,
   actions,
   snippets,
-  buttons
+  buttons,
 };
 
 export default function createFactoryConfig(customConfig) {

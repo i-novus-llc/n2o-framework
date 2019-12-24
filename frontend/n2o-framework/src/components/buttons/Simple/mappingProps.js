@@ -10,6 +10,6 @@ export default function mappingProps(props) {
     visible: props.visible,
     disabled: props.disabled,
     count: props.count,
-    onClick: props.onClick
+    onClick: props.onClick,
   };
 }

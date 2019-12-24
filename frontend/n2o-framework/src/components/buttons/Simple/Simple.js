@@ -46,9 +46,9 @@ SimpleButton.propTypes = {
       PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.string,
-        PropTypes.shape({ $$typeof: PropTypes.symbol, render: PropTypes.func })
+        PropTypes.shape({ $$typeof: PropTypes.symbol, render: PropTypes.func }),
       ])
-    )
+    ),
   ]),
   label: PropTypes.string,
   icon: PropTypes.string,
@@ -58,13 +58,13 @@ SimpleButton.propTypes = {
   visible: PropTypes.bool,
   disabled: PropTypes.bool,
   count: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 SimpleButton.defaultProps = {
   tag: 'button',
   visible: true,
-  onClick: () => {}
+  onClick: () => {},
 };
 
 export default SimpleButton;

@@ -31,7 +31,7 @@ describe('<Link />', () => {
       url: 'testUrl',
       target: '_blank',
       inner: true,
-      action: { type: 'n2o/button/Dummy' }
+      action: { type: 'n2o/button/Dummy' },
     });
     await wrapper.find('Button').simulate('click');
     await delay(100);

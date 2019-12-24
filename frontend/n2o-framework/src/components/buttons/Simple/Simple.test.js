@@ -10,7 +10,7 @@ const setup = props => {
     wrapper,
     btn: wrapper.find('Button'),
     icon: wrapper.find('Icon'),
-    badge: wrapper.find('Badge')
+    badge: wrapper.find('Badge'),
   };
 };
 
@@ -84,7 +84,7 @@ describe('mappingProps', () => {
       visible: 'visible',
       disabled: 'disabled',
       count: 'count',
-      onClick: () => null
+      onClick: () => null,
     };
     expect(mappingProps(testData)).toEqual(testData);
   });

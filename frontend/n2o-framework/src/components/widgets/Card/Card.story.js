@@ -253,7 +253,7 @@ stories
             </Fragment>
           }
         />
-        <Card.Item {...items[1]} extra={<Actions toolbar={btnAct} />} />
+        <Card.Item {...items[1]} extra={<Toolbar toolbar={btnAct} />} />
         <Card.Item
           {...items[2]}
           rows={['extra', 'text', 'header', 'meta', 'image']}
@@ -277,7 +277,7 @@ stories
             </Fragment>
           }
         />
-        <Card.Item {...items[1]} extra={<Actions toolbar={btnAct} />} />
+        <Card.Item {...items[1]} extra={<Toolbar toolbar={btnAct} />} />
         <Card.Item
           {...items[2]}
           rows={['extra', 'text', 'header', 'meta', 'image']}
@@ -305,10 +305,10 @@ stories
               </Fragment>
             }
           />
-          <Card.Item {...props[1]} extra={<Actions toolbar={btnAct} />} />
+          <Card.Item {...props[1]} extra={<Toolbar toolbar={btnAct} />} />
           <Card.Item
             {...props[2]}
-            extra={<Actions toolbar={[btnAct[0]]} />}
+            extra={<Toolbar toolbar={[btnAct[0]]} />}
             rows={['extra', 'header', 'text', 'image', 'meta']}
           />
         </Card.Layout>

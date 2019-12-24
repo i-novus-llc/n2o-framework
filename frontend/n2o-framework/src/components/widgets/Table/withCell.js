@@ -63,8 +63,6 @@ export default function(WrappedComponent) {
 
     return (
       <WrappedComponent
-        callActionImpl={callActionImpl}
-        callInvoke={callInvoke}
         updateFieldInModel={updateFieldInModel}
         resolveWidget={resolveWidget}
         action={defaultAction}

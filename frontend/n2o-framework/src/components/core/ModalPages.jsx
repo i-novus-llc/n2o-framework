@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { closeModal, hidePrompt } from '../../actions/modals';
 import { modalsSelector } from '../../selectors/modals';
 
-
 import ModalPage from './ModalPage';
 
 /**

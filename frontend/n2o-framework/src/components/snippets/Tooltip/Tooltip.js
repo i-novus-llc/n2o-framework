@@ -12,7 +12,14 @@ import { UncontrolledTooltip } from 'reactstrap';
  * @param children
  * @returns {function(*)}
  */
-export default function Tooltip({ target, hint, delay, placement, hideArrow, children }) {
+export default function Tooltip({
+  target,
+  hint,
+  delay,
+  placement,
+  hideArrow,
+  children,
+}) {
   return (
     <React.Fragment>
       {children}
@@ -35,7 +42,7 @@ Tooltip.propTypes = {
   hint: PropTypes.string,
   delay: PropTypes.oneOfType([
     PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
-    PropTypes.number
+    PropTypes.number,
   ]),
   placement: PropTypes.oneOf([
     'auto',
@@ -52,12 +59,12 @@ Tooltip.propTypes = {
     'bottom-end',
     'left',
     'left-start',
-    'left-end'
+    'left-end',
   ]),
-  hideArrow: PropTypes.bool
+  hideArrow: PropTypes.bool,
 };
 
 Tooltip.defaultProps = {
   delay: 0,
-  placement: 'top'
+  placement: 'top',
 };

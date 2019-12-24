@@ -5,7 +5,7 @@ import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import { createStructuredSelector } from 'reselect';
 import cx from 'classnames';
 
-import withTooltip from "../../utils/withTooltip";
+import withTooltip from '../../utils/withTooltip';
 import { registerButton } from '../../actions/toolbar';
 import {
   isDisabledSelector,

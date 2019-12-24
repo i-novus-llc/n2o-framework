@@ -7,4 +7,6 @@ import MetaJson from './Perform.meta.json';
 
 const stories = storiesOf('Кнопки', module);
 
-stories.add('Выполнение redux action', () => <Perform {...omit(MetaJson, ['conditions'])} />);
+stories.add('Выполнение redux action', () => (
+  <Perform {...omit(MetaJson, ['conditions'])} />
+));

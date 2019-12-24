@@ -15,10 +15,10 @@ stories
           {
             id: 'testBtn21',
             label: 'Кнопка',
-            src: 'PerformButton'
-          }
-        ]
-      }
+            src: 'PerformButton',
+          },
+        ],
+      },
     ];
     const toolbar2 = [
       {
@@ -26,15 +26,15 @@ stories
           {
             id: 'testBtn22',
             label: 'Кнопка',
-            src: 'PerformButton'
+            src: 'PerformButton',
           },
           {
             id: 'testBtn23',
             label: 'Еще кнопка',
-            src: 'PerformButton'
-          }
-        ]
-      }
+            src: 'PerformButton',
+          },
+        ],
+      },
     ];
     const toolbar3 = [
       {
@@ -42,29 +42,29 @@ stories
           {
             id: 'testBtn24',
             label: 'Кнопка',
-            src: 'PerformButton'
+            src: 'PerformButton',
           },
           {
             id: 'testBtn25',
             label: 'Еще кнопка',
-            src: 'PerformButton'
-          }
-        ]
+            src: 'PerformButton',
+          },
+        ],
       },
       {
         buttons: [
           {
             id: 'testBtn26',
             label: 'Кнопка',
-            src: 'PerformButton'
+            src: 'PerformButton',
           },
           {
             id: 'testBtn27',
             label: 'Еще кнопка',
-            src: 'PerformButton'
-          }
-        ]
-      }
+            src: 'PerformButton',
+          },
+        ],
+      },
     ];
     const toolbar4 = [
       {
@@ -77,17 +77,17 @@ stories
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                label: 'Элемент списка'
+                label: 'Элемент списка',
               },
               {
                 id: 'testBtn29',
                 actionId: 'dummy',
-                label: 'Элемент списка'
-              }
-            ]
-          }
-        ]
-      }
+                label: 'Элемент списка',
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     const toolbar5 = [
@@ -97,7 +97,7 @@ stories
             id: 'testBtn30',
             label: 'Кнопка',
             src: 'PerformButton',
-            actionId: 'dummy'
+            actionId: 'dummy',
           },
           {
             id: 'testBtn31',
@@ -106,11 +106,11 @@ stories
             subMenu: [
               {
                 id: 'testBtn32',
-                label: 'Элемент списка'
-              }
-            ]
-          }
-        ]
+                label: 'Элемент списка',
+              },
+            ],
+          },
+        ],
       },
       {
         buttons: [
@@ -122,17 +122,17 @@ stories
               {
                 id: 'testBtn34',
                 actionId: 'dummy',
-                label: 'Элемент списка'
-              }
-            ]
+                label: 'Элемент списка',
+              },
+            ],
           },
           {
             id: 'testBtn35',
             label: 'Кнопка',
-            src: 'PerformButton'
-          }
-        ]
-      }
+            src: 'PerformButton',
+          },
+        ],
+      },
     ];
 
     const colorToolbar = [
@@ -142,9 +142,9 @@ stories
             id: 'testBtn1',
             label: 'Кнопка',
             src: 'PerformButton',
-            color: 'default'
-          }
-        ]
+            color: 'default',
+          },
+        ],
       },
       {
         buttons: [
@@ -152,9 +152,9 @@ stories
             id: 'testBtn2',
             label: 'Кнопка',
             src: 'PerformButton',
-            color: 'primary'
-          }
-        ]
+            color: 'primary',
+          },
+        ],
       },
       {
         buttons: [
@@ -162,9 +162,9 @@ stories
             id: 'testBtn3',
             label: 'Кнопка',
             src: 'PerformButton',
-            color: 'success'
-          }
-        ]
+            color: 'success',
+          },
+        ],
       },
       {
         buttons: [
@@ -172,9 +172,9 @@ stories
             id: 'testBtn4',
             label: 'Кнопка',
             src: 'PerformButton',
-            color: 'info'
-          }
-        ]
+            color: 'info',
+          },
+        ],
       },
       {
         buttons: [
@@ -182,9 +182,9 @@ stories
             id: 'testBtn5',
             label: 'Кнопка',
             src: 'PerformButton',
-            color: 'warning'
-          }
-        ]
+            color: 'warning',
+          },
+        ],
       },
       {
         buttons: [
@@ -192,10 +192,10 @@ stories
             id: 'testBtn6',
             label: 'Кнопка',
             src: 'PerformButton',
-            color: 'danger'
-          }
-        ]
-      }
+            color: 'danger',
+          },
+        ],
+      },
     ];
 
     const iconToolbar = [
@@ -205,9 +205,9 @@ stories
             id: 'testBtn7',
             label: 'Apple',
             src: 'PerformButton',
-            icon: 'fa fa-apple'
-          }
-        ]
+            icon: 'fa fa-apple',
+          },
+        ],
       },
       {
         buttons: [
@@ -215,9 +215,9 @@ stories
             id: 'testBtn8',
             label: 'Github',
             src: 'PerformButton',
-            icon: 'fa fa-github'
-          }
-        ]
+            icon: 'fa fa-github',
+          },
+        ],
       },
       {
         buttons: [
@@ -225,9 +225,9 @@ stories
             id: 'testBtn9',
             label: 'Telegram',
             src: 'PerformButton',
-            icon: 'fa fa-telegram'
-          }
-        ]
+            icon: 'fa fa-telegram',
+          },
+        ],
       },
       {
         buttons: [
@@ -235,9 +235,9 @@ stories
             id: 'testBtn10',
             label: 'Vk',
             src: 'PerformButton',
-            icon: 'fa fa-vk'
-          }
-        ]
+            icon: 'fa fa-vk',
+          },
+        ],
       },
       {
         buttons: [
@@ -245,9 +245,9 @@ stories
             id: 'testBtn11',
             label: 'Imdb',
             src: 'PerformButton',
-            icon: 'fa fa-imdb'
-          }
-        ]
+            icon: 'fa fa-imdb',
+          },
+        ],
       },
       {
         buttons: [
@@ -255,10 +255,10 @@ stories
             id: 'testBtn12',
             label: 'Facebook',
             src: 'PerformButton',
-            icon: 'fa fa-facebook'
-          }
-        ]
-      }
+            icon: 'fa fa-facebook',
+          },
+        ],
+      },
     ];
 
     const iconOnlyToolbar = [
@@ -267,55 +267,55 @@ stories
           {
             id: 'testBtn13',
             src: 'PerformButton',
-            icon: 'fa fa-apple'
-          }
-        ]
+            icon: 'fa fa-apple',
+          },
+        ],
       },
       {
         buttons: [
           {
             id: 'testBtn14',
             src: 'PerformButton',
-            icon: 'fa fa-github'
-          }
-        ]
+            icon: 'fa fa-github',
+          },
+        ],
       },
       {
         buttons: [
           {
             id: 'testBtn15',
             src: 'PerformButton',
-            icon: 'fa fa-telegram'
-          }
-        ]
+            icon: 'fa fa-telegram',
+          },
+        ],
       },
       {
         buttons: [
           {
             id: 'testBtn16',
             src: 'PerformButton',
-            icon: 'fa fa-vk'
-          }
-        ]
+            icon: 'fa fa-vk',
+          },
+        ],
       },
       {
         buttons: [
           {
             id: 'testBtn17',
             src: 'PerformButton',
-            icon: 'fa fa-imdb'
-          }
-        ]
+            icon: 'fa fa-imdb',
+          },
+        ],
       },
       {
         buttons: [
           {
             id: 'testBtn18',
             src: 'PerformButton',
-            icon: 'fa fa-facebook'
-          }
-        ]
-      }
+            icon: 'fa fa-facebook',
+          },
+        ],
+      },
     ];
 
     const sizeToolbarLg = [
@@ -325,10 +325,10 @@ stories
             id: 'small',
             src: 'PerformButton',
             label: 'Большая',
-            size: 'lg'
-          }
-        ]
-      }
+            size: 'lg',
+          },
+        ],
+      },
     ];
 
     const sizeToolbar = [
@@ -337,10 +337,10 @@ stories
           {
             id: 'small',
             src: 'PerformButton',
-            label: 'Стандартная'
-          }
-        ]
-      }
+            label: 'Стандартная',
+          },
+        ],
+      },
     ];
 
     const sizeToolbarSm = [
@@ -350,10 +350,10 @@ stories
             id: 'small',
             src: 'PerformButton',
             label: 'Маленькая',
-            size: 'sm'
-          }
-        ]
-      }
+            size: 'sm',
+          },
+        ],
+      },
     ];
 
     return (
@@ -404,7 +404,7 @@ stories
           {
             id: 'testBtn22',
             label: 'Кнопка',
-            src: 'PerformButton'
+            src: 'PerformButton',
           },
           {
             id: 'testBtn23',
@@ -412,11 +412,11 @@ stories
             actionId: 'dummy',
             src: 'PerformButton',
             security: {
-              roles: ['admin']
-            }
-          }
-        ]
-      }
+              roles: ['admin'],
+            },
+          },
+        ],
+      },
     ];
     return (
       <div>
@@ -425,7 +425,11 @@ stories
         </small>
         <AuthButtonContainer />
         <br />
-        <Toolbar actions={MetaJson.actions} toolbar={toolbar} entityKey="metaBtns" />
+        <Toolbar
+          actions={MetaJson.actions}
+          toolbar={toolbar}
+          entityKey="metaBtns"
+        />
       </div>
     );
   })
@@ -444,8 +448,8 @@ stories
                 actionId: 'dummy',
                 src: 'PerformButton',
                 security: {
-                  roles: ['admin']
-                }
+                  roles: ['admin'],
+                },
               },
               {
                 id: 'testBtn23',
@@ -453,13 +457,13 @@ stories
                 actionId: 'dummy',
                 src: 'PerformButton',
                 security: {
-                  roles: ['admin']
-                }
-              }
-            ]
-          }
-        ]
-      }
+                  roles: ['admin'],
+                },
+              },
+            ],
+          },
+        ],
+      },
     ];
     return (
       <div>
@@ -480,10 +484,10 @@ stories
             id: '111',
             label: 'Кнопка',
             src: 'PerformButton',
-            visible: false
-          }
-        ]
-      }
+            visible: false,
+          },
+        ],
+      },
     ];
     const toolbarDisabled = [
       {
@@ -492,10 +496,10 @@ stories
             id: '1112',
             label: 'Кнопка',
             src: 'PerformButton',
-            disabled: true
-          }
-        ]
-      }
+            disabled: true,
+          },
+        ],
+      },
     ];
     const dropDownNonVisisble = [
       {
@@ -509,17 +513,17 @@ stories
               {
                 id: 'testBtn29',
                 src: 'PerformButton',
-                label: 'Элемент списка'
+                label: 'Элемент списка',
               },
               {
                 id: 'testBtn29',
                 src: 'PerformButton',
-                label: 'Элемент списка'
-              }
-            ]
-          }
-        ]
-      }
+                label: 'Элемент списка',
+              },
+            ],
+          },
+        ],
+      },
     ];
     const dropDownDisabled = [
       {
@@ -533,17 +537,17 @@ stories
               {
                 id: 'testBtn29',
                 src: 'PerformButton',
-                label: 'Элемент списка'
+                label: 'Элемент списка',
               },
               {
                 id: 'testBtn29',
                 src: 'PerformButton',
-                label: 'Элемент списка'
-              }
-            ]
-          }
-        ]
-      }
+                label: 'Элемент списка',
+              },
+            ],
+          },
+        ],
+      },
     ];
 
     return (
@@ -558,7 +562,10 @@ stories
         </div>
         <div className="row mb-2">
           Дропдаун не видно, потому что он скрыт
-          <Toolbar toolbar={dropDownNonVisisble} entityKey="notVisibleDropDown" />
+          <Toolbar
+            toolbar={dropDownNonVisisble}
+            entityKey="notVisibleDropDown"
+          />
         </div>
         <div className="row mb-2">
           Дропдаун неактивен

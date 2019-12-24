@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, mapProps } from 'recompose';
 import { map } from 'lodash';
-import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {
+  ButtonDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap';
 
 import Factory from '../../../core/factory/Factory';
 import { BUTTONS } from '../../../core/factory/factoryLevels';
@@ -15,7 +20,7 @@ class DropdownButton extends React.Component {
 
   toggle = () => {
     this.setState(state => ({
-      open: !state.open
+      open: !state.open,
     }));
   };
 
@@ -28,7 +33,15 @@ class DropdownButton extends React.Component {
         <SimpleButton {...rest} tag={DropdownToggle} caret />
         <DropdownMenu persist>
           {map(subMenu, ({ src, ...rest }) => {
-            return <Factory key={rest.id} {...rest} level={BUTTONS} src={src} tag={DropdownItem} />;
+            return (
+              <Factory
+                key={rest.id}
+                {...rest}
+                level={BUTTONS}
+                src={src}
+                tag={DropdownItem}
+              />
+            );
           })}
         </DropdownMenu>
       </ButtonDropdown>
@@ -37,17 +50,17 @@ class DropdownButton extends React.Component {
 }
 
 DropdownButton.propTypes = {
-  subMenu: PropTypes.array
+  subMenu: PropTypes.array,
 };
 
 DropdownButton.defaultProps = {
-  subMenu: []
+  subMenu: [],
 };
 
 export default compose(
   withActionButton(),
   mapProps(props => ({
     ...mappingProps(props),
-    subMenu: props.subMenu
+    subMenu: props.subMenu,
   }))
 )(DropdownButton);

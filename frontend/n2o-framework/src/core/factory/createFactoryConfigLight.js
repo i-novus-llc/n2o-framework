@@ -89,7 +89,7 @@ export const factoriesLight = {
   fields,
   actions,
   snippets,
-  buttons
+  buttons,
 };
 
 export default function createFactoryConfigLight(customConfig) {

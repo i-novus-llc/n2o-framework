@@ -5,5 +5,5 @@ import Dropdown from './Dropdown/Dropdown';
 export default {
   PerformButton: Perform,
   LinkButton: Link,
-  DropdownButton: Dropdown
+  DropdownButton: Dropdown,
 };

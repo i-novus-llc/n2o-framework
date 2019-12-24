@@ -7,4 +7,6 @@ import MetaJson from './Dropdown.meta.json';
 
 const stories = storiesOf('Кнопки', module);
 
-stories.add('Выпадающий список', () => <Dropdown {...omit(MetaJson, ['conditions'])} />);
+stories.add('Выпадающий список', () => (
+  <Dropdown {...omit(MetaJson, ['conditions'])} />
+));
