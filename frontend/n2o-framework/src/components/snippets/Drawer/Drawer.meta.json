@@ -2,5 +2,12 @@
   "title": "title",
   "footer": "footer",
   "placement": "left",
-  "children": "children"
+  "children": "body",
+  "animation": true,
+  "closable": true,
+  "backdropClosable": false,
+  "visible": true,
+  "backdrop": true,
+  "width": "10%",
+  "height": "100%"
 }
