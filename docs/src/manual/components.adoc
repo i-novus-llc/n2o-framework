@@ -81,6 +81,8 @@ image::images/page_left_right.png[]
 В регион вкладываются один или несколько компонентов-виджетов.
 Регионы имеют свою верстку для различной компоновки виджетов.
 
+image::/images/tabs.png[]
+
 .Регион в виде вкладок
 [source,xml]
 ----
@@ -98,19 +100,19 @@ image::images/page_left_right.png[]
 
 |<region>
 |NoneRegion
-|Виджеты без обрамления
+|link:https://n2oapp.net/sandbox/new/manual/regions/region[Виджеты без обрамления]
 
 |<tabs>
 |TabsRegion
-|Виджеты во вкладках
+|link:https://n2oapp.net/sandbox/new/manual/regions/tabs[Виджеты во вкладках]
 
 |<panel>
 |PanelRegion
-|Виджеты в панелях
+|link:https://n2oapp.net/sandbox/new/manual/regions/panel[Виджеты в панелях]
 
 |<line>
 |ListRegion
-|Горизонтальная черта над виджетом
+|link:https://n2oapp.net/sandbox/new/manual/regions/line[Горизонтальная черта над виджетом]
 
 |===
 
