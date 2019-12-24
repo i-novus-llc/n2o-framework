@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Клиентская модель компонента ввода интервала дат
+ */
 @Getter
 @Setter
 public class DateInterval extends Control {

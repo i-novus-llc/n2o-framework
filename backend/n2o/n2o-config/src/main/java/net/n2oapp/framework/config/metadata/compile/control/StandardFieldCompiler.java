@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
@@ -13,7 +12,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -156,15 +154,14 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         }
     }
 
-    protected void compileFilters(S source, CompileProcessor p) {
+    private void compileFilters(S source, CompileProcessor p) {
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         if (filtersScope != null) {
             CompiledQuery query = p.getScope(CompiledQuery.class);
             if (query == null)
                 return;
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            String filterId = source.getFilterId() == null ? source.getId() : source.getFilterId();
-            List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(filterId, query);
+            List<N2oQuery.Filter> filters = ControlFilterUtil.getFilters(source.getId(), query);
             filters.forEach(f -> {
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterField());
@@ -173,11 +170,10 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
                 link.setSubModelQuery(subModelQuery);
-                link.setValue(p.resolveJS(Placeholders.ref(source.getFilterId() == null ? f.getFilterField() : source.getId())));
+                link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 filter.setLink(link);
                 filtersScope.getFilters().add(filter);
             });
-
         }
     }
 

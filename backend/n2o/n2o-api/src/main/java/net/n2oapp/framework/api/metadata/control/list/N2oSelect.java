@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.ShowModalPageFromClassifier;
 
 /**
- * Компонент ввода select выпадающий список
+ * Компонент выбора из выпадающего списка
  */
 @Getter
 @Setter

@@ -2,7 +2,6 @@ version: "3.6"
 
 services:
   frontend:
-    image: "${DOCKER_REGISTRY}/n2o/demo"
     deploy:
       resources:
         limits:
@@ -11,7 +10,6 @@ services:
         constraints:
           - node.labels.dc == hetzner
   docs:
-    image: "${DOCKER_REGISTRY}/n2o/docs"
     deploy:
       resources:
         limits:
@@ -20,7 +18,6 @@ services:
         constraints:
           - node.labels.dc == hetzner
   storybook:
-    image: "${DOCKER_REGISTRY}/n2o/storybook"
     deploy:
       resources:
         limits:

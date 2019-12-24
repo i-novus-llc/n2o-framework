@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
 
+/**
+ * Клиентская реализация компонента ввода с выбором в выпадающем списке в виде дерева
+ */
 @Getter
 @Setter
 public class InputSelectTree extends ListControl {

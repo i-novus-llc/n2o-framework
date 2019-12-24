@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.widget.table;
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
@@ -48,7 +49,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.child(e, null, "pagination", t::getPagination, t::setPagination, N2oPagination::new, this::pagination);
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
         p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
-        p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
+        p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
         p.attributeEnum(e, "children", t::getChildren, t::setChildren, N2oTable.ChildrenToggle.class);
     }
 
