@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
 import java.util.Arrays;
@@ -12,9 +13,9 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oButton extends AbstractMenuItem implements GroupItem {
+public class N2oButton extends AbstractMenuItem implements GroupItem, Source {
 
-    private String dropdownSrc;
+    private String src;
 
     @Override
     public List<N2oAction> getActions() {

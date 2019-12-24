@@ -27,6 +27,7 @@ public class N2oSubmenu implements Source, GroupItem {
     private String color;
     private N2oMenuItem[] menuItems;
     private String[] generate;
+    private String src;
 
     @Override
     public List<N2oAction> getActions() {
