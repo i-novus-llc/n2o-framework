@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.multi.N2oMultiListField;
 
 /**
- * Компонент ввода input-select - выпадающий список
+ * Компонент ввода текста с выбором из выпадающего списка
  */
 @Getter
 @Setter

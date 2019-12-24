@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         header.setFixed(p.resolve(property("n2o.api.default.header.fixed"), Boolean.class));
         header.setCollapsed(p.resolve(property("n2o.api.default.header.collapsed"), Boolean.class));
         header.setClassName(source.getCssClass());
+        header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setSearch(false);
         initWelcomePage(source, p);
         header.setItems(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());

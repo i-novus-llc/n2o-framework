@@ -40,10 +40,15 @@ public abstract class N2oRegion implements Source, IdAware, SrcAware, NamespaceU
     private N2oWidget[] widgets;
     private String namespaceUri;
     private String className;
+    private String style;
     Map<N2oNamespace, Map<String, String>> extAttributes;
 
     @Override
     public String getPostfix() {
         return "region";
+    }
+
+    public String getAlias() {
+        return "w";
     }
 }
