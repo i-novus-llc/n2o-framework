@@ -94,16 +94,20 @@ class InputNumber extends React.Component {
   }
 
   onChange(value) {
-    const nextValue = this.resolveValue(value === '' ? null : toNumber(value));
+    const nextValue = this.resolveValue(
+      value === '' ? null : value === '-' ? value : toNumber(value)
+    );
 
     if (isNil(nextValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
     }
 
     if (matchesWhiteList(nextValue) || this.pasted) {
-      this.setState({ value: this.resolveValue(value) }, () =>
-        this.props.onChange(this.resolveValue(nextValue))
-      );
+      this.setState({ value: this.resolveValue(value) }, () => {
+        if (!isNaN(toNumber(value))) {
+          this.props.onChange(this.resolveValue(nextValue));
+        }
+      });
     }
   }
 
@@ -135,6 +139,9 @@ class InputNumber extends React.Component {
 
   onBlur() {
     const { max, min } = this.props;
+    if (this.state.value === '-') {
+      return;
+    }
     const value = this.resolveValue(formatToFloat(this.state.value));
     this.pasted = false;
     if (!isNil(value) && isValid(value, min, max)) {
