@@ -249,6 +249,11 @@ link:#_Действия[Обработчик действия]
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Css класс кнопки
+|
+
+|style
+|CSS свойство
 |Стиль кнопки
 |
 
@@ -298,6 +303,11 @@ link:#_Действия[Обработчик действия]
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Css класс кнопки
+|
+
+|style
+|CSS свойство
 |Стиль кнопки
 |
 
@@ -338,6 +348,11 @@ link:#_Действия[Обработчик действия]
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|CSS класс пункта меню
+|
+
+|style
+|CSS свойство
 |Стиль пункта меню
 |
 
@@ -388,7 +403,7 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |id
 |Строка
 |Идентификатор региона
-|Месторастоположение региона на странице + порядковый номер
+|Местоположение региона на странице + порядковый номер
 
 |place
 |Строка
@@ -467,6 +482,11 @@ http://n2oapp.net/framework/config/schema/region-1.0
 
 |class
 |https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
+|CSS класс панели
+|
+
+|style
+|CSS свойство
 |Стиль панели
 |
 

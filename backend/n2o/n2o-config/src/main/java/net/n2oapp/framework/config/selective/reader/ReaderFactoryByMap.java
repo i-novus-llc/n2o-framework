@@ -55,6 +55,12 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
     }
 
     @Override
+    public boolean check(Namespace namespace, String elementName) {
+        Map<String, NamespaceReader> innerEngines = map.get(namespace.getURI());
+        return innerEngines != null && innerEngines.get(elementName) != null;
+    }
+
+    @Override
     public void add(NamespaceReader reader) {
         map.computeIfAbsent(reader.getNamespaceUri(), (n) -> new HashMap<>()).put(reader.getElementName(), reader);
     }

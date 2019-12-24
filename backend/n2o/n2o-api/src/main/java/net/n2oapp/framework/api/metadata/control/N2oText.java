@@ -4,9 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Компонент <text>
+ * Компонент текста
  */
-
 @Getter
 @Setter
 public class N2oText extends N2oField {

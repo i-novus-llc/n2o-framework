@@ -142,7 +142,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         ShowModalPayload payload = ((ShowModal) table.getActions().get("update")).getOptions().getPayload();
 
         //update
-        assertThat(payload.getPageUrl(), is("/p/:p_main_id/update"));
+        assertThat(payload.getPageUrl(), is("/p/:id/update"));
 //        assertThat(payload.getTitle(), is("Модальное окно"));
         assertThat(payload.getSize(), is("lg"));
 
@@ -163,11 +163,12 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<Filter> filters = modalWidget.getFilters();
         assertThat(filters.get(0).getParam(), is("id"));
         assertThat(filters.get(0).getFilterId(), is("id"));
-        assertThat(filters.get(0).getReloadable(), is(false));
+        assertThat(filters.get(0).getRoutable(), is(false));
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`secondId`"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("id").getValue(), is("`secondId`"));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getValue(), nullValue());
         assertThat(modalWidget.getUpload(), is(UploadType.query));
         List<Button> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
@@ -180,14 +181,14 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) modalPage.getActions().get("submit");
         assertThat(submit.getOptions().getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
         assertThat(submit.getOptions().getMeta().getSuccess().getCloseLastModal(), is(true));
-        assertThat(submit.getOptions().getPayload().getDataProvider().getUrl(), is("n2o/data/p/:p_main_id/update/submit"));
-        ActionContext submitContext = (ActionContext) route("/p/:p_main_id/update/submit", CompiledObject.class);
+        assertThat(submit.getOptions().getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/update/submit"));
+        ActionContext submitContext = (ActionContext) route("/p/:id/update/submit", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("update"));
         assertThat(submitContext.getOperationId(), is("update"));
 
         DataSet data = new DataSet();
-        data.put("p_main_id", 222);
+        data.put("id", 222);
         modalPage = read().compile().bind().get(modalContext, data);
         ShowModal showModal = (ShowModal) modalPage.getWidgets().get("p_update_main").getActions().get("menuItem0");
         assertThat(showModal.getOptions().getPayload().getPageUrl(), is("/p/222/update/:p_update_main_id/menuItem0"));
@@ -313,25 +314,25 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<Filter> filters = modalWidget.getFilters();
         assertThat(filters.get(0).getParam(), is("p_main_id"));
         assertThat(filters.get(0).getFilterId(), is("id"));
-        assertThat(filters.get(0).getReloadable(), is(false));
+        assertThat(filters.get(0).getRoutable(), is(false));
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`id`"));
         assertThat(filters.get(1).getParam(), is("secondId"));
         assertThat(filters.get(1).getFilterId(), is("secondId"));
-        assertThat(filters.get(1).getReloadable(), is(false));
+        assertThat(filters.get(1).getRoutable(), is(false));
         assertThat(filters.get(1).getLink().getBindLink(), nullValue());
         assertThat(filters.get(1).getLink().getValue(), is(1));
-        assertThat(filters.get(2).getParam(), is("name"));
+        assertThat(filters.get(2).getParam(), is("p_main_name"));
         assertThat(filters.get(2).getFilterId(), is("name_eq"));
-        assertThat(filters.get(2).getReloadable(), is(false));
+        assertThat(filters.get(2).getRoutable(), is(false));
         assertThat(filters.get(2).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(2).getLink().getValue(), is("`name`"));
 
         assertThat(modalWidget.getDataProvider().getPathMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main'].id"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("secondId").getBindLink(), nullValue());
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("secondId").getValue(), is(1));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_name").getBindLink(), is("models.filter['p_second']"));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_name").getValue(), is("`name`"));
 
         assertThat(modalWidget.getUpload(), is(UploadType.query));
         List<Button> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -365,7 +366,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
         ShowModal showModal = (ShowModal) rootPage.getWidgets().get("p_main").getActions().get("updateEditWithPrefilters");
-        assertThat(showModal.getOptions().getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
+        assertThat(showModal.getOptions().getPayload().getQueryMapping().get("p_main_id").getBindLink(), is("models.edit['p_main']"));
 
         Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(showModalPage.getId(), is("p_updateEditWithPrefilters"));

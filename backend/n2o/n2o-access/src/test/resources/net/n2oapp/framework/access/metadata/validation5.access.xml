@@ -1,0 +1,7 @@
+<access xmlns="http://n2oapp.net/framework/config/schema/access-2.0">
+
+    <permission id="test">
+        <page-access page-id="notExistingPage"/>
+    </permission>
+
+</access>

@@ -3,8 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
@@ -61,10 +60,15 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getId(), is("$testTable4Compile"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().size(), is(3));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getId(), is("testAction"));
+        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getId(), is("testAction2"));
+        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
         assertThat(table.getComponent().getCells().size(), is(2));
+        assertThat(((N2oAbstractCell) table.getComponent().getCells().get(0)).getReactStyle().get("marginLeft"), is("10px"));
         assertThat(table.getComponent().getHeaders().size(), is(2));
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getCssClass(),
                 is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
@@ -154,38 +158,38 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getWidgets().get("testTable4FiltersCompile_main");
         Filter filter = table.getFilter("name");
         assertThat(filter.getFilterId(), is("name"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`name`"));
 
         filter = table.getFilter("birthday.end");
         assertThat(filter.getFilterId(), is("birthday.end"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`birthday.end`"));
 
         filter = table.getFilter("birthday.begin");
         assertThat(filter.getFilterId(), is("birthday.begin"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`birthday.begin`"));
 
         filter = table.getFilter("gender*.name");
         assertThat(filter.getFilterId(), is("gender*.name"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`gender.map(function(t){return t.name})`"));
 
         filter = table.getFilter("gender*.id");
         assertThat(filter.getFilterId(), is("gender*.id"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`gender.map(function(t){return t.id})`"));
 
 
         assertThat(table.getDataProvider().getQueryMapping().size(), is(5));
-        assertThat(table.getDataProvider().getQueryMapping().get("main_name").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
-        assertThat(table.getDataProvider().getQueryMapping().get("main_name").getValue(), is("`name`"));
+        assertThat(table.getDataProvider().getQueryMapping().get("nameParam").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
+        assertThat(table.getDataProvider().getQueryMapping().get("nameParam").getValue(), is("`name`"));
         assertThat(table.getDataProvider().getQueryMapping().get("main_birthday_begin").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(table.getDataProvider().getQueryMapping().get("main_birthday_begin").getValue(), is("`birthday.begin`"));
         assertThat(table.getDataProvider().getQueryMapping().get("main_birthday_end").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
@@ -196,8 +200,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getDataProvider().getQueryMapping().get("main_gender_name").getValue(), is("`gender.map(function(t){return t.name})`"));
 
         assertThat(page.getRoutes().getQueryMapping().size(), is(6));
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnSet().getValue(), is("`name`"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnSet().getValue(), is("`name`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnSet().getValue(), is("`birthday.begin`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_end").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
@@ -207,8 +211,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnSet().getValue(), is("`gender.map(function(t){return t.name})`"));
 
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnGet().getPayload().get("value"), is(":main_name"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnGet().getType(), is("n2o/models/UPDATE"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnGet().getPayload().get("value"), is(":nameParam"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnGet().getType(), is("n2o/models/UPDATE"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnGet().getPayload().get("value"), is(":main_birthday_begin"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnGet().getType(), is("n2o/models/UPDATE"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_end").getOnGet().getPayload().get("value"), is(":main_birthday_end"));

@@ -1,20 +1,15 @@
 package net.n2oapp.framework.api.metadata.global;
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Базовый класс исходных метаданных считанных из файла
  */
-public abstract class N2oMetadata implements SourceMetadata, IdAware, RefIdAware, NameAware,
-        NamespaceUriAware {
+public abstract class N2oMetadata implements SourceMetadata, IdAware, RefIdAware, NameAware, SourceComponent {
     private String namespaceUri;
     private String id;
     private String refId;

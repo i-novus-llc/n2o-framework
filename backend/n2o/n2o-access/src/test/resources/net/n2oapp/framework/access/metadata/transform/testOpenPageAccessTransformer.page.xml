@@ -12,6 +12,9 @@
                     <button id="create">
                         <open-page page-id="testToolbarAccessTransformer" submit-operation-id="create" object-id="testObjectAccessTransformer"/>
                     </button>
+                    <button id="update">
+                        <open-page page-id="testToolbarAccessTransformer" submit-operation-id="update"/>
+                    </button>
                 </toolbar>
             </table>
         </panel>

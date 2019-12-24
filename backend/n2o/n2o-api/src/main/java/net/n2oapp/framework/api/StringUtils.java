@@ -2,7 +2,7 @@ package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
-import net.n2oapp.framework.api.util.RefUtil;
+import org.springframework.lang.Nullable;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -290,4 +290,7 @@ public abstract class StringUtils {
         return result.trim();
     }
 
+    public static boolean isEmpty(@Nullable Object str) {
+        return (str == null || "".equals(str));
+    }
 }

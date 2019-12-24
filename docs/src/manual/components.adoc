@@ -14,6 +14,8 @@ image::images\components.png[]
 Простая страница содержит один единственный компонент-виджет,
 занимающий всё свободное пространство.
 
+image::images/page_simple.png[]
+
 .Простая страница
 [source,xml]
 ----
@@ -25,9 +27,8 @@ image::images\components.png[]
 
 Сложные страницы поделены на регионы,
 которые могут располагаться в разных областях страницы.
-Возможные места расположения регионов на странице
-определяются реализаций React компонента.
-Реализация по умолчанию `StandardPage`.
+
+image::images/page_standard.png[]
 
 .Стандартная страница
 [source,xml]
@@ -40,18 +41,22 @@ image::images\components.png[]
   </regions>
 </page>
 ----
-Реализация React компонента задается атрибутом `src`.
-Местоположение региона можно задать через `place`:
+
+Возможные места расположения регионов на странице
+определяются шаблоном. Шаблон страницы задается атрибутом `layout`.
+Шаблон по умолчанию `SingleLayout`. Местоположение региона можно задать через `place`:
+
+image::images/page_left_right.png[]
 
 .Страница с разметкой регионов "слева и справа"
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      src="LeftRightPage">
+      layout="LeftRightLayout" name="Моя страница">
   <regions>
-    <region place="left">...</region>
-    <region place="right">...</region>
+    <panel place="left">...</panel>
+    <panel place="right">...</panel>
   </regions>
 </page>
 ----
@@ -63,12 +68,11 @@ image::images\components.png[]
 
 |<simple-page>
 |SimplePage
-|Страница с единственным виджетом
+|link:https://n2oapp.net/sandbox/new/manual/page/simple[Страница с единственным виджетом]
 
 |<page>
 |StandardPage
-LeftRightPage
-|Страница с регионами
+|link:https://n2oapp.net/sandbox/new/manual/page/standard[Страница с регионами]
 
 |===
 
@@ -76,6 +80,8 @@ LeftRightPage
 
 В регион вкладываются один или несколько компонентов-виджетов.
 Регионы имеют свою верстку для различной компоновки виджетов.
+
+image::/images/tabs.png[]
 
 .Регион в виде вкладок
 [source,xml]
@@ -94,19 +100,19 @@ LeftRightPage
 
 |<region>
 |NoneRegion
-|Виджеты без обрамления
+|link:https://n2oapp.net/sandbox/new/manual/regions/region[Виджеты без обрамления]
 
 |<tabs>
 |TabsRegion
-|Виджеты во вкладках
+|link:https://n2oapp.net/sandbox/new/manual/regions/tabs[Виджеты во вкладках]
 
 |<panel>
 |PanelRegion
-|Виджеты в панелях
+|link:https://n2oapp.net/sandbox/new/manual/regions/panel[Виджеты в панелях]
 
 |<line>
 |ListRegion
-|Горизонтальная черта над виджетом
+|link:https://n2oapp.net/sandbox/new/manual/regions/line[Горизонтальная черта над виджетом]
 
 |===
 
@@ -305,7 +311,10 @@ LeftRightPage
 Кнопка - это визуальный элемент, на который можно нажать для выполнения действия.
 Кнопка может иметь разный размер, цвет, верстку:
 
+image::images/button-icon.png[]
+
 .Иконка кнопки
+
 [source,xml]
 ----
 <button label="Кнопка"/>
@@ -313,13 +322,18 @@ LeftRightPage
 <button label="Иконка" icon="fa fa-pencil" type="icon"/>
 ----
 
+image::images/button-color.png[]
+
 .Цвет кнопки
+
 [source,xml]
 ----
 <button label="Главная" color="primary"/>
 <button label="Опасная" color="danger"/>
 <button label="Ссылка" color="link"/>
 ----
+
+image::images/button-submenu.png[]
 
 .Кнопка с выпадающим списком
 [source,xml]
@@ -339,7 +353,7 @@ LeftRightPage
 
 |<button>
 |PerformButton
-|Кнопка с действием
+|link:https://n2oapp.net/sandbox/new/manual/action/button[Кнопка с действием]
 
 |<link>
 |LinkButton
@@ -347,7 +361,7 @@ LeftRightPage
 
 |<sub-menu>
 |DropdownButton
-|Кнопка с вложенным меню
+|link:https://n2oapp.net/sandbox/new/manual/action/submenu[Кнопка с вложенным меню]
 
 |===
 
@@ -363,23 +377,31 @@ LeftRightPage
 
 |<invoke>
 |n2o/actionImpl/START_INVOKE
-|Отправка данных формы
+|link:https://n2oapp.net/sandbox/new/manual/action/invoke[Отправка данных формы]
 
 |<show-modal>
 |n2o/modals/INSERT
-|Открытие модального окна
+|link:https://n2oapp.net/sandbox/new/manual/action/show_modal[Открытие модального окна]
 
 |<open-page>
 |
-|Открытие вложенной страницы
+|link:https://n2oapp.net/sandbox/new/manual/action/open_page[Открытие вложенной страницы]
 
 |<close>
 |n2o/modals/CLOSE
-|Закрытие модального окна или возврат на предыдущую страницу
+|link:https://n2oapp.net/sandbox/new/manual/action/close[Закрытие модального окна или возврат на предыдущую страницу]
 
 |<refresh>
 |n2o/widgets/DATA_REQUEST
 |Обновление данных виджета
+
+|<clear>
+|n2o/widgets/DATA_REQUEST
+|link:https://n2oapp.net/sandbox/new/manual/action/clear[Очистка данных виджета]
+
+|<copy>
+|n2o/widgets/DATA_REQUEST
+|link:https://n2oapp.net/sandbox/new/manual/action/copy[Копирование данных виджета из одной модели в другую]
 
 |===
 
@@ -453,11 +475,11 @@ LeftRightPage
 
 |<set>
 |StandardFieldset
-|Филдсет без верстки
+|link:https://n2oapp.net/sandbox/new/manual/fieldset/set[Филдсет без верстки]
 
 |<line>
 |LineFieldset
-|Филдсет с горизонтальной чертой
+|link:https://n2oapp.net/sandbox/new/manual/fieldset/line[Филдсет с горизонтальной чертой]
 
 |===
 
@@ -465,6 +487,9 @@ LeftRightPage
 с помощью элементов `<row>` и `<col>`.
 
 .Расположение полей в строку или столбец
+
+--
+image::/images/fieldset_col_row.png[]
 [source,xml]
 ----
 <fields>
@@ -479,7 +504,7 @@ LeftRightPage
       </col>
     </row>
     <row>
-      ... <!-- Втрорая строка -->
+      ... <!-- Вторая строка -->
     </row>
   </set>
 </fields>
@@ -494,7 +519,9 @@ LeftRightPage
 
 Поля перечисляются на форме в элементе `<fields>`:
 
-.Поля в форме
+link:https://n2oapp.net/sandbox/new/manual/fields/form[Поля в форме]
+
+image::images/form.png[]
 [source,xml]
 ----
 <form>
@@ -506,12 +533,14 @@ LeftRightPage
 
 Либо вкладываются в филдсет:
 
-.Поля в филдсете
+link:https://n2oapp.net/sandbox/new/manual/fields/fieldset[Поля в филдсете]
+
+image::images/fieldset.png[]
 [source,xml]
 ----
-<set>
+<line>
   <input-text id="name" label="Наименование"/>
-</set>
+</line>
 ----
 
 Все поля должны иметь уникальный в рамках виджета идентификатор `id`.
@@ -525,40 +554,67 @@ LeftRightPage
 |<input-text>
 |InputText
 InputNumber
-|Поле ввода текста или чисел
+|link:https://n2oapp.net/sandbox/new/manual/fields/input_text[Поле ввода текста или чисел]
 
 |<output-text>
 |OutputText
-|Поле вывода текста
+|link:https://n2oapp.net/sandbox/new/manual/fields/output_text[Поле вывода текста]
 
 |<checkbox>
 |Checkbox
-|Поле чекбокса
+|link:https://n2oapp.net/sandbox/new/manual/fields/checkbox[Поле чекбокса]
 
 |<date-time>
 |DatePicker
-|Поле ввода даты и времени
+|link:https://n2oapp.net/sandbox/new/manual/fields/date_time[Поле ввода даты и времени]
 
 |<select>
-|N2OSelect
-|Поле выбора из выпадающего списка
+|Select
+|link:https://n2oapp.net/sandbox/new/manual/fields/select[Поле выбора из выпадающего списка]
 
 |<input-select>
 |InputSelect
-|Поле ввода текста с выбором из выпадающего списка
+|link:https://n2oapp.net/sandbox/new/manual/fields/input_select[Поле ввода текста с выбором из выпадающего списка]
 
 |<radio-group>
 |RadioGroup
-|Поле группы радио кнопок
+|link:https://n2oapp.net/sandbox/new/manual/fields/radio_group[Поле группы радио кнопок]
 
 |<checkbox-group>
 |CheckboxGroup
-|Поле гуруппы чекбоксов
+|link:https://n2oapp.net/sandbox/new/manual/fields/checkbox_group[Поле группы чекбоксов]
 
 |<text-area>
 |TextArea
-|Многострочное поле ввода
+|link:https://n2oapp.net/sandbox/new/manual/fields/text_area[Многострочное поле ввода]
 
+|<input-select-tree>
+|InputSelectTree
+|link:https://n2oapp.net/sandbox/new/manual/fields/input_select_tree[Компонент ввода с выбором в выпадающем списке в виде дерева]
+
+|<text>
+|Text
+|link:https://n2oapp.net/sandbox/new/manual/fields/text[Компонент текста]
+
+|<text-editor>
+|TextEditor
+|link:https://n2oapp.net/sandbox/new/manual/fields/text_editor[Компонент редактора текста]
+
+|<date-interval>
+|DateInterval
+|link:https://n2oapp.net/sandbox/new/manual/fields/date_interval[Компонент ввода интервала дат]
+
+|<code-editor>
+|CodeEditor
+|link:https://n2oapp.net/sandbox/new/manual/fields/code_editor[Компонент редактора кода]
+
+|<file-upload>
+|FileUpload
+|link:https://n2oapp.net/sandbox/new/manual/fields/file_upload[Компонент загрузки файлов]
+
+|<slider>
+|Slider
+|link:https://n2oapp.net/sandbox/new/manual/fields/slider[Компонент ползунок]
 |===
 
 Описание других видов полей можно посмотреть link:docs/xml/index.html#_Поля_ввода[здесь].
@@ -567,6 +623,8 @@ InputNumber
 Ячейки - это простейшие компоненты, которые отображают информацию в записях таблицы или списка.
 
 Ячейки встраиваются в столбцы таблицы:
+
+image::/images/cell_in_table.png[]
 
 .Ячейка-текст в таблице
 [source,xml]
@@ -581,6 +639,8 @@ InputNumber
 ----
 
 Или в содержимое виджета-списка:
+
+image::/images/cell_in_list.png[]
 
 .Ячейка-текст в виджете-список
 [source,xml]
@@ -603,27 +663,27 @@ InputNumber
 
 |<text>
 |TextCell
-|Текстовая ячейка
+|link:https://n2oapp.net/sandbox/new/manual/cell/text[Текстовая ячейка]
 
 |<badge>
 |BadgeCell
-|Ячейка значок
+|link:https://n2oapp.net/sandbox/new/manual/cell/badge[Ячейка значок]
 
 |<icon>
 |IconCell
-|Ячейка иконка
+|link:https://n2oapp.net/sandbox/new/manual/cell/icon[Ячейка иконка]
 
 |<link>
 |LinkCell
-|Ячейка ссылка
+|link:https://n2oapp.net/sandbox/new/manual/cell/link[Ячейка ссылка]
 
 |<checkbox>
 |CheckboxCell
-|Ячейка чекбокс
+|link:https://n2oapp.net/sandbox/new/manual/cell/checkbox[Ячейка чекбокс]
 
 |<toolbar>
 |ToolbarCell
-|Ячейка с меню кнопок
+|link:https://n2oapp.net/sandbox/new/manual/cell/toolbar[Ячейка с меню кнопок]
 
 |===
 

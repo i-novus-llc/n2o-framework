@@ -23,6 +23,11 @@ http://n2oapp.net/framework/config/schema/n2o-cell-2.0
 |Класс стиля ячейки
 |
 
+|style
+|CSS свойство
+|Стиль ячейки
+|
+
 |visible
 |true false
 |Видимость ячейки
@@ -59,7 +64,7 @@ link:#_Переключатель_switch[Переключатель]
 Пример::
 [source,xml]
 ----
-<text class="font-weight-bold"/> <!--Жирный шрифт-->
+<text class="font-weight-bold" style="color:red;"/> <!--Жирный шрифт-->
 ----
 
 === <link>

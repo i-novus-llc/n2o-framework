@@ -18,6 +18,7 @@ public class N2oSubmenu implements Source, GroupItem {
     private String id;
     private String namespaceUri;
     private String className;
+    private String style;
     private Boolean visible;
     private String label;
     private String icon;

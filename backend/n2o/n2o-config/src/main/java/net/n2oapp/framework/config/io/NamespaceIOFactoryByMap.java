@@ -44,10 +44,22 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
     }
 
     @Override
+    public boolean check(Namespace namespace, Class<T> clazz) {
+        return (classes.containsKey(namespace.getURI()) && classes.get(namespace.getURI()).containsKey(clazz))
+                || persisterFactory.check(namespace, clazz);
+    }
+
+    @Override
     public R produce(Namespace namespace, String elementName) {
         if (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
             return names.get(namespace.getURI()).get(elementName);
         return (R) readerFactory.produce(namespace, elementName);
+    }
+
+    @Override
+    public boolean check(Namespace namespace, String elementName) {
+        return (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
+                || readerFactory.check(namespace, elementName);
     }
 
     @Override
