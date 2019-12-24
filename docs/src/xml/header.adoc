@@ -35,9 +35,14 @@ http://n2oapp.net/framework/config/schema/header-2.0
 |Цветовая схема хедера
 |light
 
-|home-page-id
+|home-page-url
 |Строка
-|Домашняя страница
+|URL домашней страницы
+|
+
+|welcome-page-id
+|Ссылка
+|Ссылка на страницу
 |
 
 |logo-src
@@ -74,11 +79,6 @@ http://n2oapp.net/framework/config/schema/header-2.0
 |Ссылка на родительский файл меню
 |
 
-|welcome-page-id
-|Ссылка
-|Ссылка на страницу
-|
-
 |===
 
 Тело::
@@ -108,11 +108,6 @@ http://n2oapp.net/framework/config/schema/header-2.0
 |ref-id
 |Ссылка
 |Ссылка на родительский файл меню
-|
-
-|welcome-page-id
-|Ссылка
-|Ссылка на страницу
 |
 
 |===
