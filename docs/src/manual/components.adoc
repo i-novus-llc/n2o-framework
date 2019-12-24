@@ -624,6 +624,8 @@ InputNumber
 
 Ячейки встраиваются в столбцы таблицы:
 
+image::/images/cell_in_table.png[]
+
 .Ячейка-текст в таблице
 [source,xml]
 ----
@@ -637,6 +639,8 @@ InputNumber
 ----
 
 Или в содержимое виджета-списка:
+
+image::/images/cell_in_list.png[]
 
 .Ячейка-текст в виджете-список
 [source,xml]
@@ -659,27 +663,27 @@ InputNumber
 
 |<text>
 |TextCell
-|Текстовая ячейка
+|link:https://n2oapp.net/sandbox/new/manual/cell/text[Текстовая ячейка]
 
 |<badge>
 |BadgeCell
-|Ячейка значок
+|link:https://n2oapp.net/sandbox/new/manual/cell/badge[Ячейка значок]
 
 |<icon>
 |IconCell
-|Ячейка иконка
+|link:https://n2oapp.net/sandbox/new/manual/cell/icon[Ячейка иконка]
 
 |<link>
 |LinkCell
-|Ячейка ссылка
+|link:https://n2oapp.net/sandbox/new/manual/cell/link[Ячейка ссылка]
 
 |<checkbox>
 |CheckboxCell
-|Ячейка чекбокс
+|link:https://n2oapp.net/sandbox/new/manual/cell/checkbox[Ячейка чекбокс]
 
 |<toolbar>
 |ToolbarCell
-|Ячейка с меню кнопок
+|link:https://n2oapp.net/sandbox/new/manual/cell/toolbar[Ячейка с меню кнопок]
 
 |===
 
