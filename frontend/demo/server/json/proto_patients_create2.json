@@ -220,6 +220,7 @@
             },
             "validate": true,
             "validatedWidgetId": "proto_create2_main",
+            "src": "PerformButton",
             "color": "primary",
             "title": "Сохранить"
           },
@@ -227,6 +228,7 @@
             "id": "close",
             "actionId": "close",
             "conditions": {},
+            "src": "PerformButton",
             "title": "Закрыть"
           }
         ]

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:ac="http://n2oapp.net/framework/config/schema/action-1.0"
            xmlns:reg="http://n2oapp.net/framework/config/schema/region-1.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/page-2.0">
@@ -200,8 +200,8 @@
             <xs:documentation>Меню управляющих кнопок страницы.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="button" type="tool:buttonDefinition" minOccurs="0"/>
-            <xs:element name="sub-menu" type="tool:subMenuDefinition" minOccurs="0"/>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0"/>
             <xs:element name="group" type="pageGroupDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="place" type="placeType" use="optional">
@@ -222,8 +222,8 @@
             <xs:documentation>Группа кнопок.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="button" type="tool:buttonDefinition"/>
-            <xs:element name="sub-menu" type="tool:subMenuDefinition"/>
+            <xs:element name="button" type="btn:buttonDefinition"/>
+            <xs:element name="sub-menu" type="btn:subMenuDefinition"/>
         </xs:sequence>
         <xs:attribute name="generate" type="xs:string" use="optional">
             <xs:annotation>

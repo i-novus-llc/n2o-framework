@@ -6,6 +6,8 @@ import net.n2oapp.framework.config.io.control.*;
 import net.n2oapp.framework.config.io.control.interval.DateIntervalIOv2;
 import net.n2oapp.framework.config.io.control.list.*;
 import net.n2oapp.framework.config.io.control.plain.*;
+import net.n2oapp.framework.config.io.toolbar.ButtonIO;
+import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
 
 public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -38,7 +40,9 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new TextFieldIOv4(),
                 new SliderIOv2(),
                 new RatingIOv2(),
-                new AutoCompleteIOv2()
+                new AutoCompleteIOv2(),
+                new ButtonIO(),
+                new SubmenuIO()
         );
     }
 }
