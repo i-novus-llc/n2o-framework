@@ -860,7 +860,7 @@
         </xs:attribute>
         <xs:attribute name="routable" type="xs:boolean" use="optional">
             <xs:annotation>
-                <xs:documentation>Попадает ли фильтр в url для дальнешей возможности восстановления по F5. По умолчанию false.</xs:documentation>
+                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
