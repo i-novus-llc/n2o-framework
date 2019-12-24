@@ -20,7 +20,7 @@ public class PageAccessTransformer extends BaseAccessTransformer<StandardPage, C
 
     @Override
     public Class<? extends Compiled> getCompiledClass() {
-        return Page.class;
+        return StandardPage.class;
     }
 
     @Override
