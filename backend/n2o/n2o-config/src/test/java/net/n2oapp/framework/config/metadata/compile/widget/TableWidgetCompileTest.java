@@ -159,38 +159,38 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Table table = (Table) page.getWidgets().get("testTable4FiltersCompile_main");
         Filter filter = table.getFilter("name");
         assertThat(filter.getFilterId(), is("name"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`name`"));
 
         filter = table.getFilter("birthday.end");
         assertThat(filter.getFilterId(), is("birthday.end"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`birthday.end`"));
 
         filter = table.getFilter("birthday.begin");
         assertThat(filter.getFilterId(), is("birthday.begin"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`birthday.begin`"));
 
         filter = table.getFilter("gender*.name");
         assertThat(filter.getFilterId(), is("gender*.name"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`gender.map(function(t){return t.name})`"));
 
         filter = table.getFilter("gender*.id");
         assertThat(filter.getFilterId(), is("gender*.id"));
-        assertThat(filter.getReloadable(), is(true));
+        assertThat(filter.getRoutable(), is(true));
         assertThat(filter.getLink().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(filter.getLink().getValue(), is("`gender.map(function(t){return t.id})`"));
 
 
         assertThat(table.getDataProvider().getQueryMapping().size(), is(5));
-        assertThat(table.getDataProvider().getQueryMapping().get("main_name").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
-        assertThat(table.getDataProvider().getQueryMapping().get("main_name").getValue(), is("`name`"));
+        assertThat(table.getDataProvider().getQueryMapping().get("nameParam").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
+        assertThat(table.getDataProvider().getQueryMapping().get("nameParam").getValue(), is("`name`"));
         assertThat(table.getDataProvider().getQueryMapping().get("main_birthday_begin").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(table.getDataProvider().getQueryMapping().get("main_birthday_begin").getValue(), is("`birthday.begin`"));
         assertThat(table.getDataProvider().getQueryMapping().get("main_birthday_end").getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
@@ -201,8 +201,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getDataProvider().getQueryMapping().get("main_gender_name").getValue(), is("`gender.map(function(t){return t.name})`"));
 
         assertThat(page.getRoutes().getQueryMapping().size(), is(6));
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnSet().getValue(), is("`name`"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnSet().getValue(), is("`name`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnSet().getValue(), is("`birthday.begin`"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_end").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
@@ -212,8 +212,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnSet().getValue(), is("`gender.map(function(t){return t.name})`"));
 
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnGet().getPayload().get("value"), is(":main_name"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_name").getOnGet().getType(), is("n2o/models/UPDATE"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnGet().getPayload().get("value"), is(":nameParam"));
+        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnGet().getType(), is("n2o/models/UPDATE"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnGet().getPayload().get("value"), is(":main_birthday_begin"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnGet().getType(), is("n2o/models/UPDATE"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_end").getOnGet().getPayload().get("value"), is(":main_birthday_end"));

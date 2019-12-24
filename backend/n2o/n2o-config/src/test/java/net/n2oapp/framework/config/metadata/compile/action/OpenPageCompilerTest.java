@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -218,7 +219,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?page_view_test_secondName=test&page_view_test_name=:page_view_test_name&page_view_test_detailId=:page_view_test_detailId"));
+        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?page_view_test_secondName=test&detailId=:detailId&page_view_test_name=:page_view_test_name"));
     }
 
     @Test
@@ -228,8 +229,8 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
 
         LinkAction linkAction = (LinkAction) page.getWidget().getActions().get("masterDetail");
         assertThat(linkAction.getOptions().getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
-        assertThat(linkAction.getOptions().getQueryMapping().get("page_test_detailId").getBindLink(), is("models.resolve['page_test']"));
-        assertThat(linkAction.getOptions().getQueryMapping().get("page_test_detailId").getValue(), is("`masterId`"));
+        assertThat(linkAction.getOptions().getQueryMapping().get("detailId").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(linkAction.getOptions().getQueryMapping().get("detailId").getValue(), is("`masterId`"));
         assertThat(linkAction.getOptions().getQueryMapping().get("page_test_name").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkAction.getOptions().getQueryMapping().get("page_test_secondName").getBindLink(), nullValue());
 
@@ -238,7 +239,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getRefWidgetId(), is("test"));
         assertThat(context.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
-        assertThat(context.getPreFilters().get(0).getParam(), is("page_test_detailId"));
+        assertThat(context.getPreFilters().get(0).getParam(), is("detailId"));
         assertThat(context.getPreFilters().get(0).getFieldId(), is("detailId"));
         assertThat(context.getPreFilters().get(0).getValue(), is("{masterId}"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
@@ -265,7 +266,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second"));
 
         Filter filter = (Filter) openPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(0);
-        assertThat(filter.getParam(), is("page_test_detailId"));
+        assertThat(filter.getParam(), is("detailId"));
         assertThat(filter.getFilterId(), is("detailId"));
         assertThat(filter.getLink().getBindLink(), is("models.resolve['page_test']"));
         assertThat(filter.getLink().getValue(), is("`masterId`"));
@@ -289,16 +290,16 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         PageContext detailContext = (PageContext) route("/page/widget/gender/masterDetail", Page.class);
         assertThat(detailContext.getQueryRouteMapping().size(), is(3));
         DataSet data = new DataSet();
-        data.put("page_test_detailId", 222);
+        data.put("detailId", 222);
         data.put("page_test_name", "testName");
         StandardPage detailPage = (StandardPage) read().compile().bind().get(detailContext, data);
         assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
         assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
         Map<String, BindLink> queryMapping = detailPage.getWidgets().get("page_widget_masterDetail_main").getDataProvider().getQueryMapping();
-        assertThat(queryMapping.get("page_test_detailId").getValue(), is(222));
+        assertThat(queryMapping.get("detailId").getValue(), is(222));
         assertThat(queryMapping.get("page_test_name").getValue(), is("testName"));
         filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(0);
-        assertThat(filter.getParam(), is("page_test_detailId"));
+        assertThat(filter.getParam(), is("detailId"));
         assertThat(filter.getFilterId(), is("detailId"));
         assertThat(filter.getLink().getValue(), is(222));
         filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(1);
@@ -366,5 +367,26 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(((Filter) p2.getWidgets().get("testOpenPageMasterParam_modalDetail").getFilters().get(0)).getParam(), is("sid"));
         assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/:testOpenPageMasterParam_form_id"), notNullValue());
         assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"), notNullValue());
+
+        ShowModal showModal = (ShowModal)p2.getWidgets().get("testOpenPageMasterParam_form").getActions().get("byName");
+        assertThat(showModal.getOptions().getPayload().getPageUrl(), is("/testOpenPageMasterParam/:id/byName"));
+        Map<String, ModelLink> pathMapping = showModal.getOptions().getPayload().getPathMapping();
+        Map<String, ModelLink> queryMapping = showModal.getOptions().getPayload().getQueryMapping();
+
+        assertThat(pathMapping.size(), is(1));
+        assertThat(queryMapping.size(), is(1));
+
+        ModelLink pathModelLink = pathMapping.get("id");
+        ModelLink queryModelLink = queryMapping.get("sName");
+
+        assertThat(pathModelLink.getFieldId(), is("id"));
+        assertThat(pathModelLink.getParam(), nullValue());
+        assertThat(pathModelLink.getValue(), nullValue());
+        assertThat(pathModelLink.getBindLink(), is("models.resolve['testOpenPageMasterParam_form'].id"));
+
+        assertThat(queryModelLink.getFieldId(), is("name"));
+        assertThat(queryModelLink.getParam(), nullValue());
+        assertThat(queryModelLink.getValue(), is("`name`"));
+        assertThat(queryModelLink.getBindLink(), is("models.resolve['testOpenPageMasterParam_form']"));
     }
 }

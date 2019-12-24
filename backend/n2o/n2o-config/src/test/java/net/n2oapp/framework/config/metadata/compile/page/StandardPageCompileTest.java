@@ -170,7 +170,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
-        assertThat(page.getRoutes().getQueryMapping().size(), is(10));
+        assertThat(page.getRoutes().getQueryMapping().size(), is(11));
 
         WidgetDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
         List<Filter> preFilters = page.getWidgets().get("testWidgetPrefilters_detail1").getFilters();
@@ -179,21 +179,21 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testWidgetPrefilters_master1'].id"));
         assertThat(preFilters.get(0).getLink().getFieldId(), is("id"));
         assertThat(preFilters.get(1).getFilterId(), is("name"));
-        assertThat(preFilters.get(1).getParam(), is("testWidgetPrefilters_detail1_name"));
+        assertThat(preFilters.get(1).getParam(), is("nameParam"));
         assertThat(preFilters.get(1).getLink().getBindLink(), nullValue());
         assertThat(preFilters.get(1).getLink().getValue(), is("test"));
         assertThat(preFilters.get(2).getFilterId(), is("genders*.id"));
         assertThat(preFilters.get(2).getParam(), is("testWidgetPrefilters_detail1_genders_id"));
         assertThat(preFilters.get(2).getLink().getValue(), is(Arrays.asList(1, 2)));
         assertThat(dataProvider.getPathMapping().get("testWidgetPrefilters_master1_id").getBindLink(), is("models.resolve['testWidgetPrefilters_master1'].id"));
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_name").getBindLink(), nullValue());
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_name").getValue(), is("test"));
+        assertThat(dataProvider.getQueryMapping().get("nameParam").getBindLink(), nullValue());
+        assertThat(dataProvider.getQueryMapping().get("nameParam").getValue(), is("test"));
         assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_genders_id").getBindLink(), nullValue());
         assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_genders_id").getValue(), is(Arrays.asList(1, 2)));
         QueryContext queryCompileContext = (QueryContext) route("/testWidgetPrefilters/master1/:testWidgetPrefilters_master1_id/detail1", CompiledQuery.class);
         assertThat(queryCompileContext.getFilters().size(), is(3));
         assertThat(queryCompileContext.getFilters().get(0).getParam(), is("testWidgetPrefilters_master1_id"));
-        assertThat(queryCompileContext.getFilters().get(1).getParam(), is("testWidgetPrefilters_detail1_name"));
+        assertThat(queryCompileContext.getFilters().get(1).getParam(), is("nameParam"));
         assertThat(queryCompileContext.getFilters().get(2).getParam(), is("testWidgetPrefilters_detail1_genders_id"));
 
         dataProvider = page.getWidgets().get("testWidgetPrefilters_detail2").getDataProvider();
