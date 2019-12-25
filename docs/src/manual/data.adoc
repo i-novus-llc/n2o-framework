@@ -53,6 +53,7 @@ link:../xml/#_Объект_object[Подробнее об объектах]
   <validations>...</validations><!--Валидации операций-->
 </operation>
 ----
+link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
 
 ==== Валидации объекта
 
