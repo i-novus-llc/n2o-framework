@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирвоание маппинга java модели в json
+ * Тестирование маппинга java модели в json
  */
 public class TableJsonTest extends JsonMetadataTestBase {
 

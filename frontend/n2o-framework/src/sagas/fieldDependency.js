@@ -9,7 +9,11 @@ import {
   delay,
   cancel,
 } from 'redux-saga/effects';
-import { isEmpty, isUndefined, some, includes, get } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isUndefined from 'lodash/isUndefined';
+import some from 'lodash/some';
+import includes from 'lodash/includes';
+import get from 'lodash/get';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -26,14 +30,14 @@ import {
 } from '../actions/formPlugin';
 import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
-import { resolveMapping } from './actionsImpl';
+import compileUrl from '../utils/compileUrl';
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
     yield delay(300);
     yield put(setLoading(form, field, true));
     const state = yield select();
-    const url = yield resolveMapping(dataProvider, state);
+    const url = compileUrl(dataProvider.url, dataProvider, state);
     const response = yield call(fetchSaga, FETCH_VALUE, { url });
     const model = get(response, 'list[0]', null);
 

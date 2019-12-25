@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import omit from 'lodash/omit';
 import { ADD, ADD_MULTI, REMOVE, REMOVE_ALL } from '../constants/alerts';
 import { id as generateId } from '../utils/id';
 
@@ -59,7 +59,7 @@ export default function alerts(state = {}, action) {
         ),
       });
     case REMOVE_ALL:
-      return _.omit(state, action.payload.key);
+      return omit(state, action.payload.key);
     default:
       return state;
   }

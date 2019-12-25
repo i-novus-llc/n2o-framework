@@ -1,4 +1,8 @@
-import { omit, mapValues, isEmpty, get, isNaN } from 'lodash';
+import omit from 'lodash/omit';
+import mapValues from 'lodash/mapValues';
+import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
+import isNaN from 'lodash/isNaN';
 import merge from 'deepmerge';
 import {
   REGISTER,

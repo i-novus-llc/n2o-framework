@@ -11,7 +11,7 @@ import withPage from 'N2oStorybook/decorators/withPage';
 import CheckboxCell, {
   CheckboxCell as CheckboxCellComponent,
 } from './CheckboxCell';
-import { set } from 'lodash';
+import set from 'lodash/set';
 
 const stories = storiesOf('Ячейки/Чекбокс', module);
 

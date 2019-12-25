@@ -1,6 +1,6 @@
 import React, { createElement } from 'react';
 import PropTypes from 'prop-types';
-import { Table as BaseTable } from 'reactstrap';
+import BaseTable from 'reactstrap/lib/Table';
 import { mapToNumOrStr } from '../../utils';
 
 function Table({ cols, rows }) {

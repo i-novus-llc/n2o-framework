@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { compose, withHandlers, withState, lifecycle } from 'recompose';
 import { id } from '../../../utils/id';
-import { UncontrolledTooltip } from 'reactstrap';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 
 /**
  *

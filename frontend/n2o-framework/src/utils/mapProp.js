@@ -1,4 +1,4 @@
-import { transform } from 'lodash';
+import transform from 'lodash/transform';
 
 export default function mapProp(prop) {
   return transform(

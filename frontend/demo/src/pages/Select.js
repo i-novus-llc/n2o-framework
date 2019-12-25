@@ -1,5 +1,8 @@
 import React from 'react';
-import {Container, Row, Col, Button} from 'reactstrap';
+import Container from 'reactstrap/lib/Container';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
+import Button from 'reactstrap/lib/Button';
 
 import Select from '../components/controls/Select/Select'
 

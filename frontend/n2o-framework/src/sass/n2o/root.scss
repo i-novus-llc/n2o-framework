@@ -67,6 +67,7 @@
 
 .was-validated .form-control:invalid, .form-control.is-invalid,
 .was-validated .form-control:valid, .form-control.is-valid {
+  padding: .375rem .75rem;
   background: none;
 }
 
@@ -94,4 +95,8 @@
   & > .dropdown-toggle > i {
     color: $nav-item-icon-color;
   }
+}
+
+.n2o-standard-widget-layout-toolbar {
+  margin: $toolbar-margin;
 }

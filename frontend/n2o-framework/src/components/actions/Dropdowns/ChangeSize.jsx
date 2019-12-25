@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DropdownItem } from 'reactstrap';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
 import { connect } from 'react-redux';
 
 import { changeSizeWidget, dataRequestWidget } from '../../../actions/widgets';

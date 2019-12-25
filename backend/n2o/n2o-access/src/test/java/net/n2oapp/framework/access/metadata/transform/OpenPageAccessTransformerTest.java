@@ -46,7 +46,8 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModal.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testOpenPageAccessTransformer"));
+        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testOpenPageAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
@@ -88,7 +89,8 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModalV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testOpenPageAccessTransformer"));
+        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
+                .get(new PageContext("testOpenPageAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
@@ -117,6 +119,13 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(securityObject.getRoles().contains("role"));
         assertThat(securityObject.getUsernames(), nullValue());
         assertTrue(securityObject.getAnonymous());
+
+        securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
+                .get(0).getButtons().get(1).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        assertTrue(securityObject.getPermissions().contains("permission"));
+        assertTrue(securityObject.getRoles().contains("admin"));
+        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getAnonymous(), nullValue());
 
         securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");

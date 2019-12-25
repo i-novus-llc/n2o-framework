@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isNil } from 'lodash';
+import isNil from 'lodash/isNil';
 import Switch from 'rc-switch';
 
 class N2OSwitch extends React.Component {

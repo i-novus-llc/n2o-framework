@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
 
 import TabNav from './TabNav';
 import TabNavItem from './TabNavItem';
@@ -62,7 +63,7 @@ class Tabs extends React.Component {
    */
   get defaultOpenedId() {
     const { children } = this.props;
-    const foundChild = _.find(React.Children.toArray(children), child => {
+    const foundChild = find(React.Children.toArray(children), child => {
       return child.props.active;
     });
     return foundChild && foundChild.props.id;
@@ -94,7 +95,7 @@ class Tabs extends React.Component {
     const style = { marginBottom: 2 };
     return (
       <div className={className} style={style}>
-        {!_.isEmpty(tabNavItems) && (
+        {!isEmpty(tabNavItems) && (
           <TabNav className={navClassName}>{tabNavItems}</TabNav>
         )}
         <TabContent>

@@ -8,7 +8,8 @@ import {
   setDisplayName,
 } from 'recompose';
 import PropTypes from 'prop-types';
-import { isEmpty, isEqual, set } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import set from 'lodash/set';
 import cn from 'classnames';
 
 import Panel from './Panel';

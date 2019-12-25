@@ -1,11 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -24,7 +22,9 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -85,21 +85,29 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                         dependency.setType(ValidationType.enabled);
                     else if (d instanceof N2oField.RequiringDependency)
                         dependency.setType(ValidationType.required);
-                    else if (d instanceof N2oField.VisibilityDependency)
+                    else if (d instanceof N2oField.VisibilityDependency) {
                         dependency.setType(ValidationType.visible);
-                    else if (d instanceof N2oField.SetValueDependency)
+                        Boolean isResettable = p.cast(((N2oField.VisibilityDependency) d).getReset(),
+                                p.resolve(property("n2o.api.control.visibility.auto_reset"), Boolean.class));
+                        if (isResettable) {
+                            ControlDependency reset = new ControlDependency();
+                            reset.setType(ValidationType.reset);
+                            reset.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
+                            addToField(reset, field, d, p);
+                        }
+                    } else if (d instanceof N2oField.SetValueDependency)
                         dependency.setType(ValidationType.setValue);
                     else if (d instanceof N2oField.FetchDependency)
                         dependency.setType(ValidationType.fetch);
+                    else if (d instanceof N2oField.ResetDependency) {
+                        dependency.setType(ValidationType.reset);
+                        if (d.getValue() == null) {
+                            d.setValue(String.valueOf(Boolean.TRUE));
+                        }
+                    }
                     dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
                 }
-                dependency.setApplyOnInit(p.cast(d.getApplyOnInit(), true));
-                if (d.getOn() != null) {
-                    List<String> ons = Arrays.asList(d.getOn());
-                    ons.replaceAll(String::trim);
-                    dependency.getOn().addAll(ons);
-                }
-                field.addDependency(dependency);
+                addToField(dependency, field, d, p);
             }
         }
 
@@ -111,6 +119,16 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dependency.setType(ValidationType.reRender);
             field.addDependency(dependency);
         }
+    }
+
+    private void addToField(ControlDependency compiled, Field field, N2oField.Dependency source, CompileProcessor p) {
+        compiled.setApplyOnInit(p.cast(source.getApplyOnInit(), true));
+        if (source.getOn() != null) {
+            List<String> ons = Arrays.asList(source.getOn());
+            ons.replaceAll(String::trim);
+            compiled.getOn().addAll(ons);
+        }
+        field.addDependency(compiled);
     }
 
     private WidgetDataProvider compileDataProvider(N2oField.FetchValueDependency field, CompileProcessor p) {

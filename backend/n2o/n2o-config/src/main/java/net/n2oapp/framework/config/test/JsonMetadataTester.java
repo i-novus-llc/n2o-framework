@@ -55,10 +55,9 @@ public class JsonMetadataTester {
                       String jsonCutPath,
                       List<String> jsonExcludePath,
                       Map<String, Object> jsonChangeValuePaths,
-                      Map<String, String> jsonChangeNodePaths, DataSet queryParams) throws IOException {
-        CompileContext<?,?> context = builder.route(route, compiledClass);
-        DataSet params = context.getParams(route, null);
-        params.merge(queryParams);
+                      Map<String, String> jsonChangeNodePaths, Map<String, String[]> queryParams) throws IOException {
+        CompileContext<?,?> context = builder.route(route, compiledClass, queryParams);
+        DataSet params = context.getParams(route, queryParams);
         check(jsonUri, context, params,
                 xmlCutPath, jsonCutPath, jsonExcludePath,
                 jsonChangeValuePaths, jsonChangeNodePaths);

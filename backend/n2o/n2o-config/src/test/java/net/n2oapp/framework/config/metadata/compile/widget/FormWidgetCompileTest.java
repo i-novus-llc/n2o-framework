@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
@@ -104,5 +105,21 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
 
+    }
+
+    @Test
+    public void testFormStyles() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormRowColCompile.widget.xml")
+                .get(new WidgetContext("testFormRowColCompile"));
+        assertThat(form.getStyle().get("width"), is("300px"));
+        assertThat(form.getStyle().get("marginLeft"), is("10px"));
+
+        FieldSet fieldSet = form.getComponent().getFieldsets().get(0);
+        assertThat(fieldSet.getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getStyle().get("marginLeft"), is("10px"));
+        assertThat(fieldSet.getRows().get(0).getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getRows().get(0).getStyle().get("marginLeft"), is("10px"));
+        assertThat(fieldSet.getRows().get(0).getCols().get(0).getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getRows().get(0).getCols().get(0).getStyle().get("marginLeft"), is("10px"));
     }
 }

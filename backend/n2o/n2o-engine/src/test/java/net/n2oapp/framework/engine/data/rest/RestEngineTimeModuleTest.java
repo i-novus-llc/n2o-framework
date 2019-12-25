@@ -47,6 +47,7 @@ public class RestEngineTimeModuleTest {
         map.put("localDate4", "2017-01-01T12:00:00");
         map.put("notdate", "not date");
         map.put("dateLength", "1234567890");
+        map.put("ignore", "01.01.1000");
 
         Map res;
         res = mapper.readValue(new ObjectMapper().writeValueAsString(map), Map.class);
@@ -56,12 +57,15 @@ public class RestEngineTimeModuleTest {
         Assert.assertEquals(Date.class, res.get("localDate3").getClass());
         Assert.assertEquals(String.class, res.get("notdate").getClass());
         Assert.assertEquals(String.class, res.get("dateLength").getClass());
+        Assert.assertEquals(String.class, res.get("ignore").getClass());
     }
 
     private ObjectMapper createObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
-        RestEngineTimeModule module = new RestEngineTimeModule(new String[]{"dd.MM.yyyy HH:mm", "dd.MM.yyyy", "dd.MM.yyyy HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss"});
+        String[] patterns = {"dd.MM.yyyy HH:mm", "dd.MM.yyyy", "dd.MM.yyyy HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss"};
+        String[] exclusions = {"ignore"};
+        RestEngineTimeModule module = new RestEngineTimeModule(patterns, exclusions);
         objectMapper.registerModules(module);
         return objectMapper;
     }
