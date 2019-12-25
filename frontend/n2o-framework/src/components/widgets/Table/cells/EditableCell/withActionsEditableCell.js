@@ -1,5 +1,5 @@
 import React from 'react';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { connect } from 'react-redux';
 import { setModel } from '../../../../../actions/models';
 import { setTableSelectedId } from '../../../../../actions/widgets';

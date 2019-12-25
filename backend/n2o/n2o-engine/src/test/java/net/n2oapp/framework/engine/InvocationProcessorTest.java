@@ -97,6 +97,7 @@ public class InvocationProcessorTest {
         primitiveTypeArgument.setName("primitiveTypeArgument");
         primitiveTypeArgument.setClassName("java.lang.Integer");
         primitiveTypeArgument.setType(Argument.Type.PRIMITIVE);
+        primitiveTypeArgument.setDefaultValue("2");
 
         Argument noClassPrimitive = new Argument();
         noClassPrimitive.setName("noClassPrimitive");
@@ -111,7 +112,6 @@ public class InvocationProcessorTest {
 
         DataSet dataSet = new DataSet();
         dataSet.put("entity", 1);
-        dataSet.put("primitive", 2);
         dataSet.put("primitive2", 100);
         dataSet.put("class", 7);
         dataSet.put("paramWithMappingCondition", null);

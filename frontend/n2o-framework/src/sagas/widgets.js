@@ -7,18 +7,16 @@ import {
   takeEvery,
   throttle,
 } from 'redux-saga/effects';
-import {
-  isEmpty,
-  isEqual,
-  isNil,
-  pick,
-  get,
-  mapValues,
-  omit,
-  keys,
-  pickBy,
-  identity,
-} from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import isNil from 'lodash/isNil';
+import pick from 'lodash/pick';
+import get from 'lodash/get';
+import mapValues from 'lodash/mapValues';
+import omit from 'lodash/omit';
+import keys from 'lodash/keys';
+import pickBy from 'lodash/pickBy';
+import identity from 'lodash/identity';
 import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
 import pathToRegexp from 'path-to-regexp';
@@ -230,7 +228,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
         prevSelectedId
       );
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
-        yield put(setTableSelectedId(widgetId, null));
+        // yield put(setTableSelectedId(widgetId, null));
       } else if (!withoutSelectedId && widgetState.selectedId) {
         baseQuery.selectedId = widgetState.selectedId;
       }

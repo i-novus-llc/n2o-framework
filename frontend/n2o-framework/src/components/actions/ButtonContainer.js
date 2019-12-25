@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { DropdownMenu, Button } from 'reactstrap';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import { createStructuredSelector } from 'reselect';
 import cx from 'classnames';
 
@@ -189,7 +189,10 @@ class ButtonContainer extends React.Component {
     const isDropdown = component === DropdownMenu;
 
     return isDropdown ? (
-      <div className={cx(visible ? 'd-block' : 'd-none')}>
+      <div
+        className={cx(visible ? 'd-block' : 'd-none')}
+        onClick={e => e.stopPropagation()}
+      >
         {withTooltip(this.renderDropdown(), hint, hintPosition, this.buttonId)}
       </div>
     ) : visible ? (

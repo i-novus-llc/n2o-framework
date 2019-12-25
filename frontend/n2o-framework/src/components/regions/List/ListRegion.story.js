@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 
-import { set, omit, pullAt, pick } from 'lodash';
+import set from 'lodash/set';
+import omit from 'lodash/omit';
+import pullAt from 'lodash/pullAt';
+import pick from 'lodash/pick';
 
 import ListRegion, { ListRegion as ListRegionComponent } from './ListRegion';
 import SecureListRegionJson from './ListRegion.meta';

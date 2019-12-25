@@ -51,6 +51,7 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
         p.attribute(e, "description", s::getDescription, s::setDescription);
         p.attribute(e, "icon", s::getIcon, s::setIcon);
         p.attribute(e, "class", s::getClassName, s::setClassName);
+        p.attribute(e, "style", s::getStyle, s::setStyle);
         p.attributeEnum(e, "type", s::getType, s::setType, LabelType.class);
         p.attributeArray(e, "generate", ",", s::getGenerate, s::setGenerate);
         p.children(e, null, "menu-item", s::getMenuItems, s::setMenuItems, N2oMenuItem.class, this::submenu);
@@ -73,6 +74,7 @@ public class ToolbarIO implements TypedElementIO<N2oToolbar> {
         p.attributeBoolean(e, "validate", mi::getValidate, mi::setValidate);
         p.attribute(e, "action-id", mi::getActionId, mi::setActionId);
         p.attribute(e, "class", mi::getClassName, mi::setClassName);
+        p.attribute(e, "style", mi::getStyle, mi::setStyle);
         p.attribute(e, "enabling-condition", mi::getEnablingCondition, mi::setEnablingCondition);
         p.attribute(e, "visibility-condition", mi::getVisibilityCondition, mi::setVisibilityCondition);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);

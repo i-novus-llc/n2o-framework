@@ -3,7 +3,7 @@ import { compose, withState, withHandlers, setDisplayName } from 'recompose';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Input from '../Input/Input';
-import { Button } from 'reactstrap';
+import Button from 'reactstrap/lib/Button';
 
 /**
  * Контрол Input для паролей
@@ -64,7 +64,6 @@ function PasswordInput({
           onClick={onToggleShowPass}
           size="sm"
           color="link"
-          disabled={disabled}
         >
           <i className={cn('fa', showPass ? 'fa-eye-slash' : 'fa-eye')} />
         </Button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TabPane } from 'reactstrap';
+import TabPane from 'reactstrap/lib/TabPane';
 
 /**
  * Компонент тела таба для {@link Panel}

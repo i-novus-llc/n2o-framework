@@ -1,5 +1,5 @@
 import React from 'react';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import SecurityCheck from './SecurityCheck';
 import PropTypes from 'prop-types';
 

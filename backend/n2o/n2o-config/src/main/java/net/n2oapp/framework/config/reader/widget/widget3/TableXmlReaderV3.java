@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.reader.widget.widget3;
 
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -13,11 +12,7 @@ import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeBoolean;
 
@@ -36,7 +31,7 @@ public class TableXmlReaderV3 extends AbstractTableXmlReaderV3<N2oTable> {
             List<Element> filters = filtersElement.getChildren();
             N2oFieldSet n2oFieldSet = getControlFieldElements(filters, readerFactory, n2oTable.getFilterPosition());
             if (n2oFieldSet != null) {
-                n2oTable.setFilters(new NamespaceUriAware[]{n2oFieldSet});
+                n2oTable.setFilters(new SourceComponent[]{n2oFieldSet});
             }
         }
 
@@ -46,16 +41,17 @@ public class TableXmlReaderV3 extends AbstractTableXmlReaderV3<N2oTable> {
     /**
      * virtualFieldSet - виртуальный филдсет, в который добавляются фильтры -филды, находящиеся на форме отдельно от филдсетов
      * Виртуальные филдсеты на форме разделены обычными филдсетами
+     *
      * @return список филдсетов-фильтров
      */
     private static N2oFieldSet getControlFieldElements(List<Element> elementList,
-                                                          NamespaceReaderFactory extensionReaderFactory, N2oTable.FilterPosition filterPosition) {
+                                                       NamespaceReaderFactory extensionReaderFactory, N2oTable.FilterPosition filterPosition) {
         try {
             N2oFieldSet virtualFieldSet = new N2oSetFieldSet();
-            virtualFieldSet.setItems(new NamespaceUriAware[elementList.size()]);
+            virtualFieldSet.setItems(new SourceComponent[elementList.size()]);
             int i = 0;
             for (Element element : elementList) {
-                NamespaceUriAware n2oElement = (NamespaceUriAware) extensionReaderFactory.produce(element)
+                SourceComponent n2oElement = (SourceComponent) extensionReaderFactory.produce(element)
                         .read(element);
                 virtualFieldSet.getItems()[i] = n2oElement;
                 i++;
@@ -65,6 +61,7 @@ public class TableXmlReaderV3 extends AbstractTableXmlReaderV3<N2oTable> {
             throw new MetadataReaderException(e);
         }
     }
+
     @Override
     public String getElementName() {
         return "table";

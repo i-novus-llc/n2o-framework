@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock';
-import { omit, pick } from 'lodash';
+import pick from 'lodash/pick';
 import { validateField } from './createValidator';
 import {
   email,

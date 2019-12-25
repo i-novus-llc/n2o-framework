@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 
 
 @Getter
@@ -10,8 +10,9 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 public class N2oTable extends N2oAbstractTable {
     private FilterPosition filterPosition;
     private Boolean filterOpened;
-    private NamespaceUriAware[] filters;
+    private SourceComponent[] filters;
     private Boolean searchOnChange;
+    private ChildrenToggle children;
 
 
     public enum FilterPosition {
@@ -20,5 +21,13 @@ public class N2oTable extends N2oAbstractTable {
         public String getName() {
             return this.name();
         }
+    }
+
+    /**
+     * Виды отображения дочерних записей таблицы
+     */
+    public enum ChildrenToggle {
+        collapse,   // свернутый
+        expand      // раскрытый
     }
 }

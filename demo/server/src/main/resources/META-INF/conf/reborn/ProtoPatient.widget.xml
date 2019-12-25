@@ -14,7 +14,7 @@
             </col>
             <col>
                 <!--<checkbox src="Switch" id="vip" label="VIP"/>-->
-                <checkbox id="vip" enabled="false"/>
+                <checkbox id="vip" enabled="false" style="font-weight: bold"/>
             </col>
         </row>
 

@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -125,7 +126,6 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
                     CompiledObject compiledObject = p.getScope(CompiledObject.class);
                     operation = compiledObject != null && compiledObject.getOperations() != null ?
                             compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-
                 }
                 //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
             }
@@ -134,6 +134,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
         }
         initConfirm(button, source, context, p, operation);
         button.setClassName(source.getClassName());
+        button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 
         String hint;
         if (LabelType.icon.equals(source.getType()))
@@ -226,11 +227,18 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             }
         }
         if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
-            String widgetId = initWidgetId(source, context, p);
-            ButtonCondition condition = new ButtonCondition();
-            condition.setExpression("!_.isEmpty(this)");
-            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
-            conditions.add(condition);
+            ComponentScope componentScope = p.getScope(ComponentScope.class);
+            Boolean isNotCell = true;
+            if (componentScope != null) {
+                isNotCell = componentScope.unwrap(N2oCell.class) == null;
+            }
+            if (isNotCell) {
+                String widgetId = initWidgetId(source, context, p);
+                ButtonCondition condition = new ButtonCondition();
+                condition.setExpression("!_.isEmpty(this)");
+                condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+                conditions.add(condition);
+            }
         }
         if (!conditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, conditions);
@@ -279,6 +287,7 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setId(sub.getId() == null ? "subMenu" + idx.get() : sub.getId());
             button.setLabel(sub.getLabel());
             button.setClassName(sub.getClassName());
+            button.setStyle(StylesResolver.resolveStyles(sub.getStyle()));
             if (sub.getColor() == null) {
                 ComponentScope componentScope = p.getScope(ComponentScope.class);
                 if (componentScope != null) {

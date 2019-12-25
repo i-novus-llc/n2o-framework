@@ -1,7 +1,8 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import { take, call, fork, select, put, takeEvery } from "redux-saga/effects";
-import { isEmpty, eq } from "lodash";
+import isEmpty from 'lodash/isEmpty';
+import eq from 'lodash/eq';
 import {
   userConfigSelector,
   localizationSelector
@@ -50,8 +51,6 @@ export function* createSocketChannel(stompClient) {
       frame => {
         console.log("Connected: " + frame);
 
-        stompClient.send(messagesURLs.getCountUrl);
-
         //Подписка на личные сообщения
         stompClient.subscribe(
           messagesURLs.subscribeUrl,
@@ -63,6 +62,8 @@ export function* createSocketChannel(stompClient) {
           messagesURLs.subscribeCountUrl,
           subscribeMessageCount(emitter)
         );
+
+        stompClient.send(messagesURLs.getCountUrl);
       },
       errorCallback => {
         console.log(errorCallback);

@@ -7,6 +7,5 @@ ENV TZ=Europe/Moscow
 
 EXPOSE 8080
 
-ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","app.jar"]
+COPY target/demo.jar demo.jar
+ENTRYPOINT ["java","-jar","demo.jar"]

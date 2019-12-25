@@ -51,7 +51,12 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string" use="optional">
             <xs:annotation>
-                <xs:documentation>Стиль текста.</xs:documentation>
+                <xs:documentation>CSS класс текста.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Стиль колонки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="visible" type="xs:boolean" use="optional">
@@ -132,7 +137,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -212,7 +217,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -259,7 +264,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -351,7 +356,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -416,6 +421,11 @@
                 <xs:documentation>Реализация ячейки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Стиль колонки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="subMenuDefinition">
@@ -426,6 +436,7 @@
         <xs:attribute name="icon" type="xs:string" use="optional"/>
         <xs:attribute name="type" type="textType" use="optional"/>
         <xs:attribute name="class" type="xs:string" use="optional"/>
+        <xs:attribute name="style" type="xs:string" use="optional"/>
         <xs:attribute name="generate" type="xs:string" use="optional"/>
     </xs:complexType>
 
@@ -434,6 +445,7 @@
         <xs:attribute name="label" type="xs:string" use="optional"/>
         <xs:attribute name="icon" type="xs:string" use="optional"/>
         <xs:attribute name="class" type="xs:string" use="optional"/>
+        <xs:attribute name="style" type="xs:string" use="optional"/>
         <xs:attribute name="validate" type="xs:boolean" use="optional" default="false"/>
         <xs:attribute name="visible" type="xs:boolean" use="optional"/>
         <xs:attribute name="visibility-condition" type="xs:string"/>
@@ -558,6 +570,11 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string" use="optional">
             <xs:annotation>
+                <xs:documentation>CSS класс кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string" use="optional">
+            <xs:annotation>
                 <xs:documentation>Стиль кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
@@ -592,7 +609,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

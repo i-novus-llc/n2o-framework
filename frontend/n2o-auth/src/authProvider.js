@@ -1,4 +1,8 @@
-import { map, values, intersection, isEmpty, indexOf } from 'lodash';
+import map from 'lodash/map';
+import values from 'lodash/values';
+import intersection from 'lodash/intersection';
+import isEmpty from 'lodash/isEmpty';
+import indexOf from 'lodash/indexOf';
 import {
   SECURITY_LOGIN,
   SECURITY_LOGOUT,
@@ -10,6 +14,7 @@ export function checkPermission(cfg = {}, user = {}) {
   if (cfg.denied) return false;
   if (cfg.permitAll) return true;
   if (cfg.anonymous) return isEmpty(user.username);
+  if (!isEmpty(cfg.permissions) && isEmpty(user.permissions)) return false;
   if (!isEmpty(user.username)) {
     if (cfg.authenticated) return true;
     return !isEmpty(intersection(cfg.roles, user.roles)) ||

@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.compile;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+
 import java.util.Map;
 
 /**
@@ -15,12 +16,12 @@ public interface CompileProcessor {
      *
      * @param source  Исходный объект
      * @param context Контекст сборки
-     * @param scope   Объекты, влияющие на последующую сборку. Должны быть разных классов.
+     * @param scopes  Объекты, влияющие на последующую сборку. Должны быть разных классов.
      * @param <S>     Тип исходного объекта
      * @param <D>     Тип собранного объекта
      * @return Собранный объект
      */
-    <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope);
+    <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes);
 
     /**
      * Собрать дополнительные атрибуты
@@ -61,15 +62,15 @@ public interface CompileProcessor {
     /**
      * Зарегистрировать новый маршрут метаданных под контекст
      *
-     * @param context    Контекст сборки
+     * @param context Контекст сборки
      */
     <D extends Compiled> void addRoute(CompileContext<D, ?> context);
 
     /**
      * Зарегистрировать новый маршрут метаданных под контекст
      *
-     * @param route      Шаблон URL
-     * @param context    Контекст сборки
+     * @param route   Шаблон URL
+     * @param context Контекст сборки
      */
     <D extends Compiled> void addRoute(String route, CompileContext<D, ?> context);
 
@@ -86,8 +87,8 @@ public interface CompileProcessor {
     /**
      * Заменить плейсхолдер на значение конвертировать по домену
      *
-     * @param placeholder  значение для конвертации
-     * @param domain Домен значения
+     * @param placeholder значение для конвертации
+     * @param domain      Домен значения
      * @return значение
      */
     Object resolve(String placeholder, String domain);

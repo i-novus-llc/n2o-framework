@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { values } from 'lodash';
 
 import TreeContainer from './container/TreeContainer';
 import StandardWidget from '../StandardWidget';

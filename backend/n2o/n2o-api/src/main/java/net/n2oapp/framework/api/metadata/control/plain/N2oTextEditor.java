@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Компонент ввода text-editor
+ * Компонент редактора текста
  */
 @Getter
 @Setter

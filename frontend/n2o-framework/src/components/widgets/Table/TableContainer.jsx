@@ -1,6 +1,9 @@
 import { connect } from 'react-redux';
 import { lifecycle, compose, withHandlers } from 'recompose';
-import { isEqual, find, isEmpty, debounce } from 'lodash';
+import isEqual from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
+import debounce from 'lodash/debounce';
 
 import Table from './Table';
 import widgetContainer from '../WidgetContainer';

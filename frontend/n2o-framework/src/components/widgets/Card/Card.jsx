@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map, flow, some, isEmpty } from 'lodash';
+import map from 'lodash/map';
+import flow from 'lodash/flow';
 import CardItem from './CardItem';
 import CardLayout from './CardLayout';
 
