@@ -197,7 +197,6 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         return text;
     }
 
-
     @Override
     public String getMessage(String messageCode, Object... arguments) {
         String defaultMessage = messageCode.contains("{0}") ? MessageFormat.format(messageCode, arguments) : messageCode;
@@ -321,7 +320,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     public <T extends SourceMetadata> void checkForExists(String id, Class<T> metadataClass, String errorMessage) {
         if (id == null)
             return;
-        if (id.contains("*") || StringUtils.hasLink(id))
+        if (StringUtils.hasWildcard(id) || StringUtils.hasLink(id))
             return;
         if (!env.getMetadataRegister().contains(id, metadataClass))
             throw new N2oMetadataValidationException(getMessage(errorMessage, id));
@@ -406,8 +405,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     /**
      * Получает значение по ключу и если оно существует, удаляет этот ключ из маппинга
+     *
      * @param mapping Маппинг
-     * @param key Ключ
+     * @param key     Ключ
      * @return Значение
      */
     private Object getValue(Map<String, ? extends BindLink> mapping, String key) {
