@@ -127,7 +127,12 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
 
 За получение списка записей отвечает элемент `<list>`.
 За получение общего количества записей - элемент `<count>`.
+
+link:https://n2oapp.net/sandbox/new/data/query/list[Пример]
+
 А за получение одной уникальной записи - `<unique>`.
+
+link:https://n2oapp.net/sandbox/new/data/query/unique[Пример]
 
 Элементов `<list>`, `<count>`, `<unique>` может быть несколько с разными наборами фильтров (атрибут `filters`).
 .Структура выборки
@@ -137,7 +142,6 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
   ...
 </list>
 ----
-
 
 link:../xml/#_Выборка_query[Подробнее о выборках]
 
@@ -244,6 +248,8 @@ link:../xml/#_Выборка_query[Подробнее о выборках]
   <in filter-id="genders*.id">...</in>
 </filters>
 ----
+
+link:https://n2oapp.net/sandbox/new/data/query/list_filters[Пример]
 
 Атрибут `filter-id` задаёт уникальный идентификатор фильтра,
 по которому можно определить поле выборки и тип фильтрации.
