@@ -14,6 +14,7 @@ export const defaultProps = {
   imageFieldId: 'image',
   badgeFieldId: 'badge',
   badgeColorFieldId: 'color',
+  sortFieldId: 'name',
   filter: 'startsWith',
   hasCheckboxes: false,
   multiSelect: false,
@@ -85,6 +86,10 @@ export const propTypes = {
    * Значение ключа badgeColor в данных
    */
   badgeColorFieldId: PropTypes.string,
+  /**
+   * Значение ключа сортировки в данных
+   */
+  sortFieldId: PropTypes.string,
   groupFieldId: PropTypes.string,
   /**
    * Флаг неактивности
