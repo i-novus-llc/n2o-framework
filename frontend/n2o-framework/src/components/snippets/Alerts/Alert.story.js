@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import _ from 'lodash';
+import omit from 'lodash/omit';
 
 import Alert from './Alert';
 import Factory from '../../../core/factory/Factory';
@@ -69,7 +69,7 @@ stories
   .add(
     'Без деталей',
     () => (
-      <Alert {..._.omit(props, 'details')} visible={true} onDismiss={e => {}} />
+      <Alert {...omit(props, 'details')} visible={true} onDismiss={e => {}} />
     ),
     {
       info: {
@@ -94,7 +94,7 @@ stories
   .add(
     'Без заголовка',
     () => (
-      <Alert {..._.omit(props, 'label')} visible={true} onDismiss={e => {}} />
+      <Alert {...omit(props, 'label')} visible={true} onDismiss={e => {}} />
     ),
     {
       info: {

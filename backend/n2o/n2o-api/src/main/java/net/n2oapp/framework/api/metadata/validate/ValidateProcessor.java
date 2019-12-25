@@ -18,9 +18,10 @@ public interface ValidateProcessor {
     /**
      * Провалидировать вложенную метаданную
      * @param metadata Исходная метаданная
+     * @param scope Объекты, влияющие на внутренние валдиации. Должны быть разных классов.
      * @param <T> Тип метаданной
      */
-    <T extends Source> void validate(T metadata);
+    <T extends Source> void validate(T metadata, Object... scope);
 
     /**
      * Получить исходную метаданную по идентификатору или вернуть null, если метаданная невалидна
@@ -39,6 +40,15 @@ public interface ValidateProcessor {
      * @return Метаданная или null
      */
     <T extends SourceMetadata> T getOrThrow(String id, Class<T> metadataClass);
+
+    /**
+     * Получить метаданную, оказывающую влияние на валидацию
+     *
+     * @param scopeClass Класс метаданной
+     * @param <D>        Тип скоупа
+     * @return Метаданная, оказывающая влияние на валидацию, или null
+     */
+    <D> D getScope(Class<D> scopeClass);
 
     /**
      * Проверить, что объект не null
@@ -64,12 +74,16 @@ public interface ValidateProcessor {
      * @param metadata Метаданная
      * @param errorMessage Сообщение о том, какой идентификатор не соответствует соглашениям об именовании
      */
-    default void checkId(IdAware metadata, String errorMessage) {
-        Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
-        Matcher matcher = pattern.matcher(metadata.getId());
-        if (matcher.find() || metadata.getId().contains(".")) {
-            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
-        }
+    void checkId(IdAware metadata, String errorMessage);
+
+    /**
+     * Проверить идентификатор метаданной на уникальность
+     * @param metadata Метаданная
+     * @param errorMessage Сообщение о том, какой идентификатор не уникален
+     */
+    default void checkUniqueId(IdAware metadata, Set<String> exists, String errorMessage) {
+        if (exists != null && metadata != null && metadata.getId() != null && exists.contains(metadata.getId()))
+            throw new N2oMetadataValidationException(getMessage(errorMessage));
     }
 
     /**

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
-import { Button, ButtonGroup, ButtonToolbar } from "reactstrap";
+import Button from "reactstrap/lib/Button";
+import ButtonGroup from "reactstrap/lib/ButtonGroup";
+import ButtonToolbar from "reactstrap/lib/ButtonToolbar";
 import N2O from "n2o";
 import { id } from "n2o-framework/lib/utils/id";
 

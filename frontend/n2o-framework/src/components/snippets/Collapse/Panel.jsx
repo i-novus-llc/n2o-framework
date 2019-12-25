@@ -1,5 +1,5 @@
 import React from 'react';
-import { isString } from 'lodash';
+import isString from 'lodash/isString';
 import PropTypes from 'prop-types';
 import { Panel as BasePanel } from 'rc-collapse';
 import cx from 'classnames';

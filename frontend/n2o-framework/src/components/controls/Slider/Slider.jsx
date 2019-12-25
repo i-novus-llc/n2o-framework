@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
 import { stringConverter, prepareStyle } from './utils';
 /**

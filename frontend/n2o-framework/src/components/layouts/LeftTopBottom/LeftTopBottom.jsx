@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-import { Col } from 'reactstrap';
+import Col from 'reactstrap/lib/Col';
 import PropTypes from 'prop-types';
 import Place from '../Place';
 import layoutPlaceResolver from '../LayoutPlaceResolver';

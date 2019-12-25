@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.test;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.selective.CompileInfo;
 
 /**

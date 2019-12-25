@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
@@ -64,9 +65,9 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             filter.setValueAttr(Placeholders.ref(p.cast(source.getMasterFieldId(), PK)));
             filter.setRefWidgetId(widgetId);
             if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
-                filter.setParam(p.cast(source.getMasterParam(), masterIdParam, filter.getFieldId()));
+                filter.setParam(p.cast(source.getMasterParam(), masterIdParam, createGlobalParam(filter.getFieldId(), p)));
             } else {
-                filter.setParam(filter.getFieldId());
+                filter.setParam(p.cast(source.getMasterParam(), createGlobalParam(filter.getFieldId(), p)));
             }
             filter.setRefModel(ReduxModel.RESOLVE);
             PageScope pageScope = p.getScope(PageScope.class);
@@ -79,7 +80,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             for (N2oPreFilter preFilter : source.getPreFilters()) {
                 N2oPreFilter filter = new N2oPreFilter();
                 filter.setFieldId(preFilter.getFieldId());
-                filter.setParam(p.cast(preFilter.getParam(), filter.getFieldId()));
+                filter.setParam(p.cast(preFilter.getParam(), createGlobalParam(filter.getFieldId(), p)));
                 filter.setType(preFilter.getType());
                 filter.setValueAttr(preFilter.getValueAttr());
                 filter.setValuesAttr(preFilter.getValuesAttr());
@@ -148,7 +149,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         if (currentClientWidgetId == null)
             currentClientWidgetId = actionModelLink.getWidgetId();
 
-        String actionRoute = initActionRoute(source, actionModelLink);
+        String actionRoute = initActionRoute(source, actionModelLink, p);
         String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
         route = normalize(route + actionRoute);
         String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
@@ -163,7 +164,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         pageContext.setUpload(source.getUpload());
         pageContext.setParentWidgetId(currentClientWidgetId);
         pageContext.setParentModelLink(actionModelLink);
-        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping.keySet()));
+        pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
         if (source.getRefreshWidgetId() != null) {
@@ -186,7 +187,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         List<N2oPreFilter> preFilters = initPreFilters(source, masterIdParam, p);
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
-        queryMapping.putAll(initPreFilterParams(preFilters, pathMapping, queryMapping));
+        queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
         pageContext.setQueryRouteMapping(queryMapping);
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
@@ -201,7 +202,6 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
      * @param actionRoute     Маршрут с параметром
      * @param pathMapping     Параметры, в которые добавится ссылка
      * @param actionModelLink Модель данных действия
-     * @param p
      * @return Наименование параметра ссылки
      */
     private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {
@@ -226,14 +226,13 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
      * @param actionModelLink Ссылка на модель действия
      * @return Маршрут с добавкой идентификатора или без
      */
-    private String initActionRoute(S source, ModelLink actionModelLink) {
+    private String initActionRoute(S source, ModelLink actionModelLink, CompileProcessor p) {
         String actionRoute = source.getRoute();
         if (actionRoute == null) {
             actionRoute = normalize(source.getId());
-            if (actionModelLink != null
-                    && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
-                String masterIdParam = source.getMasterParam() != null
-                        ? source.getMasterParam() : actionModelLink.getWidgetId() + "_id";
+            if (actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+                String masterIdParam = (source.getMasterFieldId() == null || PK.equalsIgnoreCase(source.getMasterFieldId())) ?
+                        (p.cast(source.getMasterParam(), actionModelLink.getWidgetId() + "_id")) : PK;
                 actionRoute = normalize(colon(masterIdParam)) + actionRoute;
             }
         }
@@ -258,15 +257,17 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
 
 
     private Map<String, ModelLink> initPreFilterParams(List<N2oPreFilter> preFilters,
-                                                       Map<String, ModelLink> pathParams,
-                                                       Map<String, ModelLink> queryParams) {
-        if (preFilters == null) return null;
-        Map<String, ModelLink> res = new HashMap<>();
-        Set<String> params = new HashSet<>();
-        params.addAll(pathParams.keySet());
-        params.addAll(queryParams.keySet());
-        preFilters.stream().filter(f -> f.getParam() != null && !params.contains(f.getParam()))
-                .forEach(f -> res.put(f.getParam(), Redux.linkFilter(f)));
-        return res;
+                                                       Map<String, ModelLink> pathParams) {
+        return preFilters == null ? null :
+                preFilters.stream().filter(f -> f.getParam() != null && !pathParams.keySet().contains(f.getParam()))
+                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkFilter));
+    }
+
+    private String createGlobalParam(String param, CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope == null || widgetScope.getClientWidgetId() == null) {
+            return param;
+        }
+        return widgetScope.getClientWidgetId() + "_" + param;
     }
 }

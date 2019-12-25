@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -20,6 +21,7 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 public class ToolbarCellCompileTest extends SourceCompileTestBase {
     @Override
@@ -52,6 +54,7 @@ public class ToolbarCellCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getColor(), is("danger"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getVisible(), is("`test==1`"));
         assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConfirm().getMode(), is(ConfirmType.popover));
+        assertThat(toolbar.getToolbar().get(0).getButtons().get(0).getConditions().get(ValidationType.enabled), nullValue());
         assertThat(toolbar.getActions().get("menuItem0").getId(), is("menuItem0"));
         assertThat(((LinkAction) toolbar.getActions().get("menuItem0")).getOptions().getPath(), is("https://www.google.com/"));
         assertThat(((LinkAction) toolbar.getActions().get("menuItem0")).getOptions().getTarget(), is(Target.self));

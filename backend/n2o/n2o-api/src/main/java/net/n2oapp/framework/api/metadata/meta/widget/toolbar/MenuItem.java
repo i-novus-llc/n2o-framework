@@ -39,6 +39,8 @@ public class MenuItem implements IdAware, Serializable, JsonPropertiesAware {
     @JsonProperty
     private String className;
     @JsonProperty
+    private Map<String, String> style;
+    @JsonProperty
     private String hint;
     @JsonProperty
     private String hintPosition;

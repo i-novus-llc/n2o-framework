@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { pick } from 'lodash';
-
-import { findDOMNode } from 'react-dom';
+import pick from 'lodash/pick';
 
 import DateInput from './DateInput';
 

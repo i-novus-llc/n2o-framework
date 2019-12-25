@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import cx from 'classnames';
 import { setDisplayName } from 'recompose';
 import Input from '../Input/Input';
@@ -19,7 +19,7 @@ class RadioN2O extends React.Component {
   constructor(props) {
     super(props);
 
-    this.elementId = _.uniqueId('checkbox-');
+    this.elementId = uniqueId('checkbox-');
   }
 
   /**

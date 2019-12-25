@@ -7,7 +7,9 @@ import cx from 'classnames';
 import InputSelectGroup from './InputSelectGroup';
 import PopupList from './PopupList';
 import InputContent from './InputContent';
-import { find, isEqual, isEmpty } from 'lodash';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import Alert from '../../snippets/Alerts/Alert';
 import { Manager, Reference, Popper } from 'react-popper';
 import { MODIFIERS } from '../DatePicker/utils';
@@ -500,6 +502,7 @@ class InputSelect extends React.Component {
       flip,
       autoFocus,
     } = this.props;
+
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
     const selectedPadding = this.calcSelectedItemsWidth();
     const needAddFilter = !find(

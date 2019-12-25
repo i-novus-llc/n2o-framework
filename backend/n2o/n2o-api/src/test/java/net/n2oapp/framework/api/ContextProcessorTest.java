@@ -28,7 +28,10 @@ public class ContextProcessorTest {
 
         @Override
         public Object get(String name) {
-            return name.equals("name") ? "oleg" : name.equals("three") ? 3 : null;
+            if ("name".equals(name)) return "oleg";
+            if ("three".equals(name)) return 3;
+            if ("empty".equals(name)) return "";
+            return null;
         }
 
         @Override
@@ -50,6 +53,9 @@ public class ContextProcessorTest {
         assert processor.resolve("#{surname?}") == null;
         assert processor.resolve("#{surname?none}").equals("none");
         assert processor.resolve(Arrays.asList(1, 2, "#{three}")).equals(Arrays.asList(1, 2, 3));
+
+        assertOnException(() -> processor.resolve("#{empty!}"), NotFoundContextPlaceholderException.class);
+        assert processor.resolve("#{empty?val}").equals("val");
     }
 
     @Test
@@ -83,6 +89,9 @@ public class ContextProcessorTest {
         assert processor.resolveText("name:#{unknown}").equals("name:");
         assert processor.resolveText("name:#{unknown?none}").equals("name:none");
         assert processor.resolveText("name:#{name} surname:#{surname?none}").equals("name:oleg surname:none");
+
+        assertOnException(() -> processor.resolveText("#{empty!}"), NotFoundContextPlaceholderException.class);
+        assert processor.resolveText("#{empty?val}").equals("val");
     }
 
 }

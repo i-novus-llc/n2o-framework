@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.custommonkey.xmlunit.*;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -26,6 +27,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.core.env.PropertyResolver;
 import org.xml.sax.SAXException;
 
 
@@ -34,10 +36,12 @@ import java.io.InputStream;
 import java.util.HashMap;
 
 import java.util.Map;
+import java.util.Properties;
 
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Mockito.mock;
 
 
 /**
@@ -584,7 +588,34 @@ public class IOProcessorTest {
         Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         p.element(out, "attr", baseEntity::getAttr, baseEntity::setAttr);
         assertThat(in, isSimilarTo(out));
+    }
 
+    @Test
+    public void testProps() throws Exception {
+        //test PropertyResolver
+        ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
+        readerFactory.register(new BodyNamespaceEntityIO());
+        IOProcessorImpl p = new IOProcessorImpl(readerFactory);
+        Properties properties = new Properties();
+        properties.setProperty("testProp1", "testProp1");
+        PropertyResolver systemProperties = new SimplePropertyResolver(properties);
+        p.setSystemProperties(systemProperties);
+        testElementWithProperty(p);
+
+        //test params
+        HashMap<String, String> params = new HashMap<>();
+        params.put("testProp1", "testProp1");
+        MetadataParamHolder.setParams(params);
+        p = new IOProcessorImpl(readerFactory);
+        testElementWithProperty(p);
+        MetadataParamHolder.setParams(null);
+    }
+
+    private void testElementWithProperty(IOProcessorImpl p) throws JDOMException, IOException {
+        Element in = dom("net/n2oapp/framework/config/io/ioprocessor22.xml");
+        BaseEntity baseEntity = new BaseEntity();
+        p.element(in, "attr", baseEntity::getAttr, baseEntity::setAttr);
+        assertThat(baseEntity.getAttr(), equalTo("testProp1"));
     }
 
     @Test

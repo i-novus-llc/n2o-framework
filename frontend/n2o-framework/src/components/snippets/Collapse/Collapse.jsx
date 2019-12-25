@@ -5,7 +5,7 @@ import cx from 'classnames';
 import Panel from './Panel';
 import Icon from '../Icon/Icon';
 
-import { map } from 'lodash';
+import map from 'lodash/map';
 
 const expandIcon = ({ isActive }, collapsible) =>
   collapsible ? (

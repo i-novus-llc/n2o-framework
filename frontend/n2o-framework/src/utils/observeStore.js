@@ -1,4 +1,5 @@
-import { isEqual, isEmpty } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 /**
  * Утилита позволяющая подписываться на изменения хранилища через селектор. В случае изменения вызывается callback
  * @param {Object} store - хранилище Redux

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import PopupItems from './PopupItems';
 import { lifecycle } from 'recompose';
 import cx from 'classnames';
-import { isEqual, invoke } from 'lodash';
+import isEqual from 'lodash/isEqual';
+import invoke from 'lodash/invoke';
 
 /**
  * Компонент попапа для {@link InputSelect}

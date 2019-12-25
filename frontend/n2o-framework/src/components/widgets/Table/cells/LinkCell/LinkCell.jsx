@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import { get } from 'lodash';
-import { Button } from 'reactstrap';
+import get from 'lodash/get';
+import Button from 'reactstrap/lib/Button';
 import { compose, setDisplayName } from 'recompose';
 import withCell from '../../withCell';
 import { Link } from 'react-router-dom';
@@ -75,6 +75,7 @@ function LinkCell({
         )}
         {(target === LinkType.SELF || target === LinkType.BLANK) && (
           <a
+            onClick={e => e.stopPropagation()}
             href={url}
             target={target === LinkType.BLANK ? '_blank' : ''}
             {...props}

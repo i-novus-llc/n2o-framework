@@ -19,5 +19,7 @@ public abstract class Component implements Compiled, JsonPropertiesAware {
     private String src;
     @JsonProperty
     private String className;
+    @JsonProperty
+    private Map<String, String> style;
     private Map<String, Object> properties;
 }

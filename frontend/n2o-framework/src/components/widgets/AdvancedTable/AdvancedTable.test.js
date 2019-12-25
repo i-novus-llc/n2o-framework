@@ -1,7 +1,8 @@
 import React from 'react';
 import sinon from 'sinon';
 import AdvancedTable from './AdvancedTable';
-import { set } from 'lodash';
+
+import set from 'lodash/set';
 
 const columns = [
   {

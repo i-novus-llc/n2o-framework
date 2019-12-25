@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InputGroup, Input, InputGroupAddon, InputGroupText } from 'reactstrap';
+import Input from 'reactstrap/lib/Input';
 
 /**
  * N2OSelectInput

@@ -3,4 +3,10 @@ version: "3.6"
 services:
   frontend:
     build:
-      context: .
+      context: demo/server
+  docs:
+    build:
+      context: docs
+  storybook:
+    build:
+      context: frontend/n2o-framework
