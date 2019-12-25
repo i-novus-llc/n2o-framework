@@ -125,6 +125,7 @@ const EnhancedN2O = compose(
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
+    defaultPage: 'StandardPage',
     defaultPromptMessage:
       'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     defaultErrorPages: configureErrorPages(),
@@ -153,6 +154,11 @@ const EnhancedN2O = compose(
         PropTypes.element,
         PropTypes.node,
       ]),
+      defaultPage: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+      ]),
       defaultPromptMessage: PropTypes.string,
       defaultErrorPages: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
@@ -162,6 +168,7 @@ const EnhancedN2O = compose(
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
+      defaultPage: props.defaultPage,
       defaultErrorPages: props.defaultErrorPages,
     })
   ),

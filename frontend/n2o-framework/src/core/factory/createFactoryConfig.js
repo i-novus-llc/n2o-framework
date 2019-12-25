@@ -3,7 +3,7 @@ import merge from 'deepmerge';
 import controls from '../../components/controls';
 import widgets from '../../components/widgets';
 import regions from '../../components/regions';
-import layouts from '../../components/layouts';
+import pages from '../../components/pages';
 import headers from '../../components/widgets/Table/headers';
 import cells from '../../components/widgets/Table/cells';
 import fieldsets from '../../components/widgets/Form/fieldsets';
@@ -15,7 +15,7 @@ export const factories = {
   controls,
   widgets,
   regions,
-  layouts,
+  pages,
   headers,
   cells,
   fieldsets,
