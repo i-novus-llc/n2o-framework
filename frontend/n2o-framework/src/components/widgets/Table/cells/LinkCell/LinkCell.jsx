@@ -1,20 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withHandlers, mapProps } from 'recompose';
-import cn from 'classnames';
-import omit from 'lodash/omit';
+import { compose, withHandlers, mapProps, branch } from 'recompose';
 import get from 'lodash/get';
 
-import Toolbar from '../../../../buttons/Toolbar';
+import SimpleButton from "../../../../buttons/Simple/Simple";
+import withActionButton from "../../../../buttons/withActionButton";
 import withCell from '../../withCell';
+import { withLinkAction } from "../../../../buttons/Link/Link";
 
-function LinkCell({ widgetId, className, toolbar }) {
+function LinkCell(props) {
   return (
-    <Toolbar
-      className={cn('n2o-link-cell', className)}
-      entityKey={widgetId}
-      toolbar={toolbar}
-    />
+    <SimpleButton {...props} />
   );
 }
 
@@ -25,32 +21,35 @@ LinkCell.contextTypes = {
 const enhance = compose(
   withCell,
   withHandlers({
-    createToolbar: ({
+    createButton: ({
       widgetId,
       dispatch,
       columnId,
       model,
+      className,
       fieldKey,
       id,
+      resolveWidget,
       ...rest
-    }) => () => [
-      {
-        buttons: [
-          {
-            id,
-            src: rest.url ? 'LinkButton' : 'PerformButton',
-            label: get(model, fieldKey || id, ''),
-            color: 'link',
-            ...omit(rest, ['dispatch', 'updateFieldInModel', 'resolveWidget']),
-          },
-        ],
-      },
-    ],
+    }) => () => ({
+      id,
+      className,
+      src: rest.url ? 'LinkButton' : 'PerformButton',
+      label: get(model, fieldKey || id, ''),
+      color: 'link',
+      model,
+    }),
   }),
-  mapProps(({ createToolbar, ...rest }) => ({
-    toolbar: createToolbar(),
+  mapProps(({ createButton, ...rest }) => ({
+    ...createButton(),
     ...rest,
-  }))
+  })),
+  branch(({ action }) => action, withActionButton({
+    onClick: (e, { action, resolveWidget, model, dispatch }) => {
+      resolveWidget(model);
+      dispatch(action);
+    }
+  }), withLinkAction)
 );
 
 export { LinkCell };

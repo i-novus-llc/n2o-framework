@@ -729,34 +729,30 @@
           }
         },
         "vip": {
-          "id": "vip",
-          "src": "perform",
-          "options": {
-            "type": "n2o/actionImpl/START_INVOKE",
-            "payload": {
-              "widgetId": "proto_patients",
-              "dataProvider": {
-                "url": "n2o/data/proto/:proto_patients_id/vip",
-                "pathMapping": {
-                  "proto_patients_id": {
-                    "link": "models.resolve['proto_patients'].id"
-                  }
-                },
-                "method": "POST"
-              },
-              "modelLink": "models.resolve['proto_patients']"
-            },
-            "meta": {
-              "success": {
-                "refresh": {
-                  "type": "widget",
-                  "options": {
-                    "widgetId": "proto_patients"
-                  }
+          "type": "n2o/actionImpl/START_INVOKE",
+          "payload": {
+            "widgetId": "proto_patients",
+            "dataProvider": {
+              "url": "n2o/data/proto/:proto_patients_id/vip",
+              "pathMapping": {
+                "proto_patients_id": {
+                  "link": "models.resolve['proto_patients'].id"
                 }
               },
-              "fail": {}
-            }
+              "method": "POST"
+            },
+            "modelLink": "models.resolve['proto_patients']"
+          },
+          "meta": {
+            "success": {
+              "refresh": {
+                "type": "widget",
+                "options": {
+                  "widgetId": "proto_patients"
+                }
+              }
+            },
+            "fail": {}
           }
         },
         "update": {
@@ -894,20 +890,6 @@
         "size": 10,
         "hasFocus": true,
         "hasSelect": true,
-        "rowClick": {
-          "action": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "create",
-              "pageId": "create",
-              "pageUrl": "/create",
-              "pathMapping": {},
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
-          }
-        },
         "cells": [
           {
             "id": "surname",

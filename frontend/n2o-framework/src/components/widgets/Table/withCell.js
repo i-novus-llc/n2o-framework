@@ -73,7 +73,7 @@ export default function(WrappedComponent) {
 
     const callAction = data => {
       const action = Object.assign({}, defaultAction);
-
+      resolveWidget(data);
       set(action, 'payload.data', data);
       unset(action, 'payload.modelLink');
 
