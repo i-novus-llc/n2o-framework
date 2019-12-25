@@ -27,6 +27,6 @@ public class CodeViewerIOv2 extends StandardFieldIOv2<N2oCodeViewer>{
 
     @Override
     public String getElementName() {
-        return "code-viewer";
+        return "code";
     }
 }

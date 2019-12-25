@@ -251,4 +251,15 @@ describe('<InputNumber />', () => {
     wrapper.setProps({ value: 5 });
     expect(wrapper.state().value).toEqual(5);
   });
+
+  it('позволяет ввести лидирующий минус', () => {
+    const { wrapper } = setup();
+
+    wrapper.find('input').simulate('change', {
+      target: {
+        value: '-',
+      },
+    });
+    expect(wrapper.state().value).toEqual('-');
+  });
 });

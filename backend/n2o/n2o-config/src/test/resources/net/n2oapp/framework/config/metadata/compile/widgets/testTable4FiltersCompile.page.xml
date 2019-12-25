@@ -30,6 +30,9 @@
                     </column>
                     <column text-field-id="name"/>
                 </columns>
+                <pre-filters>
+                    <eq field-id="name" param="nameParam" routable="true" value="{name}" ref-widget-id="main" ref-model="filter"/>
+                </pre-filters>
             </table>
         </region>
     </regions>

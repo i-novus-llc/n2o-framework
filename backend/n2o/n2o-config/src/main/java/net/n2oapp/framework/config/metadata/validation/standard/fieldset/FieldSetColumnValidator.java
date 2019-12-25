@@ -14,6 +14,7 @@ public class FieldSetColumnValidator implements SourceValidator<N2oFieldsetColum
     @Override
     public void validate(N2oFieldsetColumn source, ValidateProcessor p) {
         IdValidationUtils.checkIds(source.getItems(), p);
+        p.safeStreamOf(source.getItems()).forEach(p::validate);
     }
 
     @Override

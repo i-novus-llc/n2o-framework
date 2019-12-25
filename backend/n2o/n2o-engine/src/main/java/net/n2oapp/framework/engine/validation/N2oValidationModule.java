@@ -87,7 +87,7 @@ public class N2oValidationModule extends N2oModule {
         Map<String, String> paramsMap = requestInfo.getQuery().getParamToFilterIdMap();
         for (String key : dataSet.keySet()) {
             if (paramsMap.containsKey(key)) {
-                if (DataSet.isSpreadKey(paramsMap.get(key)) && !(result.get(key) instanceof Collection))
+                if (DataSet.isSpreadKey(paramsMap.get(key)) && !(dataSet.get(key) instanceof Collection))
                     result.put(paramsMap.get(key), Collections.singletonList(dataSet.get(key)));
                 else
                     result.put(paramsMap.get(key), dataSet.get(key));

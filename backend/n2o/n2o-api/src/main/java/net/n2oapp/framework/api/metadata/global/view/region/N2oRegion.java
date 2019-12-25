@@ -47,4 +47,8 @@ public abstract class N2oRegion implements Source, IdAware, SrcAware, NamespaceU
     public String getPostfix() {
         return "region";
     }
+
+    public String getAlias() {
+        return "w";
+    }
 }
