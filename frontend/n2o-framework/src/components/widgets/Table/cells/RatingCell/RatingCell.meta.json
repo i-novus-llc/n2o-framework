@@ -3,7 +3,6 @@
   "id": "rating",
   "fieldKey": "rating",
   "src": "RatingCell",
-  "widgetId": "Page_Table",
   "half": false,
   "max": 5,
   "showTooltip": false
