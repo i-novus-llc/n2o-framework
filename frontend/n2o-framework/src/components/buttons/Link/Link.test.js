@@ -20,10 +20,10 @@ const setup = props => {
 
 describe('<Link />', () => {
   it('Создание', () => {
-    const { wrapper } = setup({ url: 'testUrl', target: 'blank' });
+    const { wrapper } = setup({ url: '/testUrl', target: 'blank' });
     expect(wrapper.find('Button').exists()).toBeTruthy();
     expect(wrapper.find('Button').props().tag).toBe('a');
-    expect(wrapper.find('Button').props().href).toBe('testUrl');
+    expect(wrapper.find('Button').props().href).toBe('/testUrl');
     expect(wrapper.find('Button').props().target).toBe('blank');
   });
   it('Вызов экшена при клике inner=true', async () => {
@@ -35,6 +35,6 @@ describe('<Link />', () => {
     });
     await wrapper.find('Button').simulate('click');
     await delay(100);
-    expect(store.getActions()[1]).toEqual(push('testUrl'));
+    expect(store.getActions()[1]).toEqual(push('/testUrl'));
   });
 });

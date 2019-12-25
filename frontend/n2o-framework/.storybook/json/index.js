@@ -57,6 +57,5 @@ export {
   alertStackedErrors,
   placeholderToConfirm,
   FormPlaceholder,
-  tableActions,
   ButtonDependency
 };

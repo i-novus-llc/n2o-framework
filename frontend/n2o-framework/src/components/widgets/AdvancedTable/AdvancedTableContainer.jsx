@@ -10,6 +10,7 @@ import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import map from 'lodash/map';
 import set from 'lodash/set';
+import isUndefined from 'lodash/isUndefined';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -219,12 +220,14 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const withWidgetHandlers = withHandlers({
-  onRowClickAction: ({ rowClick, onActionImpl }) => model => {
+export const withWidgetHandlers = withHandlers({
+  onRowClickAction: ({ rowClick, dispatch }) => model => {
     const { enablingCondition } = rowClick;
     const allowRowClick = evalExpression(enablingCondition, model);
-    (allowRowClick && onActionImpl(rowClick)) ||
-      (allowRowClick === undefined && onActionImpl(rowClick));
+
+    if (allowRowClick || isUndefined(allowRowClick)) {
+      dispatch(rowClick.action);
+    }
   },
 });
 
@@ -277,6 +280,7 @@ const enhance = compose(
           expandedFieldId: props.expandedFieldId,
           className: props.className,
           rows: props.rows,
+          dispatch: props.dispatch,
         };
       },
     },

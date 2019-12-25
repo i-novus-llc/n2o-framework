@@ -26,6 +26,6 @@ export const factories = {
   buttons,
 };
 
-export default function createFactoryConfig(customConfig) {
+export default function createFactoryConfig(customConfig = {}) {
   return merge(factories, customConfig);
 }

@@ -6,7 +6,7 @@ import { compose, mapProps } from 'recompose';
 import SimpleButton from '../Simple/Simple';
 import mappingProps from '../Simple/mappingProps';
 import withActionButton from '../withActionButton';
-import compileUrl from "../../../utils/compileUrl";
+import compileUrl from '../../../utils/compileUrl';
 
 function isModifiedEvent(event) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
@@ -18,7 +18,7 @@ const LinkButton = ({ url, target, ...rest }) => (
 
 LinkButton.propTypes = {
   url: PropTypes.string,
-  target: PropTypes.string
+  target: PropTypes.string,
 };
 
 export default compose(
@@ -36,11 +36,11 @@ export default compose(
       } else {
         window.location = compiledUrl;
       }
-    }
+    },
   }),
   mapProps(props => ({
     ...mappingProps(props),
     url: props.url,
-    target: props.target,
-  })),
+    target: props.target === 'newWindow' ? '_blank' : props.target,
+  }))
 )(LinkButton);

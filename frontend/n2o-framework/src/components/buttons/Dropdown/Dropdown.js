@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, mapProps } from 'recompose';
-import { map } from 'lodash';
-import {
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap';
+import map from 'lodash/map';
+
+import ButtonDropdown from 'reactstrap/lib/ButtonDropdown';
+import DropdownToggle from 'reactstrap/lib/DropdownToggle';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
 
 import Factory from '../../../core/factory/Factory';
 import { BUTTONS } from '../../../core/factory/factoryLevels';
@@ -29,11 +28,17 @@ class DropdownButton extends React.Component {
     const { open } = this.state;
 
     return (
-      <ButtonDropdown isOpen={open} toggle={this.toggle}>
+      <ButtonDropdown
+        classname="n2o-dropdown-control"
+        isOpen={open}
+        toggle={this.toggle}
+      >
         <SimpleButton {...rest} tag={DropdownToggle} caret />
-        <DropdownMenu persist>
-          {map(subMenu, ({ src, ...rest }) => {
-            return (
+        <DropdownMenu className="n2o-dropdown-menu">
+          {map(subMenu, ({ src, component, ...rest }) => {
+            return component ? (
+              React.createElement(component, rest)
+            ) : (
               <Factory
                 key={rest.id}
                 {...rest}

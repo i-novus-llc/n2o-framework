@@ -117,17 +117,21 @@ export default function withActionButton(options = {}) {
           this.handleOpenConfirmModal();
         } else {
           this.isConfirm = false;
-          onClick(this.lastEvent || e, {
-            ...omit(this.props, [
-              'isInit',
-              'initialProps',
-              'registerButton',
-              'uid',
-              'validationConfig',
-              'formValues',
-            ]),
-            isConfirm: this.isConfirm,
-          }, state);
+          onClick(
+            this.lastEvent || e,
+            {
+              ...omit(this.props, [
+                'isInit',
+                'initialProps',
+                'registerButton',
+                'uid',
+                'validationConfig',
+                'formValues',
+              ]),
+              isConfirm: this.isConfirm,
+            },
+            state
+          );
           this.lastEvent = null;
         }
       };

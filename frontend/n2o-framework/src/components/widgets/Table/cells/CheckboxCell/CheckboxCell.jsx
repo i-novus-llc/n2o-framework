@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import unset from 'lodash/unset';
 import isEqual from 'lodash/isEqual';
 import {
   compose,
@@ -14,14 +15,11 @@ import withCell from '../../withCell';
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O';
 
 function CheckboxCell({
-  callActionImpl,
-  updateFieldInModel,
   model,
   fieldKey,
   id,
   visible,
   disabled,
-  callInvoke,
   checked,
   handleClick,
   handleChange,
@@ -59,7 +57,6 @@ CheckboxCell.propTypes = {
    * Класс
    */
   className: PropTypes.string,
-  callInvoke: PropTypes.func,
   /**
    * Флаг видимости
    */
@@ -85,8 +82,7 @@ export default compose(
       e.stopPropagation();
     },
     handleChange: ({
-      callActionImpl,
-      callInvoke,
+      dispatch,
       action,
       setChecked,
       model,
@@ -104,7 +100,9 @@ export default compose(
       );
 
       setChecked(checked);
-      callActionImpl(e, { action, model: data });
+      set(action, 'payload.data', data);
+      unset(action, 'payload.modelLink');
+      dispatch(action);
     },
   }),
   lifecycle({

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { compose, withHandlers, mapProps } from 'recompose';
 import cn from 'classnames';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
 
 import Toolbar from '../../../../buttons/Toolbar';
 import withCell from '../../withCell';
@@ -17,7 +18,7 @@ function LinkCell({ widgetId, className, toolbar }) {
   );
 }
 
-LinkCell.contextTypes  = {
+LinkCell.contextTypes = {
   store: PropTypes.object,
 };
 
@@ -38,9 +39,9 @@ const enhance = compose(
           {
             id,
             src: rest.url ? 'LinkButton' : 'PerformButton',
-            label: model[fieldKey || id],
+            label: get(model, fieldKey || id, ''),
             color: 'link',
-            ...omit(rest, ['dispatch', 'updateFieldInModel', 'resolveWidget'])
+            ...omit(rest, ['dispatch', 'updateFieldInModel', 'resolveWidget']),
           },
         ],
       },
@@ -52,4 +53,5 @@ const enhance = compose(
   }))
 );
 
+export { LinkCell };
 export default enhance(LinkCell);

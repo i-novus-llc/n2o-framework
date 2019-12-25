@@ -5,29 +5,26 @@ import InputText from '../../../../controls/InputText/InputText';
 
 const action = {
   id: 'update',
-  src: 'perform',
-  options: {
-    type: 'n2o/actionImpl/START_INVOKE',
-    payload: {
-      widgetId: '__patients',
-      dataProvider: {
-        url: 'n2o/data/update',
-        pathMapping: {},
-        method: 'POST',
-      },
-      modelLink: "models.resolve['__patients']",
+  type: 'n2o/actionImpl/START_INVOKE',
+  payload: {
+    widgetId: '__patients',
+    dataProvider: {
+      url: 'n2o/data/update',
+      pathMapping: {},
+      method: 'POST',
     },
-    meta: {
-      success: {
-        refresh: {
-          type: 'widget',
-          options: {
-            widgetId: '__patients',
-          },
+    modelLink: "models.resolve['__patients']",
+  },
+  meta: {
+    success: {
+      refresh: {
+        type: 'widget',
+        options: {
+          widgetId: '__patients',
         },
       },
-      fail: {},
     },
+    fail: {},
   },
 };
 
@@ -61,6 +58,7 @@ describe('Тесты EditableCell', function() {
     expect(wrapper.find('.n2o-editable-cell-control').exists()).toEqual(true);
   });
   it('срабатывает onChange', () => {
+    const dispatch = sinon.spy();
     const wrapper = setup({
       control: {
         component: InputText,
@@ -68,6 +66,7 @@ describe('Тесты EditableCell', function() {
       editFieldId: 'name',
       callInvoke: () => {},
       onResolve: () => {},
+      dispatch
     });
     expect(wrapper.state().model).toEqual({});
     wrapper
@@ -117,6 +116,7 @@ describe('Тесты EditableCell', function() {
     const callInvoke = sinon.spy();
     const onResolve = sinon.spy();
     const onSetSelectedId = sinon.spy();
+    const dispatch = sinon.spy();
 
     const wrapper = setup({
       control: {
@@ -133,6 +133,7 @@ describe('Тесты EditableCell', function() {
       callInvoke,
       onResolve,
       onSetSelectedId,
+      dispatch
     });
 
     wrapper
@@ -150,15 +151,7 @@ describe('Тесты EditableCell', function() {
 
     expect(onResolve.called).toEqual(true);
     expect(onSetSelectedId.called).toEqual(true);
-    expect(callInvoke.calledOnce).toEqual(true);
-    expect(callInvoke.getCall(0).args[0]).toEqual({
-      id: 1,
-      surname: 'Ivanov',
-      name: 'Sergey',
-      part: 'Ivanovich',
-    });
-    expect(callInvoke.getCall(0).args[1]).toEqual(
-      action.options.payload.dataProvider
-    );
+    expect(dispatch.calledOnce).toBeTruthy();
+    expect(dispatch.getCall(0).args[0]).toEqual(action);
   });
 });
