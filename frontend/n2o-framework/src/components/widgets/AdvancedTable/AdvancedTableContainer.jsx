@@ -276,7 +276,6 @@ const enhance = compose(
           multiHeader: props.multiHeader,
           bordered: props.bordered,
           rowClick: props.rowClick,
-          onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
           className: props.className,
           rows: props.rows,

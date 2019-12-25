@@ -91,12 +91,10 @@ export class EditableCell extends React.Component {
   }
 
   callAction(model) {
-    const { dispatch, action, onResolve, widgetId } = this.props;
+    const { callAction, onResolve, widgetId } = this.props;
 
-    set(action, 'payload.data', model);
-    unset(action, 'payload.modelLink');
     onResolve(widgetId, model);
-    dispatch(action);
+    callAction(model);
   }
 
   handleKeyDown() {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange } from 'recompose';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 
 import { registerButton } from '../../actions/toolbar';
 import {

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
-import { ButtonToolbar, ButtonGroup } from 'reactstrap';
+import map from 'lodash/map';
+import ButtonToolbar from 'reactstrap/lib/ButtonToolbar';
+import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 
 import Factory from '../../core/factory/Factory';
 import { BUTTONS } from '../../core/factory/factoryLevels';

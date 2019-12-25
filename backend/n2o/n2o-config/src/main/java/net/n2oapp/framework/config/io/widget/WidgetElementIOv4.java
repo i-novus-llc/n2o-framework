@@ -71,6 +71,7 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
     private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
         p.attribute(e, "param", pf::getParam, pf::setParam);
+        p.attributeBoolean(e, "routable", pf::getRoutable, pf::setRoutable);
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);

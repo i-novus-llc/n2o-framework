@@ -8,11 +8,12 @@ import Toolbar from '../../../../buttons/Toolbar';
  *
  * @param id
  * @param className
- * @param callActionImpl
  * @param visible
  * @param actions
  * @param toolbar
  * @param model
+ * @param style
+ * @param widgetId
  * @param other
  * @returns {*}
  * @constructor

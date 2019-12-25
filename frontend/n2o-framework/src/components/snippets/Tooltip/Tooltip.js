@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { UncontrolledTooltip } from 'reactstrap';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 
 /**
  * HOC для добавления подсказки при наведение

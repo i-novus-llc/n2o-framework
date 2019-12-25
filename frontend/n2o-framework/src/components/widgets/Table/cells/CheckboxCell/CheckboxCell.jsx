@@ -81,14 +81,7 @@ export default compose(
     handleClick: () => e => {
       e.stopPropagation();
     },
-    handleChange: ({
-      dispatch,
-      action,
-      setChecked,
-      model,
-      fieldKey,
-      id,
-    }) => e => {
+    handleChange: ({ callAction, setChecked, model, fieldKey, id }) => e => {
       const checked = e.nativeEvent.target.checked;
 
       const data = set(
@@ -100,9 +93,7 @@ export default compose(
       );
 
       setChecked(checked);
-      set(action, 'payload.data', data);
-      unset(action, 'payload.modelLink');
-      dispatch(action);
+      callAction(data);
     },
   }),
   lifecycle({
