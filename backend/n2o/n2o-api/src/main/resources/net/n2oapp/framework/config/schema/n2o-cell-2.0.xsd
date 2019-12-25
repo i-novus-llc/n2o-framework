@@ -139,7 +139,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -219,7 +219,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -266,7 +266,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -358,7 +358,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -641,7 +641,7 @@
                 <xs:attribute name="model" type="clientModel">
                     <xs:annotation>
                         <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокировано.
+                            заблокирована.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

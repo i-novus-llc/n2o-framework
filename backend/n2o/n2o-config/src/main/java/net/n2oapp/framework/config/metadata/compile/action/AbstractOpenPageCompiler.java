@@ -67,7 +67,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
             if ((source.getMasterFieldId() == null || source.getMasterFieldId().equals(PK)) && ReduxModel.RESOLVE.equals(model)) {
                 filter.setParam(p.cast(source.getMasterParam(), masterIdParam, createGlobalParam(filter.getFieldId(), p)));
             } else {
-                filter.setParam(createGlobalParam(filter.getFieldId(), p));
+                filter.setParam(p.cast(source.getMasterParam(), createGlobalParam(filter.getFieldId(), p)));
             }
             filter.setRefModel(ReduxModel.RESOLVE);
             PageScope pageScope = p.getScope(PageScope.class);
@@ -149,7 +149,7 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
         if (currentClientWidgetId == null)
             currentClientWidgetId = actionModelLink.getWidgetId();
 
-        String actionRoute = initActionRoute(source, actionModelLink);
+        String actionRoute = initActionRoute(source, actionModelLink, p);
         String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
         route = normalize(route + actionRoute);
         String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
@@ -226,14 +226,13 @@ public abstract class AbstractOpenPageCompiler<D extends AbstractAction, S exten
      * @param actionModelLink Ссылка на модель действия
      * @return Маршрут с добавкой идентификатора или без
      */
-    private String initActionRoute(S source, ModelLink actionModelLink) {
+    private String initActionRoute(S source, ModelLink actionModelLink, CompileProcessor p) {
         String actionRoute = source.getRoute();
         if (actionRoute == null) {
             actionRoute = normalize(source.getId());
-            if (actionModelLink != null
-                    && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
-                String masterIdParam = source.getMasterParam() != null
-                        ? source.getMasterParam() : actionModelLink.getWidgetId() + "_id";
+            if (actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+                String masterIdParam = (source.getMasterFieldId() == null || PK.equalsIgnoreCase(source.getMasterFieldId())) ?
+                        (p.cast(source.getMasterParam(), actionModelLink.getWidgetId() + "_id")) : PK;
                 actionRoute = normalize(colon(masterIdParam)) + actionRoute;
             }
         }

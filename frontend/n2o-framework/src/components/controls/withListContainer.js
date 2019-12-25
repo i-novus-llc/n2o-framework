@@ -37,6 +37,7 @@ function withListContainer(WrappedComponent) {
     onScrollEnd,
     loading,
     labelFieldId,
+    sortFieldId,
     ...rest
   }) => {
     /**
@@ -45,10 +46,11 @@ function withListContainer(WrappedComponent) {
      * @param concat {boolean} - флаг добавления новых данных к текущим
      */
     const callApiWithParams = (optionalParams = {}, concat = false) => {
+      const sortId = sortFieldId || labelFieldId;
       const params = {
         size,
         page,
-        [`sorting.${labelFieldId}`]: 'ASC',
+        [`sorting.${sortId}`]: 'ASC',
         ...optionalParams,
       };
       _fetchData(params, concat);

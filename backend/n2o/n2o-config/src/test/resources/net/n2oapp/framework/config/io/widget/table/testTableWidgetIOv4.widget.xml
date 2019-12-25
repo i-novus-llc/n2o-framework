@@ -115,7 +115,7 @@
         <contains field-id="test" values="test1,test2"/>
     </pre-fields>
     <pre-filters>
-        <contains field-id="test" values="test1,test2" value="test"/>
+        <contains field-id="test" values="test1,test2" value="test" routable="true"/>
     </pre-filters>
     <toolbar place="bottomLeft">
         <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true" tooltip-position="bottom">
