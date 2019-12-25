@@ -1,0 +1,7 @@
+{
+  "id": "rating",
+  "widgetId": "testRatingCell",
+  "showTooltip": true,
+  "half": true,
+  "max": 10
+}

@@ -31,7 +31,7 @@ public class RatingCellJsonTest extends JsonMetadataTestBase {
     @Test
     public void ratingCell() {
         check("net/n2oapp/framework/config/mapping/testRatingCell.widget.xml",
-                "components/widgets/Table/cells/ProgressBarCell/testRatingCell.meta.json")
+                "components/widgets/Table/cells/RatingCell/RatingCell.meta.json")
                 .cutXml("table.cells[0]")
                 .exclude("fieldKey", "src")
                 .assertEquals();
