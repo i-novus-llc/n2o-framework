@@ -203,7 +203,7 @@ image::images/table.png[]
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
   name="Моя таблица"
-  query-id="test">
+  query-id="table">
   <columns>
     <column text-field-id="firstName" label="Имя"/>
     <column text-field-id="lastName" label="Фамилия"/>
@@ -224,8 +224,7 @@ image::images/widget_form.png[]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моя форма"
-  object-id="myObject">
+  name="Моя форма">
   <fields>
     <input-text id="firstName" label="Имя"/>
     <input-text id="lastName" label="Фамилия"/>
