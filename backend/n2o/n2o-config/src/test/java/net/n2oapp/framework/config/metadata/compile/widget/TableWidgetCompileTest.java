@@ -7,12 +7,13 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
@@ -98,7 +99,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testRowClick() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
                 .get(new PageContext("testTable4RowClickCompile"));
         List<AbstractAction> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((TableWidgetComponent) widget.getComponent()).getRowClick()));
@@ -153,7 +154,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testFilters() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
                 .get(new PageContext("testTable4FiltersCompile"));
         Table table = (Table) page.getWidgets().get("testTable4FiltersCompile_main");
         Filter filter = table.getFilter("name");
@@ -281,7 +282,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testColumnVisibility() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
         assertThat(columnHeaders.get(0).getVisible(), is(Boolean.FALSE));

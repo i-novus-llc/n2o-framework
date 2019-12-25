@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -38,9 +39,9 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     public void closeModal() throws Exception {
         ModalPageContext context = new ModalPageContext("testCloseAction", "/p/w/a");
         context.setClientPageId("p_w_a");
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
-        CloseAction testAction = (CloseAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
+        CloseAction testAction = (CloseAction) page.getWidget().getActions().get("test");
         assertThat(testAction.getId(), is("test"));
         assertThat(testAction.getSrc(), is("perform"));
         assertThat(testAction.getOptions().getType(), is("n2o/modals/CLOSE"));
@@ -53,9 +54,9 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
     public void back() {
         PageContext context = new PageContext("testCloseAction", "/p/w/a");
         context.setParentRoute("/p/w");
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
-        LinkAction testAction = (LinkAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
+        LinkAction testAction = (LinkAction) page.getWidget().getActions().get("test");
         assertThat(testAction.getId(), is("test"));
         assertThat(testAction.getSrc(), is("link"));
         assertThat(testAction.getOptions().getPath(), is("/p/w"));

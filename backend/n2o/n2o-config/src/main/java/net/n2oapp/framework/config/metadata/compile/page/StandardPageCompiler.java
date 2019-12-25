@@ -10,8 +10,12 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
+import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -31,12 +35,11 @@ import java.util.stream.Stream;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 @Component
-public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
-
+public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, StandardPage> {
 
     @Override
-    public Page compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
-        Page page = new Page();
+    public StandardPage compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
+        StandardPage page = new StandardPage();
         List<N2oWidget> sourceWidgets = collectWidgets(source);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
@@ -70,9 +73,11 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         if (!(context instanceof ModalPageContext))
             page.setRoutes(pageRoutes);
         //compile region
-        page.setLayout(createLayout(source, p, context, pageScope));
+        initRegions(source, page, p, context, pageScope);
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
+        page.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.page.src"), String.class)));
+        page.setProperties(p.mapAttributes(source));
         if (context.getSubmitOperationId() != null)
             initToolbarGenerate(source, resultWidgetId);
         MetaActions metaActions = new MetaActions();
@@ -118,14 +123,13 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         }
     }
 
-    private void compileToolbarAndAction(Page compiled, N2oStandardPage source, PageContext context, CompileProcessor p,
+    private void compileToolbarAndAction(StandardPage compiled, N2oStandardPage source, PageContext context, CompileProcessor p,
                                          MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
                                          CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
         actionsToToolbar(source);
         compiled.setToolbar(compileToolbar(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList));
         compileActions(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList);
     }
-
 
     private void actionsToToolbar(N2oStandardPage source) {
         if (source.getActions() == null || source.getToolbars() == null)
@@ -224,14 +228,12 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                         pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
     }
 
-    private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context,
-                                PageScope pageScope) {
-        Layout layout = new Layout();
-        layout.setSrc(p.cast(source.getLayout(), p.resolve(property("n2o.api.page.layout.src"), String.class)));
+    private void initRegions(N2oStandardPage source, StandardPage page, CompileProcessor p, PageContext context,
+                             PageScope pageScope) {
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getRegions() != null) {
             IndexScope index = new IndexScope();
-            for (N2oRegion n2oRegion : source.getRegions().getRegions()) {
+            for (N2oRegion n2oRegion : source.getRegions()) {
                 Region region = p.compile(n2oRegion, context, index, pageScope);
                 String place = p.cast(n2oRegion.getPlace(), "single");
                 if (regionMap.get(place) != null) {
@@ -242,10 +244,8 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                     regionMap.put(place, regionList);
                 }
             }
-            layout.setRegions(regionMap);
-            layout.setProperties(p.mapAttributes(source.getRegions()));
+            page.setRegions(regionMap);
         }
-        return layout;
     }
 
     @Override
@@ -256,8 +256,8 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     private List<N2oWidget> collectWidgets(N2oStandardPage page) {
         List<N2oWidget> result = new ArrayList<>();
         Map<String, Integer> ids = new HashMap<>();
-        if (page.getN2oRegions() != null) {
-            for (N2oRegion region : page.getN2oRegions()) {
+        if (page.getRegions() != null) {
+            for (N2oRegion region : page.getRegions()) {
                 if (!ids.containsKey(region.getAlias())) {
                     ids.put(region.getAlias(), 1);
                 }

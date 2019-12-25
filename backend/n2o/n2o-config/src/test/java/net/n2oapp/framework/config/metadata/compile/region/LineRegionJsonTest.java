@@ -32,7 +32,7 @@ public class LineRegionJsonTest extends JsonMetadataTestBase {
     public void lineRegion() {
         check("net/n2oapp/framework/config/mapping/testLineRegionJson.page.xml",
                 "components/regions/List/ListRegion.meta.json")
-                .cutXml("layout.regions.single[0]")
+                .cutXml("regions.single[0]")
                 .changeValue("items[0].widgetId", "testLineRegionJson_html")
                 .exclude("items[0].widgetId", "items[0].opened", "items[1]", "items[0].id")
                         .assertEquals();

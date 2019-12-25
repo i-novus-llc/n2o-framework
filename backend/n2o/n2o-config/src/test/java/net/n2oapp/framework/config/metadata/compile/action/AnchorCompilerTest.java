@@ -1,9 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -31,7 +33,7 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
 
     @Test
     public void testAnchor() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testAnchorAction.page.xml")
                 .get(new PageContext("testAnchorAction"));
         LinkAction link1 = (LinkAction)page.getWidgets().get("page_test").getActions().get("id1");
 
@@ -60,14 +62,14 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link3.getOptions().getTarget(), is(Target.self));
 
         PageContext modalContext = (PageContext) route("/page/widget/123/id4", Page.class);
-        Page modalPage = read().compile().get(modalContext);
-        link1 = (LinkAction)modalPage.getWidgets().get("page_widget_id4_test").getActions().get("id1");
+        SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
+        link1 = (LinkAction) modalPage.getWidget().getActions().get("id1");
         assertThat(link1.getOptions().getPath(), is("/page/widget/:page_test_id/id4/widget2/test"));
         assertThat(link1.getOptions().getTarget(), is(Target.application));
         assertThat(link1.getOptions().getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
         assertThat(link1.getOptions().getQueryMapping().size(), is(0));
 
-        link2 = (LinkAction)modalPage.getWidgets().get("page_widget_id4_test").getActions().get("id2");
+        link2 = (LinkAction) modalPage.getWidget().getActions().get("id2");
         assertThat(link2.getOptions().getPath(), is("/page/widget/:page_test_id/id4/widget2/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getOptions().getTarget(), is(Target.application));
         assertThat(link2.getOptions().getPathMapping().size(), is(3));
@@ -80,7 +82,7 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link2.getOptions().getQueryMapping().get("param3").getBindLink(), is("models.resolve['page_widget_id4_test']"));
         assertThat(link2.getOptions().getQueryMapping().get("param3").getValue(), is("`field3`"));
 
-        link3 = (LinkAction)modalPage.getWidgets().get("page_widget_id4_test").getActions().get("id3");
+        link3 = (LinkAction) modalPage.getWidget().getActions().get("id3");
         assertThat(link3.getOptions().getPath(), is("/page/widget/test3"));
         assertThat(link3.getOptions().getTarget(), is(Target.application));
         assertThat(link3.getOptions().getPathMapping().size(), is(0));

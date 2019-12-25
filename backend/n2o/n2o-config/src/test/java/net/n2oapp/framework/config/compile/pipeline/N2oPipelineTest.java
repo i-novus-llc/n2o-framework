@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.factory.MockMetadataFactory;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;

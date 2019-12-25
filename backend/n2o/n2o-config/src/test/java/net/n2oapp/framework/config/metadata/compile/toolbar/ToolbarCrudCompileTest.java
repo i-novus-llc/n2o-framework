@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -99,8 +100,8 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         context.setRefreshOnClose(true);
         context.setParentRoute("/test");
 
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
-        CloseAction close = (CloseAction) page.getActions().get("close");
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
+        CloseAction close = (CloseAction) page.getWidget().getActions().get("close");
 
         assertThat(close.getId(), Matchers.is("close"));
         assertThat(close.getOptions().getType(), Matchers.is("n2o/modals/CLOSE"));

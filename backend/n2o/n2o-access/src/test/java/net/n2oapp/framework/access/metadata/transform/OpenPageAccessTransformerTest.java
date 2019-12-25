@@ -4,7 +4,8 @@ import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessT
 import net.n2oapp.framework.access.integration.metadata.transform.action.OpenPageAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -46,7 +47,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModal.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testOpenPageAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
@@ -89,7 +90,7 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModalV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testOpenPageAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testOpenPageAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
