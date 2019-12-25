@@ -22,12 +22,12 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
@@ -69,7 +69,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     /**
      * Запрещенные имена идентификаторов
      */
-    private Set<String> forbiddenIds = Collections.emptySet();
+    private Set<String> forbiddenIds;
 
     /**
      * Конструктор процессора сборки метаданных
@@ -106,7 +106,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      * Конструктор процессора внутренней сборки метаданных
      *
      * @param parent Родительский процессор сборки
-     * @param scopes  Метаданные, влияющие на сборку. Должны быть разных классов.
+     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов.
      */
     private N2oCompileProcessor(N2oCompileProcessor parent, Object... scopes) {
         this.env = parent.env;
@@ -143,7 +143,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
             Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
-            if (res != null) {
+            res = CompileUtil.resolveNestedAttributes(res, env.getDomainProcessor()::deserialize);
+            if (!res.isEmpty()) {
                 extAttributes.putAll(res);
             }
         });

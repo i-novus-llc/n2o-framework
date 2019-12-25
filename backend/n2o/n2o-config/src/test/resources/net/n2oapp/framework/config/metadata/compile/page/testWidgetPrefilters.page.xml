@@ -6,7 +6,7 @@
             <table id="master1" query-id="testStandardPageDependency"/>
             <table id="detail1" query-id="testStandardPageDependency" depends-on="master1" detail-field-id="parent.id">
                 <pre-filters>
-                    <eq field-id="name" value="test"/>
+                    <eq field-id="name" value="test" routable="true" param="nameParam"/>
                     <in field-id="gender.id">
                         <value>1</value>
                         <value>2</value>
