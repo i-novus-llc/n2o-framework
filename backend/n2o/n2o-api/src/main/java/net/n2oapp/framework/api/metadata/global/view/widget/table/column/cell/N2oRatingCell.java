@@ -11,8 +11,6 @@ import lombok.Setter;
 @Setter
 public class N2oRatingCell extends N2oActionCell {
     @JsonProperty
-    private String widgetId;
-    @JsonProperty
     private Boolean showTooltip;
     @JsonProperty
     private Boolean half;
