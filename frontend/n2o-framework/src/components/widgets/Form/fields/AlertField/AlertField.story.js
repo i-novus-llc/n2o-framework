@@ -26,6 +26,7 @@ stories.add('Компонент', () => <AlertField {...props} />, {
         visible={true}
         color="info"
         fade={true}
+        tag="span"
      />
     ~~~
     `,

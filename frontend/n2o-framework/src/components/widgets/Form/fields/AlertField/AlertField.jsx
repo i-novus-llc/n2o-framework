@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
 import Alert from 'reactstrap/lib/Alert';
 
@@ -10,11 +11,10 @@ import Alert from 'reactstrap/lib/Alert';
  * @reactProps {string} header - заголовок алерта
  * @reactProps {string} footer - нижняя часть алерта
  * @reactProps {string} className - css-класс для поля
- * @reactProps {string} closeClassName - css-класс для кнопки закрытия
  * @reactProps {string} color - цвет поля
  * @reactProps {string} tag - тэг алерта
  * @reactProps {bool} fade - плавное отображение
- * @reactProps {object} transition - настройка плавности алерта
+ * @reactProps {object} style - стили алерта
  * @return {node|null}
  * @example
  * <AlertField visible={true}
@@ -23,9 +23,22 @@ import Alert from 'reactstrap/lib/Alert';
  *             fade={true} />
  */
 
-const AlertField = ({ visible, header, text, footer, ...rest }) => {
+const AlertField = ({
+  visible,
+  header,
+  text,
+  footer,
+  style,
+  className,
+  ...rest
+}) => {
   return visible ? (
-    <Alert isOpen={visible} {...rest}>
+    <Alert
+      isOpen={visible}
+      className={cx('n2o-alert-field', className)}
+      {...rest}
+      style={style}
+    >
       {header ? (
         <Fragment>
           <h4 className="n2o-alert-field-header">{header}</h4>
@@ -65,14 +78,13 @@ AlertField.propTypes = {
    */
   className: PropTypes.string,
   /**
-   * Класс кнопки закрытия алерта
-   */
-  closeClassName: PropTypes.string,
-  /**
    * Цвет алерта
    */
+  style: PropTypes.object,
+  /**
+   * Стили алерта
+   */
   color: PropTypes.string,
-  toggle: PropTypes.func,
   /**
    * Тэг алерта
    */
@@ -81,10 +93,6 @@ AlertField.propTypes = {
    * Плавность алерта
    */
   fade: PropTypes.bool,
-  /**
-   * Настройка плавности алерта
-   */
-  transition: PropTypes.object,
 };
 
 AlertField.defaultProps = {
