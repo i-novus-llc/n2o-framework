@@ -2,15 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
-import {
-  isEqual,
-  omit,
-  filter,
-  toNumber,
-  toString,
-  replace,
-  isNaN,
-} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
+import filter from 'lodash/filter';
+import toNumber from 'lodash/toNumber';
+import toString from 'lodash/toString';
+import replace from 'lodash/replace';
+import isNaN from 'lodash/isNaN';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 /**
@@ -38,7 +36,7 @@ class InputMask extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.prepareValue(props.value, props.mask),
+      value: props.value,
       guide: false,
     };
     this.valid = false;
@@ -152,7 +150,7 @@ class InputMask extends React.Component {
 
   _onBlur(e) {
     const { resetOnNotValid, onBlur } = this.props;
-    const { value } = this.state;
+    const { value } = e.nativeEvent.target;
     this.valid = this._isValid(value);
     onBlur(value);
     if (!this.valid) {
@@ -170,36 +168,14 @@ class InputMask extends React.Component {
     }
   }
 
-  getParsedValue = (value, isMask = true) => {
-    return filter(
-      replace(value, / /g, ''),
-      char => !isNaN(toNumber(char)) && (!isMask || toString(char) === '9')
-    ).join('');
-  };
-
-  prepareValue = (value, mask) => {
-    if (!mask) {
-      return value;
-    }
-
-    const parsedMask = this.getParsedValue(mask);
-    const parsedValue = this.getParsedValue(value, false);
-    const maskLength = parsedMask.length;
-    const valueLength = parsedValue.length;
-
-    return parsedValue && valueLength > maskLength
-      ? toString(parsedValue).substring(valueLength - maskLength, valueLength)
-      : parsedValue;
-  };
-
   /**
    * обработка новых пропсов
    */
   componentDidUpdate(prevProps) {
-    const { value, mask } = this.props;
+    const { value } = this.props;
 
     if (!isEqual(prevProps.value, value)) {
-      this.setState({ value: this.prepareValue(value, mask) });
+      this.setState({ value });
     }
 
     this.dict = { ...this.dict, ...this.props.dictionary };

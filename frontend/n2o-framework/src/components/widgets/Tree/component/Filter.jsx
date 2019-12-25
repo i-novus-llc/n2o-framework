@@ -1,6 +1,6 @@
 import React from 'react';
 import { withState } from 'recompose';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 //components
 import Icon from '../../../snippets/Icon/Icon';

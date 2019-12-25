@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CustomInput, Input, Button } from "reactstrap";
+import CustomInput from "reactstrap/lib/CustomInput";
+import Input from "reactstrap/lib/Input";
+import Button from "reactstrap/lib/Button";
 import { isBoolean } from "lodash";
 
 class ToDoForm extends React.Component {

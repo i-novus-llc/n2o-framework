@@ -1,16 +1,20 @@
-import _ from 'lodash';
+import isObject from 'lodash/isObject';
+import isArray from 'lodash/isArray';
+import values from 'lodash/values';
+import isString from 'lodash/isString';
+import merge from 'deepmerge';
 
-import headers from '../components/widgets/Table/headers';
-import cells from '../components/widgets/Table/cells';
-import fieldsets from '../components/widgets/Form/fields';
-import fields from '../components/widgets/Form/fieldsets';
-import actions from '../impl/actions';
-import exportModal from '../components/widgets/Table/ExportModal';
-import storyModal from '../components/widgets/Table/StoryModal';
-import ToggleColumn from '../components/actions/Dropdowns/ToggleColumn';
-import ChangeSize from '../components/actions/Dropdowns/ChangeSize';
-import controls from '../components/controls';
-import NotFoundFactory from '../core/factory/NotFoundFactory';
+import headers from '../../components/widgets/Table/headers';
+import cells from '../../components/widgets/Table/cells';
+import fieldsets from '../../components/widgets/Form/fields';
+import fields from '../../components/widgets/Form/fieldsets';
+import actions from '../../impl/actions';
+import exportModal from '../../components/widgets/Table/ExportModal';
+import storyModal from '../../components/widgets/Table/StoryModal';
+import ToggleColumn from '../../components/actions/Dropdowns/ToggleColumn';
+import ChangeSize from '../../components/actions/Dropdowns/ChangeSize';
+import controls from '../../components/controls';
+import NotFoundFactory from '../../core/factory/NotFoundFactory';
 
 const index = {
   ...headers,
@@ -35,6 +39,7 @@ const componentType = 'component';
  * @param {Object} props - объект свойств которые требуется преобразовать
  * @param {String} defaultComponent - src-string по-умолчанию
  * @param {String} type - тип преобразуемого объекта
+ * @param {object} customConfig - кастомные компоненты
  * @return {Object}
  * @example
  * const props = {
@@ -49,22 +54,24 @@ const componentType = 'component';
 export default function factoryResolver(
   props,
   defaultComponent = 'NotFoundFactory',
-  type = componentType
+  type = componentType,
+  customConfig = {}
 ) {
+  const config = merge(index, customConfig);
   let obj = {};
-  if (_.isObject(props)) {
+  if (isObject(props)) {
     Object.keys(props).map(key => {
-      if (_.isObject(props[key])) {
+      if (isObject(props[key])) {
         obj[key] = factoryResolver(props[key]);
       } else if (key === 'src') {
-        obj[type] = index[props[key]] || index[defaultComponent];
+        obj[type] = config[props[key]] || config[defaultComponent];
       } else {
         obj[key] = props[key];
       }
     });
-    return _.isArray(props) ? _.values(obj) : obj;
-  } else if (_.isString(props)) {
-    return index[props] || index[defaultComponent];
+    return isArray(props) ? values(obj) : obj;
+  } else if (isString(props)) {
+    return config[props] || config[defaultComponent];
   }
   return props;
 }

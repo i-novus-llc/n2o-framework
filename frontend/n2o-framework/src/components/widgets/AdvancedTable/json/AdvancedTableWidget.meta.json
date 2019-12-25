@@ -162,10 +162,11 @@
         }
       ],
       "filterButtonId": "filter",
-      "blackResetList": [],
+      "blackResetList": ["surname", "name"],
       "validation": {},
       "hideButtons": true
     },
+    "children": "collapse",
     "table": {
       "size": 10,
       "fetchOnInit": true,

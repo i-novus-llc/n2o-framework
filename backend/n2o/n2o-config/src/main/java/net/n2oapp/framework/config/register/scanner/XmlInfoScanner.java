@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.n2oapp.context.StaticSpringContext.getBean;
 import static net.n2oapp.framework.config.register.RegisterUtil.collectInfo;
 
 /**

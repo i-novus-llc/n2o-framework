@@ -5,8 +5,12 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.BaseCompileContext;
+
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
 
@@ -32,6 +36,11 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
                     @Override
                     public <D extends Compiled> D get(CompileContext<D, ?> ctx) {
                         return execute(ctx, null, null);
+                    }
+
+                    @Override
+                    public <D extends Compiled> D get(CompileContext<D, ?> ctx, CompileProcessor p) {
+                        return execute(ctx, null, null, (N2oCompileProcessor) p);
                     }
 
                     @Override

@@ -9,25 +9,24 @@ import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 import propsResolver from '../../../utils/propsResolver';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
-import _, {
-  find,
-  some,
-  isEqual,
-  isEmpty,
-  map,
-  forOwn,
-  every,
-  flattenDeep,
-  isArray,
-  findIndex,
-  values,
-  eq,
-  get,
-  reduce,
-  includes,
-  has,
-  isNumber,
-} from 'lodash';
+import find from 'lodash/find';
+import some from 'lodash/some';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
+import map from 'lodash/map';
+import forOwn from 'lodash/forOwn';
+import every from 'lodash/every';
+import flattenDeep from 'lodash/flattenDeep';
+import isArray from 'lodash/isArray';
+import findIndex from 'lodash/findIndex';
+import values from 'lodash/values';
+import eq from 'lodash/eq';
+import get from 'lodash/get';
+import reduce from 'lodash/reduce';
+import includes from 'lodash/includes';
+import has from 'lodash/has';
+import isNumber from 'lodash/isNumber';
+import toArray from 'lodash/toArray';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
@@ -39,7 +38,7 @@ import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = _.findIndex(data, model => model.id == selectedId);
+  const index = findIndex(data, model => model.id == selectedId);
   return index >= 0 ? index : 0;
 };
 
@@ -165,6 +164,7 @@ class AdvancedTable extends Component {
     }
     if (!isEqual(prevProps, this.props)) {
       let state = {};
+      if (isEqual(prevProps.filters, this.props.filters)) this.closeAllRows();
       if (data && !isEqual(prevProps.data, data)) {
         const checked = this.mapChecked(data);
         state = {
@@ -295,7 +295,7 @@ class AdvancedTable extends Component {
     const needToReturn = isActive === needReturn;
 
     if (!needToReturn && hasSelect && !noResolve) {
-      onResolve(_.find(this._dataStorage, { id }));
+      onResolve(find(this._dataStorage, { id }));
     }
 
     if (needToReturn) return;
@@ -321,11 +321,11 @@ class AdvancedTable extends Component {
     const needToReturn = isActive === needReturn;
 
     if (!needToReturn && hasSelect && !noResolve) {
-      onResolve(_.find(this._dataStorage, { id }));
+      onResolve(find(this._dataStorage, { id }));
     }
 
     if (!noResolve && rowClick) {
-      !hasSelect && onResolve(_.find(this._dataStorage, { id }));
+      !hasSelect && onResolve(find(this._dataStorage, { id }));
       onRowClickAction(model);
     }
 
@@ -391,7 +391,7 @@ class AdvancedTable extends Component {
   checkAll(checked) {
     const { onSetSelection } = this.props;
     const newChecked = {};
-    onSetSelection(checked ? _.toArray(this.props.data) : []);
+    onSetSelection(checked ? toArray(this.props.data) : []);
     forOwn(this.state.checked, (v, k) => {
       newChecked[k] = checked;
     });

@@ -46,6 +46,6 @@ public class ParentRouteScope {
 
     @Override
     public String toString() {
-        return queryMapping != null ? RouteUtil.addQueryParams(url, queryMapping.keySet()) : url;
+        return queryMapping != null ? RouteUtil.addQueryParams(url, queryMapping) : url;
     }
 }

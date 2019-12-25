@@ -16,6 +16,7 @@ import Actions from '../../../../actions/Actions';
  * @param other
  * @returns {*}
  * @constructor
+ * @return {null}
  */
 function ButtonsCell({
   id,
@@ -25,9 +26,11 @@ function ButtonsCell({
   style,
   toolbar,
   actions,
+  widgetId,
   ...other
 }) {
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
+
   return visible ? (
     <Actions
       className={cx('n2o-buttons-cell', className)}
@@ -35,13 +38,15 @@ function ButtonsCell({
       toolbar={toolbar}
       actions={actions}
       containerKey={key}
+      resolveBeforeAction={widgetId}
+      model={model}
     />
   ) : null;
 }
 
 ButtonsCell.propTypes = {
   /**
-   * Кдасс
+   * Класс
    */
   className: PropTypes.string,
   /**

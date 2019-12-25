@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import ListItem from '../InputSelect/ListItem';
 import cx from 'classnames';
 

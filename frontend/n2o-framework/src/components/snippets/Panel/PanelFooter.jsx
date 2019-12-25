@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { CardFooter } from 'reactstrap';
+import CardFooter from 'reactstrap/lib/CardFooter';
 
 /**
  * Компонент подвала {@link Panel}

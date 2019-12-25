@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import map from 'lodash/map';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Alerts from '../snippets/Alerts/Alerts';

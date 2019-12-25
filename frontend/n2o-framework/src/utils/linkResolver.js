@@ -1,4 +1,6 @@
-import { get, isNumber, isString } from 'lodash';
+import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
+import isUndefined from 'lodash/isUndefined';
 import evalExpression, { parseExpression } from './evalExpression';
 
 /**
@@ -13,7 +15,7 @@ export default function linkResolver(state, { link, value }) {
 
   if (isNumber(value)) return value;
   const context = get(state, link);
-  if (!value && link) return context;
+  if (isUndefined(value) && link) return context;
 
   const json = JSON.stringify(value);
   const str = JSON.parse(json, (k, val) => {
