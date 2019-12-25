@@ -15,7 +15,7 @@ const options = {
 const exampleProxy = proxy(options);
 
 app.get('/n2o/page/proto', (req, res) => {
-  const json = require('./json/proto.json');
+  const json = require('./json/newProto.json');
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify(json));
 });
@@ -44,7 +44,8 @@ app.get('/n2o/page/proto/patients/:patientId/update2', (req, res) => {
   res.send(JSON.stringify(json));
 });
 
-app.use('/n2o', exampleProxy);
+app.use('/n2o/data', exampleProxy);
+app.use('/n2o/config', exampleProxy);
 
 app.listen(9000, () => {
   console.log('Example app listening on port 9000!');

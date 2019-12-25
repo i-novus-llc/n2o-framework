@@ -7066,6 +7066,44 @@ exports[`Storyshots Виджеты/Advanced Table Resizable колонки: C:\\
 </div>"
 `;
 
+exports[`Storyshots Виджеты/Advanced Table expand список: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Advanced Table
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        expand список
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <AdvancedTable columns={{...}} data={{...}} table={{...}} />
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Виджеты/Advanced Table Вид дерево: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
