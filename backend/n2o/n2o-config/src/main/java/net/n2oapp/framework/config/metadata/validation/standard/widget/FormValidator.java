@@ -8,12 +8,17 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.config.metadata.validation.standard.IdValidationUtils;
 import org.springframework.stereotype.Component;
 
+/**
+ * Валидатор виджета форма
+ */
 @Component
 public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware {
 
     @Override
     public void validate(N2oForm source, ValidateProcessor p) {
         IdValidationUtils.checkIds(source.getItems(), p);
+        FieldsScope scope = new FieldsScope();
+        p.safeStreamOf(source.getItems()).forEach(item -> p.validate(item, scope));
     }
 
     @Override

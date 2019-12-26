@@ -10,8 +10,8 @@
                     </button>
                     <button id="update" model="resolve">
                         <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg" master-field-id="secondId"
-                                    upload="query"
-                                    detail-field-id="id" submit-operation-id="update" route="/:p_main_id/update"/>
+                                    upload="query" master-param="id"
+                                    detail-field-id="id" submit-operation-id="update" route="/:id/update"/>
                     </button>
                     <button id="createFocus" model="filter">
                         <show-modal page-id="testShowModalPage" focus-after-submit="true" detail-field-id="id"
@@ -35,7 +35,7 @@
                     <button id="updateWithPrefilters">
                         <show-modal page-id="testShowModalPage" submit-operation-id="update" detail-field-id="id" upload="query">
                             <pre-filters>
-                                <eq field-id="secondId" value="1"/>
+                                <eq field-id="secondId" value="1" param="secondId"/>
                                 <eq field-id="name" value="{name}" ref-widget-id="second" ref-model="filter"/>
                             </pre-filters>
                         </show-modal>

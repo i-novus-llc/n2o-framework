@@ -18,7 +18,8 @@
                 <open-page page-id="testOpenPageMasterDetail"
                            route="/:page_test_id/masterDetail"
                            master-field-id="masterId"
-                           detail-field-id="detailId">
+                           detail-field-id="detailId"
+                           master-param="detailId">
                     <pre-filters>
                         <eq field-id="name" value="{name}" ref-model="filter"/>
                         <eq field-id="secondName" value="test"/>

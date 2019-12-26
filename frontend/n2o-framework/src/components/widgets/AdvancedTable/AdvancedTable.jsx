@@ -58,6 +58,7 @@ const KEY_CODES = {
  * @reactProps {Node} emptyText - компонент пустых данных
  * @reactProps {object} hotKeys - настройка hot keys
  * @reactProps {any} expandedComponent - кастомный компонент подстроки
+ * @reactProps {string} children - флаг раскрыт ли список дочерних записей (приходит из props table.children, expand - открыт)
  */
 class AdvancedTable extends Component {
   constructor(props) {
@@ -82,6 +83,7 @@ class AdvancedTable extends Component {
       columns: [],
       checkedAll: false,
       checked: props.data ? this.mapChecked(props.data) : {},
+      children: get(props, 'table.children', 'collapse'),
     };
 
     this.rows = {};
@@ -118,7 +120,11 @@ class AdvancedTable extends Component {
     this.renderExpandedRow = this.renderExpandedRow.bind(this);
     this.getScroll = this.getScroll.bind(this);
   }
-
+  componentWillMount() {
+    if (this.state.children === 'expand') {
+      this.openAllRows();
+    }
+  }
   componentDidMount() {
     const { rowClick, columns } = this.props;
     const {
@@ -128,6 +134,7 @@ class AdvancedTable extends Component {
       selectIndex,
       data,
       autoFocus,
+      children,
     } = this.state;
     if (!isAnyTableFocused && isActive && !rowClick && autoFocus) {
       this.setSelectAndFocus(

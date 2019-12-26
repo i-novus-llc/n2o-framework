@@ -73,7 +73,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
             for (Widget w : widgets.values()) {
                 if (w.getFilters() != null) {
                     for (Filter f : (List<Filter>) w.getFilters()) {
-                        if (f.getReloadable() && f.getLink().getSubModelQuery() != null) {
+                        if (f.getRoutable() && f.getLink().getSubModelQuery() != null) {
                             ReduxModel model = f.getLink().getModel();
                             String widgetId = f.getLink().getWidgetId();
                             String fieldId = f.getLink().getSubModelQuery().getSubModel();
@@ -95,7 +95,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
 
     private void resolveLinks(Models models, List<ModelLink> filterLinks, BindProcessor p) {
         models.keySet().forEach(param -> {
-                    p.resolveLink(models.get(param));
+                    models.put(param, (ModelLink) p.resolveLink(models.get(param)));
                     p.resolveSubModels(models.get(param), filterLinks);
                 }
         );
