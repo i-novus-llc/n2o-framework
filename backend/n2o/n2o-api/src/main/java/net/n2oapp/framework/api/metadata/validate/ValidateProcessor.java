@@ -18,9 +18,10 @@ public interface ValidateProcessor {
     /**
      * Провалидировать вложенную метаданную
      * @param metadata Исходная метаданная
+     * @param scope Объекты, влияющие на внутренние валдиации. Должны быть разных классов.
      * @param <T> Тип метаданной
      */
-    <T extends Source> void validate(T metadata);
+    <T extends Source> void validate(T metadata, Object... scope);
 
     /**
      * Получить исходную метаданную по идентификатору или вернуть null, если метаданная невалидна
@@ -39,6 +40,15 @@ public interface ValidateProcessor {
      * @return Метаданная или null
      */
     <T extends SourceMetadata> T getOrThrow(String id, Class<T> metadataClass);
+
+    /**
+     * Получить метаданную, оказывающую влияние на валидацию
+     *
+     * @param scopeClass Класс метаданной
+     * @param <D>        Тип скоупа
+     * @return Метаданная, оказывающая влияние на валидацию, или null
+     */
+    <D> D getScope(Class<D> scopeClass);
 
     /**
      * Проверить, что объект не null

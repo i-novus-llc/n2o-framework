@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 
 /**
  * Исходная модель формы
@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 public class N2oForm extends N2oWidget {
     private String modalWidth;
     private String layout;
-    private NamespaceUriAware items[];
+    private SourceComponent[] items;
     private String defaultValuesQueryId;
     private FormMode mode;
     private Boolean prompt;

@@ -22,6 +22,7 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -68,7 +69,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     /**
      * Запрещенные имена идентификаторов
      */
-    private Set<String> forbiddenIds = Collections.emptySet();
+    private Set<String> forbiddenIds;
 
     /**
      * Конструктор процессора сборки метаданных
@@ -105,29 +106,34 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      * Конструктор процессора внутренней сборки метаданных
      *
      * @param parent Родительский процессор сборки
-     * @param scope  Метаданные, влияющие на сборку. Должны быть разных классов.
+     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов.
      */
-    private N2oCompileProcessor(N2oCompileProcessor parent, Object... scope) {
+    private N2oCompileProcessor(N2oCompileProcessor parent, Object... scopes) {
         this.env = parent.env;
         this.scope = new HashMap<>(parent.scope);
-        Stream.of(Optional.ofNullable(scope).orElse(new Compiled[]{})).filter(Objects::nonNull)
+        Stream.of(Optional.ofNullable(scopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
                 .forEach(s -> this.scope.put(s.getClass(), s));
         this.readPipeline = parent.readPipeline;
         this.readCompilePipeline = parent.readCompilePipeline;
         this.compilePipeline = parent.compilePipeline;
         this.params = parent.params;
         this.context = parent.context;
+        this.forbiddenIds = parent.forbiddenIds;
     }
 
     @Override
-    public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope) {
-        return compilePipeline.get(source, context, new N2oCompileProcessor(this, scope));
+    public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes) {
+        Object[] flattedScopes = Arrays.stream(scopes)
+                .filter(Objects::nonNull)
+                .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o)).toArray();
+        return compilePipeline.get(source, context, new N2oCompileProcessor(this, flattedScopes));
     }
 
     @Override
     public <D extends Compiled> void bind(D compiled) {
         bindPipeline.get(compiled, context, params);
     }
+
 
     @Override
     public Map<String, Object> mapAttributes(ExtensionAttributesAware source) {
@@ -137,7 +143,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
             Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
-            if (res != null) {
+            res = CompileUtil.resolveNestedAttributes(res, env.getDomainProcessor()::deserialize);
+            if (!res.isEmpty()) {
                 extAttributes.putAll(res);
             }
         });
@@ -244,9 +251,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <L extends BindLink> void resolveLink(L link) {
+    public BindLink resolveLink(BindLink link) {
         if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
-            return;
+            return link;
         Optional<String> res = Optional.empty();
         if (context.getQueryRouteMapping() != null) {
             res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
@@ -259,9 +266,12 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             if (value instanceof String)
                 value = resolveText((String) value);
             if (value != null) {
-                link.setValue(value);
+                BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+                resultLink.setValue(value);
+                return resultLink;
             }
         }
+        return link;
     }
 
     @Override
@@ -285,13 +295,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public <T extends Source> void validate(T metadata) {
+    public <T extends Source> void validate(T metadata, Object... scope) {
         if (metadata == null)
             return;
         if (metadata instanceof RefIdAware && ((RefIdAware) metadata).getRefId() != null)
             return;
 
-        env.getSourceValidatorFactory().validate(metadata, this);
+        env.getSourceValidatorFactory().validate(metadata, new N2oCompileProcessor(this, scope));
     }
 
     @Override
@@ -328,7 +338,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public void checkId(IdAware metadata, String errorMessage) {
-        if (metadata.getId() == null)
+        if (metadata == null || metadata.getId() == null)
             return;
         Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
         Matcher matcher = pattern.matcher(metadata.getId());

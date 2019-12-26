@@ -26,11 +26,11 @@ public class WidgetBinder implements BaseMetadataBinder<Widget> {
             Map<String, BindLink> pathMapping = widget.getDataProvider().getPathMapping();
             Map<String, BindLink> queryMapping = widget.getDataProvider().getQueryMapping();
             widget.getDataProvider().setUrl(p.resolveUrl(widget.getDataProvider().getUrl(), pathMapping, queryMapping));
-            pathMapping.values().forEach(p::resolveLink);
-            queryMapping.values().forEach(p::resolveLink);
+            pathMapping.forEach((k, v) -> pathMapping.put(k, p.resolveLink(v)));
+            queryMapping.forEach((k, v) -> queryMapping.put(k, p.resolveLink(v)));
         }
         if (widget.getFilters() != null) {
-            ((List<Filter>) widget.getFilters()).stream().map(Filter::getLink).forEach(p::resolveLink);
+            ((List<Filter>) widget.getFilters()).forEach(f -> f.setLink((ModelLink) p.resolveLink(f.getLink())));
         }
         return widget;
     }

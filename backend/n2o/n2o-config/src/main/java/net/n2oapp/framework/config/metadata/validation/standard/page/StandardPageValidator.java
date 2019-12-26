@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import org.springframework.stereotype.Component;
 
 /**
- * Валидатор простой страницы
+ * Валидатор стандартной страницы
  */
 @Component
 public class StandardPageValidator implements SourceValidator<N2oStandardPage>, SourceClassAware {

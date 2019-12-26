@@ -166,13 +166,13 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterField());
                 filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
-                filter.setReloadable(true);
+                filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 filter.setLink(link);
-                filtersScope.getFilters().add(filter);
+                filtersScope.addFilter(filter);
             });
         }
     }

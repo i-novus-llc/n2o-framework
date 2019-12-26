@@ -7,7 +7,10 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
 
 /**
  * Валидатор действия открытия страницы
@@ -17,10 +20,19 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
     @Override
     public void validate(N2oAbstractPageAction source, ValidateProcessor p) {
         p.checkForExists(source.getObjectId(), N2oObject.class,
-                "Действие открытия страницы: " + source.getId() + " ссылается на несуществующий объект: " + source.getObjectId());
+                "Действие открытия страницы: " + source.getId() +
+                        " ссылается на несуществующий объект: " + source.getObjectId());
 
         p.checkForExists(source.getPageId(), N2oPage.class,
-                "Действие открытия страницы: " + source.getId() + " ссылается на несуществующую страницу: " + source.getPageId());
+                "Действие открытия страницы: " + source.getId() +
+                        " ссылается на несуществующую страницу: " + source.getPageId());
+        if (source.getSubmitOperationId() != null && source.getObjectId() != null) {
+            N2oObject object = p.getOrNull(source.getObjectId(), N2oObject.class);
+            p.safeStreamOf(object.getOperations()).
+                    filter(operation -> source.getSubmitOperationId().equals(operation.getId())).
+                    findFirst().orElseThrow(() -> new N2oMetadataValidationException("Действие открытия страницы: " + source.getId() +
+                    " ссылается на несуществующую в объекте: " + source.getObjectId() + " операцию: " + source.getSubmitOperationId()));
+        }
     }
 
     @Override

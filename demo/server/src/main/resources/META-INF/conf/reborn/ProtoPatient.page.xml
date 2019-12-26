@@ -5,7 +5,7 @@
                 <input-text label="Фамилия" id="surname" required="true" placeholder="Введите значение"/>
                 <input-text label="Имя" id="name" required="true">
                     <dependencies>
-                        <fetch-value query-id="ProtoPatient" on="default">
+                        <fetch-value query-id="ProtoPatient" on="defaultField">
                             <pre-filters>
                                 <eq field-id="id" value="5607677"/>
                             </pre-filters>
@@ -26,9 +26,9 @@
                 </checkbox>
             </row>
             <row>
-                <field id="default" style="color: grey; font-size:12pt" label="Введите что-нибудь, чтобы загрузилось Имя по умолчанию" >
+                <field id="defaultField" style="color: grey; font-size:12pt" label="Введите что-нибудь, чтобы загрузилось Имя по умолчанию" >
                     <controls>
-                        <input-text id="default" style="font-weight: bold; font-size:10pt; color: grey; border-radius:10px"/>
+                        <input-text id="defaultField" style="font-weight: bold; font-size:10pt; color: grey; border-radius:10px"/>
                     </controls>
                 </field>
             </row>
