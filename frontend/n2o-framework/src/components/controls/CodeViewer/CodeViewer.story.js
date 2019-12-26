@@ -14,11 +14,10 @@ stories.add(
   'Компонент',
   () => {
     const props = {
-      theme: 'light',
       visible: true,
       language: 'javascript',
       showLineNumbers: true,
-      children: `function makeWorker() {
+      value: `function makeWorker() {
   let name = "Pete";
 
   return function() {
@@ -39,13 +38,12 @@ stories.add(
       <CodeViewer 
         visible={true}
         language="javascript"
-        darkTheme={false}
         showLineNumbers={true}
         hideButtons={false}
         startingLineNumber={1}
         hideOverflow={false}
       >
-        {codeString}
+        {value}
       </CodeViewer>
       ~~~
       `,
