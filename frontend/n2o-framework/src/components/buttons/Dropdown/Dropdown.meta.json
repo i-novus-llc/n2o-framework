@@ -20,7 +20,7 @@
   "subMenu": [
     {
       "id": "subButton1",
-      "src": "PerformButton",
+      "src": "StandardButton",
       "hint": "Без confirm",
       "visible": true,
       "disabled": false,
@@ -43,7 +43,7 @@
     },
     {
       "id": "subButton2",
-      "src": "PerformButton",
+      "src": "StandardButton",
       "hint": "С confirm",
       "confirm": {
         "cancelLabel": "Нет",

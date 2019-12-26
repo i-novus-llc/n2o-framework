@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withHandlers, mapProps, branch } from 'recompose';
+import { compose, withHandlers, mapProps } from 'recompose';
 import get from 'lodash/get';
 
-import SimpleButton from '../../../../buttons/Simple/Simple';
-import withActionButton from '../../../../buttons/withActionButton';
 import withCell from '../../withCell';
-import { withLinkAction } from '../../../../buttons/Link/Link';
+import StandardButton from '../../../../buttons/StandardButton/StandardButton';
 
 function LinkCell({ url, ...props }) {
-  return <SimpleButton {...props} href={url} tag="a" />;
+  return <StandardButton {...props} url={url} href={url} />;
 }
 
 LinkCell.contextTypes = {
@@ -32,7 +30,6 @@ const enhance = compose(
     }) => () => ({
       id,
       className,
-      src: rest.url ? 'LinkButton' : 'PerformButton',
       label: get(model, fieldKey || id, ''),
       color: 'link',
       model,
@@ -41,17 +38,7 @@ const enhance = compose(
   mapProps(({ createButton, ...rest }) => ({
     ...createButton(),
     ...rest,
-  })),
-  branch(
-    ({ action }) => action,
-    withActionButton({
-      onClick: (e, { action, resolveWidget, model, dispatch }) => {
-        resolveWidget(model);
-        dispatch(action);
-      },
-    }),
-    withLinkAction
-  )
+  }))
 );
 
 export { LinkCell };

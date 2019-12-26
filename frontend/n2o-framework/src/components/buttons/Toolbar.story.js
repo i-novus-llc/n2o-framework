@@ -15,7 +15,7 @@ stories
           {
             id: 'testBtn21',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
         ],
       },
@@ -26,12 +26,12 @@ stories
           {
             id: 'testBtn22',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
           {
             id: 'testBtn23',
             label: 'Еще кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
         ],
       },
@@ -42,12 +42,12 @@ stories
           {
             id: 'testBtn24',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
           {
             id: 'testBtn25',
             label: 'Еще кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
         ],
       },
@@ -56,12 +56,12 @@ stories
           {
             id: 'testBtn26',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
           {
             id: 'testBtn27',
             label: 'Еще кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
         ],
       },
@@ -96,7 +96,7 @@ stories
           {
             id: 'testBtn30',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             actionId: 'dummy',
           },
           {
@@ -129,7 +129,7 @@ stories
           {
             id: 'testBtn35',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
         ],
       },
@@ -141,7 +141,7 @@ stories
           {
             id: 'testBtn1',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             color: 'default',
           },
         ],
@@ -151,7 +151,7 @@ stories
           {
             id: 'testBtn2',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             color: 'primary',
           },
         ],
@@ -161,7 +161,7 @@ stories
           {
             id: 'testBtn3',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             color: 'success',
           },
         ],
@@ -171,7 +171,7 @@ stories
           {
             id: 'testBtn4',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             color: 'info',
           },
         ],
@@ -181,7 +181,7 @@ stories
           {
             id: 'testBtn5',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             color: 'warning',
           },
         ],
@@ -191,7 +191,7 @@ stories
           {
             id: 'testBtn6',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             color: 'danger',
           },
         ],
@@ -204,7 +204,7 @@ stories
           {
             id: 'testBtn7',
             label: 'Apple',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-apple',
           },
         ],
@@ -214,7 +214,7 @@ stories
           {
             id: 'testBtn8',
             label: 'Github',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-github',
           },
         ],
@@ -224,7 +224,7 @@ stories
           {
             id: 'testBtn9',
             label: 'Telegram',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-telegram',
           },
         ],
@@ -234,7 +234,7 @@ stories
           {
             id: 'testBtn10',
             label: 'Vk',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-vk',
           },
         ],
@@ -244,7 +244,7 @@ stories
           {
             id: 'testBtn11',
             label: 'Imdb',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-imdb',
           },
         ],
@@ -254,7 +254,7 @@ stories
           {
             id: 'testBtn12',
             label: 'Facebook',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-facebook',
           },
         ],
@@ -266,7 +266,7 @@ stories
         buttons: [
           {
             id: 'testBtn13',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-apple',
           },
         ],
@@ -275,7 +275,7 @@ stories
         buttons: [
           {
             id: 'testBtn14',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-github',
           },
         ],
@@ -284,7 +284,7 @@ stories
         buttons: [
           {
             id: 'testBtn15',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-telegram',
           },
         ],
@@ -293,7 +293,7 @@ stories
         buttons: [
           {
             id: 'testBtn16',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-vk',
           },
         ],
@@ -302,7 +302,7 @@ stories
         buttons: [
           {
             id: 'testBtn17',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-imdb',
           },
         ],
@@ -311,7 +311,7 @@ stories
         buttons: [
           {
             id: 'testBtn18',
-            src: 'PerformButton',
+            src: 'StandardButton',
             icon: 'fa fa-facebook',
           },
         ],
@@ -323,7 +323,7 @@ stories
         buttons: [
           {
             id: 'small',
-            src: 'PerformButton',
+            src: 'StandardButton',
             label: 'Большая',
             size: 'lg',
           },
@@ -336,7 +336,7 @@ stories
         buttons: [
           {
             id: 'small',
-            src: 'PerformButton',
+            src: 'StandardButton',
             label: 'Стандартная',
           },
         ],
@@ -348,7 +348,7 @@ stories
         buttons: [
           {
             id: 'small',
-            src: 'PerformButton',
+            src: 'StandardButton',
             label: 'Маленькая',
             size: 'sm',
           },
@@ -404,13 +404,13 @@ stories
           {
             id: 'testBtn22',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
           },
           {
             id: 'testBtn23',
             label: 'Защищенная кнопка',
             actionId: 'dummy',
-            src: 'PerformButton',
+            src: 'StandardButton',
             security: {
               roles: ['admin'],
             },
@@ -446,7 +446,7 @@ stories
                 id: 'testBtn23',
                 label: 'Защищенная кнопка',
                 actionId: 'dummy',
-                src: 'PerformButton',
+                src: 'StandardButton',
                 security: {
                   roles: ['admin'],
                 },
@@ -455,7 +455,7 @@ stories
                 id: 'testBtn23',
                 label: 'Защищенная кнопка 2',
                 actionId: 'dummy',
-                src: 'PerformButton',
+                src: 'StandardButton',
                 security: {
                   roles: ['admin'],
                 },
@@ -483,7 +483,7 @@ stories
           {
             id: '111',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             visible: false,
           },
         ],
@@ -495,7 +495,7 @@ stories
           {
             id: '1112',
             label: 'Кнопка',
-            src: 'PerformButton',
+            src: 'StandardButton',
             disabled: true,
           },
         ],
@@ -512,12 +512,12 @@ stories
             subMenu: [
               {
                 id: 'testBtn29',
-                src: 'PerformButton',
+                src: 'StandardButton',
                 label: 'Элемент списка',
               },
               {
                 id: 'testBtn29',
-                src: 'PerformButton',
+                src: 'StandardButton',
                 label: 'Элемент списка',
               },
             ],
@@ -536,12 +536,12 @@ stories
             subMenu: [
               {
                 id: 'testBtn29',
-                src: 'PerformButton',
+                src: 'StandardButton',
                 label: 'Элемент списка',
               },
               {
                 id: 'testBtn29',
-                src: 'PerformButton',
+                src: 'StandardButton',
                 label: 'Элемент списка',
               },
             ],

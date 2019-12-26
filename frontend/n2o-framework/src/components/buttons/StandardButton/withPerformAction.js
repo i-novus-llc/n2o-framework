@@ -1,9 +1,7 @@
-import React from 'react';
-import { compose, mapProps } from 'recompose';
-
-import SimpleButton from '../Simple/Simple';
-import mappingProps from '../Simple/mappingProps';
+import { compose } from 'recompose';
 import withActionButton from '../withActionButton';
+import { mapProps } from 'recompose';
+import mappingProps from '../Simple/mappingProps';
 
 export default compose(
   withActionButton({
@@ -12,4 +10,4 @@ export default compose(
     },
   }),
   mapProps(props => mappingProps(props))
-)(SimpleButton);
+);

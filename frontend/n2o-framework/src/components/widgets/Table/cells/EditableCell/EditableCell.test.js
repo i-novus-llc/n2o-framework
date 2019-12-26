@@ -67,7 +67,7 @@ describe('Тесты EditableCell', function() {
       editFieldId: 'name',
       onResolve: () => {},
       dispatch,
-      callAction
+      callAction,
     });
     expect(wrapper.state().model).toEqual({});
     wrapper

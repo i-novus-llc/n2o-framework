@@ -1,9 +1,7 @@
-import Perform from './Perform/Perform';
-import Link from './Link/Link';
 import Dropdown from './Dropdown/Dropdown';
+import StandardButton from './StandardButton/StandardButton';
 
 export default {
-  PerformButton: Perform,
-  LinkButton: Link,
   DropdownButton: Dropdown,
+  StandardButton: StandardButton,
 };
