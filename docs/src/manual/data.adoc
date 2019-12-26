@@ -383,6 +383,7 @@ REST провайдер выполняет http запросы к backend сер
   </in-parameters>
 </operation>
 ----
+link:https://n2oapp.net/sandbox/new/data/rest[Пример]
 
 ==== Java провайдеры данных
 С помощью java провайдеров можно вызвать метод java класса.
