@@ -2,6 +2,8 @@ package net.n2oapp.framework.engine.data.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
@@ -350,9 +352,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         .stream()
                         .filter(v -> v.get(invocation.getPrimaryKey()) != null)
                         .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
-                        .max().orElse(-1);
-                if (maxId != -1)
-                    sequences.put(invocation.getFile(), new AtomicLong(maxId));
+                        .max().orElse(0);
+                sequences.put(invocation.getFile(), new AtomicLong(maxId));
             }
 
         } catch (IOException e) {
@@ -361,7 +362,10 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> loadJson(InputStream is, PrimaryKeyType primaryKeyType, String primaryKeyFieldId) throws IOException {
-        List<DataSet> dataList = Arrays.asList(objectMapper.readValue(is, DataSet[].class));
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, DataSet.class);
+        List<DataSet> dataList = objectMapper.readValue(is, collectionType);
         for (DataSet data : dataList) {
             if (data.containsKey(primaryKeyFieldId)) {
                 if (integer.equals(primaryKeyType))

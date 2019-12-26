@@ -5,7 +5,7 @@ LABEL maintainer="iryabov@i-novus.ru"
 RUN apk add tzdata
 ENV TZ=Europe/Moscow
 
-COPY target/META-INF/resources /usr/share/nginx/html
+COPY target/META-INF/resources/docs /usr/share/nginx/html/docs
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80

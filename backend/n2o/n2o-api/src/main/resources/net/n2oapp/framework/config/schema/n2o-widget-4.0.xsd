@@ -319,6 +319,17 @@
                         <xs:documentation>Высота таблицы, после которой появится вертикальный скрол.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="children" use="optional" default="collapse">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="collapse"/>
+                            <xs:enumeration value="expand"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                    <xs:annotation>
+                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -845,6 +856,11 @@
         <xs:attribute name="reset-on-change" type="xs:boolean" use="optional" default="false">
             <xs:annotation>
                 <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="routable" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

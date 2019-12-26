@@ -5,7 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 
 /**
- * Исходная модель компонента checkbox-group
+ * Компонент группы чекбоксов
  */
 @Getter
 @Setter

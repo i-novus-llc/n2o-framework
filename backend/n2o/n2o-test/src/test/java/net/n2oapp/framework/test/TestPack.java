@@ -70,7 +70,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private QueryContext getMasterDetailQueryContext() {
         QueryContext queryContext = new QueryContext("testMasterDetail", "/test/master/:master_id/detail");
         Filter preFilter = new Filter();
-        preFilter.setReloadable(false);
+        preFilter.setRoutable(false);
         preFilter.setFilterId("individualId");
         preFilter.setParam("master_id");
         queryContext.setFilters(Collections.singletonList(preFilter));
