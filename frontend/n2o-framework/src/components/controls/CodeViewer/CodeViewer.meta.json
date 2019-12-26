@@ -5,6 +5,6 @@
   "language": "javascript",
   "showLineNumbers": true,
   "hideButtons": false,
-  "hideOverflow": true,
+  "hideOverflow": false,
   "startingLineNumber": 1
 }
