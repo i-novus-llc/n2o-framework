@@ -12,31 +12,9 @@ import DataGrid from "./components/widgets/DataGrid/DataGrid";
 import AvatarCell from "./components/cells/Avatar/AvatarCell";
 import CollapsedCardFieldset from "./components/fieldset/CollapsedCard/CollapsedCardFieldset";
 
-import { EcpButton } from "n2o-ecp-plugin";
-
 const config = {
   widgets: {
     DataGrid: DataGrid
-  },
-  controls: {
-    InputText: () => (
-      <EcpButton
-        fileRequestService={{
-          url: "http://localhost:9000/sign/get",
-          type: "GET",
-          data: {
-            userId: 1
-          }
-        }}
-        fileSaveService={{
-          url: "http://localhost:9000/sign/set",
-          type: "POST",
-          data: {
-            userId: 1
-          }
-        }}
-      />
-    )
   },
   cells: {
     AvatarCell: AvatarCell
