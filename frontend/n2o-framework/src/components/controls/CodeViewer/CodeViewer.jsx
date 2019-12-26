@@ -4,14 +4,14 @@ import withState from 'recompose/withState';
 import withHandlers from 'recompose/withHandlers';
 import PropTypes from 'prop-types';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vs, xonokai } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { tomorrow, coy } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import cx from 'classnames';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 /**
  * Компонент CodeViewer
  * @reactProps {boolean} visible - отображается / не отображается
- * @reactProps {string} children - код для отображения
+ * @reactProps {string} value - код для отображения
  * @reactProps {string} language - язык программирования
  * @reactProps {string} darkTheme - темная тема компонента
  * @reactProps {boolean} showLineNumbers - отображать нумерацию строк
@@ -22,7 +22,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 function CodeViewer({
   visible,
-  children,
+  value,
   darkTheme,
   copied,
   handleCopy,
@@ -37,7 +37,7 @@ function CodeViewer({
       <div className="n2o-code-viewer">
         {!hideButtons ? (
           <div className="code-viewer-actions">
-            <CopyToClipboard text={children} onCopy={handleCopy}>
+            <CopyToClipboard text={value} onCopy={handleCopy}>
               <i
                 className={cx(
                   'code-viewer-actions-copy',
@@ -56,10 +56,10 @@ function CodeViewer({
         {show ? (
           <SyntaxHighlighter
             className={!hideOverflow ? 'code-viewer-body' : null}
-            style={darkTheme ? xonokai : vs}
+            style={darkTheme ? tomorrow : coy}
             {...rest}
           >
-            {children}
+            {value}
           </SyntaxHighlighter>
         ) : null}
       </div>
@@ -75,7 +75,7 @@ CodeViewer.propTypes = {
   /**
    * Код для отображения
    */
-  children: PropTypes.string,
+  value: PropTypes.string,
   /**
    * Язык кода
    */
