@@ -111,7 +111,7 @@ function $generateFlatQuery(objectAim, Key, $Res, delimiter, options) {
         } else if ($val !== null && $val !== undefined) {
           $Res[Key ? [Key, key].join(delimiter) : key] =
             !needLinked($val) && _.isString($val) && !withoutEncode
-              ? encodeURIComponent($val)
+              ? encodeURIComponent(val.join(`&${key}=`))
               : val.join(`&${key}=`);
         }
       });
