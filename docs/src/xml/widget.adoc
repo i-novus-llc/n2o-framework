@@ -862,7 +862,7 @@ two-models - 2х модельный режим (при первой загруз
     name="Моё дерево"
     parent-field-id="parentId"
     label-field-id="name"
-    query-id="test">
+    query-id="tree">
 </tree>
 ----
 
