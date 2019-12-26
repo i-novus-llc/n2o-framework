@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import { compose, withHandlers, mapProps, branch } from 'recompose';
 import get from 'lodash/get';
 
-import SimpleButton from "../../../../buttons/Simple/Simple";
-import withActionButton from "../../../../buttons/withActionButton";
+import SimpleButton from '../../../../buttons/Simple/Simple';
+import withActionButton from '../../../../buttons/withActionButton';
 import withCell from '../../withCell';
-import { withLinkAction } from "../../../../buttons/Link/Link";
+import { withLinkAction } from '../../../../buttons/Link/Link';
 
-function LinkCell(props) {
-  return (
-    <SimpleButton {...props} />
-  );
+function LinkCell({ url, ...props }) {
+  return <SimpleButton {...props} href={url} tag="a" />;
 }
 
 LinkCell.contextTypes = {
@@ -44,12 +42,16 @@ const enhance = compose(
     ...createButton(),
     ...rest,
   })),
-  branch(({ action }) => action, withActionButton({
-    onClick: (e, { action, resolveWidget, model, dispatch }) => {
-      resolveWidget(model);
-      dispatch(action);
-    }
-  }), withLinkAction)
+  branch(
+    ({ action }) => action,
+    withActionButton({
+      onClick: (e, { action, resolveWidget, model, dispatch }) => {
+        resolveWidget(model);
+        dispatch(action);
+      },
+    }),
+    withLinkAction
+  )
 );
 
 export { LinkCell };

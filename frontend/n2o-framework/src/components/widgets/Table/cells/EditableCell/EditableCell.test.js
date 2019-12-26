@@ -59,14 +59,15 @@ describe('Тесты EditableCell', function() {
   });
   it('срабатывает onChange', () => {
     const dispatch = sinon.spy();
+    const callAction = sinon.spy();
     const wrapper = setup({
       control: {
         component: InputText,
       },
       editFieldId: 'name',
-      callInvoke: () => {},
       onResolve: () => {},
-      dispatch
+      dispatch,
+      callAction
     });
     expect(wrapper.state().model).toEqual({});
     wrapper
@@ -92,6 +93,7 @@ describe('Тесты EditableCell', function() {
       .simulate('change', { target: { value: 'Sergey' } });
     expect(wrapper.state().prevModel).toEqual({ name: 'Ivan' });
     expect(wrapper.state().model).toEqual({ name: 'Sergey' });
+    expect(callAction.called).toBeTruthy();
   });
   it('срабатывает onBlur', () => {
     const wrapper = setup({
@@ -113,10 +115,10 @@ describe('Тесты EditableCell', function() {
     expect(wrapper.state().editing).toEqual(false);
   });
   it('правильно работает логика изменения значения', () => {
-    const callInvoke = sinon.spy();
     const onResolve = sinon.spy();
     const onSetSelectedId = sinon.spy();
     const dispatch = sinon.spy();
+    const callAction = sinon.spy();
 
     const wrapper = setup({
       control: {
@@ -130,10 +132,10 @@ describe('Тесты EditableCell', function() {
         part: 'Ivanovich',
       },
       action,
-      callInvoke,
+      callAction,
       onResolve,
       onSetSelectedId,
-      dispatch
+      dispatch,
     });
 
     wrapper
@@ -151,7 +153,6 @@ describe('Тесты EditableCell', function() {
 
     expect(onResolve.called).toEqual(true);
     expect(onSetSelectedId.called).toEqual(true);
-    expect(dispatch.calledOnce).toBeTruthy();
-    expect(dispatch.getCall(0).args[0]).toEqual(action);
+    expect(callAction.calledOnce).toBeTruthy();
   });
 });

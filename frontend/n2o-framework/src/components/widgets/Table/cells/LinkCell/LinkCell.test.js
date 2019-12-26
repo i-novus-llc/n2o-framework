@@ -6,14 +6,14 @@ import { Link, HashRouter } from 'react-router-dom';
 import LinkCell, { LinkCell as LinkComponent } from './LinkCell';
 import meta from './LinkCell.meta';
 
-import FactoryProvider from "../../../../../core/factory/FactoryProvider";
-import createFactoryConfig from "../../../../../core/factory/createFactoryConfig";
+import FactoryProvider from '../../../../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../../../../core/factory/createFactoryConfig';
 
 const setupLinkCell = propsOverride => {
   const props = {
     ...meta,
     model: {
-      name: 'test name'
+      name: 'test name',
     },
   };
   return mount(
@@ -31,8 +31,8 @@ describe('Тесты LinkCell', () => {
   it('Отрисовывается', () => {
     const wrapper = setupLinkCell({
       model: {
-        name: 'test name'
-      }
+        name: 'test name',
+      },
     });
     expect(wrapper.find('Button').exists()).toEqual(true);
   });

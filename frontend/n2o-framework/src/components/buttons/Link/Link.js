@@ -21,28 +21,28 @@ LinkButton.propTypes = {
   target: PropTypes.string,
 };
 
-export const withLinkAction = withActionButton({
-  onClick: (e, props, state) => {
-    e.preventDefault();
-    const { url, pathMapping, queryMapping } = props;
-    const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
+export const withLinkAction = compose(
+  withActionButton({
+    onClick: (e, props, state) => {
+      e.preventDefault();
+      const { url, pathMapping, queryMapping } = props;
+      const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
 
-    if (isModifiedEvent(e)) {
-      return;
-    }
-    if (props.inner) {
-      props.dispatch(push(compiledUrl));
-    } else {
-      window.location = compiledUrl;
-    }
-  },
-});
-
-export default compose(
-  withLinkAction,
+      if (isModifiedEvent(e)) {
+        return;
+      }
+      if (props.inner) {
+        props.dispatch(push(compiledUrl));
+      } else {
+        window.location = compiledUrl;
+      }
+    },
+  }),
   mapProps(props => ({
     ...mappingProps(props),
     url: props.url,
     target: props.target === 'newWindow' ? '_blank' : props.target,
   }))
-)(LinkButton);
+);
+
+export default withLinkAction(LinkButton);

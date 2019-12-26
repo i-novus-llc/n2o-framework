@@ -3,8 +3,8 @@ import { mount } from 'enzyme';
 import ButtonsCell from '../ButtonsCell';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import FactoryProvider from "../../../../../../core/factory/FactoryProvider";
-import createFactoryConfig from "../../../../../../core/factory/createFactoryConfig";
+import FactoryProvider from '../../../../../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../../../../../core/factory/createFactoryConfig';
 import sinon from 'sinon';
 
 const mockStore = configureMockStore();
