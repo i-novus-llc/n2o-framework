@@ -74,6 +74,9 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
   </condition>
 </validations>
 ----
+
+link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Пример]
+
 Условия пишутся на языке JavaScript.
 
 Так же проверки могут быть выполнены в базе данных или сервисах.
@@ -96,6 +99,8 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
   </constraint>
 </validations>
 ----
+
+link:https://n2oapp.net/sandbox/new/data/object/validation_constraint[Пример]
 
 Вызов проверки происходит аналогично вызову операции объекта,
 т.е. определяет входные данные для link:#_Провайдеры_данных[провайдера]
