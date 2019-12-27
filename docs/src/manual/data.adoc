@@ -350,6 +350,8 @@ SQL провайдер позволяет выполнять SQL запросы 
 </operation>
 ----
 
+link:https://n2oapp.net/sandbox/new/data/sql[Пример]
+
 ==== REST провайдер данных
 REST провайдер выполняет http запросы к backend сервисам.
 
