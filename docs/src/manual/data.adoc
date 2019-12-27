@@ -439,6 +439,7 @@ REST провайдер выполняет http запросы к backend сер
   </in-parameters>
 </operation>
 ----
+link:https://n2oapp.net/sandbox/new/data/java[Пример]
 
 === Типы данных
 Типы данных в N2O предназначены для правильной передачи значений от клиента
