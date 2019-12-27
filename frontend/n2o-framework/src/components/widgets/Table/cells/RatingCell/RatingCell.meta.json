@@ -1,9 +1,6 @@
 {
-  "visible": true,
   "id": "rating",
-  "fieldKey": "rating",
-  "src": "RatingCell",
-  "half": false,
-  "max": 5,
-  "showTooltip": false
+  "showTooltip": true,
+  "half": true,
+  "max": 10
 }
