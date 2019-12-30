@@ -32,6 +32,9 @@ import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
 import compileUrl from '../utils/compileUrl';
 
+const evalResultCheck = evalResult =>
+  !isUndefined(evalResult) && evalResult !== false;
+
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
     yield delay(300);
@@ -83,7 +86,7 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         );
       break;
     case 'reset':
-      yield !isUndefined(_evalResult) &&
+      yield evalResultCheck(_evalResult) &&
         put(
           change(formName, fieldName, {
             keepDirty: false,
