@@ -384,6 +384,11 @@
                         <xs:documentation>Поле выборки, содержащее наименование файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="sort-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Поле сортировки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="message-field-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее сообщение файла.</xs:documentation>
