@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -72,6 +73,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPageUrl(), is("/p/create"));
         assertThat(payload.getSize(), is("sm"));
         assertThat(payload.getPageId(), is("p_create"));
+        assertThat(payload.getMode(), is(ShowModalMode.drawer));
 
 //        assertThat(payload.getActions().size(), is(2));
 //        assertThat(payload.getActions().containsKey("submit"), is(true));
