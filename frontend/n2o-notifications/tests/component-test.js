@@ -1,6 +1,6 @@
 import React from "react";
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { describe, it } from "mocha";
+import { expect } from "chai";
 import { mount, shallow } from "enzyme";
 import { Notifications } from "../src/Notifications";
 import { Counter } from "../src/Counter";

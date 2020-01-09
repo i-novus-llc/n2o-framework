@@ -81,7 +81,7 @@ image::images/page_left_right.png[]
 В регион вкладываются один или несколько компонентов-виджетов.
 Регионы имеют свою верстку для различной компоновки виджетов.
 
-image::/images/tabs.png[]
+image::images/tabs.png[]
 
 .Регион в виде вкладок
 [source,xml]
@@ -169,19 +169,19 @@ image::/images/tabs.png[]
 
 |<form>
 |FormWidget
-|Форма
+|link:https://n2oapp.net/sandbox/new/manual/widget/form[Форма]
 
 |<table>
 |TableWidget
-|Таблица
+|link:https://n2oapp.net/sandbox/new/manual/widget/table[Таблица]
 
 |<list>
 |ListWidget
-|Список
+|link:https://n2oapp.net/sandbox/new/manual/widget/list[Список]
 
 |<tree>
 |TreeWidget
-|Дерево
+|link:https://n2oapp.net/sandbox/new/manual/widget/tree[Дерево]
 
 |<chart>
 |График
@@ -195,16 +195,18 @@ image::/images/tabs.png[]
 Таблица - виджет N2O, представляющий данные в виде таблицы
 с возможностью сортировки, фильтрации, паджинации.
 
+image::images/table.png[]
+
 .Виджет таблица
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
   name="Моя таблица"
-  query-id="myQuery">
+  query-id="table">
   <columns>
-    <column text-field-id="firstName"/>
-    <column text-field-id="lastName"/>
+    <column text-field-id="firstName" label="Имя"/>
+    <column text-field-id="lastName" label="Фамилия"/>
   </columns>
 </table>
 ----
@@ -215,17 +217,18 @@ image::/images/tabs.png[]
 Форма - виджет N2O, представляющий одну запись данных
 в виде полей с возможностью просмотра или редактирования.
 
+image::images/widget_form.png[]
+
 .Виджет форма
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моя форма"
-  object-id="myObject">
+  name="Моя форма">
   <fields>
-    <input-text id="firstName"/>
-    <input-text id="lastName"/>
-  <fields>
+    <input-text id="firstName" label="Имя"/>
+    <input-text id="lastName" label="Фамилия"/>
+  </fields>
 </form>
 ----
 Поля формы задаются внутри элемента `<fields>`.
@@ -427,7 +430,7 @@ image::images/button-submenu.png[]
         page-id="myForm"
         submit-operation-id="create"/>
     </action>
-  <actions>
+  </actions>
 </table>
 ----
 
@@ -486,10 +489,10 @@ image::images/button-submenu.png[]
 В филдсете поля можно расположить в строку или столбец
 с помощью элементов `<row>` и `<col>`.
 
-.Расположение полей в строку или столбец
 
---
-image::/images/fieldset_col_row.png[]
+image::images/fieldset_col_row.png[]
+
+.Расположение полей в строку или столбец
 [source,xml]
 ----
 <fields>
@@ -624,7 +627,7 @@ InputNumber
 
 Ячейки встраиваются в столбцы таблицы:
 
-image::/images/cell_in_table.png[]
+image::images/cell_in_table.png[]
 
 .Ячейка-текст в таблице
 [source,xml]
@@ -640,7 +643,7 @@ image::/images/cell_in_table.png[]
 
 Или в содержимое виджета-списка:
 
-image::/images/cell_in_list.png[]
+image::images/cell_in_list.png[]
 
 .Ячейка-текст в виджете-список
 [source,xml]
@@ -690,12 +693,13 @@ image::/images/cell_in_list.png[]
 
 
 === Хедер
-
 Хедер - это заголовок каждой страницы,
 содержащий меню навигации, меню пользователя и другое.
 Структура хедера задается в файле `*.header.xml`.
 Обычно в приложении существует только один хедер.
 Если их в приложении несколько, то необходимо задать идентификатор хедера в настройке `n2o.header.id`.
+
+image::images/header.png[]
 
 .Структура хедера
 [source,xml]
@@ -720,11 +724,11 @@ image::/images/cell_in_list.png[]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<menu xmlns="http://n2oapp.net/framework/config/schema/menu-2.0">
+<nav xmlns="http://n2oapp.net/framework/config/schema/menu-2.0">
   <page page-id="menu1" label="Первая страница"/>
   <page page-id="menu2" label="Вторая страница"/>
   ...
-</menu>
+</nav>
 ----
 
 Либо перечисляется внутри элементов `<nav>` и `<extra-menu>` хедера:
