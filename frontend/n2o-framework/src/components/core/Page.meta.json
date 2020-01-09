@@ -41,7 +41,6 @@
               {
                 "id": "redirect",
                 "src": "PerformButton",
-                "actionId": "redirect",
                 "label": "Вперед"
               }
             ]

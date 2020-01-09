@@ -1,0 +1,200 @@
+== Кнопки
+
+Библиотека компонентов::
+```
+http://n2oapp.net/framework/config/schema/button-2.0
+```
+
+=== Базовые свойства
+
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|label
+|Строка
+|Заголовок кнопки
+|Вычисляется из `action-id`
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка
+|Вычисляется из `action-id`
+
+|type
+|text, icon, textAndIcon
+|Кнопка с иконкой или без
+|Если задан `icon`, то `iconAndText`, иначе `text`
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Css класс кнопки
+|
+
+|style
+|CSS свойство
+|Стиль кнопки
+|
+
+|color
+|primary, secondary, success, danger, warning, info, light, dark, link
+|Цвет кнопки
+|
+
+|src
+|Строка
+|Реализация действия.
+|
+
+|===
+
+===== <button>
+Кнопка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор кнопки
+|Вычисляется из `action-id`
+
+|action-id
+|Ссылка на link:#__action[действие страницы]
+|Действие страницы, которое будет вызвано при нажатии на кнопку
+|
+
+|validate
+|true false
+|Валидировать ли форму при нажатии на кнопку.
+|
+
+|visible
+|true false
+|Видимость по умолчанию.
+|
+
+|visibility-condition
+|Строка
+|Условие видимости.
+|
+
+|enabling-condition
+|Строка
+|Условие доступности.
+|
+
+|tooltip-position
+|left, right, top, bottom
+|Позиция подсказки.
+|
+
+|confirm
+|true false
+|Показать предупреждение перед выполнением действия.
+|
+
+|confirm-text
+|Строка
+|Текст предупреждения.
+|
+
+|confirm-title
+|Строка
+|Заголовок окна предупреждения.
+|
+
+|confirm-ok-label
+|Строка
+|Текст кнопки подтверждения.
+|
+
+|confirm-cancel-label
+|Строка
+|Текст кнопки отмены.
+|
+
+|widget-id
+|Строка
+|Идентификатор виджета над которым будет выполнена операция. По умолчанию главный виджет страницы(если он один).
+|
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<button action-id="create"/>
+----
+
+[source,xml]
+----
+<button
+  label="Добавить в реестр"
+  icon="fa-plus"
+  type="textAndIcon">
+  <open-page page-id="register" action-id="create"/>
+</button>
+----
+
+===== <sub-menu>
+Кнопка с выпадающим меню.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|generate
+|Строка
+|Генерация стандартных кнопок.
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<sub-menu>
+  <menu-item>...<menu-item>
+  <menu-item>...<menu-item>
+  <menu-item>...<menu-item>
+</sub-menu>
+----
+
+===== <link>
+Ссылка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|href
+|Строка
+|URL
+|
+
+|target
+|Строка
+|
+|
+
+|===
+
+Тело::
+    <path-params> - параметры url.
+    <query-params> - параметры запроса.
+
+Пример::
+[source,xml]
+----
+  <link href="../" target="application">
+    <path-params>...</path-params>
+    <query-params>...</query-params>
+  </link>
+----

@@ -4,9 +4,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
-import net.n2oapp.framework.config.metadata.compile.cell.AbstractCellCompiler;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;

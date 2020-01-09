@@ -14,7 +14,6 @@
           "buttons": [
             {
               "id": "filter",
-              "actionId": "filter",
               "src": "PerformButton",
               "visible": true,
               "conditions": {
@@ -30,7 +29,6 @@
             },
             {
               "id": "enable",
-              "actionId": "enable",
               "src": "PerformButton",
               "visible": true,
               "conditions": {
@@ -46,7 +44,6 @@
             },
             {
               "id": "combo",
-              "actionId": "combo",
               "visible": true,
               "src": "PerformButton",
               "conditions": {

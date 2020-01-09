@@ -134,9 +134,10 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                     action = p.compile(rowClick.getAction(), context, widgetScope,
                             widgetRouteScope, new ComponentScope(rowClick), object);
                 }
+                RowClick rc = new RowClick(action);
                 if (action != null && StringUtils.isJs(enabledCondition))
-                    action.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
-                component.setRowClick(action);
+                    rc.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
+                component.setRowClick(rc);
                 component.setRows(new TableWidgetComponent.Rows());
             }
         }

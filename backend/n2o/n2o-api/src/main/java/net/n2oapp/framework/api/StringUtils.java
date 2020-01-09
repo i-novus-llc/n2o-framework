@@ -290,6 +290,17 @@ public abstract class StringUtils {
         return result.trim();
     }
 
+    /**
+     * Проверка, что текст содержит шаблон поиска
+     *
+     * @param str Строка
+     * @return Содержит (true) или нет (false)
+     */
+    public static boolean hasWildcard(String str) {
+        if (str == null)
+            return false;
+        return str.contains("*");
+    }
     public static boolean isEmpty(@Nullable Object str) {
         return (str == null || "".equals(str));
     }
