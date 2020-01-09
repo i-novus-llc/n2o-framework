@@ -7,6 +7,7 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 
 import history from './history';
 import configureStore from './store';
+import packageJson from '../package';
 
 import FactoryProvider from './core/factory/FactoryProvider';
 import factoryPoints from './core/factory/factoryPoints';
@@ -25,6 +26,8 @@ import globalFnDate from './utils/globalFnDate';
 import configureErrorPages from './components/errors';
 
 addLocaleData(ruLocaleData);
+
+const { version } = packageJson;
 
 class N2o extends Component {
   constructor(props) {
@@ -119,6 +122,7 @@ N2o.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  version: PropTypes.string,
 };
 
 const EnhancedN2O = compose(
@@ -163,6 +167,7 @@ const EnhancedN2O = compose(
       defaultErrorPages: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
       ),
+      version: PropTypes.string,
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
@@ -170,6 +175,7 @@ const EnhancedN2O = compose(
       defaultPromptMessage: props.defaultPromptMessage,
       defaultPage: props.defaultPage,
       defaultErrorPages: props.defaultErrorPages,
+      version: version,
     })
   ),
   withProps(props => ({
