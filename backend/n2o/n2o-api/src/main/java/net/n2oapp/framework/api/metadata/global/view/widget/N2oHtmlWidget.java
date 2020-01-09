@@ -1,23 +1,16 @@
 package net.n2oapp.framework.api.metadata.global.view.widget;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class N2oHtmlWidget extends N2oWidget {
     private String url;
-    private boolean dummyObject;
+    private Boolean dummyObject;
 
     public N2oHtmlWidget() {
         dummyObject = true;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public boolean isDummyObject() {
-        return dummyObject;
     }
 
     @Override

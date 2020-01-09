@@ -13,7 +13,7 @@ public class HtmlWidgetXmlPersister extends WidgetXmlPersister<N2oHtmlWidget> {
         Element rootElement = new Element(getElementName(), namespace);
         setAttribute(rootElement, "url", n2oHtmlWidget.getUrl());
         setElementString(rootElement, "name", n2oHtmlWidget.getName());
-        if(!n2oHtmlWidget.isDummyObject()) {
+        if(!n2oHtmlWidget.getDummyObject()) {
             setElementString(rootElement, "object-id", n2oHtmlWidget.getObjectId());
         }
         return rootElement;

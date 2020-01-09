@@ -5,12 +5,11 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FormJsonTest extends JsonMetadataTestBase {
+public class HtmlJsonTest extends JsonMetadataTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -20,18 +19,13 @@ public class FormJsonTest extends JsonMetadataTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllDataPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testJsonForm.object.xml"));
+        builder.packs(new N2oAllDataPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }
 
     @Test
-    public void form() {
-        check("net/n2oapp/framework/config/metadata/compile/widgets/testJsonForm.widget.xml",
-                "components/widgets/Form/FormWidget.meta.json")
-                .cutJson("Page_Form.form.validation")
-                .exclude("email", "name[0].validationKey", "name[1].validationKey")
-                .cutXml("form.validation")
+    public void test() {
+        check("net/n2oapp/framework/config/metadata/compile/widgets/testJsonHtml.widget.xml",
+                "components/widgets/Html/HtmlWidget.meta.json")
                 .assertEquals();
-
     }
 }
