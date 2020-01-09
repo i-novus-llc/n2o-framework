@@ -61,7 +61,6 @@ export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
-    console.warn(_evalResult);
   }
 
   switch (type) {
