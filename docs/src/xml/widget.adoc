@@ -815,10 +815,6 @@ two-models - 2х модельный режим (при первой загруз
 |Наименование узла дерева
 |
 
-|has-children-field-id
-|Ссылка на поле выборки с `domain="boolean"`
-|Наличие дочерних элементов
-|
 
 |icon-field-id
 |Ссылка на поле выборки
@@ -863,12 +859,10 @@ two-models - 2х модельный режим (при первой загруз
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <tree xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моё дерево"
-  query-id="myQuery"
-  parent-field-id="parent.id"
-  label-field-id="displayName"
-  has-children-field-id="hasChildren"
-  icon-field-id="iconAddress">
+    name="Моё дерево"
+    parent-field-id="parentId"
+    label-field-id="name"
+    query-id="tree">
 </tree>
 ----
 
