@@ -1,5 +1,6 @@
 {
   "Page_Table": {
+    "id": "$testTableJson",
     "src": "AdvancedTableWidget",
     "dataProvider": {
       "url": "n2o/data/test",

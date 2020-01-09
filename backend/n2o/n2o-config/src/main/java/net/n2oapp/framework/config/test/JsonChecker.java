@@ -79,7 +79,7 @@ public class JsonChecker {
     }
 
     /**
-     * Переместить значение узела json в другой путь
+     * Переместить значение узла json в другой путь
      * @param jsonNodePath Путь к узлу
      * @param jsonChangeNodePath Путь, куда переместить значение
      */

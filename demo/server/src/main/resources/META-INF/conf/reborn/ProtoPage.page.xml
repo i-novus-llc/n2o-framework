@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      layout="LeftRightLayout" name="Список контактов" route="/">
+      src="LeftRightPage" name="Список контактов" route="/">
     <toolbar place="topRight">
         <button id="create2" widget-id="patients" description="Добавить пациента"
                 color="primary" label="Добавить пациента" icon="fa fa-plus"
