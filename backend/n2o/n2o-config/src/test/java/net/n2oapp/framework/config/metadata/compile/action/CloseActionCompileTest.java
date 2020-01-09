@@ -43,7 +43,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         CloseAction testAction = (CloseAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
         assertThat(testAction.getId(), is("test"));
         assertThat(testAction.getSrc(), is("perform"));
-        assertThat(testAction.getOptions().getType(), is("n2o/modals/CLOSE"));
+        assertThat(testAction.getOptions().getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) testAction.getOptions().getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getOptions().getPayload()).getPrompt(), is(true));
 
