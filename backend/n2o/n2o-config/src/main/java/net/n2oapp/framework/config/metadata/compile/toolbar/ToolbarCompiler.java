@@ -30,7 +30,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectMap;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -118,9 +118,9 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
 
         CompiledObject.Operation operation = null;
         CompiledObject compiledObject;
-        WidgetObjectMap widgetObjectMap = p.getScope(WidgetObjectMap.class);
-        if (widgetObjectMap != null && widgetObjectMap.containsKey(source.getWidgetId())) {
-            compiledObject = widgetObjectMap.getObject(source.getWidgetId());
+        WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
+        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
+            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
         } else
             compiledObject = p.getScope(CompiledObject.class);
         N2oAction butAction = source.getAction();
