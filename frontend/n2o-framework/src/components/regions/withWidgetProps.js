@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import omit from 'lodash/omit';
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
+import isEmpty from 'lodash/isEmpty';
 import { widgetsSelector } from '../../selectors/widgets';
 import {
   makeModelsByPrefixSelector,
@@ -55,6 +56,10 @@ function withGetWidget(WrappedComponent) {
         `pages[${pageId}].metadata.widgets[${widgetId}].dependency.visible`,
         []
       );
+
+      if (isEmpty(dependencies)) {
+        return undefined;
+      }
 
       const model = getModelsByDependency(dependencies)(
         this.context.store.getState()

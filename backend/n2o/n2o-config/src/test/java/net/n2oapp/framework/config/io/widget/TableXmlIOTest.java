@@ -32,6 +32,7 @@ public class TableXmlIOTest {
                 new CloseActionElementIOV1(),
                 new BadgeCellElementIOv2(),
                 new ListCellIOElementIOv2(),
+                new RatingCellElementIOv2(),
                 new SetFieldsetElementIOv4(),
                 new InputTextIOv2(),
                 new InvokeActionElementIOV1()
