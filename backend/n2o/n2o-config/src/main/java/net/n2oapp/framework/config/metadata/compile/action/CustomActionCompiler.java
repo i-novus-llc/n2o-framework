@@ -5,8 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.meta.action.CustomAction;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import org.springframework.stereotype.Component;
 
 /**

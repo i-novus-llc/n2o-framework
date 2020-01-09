@@ -389,30 +389,47 @@
             "id": "topLeft0",
             "buttons": [
               {
-                "id": "create",
-                "icon": "fa fa-plus",
                 "src": "PerformButton",
-                "hint": "Создать",
-                "hintPosition": "bottom",
-                "conditions": {},
+                "id": "create",
                 "label": "Создать",
+                "icon": "fa fa-plus",
                 "action": {
                   "type": "n2o/modals/INSERT",
                   "payload": {
-                    "name": "create",
-                    "pageId": "create",
-                    "pageUrl": "/create",
+                    "name": "proto_create",
+                    "pageId": "proto_create",
+                    "pageUrl": "/proto/create",
                     "pathMapping": {},
                     "queryMapping": {},
                     "closeButton": true,
                     "visible": true
                   }
-                }
+                },
+                "hint": "Создать",
+                "hintPosition": "bottom",
+                "conditions": {}
               },
               {
+                "src": "PerformButton",
                 "id": "update_patient",
+                "label": "Изменить",
                 "icon": "fa fa-pencil",
-                "actionId": "update_patient",
+                "action": {
+                  "type": "n2o/modals/INSERT",
+                  "payload": {
+                    "name": "proto_update_patient",
+                    "pageId": "proto_update_patient",
+                    "pageUrl": "/proto/:proto_patients_id/update_patient",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      }
+                    },
+                    "queryMapping": {},
+                    "closeButton": true,
+                    "visible": true
+                  }
+                },
                 "hint": "Изменить",
                 "hintPosition": "bottom",
                 "conditions": {
@@ -422,12 +439,39 @@
                       "modelLink": "models.resolve['proto_patients']"
                     }
                   ]
-                },
-                "title": "Изменить"
+                }
               },
               {
+                "src": "PerformButton",
                 "id": "delete",
-                "actionId": "delete",
+                "label": "Удалить",
+                "action": {
+                  "type": "n2o/actionImpl/START_INVOKE",
+                  "payload": {
+                    "widgetId": "proto_patients",
+                    "dataProvider": {
+                      "url": "n2o/data/proto/:proto_patients_id/delete",
+                      "pathMapping": {
+                        "proto_patients_id": {
+                          "link": "models.resolve['proto_patients'].id"
+                        }
+                      },
+                      "method": "POST"
+                    },
+                    "modelLink": "models.resolve['proto_patients']"
+                  },
+                  "meta": {
+                    "success": {
+                      "refresh": {
+                        "type": "widget",
+                        "options": {
+                          "widgetId": "proto_patients"
+                        }
+                      }
+                    },
+                    "fail": {}
+                  }
+                },
                 "hint": "Удалить",
                 "hintPosition": "bottom",
                 "conditions": {
@@ -445,8 +489,7 @@
                   "cancelLabel": "Нет",
                   "modelLink": "models.resolve['proto_patients']",
                   "mode": "modal"
-                },
-                "title": "Удалить"
+                }
               }
             ]
           }
@@ -456,31 +499,57 @@
             "id": "topRight0",
             "buttons": [
               {
+                "src": "PerformButton",
                 "id": "update2",
                 "icon": "fa fa-edit",
-                "actionId": "update2",
+                "action": {},
                 "hint": "Кнопка скрывается, если в строке имя Мария",
                 "hintPosition": "bottom",
                 "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_patients']"
-                    }
-                  ],
                   "visible": [
                     {
                       "expression": "name!='Мария'",
                       "modelLink": "models.resolve['proto_patients']"
                     }
+                  ],
+                  "enabled": [
+                    {
+                      "expression": "!_.isEmpty(this)",
+                      "modelLink": "models.resolve['proto_patients']"
+                    }
                   ]
                 },
-                "color": "light"
+                "color": "light",
+                "url": "/proto/:proto_patients_id/update2",
+                "target": "application",
+                "pathMapping": {
+                  "proto_patients_id": {
+                    "link": "models.resolve['proto_patients'].id"
+                  }
+                },
+                "queryMapping": {}
               },
               {
+                "src": "PerformButton",
                 "id": "view",
+                "label": "Просмотр",
                 "icon": "fa fa-book",
-                "actionId": "view",
+                "action": {
+                  "type": "n2o/modals/INSERT",
+                  "payload": {
+                    "name": "proto_view",
+                    "pageId": "proto_view",
+                    "pageUrl": "/proto/:proto_patients_id/view",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      }
+                    },
+                    "queryMapping": {},
+                    "closeButton": true,
+                    "visible": true
+                  }
+                },
                 "hint": "Кнопка блокируется, если в фильтре имя Анна",
                 "hintPosition": "right",
                 "conditions": {
@@ -495,8 +564,7 @@
                     }
                   ]
                 },
-                "color": "info",
-                "title": "Просмотр"
+                "color": "info"
               }
             ]
           }
@@ -506,226 +574,186 @@
             "id": "bottomRight0",
             "buttons": [
               {
+                "src": "PerformButton",
                 "id": "menuItem5",
                 "icon": "fa fa-filter",
-                "actionId": "menuItem5",
+                "action": {},
                 "hint": "Изменить видимость фильтров",
                 "hintPosition": "bottom",
                 "conditions": {}
               },
               {
+                "src": "ToggleColumn",
                 "id": "menuItem6",
                 "icon": "fa fa-table",
                 "hint": "Изменить видимость колонок",
                 "hintPosition": "bottom",
-                "conditions": {},
-                "dropdownSrc": "ToggleColumn"
+                "conditions": {}
               },
               {
+                "src": "PerformButton",
                 "id": "menuItem7",
                 "icon": "fa fa-refresh",
-                "actionId": "menuItem7",
+                "action": {
+                  "type": "n2o/widgets/DATA_REQUEST",
+                  "payload": {
+                    "widgetId": "proto_patients"
+                  }
+                },
                 "hint": "Обновить данные",
                 "hintPosition": "bottom",
                 "conditions": {}
               },
               {
+                "src": "ChangeSize",
                 "id": "menuItem8",
                 "icon": "fa fa-bars",
                 "hint": "Изменить размер",
                 "hintPosition": "bottom",
-                "conditions": {},
-                "dropdownSrc": "ChangeSize"
+                "conditions": {}
               }
             ]
           }
         ]
       },
       "actions": {
-        "update_birthday": {
-          "id": "update_birthday",
-          "src": "perform",
-          "options": {
-            "type": "n2o/actionImpl/START_INVOKE",
-            "payload": {
-              "widgetId": "proto_patients",
-              "dataProvider": {
-                "url": "n2o/data/proto/:proto_patients_id/update_birthday",
-                "pathMapping": {
-                  "proto_patients_id": {
-                    "link": "models.resolve['proto_patients'].id"
-                  }
-                },
-                "method": "POST"
-              },
-              "modelLink": "models.resolve['proto_patients']"
-            },
-            "meta": {
-              "success": {
-                "refresh": {
-                  "type": "widget",
-                  "options": {
-                    "widgetId": "proto_patients"
-                  }
-                }
-              },
-              "fail": {}
-            }
-          }
-        },
-        "create": {
-          "id": "create",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "proto_create",
-              "pageId": "proto_create",
-              "pageUrl": "/proto/create",
-              "pathMapping": {},
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
-          }
-        },
         "update_patient": {
-          "id": "update_patient",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "proto_update_patient",
-              "pageId": "proto_update_patient",
-              "pageUrl": "/proto/:proto_patients_id/update_patient",
-              "pathMapping": {
-                "proto_patients_id": {
-                  "link": "models.resolve['proto_patients'].id"
-                }
-              },
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "proto_update_patient",
+            "pageId": "proto_update_patient",
+            "pageUrl": "/proto/:proto_patients_id/update_patient",
+            "pathMapping": {
+              "proto_patients_id": {
+                "link": "models.resolve['proto_patients'].id"
+              }
+            },
+            "queryMapping": {},
+            "closeButton": true,
+            "visible": true
+          }
+        },
+        "update": {
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "proto_update",
+            "pageId": "proto_update",
+            "pageUrl": "/proto/:proto_patients_id/update",
+            "pathMapping": {
+              "proto_patients_id": {
+                "link": "models.resolve['proto_patients'].id"
+              }
+            },
+            "queryMapping": {},
+            "closeButton": true,
+            "visible": true
+          }
+        },
+        "menuItem5": {},
+        "menuItem7": {
+          "type": "n2o/widgets/DATA_REQUEST",
+          "payload": {
+            "widgetId": "proto_patients"
           }
         },
         "delete": {
-          "id": "delete",
-          "src": "perform",
-          "options": {
-            "type": "n2o/actionImpl/START_INVOKE",
-            "payload": {
-              "widgetId": "proto_patients",
-              "dataProvider": {
-                "url": "n2o/data/proto/:proto_patients_id/delete",
-                "pathMapping": {
-                  "proto_patients_id": {
-                    "link": "models.resolve['proto_patients'].id"
-                  }
-                },
-                "method": "POST"
-              },
-              "modelLink": "models.resolve['proto_patients']"
-            },
-            "meta": {
-              "success": {
-                "refresh": {
-                  "type": "widget",
-                  "options": {
-                    "widgetId": "proto_patients"
-                  }
-                }
-              },
-              "fail": {}
-            }
-          }
-        },
-        "update2": {
-          "id": "update2",
-          "src": "link",
-          "options": {
-            "path": "/proto/:proto_patients_id/update2",
-            "target": "application",
-            "pathMapping": {
-              "proto_patients_id": {
-                "link": "models.resolve['proto_patients'].id"
-              }
-            },
-            "queryMapping": {}
-          }
-        },
-        "view": {
-          "id": "view",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "proto_view",
-              "pageId": "proto_view",
-              "pageUrl": "/proto/:proto_patients_id/view",
+          "type": "n2o/actionImpl/START_INVOKE",
+          "payload": {
+            "widgetId": "proto_patients",
+            "dataProvider": {
+              "url": "n2o/data/proto/:proto_patients_id/delete",
               "pathMapping": {
                 "proto_patients_id": {
                   "link": "models.resolve['proto_patients'].id"
                 }
               },
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
-          }
-        },
-        "menuItem5": {
-          "id": "menuItem5",
-          "src": "perform",
-          "options": {
-            "payload": {
-              "widgetId": "proto_patients"
+              "method": "POST"
             },
-            "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY"
+            "modelLink": "models.resolve['proto_patients']"
+          },
+          "meta": {
+            "success": {
+              "refresh": {
+                "type": "widget",
+                "options": {
+                  "widgetId": "proto_patients"
+                }
+              }
+            },
+            "fail": {}
           }
         },
-        "menuItem7": {
-          "id": "menuItem7",
-          "src": "perform",
-          "options": {
-            "type": "n2o/widgets/DATA_REQUEST",
-            "payload": {
-              "widgetId": "proto_patients"
-            }
-          }
-        },
-        "surname": {
-          "id": "surname",
-          "src": "link",
-          "options": {
-            "path": "/proto/:proto_patients_id/surname",
-            "target": "application",
+        "update2": {},
+        "view": {
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "proto_view",
+            "pageId": "proto_view",
+            "pageUrl": "/proto/:proto_patients_id/view",
             "pathMapping": {
               "proto_patients_id": {
                 "link": "models.resolve['proto_patients'].id"
               }
             },
-            "queryMapping": {}
+            "queryMapping": {},
+            "closeButton": true,
+            "visible": true
+          }
+        },
+        "surname": {},
+        "update_birthday": {
+          "type": "n2o/actionImpl/START_INVOKE",
+          "payload": {
+            "widgetId": "proto_patients",
+            "dataProvider": {
+              "url": "n2o/data/proto/:proto_patients_id/update_birthday",
+              "pathMapping": {
+                "proto_patients_id": {
+                  "link": "models.resolve['proto_patients'].id"
+                }
+              },
+              "method": "POST"
+            },
+            "modelLink": "models.resolve['proto_patients']"
+          },
+          "meta": {
+            "success": {
+              "refresh": {
+                "type": "widget",
+                "options": {
+                  "widgetId": "proto_patients"
+                }
+              }
+            },
+            "fail": {}
           }
         },
         "name": {
-          "id": "name",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "proto_name",
-              "pageId": "proto_name",
-              "pageUrl": "/proto/:proto_patients_id/name",
-              "pathMapping": {
-                "proto_patients_id": {
-                  "link": "models.resolve['proto_patients'].id"
-                }
-              },
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "proto_name",
+            "pageId": "proto_name",
+            "pageUrl": "/proto/:proto_patients_id/name",
+            "pathMapping": {
+              "proto_patients_id": {
+                "link": "models.resolve['proto_patients'].id"
+              }
+            },
+            "queryMapping": {},
+            "closeButton": true,
+            "visible": true
+          }
+        },
+        "create": {
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "proto_create",
+            "pageId": "proto_create",
+            "pageUrl": "/proto/create",
+            "pathMapping": {},
+            "queryMapping": {},
+            "closeButton": true,
+            "visible": true
           }
         },
         "vip": {
@@ -753,26 +781,6 @@
               }
             },
             "fail": {}
-          }
-        },
-        "update": {
-          "id": "update",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "proto_update",
-              "pageId": "proto_update",
-              "pageUrl": "/proto/:proto_patients_id/update",
-              "pathMapping": {
-                "proto_patients_id": {
-                  "link": "models.resolve['proto_patients'].id"
-                }
-              },
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
           }
         }
       },
@@ -895,20 +903,20 @@
             "id": "surname",
             "fieldKey": "surname",
             "src": "LinkCell",
-            "inner": true,
             "url": "/proto/:proto_patients_id/surname",
+            "target": "application",
             "pathMapping": {
               "proto_patients_id": {
                 "link": "models.resolve['proto_patients'].id"
               }
             },
-            "queryMapping": {}
+            "queryMapping": {},
+            "action": {}
           },
           {
             "id": "name",
             "fieldKey": "name",
             "src": "LinkCell",
-            "actionId": "name",
             "action": {
               "type": "n2o/modals/INSERT",
               "payload": {
@@ -938,7 +946,6 @@
             "id": "birthday",
             "fieldKey": "birthday",
             "src": "EditableCell",
-            "actionId": "update_birthday",
             "control": {
               "src": "DatePicker",
               "id": "birthday",
@@ -988,7 +995,6 @@
             "id": "vip",
             "fieldKey": "vip",
             "src": "CheckboxCell",
-            "actionId": "vip",
             "disabled": "`!(name!='Мария')`",
             "action": {
               "type": "n2o/actionImpl/START_INVOKE",
@@ -1022,137 +1028,84 @@
             "id": "",
             "fieldKey": "",
             "src": "ButtonsCell",
-            "toolbar": [{
-              "buttons": [
-                {
-                  "id": "subMenu0",
-                  "src": "DropdownButton",
-                  "icon": "fa fa-ellipsis-v",
-                  "conditions": {},
-                  "subMenu": [
-                    {
-                      "id": "delete",
-                      "src": "PerformButton",
-                      "icon": "fa fa-trash",
-                      "actionId": "delete",
-                      "confirm": {
-                        "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
-                        "title": "Предупреждение",
-                        "okLabel": "Да",
-                        "cancelLabel": "Нет",
-                        "modelLink": "models.resolve['proto_patients']",
-                        "mode": "modal"
+            "toolbar": [
+              {
+                "buttons": [
+                  {
+                    "src": "DropdownButton",
+                    "id": "subMenu0",
+                    "icon": "fa fa-ellipsis-v",
+                    "conditions": {},
+                    "color": "link",
+                    "subMenu": [
+                      {
+                        "id": "delete",
+                        "label": "Удалить",
+                        "icon": "fa fa-trash",
+                        "action": {
+                          "type": "n2o/actionImpl/START_INVOKE",
+                          "payload": {
+                            "widgetId": "proto_patients",
+                            "dataProvider": {
+                              "url": "n2o/data/proto/:proto_patients_id/delete",
+                              "pathMapping": {
+                                "proto_patients_id": {
+                                  "link": "models.resolve['proto_patients'].id"
+                                }
+                              },
+                              "method": "POST"
+                            },
+                            "modelLink": "models.resolve['proto_patients']"
+                          },
+                          "meta": {
+                            "success": {
+                              "refresh": {
+                                "type": "widget",
+                                "options": {
+                                  "widgetId": "proto_patients"
+                                }
+                              }
+                            },
+                            "fail": {}
+                          }
+                        },
+                        "conditions": {},
+                        "confirm": {
+                          "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
+                          "title": "Предупреждение",
+                          "okLabel": "Да",
+                          "cancelLabel": "Нет",
+                          "modelLink": "models.resolve['proto_patients']",
+                          "mode": "modal"
+                        }
                       },
-                      "label": "Удалить",
-                      "action": {
-                        "type": "n2o/actionImpl/START_INVOKE",
-                        "payload": {
-                          "widgetId": "proto_patients",
-                          "dataProvider": {
-                            "url": "n2o/data/proto/:proto_patients_id/delete",
+                      {
+                        "id": "update",
+                        "label": "Изменить",
+                        "icon": "fa fa-pencil",
+                        "action": {
+                          "type": "n2o/modals/INSERT",
+                          "payload": {
+                            "name": "proto_update",
+                            "pageId": "proto_update",
+                            "pageUrl": "/proto/:proto_patients_id/update",
                             "pathMapping": {
                               "proto_patients_id": {
                                 "link": "models.resolve['proto_patients'].id"
                               }
                             },
-                            "method": "POST"
-                          },
-                          "modelLink": "models.resolve['proto_patients']"
+                            "queryMapping": {},
+                            "closeButton": true,
+                            "visible": true
+                          }
                         },
-                        "meta": {
-                          "success": {
-                            "refresh": {
-                              "type": "widget",
-                              "options": {
-                                "widgetId": "proto_patients"
-                              }
-                            }
-                          },
-                          "fail": {}
-                        }
+                        "conditions": {}
                       }
-                    },
-                    {
-                      "id": "update",
-                      "src": "PerformButton",
-                      "icon": "fa fa-pencil",
-                      "actionId": "update",
-                      "color": "link",
-                      "label": "Изменить",
-                      "action": {
-                        "type": "n2o/modals/INSERT",
-                        "payload": {
-                          "name": "proto_update",
-                          "pageId": "proto_update",
-                          "pageUrl": "/proto/:proto_patients_id/update",
-                          "pathMapping": {
-                            "proto_patients_id": {
-                              "link": "models.resolve['proto_patients'].id"
-                            }
-                          },
-                          "queryMapping": {},
-                          "closeButton": true,
-                          "visible": true
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }],
-            "actions": {
-              "delete": {
-                "id": "delete",
-                "src": "perform",
-                "options": {
-                  "type": "n2o/actionImpl/START_INVOKE",
-                  "payload": {
-                    "widgetId": "proto_patients",
-                    "dataProvider": {
-                      "url": "n2o/data/proto/:proto_patients_id/delete",
-                      "pathMapping": {
-                        "proto_patients_id": {
-                          "link": "models.resolve['proto_patients'].id"
-                        }
-                      },
-                      "method": "POST"
-                    },
-                    "modelLink": "models.resolve['proto_patients']"
-                  },
-                  "meta": {
-                    "success": {
-                      "refresh": {
-                        "type": "widget",
-                        "options": {
-                          "widgetId": "proto_patients"
-                        }
-                      }
-                    },
-                    "fail": {}
+                    ]
                   }
-                }
-              },
-              "update": {
-                "id": "update",
-                "src": "perform",
-                "options": {
-                  "type": "n2o/modals/INSERT",
-                  "payload": {
-                    "name": "proto_update",
-                    "pageId": "proto_update",
-                    "pageUrl": "/proto/:proto_patients_id/update",
-                    "pathMapping": {
-                      "proto_patients_id": {
-                        "link": "models.resolve['proto_patients'].id"
-                      }
-                    },
-                    "queryMapping": {},
-                    "closeButton": true,
-                    "visible": true
-                  }
-                }
+                ]
               }
-            }
+            ]
           }
         ],
         "headers": [
@@ -1219,11 +1172,27 @@
             "id": "topLeft0",
             "buttons": [
               {
+                "src": "PerformButton",
                 "id": "create",
+                "label": "Создать",
                 "icon": "fa fa-plus",
-                "actionId": "create",
-                "conditions": {},
-                "title": "Создать"
+                "action": {
+                  "type": "n2o/modals/INSERT",
+                  "payload": {
+                    "name": "proto_contacts_create",
+                    "pageId": "proto_contacts_create",
+                    "pageUrl": "/proto/:proto_patients_id/contacts/create",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      }
+                    },
+                    "queryMapping": {},
+                    "closeButton": true,
+                    "visible": true
+                  }
+                },
+                "conditions": {}
               }
             ]
           }
@@ -1231,80 +1200,68 @@
       },
       "actions": {
         "create": {
-          "id": "create",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "proto_contacts_create",
-              "pageId": "proto_contacts_create",
-              "pageUrl": "/proto/:proto_patients_id/contacts/create",
-              "pathMapping": {
-                "proto_patients_id": {
-                  "link": "models.resolve['proto_patients'].id"
-                }
-              },
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "proto_contacts_create",
+            "pageId": "proto_contacts_create",
+            "pageUrl": "/proto/:proto_patients_id/contacts/create",
+            "pathMapping": {
+              "proto_patients_id": {
+                "link": "models.resolve['proto_patients'].id"
+              }
+            },
+            "queryMapping": {},
+            "closeButton": true,
+            "visible": true
           }
         },
         "update": {
-          "id": "update",
-          "src": "perform",
-          "options": {
-            "type": "n2o/modals/INSERT",
-            "payload": {
-              "name": "proto_contacts_update",
-              "pageId": "proto_contacts_update",
-              "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
-              "pathMapping": {
-                "proto_patients_id": {
-                  "link": "models.resolve['proto_patients'].id"
-                },
-                "proto_contacts_id": {
-                  "link": "models.resolve['proto_contacts'].id"
-                }
+          "type": "n2o/modals/INSERT",
+          "payload": {
+            "name": "proto_contacts_update",
+            "pageId": "proto_contacts_update",
+            "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
+            "pathMapping": {
+              "proto_patients_id": {
+                "link": "models.resolve['proto_patients'].id"
               },
-              "queryMapping": {},
-              "closeButton": true,
-              "visible": true
-            }
+              "proto_contacts_id": {
+                "link": "models.resolve['proto_contacts'].id"
+              }
+            },
+            "queryMapping": {},
+            "closeButton": true,
+            "visible": true
           }
         },
         "delete": {
-          "id": "delete",
-          "src": "perform",
-          "options": {
-            "type": "n2o/actionImpl/START_INVOKE",
-            "payload": {
-              "widgetId": "proto_contacts",
-              "dataProvider": {
-                "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
-                "pathMapping": {
-                  "proto_contacts_id": {
-                    "link": "models.resolve['proto_contacts'].id"
-                  },
-                  "proto_patients_id": {
-                    "link": "models.resolve['proto_patients'].id"
-                  }
+          "type": "n2o/actionImpl/START_INVOKE",
+          "payload": {
+            "widgetId": "proto_contacts",
+            "dataProvider": {
+              "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
+              "pathMapping": {
+                "proto_contacts_id": {
+                  "link": "models.resolve['proto_contacts'].id"
                 },
-                "method": "POST"
-              },
-              "modelLink": "models.resolve['proto_contacts']"
-            },
-            "meta": {
-              "success": {
-                "refresh": {
-                  "type": "widget",
-                  "options": {
-                    "widgetId": "proto_contacts"
-                  }
+                "proto_patients_id": {
+                  "link": "models.resolve['proto_patients'].id"
                 }
               },
-              "fail": {}
-            }
+              "method": "POST"
+            },
+            "modelLink": "models.resolve['proto_contacts']"
+          },
+          "meta": {
+            "success": {
+              "refresh": {
+                "type": "widget",
+                "options": {
+                  "widgetId": "proto_contacts"
+                }
+              }
+            },
+            "fail": {}
           }
         }
       },
@@ -1328,90 +1285,84 @@
         },
         "extra": {
           "src": "ButtonsCell",
-          "toolbar": [{
-            "buttons": [
-              {
-                "id": "update",
-                "icon": "fa fa-pencil",
-                "actionId": "update",
-                "color": "link",
-                "title": "Изменить"
-              },
-              {
-                "id": "delete",
-                "icon": "fa fa-trash",
-                "actionId": "delete",
-                "color": "link",
-                "confirm": {
-                  "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
-                  "title": "Предупреждение",
-                  "okLabel": "Да",
-                  "cancelLabel": "Нет",
-                  "mode": "modal"
-                },
-                "title": "Удалить"
-              }
-            ]
-          }],
-          "actions": {
-            "update": {
-              "id": "update",
-              "src": "perform",
-              "options": {
-                "type": "n2o/modals/INSERT",
-                "payload": {
-                  "name": "proto_contacts_update",
-                  "pageId": "proto_contacts_update",
-                  "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
-                  "pathMapping": {
-                    "proto_patients_id": {
-                      "link": "models.resolve['proto_patients'].id"
-                    },
-                    "proto_contacts_id": {
-                      "link": "models.resolve['proto_contacts'].id"
-                    }
-                  },
-                  "queryMapping": {},
-                  "closeButton": true,
-                  "visible": true
-                }
-              }
-            },
-            "delete": {
-              "id": "delete",
-              "src": "perform",
-              "options": {
-                "type": "n2o/actionImpl/START_INVOKE",
-                "payload": {
-                  "widgetId": "proto_contacts",
-                  "dataProvider": {
-                    "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
-                    "pathMapping": {
-                      "proto_contacts_id": {
-                        "link": "models.resolve['proto_contacts'].id"
+          "toolbar": [
+            {
+              "buttons": [
+                {
+                  "src": "PerformButton",
+                  "id": "update",
+                  "label": "Изменить",
+                  "icon": "fa fa-pencil",
+                  "action": {
+                    "type": "n2o/modals/INSERT",
+                    "payload": {
+                      "name": "proto_contacts_update",
+                      "pageId": "proto_contacts_update",
+                      "pageUrl": "/proto/:proto_patients_id/contacts/:proto_contacts_id/update",
+                      "pathMapping": {
+                        "proto_patients_id": {
+                          "link": "models.resolve['proto_patients'].id"
+                        },
+                        "proto_contacts_id": {
+                          "link": "models.resolve['proto_contacts'].id"
+                        }
                       },
-                      "proto_patients_id": {
-                        "link": "models.resolve['proto_patients'].id"
-                      }
-                    },
-                    "method": "POST"
-                  },
-                  "modelLink": "models.resolve['proto_contacts']"
-                },
-                "meta": {
-                  "success": {
-                    "refresh": {
-                      "type": "widget",
-                      "options": {
-                        "widgetId": "proto_contacts"
-                      }
+                      "queryMapping": {},
+                      "closeButton": true,
+                      "visible": true
                     }
                   },
-                  "fail": {}
+                  "conditions": {},
+                  "color": "link"
+                },
+                {
+                  "src": "PerformButton",
+                  "id": "delete",
+                  "label": "Удалить",
+                  "icon": "fa fa-trash",
+                  "action": {
+                    "type": "n2o/actionImpl/START_INVOKE",
+                    "payload": {
+                      "widgetId": "proto_contacts",
+                      "dataProvider": {
+                        "url": "n2o/data/proto/:proto_patients_id/contacts/:proto_contacts_id/delete",
+                        "pathMapping": {
+                          "proto_contacts_id": {
+                            "link": "models.resolve['proto_contacts'].id"
+                          },
+                          "proto_patients_id": {
+                            "link": "models.resolve['proto_patients'].id"
+                          }
+                        },
+                        "method": "POST"
+                      },
+                      "modelLink": "models.resolve['proto_contacts']"
+                    },
+                    "meta": {
+                      "success": {
+                        "refresh": {
+                          "type": "widget",
+                          "options": {
+                            "widgetId": "proto_contacts"
+                          }
+                        }
+                      },
+                      "fail": {}
+                    }
+                  },
+                  "conditions": {},
+                  "confirm": {
+                    "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
+                    "title": "Предупреждение",
+                    "okLabel": "Да",
+                    "cancelLabel": "Нет",
+                    "mode": "modal"
+                  },
+                  "color": "link"
                 }
-              }
+              ]
             }
-          }
+          ]
         },
         "header": {
           "id": "type.name",
@@ -1515,16 +1466,20 @@
                     "fields": [
                       {
                         "src": "StandardField",
+                        "style": {
+                          "fontWeight": "bold"
+                        },
                         "id": "vip",
                         "enabled": false,
                         "dependency": [],
-                        "style": {"fontWeight": "bold"},
                         "control": {
                           "src": "Checkbox",
+                          "style": {
+                            "fontWeight": "bold"
+                          },
                           "id": "vip",
                           "label": "VIP",
-                          "defaultUnchecked": "null",
-                          "style": {"fontWeight": "bold"}
+                          "defaultUnchecked": "null"
                         }
                       }
                     ]
@@ -1547,14 +1502,19 @@
         "id": "topRight0",
         "buttons": [
           {
+            "src": "PerformButton",
             "id": "create2",
+            "label": "Добавить пациента",
             "icon": "fa fa-plus",
-            "actionId": "create2",
+            "action": {},
             "hint": "Добавить пациента",
             "hintPosition": "bottom",
             "conditions": {},
             "color": "primary",
-            "title": "Добавить пациента"
+            "url": "/proto/create2",
+            "target": "application",
+            "pathMapping": {},
+            "queryMapping": {}
           }
         ]
       }
@@ -1566,16 +1526,7 @@
     }
   ],
   "actions": {
-    "create2": {
-      "id": "create2",
-      "src": "link",
-      "options": {
-        "path": "/proto/create2",
-        "target": "application",
-        "pathMapping": {},
-        "queryMapping": {}
-      }
-    }
+    "create2": {}
   },
   "models": {
     "filter['proto_patients'].genders": {

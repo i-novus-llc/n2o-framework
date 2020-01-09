@@ -315,7 +315,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
             Stream.of(source.getActions()).forEach(a -> {
                 a.getAction().setId(a.getId());
                 Action action = p.compile(a.getAction(), context, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new ComponentScope(a));
-                actions.addAction(action);
+                actions.addAction(a.getId(), action);
             });
         }
     }
