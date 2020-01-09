@@ -31,9 +31,7 @@ import {
 import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
 import compileUrl from '../utils/compileUrl';
-
-const evalResultCheck = evalResult =>
-  !isUndefined(evalResult) && evalResult !== false;
+import { evalResultCheck } from '../utils/evalResultCheck';
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
@@ -63,6 +61,7 @@ export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
+    console.warn(_evalResult);
   }
 
   switch (type) {
