@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.meta.action.show_modal;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractReduxAction;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 
